@@ -5,7 +5,7 @@ These docker commands are used to setup the system locally.
 ## Cloning repository
 
 ```bash
-git clone https://github.com/saudkhan116/DataSpaceConnector.git
+git clone https://github.com/catenax-ng/product-battery-passport-consumer-app.git
 ```
 ## Create docker network
 
@@ -64,8 +64,8 @@ docker stop edc-consumer; docker rm edc-consumer;
 ```
 
 #### Alternative: Using existing docker image
-- Pull image using the command  ```docker pull muhammadsaudkhan/edc-consumer:latest```
-- Run the container using the command ```docker run -p 9191:9191 -p 9292:9292 -p 9192:9192 --name edc-consumer --network edc-network --volume /$(pwd)/config:/app/config -v DataVolume:/app/samples/04.0-file-transfer/data/ -d muhammadsaudkhan/edc-consumer:latest```
+- Pull image using the command  ```docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer:v1.pi4.s4```
+- Run the container using the command ```docker run -p 9191:9191 -p 9292:9292 -p 9192:9192 --name edc-consumer --network edc-network --volume /$(pwd)/config:/app/config -v DataVolume:/app/samples/04.0-file-transfer/data/ -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer:v1.pi4.s4```
 
 #### Container 2: edc-provider
 ```bash
@@ -86,8 +86,8 @@ docker stop edc-provider; docker rm edc-provider;
 ```
 
 #### Alternative: Using existing docker image
-- Pull image using the command  ```docker pull muhammadsaudkhan/edc-provider:latest```
-- Run the container using the command ```docker run -p 8181:8181 -p 8282:8282 -p 8182:8182 --volume /$(pwd)/config:/app/config --volumes-from edc-consumer --name edc-provider --network edc-network -d muhammadsaudkhan/edc-provider:latest```
+- Pull image using the command  ```docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-provider:v1.pi4.s4```
+- Run the container using the command ```docker run -p 8181:8181 -p 8282:8282 -p 8182:8182 --volume /$(pwd)/config:/app/config --volumes-from edc-consumer --name edc-provider --network edc-network -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-provider:v1.pi4.s4```
 
 #### Container 3: consumer-ui
 ```bash
@@ -108,7 +108,7 @@ docker stop consumer-ui; docker rm consumer-ui;
 ```
 
 #### Alternative: Using existing docker image
-- Pull image using the command  ```docker pull muhammadsaudkhan/consumer-ui:latest```
-- Run the container using the command ```docker run -p 8080:80 --name consumer-ui --network edc-network -d muhammadsaudkhan/consumer-ui:latest```
+- Pull image using the command  ```docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:v1.pi4.s4```
+- Run the container using the command ```docker run -p 8080:80 --name consumer-ui --network edc-network -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:v1.pi4.s4```
 - The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 

@@ -4,9 +4,9 @@ This document describes the material pass application deployment steps in hotel 
 
 - Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net) 
 - Currently, the docker images are published in docker hub registry and can be accessible publicly for testing purpose. In future, the images should be stored in a private registry.
-    - [edc-consumer](https://hub.docker.com/repository/docker/muhammadsaudkhan/edc-consumer): muhammadsaudkhan/edc-consumer:latest
-    - [edc-provider](https://hub.docker.com/repository/docker/muhammadsaudkhan/edc-provider): muhammadsaudkhan/edc-provider:latest
-    - [consumer-ui](https://hub.docker.com/repository/docker/muhammadsaudkhan/consumer-ui): muhammadsaudkhan/consumer-ui:latest
+    - [edc-consumer](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fedc-consumer): ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer:v1.pi4.s4
+    - [edc-provider](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fedc-provider): ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-provider:v1.pi4.s4
+    - [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui): ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:v1.pi4.s4
 
 
 #### Sign in via the GitHub account
@@ -24,27 +24,27 @@ Create new app from the top-left corner button.
 Fill out the following required fields.
 - Application Name: <APP_NAME> (e.g., edc-storage, edc-consumer, edc-provider, consumer-ui)
 - Project: project-material-pass
-- Source: Git repository where the application artifacts are stored (https://github.com/saudkhan116/DataSpaceConnector)
+- Source: Git repository where the application artifacts are stored (https://github.com/catenax-ng/product-battery-passport-consumer-app.git)
 - Path: The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, deployment/helm/consumer-ui)
 - Cluster URL: https://kubernetes.default.svc
 - Namespace: product-material-pass
 
 Click on 'Create' button
 
-![Create New App](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/create-app.png)
+![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/create-app.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/syncapp.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/syncapp.png)
 
-![Sync App](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/syncapp2.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/syncapp2.png)
 
 - Navigate inside the pod
 
-![Consumer Pod](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/consumer-pod.png)
+![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/consumer-pod.png)
 - Go to the logs tab
 
-![Consumer connector logs](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/logs.png)
+![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/logs.png)
 
 If everything works fine then the application is deployed...
 
@@ -62,7 +62,9 @@ In the end, the app should be accessible at https://materialpass.int.demo.catena
 
 #### Example Screenshots:
 
-![Login Page](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/login.png)
+![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/login.png)
 
-![Battery Passport](https://raw.githubusercontent.com/saudkhan116/DataSpaceConnector/main/deployment/images/batterypassport.png)
+![Dashboard](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/dashboard.png)
+
+![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/batterypassport.png)
 

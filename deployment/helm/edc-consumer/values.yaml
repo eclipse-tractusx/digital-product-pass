@@ -6,10 +6,10 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: muhammadsaudkhan/edc-consumer
+  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.PI4.S4
+  tag: v1.pi4.s4
 
 imagePullSecrets: []
 nameOverride: "edc-consumer"

@@ -31,20 +31,20 @@ Fill out the following required fields.
 
 Click on 'Create' button
 
-![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/create-app.png)
+![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/create_app.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/syncapp.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/sync_app.png)
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/syncapp2.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/sync_pod.png)
 
 - Navigate inside the pod
 
-![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/consumer-pod.png)
+![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/consumer_pod.png)
 - Go to the logs tab
 
-![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/logs.png)
+![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/logging.png)
 
 If everything works fine then the application is deployed...
 
@@ -62,9 +62,9 @@ In the end, the app should be accessible at https://materialpass.int.demo.catena
 
 #### Example Screenshots:
 
-![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/login.png)
+![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/login_page.png)
 
 ![Dashboard](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/dashboard.png)
 
-![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/batterypassport.png)
+![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/battery_passport.png)
 

@@ -12,7 +12,7 @@ on:
     # tags: [ 'v*.*.*' ]
 
 env:
-  REGISTRY: docker.io
+  REGISTRY: ghcr.io
   EDC_CONSUMER_IMAGE: "edc-consumer"
   EDC_PROVIDER_IMAGE: "edc-provider"
   CONSUMER_UI_IMAGE: "consumer-ui"

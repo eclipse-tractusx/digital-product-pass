@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: edc-consumer
+    app.kubernetes.io/instance: edc-consumer
+  name: edc-consumer
+  namespace: product-material-pass
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: edc-consumer
+  template:
+    metadata:
+      labels:
+        app: edc-consumer
+    spec:
+      containers:
+        - image: muhammadsaudkhan/edc-consumer
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+          imagePullPolicy: Always
+          name: edc-consumer
+          ports:
+            - containerPort: 9191
+              name: http
+              protocol: TCP
+            - containerPort: 9292
+              name: http-ids
+              protocol: TCP
+            - containerPort: 9192
+              name: http-data
+              protocol: TCP
+      volumes:
+        - name: config
+          configMap:
+            name: consumer-config
+            items:
+              - key: config.properties
+                path: config.properties

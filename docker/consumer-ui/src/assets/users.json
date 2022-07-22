@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "name": "demo_user",
+      "email": "mustermann@test-supplier.de",
+      "role": "Supplier",
+      "password": "mustermann",
+      "id": 1
+    },
+    {
+      "name": "demo_user",
+      "email": "mustermann@test-oem.de",
+      "role": "OEM",
+      "password": "mustermann",
+      "id": 2
+    },
+    {
+      "name": "demo_user",
+      "email": "mustermann@test-recycler.de",
+      "role": "Recycler",
+      "password": "mustermann",
+      "id": 3
+    },
+    {
+      "email": "john@abc.com",
+      "password": "john",
+      "role": "Recycler",
+      "name": "John Doe",
+      "id": 4
+    },
+    {
+      "email": "mustermann@test-company.de",
+      "password": "mustermann",
+      "name": "demo_user",
+      "id": 5
+    },
+    {
+      "email": "mustermann@test-dismantler.de",
+      "password": "mustermann",
+      "role": "Dismantler",
+      "name": "demo_user",
+      "id": 6
+    },
+    {
+      "email": "",
+      "password": "",
+      "name": "",
+      "id": 7
+    }
+  ]
+}

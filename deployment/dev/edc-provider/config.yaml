@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: provider-config
+  namespace: product-material-pass
+  resourceVersion: "516"
+data:
+  config.properties: |
+    web.http.port=8181
+    web.http.path=/api
+    web.http.data.port=8182
+    web.http.data.path=/data
+    edc.samples.04.asset.path=/app/assets
+    ids.webhook.address=http://edc-provider:8282
+    edc.ids.id=urn:connector:provider
+    edc.api.auth.key=password

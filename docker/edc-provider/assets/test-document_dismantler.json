@@ -1,0 +1,45 @@
+{
+    "passportNumber": "67890",
+	"passportIssuer": "Catena-X",
+    "batteryId": "67890",
+    "batteryType": "carBatteryXY",
+    "batteryProducer": "Panasonic",
+    "ManufacuringDate": "2021-05-10",
+    "GoToMarketDate": "2021-06-01",
+    "batteryBatchNumber": 9898989,
+    "serial": "0816-4722",
+    "stateOfHealth": 80,
+    "stateOfCharge": 50,
+    "specifications": {
+        "power": {
+            "EnergyTotal": "20",
+            "EnergyUsable": "15",
+            "PowerCapability80percent": "75",
+            "PowerCapability20percent": "15"
+        },
+        "voltage": {
+            "maxVoltage": "",
+            "minVoltage": "",
+            "nominalVoltage": ""
+        },
+        "internalResistance": 100,
+        "weight": 15.6,
+        "dimensions": {
+            "length": 40,
+            "height": 20,
+            "width": 20
+        },
+        "expectedLifetime": 10000,
+        "temperature": {
+            "OperationalTemperatureRange": "",
+            "TemperatureRange": ""
+        },
+        "numberOfCells": 20
+    },
+    "recyclateContent": {
+        "aluminiumPerc": 10,
+        "leadPerc": 20,
+        "lithiumPerc": 30,
+        "cobaltPerc": 40
+    }
+}

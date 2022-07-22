@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "edc-consumer.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "edc-consumer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    # - port: {{ .Values.service.port }}
+    #   targetPort: http
+    #   protocol: TCP
+    #   name: http
+    - port: 9191
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 9292
+      targetPort: http-ids
+      protocol: TCP
+      name: http-ids
+    - port: 9192
+      targetPort: http-data
+      protocol: TCP
+      name: http-data
+  selector:
+    {{- include "edc-consumer.selectorLabels" . | nindent 4 }}

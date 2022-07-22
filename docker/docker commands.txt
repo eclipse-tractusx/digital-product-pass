@@ -1,0 +1,62 @@
+For remote debugging:
+add this parameter when running docker run:
+-e "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000" -p 8000:8000
+
+edc-consumer:
+
+docker build -t edc-consumer:latest .
+docker run -p 9191:9191 -p 9292:9292 -p 9192:9192 --name edc-consumer --network edc-network --volume /$(pwd)/config:/app/config -d edc-consumer:latest
+
+docker tag edc-consumer:latest muhammadsaudkhan/edc-consumer:latest
+
+docker push muhammadsaudkhan/edc-consumer:latest
+
+docker stop edc-consumer; docker rm edc-consumer;
+
+
+edc-provider:
+
+docker build -t edc-provider:latest .
+
+docker run -p 8181:8181 -p 8282:8282 -p 8182:8182 --name edc-provider -volume /$(pwd)/config:/app/config --network edc-network -d edc-provider:latest
+
+docker tag edc-provider:latest muhammadsaudkhan/edc-provider:latest
+
+docker push muhammadsaudkhan/edc-provider:latest
+
+docker stop edc-provider; docker rm edc-provider;
+
+
+json-server:
+
+docker build -t json-server:latest .
+
+docker tag json-server:latest muhammadsaudkhan/json-server:latest
+
+docker push muhammadsaudkhan/json-server:latest
+
+docker run -p 3000:3000 -d --name server --network edc-network json-server:latest
+
+
+consumer-ui:
+
+docker build -t consumer-ui:latest .
+
+docker tag consumer-ui:latest muhammadsaudkhan/consumer-ui:latest
+
+docker push muhammadsaudkhan/consumer-ui:latest
+
+docker run -p 8080:80 --name consumer-ui --network edc-network -d consumer-ui:latest
+
+docker stop consumer-ui; docker rm consumer-ui;
+
+
+
+local setup with docker:
+
+docker volume create --name DataVolume1
+
+docker run -p 8181:8181 -p 8282:8282 -p 8182:8182 -e "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000" -p 8000:8000  --volume /$(pwd)/config:/app/config --volumes-from edc-consumer --name edc-provider --network edc-network muhammadsaudkhan/edc-provider
+
+docker run -p 9191:9191 -p 9292:9292 -p 9192:9192 --name edc-consumer --network edc-network --volume /$(pwd)/config:/app/config -v DataVolume1:/app/samples/04.0-file-transfer/data/ muhammadsaudkhan/edc-consumer
+

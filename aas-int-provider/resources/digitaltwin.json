@@ -1,0 +1,60 @@
+{
+    "description": [
+        {
+            "language": "en",
+            "text": "BMW 520e Plugin-Hybrid"
+        }
+    ],
+    "globalAssetId": {
+        "value": [
+            "urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001"
+        ]
+    },
+    "idShort": "BMW 520e Plugin-Hybrid",
+    "identification": "urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001",
+    "specificAssetIds": [
+        {
+            "key": "batteryId",
+            "value": "334593247"
+        },
+        {
+            "key": "passportNumber",
+            "value": "12345"
+        },
+        {
+            "key": "BattProducer",
+            "value": "BattProducer"
+        },
+        {
+            "key": "batteryBatchNumber",
+            "value": "999999"
+        }
+    ],
+    "submodelDescriptors": [
+        {
+            "description": [
+                {
+                    "language": "en",
+                    "text": "Battery Passport Submodel"
+                }
+            ],
+            "idShort": "MaterialPass",
+            "identification": "urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918",
+            "semanticId": {
+                "value": [
+                    "urn:bamm:com.catenax.battery.product_description:1.0.1#ProductDescription"
+                ]
+            },
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL-1.0RC02",
+                    "protocolInformation": {
+                        "endpointAddress": "http://provider-control-plane:8282/some-bpn/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918/submodel?content=value&extent=withBlobValue",
+                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
+                        "endpointProtocolVersion": "0.0.1-SNAPSHOT"
+                    }
+                }
+            ]
+        }
+    ]
+}

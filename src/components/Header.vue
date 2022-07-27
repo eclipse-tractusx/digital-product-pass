@@ -53,7 +53,11 @@ import CatenaLogo from "../assets/logotype.png";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
+<<<<<<< HEAD:src/components/Header.vue
 import QrCode from "../assets/BMW_test-battery-1.svg";
+=======
+import QrCode from "../assets/provider_BMW&battery_test_battery_1.png";
+>>>>>>> 5bdc1b8e2 (first cypres sign in comp test):materialpassport-webclient/src/components/Header.vue
 import Logout from "../assets/logout.png";
 
 export default {

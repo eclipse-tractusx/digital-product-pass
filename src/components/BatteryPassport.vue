@@ -8,7 +8,7 @@
         v-model="selectedProvider"
         class="select"
         placeholder="Select Battery Provider"
-        @change="getBatteriesbyProvider()"
+        @change="getBatteriesByProvider()"
     >
       <option disabled selected value="">Select Battery Provider...</option>
       <option
@@ -24,7 +24,7 @@
     <select
         id="selectBattery"
         v-model="selectedBattery"
-        :disabled="selectedProvider != '' ? disabled : ''"
+        :disabled="selectedProvider !== '' ? disabled : ''"
         class="form-select select"
         placeholder="Select Battery"
         required
@@ -69,16 +69,16 @@ export default {
     Header
   },
   mounted() {
-
     let user = localStorage.getItem("user-info");
     if (!user) {
-      if (this.$route.query.provider != undefined && this.$route.query.battery != undefined) {
+      if (this.$route.query.provider !== undefined && this.$route.query.battery !== undefined) {
         let provider = this.$route.query.provider
         let battery = this.$route.query.battery
         let QRCodeAccessInfo = {"provider": provider.toUpperCase(), "battery": battery}
         localStorage.setItem("QRCode-info", JSON.stringify(QRCodeAccessInfo))
-      } else
+      } else {
         this.$router.push({name: 'Login'});
+      }
     } else {
       let user = localStorage.getItem("user-info")
       let role = JSON.parse(user).role;
@@ -94,9 +94,10 @@ export default {
         this.resetFields()
       } else if (this.validateFields(this.$route.query.provider, this.$route.query.battery)) {
         // Get BatteryData from qr code
-        this.GetBatteryDataUsingQRCode()
-      } else
+        this.getBatteryDataUsingQRCode()
+      } else {
         alert('Battery provider and battery name are required...!')
+      }
     }
   },
   data() {
@@ -111,57 +112,50 @@ export default {
     }
   },
   methods: {
-
     getContractOfferByLoggedInRole: function () {
       let user = localStorage.getItem("user-info")
       let role = JSON.parse(user).role
-      const offer = this.provider.contractOffers.filter(h => h.includes(role.toLowerCase()));
-      this.provider.contractOffers = offer
-
-      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get emplty value.
+      this.provider.contractOffers = this.provider.contractOffers.filter(h => h.includes(role.toLowerCase()))
+      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get empty value.
       this.selectedProvider = this.provider.name
     },
     resetFields: function () {
-
       this.selectedProvider = ''
       this.selectedBattery = ''
     },
     validateFields: function (provider, battery) {
-      if (provider === '' && battery === '')
-        return false;
-      else
-        return true;
+      return !(provider === '' && battery === '');
     },
-    getBatteriesbyProvider: function () {
+    getBatteriesByProvider: function () {
       this.assetIds = '';
       this.assetIdsVisible = false;
       this.listProviders.forEach((arrObj) => {
-        arrObj.name == this.selectedProvider ? this.provider = arrObj : null;
+        arrObj.name === this.selectedProvider ? this.provider = arrObj : null;
       });
     },
     getAssetIdsByBattery: function () {
       this.provider.batteries.forEach((arrObj) => {
-        arrObj.id == this.selectedBattery ? this.assetIds = JSON.stringify(arrObj.AssetIds) : null;
+        arrObj.id === this.selectedBattery ? this.assetIds = JSON.stringify(arrObj.AssetIds) : null;
       });
       this.assetIdsVisible = true;
 
     },
-    async GetBatteryDataUsingQRCode() {
-
+    async getBatteryDataUsingQRCode() {
       // To get the provider and batteries
-      this.getBatteriesbyProvider();
+      this.getBatteriesByProvider();
       this.getAssetIdsByBattery();
       await this.getProductPassport();
     },
     getProductPassport: function () {
-      if (this.validateFields(this.selectedProvider, this.selectedBattery))
+      if (this.validateFields(this.selectedProvider, this.selectedBattery)) {
         this.$router.replace({
           name: "Passport",
           params: {assetIds: this.assetIds},
           query: {provider: this.selectedProvider, battery: this.selectedBattery}
         });
-      else
+      } else {
         alert('Battery provider and battery name are required...!')
+      }
     }
   }
 }

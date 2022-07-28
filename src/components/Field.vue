@@ -107,7 +107,7 @@ a {
 }
 
 .field-label {
-  padding: 30px 0px 10px 40px;
+  padding: 30px 0 10px 40px;
   font-size: 12px;
   color: #777777;
 }
@@ -117,9 +117,5 @@ a {
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
-}
-
-.longer {
-  padding-bottom: 50px;
 }
 </style>

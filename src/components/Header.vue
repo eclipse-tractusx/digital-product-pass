@@ -152,7 +152,7 @@ export default {
 .buttons {
   width: 26px;
   height: 26px;
-  margin: 15px 0px 15px 30px;
+  margin: 15px 0 15px 30px;
 }
 
 .profile-container {

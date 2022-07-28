@@ -159,7 +159,7 @@ export default {
 }
 
 h3 {
-  margin: 20px 0 20px 0px;
+  margin: 20px 0 20px 0;
 }
 
 .public-data {

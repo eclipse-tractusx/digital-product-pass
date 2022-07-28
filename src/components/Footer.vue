@@ -59,6 +59,6 @@ export default {
 
 .buttons {
   color: #3d3d3d;
-  margin: 15px 0px 15px 30px;
+  margin: 15px 0 15px 30px;
 }
 </style>

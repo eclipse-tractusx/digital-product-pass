@@ -130,7 +130,7 @@ export default {
 }
 
 .field-label {
-  padding: 30px 0px 10px 40px;
+  padding: 30px 0 10px 40px;
   font-size: 12px;
   text-decoration: inherit;
   color: #777777;
@@ -160,7 +160,7 @@ export default {
 }
 
 .list-label {
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }

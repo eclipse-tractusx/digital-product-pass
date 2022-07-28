@@ -5,8 +5,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "ProductPassport",
   props: {

@@ -186,7 +186,7 @@ export default {
 }
 
 .list-label {
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }

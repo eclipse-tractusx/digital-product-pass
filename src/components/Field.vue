@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: "Field",
+  name: "FieldComponent",
   props: {
     label: [String, Number],
     value: [String, Number],

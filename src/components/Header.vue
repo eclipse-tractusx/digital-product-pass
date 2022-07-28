@@ -57,8 +57,7 @@ import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
 
 export default {
-  name: "Header",
-
+  name: "HeaderComponent",
   components: {},
   data() {
     return {

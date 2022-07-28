@@ -39,7 +39,7 @@ import Settings from "../assets/settings.svg";
 import Logout from "../assets/logout.png";
 
 export default {
-  name: "Header",
+  name: "NavigationComponent",
   components: {},
   data() {
     return {

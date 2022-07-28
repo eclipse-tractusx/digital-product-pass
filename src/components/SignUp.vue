@@ -83,7 +83,7 @@ export default {
         name: this.name,
       });
       console.warn(result);
-      if (result.status == 201) {
+      if (result.status === 201) {
         //alert("sign-up successful..!")
         localStorage.setItem("user-info", JSON.stringify(result.data));
         this.$router.push({name: "Home"});

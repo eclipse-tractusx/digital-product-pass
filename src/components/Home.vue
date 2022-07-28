@@ -7,9 +7,8 @@
 import BatteryPassport from './BatteryPassport.vue'
 
 export default ({
-  name: 'Home',
+  name: 'HomeComponent',
   components: {
-
     BatteryPassport
   },
   props: {
@@ -24,6 +23,7 @@ export default ({
   }
 })
 </script>
+
 <style scoped>
 .battery-page-container {
   min-height: 100vh;

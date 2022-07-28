@@ -79,7 +79,7 @@ export default {
     generateQRCode() {
       let url = `${this.host}/providers/${this.provider}/battery/${this.batteryNumber}`;
       this.link = url
-      if (this.host == '' || this.provider == '' || this.batteryNumber == '')
+      if (this.host === '' || this.provider === '' || this.batteryNumber === '')
         alert('Please fill all fields..!')
       else
         this.generatedQrCodeUrl = `https://chart.googleapis.com/chart?cht=qr&chs=400x400&chl=${url}`;
@@ -99,14 +99,9 @@ export default {
     //   });
     // },
     redirect(url) {
-
       window.location.href = "http://localhost:8080"
       localStorage.setItem("battery-info", JSON.stringify({"provider": this.provider, "battery": this.batteryNumber}))
-
-
     }
-  },
-  mounted() {
-  },
+  }
 };
 </script>

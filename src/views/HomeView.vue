@@ -78,7 +78,6 @@
 <!-- change the script below -->
 <script>
 // @ is an alias to /src
-
 export default {
   name: "PassportView",
   components: {},
@@ -90,15 +89,12 @@ export default {
   methods: {
     async fetchData() {
       const res = await fetch("http://localhost:3000/334593247");
-
-      const data = await res.json();
-
-      return data;
+      return res.json();
     },
   },
   async created() {
     this.data = await this.fetchData();
-    console.log(data);
+    console.log(this.data);
   },
 };
 </script>

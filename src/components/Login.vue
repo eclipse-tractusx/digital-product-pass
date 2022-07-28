@@ -82,7 +82,7 @@ export default {
       let result = await axios.get(
           `https://mock--server.herokuapp.com/users?email=${this.email}&password=${this.password}`
       );
-      if (result.status == 200 && result.data.length > 0) {
+      if (result.status === 200 && result.data.length > 0) {
         //alert("login successful..!")
         localStorage.setItem("user-info", JSON.stringify(result.data[0]));
         if (localStorage.getItem("QRCode-info")) {

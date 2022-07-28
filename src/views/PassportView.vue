@@ -52,9 +52,7 @@ import BatteryComposition from "@/components/BatteryComposition.vue";
 import StateOfHealth from "@/components/StateOfHealth.vue";
 import ParametersOfTheBattery from "@/components/ParametersOfTheBattery.vue";
 import DismantlingProcedures from "@/components/DismantlingProcedures.vue";
-import SafetyInformation from "@/components/SafetyInformation.vue";
 import InformationResponsibleSourcing from "@/components/InformationResponsibleSourcing.vue";
-import AdditionalInformation from "@/components/AdditionalInformation.vue";
 
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -70,9 +68,7 @@ export default {
     StateOfHealth,
     ParametersOfTheBattery,
     DismantlingProcedures,
-    SafetyInformation,
     InformationResponsibleSourcing,
-    AdditionalInformation,
     Footer,
   },
   provide() {

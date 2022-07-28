@@ -59,12 +59,7 @@ import Logout from "../assets/logout.png";
 export default {
   name: "Header",
 
-  components: {
-    CatenaLogo,
-    Profile,
-    Settings,
-    Logout,
-  },
+  components: {},
   data() {
     return {
       hover: false,

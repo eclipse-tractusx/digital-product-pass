@@ -89,7 +89,6 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Field from "./Field.vue";
 
 export default {
@@ -100,8 +99,7 @@ export default {
   },
   components: {
     Field,
-    SectionHeader,
-    SectionContent,
+    SectionHeader
   },
 };
 </script>

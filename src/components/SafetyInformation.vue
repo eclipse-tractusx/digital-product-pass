@@ -72,7 +72,6 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Pdf from "../assets/pdf.svg";
 
 export default {
@@ -82,8 +81,7 @@ export default {
     safetyInformation: {},
   },
   components: {
-    SectionHeader,
-    SectionContent,
+    SectionHeader
   },
   setup() {
     return {

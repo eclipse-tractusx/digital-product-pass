@@ -59,14 +59,9 @@
 </template>
 
 <script type="text/jsx">
-import {QrcodeCapture, QrcodeDropZone, QrcodeStream} from 'vue-qrcode-reader'
 
 export default {
-  components: {
-    QrcodeStream,
-    QrcodeDropZone,
-    QrcodeCapture
-  },
+  components: {},
   name: "ScanPassport",
   data() {
     return {

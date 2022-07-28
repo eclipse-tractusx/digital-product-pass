@@ -70,10 +70,7 @@ export default {
       password: "",
     };
   },
-  components: {
-    CatenaLogo,
-    LogoBG
-  },
+  components: {},
   setup() {
     return {
       CatenaLogo, LogoBG

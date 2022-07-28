@@ -88,7 +88,6 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Trashcan from "@/assets/trashcan.svg";
 
 export default {
@@ -98,8 +97,7 @@ export default {
     additionalInformation: {},
   },
   components: {
-    SectionHeader,
-    SectionContent,
+    SectionHeader
   },
   setup() {
     return {

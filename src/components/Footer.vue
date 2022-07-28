@@ -19,9 +19,7 @@ import CatenaLogo from "../assets/logo.png";
 export default {
   name: "Footer",
 
-  components: {
-    CatenaLogo,
-  },
+  components: {},
   setup() {
     return {
       CatenaLogo,

@@ -1,11 +1,10 @@
 <template>
-    <div>
-        <span>{{ productPassport }}</span>
+  <div>
+    <span>{{ productPassport }}</span>
   </div>
 </template>
 
 <script>
-
 
 
 export default {
@@ -13,11 +12,9 @@ export default {
   props: {
     productPassport: {},
   },
-  components: {
-  },
+  components: {},
   setup() {
-    return {
-    };
+    return {};
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <SectionHeader title="6. Safety information" />
+  <SectionHeader title="6. Safety information"/>
 
   <div class="section-content">
     <div class="sub-section-container">
@@ -7,34 +7,34 @@
         <span class="sub-title">Safety measures</span>
       </div>
       <a
-        :href="safetyInformation.occupationalSafety.url"
-        target="_blank"
-        class="field-container"
+          :href="safetyInformation.occupationalSafety.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          safetyInformation.occupationalSafety.value
-        }}</span>
+            safetyInformation.occupationalSafety.value
+          }}</span>
       </a>
       <a
-        :href="safetyInformation.fireProtection.url"
-        target="_blank"
-        class="field-container"
+          :href="safetyInformation.fireProtection.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          safetyInformation.fireProtection.value
-        }}</span>
+            safetyInformation.fireProtection.value
+          }}</span>
       </a>
       <a
-        :href="safetyInformation.usableExtinguishingAgent.url"
-        target="_blank"
-        class="field-container"
+          :href="safetyInformation.usableExtinguishingAgent.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          safetyInformation.usableExtinguishingAgent.value
-        }}</span>
+            safetyInformation.usableExtinguishingAgent.value
+          }}</span>
       </a>
     </div>
     <div class="sub-section-container">
@@ -42,14 +42,14 @@
         <span class="sub-title">Packaging Instructions</span>
       </div>
       <a
-        :href="safetyInformation.instructionsForSafelyPackagingBatteries.url"
-        target="_blank"
-        class="field-container"
+          :href="safetyInformation.instructionsForSafelyPackagingBatteries.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          safetyInformation.instructionsForSafelyPackagingBatteries.value
-        }}</span>
+            safetyInformation.instructionsForSafelyPackagingBatteries.value
+          }}</span>
       </a>
     </div>
     <div class="sub-section-container">
@@ -57,14 +57,14 @@
         <span class="sub-title">Transportation Instructions</span>
       </div>
       <a
-        :href="safetyInformation.instructionsForSafelyTransportingBatteries.url"
-        target="_blank"
-        class="field-container"
+          :href="safetyInformation.instructionsForSafelyTransportingBatteries.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          safetyInformation.instructionsForSafelyTransportingBatteries.value
-        }}</span>
+            safetyInformation.instructionsForSafelyTransportingBatteries.value
+          }}</span>
       </a>
     </div>
   </div>
@@ -101,11 +101,13 @@ export default {
   background-color: #fff;
   margin-bottom: 50px;
 }
+
 .icon {
   width: 27px;
   height: 36px;
   margin: 40px;
 }
+
 .field-container {
   display: flex;
   flex-direction: column;
@@ -116,23 +118,27 @@ export default {
   cursor: pointer;
   padding: 40px 0 80px 0;
 }
+
 .sub-section-container {
   display: flex;
 
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
+
 .field-value {
   padding-left: 40px;
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
 }
+
 .sub-title {
   font-weight: bold;
   font-size: 20px;
   color: #c6cca3;
 }
+
 .sub-title-container {
   padding: 40px 40px 20px 40px;
   width: 100%;

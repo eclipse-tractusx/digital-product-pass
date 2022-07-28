@@ -13,20 +13,21 @@
     <span v-if="city" class="field-value">{{ city ? city : "—" }} </span>
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
     <span v-if="country" class="field-value"
-      >{{ country ? country : "—" }}
+    >{{ country ? country : "—" }}
     </span>
     <!-- This block of code is for section 4 Parameters of the battery where we have tests and temp ranges -->
-    <span class="test" v-if="tempMin"
-      >Temp ranges:
+    <span v-if="tempMin" class="test"
+    >Temp ranges:
       <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
     </span>
-    <span class="test" v-if="test"
-      >Reference test: <b>{{ test }}</b>
+    <span v-if="test" class="test"
+    >Reference test: <b>{{ test }}</b>
     </span>
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
     <span v-if="length" class="field-value"
-      >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{ width
+    >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{
+        width
       }}{{ unit }}</span
     >
     <!-- This block of code is for dates -->
@@ -64,17 +65,21 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
 .section-content {
   width: 100%;
   border: solid 1px #b3cb2d;
@@ -82,32 +87,38 @@ a {
   background-color: #fff;
   margin-bottom: 50px;
 }
+
 .sub-section-container {
   display: flex;
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
+
 .test {
   font-size: 12px;
   padding: 4px 0 4px 40px;
 }
+
 .field-container {
   display: flex;
   flex-direction: column;
   width: 33%;
   min-height: 120px;
 }
+
 .field-label {
   padding: 30px 0px 10px 40px;
   font-size: 12px;
   color: #777777;
 }
+
 .field-value {
   padding-left: 40px;
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
 }
+
 .longer {
   padding-bottom: 50px;
 }

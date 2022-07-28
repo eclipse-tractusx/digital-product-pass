@@ -1,20 +1,20 @@
 <template>
-  <Header />
+  <Header/>
   <div class="container">
     <label class="label" for="Provider">Battery Provider:</label>
 
     <select
-      class="select"
-      id="selectProvider"
-      v-model="selectedProvider"
-      placeholder="Select Battery Provider"
-      @change="getBatteriesbyProvider()"
+        id="selectProvider"
+        v-model="selectedProvider"
+        class="select"
+        placeholder="Select Battery Provider"
+        @change="getBatteriesbyProvider()"
     >
-      <option value="" disabled selected>Select Battery Provider...</option>
+      <option disabled selected value="">Select Battery Provider...</option>
       <option
-        v-for="provider in listProviders"
-        :value="provider.name"
-        v-bind:key="provider.id"
+          v-for="provider in listProviders"
+          v-bind:key="provider.id"
+          :value="provider.name"
       >
         {{ provider.name }}
       </option>
@@ -22,34 +22,34 @@
 
     <label class="label" for="Battery">Battery:</label>
     <select
-      required
-      class="form-select select"
-      id="selectBattery"
-      v-model="selectedBattery"
-      placeholder="Select Battery"
-      :disabled="selectedProvider != '' ? disabled : ''"
-      @change="getAssetIdsByBattery()"
+        id="selectBattery"
+        v-model="selectedBattery"
+        :disabled="selectedProvider != '' ? disabled : ''"
+        class="form-select select"
+        placeholder="Select Battery"
+        required
+        @change="getAssetIdsByBattery()"
     >
-      <option value="" disabled selected>Select Battery...</option>
+      <option disabled selected value="">Select Battery...</option>
       <option
-        v-for="(battery, id) in provider.batteries"
-        :value="battery.id"
-        v-bind:key="id"
+          v-for="(battery, id) in provider.batteries"
+          v-bind:key="id"
+          :value="battery.id"
       >
         {{ battery.name }}
       </option>
     </select>
-    <br />
+    <br/>
     <div v-if="assetIdsVisible">
-      <label class="label" for="Search criteria">Search Criteria:</label><br /><br />
+      <label class="label" for="Search criteria">Search Criteria:</label><br/><br/>
       <textarea v-model="assetIds" disabled style="height: 120px; width:340px;"></textarea>
     </div>
 
     <button
-      type="button"
-      class="btn btn-success center success-btn"
-      :disabled="isDisabled"
-      v-on:click="getProductPassport"
+        :disabled="isDisabled"
+        class="btn btn-success center success-btn"
+        type="button"
+        v-on:click="getProductPassport"
     >
       Get Battery Passport
     </button>
@@ -57,71 +57,65 @@
 </template>
 
 <script type="text/jsx">
-import axios from 'axios';
 import Header from '@/components/Header.vue'
 
 let listBatteryProviders = require('../assets/providers.json');
 
 export default {
   name: 'batteryPassport',
-  created(){
+  created() {
   },
   components: {
-Header
+    Header
   },
-  mounted(){
+  mounted() {
 
     let user = localStorage.getItem("user-info");
-        if (!user){
-          if (this.$route.query.provider != undefined && this.$route.query.battery != undefined){
-            let provider = this.$route.query.provider
-            let battery =  this.$route.query.battery
-            let QRCodeAccessInfo = {"provider": provider.toUpperCase(), "battery": battery}
-            localStorage.setItem("QRCode-info", JSON.stringify(QRCodeAccessInfo))
-          }
-          else
-            this.$router.push({name:'Login'});
-        }
-        else{
-          let user = localStorage.getItem("user-info")
-          let role = JSON.parse(user).role;
-          console.log("CurrentUser: ",user, role);
-          // check query params for QR code scanning
-          this.selectedProvider = this.$route.query.provider
-          this.selectedBattery = this.$route.query.battery
-          this.selectedContract = this.$route.query.battery + '_' + role.toLowerCase()
+    if (!user) {
+      if (this.$route.query.provider != undefined && this.$route.query.battery != undefined) {
+        let provider = this.$route.query.provider
+        let battery = this.$route.query.battery
+        let QRCodeAccessInfo = {"provider": provider.toUpperCase(), "battery": battery}
+        localStorage.setItem("QRCode-info", JSON.stringify(QRCodeAccessInfo))
+      } else
+        this.$router.push({name: 'Login'});
+    } else {
+      let user = localStorage.getItem("user-info")
+      let role = JSON.parse(user).role;
+      console.log("CurrentUser: ", user, role);
+      // check query params for QR code scanning
+      this.selectedProvider = this.$route.query.provider
+      this.selectedBattery = this.$route.query.battery
+      this.selectedContract = this.$route.query.battery + '_' + role.toLowerCase()
 
-          if (this.$route.query.provider === undefined && this.$route.query.battery === undefined) {
-            // do manual selection of fields
-            console.log('INFO: provider and battery are not defined')
-            this.resetFields()
-          }
-          else if (this.validateFields(this.$route.query.provider, this.$route.query.battery))
-            {
-              // Get BatteryData from qr code
-              this.GetBatteryDataUsingQRCode()
-            }
-          else
-            alert('Battery provider and battery name are required...!')
-        }
+      if (this.$route.query.provider === undefined && this.$route.query.battery === undefined) {
+        // do manual selection of fields
+        console.log('INFO: provider and battery are not defined')
+        this.resetFields()
+      } else if (this.validateFields(this.$route.query.provider, this.$route.query.battery)) {
+        // Get BatteryData from qr code
+        this.GetBatteryDataUsingQRCode()
+      } else
+        alert('Battery provider and battery name are required...!')
+    }
   },
   data() {
     return {
       listProviders: listBatteryProviders,
       provider: {},
-      selectedProvider:'',
-      selectedBattery:'',
+      selectedProvider: '',
+      selectedBattery: '',
       assetIds: {},
       isDisabled: false,
       assetIdsVisible: false,
     }
   },
-  methods:{
+  methods: {
 
-    getContractOfferByLoggedInRole: function(){
+    getContractOfferByLoggedInRole: function () {
       let user = localStorage.getItem("user-info")
       let role = JSON.parse(user).role
-      const offer = this.provider.contractOffers.filter( h => h.includes(role.toLowerCase()) );
+      const offer = this.provider.contractOffers.filter(h => h.includes(role.toLowerCase()));
       this.provider.contractOffers = offer
 
       // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get emplty value.
@@ -132,38 +126,42 @@ Header
       this.selectedProvider = ''
       this.selectedBattery = ''
     },
-    validateFields: function(provider, battery){
+    validateFields: function (provider, battery) {
       if (provider === '' && battery === '')
         return false;
-      else 
+      else
         return true;
     },
-    getBatteriesbyProvider: function(){
+    getBatteriesbyProvider: function () {
       this.assetIds = '';
       this.assetIdsVisible = false;
       this.listProviders.forEach((arrObj) => {
-      arrObj.name == this.selectedProvider ? this.provider = arrObj : null;
-    });
+        arrObj.name == this.selectedProvider ? this.provider = arrObj : null;
+      });
     },
-    getAssetIdsByBattery: function(){
+    getAssetIdsByBattery: function () {
       this.provider.batteries.forEach((arrObj) => {
-      arrObj.id == this.selectedBattery ? this.assetIds = JSON.stringify(arrObj.AssetIds) : null;
-    });
-    this.assetIdsVisible = true;
+        arrObj.id == this.selectedBattery ? this.assetIds = JSON.stringify(arrObj.AssetIds) : null;
+      });
+      this.assetIdsVisible = true;
 
     },
-    async GetBatteryDataUsingQRCode(){
+    async GetBatteryDataUsingQRCode() {
 
       // To get the provider and batteries
       this.getBatteriesbyProvider();
       this.getAssetIdsByBattery();
       await this.getProductPassport();
     },
-    getProductPassport: function(){
+    getProductPassport: function () {
       if (this.validateFields(this.selectedProvider, this.selectedBattery))
-        this.$router.replace({ name: "Passport", params:{ assetIds: this.assetIds }, query:{ provider: this.selectedProvider, battery: this.selectedBattery } });
-    else
-      alert('Battery provider and battery name are required...!')
+        this.$router.replace({
+          name: "Passport",
+          params: {assetIds: this.assetIds},
+          query: {provider: this.selectedProvider, battery: this.selectedBattery}
+        });
+      else
+        alert('Battery provider and battery name are required...!')
     }
   }
 }
@@ -177,6 +175,7 @@ Header
   width: 22%;
   margin: 0 39% 0 39%;
 }
+
 .success-btn {
   width: 340px;
   height: 48px;
@@ -189,10 +188,12 @@ Header
   border-radius: 4px;
   cursor: pointer;
 }
+
 .label {
   padding: 12px 0 12px 0;
   font-weight: bold;
 }
+
 .select {
   width: 340px;
   height: 48px;

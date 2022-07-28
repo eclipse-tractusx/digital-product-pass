@@ -1,35 +1,35 @@
 <template>
   <div class="sign-in-page-container">
-    <img :src="LogoBG" alt="logo" class="bg-logo" />
+    <img :src="LogoBG" alt="logo" class="bg-logo"/>
     <div class="logo-container">
-      <img :src="CatenaLogo" alt="logo" class="logo" />
+      <img :src="CatenaLogo" alt="logo" class="logo"/>
     </div>
     <div class="sign-in-wrapper">
       <div class="sign-in-container" data-cy="sign-in-container">
         <h1>Sign In</h1>
         <h3>
           New user?<span
-            ><router-link to="/sign-up" class="sign-up"
-              >Sign Up</router-link
-            ></span
-          >
+        ><router-link class="sign-up" to="/sign-up"
+        >Sign Up</router-link
+        ></span
+        >
         </h3>
 
         <div class="col-md-4">
           <input
-            class="form-control input"
-            v-model="email"
-            type="text"
-            placeholder="Username or email"
+              v-model="email"
+              class="form-control input"
+              placeholder="Username or email"
+              type="text"
           />
         </div>
 
         <div class="col-md-4">
           <input
-            class="form-control input"
-            v-model="password"
-            type="password"
-            placeholder="Password"
+              v-model="password"
+              class="form-control input"
+              placeholder="Password"
+              type="password"
           />
         </div>
 
@@ -40,8 +40,8 @@
         </div>
         <div class="col-md-4">
           <span>
-            <router-link to="#" class="public-data"
-              >See public data</router-link
+            <router-link class="public-data" to="#"
+            >See public data</router-link
             ></span
           >
 
@@ -62,7 +62,6 @@ import CatenaLogo from "../assets/logotype.png";
 import LogoBG from "../assets/logo.png";
 
 
-
 export default {
   name: "LoginPage",
   data() {
@@ -72,8 +71,8 @@ export default {
     };
   },
   components: {
-CatenaLogo,
-LogoBG
+    CatenaLogo,
+    LogoBG
   },
   setup() {
     return {
@@ -84,29 +83,30 @@ LogoBG
   methods: {
     async login() {
       let result = await axios.get(
-        `https://mock--server.herokuapp.com/users?email=${this.email}&password=${this.password}`
+          `https://mock--server.herokuapp.com/users?email=${this.email}&password=${this.password}`
       );
       if (result.status == 200 && result.data.length > 0) {
         //alert("login successful..!")
         localStorage.setItem("user-info", JSON.stringify(result.data[0]));
-        if (localStorage.getItem("QRCode-info")){
+        if (localStorage.getItem("QRCode-info")) {
           const isAccessUsingQRCode = localStorage.getItem("QRCode-info")
 
-            let query = { "provider": JSON.parse(isAccessUsingQRCode).provider, "battery": JSON.parse(isAccessUsingQRCode).battery}
-            this.$router.push({ name: "Home", query: query });
-        }
-        else
-           this.$router.push({ name: "Home" });
-      }
-      else {
-          alert("user is not registered or invalid credentails..!")
+          let query = {
+            "provider": JSON.parse(isAccessUsingQRCode).provider,
+            "battery": JSON.parse(isAccessUsingQRCode).battery
+          }
+          this.$router.push({name: "Home", query: query});
+        } else
+          this.$router.push({name: "Home"});
+      } else {
+        alert("user is not registered or invalid credentails..!")
       }
     },
   },
   mounted() {
     let user = localStorage.getItem("user-info");
     if (user) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({name: "Home"});
     }
   },
 
@@ -120,17 +120,20 @@ LogoBG
   flex-direction: column;
   position: relative;
 }
+
 .sign-in-wrapper {
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .sign-in-container {
   width: 280px;
   justify-content: center;
   align-items: center;
 }
+
 .btn-login {
   width: 280px;
   height: 48px;
@@ -142,6 +145,7 @@ LogoBG
   border: solid 1px #b3cb2d;
   border-radius: 4px;
 }
+
 .bg-logo {
   width: 46%;
   z-index: 0;
@@ -150,14 +154,17 @@ LogoBG
   bottom: -4%;
   opacity: 0.2;
 }
+
 .sign-up {
   color: #ffa600;
   margin-left: 10px;
   text-decoration: none;
 }
+
 h3 {
   margin: 20px 0 20px 0px;
 }
+
 .public-data {
   margin: 30px 0 0 78px;
   text-decoration: none;
@@ -176,14 +183,17 @@ h3 {
   font-size: 16px;
   color: #545d64;
 }
+
 ::placeholder {
   color: #cccccc;
   font-size: 16px;
 }
+
 .logo-container {
   margin: 48px;
   display: block;
 }
+
 .logo {
   display: block;
   width: 209px;

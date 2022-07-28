@@ -22,6 +22,7 @@ export default {
   border-radius: 4px 4px 0 0;
   background-color: #fff;
 }
+
 .section-title {
   font-size: 28px;
   color: #b3cb2d;

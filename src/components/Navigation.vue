@@ -1,30 +1,30 @@
 <template>
   <div class="header-container">
-    <img :src="CatenaLogo" alt="logo" class="logo" />
-    <img :src="Settings" alt="settings" class="buttons" title="Settings" />
+    <img :src="CatenaLogo" alt="logo" class="logo"/>
+    <img :src="Settings" alt="settings" class="buttons" title="Settings"/>
     <img
-      :src="Notifications"
-      alt="Notifications"
-      class="buttons"
-      title="Notifications"
+        :src="Notifications"
+        alt="Notifications"
+        class="buttons"
+        title="Notifications"
     />
 
     <div>
-      <span @mouseover="hover = true" @mouseleave="hover = false">
+      <span @mouseleave="hover = false" @mouseover="hover = true">
         <img
-          :src="Profile"
-          alt="profile"
-          class="buttons"
-          title="User profile"
+            :src="Profile"
+            alt="profile"
+            class="buttons"
+            title="User profile"
         />
       </span>
-      <div class="profile-menu" v-if="hover">
+      <div v-if="hover" class="profile-menu">
         <img
-          :src="Logout"
-          alt="logout"
-          class="buttons"
-          title="Logout"
-          v-on:click="logout"
+            :src="Logout"
+            alt="logout"
+            class="buttons"
+            title="Logout"
+            v-on:click="logout"
         />
       </div>
     </div>
@@ -63,10 +63,10 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push({ name: "Login" });
+      this.$router.push({name: "Login"});
     },
     scanQRCode() {
-      this.$router.push({ name: "ScanPassport" });
+      this.$router.push({name: "ScanPassport"});
     },
   },
   mounted() {
@@ -83,23 +83,27 @@ export default {
 .header-container {
   display: flex;
 }
+
 .id-container {
   display: flex;
   align-items: center;
   margin-bottom: 80px;
 }
+
 .logo {
   display: block;
   width: 209px;
   height: 49px;
   margin: 0 54% 70px 70px;
 }
+
 .buttons {
   width: 26px;
   height: 26px;
   margin: 15px;
   cursor: pointer;
 }
+
 .profile-menu {
   position: absolute;
   width: 200px;

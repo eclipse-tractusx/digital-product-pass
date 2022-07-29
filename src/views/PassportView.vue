@@ -1,39 +1,39 @@
 <template>
   <div v-if="loading" style="padding: 18% 42% 18% 42%">
     <span>
-      <img src="../assets/loading.gif" height="200" width="250"/>
+      <img height="200" src="../assets/loading.gif" width="250"/>
     </span>
   </div>
   <div v-else>
-    <Header :batteryId="data.generalInformation" />
+    <Header :batteryId="data.generalInformation"/>
     <div class="container">
       <GeneralInformation
-        sectionTitle="General information"
-        :generalInformation="data.generalInformation"
+          :generalInformation="data.generalInformation"
+          sectionTitle="General information"
       />
       <BatteryComposition
-        sectionTitle="Battery Composition"
-        :batteryComposition="data.batteryComposition"
+          :batteryComposition="data.batteryComposition"
+          sectionTitle="Battery Composition"
       />
       <StateOfHealth
-        sectionTitle="State of Health"
-        :stateOfHealth="data.stateOfHealth"
+          :stateOfHealth="data.stateOfHealth"
+          sectionTitle="State of Health"
       />
       <ParametersOfTheBattery
-        sectionTitle="Parameters of The Battery"
-        :parametersOfTheBattery="data.parametersOfTheBattery"
+          :parametersOfTheBattery="data.parametersOfTheBattery"
+          sectionTitle="Parameters of The Battery"
       />
       <DismantlingProcedures
-        sectionTitle="Dismantling procedures"
-        :dismantlingProcedures="data.dismantlingProcedures"
+          :dismantlingProcedures="data.dismantlingProcedures"
+          sectionTitle="Dismantling procedures"
       />
       <!-- <SafetyInformation
         sectionTitle="Safety information"
         :safetyInformation="data.safetyInformation"
       /> -->
       <InformationResponsibleSourcing
-        sectionTitle="Information responsible sourcing"
-        :informationResponsibleSourcing="data.informationResponsibleSourcing"
+          :informationResponsibleSourcing="data.informationResponsibleSourcing"
+          sectionTitle="Information responsible sourcing"
       />
 
       <!-- <AdditionalInformation
@@ -41,7 +41,7 @@
         :additionalInformation="data.additionalInformation"
       /> -->
     </div>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -52,14 +52,12 @@ import BatteryComposition from "@/components/BatteryComposition.vue";
 import StateOfHealth from "@/components/StateOfHealth.vue";
 import ParametersOfTheBattery from "@/components/ParametersOfTheBattery.vue";
 import DismantlingProcedures from "@/components/DismantlingProcedures.vue";
-import SafetyInformation from "@/components/SafetyInformation.vue";
 import InformationResponsibleSourcing from "@/components/InformationResponsibleSourcing.vue";
-import AdditionalInformation from "@/components/AdditionalInformation.vue";
 
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
-import { reactive } from "vue";
+import {reactive} from "vue";
 
 export default {
   name: "PassportView",
@@ -70,9 +68,7 @@ export default {
     StateOfHealth,
     ParametersOfTheBattery,
     DismantlingProcedures,
-    SafetyInformation,
     InformationResponsibleSourcing,
-    AdditionalInformation,
     Footer,
   },
   provide() {
@@ -93,64 +89,57 @@ export default {
     async fetchData() {
       const res = await fetch("http://localhost:3000/334593247");
       const data = await res.json();
-      console.log(data);
+      console.log("PassportView (Data):", data);
       return data;
     },
-    getDigitalTwinId: function(assetIds){
+    getDigitalTwinId: function (assetIds) {
       return new Promise((resolve) => {
         let encodedAssetIds = encodeURIComponent(assetIds);
-        axios
-          .get( this.aasProxyUrl + '/lookup/shells?assetIds=' + encodedAssetIds )
-          .then((response) => {
-            console.log(response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
+        axios.get(this.aasProxyUrl + '/lookup/shells?assetIds=' + encodedAssetIds
+        ).then((response) => {
+          console.log("PassportView (Digital Twin):", response.data);
+          resolve(response.data);
+        }).catch((e) => {
+          this.errors.push(e);
+          resolve("rejected");
+        });
       });
     },
-    getDigitalTwinObjectById: function(digitalTwinId){
+    getDigitalTwinObjectById: function (digitalTwinId) {
       //const res =  axios.get("http://localhost:4243/registry/shell-descriptors/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001"); // Without AAS Proxy
       return new Promise((resolve) => {
-        axios
-          .get( this.aasProxyUrl + '/registry/shell-descriptors/' + digitalTwinId )   //Calling with AAS Proxy
-          .then((response) => {
-            console.log(response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
+        axios.get(this.aasProxyUrl + '/registry/shell-descriptors/' + digitalTwinId //Calling with AAS Proxy
+        ).then((response) => {
+          console.log("PassportView (Digital Twin Object):", response.data);
+          resolve(response.data);
+        }).catch((e) => {
+          this.errors.push(e);
+          resolve("rejected");
+        });
       });
     },
-    getSubmodelData: function(digitalTwin){
+    getSubModelData: function (digitalTwin) {
       //const res =  axios.get("http://localhost:8193/api/service/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97919/submodel?provider-connector-url=http://provider-control-plane:8282"); // Without AAS Proxy
       //Calling with AAS Proxy 
       return new Promise((resolve) => {
-        axios.get( this.aasProxyUrl + '/shells/' + digitalTwin.identification + '/aas/' + digitalTwin.submodelDescriptors[0].identification + '/submodel?content=value&extent=withBlobValue',{
+        axios.get(this.aasProxyUrl + '/shells/' + digitalTwin.identification + '/aas/' + digitalTwin.submodelDescriptors[0].identification + '/submodel?content=value&extent=withBlobValue', {
           auth: {
-              username: 'someuser',
-              password: 'somepassword'
-            }
-        })
-          .then((response) => {
-            console.log(response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
+            username: 'someuser',
+            password: 'somepassword'
+          }
+        }).then((response) => {
+          console.log("PassportView (SubModel):", response.data);
+          resolve(response.data);
+        }).catch((e) => {
+          this.errors.push(e);
+          resolve("rejected");
+        });
       });
     },
-    async getPassport(assetIds){
+    async getPassport(assetIds) {
       const digitalTwinId = await this.getDigitalTwinId(assetIds);
       const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
-      const response = await this.getSubmodelData(digitalTwin);
-      return response;
+      return await this.getSubModelData(digitalTwin);
     },
   },
   async created() {

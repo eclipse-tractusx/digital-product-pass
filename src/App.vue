@@ -8,7 +8,7 @@
   <!-- <ProviderDropdown msg="Welcome to Your Vue.js App"/> -->
   <!-- <SignUp /> -->
 
-  <router-view />
+  <router-view/>
 </template>
 
 <script>
@@ -35,6 +35,7 @@ export default {
 
   min-height: 100vh;
 }
+
 * {
   box-sizing: border-box;
   margin: 0;

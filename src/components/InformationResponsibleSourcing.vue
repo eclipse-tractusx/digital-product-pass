@@ -1,17 +1,17 @@
 <template>
-  <SectionHeader title="7. Information responsible sourcing" />
+  <SectionHeader title="7. Information responsible sourcing"/>
 
   <div class="section-content">
     <div class="sub-section-container">
       <a
-        :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url"
-        target="_blank"
-        class="field-container"
+          :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url"
+          class="field-container"
+          target="_blank"
       >
-        <img :src="Pdf" alt="settings" class="icon" />
+        <img :src="Pdf" alt="settings" class="icon"/>
         <span class="field-value">{{
-          informationResponsibleSourcing.responsibleRawMaterialsReport.value
-        }}</span>
+            informationResponsibleSourcing.responsibleRawMaterialsReport.value
+          }}</span>
       </a>
     </div>
   </div>
@@ -19,7 +19,6 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Pdf from "../assets/pdf.svg";
 
 export default {
@@ -29,8 +28,7 @@ export default {
     informationResponsibleSourcing: {},
   },
   components: {
-    SectionHeader,
-    SectionContent,
+    SectionHeader
   },
   setup() {
     return {
@@ -48,11 +46,13 @@ export default {
   background-color: #fff;
   margin-bottom: 50px;
 }
+
 .icon {
   width: 27px;
   height: 36px;
   margin: 40px;
 }
+
 .field-container {
   display: flex;
   flex-direction: column;
@@ -63,12 +63,14 @@ export default {
   cursor: pointer;
   padding: 40px 0 80px 0;
 }
+
 .sub-section-container {
   display: flex;
 
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
+
 .field-value {
   padding-left: 40px;
   font-size: 14px;

@@ -1,7 +1,8 @@
-# product-battery-passport-consumer-app
+# Product-Battery-Passport Consumer-App
 
-This battery pass consumer application is used with the Asset Administration Shell (AAS) locally.
+This battery pass consumer application is used with the __Asset Administration Shell (AAS)__ locally.
 
+## Setup Project
 
 ### Cloning repository
 
@@ -11,17 +12,17 @@ git clone https://github.com/catenax-ng/product-battery-passport-consumer-app.gi
 
 # AAS repository
 git clone https://github.com/catenax-ng/catenax-at-home.git
-
 ```
 
-
 ### Launch docker containers for the Asset Administration Shell (AAS)
+
 ```bash
 cd catenax-at-home/getting-started-guide/
 docker compose up -d
 ```
 
 ### Init Data Provider
+
 ```bash
 cd ../../product-battery-passport-consumer-app/aas-int-provider/
 chmod ug+x ./init-provider.sh
@@ -30,21 +31,29 @@ chmod ug+x ./init-provider.sh
 ./init-provider.sh
 ```
 
-## Project setup
-```
+__Note:__ To execute the shell-script with windows, the [Git Bash](https://gitforwindows.org/) is required.
+
+### Install dependencies
+
+```bash
 cd ..
 npm install --legacy-peer-deps
 ```
 
+## Run Project
+
 ### Compiles and hot-reloads for development
-```
+
+```bash
 npm run serve
 ```
 
 ### Compiles and minifies for production
-```
+
+```bash
 npm run build
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).

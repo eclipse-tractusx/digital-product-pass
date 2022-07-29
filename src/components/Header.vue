@@ -2,24 +2,24 @@
   <div>
     <div class="header-container profile-container">
       <div class="logo-container">
-        <img :src="CatenaLogo" alt="logo" class="logo" />
+        <img :src="CatenaLogo" alt="logo" class="logo"/>
       </div>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
-          <img :src="Settings" alt="settings" class="buttons" />
-          <img :src="Notifications" alt="profile" class="buttons" />
+          <img :src="Settings" alt="settings" class="buttons"/>
+          <img :src="Notifications" alt="profile" class="buttons"/>
           <span>
             <span @mouseover="hover = true">
               <img
-                :src="Profile"
-                alt="profile"
-                class="buttons"
-                title="User profile"
+                  :src="Profile"
+                  alt="profile"
+                  class="buttons"
+                  title="User profile"
               />
             </span>
-            <div class="profile-menu" v-if="hover" @mouseleave="hover = false">
+            <div v-if="hover" class="profile-menu" @mouseleave="hover = false">
               <div class="menu-btn">
-                <img :src="Profile" alt="profile" class="menu-profile" />
+                <img :src="Profile" alt="profile" class="menu-profile"/>
                 <!--TODO: Profile page onClick-->
                 <h3>
                   {{ username }}
@@ -42,7 +42,7 @@
         </h1>
       </div>
       <div class="code-container">
-        <img :src="QrCode" alt="profile" class="code"  width="140" height="140"/>
+        <img :src="QrCode" alt="profile" class="code" height="140" width="140"/>
       </div>
     </div>
   </div>
@@ -57,14 +57,8 @@ import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
 
 export default {
-  name: "Header",
-
-  components: {
-    CatenaLogo,
-    Profile,
-    Settings,
-    Logout,
-  },
+  name: "HeaderComponent",
+  components: {},
   data() {
     return {
       hover: false,
@@ -85,10 +79,10 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push({ name: "Login" });
+      this.$router.push({name: "Login"});
     },
     scanQRCode() {
-      this.$router.push({ name: "ScanPassport" });
+      this.$router.push({name: "ScanPassport"});
     },
   },
   mounted() {
@@ -111,28 +105,34 @@ export default {
   width: 76%;
   margin: 4% 12% 0 12%;
 }
+
 .logo-container {
   display: block;
   width: 50%;
   height: fit-content;
 }
+
 .code-container {
   width: 40%;
   display: flex;
   justify-content: flex-end;
 }
+
 .id-wrapper {
   width: 60%;
 }
+
 .right-manu-wrapper {
   width: 50%;
   display: flex;
   justify-content: flex-end;
 }
+
 .code {
   padding: 0;
   margin: 0;
 }
+
 .id-container {
   display: flex;
   align-items: center;
@@ -140,20 +140,24 @@ export default {
   width: 76%;
   margin: 2% 12% 6% 12%;
 }
+
 .logo {
   display: block;
   width: 209px;
   height: 49px;
   margin: 0 0 7% -64px;
 }
+
 .buttons {
   width: 26px;
   height: 26px;
-  margin: 15px 0px 15px 30px;
+  margin: 15px 0 15px 30px;
 }
+
 .profile-container {
   position: relative;
 }
+
 .profile-menu {
   position: absolute;
   min-width: 342px;
@@ -165,26 +169,32 @@ export default {
   background-color: white;
   cursor: pointer;
 }
+
 .menu-btn {
   display: flex;
   border-top: solid 1px #ffa600;
   padding: 16px;
   align-items: center;
 }
+
 .menu-btn:first-child {
   border-top: none;
 }
+
 .menu-btn:hover {
   background-color: #f8f9fa;
 }
+
 h3 {
   padding: 0 16px 0 12px;
 }
+
 p {
   color: #cccccc;
   font-size: 14px;
   font-weight: normal;
 }
+
 .menu-profile {
   padding: 16px;
 }

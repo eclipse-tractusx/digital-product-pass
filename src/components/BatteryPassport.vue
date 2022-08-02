@@ -24,7 +24,7 @@
     <select
         id="selectBattery"
         v-model="selectedBattery"
-        :disabled="selectedProvider !== '' ? false : ''"
+        :disabled="selectedProvider === ''"
         class="form-select select"
         placeholder="Select Battery"
         required
@@ -46,7 +46,7 @@
     </div>
 
     <button
-        :disabled="isDisabled"
+        :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"
         type="button"
         v-on:click="getProductPassport"
@@ -107,7 +107,6 @@ export default {
       selectedProvider: '',
       selectedBattery: '',
       assetIds: {},
-      isDisabled: false,
       assetIdsVisible: false,
     }
   },
@@ -124,7 +123,7 @@ export default {
       this.selectedBattery = ''
     },
     validateFields: function (provider, battery) {
-      return !(provider === '' && battery === '');
+      return !(provider === '' || battery === '');
     },
     getBatteriesByProvider: function () {
       this.assetIds = '';
@@ -185,6 +184,11 @@ export default {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.success-btn:disabled {
+  cursor: not-allowed;
+  /* TODO add disabled color #b7c567*/
 }
 
 .label {

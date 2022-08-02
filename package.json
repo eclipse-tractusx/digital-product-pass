@@ -5,13 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.2",
     "axios": "^0.26.0",
     "bootstrap": "^5.1.3",
     "bootstrap-vue": "^2.21.2",
+    "bootstrap-vue-3": "^0.1.21",
     "core-js": "^3.8.3",
     "jquery": "^3.6.0",
     "path": "^0.12.7",

@@ -8,7 +8,7 @@
   <!-- <ProviderDropdown msg="Welcome to Your Vue.js App"/> -->
   <!-- <SignUp /> -->
 
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
@@ -24,22 +24,36 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 #app {
-  font-family: "Libre Franklin", sans-serif;
+  font-family: "Libre Franklin", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
-
   min-height: 100vh;
 }
+.table-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+  padding-left: 40px !important;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(179, 203, 44, 0.15);
+}
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: rgba(179, 203, 44, 0.05);
+}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.table > thead {
+  vertical-align: bottom;
+  color: gray;
+  font-size: 12px;
 }
 
 nav {

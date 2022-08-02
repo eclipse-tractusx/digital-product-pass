@@ -24,7 +24,7 @@
     <select
         id="selectBattery"
         v-model="selectedBattery"
-        :disabled="selectedProvider !== '' ? disabled : ''"
+        :disabled="selectedProvider !== '' ? false : ''"
         class="form-select select"
         placeholder="Select Battery"
         required

@@ -1,4 +1,4 @@
-<template>
+<template id="battery-passport-root">
   <Header/>
   <div class="container">
     <label class="label" for="Provider">Battery Provider:</label>
@@ -62,7 +62,7 @@ import Header from '@/components/Header.vue'
 let listBatteryProviders = require('../assets/providers.json');
 
 export default {
-  name: 'batteryPassport',
+  name: 'BatteryPassport',
   created() {
   },
   components: {
@@ -162,6 +162,10 @@ export default {
 </script>
 
 <style scoped>
+#battery-passport-root {
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   flex-direction: column;

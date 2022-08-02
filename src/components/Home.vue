@@ -1,5 +1,5 @@
 <template>
-  <BatteryPassport class="battery-page-container"/>
+  <BatteryPassport/>
 </template>
 
 <script type="text/jsx">
@@ -25,7 +25,4 @@ export default ({
 </script>
 
 <style scoped>
-.battery-page-container {
-  min-height: 100vh;
-}
 </style>

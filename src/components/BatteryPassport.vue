@@ -4,7 +4,6 @@
     <Header />
     <div class="container" data-cy="battery-pass-container">
       <label class="label" for="Provider">Battery Provider:</label>
-
       <select
         class="select"
         id="selectProvider"
@@ -70,35 +69,10 @@
         <div class="sub-title">See batteries scanned today</div>
         <div class="sub-title orange">See full history</div>
       </div>
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Search"
-          label-for="filter-input"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-        >
-          <b-input-group size="sm">
-            <b-form-input
-              id="filter-input"
-              v-model="filter"
-              type="search"
-              placeholder="Type to Search"
-            ></b-form-input>
 
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"
-                >Clear</b-button
-              >
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
       <b-table
         borderless
         striped
-        :filter="filter"
         :fields="fields"
         sort-icon-left
         :items="batteriesList"
@@ -124,6 +98,7 @@ export default {
   components: {
      Spinner,
 Header
+
   },
 
   mounted(){

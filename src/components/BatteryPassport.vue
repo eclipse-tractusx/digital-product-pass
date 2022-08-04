@@ -1,4 +1,5 @@
-<template>
+
+<template id="battery-passport-root">
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
     <Header />
@@ -29,6 +30,8 @@
         class="form-select select"
         id="selectBattery"
         v-model="selectedBattery"
+        :disabled="selectedProvider === ''"
+        class="form-select select"
         placeholder="Select Battery"
         :disabled="selectedProvider != '' ? disabled : ''"
         @change="getAssetIdsByBattery()"
@@ -54,7 +57,11 @@
         ></textarea>
       </div>
 
-      <button
+
+    <button
+        :disabled="!validateFields(selectedProvider, selectedBattery)"
+        class="btn btn-success center success-btn"
+
         type="button"
         class="btn btn-success center success-btn"
         :disabled="isDisabled"
@@ -115,9 +122,11 @@ import Spinner from "@/components/Spinner.vue";
 let listBatteryProviders = require('../assets/providers.json');
 
 export default {
+
   name: 'batteryPassport',
   created(){
     this.loading = false;
+
   },
   components: {
      Spinner,
@@ -226,7 +235,6 @@ Header
       selectedProvider:'',
       selectedBattery:'',
       assetIds: {},
-      isDisabled: false,
       assetIdsVisible: false,
       name: ""
     }
@@ -246,11 +254,10 @@ Header
       this.selectedProvider = ''
       this.selectedBattery = ''
     },
-    validateFields: function(provider, battery){
-      if (provider === '' && battery === '')
-        return false;
-      else
-        return true;
+
+    validateFields: function (provider, battery) {
+      return !(provider === '' || battery === '');
+
     },
     getBatteriesbyProvider: function(){
       this.assetIds = '';
@@ -285,6 +292,10 @@ Header
 </script>
 
 <style scoped>
+#battery-passport-root {
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -303,6 +314,14 @@ Header
   border-radius: 4px;
   cursor: pointer;
 }
+
+
+.success-btn:disabled {
+  cursor: not-allowed;
+  /* TODO add disabled color #b7c567*/
+}
+
+
 .label {
   padding: 12px 0 12px 0;
   font-weight: bold;

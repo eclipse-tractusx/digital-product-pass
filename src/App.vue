@@ -30,7 +30,7 @@ export default {
   padding: 0;
 }
 #app {
-  font-family: "Libre Franklin", sans-serif !important;
+  font-family: "Libre Franklin", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

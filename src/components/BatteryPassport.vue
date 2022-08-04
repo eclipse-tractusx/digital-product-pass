@@ -1,4 +1,3 @@
-
 <template id="battery-passport-root">
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
@@ -31,9 +30,7 @@
         id="selectBattery"
         v-model="selectedBattery"
         :disabled="selectedProvider === ''"
-        class="form-select select"
         placeholder="Select Battery"
-        :disabled="selectedProvider != '' ? disabled : ''"
         @change="getAssetIdsByBattery()"
         data-cy="battery-select"
       >
@@ -57,14 +54,10 @@
         ></textarea>
       </div>
 
-
-    <button
+      <button
         :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"
-
         type="button"
-        class="btn btn-success center success-btn"
-        :disabled="isDisabled"
         v-on:click="getProductPassport"
         data-cy="passport-btn"
       >
@@ -315,12 +308,10 @@ Header
   cursor: pointer;
 }
 
-
 .success-btn:disabled {
   cursor: not-allowed;
   /* TODO add disabled color #b7c567*/
 }
-
 
 .label {
   padding: 12px 0 12px 0;

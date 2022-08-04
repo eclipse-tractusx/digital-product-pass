@@ -60,6 +60,8 @@
 
 <script type="text/jsx">
 
+import {GOOGLE_CHART_API_URL} from "@/services/service.const";
+
 export default {
   components: {},
   name: "ScanPassport",
@@ -82,7 +84,7 @@ export default {
       if (this.host === '' || this.provider === '' || this.batteryNumber === '')
         alert('Please fill all fields..!')
       else
-        this.generatedQrCodeUrl = `https://chart.googleapis.com/chart?cht=qr&chs=400x400&chl=${url}`;
+        this.generatedQrCodeUrl = `${GOOGLE_CHART_API_URL}/chart?cht=qr&chs=400x400&chl=${url}`;
 
     },
     // readfromwebcam(){

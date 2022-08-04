@@ -60,6 +60,7 @@
 import axios from "axios";
 import CatenaLogo from "../assets/logotype.png";
 import LogoBG from "../assets/logo.png";
+import {MOCK_AUTH_URL} from "@/services/service.const";
 
 
 export default {
@@ -79,9 +80,7 @@ export default {
   },
   methods: {
     async login() {
-      let result = await axios.get(
-          `https://mock--server.herokuapp.com/users?email=${this.email}&password=${this.password}`
-      );
+      let result = await axios.get(`${MOCK_AUTH_URL}/users?email=${this.email}&password=${this.password}`);
       if (result.status === 200 && result.data.length > 0) {
         //alert("login successful..!")
         localStorage.setItem("user-info", JSON.stringify(result.data[0]));

@@ -64,6 +64,7 @@
 
 <script type="text/jsx">
 import axios from "axios";
+import {DUMMY_SERVICE} from "@/services/service.const";
 
 export default {
   name: "SignUp",
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     async signUp() {
-      let result = await axios.post("http://localhost:3000/users", {
+      let result = await axios.post(`${DUMMY_SERVICE}/users`, {
         email: this.email,
         password: this.password,
         name: this.name,
@@ -86,7 +87,7 @@ export default {
       if (result.status === 201) {
         //alert("sign-up successful..!")
         localStorage.setItem("user-info", JSON.stringify(result.data));
-        this.$router.push({name: "Home"});
+        await this.$router.push({name: "Home"});
       }
     },
   },

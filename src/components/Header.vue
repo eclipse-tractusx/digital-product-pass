@@ -61,6 +61,9 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
+import authentication  from "@/services/authentication";
+
+const auth = new authentication();
 
 export default {
   name: "Header",
@@ -90,18 +93,17 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
-
-      this.$router.push({ name: "Login" });
+      auth.logout();
     },
     scanQRCode() {
       this.$router.push({ name: "ScanPassport" });
     },
   },
   mounted() {
-    let user = localStorage.getItem("user-info");
-    this.username = JSON.parse(user).email;
-    this.role = JSON.parse(user).role;
+    if (auth.isUserAuthenticated){
+      this.username = auth.getUserName();
+      this.role = auth.getRole();
+    }
   },
   props: {
     batteryId: {},

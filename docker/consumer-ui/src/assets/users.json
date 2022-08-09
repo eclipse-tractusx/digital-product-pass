@@ -2,21 +2,21 @@
   "users": [
     {
       "name": "demo_user",
-      "email": "mustermann@test-supplier.de",
+      "email": "mustermann@basf.de",
       "role": "Supplier",
       "password": "mustermann",
       "id": 1
     },
     {
       "name": "demo_user",
-      "email": "mustermann@test-oem.de",
+      "email": "mustermann@bmw.de",
       "role": "OEM",
       "password": "mustermann",
       "id": 2
     },
     {
       "name": "demo_user",
-      "email": "mustermann@test-recycler.de",
+      "email": "mustermann@tech4u.de",
       "role": "Recycler",
       "password": "mustermann",
       "id": 3
@@ -29,23 +29,17 @@
       "id": 4
     },
     {
-      "email": "mustermann@test-company.de",
+      "email": "mustermann@cgi.de",
       "password": "mustermann",
       "name": "demo_user",
       "id": 5
     },
     {
-      "email": "mustermann@test-dismantler.de",
+      "email": "mustermann@lrp.de",
       "password": "mustermann",
       "role": "Dismantler",
       "name": "demo_user",
       "id": 6
-    },
-    {
-      "email": "",
-      "password": "",
-      "name": "",
-      "id": 7
     }
   ]
 }

@@ -7,7 +7,7 @@ name: "Publish docker images"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/CMP-16" ]
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
 
@@ -16,7 +16,7 @@ env:
   EDC_CONSUMER_IMAGE: "edc-consumer"
   EDC_PROVIDER_IMAGE: "edc-provider"
   CONSUMER_UI_IMAGE: "consumer-ui"
-  IMAGE_TAG: "v1.PI4.S4"
+  IMAGE_TAG: "v1.PI5.S1"
   # COMMIT_SHA: ${{ github.sha }}
     
 jobs:

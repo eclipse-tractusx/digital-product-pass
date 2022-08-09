@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "consumer-ui.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "consumer-ui.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}    # host port
+      targetPort: 80                      # container port
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "consumer-ui.selectorLabels" . | nindent 4 }}

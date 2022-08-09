@@ -1,19 +1,27 @@
-<template>
+<template v-if="additionalInformation">
   <SectionHeader title="8. Additional information" />
 
   <div class="section-content">
     <div class="sub-section-container longer">
       <a
+        v-if="additionalInformation.linkToTheLabelElement.url"
         :href="additionalInformation.linkToTheLabelElement.url"
         target="_blank"
         class="field-container"
+        data-cy="link-to-the-label-element"
       >
         <span class="field-label">Label Elements</span>
         <span class="field-value">{{
           additionalInformation.linkToTheLabelElement.value
         }}</span>
       </a>
-      <div class="field-container">
+      <div
+        class="field-container"
+        v-if="
+          additionalInformation
+            .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
+        "
+      >
         <span class="field-label"
           >Symbol indicating ‘separate collection’ and heavy metal content
         </span>
@@ -24,11 +32,13 @@
             .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
         }}</span>
       </div>
+
       <div class="field-container">
         <span class="field-label"></span>
         <span class="field-value"></span>
       </div>
       <a
+        v-if="additionalInformation.carbonFootprintDeclaration.url"
         :href="additionalInformation.carbonFootprintDeclaration.url"
         target="_blank"
         class="field-container"
@@ -38,24 +48,23 @@
           additionalInformation.carbonFootprintDeclaration.value
         }}</span>
       </a>
-      <div class="field-container">
-        <span class="field-label">Carbon Footprint Performance Class</span>
-        <span class="field-value">{{
+
+      <Field
+        label="Carbon Footprint Performance Class"
+        v-bind:value="
           additionalInformation.carbonFootprintPerformanceClass.value
-        }}</span>
-      </div>
-      <div class="field-container">
-        <span class="field-label">Chemistry of the battery</span>
-        <span class="field-value">{{
-          additionalInformation.chemistryOfTheBattery.value
-        }}</span>
-      </div>
-      <div class="list-container">
+        "
+      />
+      <div
+        class="list-container"
+        v-if="additionalInformation.hazardousSubstancesContainedInTheBattery"
+      >
         <ul>
           <span class="list-label"
             >Hazardous substances contained in the battery</span
           >
           <li
+            :key="substances"
             v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery"
           >
             {{ substances }}
@@ -63,6 +72,7 @@
         </ul>
       </div>
       <a
+        v-if="additionalInformation.informationAsAResultOfBatteryUse.url"
         :href="additionalInformation.informationAsAResultOfBatteryUse.url"
         target="_blank"
         class="field-container"
@@ -73,6 +83,7 @@
         }}</span>
       </a>
       <a
+        v-if="additionalInformation.euDeclarationOfConformity.url"
         :href="additionalInformation.euDeclarationOfConformity.url"
         target="_blank"
         class="field-container"
@@ -90,6 +101,7 @@
 import SectionHeader from "./SectionHeader.vue";
 import SectionContent from "./SectionContent.vue";
 import Trashcan from "@/assets/trashcan.svg";
+import Field from "./Field.vue";
 
 export default {
   name: "AdditionalInformation",
@@ -98,6 +110,7 @@ export default {
     additionalInformation: {},
   },
   components: {
+    Field,
     SectionHeader,
     SectionContent,
   },
@@ -129,7 +142,7 @@ export default {
   min-height: 120px;
 }
 .field-label {
-  padding: 30px 0px 10px 40px;
+  padding: 30px 0 10px 40px;
   font-size: 12px;
   text-decoration: inherit;
   color: #777777;
@@ -154,7 +167,7 @@ export default {
   padding-bottom: 40px;
 }
 .list-label {
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }

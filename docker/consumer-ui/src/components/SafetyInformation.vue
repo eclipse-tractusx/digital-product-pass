@@ -1,4 +1,4 @@
-<template>
+<template v-if="safetyMeasures">
   <SectionHeader title="6. Safety information" />
 
   <div class="section-content">
@@ -7,33 +7,37 @@
         <span class="sub-title">Safety measures</span>
       </div>
       <a
-        :href="safetyInformation.occupationalSafety.url"
+        v-if="safetyMeasures.occupationalSafety.url"
+        :href="safetyMeasures.occupationalSafety.url"
         target="_blank"
         class="field-container"
+        data-cy="occupational-safety"
       >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-          safetyInformation.occupationalSafety.value
+          safetyMeasures.occupationalSafety.value
         }}</span>
       </a>
       <a
-        :href="safetyInformation.fireProtection.url"
+        v-if="safetyMeasures.fireProtection.url"
+        :href="safetyMeasures.fireProtection.url"
         target="_blank"
         class="field-container"
       >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-          safetyInformation.fireProtection.value
+          safetyMeasures.fireProtection.value
         }}</span>
       </a>
       <a
-        :href="safetyInformation.usableExtinguishingAgent.url"
+        v-if="safetyMeasures.usableExtinguishingAgent.url"
+        :href="safetyMeasures.usableExtinguishingAgent.url"
         target="_blank"
         class="field-container"
       >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-          safetyInformation.usableExtinguishingAgent.value
+          safetyMeasures.usableExtinguishingAgent.value
         }}</span>
       </a>
     </div>
@@ -42,13 +46,14 @@
         <span class="sub-title">Packaging Instructions</span>
       </div>
       <a
-        :href="safetyInformation.instructionsForSafelyPackagingBatteries.url"
+        v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
+        :href="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
         target="_blank"
         class="field-container"
       >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-          safetyInformation.instructionsForSafelyPackagingBatteries.value
+          safetyMeasures.instructionsForSafelyPackagingBatteries.value
         }}</span>
       </a>
     </div>
@@ -57,13 +62,14 @@
         <span class="sub-title">Transportation Instructions</span>
       </div>
       <a
-        :href="safetyInformation.instructionsForSafelyTransportingBatteries.url"
+        v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
+        :href="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
         target="_blank"
         class="field-container"
       >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-          safetyInformation.instructionsForSafelyTransportingBatteries.value
+          safetyMeasures.instructionsForSafelyTransportingBatteries.value
         }}</span>
       </a>
     </div>
@@ -76,10 +82,10 @@ import SectionContent from "./SectionContent.vue";
 import Pdf from "../assets/pdf.svg";
 
 export default {
-  name: "SafetyInformation",
+  name: "safetyMeasures",
   props: {
     sectionTitle: String,
-    safetyInformation: {},
+    safetyMeasures: {},
   },
   components: {
     SectionHeader,

@@ -3,26 +3,21 @@
 </template>
 
 <script type="text/jsx">
-
 import BatteryPassport from './BatteryPassport.vue'
 export default ({
-  name: 'Home',
-  components:{
-
+  name: 'HomeComponent',
+  components: {
     BatteryPassport
   },
   props: {
     provider: String,
     battery: String,
   },
-  mounted(){
-        let user = localStorage.getItem("user-info");
-        if (!user){
-            this.$router.push({name:'Login'});
-        }
-    }
+  mounted() {
+  }
 })
 </script>
+
 <style scoped>
 .battery-page-container {
   min-height: 100vh;

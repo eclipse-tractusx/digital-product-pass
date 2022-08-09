@@ -6,8 +6,8 @@
       </div>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
-          <img :src="Settings" alt="settings" class="buttons" title="Settings" />
-          <img :src="Notifications" alt="profile" class="buttons" title="Notifications" />
+          <img :src="Settings" alt="settings" class="buttons" />
+          <img :src="Notifications" alt="profile" class="buttons" />
           <span>
             <span @mouseover="hover = true">
               <img
@@ -20,14 +20,14 @@
             <div class="profile-menu" v-if="hover" @mouseleave="hover = false">
               <div class="menu-btn">
                 <img :src="Profile" alt="profile" class="menu-profile" />
-                <!--TODO: It would be nice to have it not hardcoded-->
-                <h3>
-                  mustermann@test-recycler.de
+                <!--TODO: Profile page onClick-->
+                <span class="profile-text">
+                  {{ username }}
                   <p>Manage your account</p>
-                </h3>
+                </span>
               </div>
               <div class="menu-btn">
-                <h3 v-on:click="logout">Sign out</h3>
+                <span class="profile-text" @click="logout">Sign out</span>
               </div>
             </div>
           </span>
@@ -42,7 +42,13 @@
         </h1>
       </div>
       <div class="code-container">
-        <img :src="QrCode" alt="profile" class="code" width="140" height="140" />
+        <img
+          :src="QrCode"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
       </div>
     </div>
   </div>
@@ -55,6 +61,9 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
+import authentication  from "@/services/authentication";
+
+const auth = new authentication();
 
 export default {
   name: "Header",
@@ -68,6 +77,8 @@ export default {
   data() {
     return {
       hover: false,
+      username: "",
+      role: "",
     };
   },
   setup() {
@@ -82,18 +93,16 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
-      this.$router.push({ name: "Login" });
+      auth.logout();
     },
     scanQRCode() {
       this.$router.push({ name: "ScanPassport" });
     },
   },
   mounted() {
-    let user = localStorage.getItem("user-info");
-    if (user) {
-      this.username = JSON.parse(user).name;
-      this.role = JSON.parse(user).role;
+    if (auth.isUserAuthenticated){
+      this.username = auth.getUserName();
+      this.role = auth.getRole();
     }
   },
   props: {
@@ -103,6 +112,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-weight: bold;
+}
 .header-container {
   display: flex;
 
@@ -147,8 +159,7 @@ export default {
 .buttons {
   width: 26px;
   height: 26px;
-  margin: 15px 0px 15px 30px;
-  cursor: pointer;
+  margin: 15px 0 15px 30px;
 }
 .profile-container {
   position: relative;
@@ -176,8 +187,10 @@ export default {
 .menu-btn:hover {
   background-color: #f8f9fa;
 }
-h3 {
-  padding-left: 12px;
+.profile-text {
+  padding: 0 16px 0 12px;
+  font-size: 18px;
+  font-weight: bold;
 }
 p {
   color: #cccccc;

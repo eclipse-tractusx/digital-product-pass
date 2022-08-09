@@ -1,4 +1,4 @@
-<template>
+<template v-if="batteryComposition">
   <SectionHeader title="2. Battery composition"> </SectionHeader>
   <!-- Composition of Electrolyte -->
   <div class="section-content">
@@ -6,12 +6,16 @@
       <div class="sub-title-container">
         <span class="sub-title">Composition of Electrolyte</span>
       </div>
-      <div class="list-container">
+      <div
+        class="list-container"
+        v-if="batteryComposition.electrolyteComposition"
+      >
         <ul>
           <span class="list-label"></span>
           <li
             :key="electrolytes"
             v-for="electrolytes in batteryComposition.electrolyteComposition"
+            data-cy="electrolyte-composition"
           >
             {{ electrolytes }}
           </li>
@@ -32,7 +36,10 @@
           batteryComposition.anodeContent.naturalGraphiteContent.unit
         "
       />
-      <div class="list-container">
+      <div
+        class="list-container"
+        v-if="batteryComposition.anodeContent.anodeComposition"
+      >
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
           <li
@@ -65,7 +72,10 @@
         v-bind:value="batteryComposition.cathodeComposition.coContent.value"
         v-bind:unit="batteryComposition.cathodeComposition.coContent.unit"
       />
-      <div class="list-container">
+      <div
+        class="list-container"
+        v-if="batteryComposition.cathodeComposition.otherCathodeComposition"
+      >
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
           <li
@@ -78,14 +88,17 @@
         </ul>
       </div>
     </div>
-    <!-- TODO: Part Numbers for Components TABLE
- -->
+    <!-- Part Numbers for Components TABLE -->
+    <div class="sub-title-container">
+      <span class="sub-title"> Part Numbers for Components</span>
+    </div>
+    <b-table borderless striped :items="items" />
     <!-- Critical Raw Materials -->
     <div class="sub-section-container">
       <div class="sub-title-container">
         <span class="sub-title">Critical Raw Materials</span>
       </div>
-      <div class="list-container">
+      <div class="list-container" v-if="batteryComposition.crm">
         <ul>
           <span class="list-label">List of CRM</span>
           <li
@@ -140,6 +153,43 @@ export default {
     sectionTitle: String,
     batteryComposition: {},
   },
+  methods: {},
+  data() {
+    return {
+      items: [
+        {
+          part_name: "Battery modules",
+          serial_number: null,
+          phone_number: "+49 345879349",
+          email: "john@spp01.de",
+        },
+        {
+          part_name: "BMS",
+          serial_number: "23494511/45",
+          phone_number: "+49 345879349",
+          email: "john@spp01.de",
+        },
+        {
+          part_name: "Voltage cables",
+          serial_number: "23494511/45",
+          phone_number: "+49 345879349",
+          email: "john@spp01.de",
+        },
+        {
+          part_name: "Thermal control",
+          serial_number: null,
+          phone_number: "+49 345879349",
+          email: "john@spp01.de",
+        },
+        {
+          part_name: "Casing",
+          serial_number: "23494511/45",
+          phone_number: "+49 345879349",
+          email: "john@spp01.de",
+        },
+      ],
+    };
+  },
   components: {
     Field,
     SectionHeader,
@@ -182,13 +232,14 @@ export default {
   padding-bottom: 40px;
 }
 .list-label {
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }
 ul {
   display: flex;
   flex-direction: column;
+  padding: 0;
 }
 li {
   margin-left: 20px;

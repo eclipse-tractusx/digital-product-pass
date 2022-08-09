@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "consumer-ui-keycloak.fullname" . }}
+  name: {{ include "test-ui.fullname" . }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "consumer-ui-keycloak.labels" . | nindent 4 }}
+    {{- include "test-ui.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "consumer-ui-keycloak.selectorLabels" . | nindent 4 }}
+    {{- include "test-ui.selectorLabels" . | nindent 4 }}

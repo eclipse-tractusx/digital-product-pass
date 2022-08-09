@@ -7,13 +7,13 @@ const GOOGLE_CHART_API_URL = "https://chart.googleapis.com";
 const DUMMY_SERVICE = "http://localhost:3000";
 
 const INIT_OPTIONS = {
-    url: 'http://localhost:8088/auth',
-    clientId: 'Cl13-CX-Battery',
-    realm: 'CX-Central',
-    onLoad: 'login-required'
+    url: "https://centralidp.demo.catena-x.net/auth/",
+    clientId: "C0l13-CX-Battery",
+    realm: "CX-Central",
+    onLoad: "login-required"
 };
 
-const REDIRECT_URI = "http://localhost:8080/";
+const REDIRECT_URI = "https://centralidp.demo.catena-x.net/";
 
 const KEYCLOAK = new Keycloak(INIT_OPTIONS)
 

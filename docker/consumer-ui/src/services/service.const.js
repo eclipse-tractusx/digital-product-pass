@@ -22,7 +22,7 @@ const INIT_OPTIONS = {
     onLoad: 'login-required'
 };
 
-const REDIRECT_URI = "http://localhost:8080/";
+const REDIRECT_URI = "https://materialpass.int.demo.catena-x.net/";
 
 const KEYCLOAK = new Keycloak(INIT_OPTIONS)
 

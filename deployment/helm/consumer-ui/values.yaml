@@ -17,7 +17,7 @@ fullnameOverride: "consumer-ui"
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 8081
 
 ingress:
   enabled: true
@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /
+        - path: /v1
           pathType: Prefix
   tls:
     - secretName: tls-secret

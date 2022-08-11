@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /ui
+        - path: /
           pathType: Prefix
   tls:
     - secretName: tls-secret

@@ -55,7 +55,6 @@ import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
-import { reactive } from "vue";
 import { AAS_PROXY_URL } from "@/services/service.const";
 
 export default {

@@ -61,9 +61,9 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
-import authentication  from "@/services/authentication";
+import { inject } from 'vue'
 
-const auth = new authentication();
+
 
 export default {
   name: "Header",
@@ -79,7 +79,8 @@ export default {
       hover: false,
       username: "",
       role: "",
-    };
+      auth: inject('authentication'),
+    }
   },
   setup() {
     return {
@@ -93,16 +94,16 @@ export default {
   },
   methods: {
     logout() {
-      auth.logout();
+      this.auth.logout();
     },
     scanQRCode() {
       this.$router.push({ name: "ScanPassport" });
     },
   },
   mounted() {
-    if (auth.isUserAuthenticated){
-      this.username = auth.getUserName();
-      this.role = auth.getRole();
+    if (this.auth.isUserAuthenticated){
+      this.username = this.auth.getUserName();
+      this.role = this.auth.getRole();
     }
   },
   props: {

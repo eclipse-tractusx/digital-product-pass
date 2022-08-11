@@ -1,25 +1,46 @@
-import { KEYCLOAK, REDIRECT_URI } from "@/services/service.const"
+import { REDIRECT_URI, INIT_OPTIONS } from "@/services/service.const"
+import Keycloak from 'keycloak-js'
+
 
 export default class authentication {
 
-    getKeycloakInstance() {
-        //TODO
+    keycloak;
+    constructor(){
+        this.keycloak = new Keycloak(INIT_OPTIONS)
+    }
+    keycloakInit(app){
+        this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
+            if (!auth) {
+                window.location.reload();
+            }
+            else {
+                app.mount('#app')
+            }
+            //Token Refresh
+            setInterval(() => {
+            this.updateToken(60)
+            }, 60000)
+        
+        }).catch((e) => {
+            console.log(e)
+            console.log('Login Failure')
+        });
     }
     getAccessToken() {
-        return KEYCLOAK.token;
+        return  this.keycloak.token;
     }
 
     getRefreshedToken() {
-        return KEYCLOAK.refreshToken;
+        return  this.keycloak.refreshToken;
     }
 
     updateToken(minimumValidity) {
-        KEYCLOAK.updateToken(minimumValidity).then((refreshed) => {
+        this.keycloak.updateToken(minimumValidity).then((refreshed) => {
             if (refreshed) {
                 console.info('Token refreshed' + refreshed);
             } else {
                 console.warn('Token not refreshed, valid for '
-                    + Math.round(KEYCLOAK.tokenParsed.exp + KEYCLOAK.timeSkew - new Date().getTime() / 1000) + ' seconds');
+                    + Math.round( this.keycloak.tokenParsed.exp +  this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
             }
         }).catch(() => {
             console.error('Failed to refresh token');
@@ -27,26 +48,25 @@ export default class authentication {
     }
 
     isUserAuthenticated() {
-        return KEYCLOAK.authenticated;
+        return  this.keycloak.authenticated;
     }
     getClientId() {
-        return KEYCLOAK.clientId;
+        return  this.keycloak.clientId;
     }
     decodeAccessToken() {
-        return JSON.parse(window.atob(KEYCLOAK.token.split(".")[1]));
+        return JSON.parse(window.atob( this.keycloak.token.split(".")[1]));
     }
     getUserName() {
         return this.decodeAccessToken().preferred_username;
     }
     getRole() {
-        let clientId = this.getClientId();
-        let clientRoles = this.decodeAccessToken().resource_access[clientId].roles;
+        let clientRoles = this.decodeAccessToken().companyRole;
         return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }
     logout() {
         var logoutOptions = { redirectUri: REDIRECT_URI };
 
-        KEYCLOAK.logout(logoutOptions).then((success) => {
+        this.keycloak.logout(logoutOptions).then((success) => {
             console.log("--> log: logout success ", success);
         }).catch((error) => {
             console.log("--> log: logout error ", error);

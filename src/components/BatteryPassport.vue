@@ -47,9 +47,7 @@
 <script type="text/jsx">
 import Header from '@/components/Header.vue'
 import Spinner from "@/components/Spinner.vue";
-import authentication from "@/services/authentication";
-
-const auth = new authentication();
+import { inject } from 'vue'
 
 let listBatteryProviders = require('../assets/providers.json');
 
@@ -67,11 +65,11 @@ export default {
   },
 
   mounted() {
-    if (auth.isUserAuthenticated) {
+    if (this.auth.isUserAuthenticated) {
 
       // User has an active session and using QR code feature
-      let user = auth.getUserName();
-      let role = auth.getRole();
+      let user = this.auth.getUserName();
+      let role = this.auth.getRole();
       console.log("CurrentUser: ", user, " role: ", role);
       // check query params for QR code scanning
       this.selectedProvider = this.$route.query.provider
@@ -92,6 +90,7 @@ export default {
   },
   data() {
     return {
+      auth: inject('authentication'),
       fields: [
         {
           key: 'serial_number',
@@ -161,8 +160,7 @@ export default {
   methods: {
 
     getContractOfferByLoggedInRole: function () {
-      let user = localStorage.getItem("user-info")
-      let role = JSON.parse(user).role
+      let role = this.auth.getRole();
       const offer = this.provider.contractOffers.filter(h => h.includes(role.toLowerCase()));
       this.provider.contractOffers = offer
       // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get emplty value.

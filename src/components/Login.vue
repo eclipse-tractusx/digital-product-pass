@@ -72,12 +72,7 @@ import {MOCK_AUTH_URL} from "@/services/service.const";
 
 export default {
   name: "LoginPage",
-  data() {
-    return {
-      email: "",
-      password: "",
-    };
-  },
+
   components: {
 CatenaLogo,
 LogoBG
@@ -91,7 +86,7 @@ LogoBG
   methods: {
     async login() {
 
-      let result = await axios.get(`${MOCK_AUTH_URL}/users?email=${this.email}&password=${this.password}`);
+      let result = await axios.get(`${MOCK_AUTH_URL}/users?email=${this.$store.state.email}&password=${this.$store.state.password}`);
       if (result.status === 200 && result.data.length > 0) {
 
         //alert("login successful..!")
@@ -110,6 +105,22 @@ LogoBG
       }
     },
   },
+  computed: {
+email: {
+
+  set(newEmail) {
+this.$store.commit('setEmail', newEmail)
+  }
+},
+password: {
+
+  set(newPassword) {
+this.$store.commit('setPassword', newPassword)
+  }
+},
+
+
+},
   mounted() {
     let user = localStorage.getItem("user-info");
     if (user) {

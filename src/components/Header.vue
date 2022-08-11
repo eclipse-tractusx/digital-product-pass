@@ -22,7 +22,7 @@
                 <img :src="Profile" alt="profile" class="menu-profile" />
                 <!--TODO: Profile page onClick-->
                 <span class="profile-text">
-                  {{ username }}
+                  {{ $store.state.email }}
                   <p>Manage your account</p>
                 </span>
               </div>
@@ -74,8 +74,6 @@ export default {
   data() {
     return {
       hover: false,
-      username: "",
-      role: "",
     };
   },
   setup() {
@@ -98,11 +96,7 @@ export default {
       this.$router.push({ name: "ScanPassport" });
     },
   },
-  mounted() {
-    let user = localStorage.getItem("user-info");
-    this.username = JSON.parse(user).email;
-    this.role = JSON.parse(user).role;
-  },
+
   props: {
     batteryId: {},
   },

@@ -2,80 +2,219 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-namespace: product-material-pass
+# replicaCount: 1
 
-image:
-  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.pi4.s4
+# image:
+#   repository: nginx
+#   pullPolicy: IfNotPresent
+#   # Overrides the image tag whose default is the chart appVersion.
+#   tag: ""
 
-imagePullSecrets: []
-nameOverride: "edc-consumer"
-fullnameOverride: "edc-consumer"
+# imagePullSecrets: []
+# nameOverride: ""
+# fullnameOverride: ""
 
-# persistent volume claim
-volumes:
-  - name: data
-    persistentVolumeClaim:
-      claimName: edc-pvc
+# serviceAccount:
+#   # Specifies whether a service account should be created
+#   create: true
+#   # Annotations to add to the service account
+#   annotations: {}
+#   # The name of the service account to use.
+#   # If not set and create is true, a name is generated using the fullname template
+#   name: ""
 
-# volume mounted inside container
-volumeMounts:
-  - name: data
-    mountPath: /app/samples/04.0-file-transfer/data/
+# podAnnotations: {}
 
-service:
-  type: ClusterIP
-  ports:
-    - name: http
-      port: 9191
-      protocol: TCP
-      targetPort: http
-    - name: http-ids
-      port: 9292
-      protocol: TCP
-      targetPort: http-ids
-    - name: http-data
-      port: 9192
-      protocol: TCP
-      targetPort: http-data
+# podSecurityContext: {}
+#   # fsGroup: 2000
 
-ingress:
+# securityContext: {}
+#   # capabilities:
+#   #   drop:
+#   #   - ALL
+#   # readOnlyRootFilesystem: true
+#   # runAsNonRoot: true
+#   # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+# ingress:
+#   enabled: false
+#   className: ""
+#   annotations: {}
+#     # kubernetes.io/ingress.class: nginx
+#     # kubernetes.io/tls-acme: "true"
+#   hosts:
+#     - host: chart-example.local
+#       paths:
+#         - path: /
+#           pathType: ImplementationSpecific
+#   tls: []
+#   #  - secretName: chart-example-tls
+#   #    hosts:
+#   #      - chart-example.local
+
+# resources: {}
+#   # We usually recommend not to specify default resources and to leave this as a conscious
+#   # choice for the user. This also increases chances charts run on environments with little
+#   # resources, such as Minikube. If you do want to specify resources, uncomment the following
+#   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+#   # limits:
+#   #   cpu: 100m
+#   #   memory: 128Mi
+#   # requests:
+#   #   cpu: 100m
+#   #   memory: 128Mi
+
+# autoscaling:
+#   enabled: false
+#   minReplicas: 1
+#   maxReplicas: 100
+#   targetCPUUtilizationPercentage: 80
+#   # targetMemoryUtilizationPercentage: 80
+
+# nodeSelector: {}
+
+# tolerations: []
+
+# affinity: {}
+
+
+# backend-application:
+#   enabled: true
+#   fullnameOverride: "backend-application"
+#   service:
+#     port: 80
+postgresql:
   enabled: true
-  #className: ""
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-  hosts:
-    - host: materialpass.int.demo.catena-x.net
-      paths:
-        - path: /consumer(/|$)(.*)
-          pathType: Prefix
-  tls:
-    - secretName: tls-secret
-      hosts:
-        - materialpass.int.demo.catena-x.net
+  fullnameOverride: "postgresql"
+  auth:
+    password: &psqlPassword "psql_password"
+    username: &psqlUsername "postgresql_sandbox_user"
+    database: &psqlDatabase "edc"
+dataplane:
+  enabled: true
+  fullnameOverride: "edc-dataplane"
+  image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
+    tag: 0.0.6
+  envSecretName: "data-secret"
+  edc:
+    endpoints:
+      public:
+        port: 8185
+        path: /api/public
+  opentelemetry:
+    properties: |-
+      otel.javaagent.enabled=false
+      otel.javaagent.debug=false
+  env:
+    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    #############
+    ## GENERAL ##
+    #############
 
-nodeSelector: {}
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane/data-plane-api
+    EDC_CONTROLPLANE_VALIDATION-ENDPOINT: http://edc-controlplane:8182/validation/token
 
-tolerations: []
+    ###############
+    ## KEY VAULT ##
+    ###############
 
-affinity: {}
+    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
+    EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
+    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5   
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
+    edc.vault.hashicorp.health.check.standby.ok: "true"
+    
+controlplane:
+  enabled: true
+  fullnameOverride: "edc-controlplane"
+  service:
+    type: NodePort
+  envSecretName: "control-secret"
+  image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
+    tag: 0.0.6
+    pullPolicy: IfNotPresent
+  opentelemetry:
+    properties: |-
+      otel.javaagent.enabled=false
+      otel.javaagent.debug=false
+  env:
+    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
+
+    ########################
+    ## DAPS CONFIGURATION ##
+    ########################
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/iam/oauth2/oauth2-core
+    EDC_OAUTH_CLIENT_ID: 0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
+    EDC_OAUTH_PROVIDER_JWKS_URL: "https://daps1.int.demo.catena-x.net/.well-known/jwks.json"
+    EDC_OAUTH_TOKEN_URL: "http://daps1.int.demo.catena-x.net/token"
+    EDC_OAUTH_PRIVATE_KEY_ALIAS: ids-daps_key
+    EDC_OAUTH_PUBLIC_KEY_ALIAS: ids-daps_crt
+    EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
+
+    #############
+    ## GENERAL ##
+    #############
+    IDS_WEBHOOK_ADDRESS: http://edc-controlplane:8282
+    EDC_IDS_ENDPOINT: http://edc-controlplane:8282/api/v1/ids
+    EDC_IDS_DESCRIPTION: "Consumer Control Plane"
+
+    ################
+    ## POSTGRESQL ##
+    ################
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/asset-index-sql
+    EDC_DATASOURCE_ASSET_NAME: asset
+    EDC_DATASOURCE_ASSET_USER: *psqlUsername
+    EDC_DATASOURCE_ASSET_URL: &PsqlConStr "jdbc:postgresql://postgresql:5432/edc"
+    
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-definition-store-sql
+    EDC_DATASOURCE_CONTRACTDEFINITION_NAME: contractdefinition
+    EDC_DATASOURCE_CONTRACTDEFINITION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTDEFINITION_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-negotiation-store-sql
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_NAME: contractnegotiation
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/policy-store-sql
+    EDC_DATASOURCE_POLICY_NAME: policy
+    EDC_DATASOURCE_POLICY_USER: *psqlUsername
+    EDC_DATASOURCE_POLICY_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/transfer-process-store-sql
+    EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
+    EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
+    EDC_DATASOURCE_TRANSFERPROCESS_URL: *PsqlConStr
+
+    ################
+    ## DATA PLANE ##
+    ################
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane-transfer
+    EDC_TRANSFER_PROXY_ENDPOINT: http://edc-dataplane:8185/api/public
+    # EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: my-sokrates-daps-key # for simplicity this example re-uses the DAPS keys.
+    # EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: my-sokrates-daps-crt # for simplicity this example re-uses the DAPS keys.
+    EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: ids-daps_key
+    EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: ids-daps_crt
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/http-receiver
+    EDC_RECEIVER_HTTP_ENDPOINT: http://backend-application
+
+    ###############
+    ## KEY VAULT ##
+    ###############
+
+    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
+    EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
+    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
+    edc.vault.hashicorp.health.check.standby.ok: "true"

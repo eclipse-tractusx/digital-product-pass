@@ -22,3 +22,28 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+dependencies:
+  # SOKRATES CONNECTOR
+  - name: edc-controlplane
+    version: ">=0.0.1"
+    #repository: "file://../../../../../../../deployment/helm/edc-controlplane"
+    repository: "https://catenax-ng.github.io/product-edc/"
+    alias: controlplane
+    condition: controlplane.enabled
+  - name: edc-dataplane
+    version: ">=0.0.1"
+    #repository: "file://../../../../../../../deployment/helm/edc-dataplane"
+    repository: "https://catenax-ng.github.io/product-edc/"
+    alias: dataplane
+    condition: dataplane.enabled
+  # - name: backend-application
+  #   version: ">=0.0.1"
+  #   repository: "file://../backend-application"
+  #   alias: backend-application
+  #   condition: backend-application.enabled
+  - name: postgresql
+    version: 11.2.4
+    repository: https://charts.bitnami.com/bitnami
+    alias: postgresql
+    condition: postgresql.enabled

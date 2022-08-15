@@ -1,92 +1,3 @@
-# Default values for edc-consumer.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-# replicaCount: 1
-
-# image:
-#   repository: nginx
-#   pullPolicy: IfNotPresent
-#   # Overrides the image tag whose default is the chart appVersion.
-#   tag: ""
-
-# imagePullSecrets: []
-# nameOverride: ""
-# fullnameOverride: ""
-
-# serviceAccount:
-#   # Specifies whether a service account should be created
-#   create: true
-#   # Annotations to add to the service account
-#   annotations: {}
-#   # The name of the service account to use.
-#   # If not set and create is true, a name is generated using the fullname template
-#   name: ""
-
-# podAnnotations: {}
-
-# podSecurityContext: {}
-#   # fsGroup: 2000
-
-# securityContext: {}
-#   # capabilities:
-#   #   drop:
-#   #   - ALL
-#   # readOnlyRootFilesystem: true
-#   # runAsNonRoot: true
-#   # runAsUser: 1000
-
-# service:
-#   type: ClusterIP
-#   port: 80
-
-# ingress:
-#   enabled: false
-#   className: ""
-#   annotations: {}
-#     # kubernetes.io/ingress.class: nginx
-#     # kubernetes.io/tls-acme: "true"
-#   hosts:
-#     - host: chart-example.local
-#       paths:
-#         - path: /
-#           pathType: ImplementationSpecific
-#   tls: []
-#   #  - secretName: chart-example-tls
-#   #    hosts:
-#   #      - chart-example.local
-
-# resources: {}
-#   # We usually recommend not to specify default resources and to leave this as a conscious
-#   # choice for the user. This also increases chances charts run on environments with little
-#   # resources, such as Minikube. If you do want to specify resources, uncomment the following
-#   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-#   # limits:
-#   #   cpu: 100m
-#   #   memory: 128Mi
-#   # requests:
-#   #   cpu: 100m
-#   #   memory: 128Mi
-
-# autoscaling:
-#   enabled: false
-#   minReplicas: 1
-#   maxReplicas: 100
-#   targetCPUUtilizationPercentage: 80
-#   # targetMemoryUtilizationPercentage: 80
-
-# nodeSelector: {}
-
-# tolerations: []
-
-# affinity: {}
-
-
-# backend-application:
-#   enabled: true
-#   fullnameOverride: "backend-application"
-#   service:
-#     port: 80
 postgresql:
   enabled: true
   fullnameOverride: "postgresql"
@@ -101,30 +12,55 @@ dataplane:
     repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
     tag: 0.0.6
   envSecretName: "data-secret"
+  ## EDC endpoints exposed by the data-plane
+  edc:
+    endpoints:
+      ## Default api exposing health checks etc
+      default:
+        # -- The network port, which the "default" api is going to be exposed by the container, pod and service
+        port: "8080"
+        # -- The path mapping the "default" api is going to be exposed by
+        path: /api
+      ## Public endpoint for data transfer
+      public:
+        # -- The network port, which the "public" api is going to be exposed by the container, pod and service
+        port: "8185"
+        # -- The path mapping the "public" api is going to be exposed by
+        path: /api/public
+      ## Control API
+      control:
+        # -- The network port, which the "control" api is going to be exposed by the container, pod and service
+        port: "9999"
+        # -- The path mapping the "control" api is going to be exposed by
+        path: /api/dataplane/control
+      ## Prometheus endpoint
+      metrics:
+        # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
+        port: "9090"
+        # -- The path mapping the prometheus metrics are going to be exposed at
+        path: /metrics
 
-  opentelemetry:
-    properties: |-
-      otel.javaagent.enabled=false
-      otel.javaagent.debug=false
-  env:
-    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
+  # edc:
+  #   endpoints:
+  #     public:
+  #       port: 8185
+  #       path: /api/public
 
-    #############
-    ## GENERAL ##
-    #############
+  livenessProbe:
+    # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+    enabled: true
 
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane/data-plane-api
-    EDC_CONTROLPLANE_VALIDATION-ENDPOINT: http://edc-controlplane:8182/validation/token
+  readinessProbe:
+    # -- Whether to enable kubernetes readiness-probes
+    enabled: true
 
-    ###############
-    ## KEY VAULT ##
-    ###############
-
-    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
-    EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
-    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5   
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
-    edc.vault.hashicorp.health.check.standby.ok: "true"
+  startupProbe:
+    # -- Whether to enable kubernetes startup-probes
+    enabled: true
+    # -- Minimum consecutive failures for the probe to be considered failed after having succeeded
+    failureThreshold: 12
+    # -- Number of seconds after the container has started before liveness probes are initiated.
+    initialDelaySeconds: 10
 
   serviceAccount:
     # -- Specifies whether a [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) should be created per release
@@ -169,55 +105,134 @@ dataplane:
     # -- The container's process will run with the specified uid
     runAsUser: 10001
 
-  livenessProbe:
-    # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-    enabled: true
-
-  readinessProbe:
-    # -- Whether to enable kubernetes readiness-probes
-    enabled: true
-
-  startupProbe:
-    # -- Whether to enable kubernetes startup-probes
-    enabled: true
-    # -- Minimum consecutive failures for the probe to be considered failed after having succeeded
-    failureThreshold: 12
-    # -- Number of seconds after the container has started before liveness probes are initiated.
-    initialDelaySeconds: 10
-
-  ## EDC endpoints exposed by the data-plane
-  edc:
-    endpoints:
-      ## Default api exposing health checks etc
-      default:
-        # -- The network port, which the "default" api is going to be exposed by the container, pod and service
-        port: "8080"
-        # -- The path mapping the "default" api is going to be exposed by
-        path: /api
-      ## Public endpoint for data transfer
-      public:
-        # -- The network port, which the "public" api is going to be exposed by the container, pod and service
-        port: "8185"
-        # -- The path mapping the "public" api is going to be exposed by
-        path: /api/public
-      ## Control API
-      control:
-        # -- The network port, which the "control" api is going to be exposed by the container, pod and service
-        port: "9999"
-        # -- The path mapping the "control" api is going to be exposed by
-        path: /api/dataplane/control
-      ## Prometheus endpoint
-      metrics:
-        # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
-        port: "9090"
-        # -- The path mapping the prometheus metrics are going to be exposed at
-        path: /metrics
-
   service:
     # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
     type: ClusterIP
+  opentelemetry:
+    properties: |-
+      otel.javaagent.enabled=false
+      otel.javaagent.debug=false
+  env:
+    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
 
-  ## Ingress declaration to expose the network service.
+    #############
+    ## GENERAL ##
+    #############
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane/data-plane-api
+    EDC_CONTROLPLANE_VALIDATION-ENDPOINT: http://edc-controlplane:8182/validation/token
+
+    ###############
+    ## KEY VAULT ##
+    ###############
+
+    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
+    # doesn't identify hashicorp vault properties in configuration
+    EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
+    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
+    edc.vault.hashicorp.health.check.standby.ok: "true"
+
+  # configuration:
+  #     # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+  #     properties: |-
+  #       # edc.atomikos.checkpoint.interval=
+  #       # edc.atomikos.directory=
+  #       # edc.atomikos.logging=
+  #       # edc.atomikos.threaded2pc=
+  #       # edc.atomikos.timeout=
+  #       # edc.aws.access.key=
+  #       # edc.aws.provision.retry.retries.max=
+  #       # edc.aws.provision.role.duration.session.max=
+  #       # edc.aws.secret.access.key=
+  #       # edc.blobstore.endpoint=
+  #       edc.controlplane.validation-endpoint=http://edc-controlplane:8182/validation/token
+  #       # edc.core.retry.backoff.max=
+  #       # edc.core.retry.backoff.min=
+  #       # edc.core.retry.retries.max=
+  #       # edc.core.system.health.check.liveness-period=
+  #       # edc.core.system.health.check.readiness-period=
+  #       # edc.core.system.health.check.startup-period=
+  #       # edc.core.system.health.check.threadpool-size=
+  #       # edc.dataplane.queue.capacity=
+  #       # edc.dataplane.wait=
+  #       # edc.dataplane.workers=
+  #       # edc.datasource.asset.name="default"
+  #       # edc.datasource.contractdefinition.name="default"
+  #       # edc.datasource.contractnegotiation.name="default"
+  #       # edc.datasource.policy.name="default"
+  #       # edc.datasource.transferprocess.name="default"
+  #       # edc.datasource.default.pool.maxIdleConnections=
+  #       # edc.datasource.default.pool.maxTotalConnections=
+  #       # edc.datasource.default.pool.minIdleConnections=
+  #       # edc.datasource.default.pool.testConnectionOnBorrow=
+  #       # edc.datasource.default.pool.testConnectionOnCreate=
+  #       # edc.datasource.default.pool.testConnectionOnReturn=
+  #       # edc.datasource.default.pool.testConnectionWhileIdle=
+  #       # edc.datasource.default.pool.testQuery=
+  #       # edc.datasource.default.url=
+  #       # edc.datasource.default.user=
+  #       # edc.datasource.default.password=
+  #       # edc.dpf.selector.url=
+  #       # edc.events.topic.endpoint=
+  #       # edc.events.topic.name=
+  #       # edc.fs.config=
+  #       # edc.hostname=
+  #       # edc.identity.did.url=
+  #       # edc.ids.catalog.id=
+  #       # edc.ids.curator=
+  #       # edc.ids.description=
+  #       # edc.ids.endpoint=
+  #       # edc.ids.id=
+  #       # edc.ids.maintainer=
+  #       # edc.ids.security.profile=
+  #       # edc.ids.title=
+  #       # edc.ids.validation.referringconnector=
+  #       # edc.ion.crawler.did-type=
+  #       # edc.ion.crawler.interval-minutes=
+  #       # edc.ion.crawler.ion.url=
+  #       # edc.metrics.enabled=
+  #       # edc.metrics.executor.enabled=
+  #       # edc.metrics.jersey.enabled=
+  #       # edc.metrics.jetty.enabled=
+  #       # edc.metrics.okhttp.enabled=
+  #       # edc.metrics.system.enabled=
+  #       # edc.negotiation.consumer.state-machine.batch-size=
+  #       # edc.negotiation.provider.state-machine.batch-size=
+  #       edc.oauth.client.id=0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
+  #       edc.oauth.private.key.alias=ids-daps_key
+  #       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+  #       # edc.oauth.provider.jwks.refresh=
+  #       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+  #       edc.oauth.public.key.alias=ids-daps_crt
+  #       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+  #       # edc.oauth.validation.nbf.leeway=
+  #       # edc.receiver.http.auth-code=
+  #       # edc.receiver.http.auth-key=
+  #       # edc.receiver.http.endpoint=
+  #       # edc.transfer.functions.check.endpoint=
+  #       # edc.transfer.functions.enabled.protocols=
+  #       # edc.transfer.functions.transfer.endpoint=
+  #       # edc.transfer-process-store.database.name=
+  #       # edc.transfer.state-machine.batch-size=
+  #       # edc.vault=
+  #       # edc.vault.certificate=
+  #       # edc.vault.clientid=
+  #       # edc.vault.clientsecret=
+  #       # edc.vault.name=
+  #       # edc.vault.tenantid=
+  #       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+  #       edc.vault.hashicorp.token=s.I7Hxwn25D9YpzFgbC8WEKAa5
+  #       # edc.vault.hashicorp.timeout.seconds=
+  #       edc.vault.hashicorp.api.secret.path=/v1/material-pass
+  #       edc.vault.hashicorp.health.check.standby.ok=true
+  #       # edc.webdid.doh.url=
+  #       # edc.web.rest.cors.enabled=
+  #       # edc.web.rest.cors.headers=
+  #       # edc.web.rest.cors.methods=
+  #       # edc.web.rest.cors.origins=
+
+  # Ingress declaration to expose the network service.
   ingresses:
     ## Public / Internet facing Ingress
     - enabled: true
@@ -248,252 +263,13 @@ dataplane:
       java.util.logging.ConsoleHandler.level=ALL
       java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
 
-  configuration:
-    # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
-    properties: |-
-      # edc.atomikos.checkpoint.interval=
-      # edc.atomikos.directory=
-      # edc.atomikos.logging=
-      # edc.atomikos.threaded2pc=
-      # edc.atomikos.timeout=
-      # edc.aws.access.key=
-      # edc.aws.provision.retry.retries.max=
-      # edc.aws.provision.role.duration.session.max=
-      # edc.aws.secret.access.key=
-      # edc.blobstore.endpoint=
-      # edc.controlplane.validation-endpoint=
-      # edc.core.retry.backoff.max=
-      # edc.core.retry.backoff.min=
-      # edc.core.retry.retries.max=
-      # edc.core.system.health.check.liveness-period=
-      # edc.core.system.health.check.readiness-period=
-      # edc.core.system.health.check.startup-period=
-      # edc.core.system.health.check.threadpool-size=
-      # edc.dataplane.queue.capacity=
-      # edc.dataplane.wait=
-      # edc.dataplane.workers=
-      # edc.datasource.asset.name="default"
-      # edc.datasource.contractdefinition.name="default"
-      # edc.datasource.contractnegotiation.name="default"
-      # edc.datasource.policy.name="default"
-      # edc.datasource.transferprocess.name="default"
-      # edc.datasource.default.pool.maxIdleConnections=
-      # edc.datasource.default.pool.maxTotalConnections=
-      # edc.datasource.default.pool.minIdleConnections=
-      # edc.datasource.default.pool.testConnectionOnBorrow=
-      # edc.datasource.default.pool.testConnectionOnCreate=
-      # edc.datasource.default.pool.testConnectionOnReturn=
-      # edc.datasource.default.pool.testConnectionWhileIdle=
-      # edc.datasource.default.pool.testQuery=
-      # edc.datasource.default.url=
-      # edc.datasource.default.user=
-      # edc.datasource.default.password=
-      # edc.dpf.selector.url=
-      # edc.events.topic.endpoint=
-      # edc.events.topic.name=
-      # edc.fs.config=
-      # edc.hostname=
-      # edc.identity.did.url=
-      # edc.ids.catalog.id=
-      # edc.ids.curator=
-      # edc.ids.description=
-      # edc.ids.endpoint=
-      # edc.ids.id=
-      # edc.ids.maintainer=
-      # edc.ids.security.profile=
-      # edc.ids.title=
-      # edc.ids.validation.referringconnector=
-      # edc.ion.crawler.did-type=
-      # edc.ion.crawler.interval-minutes=
-      # edc.ion.crawler.ion.url=
-      # edc.metrics.enabled=
-      # edc.metrics.executor.enabled=
-      # edc.metrics.jersey.enabled=
-      # edc.metrics.jetty.enabled=
-      # edc.metrics.okhttp.enabled=
-      # edc.metrics.system.enabled=
-      # edc.negotiation.consumer.state-machine.batch-size=
-      # edc.negotiation.provider.state-machine.batch-size=
-      # edc.oauth.client.id=
-      # edc.oauth.private.key.alias=
-      # edc.oauth.provider.audience=
-      # edc.oauth.provider.jwks.refresh=
-      # edc.oauth.provider.jwks.url=
-      # edc.oauth.public.key.alias=
-      # edc.oauth.token.url=
-      # edc.oauth.validation.nbf.leeway=
-      # edc.receiver.http.auth-code=
-      # edc.receiver.http.auth-key=
-      # edc.receiver.http.endpoint=
-      # edc.transfer.functions.check.endpoint=
-      # edc.transfer.functions.enabled.protocols=
-      # edc.transfer.functions.transfer.endpoint=
-      # edc.transfer-process-store.database.name=
-      # edc.transfer.state-machine.batch-size=
-      # edc.vault=
-      # edc.vault.certificate=
-      # edc.vault.clientid=
-      # edc.vault.clientsecret=
-      # edc.vault.name=
-      # edc.vault.tenantid=
-      # edc.vault.hashicorp.url=
-      # edc.vault.hashicorp.token=
-      # edc.vault.hashicorp.timeout.seconds=
-      # edc.webdid.doh.url=
-      # edc.web.rest.cors.enabled=
-      # edc.web.rest.cors.headers=
-      # edc.web.rest.cors.methods=
-      # edc.web.rest.cors.origins=
 
 controlplane:
   enabled: true
   fullnameOverride: "edc-controlplane"
-  # service:
-  #   type: NodePort
+  service:
+    type: NodePort
   envSecretName: "control-secret"
-  image:
-    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
-    tag: 0.0.6
-    pullPolicy: IfNotPresent
-  opentelemetry:
-    properties: |-
-      otel.javaagent.enabled=false
-      otel.javaagent.debug=false
-  env:
-    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-
-    ########################
-    ## DAPS CONFIGURATION ##
-    ########################
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/iam/oauth2/oauth2-core
-    EDC_OAUTH_CLIENT_ID: 0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
-    EDC_OAUTH_PROVIDER_JWKS_URL: "https://daps1.int.demo.catena-x.net/.well-known/jwks.json"
-    EDC_OAUTH_TOKEN_URL: "http://daps1.int.demo.catena-x.net/token"
-    EDC_OAUTH_PRIVATE_KEY_ALIAS: ids-daps_key
-    EDC_OAUTH_PUBLIC_KEY_ALIAS: ids-daps_crt
-    EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
-
-    #############
-    ## GENERAL ##
-    #############
-    IDS_WEBHOOK_ADDRESS: http://edc-controlplane:8282
-    EDC_IDS_ENDPOINT: http://edc-controlplane:8282/api/v1/ids
-    EDC_IDS_DESCRIPTION: "Consumer Control Plane"
-
-    ################
-    ## POSTGRESQL ##
-    ################
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/asset-index-sql
-    EDC_DATASOURCE_ASSET_NAME: asset
-    EDC_DATASOURCE_ASSET_USER: *psqlUsername
-    EDC_DATASOURCE_ASSET_URL: &PsqlConStr "jdbc:postgresql://postgresql:5432/edc"
-    
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-definition-store-sql
-    EDC_DATASOURCE_CONTRACTDEFINITION_NAME: contractdefinition
-    EDC_DATASOURCE_CONTRACTDEFINITION_USER: *psqlUsername
-    EDC_DATASOURCE_CONTRACTDEFINITION_URL: *PsqlConStr
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-negotiation-store-sql
-    EDC_DATASOURCE_CONTRACTNEGOTIATION_NAME: contractnegotiation
-    EDC_DATASOURCE_CONTRACTNEGOTIATION_USER: *psqlUsername
-    EDC_DATASOURCE_CONTRACTNEGOTIATION_URL: *PsqlConStr
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/policy-store-sql
-    EDC_DATASOURCE_POLICY_NAME: policy
-    EDC_DATASOURCE_POLICY_USER: *psqlUsername
-    EDC_DATASOURCE_POLICY_URL: *PsqlConStr
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/transfer-process-store-sql
-    EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
-    EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
-    EDC_DATASOURCE_TRANSFERPROCESS_URL: *PsqlConStr
-
-    ################
-    ## DATA PLANE ##
-    ################
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane-transfer
-    EDC_TRANSFER_PROXY_ENDPOINT: http://edc-dataplane:8185/api/public
-    # EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: my-sokrates-daps-key # for simplicity this example re-uses the DAPS keys.
-    # EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: my-sokrates-daps-crt # for simplicity this example re-uses the DAPS keys.
-    EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: ids-daps_key
-    EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: ids-daps_crt
-
-    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/http-receiver
-    EDC_RECEIVER_HTTP_ENDPOINT: http://backend-application
-
-    ###############
-    ## KEY VAULT ##
-    ###############
-
-    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
-    EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
-    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
-    edc.vault.hashicorp.health.check.standby.ok: "true"
-
-  serviceAccount:
-    # -- Specifies whether a [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) should be created per release
-    create: true
-    # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) to add to the service account
-    annotations: {}
-    # -- The name of the service account to use. If not set and create is true, a name is generated using the release's fullname template
-    name: ""
-
-  # -- Whether to [automount kubernetes API credentials](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server) into the pod
-  automountServiceAccountToken: false
-
-  # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) added to deployed [pods](https://kubernetes.io/docs/concepts/workloads/pods/)
-  podAnnotations: {}
-
-  # The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
-  podSecurityContext:
-    seccompProfile:
-      # -- Restrict a Container's Syscalls with seccomp
-      type: RuntimeDefault
-    # -- Runs all processes within a pod with a special uid
-    runAsUser: 10001
-    # -- Processes within a pod will belong to this guid
-    runAsGroup: 10001
-    # -- The owner for volumes and any files created within volumes will belong to this guid
-    fsGroup: 10001
-
-  # The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
-  securityContext:
-    capabilities:
-      # -- Specifies which capabilities to drop to reduce syscall attack surface
-      drop:
-        - ALL
-      # -- Specifies which capabilities to add to issue specialized syscalls
-      add: []
-    # -- Whether the root filesystem is mounted in read-only mode
-    readOnlyRootFilesystem: true
-    # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
-    allowPrivilegeEscalation: false
-    # -- Requires the container to run without root privileges
-    runAsNonRoot: true
-    # -- The container's process will run with the specified uid
-    runAsUser: 10001
-
-  livenessProbe:
-    # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-    enabled: true
-
-  readinessProbe:
-    # -- Whether to enable kubernetes readiness-probes
-    enabled: true
-
-  startupProbe:
-    # -- Whether to enable kubernetes startup-probes
-    enabled: true
-    # -- Minimum consecutive failures for the probe to be considered failed after having succeeded
-    failureThreshold: 12
-    # -- Number of seconds after the container has started before liveness probes are initiated.
-    initialDelaySeconds: 10
-
-  ## EDC endpoints exposed by the control-plane
   edc:
     endpoints:
       ## Default api exposing health checks etc
@@ -532,18 +308,222 @@ controlplane:
         port: "9090"
         # -- The path mapping the prometheus metrics are going to be exposed at
         path: /metrics
+      public:
+        port: 8185
+        path: /api/public
+  image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
+    tag: 0.0.6
+    pullPolicy: IfNotPresent
+  opentelemetry:
+    properties: |-
+      otel.javaagent.enabled=false
+      otel.javaagent.debug=false
+  # env: {}
+  env:
+    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
 
-  service:
-    # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
-    type: ClusterIP
+  #   ########################
+  #   ## DAPS CONFIGURATION ##
+  #   ########################
 
-  ## Ingress declaration to expose the network service.
+  #   # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/iam/oauth2/oauth2-core
+  #   EDC_OAUTH_CLIENT_ID: 0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
+  #   EDC_OAUTH_PROVIDER_JWKS_URL: "https://daps1.int.demo.catena-x.net/.well-known/jwks.json"
+  #   EDC_OAUTH_TOKEN_URL: "http://daps1.int.demo.catena-x.net/token"
+  #   EDC_OAUTH_PRIVATE_KEY_ALIAS: ids-daps_key
+  #   EDC_OAUTH_PUBLIC_KEY_ALIAS: ids-daps_crt
+  #   EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
+
+  #   #############
+  #   ## GENERAL ##
+  #   #############
+  #   IDS_WEBHOOK_ADDRESS: http://edc-controlplane:8282
+  #   EDC_IDS_ENDPOINT: http://edc-controlplane:8282/api/v1/ids
+  #   EDC_IDS_DESCRIPTION: "Consumer Control Plane"
+
+  #   ################
+  #   ## POSTGRESQL ##
+  #   ################
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/asset-index-sql
+    # reason to define datasource here: doesn't identify datasource properties in configuration
+    EDC_DATASOURCE_ASSET_NAME: asset
+    EDC_DATASOURCE_ASSET_USER: *psqlUsername
+    EDC_DATASOURCE_ASSET_URL: &PsqlConStr "jdbc:postgresql://postgresql:5432/edc"
+    
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-definition-store-sql
+    EDC_DATASOURCE_CONTRACTDEFINITION_NAME: contractdefinition
+    EDC_DATASOURCE_CONTRACTDEFINITION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTDEFINITION_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/contract-negotiation-store-sql
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_NAME: contractnegotiation
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/policy-store-sql
+    EDC_DATASOURCE_POLICY_NAME: policy
+    EDC_DATASOURCE_POLICY_USER: *psqlUsername
+    EDC_DATASOURCE_POLICY_URL: *PsqlConStr
+
+    # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/sql/transfer-process-store-sql
+    EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
+    EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
+    EDC_DATASOURCE_TRANSFERPROCESS_URL: *PsqlConStr
+
+  #   ################
+  #   ## DATA PLANE ##
+  #   ################
+
+  #   # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/data-plane-transfer
+  #   EDC_TRANSFER_PROXY_ENDPOINT: http://edc-dataplane:8185/api/public
+  #   # EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: my-sokrates-daps-key # for simplicity this example re-uses the DAPS keys.
+  #   # EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: my-sokrates-daps-crt # for simplicity this example re-uses the DAPS keys.
+  #   EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS: ids-daps_key
+  #   EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS: ids-daps_crt
+
+  #   # see extension https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/tree/main/extensions/http-receiver
+  #   EDC_RECEIVER_HTTP_ENDPOINT: http://backend-application
+
+  #   ###############
+  #   ## KEY VAULT ##
+  #   ###############
+
+  #   # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/hashicorp-vault
+  #   EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
+  #   EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
+  #   EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
+  #   edc.vault.hashicorp.health.check.standby.ok: "true"
+
+  configuration:
+    # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+    properties: |-
+      # edc.api.auth.key=
+      # edc.atomikos.checkpoint.interval=
+      # edc.atomikos.directory=
+      # edc.atomikos.logging=
+      # edc.atomikos.threaded2pc=
+      # edc.atomikos.timeout=
+      # edc.aws.access.key=
+      # edc.aws.provision.retry.retries.max=
+      # edc.aws.provision.role.duration.session.max=
+      # edc.aws.secret.access.key=
+      # edc.blobstore.endpoint=
+      # edc.controlplane.validation-endpoint=
+      # edc.core.retry.backoff.max=
+      # edc.core.retry.backoff.min=
+      # edc.core.retry.retries.max=
+      # edc.core.system.health.check.liveness-period=
+      # edc.core.system.health.check.readiness-period=
+      # edc.core.system.health.check.startup-period=
+      # edc.core.system.health.check.threadpool-size=
+      # edc.dataplane.queue.capacity=
+      # edc.dataplane.wait=
+      # edc.dataplane.workers=
+      edc.datasource.asset.name="asset"
+      edc.datasource.asset.user="postgresql_sandbox_user"
+      edc.datasource.asset.url="jdbc:postgresql://postgresql:5432/edc"
+      
+      edc.datasource.contractdefinition.name="contractdefinition"
+      edc.datasource.contractdefinition.user="postgresql_sandbox_user"
+      edc.datasource.contractdefinition.url="jdbc:postgresql://postgresql:5432/edc"
+
+      edc.datasource.contractnegotiation.name="contractnegotiation"
+      edc.datasource.contractnegotiation.user="postgresql_sandbox_user"
+      edc.datasource.contractnegotiation.url="jdbc:postgresql://postgresql:5432/edc"
+
+      edc.datasource.policy.name="policy"
+      edc.datasource.policy.user="postgresql_sandbox_user"
+      edc.datasource.policy.url="jdbc:postgresql://postgresql:5432/edc"
+
+      edc.datasource.transferprocess.name="transferprocess"
+      edc.datasource.transferprocess.user="postgresql_sandbox_user"
+      edc.datasource.transferprocess.url="jdbc:postgresql://postgresql:5432/edc"
+
+
+      # edc.datasource.default.pool.maxIdleConnections=
+      # edc.datasource.default.pool.maxTotalConnections=
+      # edc.datasource.default.pool.minIdleConnections=
+      # edc.datasource.default.pool.testConnectionOnBorrow=
+      # edc.datasource.default.pool.testConnectionOnCreate=
+      # edc.datasource.default.pool.testConnectionOnReturn=
+      # edc.datasource.default.pool.testConnectionWhileIdle=
+      # edc.datasource.default.pool.testQuery=
+      edc.datasource.default.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.default.user="postgresql_sandbox_user"
+      edc.datasource.default.password="psql_password"
+      # edc.dpf.selector.url=
+      # edc.events.topic.endpoint=
+      # edc.events.topic.name=
+      # edc.fs.config=
+      # edc.hostname=
+      # edc.identity.did.url=
+      # edc.ids.catalog.id=
+      # edc.ids.curator=
+      edc.ids.description="Consumer Control Plane"
+      edc.ids.endpoint=http://edc-controlplane:8282/api/v1/ids
+      # edc.ids.id=
+      # edc.ids.maintainer=
+      # edc.ids.security.profile=
+      # edc.ids.title=
+      # edc.ids.validation.referringconnector=
+      # edc.ion.crawler.did-type=
+      # edc.ion.crawler.interval-minutes=
+      # edc.ion.crawler.ion.url=
+      # edc.metrics.enabled=
+      # edc.metrics.executor.enabled=
+      # edc.metrics.jersey.enabled=
+      # edc.metrics.jetty.enabled=
+      # edc.metrics.okhttp.enabled=
+      # edc.metrics.system.enabled=
+      # edc.negotiation.consumer.state-machine.batch-size=
+      # edc.negotiation.provider.state-machine.batch-size=
+      edc.oauth.client.id=0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
+      edc.oauth.private.key.alias=ids-daps_key
+      edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+      # edc.oauth.provider.jwks.refresh=
+      edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+      edc.oauth.public.key.alias=ids-daps_crt
+      edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+      # edc.oauth.validation.nbf.leeway=
+      # edc.receiver.http.auth-code=
+      # edc.receiver.http.auth-key=
+      edc.receiver.http.endpoint=http://backend-application
+      edc.transfer.proxy.endpoint=http://edc-dataplane:8185/api/public
+      # edc.transfer.proxy.token.validity.seconds=
+      edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
+      edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt
+      # edc.transfer.functions.check.endpoint=
+      # edc.transfer.functions.enabled.protocols=
+      # edc.transfer.functions.transfer.endpoint=
+      # edc.transfer-process-store.database.name=
+      # edc.transfer.state-machine.batch-size=
+      # edc.vault=
+      # edc.vault.certificate=
+      # edc.vault.clientid=
+      # edc.vault.clientsecret=
+      # edc.vault.name=
+      # edc.vault.tenantid=
+      edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+      edc.vault.hashicorp.token=s.I7Hxwn25D9YpzFgbC8WEKAa5
+      edc.vault.hashicorp.api.secret.path=/v1/material-pass
+      edc.vault.hashicorp.health.check.standby.ok=true
+      # edc.vault.hashicorp.timeout.seconds=
+      # edc.webdid.doh.url=
+      # edc.web.rest.cors.enabled=
+      # edc.web.rest.cors.headers=
+      # edc.web.rest.cors.methods=
+      # edc.web.rest.cors.origins=
+      ids.webhook.address=http://edc-controlplane:8282
+
+  # Ingress declaration to expose the network service.
   ingresses:
     ## Public / Internet facing Ingress
     - enabled: true
       # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
       #hostname: "https://materialpass.int.demo.catena-x.net/consumer/"    
-      hostname: "edc-controlplane.local"
+      hostname: "https://materialpass.int.demo.catena-x.net/consumer/edc-controlplane.local"
       # -- Additional ingress annotations to add
       annotations: {}
       # -- EDC endpoints exposed by this ingress resource
@@ -591,104 +571,61 @@ controlplane:
       java.util.logging.ConsoleHandler.level=ALL
       java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
 
-  configuration:
-    # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
-    properties: |-
-      # edc.api.auth.key=
-      # edc.atomikos.checkpoint.interval=
-      # edc.atomikos.directory=
-      # edc.atomikos.logging=
-      # edc.atomikos.threaded2pc=
-      # edc.atomikos.timeout=
-      # edc.aws.access.key=
-      # edc.aws.provision.retry.retries.max=
-      # edc.aws.provision.role.duration.session.max=
-      # edc.aws.secret.access.key=
-      # edc.blobstore.endpoint=
-      # edc.controlplane.validation-endpoint=
-      # edc.core.retry.backoff.max=
-      # edc.core.retry.backoff.min=
-      # edc.core.retry.retries.max=
-      # edc.core.system.health.check.liveness-period=
-      # edc.core.system.health.check.readiness-period=
-      # edc.core.system.health.check.startup-period=
-      # edc.core.system.health.check.threadpool-size=
-      # edc.dataplane.queue.capacity=
-      # edc.dataplane.wait=
-      # edc.dataplane.workers=
-      # edc.datasource.asset.name="default"
-      # edc.datasource.contractdefinition.name="default"
-      # edc.datasource.contractnegotiation.name="default"
-      # edc.datasource.policy.name="default"
-      # edc.datasource.transferprocess.name="default"
-      # edc.datasource.default.pool.maxIdleConnections=
-      # edc.datasource.default.pool.maxTotalConnections=
-      # edc.datasource.default.pool.minIdleConnections=
-      # edc.datasource.default.pool.testConnectionOnBorrow=
-      # edc.datasource.default.pool.testConnectionOnCreate=
-      # edc.datasource.default.pool.testConnectionOnReturn=
-      # edc.datasource.default.pool.testConnectionWhileIdle=
-      # edc.datasource.default.pool.testQuery=
-      # edc.datasource.default.url=
-      # edc.datasource.default.user=
-      # edc.datasource.default.password=
-      # edc.dpf.selector.url=
-      # edc.events.topic.endpoint=
-      # edc.events.topic.name=
-      # edc.fs.config=
-      # edc.hostname=
-      # edc.identity.did.url=
-      # edc.ids.catalog.id=
-      # edc.ids.curator=
-      # edc.ids.description=
-      # edc.ids.endpoint=
-      # edc.ids.id=
-      # edc.ids.maintainer=
-      # edc.ids.security.profile=
-      # edc.ids.title=
-      # edc.ids.validation.referringconnector=
-      # edc.ion.crawler.did-type=
-      # edc.ion.crawler.interval-minutes=
-      # edc.ion.crawler.ion.url=
-      # edc.metrics.enabled=
-      # edc.metrics.executor.enabled=
-      # edc.metrics.jersey.enabled=
-      # edc.metrics.jetty.enabled=
-      # edc.metrics.okhttp.enabled=
-      # edc.metrics.system.enabled=
-      # edc.negotiation.consumer.state-machine.batch-size=
-      # edc.negotiation.provider.state-machine.batch-size=
-      # edc.oauth.client.id=
-      # edc.oauth.private.key.alias=
-      # edc.oauth.provider.audience=
-      # edc.oauth.provider.jwks.refresh=
-      # edc.oauth.provider.jwks.url=
-      # edc.oauth.public.key.alias=
-      # edc.oauth.token.url=
-      # edc.oauth.validation.nbf.leeway=
-      # edc.receiver.http.auth-code=
-      # edc.receiver.http.auth-key=
-      # edc.receiver.http.endpoint=
-      # edc.transfer.proxy.endpoint=
-      # edc.transfer.proxy.token.validity.seconds=
-      # edc.transfer.proxy.token.signer.privatekey.alias=
-      # edc.transfer.functions.check.endpoint=
-      # edc.transfer.functions.enabled.protocols=
-      # edc.transfer.functions.transfer.endpoint=
-      # edc.transfer-process-store.database.name=
-      # edc.transfer.state-machine.batch-size=
-      # edc.vault=
-      # edc.vault.certificate=
-      # edc.vault.clientid=
-      # edc.vault.clientsecret=
-      # edc.vault.name=
-      # edc.vault.tenantid=
-      # edc.vault.hashicorp.url=
-      # edc.vault.hashicorp.token=
-      # edc.vault.hashicorp.timeout.seconds=
-      # edc.webdid.doh.url=
-      # edc.web.rest.cors.enabled=
-      # edc.web.rest.cors.headers=
-      # edc.web.rest.cors.methods=
-      # edc.web.rest.cors.origins=
-      # ids.webhook.address=
+  livenessProbe:
+    # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+    enabled: true
+
+  readinessProbe:
+    # -- Whether to enable kubernetes readiness-probes
+    enabled: true
+
+  startupProbe:
+    # -- Whether to enable kubernetes startup-probes
+    enabled: true
+    # -- Minimum consecutive failures for the probe to be considered failed after having succeeded
+    failureThreshold: 12
+    # -- Number of seconds after the container has started before liveness probes are initiated.
+    initialDelaySeconds: 10
+
+  serviceAccount:
+    # -- Specifies whether a [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) should be created per release
+    create: true
+    # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) to add to the service account
+    annotations: {}
+    # -- The name of the service account to use. If not set and create is true, a name is generated using the release's fullname template
+    name: ""
+
+  # -- Whether to [automount kubernetes API credentials](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server) into the pod
+  automountServiceAccountToken: false
+
+  # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) added to deployed [pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+  podAnnotations: {}
+
+  # The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
+  podSecurityContext:
+    seccompProfile:
+      # -- Restrict a Container's Syscalls with seccomp
+      type: RuntimeDefault
+    # -- Runs all processes within a pod with a special uid
+    runAsUser: 10001
+    # -- Processes within a pod will belong to this guid
+    runAsGroup: 10001
+    # -- The owner for volumes and any files created within volumes will belong to this guid
+    fsGroup: 10001
+
+  # The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
+  securityContext:
+    capabilities:
+      # -- Specifies which capabilities to drop to reduce syscall attack surface
+      drop:
+        - ALL
+      # -- Specifies which capabilities to add to issue specialized syscalls
+      add: []
+    # -- Whether the root filesystem is mounted in read-only mode
+    readOnlyRootFilesystem: true
+    # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
+    allowPrivilegeEscalation: false
+    # -- Requires the container to run without root privileges
+    runAsNonRoot: true
+    # -- The container's process will run with the specified uid
+    runAsUser: 10001

@@ -6,7 +6,6 @@
 .git/
 .gitignore
 .bzr/
-.tgz
 .bzrignore
 .hg/
 .hgignore
@@ -22,4 +21,3 @@
 .idea/
 *.tmproj
 .vscode/
-charts/

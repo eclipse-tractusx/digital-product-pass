@@ -17,8 +17,8 @@
                 <img :src="Profile" alt="profile" class="menu-profile" />
                 <!--TODO: Profile page onClick-->
                 <span class="profile-text">
-                  {{ $store.state.email }}
-                  <p>{{ $store.state.role }}</p>
+                  {{ username }}
+                  <p>{{ role }}</p>
                 </span>
               </div>
               <div class="menu-btn">

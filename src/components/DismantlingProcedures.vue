@@ -5,14 +5,14 @@
       <a :href="dismantlingProcedures.vehicleDismantlingProcedure.url" class="field-container" target="_blank">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{dismantlingProcedures.vehicleDismantlingProcedure.value}}
-          </span>
+          {{ dismantlingProcedures.vehicleDismantlingProcedure.value }}
+        </span>
       </a>
       <a :href="dismantlingProcedures.batteryDismantlingProcedure.url" class="field-container" target="_blank">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{dismantlingProcedures.batteryDismantlingProcedure.value}}
-          </span>
+          {{ dismantlingProcedures.batteryDismantlingProcedure.value }}
+        </span>
       </a>
     </div>
   </div>

@@ -11,13 +11,13 @@ import Spinner from "@/components/Spinner.vue";
 export default ({
   name: 'HomeComponent',
   components: {
-        Spinner,
+    Spinner,
     BatteryPassport
   },
   data() {
-return {
-  loading: true
-}
+    return {
+      loading: true
+    }
   },
   props: {
     provider: String,
@@ -26,12 +26,12 @@ return {
   mounted() {
     let user = localStorage.getItem("user-info");
     if (!user) {
-      this.$router.push({name: 'Login'});
+      this.$router.push({ name: 'Login' });
     }
 
   },
   created() {
-        this.loading = false;
+    this.loading = false;
 
   }
 })

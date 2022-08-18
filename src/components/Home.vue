@@ -23,16 +23,8 @@ export default ({
     provider: String,
     battery: String,
   },
-  mounted() {
-    let user = localStorage.getItem("user-info");
-    if (!user) {
-      this.$router.push({ name: 'Login' });
-    }
-
-  },
   created() {
     this.loading = false;
-
   }
 })
 </script>

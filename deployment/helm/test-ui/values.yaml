@@ -1,4 +1,4 @@
-# Default values for consumer-ui.
+# Default values for test-ui.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -6,18 +6,18 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
+  repository: docker.io/muhammadsaudkhan/spring-boot-app-demo
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.pi4.s4
+  tag: latest
 
 imagePullSecrets: []
-nameOverride: "consumer-ui"
-fullnameOverride: "consumer-ui"
+nameOverride: "test-ui"
+fullnameOverride: "test-ui"
 
 service:
   type: ClusterIP
-  port: 8081
+  port: 8080
 
 ingress:
   enabled: true
@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /v1
+        - path: /test
           pathType: Prefix
   tls:
     - secretName: tls-secret

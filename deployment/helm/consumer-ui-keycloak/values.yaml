@@ -1,4 +1,4 @@
-# Default values for consumer-ui.
+# Default values for consumer-ui-keycloak.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -9,15 +9,15 @@ image:
   repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.pi4.s4
+  tag: v1.pi5.s1
 
 imagePullSecrets: []
-nameOverride: "consumer-ui"
-fullnameOverride: "consumer-ui"
+nameOverride: "consumer-ui-keycloak"
+fullnameOverride: "consumer-ui-keycloak"
 
 service:
   type: ClusterIP
-  port: 8081
+  port: 8080
 
 ingress:
   enabled: true
@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /v1
+        - path: /
           pathType: Prefix
   tls:
     - secretName: tls-secret

@@ -7,7 +7,7 @@ name: "Publish docker images"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/CMP-16", "feature/CMP-150" ]
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
 
@@ -16,7 +16,7 @@ env:
   EDC_CONSUMER_IMAGE: "edc-consumer"
   EDC_PROVIDER_IMAGE: "edc-provider"
   CONSUMER_UI_IMAGE: "consumer-ui"
-  IMAGE_TAG: "v1.PI4.S4"
+  IMAGE_TAG: "v1.PI5.S1"
   # COMMIT_SHA: ${{ github.sha }}
     
 jobs:
@@ -62,6 +62,5 @@ jobs:
         id: build-and-push-frontend
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
-          context: docker/consumer-ui
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_UI_IMAGE }}:${{ env.IMAGE_TAG }}

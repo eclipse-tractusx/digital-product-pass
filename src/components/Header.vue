@@ -50,6 +50,9 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
+import { inject } from 'vue'
+
+
 
 export default {
   name: "Header",
@@ -62,7 +65,10 @@ export default {
   data() {
     return {
       hover: false,
-    };
+      username: "",
+      role: "",
+      auth: inject('authentication'),
+    }
   },
   setup() {
     return {
@@ -76,12 +82,17 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
-      this.$router.push({ name: "Login" });
+      this.auth.logout();
     },
     scanQRCode() {
       this.$router.push({ name: "ScanPassport" });
     },
+  },
+  mounted() {
+    if (this.auth.isUserAuthenticated) {
+      this.username = this.auth.getUserName();
+      this.role = this.auth.getRole();
+    }
   },
   props: {
     batteryId: {},

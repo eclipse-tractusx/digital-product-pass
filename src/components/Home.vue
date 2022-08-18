@@ -1,19 +1,30 @@
 <template>
-  <BatteryPassport class="battery-page-container" />
+  <Spinner v-if="loading" class="spinner-container" />
+  <div v-else>
+    <BatteryPassport class="battery-page-container" />
+  </div>
 </template>
 
 <script type="text/jsx">
 import BatteryPassport from './BatteryPassport.vue'
+import Spinner from "@/components/Spinner.vue";
 export default ({
   name: 'HomeComponent',
   components: {
+    Spinner,
     BatteryPassport
+  },
+  data() {
+    return {
+      loading: true
+    }
   },
   props: {
     provider: String,
     battery: String,
   },
-  mounted() {
+  created() {
+    this.loading = false;
   }
 })
 </script>

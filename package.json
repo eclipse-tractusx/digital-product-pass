@@ -25,7 +25,8 @@
     "vue-qrcode-reader": "^3.1.0",
     "vue-router": "^4.0.13",
     "vue-step-progress": "^0.3.7",
-    "vue-uuid": "^3.0.0"
+    "vue-uuid": "^3.0.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

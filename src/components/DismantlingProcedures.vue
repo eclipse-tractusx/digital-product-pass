@@ -1,27 +1,18 @@
 <template>
-  <SectionHeader title="5. Dismantling Procedures"/>
-
+  <SectionHeader title="5. Dismantling Procedures" />
   <div class="section-content">
     <div class="sub-section-container">
-      <a
-          :href="dismantlingProcedures.vehicleDismantlingProcedure.url"
-          class="field-container"
-          target="_blank"
-      >
-        <img :src="Pdf" alt="settings" class="icon"/>
-        <span class="field-value">{{
-            dismantlingProcedures.vehicleDismantlingProcedure.value
-          }}</span>
+      <a :href="dismantlingProcedures.vehicleDismantlingProcedure.url" class="field-container" target="_blank">
+        <img :src="Pdf" alt="settings" class="icon" />
+        <span class="field-value">
+          {{ dismantlingProcedures.vehicleDismantlingProcedure.value }}
+        </span>
       </a>
-      <a
-          :href="dismantlingProcedures.batteryDismantlingProcedure.url"
-          class="field-container"
-          target="_blank"
-      >
-        <img :src="Pdf" alt="settings" class="icon"/>
-        <span class="field-value">{{
-            dismantlingProcedures.batteryDismantlingProcedure.value
-          }}</span>
+      <a :href="dismantlingProcedures.batteryDismantlingProcedure.url" class="field-container" target="_blank">
+        <img :src="Pdf" alt="settings" class="icon" />
+        <span class="field-value">
+          {{ dismantlingProcedures.batteryDismantlingProcedure.value }}
+        </span>
       </a>
     </div>
   </div>
@@ -76,7 +67,6 @@ export default {
 
 .sub-section-container {
   display: flex;
-
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }

@@ -18,6 +18,7 @@ RUN npm run build
 
 FROM nginx:alpine as production-build
 
+# for debugging purpose
 RUN apk add curl
 
 # make the 'app' folder the current working directory

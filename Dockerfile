@@ -31,5 +31,4 @@ RUN mkdir data
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

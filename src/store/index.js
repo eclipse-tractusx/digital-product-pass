@@ -1,14 +1,20 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    state: {
+        email: "",
+        password: "",
+        role: ""
+    },
+    getters: {},
+    mutations: {
+        setEmail(state, newEmail) {
+            state.email = newEmail;
+        },
+        setPassword(state, newPassword) {
+            state.password = newPassword;
+        },
+    },
+    actions: {},
+    modules: {},
+});

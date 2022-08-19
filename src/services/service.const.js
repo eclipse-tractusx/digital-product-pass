@@ -10,7 +10,7 @@ const BASE_URL = "https://semantics.int.demo.catena-x.net";
 // for production 
 const INIT_OPTIONS = {
     url: 'https://centralidp.demo.catena-x.net/auth/',
-    clientId: 'Cl4-CX-DigitalTwin',
+    clientId: 'Cl13-CX-Battery',
     realm: 'CX-Central',
     onLoad: 'login-required'
 };

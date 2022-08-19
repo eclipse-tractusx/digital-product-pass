@@ -66,32 +66,10 @@ export default {
     methods: {
         getDigitalTwinId: function (assetIds) {
 
-            //   let query = {
-
-            //     "query": {
-            //       "assetIds": [{
-            //         "semanticId": {
-            //           "value": ["urn:bamm:io.catenax.batch:1.0.0#Batch"]
-            //         },
-            //         "key": "ManufacturerId",
-            //         "value": "BPNL00000003AXS3"
-            //       }]
-            //     }
-            //   }
-
-            const token = this.auth.getAccessToken();
-
             return new Promise((resolve) => {
                 let encodedAssetIds = encodeURIComponent(assetIds);
-                // .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
                 axios
-                    .get(`${BASE_URL}/registry/lookup/shells?assetIds=${encodedAssetIds}`,
-                        {
-                            headers: {
-                                Authorization: 'Bearer ' + token,
-                                accept: 'application/json'
-                            },
-                        })
+                    .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
                     .then((response) => {
                         console.log("PassportView (Digital Twin):", response.data);
                         resolve(response.data);

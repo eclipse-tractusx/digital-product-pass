@@ -60,6 +60,7 @@ export default class authentication {
         return this.decodeAccessToken().preferred_username;
     }
     getRole() {
+        console.log(this.keycloak)
         let clientRoles = this.decodeAccessToken().companyRole;
         return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }

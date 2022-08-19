@@ -18,13 +18,13 @@ const INIT_OPTIONS = {
 const REDIRECT_URI = "https://materialpass.int.demo.catena-x.net/";
 
 // for development use only
-/*const INIT_OPTIONS = {
-    url: 'http://localhost:8088/auth/',
-    clientId: 'Cl13-CX-Battery',
-    realm: 'CX-Central',
-    onLoad: 'login-required'
-};
-const REDIRECT_URI = "http://localhost:8082/";*/
+// const INIT_OPTIONS = {
+//     url: 'http://localhost:8088/auth/',
+//     clientId: 'Cl13-CX-Battery',
+//     realm: 'CX-Central',
+//     onLoad: 'login-required'
+// };
+// const REDIRECT_URI = "http://localhost:8082/";
 
 
 

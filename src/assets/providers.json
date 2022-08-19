@@ -20,8 +20,8 @@
 				"type": "car battery",
 				"AssetIds": [
 					{ "key": "ManufacturerId", "value": "BPNL00000003AXS3" },
-					{ "key": "BatchId", "value": "NO-824076173594698496687796" },
-					{ "key": "ManufacturerPartId", "value": "9A047C7-01" }
+					{ "key": "BatchId", "value": "NO-824076273594698496687796" },
+					{ "key": "ManufacturerPartId", "value": "9A047C7-02" }
         ]
 			}
 		]

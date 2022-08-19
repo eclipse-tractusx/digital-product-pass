@@ -8,7 +8,7 @@ const SERVER_URL = "https://materialpass.int.demo.catena-x.net";
 // production mode start
 const INIT_OPTIONS = {
     url: 'https://centralidp.demo.catena-x.net/auth/',
-    clientId: 'Cl4-CX-DigitalTwin',
+    clientId: 'Cl13-CX-Battery',
     realm: 'CX-Central',
     onLoad: 'login-required'
 };
@@ -19,11 +19,6 @@ const REDIRECT_URI = "https://materialpass.int.demo.catena-x.net/";
 // development mode start
 /*const INIT_OPTIONS = {
     url: 'http://localhost:8088/auth/',
-    clientId: 'Cl13-CX-Battery',
-    realm: 'CX-Central',
-    onLoad: 'login-required'
-};
-
 const REDIRECT_URI = "http://localhost:8082/";*/
 // development end
 

@@ -20,25 +20,25 @@ dataplane:
         # -- The network port, which the "default" api is going to be exposed by the container, pod and service
         port: "8080"
         # -- The path mapping the "default" api is going to be exposed by
-        path: /api
+        path: /consumer/api
       ## Public endpoint for data transfer
       public:
         # -- The network port, which the "public" api is going to be exposed by the container, pod and service
         port: "8185"
         # -- The path mapping the "public" api is going to be exposed by
-        path: /api/public
+        path: /consumer/api/public
       ## Control API
       control:
         # -- The network port, which the "control" api is going to be exposed by the container, pod and service
         port: "9999"
         # -- The path mapping the "control" api is going to be exposed by
-        path: /api/dataplane/control
+        path: /consumer/api/dataplane/control
       ## Prometheus endpoint
       metrics:
         # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
         port: "9090"
         # -- The path mapping the prometheus metrics are going to be exposed at
-        path: /metrics
+        path: /consumer/metrics
 
   # edc:
   #   endpoints:
@@ -277,40 +277,40 @@ controlplane:
         # -- The network port, which the "default" api is going to be exposed by the container, pod and service
         port: "8080"
         # -- The path mapping the "default" api is going to be exposed at
-        path: /api
+        path: /consumer/api
       ## Data management API
       data:
         # -- The network port, which the "data" management api is going to be exposed by the container, pod and service
         port: "8181"
         # -- The path mapping the "data" management api is going to be exposed at
-        path: /data
+        path: /consumer/data
       ## Validation API
       validation:
         # -- The network port, which the "validation" api is going to be exposed by the container, pod and service
         port: "8182"
         # -- The path mapping the "validation" api is going to be exposed at
-        path: /validation
+        path: /consumer/validation
       ## Control API
       control:
         # -- The network port, which the "control" api is going to be exposed by the container, pod and service
         port: "9999"
         # -- The path mapping the "control" api is going to be exposed at
-        path: /api/controlplane/control
+        path: /consumer/api/controlplane/control
       ## IDS endpoints
       ids:
         # -- The network port, which the "ids" multipart api is going to be exposed by the container, pod and service
         port: "8282"
         # -- The path mapping the "ids" multipart api is going to be exposed at
-        path: /api/v1/ids
+        path: /consumer/api/v1/ids
       ## Prometheus endpoint
       metrics:
         # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
         port: "9090"
         # -- The path mapping the prometheus metrics are going to be exposed at
-        path: /metrics
+        path: /consumer/metrics
       public:
         port: 8185
-        path: /api/public
+        path: /consumer/api/public
   image:
     repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
     tag: 0.0.6
@@ -523,20 +523,20 @@ controlplane:
     - enabled: true
       # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
       hostname: "materialpass.int.demo.catena-x.net"    
-      # hostname: "edc-controlplane.local"
+      #hostname: "edc-controlplane.local"
       # -- Additional ingress annotations to add
       annotations:
         #kubernetes.io/ingress.class: nginx
-        # kubernetes.io/tls-acme: "true"
+        kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/rewrite-target: /
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      hosts:
-        - host: materialpass.int.demo.catena-x.net
-          paths:
-            - path: /consumer(/|$)(.*)
-              pathType: Prefix
+      # hosts:
+      #   - host: materialpass.int.demo.catena-x.net
+      #     paths:
+      #       - path: /consumer(/|$)(.*)
+      #         pathType: Prefix
       # -- EDC endpoints exposed by this ingress resource
       endpoints:
         - ids

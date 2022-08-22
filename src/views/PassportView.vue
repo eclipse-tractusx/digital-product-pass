@@ -3,39 +3,19 @@
   <div v-else>
     <Header :batteryId="data.generalInformation" />
     <div class="pass-container">
-      <GeneralInformation
-        sectionTitle="General information"
-        :generalInformation="data.generalInformation"
-      />
-      <BatteryComposition
-        sectionTitle="Battery Composition"
-        :batteryComposition="data.batteryComposition"
-      />
-      <StateOfHealth
-        sectionTitle="State of Health"
-        :stateOfHealth="data.stateOfHealth"
-      />
-      <ParametersOfTheBattery
-        sectionTitle="Parameters of The Battery"
-        :parametersOfTheBattery="data.parametersOfTheBattery"
-      />
-      <DismantlingProcedures
-        sectionTitle="Dismantling procedures"
-        :dismantlingProcedures="data.dismantlingProcedures"
-      />
-      <SafetyInformation
-        sectionTitle="Safety information"
-        :safetyMeasures="data.safetyMeasures"
-      />
-      <InformationResponsibleSourcing
-        sectionTitle="Information responsible sourcing"
-        :informationResponsibleSourcing="data.informationResponsibleSourcing"
-      />
+      <GeneralInformation sectionTitle="General information" :generalInformation="data.generalInformation" />
+      <BatteryComposition sectionTitle="Battery Composition" :batteryComposition="data.batteryComposition" />
+      <StateOfHealth sectionTitle="State of Health" :stateOfHealth="data.stateOfHealth" />
+      <ParametersOfTheBattery sectionTitle="Parameters of The Battery"
+        :parametersOfTheBattery="data.parametersOfTheBattery" />
+      <DismantlingProcedures sectionTitle="Dismantling procedures"
+        :dismantlingProcedures="data.dismantlingProcedures" />
+      <SafetyInformation sectionTitle="Safety information" :safetyMeasures="data.safetyMeasures" />
+      <InformationResponsibleSourcing sectionTitle="Information responsible sourcing"
+        :informationResponsibleSourcing="data.informationResponsibleSourcing" />
 
-      <AdditionalInformation
-        sectionTitle="Additional information"
-        :additionalInformation="data.additionalInformation"
-      />
+      <AdditionalInformation sectionTitle="Additional information"
+        :additionalInformation="data.additionalInformation" />
     </div>
     <Footer />
   </div>
@@ -56,6 +36,8 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { AAS_PROXY_URL } from "@/services/service.const";
+import { BASE_URL } from "@/services/service.const";
+import { inject } from 'vue'
 
 export default {
   name: "PassportView",
@@ -75,6 +57,7 @@ export default {
 
   data() {
     return {
+      auth: inject('authentication'),
       data: null,
       loading: true,
       errors: [],
@@ -82,10 +65,34 @@ export default {
   },
   methods: {
     getDigitalTwinId: function (assetIds) {
+
+      let query = {
+
+        "query": {
+          "assetIds": [{
+            "semanticId": {
+              "value": ["urn:bamm:io.catenax.batch:1.0.0#Batch"]
+            },
+            "key": "ManufacturerId",
+            "value": "BPNL00000003AXS3"
+          }]
+        }
+      }
+
+      const token = this.auth.getAccessToken();
+
       return new Promise((resolve) => {
         let encodedAssetIds = encodeURIComponent(assetIds);
+        // .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
         axios
-          .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
+          .get(`${BASE_URL}/registry/lookup/shells?assetIds=${encodedAssetIds}`, query,
+            {
+              headers: {
+                Authorization: 'Bearer ' + token,
+                accept: 'application/json'
+              },
+            }
+            , query)
           .then((response) => {
             console.log("PassportView (Digital Twin):", response.data);
             resolve(response.data);
@@ -155,6 +162,7 @@ export default {
   width: 76%;
   margin: 0 12% 0 12%;
 }
+
 .spinner-container {
   width: 100vw;
   height: 100vh;
@@ -162,6 +170,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .spinner {
   margin: auto;
 

@@ -16,14 +16,13 @@
 			},
 			{
 				"id": "test-battery-2",
-				"name": "test-battery 2 (not works)",
+				"name": "test-battery 2 (pending)",
 				"type": "car battery",
 				"AssetIds": [
-					{ "key": "batteryId", "value": "12121212" },
-					{ "key": "passportNumber", "value": "67845" },
-					{ "key": "batteryBatchNumber", "value": "91909293" },
-					{ "key": "BattProducer", "value": "BatteryProducer" }
-			]
+					{ "key": "ManufacturerId", "value": "BPNL00000003AXS3" },
+					{ "key": "BatchId", "value": "NO-824076173594698496687796" },
+					{ "key": "ManufacturerPartId", "value": "9A047C7-01" }
+        ]
 			}
 		]
 	}

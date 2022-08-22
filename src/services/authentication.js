@@ -1,4 +1,4 @@
-import { REDIRECT_URI, INIT_OPTIONS } from "@/services/service.const"
+import { REDIRECT_URI, INIT_OPTIONS, SERVER_URL } from "@/services/service.const"
 import Keycloak from 'keycloak-js'
 
 
@@ -60,7 +60,11 @@ export default class authentication {
         return this.decodeAccessToken().preferred_username;
     }
     getRole() {
-        let clientRoles = this.decodeAccessToken().companyRole;
+        let clientRoles = "";
+        if (this.getUrl().includes(SERVER_URL))
+            clientRoles = this.decodeAccessToken().companyRole;                         // prod mode
+        else
+            clientRoles = this.keycloak.resourceAccess[this.getClientId()].roles;       // develop mode 
         return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }
     logout() {
@@ -71,7 +75,9 @@ export default class authentication {
         }).catch((error) => {
             console.log("--> log: logout error ", error);
         });
-
+    }
+    getUrl() {
+        return window.location.href;
     }
 }
 

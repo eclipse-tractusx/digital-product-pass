@@ -34,7 +34,8 @@ dataplane:
       # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
       className: "nginx"
       # -- Enables TLS on the ingress resource
-      tls: false
+      tls: true
+      secretName: tls-secret
       ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
       certManager:
         # -- If preset enables certificate generation via cert-manager namespace scoped issuer
@@ -112,7 +113,7 @@ controlplane:
       # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
       className: "nginx"
       # -- Enables TLS on the ingress resource
-      tls: false
+      tls: true
       secretName: tls-secret
       ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
       certManager:

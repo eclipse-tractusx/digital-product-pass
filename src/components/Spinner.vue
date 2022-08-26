@@ -18,11 +18,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .spinner {
   margin: auto;
-
   width: 8vh;
-
   animation: rotate 3s infinite;
 }
 

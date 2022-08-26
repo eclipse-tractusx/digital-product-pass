@@ -1,17 +1,14 @@
 <template>
-  <SectionHeader title="7. Information responsible sourcing"/>
+  <SectionHeader title="7. Information responsible sourcing" v-on:click="toggle = !toggle" />
 
-  <div class="section-content">
+  <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
-      <a
-          :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url"
-          class="field-container"
-          target="_blank"
-      >
-        <img :src="Pdf" alt="settings" class="icon"/>
+      <a :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url" class="field-container"
+        target="_blank">
+        <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
             informationResponsibleSourcing.responsibleRawMaterialsReport.value
-          }}</span>
+        }}</span>
       </a>
     </div>
   </div>
@@ -35,6 +32,11 @@ export default {
       Pdf,
     };
   },
+  data() {
+    return {
+      toggle: false
+    }
+  }
 };
 </script>
 
@@ -50,31 +52,56 @@ export default {
 .icon {
   width: 27px;
   height: 36px;
-  margin: 40px;
+  margin: 20px;
 }
 
 .field-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   align-items: center;
   width: 33%;
   min-height: 120px;
   cursor: pointer;
-  padding: 40px 0 80px 0;
+  padding: 20px 0 60px 0;
 }
 
 .sub-section-container {
   display: flex;
-
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
 
 .field-value {
-  padding-left: 40px;
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .section-content {
+    border: none;
+  }
+
+  .section-content {
+    margin-bottom: 0;
+  }
+
+  .longer {
+    padding-bottom: 0;
+  }
+
+  .sub-title-container {
+    padding: 22px 40px 0 30px;
+  }
+
+  .field-container {
+    width: 100%;
+  }
 }
 </style>

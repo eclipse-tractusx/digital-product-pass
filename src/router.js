@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from './components/Home.vue'
 import SignUp from './components/SignUp.vue'
 import Login from './components/Login.vue'
@@ -9,14 +9,14 @@ import PassportView from "./views/PassportView.vue";
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: Home
+        name: 'Passport',
+        component: PassportView,
     },
     {
         path: '/',
         name: 'Passport',
         component: PassportView,
-        props: (route) => ({provider: route.query.provider, battery: route.query.battery})
+        props: (route) => ({ provider: route.query.provider, battery: route.query.battery })
     },
     {
         path: "/about",

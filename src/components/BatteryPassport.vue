@@ -275,4 +275,6 @@ export default {
 .orange {
   color: #ffa600;
 }
+
+@media all and (max-width: 576px) {}
 </style>

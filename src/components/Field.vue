@@ -4,32 +4,29 @@
     <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
     <span v-else-if="length"></span>
     <span v-else-if="tempRangeMin" class="field-value">
-      {{ tempRangeMin }} {{ tempUnit }}—{{ tempRangeMax }} {{ tempUnit }}</span
-    >
+      {{ tempRangeMin }} {{ tempUnit }}—{{ tempRangeMax }} {{ tempUnit }}</span>
 
     <span v-else-if="day"></span>
     <span v-else class="field-value">—</span>
     <!-- This block of code is for section 1 General information Importer information, STREET goes as a value and than the rest below -->
     <span v-if="city" class="field-value">{{ city ? city : "—" }} </span>
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
-    <span v-if="country" class="field-value"
-    >{{ country ? country : "—" }}
+    <span v-if="country" class="field-value">{{ country ? country : "—" }}
     </span>
     <!-- This block of code is for section 4 Parameters of the battery where we have tests and temp ranges -->
-    <span v-if="tempMin" class="test"
-    >Temp ranges:
-      <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
-    </span>
-    <span v-if="test" class="test"
-    >Reference test: <b>{{ test }}</b>
-    </span>
+    <div v-if="tempMin || test" class="test-container">
+      <span v-if="tempMin" class="test">Temp ranges:
+        <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
+      </span>
+      <span v-if="test" class="test">Reference test: <b>{{ test }}</b>
+      </span>
+    </div>
+
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
-    <span v-if="length" class="field-value"
-    >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{
+    <span v-if="length" class="field-value">L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{
         width
-      }}{{ unit }}</span
-    >
+    }}{{ unit }}</span>
     <!-- This block of code is for dates -->
     <span v-if="day" class="field-value">{{ day }}/{{ month }}/{{ year }}</span>
   </div>
@@ -96,7 +93,7 @@ a {
 
 .test {
   font-size: 12px;
-  padding: 4px 0 4px 40px;
+  padding-left: 40px;
 }
 
 .field-container {
@@ -117,5 +114,65 @@ a {
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
+}
+
+.test-container {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0 22px 0;
+}
+
+
+@media (max-width: 750px) {
+
+  .section-content {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+    margin-bottom: 50px;
+  }
+
+  .sub-section-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: solid 1px #edefe5;
+  }
+
+  .test {
+    font-size: 12px;
+    padding: 4px 0 4px 40px;
+  }
+
+  .test-container {
+    padding: 0 0 22px 0;
+    margin-top: -18px;
+  }
+
+  .field-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 50px;
+    border-bottom: solid 1px #edefe5;
+  }
+
+  .field-label {
+    padding: 22px 40px 8px 50px;
+    font-size: 14px;
+    color: #777777;
+    overflow: auto
+  }
+
+  .field-value {
+    padding: 0 0 22px 50px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: bold;
+  }
+
+  .test {
+    padding: 0 0 0 50px;
+  }
 }
 </style>

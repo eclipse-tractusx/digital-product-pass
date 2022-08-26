@@ -1,22 +1,16 @@
 <template v-if="batteryComposition">
-  <SectionHeader title="2. Battery composition"> </SectionHeader>
+  <SectionHeader title="2. Battery composition" v-on:click="toggle = !toggle" />
   <!-- Composition of Electrolyte -->
-  <div class="section-content">
+  <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <div class="sub-title-container">
         <span class="sub-title">Composition of Electrolyte</span>
       </div>
-      <div
-        class="list-container"
-        v-if="batteryComposition.electrolyteComposition"
-      >
+      <div class="list-container" v-if="batteryComposition.electrolyteComposition">
         <ul>
           <span class="list-label"></span>
-          <li
-            :key="electrolytes"
-            v-for="electrolytes in batteryComposition.electrolyteComposition"
-            data-cy="electrolyte-composition"
-          >
+          <li :key="electrolytes" v-for="electrolytes in batteryComposition.electrolyteComposition"
+            data-cy="electrolyte-composition">
             {{ electrolytes }}
           </li>
         </ul>
@@ -27,26 +21,16 @@
       <div class="sub-title-container">
         <span class="sub-title"> Composition of Anode</span>
       </div>
-      <Field
-        label="Natural Graphite content"
-        v-bind:value="
-          batteryComposition.anodeContent.naturalGraphiteContent.value
-        "
-        v-bind:unit="
-          batteryComposition.anodeContent.naturalGraphiteContent.unit
-        "
-      />
-      <div
-        class="list-container"
-        v-if="batteryComposition.anodeContent.anodeComposition"
-      >
+      <Field label="Natural Graphite content" v-bind:value="
+        batteryComposition.anodeContent.naturalGraphiteContent.value
+      " v-bind:unit="
+  batteryComposition.anodeContent.naturalGraphiteContent.unit
+" />
+      <div class="list-container" v-if="batteryComposition.anodeContent.anodeComposition">
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
-          <li
-            :key="electrolytes"
-            v-for="electrolytes in batteryComposition.anodeContent
-              .anodeComposition"
-          >
+          <li :key="electrolytes" v-for="electrolytes in batteryComposition.anodeContent
+          .anodeComposition">
             {{ electrolytes }}
           </li>
         </ul>
@@ -57,42 +41,27 @@
       <div class="sub-title-container">
         <span class="sub-title"> Composition of Cathode</span>
       </div>
-      <Field
-        label="Li content"
-        v-bind:value="batteryComposition.cathodeComposition.liContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.liContent.unit"
-      />
-      <Field
-        label="Ni content"
-        v-bind:value="batteryComposition.cathodeComposition.niContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.niContent.unit"
-      />
-      <Field
-        label="Co content"
-        v-bind:value="batteryComposition.cathodeComposition.coContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.coContent.unit"
-      />
-      <div
-        class="list-container"
-        v-if="batteryComposition.cathodeComposition.otherCathodeComposition"
-      >
+      <Field label="Li content" v-bind:value="batteryComposition.cathodeComposition.liContent.value"
+        v-bind:unit="batteryComposition.cathodeComposition.liContent.unit" />
+      <Field label="Ni content" v-bind:value="batteryComposition.cathodeComposition.niContent.value"
+        v-bind:unit="batteryComposition.cathodeComposition.niContent.unit" />
+      <Field label="Co content" v-bind:value="batteryComposition.cathodeComposition.coContent.value"
+        v-bind:unit="batteryComposition.cathodeComposition.coContent.unit" />
+      <div class="list-container" v-if="batteryComposition.cathodeComposition.otherCathodeComposition">
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
-          <li
-            :key="electrolytes"
-            v-for="electrolytes in batteryComposition.cathodeComposition
-              .otherCathodeComposition"
-          >
+          <li :key="electrolytes" v-for="electrolytes in batteryComposition.cathodeComposition
+          .otherCathodeComposition">
             {{ electrolytes }}
           </li>
         </ul>
       </div>
     </div>
     <!-- Part Numbers for Components TABLE -->
-    <div class="sub-title-container">
+    <!-- <div class="sub-title-container">
       <span class="sub-title"> Part Numbers for Components</span>
     </div>
-    <b-table borderless striped :items="items" />
+    <b-table borderless striped :items="items" /> -->
     <!-- Critical Raw Materials -->
     <div class="sub-section-container">
       <div class="sub-title-container">
@@ -101,10 +70,7 @@
       <div class="list-container" v-if="batteryComposition.crm">
         <ul>
           <span class="list-label">List of CRM</span>
-          <li
-            :key="electrolytes"
-            v-for="electrolytes in batteryComposition.crm"
-          >
+          <li :key="electrolytes" v-for="electrolytes in batteryComposition.crm">
             {{ electrolytes }}
           </li>
         </ul>
@@ -114,30 +80,16 @@
  -->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title"
-          >Recycled content in active materials/battery model</span
-        >
+        <span class="sub-title">Recycled content in active materials/battery model</span>
       </div>
-      <Field
-        label="Recyclate Content Ni"
-        v-bind:value="batteryComposition.niRecyclateContent.value"
-        v-bind:unit="batteryComposition.niRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Li"
-        v-bind:value="batteryComposition.liRecyclateContent.value"
-        v-bind:unit="batteryComposition.liRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Co"
-        v-bind:value="batteryComposition.coRecyclateContent.value"
-        v-bind:unit="batteryComposition.coRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Pb"
-        v-bind:value="batteryComposition.pbRecyclateContent.value"
-        v-bind:unit="batteryComposition.pbRecyclateContent.unit"
-      />
+      <Field label="Recyclate Content Ni" v-bind:value="batteryComposition.niRecyclateContent.value"
+        v-bind:unit="batteryComposition.niRecyclateContent.unit" />
+      <Field label="Recyclate Content Li" v-bind:value="batteryComposition.liRecyclateContent.value"
+        v-bind:unit="batteryComposition.liRecyclateContent.unit" />
+      <Field label="Recyclate Content Co" v-bind:value="batteryComposition.coRecyclateContent.value"
+        v-bind:unit="batteryComposition.coRecyclateContent.unit" />
+      <Field label="Recyclate Content Pb" v-bind:value="batteryComposition.pbRecyclateContent.value"
+        v-bind:unit="batteryComposition.pbRecyclateContent.unit" />
     </div>
   </div>
 </template>
@@ -156,6 +108,7 @@ export default {
   methods: {},
   data() {
     return {
+      toggle: false,
       items: [
         {
           part_name: "Battery modules",
@@ -206,43 +159,81 @@ export default {
   background-color: #fff;
   margin-bottom: 50px;
 }
+
 .sub-section-container {
   display: flex;
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
+
 .field-container {
   display: flex;
   flex-direction: column;
   width: 33%;
-  min-height: 120px;
 }
+
 .sub-title {
   font-weight: bold;
   font-size: 20px;
   color: #c6cca3;
 }
+
 .sub-title-container {
-  padding: 40px 40px 20px 40px;
+  padding: 22px 40px 0 40px;
   width: 100%;
 }
+
 .list-container {
   width: 33%;
-  padding-left: 40px;
-  padding-bottom: 40px;
+  padding: 0 0 22px 40px;
 }
+
 .list-label {
-  padding: 30px 0 10px 0;
+  padding: 22px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }
+
 ul {
   display: flex;
   flex-direction: column;
   padding: 0;
 }
+
 li {
   margin-left: 20px;
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .section-content {
+    border: none;
+  }
+
+  .section-content {
+    margin-bottom: 0;
+  }
+
+  .field-container {
+    width: 100%;
+  }
+
+  .list-container {
+    width: 100%;
+    padding-left: 50px;
+  }
+
+  .section-content {
+    border: none;
+    margin-bottom: 0;
+  }
+
+  .sub-title-container {
+    padding: 22px 40px 0 30px;
+  }
 }
 </style>

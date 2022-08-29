@@ -26,7 +26,7 @@ jobs:
         uses: veracode/veracode-uploadandscan-action@0.2.1
         with:
           appname: "Battery-Passport-Consumer-App"
-          createprofile: false
+          createprofile: true
           filepath: "./veracode-scan-target.zip"
           vid: "${{ secrets.ORG_VERACODE_API_ID }}"
           vkey: "${{ secrets.ORG_VERACODE_API_KEY }}"

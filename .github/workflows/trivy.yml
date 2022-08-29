@@ -7,7 +7,7 @@ name: Security scan with Trivy
 
 on:
   push:
-    branches: [ "main", "workflows/security_profiles" ]
+    branches: [ "main" ]
   schedule:
     - cron: "0 0 * * *"
 

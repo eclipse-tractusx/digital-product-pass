@@ -1,9 +1,6 @@
 <template>
   <SectionHeader title="1. General information" v-on:click="toggle = !toggle" />
-
-
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-
     <div class="sub-section-container">
       <Field label="Battery ID" v-bind:value="generalInformation.batteryId" />
       <Field label="Battery Type" v-bind:value="generalInformation.batteryType" />
@@ -31,7 +28,6 @@
       <Field label="Date of Manufacture" v-bind:day="generalInformation.manufacuringDate.day"
         v-bind:month="generalInformation.manufacuringDate.month"
         v-bind:year="generalInformation.manufacuringDate.year" />
-
       <Field label="Place of Manufacturing" v-bind:value="generalInformation.manufacturingPlace" />
       <Field class="two-third-width" label="Data of placing on the market"
         v-bind:day="generalInformation.placedToMarketDate.day"

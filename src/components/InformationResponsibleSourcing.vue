@@ -1,14 +1,13 @@
 <template>
   <SectionHeader title="7. Information responsible sourcing" v-on:click="toggle = !toggle" />
-
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <a :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url" class="field-container"
         target="_blank">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-            informationResponsibleSourcing.responsibleRawMaterialsReport.value
-        }}</span>
+           informationResponsibleSourcing.responsibleRawMaterialsReport.value 
+          }}</span>
       </a>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div className="section-header" v-on:click="toggle = !toggle">
-    <span className="section-title">{{ title }}</span>
+    <span className="section-title">{{  title  }}</span>
     <span className="toggle-container">
       <img :src="Toggle" alt="toggle" class="toggle-btn" :class="[toggle ? 'rotate' : '']" />
     </span>
@@ -9,7 +9,6 @@
 
 <script>
 import Toggle from "../assets/toggle.svg";
-
 
 export default {
   name: "SectionHeader",
@@ -76,6 +75,5 @@ export default {
     border-top: solid 1px #b3cb2d;
     border-bottom: solid 1px #b3cb2d;
   }
-
 }
 </style>

@@ -9,8 +9,8 @@ import PassportView from "./views/PassportView.vue";
 const routes = [
     {
         path: '/',
-        name: 'Passport',
-        component: PassportView,
+        name: 'Home',
+        component: Home,
     },
     {
         path: '/',

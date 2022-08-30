@@ -11,7 +11,7 @@
           <span class="list-label"></span>
           <li :key="electrolytes" v-for="electrolytes in batteryComposition.electrolyteComposition"
             data-cy="electrolyte-composition">
-            {{ electrolytes }}
+            {{  electrolytes  }}
           </li>
         </ul>
       </div>
@@ -21,17 +21,14 @@
       <div class="sub-title-container">
         <span class="sub-title"> Composition of Anode</span>
       </div>
-      <Field label="Natural Graphite content" v-bind:value="
-        batteryComposition.anodeContent.naturalGraphiteContent.value
-      " v-bind:unit="
-  batteryComposition.anodeContent.naturalGraphiteContent.unit
-" />
+      <Field label="Natural Graphite content"
+        v-bind:value="batteryComposition.anodeContent.naturalGraphiteContent.value"
+        v-bind:unit="batteryComposition.anodeContent.naturalGraphiteContent.unit" />
       <div class="list-container" v-if="batteryComposition.anodeContent.anodeComposition">
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
-          <li :key="electrolytes" v-for="electrolytes in batteryComposition.anodeContent
-          .anodeComposition">
-            {{ electrolytes }}
+          <li :key="electrolytes" v-for="electrolytes in batteryComposition.anodeContent.anodeComposition">
+            {{  electrolytes  }}
           </li>
         </ul>
       </div>
@@ -52,7 +49,7 @@
           <span class="list-label">Recyclate Content Ni</span>
           <li :key="electrolytes" v-for="electrolytes in batteryComposition.cathodeComposition
           .otherCathodeComposition">
-            {{ electrolytes }}
+            {{  electrolytes  }}
           </li>
         </ul>
       </div>
@@ -71,7 +68,7 @@
         <ul>
           <span class="list-label">List of CRM</span>
           <li :key="electrolytes" v-for="electrolytes in batteryComposition.crm">
-            {{ electrolytes }}
+            {{  electrolytes  }}
           </li>
         </ul>
       </div>

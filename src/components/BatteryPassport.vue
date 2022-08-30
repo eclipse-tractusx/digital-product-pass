@@ -8,17 +8,16 @@
         @change="getBatteriesByProvider()" data-cy="provider-select">
         <option value="" disabled selected>Select Battery Provider...</option>
         <option v-for="provider in listProviders" :value="provider.name" v-bind:key="provider.id">
-          {{ provider.name }}
+          {{  provider.name  }}
         </option>
       </select>
-
       <label class="label" for="Battery">Battery:</label>
       <select required class="form-select select" id="selectBattery" v-model="selectedBattery"
         :disabled="selectedProvider === ''" placeholder="Select Battery" @change="getAssetIdsByBattery()"
         data-cy="battery-select">
         <option value="" disabled selected>Select Battery...</option>
         <option v-for="(battery, id) in provider.batteries" :value="battery.id" v-bind:key="id">
-          {{ battery.name }}
+          {{  battery.name  }}
         </option>
       </select>
       <br />
@@ -26,21 +25,19 @@
         <label class="label" for="Search criteria">Search Criteria:</label><br /><br />
         <textarea v-model="assetIds" disabled style="height: 120px; width: 340px"></textarea>
       </div>
-
       <button :disabled="!validateFields(selectedProvider, selectedBattery)" class="btn btn-success center success-btn"
         type="button" v-on:click="getProductPassport" data-cy="passport-btn">
         Get Battery Passport
       </button>
     </div>
-    <div class="dashboard-container">
+    <!-- <div class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>
         <div class="sub-title orange">See full history</div>
       </div>
-
       <b-table borderless striped :fields="fields" sort-icon-left :items="batteriesList" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -56,17 +53,14 @@ export default {
   name: 'batteryPassport',
   created() {
     this.loading = false;
-
   },
   components: {
     Spinner,
     Header
-
   },
 
   mounted() {
     if (this.auth.isUserAuthenticated) {
-
       // User has an active session and using QR code feature
       let user = this.auth.getUserName();
       let role = this.auth.getRole();
@@ -91,62 +85,60 @@ export default {
   data() {
     return {
       auth: inject('authentication'),
-      fields: [
-        {
-          key: 'serial_number',
-          label: 'Serial number',
-          sortable: true
-        },
-        {
-          key: 'car_producer',
-          label: 'Car producer',
-          sortable: true
-        },
-        {
-          key: 'date_of_admission',
-          label: 'Date of admission',
-          sortable: true,
-
-        },
-        {
-          key: 'status',
-          label: 'Status',
-          sortable: true,
-
-        }
-      ],
-      batteriesList: [
-        {
-          serial_number: "11194511/45",
-          car_producer: "BMW",
-          date_of_admission: "21.07.2022",
-          status: "1",
-        },
-        {
-          serial_number: "22294511/45",
-          car_producer: "Volkswagen",
-          date_of_admission: "21.07.2022",
-          status: "2",
-        },
-        {
-          serial_number: "33394511/45",
-          car_producer: "Volvo",
-          date_of_admission: "21.07.2022",
-          status: "3",
-        },
-        {
-          serial_number: "44494511/45",
-          car_producer: "Tesla",
-          date_of_admission: "21.07.2022",
-          status: "1",
-        },
-        {
-          serial_number: "55594511/45",
-          car_producer: "Lada",
-          date_of_admission: "21.07.2022",
-          status: "2",
-        },
-      ],
+      // fields: [
+      //   {
+      //     key: 'serial_number',
+      //     label: 'Serial number',
+      //     sortable: true
+      //   },
+      //   {
+      //     key: 'car_producer',
+      //     label: 'Car producer',
+      //     sortable: true
+      //   },
+      //   {
+      //     key: 'date_of_admission',
+      //     label: 'Date of admission',
+      //     sortable: true,
+      //   },
+      //   {
+      //     key: 'status',
+      //     label: 'Status',
+      //     sortable: true,
+      //   }
+      // ],
+      // batteriesList: [
+      //   {
+      //     serial_number: "11194511/45",
+      //     car_producer: "BMW",
+      //     date_of_admission: "21.07.2022",
+      //     status: "1",
+      //   },
+      //   {
+      //     serial_number: "22294511/45",
+      //     car_producer: "Volkswagen",
+      //     date_of_admission: "21.07.2022",
+      //     status: "2",
+      //   },
+      //   {
+      //     serial_number: "33394511/45",
+      //     car_producer: "Volvo",
+      //     date_of_admission: "21.07.2022",
+      //     status: "3",
+      //   },
+      //   {
+      //     serial_number: "44494511/45",
+      //     car_producer: "Tesla",
+      //     date_of_admission: "21.07.2022",
+      //     status: "1",
+      //   },
+      //   {
+      //     serial_number: "55594511/45",
+      //     car_producer: "Lada",
+      //     date_of_admission: "21.07.2022",
+      //     status: "2",
+      //   },
+      // ],
       loading: true,
       listProviders: listBatteryProviders,
       provider: {},
@@ -216,8 +208,10 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 22%;
-  margin: 0 39% 0 39%;
+  margin: 15% 39% 0 39%;
 }
 
 .success-btn {
@@ -276,5 +270,19 @@ export default {
   color: #ffa600;
 }
 
-@media all and (max-width: 576px) {}
+@media (max-width: 750px) {
+  .container {
+    width: 80%;
+    margin: 25% 10% 0 10%;
+  }
+
+  .success-btn {
+    width: 90%;
+    margin: 0;
+  }
+
+  .select {
+    width: 90%;
+  }
+}
 </style>

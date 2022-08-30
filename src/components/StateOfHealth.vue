@@ -1,6 +1,5 @@
 <template>
   <SectionHeader title="3. State of Health" v-on:click="toggle = !toggle" />
-
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-title-container">
       <span class="sub-title">Timestamp 23.06.2022 - 14:30:45</span>
@@ -20,11 +19,9 @@
       <Field label="Evolution of self-discharging rates"
         v-bind:unit="stateOfHealth.evolutionOfSelfDischargingRates.unit"
         v-bind:value="stateOfHealth.evolutionOfSelfDischargingRates.value" />
-      <Field label="Ohmic resistance and/or electrochemical impedance" v-bind:unit="
-        stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit
-      " v-bind:value="
-  stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value
-" />
+      <Field label="Ohmic resistance and/or electrochemical impedance"
+        v-bind:unit="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit"
+        v-bind:value="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value" />
       <Field label="The dates of manufacturing of the battery"
         v-bind:day="stateOfHealth.theDatesOfManufacturingOfTheBattery.day"
         v-bind:month="stateOfHealth.theDatesOfManufacturingOfTheBattery.month"

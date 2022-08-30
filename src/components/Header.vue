@@ -1,19 +1,17 @@
 <template>
   <div v-if="hamburgerMenu" class="hamburger-menu">
-    <h3 v-if="hamburgerMenu" class="links">settings</h3>
-    <h3 v-if="hamburgerMenu" class="links">notifications</h3>
-    <h3 v-if="hamburgerMenu" v-on:click="profileMenu = !profileMenu" class="links">profile</h3>
+    <h3 v-if="hamburgerMenu" class="links">Settings</h3>
+    <h3 v-if="hamburgerMenu" class="links">Notifications</h3>
+    <h3 v-if="hamburgerMenu" v-on:click="profileMenu = !profileMenu" class="links">Profile</h3>
     <div v-if="profileMenu" class="profile-menu-mobile">
       <!-- <img :src="Profile" alt="profile" class="" /> -->
       <span class="mobile-menu-links">
-        {{ username }}
-        <p class="">{{ role }}</p>
+        {{  username  }}
+        <p class="">{{  role  }}</p>
       </span>
-
       <span class="mobile-menu-links" @click="logout">
         Sign out
       </span>
-
     </div>
   </div>
   <div>
@@ -40,8 +38,8 @@
                 <img :src="Profile" alt="profile" class="menu-profile" />
                 <!--TODO: Profile page onClick-->
                 <span class="profile-text">
-                  {{ username }}
-                  <p>{{ role }}</p>
+                  {{  username  }}
+                  <p>{{  role  }}</p>
                 </span>
               </div>
               <div class="menu-btn">
@@ -56,7 +54,7 @@
       <div class="id-wrapper">
         <h1>
           BatteryID:
-          {{ batteryId.batteryId ? batteryId.batteryId : "—" }}
+          {{  batteryId.batteryId ? batteryId.batteryId : "—"  }}
         </h1>
       </div>
       <div class="code-container">
@@ -75,8 +73,6 @@ import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
 import { inject } from 'vue'
-
-
 
 export default {
   name: "Header",
@@ -121,7 +117,6 @@ export default {
       this.username = this.auth.getUserName();
       this.role = this.auth.getRole();
     }
-    console.log(hamburgerMenu)
   },
   props: {
     batteryId: {},
@@ -335,7 +330,6 @@ p {
     text-align: center;
     font-weight: bold;
     font-size: 16px;
-    color: #B3CB2C;
     border-bottom: solid 1px #B3CB2C;
     width: 100%;
     min-height: 60px;

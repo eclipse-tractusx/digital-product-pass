@@ -1,6 +1,5 @@
 <template v-if="safetyMeasures">
   <SectionHeader title="6. Safety information" v-on:click="toggle = !toggle" />
-
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <div class="sub-title-container">
@@ -9,23 +8,23 @@
       <a v-if="safetyMeasures.occupationalSafety.url" :href="safetyMeasures.occupationalSafety.url" target="_blank"
         class="field-container" data-cy="occupational-safety">
         <img :src="Pdf" alt="settings" class="icon" />
-        <span class="field-value">{{
-            safetyMeasures.occupationalSafety.value
-        }}</span>
+        <span class="field-value">
+          {{  safetyMeasures.occupationalSafety.value  }}
+        </span>
       </a>
       <a v-if="safetyMeasures.fireProtection.url" :href="safetyMeasures.fireProtection.url" target="_blank"
         class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
-        <span class="field-value">{{
-            safetyMeasures.fireProtection.value
-        }}</span>
+        <span class="field-value">
+          {{  safetyMeasures.fireProtection.value  }}
+        </span>
       </a>
       <a v-if="safetyMeasures.usableExtinguishingAgent.url" :href="safetyMeasures.usableExtinguishingAgent.url"
         target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
-        <span class="field-value">{{
-            safetyMeasures.usableExtinguishingAgent.value
-        }}</span>
+        <span class="field-value">
+          {{  safetyMeasures.usableExtinguishingAgent.value  }}
+        </span>
       </a>
     </div>
     <div class="sub-section-container">
@@ -35,9 +34,9 @@
       <a v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
         :href="safetyMeasures.instructionsForSafelyPackagingBatteries.url" target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
-        <span class="field-value">{{
-            safetyMeasures.instructionsForSafelyPackagingBatteries.value
-        }}</span>
+        <span class="field-value">
+          {{  safetyMeasures.instructionsForSafelyPackagingBatteries.value  }}
+        </span>
       </a>
     </div>
     <div class="sub-section-container">
@@ -47,9 +46,9 @@
       <a v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
         :href="safetyMeasures.instructionsForSafelyTransportingBatteries.url" target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
-        <span class="field-value">{{
-            safetyMeasures.instructionsForSafelyTransportingBatteries.value
-        }}</span>
+        <span class="field-value">
+          {{  safetyMeasures.instructionsForSafelyTransportingBatteries.value  }}
+        </span>
       </a>
     </div>
   </div>

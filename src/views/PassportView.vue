@@ -35,7 +35,7 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { AAS_PROXY_URL } from "@/services/service.const";
-import { SERVER_URL } from "@/services/service.const";
+import { BASE_URL } from "@/services/service.const";
 import { inject } from 'vue'
 
 export default {
@@ -148,7 +148,9 @@ export default {
 
 .spinner {
   margin: auto;
+
   width: 8vh;
+
   animation: rotate 3s infinite;
 }
 
@@ -165,3 +167,4 @@ export default {
   }
 }
 </style>
+

@@ -1,0 +1,32 @@
+name: "Veracode upload and scan"
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Once a day
+    - cron: "0 0 * * *"
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: ''
+
+      - run: zip -r veracode-scan-target.zip ./
+
+      - name: Run Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.1
+        with:
+          appname: "Battery-Passport-Consumer-App"
+          createprofile: false
+          filepath: "./veracode-scan-target.zip"
+          vid: "${{ secrets.ORG_VERACODE_API_ID }}"
+          vkey: "${{ secrets.ORG_VERACODE_API_KEY }}"

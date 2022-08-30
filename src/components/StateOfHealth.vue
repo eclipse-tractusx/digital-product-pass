@@ -1,67 +1,37 @@
 <template>
-  <SectionHeader title="3. State of Health"/>
-
-  <div class="section-content">
+  <SectionHeader title="3. State of Health" v-on:click="toggle = !toggle" />
+  <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-title-container">
       <span class="sub-title">Timestamp 23.06.2022 - 14:30:45</span>
     </div>
     <div class="sub-section-container">
-      <Field
-          label="Remaining capacity"
-          v-bind:unit="stateOfHealth.remainingCapacity.unit"
-          v-bind:value="stateOfHealth.remainingCapacity.value"
-      />
-      <Field
-          label="Overall capacity fade"
-          v-bind:unit="stateOfHealth.overallCapacityFade.unit"
-          v-bind:value="stateOfHealth.overallCapacityFade.value"
-      />
-      <Field
-          label="Remaining power capability and power fade"
-          v-bind:unit="stateOfHealth.remainingPowerCapabilityAndPowerFade.unit"
-          v-bind:value="stateOfHealth.remainingPowerCapabilityAndPowerFade.value"
-      />
-      <Field
-          label="Remaining round trip efficiency"
-          v-bind:unit="stateOfHealth.remainingRoundTripEfficiency.unit"
-          v-bind:value="stateOfHealth.remainingRoundTripEfficiency.value"
-      />
-      <Field
-          label="Actual cooling demand"
-          v-bind:unit="stateOfHealth.actualCoolingDemand.unit"
-          v-bind:value="stateOfHealth.actualCoolingDemand.value"
-      />
-      <Field
-          label="Evolution of self-discharging rates"
-          v-bind:unit="stateOfHealth.evolutionOfSelfDischargingRates.unit"
-          v-bind:value="stateOfHealth.evolutionOfSelfDischargingRates.value"
-      />
-      <Field
-          label="Ohmic resistance and/or electrochemical impedance"
-          v-bind:unit="
-          stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit
-        "
-          v-bind:value="
-          stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value
-        "
-      />
-      <Field
-          label="The dates of manufacturing of the battery"
-          v-bind:day="stateOfHealth.theDatesOfManufacturingOfTheBattery.day"
-          v-bind:month="stateOfHealth.theDatesOfManufacturingOfTheBattery.month"
-          v-bind:year="stateOfHealth.theDatesOfManufacturingOfTheBattery.year"
-      />
-      <Field
-          label="The dates of putting battery into service"
-          v-bind:day="stateOfHealth.theDatesOfPuttingBatteryIntoService.day"
-          v-bind:month="stateOfHealth.theDatesOfPuttingBatteryIntoService.month"
-          v-bind:year="stateOfHealth.theDatesOfPuttingBatteryIntoService.year"
-      />
-      <Field
-          label="Energy throughput"
-          v-bind:unit="stateOfHealth.energyThroughput.unit"
-          v-bind:value="stateOfHealth.energyThroughput.value"
-      />
+      <Field label="Remaining capacity" v-bind:unit="stateOfHealth.remainingCapacity.unit"
+        v-bind:value="stateOfHealth.remainingCapacity.value" />
+      <Field label="Overall capacity fade" v-bind:unit="stateOfHealth.overallCapacityFade.unit"
+        v-bind:value="stateOfHealth.overallCapacityFade.value" />
+      <Field label="Remaining power capability and power fade"
+        v-bind:unit="stateOfHealth.remainingPowerCapabilityAndPowerFade.unit"
+        v-bind:value="stateOfHealth.remainingPowerCapabilityAndPowerFade.value" />
+      <Field label="Remaining round trip efficiency" v-bind:unit="stateOfHealth.remainingRoundTripEfficiency.unit"
+        v-bind:value="stateOfHealth.remainingRoundTripEfficiency.value" />
+      <Field label="Actual cooling demand" v-bind:unit="stateOfHealth.actualCoolingDemand.unit"
+        v-bind:value="stateOfHealth.actualCoolingDemand.value" />
+      <Field label="Evolution of self-discharging rates"
+        v-bind:unit="stateOfHealth.evolutionOfSelfDischargingRates.unit"
+        v-bind:value="stateOfHealth.evolutionOfSelfDischargingRates.value" />
+      <Field label="Ohmic resistance and/or electrochemical impedance"
+        v-bind:unit="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit"
+        v-bind:value="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value" />
+      <Field label="The dates of manufacturing of the battery"
+        v-bind:day="stateOfHealth.theDatesOfManufacturingOfTheBattery.day"
+        v-bind:month="stateOfHealth.theDatesOfManufacturingOfTheBattery.month"
+        v-bind:year="stateOfHealth.theDatesOfManufacturingOfTheBattery.year" />
+      <Field label="The dates of putting battery into service"
+        v-bind:day="stateOfHealth.theDatesOfPuttingBatteryIntoService.day"
+        v-bind:month="stateOfHealth.theDatesOfPuttingBatteryIntoService.month"
+        v-bind:year="stateOfHealth.theDatesOfPuttingBatteryIntoService.year" />
+      <Field label="Energy throughput" v-bind:unit="stateOfHealth.energyThroughput.unit"
+        v-bind:value="stateOfHealth.energyThroughput.value" />
     </div>
   </div>
 </template>
@@ -80,6 +50,11 @@ export default {
     Field,
     SectionHeader
   },
+  data() {
+    return {
+      toggle: false
+    }
+  }
 };
 </script>
 
@@ -107,5 +82,27 @@ export default {
 .sub-title-container {
   padding: 40px 40px 20px 40px;
   width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .section-content {
+    border: none;
+  }
+
+  .section-content {
+    margin-bottom: 0;
+  }
+
+  .longer {
+    padding-bottom: 0;
+  }
+
+  .sub-title-container {
+    padding: 22px 40px 0 30px;
+  }
 }
 </style>

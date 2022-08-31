@@ -6,7 +6,7 @@
         target="_blank" class="field-container" data-cy="link-to-the-label-element">
         <span class="field-label">Label Elements</span>
         <span class="field-value">
-          {{  additionalInformation.linkToTheLabelElement.value  }}
+          {{ additionalInformation.linkToTheLabelElement.value }}
         </span>
       </a>
       <div class="field-container two-third-width longer"
@@ -15,14 +15,14 @@
         </span>
         <img :src="Trashcan" alt="profile" class="icon" />
         <span class="field-value">
-          {{  additionalInformation.symbolIndicatingSeparateCollectionAndHeavyMetalContent.value  }}
+          {{ additionalInformation.symbolIndicatingSeparateCollectionAndHeavyMetalContent.value }}
         </span>
       </div>
       <a v-if="additionalInformation.carbonFootprintDeclaration.url"
         :href="additionalInformation.carbonFootprintDeclaration.url" target="_blank" class="field-container">
         <span class="field-label">Carbon Footprint Declaration</span>
         <span class="field-value">
-          {{  additionalInformation.carbonFootprintDeclaration.value  }}
+          {{ additionalInformation.carbonFootprintDeclaration.value }}
         </span>
       </a>
       <Field label="Carbon Footprint Performance Class" v-bind:value="
@@ -32,7 +32,7 @@
         <ul>
           <span class="list-label">Hazardous substances contained in the battery</span>
           <li :key="substances" v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery">
-            {{  substances  }}
+            {{ substances }}
           </li>
         </ul>
       </div>
@@ -40,14 +40,14 @@
         :href="additionalInformation.informationAsAResultOfBatteryUse.url" target="_blank" class="field-container">
         <span class="field-label">Information as a result of battery use</span>
         <span class="field-value">
-          {{  additionalInformation.informationAsAResultOfBatteryUse.value  }}
+          {{ additionalInformation.informationAsAResultOfBatteryUse.value }}
         </span>
       </a>
       <a v-if="additionalInformation.euDeclarationOfConformity.url"
         :href="additionalInformation.euDeclarationOfConformity.url" target="_blank" class="field-container">
         <span class="field-label">EU declaration of conformity</span>
         <span class="field-value">
-          {{  additionalInformation.euDeclarationOfConformity.value  }}
+          {{ additionalInformation.euDeclarationOfConformity.value }}
         </span>
       </a>
     </div>

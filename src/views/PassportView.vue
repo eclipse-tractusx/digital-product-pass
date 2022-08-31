@@ -13,7 +13,6 @@
       <SafetyInformation sectionTitle="Safety information" :safetyMeasures="data.safetyMeasures" />
       <InformationResponsibleSourcing sectionTitle="Information responsible sourcing"
         :informationResponsibleSourcing="data.informationResponsibleSourcing" />
-
       <AdditionalInformation sectionTitle="Additional information"
         :additionalInformation="data.additionalInformation" />
     </div>
@@ -160,4 +159,12 @@ export default {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 750px) {
+  .pass-container {
+    width: 100%;
+    margin: 0;
+  }
+}
 </style>
+

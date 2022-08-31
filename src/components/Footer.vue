@@ -2,7 +2,7 @@
   <div class="footer-container">
     <div class="footer-wrapper">
       <div class="logo-wrapper">
-        <img :src="CatenaLogo" alt="logo" class="logo"/>
+        <img :src="CatenaLogo" alt="logo" class="logo" />
       </div>
       <div class="links-wrapper">
         <h3 class="buttons">Contact</h3>
@@ -30,7 +30,8 @@ export default {
 <style scoped>
 .footer-container {
   background-color: #e7e7e7;
-  height: 165px;
+  height: auto;
+  min-height: 165px;
   padding-top: 30px;
 }
 
@@ -47,7 +48,6 @@ export default {
 .links-wrapper {
   width: 70%;
   display: flex;
-
   justify-content: flex-end;
 }
 
@@ -59,5 +59,37 @@ export default {
 .buttons {
   color: #3d3d3d;
   margin: 15px 0 15px 30px;
+}
+
+@media (max-width: 750px) {
+  .logo-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .links-wrapper {
+    flex-direction: column;
+    width: 100%;
+    padding: 18px 0;
+  }
+
+  .footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 185px;
+    margin: 0;
+  }
+
+  .links-wrapper {
+    align-items: center;
+  }
+
+  .buttons {
+    margin: 12px 0;
+  }
+
 }
 </style>

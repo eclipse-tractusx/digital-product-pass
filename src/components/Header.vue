@@ -1,8 +1,29 @@
 <template>
+  <div v-if="hamburgerMenu" class="hamburger-menu">
+    <h3 v-if="hamburgerMenu" class="links">Settings</h3>
+    <h3 v-if="hamburgerMenu" class="links">Notifications</h3>
+    <h3 v-if="hamburgerMenu" v-on:click="profileMenu = !profileMenu" class="links">Profile</h3>
+    <div v-if="profileMenu" class="profile-menu-mobile">
+      <!-- <img :src="Profile" alt="profile" class="" /> -->
+      <span class="mobile-menu-links">
+        {{  username  }}
+        <p class="">{{  role  }}</p>
+      </span>
+      <span class="mobile-menu-links" @click="logout">
+        Sign out
+      </span>
+    </div>
+  </div>
   <div>
     <div class="header-container profile-container">
       <div class="logo-container">
         <img :src="CatenaLogo" alt="logo" class="logo" />
+        <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
+      </div>
+      <div class="toggle-button" v-on:click="hamburgerMenu = !hamburgerMenu">
+        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
+        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
+        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
       </div>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
@@ -17,8 +38,8 @@
                 <img :src="Profile" alt="profile" class="menu-profile" />
                 <!--TODO: Profile page onClick-->
                 <span class="profile-text">
-                  {{ username }}
-                  <p>{{ role }}</p>
+                  {{  username  }}
+                  <p>{{  role  }}</p>
                 </span>
               </div>
               <div class="menu-btn">
@@ -33,7 +54,7 @@
       <div class="id-wrapper">
         <h1>
           BatteryID:
-          {{ batteryId.batteryId ? batteryId.batteryId : "—" }}
+          {{  batteryId.batteryId ? batteryId.batteryId : "—"  }}
         </h1>
       </div>
       <div class="code-container">
@@ -44,7 +65,8 @@
 </template>
 
 <script>
-import CatenaLogo from "../assets/logotype.png";
+import CatenaLogoType from "../assets/logotype.png";
+import CatenaLogo from "../assets/logo.png";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
@@ -52,12 +74,11 @@ import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
 import { inject } from 'vue'
 
-
-
 export default {
   name: "Header",
   components: {
     CatenaLogo,
+    CatenaLogoType,
     Profile,
     Settings,
     Logout,
@@ -65,6 +86,8 @@ export default {
   data() {
     return {
       hover: false,
+      hamburgerMenu: false,
+      profileMenu: false,
       username: "",
       role: "",
       auth: inject('authentication'),
@@ -72,6 +95,7 @@ export default {
   },
   setup() {
     return {
+      CatenaLogoType,
       CatenaLogo,
       Profile,
       Notifications,
@@ -112,9 +136,18 @@ h1 {
 }
 
 .logo-container {
-  display: block;
+  display: relative;
   width: 50%;
-  height: fit-content;
+}
+
+.logo {
+  position: absolute;
+  height: 49px;
+  left: -56px
+}
+
+.logo-type {
+  height: 49px;
 }
 
 .code-container {
@@ -143,13 +176,7 @@ h1 {
   align-items: center;
   width: 76%;
   margin: 2% 12% 6% 12%;
-}
-
-.logo {
-  display: block;
-  width: 209px;
-  height: 49px;
-  margin: 0 0 7% -64px;
+  padding: 20px 0;
 }
 
 .buttons {
@@ -165,10 +192,8 @@ h1 {
 .profile-menu {
   position: absolute;
   min-width: 342px;
-
   border: solid 1px #ffa600;
   right: 0;
-  z-index: 1;
   background-color: white;
   cursor: pointer;
 }
@@ -201,5 +226,114 @@ p {
 
 .menu-profile {
   padding: 16px;
+}
+
+.toggle-button {
+  position: absolute;
+  top: .75rem;
+  right: 1rem;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  z-index: 1;
+}
+
+.toggle-button .bar {
+  height: 4px;
+  width: 100%;
+  background-color: #B3CB2C;
+  border-radius: 10px;
+
+}
+
+@media (max-width: 750px) {
+  .right-manu-wrapper {
+    display: none;
+  }
+
+  .toggle-button {
+    display: flex;
+    margin-right: 36px
+  }
+
+  .code-container {
+    display: none;
+  }
+
+  .logo {
+    height: 45px;
+    left: 0
+  }
+
+  .logo-type {
+    display: none;
+  }
+
+  .header-container {
+    width: 100%;
+    margin: 30px;
+  }
+
+  .id-container {
+    margin: 45px 0 0 30px;
+    padding: 20px 0;
+  }
+
+  h1 {
+    font-size: 25px;
+    line-height: 36px;
+  }
+
+  .hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    background-color: #B3CB2C;
+    height: auto;
+    min-height: 270px;
+    padding: 80px 0 0 0;
+    z-index: 1;
+  }
+
+  .links {
+    margin: 12px;
+    font-weight: bold;
+  }
+
+  h3 {
+    color: white;
+  }
+
+  .toggle-button .white-bar {
+    background-color: white;
+  }
+
+  .toggle-button-color {
+    background-color: white;
+  }
+
+  .profile-menu-mobile {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px #B3CB2C
+  }
+
+  .mobile-menu-links {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: solid 1px #B3CB2C;
+    width: 100%;
+    min-height: 60px;
+    padding: 16px 0 0 0px;
+  }
 }
 </style>

@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import CatenaLogo from "../assets/logo.png";
+import CatenaLogo from '../assets/logo.png';
 
 export default {
-  name: "FooterComponent",
+  name: 'FooterComponent',
   components: {},
   setup() {
     return {

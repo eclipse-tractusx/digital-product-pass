@@ -1,5 +1,5 @@
 <template>
-  <div className="section-header" v-on:click="toggle = !toggle">
+  <div className="section-header" @click="toggle = !toggle">
     <span className="section-title">{{  title  }}</span>
     <span className="toggle-container">
       <img :src="Toggle" alt="toggle" class="toggle-btn" :class="[toggle ? 'rotate' : '']" />
@@ -8,25 +8,25 @@
 </template>
 
 <script>
-import Toggle from "../assets/toggle.svg";
+import Toggle from '../assets/toggle.svg';
 
 export default {
-  name: "SectionHeader",
-  props: {
-    title: String,
-  },
+  name: 'SectionHeader',
   components: {
     Toggle
+  },
+  props: {
+    title: String,
   },
   setup() {
     return {
       Toggle,
-    }
+    };
   },
   data() {
     return {
       toggle: false,
-    }
+    };
   }
 };
 </script>

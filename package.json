@@ -16,6 +16,7 @@
     "bootstrap-vue": "^2.21.2",
     "bootstrap-vue-3": "^0.1.21",
     "core-js": "^3.8.3",
+    "eslint-config-prettier": "^8.5.0",
     "jquery": "^3.6.0",
     "keycloak-js": "^19.0.1",
     "path": "^0.12.7",
@@ -44,13 +45,26 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
+      "plugin:vue/vue3-recommended",
+      "eslint:recommended",
+      "prettier"
     ],
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "no-multi-spaces": [
+        "error"
+      ]
+    }
   },
   "browserslist": [
     "> 1%",

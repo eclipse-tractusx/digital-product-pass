@@ -4,11 +4,11 @@
 
 <script>
 export default {
-  name: "SectionContent",
+  name: 'SectionContent',
+  components: {},
   props: {
     children: String,
   },
-  components: {},
 };
 </script>
 

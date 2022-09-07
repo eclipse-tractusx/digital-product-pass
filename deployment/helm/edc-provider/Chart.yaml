@@ -18,12 +18,12 @@ dependencies:
     repository: file://../../../deployment/helm/edc-dataplane
     condition: dataplane.enabled
   - name: backend-service
-    alias: backend
+    alias: providerbackendapplication
     version: "0.0.5"
     repository: https://denisneuling.github.io/cx-backend-service
-    condition: platobackendapplication.enabled
+    condition: providerbackendapplication.enabled
   - name: postgresql
-    alias: postgres
+    alias: providerpostgres
     version: 11.2.4
     repository: https://charts.bitnami.com/bitnami
-    condition: postgres.enabled
+    condition: providerpostgres.enabled

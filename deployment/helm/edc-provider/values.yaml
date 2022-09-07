@@ -1,9 +1,25 @@
 ---
+providerbackendapplication:
+  enabled: true
+  fullnameOverride: "provider-backend-application"
+  service:
+    frontend:
+      port: 80
+providerpostgres:
+  enabled: true
+  fullnameOverride: "provider-postgresql"
+  auth:
+    password: &psqlPassword "psql_password"
+    username: &psqlUsername "postgresql_sandbox_user"
+    database: &psqlDatabase "edc"
+  persistence:
+    enabled: false
+
 dataplane:
   image:
     tag: 0.1.0
     pullPolicy: IfNotPresent
-  envSecretName: "data-secret"
+  envSecretName: "provider-data-secret"
   edc:
     endpoints:
       default:
@@ -73,7 +89,7 @@ controlplane:
   image:
     tag: 0.1.0
     pullPolicy: IfNotPresent
-  envSecretName: "control-secret"
+  envSecretName: "provider-control-secret"
   edc:
     endpoints:
       default:
@@ -181,23 +197,23 @@ controlplane:
       # edc.dataplane.workers=
       edc.datasource.asset.name="asset"
       edc.datasource.asset.user="postgresql_sandbox_user"
-      edc.datasource.asset.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.asset.url="jdbc:postgresql://providerpostgres:5432/edc"
       
       edc.datasource.contractdefinition.name="contractdefinition"
       edc.datasource.contractdefinition.user="postgresql_sandbox_user" 
-      edc.datasource.contractdefinition.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.contractdefinition.url="jdbc:postgresql://providerpostgres:5432/edc"
 
       edc.datasource.contractnegotiation.name="contractnegotiation"
       edc.datasource.contractnegotiation.user="postgresql_sandbox_user"
-      edc.datasource.contractnegotiation.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.contractnegotiation.url="jdbc:postgresql://providerpostgres:5432/edc"
 
       edc.datasource.policy.name="policy"
       edc.datasource.policy.user="postgresql_sandbox_user"
-      edc.datasource.policy.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.policy.url="jdbc:postgresql://providerpostgres:5432/edc"
 
       edc.datasource.transferprocess.name="transferprocess"
       edc.datasource.transferprocess.user="postgresql_sandbox_user"
-      edc.datasource.transferprocess.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.transferprocess.url="jdbc:postgresql://providerpostgres:5432/edc"
 
 
       # edc.datasource.default.pool.maxIdleConnections=
@@ -208,7 +224,7 @@ controlplane:
       # edc.datasource.default.pool.testConnectionOnReturn=
       # edc.datasource.default.pool.testConnectionWhileIdle=
       # edc.datasource.default.pool.testQuery=
-      edc.datasource.default.url="jdbc:postgresql://postgresql:5432/edc"
+      edc.datasource.default.url="jdbc:postgresql://providerpostgres:5432/edc"
       edc.datasource.default.user="postgresql_sandbox_user"
       edc.datasource.default.password="psql_password"
 
@@ -252,7 +268,7 @@ controlplane:
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
-      edc.receiver.http.endpoint=http://backend
+      edc.receiver.http.endpoint=http://provider-backend-application
       edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/dataplane/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key

@@ -21,8 +21,8 @@
         "
         class="field-container two-third-width longer"
       >
-        <span class="field-label short-label"
-          >Symbol indicating ‘separate collection’ and heavy metal content
+        <span class="field-label short-label">
+          Symbol indicating ‘separate collection’ and heavy metal content
         </span>
         <img :src="Trashcan" alt="profile" class="icon" />
         <span class="field-value">
@@ -52,8 +52,8 @@
         class="list-container"
       >
         <ul>
-          <span class="list-label"
-            >Hazardous substances contained in the battery</span
+          <span class="list-label">
+            Hazardous substances contained in the battery</span
           >
           <li
             v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery"

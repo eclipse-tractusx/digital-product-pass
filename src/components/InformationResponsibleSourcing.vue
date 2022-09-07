@@ -1,8 +1,9 @@
 <template>
-  <SectionHeader title="7. Information responsible sourcing" v-on:click="toggle = !toggle" />
+  <SectionHeader title="7. Information responsible sourcing" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
-      <a :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url" class="field-container"
+      <a
+:href="informationResponsibleSourcing.responsibleRawMaterialsReport.url" class="field-container"
         target="_blank">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
@@ -14,17 +15,17 @@
 </template>
 
 <script>
-import SectionHeader from "./SectionHeader.vue";
-import Pdf from "../assets/pdf.svg";
+import SectionHeader from './SectionHeader.vue';
+import Pdf from '../assets/pdf.svg';
 
 export default {
-  name: "InformationResponsibleSourcing",
+  name: 'InformationResponsibleSourcing',
+  components: {
+    SectionHeader
+  },
   props: {
     sectionTitle: String,
     informationResponsibleSourcing: {},
-  },
-  components: {
-    SectionHeader
   },
   setup() {
     return {
@@ -34,7 +35,7 @@ export default {
   data() {
     return {
       toggle: false
-    }
+    };
   }
 };
 </script>

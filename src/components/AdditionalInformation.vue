@@ -1,50 +1,85 @@
 <template v-if="additionalInformation">
-  <SectionHeader title="8. Additional information" v-on:click="toggle = !toggle" />
+  <SectionHeader title="8. Additional information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
-      <a v-if="additionalInformation.linkToTheLabelElement.url" :href="additionalInformation.linkToTheLabelElement.url"
-        target="_blank" class="field-container" data-cy="link-to-the-label-element">
+      <a
+        v-if="additionalInformation.linkToTheLabelElement.url"
+        :href="additionalInformation.linkToTheLabelElement.url"
+        target="_blank"
+        class="field-container"
+        data-cy="link-to-the-label-element"
+      >
         <span class="field-label">Label Elements</span>
         <span class="field-value">
           {{ additionalInformation.linkToTheLabelElement.value }}
         </span>
       </a>
-      <div class="field-container two-third-width longer"
-        v-if="additionalInformation.symbolIndicatingSeparateCollectionAndHeavyMetalContent.value">
-        <span class="field-label short-label ">Symbol indicating ‘separate collection’ and heavy metal content
+      <div
+        v-if="
+          additionalInformation
+            .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
+        "
+        class="field-container two-third-width longer"
+      >
+        <span class="field-label short-label">
+          Symbol indicating ‘separate collection’ and heavy metal content
         </span>
         <img :src="Trashcan" alt="profile" class="icon" />
         <span class="field-value">
-          {{ additionalInformation.symbolIndicatingSeparateCollectionAndHeavyMetalContent.value }}
+          {{
+            additionalInformation
+              .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
+          }}
         </span>
       </div>
-      <a v-if="additionalInformation.carbonFootprintDeclaration.url"
-        :href="additionalInformation.carbonFootprintDeclaration.url" target="_blank" class="field-container">
+      <a
+        v-if="additionalInformation.carbonFootprintDeclaration.url"
+        :href="additionalInformation.carbonFootprintDeclaration.url"
+        target="_blank"
+        class="field-container"
+      >
         <span class="field-label">Carbon Footprint Declaration</span>
         <span class="field-value">
           {{ additionalInformation.carbonFootprintDeclaration.value }}
         </span>
       </a>
-      <Field label="Carbon Footprint Performance Class" v-bind:value="
-        additionalInformation.carbonFootprintPerformanceClass.value
-      " />
-      <div class="list-container" v-if="additionalInformation.hazardousSubstancesContainedInTheBattery">
+      <FieldComponent
+        label="Carbon Footprint Performance Class"
+        :value="additionalInformation.carbonFootprintPerformanceClass.value"
+      />
+      <div
+        v-if="additionalInformation.hazardousSubstancesContainedInTheBattery"
+        class="list-container"
+      >
         <ul>
-          <span class="list-label">Hazardous substances contained in the battery</span>
-          <li :key="substances" v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery">
+          <span class="list-label">
+            Hazardous substances contained in the battery</span
+          >
+          <li
+            v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery"
+            :key="substances"
+          >
             {{ substances }}
           </li>
         </ul>
       </div>
-      <a v-if="additionalInformation.informationAsAResultOfBatteryUse.url"
-        :href="additionalInformation.informationAsAResultOfBatteryUse.url" target="_blank" class="field-container">
+      <a
+        v-if="additionalInformation.informationAsAResultOfBatteryUse.url"
+        :href="additionalInformation.informationAsAResultOfBatteryUse.url"
+        target="_blank"
+        class="field-container"
+      >
         <span class="field-label">Information as a result of battery use</span>
         <span class="field-value">
           {{ additionalInformation.informationAsAResultOfBatteryUse.value }}
         </span>
       </a>
-      <a v-if="additionalInformation.euDeclarationOfConformity.url"
-        :href="additionalInformation.euDeclarationOfConformity.url" target="_blank" class="field-container">
+      <a
+        v-if="additionalInformation.euDeclarationOfConformity.url"
+        :href="additionalInformation.euDeclarationOfConformity.url"
+        target="_blank"
+        class="field-container"
+      >
         <span class="field-label">EU declaration of conformity</span>
         <span class="field-value">
           {{ additionalInformation.euDeclarationOfConformity.value }}
@@ -53,23 +88,29 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Trashcan from "@/assets/trashcan.svg";
-import Field from "./Field.vue";
+import FieldComponent from "./Field.vue";
 
 export default {
   name: "AdditionalInformation",
-  props: {
-    sectionTitle: String,
-    additionalInformation: {},
-  },
   components: {
-    Field,
+    FieldComponent,
     SectionHeader,
-    SectionContent,
+  },
+  props: {
+    sectionTitle: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    additionalInformation: {
+      type: Object,
+      required: false,
+      default: Object,
+    },
   },
   setup() {
     return {
@@ -78,9 +119,9 @@ export default {
   },
   data() {
     return {
-      toggle: false
-    }
-  }
+      toggle: false,
+    };
+  },
 };
 </script>
 
@@ -105,7 +146,6 @@ export default {
   width: 33%;
   min-height: 120px;
   text-decoration: none;
-
 }
 
 .field-label {

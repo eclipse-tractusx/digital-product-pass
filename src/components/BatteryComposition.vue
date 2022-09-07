@@ -1,17 +1,23 @@
 <template v-if="batteryComposition">
-  <SectionHeader title="2. Battery composition" v-on:click="toggle = !toggle" />
+  <SectionHeader title="2. Battery composition" @click="toggle = !toggle" />
   <!-- Composition of Electrolyte -->
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <div class="sub-title-container">
         <span class="sub-title">Composition of Electrolyte</span>
       </div>
-      <div class="list-container" v-if="batteryComposition.electrolyteComposition">
+      <div
+        v-if="batteryComposition.electrolyteComposition"
+        class="list-container"
+      >
         <ul>
           <span class="list-label"></span>
-          <li :key="electrolytes" v-for="electrolytes in batteryComposition.electrolyteComposition"
-            data-cy="electrolyte-composition">
-            {{  electrolytes  }}
+          <li
+            v-for="electrolytes in batteryComposition.electrolyteComposition"
+            :key="electrolytes"
+            data-cy="electrolyte-composition"
+          >
+            {{ electrolytes }}
           </li>
         </ul>
       </div>
@@ -21,14 +27,23 @@
       <div class="sub-title-container">
         <span class="sub-title"> Composition of Anode</span>
       </div>
-      <Field label="Natural Graphite content"
-        v-bind:value="batteryComposition.anodeContent.naturalGraphiteContent.value"
-        v-bind:unit="batteryComposition.anodeContent.naturalGraphiteContent.unit" />
-      <div class="list-container" v-if="batteryComposition.anodeContent.anodeComposition">
+      <Field
+        label="Natural Graphite content"
+        :value="batteryComposition.anodeContent.naturalGraphiteContent.value"
+        :unit="batteryComposition.anodeContent.naturalGraphiteContent.unit"
+      />
+      <div
+        v-if="batteryComposition.anodeContent.anodeComposition"
+        class="list-container"
+      >
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
-          <li :key="electrolytes" v-for="electrolytes in batteryComposition.anodeContent.anodeComposition">
-            {{  electrolytes  }}
+          <li
+            v-for="electrolytes in batteryComposition.anodeContent
+              .anodeComposition"
+            :key="electrolytes"
+          >
+            {{ electrolytes }}
           </li>
         </ul>
       </div>
@@ -38,18 +53,33 @@
       <div class="sub-title-container">
         <span class="sub-title"> Composition of Cathode</span>
       </div>
-      <Field label="Li content" v-bind:value="batteryComposition.cathodeComposition.liContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.liContent.unit" />
-      <Field label="Ni content" v-bind:value="batteryComposition.cathodeComposition.niContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.niContent.unit" />
-      <Field label="Co content" v-bind:value="batteryComposition.cathodeComposition.coContent.value"
-        v-bind:unit="batteryComposition.cathodeComposition.coContent.unit" />
-      <div class="list-container" v-if="batteryComposition.cathodeComposition.otherCathodeComposition">
+      <Field
+        label="Li content"
+        :value="batteryComposition.cathodeComposition.liContent.value"
+        :unit="batteryComposition.cathodeComposition.liContent.unit"
+      />
+      <Field
+        label="Ni content"
+        :value="batteryComposition.cathodeComposition.niContent.value"
+        :unit="batteryComposition.cathodeComposition.niContent.unit"
+      />
+      <Field
+        label="Co content"
+        :value="batteryComposition.cathodeComposition.coContent.value"
+        :unit="batteryComposition.cathodeComposition.coContent.unit"
+      />
+      <div
+        v-if="batteryComposition.cathodeComposition.otherCathodeComposition"
+        class="list-container"
+      >
         <ul>
           <span class="list-label">Recyclate Content Ni</span>
-          <li :key="electrolytes" v-for="electrolytes in batteryComposition.cathodeComposition
-          .otherCathodeComposition">
-            {{  electrolytes  }}
+          <li
+            v-for="electrolytes in batteryComposition.cathodeComposition
+              .otherCathodeComposition"
+            :key="electrolytes"
+          >
+            {{ electrolytes }}
           </li>
         </ul>
       </div>
@@ -64,45 +94,69 @@
       <div class="sub-title-container">
         <span class="sub-title">Critical Raw Materials</span>
       </div>
-      <div class="list-container" v-if="batteryComposition.crm">
+      <div v-if="batteryComposition.crm" class="list-container">
         <ul>
           <span class="list-label">List of CRM</span>
-          <li :key="electrolytes" v-for="electrolytes in batteryComposition.crm">
-            {{  electrolytes  }}
+          <li
+            v-for="electrolytes in batteryComposition.crm"
+            :key="electrolytes"
+          >
+            {{ electrolytes }}
           </li>
         </ul>
       </div>
     </div>
-    <!-- Recycled content in active materials/battery model
- -->
+    <!-- Recycled content in active materials/battery model-->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title">Recycled content in active materials/battery model</span>
+        <span class="sub-title"
+          >Recycled content in active materials/battery model</span
+        >
       </div>
-      <Field label="Recyclate Content Ni" v-bind:value="batteryComposition.niRecyclateContent.value"
-        v-bind:unit="batteryComposition.niRecyclateContent.unit" />
-      <Field label="Recyclate Content Li" v-bind:value="batteryComposition.liRecyclateContent.value"
-        v-bind:unit="batteryComposition.liRecyclateContent.unit" />
-      <Field label="Recyclate Content Co" v-bind:value="batteryComposition.coRecyclateContent.value"
-        v-bind:unit="batteryComposition.coRecyclateContent.unit" />
-      <Field label="Recyclate Content Pb" v-bind:value="batteryComposition.pbRecyclateContent.value"
-        v-bind:unit="batteryComposition.pbRecyclateContent.unit" />
+      <Field
+        label="Recyclate Content Ni"
+        :value="batteryComposition.niRecyclateContent.value"
+        :unit="batteryComposition.niRecyclateContent.unit"
+      />
+      <Field
+        label="Recyclate Content Li"
+        :value="batteryComposition.liRecyclateContent.value"
+        :unit="batteryComposition.liRecyclateContent.unit"
+      />
+      <Field
+        label="Recyclate Content Co"
+        :value="batteryComposition.coRecyclateContent.value"
+        :unit="batteryComposition.coRecyclateContent.unit"
+      />
+      <Field
+        label="Recyclate Content Pb"
+        :value="batteryComposition.pbRecyclateContent.value"
+        :unit="batteryComposition.pbRecyclateContent.unit"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Field from "./Field.vue";
 
 export default {
   name: "BatteryComposition",
-  props: {
-    sectionTitle: String,
-    batteryComposition: {},
+  components: {
+    Field,
+    SectionHeader,
   },
-  methods: {},
+  props: {
+    sectionTitle: {
+      type: String,
+      default: "",
+    },
+    batteryComposition: {
+      type: Object,
+      default: Object,
+    },
+  },
   data() {
     return {
       toggle: false,
@@ -140,11 +194,7 @@ export default {
       ],
     };
   },
-  components: {
-    Field,
-    SectionHeader,
-    SectionContent,
-  },
+  methods: {},
 };
 </script>
 

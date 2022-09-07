@@ -47,7 +47,7 @@
         </div>
         <br/>
         <div class="col-md-4 center">
-          <button class="btn btn-success btn-signup" v-on:click="signUp">
+          <button class="btn btn-success btn-signup" @click="signUp">
             Sign Up
           </button>
         </div>
@@ -63,18 +63,24 @@
 </template>
 
 <script type="text/jsx">
-import axios from "axios";
-import {DUMMY_SERVICE} from "@/services/service.const";
+import axios from 'axios';
+import {DUMMY_SERVICE} from '@/services/service.const';
 
 export default {
-  name: "SignUp",
+  name: 'SignUp',
   data() {
     return {
-      name: "",
-      email: "",
-      role: "",
-      password: "",
+      name: '',
+      email: '',
+      role: '',
+      password: '',
     };
+  },
+  mounted() {
+    let user = localStorage.getItem('user-info');
+    if (user) {
+      this.$router.push({name: 'Home'});
+    }
   },
   methods: {
     async signUp() {
@@ -86,16 +92,10 @@ export default {
       console.warn(result);
       if (result.status === 201) {
         //alert("sign-up successful..!")
-        localStorage.setItem("user-info", JSON.stringify(result.data));
-        await this.$router.push({name: "Home"});
+        localStorage.setItem('user-info', JSON.stringify(result.data));
+        await this.$router.push({name: 'Home'});
       }
     },
-  },
-  mounted() {
-    let user = localStorage.getItem("user-info");
-    if (user) {
-      this.$router.push({name: "Home"});
-    }
   },
 };
 </script>

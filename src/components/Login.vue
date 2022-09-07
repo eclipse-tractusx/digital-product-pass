@@ -12,15 +12,17 @@
           <router-link to="/sign-up" class="sign-up">Sign Up</router-link>
         </div>
         <div class="col-md-4">
-          <input class="form-control input" v-model="email" type="text" placeholder="Username or email"
+          <input
+v-model="email" class="form-control input" type="text" placeholder="Username or email"
             data-cy="email-input" />
         </div>
         <div class="col-md-4">
-          <input class="form-control input" v-model="password" type="password" placeholder="Password"
+          <input
+v-model="password" class="form-control input" type="password" placeholder="Password"
             data-cy="password-input" />
         </div>
         <div class="col-md-4">
-          <button class="btn btn-success btn-login" v-on:click="login" data-cy="sign-in-btn">
+          <button class="btn btn-success btn-login" data-cy="sign-in-btn" @click="login">
             Sign In
           </button>
         </div>
@@ -41,13 +43,13 @@
 
 <script type="text/jsx">
 
-import axios from "axios";
-import CatenaLogo from "../assets/logotype.png";
-import LogoBG from "../assets/logo.png";
-import { MOCK_AUTH_URL } from "@/services/service.const";
+import axios from 'axios';
+import CatenaLogo from '../assets/logotype.png';
+import LogoBG from '../assets/logo.png';
+import { MOCK_AUTH_URL } from '@/services/service.const';
 
 export default {
-  name: "LoginPage",
+  name: 'LoginPage',
   components: {
     CatenaLogo,
     LogoBG
@@ -57,6 +59,29 @@ export default {
       CatenaLogo, LogoBG
     };
   },
+  computed: {
+    email: {
+      set(newEmail) {
+        this.$store.commit('setEmail', newEmail);
+      }
+    },
+    password: {
+      set(newPassword) {
+        this.$store.commit('setPassword', newPassword);
+      }
+    },
+    role: {
+      set(newRole) {
+        this.$store.commit('setRole', newRole);
+      }
+    },
+  },
+  mounted() {
+    let user = localStorage.getItem('user-info');
+    if (user) {
+      this.$router.push({ name: 'Home' });
+    }
+  },
   methods: {
     async login() {
 
@@ -64,43 +89,20 @@ export default {
       if (result.status === 200 && result.data.length > 0) {
 
         //alert("login successful..!")
-        localStorage.setItem("user-info", JSON.stringify(result.data[0]));
-        if (localStorage.getItem("QRCode-info")) {
-          const isAccessUsingQRCode = localStorage.getItem("QRCode-info")
+        localStorage.setItem('user-info', JSON.stringify(result.data[0]));
+        if (localStorage.getItem('QRCode-info')) {
+          const isAccessUsingQRCode = localStorage.getItem('QRCode-info');
 
-          let query = { "provider": JSON.parse(isAccessUsingQRCode).provider, "battery": JSON.parse(isAccessUsingQRCode).battery }
-          this.$router.push({ name: "Home", query: query });
+          let query = { 'provider': JSON.parse(isAccessUsingQRCode).provider, 'battery': JSON.parse(isAccessUsingQRCode).battery };
+          this.$router.push({ name: 'Home', query: query });
         }
         else
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: 'Home' });
       }
       else {
-        alert("user is not registered or invalid credentails..!")
+        alert('user is not registered or invalid credentails..!');
       }
     },
-  },
-  computed: {
-    email: {
-      set(newEmail) {
-        this.$store.commit('setEmail', newEmail)
-      }
-    },
-    password: {
-      set(newPassword) {
-        this.$store.commit('setPassword', newPassword)
-      }
-    },
-    role: {
-      set(newRole) {
-        this.$store.commit('setRole', newRole)
-      }
-    },
-  },
-  mounted() {
-    let user = localStorage.getItem("user-info");
-    if (user) {
-      this.$router.push({ name: "Home" });
-    }
   },
 };
 </script>

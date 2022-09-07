@@ -39,7 +39,7 @@
       <br/>
 
       <div class="col-md-4 center">
-        <button class="btn btn-success btn-signup" v-on:click="generateQRCode">
+        <button class="btn btn-success btn-signup" @click="generateQRCode">
           Generate QR code
         </button>
       </div>
@@ -49,7 +49,7 @@
       </div>
 
       <div>
-        <button class="btn btn-success btn-signup" v-on:click="redirect">
+        <button class="btn btn-success btn-signup" @click="redirect">
           Get access
         </button>
       </div>
@@ -60,11 +60,11 @@
 
 <script type="text/jsx">
 
-import {GOOGLE_CHART_API_URL} from "@/services/service.const";
+import {GOOGLE_CHART_API_URL} from '@/services/service.const';
 
 export default {
+  name: 'ScanPassport',
   components: {},
-  name: "ScanPassport",
   data() {
     return {
       host: '',
@@ -75,14 +75,14 @@ export default {
     };
   },
   mounted() {
-    alert('sasas')
+    alert('sasas');
   },
   methods: {
     generateQRCode() {
       let url = `${this.host}/providers/${this.provider}/battery/${this.batteryNumber}`;
-      this.link = url
+      this.link = url;
       if (this.host === '' || this.provider === '' || this.batteryNumber === '')
-        alert('Please fill all fields..!')
+        alert('Please fill all fields..!');
       else
         this.generatedQrCodeUrl = `${GOOGLE_CHART_API_URL}/chart?cht=qr&chs=400x400&chl=${url}`;
 
@@ -101,8 +101,8 @@ export default {
     //   });
     // },
     redirect(url) {
-      window.location.href = "http://localhost:8080"
-      localStorage.setItem("battery-info", JSON.stringify({"provider": this.provider, "battery": this.batteryNumber}))
+      window.location.href = 'http://localhost:8080';
+      localStorage.setItem('battery-info', JSON.stringify({'provider': this.provider, 'battery': this.batteryNumber}));
     }
   }
 };

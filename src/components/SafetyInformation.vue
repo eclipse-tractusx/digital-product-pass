@@ -1,25 +1,28 @@
 <template v-if="safetyMeasures">
-  <SectionHeader title="6. Safety information" v-on:click="toggle = !toggle" />
+  <SectionHeader title="6. Safety information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <div class="sub-title-container">
         <span class="sub-title">Safety measures</span>
       </div>
-      <a v-if="safetyMeasures.occupationalSafety.url" :href="safetyMeasures.occupationalSafety.url" target="_blank"
+      <a
+v-if="safetyMeasures.occupationalSafety.url" :href="safetyMeasures.occupationalSafety.url" target="_blank"
         class="field-container" data-cy="occupational-safety">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
           {{  safetyMeasures.occupationalSafety.value  }}
         </span>
       </a>
-      <a v-if="safetyMeasures.fireProtection.url" :href="safetyMeasures.fireProtection.url" target="_blank"
+      <a
+v-if="safetyMeasures.fireProtection.url" :href="safetyMeasures.fireProtection.url" target="_blank"
         class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
           {{  safetyMeasures.fireProtection.value  }}
         </span>
       </a>
-      <a v-if="safetyMeasures.usableExtinguishingAgent.url" :href="safetyMeasures.usableExtinguishingAgent.url"
+      <a
+v-if="safetyMeasures.usableExtinguishingAgent.url" :href="safetyMeasures.usableExtinguishingAgent.url"
         target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
@@ -31,7 +34,8 @@
       <div class="sub-title-container">
         <span class="sub-title">Packaging Instructions</span>
       </div>
-      <a v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
+      <a
+v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
         :href="safetyMeasures.instructionsForSafelyPackagingBatteries.url" target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
@@ -43,7 +47,8 @@
       <div class="sub-title-container">
         <span class="sub-title">Transportation Instructions</span>
       </div>
-      <a v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
+      <a
+v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
         :href="safetyMeasures.instructionsForSafelyTransportingBatteries.url" target="_blank" class="field-container">
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
@@ -55,19 +60,19 @@
 </template>
 
 <script>
-import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
-import Pdf from "../assets/pdf.svg";
+import SectionHeader from './SectionHeader.vue';
+import SectionContent from './SectionContent.vue';
+import Pdf from '../assets/pdf.svg';
 
 export default {
-  name: "safetyMeasures",
-  props: {
-    sectionTitle: String,
-    safetyMeasures: {},
-  },
+  name: 'SafetyMeasures',
   components: {
     SectionHeader,
     SectionContent,
+  },
+  props: {
+    sectionTitle: String,
+    safetyMeasures: {},
   },
   setup() {
     return {
@@ -77,7 +82,7 @@ export default {
   data() {
     return {
       toggle: false
-    }
+    };
   }
 };
 </script>

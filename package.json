@@ -27,6 +27,7 @@
     "vue-router": "^4.0.13",
     "vue-step-progress": "^0.3.7",
     "vue-uuid": "^3.0.0",
+    "vue3-easy-data-table": "^1.4.17",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

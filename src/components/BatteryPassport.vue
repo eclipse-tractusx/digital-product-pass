@@ -3,7 +3,7 @@
   <div v-else>
     <Header />
     <div class="container" data-cy="battery-pass-container">
-      <label class="label" for="Provider">Battery Provider:</label>
+      <!-- <label class="label" for="Provider">Battery Provider:</label>
       <select
         id="selectProvider"
         v-model="selectedProvider"
@@ -20,8 +20,8 @@
         >
           {{ provider.name }}
         </option>
-      </select>
-      <label class="label" for="Battery">Battery:</label>
+      </select> -->
+      <!-- <label class="label" for="Battery">Battery:</label>
       <select
         id="selectBattery"
         v-model="selectedBattery"
@@ -41,8 +41,8 @@
           {{ battery.name }}
         </option>
       </select>
-      <br />
-      <div v-if="assetIdsVisible">
+      <br /> -->
+      <!-- <div v-if="assetIdsVisible">
         <label class="label" for="Search criteria">Search Criteria:</label
         ><br /><br />
         <textarea
@@ -50,8 +50,8 @@
           disabled
           style="height: 120px; width: 340px"
         ></textarea>
-      </div>
-      <button
+      </div> -->
+      <!-- <button
         :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"
         type="button"
@@ -59,7 +59,16 @@
         @click="getProductPassport"
       >
         Get Battery Passport
-      </button>
+      </button> -->
+      <!-- <button
+        class="btn btn-success center success-btn"
+        type="button"
+        data-cy="passport-btn"
+        @click="getProductPassportFast"
+      >
+        Get Battery Passport right away
+      </button> -->
+      <DashboardTable />
     </div>
     <!-- <div class="dashboard-container">
       <div class="titles-container">
@@ -75,6 +84,7 @@
 <script type="text/jsx">
 import Header from "@/components/Header.vue";
 import Spinner from "@/components/Spinner.vue";
+import DashboardTable from "@/components/DashboardTable.vue";
 import { inject } from "vue";
 
 let listBatteryProviders = require("../assets/providers.json");
@@ -84,6 +94,7 @@ export default {
   components: {
     Spinner,
     Header,
+    DashboardTable,
   },
   data() {
     return {
@@ -144,16 +155,17 @@ export default {
       // ],
       loading: true,
       listProviders: listBatteryProviders,
-      provider: {},
-      selectedProvider: "",
-      selectedBattery: "",
-      assetIds: {},
+      provider: listBatteryProviders[0],
+      selectedProvider: listBatteryProviders[0].name,
+      selectedBattery: listBatteryProviders[0].batteries[0].id,
+      assetIds: listBatteryProviders[0].batteries[0].AssetIds[(0, 1, 2, 3)],
       assetIdsVisible: false,
       name: "",
     };
   },
   created() {
     this.loading = false;
+    console.log(this.assetIds);
   },
 
   mounted() {
@@ -220,6 +232,7 @@ export default {
           : null;
       });
       this.assetIdsVisible = true;
+      console.log(this.assetIds);
     },
     async getBatteryDataUsingQRCode() {
       // To get the provider and batteries
@@ -239,6 +252,47 @@ export default {
         });
       else alert("Battery provider and battery name are required...!");
     },
+    getProductPassportFast: function () {
+      this.selectedProvider = "BMW";
+      this.selectedBattery = "test-battery-1";
+      this.assetIds = [
+        { key: "batteryId", value: "334593247" },
+        { key: "passportNumber", value: "12345" },
+        { key: "batteryBatchNumber", value: "999999" },
+        { key: "BattProducer", value: "BattProducer" },
+      ];
+      this.assetIdsVisible = true;
+      if (this.validateFields(this.selectedProvider, this.selectedBattery))
+        this.$router.replace({
+          name: "Passport",
+          params: { assetIds: this.assetIds },
+          query: {
+            provider: this.selectedProvider,
+            battery: this.selectedBattery,
+          },
+        });
+      else alert("Battery provider and battery name are required...!");
+    },
+    getProductPassportFromTable: async function () {
+      this.selectedProvider = "BMW";
+      this.selectedBattery = "test-battery-1";
+      this.assetIds = [
+        { key: "batteryId", value: "334593247" },
+        { key: "passportNumber", value: "12345" },
+        { key: "batteryBatchNumber", value: "999999" },
+        { key: "BattProducer", value: "BattProducer" },
+      ];
+      this.assetIdsVisible = true;
+      this.$router.replace({
+        name: "Passport",
+        params: { assetIds: this.assetIds },
+        query: {
+          provider: this.selectedProvider,
+          battery: this.selectedBattery,
+        },
+      });
+      window.location.reload();
+    },
   },
 };
 </script>
@@ -249,12 +303,12 @@ export default {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
-  width: 22%;
-  margin: 15% 39% 0 39%;
+  margin-top: 10vh;
+  width: 50vw;
+  margin-left: 450px;
 }
 
 .success-btn {

@@ -60,24 +60,15 @@
       >
         Get Battery Passport
       </button> -->
-      <!-- <button
-        class="btn btn-success center success-btn"
-        type="button"
-        data-cy="passport-btn"
-        @click="getProductPassportFast"
-      >
-        Get Battery Passport right away
-      </button> -->
-      <DashboardTable />
     </div>
-    <!-- <div class="dashboard-container">
+    <div class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>
         <div class="sub-title orange">See full history</div>
       </div>
-      <b-table borderless striped :fields="fields" sort-icon-left :items="batteriesList" />
-    </div> -->
+      <DashboardTable />
+    </div>
   </div>
 </template>
 
@@ -99,60 +90,6 @@ export default {
   data() {
     return {
       auth: inject("authentication"),
-      // fields: [
-      //   {
-      //     key: 'serial_number',
-      //     label: 'Serial number',
-      //     sortable: true
-      //   },
-      //   {
-      //     key: 'car_producer',
-      //     label: 'Car producer',
-      //     sortable: true
-      //   },
-      //   {
-      //     key: 'date_of_admission',
-      //     label: 'Date of admission',
-      //     sortable: true,
-      //   },
-      //   {
-      //     key: 'status',
-      //     label: 'Status',
-      //     sortable: true,
-      //   }
-      // ],
-      // batteriesList: [
-      //   {
-      //     serial_number: "11194511/45",
-      //     car_producer: "BMW",
-      //     date_of_admission: "21.07.2022",
-      //     status: "1",
-      //   },
-      //   {
-      //     serial_number: "22294511/45",
-      //     car_producer: "Volkswagen",
-      //     date_of_admission: "21.07.2022",
-      //     status: "2",
-      //   },
-      //   {
-      //     serial_number: "33394511/45",
-      //     car_producer: "Volvo",
-      //     date_of_admission: "21.07.2022",
-      //     status: "3",
-      //   },
-      //   {
-      //     serial_number: "44494511/45",
-      //     car_producer: "Tesla",
-      //     date_of_admission: "21.07.2022",
-      //     status: "1",
-      //   },
-      //   {
-      //     serial_number: "55594511/45",
-      //     car_producer: "Lada",
-      //     date_of_admission: "21.07.2022",
-      //     status: "2",
-      //   },
-      // ],
       loading: true,
       listProviders: listBatteryProviders,
       provider: listBatteryProviders[0],
@@ -273,26 +210,6 @@ export default {
         });
       else alert("Battery provider and battery name are required...!");
     },
-    getProductPassportFromTable: async function () {
-      this.selectedProvider = "BMW";
-      this.selectedBattery = "test-battery-1";
-      this.assetIds = [
-        { key: "batteryId", value: "334593247" },
-        { key: "passportNumber", value: "12345" },
-        { key: "batteryBatchNumber", value: "999999" },
-        { key: "BattProducer", value: "BattProducer" },
-      ];
-      this.assetIdsVisible = true;
-      this.$router.replace({
-        name: "Passport",
-        params: { assetIds: this.assetIds },
-        query: {
-          provider: this.selectedProvider,
-          battery: this.selectedBattery,
-        },
-      });
-      window.location.reload();
-    },
   },
 };
 </script>
@@ -303,12 +220,11 @@ export default {
 }
 
 .container {
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 10vh;
-  width: 50vw;
-  margin-left: 450px;
 }
 
 .success-btn {
@@ -342,8 +258,8 @@ export default {
 }
 
 .dashboard-container {
-  width: 54%;
-  margin: 0 23% 0 23%;
+  width: 64%;
+  margin: 0 18% 70px 18%;
 }
 
 .titles-container {

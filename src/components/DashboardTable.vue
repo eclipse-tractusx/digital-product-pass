@@ -20,7 +20,10 @@
       alt="search"
       class="search-button"
       title="search"
-      @click="searchMenu = !searchMenu"
+      @click="
+        resetFields();
+        searchMenu = !searchMenu;
+      "
     />
   </div>
   <EasyDataTable
@@ -58,16 +61,15 @@ export default {
   name: "DashboardTable",
   setup() {
     const searchField = ref("producer");
-    const searchValue = ref("");
 
     return {
       Search,
       searchField,
-      searchValue,
     };
   },
   data() {
     return {
+      searchValue: "",
       searchMenu: false,
       headers: [
         { text: "Car model", value: "model", sortable: true },
@@ -92,7 +94,7 @@ export default {
           producer: "Volkswagen",
           capacity: "98 kWh",
           date: "11.01.2022",
-          page: "http://google.com",
+          page: "http://localhost:8080/?provider=BMW&battery=test-battery-1",
         },
         {
           model: "ID.15",
@@ -159,6 +161,12 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    resetFields: function () {
+      this.searchValue = "";
+    },
   },
 };
 </script>

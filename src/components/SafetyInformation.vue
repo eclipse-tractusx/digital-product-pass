@@ -6,27 +6,37 @@
         <span class="sub-title">Safety measures</span>
       </div>
       <a
-v-if="safetyMeasures.occupationalSafety.url" :href="safetyMeasures.occupationalSafety.url" target="_blank"
-        class="field-container" data-cy="occupational-safety">
+        v-if="safetyMeasures.occupationalSafety.url"
+        :href="safetyMeasures.occupationalSafety.url"
+        target="_blank"
+        class="field-container"
+        data-cy="occupational-safety"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{  safetyMeasures.occupationalSafety.value  }}
+          {{ safetyMeasures.occupationalSafety.value }}
         </span>
       </a>
       <a
-v-if="safetyMeasures.fireProtection.url" :href="safetyMeasures.fireProtection.url" target="_blank"
-        class="field-container">
+        v-if="safetyMeasures.fireProtection.url"
+        :href="safetyMeasures.fireProtection.url"
+        target="_blank"
+        class="field-container"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{  safetyMeasures.fireProtection.value  }}
+          {{ safetyMeasures.fireProtection.value }}
         </span>
       </a>
       <a
-v-if="safetyMeasures.usableExtinguishingAgent.url" :href="safetyMeasures.usableExtinguishingAgent.url"
-        target="_blank" class="field-container">
+        v-if="safetyMeasures.usableExtinguishingAgent.url"
+        :href="safetyMeasures.usableExtinguishingAgent.url"
+        target="_blank"
+        class="field-container"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{  safetyMeasures.usableExtinguishingAgent.value  }}
+          {{ safetyMeasures.usableExtinguishingAgent.value }}
         </span>
       </a>
     </div>
@@ -35,11 +45,14 @@ v-if="safetyMeasures.usableExtinguishingAgent.url" :href="safetyMeasures.usableE
         <span class="sub-title">Packaging Instructions</span>
       </div>
       <a
-v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
-        :href="safetyMeasures.instructionsForSafelyPackagingBatteries.url" target="_blank" class="field-container">
+        v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
+        :href="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
+        target="_blank"
+        class="field-container"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{  safetyMeasures.instructionsForSafelyPackagingBatteries.value  }}
+          {{ safetyMeasures.instructionsForSafelyPackagingBatteries.value }}
         </span>
       </a>
     </div>
@@ -48,11 +61,14 @@ v-if="safetyMeasures.instructionsForSafelyPackagingBatteries.url"
         <span class="sub-title">Transportation Instructions</span>
       </div>
       <a
-v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
-        :href="safetyMeasures.instructionsForSafelyTransportingBatteries.url" target="_blank" class="field-container">
+        v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
+        :href="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
+        target="_blank"
+        class="field-container"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
-          {{  safetyMeasures.instructionsForSafelyTransportingBatteries.value  }}
+          {{ safetyMeasures.instructionsForSafelyTransportingBatteries.value }}
         </span>
       </a>
     </div>
@@ -60,19 +76,23 @@ v-if="safetyMeasures.instructionsForSafelyTransportingBatteries.url"
 </template>
 
 <script>
-import SectionHeader from './SectionHeader.vue';
-import SectionContent from './SectionContent.vue';
-import Pdf from '../assets/pdf.svg';
+import SectionHeader from "./SectionHeader.vue";
+import Pdf from "../assets/pdf.svg";
 
 export default {
-  name: 'SafetyMeasures',
+  name: "SafetyMeasures",
   components: {
     SectionHeader,
-    SectionContent,
   },
   props: {
-    sectionTitle: String,
-    safetyMeasures: {},
+    sectionTitle: {
+      type: String,
+      default: "",
+    },
+    safetyMeasures: {
+      type: Object,
+      default: Object,
+    },
   },
   setup() {
     return {
@@ -81,9 +101,9 @@ export default {
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
     };
-  }
+  },
 };
 </script>
 

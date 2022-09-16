@@ -6,65 +6,88 @@
     </div>
     <div class="sub-section-container">
       <Field
-label="Remaining capacity" :unit="stateOfHealth.remainingCapacity.unit"
-        :value="stateOfHealth.remainingCapacity.value" />
+        label="Remaining capacity"
+        :unit="stateOfHealth.remainingCapacity.unit"
+        :value="stateOfHealth.remainingCapacity.value"
+      />
       <Field
-label="Overall capacity fade" :unit="stateOfHealth.overallCapacityFade.unit"
-        :value="stateOfHealth.overallCapacityFade.value" />
+        label="Overall capacity fade"
+        :unit="stateOfHealth.overallCapacityFade.unit"
+        :value="stateOfHealth.overallCapacityFade.value"
+      />
       <Field
-label="Remaining power capability and power fade"
+        label="Remaining power capability and power fade"
         :unit="stateOfHealth.remainingPowerCapabilityAndPowerFade.unit"
-        :value="stateOfHealth.remainingPowerCapabilityAndPowerFade.value" />
+        :value="stateOfHealth.remainingPowerCapabilityAndPowerFade.value"
+      />
       <Field
-label="Remaining round trip efficiency" :unit="stateOfHealth.remainingRoundTripEfficiency.unit"
-        :value="stateOfHealth.remainingRoundTripEfficiency.value" />
+        label="Remaining round trip efficiency"
+        :unit="stateOfHealth.remainingRoundTripEfficiency.unit"
+        :value="stateOfHealth.remainingRoundTripEfficiency.value"
+      />
       <Field
-label="Actual cooling demand" :unit="stateOfHealth.actualCoolingDemand.unit"
-        :value="stateOfHealth.actualCoolingDemand.value" />
+        label="Actual cooling demand"
+        :unit="stateOfHealth.actualCoolingDemand.unit"
+        :value="stateOfHealth.actualCoolingDemand.value"
+      />
       <Field
-label="Evolution of self-discharging rates"
+        label="Evolution of self-discharging rates"
         :unit="stateOfHealth.evolutionOfSelfDischargingRates.unit"
-        :value="stateOfHealth.evolutionOfSelfDischargingRates.value" />
+        :value="stateOfHealth.evolutionOfSelfDischargingRates.value"
+      />
       <Field
-label="Ohmic resistance and/or electrochemical impedance"
+        label="Ohmic resistance and/or electrochemical impedance"
         :unit="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit"
-        :value="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value" />
+        :value="
+          stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value
+        "
+      />
       <Field
-label="The dates of manufacturing of the battery"
+        label="The dates of manufacturing of the battery"
         :day="stateOfHealth.theDatesOfManufacturingOfTheBattery.day"
         :month="stateOfHealth.theDatesOfManufacturingOfTheBattery.month"
-        :year="stateOfHealth.theDatesOfManufacturingOfTheBattery.year" />
+        :year="stateOfHealth.theDatesOfManufacturingOfTheBattery.year"
+      />
       <Field
-label="The dates of putting battery into service"
+        label="The dates of putting battery into service"
         :day="stateOfHealth.theDatesOfPuttingBatteryIntoService.day"
         :month="stateOfHealth.theDatesOfPuttingBatteryIntoService.month"
-        :year="stateOfHealth.theDatesOfPuttingBatteryIntoService.year" />
+        :year="stateOfHealth.theDatesOfPuttingBatteryIntoService.year"
+      />
       <Field
-label="Energy throughput" :unit="stateOfHealth.energyThroughput.unit"
-        :value="stateOfHealth.energyThroughput.value" />
+        label="Energy throughput"
+        :unit="stateOfHealth.energyThroughput.unit"
+        :value="stateOfHealth.energyThroughput.value"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from './SectionHeader.vue';
-import Field from './Field.vue';
+import SectionHeader from "./SectionHeader.vue";
+import Field from "./Field.vue";
 
 export default {
-  name: 'StateOfHealth',
+  name: "StateOfHealth",
   components: {
     Field,
-    SectionHeader
+    SectionHeader,
   },
   props: {
-    sectionTitle: String,
-    stateOfHealth: {},
+    sectionTitle: {
+      type: String,
+      default: "",
+    },
+    stateOfHealth: {
+      type: Object,
+      default: Object,
+    },
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
     };
-  }
+  },
 };
 </script>
 

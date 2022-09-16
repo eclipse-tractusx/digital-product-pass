@@ -1,31 +1,42 @@
 <template>
-  <SectionHeader title="7. Information responsible sourcing" @click="toggle = !toggle" />
+  <SectionHeader
+    title="7. Information responsible sourcing"
+    @click="toggle = !toggle"
+  />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <a
-:href="informationResponsibleSourcing.responsibleRawMaterialsReport.url" class="field-container"
-        target="_blank">
+        :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url"
+        class="field-container"
+        target="_blank"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">{{
-           informationResponsibleSourcing.responsibleRawMaterialsReport.value 
-          }}</span>
+          informationResponsibleSourcing.responsibleRawMaterialsReport.value
+        }}</span>
       </a>
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from './SectionHeader.vue';
-import Pdf from '../assets/pdf.svg';
+import SectionHeader from "./SectionHeader.vue";
+import Pdf from "../assets/pdf.svg";
 
 export default {
-  name: 'InformationResponsibleSourcing',
+  name: "InformationResponsibleSourcing",
   components: {
-    SectionHeader
+    SectionHeader,
   },
   props: {
-    sectionTitle: String,
-    informationResponsibleSourcing: {},
+    sectionTitle: {
+      type: String,
+      default: "",
+    },
+    informationResponsibleSourcing: {
+      type: Object,
+      default: Object,
+    },
   },
   setup() {
     return {
@@ -34,9 +45,9 @@ export default {
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
     };
-  }
+  },
 };
 </script>
 

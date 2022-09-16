@@ -187,27 +187,6 @@ export default {
         });
       else alert("Battery provider and battery name are required...!");
     },
-    getProductPassportFast: function () {
-      this.selectedProvider = "BMW";
-      this.selectedBattery = "test-battery-1";
-      this.assetIds = [
-        { key: "batteryId", value: "334593247" },
-        { key: "passportNumber", value: "12345" },
-        { key: "batteryBatchNumber", value: "999999" },
-        { key: "BattProducer", value: "BattProducer" },
-      ];
-      this.assetIdsVisible = true;
-      if (this.validateFields(this.selectedProvider, this.selectedBattery))
-        this.$router.replace({
-          name: "Passport",
-          params: { assetIds: this.assetIds },
-          query: {
-            provider: this.selectedProvider,
-            battery: this.selectedBattery,
-          },
-        });
-      else alert("Battery provider and battery name are required...!");
-    },
   },
 };
 </script>

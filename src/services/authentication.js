@@ -5,10 +5,10 @@ import Keycloak from 'keycloak-js';
 export default class authentication {
 
     keycloak;
-    constructor(){
+    constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
-    keycloakInit(app){
+    keycloakInit(app) {
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
         if (!auth) {
           window.location.reload();
@@ -20,7 +20,7 @@ export default class authentication {
         setInterval(() => {
           this.updateToken(60);
         }, 60000);
-        
+
       }).catch((e) => {
         console.log(e);
         console.log('Login Failure');
@@ -40,7 +40,7 @@ export default class authentication {
           console.info('Token refreshed' + refreshed);
         } else {
           console.warn('Token not refreshed, valid for '
-                    + Math.round( this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+                    + Math.round(this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
         }
       }).catch(() => {
         console.error('Failed to refresh token');
@@ -54,7 +54,7 @@ export default class authentication {
       return this.keycloak.clientId;
     }
     decodeAccessToken() {
-      return JSON.parse(window.atob( this.keycloak.token.split('.')[1]));
+      return JSON.parse(window.atob(this.keycloak.token.split('.')[1]));
     }
     getUserName() {
       return this.decodeAccessToken().preferred_username;

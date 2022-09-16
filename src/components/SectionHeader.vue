@@ -1,22 +1,28 @@
 <template>
   <div className="section-header" @click="toggle = !toggle">
-    <span className="section-title">{{  title  }}</span>
+    <span className="section-title">{{ title }}</span>
     <span className="toggle-container">
-      <img :src="Toggle" alt="toggle" class="toggle-btn" :class="[toggle ? 'rotate' : '']" />
+      <img
+        :src="Toggle"
+        alt="toggle"
+        class="toggle-btn"
+        :class="[toggle ? 'rotate' : '']"
+      />
     </span>
   </div>
 </template>
 
 <script>
-import Toggle from '../assets/toggle.svg';
+import Toggle from "../assets/toggle.svg";
 
 export default {
-  name: 'SectionHeader',
-  components: {
-    Toggle
-  },
+  name: "SectionHeader",
+
   props: {
-    title: String,
+    title: {
+      type: String,
+      default: "",
+    },
   },
   setup() {
     return {
@@ -27,7 +33,7 @@ export default {
     return {
       toggle: false,
     };
-  }
+  },
 };
 </script>
 
@@ -44,7 +50,7 @@ export default {
   color: #b3cb2d;
   margin: 30px 30px 30px 40px;
   font-weight: bold;
-  width: 90%
+  width: 90%;
 }
 
 .toggle-container {
@@ -57,7 +63,7 @@ export default {
 }
 
 .rotate {
-  transform: rotate(180deg)
+  transform: rotate(180deg);
 }
 
 @media (max-width: 750px) {

@@ -86,16 +86,13 @@ import Logout from "../assets/logout.png";
 import { inject } from "vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
-  components: {
-    CatenaLogo,
-    CatenaLogoType,
-    Profile,
-    Settings,
-    Logout,
-  },
   props: {
-    batteryId: {},
+    batteryId: {
+      type: Object,
+      default: null,
+    },
   },
   setup() {
     return {

@@ -142,7 +142,7 @@ export default {
         h.includes(role.toLowerCase())
       );
       this.provider.contractOffers = offer;
-      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get emplty value.
+      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get empty value.
       this.selectedProvider = this.provider.name;
     },
     resetFields: function () {
@@ -176,27 +176,6 @@ export default {
       await this.getProductPassport();
     },
     getProductPassport: function () {
-      if (this.validateFields(this.selectedProvider, this.selectedBattery))
-        this.$router.replace({
-          name: "Passport",
-          params: { assetIds: this.assetIds },
-          query: {
-            provider: this.selectedProvider,
-            battery: this.selectedBattery,
-          },
-        });
-      else alert("Battery provider and battery name are required...!");
-    },
-    getProductPassportFast: function () {
-      this.selectedProvider = "BMW";
-      this.selectedBattery = "test-battery-1";
-      this.assetIds = [
-        { key: "batteryId", value: "334593247" },
-        { key: "passportNumber", value: "12345" },
-        { key: "batteryBatchNumber", value: "999999" },
-        { key: "BattProducer", value: "BattProducer" },
-      ];
-      this.assetIdsVisible = true;
       if (this.validateFields(this.selectedProvider, this.selectedBattery))
         this.$router.replace({
           name: "Passport",

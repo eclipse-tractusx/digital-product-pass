@@ -6,7 +6,8 @@
 
 <script>
 export default {
-  name: 'Spinner',
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Spinner",
 };
 </script>
 

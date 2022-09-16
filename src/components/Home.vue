@@ -6,27 +6,33 @@
 </template>
 
 <script type="text/jsx">
-import BatteryPassport from './BatteryPassport.vue';
-import Spinner from '@/components/Spinner.vue';
-export default ({
-  name: 'HomeComponent',
+import BatteryPassport from "./BatteryPassport.vue";
+import Spinner from "@/components/Spinner.vue";
+export default {
+  name: "HomeComponent",
   components: {
     Spinner,
-    BatteryPassport
+    BatteryPassport,
   },
   props: {
-    provider: String,
-    battery: String,
+    provider: {
+      type: String,
+      default: "",
+    },
+    battery: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      loading: true
+      loading: true,
     };
   },
   created() {
     this.loading = false;
-  }
-});
+  },
+};
 </script>
 
 <style scoped>

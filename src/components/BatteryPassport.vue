@@ -142,7 +142,7 @@ export default {
         h.includes(role.toLowerCase())
       );
       this.provider.contractOffers = offer;
-      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get emplty value.
+      // to handle filling the battery provider dropdown here because this.provider is loaded before provider dropdown and get empty value.
       this.selectedProvider = this.provider.name;
     },
     resetFields: function () {

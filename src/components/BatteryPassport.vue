@@ -92,17 +92,16 @@ export default {
       auth: inject("authentication"),
       loading: true,
       listProviders: listBatteryProviders,
-      provider: listBatteryProviders[0],
-      selectedProvider: listBatteryProviders[0].name,
-      selectedBattery: listBatteryProviders[0].batteries[0].id,
-      assetIds: listBatteryProviders[0].batteries[0].AssetIds[(0, 1, 2, 3)],
+      provider: {},
+      selectedProvider: "",
+      selectedBattery: "",
+      assetIds: {},
       assetIdsVisible: false,
       name: "",
     };
   },
   created() {
     this.loading = false;
-    console.log(this.assetIds);
   },
 
   mounted() {
@@ -116,7 +115,6 @@ export default {
       this.selectedBattery = this.$route.query.battery;
       this.selectedContract =
         this.$route.query.battery + "_" + role.toLowerCase();
-
       if (
         this.$route.query.provider === undefined ||
         this.$route.query.battery === undefined

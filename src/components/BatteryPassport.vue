@@ -3,7 +3,7 @@
   <div v-else>
     <Header />
     <div class="container" data-cy="battery-pass-container">
-      <label class="label" for="Provider">Battery Provider:</label>
+      <!-- <label class="label" for="Provider">Battery Provider:</label>
       <select
         id="selectProvider"
         v-model="selectedProvider"
@@ -20,8 +20,8 @@
         >
           {{ provider.name }}
         </option>
-      </select>
-      <label class="label" for="Battery">Battery:</label>
+      </select> -->
+      <!-- <label class="label" for="Battery">Battery:</label>
       <select
         id="selectBattery"
         v-model="selectedBattery"
@@ -41,8 +41,8 @@
           {{ battery.name }}
         </option>
       </select>
-      <br />
-      <div v-if="assetIdsVisible">
+      <br /> -->
+      <!-- <div v-if="assetIdsVisible">
         <label class="label" for="Search criteria">Search Criteria:</label
         ><br /><br />
         <textarea
@@ -50,8 +50,8 @@
           disabled
           style="height: 120px; width: 340px"
         ></textarea>
-      </div>
-      <button
+      </div> -->
+      <!-- <button
         :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"
         type="button"
@@ -59,22 +59,23 @@
         @click="getProductPassport"
       >
         Get Battery Passport
-      </button>
+      </button> -->
     </div>
-    <!-- <div class="dashboard-container">
+    <div class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>
         <div class="sub-title orange">See full history</div>
       </div>
-      <b-table borderless striped :fields="fields" sort-icon-left :items="batteriesList" />
-    </div> -->
+      <DashboardTable />
+    </div>
   </div>
 </template>
 
 <script type="text/jsx">
 import Header from "@/components/Header.vue";
 import Spinner from "@/components/Spinner.vue";
+import DashboardTable from "@/components/DashboardTable.vue";
 import { inject } from "vue";
 
 let listBatteryProviders = require("../assets/providers.json");
@@ -84,64 +85,11 @@ export default {
   components: {
     Spinner,
     Header,
+    DashboardTable,
   },
   data() {
     return {
       auth: inject("authentication"),
-      // fields: [
-      //   {
-      //     key: 'serial_number',
-      //     label: 'Serial number',
-      //     sortable: true
-      //   },
-      //   {
-      //     key: 'car_producer',
-      //     label: 'Car producer',
-      //     sortable: true
-      //   },
-      //   {
-      //     key: 'date_of_admission',
-      //     label: 'Date of admission',
-      //     sortable: true,
-      //   },
-      //   {
-      //     key: 'status',
-      //     label: 'Status',
-      //     sortable: true,
-      //   }
-      // ],
-      // batteriesList: [
-      //   {
-      //     serial_number: "11194511/45",
-      //     car_producer: "BMW",
-      //     date_of_admission: "21.07.2022",
-      //     status: "1",
-      //   },
-      //   {
-      //     serial_number: "22294511/45",
-      //     car_producer: "Volkswagen",
-      //     date_of_admission: "21.07.2022",
-      //     status: "2",
-      //   },
-      //   {
-      //     serial_number: "33394511/45",
-      //     car_producer: "Volvo",
-      //     date_of_admission: "21.07.2022",
-      //     status: "3",
-      //   },
-      //   {
-      //     serial_number: "44494511/45",
-      //     car_producer: "Tesla",
-      //     date_of_admission: "21.07.2022",
-      //     status: "1",
-      //   },
-      //   {
-      //     serial_number: "55594511/45",
-      //     car_producer: "Lada",
-      //     date_of_admission: "21.07.2022",
-      //     status: "2",
-      //   },
-      // ],
       loading: true,
       listProviders: listBatteryProviders,
       provider: {},
@@ -167,7 +115,6 @@ export default {
       this.selectedBattery = this.$route.query.battery;
       this.selectedContract =
         this.$route.query.battery + "_" + role.toLowerCase();
-
       if (
         this.$route.query.provider === undefined ||
         this.$route.query.battery === undefined
@@ -220,6 +167,7 @@ export default {
           : null;
       });
       this.assetIdsVisible = true;
+      console.log(this.assetIds);
     },
     async getBatteryDataUsingQRCode() {
       // To get the provider and batteries
@@ -228,6 +176,27 @@ export default {
       await this.getProductPassport();
     },
     getProductPassport: function () {
+      if (this.validateFields(this.selectedProvider, this.selectedBattery))
+        this.$router.replace({
+          name: "Passport",
+          params: { assetIds: this.assetIds },
+          query: {
+            provider: this.selectedProvider,
+            battery: this.selectedBattery,
+          },
+        });
+      else alert("Battery provider and battery name are required...!");
+    },
+    getProductPassportFast: function () {
+      this.selectedProvider = "BMW";
+      this.selectedBattery = "test-battery-1";
+      this.assetIds = [
+        { key: "batteryId", value: "334593247" },
+        { key: "passportNumber", value: "12345" },
+        { key: "batteryBatchNumber", value: "999999" },
+        { key: "BattProducer", value: "BattProducer" },
+      ];
+      this.assetIdsVisible = true;
       if (this.validateFields(this.selectedProvider, this.selectedBattery))
         this.$router.replace({
           name: "Passport",
@@ -253,8 +222,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 22%;
-  margin: 15% 39% 0 39%;
+  margin-top: 10vh;
 }
 
 .success-btn {
@@ -288,8 +256,8 @@ export default {
 }
 
 .dashboard-container {
-  width: 54%;
-  margin: 0 23% 0 23%;
+  width: 64%;
+  margin: 0 18% 70px 18%;
 }
 
 .titles-container {

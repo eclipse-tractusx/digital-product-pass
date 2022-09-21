@@ -26,7 +26,7 @@ else {
         realm: 'CX-Central',
         onLoad: 'login-required'
     };
-    REDIRECT_URI = "http://localhost:8082/";
+    REDIRECT_URI = "http://localhost:8080/";
 }
 
 export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, BASE_URL, SERVER_URL};

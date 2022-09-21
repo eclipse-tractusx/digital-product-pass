@@ -149,6 +149,11 @@ export default {
       return response;
     },
   },
+   async created() {
+      let assetIds = this.$route.params.assetIds;
+      this.data = await this.getPassport(assetIds);
+      this.loading = false;
+    },
 };
 </script>
 
@@ -187,4 +192,3 @@ export default {
   }
 }
 </style>
-

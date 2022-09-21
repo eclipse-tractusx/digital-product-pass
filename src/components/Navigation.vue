@@ -24,7 +24,7 @@
             alt="logout"
             class="buttons"
             title="Logout"
-            v-on:click="logout"
+            @click="logout"
         />
       </div>
     </div>
@@ -32,20 +32,15 @@
 </template>
 
 <script>
-import CatenaLogo from "../assets/logotype.png";
-import Profile from "../assets/profile.svg";
-import Notifications from "../assets/notifications.svg";
-import Settings from "../assets/settings.svg";
-import Logout from "../assets/logout.png";
+import CatenaLogo from '../assets/logotype.png';
+import Profile from '../assets/profile.svg';
+import Notifications from '../assets/notifications.svg';
+import Settings from '../assets/settings.svg';
+import Logout from '../assets/logout.png';
 
 export default {
-  name: "NavigationComponent",
+  name: 'NavigationComponent',
   components: {},
-  data() {
-    return {
-      hover: false,
-    };
-  },
   setup() {
     return {
       CatenaLogo,
@@ -55,21 +50,26 @@ export default {
       Logout,
     };
   },
-  methods: {
-    logout() {
-      localStorage.clear();
-      this.$router.push({name: "Login"});
-    },
-    scanQRCode() {
-      this.$router.push({name: "ScanPassport"});
-    },
+  data() {
+    return {
+      hover: false,
+    };
   },
   mounted() {
-    let user = localStorage.getItem("user-info");
+    let user = localStorage.getItem('user-info');
     if (user) {
       this.username = JSON.parse(user).name;
       this.role = JSON.parse(user).role;
     }
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push({name: 'Login'});
+    },
+    scanQRCode() {
+      this.$router.push({name: 'ScanPassport'});
+    },
   },
 };
 </script>

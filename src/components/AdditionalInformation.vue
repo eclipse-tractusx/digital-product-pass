@@ -1,8 +1,7 @@
 <template v-if="additionalInformation">
-  <SectionHeader title="8. Additional information" />
-
-  <div class="section-content">
-    <div class="sub-section-container longer">
+  <SectionHeader title="8. Additional information" @click="toggle = !toggle" />
+  <div class="section-content" :class="[toggle ? 'hidden' : '']">
+    <div class="sub-section-container">
       <a
         v-if="additionalInformation.linkToTheLabelElement.url"
         :href="additionalInformation.linkToTheLabelElement.url"
@@ -11,31 +10,27 @@
         data-cy="link-to-the-label-element"
       >
         <span class="field-label">Label Elements</span>
-        <span class="field-value">{{
-          additionalInformation.linkToTheLabelElement.value
-        }}</span>
+        <span class="field-value">
+          {{ additionalInformation.linkToTheLabelElement.value }}
+        </span>
       </a>
       <div
-        class="field-container"
         v-if="
           additionalInformation
             .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
         "
+        class="field-container two-third-width longer"
       >
-        <span class="field-label"
-          >Symbol indicating ‘separate collection’ and heavy metal content
+        <span class="field-label short-label">
+          Symbol indicating ‘separate collection’ and heavy metal content
         </span>
         <img :src="Trashcan" alt="profile" class="icon" />
-
-        <span class="field-value">{{
-          additionalInformation
-            .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
-        }}</span>
-      </div>
-
-      <div class="field-container">
-        <span class="field-label"></span>
-        <span class="field-value"></span>
+        <span class="field-value">
+          {{
+            additionalInformation
+              .symbolIndicatingSeparateCollectionAndHeavyMetalContent.value
+          }}
+        </span>
       </div>
       <a
         v-if="additionalInformation.carbonFootprintDeclaration.url"
@@ -44,28 +39,25 @@
         class="field-container"
       >
         <span class="field-label">Carbon Footprint Declaration</span>
-        <span class="field-value">{{
-          additionalInformation.carbonFootprintDeclaration.value
-        }}</span>
+        <span class="field-value">
+          {{ additionalInformation.carbonFootprintDeclaration.value }}
+        </span>
       </a>
-
-      <Field
+      <FieldComponent
         label="Carbon Footprint Performance Class"
-        v-bind:value="
-          additionalInformation.carbonFootprintPerformanceClass.value
-        "
+        :value="additionalInformation.carbonFootprintPerformanceClass.value"
       />
       <div
-        class="list-container"
         v-if="additionalInformation.hazardousSubstancesContainedInTheBattery"
+        class="list-container"
       >
         <ul>
-          <span class="list-label"
-            >Hazardous substances contained in the battery</span
+          <span class="list-label">
+            Hazardous substances contained in the battery</span
           >
           <li
-            :key="substances"
             v-for="substances in additionalInformation.hazardousSubstancesContainedInTheBattery"
+            :key="substances"
           >
             {{ substances }}
           </li>
@@ -78,9 +70,9 @@
         class="field-container"
       >
         <span class="field-label">Information as a result of battery use</span>
-        <span class="field-value">{{
-          additionalInformation.informationAsAResultOfBatteryUse.value
-        }}</span>
+        <span class="field-value">
+          {{ additionalInformation.informationAsAResultOfBatteryUse.value }}
+        </span>
       </a>
       <a
         v-if="additionalInformation.euDeclarationOfConformity.url"
@@ -89,34 +81,45 @@
         class="field-container"
       >
         <span class="field-label">EU declaration of conformity</span>
-        <span class="field-value">{{
-          additionalInformation.euDeclarationOfConformity.value
-        }}</span>
+        <span class="field-value">
+          {{ additionalInformation.euDeclarationOfConformity.value }}
+        </span>
       </a>
     </div>
   </div>
 </template>
-
+ 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import SectionContent from "./SectionContent.vue";
 import Trashcan from "@/assets/trashcan.svg";
-import Field from "./Field.vue";
+import FieldComponent from "./Field.vue";
 
 export default {
   name: "AdditionalInformation",
-  props: {
-    sectionTitle: String,
-    additionalInformation: {},
-  },
   components: {
-    Field,
+    FieldComponent,
     SectionHeader,
-    SectionContent,
+  },
+  props: {
+    sectionTitle: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    additionalInformation: {
+      type: Object,
+      required: false,
+      default: Object,
+    },
   },
   setup() {
     return {
       Trashcan,
+    };
+  },
+  data() {
+    return {
+      toggle: false,
     };
   },
 };
@@ -130,53 +133,110 @@ export default {
   background-color: #fff;
   margin-bottom: 50px;
 }
+
 .sub-section-container {
   display: flex;
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
+
 .field-container {
   display: flex;
   flex-direction: column;
   width: 33%;
   min-height: 120px;
+  text-decoration: none;
 }
+
 .field-label {
   padding: 30px 0 10px 40px;
-  font-size: 12px;
-  text-decoration: inherit;
+  font-size: 14px;
   color: #777777;
 }
+
 .field-value {
   padding-left: 40px;
   font-size: 14px;
   line-height: 20px;
   font-weight: bold;
+  text-decoration: underline;
 }
+
 .longer {
-  padding-bottom: 50px;
+  padding-bottom: 0;
 }
+
 .icon {
   width: 37px;
   height: 39px;
   margin-left: 30px;
 }
+
 .list-container {
   width: 33%;
   padding-left: 40px;
   padding-bottom: 40px;
 }
+
 .list-label {
   padding: 30px 0 10px 0;
   font-size: 12px;
   color: #777777;
 }
+
 ul {
   display: flex;
   flex-direction: column;
 }
+
 li {
   margin-left: 20px;
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.two-third-width {
+  width: 66% !important;
+}
+
+.short-label {
+  max-width: 53%;
+}
+
+@media (max-width: 750px) {
+  .section-content {
+    border: none;
+  }
+
+  .section-content {
+    margin-bottom: 0;
+  }
+
+  .longer {
+    padding-bottom: 22px;
+  }
+
+  .sub-title-container {
+    padding: 22px 40px 0 30px;
+  }
+
+  .list-container {
+    width: 100%;
+    padding-left: 40px;
+    padding-bottom: 40px;
+  }
+
+  .field-container {
+    border-bottom: solid 1px #edefe5;
+    width: 100%;
+    min-height: 120px;
+  }
+
+  .two-third-width {
+    width: 100% !important;
+  }
 }
 </style>

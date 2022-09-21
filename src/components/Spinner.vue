@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Spinner",
 };
 </script>
@@ -18,11 +19,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .spinner {
   margin: auto;
-
   width: 8vh;
-
   animation: rotate 3s infinite;
 }
 

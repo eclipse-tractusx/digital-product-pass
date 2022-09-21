@@ -9,7 +9,7 @@ image:
   repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.pi4.s4
+  tag: v1.PI5.S4
 
 imagePullSecrets: []
 nameOverride: "consumer-ui"
@@ -17,7 +17,7 @@ fullnameOverride: "consumer-ui"
 
 service:
   type: ClusterIP
-  port: 8081
+  port: 8080
 
 ingress:
   enabled: true
@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /v1
+        - path: /
           pathType: Prefix
   tls:
     - secretName: tls-secret

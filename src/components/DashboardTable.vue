@@ -42,7 +42,7 @@
     </template>
     <template #item-model="{ model, page }">
       <div class="model-wrapper">
-        <a target="_blank" :href="page">
+        <a :href="page" data-cy="select-battery">
           <span class="link-text">
             {{ model }}
           </span>

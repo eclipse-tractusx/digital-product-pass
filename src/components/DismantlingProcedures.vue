@@ -1,8 +1,12 @@
 <template>
-  <SectionHeader title="5. Dismantling Procedures" v-on:click="toggle = !toggle" />
+  <SectionHeader title="5. Dismantling Procedures" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
-      <a :href="dismantlingProcedures.vehicleDismantlingProcedure.url" class="field-container" target="_blank">
+      <a
+        :href="dismantlingProcedures.vehicleDismantlingProcedure.url"
+        class="field-container"
+        target="_blank"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
           {{ dismantlingProcedures.vehicleDismantlingProcedure.value }}
@@ -10,7 +14,11 @@
       </a>
     </div>
     <div class="sub-section-container">
-      <a :href="dismantlingProcedures.batteryDismantlingProcedure.url" class="field-container" target="_blank">
+      <a
+        :href="dismantlingProcedures.batteryDismantlingProcedure.url"
+        class="field-container"
+        target="_blank"
+      >
         <img :src="Pdf" alt="settings" class="icon" />
         <span class="field-value">
           {{ dismantlingProcedures.batteryDismantlingProcedure.value }}
@@ -26,13 +34,22 @@ import Pdf from "../assets/pdf.svg";
 
 export default {
   name: "DismantlingProcedures",
-  props: {
-    sectionTitle: String,
-    dismantlingProcedures: {},
-  },
   components: {
-    SectionHeader
+    SectionHeader,
   },
+  props: {
+    sectionTitle: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    dismantlingProcedures: {
+      type: Object,
+      required: false,
+      default: Object,
+    },
+  },
+
   setup() {
     return {
       Pdf,
@@ -40,9 +57,9 @@ export default {
   },
   data() {
     return {
-      toggle: false
-    }
-  }
+      toggle: false,
+    };
+  },
 };
 </script>
 

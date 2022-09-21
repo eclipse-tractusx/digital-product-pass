@@ -1,91 +1,91 @@
 <template>
-  <img class="logo" src="../assets/catenaX-logo.png" style="margin-top:150px"/>
-  <br/>
+  <img
+    class="logo"
+    src="../assets/catenaX-logo.png"
+    style="margin-top: 150px"
+  />
+  <br />
   <div class="margin-top">
     <p class="h4">Scan Battery Passport</p>
   </div>
-  <br/>
+  <br />
   <div>
-    <img height="200" src="../assets/QR.png" width="200"/>
+    <img height="200" src="../assets/QR.png" width="200" />
   </div>
   <div class="margin-top" hidden>
     <div class="container">
       <div class="col-md-4 center">
         <input
-            v-model="host"
-            class="form-control"
-            placeholder="http://host:port"
-            type="text"
+          v-model="host"
+          class="form-control"
+          placeholder="http://host:port"
+          type="text"
         />
       </div>
-      <br/>
+      <br />
       <div class="col-md-4 center">
         <input
-            v-model="provider"
-            class="form-control"
-            placeholder="Battery Provider"
-            type="text"
+          v-model="provider"
+          class="form-control"
+          placeholder="Battery Provider"
+          type="text"
         />
       </div>
-      <br/>
+      <br />
       <div class="col-md-4 center">
         <input
-            v-model="batteryNumber"
-            class="form-control"
-            placeholder="Battery Number"
-            type="text"
+          v-model="batteryNumber"
+          class="form-control"
+          placeholder="Battery Number"
+          type="text"
         />
       </div>
-      <br/>
+      <br />
 
       <div class="col-md-4 center">
-        <button class="btn btn-success btn-signup" v-on:click="generateQRCode">
+        <button class="btn btn-success btn-signup" @click="generateQRCode">
           Generate QR code
         </button>
       </div>
       <div>
-        <img :src=generatedQrCodeUrl
-        />
+        <img :src="generatedQrCodeUrl" />
       </div>
 
       <div>
-        <button class="btn btn-success btn-signup" v-on:click="redirect">
+        <button class="btn btn-success btn-signup" @click="redirect">
           Get access
         </button>
       </div>
-
     </div>
   </div>
 </template>
 
 <script type="text/jsx">
-
-import {GOOGLE_CHART_API_URL} from "@/services/service.const";
+import { GOOGLE_CHART_API_URL } from "@/services/service.const";
 
 export default {
-  components: {},
   name: "ScanPassport",
+  components: {},
   data() {
     return {
-      host: '',
-      provider: '',
-      batteryNumber: '',
-      generatedQrCodeUrl: '',
-      link: ''
+      host: "",
+      provider: "",
+      batteryNumber: "",
+      generatedQrCodeUrl: "",
+      link: "",
     };
   },
   mounted() {
-    alert('sasas')
+    alert("salsa");
   },
   methods: {
     generateQRCode() {
       let url = `${this.host}/providers/${this.provider}/battery/${this.batteryNumber}`;
-      this.link = url
-      if (this.host === '' || this.provider === '' || this.batteryNumber === '')
-        alert('Please fill all fields..!')
+      this.link = url;
+      if (this.host === "" || this.provider === "" || this.batteryNumber === "")
+        alert("Please fill all fields..!");
       else
         this.generatedQrCodeUrl = `${GOOGLE_CHART_API_URL}/chart?cht=qr&chs=400x400&chl=${url}`;
-
     },
     // readfromwebcam(){
     //   var Instascan = require('instascan');
@@ -100,10 +100,13 @@ export default {
     //     }
     //   });
     // },
-    redirect(url) {
-      window.location.href = "http://localhost:8080"
-      localStorage.setItem("battery-info", JSON.stringify({"provider": this.provider, "battery": this.batteryNumber}))
-    }
-  }
+    redirect() {
+      window.location.href = "http://localhost:8080";
+      localStorage.setItem(
+        "battery-info",
+        JSON.stringify({ provider: this.provider, battery: this.batteryNumber })
+      );
+    },
+  },
 };
 </script>

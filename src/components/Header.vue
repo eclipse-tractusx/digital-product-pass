@@ -2,16 +2,16 @@
   <div v-if="hamburgerMenu" class="hamburger-menu">
     <h3 v-if="hamburgerMenu" class="links">Settings</h3>
     <h3 v-if="hamburgerMenu" class="links">Notifications</h3>
-    <h3 v-if="hamburgerMenu" v-on:click="profileMenu = !profileMenu" class="links">Profile</h3>
+    <h3 v-if="hamburgerMenu" class="links" @click="profileMenu = !profileMenu">
+      Profile
+    </h3>
     <div v-if="profileMenu" class="profile-menu-mobile">
       <!-- <img :src="Profile" alt="profile" class="" /> -->
       <span class="mobile-menu-links">
-        {{  username  }}
-        <p class="">{{  role  }}</p>
+        {{ username }}
+        <p class="">{{ role }}</p>
       </span>
-      <span class="mobile-menu-links" @click="logout">
-        Sign out
-      </span>
+      <span class="mobile-menu-links" @click="logout"> Sign out </span>
     </div>
   </div>
   <div>
@@ -20,7 +20,7 @@
         <img :src="CatenaLogo" alt="logo" class="logo" />
         <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
       </div>
-      <div class="toggle-button" v-on:click="hamburgerMenu = !hamburgerMenu">
+      <div class="toggle-button" @click="hamburgerMenu = !hamburgerMenu">
         <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
         <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
         <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
@@ -31,15 +31,20 @@
           <img :src="Notifications" alt="profile" class="buttons" />
           <span>
             <span @mouseover="hover = true">
-              <img :src="Profile" alt="profile" class="buttons" title="User profile" />
+              <img
+                :src="Profile"
+                alt="profile"
+                class="buttons"
+                title="User profile"
+              />
             </span>
-            <div class="profile-menu" v-if="hover" @mouseleave="hover = false">
+            <div v-if="hover" class="profile-menu" @mouseleave="hover = false">
               <div class="menu-btn">
                 <img :src="Profile" alt="profile" class="menu-profile" />
                 <!--TODO: Profile page onClick-->
                 <span class="profile-text">
-                  {{  username  }}
-                  <p>{{  role  }}</p>
+                  {{ username }}
+                  <p>{{ role }}</p>
                 </span>
               </div>
               <div class="menu-btn">
@@ -54,11 +59,17 @@
       <div class="id-wrapper">
         <h1>
           BatteryID:
-          {{  batteryId.batteryId ? batteryId.batteryId : "—"  }}
+          {{ batteryId.batteryId ? batteryId.batteryId : "—" }}
         </h1>
       </div>
       <div class="code-container">
-        <img :src="QrCode" alt="profile" class="code" width="170" height="170" />
+        <img
+          :src="QrCode"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
       </div>
     </div>
   </div>
@@ -72,26 +83,16 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
-import { inject } from 'vue'
+import { inject } from "vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
-  components: {
-    CatenaLogo,
-    CatenaLogoType,
-    Profile,
-    Settings,
-    Logout,
-  },
-  data() {
-    return {
-      hover: false,
-      hamburgerMenu: false,
-      profileMenu: false,
-      username: "",
-      role: "",
-      auth: inject('authentication'),
-    }
+  props: {
+    batteryId: {
+      type: Object,
+      default: null,
+    },
   },
   setup() {
     return {
@@ -104,13 +105,15 @@ export default {
       Logout,
     };
   },
-  methods: {
-    logout() {
-      this.auth.logout();
-    },
-    scanQRCode() {
-      this.$router.push({ name: "ScanPassport" });
-    },
+  data() {
+    return {
+      hover: false,
+      hamburgerMenu: false,
+      profileMenu: false,
+      username: "",
+      role: "",
+      auth: inject("authentication"),
+    };
   },
   mounted() {
     if (this.auth.isUserAuthenticated) {
@@ -118,8 +121,13 @@ export default {
       this.role = this.auth.getRole();
     }
   },
-  props: {
-    batteryId: {},
+  methods: {
+    logout() {
+      this.auth.logout();
+    },
+    scanQRCode() {
+      this.$router.push({ name: "ScanPassport" });
+    },
   },
 };
 </script>
@@ -143,7 +151,7 @@ h1 {
 .logo {
   position: absolute;
   height: 49px;
-  left: -56px
+  left: -56px;
 }
 
 .logo-type {
@@ -221,7 +229,7 @@ h1 {
 
 p {
   font-size: 14px;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .menu-profile {
@@ -230,7 +238,7 @@ p {
 
 .toggle-button {
   position: absolute;
-  top: .75rem;
+  top: 0.75rem;
   right: 1rem;
   display: none;
   flex-direction: column;
@@ -243,9 +251,8 @@ p {
 .toggle-button .bar {
   height: 4px;
   width: 100%;
-  background-color: #B3CB2C;
+  background-color: #b3cb2c;
   border-radius: 10px;
-
 }
 
 @media (max-width: 750px) {
@@ -255,7 +262,7 @@ p {
 
   .toggle-button {
     display: flex;
-    margin-right: 36px
+    margin-right: 36px;
   }
 
   .code-container {
@@ -264,7 +271,7 @@ p {
 
   .logo {
     height: 45px;
-    left: 0
+    left: 0;
   }
 
   .logo-type {
@@ -292,7 +299,7 @@ p {
     align-items: center;
     position: absolute;
     width: 100%;
-    background-color: #B3CB2C;
+    background-color: #b3cb2c;
     height: auto;
     min-height: 270px;
     padding: 80px 0 0 0;
@@ -323,14 +330,14 @@ p {
     width: 100%;
     justify-content: center;
     align-items: center;
-    border: solid 1px #B3CB2C
+    border: solid 1px #b3cb2c;
   }
 
   .mobile-menu-links {
     text-align: center;
     font-weight: bold;
     font-size: 16px;
-    border-bottom: solid 1px #B3CB2C;
+    border-bottom: solid 1px #b3cb2c;
     width: 100%;
     min-height: 60px;
     padding: 16px 0 0 0px;

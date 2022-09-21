@@ -1,6 +1,6 @@
 # Product-Battery-Passport Consumer-App
 
-This battery pass consumer application is used with the __Asset Administration Shell (AAS)__ locally.
+This battery pass consumer application is used with the **Asset Administration Shell (AAS)** locally.
 
 ## Setup Project
 
@@ -31,7 +31,7 @@ chmod ug+x ./init-provider.sh
 ./init-provider.sh
 ```
 
-__Note:__ To execute the shell-script with windows, the [Git Bash](https://gitforwindows.org/) is required.
+**Note:** To execute the shell-script with windows, the [Git Bash](https://gitforwindows.org/) is required.
 
 ### Install dependencies
 
@@ -54,6 +54,11 @@ npm run serve
 npm run build
 ```
 
+### How to set up a code editor
+
+See [VSCode configuration](https://confluence.catena-x.net/pages/viewpage.action?pageId=55009683).
+
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+

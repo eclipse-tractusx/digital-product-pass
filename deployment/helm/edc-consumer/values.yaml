@@ -1,7 +1,7 @@
 ---
 dataplane:
   image:
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
   envSecretName: "data-secret"
   edc:
@@ -54,7 +54,7 @@ dataplane:
     #############
 
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-controlplane:8182/consumer/controlplane/validation
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://materialpass-edc-controlplane:8182/consumer/controlplane/validation
 
     ###############
     ## KEY VAULT ##
@@ -62,7 +62,7 @@ dataplane:
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
-    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
+    EDC_VAULT_HASHICORP_TOKEN: s.hYFLHf9sH9Qclz6iZ0iAoLIW
     EDC_OAUTH_TOKEN_URL: https://daps1.int.demo.catena-x.net/token
     EDC_OAUTH_PROVIDER_JWKS_URL: https://daps1.int.demo.catena-x.net/.well-known/jwks.json 
     EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
@@ -71,7 +71,7 @@ dataplane:
 controlplane:
   enabled: true
   image:
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
   envSecretName: "control-secret"
   edc:
@@ -214,7 +214,7 @@ controlplane:
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      edc.dataplane.selector.httpproxy.url=http://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
+      edc.dataplane.selector.httpproxy.url=https://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
@@ -225,7 +225,8 @@ controlplane:
       # edc.ids.catalog.id=
       # edc.ids.curator=
       edc.ids.description="Consumer Control Plane"
-      edc.ids.endpoint=http://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
+      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids/data
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -269,7 +270,7 @@ controlplane:
       # edc.vault.name=
       # edc.vault.tenantid=
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
-      edc.vault.hashicorp.token=s.I7Hxwn25D9YpzFgbC8WEKAa5
+      edc.vault.hashicorp.token=s.hYFLHf9sH9Qclz6iZ0iAoLIW
       edc.vault.hashicorp.api.secret.path=/v1/material-pass
       edc.vault.hashicorp.health.check.standby.ok=true
       # edc.vault.hashicorp.timeout.seconds=
@@ -278,4 +279,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=http://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids

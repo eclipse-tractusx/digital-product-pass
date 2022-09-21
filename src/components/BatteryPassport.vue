@@ -42,7 +42,7 @@
         </option>
       </select>
       <br />
-      <div v-if="assetIdsVisible">
+      <!-- <div v-if="assetIdsVisible">
         <label class="label" for="Search criteria">Search Criteria:</label
         ><br /><br />
         <textarea
@@ -50,7 +50,7 @@
           disabled
           style="height: 120px; width: 340px"
         ></textarea>
-      </div>
+      </div> -->
       <button
         :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"

@@ -13,21 +13,22 @@
     <span v-if="city" class="field-value">{{ city ? city : "—" }} </span>
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
     <span v-if="country" class="field-value"
-    >{{ country ? country : "—" }}
+      >{{ country ? country : "—" }}
     </span>
     <!-- This block of code is for section 4 Parameters of the battery where we have tests and temp ranges -->
-    <span v-if="tempMin" class="test"
-    >Temp ranges:
-      <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
-    </span>
-    <span v-if="test" class="test"
-    >Reference test: <b>{{ test }}</b>
-    </span>
+    <div v-if="tempMin || test" class="test-container">
+      <span v-if="tempMin" class="test"
+        >Temp ranges:
+        <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
+      </span>
+      <span v-if="test" class="test"
+        >Reference test: <b>{{ test }}</b>
+      </span>
+    </div>
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
     <span v-if="length" class="field-value"
-    >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{
-        width
+      >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{ width
       }}{{ unit }}</span
     >
     <!-- This block of code is for dates -->
@@ -39,24 +40,24 @@
 export default {
   name: "FieldComponent",
   props: {
-    label: [String, Number],
-    value: [String, Number],
-    unit: [String, Number],
-    test: [String, Number],
-    city: [String, Number],
-    postal: [String, Number],
-    country: [String, Number],
-    length: [String, Number],
-    height: [String, Number],
-    width: [String, Number],
-    day: [String, Number],
-    month: [String, Number],
-    year: [String, Number],
-    tempMin: [String, Number],
-    tempMax: [String, Number],
-    tempUnit: [String, Number],
-    tempRangeMin: [String, Number],
-    tempRangeMax: [String, Number],
+    label: { type: [String, Number], default: "" },
+    value: { type: [String, Number], default: "" },
+    unit: { type: [String, Number], default: "" },
+    test: { type: [String, Number], default: "" },
+    city: { type: [String, Number], default: "" },
+    postal: { type: [String, Number], default: "" },
+    country: { type: [String, Number], default: "" },
+    length: { type: [String, Number], default: "" },
+    height: { type: [String, Number], default: "" },
+    width: { type: [String, Number], default: "" },
+    day: { type: [String, Number], default: "" },
+    month: { type: [String, Number], default: "" },
+    year: { type: [String, Number], default: "" },
+    tempMin: { type: [String, Number], default: "" },
+    tempMax: { type: [String, Number], default: "" },
+    tempUnit: { type: [String, Number], default: "" },
+    tempRangeMin: { type: [String, Number], default: "" },
+    tempRangeMax: { type: [String, Number], default: "" },
   },
 };
 </script>
@@ -96,7 +97,7 @@ a {
 
 .test {
   font-size: 12px;
-  padding: 4px 0 4px 40px;
+  padding-left: 40px;
 }
 
 .field-container {
@@ -114,8 +115,66 @@ a {
 
 .field-value {
   padding-left: 40px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 20px;
   font-weight: bold;
+}
+
+.test-container {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0 22px 0;
+}
+
+@media (max-width: 750px) {
+  .section-content {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+    margin-bottom: 50px;
+  }
+
+  .sub-section-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: solid 1px #edefe5;
+  }
+
+  .test {
+    font-size: 12px;
+    padding: 4px 0 4px 40px;
+  }
+
+  .test-container {
+    padding: 0 0 22px 0;
+    margin-top: -18px;
+  }
+
+  .field-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 50px;
+    border-bottom: solid 1px #edefe5;
+  }
+
+  .field-label {
+    padding: 22px 40px 8px 50px;
+    font-size: 14px;
+    color: #777777;
+    overflow: auto;
+  }
+
+  .field-value {
+    padding: 0 0 22px 50px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: bold;
+  }
+
+  .test {
+    padding: 0 0 0 50px;
+  }
 }
 </style>

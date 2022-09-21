@@ -75,5 +75,3 @@ export default class authentication {
 
     }
 }
-
-

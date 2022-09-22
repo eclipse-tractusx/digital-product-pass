@@ -17,7 +17,7 @@ providerpostgres:
 
 dataplane:
   image:
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
   envSecretName: "provider-data-secret"
   edc:
@@ -78,7 +78,7 @@ dataplane:
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
-    EDC_VAULT_HASHICORP_TOKEN: s.I7Hxwn25D9YpzFgbC8WEKAa5
+    EDC_VAULT_HASHICORP_TOKEN: s.hYFLHf9sH9Qclz6iZ0iAoLIW
     EDC_OAUTH_TOKEN_URL: https://daps1.int.demo.catena-x.net/token
     EDC_OAUTH_PROVIDER_JWKS_URL: https://daps1.int.demo.catena-x.net/.well-known/jwks.json 
     EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
@@ -87,7 +87,7 @@ dataplane:
 controlplane:
   enabled: true
   image:
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
   envSecretName: "provider-control-secret"
   edc:
@@ -240,8 +240,9 @@ controlplane:
       # edc.identity.did.url=
       # edc.ids.catalog.id=
       # edc.ids.curator=
-      edc.ids.description="provider Control Plane"
+      edc.ids.description="Provider Control Plane"
       edc.ids.endpoint=http://materialpass.int.demo.catena-x.net/provider/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -285,7 +286,7 @@ controlplane:
       # edc.vault.name=
       # edc.vault.tenantid=
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
-      edc.vault.hashicorp.token=s.I7Hxwn25D9YpzFgbC8WEKAa5
+      edc.vault.hashicorp.token=s.hYFLHf9sH9Qclz6iZ0iAoLIW
       edc.vault.hashicorp.api.secret.path=/v1/material-pass
       edc.vault.hashicorp.health.check.standby.ok=true
       # edc.vault.hashicorp.timeout.seconds=

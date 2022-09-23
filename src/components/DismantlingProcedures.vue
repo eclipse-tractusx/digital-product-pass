@@ -3,6 +3,7 @@
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <a
+        data-cy="dismantling-procedures"
         :href="dismantlingProcedures.vehicleDismantlingProcedure.url"
         class="field-container"
         target="_blank"

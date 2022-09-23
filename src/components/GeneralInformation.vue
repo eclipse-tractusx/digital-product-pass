@@ -2,7 +2,11 @@
   <SectionHeader title="1. General information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
-      <Field label="Battery ID" :value="generalInformation.batteryId" />
+      <Field
+        data-cy="battery-id"
+        label="Battery ID"
+        :value="generalInformation.batteryId"
+      />
       <Field label="Battery Type" :value="generalInformation.batteryType" />
       <Field label="Battery Model" :value="generalInformation.batteryModel" />
     </div>

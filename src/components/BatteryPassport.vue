@@ -61,7 +61,7 @@
         Get Battery Passport
       </button>
     </div>
-    <div class="dashboard-container">
+    <div data-cy="dashboard-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>

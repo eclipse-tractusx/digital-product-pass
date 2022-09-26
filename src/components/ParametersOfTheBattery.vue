@@ -6,6 +6,7 @@
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <Field
+        data-cy="state-of-charge"
         label="State of charge"
         :unit="parametersOfTheBattery.stateOfCharge.unit"
         :value="parametersOfTheBattery.stateOfCharge.value"

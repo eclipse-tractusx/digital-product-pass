@@ -10,6 +10,7 @@
       <span v-if="searchMenu" class="input-label">search value: </span>
       <input
         v-model="searchValue"
+        data-cy="search-input"
         type="text"
         class="input"
         :class="{ extended: searchMenu }"
@@ -20,6 +21,7 @@
       alt="search"
       class="search-button"
       title="search"
+      data-cy="search-btn"
       @click="
         resetFields();
         searchMenu = !searchMenu;
@@ -42,7 +44,7 @@
     </template>
     <template #item-model="{ model, page }">
       <div class="model-wrapper">
-        <a target="_blank" :href="page">
+        <a :href="page" data-cy="select-battery">
           <span class="link-text">
             {{ model }}
           </span>

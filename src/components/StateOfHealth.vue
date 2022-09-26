@@ -6,6 +6,7 @@
     </div>
     <div class="sub-section-container">
       <Field
+        data-cy="remaining-capacity"
         label="Remaining capacity"
         :unit="stateOfHealth.remainingCapacity.unit"
         :value="stateOfHealth.remainingCapacity.value"

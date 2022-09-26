@@ -3,7 +3,7 @@
   <div v-else>
     <Header />
     <div class="container" data-cy="battery-pass-container">
-      <!-- <label class="label" for="Provider">Battery Provider:</label>
+      <label class="label" for="Provider">Battery Provider:</label>
       <select
         id="selectProvider"
         v-model="selectedProvider"
@@ -20,8 +20,8 @@
         >
           {{ provider.name }}
         </option>
-      </select> -->
-      <!-- <label class="label" for="Battery">Battery:</label>
+      </select>
+      <label class="label" for="Battery">Battery:</label>
       <select
         id="selectBattery"
         v-model="selectedBattery"
@@ -41,7 +41,7 @@
           {{ battery.name }}
         </option>
       </select>
-      <br /> -->
+      <br />
       <!-- <div v-if="assetIdsVisible">
         <label class="label" for="Search criteria">Search Criteria:</label
         ><br /><br />
@@ -51,7 +51,7 @@
           style="height: 120px; width: 340px"
         ></textarea>
       </div> -->
-      <!-- <button
+      <button
         :disabled="!validateFields(selectedProvider, selectedBattery)"
         class="btn btn-success center success-btn"
         type="button"
@@ -59,7 +59,7 @@
         @click="getProductPassport"
       >
         Get Battery Passport
-      </button> -->
+      </button>
     </div>
     <div data-cy="dashboard-container" class="dashboard-container">
       <div class="titles-container">

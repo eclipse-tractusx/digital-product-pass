@@ -36,8 +36,7 @@ dataplane:
         path: /consumer/dataplane/metrics
   ingresses:
     - enabled: true
-      #hostname: "materialpass.int.demo.catena-x.net"
-      hostname: "localhost"
+      hostname: "materialpass.int.demo.catena-x.net"
       endpoints:
         - default
         - public
@@ -101,8 +100,7 @@ controlplane:
         path: /consumer/controlplane/metrics
   ingresses:
     - enabled: true
-      #hostname: "materialpass.int.demo.catena-x.net"
-      hostname: "localhost"
+      hostname: "materialpass.int.demo.catena-x.net"
       endpoints:
         - default
         - data
@@ -152,7 +150,7 @@ controlplane:
     EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
     EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
       {
-        "publicApiUrl": "http://localhost:8185/consumer/dataplane/api/public"
+        "publicApiUrl": "https://materialpass.int.demo.catena-x.net/consumer/dataplane/api/public"
       }
 
   configuration:
@@ -225,8 +223,8 @@ controlplane:
       # edc.ids.catalog.id=
       # edc.ids.curator=
       edc.ids.description="Consumer Control Plane"
-      edc.ids.endpoint=http://localhost:8282/consumer/api/v1/ids
-      edc.ids.endpoint.audience=http://localhost:8282/consumer/api/v1/ids/data
+      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids/data
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -253,7 +251,7 @@ controlplane:
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
-      edc.receiver.http.endpoint=http://backend
+      edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
       edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/dataplane/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
@@ -279,4 +277,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=http://localhost:8282/consumer/api/v1/ids
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids

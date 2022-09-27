@@ -1,25 +1,27 @@
 ---
-providerbackendapplication:
+backend:
   enabled: true
-  fullnameOverride: "provider-backend-application"
   service:
     frontend:
       port: 80
-providerpostgres:
+
+postgres:
   enabled: true
   fullnameOverride: "provider-postgresql"
   auth:
-    password: &psqlPassword "psql_password"
+    password: "psql_password"
     username: &psqlUsername "postgresql_sandbox_user"
-    database: &psqlDatabase "edc"
+    database: "edc"
   persistence:
-    enabled: false
+    enabled: true
 
 dataplane:
+  enabled: true
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
     tag: 0.1.1
     pullPolicy: IfNotPresent
-  envSecretName: "provider-data-secret"
+  envSecretName: "provider-dataplane-secret"
   edc:
     endpoints:
       default:
@@ -35,46 +37,23 @@ dataplane:
         port: 9090
         path: /provider/dataplane/metrics
   ingresses:
-    ## Public / Internet facing Ingress
     - enabled: true
-      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
       hostname: "materialpass.int.demo.catena-x.net"
-      # -- Additional ingress annotations to add
-      annotations: {}
-      # -- EDC endpoints exposed by this ingress resource
       endpoints:
         - default
         - public
         - control
         - metrics
-      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
       className: "nginx"
       # -- Enables TLS on the ingress resource
       tls: true
-      secretName: tls-secret
-      ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
-      certManager:
-        # -- If preset enables certificate generation via cert-manager namespace scoped issuer
-        issuer: ""
-        # -- If preset enables certificate generation via cert-manager cluster-wide issuer
-        clusterIssuer: ""
-      
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
       otel.javaagent.debug=false
   env:
-
-    #############
-    ## GENERAL ##
-    #############
-
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
     EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/provider/controlplane/validation
-
-    ###############
-    ## KEY VAULT ##
-    ###############
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
@@ -87,9 +66,9 @@ dataplane:
 controlplane:
   enabled: true
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
     tag: 0.1.1
     pullPolicy: IfNotPresent
-  envSecretName: "provider-control-secret"
   edc:
     endpoints:
       default:
@@ -111,14 +90,8 @@ controlplane:
         port: 9090
         path: /provider/controlplane/metrics
   ingresses:
-    ## Public / Internet facing Ingress
     - enabled: true
-      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-      hostname: "materialpass.int.demo.catena-x.net"    
-      #hostname: "edc-controlplane.local"
-      # -- Additional ingress annotations to add
-      annotations: {}
-      # -- EDC endpoints exposed by this ingress resource
+      hostname: "materialpass.int.demo.catena-x.net"
       endpoints:
         - default
         - data
@@ -126,51 +99,35 @@ controlplane:
         - control
         - ids
         - metrics
-      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
       className: "nginx"
-      # -- Enables TLS on the ingress resource
       tls: true
-      secretName: tls-secret
-      ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
-      certManager:
-        # -- If preset enables certificate generation via cert-manager namespace scoped issuer
-        issuer: ""
-        # -- If preset enables certificate generation via cert-manager cluster-wide issuer
-        clusterIssuer: ""
-
-    ## Private / Intranet facing Ingress
-    - enabled: false
-      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-      hostname: "edc-controlplane.intranet"
-      # -- Additional ingress annotations to add
-      annotations: {}
-      # -- EDC endpoints exposed by this ingress resource
-      endpoints:
-        - data
-        - control
-      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
-      className: "nginx"
-      # -- Enables TLS on the ingress resource
-      tls: false
-      secretName: tls-secret
-
-      ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
-      certManager:
-        # -- If preset enables certificate generation via cert-manager namespace scoped issuer
-        issuer: ""
-        # -- If preset enables certificate generation via cert-manager cluster-wide issuer
-        clusterIssuer: ""
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
       otel.javaagent.debug=false
+  envSecretName: "provider-controlplane-secret"
   env:
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
+    EDC_DATASOURCE_ASSET_NAME: asset
+    EDC_DATASOURCE_ASSET_USER: *psqlUsername
+    EDC_DATASOURCE_ASSET_URL: &psqlJdbcUrl "jdbc:postgresql://provider-postgresql:5432/edc"
+    EDC_DATASOURCE_CONTRACTDEFINITION_NAME: contractdefinition
+    EDC_DATASOURCE_CONTRACTDEFINITION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTDEFINITION_URL: *psqlJdbcUrl
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_NAME: contractnegotiation
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_USER: *psqlUsername
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_URL: *psqlJdbcUrl
+    EDC_DATASOURCE_POLICY_NAME: policy
+    EDC_DATASOURCE_POLICY_USER: *psqlUsername
+    EDC_DATASOURCE_POLICY_URL: *psqlJdbcUrl
+    EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
+    EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
+    EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
     EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
       {
         "publicApiUrl": "https://materialpass.int.demo.catena-x.net/provider/dataplane/api/public"
       }
-
+  
   configuration:
     properties: |-
       #edc.api.auth.key=
@@ -197,23 +154,23 @@ controlplane:
       # edc.dataplane.workers=
       edc.datasource.asset.name="asset"
       edc.datasource.asset.user="postgresql_sandbox_user"
-      edc.datasource.asset.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.asset.url="jdbc:postgresql://provider-postgresql:5432/edc"
       
       edc.datasource.contractdefinition.name="contractdefinition"
       edc.datasource.contractdefinition.user="postgresql_sandbox_user" 
-      edc.datasource.contractdefinition.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.contractdefinition.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
       edc.datasource.contractnegotiation.name="contractnegotiation"
       edc.datasource.contractnegotiation.user="postgresql_sandbox_user"
-      edc.datasource.contractnegotiation.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.contractnegotiation.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
       edc.datasource.policy.name="policy"
       edc.datasource.policy.user="postgresql_sandbox_user"
-      edc.datasource.policy.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.policy.url="jdbc:postgresql://provider-provider-postgresql:5432/edc"
 
       edc.datasource.transferprocess.name="transferprocess"
       edc.datasource.transferprocess.user="postgresql_sandbox_user"
-      edc.datasource.transferprocess.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.transferprocess.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
 
       # edc.datasource.default.pool.maxIdleConnections=
@@ -224,7 +181,7 @@ controlplane:
       # edc.datasource.default.pool.testConnectionOnReturn=
       # edc.datasource.default.pool.testConnectionWhileIdle=
       # edc.datasource.default.pool.testQuery=
-      edc.datasource.default.url="jdbc:postgresql://providerpostgres:5432/edc"
+      edc.datasource.default.url="jdbc:postgresql://provider-postgresql:5432/edc"
       edc.datasource.default.user="postgresql_sandbox_user"
       edc.datasource.default.password="psql_password"
 
@@ -241,7 +198,7 @@ controlplane:
       # edc.ids.catalog.id=
       # edc.ids.curator=
       edc.ids.description="Provider Control Plane"
-      edc.ids.endpoint=http://materialpass.int.demo.catena-x.net/provider/api/v1/ids
+      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids
       edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data
       # edc.ids.id=
       # edc.ids.maintainer=
@@ -269,7 +226,7 @@ controlplane:
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
-      edc.receiver.http.endpoint=http://provider-backend-application
+      edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
       edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/dataplane/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
@@ -295,4 +252,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=http://materialpass.int.demo.catena-x.net/provider/api/v1/ids
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids

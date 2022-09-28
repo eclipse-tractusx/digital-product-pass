@@ -45,8 +45,11 @@ dataplane:
         - control
         - metrics
       className: "nginx"
-      # -- Enables TLS on the ingress resource
-      tls: true
+      tls:
+        # -- Enables TLS on the ingress resource
+        enabled: true
+        # -- If present overwrites the default secret name
+        secretName: "tls-secret"
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
@@ -100,7 +103,11 @@ controlplane:
         - ids
         - metrics
       className: "nginx"
-      tls: true
+      tls:
+        # -- Enables TLS on the ingress resource
+        enabled: true
+        # -- If present overwrites the default secret name
+        secretName: "tls-secret"
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
@@ -252,4 +259,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net/provider

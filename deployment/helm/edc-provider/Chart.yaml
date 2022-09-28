@@ -9,12 +9,12 @@ dependencies:
   - name: edc-controlplane
     alias: controlplane
     version: ">=0.0.1"
-    repository: file://../charts/edc-controlplane
+    repository: https://catenax-ng.github.io/product-edc
     condition: controlplane.enabled
   - name: edc-dataplane
     alias: dataplane
     version: ">=0.0.1"
-    repository: file://../charts/edc-dataplane
+    repository: https://catenax-ng.github.io/product-edc
     condition: dataplane.enabled
   - name: backend-service
     alias: backend

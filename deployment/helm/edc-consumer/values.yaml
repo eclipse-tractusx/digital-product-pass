@@ -43,9 +43,14 @@ dataplane:
         - control
         - metrics
       className: "nginx"
-      # -- Enables TLS on the ingress resource
-      tls: true
-      secretName: tls-secret
+      # # -- Enables TLS on the ingress resource
+      # tls: true
+      # secretName: tls-secret
+      tls:
+        # -- Enables TLS on the ingress resource
+        enabled: true
+        # -- If present overwrites the default secret name
+        secretName: "tls-secret"
       
   opentelemetry:
     properties: |-
@@ -109,9 +114,11 @@ controlplane:
         - ids
         - metrics
       className: "nginx"
-      # -- Enables TLS on the ingress resource
-      tls: true
-      secretName: tls-secret
+      tls:
+        # -- Enables TLS on the ingress resource
+        enabled: true
+        # -- If present overwrites the default secret name
+        secretName: "tls-secret"
 
     ## Private / Intranet facing Ingress
     - enabled: false
@@ -123,9 +130,11 @@ controlplane:
         - control
       # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
       className: "nginx"
-      # -- Enables TLS on the ingress resource
-      tls: false
-      secretName: tls-secret
+      tls:
+        # -- Enables TLS on the ingress resource
+        enabled: true
+        # -- If present overwrites the default secret name
+        secretName: "tls-secret"
 
   opentelemetry:
     properties: |-
@@ -277,4 +286,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net/consumer

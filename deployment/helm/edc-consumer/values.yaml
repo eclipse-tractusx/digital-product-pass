@@ -286,4 +286,4 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=https://materialpass.int.demo.catena-x.net/consumer
+      ids.webhook.address=https://materialpass.int.demo.catena-x.net

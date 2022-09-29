@@ -1,9 +1,28 @@
 ---
 backend:
   enabled: true
-  service:
-    frontend:
-      port: 80
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      #kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - host: materialpass.int.demo.catena-x.net
+        paths:
+          - path: /provider/backend/data
+            pathType: Prefix
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - materialpass.int.demo.catena-x.net
+  # service:
+  #   frontend:
+  #     port: 80
 
 postgres:
   enabled: true

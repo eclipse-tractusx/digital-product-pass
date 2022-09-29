@@ -85,10 +85,10 @@
       </div>
     </div>
     <!-- Part Numbers for Components TABLE -->
-    <!-- <div class="sub-title-container">
+     <div class="sub-title-container">
       <span class="sub-title"> Part Numbers for Components</span>
     </div>
-    <b-table borderless striped :items="items" /> -->
+    <BatteryCompositionTable/>
     <!-- Critical Raw Materials -->
     <div class="sub-section-container">
       <div class="sub-title-container">
@@ -139,6 +139,7 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
+import BatteryCompositionTable from "./BatteryCompositionTable.vue";
 import Field from "./Field.vue";
 
 export default {
@@ -146,6 +147,7 @@ export default {
   components: {
     Field,
     SectionHeader,
+    BatteryCompositionTable
   },
   props: {
     sectionTitle: {
@@ -160,41 +162,8 @@ export default {
   data() {
     return {
       toggle: false,
-      items: [
-        {
-          part_name: "Battery modules",
-          serial_number: null,
-          phone_number: "+49 345879349",
-          email: "john@spp01.de",
-        },
-        {
-          part_name: "BMS",
-          serial_number: "23494511/45",
-          phone_number: "+49 345879349",
-          email: "john@spp01.de",
-        },
-        {
-          part_name: "Voltage cables",
-          serial_number: "23494511/45",
-          phone_number: "+49 345879349",
-          email: "john@spp01.de",
-        },
-        {
-          part_name: "Thermal control",
-          serial_number: null,
-          phone_number: "+49 345879349",
-          email: "john@spp01.de",
-        },
-        {
-          part_name: "Casing",
-          serial_number: "23494511/45",
-          phone_number: "+49 345879349",
-          email: "john@spp01.de",
-        },
-      ],
     };
   },
-  methods: {},
 };
 </script>
 

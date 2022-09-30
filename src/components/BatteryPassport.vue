@@ -14,11 +14,11 @@
       >
         <option value="" disabled selected>Select Battery Provider...</option>
         <option
-          v-for="provider in listProviders"
-          :key="provider.id"
-          :value="provider.name"
+          v-for="(providerDetails, index) in listProviders"
+          :key="index"
+          :value="providerDetails.name"
         >
-          {{ provider.name }}
+          {{ providerDetails.name }}
         </option>
       </select>
       <label class="label" for="Battery">Battery:</label>

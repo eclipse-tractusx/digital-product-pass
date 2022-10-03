@@ -6,10 +6,10 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: docker.io/muhammadsaudkhan/spring-boot-app-demo
+  repository: docker.io/muhammadsaudkhan/sprint-boot-docker-demo
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: 0.0.1
 
 imagePullSecrets: []
 nameOverride: "test-ui"

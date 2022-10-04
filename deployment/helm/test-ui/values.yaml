@@ -6,10 +6,10 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: docker.io/muhammadsaudkhan/spring-boot-app-demo
+  repository: docker.io/muhammadsaudkhan/sprint-boot-docker-demo
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: 0.0.1
 
 imagePullSecrets: []
 nameOverride: "test-ui"
@@ -27,12 +27,12 @@ ingress:
     # kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
     - host: materialpass.int.demo.catena-x.net
       paths:
-        - path: /test
+        - path: /test(/|$)(.*)
           pathType: Prefix
   tls:
     - secretName: tls-secret

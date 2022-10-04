@@ -1,15 +1,15 @@
 dependencies:
 - name: edc-controlplane
   repository: https://catenax-ng.github.io/product-edc
-  version: 0.1.1
+  version: 0.1.2
 - name: edc-dataplane
   repository: https://catenax-ng.github.io/product-edc
-  version: 0.1.1
+  version: 0.1.2
 - name: backend
-  repository: file://../backend
+  repository: file://backend
   version: 0.0.1
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.2.4
-digest: sha256:038f0e22f9b3286b6bf38f46efe5857f42af5e33b8f30a0762df661791c86750
-generated: "2022-09-29T12:37:53.1619177+02:00"
+digest: sha256:c4bd7c1d4e841662431ec9bb73c06fe7aefeccf08e25dd381a55010a8a9f9e9f
+generated: "2022-10-04T13:02:58.584982+02:00"

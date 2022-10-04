@@ -19,7 +19,7 @@ dependencies:
   - name: backend
     alias: backend
     version: "0.0.1"
-    repository: file://../backend
+    repository: file://backend
     condition: backend.enabled
   - name: postgresql
     alias: postgres

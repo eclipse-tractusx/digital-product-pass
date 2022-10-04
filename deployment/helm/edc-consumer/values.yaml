@@ -63,7 +63,7 @@ dataplane:
     #############
 
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-controlplane:8182/consumer/controlplane/validation
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://materialpass-edc-controlplane:8182/consumer/controlplane/validation
 
     ###############
     ## KEY VAULT ##
@@ -221,7 +221,7 @@ controlplane:
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      edc.dataplane.selector.httpproxy.url=http://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
+      edc.dataplane.selector.httpproxy.url=https://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=

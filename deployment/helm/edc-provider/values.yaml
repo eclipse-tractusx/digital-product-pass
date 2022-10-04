@@ -1,13 +1,11 @@
 ---
 backend:
   enabled: true
-  service:
-    frontend:
-      port: 80
+  fullnameOverride: "materialpass-edc-provider-backend"
 
 postgres:
   enabled: true
-  fullnameOverride: "consumer-postgresql"
+  fullnameOverride: "provider-postgresql"
   auth:
     password: "psql_password"
     username: &psqlUsername "postgresql_sandbox_user"
@@ -16,24 +14,26 @@ postgres:
     enabled: true
 
 dataplane:
+  enabled: true
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
     tag: 0.1.1
     pullPolicy: IfNotPresent
-  envSecretName: "consumer-dataplane-secret"
+  envSecretName: "provider-dataplane-secret"
   edc:
     endpoints:
       default:
         port: 8080
-        path: /consumer/dataplane/api
+        path: /provider/dataplane/api
       public:
         port: 8185
-        path: /consumer/dataplane/api/public
+        path: /provider/dataplane/api/public
       control:
         port: 9999
-        path: /consumer/dataplane/api/control
+        path: /provider/dataplane/api/control
       metrics:
         port: 9090
-        path: /consumer/dataplane/metrics
+        path: /provider/dataplane/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -43,31 +43,18 @@ dataplane:
         - control
         - metrics
       className: "nginx"
-      # # -- Enables TLS on the ingress resource
-      # tls: true
-      # secretName: tls-secret
       tls:
         # -- Enables TLS on the ingress resource
         enabled: true
         # -- If present overwrites the default secret name
         secretName: "tls-secret"
-      
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
       otel.javaagent.debug=false
   env:
-
-    #############
-    ## GENERAL ##
-    #############
-
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://materialpass-edc-controlplane:8182/consumer/controlplane/validation
-
-    ###############
-    ## KEY VAULT ##
-    ###############
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/provider/controlplane/validation
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
@@ -80,29 +67,29 @@ dataplane:
 controlplane:
   enabled: true
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
     tag: 0.1.1
     pullPolicy: IfNotPresent
-  envSecretName: "consumer-controlplane-secret"
   edc:
     endpoints:
       default:
         port: 8080
-        path: /consumer/controlplane/api
+        path: /provider/controlplane/api
       data:
         port: 8181
-        path: /consumer/controlplane/data
+        path: /provider/controlplane/data
       validation:
         port: 8182
-        path: /consumer/controlplane/validation
+        path: /provider/controlplane/validation
       control:
         port: 9999
-        path: /consumer/controlplane/api/control
+        path: /provider/controlplane/api/control
       ids:
         port: 8282
-        path: /consumer/api/v1/ids
+        path: /provider/api/v1/ids
       metrics:
         port: 9090
-        path: /consumer/controlplane/metrics
+        path: /provider/controlplane/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -119,27 +106,11 @@ controlplane:
         enabled: true
         # -- If present overwrites the default secret name
         secretName: "tls-secret"
-
-    ## Private / Intranet facing Ingress
-    - enabled: false
-      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-      hostname: "edc-controlplane.intranet"
-      # -- EDC endpoints exposed by this ingress resource
-      endpoints:
-        - data
-        - control
-      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
-      className: "nginx"
-      tls:
-        # -- Enables TLS on the ingress resource
-        enabled: true
-        # -- If present overwrites the default secret name
-        secretName: "tls-secret"
-
   opentelemetry:
     properties: |-
       otel.javaagent.enabled=false
       otel.javaagent.debug=false
+  envSecretName: "provider-controlplane-secret"
   env:
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
     EDC_DATASOURCE_ASSET_NAME: asset
@@ -159,9 +130,9 @@ controlplane:
     EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
     EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
       {
-        "publicApiUrl": "https://materialpass.int.demo.catena-x.net/consumer/dataplane/api/public"
+        "publicApiUrl": "https://materialpass.int.demo.catena-x.net/provider/dataplane/api/public"
       }
-
+  
   configuration:
     properties: |-
       #edc.api.auth.key=
@@ -188,23 +159,23 @@ controlplane:
       # edc.dataplane.workers=
       edc.datasource.asset.name="asset"
       edc.datasource.asset.user="postgresql_sandbox_user"
-      edc.datasource.asset.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.asset.url="jdbc:postgresql://provider-postgresql:5432/edc"
       
       edc.datasource.contractdefinition.name="contractdefinition"
       edc.datasource.contractdefinition.user="postgresql_sandbox_user" 
-      edc.datasource.contractdefinition.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.contractdefinition.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
       edc.datasource.contractnegotiation.name="contractnegotiation"
       edc.datasource.contractnegotiation.user="postgresql_sandbox_user"
-      edc.datasource.contractnegotiation.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.contractnegotiation.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
       edc.datasource.policy.name="policy"
       edc.datasource.policy.user="postgresql_sandbox_user"
-      edc.datasource.policy.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.policy.url="jdbc:postgresql://provider-provider-postgresql:5432/edc"
 
       edc.datasource.transferprocess.name="transferprocess"
       edc.datasource.transferprocess.user="postgresql_sandbox_user"
-      edc.datasource.transferprocess.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.transferprocess.url="jdbc:postgresql://provider-postgresql:5432/edc"
 
 
       # edc.datasource.default.pool.maxIdleConnections=
@@ -215,13 +186,13 @@ controlplane:
       # edc.datasource.default.pool.testConnectionOnReturn=
       # edc.datasource.default.pool.testConnectionWhileIdle=
       # edc.datasource.default.pool.testQuery=
-      edc.datasource.default.url="jdbc:postgresql://consumer-postgresql:5432/edc"
+      edc.datasource.default.url="jdbc:postgresql://provider-postgresql:5432/edc"
       edc.datasource.default.user="postgresql_sandbox_user"
       edc.datasource.default.password="psql_password"
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      edc.dataplane.selector.httpproxy.url=https://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
+      edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/provider/dataplane/api/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
@@ -231,9 +202,9 @@ controlplane:
       # edc.identity.did.url=
       # edc.ids.catalog.id=
       # edc.ids.curator=
-      edc.ids.description="Consumer Control Plane"
-      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids
-      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/consumer/api/v1/ids/data
+      edc.ids.description="Provider Control Plane"
+      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -248,7 +219,7 @@ controlplane:
       # edc.metrics.jetty.enabled=
       # edc.metrics.okhttp.enabled=
       # edc.metrics.system.enabled=
-      # edc.negotiation.consumer.state-machine.batch-size=
+      # edc.negotiation.provider.state-machine.batch-size=
       # edc.negotiation.provider.state-machine.batch-size=
       edc.oauth.client.id=0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E:keyid:0D:1D:9E:E2:1C:B1:E1:61:21:40:86:02:38:FB:0A:37:18:F8:04:4E
       edc.oauth.private.key.alias=ids-daps_key
@@ -261,7 +232,7 @@ controlplane:
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
       edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
-      edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/dataplane/api/public
+      edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/dataplane/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
       edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt

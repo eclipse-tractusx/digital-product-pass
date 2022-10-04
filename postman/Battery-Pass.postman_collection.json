@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"meta\": {\r\n        \"batteryId\": 334593247,\r\n        \"passportCreatedDate\": {\r\n            \"day\": 12,\r\n            \"month\": 5,\r\n            \"year\": 2022\r\n        },\r\n        \"issuer\": {\r\n            \"name\": \"ImpBattMan GmbH\",\r\n            \"address\": {\r\n                \"street\": \"Street 9\",\r\n                \"city\": \"Berlin\",\r\n                \"postal\": \"12-345\",\r\n                \"country\": \"Germany\",\r\n                \"phoneNumber\": \"0056 345 567 456\",\r\n                \"email\": \"contact@import.de\"\r\n            }\r\n        }\r\n    },\r\n    \"generalInformation\": {\r\n        \"passportNumber\": \"12345\",\r\n        \"batteryId\": 334593247,\r\n        \"batteryType\": \"Lithium-Ion\",\r\n        \"batteryModel\": \"2432-5665\",\r\n        \"batteryProducer\": \"BattProducer\",\r\n        \"chemistry\": \"Lithium nickel manganese cobalt (LiNMC)\",\r\n        \"manufacuringDate\": {\r\n            \"day\": 12,\r\n            \"month\": 5,\r\n            \"year\": 2022\r\n        },\r\n        \"manufacturingPlace\": \"No. 35, Xinjing Road, Haicang, Xiamen, China\",\r\n        \"importerInformation\": {\r\n            \"importerName\": \"ImpBattMan GmbH\",\r\n            \"address\": {\r\n                \"street\": \"Street 9\",\r\n                \"city\": \"Berlin\",\r\n                \"postal\": \"12-345\",\r\n                \"country\": \"Germany\",\r\n                \"phoneNumber\": \"0056 345 567 456\",\r\n                \"email\": \"contact@import.de\",\r\n                \"website\": \"www.impbattman.com\"\r\n            }\r\n        },\r\n        \"placedToMarketDate\": {\r\n            \"day\": 12,\r\n            \"month\": 5,\r\n            \"year\": 2022\r\n        },\r\n        \"batteryBatchNumber\": 999999,\r\n        \"serial\": \"0815-4711\",\r\n        \"stateOfHealth\": 80,\r\n        \"stateOfCharge\": 50,\r\n        \"warranty\": \"7 years\",\r\n        \"status\": \"First life\",\r\n        \"co2\": {\r\n            \"co2FootprintTotalKG\": {\r\n                \"value\": 40,\r\n                \"unit\": \"kg\"\r\n            },\r\n            \"co2FootprintPerLifecycleKG\": \"5\",\r\n            \"co2FootprintVerification\": \"this is the statement of an idependet third party\",\r\n            \"co2FootprintMethodology\": \"CO2 metrics calculated in accordance with THIS methodology\"\r\n        },\r\n        \"dimensions\": {\r\n            \"length\": {\r\n                \"value\": 40,\r\n                \"unit\": \"cm\"\r\n            },\r\n            \"height\": {\r\n                \"value\": 30,\r\n                \"unit\": \"cm\"\r\n            },\r\n            \"width\": {\r\n                \"value\": 20,\r\n                \"unit\": \"cm\"\r\n            }\r\n        },\r\n        \"weight\": {\r\n            \"value\": 120,\r\n            \"unit\": \"kg\"\r\n        }\r\n    },\r\n    \"batteryComposition\": {\r\n        \"anodeContent\": {\r\n            \"naturalGraphiteContent\": {\r\n                \"value\": 2450,\r\n                \"unit\": \"g\"\r\n            },\r\n            \"anodeComposition\": [\r\n                \"Carboxymethyl cellulose\",\r\n                \"Styren butadien\"\r\n            ]\r\n        },\r\n        \"LiContent\": {\r\n            \"value\": 7832,\r\n            \"unit\": \"g\"\r\n        },\r\n        \"NiContent\": {\r\n            \"value\": 1267,\r\n            \"unit\": \"g\"\r\n        },\r\n        \"CoContent\": {\r\n            \"value\": 367,\r\n            \"unit\": \"g\"\r\n        },\r\n        \"electrolyteComposition\": [\r\n            \"LiPF6\",\r\n            \"Ethylene Carbonate\",\r\n            \"Dimethyl Carbonate- LiNO3\"\r\n        ],\r\n        \"cathodeComposition\": {\r\n            \"liContent\": {\r\n                \"value\": 7832,\r\n                \"unit\": \"g\"\r\n            },\r\n            \"niContent\": {\r\n                \"value\": 1267,\r\n                \"unit\": \"g\"\r\n            },\r\n            \"coContent\": {\r\n                \"value\": 367,\r\n                \"unit\": \"g\"\r\n            },\r\n            \"otherCathodeComposition\": [\r\n                \"cobalt\",\r\n                \"manganese\"\r\n            ]\r\n        },\r\n        \"crm\": [\r\n            \"Lithium\",\r\n            \"Natural graphite\",\r\n            \"Bauxite\"\r\n        ],\r\n        \"niRecyclateContent\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"liRecyclateContent\": {\r\n            \"value\": 34,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"coRecyclateContent\": {\r\n            \"value\": 5,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"pbRecyclateContent\": {\r\n            \"value\": 2,\r\n            \"unit\": \"%\"\r\n        }\r\n    },\r\n    \"stateOfHealth\": {\r\n        \"remainingCapacity\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"overallCapacityFade\": {\r\n            \"value\": 88,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"remainingPowerCapabilityAndPowerFade\": {\r\n            \"value\": 58,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"remainingRoundTripEfficiency\": {\r\n            \"value\": 39,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"actualCoolingDemand\": {\r\n            \"value\": 21,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"evolutionOfSelfDischargingRates\": {\r\n            \"value\": 76,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"ohmicResistanceAndOrElectrochemicalImpedance\": {\r\n            \"value\": 54,\r\n            \"unit\": \"Ω\"\r\n        },\r\n        \"theDatesOfManufacturingOfTheBattery\": {\r\n            \"day\": 12,\r\n            \"month\": 5,\r\n            \"year\": 2022\r\n        },\r\n        \"theDatesOfPuttingBatteryIntoService\": {\r\n            \"day\": 22,\r\n            \"month\": 7,\r\n            \"year\": 2022\r\n        },\r\n        \"energyThroughput\": {\r\n            \"value\": 59,\r\n            \"unit\": \"%\"\r\n        }\r\n    },\r\n    \"parametersOfTheBattery\": {\r\n        \"stateOfCharge\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"maximumAllowedBatteryPower\": {\r\n            \"value\": 8460,\r\n            \"unit\": \"W\"\r\n        },\r\n        \"minimalVoltageWithTemperatureRangesWhenRelevant\": {\r\n            \"value\": \"680,2\",\r\n            \"unit\": \"V\",\r\n            \"tempRanges\": {\r\n                \"min\": {\r\n                    \"value\": \"-0,5\",\r\n                    \"unit\": \"°C\"\r\n                },\r\n                \"max\": {\r\n                    \"value\": 56,\r\n                    \"unit\": \"°C\"\r\n                }\r\n            },\r\n            \"refTest\": \"manual test\"\r\n        },\r\n        \"nominalVoltageWithTemperatureRangesWhenRelevant\": {\r\n            \"value\": \"620,2\",\r\n            \"unit\": \"V\",\r\n            \"tempRanges\": {\r\n                \"min\": {\r\n                    \"value\": \"-0,5\",\r\n                    \"unit\": \"°C\"\r\n                },\r\n                \"max\": {\r\n                    \"value\": 56,\r\n                    \"unit\": \"°C\"\r\n                }\r\n            },\r\n            \"refTest\": \"manual test\"\r\n        },\r\n        \"maximumVoltageWithTemperatureRangesWhenRelevant\": {\r\n            \"value\": \"710,2\",\r\n            \"unit\": \"V\",\r\n            \"tempRanges\": {\r\n                \"min\": {\r\n                    \"value\": \"-0,5\",\r\n                    \"unit\": \"°C\"\r\n                },\r\n                \"max\": {\r\n                    \"value\": 56,\r\n                    \"unit\": \"°C\"\r\n                }\r\n            },\r\n            \"refTest\": \"automatic test\"\r\n        },\r\n        \"originalPowerCapabilityWithTemperatureRangesWhenRelevant\": {\r\n            \"value\": \"34\",\r\n            \"unit\": \"W\",\r\n            \"tempRanges\": {\r\n                \"min\": {\r\n                    \"value\": \"-0,5\",\r\n                    \"unit\": \"°C\"\r\n                },\r\n                \"max\": {\r\n                    \"value\": 56,\r\n                    \"unit\": \"°C\"\r\n                }\r\n            },\r\n            \"refTest\": \"manual test\"\r\n        },\r\n        \"capacityThresholdForExhaustion\": {\r\n            \"value\": 54,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"temperatureRangeTheBatteryCanWithstandWhenNotInUse\": {\r\n            \"tempRanges\": {\r\n                \"min\": {\r\n                    \"value\": \"-0,5\",\r\n                    \"unit\": \"°C\"\r\n                },\r\n                \"max\": {\r\n                    \"value\": 56,\r\n                    \"unit\": \"°C\"\r\n                }\r\n            },\r\n            \"refTest\": \"nuclear test\"\r\n        },\r\n        \"cRateOfRelevantCycleLifeTest\": {\r\n            \"value\": \"7,4\"\r\n        },\r\n        \"energyRoundtripEfficiency\": {\r\n            \"value\": 59,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"ratedCapacity\": {\r\n            \"value\": 59,\r\n            \"unit\": \"Ah\"\r\n        },\r\n        \"appliedDischargeRate\": {\r\n            \"value\": 1,\r\n            \"unit\": \"A\"\r\n        },\r\n        \"appliedChargeRate\": {\r\n            \"value\": 5,\r\n            \"unit\": \"A\"\r\n        },\r\n        \"capacityFade\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"originalPower\": {\r\n            \"value\": 50,\r\n            \"unit\": \"W\"\r\n        },\r\n        \"powerCapabilityAt80StateOfCharge\": {\r\n            \"value\": 30,\r\n            \"unit\": \"Wh\"\r\n        },\r\n        \"powerCapabilityAt20StateOfCharge\": {\r\n            \"value\": 15,\r\n            \"unit\": \"Wh\"\r\n        },\r\n        \"temperatureRanges\": {\r\n            \"min\": {\r\n                \"value\": \"-0,7\",\r\n                \"unit\": \"°C\"\r\n            },\r\n            \"max\": {\r\n                \"value\": 70,\r\n                \"unit\": \"°C\"\r\n            }\r\n        },\r\n        \"powerFade\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"maximumAllowedBatteryEnergy\": {\r\n            \"value\": 56,\r\n            \"unit\": \"Wh\"\r\n        },\r\n        \"ratioBetweenMaximumAllowedBatteryPowerWAndBatteryEnergyWh\": {\r\n            \"value\": 56,\r\n            \"unit\": \"Wh\"\r\n        },\r\n        \"internalResistanceCell\": {\r\n            \"value\": 12,\r\n            \"unit\": \"Ω\"\r\n        },\r\n        \"internalResistancePack\": {\r\n            \"value\": 54,\r\n            \"unit\": \"Ω\"\r\n        },\r\n        \"internalResistanceIncreasePack\": {\r\n            \"value\": 45,\r\n            \"unit\": \"%\"\r\n        },\r\n        \"expectedLifetime\": {\r\n            \"value\": \"567 # of cycles\",\r\n            \"unit\": \"\"\r\n        },\r\n        \"depthOfDischargeInTheCycleLifeTest\": {\r\n            \"value\": 12,\r\n            \"unit\": \"%\"\r\n        }\r\n    },\r\n    \"dismantlingProcedures\": {\r\n        \"vehicleDismantlingProcedure\": {\r\n            \"value\": \"Vehicle dismantling procedure\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"batteryDismantlingProcedure\": {\r\n            \"value\": \"Battery dismantling procedure\",\r\n            \"url\": \"https://www.google.com/\"\r\n        }\r\n    },\r\n    \"safetyMeasures\": {\r\n        \"occupationalSafety\": {\r\n            \"value\": \"Occupational safety\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"fireProtection\": {\r\n            \"value\": \"Fire protection\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"usableExtinguishingAgent\": {\r\n            \"value\": \"Usable extinguishing agent\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"instructionsForSafelyPackagingBatteries\": {\r\n            \"value\": \"Instructions for safely packaging batteries\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"instructionsForSafelyTransportingBatteries\": {\r\n            \"value\": \"Instructions  for safely transporting batteries\",\r\n            \"url\": \"https://www.google.com/\"\r\n        }\r\n    },\r\n    \"informationResponsibleSourcing\": {\r\n        \"responsibleRawMaterialsReport\": {\r\n            \"value\": \"Responsible raw materials report\",\r\n            \"url\": \"https://www.google.com/\"\r\n        }\r\n    },\r\n    \"additionalInformation\": {\r\n        \"linkToTheLabelElement\": {\r\n            \"value\": \"Link to the label element\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"symbolIndicatingSeparateCollectionAndHeavyMetalContent\": {\r\n            \"value\": \"Cd\",\r\n            \"icon\": \"trashcan\"\r\n        },\r\n        \"carbonFootprintDeclaration\": {\r\n            \"value\": \"Link to the document\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"carbonFootprintPerformanceClass\": {\r\n            \"value\": \"A+++\"\r\n        },\r\n        \"informationAsAResultOfBatteryUse\": {\r\n            \"value\": \"Link to the document\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"preventionAndManagementOfWasteBatteriesInformation\": {\r\n            \"value\": \"Link to the document\",\r\n            \"url\": \"https://www.google.com/\"\r\n        },\r\n        \"euDeclarationOfConformity\": {\r\n            \"value\": \"Link to the PDF document\",\r\n            \"url\": \"https://www.google.com/\"\r\n        }\r\n    },\r\n    \"specifications\": {\r\n        \"power\": {\r\n            \"EnergyTotal\": \"20\",\r\n            \"EnergyUsable\": \"15\",\r\n            \"PowerCapability80percent\": \"75\",\r\n            \"PowerCapability20percent\": \"15\"\r\n        },\r\n        \"voltage\": {\r\n            \"maxVoltage\": \"\",\r\n            \"minVoltage\": \"\",\r\n            \"nominalVoltage\": \"\"\r\n        },\r\n        \"internalResistance\": 100,\r\n        \"weight\": 15.6,\r\n        \"expectedLifetime\": 10000,\r\n        \"temperature\": {\r\n            \"OperationalTemperatureRange\": \"\",\r\n            \"TemperatureRange\": \"\"\r\n        },\r\n        \"numberOfCells\": 20\r\n    },\r\n    \"recyclateContent\": {\r\n        \"aluminiumPerc\": 10,\r\n        \"leadPerc\": 20,\r\n        \"lithiumPerc\": 30,\r\n        \"cobaltPerc\": 40\r\n    },\r\n    \"handling\": {\r\n        \"packagingInstructions\": \"ressourceLink\",\r\n        \"transportationInstructions\": \"ressourceLink\",\r\n        \"safetyInstructions\": \"ressourceLink\",\r\n        \"personalProtectiveEquipment\": \"ressourceLink\"\r\n    },\r\n    \"CE\": {\r\n        \"mark\": \"true\",\r\n        \"notifiedBodyId\": \"1234asdf\",\r\n        \"notifiedBodyName\": \"EU declaration of confirmity\",\r\n        \"notifiedBodyAddress\": \"Street 1, 12345 Bruessels, Belgium\",\r\n        \"issuedCertificate\": \"CertificationId\"\r\n    },\r\n    \"manufacturer\": {\r\n        \"ame\": \"Panasonic Inc.\",\r\n        \"brandName\": \"Panasonic\",\r\n        \"gpdmId\": 12345,\r\n        \"address\": \"Street 12, 1006 Kadoma, Japan\",\r\n        \"phoneNumber\": \"12345-12345 234\",\r\n        \"email\": \"emailadressofManufacturerin@BatteryPass.eu\",\r\n        \"nationalID\": \"WTF\",\r\n        \"TradeRegister\": \"hopefully not stored in batterypass\",\r\n        \"manufacturingFacilityLocation\": \"Hintertupfing JWD\"\r\n    },\r\n    \"ESGDueDilligence\": {\r\n        \"step1\": \"air\",\r\n        \"step2\": \"water\",\r\n        \"humanHealth\": \"\",\r\n        \"humanRights\": \"\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"electrochemicalProperties\": {\r\n        \"ratedCapacity\": 210,\r\n        \"batteryEnergy\": {\r\n            \"energyRoundtripEfficiencyChange\": 67,\r\n            \"maximumAllowedBatteryEnergy\": 90000.0,\r\n            \"energyRoundtripEfficiency\": 56\r\n        },\r\n        \"ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy\": 0.611,\r\n        \"batteryVoltage\": {\r\n            \"nominalVoltage\": 4.3,\r\n            \"maxVoltage\": 6.0,\r\n            \"minVoltage\": 2.0\r\n        },\r\n        \"internalResistance\": {\r\n            \"cellInternalResistance\": 45,\r\n            \"packInternalResistanceIncrease\": 23,\r\n            \"packInternalResistance\": 67\r\n        },\r\n        \"capacityThresholdExhaustion\": 23,\r\n        \"batteryPower\": {\r\n            \"originalPowerCapability\": 123,\r\n            \"powerFade\": 23.0,\r\n            \"originalPowerCapabilityLimits\": 123,\r\n            \"maximumAllowedBatteryPower\": 55000.0,\r\n            \"powerCapabilityAt20Charge\": 643.0,\r\n            \"originalPower\": 7.56,\r\n            \"powerCapabilityAt80Charge\": 47.0\r\n        },\r\n        \"capacityFade\": 34\r\n    },\r\n    \"document\": {\r\n        \"responsibleSourcing\": [\r\n            {\r\n                \"title\": \"LlN\",\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n            }\r\n        ],\r\n        \"packagingInstructions\": [\r\n            {\r\n                \"title\": \"eOMtThyhVNLWUZNRcBaQKxI\",\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n            }\r\n        ],\r\n        \"transportationInstructions\": [\r\n            {\r\n                \"title\": \"yedUsFwdkelQbxeTeQOvaScfqIOOmaa\",\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n            }\r\n        ],\r\n        \"vehicleDismantlingProcedure\": [\r\n            {\r\n                \"title\": \"JxkyvRnL\",\r\n                \"fileLocation\": \"http://www.ietf.org/rfc/rfc2396.txt\"\r\n            }\r\n        ],\r\n        \"testReportsResults\": [\r\n            {\r\n                \"title\": \"UMaAIKKIkknjWEXJUfPxxQHeWKEJ\",\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n            }\r\n        ],\r\n        \"batteryDismantlingProcedure\": [\r\n            {\r\n                \"title\": \"RYtGKbgicZaHCBRQDSx\",\r\n                \"fileLocation\": \"http://www.wikipedia.org\"\r\n            }\r\n        ],\r\n        \"safetyMeasures\": [\r\n            {\r\n                \"title\": \"VLhpfQGTMDYpsBZxvfBoeygjb\",\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n            }\r\n        ],\r\n        \"declarationOfConformity\": [\r\n            {\r\n                \"title\": \"dpHYZGhtgdntugzvvKAXLhM\",\r\n                \"fileLocation\": \"http://www.wikipedia.org\"\r\n            }\r\n        ]\r\n    },\r\n    \"datePlacedOnMarket\": \"2022-09-08T08:13:33.111Z\",\r\n    \"cellChemistry\": {\r\n        \"electrolyteComposition\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"sPB\"\r\n            }\r\n        ],\r\n        \"anodeCompositionOther\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"YdvDhtAsLghPXAgtbprXPZkhnfLTBSX\"\r\n            }\r\n        ],\r\n        \"recyclateContentActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"UfzQhdgLLfDTDGspDb\"\r\n            }\r\n        ],\r\n        \"anodeActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"QvBQYuxiXXVytGCxzVllpgTJKhRQq\"\r\n            }\r\n        ],\r\n        \"cathodeActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"gNfZBdyFGRajVfJNonEnOinZj\"\r\n            }\r\n        ],\r\n        \"cathodeCompositionOther\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"qszYL\"\r\n            }\r\n        ]\r\n    },\r\n    \"physicalDimensions\": {\r\n        \"length\": 20000,\r\n        \"width\": 1000,\r\n        \"weight\": 1007,\r\n        \"diameter\": 3,\r\n        \"height\": 1\r\n    },\r\n    \"temperatureRangeIdleState\": {\r\n        \"temperatureRangeIdleStateUpperLimit\": 67,\r\n        \"temperatureRangeIdleStateLowerLimit\": 67\r\n    },\r\n    \"batteryCycleLife\": {\r\n        \"cycleLifeTestCRate\": 45,\r\n        \"cycleLifeTestDepthOfDischarge\": 23,\r\n        \"expectedLifetime\": 456\r\n    },\r\n    \"manufacturer\": {\r\n        \"name\": \"Samsung\",\r\n        \"contact\": {\r\n            \"faxNumber\": \"+49 89 0987654321\",\r\n            \"website\": \"https://www.samsung.com\",\r\n            \"phoneNumber\": \"+49 89 1234567890\",\r\n            \"email\": \"test.mail@example.com\"\r\n        },\r\n        \"address\": {\r\n            \"locality\": {\r\n                \"value\": \"Mannheim\",\r\n                \"technicalKey\": \"BLOCK\"\r\n            },\r\n            \"country\": {\r\n                \"shortName\": \"TB-03\"\r\n            },\r\n            \"postCode\": {\r\n                \"value\": \"68161\\\\12\",\r\n                \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"value\": \"Bernstraße\",\r\n                \"number\": \"45\",\r\n                \"technicalKey\": \"STREET\"\r\n            },\r\n            \"premise\": {\r\n                \"value\": \"Werk 1\",\r\n                \"technicalKey\": \"BUILDING\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"value\": \"Tor 1\",\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n            }\r\n        }\r\n    },\r\n    \"warrantyPeriod\": 60,\r\n    \"composition\": {\r\n        \"compositionOfBattery\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 19,\r\n                \"matierialWeight\": 2.5,\r\n                \"materialName\": \"Oxm\"\r\n            }\r\n        ],\r\n        \"criticalRawMaterials\": \"QIn\",\r\n        \"components\": {\r\n            \"componentsPartNumber\": \"Case xxxxxxx/xx; Controller xxxxxxx/xx\",\r\n            \"componentsSupplier\": [\r\n                {\r\n                    \"address\": {\r\n                        \"locality\": {\r\n                            \"value\": \"Mannheim\",\r\n                            \"technicalKey\": \"BLOCK\"\r\n                        },\r\n                        \"country\": {\r\n                            \"shortName\": \"RY-NLV\"\r\n                        },\r\n                        \"postCode\": {\r\n                            \"value\": \"68161\\\\12\",\r\n                            \"technicalKey\": \"CEDEX\"\r\n                        },\r\n                        \"thoroughfare\": {\r\n                            \"value\": \"Bernstraße\",\r\n                            \"number\": \"45\",\r\n                            \"technicalKey\": \"STREET\"\r\n                        },\r\n                        \"premise\": {\r\n                            \"value\": \"Werk 1\",\r\n                            \"technicalKey\": \"BUILDING\"\r\n                        },\r\n                        \"postalDeliveryPoint\": {\r\n                            \"value\": \"Tor 1\",\r\n                            \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n                        }\r\n                    },\r\n                    \"contact\": {\r\n                        \"faxNumber\": \"+49 89 0987654321\",\r\n                        \"website\": \"https://www.samsung.com\",\r\n                        \"phoneNumber\": \"+49 89 1234567890\",\r\n                        \"email\": \"test.mail@example.com\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    },\r\n    \"manufacturing\": {\r\n        \"dateOfManufacturing\": \"2022-03-07\",\r\n        \"address\": {\r\n            \"locality\": {\r\n                \"value\": \"Mannheim\",\r\n                \"technicalKey\": \"BLOCK\"\r\n            },\r\n            \"country\": {\r\n                \"shortName\": \"\"\r\n            },\r\n            \"postCode\": {\r\n                \"value\": \"68161\\\\12\",\r\n                \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"value\": \"Bernstraße\",\r\n                \"number\": \"45\",\r\n                \"technicalKey\": \"STREET\"\r\n            },\r\n            \"premise\": {\r\n                \"value\": \"Werk 1\",\r\n                \"technicalKey\": \"BUILDING\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"value\": \"Tor 1\",\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n            }\r\n        }\r\n    },\r\n    \"batteryIdentification\": {\r\n        \"batteryType\": \"LFP, Natrium, Li-Ion, NMC, NCA, Solid-State\",\r\n        \"batteryIDDMCCode\": \"X123456789012X12345678901234567\",\r\n        \"batteryModel\": \"LFP, Natrium, Li-Ion, NMC, NCA, Solid-State\"\r\n    },\r\n    \"stateOfBattery\": {\r\n        \"stateOfHealth\": 12,\r\n        \"statusBattery\": \"first life/ waste/ repaired/ repurposed/ recycled\",\r\n        \"stateOfCharge\": 23\r\n    },\r\n    \"cO2FootprintTotal\": 124.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,13 +23,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8194/data/{{digitalTwinSubmodelId}}",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider_backend/data/{{digitalTwinSubmodelId}}",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8194",
 							"path": [
+								"provider_backend",
 								"data",
 								"{{digitalTwinSubmodelId}}"
 							]
@@ -52,13 +56,17 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8194/data/{{digitalTwinSubmodelId}}",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider_backend/data/{{digitalTwinSubmodelId}}",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8194",
 							"path": [
+								"provider_backend",
 								"data",
 								"{{digitalTwinSubmodelId}}"
 							]
@@ -102,12 +110,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/assets",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/assets",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -157,12 +168,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/assets",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/assets",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -201,7 +215,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"uid\": \"{{edcPolicyId}}\",\r\n    \"policy\": {\r\n        \"prohibitions\": [],\r\n        \"obligations\": [],\r\n        \"permissions\": [\r\n            {\r\n                \"edctype\": \"dataspaceconnector:permission\",\r\n                \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                \"action\": {\r\n                    \"type\": \"USE\"\r\n                },\r\n                \"constraints\": []\r\n            }\r\n        ],\r\n        \"@type\": {\r\n            \"@policytype\": \"set\"\r\n        }\r\n    }\r\n}\r\n\r\n// {\r\n//     \"uid\": \"2\",\r\n//     \"policy\": {\r\n//         \"extensibleProperties\": {\r\n//             \"cx-human-readable\": \"lorem ipsum\"\r\n//         },\r\n//         \"prohibitions\": [],\r\n//         \"obligations\": [],\r\n//         \"permissions\": [\r\n//             {\r\n//                 \"edctype\": \"dataspaceconnector:permission\",\r\n//                 \"action\": {\r\n//                     \"type\": \"USE\"\r\n//                 },\r\n//                 \"constraints\": []\r\n//             }\r\n//         ]\r\n//     }\r\n// }",
+							"raw": "{\r\n    \"id\": \"{{edcPolicyId}}\",\r\n    \"policy\": {\r\n        \"prohibitions\": [],\r\n        \"obligations\": [],\r\n        \"permissions\": [\r\n            {\r\n                \"edctype\": \"dataspaceconnector:permission\",\r\n                \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                \"action\": {\r\n                    \"type\": \"USE\"\r\n                },\r\n                \"constraints\": []\r\n            }\r\n        ],\r\n        \"@type\": {\r\n            \"@policytype\": \"set\"\r\n        }\r\n    }\r\n}\r\n\r\n// {\r\n//     \"uid\": \"2\",\r\n//     \"policy\": {\r\n//         \"extensibleProperties\": {\r\n//             \"cx-human-readable\": \"lorem ipsum\"\r\n//         },\r\n//         \"prohibitions\": [],\r\n//         \"obligations\": [],\r\n//         \"permissions\": [\r\n//             {\r\n//                 \"edctype\": \"dataspaceconnector:permission\",\r\n//                 \"action\": {\r\n//                     \"type\": \"USE\"\r\n//                 },\r\n//                 \"constraints\": []\r\n//             }\r\n//         ]\r\n//     }\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,12 +223,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/policydefinitions",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/policydefinitions",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -264,12 +281,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/policydefinitions",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/policydefinitions",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -316,12 +336,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/contractdefinitions",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/contractdefinitions",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -378,12 +401,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8181/provider/controlplane/data/contractdefinitions",
-							"protocol": "http",
+							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/contractdefinitions",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"materialpass",
+								"int",
+								"demo",
+								"catena-x",
+								"net"
 							],
-							"port": "8181",
 							"path": [
 								"provider",
 								"controlplane",
@@ -634,7 +660,7 @@
 									}
 								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/catalog?providerUrl=http://localhost/provider/api/v1/ids/data",
+									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/catalog?providerUrl=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
 									"protocol": "https",
 									"host": [
 										"materialpass",
@@ -652,7 +678,7 @@
 									"query": [
 										{
 											"key": "providerUrl",
-											"value": "http://localhost/provider/api/v1/ids/data"
+											"value": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data"
 										}
 									]
 								}
@@ -687,7 +713,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"http://localhost:8282/provider/api/v1/ids/data\",\r\n    \"offer\": {\r\n        \"offerId\": \"{{digitalTwinSubmodelId}}:SUBMODEL-1.0RC02\",\r\n        \"assetId\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n        \"policy\": {\r\n            \"uid\": \"1\",\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\"\r\n                    },\r\n                    \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                    \"constraints\": []\r\n                }\r\n            ],\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        }\r\n    }\r\n}",
+									"raw": "{\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"offer\": {\r\n        \"offerId\": \"3:foo\",\r\n        \"assetId\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n        \"policy\": {\r\n            \"uid\": \"1\",\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\"\r\n                    },\r\n                    \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                    \"constraints\": []\r\n                }\r\n            ],\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        }\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -695,7 +721,7 @@
 									}
 								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/data/contractnegotiations",
+									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/contractnegotiations",
 									"protocol": "https",
 									"host": [
 										"materialpass",
@@ -706,8 +732,68 @@
 									],
 									"path": [
 										"consumer",
+										"controlplane",
 										"data",
 										"contractnegotiations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.1 Get Negotiations",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"offer\": {\r\n        \"offerId\": \"{{digitalTwinSubmodelId}}:SUBMODEL-1.0RC02\",\r\n        \"assetId\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n        \"policy\": {\r\n            \"uid\": \"1\",\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\"\r\n                    },\r\n                    \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                    \"constraints\": []\r\n                }\r\n            ],\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/contractnegotiations/c6a2b2bd-61ef-4474-9131-c166c9957b0e",
+									"protocol": "https",
+									"host": [
+										"materialpass",
+										"int",
+										"demo",
+										"catena-x",
+										"net"
+									],
+									"path": [
+										"consumer",
+										"controlplane",
+										"data",
+										"contractnegotiations",
+										"c6a2b2bd-61ef-4474-9131-c166c9957b0e"
 									]
 								}
 							},
@@ -735,7 +821,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"1\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"http://localhost:8282/provider/api/v1/ids/data\",\r\n    \"contractId\": \"${CONTRACT_AGREEMENT_ID}\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"id\": \"1\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"contractId\": \"3:95ba1edb-e64d-4c99-8ef7-3acdecaa2d16\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -757,6 +843,59 @@
 										"controlplane",
 										"data",
 										"transferprocess"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1 Verify data transfer",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"1\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"contractId\": \"3:4d6a37cc-9b22-4102-9412-a33243b35298\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/transferprocess/e011c766-ede1-4cee-b6dd-657b83f110e3",
+									"protocol": "https",
+									"host": [
+										"materialpass",
+										"int",
+										"demo",
+										"catena-x",
+										"net"
+									],
+									"path": [
+										"consumer",
+										"controlplane",
+										"data",
+										"transferprocess",
+										"e011c766-ede1-4cee-b6dd-657b83f110e3"
 									]
 								}
 							},

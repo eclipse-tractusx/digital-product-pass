@@ -144,7 +144,7 @@ controlplane:
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
     EDC_DATASOURCE_ASSET_NAME: asset
     EDC_DATASOURCE_ASSET_USER: *psqlUsername
-    EDC_DATASOURCE_ASSET_URL: &psqlJdbcUrl "jdbc:postgresql://provider-postgresql:5432/edc"
+    EDC_DATASOURCE_ASSET_URL: &psqlJdbcUrl "jdbc:postgresql://consumer-postgresql:5432/edc"
     EDC_DATASOURCE_CONTRACTDEFINITION_NAME: contractdefinition
     EDC_DATASOURCE_CONTRACTDEFINITION_USER: *psqlUsername
     EDC_DATASOURCE_CONTRACTDEFINITION_URL: *psqlJdbcUrl
@@ -260,7 +260,7 @@ controlplane:
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
-      edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
+      edc.receiver.http.endpoint=http://materialpass-edc-backend
       edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/dataplane/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key

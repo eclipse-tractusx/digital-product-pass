@@ -23,14 +23,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider_backend/data/{{digitalTwinSubmodelId}}",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider_backend",
@@ -56,14 +51,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider_backend/data/{{digitalTwinSubmodelId}}",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider_backend",
@@ -102,7 +92,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"asset\": {\r\n    \"properties\": {\r\n      \"asset:prop:id\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n      \"asset:prop:name\": \"product description\",\r\n      \"asset:prop:contenttype\": \"application/json\",\r\n      \"asset:prop:policy-id\": \"use-eu\"\r\n    }\r\n  },\r\n  \"dataAddress\": {\r\n    \"properties\": {\r\n      \"endpoint\": \"http://provider-backend-service:8080/data/{{digitalTwinSubmodelId}}\",\r\n      \"type\": \"HttpData\"\r\n    }\r\n  }\r\n}\r\n\r\n\r\n// {\r\n//     \"asset\": {\r\n//         \"properties\": {\r\n//             \"asset:prop:id\": \"4\",\r\n//             \"asset:prop:description\": \"Product EDC Demo Asset 4\"\r\n//         }\r\n//     },\r\n//     \"dataAddress\": {\r\n//         \"properties\": {\r\n//             \"type\": \"HttpData\",\r\n//             \"baseUrl\": \"https://jsonplaceholder.typicode.com/todos/4\"\r\n//         }\r\n//     }\r\n// }\r\n\r\n//curl -X POST \"http://localhost:8181/provider/controlplane/data/assets\" --header \"X-Api-Key: password\" --header \"Content-Type: application/json\" --data \"{ \\\"asset\\\": { \\\"properties\\\": { \\\"asset:prop:id\\\": \\\"1\\\", \\\"asset:prop:description\\\": \\\"Product EDC Demo Asset\\\" } }, \\\"dataAddress\\\": { \\\"properties\\\": { \\\"type\\\": \\\"HttpData\\\", \\\"baseUrl\\\": \\\"https://jsonplaceholder.typicode.com/todos/1\\\" } } }\"",
+							"raw": "{\r\n  \"asset\": {\r\n    \"properties\": {\r\n      \"asset:prop:id\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n      \"asset:prop:name\": \"product description\",\r\n      \"asset:prop:contenttype\": \"application/json\",\r\n      \"asset:prop:policy-id\": \"use-eu\"\r\n    }\r\n  },\r\n  \"dataAddress\": {\r\n    \"properties\": {\r\n      \"endpoint\": \"http://provider-backend-service:8080/data/{{digitalTwinSubmodelId}}\",\r\n      \"type\": \"HttpData\"\r\n    }\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,14 +100,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/assets",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/assets",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -160,7 +145,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "// curl -X GET \"http://localhost:8181/provider/controlplane/data/assets\" --header \"X-Api-Key: password\" --header \"Content-Type: application/json\"",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,14 +153,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/assets",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/assets",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -215,7 +195,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"{{edcPolicyId}}\",\r\n    \"policy\": {\r\n        \"prohibitions\": [],\r\n        \"obligations\": [],\r\n        \"permissions\": [\r\n            {\r\n                \"edctype\": \"dataspaceconnector:permission\",\r\n                \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                \"action\": {\r\n                    \"type\": \"USE\"\r\n                },\r\n                \"constraints\": []\r\n            }\r\n        ],\r\n        \"@type\": {\r\n            \"@policytype\": \"set\"\r\n        }\r\n    }\r\n}\r\n\r\n// {\r\n//     \"uid\": \"2\",\r\n//     \"policy\": {\r\n//         \"extensibleProperties\": {\r\n//             \"cx-human-readable\": \"lorem ipsum\"\r\n//         },\r\n//         \"prohibitions\": [],\r\n//         \"obligations\": [],\r\n//         \"permissions\": [\r\n//             {\r\n//                 \"edctype\": \"dataspaceconnector:permission\",\r\n//                 \"action\": {\r\n//                     \"type\": \"USE\"\r\n//                 },\r\n//                 \"constraints\": []\r\n//             }\r\n//         ]\r\n//     }\r\n// }",
+							"raw": "{\r\n    \"id\": \"{{edcPolicyId}}\",\r\n    \"policy\": {\r\n        \"prohibitions\": [],\r\n        \"obligations\": [],\r\n        \"permissions\": [\r\n            {\r\n                \"edctype\": \"dataspaceconnector:permission\",\r\n                \"target\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                \"action\": {\r\n                    \"type\": \"USE\"\r\n                },\r\n                \"constraints\": []\r\n            }\r\n        ],\r\n        \"@type\": {\r\n            \"@policytype\": \"set\"\r\n        }\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -223,14 +203,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/policydefinitions",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/policydefinitions",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -273,7 +248,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "// curl -X GET \"http://localhost:8181/provider/controlplane/data/assets\" --header \"X-Api-Key: password\" --header \"Content-Type: application/json\"",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -281,14 +256,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/policydefinitions",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/policydefinitions",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -328,7 +298,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"id\": \"3\",\r\n  \"accessPolicyId\": \"{{edcPolicyId}}\",\r\n  \"contractPolicyId\": \"{{edcPolicyId}}\",\r\n  \"criteria\": [\r\n        {\r\n            \"operandLeft\": \"asset:prop:id\",\r\n            \"operator\": \"=\",\r\n            \"operandRight\": \"urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918\"\r\n        }\r\n    ]\r\n\r\n}\r\n\r\n// {\r\n//   \"id\": \"2\",\r\n//   \"accessPolicyId\": \"{{edcPolicyId}}\",\r\n//   \"contractPolicyId\": \"{{edcPolicyId}}\",\r\n//   \"criteria\": []\r\n// }\r\n\r\n\r\n\r\n\r\n// {\r\n//     \"id\": \"1\",\r\n//     \"criteria\": [\r\n//         {\r\n//             \"operandLeft\": \"asset:prop:id\",\r\n//             \"operator\": \"=\",\r\n//             \"operandRight\": \"1\"\r\n//         }\r\n//     ],\r\n//     \"accessPolicyId\": \"1\",\r\n//     \"contractPolicyId\": \"1\"\r\n// }",
+							"raw": "{\r\n\"id\": \"3\",\r\n  \"accessPolicyId\": \"{{edcPolicyId}}\",\r\n  \"contractPolicyId\": \"{{edcPolicyId}}\",\r\n  \"criteria\": [\r\n        {\r\n            \"operandLeft\": \"asset:prop:id\",\r\n            \"operator\": \"=\",\r\n            \"operandRight\": \"urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918\"\r\n        }\r\n    ]\r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -336,14 +306,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/contractdefinitions",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/contractdefinitions",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -401,14 +366,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://materialpass.int.demo.catena-x.net/provider/controlplane/data/contractdefinitions",
-							"protocol": "https",
+							"raw": "{{serverUrl}}/provider/controlplane/data/contractdefinitions",
 							"host": [
-								"materialpass",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{serverUrl}}"
 							],
 							"path": [
 								"provider",
@@ -423,21 +383,6 @@
 				{
 					"name": "5. Register Digital Twin to registry",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -448,7 +393,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"BMW 520e Plugin-Hybrid\"\r\n        }\r\n    ],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"{{digitalTwinId}}\"\r\n        ]\r\n    },\r\n    \"idShort\": \"BMW 520e Plugin-Hybrid\",\r\n    \"identification\": \"{{digitalTwinId}}\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"batteryId\",\r\n            \"value\": \"334593247\"\r\n        },\r\n        {\r\n            \"key\": \"passportNumber\",\r\n            \"value\": \"12345\"\r\n        },\r\n        {\r\n            \"key\": \"BattProducer\",\r\n            \"value\": \"BattProducer\"\r\n        },\r\n        {\r\n            \"key\": \"batteryBatchNumber\",\r\n            \"value\": \"999999\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"MaterialPass\",\r\n            \"identification\": \"{{digitalTwinSubmodelId}}\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn:bamm:com.catenax.battery.product_description:1.0.1#ProductDescription\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL-1.0RC02\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"http://{{providerControlPlaneDockerInternal}}/{{providerBpn}}/{{digitalTwinId}}-{{digitalTwinSubmodelId}}/submodel?content=value&extent=withBlobValue\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"demo_catena_test_1.txt\"\r\n        }\r\n    ],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001\"\r\n        ]\r\n    },\r\n    \"idShort\": \"demo_catena_test_1.txt\",\r\n    \"identification\": \"urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"batteryModel\",\r\n            \"value\": \"LFP, Natrium, Li-Ion, NMC, NCA, Solid-State\"\r\n        },\r\n        {\r\n            \"key\": \"dateOfManufacturing\",\r\n            \"value\": \"2022-03-07\"\r\n        },\r\n        {\r\n            \"key\": \"AssetId\",\r\n            \"value\": \"urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918\"\r\n        },\r\n        {\r\n            \"key\": \"batteryIDDMCCode\",\r\n            \"value\": \"X123456789012X12345678901234567\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"MaterialPass\",\r\n            \"identification\": \"urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn_bamm_io.catenax.battery.battery_pass_2.0.0\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL.SIEM.0002\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -456,13 +401,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4243/registry/shell-descriptors",
-							"protocol": "http",
+							"raw": "{{registryUrl}}/registry/registry/shell-descriptors",
 							"host": [
-								"localhost"
+								"{{registryUrl}}"
 							],
-							"port": "4243",
 							"path": [
+								"registry",
 								"registry",
 								"shell-descriptors"
 							]
@@ -473,21 +417,6 @@
 				{
 					"name": "5.1 Get Digital Twin by Id from registry",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -497,13 +426,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:4243/registry/shell-descriptors/{{digitalTwinId}}",
-							"protocol": "http",
+							"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}",
 							"host": [
-								"localhost"
+								"{{registryUrl}}"
 							],
-							"port": "4243",
 							"path": [
+								"registry",
 								"registry",
 								"shell-descriptors",
 								"{{digitalTwinId}}"
@@ -526,20 +454,19 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:4243/lookup/shells?assetIds=%5B%7B%20%22key%22%3A%20%22batteryId%22%2C%20%22value%22%3A%20%22334593247%22%20%7D%2C%7B%20%22key%22%3A%20%22passportNumber%22%2C%20%22value%22%3A%20%2212345%22%20%7D%5D",
-									"protocol": "http",
+									"raw": "{{registryUrl}}/registry/lookup/shells?assetIds=%5B%22%7B%5Cn%20%20%5C%22key%5C%22%3A%20%5C%22batteryIDDMCCode%5C%22%2C%5Cn%20%20%5C%22value%5C%22%3A%20%5C%22X123456789012X12345678901234567%5C%22%5Cn%7D%22%2C%22%7B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5C%22key%5C%22%3A%20%5C%22AssetId%5C%22%2C%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5C%22value%5C%22%3A%20%5C%22urn%3Auuid%3A61125dc3-5e6f-4f4b-838d-447432b97918%5C%22%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%22%5D",
 									"host": [
-										"localhost"
+										"{{registryUrl}}"
 									],
-									"port": "4243",
 									"path": [
+										"registry",
 										"lookup",
 										"shells"
 									],
 									"query": [
 										{
 											"key": "assetIds",
-											"value": "%5B%7B%20%22key%22%3A%20%22batteryId%22%2C%20%22value%22%3A%20%22334593247%22%20%7D%2C%7B%20%22key%22%3A%20%22passportNumber%22%2C%20%22value%22%3A%20%2212345%22%20%7D%5D"
+											"value": "%5B%22%7B%5Cn%20%20%5C%22key%5C%22%3A%20%5C%22batteryIDDMCCode%5C%22%2C%5Cn%20%20%5C%22value%5C%22%3A%20%5C%22X123456789012X12345678901234567%5C%22%5Cn%7D%22%2C%22%7B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5C%22key%5C%22%3A%20%5C%22AssetId%5C%22%2C%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5C%22value%5C%22%3A%20%5C%22urn%3Auuid%3A61125dc3-5e6f-4f4b-838d-447432b97918%5C%22%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%22%5D"
 										}
 									]
 								}
@@ -552,13 +479,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:4243/registry/shell-descriptors/{{digitalTwinId}}",
-									"protocol": "http",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}",
 									"host": [
-										"localhost"
+										"{{registryUrl}}"
 									],
-									"port": "4243",
 									"path": [
+										"registry",
 										"registry",
 										"shell-descriptors",
 										"{{digitalTwinId}}"
@@ -585,13 +511,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:4243/registry/shell-descriptors/{{digitalTwinId}}/submodel-descriptors/{{digitalTwinSubmodelId}}",
-									"protocol": "http",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}/submodel-descriptors/{{digitalTwinSubmodelId}}",
 									"host": [
-										"localhost"
+										"{{registryUrl}}"
 									],
-									"port": "4243",
 									"path": [
+										"registry",
 										"registry",
 										"shell-descriptors",
 										"{{digitalTwinId}}",
@@ -616,9 +541,6 @@
 					"item": [
 						{
 							"name": "1. Get contract offer catalog",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -643,31 +565,10 @@
 										"type": "default"
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "",
-											"value": "",
-											"type": "default",
-											"disabled": true
-										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/catalog?providerUrl=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-									"protocol": "https",
+									"raw": "{{serverUrl}}/consumer/controlplane/data/catalog?providerUrl={{serverUrl}}/provider/api/v1/ids/data",
 									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
+										"{{serverUrl}}"
 									],
 									"path": [
 										"consumer",
@@ -678,7 +579,7 @@
 									"query": [
 										{
 											"key": "providerUrl",
-											"value": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data"
+											"value": "{{serverUrl}}/provider/api/v1/ids/data"
 										}
 									]
 								}
@@ -687,6 +588,27 @@
 						},
 						{
 							"name": "2. Negotiate Contract",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.globals.set(\"negotiation_Id\", jsonResponse.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -721,14 +643,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/contractnegotiations",
-									"protocol": "https",
+									"raw": "{{serverUrl}}/consumer/controlplane/data/contractnegotiations",
 									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
+										"{{serverUrl}}"
 									],
 									"path": [
 										"consumer",
@@ -779,21 +696,16 @@
 									}
 								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/contractnegotiations/c6a2b2bd-61ef-4474-9131-c166c9957b0e",
-									"protocol": "https",
+									"raw": "{{serverUrl}}/consumer/controlplane/data/contractnegotiations/{{negotiation_Id}}",
 									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
+										"{{serverUrl}}"
 									],
 									"path": [
 										"consumer",
 										"controlplane",
 										"data",
 										"contractnegotiations",
-										"c6a2b2bd-61ef-4474-9131-c166c9957b0e"
+										"{{negotiation_Id}}"
 									]
 								}
 							},
@@ -801,6 +713,18 @@
 						},
 						{
 							"name": "3. Transfer data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.globals.set(\"transferId\", jsonResponse.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -821,7 +745,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"1\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"contractId\": \"3:95ba1edb-e64d-4c99-8ef7-3acdecaa2d16\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"id\": \"2\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"contractId\": \" 3:a00903b3-660a-430b-b56d-1aecb9e59c7e\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -829,14 +753,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/transferprocess",
-									"protocol": "https",
+									"raw": "{{serverUrl}}/consumer/controlplane/data/transferprocess",
 									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
+										"{{serverUrl}}"
 									],
 									"path": [
 										"consumer",
@@ -850,9 +769,6 @@
 						},
 						{
 							"name": "3.1 Verify data transfer",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -871,31 +787,17 @@
 								},
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"1\",\r\n    \"connectorId\": \"SUBMODEL-1.0RC02\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n    \"contractId\": \"3:4d6a37cc-9b22-4102-9412-a33243b35298\",\r\n    \"assetId\": \"{{digitalTwinSubmodelId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/consumer/controlplane/data/transferprocess/e011c766-ede1-4cee-b6dd-657b83f110e3",
-									"protocol": "https",
+									"raw": "{{serverUrl}}/consumer/controlplane/data/transferprocess/{{transferId}}",
 									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
+										"{{serverUrl}}"
 									],
 									"path": [
 										"consumer",
 										"controlplane",
 										"data",
 										"transferprocess",
-										"e011c766-ede1-4cee-b6dd-657b83f110e3"
+										"{{transferId}}"
 									]
 								}
 							},
@@ -906,6 +808,56 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "clientSecret",
+				"value": "{{clientSecret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{clientId}}",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "openid profile email",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -945,6 +897,36 @@
 		{
 			"key": "providerBpn",
 			"value": "some-bpn",
+			"type": "default"
+		},
+		{
+			"key": "registryUrl",
+			"value": "https://semantics.int.demo.catena-x.net",
+			"type": "default"
+		},
+		{
+			"key": "clientId",
+			"value": "sa-cl6-cx-29",
+			"type": "default"
+		},
+		{
+			"key": "clientSecret",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "serverUrl",
+			"value": "https://materialpass.int.demo.catena-x.net",
+			"type": "default"
+		},
+		{
+			"key": "negotiationId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "transferId",
+			"value": "",
 			"type": "default"
 		}
 	]

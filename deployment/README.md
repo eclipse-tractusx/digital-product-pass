@@ -1,70 +1,66 @@
 # Deployment in ArgoCD Hotel Budapest
 
-This document describes the material pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
+This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
 
-- Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net) 
-- Currently, the docker images are published in docker hub registry and can be accessible publicly for testing purpose. In future, the images should be stored in a private registry.
-    - [edc-consumer](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fedc-consumer): ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-consumer:v1.pi4.s4
-    - [edc-provider](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fedc-provider): ghcr.io/catenax-ng/product-battery-passport-consumer-app/edc-provider:v1.pi4.s4
-    - [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui): ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:v1.pi4.s4
+- Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)
+
+- [edc-consumer](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-consumer)
+
+- [edc-provider](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-provider)
+
+- [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/consumer-ui)
 
 
 #### Sign in via the GitHub account
 
-After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the material pass team. The new app will be created inside this space.
-
-#### Provisioning Persistence
-
-Is is a shared storage to share files between edc-provider and edc-consumer connectors. The steps below are in general to deploy any application in the environment.\
-##### NOTE: the storage must be created first, otherwise the later components cannot find the persistence and may be failed the sync process.
+After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the material pass team. The new app should be created inside this space.
 
 #### Creating New Application
 
 Create new app from the top-left corner button.
 Fill out the following required fields.
-- Application Name: <APP_NAME> (e.g., edc-storage, edc-consumer, edc-provider, consumer-ui)
-- Project: project-material-pass
-- Source: Git repository where the application artifacts are stored (https://github.com/catenax-ng/product-battery-passport-consumer-app.git)
-- Path: The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, deployment/helm/consumer-ui)
-- Cluster URL: https://kubernetes.default.svc
-- Namespace: product-material-pass
+- **Application Name:** <APP_NAME> (e.g., materialpass-edc)
+- **Project:** project-material-pass
+- **Source:** Git repository where the application artifacts are stored (https://github.com/catenax-ng/product-battery-passport-consumer-app)
+- **Revision:** select branch or a tag
+- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, deployment/helm/consumer-ui)
+- **Cluster URL:** https://kubernetes.default.svc
+- **Namespace:** product-material-pass
 
 Click on 'Create' button
 
-![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/create_app.png)
+![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/create_application.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/sync_app.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/app_sync.png)
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/sync_pod.png)
+![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/pod_sync.png)
 
 - Navigate inside the pod
 
-![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/consumer_pod.png)
+![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/consumer-ui_pod.png)
 - Go to the logs tab
 
-![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/logging.png)
+![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/logs.png)
 
 If everything works fine then the application is deployed...
 
-The same steps could be followed to deploy the edc-provider connector.
-
 #### Consumer-UI:
 
-The consumer frontend app for the material passport that interacts with the end-user. The above same steps could be followed to deploy the consumer-ui component.
+The consumer frontend app for the material passport that interacts with the end-user. The steps above will be followed to deploy the consumer frontend component.
 
-In the end, the app should be accessible at https://materialpass.int.demo.catena-x.net/
+In the end, the frontend should be accessible at https://materialpass.int.demo.catena-x.net. You would be navigated to the CatenaX central IDP and can see the keycloak login page after company selection.
 
 ##### Login credentails:
-- User 1:- Role: Recycler, Email: mustermann@test-recycler.de, Password: mustermann
-- User 2:- Role: OEM, Email: mustermann@test-oem.de, Password: mustermann
+- **Company Selection:** CX-Test-Access
+- **User 1:** Role: OEM, user: company 1 user, Password: changeme
+- **User 2:** Role: Recycler, user: company 2 user, Password: changeme
 
 #### Example Screenshots:
 
-![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/login_page.png)
+![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/cx_login_page.png)
 
-![Dashboard](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/batterypass_dashboard.png)
 
-![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/battery_passport.png)
-
+![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/deployment/images/battery_passport_data.png.png)

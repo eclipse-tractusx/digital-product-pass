@@ -1,8 +1,17 @@
 # Product-Battery-Passport Consumer-App
 
-This battery pass consumer application is used with the **Asset Administration Shell (AAS)** locally.
+This battery pass consumer application is used with the **Asset Administration Shell (AAS)**.
 
-## Setup Project
+## Local Setup
+
+### Requisites:
+
+- Git
+- Code editor (VS Code/ IntelliJ recommended)
+- Nodejs (Node Package Manager - npm)
+- Vuejs
+- Docker
+- Git Bash (for windows operating system only)
 
 ### Cloning repository
 

@@ -1,18 +1,24 @@
-# Product-Battery-Passport Consumer-App
+# ![Product Battery Passport Consumer Application (Frontend)](./docs/catena-x-logo.svg)  
+
+## What is Battery Passport Consumer frontend?
+
+The battery passport consumer application is a viewer application that provides a way to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from to any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
+In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through Eclipse Dataspace Connectors (EDCs) over the Catena-X netowrk. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
 
 This battery pass consumer application is used with the **Asset Administration Shell (AAS)**.
 
-## Local Setup
+## Getting Started
 
-### Tools:
+### Prerequisites:
 
 - Git
 - Code editor (VS Code/ IntelliJ recommended)
-- Nodejs (Node Package Manager - npm)
+- Nodejs 16 (Node Package Manager - npm)
 - Vuejs
 - Docker
 - Git Bash (for windows operating system only)
 
+## Installation
 ### Cloning repository
 
 ```bash
@@ -23,7 +29,7 @@ git clone https://github.com/catenax-ng/product-battery-passport-consumer-app.gi
 git clone https://github.com/catenax-ng/catenax-at-home.git
 ```
 
-### Launch docker containers for the Asset Administration Shell (AAS)
+### Docker containers for the Asset Administration Shell (AAS)
 
 ```bash
 cd catenax-at-home/getting-started-guide/
@@ -64,7 +70,7 @@ npm run build
 npm run serve
 ```
 
-#### Method 2: Run with Docker
+#### Method 2: With Docker
 
 The Dockerfile is located in root directory of the project.
 

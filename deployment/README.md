@@ -1,4 +1,4 @@
-# Deployment in ArgoCD Hotel Budapest
+## Technical Guide - Deployment in ArgoCD Hotel Budapest
 
 This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
 
@@ -67,7 +67,9 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 <br />
 
-## General Helm commands
+## Helm to manage Kubernetes
+
+### Basic Helm tricks
 
 <details><summary>show</summary>
 <p>
@@ -82,13 +84,13 @@ helm create <CHART_NAME>
 # Updating chart dependencies
  helm dependency update <SOURCE>
 
-# Running helm chart
+# Installing helm release
 helm install <CHART_NAME> -f myvalues.yaml ./SOURCE
 
 # Uninstalling helm release
 helm uninstall <CHART_NAME>
 
-# Listing helm charts
+# Listing helm releases
 helm list
 ```
 <p>

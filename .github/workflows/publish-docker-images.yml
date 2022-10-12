@@ -8,7 +8,7 @@ name: "Publish docker images"
 on:
   push:
 
-    branches: [ "main", "develop", "feature/cmp-266" ]
+    branches: [ "main", "develop" ]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]

@@ -4,11 +4,11 @@ This document describes the battery pass application deployment steps in hotel b
 
 - Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)
 
-- [edc-consumer](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/main/deployment/helm/edc-consumer)
+- [edc-consumer](./helm/edc-consumer)
 
-- [edc-provider](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/main/deployment/helm/edc-provider)
+- [edc-provider](./helm/edc-provider)
 
-- [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/main/deployment/helm/consumer-ui)
+- [consumer-ui](./helm/consumer-ui)
 
 
 #### Sign in via the GitHub account
@@ -29,20 +29,20 @@ Fill out the following required fields.
 
 Click on 'Create' button
 
-![Create New App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/create_application.png)
+![Create New App](./images/create_application.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/app_sync.png)
+![Sync App](./images/app_sync.png)
 
-![Sync App](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/pod_sync.png)
+![Sync App](./images/pod_sync.png)
 
 - Navigate inside the pod
 
-![Consumer Pod](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/consumer-ui_pod.png)
+![Consumer Pod](./images/consumer-ui_pod.png)
 - Go to the logs tab
 
-![Consumer connector logs](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/logs.png)
+![Consumer connector logs](./images/logs.png)
 
 If everything works fine then the application is deployed...
 
@@ -59,11 +59,11 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 #### Example Screenshots:
 
-![Login Page](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/cx_login_page.png)
+![Login Page](./images/cx_login_page.png)
 
-![Dashboard](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/batterypass_dashboard.png)
+![Dashboard](./images/batterypass_dashboard.png)
 
-![Battery Passport](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/feature/cmp-266/deployment/images/battery_passport_data.png)
+![Battery Passport](./images/battery_passport_data.png)
 
 <br />
 

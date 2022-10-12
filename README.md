@@ -1,9 +1,10 @@
-# ![Product Battery Passport Consumer Application (Frontend)](./docs/catena-x-logo.svg) Product Battery Passport Consumer Application (Frontend)
+# ![Product Battery Passport Consumer Application (Frontend)](./docs/catena-x-logo.svg) Product Battery Passport Consumer App (Frontend)
 
-## What is Battery Passport Consumer frontend?
+## What is battery passport consumer application?
 
-The battery passport consumer application is a viewer application that provides a way to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from to any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
-In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through Eclipse Dataspace Connectors (EDCs) over the Catena-X netowrk. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
+The battery passport consumer application provides a user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
+
+In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
 
 
 ## Getting Started
@@ -101,11 +102,8 @@ docker run -p 8080:80 --name consumer-ui -d ghcr.io/catenax-ng/product-battery-p
 ```
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 
+## Coding styles
 
 ### How to set up a code editor
 
 See [VSCode configuration](https://confluence.catena-x.net/pages/viewpage.action?pageId=55009683).
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).

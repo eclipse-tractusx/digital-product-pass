@@ -107,3 +107,7 @@ The consumer frontend is available in browser at [http://localhost:8080](http://
 ### How to set up a code editor
 
 See [VSCode configuration](https://confluence.catena-x.net/pages/viewpage.action?pageId=55009683).
+
+## License
+
+[Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

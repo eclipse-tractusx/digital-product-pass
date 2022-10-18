@@ -1,7 +1,15 @@
 ---
-backend:
+# backend:
+#   enabled: true
+#   fullnameOverride: "materialpass-edc-provider-backend"
+
+providerbackendapplication:
   enabled: true
   fullnameOverride: "materialpass-edc-provider-backend"
+  service:
+    type: NodePort
+    frontend:
+      port: 80
 
 postgres:
   enabled: true
@@ -15,25 +23,26 @@ postgres:
 
 dataplane:
   enabled: true
+  fullnameOverride: "materialpass-edc-provider-dataplane"
   image:
     repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   envSecretName: "provider-dataplane-secret"
   edc:
     endpoints:
       default:
         port: 8080
-        path: /provider/dataplane/api
+        path: /provider/api
       public:
         port: 8185
-        path: /provider/dataplane/api/public
+        path: /provider/api/public
       control:
         port: 9999
-        path: /provider/dataplane/api/control
+        path: /provider/api/dataplane/control
       metrics:
         port: 9090
-        path: /provider/dataplane/metrics
+        path: /provider/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -53,8 +62,17 @@ dataplane:
       otel.javaagent.enabled=false
       otel.javaagent.debug=false
   env:
+
+    #############
+    ## GENERAL ##
+    #############
+
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/provider/controlplane/validation
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/provider/validation/token
+
+    ###############
+    ## KEY VAULT ##
+    ###############
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
@@ -66,9 +84,10 @@ dataplane:
 
 controlplane:
   enabled: true
+  fullnameOverride: "materialpass-edc-provider-controlplane"
   image:
     repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   edc:
     endpoints:
@@ -77,13 +96,13 @@ controlplane:
         path: /provider/controlplane/api
       data:
         port: 8181
-        path: /provider/controlplane/data
+        path: /provider/data
       validation:
         port: 8182
-        path: /provider/controlplane/validation
+        path: /provider/validation
       control:
         port: 9999
-        path: /provider/controlplane/api/control
+        path: /provider/api/controlplane/control
       ids:
         port: 8282
         path: /provider/api/v1/ids
@@ -128,11 +147,15 @@ controlplane:
     EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
     EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
     EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
-    EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
-      {
-        "publicApiUrl": "https://materialpass.int.demo.catena-x.net/provider/dataplane/api/public"
+
+    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_URL: http://materialpass-edc-provider-dataplane:9999/provider/api/dataplane/control
+    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_SOURCETYPES : HttpData
+    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_DESTINATIONTYPES: HttpProxy
+    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_PROPERTIES: >-
+      { 
+        "publicApiUrl": "http://materialpass-edc-provider-dataplane:8185/provider/api/public"
       }
-  
+
   configuration:
     properties: |-
       #edc.api.auth.key=
@@ -192,7 +215,7 @@ controlplane:
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/provider/dataplane/api/control
+      # edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/provider/dataplane/api/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
@@ -205,6 +228,13 @@ controlplane:
       edc.ids.description="Provider Control Plane"
       edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids
       edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data
+
+
+      # localhost configuration
+      # edc.ids.endpoint=http://materialpass-edc-provider-controlplane:8282/provider/api/v1/ids
+      # edc.ids.endpoint.audience=http://materialpass-edc-provider-controlplane:8282/provider/api/v1/ids/data
+      # localhost configuration
+
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -232,7 +262,7 @@ controlplane:
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
       edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
-      edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/dataplane/api/public
+      edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
       edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt
@@ -258,3 +288,5 @@ controlplane:
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
       ids.webhook.address=https://materialpass.int.demo.catena-x.net
+      # ids.webhook.address=http://materialpass-edc-provider-controlplane:8282
+

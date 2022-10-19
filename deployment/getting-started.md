@@ -25,15 +25,15 @@ The `EDC-Provider` holds data that is managed via an __Data Management API__ and
 data offer, the `EDC-Consumer` needs to __negotiate a contract for the data transfer__. The `CatenaX-Registry` gives the
 platform for the services to basically find each other (provides the meta-data).
 
-The project `Battery-Passport` provides a UI for the contract negotiation and the final __representation of the data__.
+The project `Battery-Passport application` provides a UI to request battery passports through edc connectors and the
+final __representation of the data__.
 
 ### Application Installation
 
 > Prerequisite: [Docker](https://www.docker.com/products/docker-desktop/), [MiniKube](https://minikube.sigs.k8s.io/docs/start/) & [Helm](https://helm.sh/docs/intro/install/): execute `minikube start` & `minikube addons enable ingress`
 
 * __CatenaX-Registry__
-    * Description: This component is usually managed by CatenaX, but because of access rights a local instance could be
-      required.
+    * Description: This component is usually managed by CatenaX and only required in some development situations.
     * __Service-Registry__
         * docker container hosted in locally and mapped to __Port 4243__
             * [Image from Guide Repo](https://github.com/catenax-ng/catenax-at-home/blob/main/getting-started-guide/docker-compose.yml#L89)
@@ -99,10 +99,9 @@ The project `Battery-Passport` provides a UI for the contract negotiation and th
 * __Project__
     * __Battery-Passport-UI__
         * Started with from repository root on __Port 8080__:
-          * `npm install --legacy-peer-deps`
-          * `ng serve`
-        * Int-
-          Deployment: [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/)
+            * `npm install --legacy-peer-deps`
+            * `ng serve`
+        * Int- Deployment: [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/)
 
 __Notes:__
 
@@ -119,13 +118,15 @@ in `postman/Battery-Pass`. Import the collection in postman and use the prepared
 1. Prepare the __Provider__ with `sample data`, `assets`, `policies` and `contract definition`
 2. Register the __Provider__ as `digital twin` to the __Registry__
 3. Lookup the __Registry__ to get the `digital twin` for the __Consumer__
-4. Get the `shell descriptor` and the `submodel` from the __Registry__ for the __Consumer__
-5. Negotiate the contract between the __Consumer__ and __Provider__ with the `submodel` for the `digital twin`
-6. Do the `data transfer` between the __Consumer and Provider__
+4. Get the `shell descriptor` and the `submodels` from the __Registry__ for the __Consumer__
+5. Get the `specific submodel` from the __Registry__ (more than one could be delivered in the previous step)
+6. Get the contract offer catalog for the __Consumer__
+7. Negotiate the contract between the __Consumer__ and __Provider__ with the `submodel` for the `digital twin`
+8. Do the `data transfer` between the __Consumer and Provider__
 
 The __Battery Passport UI__ will make this process accessible to users.
 
 __Note:__ Adjust the URLs according to the _local_ (`http://localhost:port/`) or
 _integration_ (`https://materialpass.int.demo.catena-x.net/`) environment.
 
-> [Documentation of EDC Data Transfer](https://github.com/catenax-ng/product-edc/blob/develop/docs/data-transfer/Transfer%20Data.md)
+> [Documentation of EDC Data Transfer](https://github.com/catenax-ng/product-edc/blob/develop/docs/data-transfer/Transfer%20Data.md) & [End-to-End Use Case](https://catenax-ng.github.io/docs/catenax-at-home-getting-started-guide)

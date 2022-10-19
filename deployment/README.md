@@ -1,5 +1,8 @@
 ## Technical Guide - Deployment in ArgoCD Hotel Budapest
 
+
+> [Getting Started Documentation](getting-started.md)
+
 This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
 
 - Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)

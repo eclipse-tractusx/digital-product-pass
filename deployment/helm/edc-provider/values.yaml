@@ -10,6 +10,8 @@ providerbackendapplication:
     type: NodePort
     frontend:
       port: 80
+    backend:
+      port: 8081
 
 postgres:
   enabled: true

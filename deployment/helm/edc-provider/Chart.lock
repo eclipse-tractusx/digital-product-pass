@@ -6,10 +6,10 @@ dependencies:
   repository: https://catenax-ng.github.io/product-edc
   version: 0.1.2
 - name: backend-service
-  repository: https://denisneuling.github.io/cx-backend-service
+  repository: file://backend-service
   version: 0.0.6
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.2.4
-digest: sha256:94797e780f3a8c979f1d8e94897659ddc30d7456935c6929a378d5f3842ff3bb
-generated: "2022-10-18T15:22:11.0515189+02:00"
+digest: sha256:6a14052ef06157c004c28672b79fb132639270dd678fdeba86a800eb377a727a
+generated: "2022-10-19T19:07:37.0177767+02:00"

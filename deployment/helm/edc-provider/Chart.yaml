@@ -23,9 +23,14 @@ dependencies:
   #   condition: backend.enabled
   - name: backend-service
     version: "0.0.6"
-    repository: https://denisneuling.github.io/cx-backend-service
+    repository: file://backend-service
     alias: providerbackendapplication
     condition: providerbackendapplication.enabled
+  # - name: backend-service
+  #   version: "0.0.6"
+  #   repository: https://denisneuling.github.io/cx-backend-service
+  #   alias: providerbackendapplication
+  #   condition: providerbackendapplication.enabled
   - name: postgresql
     alias: postgres
     version: 11.2.4

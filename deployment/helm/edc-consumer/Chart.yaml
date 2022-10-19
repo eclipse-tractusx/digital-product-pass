@@ -20,12 +20,17 @@ dependencies:
   #   alias: backend
   #   version: "0.0.1"
   #   repository: file://backend
-  #   condition: backend.enabled  
+  #   condition: backend.enabled 
   - name: backend-service
     version: "0.0.6"
-    repository: https://denisneuling.github.io/cx-backend-service
+    repository: file://backend-service
     alias: consumerbackendapplication
     condition: consumerbackendapplication.enabled
+  # - name: backend-service
+  #   version: "0.0.6"
+  #   repository: https://denisneuling.github.io/cx-backend-service
+  #   alias: consumerbackendapplication
+  #   condition: consumerbackendapplication.enabled
   - name: postgresql
     alias: postgres
     version: 11.2.4

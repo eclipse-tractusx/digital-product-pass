@@ -1,34 +1,41 @@
-# Local Setup
+# Local Keycloak Setup
 
-Running the keycloak instance in localhost requires to launch keycloak docker container and import realm.json file.
+This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.
 
 ## Launch keycloak docker container
 
+- Keycloak official image: [jboss/keycloak](https://registry.hub.docker.com/r/jboss/keycloak)
+
 ```
-docker run --name keycloak1 -p 8088:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -d jboss/keycloak
+docker run --name keycloak -p 8088:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -d jboss/keycloak
 ```
 
 ## Import realm
 
-Import the realm.json file located in current directory
+Import the [realm.json](./realm.json) located in current directory
 
 ## Create users
 
 After importing the realm, the users need to be created manually. 
 
-Example users:
-- User 1: company user 1 \
-  password: changeme
-- User 2: company user 2 \
-  password: changeme
+***Example users:***
+- **User 1:** company 1 user  \
+  **Password:** changeme \
+  **Role:** OEM, Dismantler
 
-## Enable keycloak configuration in vuejs app
+- **User 2:** company 2 user \
+  **Password:** changeme \
+  **Role:** Recycler
+
+## Integration with vuejs app
+
+### Enable keycloak configuration
 
 Install the keycloak plugin for vuejs app from ```npm install keycloak-js```
 
-The keycloak configurations are defined in 'src/services/service.const.js' file for dev and prod environment. In order to use keycloak dev settings, the dev configuration need to be enabled and prod one should be disabled.
+The keycloak configurations are defined in [src/services/service.const.js](../../../src/services/service.const.js) and [src/services/authentication.js](../../../src/services/authentication.js) files for different deployment environments.
 
-## Build and run the app
+### Build and run the app
 
 ```
 npm install --legacy-peer-deps

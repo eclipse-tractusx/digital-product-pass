@@ -78,7 +78,7 @@ dataplane:
 
     EDC_VAULT_HASHICORP_URL: https://vault.demo.catena-x.net
     EDC_VAULT_HASHICORP_API_SECRET_PATH: /v1/material-pass
-    EDC_VAULT_HASHICORP_TOKEN: s.hYFLHf9sH9Qclz6iZ0iAoLIW
+    EDC_VAULT_HASHICORP_TOKEN: s.Gh2dHXfGeDNs0DwtdxBnwpcO
     EDC_OAUTH_TOKEN_URL: https://daps1.int.demo.catena-x.net/token
     EDC_OAUTH_PROVIDER_JWKS_URL: https://daps1.int.demo.catena-x.net/.well-known/jwks.json 
     EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
@@ -280,7 +280,7 @@ controlplane:
       # edc.vault.name=
       # edc.vault.tenantid=
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
-      edc.vault.hashicorp.token=s.hYFLHf9sH9Qclz6iZ0iAoLIW
+      edc.vault.hashicorp.token=s.Gh2dHXfGeDNs0DwtdxBnwpcO
       edc.vault.hashicorp.api.secret.path=/v1/material-pass
       edc.vault.hashicorp.health.check.standby.ok=true
       # edc.vault.hashicorp.timeout.seconds=

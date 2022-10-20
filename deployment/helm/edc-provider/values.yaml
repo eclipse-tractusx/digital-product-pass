@@ -1,8 +1,4 @@
 ---
-# backend:
-#   enabled: true
-#   fullnameOverride: "materialpass-edc-provider-backend"
-
 providerbackendapplication:
   enabled: true
   fullnameOverride: "materialpass-edc-provider-backend"

@@ -1,111 +1,136 @@
 <template  >
-  <SectionHeader title="3. State of Health" @click="toggle = !toggle" />
+  <SectionHeader
+    title="3. Electrochemical properties"
+    @click="toggle = !toggle"
+  />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <Field
         data-cy="remaining-capacity"
         label="Rated capacity"
         unit="W"
-        :value="stateOfHealth.ratedCapacity"
+        :value="electrochemicalProperties.ratedCapacity"
       />
       <Field
         label="Energy roundtrip efficiency change"
         unit="%"
-        :value="stateOfHealth.batteryEnergy.energyRoundtripEfficiencyChange"
+        :value="
+          electrochemicalProperties.batteryEnergy
+            .energyRoundtripEfficiencyChange
+        "
       />
       <Field
         label="Maximum allowed battery energy"
         unit="%"
-        :value="stateOfHealth.batteryEnergy.maximumAllowedBatteryEnergy"
+        :value="
+          electrochemicalProperties.batteryEnergy.maximumAllowedBatteryEnergy
+        "
       />
       <Field
         label="Energy roundtrip efficiency"
         unit="%"
-        :value="stateOfHealth.batteryEnergy.energyRoundtripEfficiency"
+        :value="
+          electrochemicalProperties.batteryEnergy.energyRoundtripEfficiency
+        "
       />
 
       <Field
         label="Ratio maximum allowed battery power and maximum allowed battery energy"
         unit=""
         :value="
-          stateOfHealth.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
+          electrochemicalProperties.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
         "
       />
       <Field
         label="Nominal voltage"
         unit="%"
-        :value="stateOfHealth.batteryVoltage.nominalVoltage"
+        :value="electrochemicalProperties.batteryVoltage.nominalVoltage"
       />
       <Field
         label="Max voltage"
         unit="%"
-        :value="stateOfHealth.batteryVoltage.maxVoltage"
+        :value="electrochemicalProperties.batteryVoltage.maxVoltage"
       />
       <Field
         label="Min voltage"
         unit="%"
-        :value="stateOfHealth.batteryVoltage.minVoltage"
+        :value="electrochemicalProperties.batteryVoltage.minVoltage"
       />
       <Field
         label="Cell internal resistance"
         unit="%"
-        :value="stateOfHealth.internalResistance.cellInternalResistance"
+        :value="
+          electrochemicalProperties.internalResistance.cellInternalResistance
+        "
       />
       <Field
         label="Pack internal resistance increase"
         unit="%"
-        :value="stateOfHealth.internalResistance.packInternalResistanceIncrease"
+        :value="
+          electrochemicalProperties.internalResistance
+            .packInternalResistanceIncrease
+        "
       />
       <Field
         label="Pack internal resistance"
         unit="%"
-        :value="stateOfHealth.internalResistance.packInternalResistance"
+        :value="
+          electrochemicalProperties.internalResistance.packInternalResistance
+        "
       />
 
       <Field
         label="Capacity threshold exhaustion"
         unit="%"
-        :value="stateOfHealth.capacityThresholdExhaustion"
+        :value="electrochemicalProperties.capacityThresholdExhaustion"
       />
       <Field
         label="Original power capability"
         unit="%"
-        :value="stateOfHealth.batteryPower.originalPowerCapability"
+        :value="electrochemicalProperties.batteryPower.originalPowerCapability"
       />
       <Field
         label="Power fade"
         unit="%"
-        :value="stateOfHealth.batteryPower.powerFade"
+        :value="electrochemicalProperties.batteryPower.powerFade"
       />
       <Field
         label="Original power capability limits"
         unit="%"
-        :value="stateOfHealth.batteryPower.originalPowerCapabilityLimits"
+        :value="
+          electrochemicalProperties.batteryPower.originalPowerCapabilityLimits
+        "
       />
       <Field
         label="Maximum allowed battery power"
         unit="%"
-        :value="stateOfHealth.batteryPower.maximumAllowedBatteryPower"
+        :value="
+          electrochemicalProperties.batteryPower.maximumAllowedBatteryPower
+        "
       />
       <Field
         label="Power capability at 20 charge"
         unit="%"
-        :value="stateOfHealth.batteryPower.powerCapabilityAt20Charge"
+        :value="
+          electrochemicalProperties.batteryPower.powerCapabilityAt20Charge
+        "
       />
       <Field
         label="Original power"
         unit="%"
-        :value="stateOfHealth.batteryPower.originalPower"
+        :value="electrochemicalProperties.batteryPower.originalPower"
       />
       <Field
         label="Power capability at 80 charge"
         unit="%"
-        :value="stateOfHealth.batteryPower.powerCapabilityAt80Charge"
+        :value="
+          electrochemicalProperties.batteryPower.powerCapabilityAt80Charge
+        "
       />
       <Field
         label="Capacity fade"
         unit="%"
-        :value="stateOfHealth.capacityFade"
+        :value="electrochemicalProperties.capacityFade"
       />
     </div>
   </div>
@@ -116,7 +141,7 @@ import SectionHeader from "./SectionHeader.vue";
 import Field from "./Field.vue";
 
 export default {
-  name: "StateOfHealth",
+  name: "ElectrochemicalProperties",
   components: {
     Field,
     SectionHeader,
@@ -126,7 +151,7 @@ export default {
       type: String,
       default: "",
     },
-    stateOfHealth: {
+    electrochemicalProperties: {
       type: Object,
       default: Object,
     },

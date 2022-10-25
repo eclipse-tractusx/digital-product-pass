@@ -7,38 +7,24 @@
         section-title="General information"
         :general-information="data"
       />
-
-      <BatteryComposition
-        section-title="Battery Composition"
-        :battery-composition="data.cellChemistry"
+      <CellChemistry
+        section-title="Cell chemistry"
+        :cell-chemistry="data.cellChemistry"
       />
-
-      <StateOfHealth
+      <ElectrochemicalProperties
         section-title="State of Health"
-        :state-of-health="data.electrochemicalProperties"
+        :electrochemical-properties="data.electrochemicalProperties"
+      />
+      <BatteryComposition
+        section-title="Parameters of The Battery"
+        :battery-composition="data.composition"
+      />
+      <StateOfBattery
+        section-title="State of Battery"
+        :state-of-battery="data"
       />
 
-      <ParametersOfTheBattery
-        section-title="Parameters of The Battery"
-        :parameters-of-the-battery="data.composition"
-      />
-      <!--
-      <DismantlingProcedures
-        section-title="Dismantling procedures"
-        :dismantling-procedures="data.dismantlingProcedures"
-      />
-      <SafetyInformation
-        section-title="Safety information"
-        :safety-measures="data.safetyMeasures"
-      />
-      <InformationResponsibleSourcing
-        section-title="Information responsible sourcing"
-        :information-responsible-sourcing="data.informationResponsibleSourcing"
-      />
-      <AdditionalInformation
-        section-title="Additional information"
-        :additional-information="data.additionalInformation"
-      /> -->
+      <Documents section-title="Documents" :documents="data.document" />
     </div>
     <Footer />
   </div>
@@ -47,13 +33,11 @@
 <script>
 // @ is an alias to /src
 import GeneralInformation from "@/components/GeneralInformation.vue";
+import CellChemistry from "@/components/CellChemistry.vue";
+import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vue";
 import BatteryComposition from "@/components/BatteryComposition.vue";
-import StateOfHealth from "@/components/StateOfHealth.vue";
-import ParametersOfTheBattery from "@/components/ParametersOfTheBattery.vue";
-import DismantlingProcedures from "@/components/DismantlingProcedures.vue";
-import SafetyInformation from "@/components/SafetyInformation.vue";
-import InformationResponsibleSourcing from "@/components/InformationResponsibleSourcing.vue";
-import AdditionalInformation from "@/components/AdditionalInformation.vue";
+import StateOfBattery from "@/components/StateOfBattery.vue";
+import Documents from "@/components/Documents.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -68,13 +52,11 @@ export default {
   components: {
     Header,
     GeneralInformation,
+    CellChemistry,
+    StateOfBattery,
+    ElectrochemicalProperties,
     BatteryComposition,
-    StateOfHealth,
-    ParametersOfTheBattery,
-    DismantlingProcedures,
-    SafetyInformation,
-    InformationResponsibleSourcing,
-    AdditionalInformation,
+    Documents,
     Footer,
     Spinner,
   },

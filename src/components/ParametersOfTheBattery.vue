@@ -4,7 +4,8 @@
     @click="toggle = !toggle"
   />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-section-container">
+    <h1>{{ parametersOfTheBattery }}</h1>
+    <!-- <div class="sub-section-container">
       <Field
         data-cy="state-of-charge"
         label="State of charge"
@@ -163,10 +164,10 @@
         :unit="parametersOfTheBattery.energyRoundtripEfficiency.unit"
         :value="parametersOfTheBattery.energyRoundtripEfficiency.value"
       />
-    </div>
+    </div> -->
     <!-- Subsection -->
-    <div class="sub-section-container">
-      <Field
+    <!-- <div class="sub-section-container"> -->
+    <!-- <Field
         label="Rated Capacity"
         :unit="parametersOfTheBattery.ratedCapacity.unit"
         :value="parametersOfTheBattery.ratedCapacity.value"
@@ -181,17 +182,17 @@
         :unit="parametersOfTheBattery.appliedChargeRate.unit"
         :value="parametersOfTheBattery.appliedChargeRate.value"
       />
-    </div>
+    </div> -->
     <!-- Subsection -->
-    <div class="sub-section-container">
+    <!-- <div class="sub-section-container">
       <Field
         label="Capacity fade"
         :unit="parametersOfTheBattery.originalPower.unit"
         :value="parametersOfTheBattery.originalPower.value"
       />
-    </div>
+    </div> -->
     <!-- Subsection -->
-    <div class="sub-section-container">
+    <!-- <div class="sub-section-container">
       <Field
         label="Original power"
         :unit="parametersOfTheBattery.capacityFade.unit"
@@ -213,9 +214,9 @@
         :temp-range-min="parametersOfTheBattery.temperatureRanges.min.value"
         :temp-unit="parametersOfTheBattery.temperatureRanges.min.unit"
       />
-    </div>
+    </div> -->
     <!-- Subsection -->
-    <div class="sub-section-container">
+    <!-- <div class="sub-section-container">
       <Field
         label="Power fade"
         :unit="parametersOfTheBattery.powerFade.unit"
@@ -261,7 +262,7 @@
         :unit="parametersOfTheBattery.depthOfDischargeInTheCycleLifeTest.unit"
         :value="parametersOfTheBattery.depthOfDischargeInTheCycleLifeTest.value"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -1,64 +1,111 @@
-<template>
+<template  >
   <SectionHeader title="3. State of Health" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-title-container">
-      <span class="sub-title">Timestamp 23.06.2022 - 14:30:45</span>
-    </div>
     <div class="sub-section-container">
       <Field
         data-cy="remaining-capacity"
-        label="Remaining capacity"
-        :unit="stateOfHealth.remainingCapacity.unit"
-        :value="stateOfHealth.remainingCapacity.value"
+        label="Rated capacity"
+        unit="W"
+        :value="stateOfHealth.ratedCapacity"
       />
       <Field
-        label="Overall capacity fade"
-        :unit="stateOfHealth.overallCapacityFade.unit"
-        :value="stateOfHealth.overallCapacityFade.value"
+        label="Energy roundtrip efficiency change"
+        unit="%"
+        :value="stateOfHealth.batteryEnergy.energyRoundtripEfficiencyChange"
       />
       <Field
-        label="Remaining power capability and power fade"
-        :unit="stateOfHealth.remainingPowerCapabilityAndPowerFade.unit"
-        :value="stateOfHealth.remainingPowerCapabilityAndPowerFade.value"
+        label="Maximum allowed battery energy"
+        unit="%"
+        :value="stateOfHealth.batteryEnergy.maximumAllowedBatteryEnergy"
       />
       <Field
-        label="Remaining round trip efficiency"
-        :unit="stateOfHealth.remainingRoundTripEfficiency.unit"
-        :value="stateOfHealth.remainingRoundTripEfficiency.value"
+        label="Energy roundtrip efficiency"
+        unit="%"
+        :value="stateOfHealth.batteryEnergy.energyRoundtripEfficiency"
       />
+
       <Field
-        label="Actual cooling demand"
-        :unit="stateOfHealth.actualCoolingDemand.unit"
-        :value="stateOfHealth.actualCoolingDemand.value"
-      />
-      <Field
-        label="Evolution of self-discharging rates"
-        :unit="stateOfHealth.evolutionOfSelfDischargingRates.unit"
-        :value="stateOfHealth.evolutionOfSelfDischargingRates.value"
-      />
-      <Field
-        label="Ohmic resistance and/or electrochemical impedance"
-        :unit="stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.unit"
+        label="Ratio maximum allowed battery power and maximum allowed battery energy"
+        unit=""
         :value="
-          stateOfHealth.ohmicResistanceAndOrElectrochemicalImpedance.value
+          stateOfHealth.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
         "
       />
       <Field
-        label="The dates of manufacturing of the battery"
-        :day="stateOfHealth.theDatesOfManufacturingOfTheBattery.day"
-        :month="stateOfHealth.theDatesOfManufacturingOfTheBattery.month"
-        :year="stateOfHealth.theDatesOfManufacturingOfTheBattery.year"
+        label="Nominal voltage"
+        unit="%"
+        :value="stateOfHealth.batteryVoltage.nominalVoltage"
       />
       <Field
-        label="The dates of putting battery into service"
-        :day="stateOfHealth.theDatesOfPuttingBatteryIntoService.day"
-        :month="stateOfHealth.theDatesOfPuttingBatteryIntoService.month"
-        :year="stateOfHealth.theDatesOfPuttingBatteryIntoService.year"
+        label="Max voltage"
+        unit="%"
+        :value="stateOfHealth.batteryVoltage.maxVoltage"
       />
       <Field
-        label="Energy throughput"
-        :unit="stateOfHealth.energyThroughput.unit"
-        :value="stateOfHealth.energyThroughput.value"
+        label="Min voltage"
+        unit="%"
+        :value="stateOfHealth.batteryVoltage.minVoltage"
+      />
+      <Field
+        label="Cell internal resistance"
+        unit="%"
+        :value="stateOfHealth.internalResistance.cellInternalResistance"
+      />
+      <Field
+        label="Pack internal resistance increase"
+        unit="%"
+        :value="stateOfHealth.internalResistance.packInternalResistanceIncrease"
+      />
+      <Field
+        label="Pack internal resistance"
+        unit="%"
+        :value="stateOfHealth.internalResistance.packInternalResistance"
+      />
+
+      <Field
+        label="Capacity threshold exhaustion"
+        unit="%"
+        :value="stateOfHealth.capacityThresholdExhaustion"
+      />
+      <Field
+        label="Original power capability"
+        unit="%"
+        :value="stateOfHealth.batteryPower.originalPowerCapability"
+      />
+      <Field
+        label="Power fade"
+        unit="%"
+        :value="stateOfHealth.batteryPower.powerFade"
+      />
+      <Field
+        label="Original power capability limits"
+        unit="%"
+        :value="stateOfHealth.batteryPower.originalPowerCapabilityLimits"
+      />
+      <Field
+        label="Maximum allowed battery power"
+        unit="%"
+        :value="stateOfHealth.batteryPower.maximumAllowedBatteryPower"
+      />
+      <Field
+        label="Power capability at 20 charge"
+        unit="%"
+        :value="stateOfHealth.batteryPower.powerCapabilityAt20Charge"
+      />
+      <Field
+        label="Original power"
+        unit="%"
+        :value="stateOfHealth.batteryPower.originalPower"
+      />
+      <Field
+        label="Power capability at 80 charge"
+        unit="%"
+        :value="stateOfHealth.batteryPower.powerCapabilityAt80Charge"
+      />
+      <Field
+        label="Capacity fade"
+        unit="%"
+        :value="stateOfHealth.capacityFade"
       />
     </div>
   </div>

@@ -17,33 +17,66 @@
             :key="electrolytes"
             data-cy="electrolyte-composition"
           >
-            {{ electrolytes }}
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
           </li>
         </ul>
       </div>
     </div>
+
     <!-- Composition of Anode -->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title"> Composition of Anode</span>
+        <span class="sub-title">Composition of Anode</span>
       </div>
-      <Field
-        label="Natural Graphite content"
-        :value="batteryComposition.anodeContent.naturalGraphiteContent.value"
-        :unit="batteryComposition.anodeContent.naturalGraphiteContent.unit"
-      />
       <div
-        v-if="batteryComposition.anodeContent.anodeComposition"
+        v-if="batteryComposition.anodeActiveMaterials"
         class="list-container"
       >
         <ul>
-          <span class="list-label">Recyclate Content Ni</span>
+          <span class="list-label"></span>
           <li
-            v-for="electrolytes in batteryComposition.anodeContent
-              .anodeComposition"
+            v-for="electrolytes in batteryComposition.anodeActiveMaterials"
             :key="electrolytes"
           >
-            {{ electrolytes }}
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Composition of Anode other -->
+    <div class="sub-section-container">
+      <div class="sub-title-container">
+        <span class="sub-title">Composition of other Anode materials</span>
+      </div>
+      <div
+        v-if="batteryComposition.anodeCompositionOther"
+        class="list-container"
+      >
+        <ul>
+          <span class="list-label"></span>
+          <li
+            v-for="electrolytes in batteryComposition.anodeCompositionOther"
+            :key="electrolytes"
+          >
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
           </li>
         </ul>
       </div>
@@ -51,103 +84,91 @@
     <!-- Composition of Cathode -->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title"> Composition of Cathode</span>
+        <span class="sub-title">Composition of Cathode</span>
       </div>
-      <Field
-        label="Li content"
-        :value="batteryComposition.cathodeComposition.liContent.value"
-        :unit="batteryComposition.cathodeComposition.liContent.unit"
-      />
-      <Field
-        label="Ni content"
-        :value="batteryComposition.cathodeComposition.niContent.value"
-        :unit="batteryComposition.cathodeComposition.niContent.unit"
-      />
-      <Field
-        label="Co content"
-        :value="batteryComposition.cathodeComposition.coContent.value"
-        :unit="batteryComposition.cathodeComposition.coContent.unit"
-      />
       <div
-        v-if="batteryComposition.cathodeComposition.otherCathodeComposition"
+        v-if="batteryComposition.cathodeActiveMaterials"
         class="list-container"
       >
         <ul>
-          <span class="list-label">Recyclate Content Ni</span>
+          <span class="list-label"></span>
           <li
-            v-for="electrolytes in batteryComposition.cathodeComposition
-              .otherCathodeComposition"
+            v-for="electrolytes in batteryComposition.cathodeActiveMaterials"
             :key="electrolytes"
           >
-            {{ electrolytes }}
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
           </li>
         </ul>
       </div>
     </div>
-    <!-- Part Numbers for Components TABLE -->
-     <div class="sub-title-container">
-      <span class="sub-title"> Part Numbers for Components</span>
-    </div>
-    <BatteryCompositionTable/>
-    <!-- Critical Raw Materials -->
+    <!-- Composition of Cathode other -->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title">Critical Raw Materials</span>
+        <span class="sub-title">Composition of other Cathode materials</span>
       </div>
-      <div v-if="batteryComposition.crm" class="list-container">
+      <div
+        v-if="batteryComposition.cathodeCompositionOther"
+        class="list-container"
+      >
         <ul>
-          <span class="list-label">List of CRM</span>
+          <span class="list-label"></span>
           <li
-            v-for="electrolytes in batteryComposition.crm"
+            v-for="electrolytes in batteryComposition.cathodeCompositionOther"
             :key="electrolytes"
           >
-            {{ electrolytes }}
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
           </li>
         </ul>
       </div>
     </div>
-    <!-- Recycled content in active materials/battery model-->
+    <!-- Recyclate content active materials -->
     <div class="sub-section-container">
       <div class="sub-title-container">
-        <span class="sub-title"
-          >Recycled content in active materials/battery model</span
-        >
+        <span class="sub-title">Recyclate content active materials</span>
       </div>
-      <Field
-        label="Recyclate Content Ni"
-        :value="batteryComposition.niRecyclateContent.value"
-        :unit="batteryComposition.niRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Li"
-        :value="batteryComposition.liRecyclateContent.value"
-        :unit="batteryComposition.liRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Co"
-        :value="batteryComposition.coRecyclateContent.value"
-        :unit="batteryComposition.coRecyclateContent.unit"
-      />
-      <Field
-        label="Recyclate Content Pb"
-        :value="batteryComposition.pbRecyclateContent.value"
-        :unit="batteryComposition.pbRecyclateContent.unit"
-      />
+      <div
+        v-if="batteryComposition.recyclateContentActiveMaterials"
+        class="list-container"
+      >
+        <ul>
+          <span class="list-label"></span>
+          <li
+            v-for="electrolytes in batteryComposition.recyclateContentActiveMaterials"
+            :key="electrolytes"
+          >
+            <span>
+              {{ electrolytes.materialName }}
+            </span>
+            -
+            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
+            -
+            <span> {{ electrolytes.matierialWeight }}kg </span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
-import BatteryCompositionTable from "./BatteryCompositionTable.vue";
-import Field from "./Field.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
-    Field,
     SectionHeader,
-    BatteryCompositionTable
   },
   props: {
     sectionTitle: {

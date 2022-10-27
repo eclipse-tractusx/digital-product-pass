@@ -1,36 +1,12 @@
 <template v-if="batteryComposition">
   <SectionHeader title="4. Battery composition" @click="toggle = !toggle" />
-  <!-- Composition of battery -->
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of battery</span>
-      </div>
-      <div
-        v-if="batteryComposition.compositionOfBattery"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="materialDetails in batteryComposition.compositionOfBattery"
-            :key="materialDetails"
-            data-cy="electrolyte-composition"
-          >
-            <span>
-              {{ materialDetails.materialName }}
-            </span>
-            -
-            <span>
-              {{ materialDetails.matierialPercentageMassFraction }}%
-            </span>
-            -
-            <span> {{ materialDetails.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <!-- Composition of battery -->
 
+    <AttributeField
+      :attributes-list="batteryComposition.compositionOfBattery"
+      label="Composition of battery"
+    />
     <!-- Critical raw materials -->
     <div class="sub-section-container">
       <div class="sub-title-container">
@@ -116,11 +92,13 @@
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
+import AttributeField from "./AttributeField.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
     SectionHeader,
+    AttributeField,
   },
   props: {
     sectionTitle: {

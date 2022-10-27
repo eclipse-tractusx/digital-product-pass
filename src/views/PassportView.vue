@@ -1,7 +1,7 @@
 <template>
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
-    <Header :battery-id="data.generalInformation" />
+    <Header :battery-id="data" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
@@ -42,9 +42,9 @@ import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import passportData from "../assets/MOCK/passportExample01.json";
-import axios from "axios";
-import { AAS_PROXY_URL } from "@/services/service.const";
-// import { BASE_URL } from '@/services/service.const';
+// import axios from "axios";
+// import { AAS_PROXY_URL } from "@/services/service.const";
+// import { BASE_URL } from "@/services/service.const";
 import { inject } from "vue";
 
 export default {

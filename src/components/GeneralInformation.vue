@@ -1,7 +1,10 @@
 <template v-if="generalInformation.batteryIdentification">
   <SectionHeader title="1. General information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-section-container">
+    <div
+      v-if="generalInformation.batteryIdentification"
+      class="sub-section-container"
+    >
       <Field
         data-cy="battery-id"
         label="Battery ID"
@@ -16,10 +19,10 @@
         :value="generalInformation.batteryIdentification.batteryModel"
       />
     </div>
-    <div class="sub-section-container">
+    <div v-if="generalInformation.manufacturer" class="sub-section-container">
       <Field
         class="full-width"
-        label="Importer Information"
+        label="Manufacturer Information"
         :value="generalInformation.manufacturer.name"
       />
       <Field
@@ -39,7 +42,10 @@
         :value="generalInformation.manufacturer.contact.email"
       />
     </div>
-    <div class="sub-section-container">
+    <div
+      v-if="generalInformation.physicalDimensions"
+      class="sub-section-container"
+    >
       <Field
         label="Dimensions of the battery"
         :height="generalInformation.physicalDimensions.height"

@@ -1,159 +1,48 @@
 <template v-if="cellChemistry">
   <SectionHeader title="2. Cell chemistry" @click="toggle = !toggle" />
-  <!-- Composition of Electrolyte -->
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of Electrolyte</span>
-      </div>
-      <div v-if="cellChemistry.electrolyteComposition" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.electrolyteComposition"
-            :key="electrolytes"
-            data-cy="electrolyte-composition"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+    <!-- Composition of Electrolyte -->
+    <AttributeField
+      :attributes-list="cellChemistry.electrolyteComposition"
+      label="Composition of electrolyte"
+    />
     <!-- Composition of Anode -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of Anode</span>
-      </div>
-      <div v-if="cellChemistry.anodeActiveMaterials" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.anodeActiveMaterials"
-            :key="electrolytes"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <AttributeField
+      :attributes-list="cellChemistry.anodeActiveMaterials"
+      label="Composition of Anode"
+    />
     <!-- Composition of Anode other -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of other Anode materials</span>
-      </div>
-      <div v-if="cellChemistry.anodeCompositionOther" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.anodeCompositionOther"
-            :key="electrolytes"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <AttributeField
+      :attributes-list="cellChemistry.anodeCompositionOther"
+      label="Composition of other Anode materials"
+    />
     <!-- Composition of Cathode -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of Cathode</span>
-      </div>
-      <div v-if="cellChemistry.cathodeActiveMaterials" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.cathodeActiveMaterials"
-            :key="electrolytes"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <AttributeField
+      :attributes-list="cellChemistry.cathodeActiveMaterials"
+      label="Composition of Cathode"
+    />
     <!-- Composition of Cathode other -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Composition of other Cathode materials</span>
-      </div>
-      <div v-if="cellChemistry.cathodeCompositionOther" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.cathodeCompositionOther"
-            :key="electrolytes"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <AttributeField
+      :attributes-list="cellChemistry.cathodeCompositionOther"
+      label="Composition of other Cathode materials"
+    />
     <!-- Recyclate content active materials -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Recyclate content active materials</span>
-      </div>
-      <div
-        v-if="cellChemistry.recyclateContentActiveMaterials"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label"></span>
-          <li
-            v-for="electrolytes in cellChemistry.recyclateContentActiveMaterials"
-            :key="electrolytes"
-          >
-            <span>
-              {{ electrolytes.materialName }}
-            </span>
-            -
-            <span> {{ electrolytes.matierialPercentageMassFraction }}% </span>
-            -
-            <span> {{ electrolytes.matierialWeight }}kg </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <AttributeField
+      :attributes-list="cellChemistry.recyclateContentActiveMaterials"
+      label="Recyclate content active materials"
+    />
   </div>
 </template>
 
 <script>
 import SectionHeader from "./SectionHeader.vue";
+import AttributeField from "./AttributeField.vue";
 
 export default {
   name: "CellChemistry",
   components: {
     SectionHeader,
+    AttributeField,
   },
   props: {
     sectionTitle: {

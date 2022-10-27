@@ -1,110 +1,110 @@
 {
   "electrochemicalProperties": {
-    "ratedCapacity": 200,
+    "ratedCapacity": 94,
     "batteryEnergy": {
-      "energyRoundtripEfficiencyChange": 80,
-      "maximumAllowedBatteryEnergy": 60000.0,
-      "energyRoundtripEfficiency": 48
+      "energyRoundtripEfficiencyChange": 48.2,
+      "maximumAllowedBatteryEnergy": 85000,
+      "energyRoundtripEfficiency": 25
     },
-    "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.833,
+    "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.588,
     "batteryVoltage": {
-      "nominalVoltage": 3.6,
+      "nominalVoltage": 3.7,
       "maxVoltage": 4.2,
       "minVoltage": 2.5
     },
     "internalResistance": {
-      "cellInternalResistance": 0.3,
-      "packInternalResistanceIncrease": 0.21,
-      "packInternalResistance": 53
+      "cellInternalResistance": 0.36,
+      "packInternalResistanceIncrease": 1,
+      "packInternalResistance": 100
     },
-    "capacityThresholdExhaustion": 20,
+    "capacityThresholdExhaustion": 23,
     "batteryPower": {
-      "originalPowerCapability": 150,
-      "powerFade": 12.1,
-      "originalPowerCapabilityLimits": 734.8,
-      "maximumAllowedBatteryPower": 100000,
-      "powerCapabilityAt20Charge": 500000,
-      "originalPower": 40000,
-      "powerCapabilityAt80Charge": 120000
+      "originalPowerCapability": 50,
+      "powerFade": 0.5,
+      "originalPowerCapabilityLimits": 50,
+      "maximumAllowedBatteryPower": 110000,
+      "powerCapabilityAt20Charge": 100000,
+      "originalPower": 12000,
+      "powerCapabilityAt80Charge": 12000
     },
-    "capacityFade": 1.5
+    "capacityFade": 1.55
   },
   "document": {
     "responsibleSourcing": [
       {
-        "title": "Responsible Sourcing Report 2021",
-        "fileLocation": "telnet://192.0.2.16:80/"
+        "title": "2021 Responsible Sourcing document",
+        "fileLocation": null
       }
     ],
     "packagingInstructions": [
       {
-        "title": "Packing Instruction for Lithium cells and batteries",
-        "fileLocation": "telnet://192.0.2.16:80/"
+        "title": "Packing Instruction v.2.0",
+        "fileLocation": null
       }
     ],
     "transportationInstructions": [
       {
-        "title": "Shipping guidelines",
-        "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        "title": "Transport manual",
+        "fileLocation": null
       }
     ],
     "vehicleDismantlingProcedure": [
       {
-        "title": "Dissmantling procedure of battery from the car",
+        "title": "Car dismantling manual",
         "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
       }
     ],
     "testReportsResults": [
       {
-        "title": "Laboratory Test Results for Battery ID no: X123456789012X12345678901234566",
-        "fileLocation": ""
+        "title": "Battery Test Reports",
+        "fileLocation": "http://www.Batterytestreports.de"
       }
     ],
     "batteryDismantlingProcedure": [
       {
-        "title": "Dismantling Procedure for Battery Model: Li-Ion  X-series",
-        "fileLocation": "http://www.wikipedia.org"
+        "title": "Dismantling Manual",
+        "fileLocation": "http://www.dissmantlingmanual.org"
       }
     ],
     "safetyMeasures": [
       {
-        "title": "Lithium battery safety document",
-        "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        "title": "Safety Instruction",
+        "fileLocation": "http://www.safetyinstructions.txt"
       }
     ],
     "declarationOfConformity": [
       {
-        "title": "Declaration of Conformity No. 1",
-        "fileLocation": ""
+        "title": "Declaration of Conformity No. 3",
+        "fileLocation": null
       }
     ]
   },
-  "datePlacedOnMarket": "27.02.2022",
+  "datePlacedOnMarket": "27.04.2022",
   "cellChemistry": {
     "electrolyteComposition": [
       {
         "matierialPercentageMassFraction": null,
         "matierialWeight": null,
-        "materialName": "Ethylene Carbonate"
+        "materialName": "dimethyl carbonate (DCM)"
       }
     ],
     "anodeCompositionOther": [
       {
         "matierialPercentageMassFraction": null,
         "matierialWeight": null,
-        "materialName": "Polyacrylic acid"
+        "materialName": "Carboxymethyl cellulose"
       }
     ],
     "recyclateContentActiveMaterials": [
       {
-        "matierialPercentageMassFraction": 4,
+        "matierialPercentageMassFraction": 6,
         "matierialWeight": null,
-        "materialName": "Ni/2021/PlantA"
+        "materialName": "Ni/2021/PlantE"
       },
       {
         "matierialPercentageMassFraction": 4,
         "matierialWeight": null,
-        "materialName": "Li/2021/PlantA"
+        "materialName": "Li/2021/PlantE"
       },
       {
         "matierialPercentageMassFraction": 0,
@@ -112,9 +112,9 @@
         "materialName": "Pb(battery model does not contain Pb)"
       },
       {
-        "matierialPercentageMassFraction": 12,
+        "matierialPercentageMassFraction": 0,
         "matierialWeight": null,
-        "materialName": "Co/2021/PlantA"
+        "materialName": "Co(battery model does not contain Pb)"
       }
     ],
     "anodeActiveMaterials": [
@@ -128,64 +128,64 @@
       {
         "matierialPercentageMassFraction": null,
         "matierialWeight": null,
-        "materialName": "(NCM)Lithium nickel cobalt manganese oxide"
+        "materialName": "LiMn2O4 Lithium Manganese Oxide"
       }
     ],
     "cathodeCompositionOther": [
       {
         "matierialPercentageMassFraction": null,
         "matierialWeight": null,
-        "materialName": "carbon black, PVDR"
+        "materialName": "binder:PVDF"
       }
     ]
   },
   "physicalDimensions": {
-    "length": 1500,
+    "length": 2000,
     "width": 1000,
-    "weight": 1500,
+    "weight": 3500,
     "diameter": null,
-    "height": 50
+    "height": 200
   },
   "temperatureRangeIdleState": {
     "temperatureRangeIdleStateUpperLimit": 50,
     "temperatureRangeIdleStateLowerLimit": -20
   },
   "batteryCycleLife": {
-    "cycleLifeTestCRate": 90,
-    "cycleLifeTestDepthOfDischarge": 67,
-    "expectedLifetime": 2800
+    "cycleLifeTestCRate": 2,
+    "cycleLifeTestDepthOfDischarge": 1.8,
+    "expectedLifetime": 2500
   },
   "manufacturer": {
-    "name": "CompanyA",
+    "name": "CompanyE",
     "contact": {
-      "faxNumber": "+49 89 0987654322",
-      "website": "http://www.CompanyA.com",
-      "phoneNumber": "+49 89 1234567891",
-      "email": "companyA@company.com"
+      "faxNumber": "+49 89 0987654324",
+      "website": "https://www.CompanyE.com",
+      "phoneNumber": "+49 89 1234567893",
+      "email": "companyE@company.com"
     },
     "address": {
       "locality": {
-        "value": "CityA",
+        "value": "CityE",
         "technicalKey": "BLOCK"
       },
       "country": {
         "shortName": "Germany"
       },
       "postCode": {
-        "value": "65-250A",
+        "value": "65-250E",
         "technicalKey": "CEDEX"
       },
       "thoroughfare": {
-        "value": "StreetA",
+        "value": "StreetE",
         "number": "1",
         "technicalKey": "STREET"
       },
       "premise": {
-        "value": "",
-        "technicalKey": "CEDEX"
+        "value": null,
+        "technicalKey": "BUILDING"
       },
       "postalDeliveryPoint": {
-        "value": "Tor 1",
+        "value": null,
         "technicalKey": "INTERURBAN_DELIVERY_POINT"
       }
     }
@@ -196,45 +196,45 @@
       {
         "matierialPercentageMassFraction": null,
         "matierialWeight": null,
-        "materialName": "current collector: Cupper, Separator: PP, Casing: Aluminium"
+        "materialName": "Separator: PE"
       }
     ],
-    "criticalRawMaterials": "Lithium, Bauxite, Natural graphite",
+    "criticalRawMaterials": "Lithium, Natural graphite",
     "components": {
-      "componentsPartNumber": "Battery Management Unit Model: 75345",
+      "componentsPartNumber": "Voltage cables",
       "componentsSupplier": [
         {
           "address": {
             "locality": {
-              "value": "CityB",
+              "value": "CityF",
               "technicalKey": "BLOCK"
             },
             "country": {
               "shortName": "Germany"
             },
             "postCode": {
-              "value": "65-250B",
+              "value": "65-250F",
               "technicalKey": "CEDEX"
             },
             "thoroughfare": {
-              "value": "StreetB",
+              "value": "StreetF",
               "number": "1",
               "technicalKey": "STREET"
             },
             "premise": {
-              "value": "PlantB",
+              "value": "PlantF",
               "technicalKey": "BUILDING"
             },
             "postalDeliveryPoint": {
-              "value": "GateB",
+              "value": null,
               "technicalKey": "INTERURBAN_DELIVERY_POINT"
             }
           },
           "contact": {
-            "faxNumber": "+49 89 0987654322",
-            "website": "https://www.companyB.com",
-            "phoneNumber": "+49 89 1234567890",
-            "email": "companyB@company.com"
+            "faxNumber": "+49 89 0987654324",
+            "website": "https://www.companyF.com",
+            "phoneNumber": "+49 89 1234567893",
+            "email": "companyF@companyF.com"
           }
         }
       ]
@@ -244,40 +244,40 @@
     "dateOfManufacturing": "2022-01-24",
     "address": {
       "locality": {
-        "value": "CityA",
+        "value": "CityE",
         "technicalKey": "BLOCK"
       },
       "country": {
         "shortName": "Germany"
       },
       "postCode": {
-        "value": "65-250A",
+        "value": "65-250E",
         "technicalKey": "CEDEX"
       },
       "thoroughfare": {
-        "value": "StreetA",
+        "value": "StreetE",
         "number": "1",
         "technicalKey": "STREET"
       },
       "premise": {
-        "value": "PlantA",
+        "value": "PlantE",
         "technicalKey": "BUILDING"
       },
       "postalDeliveryPoint": {
-        "value": "GateA",
+        "value": "GateE",
         "technicalKey": "INTERURBAN_DELIVERY_POINT"
       }
     }
   },
   "batteryIdentification": {
-    "batteryType": "LiNMC",
-    "batteryIDDMCCode": "X123456789012X12345678901234566",
-    "batteryModel": "Li-Ion  X-series"
+    "batteryType": "Lithium-Manganese-Oxide (LMO)",
+    "batteryIDDMCCode": "IMR18650V1",
+    "batteryModel": "Pi4 Orionis"
   },
   "stateOfBattery": {
-    "stateOfHealth": 100,
+    "stateOfHealth": 20,
     "statusBattery": "first life",
-    "stateOfCharge": 99
+    "stateOfCharge": 50
   },
-  "cO2FootprintTotal": 3120
+  "cO2FootprintTotal": 210
 }

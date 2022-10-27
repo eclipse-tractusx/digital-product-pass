@@ -1,4 +1,34 @@
 {
+  "electrochemicalProperties": {
+    "ratedCapacity": 210,
+    "batteryEnergy": {
+      "energyRoundtripEfficiencyChange": 67,
+      "maximumAllowedBatteryEnergy": 90000.0,
+      "energyRoundtripEfficiency": 56
+    },
+    "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.611,
+    "batteryVoltage": {
+      "nominalVoltage": 4.3,
+      "maxVoltage": 6.0,
+      "minVoltage": 2.0
+    },
+    "internalResistance": {
+      "cellInternalResistance": 45,
+      "packInternalResistanceIncrease": 23,
+      "packInternalResistance": 67
+    },
+    "capacityThresholdExhaustion": 23,
+    "batteryPower": {
+      "originalPowerCapability": 123,
+      "powerFade": 23.0,
+      "originalPowerCapabilityLimits": 123,
+      "maximumAllowedBatteryPower": 55000.0,
+      "powerCapabilityAt20Charge": 643.0,
+      "originalPower": 7.56,
+      "powerCapabilityAt80Charge": 47.0
+    },
+    "capacityFade": 34
+  },
   "document": {
     "responsibleSourcing": [
       {
@@ -225,7 +255,7 @@
     }
   },
   "batteryIdentification": {
-    "batteryType": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State",
+    "batteryType": null,
     "batteryIDDMCCode": "X123456789012X12345678901234567",
     "batteryModel": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State"
   },

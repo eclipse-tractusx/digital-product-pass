@@ -59,7 +59,11 @@
       <div class="id-wrapper">
         <h1>
           BatteryID:
-          {{ batteryId.batteryId ? batteryId.batteryId : "—" }}
+          {{
+            batteryId.batteryIdentification.batteryIDDMCCode
+              ? batteryId.batteryIdentification.batteryIDDMCCode
+              : "—"
+          }}
         </h1>
       </div>
       <div class="code-container">

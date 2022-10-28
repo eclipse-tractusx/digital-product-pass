@@ -45,6 +45,8 @@ import passportData from "../assets/MOCK/passportExample01.json";
 // import axios from "axios";
 // import { AAS_PROXY_URL } from "@/services/service.const";
 // import { BASE_URL } from "@/services/service.const";
+import api_wrapper from "@/services/wrapper";
+import AAS from "@/services/aasServices";
 import { inject } from "vue";
 
 export default {
@@ -130,10 +132,21 @@ export default {
   //     });
   //   },
   //   async getPassport(assetIds) {
-  //     const digitalTwinId = await this.getDigitalTwinId(assetIds);
-  //     const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
-  //     const response = await this.getSubmodelData(digitalTwin);
-  //     return response;
+  //    const digitalTwinId = await this.getDigitalTwinId(assetIds);
+  //    const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
+  //    const response = await this.getSubmodelData(digitalTwin);
+  //    let requestHeaders ={
+  //    };
+  //    let aas = new AAS();
+  //    let wrapper = new api_wrapper();
+  //    const shellId = await aas.getAasShellId(assetIds, requestHeaders);
+  //    const shellDescriptor = await aas.getShellDescriptor(shellId[0], requestHeaders);
+  //    const subModel = await aas.getSubmodelDescriptor(shellDescriptor, requestHeaders);
+
+  //  const providerEndpoint = subModel.endpoints[0].protocolInformation.endpointAddress;
+  //  console.log(providerEndpoint);
+  //  const response = await wrapper.performEDCDataTransfer("101",providerEndpoint);
+  //  return response;
   //   },
   // },
 };

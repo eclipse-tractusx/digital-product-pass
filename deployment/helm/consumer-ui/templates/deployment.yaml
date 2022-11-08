@@ -34,6 +34,11 @@ spec:
                 secretKeyRef:
                   key:  clientSecret
                   name: avp-cx-registry-auth
+            - name: "X_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  key:  xApiKey
+                  name: avp-edc-oauth
           ports:
             - containerPort: 80
               name: http

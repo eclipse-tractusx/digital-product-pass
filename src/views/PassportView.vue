@@ -149,6 +149,7 @@ export default {
       // const response = await this.getSubmodelData(digitalTwin);
       let aas = new AAS();
       let wrapper = new apiWrapper();
+      console.log("API Key: "+ API_KEY);
       let accessToken = await this.auth.getAuthTokenForTechnicalUser();
       //console.log('JWT token for tedch user: ' + 'Bearer ' + accessToken);
       //let accessToken = this.auth.getAccessToken();

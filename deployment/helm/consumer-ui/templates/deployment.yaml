@@ -40,7 +40,7 @@ spec:
                   key:  xApiKey
                   name: avp-edc-oauth
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: http
               protocol: TCP
           resources:

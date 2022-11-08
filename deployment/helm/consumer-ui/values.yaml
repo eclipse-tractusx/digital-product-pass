@@ -9,7 +9,7 @@ image:
   repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: c7efba69508fc977d6a4583c423f8bf8c6229b31
+  tag: placeholder
 
 imagePullSecrets: []
 nameOverride: "consumer-ui"

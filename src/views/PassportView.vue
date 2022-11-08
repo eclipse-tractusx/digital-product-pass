@@ -54,8 +54,9 @@ import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
-import { AAS_PROXY_URL } from "@/services/service.const";
-// import { BASE_URL } from '@/services/service.const';
+import { AAS_PROXY_URL, API_KEY } from "@/services/service.const";
+import apiWrapper from "@/services/wrapper";
+import AAS from "@/services/aasServices";
 import { inject } from "vue";
 
 export default {
@@ -143,10 +144,38 @@ export default {
       });
     },
     async getPassport(assetIds) {
-      const digitalTwinId = await this.getDigitalTwinId(assetIds);
-      const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
-      const response = await this.getSubmodelData(digitalTwin);
-      return response;
+      // const digitalTwinId = await this.getDigitalTwinId(assetIds);
+      // const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
+      // const response = await this.getSubmodelData(digitalTwin);
+      let aas = new AAS();
+      let wrapper = new apiWrapper();
+      let accessToken = await this.auth.getAuthTokenForTechnicalUser();
+      //console.log('JWT token for tedch user: ' + 'Bearer ' + accessToken);
+      //let accessToken = this.auth.getAccessToken();
+      //console.log('Keycloak access token: ' + this.auth.getAccessToken());
+      let AASRequestHeader ={
+        "Authorization" : "Bearer " + accessToken
+      };
+    
+      const shellId = await aas.getAasShellId(assetIds, AASRequestHeader);
+      const shellDescriptor = await aas.getShellDescriptor(shellId[0], AASRequestHeader);
+      const subModel = await aas.getSubmodelDescriptor(shellDescriptor, AASRequestHeader);
+      if (subModel.endpoints.length > 0){
+        let providerConnector={
+          "connectorAddress": subModel.endpoints[0].protocolInformation.endpointAddress,
+          "idShort": subModel.idShort
+        };
+        let APIWrapperRequestHeader={
+          'x-api-key': API_KEY
+        };
+
+        let assetId = JSON.parse(assetIds)[1].value; // Two elements in json array [batteryIDDMCode, assetId], get the last element and it wll always be the asset id i.e., [1]
+        console.info('Selected asset Id: ' + assetId);
+        const response = await wrapper.performEDCDataTransfer(assetId, providerConnector,APIWrapperRequestHeader);
+        return response;
+      }
+      else
+        alert("There is no connector endpoint defined in submodel.. Could not proceed further!");
     },
   },
 };

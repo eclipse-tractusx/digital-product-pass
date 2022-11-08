@@ -21,6 +21,9 @@ FROM nginx:alpine as production-build
 # for debugging purpose
 RUN apk add curl
 
+# Copy entrypoint script as /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
+
 # make the 'app' folder the current working directory
 WORKDIR /app
 
@@ -28,4 +31,20 @@ WORKDIR /app
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+## add permissions for nginx user
+RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
+        chown -R nginx:nginx /var/cache/nginx && \
+        chown -R nginx:nginx /var/log/nginx && \
+        chown -R nginx:nginx /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/run/nginx.pid
+
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html && \
+    chmod +x /entrypoint.sh
+
+USER nginx
+EXPOSE 8080
+
+ENTRYPOINT ["sh","/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]

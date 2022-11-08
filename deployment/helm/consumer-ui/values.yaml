@@ -9,7 +9,7 @@ image:
   repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.PI5.S4
+  tag: eb43c181b52aa87f5da349dd986dda22a3283164
 
 imagePullSecrets: []
 nameOverride: "consumer-ui"
@@ -38,6 +38,11 @@ ingress:
     - secretName: tls-secret
       hosts:
         - materialpass.int.demo.catena-x.net
+
+avp:
+  helm:
+    clientId: <path:materialpass/data/consumer-ui#client.id.value>
+    clientSecret: <path:materialpass/data/consumer-ui#client.secret.value>
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

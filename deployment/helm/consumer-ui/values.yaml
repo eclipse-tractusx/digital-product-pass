@@ -41,8 +41,8 @@ ingress:
 
 avp:
   helm:
-    clientId: <path:materialpass/data/consumer-ui#client.id.value>
-    clientSecret: <path:materialpass/data/consumer-ui#client.secret.value>
+    clientId: <path:material-pass/data/consumer-ui#client.id.value>
+    clientSecret: <path:material-pass/data/consumer-ui#client.secret.value>
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

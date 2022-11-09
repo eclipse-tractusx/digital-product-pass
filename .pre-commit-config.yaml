@@ -5,3 +5,6 @@ repos:
       - id: ggshield
         language_version: python3
         stages: [commit]
+      - id: ggshield
+        language_version: python3
+        stages: [push]

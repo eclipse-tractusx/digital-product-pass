@@ -3,6 +3,7 @@
     <img :src="CatenaLogo" alt="logo" class="logo" />
     <p>{{ error }}</p>
     <p>{{ decodedString }}</p>
+    <!-- <h1>{{ MATERIAL_URL.decodedString }}</h1> -->
     <div class="header-container">
       <div>back</div>
       <div>Scan QR code</div>
@@ -15,6 +16,9 @@
       @init="onInit"
       @decode="onDecode"
     ></qrcode-stream>
+    <div>
+      <input type="text" />
+    </div>
   </div>
 </template>
 
@@ -38,6 +42,7 @@ export default {
       error: "",
       decodedString: "",
       torch: false,
+      MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
     };
   },
   async created() {
@@ -70,8 +75,7 @@ export default {
     },
     onDecode(decodedString) {
       this.decodedString = decodedString;
-      console.log(decodedString);
-      window.location.replace(decodedString);
+      window.location.replace(`${this.MATERIAL_URL}/${decodedString}`);
     },
   },
 };

@@ -69,9 +69,9 @@ dataplane:
     ## KEY VAULT ##
     ###############
 
-    EDC_VAULT_HASHICORP_URL: 
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: 
-    EDC_VAULT_HASHICORP_TOKEN: 
+    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
     EDC_OAUTH_TOKEN_URL: https://daps1.int.demo.catena-x.net/token
     EDC_OAUTH_PROVIDER_JWKS_URL: https://daps1.int.demo.catena-x.net/.well-known/jwks.json
     EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
@@ -157,9 +157,9 @@ controlplane:
     EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
     EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
     EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
-    EDC_VAULT_HASHICORP_URL: 
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: 
-    EDC_VAULT_HASHICORP_TOKEN: 
+    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
     EDC_API_AUTH_KEY: <path:material-pass/data/int/edc/oauth#api.key>
 
     EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
@@ -287,9 +287,9 @@ controlplane:
       # edc.vault.clientsecret=
       # edc.vault.name=
       # edc.vault.tenantid=
-      # edc.vault.hashicorp.url=
-      # edc.vault.hashicorp.token=
-      # edc.vault.hashicorp.api.secret.path=
+      edc.vault.hashicorp.url=<path:material-pass/data/int/edc/vault#vault.hashicorp.url>
+      edc.vault.hashicorp.token=<path:material-pass/data/int/edc/vault#vault.hashicorp.token>
+      edc.vault.hashicorp.api.secret.path=<path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
       edc.vault.hashicorp.health.check.standby.ok=true
       # edc.vault.hashicorp.timeout.seconds=
       # edc.webdid.doh.url=

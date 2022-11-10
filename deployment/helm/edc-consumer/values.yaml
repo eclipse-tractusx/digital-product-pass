@@ -1,9 +1,13 @@
 ---
-backend:
+consumerbackendapplication:
   enabled: true
+  fullnameOverride: "materialpass-edc-backend"
   service:
+    type: NodePort
     frontend:
       port: 80
+    backend:
+      port: 8081
 
 postgres:
   enabled: true
@@ -17,7 +21,7 @@ postgres:
 
 dataplane:
   image:
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   envSecretName: "consumer-dataplane-secret"
   edc:
@@ -80,7 +84,7 @@ dataplane:
 controlplane:
   enabled: true
   image:
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   envSecretName: "consumer-controlplane-secret"
   edc:

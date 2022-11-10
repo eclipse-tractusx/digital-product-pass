@@ -21,23 +21,25 @@ postgres:
 
 dataplane:
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
     tag: 0.1.2
     pullPolicy: IfNotPresent
   envSecretName: "consumer-dataplane-secret"
+  fullnameOverride: "materialpass-edc-dataplane"
   edc:
     endpoints:
       default:
         port: 8080
-        path: /consumer/dataplane/api
+        path: /consumer/api
       public:
         port: 8185
-        path: /consumer/dataplane/api/public
+        path: /consumer/api/public
       control:
         port: 9999
-        path: /consumer/dataplane/api/control
+        path: /consumer/api/dataplane/control
       metrics:
         port: 9090
-        path: /consumer/dataplane/metrics
+        path: /consumer/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -67,7 +69,7 @@ dataplane:
     #############
 
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://materialpass-edc-controlplane:8182/consumer/controlplane/validation
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-controlplane:8182/consumer/validation/token
 
     ###############
     ## KEY VAULT ##
@@ -83,7 +85,9 @@ dataplane:
 
 controlplane:
   enabled: true
+  fullnameOverride: "materialpass-edc-controlplane"
   image:
+    repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
     tag: 0.1.2
     pullPolicy: IfNotPresent
   envSecretName: "consumer-controlplane-secret"
@@ -94,13 +98,13 @@ controlplane:
         path: /consumer/controlplane/api
       data:
         port: 8181
-        path: /consumer/controlplane/data
+        path: /consumer/data
       validation:
         port: 8182
-        path: /consumer/controlplane/validation
+        path: /consumer/validation
       control:
         port: 9999
-        path: /consumer/controlplane/api/control
+        path: /consumer/api/controlplane/control
       ids:
         port: 8282
         path: /consumer/api/v1/ids
@@ -166,10 +170,19 @@ controlplane:
     EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
     EDC_API_AUTH_KEY: <path:material-pass/data/int/edc/oauth#api.key>
 
-    EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
-      {
-        "publicApiUrl": "https://materialpass.int.demo.catena-x.net/consumer/dataplane/api/public"
+    # see extension https://github.com/catenax-ng/product-edc/tree/develop/edc-extensions/dataplane-selector-configuration
+    EDC_DATAPLANE_SELECTOR_CONSUMERPLANE_URL: http://materialpass-edc-dataplane:9999/consumer/api/dataplane/control
+    EDC_DATAPLANE_SELECTOR_CONSUMERPLANE_SOURCETYPES : HttpData
+    EDC_DATAPLANE_SELECTOR_CONSUMERPLANE_DESTINATIONTYPES: HttpProxy
+    EDC_DATAPLANE_SELECTOR_CONSUMERPLANE_PROPERTIES: >- 
+      { 
+        "publicApiUrl": "http://materialpass-edc-dataplane:8185/consumer/api/public/"
       }
+
+    # EDC_DATAPLANE_SELECTOR_HTTPPROXY_PROPERTIES: >-
+    #   {
+    #     "publicApiUrl": "https://materialpass.int.demo.catena-x.net/consumer/dataplane/api/public"
+    #   }
 
   configuration:
     properties: |-
@@ -230,7 +243,7 @@ controlplane:
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      edc.dataplane.selector.httpproxy.url=https://materialpass-edc-dataplane:9999/consumer/dataplane/api/control
+      # edc.dataplane.selector.httpproxy.url=https://materialpass-edc-dataplane:9999/consumer/api/dataplane/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
@@ -276,7 +289,7 @@ controlplane:
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
       edc.receiver.http.endpoint=http://materialpass-edc-backend
-      edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/dataplane/api/public
+      edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
       edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt

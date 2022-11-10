@@ -43,7 +43,7 @@ avp:
   helm:
     clientId: <path:material-pass/data/int/aasregistry#client.id>
     clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
-    xApiKey: <path:material-pass/data/int/edc#edc.oauth.api.key>
+    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

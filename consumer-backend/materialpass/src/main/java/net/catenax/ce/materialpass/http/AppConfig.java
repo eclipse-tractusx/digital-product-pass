@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.bean;
+package net.catenax.ce.materialpass.http;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

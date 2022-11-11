@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.controller;
+package net.catenax.ce.materialpass.http.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

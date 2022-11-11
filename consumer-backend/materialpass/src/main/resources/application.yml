@@ -27,3 +27,19 @@ keycloak:
 
 server:
   port: 8080
+
+management:
+  endpoints:
+    enabled-by-default: false
+    jmx:
+      exposure:
+        include: "health,info"
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+  endpoint:
+    info:
+      enabled: true
+
+

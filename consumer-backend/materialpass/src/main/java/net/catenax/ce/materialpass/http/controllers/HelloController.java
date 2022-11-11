@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.controller;
+package net.catenax.ce.materialpass.http.controllers;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
@@ -87,14 +87,18 @@ public class HelloController {
     }
 
     @GetMapping("/logout")
-    String logout(HttpServletRequest httpServletRequest) throws Exception{
-        httpServletRequest.logout();
+    String logout(HttpServletRequest httpRequest) throws Exception{
+        httpRequest.logout();
         return "Logged out successfully!";
     }
 
     @GetMapping("/login")
-    String login(HttpServletRequest request){
-        Set<String> userRoles = httpTools.getCurrentUserRoles(request);
+    String login(HttpServletRequest httpRequest) throws Exception{
+        Set<String> userRoles = httpTools.getCurrentUserRoles(httpRequest);
+        if (userRoles == null){
+            httpRequest.logout();
+            return "You are not logged in!";
+        }
         return "You are logged in with the roles: " + userRoles.toString();
     }
 }

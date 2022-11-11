@@ -46,4 +46,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

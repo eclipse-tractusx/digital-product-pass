@@ -4,27 +4,20 @@ import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tools.httpTools;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 @RestController
-public class HelloController {
+public class AuthController {
 
-    @Autowired
-    private Environment env;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
     Map<String, String> asset = new HashMap<>();
 
     @GetMapping("/hello")
@@ -51,54 +44,52 @@ public class HelloController {
     }
 
     @GetMapping("/secured")
-    String secure(HttpServletRequest request){
+    AccessToken secure(HttpServletRequest request){
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) request.getUserPrincipal();
         KeycloakPrincipal principal=(KeycloakPrincipal) token.getPrincipal();
         KeycloakSecurityContext session = principal.getKeycloakSecurityContext();
         AccessToken accessToken = session.getToken();
 
-        LOGGER.info("username: {}", accessToken.getPreferredUsername());
-        LOGGER.info("emailId: {}", accessToken.getEmail());
-        LOGGER.info("lastname: {}",accessToken.getFamilyName());
-        LOGGER.info("firstname: {}", accessToken.getGivenName());
-        LOGGER.info("realmName: {}", accessToken.getIssuer());
-
-        return "secured";
+        return accessToken;
     }
 
 
     @GetMapping("/recycler")
-    public String index1(){
+    public String index1(HttpServletRequest httpRequest){
         try {
-            return "You are logged in as Recycler role | " + "This are the received roles " + env.getProperty("env.roles");
+            Set<String> roles = httpTools.getCurrentUserRoles(httpRequest);
+            if(roles == null){
+                return "User roles is null!";
+            }
+            return "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
         }catch (Exception e) {
             return "[EXCEPTION]: " + e;
         }
     }
 
     @GetMapping("/oem")
-    public String index2(){
+    public String index2(HttpServletRequest httpRequest){
         try {
-            return "You are logged in as OEM role | " + "This are the received roles " + env.getProperty("env.roles");
+            Set<String> roles = httpTools.getCurrentUserRoles(httpRequest);
+            if(roles == null){
+                return "User roles is null!";
+            }
+            return "You are logged in as OEM role | " + "This are the received roles " + roles;
         }catch (Exception e) {
             return "[EXCEPTION]: " + e;
         }
     }
 
     @GetMapping("/logout")
-    String logout(HttpServletRequest httpRequest) throws Exception{
+    String logout(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws Exception{
         httpRequest.logout();
+        httpResponse.sendRedirect(httpRequest.getContextPath());
         return "Logged out successfully!";
     }
-
     @GetMapping("/login")
     String login(HttpServletRequest httpRequest) throws Exception{
-        Set<String> userRoles = httpTools.getCurrentUserRoles(httpRequest);
-        if (userRoles == null){
-            httpRequest.logout();
-            return "You are not logged in!";
-        }
-        return "You are logged in with the roles: " + userRoles.toString();
+        return "Logged in successfully!";
     }
+
 }

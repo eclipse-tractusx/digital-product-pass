@@ -1,8 +1,8 @@
 package tools;
 
+import net.catenax.ce.materialpass.http.model.Response;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,16 +25,8 @@ public final class httpTools {
         }
         return session.getToken(); // Return user info
     }
-    public static KeycloakAuthenticationToken getCurrentUserAuthToken(HttpServletRequest request){
-        return (KeycloakAuthenticationToken) request.getUserPrincipal();// Get the user data from the request
-    }
     public static KeycloakPrincipal getCurrentUserPrincipal(HttpServletRequest request){
-        KeycloakAuthenticationToken token = httpTools.getCurrentUserAuthToken(request); // Get the auth token to access the session
-        if (token == null) {
-            logTools.printError("User not authenticated, token is null!");
-            return null;
-        }
-        return (KeycloakPrincipal) token.getPrincipal();
+        return (KeycloakPrincipal) request.getUserPrincipal();// Get the user data from the request
     }
     public static KeycloakSecurityContext getCurrentUserSession(HttpServletRequest request){
         KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(request); // Get the principal to access the session
@@ -43,5 +35,12 @@ public final class httpTools {
             return null;
         }
         return principal.getKeycloakSecurityContext();
+    }
+
+    public static String getHttpInfo(HttpServletRequest httpRequest, Integer status){
+        return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
+    }
+    public static Response getResponse(){
+        return new Response();
     }
 }

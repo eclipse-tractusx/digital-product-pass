@@ -24,3 +24,6 @@ keycloak:
       securityCollections:
         - name: 'OEM API'
           patterns: [ '/oem' ]
+
+server:
+  port: 8080

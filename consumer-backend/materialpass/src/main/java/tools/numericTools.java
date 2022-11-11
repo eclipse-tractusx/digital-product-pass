@@ -1,6 +1,6 @@
 package tools;
 
-public class numericTools {
+public final class numericTools {
     /**
      * Static Tools to parse numbers if is possible
      *

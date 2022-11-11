@@ -1,6 +1,5 @@
 package net.catenax.ce.materialpass.controller;
 
-import net.catenax.ce.materialpass.bean.AppConfig;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -8,18 +7,16 @@ import org.keycloak.representations.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import tools.logTools;
+import tools.httpTools;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class HelloController {
@@ -94,8 +91,10 @@ public class HelloController {
         httpServletRequest.logout();
         return "Logged out successfully!";
     }
+
     @GetMapping("/login")
-    String login(){
-        return "Log in please!";
+    String login(HttpServletRequest request){
+        Set<String> userRoles = httpTools.getCurrentUserRoles(request);
+        return "You are logged in with the roles: " + userRoles.toString();
     }
 }

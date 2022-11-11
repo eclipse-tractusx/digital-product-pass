@@ -26,10 +26,12 @@ Fill out the following required fields.
 - **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, deployment/helm/consumer-ui)
 - **Cluster URL:** https://kubernetes.default.svc
 - **Namespace:** product-material-pass
+- **Plugin:** argocd-vault-plugin-helm-args
+    - set ENV as ***helm_args : --set image.tag='$ARGOCD_APP_REVISION'***
 
 Click on 'Create' button
 
-![Create New App](./images/create_application.png)
+![Create New App](./images/create_application_with_vault_plugin.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 

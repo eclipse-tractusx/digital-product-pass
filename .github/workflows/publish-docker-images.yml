@@ -30,12 +30,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
-
       # Login against a Docker registry
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -52,6 +46,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          #tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.IMAGE_TAG }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.IMAGE_TAG }}

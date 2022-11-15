@@ -37,4 +37,6 @@ server:
     include-exception: false
   port: 8080
 
+tools:
+  logLevel: 4
 

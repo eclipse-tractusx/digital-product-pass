@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.http.config;
+package net.catenax.ce.materialpass.config;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.context.annotation.Bean;

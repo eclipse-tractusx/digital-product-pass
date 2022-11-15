@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.http;
+package net.catenax.ce.materialpass.config;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,5 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 @ConfigurationProperties
 public class AppConfig {
-    public String[] roles;
+    // Add personalized configuration properties
 }

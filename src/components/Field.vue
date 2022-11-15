@@ -32,7 +32,7 @@
       }}{{ unit }}</span
     >
     <!-- This block of code is for dates -->
-    <span v-if="day" class="field-value">{{ day }}/{{ month }}/{{ year }}</span>
+    <span v-if="day" class="field-value">{{ day }}{{ month }}{{ year }}</span>
   </div>
 </template>
 

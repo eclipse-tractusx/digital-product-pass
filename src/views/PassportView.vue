@@ -1,40 +1,30 @@
 <template>
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
-    <Header :battery-id="data.generalInformation" />
+    <Header :battery-id="data" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data.generalInformation"
+        :general-information="data"
+      />
+      <CellChemistry
+        section-title="Cell chemistry"
+        :cell-chemistry="data.cellChemistry"
+      />
+      <ElectrochemicalProperties
+        section-title="State of Health"
+        :electrochemical-properties="data.electrochemicalProperties"
       />
       <BatteryComposition
-        section-title="Battery Composition"
-        :battery-composition="data.batteryComposition"
-      />
-      <StateOfHealth
-        section-title="State of Health"
-        :state-of-health="data.stateOfHealth"
-      />
-      <ParametersOfTheBattery
         section-title="Parameters of The Battery"
-        :parameters-of-the-battery="data.parametersOfTheBattery"
+        :battery-composition="data.composition"
       />
-      <DismantlingProcedures
-        section-title="Dismantling procedures"
-        :dismantling-procedures="data.dismantlingProcedures"
+      <StateOfBattery
+        section-title="State of Battery"
+        :state-of-battery="data"
       />
-      <SafetyInformation
-        section-title="Safety information"
-        :safety-measures="data.safetyMeasures"
-      />
-      <InformationResponsibleSourcing
-        section-title="Information responsible sourcing"
-        :information-responsible-sourcing="data.informationResponsibleSourcing"
-      />
-      <AdditionalInformation
-        section-title="Additional information"
-        :additional-information="data.additionalInformation"
-      />
+
+      <Documents section-title="Documents" :documents="data.document" />
     </div>
     <Footer />
   </div>
@@ -43,19 +33,20 @@
 <script>
 // @ is an alias to /src
 import GeneralInformation from "@/components/GeneralInformation.vue";
+import CellChemistry from "@/components/CellChemistry.vue";
+import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vue";
 import BatteryComposition from "@/components/BatteryComposition.vue";
-import StateOfHealth from "@/components/StateOfHealth.vue";
-import ParametersOfTheBattery from "@/components/ParametersOfTheBattery.vue";
-import DismantlingProcedures from "@/components/DismantlingProcedures.vue";
-import SafetyInformation from "@/components/SafetyInformation.vue";
-import InformationResponsibleSourcing from "@/components/InformationResponsibleSourcing.vue";
-import AdditionalInformation from "@/components/AdditionalInformation.vue";
+import StateOfBattery from "@/components/StateOfBattery.vue";
+import Documents from "@/components/Documents.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import passportData from "../assets/MOCK/passportExample01.json";
 // import axios from "axios";
 // import { AAS_PROXY_URL } from "@/services/service.const";
-// import { BASE_URL } from '@/services/service.const';
+// import { BASE_URL } from "@/services/service.const";
+import api_wrapper from "@/services/wrapper";
+import AAS from "@/services/aasServices";
 import { inject } from "vue";
 import passportData from "../assets/MOCK/passports.json";
 
@@ -64,13 +55,11 @@ export default {
   components: {
     Header,
     GeneralInformation,
+    CellChemistry,
+    StateOfBattery,
+    ElectrochemicalProperties,
     BatteryComposition,
-    StateOfHealth,
-    ParametersOfTheBattery,
-    DismantlingProcedures,
-    SafetyInformation,
-    InformationResponsibleSourcing,
-    AdditionalInformation,
+    Documents,
     Footer,
     Spinner,
   },

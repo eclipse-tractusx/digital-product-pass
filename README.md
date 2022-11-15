@@ -79,7 +79,7 @@ The Dockerfile is located in root directory of the project.
 docker build -t consumer-ui:latest .
 
 # run docker image
-docker run -p 8080:80 --name consumer-ui -d consumer-ui:latest
+docker run -p 8080:8080 --name consumer-ui -d consumer-ui:latest
 
 # check logs
 docker logs consumer-ui

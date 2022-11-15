@@ -13,6 +13,7 @@
     "@popperjs/core": "^2.11.2",
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
     "eslint-config-prettier": "^8.5.0",
     "keycloak-js": "^19.0.1",
     "path": "^0.12.7",
@@ -24,7 +25,8 @@
     "vue-step-progress": "^0.3.7",
     "vue-uuid": "^3.0.0",
     "vue3-easy-data-table": "^1.4.17",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

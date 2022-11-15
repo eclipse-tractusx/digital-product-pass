@@ -21,6 +21,9 @@ FROM nginx:alpine as production-build
 # for debugging purpose
 RUN apk add curl
 
+# Copy entrypoint script as /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
+
 # make the 'app' folder the current working directory
 WORKDIR /app
 
@@ -36,6 +39,12 @@ RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
 RUN touch /var/run/nginx.pid && \
         chown -R nginx:nginx /var/run/nginx.pid
 
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html && \
+    chmod +x /entrypoint.sh
+
 USER nginx
 EXPOSE 8080
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+ENTRYPOINT ["sh","/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]

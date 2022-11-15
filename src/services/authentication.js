@@ -1,5 +1,7 @@
-import { REDIRECT_URI, INIT_OPTIONS, SERVER_URL } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS, SERVER_URL, CLIENT_CREDENTIALS, IDP_URL } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
+import axios from "axios";
+import store from '../store/index';
 
 
 export default class authentication {
@@ -59,6 +61,9 @@ export default class authentication {
     getUserName() {
       return this.decodeAccessToken().preferred_username;
     }
+    getSessionId() {
+      return this.keycloak.sessionId;
+    }
     getRole() {
       let clientRoles = '';
       if (this.getUrl().includes(SERVER_URL))
@@ -79,5 +84,45 @@ export default class authentication {
     }
     getUrl() {
       return window.location.href;
+    }
+    /***** Technical User Authentication *****/
+
+    getAuthTokenForTechnicalUser() {   
+
+      // encrypt client credentials using keycloak session id to access in a safe manner// 
+      store.commit("setSessionId", this.getSessionId());
+      store.commit("setClientId", CLIENT_CREDENTIALS.client_id);
+      store.commit("setClientSecret", CLIENT_CREDENTIALS.client_secret);
+    
+      const params = new URLSearchParams({
+
+        grant_type: CLIENT_CREDENTIALS.grant_type,
+        client_id: store.getters.getClientId,
+        client_secret: store.getters.getClientSecret,
+        scope: CLIENT_CREDENTIALS.scope
+      });
+        
+      return new Promise((resolve) => {
+        axios({
+
+          method: 'post',
+          url: IDP_URL + 'realms/CX-Central/protocol/openid-connect/token',
+          data: params.toString(),
+          config: {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }
+
+        }).then(response => {
+
+          console.log(response.data);
+          resolve(response.data.access_token);
+
+        }).catch(error => {
+
+          console.error(error);
+          resolve("rejected");
+
+        });
+      });
     }
 }

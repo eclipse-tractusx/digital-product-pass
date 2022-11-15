@@ -41,12 +41,11 @@ import Documents from "@/components/Documents.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import passportData from "../assets/MOCK/passportExample01.json";
-// import axios from "axios";
-// import { AAS_PROXY_URL } from "@/services/service.const";
-// import { BASE_URL } from "@/services/service.const";
-import api_wrapper from "@/services/wrapper";
+import axios from "axios";
+import { AAS_PROXY_URL, API_KEY } from "@/services/service.const";
+import apiWrapper from "@/services/wrapper";
 import AAS from "@/services/aasServices";
+import passportData from "../assets/MOCK/passportExample01.json";
 import { inject } from "vue";
 import passportData from "../assets/MOCK/passports.json";
 
@@ -76,68 +75,39 @@ export default {
   async created() {
     this.data = passportData[this.passId];
     this.loading = false;
+    let assetIds = this.$route.params.assetIds;
+    //this.data = await this.getPassport(assetIds);
   },
   methods: {
-    // getDigitalTwinId: function (assetIds) {
-    //   return new Promise((resolve) => {
-    //     let encodedAssetIds = encodeURIComponent(assetIds);
-    //     axios
-    //       .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
-    //       .then((response) => {
-    //         console.log("PassportView (Digital Twin):", response.data);
-    //         resolve(response.data);
-    //       })
-    //       .catch((e) => {
-    //         this.errors.push(e);
-    //         resolve("rejected");
-    //       });
-    //   });
-    // },
-    // getDigitalTwinObjectById: function (digitalTwinId) {
-    //   //const res =  axios.get("http://localhost:4243/registry/shell-descriptors/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001"); // Without AAS Proxy
-    //   return new Promise((resolve) => {
-    //     axios
-    //       .get(`${AAS_PROXY_URL}/registry/shell-descriptors/${digitalTwinId}`)
-    //       .then((response) => {
-    //         console.log("PassportView (Digital Twin Object):", response.data);
-    //         resolve(response.data);
-    //       })
-    //       .catch((e) => {
-    //         this.errors.push(e);
-    //         resolve("rejected");
-    //       });
-    //   });
-    // },
-    // getSubmodelData: function (digitalTwin) {
-    //   //const res =  axios.get("http://localhost:8193/api/service/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97919/submodel?provider-connector-url=http://provider-control-plane:8282"); // Without AAS Proxy
-    //   //Calling with AAS Proxy
-    //   return new Promise((resolve) => {
-    //     axios
-    //       .get(
-    //         `${AAS_PROXY_URL}/shells/${digitalTwin.identification}/aas/${digitalTwin.submodelDescriptors[0].identification}/submodel?content=value&extent=withBlobValue`,
-    //         {
-    //           auth: {
-    //             username: "someuser",
-    //             password: "somepassword",
-    //           },
-    //         }
-    //       )
-    //       .then((response) => {
-    //         console.log("PassportView (SubModel):", response.data);
-    //         resolve(response.data);
-    //       })
-    //       .catch((e) => {
-    //         this.errors.push(e);
-    //         resolve("rejected");
-    //       });
-    //   });
-    // },
-    // async getPassport(assetIds) {
-    //   const digitalTwinId = await this.getDigitalTwinId(assetIds);
-    //   const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
-    //   const response = await this.getSubmodelData(digitalTwin);
-    //   return response;
-    // },
+    async getPassport(assetIds) {
+      let aas = new AAS();
+      let wrapper = new apiWrapper();
+      console.log("API Key: "+ API_KEY);
+      let accessToken = await this.auth.getAuthTokenForTechnicalUser();
+      let AASRequestHeader ={
+        "Authorization" : "Bearer " + accessToken
+      };
+
+      const shellId = await aas.getAasShellId(assetIds, AASRequestHeader);
+      const shellDescriptor = await aas.getShellDescriptor(shellId[0], AASRequestHeader);
+      const subModel = await aas.getSubmodelDescriptor(shellDescriptor, AASRequestHeader);
+      if (subModel.endpoints.length > 0){
+        let providerConnector={
+          "connectorAddress": subModel.endpoints[0].protocolInformation.endpointAddress,
+          "idShort": subModel.idShort
+        };
+        let APIWrapperRequestHeader={
+          'x-api-key': API_KEY
+        };
+
+        let assetId = JSON.parse(assetIds)[1].value; // Two elements in json array [batteryIDDMCode, assetId], get the last element and it wll always be the asset id i.e., [1]
+        console.info('Selected asset Id: ' + assetId);
+        const response = await wrapper.performEDCDataTransfer(assetId, providerConnector,APIWrapperRequestHeader);
+        return response;
+      }
+      else
+        alert("There is no connector endpoint defined in submodel.. Could not proceed further!");
+    },
   },
 };
 </script>

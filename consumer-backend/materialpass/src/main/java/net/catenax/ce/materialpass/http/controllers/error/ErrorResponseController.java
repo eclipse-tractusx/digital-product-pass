@@ -32,7 +32,7 @@ public class ErrorResponseController implements ErrorController {
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(servletWebRequest, options);
         Response response = new Response().mapError(errorAttributes);
         String httpInfo = httpTools.getHttpInfo(httpRequest, response.getStatus());
-        logTools.printError(httpInfo + " " + response.errorString());
+        logTools.printMessage(httpInfo + " " + response.errorString());
         return response;
     }
 }

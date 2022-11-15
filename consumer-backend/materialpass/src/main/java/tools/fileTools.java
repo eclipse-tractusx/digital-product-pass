@@ -5,7 +5,8 @@ import tools.exceptions.ToolException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 
@@ -35,18 +36,17 @@ public final class fileTools {
     }
 
     public static String getBaseClassDir(Class selectedClass){
-        return selectedClass.getProtectionDomain().getCodeSource().getLocation().getPath();
+        return fileTools.normalizePath(selectedClass.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
 
     public static String getResourcePath(Class selectedClass, String resourcePath){
         try {
-            URI uri = selectedClass.getClassLoader().getResource(resourcePath).toURI();
-            System.out.println(uri);
-            if (uri != null) {
-                return fileTools.normalizePath(uri.toString());
+            String uri = selectedClass.getClassLoader().getResource(resourcePath).getPath();
+            String path = URLDecoder.decode(uri, StandardCharsets.UTF_8);
+            if (path != null) {
+                return fileTools.normalizePath(path);
             }
         }catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new ToolException(fileTools.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "]");
         }
 

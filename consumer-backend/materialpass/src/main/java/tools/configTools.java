@@ -9,20 +9,16 @@ public class configTools {
 
     private static final String rootPath = System.getProperty("user.dir");
     private static final String configurationFileName = "toolsConfiguration.yml";
-    private final String configurationFilePath = Paths.get("config", configurationFileName).normalize().toString();
+    private final String relativeConfigurationFilePath = Paths.get("config", configurationFileName).normalize().toString();
     private Map<String, Object> configuration;
 
     public configTools(){
-        System.out.println(configurationFilePath);
-
-
-        System.out.println(fileTools.getResourcePath(this.getClass(), configurationFilePath));
-
+        String configurationFilePath = fileTools.getResourcePath(this.getClass(), relativeConfigurationFilePath);
         this.configuration = yamlTools.readFile(configurationFilePath);
     }
     public Map<String, Object> getConfiguration(){
         if (this.configuration == null) {
-            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+configurationFilePath+"] not loaded!");
+            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+relativeConfigurationFilePath+"] not loaded!");
         }
         return this.configuration;
     }

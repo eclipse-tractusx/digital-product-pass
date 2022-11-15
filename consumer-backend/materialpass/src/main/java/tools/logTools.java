@@ -50,7 +50,7 @@ public final class logTools {
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message = dateTimeTools.getDateTimeFormatted(null) + "["+e.getMessage()+"] "+strMessage;
+        String message = dateTimeTools.getDateTimeFormatted(null) + " ["+e.getMessage()+"] "+strMessage;
         logger.trace(logLevel, message, e);
     }
 
@@ -59,7 +59,7 @@ public final class logTools {
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message = dateTimeTools.getDateTimeFormatted(null) + strMessage;
+        String message = dateTimeTools.getDateTimeFormatted(null) + " " + strMessage;
         logger.error(logLevel, message);
     }
     public static void printWarning(String strMessage){
@@ -67,7 +67,7 @@ public final class logTools {
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message= dateTimeTools.getDateTimeFormatted(null) + strMessage;
+        String message= dateTimeTools.getDateTimeFormatted(null) + " " + strMessage;
         logger.warn(logLevel,message);
     }
 }

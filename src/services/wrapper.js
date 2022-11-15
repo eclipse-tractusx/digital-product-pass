@@ -10,7 +10,7 @@ export default class wrapper {
   getContractOfferCatalog(providerUrl, requestHeaders) {
     return new Promise(resolve => {
 
-      axios.get(`${SERVER_URL}/consumer/data/catalog?providerUrl=${providerUrl}`, 
+      axios.get(`${SERVER_URL}/consumer/data/catalog?providerUrl=${providerUrl}`,
         {
           headers: requestHeaders
         }
@@ -50,7 +50,7 @@ export default class wrapper {
       }
     };
 
-    return new Promise(resolve => {
+        return new Promise(resolve => {
 
       axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, requestBody, {
         headers: requestHeaders
@@ -114,7 +114,7 @@ export default class wrapper {
           this.errors.push(e);
           resolve('rejected');
         });
-    });     
+    });
   }
   // Step 4.2: Verify data transfer status
   getTransferProcessById(transferId, requestHeaders){
@@ -133,13 +133,13 @@ export default class wrapper {
             resolve('rejected');
           });
       }, 5000);
-    });     
+    });
   }
-  // Step 4.3: Query transferred data from consumer backend system 
+  // Step 4.3: Query transferred data from consumer backend system
   getDataFromConsumerBackend(transferProcessId){
 
     return new Promise(resolve => {
-      
+
       setTimeout(()=>{
         axios.get(`${SERVER_URL}/consumer_backend/${transferProcessId}`, {
           headers: {
@@ -155,18 +155,18 @@ export default class wrapper {
             resolve('rejected');
           });
         ;}, 5000);
-    }); 
+    });
   }
-    
+
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
     var contractId = "";
-    var data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);  
-    
+    var data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
+
     // Contarct catalog returns array of contract offers, select one that matches assetId //
     var contractOffer = data.contractOffers.filter(offer => {
       return offer.asset.id.includes(assetId);
     });
-      
+
     // Contract negotiation request parameters //
     var payload = {
       connectorAddress: providerConnector.connectorAddress,
@@ -183,7 +183,7 @@ export default class wrapper {
     var response = null;
     // Check the agreement status until it is of status CONFIRMED
     while (response == null || response.state != "CONFIRMED") {
-      response = await this.getAgreementId(negotiation.id, requestHeaders);        
+      response = await this.getAgreementId(negotiation.id, requestHeaders);
       console.log("Agreement state:  ", response.state + '_' + response.contractAgreementId);
       contractId = response.contractAgreementId;
     }
@@ -204,7 +204,7 @@ export default class wrapper {
     // Check the transfer status repeatedly until it is COMPLETED from consumer side
     while (result == null || result.state != "COMPLETED") {
 
-      result = await this.getTransferProcessById(transfer.id, requestHeaders);        
+      result = await this.getTransferProcessById(transfer.id, requestHeaders);
       console.log("Transfer state:  ", result.type + '_' + result.state);
     }
     return await this.getDataFromConsumerBackend(requestBody.transferProcessId);

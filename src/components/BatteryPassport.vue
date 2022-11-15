@@ -61,6 +61,7 @@
         Get Battery Passport
       </button>
     </div>
+    <div></div>
     <div data-cy="dashboard-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
@@ -98,6 +99,7 @@ export default {
       assetIds: {},
       assetIdsVisible: false,
       name: "",
+      MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
     };
   },
   created() {

@@ -17,8 +17,10 @@
   <div>
     <div class="header-container profile-container">
       <div class="logo-container">
-        <img :src="CatenaLogo" alt="logo" class="logo" />
-        <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
+        <router-link to="/">
+          <img :src="CatenaLogo" alt="logo" class="logo" />
+          <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
+        </router-link>
       </div>
       <div class="toggle-button" @click="hamburgerMenu = !hamburgerMenu">
         <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
@@ -27,6 +29,9 @@
       </div>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
+          <router-link to="/qr-code-scanner">
+            <img :src="QRScanner" alt="QRScanner" class="buttons" />
+          </router-link>
           <img :src="Settings" alt="settings" class="buttons" />
           <img :src="Notifications" alt="profile" class="buttons" />
           <span>
@@ -85,6 +90,7 @@ import CatenaLogo from "../assets/logo.png";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
+import QRScanner from "../assets/qr-icon.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import Logout from "../assets/logout.png";
 import { inject } from "vue";
@@ -104,6 +110,7 @@ export default {
       CatenaLogo,
       Profile,
       Notifications,
+      QRScanner,
       Settings,
       QrCode,
       Logout,
@@ -195,6 +202,7 @@ h1 {
   width: 26px;
   height: 26px;
   margin: 15px 0 15px 30px;
+  cursor: pointer;
 }
 
 .profile-container {

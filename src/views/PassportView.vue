@@ -47,6 +47,7 @@ import apiWrapper from "@/services/wrapper";
 import AAS from "@/services/aasServices";
 import passportData from "../assets/MOCK/passportExample01.json";
 import { inject } from "vue";
+import passportData from "../assets/MOCK/passports.json";
 
 export default {
   name: "PassportView",
@@ -68,13 +69,14 @@ export default {
       data: null,
       loading: true,
       errors: [],
+      passId: this.$route.params.id,
     };
   },
   async created() {
+    this.data = passportData[this.passId];
+    this.loading = false;
     let assetIds = this.$route.params.assetIds;
     //this.data = await this.getPassport(assetIds);
-    this.data = passportData;
-    this.loading = false;
   },
   methods: {
     async getPassport(assetIds) {

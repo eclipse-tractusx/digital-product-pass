@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.http.model;
+package net.catenax.ce.materialpass.http.models;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package tools;
 
-import net.catenax.ce.materialpass.http.model.Response;
+import net.catenax.ce.materialpass.http.models.Response;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.AccessToken;
@@ -41,11 +41,18 @@ public final class httpTools {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
     }
     public static Response getResponse(){
-        return new Response();
+        return new Response(
+                "",
+                200,
+                "Success"
+        );
     }
 
-    public static String getParamFromHttpRequest(String param, HttpServletRequest httpRequest){
-        return httpRequest.getParameter(param);
-
+    public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern){
+        String requestParam =  httpRequest.getParameter(param);
+        if(requestParam == null) {
+            return defaultPattern;
+        }
+        return requestParam;
     }
 }

@@ -10,6 +10,12 @@ keycloak:
   use-resource-role-mappings: true
 
   securityConstraints:
+
+    - authRoles: ['Recycler', 'OEM']
+      securityCollections:
+        - name: 'Common Auth'
+          patterns: [ '/login' ]
+
     - authRoles: 'Recycler'
       securityCollections:
         - name: 'Recycler API'

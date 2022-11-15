@@ -1,6 +1,10 @@
 package net.catenax.ce.materialpass.http.controllers;
 
+import net.catenax.ce.materialpass.http.models.KeycloakCredential;
+import net.catenax.ce.materialpass.http.models.Response;
+import net.catenax.ce.materialpass.http.models.UserCredential;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tools.httpTools;
 
@@ -10,6 +14,25 @@ import java.util.Set;
 
 @RestController
 public class AuthController {
+    // [Logic Methods] ----------------------------------------------------------------
+
+    private Response loginFromHttpRequest(HttpServletRequest httpRequest, UserCredential userCredential){
+        Response response = httpTools.getResponse();
+        KeycloakCredential keycloakCredential = new KeycloakCredential();
+
+        keycloakCredential.mapKeycloakResponse(httpRequest);
+
+        keycloakCredential.setUserCredential(userCredential);
+        httpTools.getParamOrDefault(httpRequest, "session_code", null);
+        if(keycloakCredential.getUserCredential().getUsername() != null){
+
+            response.message = "It works!";
+        }
+        return response;
+
+    }
+
+    // [API Services]  ----------------------------------------------------------------
     /*
     Map<String, String> asset = new HashMap<>();
 
@@ -36,7 +59,6 @@ public class AuthController {
         asset.put(assetId, data);
     }
      */
-
     @GetMapping("/recycler")
     public String index1(HttpServletRequest httpRequest){
         try {
@@ -71,8 +93,9 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    String login(HttpServletRequest httpRequest) throws Exception{
-        return "You are already logged in!";
+    String login(HttpServletRequest httpRequest, @RequestBody UserCredential userCredential) throws Exception{
+        Response httpResponse = loginFromHttpRequest(httpRequest, userCredential);
+        return httpResponse.message;
     }
 
 }

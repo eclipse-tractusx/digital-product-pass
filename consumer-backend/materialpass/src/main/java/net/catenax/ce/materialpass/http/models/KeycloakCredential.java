@@ -1,11 +1,14 @@
-package net.catenax.ce.materialpass.http.model;
+package net.catenax.ce.materialpass.http.models;
+
+import tools.httpTools;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class KeycloakCredential {
     private String session_code;
     private String execution;
     private String client_id;
     private String tab_id;
-
     private UserCredential userCredential;
 
     public KeycloakCredential(){
@@ -32,6 +35,12 @@ public class KeycloakCredential {
         this.tab_id = tab_id;
     }
 
+    public void mapKeycloakResponse(HttpServletRequest request){
+        this.session_code = httpTools.getParamOrDefault(request, "session_code", null);
+        this.execution = httpTools.getParamOrDefault(request, "execution", null);
+        this.client_id = httpTools.getParamOrDefault(request, "client_id", null);
+        this.tab_id = httpTools.getParamOrDefault(request, "tab_id", null);
+    }
     public String getSession_code() {
         return session_code;
     }

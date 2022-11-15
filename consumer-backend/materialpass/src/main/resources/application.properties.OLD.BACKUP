@@ -1,0 +1,51 @@
+#-----------------------------------------
+# ROLES CONFIGURATION
+#-----------------------------------------
+
+roles=Recycler,OEM
+
+#-----------------------------------------
+# KEYCLOAK CONFIGURATION
+#-----------------------------------------
+
+keycloak.realm=CX-Central
+keycloak.resource=Cl13-CX-Battery
+keycloak.auth-server-url=http://localhost:8088/auth
+keycloak.ssl-required=external
+keycloak.public-client=true
+keycloak.use-resource-role-mappings=true
+
+
+#-----------------------------------------
+# ACCESS POLICIES & SECURITY CONSTRAINTS0
+#-----------------------------------------
+
+
+############################################
+#
+# Authenticated Access APIs for all Roles
+#
+############################################
+
+keycloak.security-constraints[0].authRoles=${roles}
+keycloak.security-constraints[0].securityCollections[0].name=Common user access APIs
+keycloak.security-constraints[0].securityCollections[0].patterns[0]=/logout
+keycloak.security-constraints[0].securityCollections[0].patterns[1]=/login
+
+############################################
+#
+# User Roles APIs
+#
+############################################
+
+
+#==============[Recycler]=======================================================
+keycloak.security-constraints[1].authRoles[0]=
+keycloak.security-constraints[1].securityCollections[0].name=Recycler Exclusive APIs
+keycloak.security-constraints[1].securityCollections[0].patterns[0]=/recycler
+
+#==============[OEM]=======================================================
+keycloak.security-constraints[2].authRoles[0]=
+keycloak.security-constraints[2].securityCollections[0].name=OEM Exclusive APIs
+keycloak.security-constraints[2].securityCollections[0].patterns[0]=/oem
+

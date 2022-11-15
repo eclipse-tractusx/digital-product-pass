@@ -1,0 +1,29 @@
+env:
+  roles: ['Recycler', 'OEM']
+
+keycloak:
+  realm: CX-Central
+  resource: Cl13-CX-Battery
+  auth-server-url: http://localhost:8088/auth
+  ssl-required: external
+  public-client: true
+  use-resource-role-mappings: true
+
+  securityConstraints:
+    - authRoles: ['Recycler', 'OEM']
+      securityCollections:
+        - name: 'Common API'
+          patterns: ['/login', '/logout']
+
+    - authRoles: 'Recycler'
+      securityCollections:
+        - name: 'Recycler API'
+          patterns: ['/recycler']
+
+    - authRoles: 'OEM'
+      securityCollections:
+        - name: 'OEM API'
+          patterns: [ '/oem' ]
+
+server:
+  port: 8080

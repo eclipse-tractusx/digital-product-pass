@@ -8,14 +8,14 @@ name: "Publish docker images"
 on:
   push:
 
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "secrets_management/CMP-279" ]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
 
 env:
   REGISTRY: ghcr.io
-  CONSUMER_UI_IMAGE: "consumer-ui"
+  IMAGE_NAME: "consumer-ui"
   IMAGE_TAG: ${{ github.sha }}
     
 jobs:
@@ -41,9 +41,9 @@ jobs:
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image - consumer-ui
+      - name: Build and push
         id: build-and-push-frontend
-        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_UI_IMAGE }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

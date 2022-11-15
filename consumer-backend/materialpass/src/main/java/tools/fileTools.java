@@ -40,7 +40,7 @@ public final class fileTools {
 
     public static String getResourcePath(Class selectedClass, String resourcePath){
         try {
-            URI uri = selectedClass.getClassLoader().getResource(resourcePath);
+            URI uri = selectedClass.getClassLoader().getResource(resourcePath).toURI();
             System.out.println(uri);
             if (uri != null) {
                 return fileTools.normalizePath(uri.toString());

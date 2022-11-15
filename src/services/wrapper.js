@@ -7,14 +7,12 @@ export default class wrapper {
         
   }
   // Step 1: Request contract offers from the catalog
-  getContractOfferCatalog(providerUrl) {
-    //providerUrl = "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data";
+  getContractOfferCatalog(providerUrl, requestHeaders) {
     return new Promise(resolve => {
 
-      axios.get(`${SERVER_URL}/consumer/data/catalog?providerUrl=${providerUrl}`, 
+      axios.get(`${SERVER_URL}/consumer/data/catalog?providerUrl=${providerUrl}`,
         {
-          'x-api-key': 'password'
-          
+          headers: requestHeaders
         }
       )
         .then((response) => {
@@ -27,14 +25,35 @@ export default class wrapper {
     });
   }
   // Step 2: Negotiate a contract based on contract offer retrieved in previous step
-  doContractNegotiation(contractOffer){
-
-    return new Promise(resolve => {
-
-      axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, contractOffer, {
-        headers: {
-          'X-Api-Key': 'password'
+  doContractNegotiation(payload, requestHeaders) {
+    var requestBody = {
+      "connectorId": payload.connectorId,
+      "connectorAddress": payload.connectorAddress,
+      "offer": {
+        "offerId": payload.contractOffer.id,
+        "assetId": payload.contractOffer.asset.id,
+        "policy": {
+          "uid": "null",
+          "prohibitions": [],
+          "obligations": [],
+          "permissions": [
+            {
+              "edctype": "dataspaceconnector:permission",
+              "action": {
+                "type": "USE"
+              },
+              "target": payload.contractOffer.asset.id,
+              "constraints": []
+            }
+          ]
         }
+      }
+    };
+
+        return new Promise(resolve => {
+
+      axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, requestBody, {
+        headers: requestHeaders
       })
         .then((response) => {
           resolve(response.data);
@@ -46,48 +65,46 @@ export default class wrapper {
     });
   }
   // Step 3: Get the contract agreement id to verify if the negotiation is aprroved or declined
-  getAgreementId(uuid){
+  getAgreementId(uuid, requestHeaders){
     return new Promise(resolve => {
 
-      axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
-        headers: {
-          'X-Api-Key': 'password',
-          "accept": "application/json"
-        }})
-        .then((response) => {
-          console.log('check_state : ' + response.data.state);
-          console.log('Agreement Id: ' + response.data.contractAgreementId);
-          console.log('Agreement state: ' + response.data.state);
-          resolve(response.data);
+      setTimeout(()=>{
+        axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
+          headers: requestHeaders
         })
-        .catch((e) => {
-          this.errors.push(e);
-          alert(e);
-          resolve('rejected');
-        });
+          .then((response) => {
+            console.log('check_state : ' + response.data.state);
+            console.log('Agreement Id: ' + response.data.contractAgreementId);
+            console.log('Agreement state: ' + response.data.state);
+            resolve(response.data);
+          })
+          .catch((e) => {
+            this.errors.push(e);
+            alert(e);
+            resolve('rejected');
+          });
+        ;},5000);
+
     });
   }
   // Step 4.1: Initiate data transfer process based on agreement id from previous step
-  initiateTransfer(contractAgreementId, assetId, payload){
+  initiateTransfer(assetId, requestHeaders, payload){
 
+    var requestBody = {
+      "id": payload.transferProcessId,
+      "connectorId": payload.connectorId,
+      "connectorAddress": payload.connectorAddress,
+      "contractId": payload.contractAgreementId,
+      "assetId": assetId,
+      "managedResources": false,
+      "dataDestination": {
+        "type": payload.type
+      },
+    };
     return new Promise(resolve => {
-
-      var requestBody = {
-        "id": payload.TransferProcessId,
-        "connectorId": payload.connectorId,
-        "connectorAddress": payload.connectorAddress,
-        "contractId": contractAgreementId,
-        "assetId": assetId,
-        "managedResources": false,
-        "dataDestination": {
-          "type": payload.type
-        },
-        };
-        console.log(requestBody);
-        axios.post(`${SERVER_URL}/consumer/data/transferprocess`, requestBody, {
-        headers: {
-          'X-Api-Key': 'password'
-        }
+      console.log(requestBody);
+      axios.post(`${SERVER_URL}/consumer/data/transferprocess`, requestBody, {
+        headers: requestHeaders
       })
         .then((response) => {
           console.log(response.data);
@@ -97,119 +114,99 @@ export default class wrapper {
           this.errors.push(e);
           resolve('rejected');
         });
-    });     
+    });
   }
   // Step 4.2: Verify data transfer status
-  getTransferProcessById(transferId){
+  getTransferProcessById(transferId, requestHeaders){
 
     return new Promise(resolve => {
-      axios.get(`${SERVER_URL}/consumer/data/transferprocess/${transferId}`, {
-        headers: {
-          'X-Api-Key': 'password'
-        }
-      })
-        .then((response) => {
-          console.log(response.data);
-          resolve(response.data);
+      setTimeout(() => {
+        axios.get(`${SERVER_URL}/consumer/data/transferprocess/${transferId}`, {
+          headers: requestHeaders
         })
-        .catch((e) => {
-          this.errors.push(e);
-          resolve('rejected');
-        });
-    });     
+          .then((response) => {
+            console.log(response.data);
+            resolve(response.data);
+          })
+          .catch((e) => {
+            this.errors.push(e);
+            resolve('rejected');
+          });
+      }, 5000);
+    });
   }
-  // Step 4.3: Query transferred data from consumer backend system 
+  // Step 4.3: Query transferred data from consumer backend system
   getDataFromConsumerBackend(transferProcessId){
 
     return new Promise(resolve => {
-      
-      axios.get(`${SERVER_URL}/consumer_backend/${transferProcessId}`, {
-        headers: {
-          'Accept': 'application/octet-stream'
-        }
-      })
-        .then((response) => {
-          console.log(response.data);
-          resolve(response.data);
+
+      setTimeout(()=>{
+        axios.get(`${SERVER_URL}/consumer_backend/${transferProcessId}`, {
+          headers: {
+            'Accept': 'application/octet-stream'
+          }
         })
-        .catch((e) => {
-          this.errors.push(e);
-          resolve('rejected');
-        });
-    }); 
+          .then((response) => {
+            console.log(response.data);
+            resolve(response.data);
+          })
+          .catch((e) => {
+            this.errors.push(e);
+            resolve('rejected');
+          });
+        ;}, 5000);
+    });
   }
-    
-  async performEDCDataTransfer(assetId, providerEndpoint) {
+
+  async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
     var contractId = "";
-    //var assetId_ = "";
-    var response = await this.getContractOfferCatalog(providerEndpoint);
-    var offer = response;
-      
-    var offer = response.contractOffers.filter(offer => {
+    var data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
+
+    // Contarct catalog returns array of contract offers, select one that matches assetId //
+    var contractOffer = data.contractOffers.filter(offer => {
       return offer.asset.id.includes(assetId);
     });
-    console.log(offer[0]);
+
+    // Contract negotiation request parameters //
     var payload = {
-      "connectorId": "foo",
-      "connectorAddress": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-      "offer": {
-        "offerId": "101:foo",
-        "assetId": "101",
-        "policy": {
-          "uid": "null",
-          "prohibitions": [],
-          "obligations": [],
-          "permissions": [
-            {
-              "edctype": "dataspaceconnector:permission",
-              "action": {
-                "type": "USE"
-              },
-              "target": "101",
-              "constraints": []
-            }
-          ]
-        }
-      }
+      connectorAddress: providerConnector.connectorAddress,
+      connectorId: providerConnector.idShort,
+      contractOffer: contractOffer[0]
     };
     console.log(payload);
-    var negotiationId = await this.doContractNegotiation(payload);
-    console.log(negotiationId);
+    var negotiation = await this.doContractNegotiation(payload, requestHeaders);
+    console.log("Negotiation ID: " + negotiation.id);
 
 
     // Check agreement status //
     // Status: INITIAL, REQUESTED, CONFIRMED
-    // first call to get the initial status 
-    var data = await this.getAgreementId(negotiationId.id);
-    if (data == "rejected")
-      return;
-    else
-      contractId = data.contractAgreementId;
-        
-        
+    var response = null;
     // Check the agreement status until it is of status CONFIRMED
-      while (data.state != "CONFIRMED") {
-        data = await this.getAgreementId(negotiationId.id);        
-      console.log("Agreement state:  ", data.state + '_' + data.contractAgreementId);
-      contractId = data.contractAgreementId;
+    while (response == null || response.state != "CONFIRMED") {
+      response = await this.getAgreementId(negotiation.id, requestHeaders);
+      console.log("Agreement state:  ", response.state + '_' + response.contractAgreementId);
+      contractId = response.contractAgreementId;
     }
-    console.log(contractId);
 
     // initiate data transfer
     var requestBody = {
-        TransferProcessId: "1118",
-        connectorId: "foo",
-      connectorAddress: "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+      transferProcessId: Date.now(),
+      connectorId: providerConnector.idShort,
+      connectorAddress: providerConnector.connectorAddress,
       contractAgreementId: contractId,
-      assetId: "101",
+      assetId: assetId,
       type: "HttpProxy"
     };
-    var response1 = await this.initiateTransfer(contractId, assetId, requestBody);
-    console.log(response1.id);
-    var transferProcess = this.getTransferProcessById(response1.id);
-    //console.log("transfer id" + transferProcess.id);
-        
-    // query transferred data from consumer backend
-    return await this.getDataFromConsumerBackend(requestBody.TransferProcessId);
+    var transfer = await this.initiateTransfer(assetId, requestHeaders, requestBody);
+    console.log("Transfer Id: " + transfer.id);
+
+    var result = null;
+    // Check the transfer status repeatedly until it is COMPLETED from consumer side
+    while (result == null || result.state != "COMPLETED") {
+
+      result = await this.getTransferProcessById(transfer.id, requestHeaders);
+      console.log("Transfer state:  ", result.type + '_' + result.state);
+    }
+    return await this.getDataFromConsumerBackend(requestBody.transferProcessId);
   }
 }

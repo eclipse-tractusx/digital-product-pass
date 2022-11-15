@@ -1,22 +1,34 @@
 import { createStore } from 'vuex';
-import {cryptTools} from "@/util/tools/cryptTools";
+var CryptoJS = require("crypto-js");
+
 export default createStore({
+
+  //   plugins: [createPersistedState({
+
+  //     storage: window.localStorage,
+
+  //   })],
   state: {
     email: '',
     password: '',
     role: '',
-    client_id: "",
-    session_id: ""
+    clientId: '',
+    clientSecret: '',
+    sessionId: ''
   },
   getters: {
     getClientId(state){
-      return cryptTools.decrypt(state.client_id, state.session_id);
-    }
+      return CryptoJS.AES.decrypt(state.clientId, state.sessionId).toString(CryptoJS.enc.Utf8);
+    },
+    getClientSecret(state){
+      return CryptoJS.AES.decrypt(state.clientSecret, state.sessionId).toString(CryptoJS.enc.Utf8);
+    },
+    getSessionId(state){
+      return state.sessionId;
+    },
+
   },
   mutations: {
-    setClientId(state, clientId){
-      state.client_id = cryptTools.encrypt(clientId, state.session_id);
-    },
     setEmail(state, newEmail) {
       state.email = newEmail;
     },
@@ -24,6 +36,18 @@ export default createStore({
       state.password = newPassword;
       
     },
+    setClientId(state, clientId) {
+      let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);
+      state.clientId = bytes.toString();
+    },
+    setClientSecret(state, clientSecret) {
+      let bytes = CryptoJS.AES.encrypt(clientSecret, state.sessionId);
+      state.clientSecret = bytes.toString();
+    },
+    setSessionId(state, sessionId) {
+      state.clientSecret = sessionId;
+    }
+    
   },
   actions: {},
   modules: {},

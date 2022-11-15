@@ -1,0 +1,10 @@
+repos:
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.10.7 (latest version)
+    hooks:
+      - id: ggshield
+        language_version: python3
+        stage: [commit]
+      - id: ggshield-push
+        language_version: python3
+        stage: [push]

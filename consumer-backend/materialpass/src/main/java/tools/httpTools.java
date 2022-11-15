@@ -43,4 +43,9 @@ public final class httpTools {
     public static Response getResponse(){
         return new Response();
     }
+
+    public static String getParamFromHttpRequest(String param, HttpServletRequest httpRequest){
+        return httpRequest.getParameter(param);
+
+    }
 }

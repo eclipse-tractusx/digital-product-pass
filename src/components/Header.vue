@@ -17,8 +17,10 @@
   <div>
     <div class="header-container profile-container">
       <div class="logo-container">
-        <img :src="CatenaLogo" alt="logo" class="logo" />
-        <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
+        <router-link to="/">
+          <img :src="CatenaLogo" alt="logo" class="logo" />
+          <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
+        </router-link>
       </div>
       <div class="toggle-button" @click="hamburgerMenu = !hamburgerMenu">
         <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>

@@ -2,14 +2,16 @@
   <div class="qr-container">
     <img :src="CatenaLogo" alt="logo" class="logo" />
     <p>{{ error }}</p>
-    <p>{{ decodedString }}</p>
-    <!-- <h1>{{ MATERIAL_URL.decodedString }}</h1> -->
     <div class="header-container">
-      <div>back</div>
-      <div>Scan QR code</div>
-      <div @click="torch = !torch">flash</div>
+      <div class="empty-pusher" />
+      <h1 class="top-layer">Scan QR code</h1>
+      <div class="top-layer" @click="torch = !torch">
+        <img :src="Flesh" alt="flesh" />
+      </div>
     </div>
-    <div class="qr-frame"></div>
+    <div class="qr-frame">
+      <img :src="QRFrame" alt="frame" />
+    </div>
     <qrcode-stream
       :torch="torch"
       class="test"
@@ -17,15 +19,27 @@
       @decode="onDecode"
     ></qrcode-stream>
     <div>
-      <input type="text" />
+      <form class="input-form" @submit.prevent="onClick">
+        <input
+          v-model="typedCode"
+          class="input"
+          type="text"
+          placeholder="Type ID"
+        />
+        <button class="submit-btn">
+          <img :src="Search" alt="search" />
+        </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import { QrcodeStream } from "vue3-qrcode-reader";
 import CatenaLogo from "../assets/logo.png";
+import Flesh from "../assets/flesh.svg";
+import QRFrame from "../assets/qrFrame.svg";
+import Search from "../assets/qrSearch.svg";
 export default {
   name: "PassportView",
   components: {
@@ -34,6 +48,9 @@ export default {
   setup() {
     return {
       CatenaLogo,
+      Flesh,
+      Search,
+      QRFrame,
     };
   },
 
@@ -43,6 +60,7 @@ export default {
       decodedString: "",
       torch: false,
       MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
+      typedCode: "",
     };
   },
   async created() {
@@ -75,7 +93,17 @@ export default {
     },
     onDecode(decodedString) {
       this.decodedString = decodedString;
-      window.location.replace(`${this.MATERIAL_URL}/${decodedString}`);
+      console.log("onDecode", decodedString);
+
+      this.$router.push({
+        path: `/${decodedString}`,
+      });
+    },
+
+    onClick() {
+      this.$router.push({
+        path: `/${this.typedCode}`,
+      });
     },
   },
 };
@@ -85,6 +113,7 @@ export default {
 .qr-container {
   position: relative;
 }
+
 .header-container {
   display: flex;
   justify-content: center;
@@ -92,11 +121,16 @@ export default {
   position: absolute;
   width: 100%;
   height: 137px;
-  background-color: #fff;
-  opacity: 0.3;
+  background-color: rgba(255, 255, 255, 0.3);
   z-index: 3;
-  box-shadow: 0 0 10px 0 black;
+  box-shadow: 0 0 10px 0 rgb(81, 81, 81);
 }
+
+.top-layer {
+  z-index: 99;
+  opacity: 1;
+}
+
 .logo {
   position: absolute;
   top: 40px;
@@ -104,14 +138,14 @@ export default {
   height: 49px;
   z-index: 5;
 }
+
 .qr-frame {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
-  border: 6px solid #b3cb2c;
+  width: 400px;
+  height: 400px;
   z-index: 10;
 }
 
@@ -120,6 +154,31 @@ export default {
   backdrop-filter: blur(9px);
 }
 
-.test {
+.input-form {
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.input {
+  position: relative;
+  width: 418px;
+  height: 48px;
+  border: 2px solid #b3cb2c;
+  border-radius: 4px;
+  padding-left: 10px;
+}
+
+.submit-btn {
+  position: absolute;
+  right: 0;
+  height: 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.empty-pusher {
+  width: 48px;
 }
 </style>

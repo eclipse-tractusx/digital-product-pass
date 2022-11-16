@@ -10,15 +10,15 @@ This backend includes the services and *logics* to manage the *passports* of the
 
 For login and log out!
 ```
-\login
-\logout
+\auth\login
+\auth\logout
 ```
 
 For Roles Authenticated API's!
 
 ```
-\oem
-\recycler
+\auth\oem
+\auth\recycler
 ```
 
 ## License

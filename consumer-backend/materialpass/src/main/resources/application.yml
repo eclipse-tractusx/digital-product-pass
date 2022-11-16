@@ -1,6 +1,3 @@
-env:
-  roles: ['Recycler', 'OEM']
-
 keycloak:
   realm: CX-Central
   resource: Cl13-CX-Battery
@@ -27,13 +24,10 @@ keycloak:
           patterns: [ '/oem' ]
 
 spring:
+  application:
+    name: 'Material Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
-
-logging:
-  level:
-    org:
-      springframework: info
 
 server:
   error:
@@ -42,7 +36,4 @@ server:
     include-stacktrace: ON_PARAM
     include-exception: false
   port: 8080
-
-tools:
-  logLevel: 4
 

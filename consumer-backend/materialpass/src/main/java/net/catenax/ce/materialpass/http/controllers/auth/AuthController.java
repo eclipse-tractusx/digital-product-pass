@@ -31,6 +31,7 @@ import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tools.httpTools;
 import tools.jsonTools;
@@ -40,38 +41,45 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
     // [Logic Methods] ----------------------------------------------------------------
     @Autowired
     private Environment env;
+
+    final static String clientIdPath = "keycloak.resource";
+
     private Response loginFromHttpRequest(HttpServletRequest httpRequest){
         Response response = httpTools.getResponse();
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
-        if(roles == null){
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(clientIdPath));
+
+        if(roles == null) {
             response.message = "You have no assigned roles!";
-        }else {
-            response.message = "You are logged with this roles: " + roles.toString();
-            AccessToken accessToken = httpTools.getCurrentUser(httpRequest);
-            if(!httpTools.isInSession(httpRequest, "user")){
-
-                // TODO: Get client credentials from hashiCorpVault
-                KeycloakCredential keycloakCredential = new KeycloakCredential(
-                        new UserCredential(
-                                accessToken.getPreferredUsername(),
-                                accessToken.getSubject(),
-                                ""
-                        )
-                );
-                httpTools.setSessionValue(httpRequest, "keycloakCredential",keycloakCredential);
-            }
-            KeycloakCredential currentKeycloakCredential = (KeycloakCredential) httpTools.getSessionValue(httpRequest, "keycloakCredential");
-            currentKeycloakCredential.setClient_id(accessToken.getIssuedFor());
-
-            response.data = jsonTools.getObjectArray(
-                    currentKeycloakCredential,
-                    accessToken
-            );
+            return response;
         }
+
+        response.message = "You are logged with this roles: " + roles.toString();
+        AccessToken accessToken = httpTools.getCurrentUser(httpRequest);
+        if(!httpTools.isInSession(httpRequest, "user")){
+
+            // TODO: Get client credentials from hashiCorpVault
+            KeycloakCredential keycloakCredential = new KeycloakCredential(
+                    new UserCredential(
+                            accessToken.getPreferredUsername(),
+                            accessToken.getSubject(),
+                            ""
+                    )
+            );
+            httpTools.setSessionValue(httpRequest, "keycloakCredential",keycloakCredential);
+        }
+        KeycloakCredential currentKeycloakCredential = (KeycloakCredential) httpTools.getSessionValue(httpRequest, "keycloakCredential");
+        currentKeycloakCredential.setClient_id(accessToken.getIssuedFor());
+
+        response.data = jsonTools.getObjectArray(
+                currentKeycloakCredential,
+                accessToken
+        );
+
         return response;
 
     }
@@ -126,7 +134,7 @@ public class AuthController {
     @GetMapping("/logout")
     String logout(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws Exception{
         httpRequest.logout();
-        httpResponse.sendRedirect(httpRequest.getContextPath());
+        httpResponse.sendRedirect("/");
         return "Logged out successfully!";
     }
 

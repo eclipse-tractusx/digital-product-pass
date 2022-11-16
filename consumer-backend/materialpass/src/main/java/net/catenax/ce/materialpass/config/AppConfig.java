@@ -34,4 +34,5 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties
 public class AppConfig {
     // Add personalized configuration properties
+
 }

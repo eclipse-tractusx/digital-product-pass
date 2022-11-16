@@ -34,13 +34,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 public final class httpTools {
-    public static Set<String> getCurrentUserRoles(HttpServletRequest request){
+    public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request){
         AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if(user == null) {
             logTools.printError("User is not authenticated!");
             return null;
         }
         return user.getRealmAccess().getRoles(); // Get roles from user
+    }
+    public static Set<String> getCurrentUserClientRoles(HttpServletRequest request, String clientId){
+        AccessToken user = httpTools.getCurrentUser(request); // Get user from request
+        if(user == null) {
+            logTools.printError("User is not authenticated!");
+            return null;
+        }
+        return user.getResourceAccess(clientId).getRoles(); // Get roles from user
     }
     public static AccessToken getCurrentUser(HttpServletRequest request){
         KeycloakSecurityContext session = httpTools.getCurrentUserSession(request); // Get the session from the request

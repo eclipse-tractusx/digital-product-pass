@@ -28,6 +28,8 @@ import net.catenax.ce.materialpass.http.models.KeycloakCredential;
 import net.catenax.ce.materialpass.http.models.Response;
 import net.catenax.ce.materialpass.http.models.UserCredential;
 import org.keycloak.representations.AccessToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tools.httpTools;
@@ -40,10 +42,11 @@ import java.util.Set;
 @RestController
 public class AuthController {
     // [Logic Methods] ----------------------------------------------------------------
-
+    @Autowired
+    private Environment env;
     private Response loginFromHttpRequest(HttpServletRequest httpRequest){
         Response response = httpTools.getResponse();
-        Set<String> roles = httpTools.getCurrentUserRoles(httpRequest);
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
         if(roles == null){
             response.message = "You have no assigned roles!";
         }else {
@@ -102,30 +105,22 @@ public class AuthController {
      */
 
 
-@GetMapping("/recycler")
-    public String index1(HttpServletRequest httpRequest){
-        try {
-            Set<String> roles = httpTools.getCurrentUserRoles(httpRequest);
-            if(roles == null){
-                return "User roles is null!";
-            }
-            return "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
-        }catch (Exception e) {
-            return "[EXCEPTION]: " + e;
-        }
+    @GetMapping("/recycler")
+    public Response index1(HttpServletRequest httpRequest){
+        Response response = httpTools.getResponse();
+
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        response.message = "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
+        return response;
     }
 
     @GetMapping("/oem")
-    public String index2(HttpServletRequest httpRequest){
-        try {
-            Set<String> roles = httpTools.getCurrentUserRoles(httpRequest);
-            if(roles == null){
-                return "User roles is null!";
-            }
-            return "You are logged in as OEM role | " + "This are the received roles " + roles;
-        }catch (Exception e) {
-            return "[EXCEPTION]: " + e;
-        }
+    public Response index2(HttpServletRequest httpRequest){
+        Response response = httpTools.getResponse();
+
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        response.message = "You are logged in as OEM role | " + "This are the received roles " + roles;
+        return response;
     }
 
     @GetMapping("/logout")

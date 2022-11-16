@@ -5,6 +5,9 @@ public class UserCredential {
     private String username;
     private String password;
     private String credentialId;
+
+    private JWTToken jwt = null;
+
     public UserCredential(){
 
     }
@@ -12,6 +15,34 @@ public class UserCredential {
         this.username = username;
         this.password = password;
         this.credentialId = credentialId;
+    }
+
+    public UserCredential(String username, String password, String credentialId, JWTToken jwt) {
+        this.username = username;
+        this.password = password;
+        this.credentialId = credentialId;
+        this.jwt = jwt;
+    }
+
+    public UserCredential(JWTToken jwt){
+        this.jwt = jwt;
+    }
+
+    public JWTToken getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(JWTToken jwt) {
+        this.jwt = jwt;
+    }
+    public void setJWTToken(String accessToken, String refreshToken){
+        this.jwt = new JWTToken(accessToken, refreshToken);
+    }
+    public void cleanJwtToken(){
+        this.jwt = new JWTToken();
+    }
+    public void deleteJwt(){
+        this.jwt = null;
     }
 
     public String getUsername() {
@@ -37,4 +68,5 @@ public class UserCredential {
     public void setCredentialId(String credentialId) {
         this.credentialId = credentialId;
     }
+
 }

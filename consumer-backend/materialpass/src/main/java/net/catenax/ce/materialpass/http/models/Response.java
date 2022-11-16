@@ -4,15 +4,31 @@ import java.util.Map;
 
 public class Response {
 
-    public String message;
-    public Integer status;
-    public String statusText;
+    public String message = null;
+    public Integer status = 200;
+    public String statusText = "Success";
+
+    public Object data = null;
 
     public Response(String message, Integer status, String statusText) {
         this.message = message;
         this.status = status;
         this.statusText = statusText;
     }
+
+    public Response(String message, Integer status, String statusText, Object data) {
+        this.message = message;
+        this.status = status;
+        this.statusText = statusText;
+        this.data = data;
+    }
+
+    public Response(String message, Integer status, Object data) {
+        this.message = message;
+        this.status = status;
+        this.data = data;
+    }
+
 
     public Response() {
     }
@@ -52,4 +68,11 @@ public class Response {
         return "["+this.status+" "+this.statusText+"]: "+this.message;
     }
 
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

@@ -42,7 +42,7 @@ public class KeycloakCredential {
         this.tab_id = httpTools.getParamOrDefault(request, "tab_id", null);
     }
     public String getSession_code() {
-        return session_code;
+        return  session_code;
     }
 
     public void setSession_code(String session_code) {

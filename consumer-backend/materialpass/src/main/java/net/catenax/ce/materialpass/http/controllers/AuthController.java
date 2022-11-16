@@ -1,10 +1,8 @@
 package net.catenax.ce.materialpass.http.controllers;
 
-import net.catenax.ce.materialpass.http.models.KeycloakCredential;
 import net.catenax.ce.materialpass.http.models.Response;
-import net.catenax.ce.materialpass.http.models.UserCredential;
+import org.keycloak.representations.AccessToken;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tools.httpTools;
 
@@ -16,17 +14,11 @@ import java.util.Set;
 public class AuthController {
     // [Logic Methods] ----------------------------------------------------------------
 
-    private Response loginFromHttpRequest(HttpServletRequest httpRequest, UserCredential userCredential){
+    private Response loginFromHttpRequest(HttpServletRequest httpRequest){
         Response response = httpTools.getResponse();
-        KeycloakCredential keycloakCredential = new KeycloakCredential();
-
-        keycloakCredential.mapKeycloakResponse(httpRequest);
-
-        keycloakCredential.setUserCredential(userCredential);
-        httpTools.getParamOrDefault(httpRequest, "session_code", null);
-        if(keycloakCredential.getUserCredential().getUsername() != null){
-
-            response.message = "It works!";
+        AccessToken accessToken = httpTools.getCurrentUser(httpRequest);
+        if (accessToken != null) {
+            response.data = accessToken.toString();
         }
         return response;
 
@@ -93,8 +85,8 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    String login(HttpServletRequest httpRequest, @RequestBody UserCredential userCredential) throws Exception{
-        Response httpResponse = loginFromHttpRequest(httpRequest, userCredential);
+    String login(HttpServletRequest httpRequest) throws Exception{
+        Response httpResponse = loginFromHttpRequest(httpRequest);
         return httpResponse.message;
     }
 

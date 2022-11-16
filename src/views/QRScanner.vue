@@ -93,8 +93,6 @@ export default {
     },
     onDecode(decodedString) {
       this.decodedString = decodedString;
-      console.log("onDecode", decodedString);
-
       this.$router.push({
         path: `/${decodedString}`,
       });

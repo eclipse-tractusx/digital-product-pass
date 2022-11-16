@@ -26,7 +26,7 @@
 export default {
   name: "AttributeField",
   props: {
-    attributesList: { type: [String, Number], default: "" },
+    attributesList: { type: Array, default: () => [] },
     label: { type: [String, Number], default: "" },
   },
 };

@@ -1,0 +1,3 @@
+logLevel: 4
+logDir: "log"
+logBaseFileName: "material-pass.log"

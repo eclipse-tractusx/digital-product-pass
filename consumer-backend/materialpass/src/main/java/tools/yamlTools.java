@@ -24,31 +24,21 @@
 
 package tools;
 
-public final class numericTools {
-    /**
-     * Static Tools to parse numbers if is possible
-     *
-     */
+import org.yaml.snakeyaml.Yaml;
 
-    public static Integer parseInt(String value){
-        try{
-            return Integer.parseInt(value);
-        }catch(Exception e){
-            return null;
-        }
-    }
-    public static Float parseFloat(String value) {
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Map;
+
+public class yamlTools {
+    public static Map<String, Object> readFile(String filePath){
         try {
-            return Float.parseFloat(value);
-        } catch (Exception e) {
-            return null;
+            InputStream inputStream = new FileInputStream(fileTools.newFile(filePath));
+            Yaml yaml = new Yaml();
+            return yaml.load(inputStream);
+        }catch (Exception e){
+            logTools.printException(e, "There was an error in loading the yaml file [" + filePath + "]");
         }
-    }
-    public static Double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (Exception e) {
-            return null;
-        }
+        return null;
     }
 }

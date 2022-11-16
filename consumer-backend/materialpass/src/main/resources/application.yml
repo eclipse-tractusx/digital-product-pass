@@ -10,10 +10,11 @@ keycloak:
   use-resource-role-mappings: true
 
   securityConstraints:
+
     - authRoles: ['Recycler', 'OEM']
       securityCollections:
-        - name: 'Common API'
-          patterns: ['/login', '/logout']
+        - name: 'Common Auth'
+          patterns: [ '/login' ]
 
     - authRoles: 'Recycler'
       securityCollections:
@@ -25,5 +26,23 @@ keycloak:
         - name: 'OEM API'
           patterns: [ '/oem' ]
 
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org:
+      springframework: info
+
 server:
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-stacktrace: ON_PARAM
+    include-exception: false
   port: 8080
+
+tools:
+  logLevel: 4
+

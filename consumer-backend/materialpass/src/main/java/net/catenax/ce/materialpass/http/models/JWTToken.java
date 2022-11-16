@@ -22,33 +22,34 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package tools;
+package net.catenax.ce.materialpass.http.models;
 
-public final class numericTools {
-    /**
-     * Static Tools to parse numbers if is possible
-     *
-     */
+public class JWTToken {
 
-    public static Integer parseInt(String value){
-        try{
-            return Integer.parseInt(value);
-        }catch(Exception e){
-            return null;
-        }
+    String accessToken;
+    String refreshToken;
+    public JWTToken(){
+
     }
-    public static Float parseFloat(String value) {
-        try {
-            return Float.parseFloat(value);
-        } catch (Exception e) {
-            return null;
-        }
+    public JWTToken(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
-    public static Double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (Exception e) {
-            return null;
-        }
+
+    public String getAccessToken() {
+        return accessToken;
     }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }

@@ -22,33 +22,17 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package tools;
+package net.catenax.ce.materialpass.config;
 
-public final class numericTools {
-    /**
-     * Static Tools to parse numbers if is possible
-     *
-     */
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-    public static Integer parseInt(String value){
-        try{
-            return Integer.parseInt(value);
-        }catch(Exception e){
-            return null;
-        }
-    }
-    public static Float parseFloat(String value) {
-        try {
-            return Float.parseFloat(value);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    public static Double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (Exception e) {
-            return null;
-        }
+@Configuration
+public class KeycloakConfig {
+
+    @Bean
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
     }
 }

@@ -34,6 +34,7 @@ export default createStore({
     },
     setPassword(state, newPassword) {
       state.password = newPassword;
+      
     },
     setClientId(state, clientId) {
       let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);

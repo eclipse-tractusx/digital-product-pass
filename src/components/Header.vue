@@ -29,7 +29,7 @@
       </div>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
-          <router-link to="/qr-code-scanner">
+          <router-link to="/">
             <img :src="QRScanner" alt="QRScanner" class="buttons" />
           </router-link>
           <img :src="Settings" alt="settings" class="buttons" />

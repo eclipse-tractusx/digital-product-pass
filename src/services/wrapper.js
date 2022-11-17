@@ -19,7 +19,7 @@ export default class wrapper {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("getContractOfferCatalog -> " + e);
           resolve('rejected');
         });
     });
@@ -50,7 +50,7 @@ export default class wrapper {
       }
     };
 
-        return new Promise(resolve => {
+    return new Promise(resolve => {
 
       axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, requestBody, {
         headers: requestHeaders
@@ -59,7 +59,7 @@ export default class wrapper {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("doContractNegotiation -> " + e);
           resolve('rejected');
         });
     });
@@ -79,7 +79,7 @@ export default class wrapper {
             resolve(response.data);
           })
           .catch((e) => {
-            this.errors.push(e);
+            console.error("getAgreementId -> " + e);
             alert(e);
             resolve('rejected');
           });
@@ -111,7 +111,7 @@ export default class wrapper {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("initiateTransfer -> " + e);
           resolve('rejected');
         });
     });
@@ -129,7 +129,7 @@ export default class wrapper {
             resolve(response.data);
           })
           .catch((e) => {
-            this.errors.push(e);
+            console.error("getTransferProcessById -> " + e);
             resolve('rejected');
           });
       }, 5000);
@@ -151,7 +151,7 @@ export default class wrapper {
             resolve(response.data);
           })
           .catch((e) => {
-            this.errors.push(e);
+            console.error("getDataFromConsumerBackend -> " + e);
             resolve('rejected');
           });
         ;}, 5000);

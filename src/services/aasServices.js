@@ -9,8 +9,9 @@ export default class aasServices {
   }
   getAasShellId(assetIds, requestHeaders) {
     return new Promise((resolve) => {
-      let encodedAssetIds = encodeURIComponent(assetIds);
-      axios.get(`${CX_REGISTRY_URL}/registry/lookup/shells?assetIds=${encodedAssetIds}`,
+      //let encodedAssetIds = encodeURIComponent(assetIds);
+      //console.log(encodedAssetIds);
+      axios.get(`${CX_REGISTRY_URL}/registry/lookup/shells?assetIds=${assetIds}`,
         {
           headers: requestHeaders
         }
@@ -20,7 +21,7 @@ export default class aasServices {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("getAasShellId -> " + e);
           resolve("rejected");
         });
     });
@@ -38,7 +39,7 @@ export default class aasServices {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("getShellDescriptor -> " + e);
           resolve("rejected");
         });
     });
@@ -57,7 +58,7 @@ export default class aasServices {
           resolve(response.data);
         })
         .catch((e) => {
-          this.errors.push(e);
+          console.error("getSubmodelDescriptor ->" + e);
           resolve("rejected");
         });
     });

@@ -43,5 +43,14 @@ public class dateTimeTools {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
+    public static String getFileDateTimeFormatted(String pattern){
+        String defaultPattern = "dd-MM-yyyy_HHmmss";
+        if(pattern == null){
+            pattern = defaultPattern;
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
 
 }

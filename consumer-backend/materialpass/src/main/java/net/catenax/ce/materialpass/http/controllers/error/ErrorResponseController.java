@@ -41,7 +41,7 @@ import java.util.Map;
 
 @Controller
 public class ErrorResponseController implements ErrorController {
-
+    
     @Autowired
     private ErrorAttributes errorAttributes;
 
@@ -56,7 +56,7 @@ public class ErrorResponseController implements ErrorController {
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(servletWebRequest, options);
         Response response = new Response().mapError(errorAttributes);
         String httpInfo = httpTools.getHttpInfo(httpRequest, response.getStatus());
-        logTools.printMessage(httpInfo + " " + response.errorString());
+        logTools.printHTTPMessage(httpInfo + " " + response.errorString());
         return response;
     }
 }

@@ -31,21 +31,28 @@ import org.keycloak.representations.AccessToken;
 import tools.exceptions.ToolException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Set;
 
 public final class httpTools {
     public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request){
         AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if(user == null) {
-            logTools.printError("User is not authenticated!");
             return null;
         }
         return user.getRealmAccess().getRoles(); // Get roles from user
     }
+    public static void redirect(HttpServletResponse httpResponse, String url){
+        try {
+            httpResponse.sendRedirect(url);
+        } catch (IOException e) {
+            throw new ToolException(httpTools.class, "It was not posible to redirect to ["+url+"], " + e.getMessage());
+        }
+    }
     public static Set<String> getCurrentUserClientRoles(HttpServletRequest request, String clientId){
         AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if(user == null) {
-            logTools.printError("User is not authenticated!");
             return null;
         }
         return user.getResourceAccess(clientId).getRoles(); // Get roles from user
@@ -53,7 +60,6 @@ public final class httpTools {
     public static AccessToken getCurrentUser(HttpServletRequest request){
         KeycloakSecurityContext session = httpTools.getCurrentUserSession(request); // Get the session from the request
         if (session == null) {
-            logTools.printError("Session does not exists!");
             return null;
         }
         return session.getToken(); // Return user info
@@ -69,7 +75,6 @@ public final class httpTools {
     public static KeycloakSecurityContext getCurrentUserSession(HttpServletRequest request){
         KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(request); // Get the principal to access the session
         if (principal == null) {
-            logTools.printError("User not authenticated, principal is null!");
             return null;
         }
         return principal.getKeycloakSecurityContext();
@@ -105,7 +110,26 @@ public final class httpTools {
                 "Success"
         );
     }
+    public static Response getResponse(String message){
+        return new Response(
+                message,
+                200,
+                "Success"
+        );
+    }
+    public static Response getResponse(String message, Object data){
+        return new Response(
+                message,
+                200,
+                "Success",
+                data
+        );
+    }
 
+    public static Boolean isAuthenticated(HttpServletRequest httpRequest){
+        KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(httpRequest);
+        return principal != null;
+    }
     public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern){
         String requestParam =  httpRequest.getParameter(param);
         if(requestParam == null) {

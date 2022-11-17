@@ -11,17 +11,21 @@ keycloak:
     - authRoles: ['Recycler', 'OEM']
       securityCollections:
         - name: 'Common Auth'
-          patterns: [ '/login' ]
+          patterns: [
+            '/api',
+            '/api/*',
+            '/auth/login'
+          ]
 
     - authRoles: 'Recycler'
       securityCollections:
         - name: 'Recycler API'
-          patterns: ['/recycler']
+          patterns: ['/auth/recycler']
 
     - authRoles: 'OEM'
       securityCollections:
         - name: 'OEM API'
-          patterns: [ '/oem' ]
+          patterns: [ '/auth/recycler' ]
 
 spring:
   application:

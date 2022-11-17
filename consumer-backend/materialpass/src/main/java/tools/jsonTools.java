@@ -38,7 +38,21 @@ public class jsonTools {
             throw new ToolException(jsonTools.class, "I was not possible to format to JSON! -> [" + e.getMessage() + "]");
         }
     }
-
+    public static String toJsonFile(String path, JSONObject json){
+        try {
+            return fileTools.toFile(path, jsonTools.dumpJson(json, 4), false);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+        }
+    }
+    public static JSONObject fromJsonFile(String path){
+        try {
+            String fileContent = fileTools.readFile(path);
+            return jsonTools.parseJson(fileContent);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+        }
+    }
     public static String dumpJson(JSONObject json, Integer indent){
         try {
             return json.toString(indent);

@@ -35,12 +35,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class BaseInterceptor implements HandlerInterceptor {
+
+
     @Override
     public boolean preHandle(
         HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
         if(!httpRequest.getRequestURI().equals("/error")) {
             String httpInfo = httpTools.getHttpInfo(httpRequest, httpResponse.getStatus());
-            logTools.printMessage(httpInfo);
+            logTools.printHTTPMessage(httpInfo);
         }
         return true;
     }

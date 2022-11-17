@@ -26,28 +26,28 @@ package tools;
 
 import tools.exceptions.ToolException;
 
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.Map;
 
 public class configTools {
 
     private static final String rootPath = System.getProperty("user.dir");
-    private static final String configurationFileName = "toolsConfiguration.yml";
-    private final String relativeConfigurationFilePath = Paths.get("config", configurationFileName).normalize().toString();
+    private static final String configurationFileName = "config/toolsConfiguration.yml";
     private Map<String, Object> configuration;
 
     public configTools(){
-        String configurationFilePath = fileTools.getResourcePath(this.getClass(), relativeConfigurationFilePath);
-        this.configuration = yamlTools.readFile(configurationFilePath);
+        InputStream fileContent  = fileTools.getResourceContent(this.getClass(), configurationFileName);
+        this.configuration = yamlTools.parseYmlStream(fileContent);
     }
     public Map<String, Object> getConfiguration(){
         if (this.configuration == null) {
-            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+relativeConfigurationFilePath+"] not loaded!");
+            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+configurationFileName+"] not loaded!");
         }
         return this.configuration;
     }
     public void loadConfiguration(String configurationFile){
-        this.configuration = yamlTools.readFile(configurationFile);
+        InputStream configurationContent = fileTools.getResourceContent(this.getClass(), configurationFile);
+        this.configuration = yamlTools.parseYmlStream(configurationContent);
     }
     public Object getConfigurationParam(String param){
         if(this.configuration == null){

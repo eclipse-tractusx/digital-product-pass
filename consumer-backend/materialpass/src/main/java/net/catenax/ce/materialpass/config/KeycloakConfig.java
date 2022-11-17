@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 public class KeycloakConfig {
 
     @Bean
-    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
 }

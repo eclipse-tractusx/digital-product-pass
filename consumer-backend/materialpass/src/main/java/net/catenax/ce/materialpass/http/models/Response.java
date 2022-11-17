@@ -31,7 +31,6 @@ public class Response {
     public String message = null;
     public Integer status = 200;
     public String statusText = "Success";
-
     public Object data = null;
 
     public Response(String message, Integer status, String statusText) {
@@ -39,21 +38,17 @@ public class Response {
         this.status = status;
         this.statusText = statusText;
     }
-
     public Response(String message, Integer status, String statusText, Object data) {
         this.message = message;
         this.status = status;
         this.statusText = statusText;
         this.data = data;
     }
-
     public Response(String message, Integer status, Object data) {
         this.message = message;
         this.status = status;
         this.data = data;
     }
-
-
     public Response() {
     }
 

@@ -1,6 +1,8 @@
 <template>
   <div class="qr-container">
-    <img :src="CatenaLogo" alt="logo" class="logo" />
+    <router-link to="/dashboard">
+      <img :src="CatenaLogo" alt="logo" class="logo" />
+    </router-link>
     <p>{{ error }}</p>
     <div class="header-container">
       <div class="empty-pusher" />

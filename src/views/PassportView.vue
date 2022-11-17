@@ -113,8 +113,6 @@ export default {
           providerConnector,
           APIWrapperRequestHeader
         );
-
-        console.log(response);
         return response;
       } else
         alert(

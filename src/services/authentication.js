@@ -1,4 +1,4 @@
-import { REDIRECT_URI, INIT_OPTIONS, SERVER_URL, CLIENT_CREDENTIALS, IDP_URL } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS, CLIENT_CREDENTIALS, IDP_URL } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
 import axios from "axios";
 import store from '../store/index';
@@ -59,17 +59,14 @@ export default class authentication {
       return JSON.parse(window.atob( this.keycloak.token.split(".")[1]));
     }
     getUserName() {
-      return this.decodeAccessToken().preferred_username;
+      return this.decodeAccessToken().name;
     }
     getSessionId() {
       return this.keycloak.sessionId;
     }
     getRole() {
       let clientRoles = '';
-      if (this.getUrl().includes(SERVER_URL))
-        clientRoles = this.decodeAccessToken().companyRole; // prod mode
-      else
-        clientRoles = this.keycloak.resourceAccess[this.getClientId()].roles; // develop mode 
+      clientRoles = this.keycloak.resourceAccess[this.getClientId()].roles;
       return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }
     logout() {
@@ -81,9 +78,6 @@ export default class authentication {
         console.log("--> log: logout error ", error);
       });
 
-    }
-    getUrl() {
-      return window.location.href;
     }
     /***** Technical User Authentication *****/
 

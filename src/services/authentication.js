@@ -25,7 +25,7 @@ export default class authentication {
         
       }).catch((e) => {
         console.log(e);
-        console.log('Login Failure');
+        console.error("keycloakInit -> Login Failure");
       });
     }
     getAccessToken() {
@@ -45,7 +45,7 @@ export default class authentication {
                     + Math.round( this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
         }
       }).catch(() => {
-        console.error('Failed to refresh token');
+        console.error("updateToken -> Failed to refresh token");
       });
     }
 
@@ -114,12 +114,12 @@ export default class authentication {
 
         }).then(response => {
 
-          console.log(response.data);
+          //console.log(response.data);
           resolve(response.data.access_token);
 
         }).catch(error => {
 
-          console.error(error);
+          console.error("getAuthTokenForTechnicalUser -> " + error);
           resolve("rejected");
 
         });

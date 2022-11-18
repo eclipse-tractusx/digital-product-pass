@@ -24,74 +24,134 @@
 
 package tools;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
 
 import java.util.Map;
-
 public final class logTools {
 
     /**
      * Static Tools to print logs with format and current date.
      * Not available at the moment to add files, usage of fileTools.
      */
-
+    @Autowired
+    private TaskExecutor taskExecutor;
     public static final configTools configuration = new configTools();
-    static Logger logger = LoggerFactory.getLogger(logTools.class);
-    private static final Marker INFO = MarkerFactory.getMarker("INFO");
+    public static final String absoluteLogPath = logTools.getLogPath();
+    static Logger logger = LogManager.getLogger(logTools.class);
+    private static final Level INFO = Level.forName("INFO", 400);
+    private static final Level HTTP = Level.forName("HTTP", 450);
+    private static final Level DEBUG = Level.forName("DEBUG", 500);
+    private static final Level EXCEPTION = Level.forName( "EXCEPTION", 100);
+    private static final Level WARNING = Level.forName("WARNING", 300);
+    private static final Level ERROR = Level.forName("ERROR", 200);
 
-    private static final Marker DEBUG = MarkerFactory.getMarker("DEBUG");
-    private static final Marker EXCEPTION = MarkerFactory.getMarker("EXCEPTION");
-    private static final Marker WARNING = MarkerFactory.getMarker("WARNING");
-    private static final Marker ERROR = MarkerFactory.getMarker("ERROR");
-
-    private static final Map<Marker, Integer> LOGLEVELS = Map.of(
+    private static final Map<Level, Integer> LOGLEVELS = Map.of(
                     ERROR, 1,
                     EXCEPTION,2,
                     WARNING, 3,
-                    INFO, 4,
-                    DEBUG, 5
+                    HTTP, 4,
+                    INFO, 5,
+                    DEBUG, 6
             );
 
 
-    private static boolean checkLogLevel(Marker logLevel){
+    private static String getLogPath(){
+        return fileTools.normalizePath(fileTools.getWorkdirPath() + "/"+
+                configuration.getConfigurationParam("logDir") +
+                "/" +
+                dateTimeTools.getFileDateTimeFormatted(null) +
+                "_" +
+                configuration.getConfigurationParam("logBaseFileName"));
+    }
+
+    private static boolean checkLogLevel(Level logLevel){
         Integer currentLevel = (Integer) configuration.getConfigurationParam("logLevel");
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
     public static void printMessage(String strMessage){
-        Marker logLevel = INFO;
+        Level logLevel = INFO;
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message = dateTimeTools.getDateTimeFormatted(null) + " " + strMessage;
-        logger.info(logLevel, message);
+        logTools.printLog(logLevel, strMessage);
+    }
+    public static void printHTTPMessage(String strMessage){
+        Level logLevel = HTTP;
+        if(!logTools.checkLogLevel(logLevel)){
+            return;
+        }
+        logTools.printLog(logLevel, strMessage);
     }
     public static void printException(Exception e, String strMessage){
-        Marker logLevel = EXCEPTION;
+        Level logLevel = EXCEPTION;
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message = dateTimeTools.getDateTimeFormatted(null) + " ["+e.getMessage()+"] "+strMessage;
-        logger.trace(logLevel, message, e);
+        String message = " ["+e.getMessage()+"] "+strMessage;
+        logTools.printLog(logLevel, message);
     }
-
     public static void printError(String strMessage){
-        Marker logLevel = ERROR;
+        Level logLevel = ERROR;
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message = dateTimeTools.getDateTimeFormatted(null) + " " + strMessage;
-        logger.error(logLevel, message);
+        logTools.printLog(logLevel, strMessage);
     }
     public static void printWarning(String strMessage){
-        Marker logLevel = WARNING;
+        Level logLevel = WARNING;
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
-        String message= dateTimeTools.getDateTimeFormatted(null) + " " + strMessage;
-        logger.warn(logLevel,message);
+        logTools.printLog(logLevel, strMessage);
+    }
+    public static void printDebug(String strMessage){
+        Level logLevel = DEBUG;
+        if(!logTools.checkLogLevel(logLevel)){
+            return;
+        }
+        logTools.printLog(logLevel, strMessage);
+    }
+
+    public static void printLog(Level logLevel, String strMessage){
+        String date = dateTimeTools.getDateTimeFormatted(null);
+        Long pid = systemTools.getPid();
+        String memoryUsage = systemTools.getUsedHeapMemory();
+        String message = date +"|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
+        threadTools.runThread(new LogPrinter(logLevel, message));
+        threadTools.runThread(new LogWritter(message));
+    }
+
+    private static class LogPrinter implements Runnable {
+
+        private String message;
+        private Level logLevel;
+
+        public LogPrinter(Level logLevel, String strMessage) {
+            this.logLevel = logLevel;
+            this.message = strMessage;
+        }
+        public void run() {
+            logger.log(this.logLevel,this.message);
+        }
+    }
+    private static class LogWritter implements Runnable {
+
+        private String logMessage;
+        public LogWritter(String message) {
+            this.logMessage = message + "\n";
+        }
+        public void run() {
+           try {
+               fileTools.toFile(absoluteLogPath, logMessage, true);
+           }catch (Exception e){
+               logger.log(EXCEPTION, "It was not possible to write log message to file "+ absoluteLogPath, e);
+           }
+        }
+
     }
 }

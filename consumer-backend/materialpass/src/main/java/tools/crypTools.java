@@ -1,5 +1,8 @@
 package tools;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class crypTools {
@@ -16,5 +19,11 @@ public class crypTools {
         return new String(Base64.getUrlDecoder().decode(base64));
     }
 
+    public static String decodeURL(String encodedURL){
+        return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8);
+    }
+    public static String encodeURL(String decodedURL){
+        return URLEncoder.encode(decodedURL, StandardCharsets.UTF_8);
+    }
 
 }

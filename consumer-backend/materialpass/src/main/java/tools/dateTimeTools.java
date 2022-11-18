@@ -35,7 +35,16 @@ public class dateTimeTools {
      */
 
     public static String getDateTimeFormatted(String pattern){
-        String defaultPattern = "dd/MM/yyyy HH:mm:ss";
+        String defaultPattern = "dd/MM/yyyy HH:mm:ss.SSS";
+        if(pattern == null){
+            pattern = defaultPattern;
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+    public static String getFileDateTimeFormatted(String pattern){
+        String defaultPattern = "dd-MM-yyyy_HHmmss";
         if(pattern == null){
             pattern = defaultPattern;
         }

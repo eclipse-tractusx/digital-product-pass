@@ -22,13 +22,13 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package net.catenax.ce.materialpass.http.models;
+package net.catenax.ce.materialpass.models;
 
 import tools.httpTools;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class KeycloakCredential {
+public class Credential {
     private String session_code;
     private String execution;
     private String client_id;
@@ -37,27 +37,27 @@ public class KeycloakCredential {
     private String tab_id;
     private UserCredential userCredential;
 
-    public KeycloakCredential(){
+    public Credential(){
 
     }
-    public KeycloakCredential(UserCredential userCredential){
+    public Credential(UserCredential userCredential){
         this.userCredential = userCredential;
     }
-    public KeycloakCredential(String session_code, String execution, String client_id, String client_secret, String tab_id, String username, String password, String credentialId ) {
+    public Credential(String session_code, String execution, String client_id, String client_secret, String tab_id, String username, String password, String credentialId ) {
         this.session_code = session_code;
         this.execution = execution;
         this.client_id = client_id;
         this.tab_id = tab_id;
         this.userCredential = new UserCredential(username, password, credentialId);
     }
-    public KeycloakCredential(String session_code, String execution, String client_id, String tab_id, UserCredential UserCredential) {
+    public Credential(String session_code, String execution, String client_id, String tab_id, UserCredential UserCredential) {
         this.session_code = session_code;
         this.execution = execution;
         this.client_id = client_id;
         this.tab_id = tab_id;
         this.userCredential = new UserCredential();
     }
-    public KeycloakCredential(String session_code, String execution, String client_id, String tab_id) {
+    public Credential(String session_code, String execution, String client_id, String tab_id) {
         this.session_code = session_code;
         this.execution = execution;
         this.client_id = client_id;

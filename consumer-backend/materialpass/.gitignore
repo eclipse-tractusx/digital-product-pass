@@ -36,3 +36,9 @@ build/
 ### Local Logging Backend ###
 log
 *.log
+
+### Local Data Files Backend ###
+data
+
+### Local Temporal Files Backend ###
+tmp

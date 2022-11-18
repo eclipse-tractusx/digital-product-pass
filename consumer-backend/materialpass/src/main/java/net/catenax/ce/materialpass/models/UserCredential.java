@@ -22,7 +22,7 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package net.catenax.ce.materialpass.http.models;
+package net.catenax.ce.materialpass.models;
 
 public class UserCredential {
 
@@ -30,7 +30,7 @@ public class UserCredential {
     private String password;
     private String credentialId;
 
-    private JWTToken jwt = null;
+    private JwtToken jwt = null;
 
     public UserCredential(){
 
@@ -41,29 +41,29 @@ public class UserCredential {
         this.credentialId = credentialId;
     }
 
-    public UserCredential(String username, String password, String credentialId, JWTToken jwt) {
+    public UserCredential(String username, String password, String credentialId, JwtToken jwt) {
         this.username = username;
         this.password = password;
         this.credentialId = credentialId;
         this.jwt = jwt;
     }
 
-    public UserCredential(JWTToken jwt){
+    public UserCredential(JwtToken jwt){
         this.jwt = jwt;
     }
 
-    public JWTToken getJwt() {
+    public JwtToken getJwt() {
         return jwt;
     }
 
-    public void setJwt(JWTToken jwt) {
+    public void setJwt(JwtToken jwt) {
         this.jwt = jwt;
     }
-    public void setJWTToken(String accessToken, String refreshToken){
-        this.jwt = new JWTToken(accessToken, refreshToken);
+    public void setJwtToken(String accessToken, String refreshToken){
+        this.jwt = new JwtToken(accessToken, refreshToken);
     }
     public void cleanJwtToken(){
-        this.jwt = new JWTToken();
+        this.jwt = new JwtToken();
     }
     public void deleteJwt(){
         this.jwt = null;

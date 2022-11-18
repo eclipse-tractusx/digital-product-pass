@@ -26,22 +26,18 @@ package tools;
 
 import tools.exceptions.ToolException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URLDecoder;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
 public final class fileTools {
 
-    /**
-     * Static Tools to manage files, and store in logs the logTools
-     *
-     */
-    public static void toFile(String filePath, String content, Boolean append){
+    public static String toFile(String filePath, String content, Boolean append){
         try {
+            fileTools.createFile(filePath);
             FileWriter fw = new FileWriter(filePath,append);
             fw.write(content);
             fw.close();
@@ -50,6 +46,7 @@ public final class fileTools {
         {
             logTools.printException(ioe, "It was not possible to create file ["+filePath+"]");
         }
+        return filePath;
     }
     public static File newFile(String filePath){
         return new File(filePath);
@@ -63,20 +60,138 @@ public final class fileTools {
         return fileTools.normalizePath(selectedClass.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
 
-    public static String getResourcePath(Class selectedClass, String resourcePath){
+    public static String createFile(String filePath){
         try {
-            String uri = selectedClass.getClassLoader().getResource(resourcePath).getPath();
-            String path = URLDecoder.decode(uri, StandardCharsets.UTF_8);
-            if (path != null) {
-                return fileTools.normalizePath(path);
+            File myObj = new File(filePath);
+            myObj.getParentFile().mkdirs();
+            if (myObj.createNewFile()) {
+               logTools.printMessage("File created in path [" + filePath + "]");
             }
-        }catch (Exception e) {
-            throw new ToolException(fileTools.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "]");
+            return myObj.getPath();
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class,"It was not possible to create new file at ["+filePath+"], " + e.getMessage()) ;
+        }
+    }
+    public static String getResourceAsString(InputStream fileContent){
+        InputStreamReader fileContentReader =  new InputStreamReader(
+                fileContent,
+                StandardCharsets.UTF_8);
+        StringBuilder text = new StringBuilder();
+        try (Reader reader = new BufferedReader(
+                fileContentReader)) {
+
+            int c;
+            while ((c = reader.read()) >= 0) {
+                text.append(c);
+            }
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class,"It was not possible to read resource, " + e.getMessage()) ;
         }
 
-        throw new ToolException(fileTools.class,"[ERROR] File not found in class path [" + resourcePath + "]");
+        return text.toString();
     }
 
+    public static InputStream getResourceContent(Class selectedClass, String resourcePath){
+        try {
+            return selectedClass.getClassLoader().getResourceAsStream(resourcePath);
+        }catch (Exception e) {
+            throw new ToolException(fileTools.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "], " + e.getMessage());
+        }
+    }
+    public static String getResourcePath(Class selectedClass, String resourcePath){
+        try {
+            return fileTools.normalizePath(selectedClass.getClassLoader().getResource(resourcePath).getPath());
+        }catch (Exception e) {
+            throw new ToolException(fileTools.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "], " + e.getMessage());
+        }
+    }
+
+    public static String createDataDir(String name){
+        String workDir = fileTools.getWorkdirPath();
+        String path = Paths.get(workDir ,"data" , name).toAbsolutePath().toString();
+        return fileTools.createDir(path);
+    }
+    public static String createTmpDir(String name){
+        String workDir = fileTools.getWorkdirPath();
+        String path = Paths.get(workDir ,"tmp" , name).toAbsolutePath().toString();
+        return fileTools.createDir(path);
+    }
+
+    public static String getTmpDir(String dirName){
+        try {
+            return Files.createTempDirectory(dirName).toFile().getAbsolutePath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String createDir(String dirPath){
+        try {
+            return Files.createDirectories(Path.of(dirPath)).toAbsolutePath().toString();
+        } catch (IOException e) {
+            throw new ToolException(fileTools.class, "It was not possible to create dir [" + dirPath + "]");
+        }
+    }
+    public static String readFile(String path){
+
+            try {
+                if(!fileTools.pathExists(path)) {
+                    logTools.printError("It was not possible to read file [" + path + "]!");
+                    return null;
+                }
+                return new String(Files.readAllBytes(Paths.get(path)));
+            } catch (Exception e) {
+                throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+            }
+
+    }
+    public static String readFile(Path path){
+
+        try {
+            if(!fileTools.pathExists(path)) {
+                logTools.printError("It was not possible to read file [" + path + "]!");
+                return null;
+            }
+            return new String(Files.readAllBytes(path));
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+        }
+
+    }
+    public static String createDir(Path dirPath){
+        try {
+            return Files.createDirectories(dirPath).toAbsolutePath().toString();
+        } catch (IOException e) {
+            throw new ToolException(fileTools.class, "It was not possible to create dir [" + dirPath + "]");
+        }
+    }
+    public static String createSubDir(String dirPath, String subDirName){
+        try {
+            if(!fileTools.pathExists(dirPath)){
+                throw new ToolException(fileTools.class, "Path " + dirPath + " does not exist! Can't create subdir: " + subDirName);
+            }
+            return Files.createDirectories(Path.of(dirPath)).toAbsolutePath().toString();
+        } catch (IOException e) {
+            throw new ToolException(fileTools.class, "It was not possible to create subdir [" + subDirName + "] in [" + dirPath + "]");
+        }
+    }
+    public static String getTmpFile(String fileName, String extension){
+        try {
+            return Files.createTempFile(fileName, extension).getFileName().toAbsolutePath().toString();
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class, "Could not create temporary file ["+fileName+"."+extension+"]! "+ e.getMessage());
+        }
+    }
+
+    public static Boolean pathExists(String path){
+        return Files.exists(Path.of(path));
+    }
+    public static Boolean fileExists(File file){
+        return file.exists();
+    }
+    public static Boolean pathExists(Path path){
+        return Files.exists(path);
+    }
     public static String normalizePath(String path) {
         try {
             return new File(path).getCanonicalPath();
@@ -85,9 +200,9 @@ public final class fileTools {
         }
     }
     public static String getClassFile(Class selectedClass){
-        return selectedClass.getName().replace(".", File.pathSeparator) + ".java";
+        return selectedClass.getName().replace(".", "/") + ".java";
     }
     public static String getClassPackageDir(Class selectedClass){
-        return selectedClass.getPackageName().replace(".", File.pathSeparator);
+        return selectedClass.getPackageName().replace(".", "/");
     }
 }

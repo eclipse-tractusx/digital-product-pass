@@ -24,7 +24,7 @@
 
 package net.catenax.ce.materialpass.http.controllers.error;
 
-import net.catenax.ce.materialpass.http.models.Response;
+import net.catenax.ce.materialpass.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;

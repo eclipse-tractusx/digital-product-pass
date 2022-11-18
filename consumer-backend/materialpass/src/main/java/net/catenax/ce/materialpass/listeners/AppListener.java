@@ -1,10 +1,7 @@
 package net.catenax.ce.materialpass.listeners;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 import tools.logTools;
 
@@ -25,13 +22,6 @@ public class AppListener {
         System.out.print(serverStartUpMessage);
         logTools.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         logTools.printMessage("Creating log file...");
-
-
-
-    }
-    @Bean
-    public TaskExecutor taskExecutor() {
-        return new SimpleAsyncTaskExecutor(); // Or use another one of your liking
     }
 
 }

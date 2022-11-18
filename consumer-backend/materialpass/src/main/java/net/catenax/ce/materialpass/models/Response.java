@@ -22,7 +22,7 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package net.catenax.ce.materialpass.http.models;
+package net.catenax.ce.materialpass.models;
 
 import java.util.Map;
 

@@ -35,7 +35,7 @@ public class dateTimeTools {
      */
 
     public static String getDateTimeFormatted(String pattern){
-        String defaultPattern = "dd/MM/yyyy HH:mm:ss";
+        String defaultPattern = "dd/MM/yyyy HH:mm:ss.SSS";
         if(pattern == null){
             pattern = defaultPattern;
         }

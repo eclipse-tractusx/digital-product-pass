@@ -22,16 +22,16 @@
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
 
-package net.catenax.ce.materialpass.http.models;
+package net.catenax.ce.materialpass.models;
 
-public class JWTToken {
+public class JwtToken {
 
     String accessToken;
     String refreshToken;
-    public JWTToken(){
+    public JwtToken(){
 
     }
-    public JWTToken(String accessToken, String refreshToken) {
+    public JwtToken(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }

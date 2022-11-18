@@ -119,9 +119,11 @@ public final class logTools {
 
     public static void printLog(Level logLevel, String strMessage){
         String date = dateTimeTools.getDateTimeFormatted(null);
-        String message = date + " " + strMessage;
+        Long pid = systemTools.getPid();
+        String memoryUsage = systemTools.getUsedHeapMemory();
+        String message = date +"|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
         threadTools.runThread(new LogPrinter(logLevel, message));
-        threadTools.runThread(new LogWritter(date, logLevel, strMessage));
+        threadTools.runThread(new LogWritter(message));
     }
 
     private static class LogPrinter implements Runnable {
@@ -140,8 +142,8 @@ public final class logTools {
     private static class LogWritter implements Runnable {
 
         private String logMessage;
-        public LogWritter(String date, Level logLevel, String strMessage) {
-            this.logMessage = date +" [" + logLevel.name()+"] " + strMessage + "\n";
+        public LogWritter(String message) {
+            this.logMessage = message + "\n";
         }
         public void run() {
            try {

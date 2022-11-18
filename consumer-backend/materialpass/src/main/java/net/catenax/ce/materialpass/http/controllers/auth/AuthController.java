@@ -24,9 +24,9 @@
 
 package net.catenax.ce.materialpass.http.controllers.auth;
 
-import net.catenax.ce.materialpass.http.models.KeycloakCredential;
-import net.catenax.ce.materialpass.http.models.Response;
-import net.catenax.ce.materialpass.http.models.UserCredential;
+import net.catenax.ce.materialpass.models.Credential;
+import net.catenax.ce.materialpass.models.Response;
+import net.catenax.ce.materialpass.models.UserCredential;
 import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -65,20 +65,20 @@ public class AuthController {
         if(!httpTools.isInSession(this.httpRequest, "user")){
 
             // TODO: Get client credentials from hashiCorpVault
-            KeycloakCredential keycloakCredential = new KeycloakCredential(
+            Credential Credential = new Credential(
                     new UserCredential(
                             accessToken.getPreferredUsername(),
                             accessToken.getSubject(),
                             ""
                     )
             );
-            httpTools.setSessionValue(this.httpRequest, "keycloakCredential",keycloakCredential);
+            httpTools.setSessionValue(this.httpRequest, "Credential",Credential);
         }
-        KeycloakCredential currentKeycloakCredential = (KeycloakCredential) httpTools.getSessionValue(this.httpRequest, "keycloakCredential");
-        currentKeycloakCredential.setClient_id(accessToken.getIssuedFor());
+        Credential currentCredential = (Credential) httpTools.getSessionValue(this.httpRequest, "Credential");
+        currentCredential.setClient_id(accessToken.getIssuedFor());
 
         response.data = jsonTools.getObjectArray(
-                currentKeycloakCredential,
+                currentCredential,
                 accessToken
         );
 

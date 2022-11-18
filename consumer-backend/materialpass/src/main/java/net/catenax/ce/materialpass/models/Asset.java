@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.managers.models;
+package net.catenax.ce.materialpass.models;
 
 public class Asset {
     public String id;

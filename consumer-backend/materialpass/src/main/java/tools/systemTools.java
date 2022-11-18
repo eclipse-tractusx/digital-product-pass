@@ -12,6 +12,13 @@ public class systemTools {
     public static Long getTotalMemory(){
         return Runtime.getRuntime().totalMemory();
     }
+    public static Long getPid(){
+        return ProcessHandle.current().pid();
+    }
+    public static Long getFreeMemory(){
+        return Runtime.getRuntime().freeMemory();
+    }
+
     public static String getCommitedMemory(){
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
         return String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getCommitted()/1073741824);
@@ -29,22 +36,9 @@ public class systemTools {
         return String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getMax()/1073741824);
     }
 
-    public static Long getPid(){
-        return ProcessHandle.current().pid();
-    }
-    public static Long getFreeMemory(){
-        return Runtime.getRuntime().freeMemory();
-    }
-
     public Long getDiskUsage(){
         String path = fileTools.getWorkdirPath();
         File diskPartition = new File(path);
-        return diskPartition.getTotalSpace() - diskPartition.getFreeSpace();
-    }
-    public Long getCPUUsage(){
-        String path = fileTools.getWorkdirPath();
-        File diskPartition = new File(path);
-
         return diskPartition.getTotalSpace() - diskPartition.getFreeSpace();
     }
 }

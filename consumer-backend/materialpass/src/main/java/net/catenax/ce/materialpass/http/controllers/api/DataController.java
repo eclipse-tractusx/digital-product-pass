@@ -1,9 +1,12 @@
 package net.catenax.ce.materialpass.http.controllers.api;
 
-import net.catenax.ce.materialpass.models.Response;
 import net.catenax.ce.materialpass.managers.AssetManager;
+import net.catenax.ce.materialpass.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import tools.httpTools;
 import tools.jsonTools;
 
@@ -11,21 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/api")
-public class ApiController {
+@RequestMapping("/api/data")
+public class DataController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
 
-    @RequestMapping(value = "/assets/{id}", method = {RequestMethod.GET})
-    public Response getAsset(@PathVariable("id") String assetId) {
-        Response response = httpTools.getResponse("Asset ["+assetId+"] received");
-        if(!httpTools.isInSession(httpRequest, "AssetManager")){
-            httpTools.setSessionValue(httpRequest, "AssetManager", new AssetManager());
-        }
-        return response;
-    }
-    @RequestMapping(value = "/assets", method = {RequestMethod.GET})
-    public Response getAssets() {
+    @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
+    public Response getAssets(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         if(!httpTools.isInSession(httpRequest, "AssetManager")){
             httpTools.setSessionValue(httpRequest, "AssetManager", new AssetManager());
@@ -35,5 +30,4 @@ public class ApiController {
 
         return response;
     }
-
 }

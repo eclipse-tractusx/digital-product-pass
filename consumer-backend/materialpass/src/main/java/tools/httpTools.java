@@ -28,14 +28,19 @@ import net.catenax.ce.materialpass.models.Response;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.AccessToken;
+import org.springframework.web.client.RestTemplate;
 import tools.exceptions.ToolException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 public final class httpTools {
+
+    private static final configTools configurations = new configTools();
+
     public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request){
         AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if(user == null) {
@@ -47,7 +52,7 @@ public final class httpTools {
         try {
             httpResponse.sendRedirect(url);
         } catch (IOException e) {
-            throw new ToolException(httpTools.class, "It was not posible to redirect to ["+url+"], " + e.getMessage());
+            throw new ToolException(httpTools.class, e, "It was not posible to redirect to ["+url+"]");
         }
     }
     public static Set<String> getCurrentUserClientRoles(HttpServletRequest request, String clientId){
@@ -95,7 +100,7 @@ public final class httpTools {
                 return true;
             }
         }catch(Exception e){
-            throw new ToolException(httpTools.class, "Something went wrong and session key [" + key + "] was not found! " + e.getMessage());
+            throw new ToolException(httpTools.class, e, "Something went wrong and session key [" + key + "] was not found! ");
         }
         return false;
     }
@@ -137,4 +142,110 @@ public final class httpTools {
         }
         return requestParam;
     }
+
+    public static Object doGet(RestTemplate restTemplate, String url, Class responseType, Map<String, ?> params, Boolean retry) {
+        try {
+            Object response = restTemplate.getForObject(url, responseType, params);
+            if(!retry && response != null) {
+                return response;
+            }
+            int i = 0;
+            Integer maxRetries  = (Integer) configurations.getConfigurationParam("maxRetries");
+            if(maxRetries == null) {
+                throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+            }
+
+            while(response == null && i < maxRetries) {
+                response = restTemplate.getForObject(url, responseType, params);
+                logTools.printDebug("["+i+"] Retrying GET request to " + url);
+                i++;
+            }
+
+            if(response != null){
+                return response;
+            }
+        } catch (Exception e) {
+            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+        }
+        throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+    }
+    public static Object doGet(RestTemplate restTemplate, String url, Class responseType, Boolean retry) {
+        try {
+            Object response = restTemplate.getForObject(url, responseType);
+            if(!retry && response != null) {
+                return response;
+            }
+            int i = 0;
+            Integer maxRetries  = (Integer) configurations.getConfigurationParam("maxRetries");
+            if(maxRetries == null) {
+                throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+            }
+
+            while(response == null && i < maxRetries) {
+                response = restTemplate.getForObject(url, responseType);
+                logTools.printDebug("["+i+"] Retrying GET request to " + url);
+                i++;
+            }
+
+            if(response != null){
+                return response;
+            }
+        } catch (Exception e) {
+            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+        }
+        throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+    }
+    public static Object doPost(RestTemplate restTemplate, String url, Object body, Class responseType,Map<String, ?> params, Boolean retry) {
+        try {
+            Object response = restTemplate.postForObject(url, body, responseType, params);
+            if(!retry && response != null) {
+                return response;
+            }
+            int i = 0;
+            Integer maxRetries  = (Integer) configurations.getConfigurationParam("maxRetries");
+            if(maxRetries == null) {
+                throw new ToolException(httpTools.class, "It was not possible to do POST request to " + url);
+            }
+
+            while(response == null && i < maxRetries) {
+                response = restTemplate.postForObject(url, body, responseType, params);
+                logTools.printDebug("["+i+"] Retrying POST request to " + url);
+                i++;
+            }
+
+            if(response != null){
+                return response;
+            }
+        } catch (Exception e) {
+            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+        }
+        throw new ToolException(httpTools.class, "It was not possible to do POST request to " + url);
+    }
+    public static Object doPost(RestTemplate restTemplate, String url, Object body, Class responseType, Boolean retry) {
+        try {
+            Object response = restTemplate.postForObject(url, body, responseType);
+            if(!retry && response != null) {
+                return response;
+            }
+            int i = 0;
+            Integer maxRetries  = (Integer) configurations.getConfigurationParam("maxRetries");
+            if(maxRetries == null) {
+                throw new ToolException(httpTools.class, "It was not possible to do POST request to " + url);
+            }
+
+            while(response == null && i < maxRetries) {
+                response = restTemplate.postForObject(url, body, responseType);
+                logTools.printDebug("["+i+"] Retrying POST request to " + url);
+                i++;
+            }
+
+            if(response != null){
+                return response;
+            }
+        } catch (Exception e) {
+            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+        }
+        throw new ToolException(httpTools.class, "It was not possible to do POST request to " + url);
+    }
+
 }

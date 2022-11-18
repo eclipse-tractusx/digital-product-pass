@@ -56,4 +56,10 @@ public abstract class Manager {
         }
         return jsonTools.fromJsonFile(this.dataModelPath);
     }
+    public String saveDataModel(){
+        this.dataModelPath = this.buildDataModelPath();
+        return jsonTools.toJsonFile(this.dataModelPath, this.dataModel);
+    }
+
+
 }

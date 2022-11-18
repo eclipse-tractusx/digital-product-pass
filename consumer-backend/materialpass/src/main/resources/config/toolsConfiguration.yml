@@ -1,3 +1,4 @@
-logLevel: 5
+logLevel: 6
 logDir: "log"
 logBaseFileName: "material-pass.log"
+maxRetries: 3

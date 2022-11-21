@@ -5,10 +5,8 @@ import tools.reflectionTools;
 
 public class AssetManager extends Manager{
     public AssetManager(){
-        super(reflectionTools.getCurrentClassName(AssetManager.class));
         this.dataModelName = "assetDataModel";
-        this.dataModelPath = this.buildDataModelPath();
-        this.dataModel = this.loadDataModel();
+        setManager(reflectionTools.getCurrentClassName(this.getClass()));
         logTools.printMessage("[DEBUG] Assets DataModel created! : ["+this.dataModelPath +"]");
     }
 

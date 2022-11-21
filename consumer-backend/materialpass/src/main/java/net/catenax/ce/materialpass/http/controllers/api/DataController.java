@@ -20,7 +20,7 @@ public class DataController {
     private @Autowired HttpServletResponse httpResponse;
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
-    public Response getAssets(@RequestParam(value="providerUrl") String providerUrl) {
+    public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         if(!httpTools.isInSession(httpRequest, "AssetManager")){
             httpTools.setSessionValue(httpRequest, "AssetManager", new AssetManager());

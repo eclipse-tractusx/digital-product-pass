@@ -73,6 +73,7 @@ public final class logTools {
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
+
     public static void printMessage(String strMessage){
         Level logLevel = INFO;
         if(!logTools.checkLogLevel(logLevel)){

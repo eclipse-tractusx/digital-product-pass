@@ -1,5 +1,6 @@
 package net.catenax.ce.materialpass.managers;
 
+import net.catenax.ce.materialpass.models.DataModel;
 import org.json.JSONObject;
 import tools.fileTools;
 import tools.jsonTools;
@@ -11,15 +12,15 @@ public abstract class Manager {
     protected String dataDir;
     protected String tmpDir;
 
-    public JSONObject dataModel;
+    public DataModel dataModel;
     protected String dataModelPath;
 
-    public Manager(String className){
-        this.dataDir = fileTools.createDataDir(className);
-        this.tmpDir = fileTools.createTmpDir(className);
+    public void setManager(String className){
+            this.dataDir = fileTools.createDataDir(className);
+            this.tmpDir = fileTools.createTmpDir(className);
     }
 
-    public JSONObject getDataModel() {
+    public DataModel getDataModel() {
         return dataModel;
     }
 
@@ -49,12 +50,12 @@ public abstract class Manager {
     public String buildDataModelPath(){
         return Paths.get(this.dataDir,this.dataModelName + ".json").toAbsolutePath().toString();
     }
-    public JSONObject loadDataModel(){
+    public DataModel loadDataModel(){
         this.dataModelPath = this.buildDataModelPath();
         if(!fileTools.pathExists(this.dataModelPath)){
             jsonTools.toJsonFile(this.dataModelPath, new JSONObject());
         }
-        return jsonTools.fromJsonFile(this.dataModelPath);
+        return (DataModel) jsonTools.fromJsonFile(this.dataModelPath);
     }
     public String saveDataModel(){
         this.dataModelPath = this.buildDataModelPath();

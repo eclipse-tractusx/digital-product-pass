@@ -1,9 +1,9 @@
-Configutation:
+Configuration:
   name: Default
   Properties:
     Property:
       name: log-path
-      value: "log"
+      value: "logs"
   Appenders:
     Console:
       name: Console_Appender
@@ -34,7 +34,7 @@ Configutation:
       AppenderRef:
         - ref: Console_Appender
     Logger:
-      - name: net.catenax.ce.materialpass
+      - name: tools
         additivity: false
         level: info
         AppenderRef:

@@ -1,7 +1,9 @@
 package net.catenax.ce.materialpass.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class Asset {
-    public String id;
-    public String timestamp;
-    public String manufacturer;
+    String id;
+    String createdAt;
+    JsonNode properties;;
 }

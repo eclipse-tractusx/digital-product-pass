@@ -45,6 +45,7 @@ import { API_KEY } from "@/services/service.const";
 import apiWrapper from "@/services/wrapper";
 import AAS from "@/services/aasServices";
 import { inject } from "vue";
+import Passports from "../assets/MOCK/passports.json";
 
 export default {
   name: "PassportView",
@@ -58,6 +59,7 @@ export default {
     Documents,
     Footer,
     Spinner,
+    Passports,
   },
 
   data() {
@@ -70,24 +72,26 @@ export default {
     };
   },
   async created() {
-
     //this.loading = false;
     //let assetIds = this.$route.params.assetIds;
-    this.data = await this.getPassport(this.passId);
+    //this.data = await this.getPassport(this.passId);
     this.loading = false;
+    this.data = Passports[this.passId];
   },
   methods: {
     async getPassport(assetId) {
-      
-      let assetIdJson = [{"key": "Battery_ID_DMC_Code", "value": assetId }];
+      let assetIdJson = [{ key: "Battery_ID_DMC_Code", value: assetId }];
       let aas = new AAS();
       let wrapper = new apiWrapper();
       let accessToken = await this.auth.getAuthTokenForTechnicalUser();
       let AASRequestHeader = {
         Authorization: "Bearer " + accessToken,
       };
-      
-      const shellId = await aas.getAasShellId(JSON.stringify(assetIdJson), AASRequestHeader);
+
+      const shellId = await aas.getAasShellId(
+        JSON.stringify(assetIdJson),
+        AASRequestHeader
+      );
       const shellDescriptor = await aas.getShellDescriptor(
         shellId[0],
         AASRequestHeader

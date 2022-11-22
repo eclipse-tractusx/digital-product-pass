@@ -71,9 +71,27 @@
           }}
         </h1>
       </div>
-      <div class="code-container">
+      <div v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'X123456789012X12345678901234566'" class="code-container">
         <img
-          :src="QrCode"
+          :src="X123456789012X12345678901234566"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
+      </div>
+      <div v-else-if="batteryId.batteryIdentification.batteryIDDMCCode == 'NCR186850B'" class="code-container">
+        <img
+          :src="NCR186850B"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
+      </div>
+      <div v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'IMR18650V1'" class="code-container">
+        <img
+          :src="IMR18650V1"
           alt="profile"
           class="code"
           width="170"
@@ -92,6 +110,11 @@ import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import QRScanner from "../assets/qr-icon.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
+import IMR18650V1 from "../assets/IMR18650V1.svg";
+import X123456789012X12345678901234566 from "../assets/X123456789012X12345678901234566.svg";
+import NCR186850B from "../assets/NCR186850B.svg";
+
+
 import Logout from "../assets/logout.png";
 import { inject } from "vue";
 
@@ -113,6 +136,9 @@ export default {
       QRScanner,
       Settings,
       QrCode,
+      IMR18650V1,
+      X123456789012X12345678901234566,
+      NCR186850B,
       Logout,
     };
   },

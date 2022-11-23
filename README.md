@@ -19,39 +19,16 @@ In particular, the appliction is used to access the battery passport data provid
 - Git Bash (for windows operating system only)
 
 ## Installation
-### Cloning repository
+### Clone project repository
 
 ```bash
-# Project repository
 git clone https://github.com/catenax-ng/product-battery-passport-consumer-app.git
-
-# AAS repository
-git clone https://github.com/catenax-ng/catenax-at-home.git
 ```
-
-### Docker containers for the Asset Administration Shell (AAS)
-
-```bash
-cd catenax-at-home/getting-started-guide/
-docker compose up -d
-```
-
-### Init Data Provider
-
-```bash
-cd ../../product-battery-passport-consumer-app/aas-int-provider/
-chmod ug+x ./init-provider.sh
-
-# Executing this script will create a sample battery passport data, create EDC asset, policies, contract definitions and register it as a digital twin inside registry.
-./init-provider.sh
-```
-
-**Note:** To execute the shell-script with windows, the [Git Bash](https://gitforwindows.org/) is required.
 
 ### Install dependencies
 
 ```bash
-cd ..
+cd product-battery-passport-consumer-app/
 npm install --legacy-peer-deps
 ```
 
@@ -72,7 +49,7 @@ npm run serve
 
 #### Method 2: With Docker
 
-The Dockerfile is located in root directory of the project.
+The Dockerfile is located in the project root directory.
 
 ```bash
 # build docker image
@@ -87,18 +64,18 @@ docker logs consumer-ui
 # stop and remove docker container
 docker stop consumer-ui; docker rm consumer-ui;
 ```
-You can run the application in docker container with existing image from gitHub packages.
+You can run the application in docker container with existing image from GitHub packages.
 
 See consumer frontend docker image in registry: [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui)
 
 ```bash
 # pull the image 
-# Replace LATEST_TAG with the most recent tag in registry
+# Replace placeholder <LATEST_TAG> with the most recent tag in registry
 
-docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:LATEST_TAG
+docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:<LATEST_TAG>
 
 # run docker image
-docker run -p 8080:80 --name consumer-ui -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:LATEST_TAG
+docker run -p 8080:8080 --name consumer-ui -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:<LATEST_TAG>
 ```
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 

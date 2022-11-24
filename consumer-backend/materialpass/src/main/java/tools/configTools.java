@@ -32,7 +32,7 @@ import java.util.Map;
 public class configTools {
 
     private static final String rootPath = System.getProperty("user.dir");
-    private static final String configurationFileName = "config/toolsConfiguration.yml";
+    private static final String configurationFileName = "config/configuration.yml";
     private Map<String, Object> configuration;
 
     public configTools(){

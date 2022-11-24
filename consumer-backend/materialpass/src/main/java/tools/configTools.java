@@ -29,10 +29,10 @@ import tools.exceptions.ToolException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class configTools {
+public final class configTools {
 
     private static final String rootPath = System.getProperty("user.dir");
-    private static final String configurationFileName = "config/toolsConfiguration.yml";
+    private static final String configurationFileName = "config/configuration.yml";
     private Map<String, Object> configuration;
 
     public configTools(){
@@ -55,6 +55,16 @@ public class configTools {
         }
         Object value = configuration.get(param);
         if (value == null) {
+            throw new ToolException(configTools.class,"[ERROR] Configuration param ["+param+"] not found!");
+        }
+        return value;
+    }
+    public Object getConfigurationParam(String param, String separator, Object defaultValue){
+        if(this.configuration == null){
+            return defaultValue;
+        }
+        Object value = jsonTools.getValue(this.configuration, param, separator, defaultValue);
+        if (value == defaultValue) {
             throw new ToolException(configTools.class,"[ERROR] Configuration param ["+param+"] not found!");
         }
         return value;

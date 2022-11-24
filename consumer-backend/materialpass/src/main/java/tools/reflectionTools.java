@@ -24,7 +24,7 @@
 
 package tools;
 
-public class reflectionTools {
+public final class reflectionTools {
     public static String getCurrentClassName(Class classObj){
         return classObj.getSimpleName();
     }

@@ -84,7 +84,7 @@ public class Response {
     }
 
     public String errorString(){
-        return "["+this.status+" "+this.statusText+"]: "+this.message;
+        return "["+this.statusText+"]: "+this.message;
     }
 
     public Object getData() {

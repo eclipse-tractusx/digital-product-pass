@@ -43,8 +43,8 @@ public final class logTools {
     public static final String absoluteLogPath = logTools.getLogPath();
     static Logger logger = LogManager.getLogger(logTools.class);
     private static final Level INFO = Level.forName("INFO", 400);
-    private static final Level HTTP = Level.forName("HTTP", 450);
-    private static final Level DEBUG = Level.forName("DEBUG", 500);
+    private static final Level HTTP = Level.forName("HTTP", 420);
+    private static final Level DEBUG = Level.forName("DEBUGGER", 450);
     private static final Level EXCEPTION = Level.forName( "EXCEPTION", 100);
     private static final Level WARNING = Level.forName("WARNING", 300);
     private static final Level ERROR = Level.forName("ERROR", 200);
@@ -73,6 +73,7 @@ public final class logTools {
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
+
     public static void printMessage(String strMessage){
         Level logLevel = INFO;
         if(!logTools.checkLogLevel(logLevel)){

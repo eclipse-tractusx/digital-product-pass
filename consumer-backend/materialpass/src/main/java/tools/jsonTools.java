@@ -1,6 +1,7 @@
 package tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
@@ -10,8 +11,9 @@ import tools.exceptions.ToolException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
-public class jsonTools {
+public final class jsonTools {
     public static ArrayList<Object> getObjectArray(Object... data){
         return new ArrayList<Object>(
                 Arrays.asList(
@@ -61,4 +63,52 @@ public class jsonTools {
         }
     }
 
+    public static Object getValue(Object sourceObj, String keyPath, String pathSep, Object defaultValue){
+        try {
+            if(sourceObj == null){
+                System.out.println("[DEBUG] Object == null!");
+                return defaultValue;
+            }
+            if(keyPath == null || keyPath.equals("") || pathSep.equals("")){
+               System.out.println("[DEBUG] keyPath empty or pathSep empty!");
+                return defaultValue;
+            }
+            String[] parts = keyPath.split(String.format("\\%s",pathSep));
+            if(parts.length < 1){
+                return defaultValue;
+            }
+            Map<String, Object> tmpValue;
+            Object tmpObject = sourceObj;
+            for (String part : parts) {
+                try{
+                    tmpValue = (Map<String, Object>) tmpObject;
+                }catch (Exception e){
+                    return defaultValue;
+                }
+                if (!tmpValue.containsKey(part)) {
+                    return defaultValue;
+                }
+                tmpObject = tmpValue.get(part);
+            }
+            return tmpObject;
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "]");
+        }
+    }
+    public static JsonNode toJsonNode(String json){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(json,JsonNode.class);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    public static Object bindJsonNode(JsonNode jsonNode, Class bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.treeToValue(jsonNode, bindClass);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
 }

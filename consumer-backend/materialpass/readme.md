@@ -26,10 +26,31 @@ For Roles Authenticated API's!
 ### API Services
 At the moment api services are just implemented for testing.
 ```bash
-\api\assets #This api returns the content of the assets dataModel
-\api\assets\{id} # This api returns the ID, checking the success of the request
+\api\contracts #Get all the contracts available from the provider
+\api\contracts\{assetId} #Get the contract for an assetId
 ```
->  **_NOTE:_** You must be authenticated with the keycloak instance to access this apis
+>  **_NOTE:_** You must be authenticated with the keycloak instance to access this APIs
+
+#### Contracts
+You can search for contracts using the assetId from the product
+![img.png](docs/media/img.png)
+
+You can also get all the contracts available:
+![img.png](docs/media/img2.png)
+### Public APIs
+
+Public APIs don't require authentication
+```bash
+\health #Get the health status of the server
+```
+```json
+{
+    "message": "RUNNING",
+    "status": 200,
+    "statusText": "Success",
+    "data": "24/11/2022 17:48:18.487"
+}
+```
 
 ## License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

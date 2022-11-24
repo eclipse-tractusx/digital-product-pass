@@ -31,7 +31,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
 
-public class yamlTools {
+public final class yamlTools {
     public static Map<String, Object> readFile(String filePath){
         try {
             InputStream inputStream = new FileInputStream(fileTools.newFile(filePath));

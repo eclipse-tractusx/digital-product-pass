@@ -29,7 +29,7 @@ import tools.exceptions.ToolException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class configTools {
+public final class configTools {
 
     private static final String rootPath = System.getProperty("user.dir");
     private static final String configurationFileName = "config/configuration.yml";

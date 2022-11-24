@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class crypTools {
+public final class crypTools {
     public static String toBase64(String str){
         return Base64.getEncoder().encodeToString(str.getBytes());
     }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-public class jsonTools {
+public final class jsonTools {
     public static ArrayList<Object> getObjectArray(Object... data){
         return new ArrayList<Object>(
                 Arrays.asList(

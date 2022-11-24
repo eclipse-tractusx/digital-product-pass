@@ -4,7 +4,7 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
-public class systemTools {
+public final class systemTools {
 
     public static Long getMemoryUsage(){
         return systemTools.getTotalMemory() - systemTools.getFreeMemory();

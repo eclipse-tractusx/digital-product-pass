@@ -59,4 +59,14 @@ public class configTools {
         }
         return value;
     }
+    public Object getConfigurationParam(String param, String separator, Object defaultValue){
+        if(this.configuration == null){
+            return defaultValue;
+        }
+        Object value = jsonTools.getValue(this.configuration, param, separator, defaultValue);
+        if (value == defaultValue) {
+            throw new ToolException(configTools.class,"[ERROR] Configuration param ["+param+"] not found!");
+        }
+        return value;
+    }
 }

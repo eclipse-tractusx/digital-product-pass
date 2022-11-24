@@ -16,8 +16,10 @@ public abstract class Manager {
     protected String dataModelPath;
 
     public void setManager(String className){
-            this.dataDir = fileTools.createDataDir(className);
-            this.tmpDir = fileTools.createTmpDir(className);
+        this.dataDir = fileTools.createDataDir(className);
+        this.tmpDir = fileTools.createTmpDir(className);
+        this.dataModelName = this.getDataModelName();
+        this.dataModel = new DataModel(this.dataModelName, this.dataDir);
     }
 
     public DataModel getDataModel() {
@@ -26,10 +28,6 @@ public abstract class Manager {
 
     public String getDataModelPath() {
         return dataModelPath;
-    }
-
-    public String getDataModelName() {
-        return dataModelName;
     }
 
     public String getDataDir() {
@@ -50,6 +48,10 @@ public abstract class Manager {
     public String buildDataModelPath(){
         return Paths.get(this.dataDir,this.dataModelName + ".json").toAbsolutePath().toString();
     }
+    public String getDataModelName(){
+        return "dataModel";
+    }
+
     public DataModel loadDataModel(){
         this.dataModelPath = this.buildDataModelPath();
         if(!fileTools.pathExists(this.dataModelPath)){

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="387" height="386" viewBox="0 0 387 386">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_109" data-name="Rectangle 109" width="160" height="160" transform="translate(404 274)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_39" data-name="Group 39" transform="translate(-404 -274)">
+    <g id="Mask_Group_4" data-name="Mask Group 4" transform="translate(130 1064) rotate(-90)" clip-path="url(#clip-path)">
+      <g id="Area_DISPLAY_ELEMENTS:Default_STATE:DEFAULT_" data-name="Area [DISPLAY_ELEMENTS:Default][STATE:DEFAULT]" transform="translate(447 317)" fill="none" stroke="#b3cb2c" stroke-width="4">
+        <rect width="300" height="300" rx="6" stroke="none"/>
+        <rect x="2" y="2" width="296" height="296" rx="4" fill="none"/>
+      </g>
+    </g>
+    <g id="Mask_Group_5" data-name="Mask Group 5" transform="translate(1195 934) rotate(180)" clip-path="url(#clip-path)">
+      <g id="Area_DISPLAY_ELEMENTS:Default_STATE:DEFAULT_2" data-name="Area [DISPLAY_ELEMENTS:Default][STATE:DEFAULT]" transform="translate(447 317)" fill="none" stroke="#b3cb2c" stroke-width="4">
+        <rect width="300" height="300" rx="6" stroke="none"/>
+        <rect x="2" y="2" width="296" height="296" rx="4" fill="none"/>
+      </g>
+    </g>
+    <g id="Mask_Group_6" data-name="Mask Group 6" clip-path="url(#clip-path)">
+      <g id="Area_DISPLAY_ELEMENTS:Default_STATE:DEFAULT_3" data-name="Area [DISPLAY_ELEMENTS:Default][STATE:DEFAULT]" transform="translate(447 317)" fill="none" stroke="#b3cb2c" stroke-width="4">
+        <rect width="300" height="300" rx="6" stroke="none"/>
+        <rect x="2" y="2" width="296" height="296" rx="4" fill="none"/>
+      </g>
+    </g>
+    <g id="Mask_Group_7" data-name="Mask Group 7" transform="translate(1065 -130) rotate(90)" clip-path="url(#clip-path)">
+      <g id="Area_DISPLAY_ELEMENTS:Default_STATE:DEFAULT_4" data-name="Area [DISPLAY_ELEMENTS:Default][STATE:DEFAULT]" transform="translate(447 317)" fill="none" stroke="#b3cb2c" stroke-width="4">
+        <rect width="300" height="300" rx="6" stroke="none"/>
+        <rect x="2" y="2" width="296" height="296" rx="4" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>

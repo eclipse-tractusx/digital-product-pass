@@ -1,41 +1,30 @@
 <template>
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
-    <Header :batteryId="data.generalInformation" />
+    <Header :battery-id="data" />
     <div class="pass-container">
       <GeneralInformation
-        sectionTitle="General information"
-        :generalInformation="data.generalInformation"
+        section-title="General information"
+        :general-information="data"
+      />
+      <CellChemistry
+        section-title="Cell chemistry"
+        :cell-chemistry="data.cellChemistry"
+      />
+      <ElectrochemicalProperties
+        section-title="State of Health"
+        :electrochemical-properties="data.electrochemicalProperties"
       />
       <BatteryComposition
-        sectionTitle="Battery Composition"
-        :batteryComposition="data.batteryComposition"
+        section-title="Parameters of The Battery"
+        :battery-composition="data.composition"
       />
-      <StateOfHealth
-        sectionTitle="State of Health"
-        :stateOfHealth="data.stateOfHealth"
-      />
-      <ParametersOfTheBattery
-        sectionTitle="Parameters of The Battery"
-        :parametersOfTheBattery="data.parametersOfTheBattery"
-      />
-      <DismantlingProcedures
-        sectionTitle="Dismantling procedures"
-        :dismantlingProcedures="data.dismantlingProcedures"
-      />
-      <SafetyInformation
-        sectionTitle="Safety information"
-        :safetyMeasures="data.safetyMeasures"
-      />
-      <InformationResponsibleSourcing
-        sectionTitle="Information responsible sourcing"
-        :informationResponsibleSourcing="data.informationResponsibleSourcing"
+      <StateOfBattery
+        section-title="State of Battery"
+        :state-of-battery="data"
       />
 
-      <AdditionalInformation
-        sectionTitle="Additional information"
-        :additionalInformation="data.additionalInformation"
-      />
+      <Documents section-title="Documents" :documents="data.document" />
     </div>
     <Footer />
   </div>
@@ -44,109 +33,90 @@
 <script>
 // @ is an alias to /src
 import GeneralInformation from "@/components/GeneralInformation.vue";
+import CellChemistry from "@/components/CellChemistry.vue";
+import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vue";
 import BatteryComposition from "@/components/BatteryComposition.vue";
-import StateOfHealth from "@/components/StateOfHealth.vue";
-import ParametersOfTheBattery from "@/components/ParametersOfTheBattery.vue";
-import DismantlingProcedures from "@/components/DismantlingProcedures.vue";
-import SafetyInformation from "@/components/SafetyInformation.vue";
-import InformationResponsibleSourcing from "@/components/InformationResponsibleSourcing.vue";
-import AdditionalInformation from "@/components/AdditionalInformation.vue";
+import StateOfBattery from "@/components/StateOfBattery.vue";
+import Documents from "@/components/Documents.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
-import { reactive } from "vue";
-import { AAS_PROXY_URL } from "@/services/service.const";
-
+import { API_KEY } from "@/services/service.const";
+import apiWrapper from "@/services/wrapper";
+import AAS from "@/services/aasServices";
+import { inject } from "vue";
 export default {
   name: "PassportView",
   components: {
     Header,
     GeneralInformation,
+    CellChemistry,
+    StateOfBattery,
+    ElectrochemicalProperties,
     BatteryComposition,
-    StateOfHealth,
-    ParametersOfTheBattery,
-    DismantlingProcedures,
-    SafetyInformation,
-    InformationResponsibleSourcing,
-    AdditionalInformation,
+    Documents,
     Footer,
     Spinner,
   },
-
   data() {
     return {
+      auth: inject("authentication"),
       data: null,
       loading: true,
       errors: [],
+      passId: this.$route.params.id,
     };
   },
-  methods: {
-    getDigitalTwinId: function (assetIds) {
-      return new Promise((resolve) => {
-        let encodedAssetIds = encodeURIComponent(assetIds);
-        axios
-          .get(`${AAS_PROXY_URL}/lookup/shells?assetIds=${encodedAssetIds}`)
-          .then((response) => {
-            console.log("PassportView (Digital Twin):", response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
-      });
-    },
-    getDigitalTwinObjectById: function (digitalTwinId) {
-      //const res =  axios.get("http://localhost:4243/registry/shell-descriptors/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001"); // Without AAS Proxy
-      return new Promise((resolve) => {
-        axios
-          .get(`${AAS_PROXY_URL}/registry/shell-descriptors/${digitalTwinId}`)
-          .then((response) => {
-            console.log("PassportView (Digital Twin Object):", response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
-      });
-    },
-    getSubmodelData: function (digitalTwin) {
-      //const res =  axios.get("http://localhost:8193/api/service/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120001-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97919/submodel?provider-connector-url=http://provider-control-plane:8282"); // Without AAS Proxy
-      //Calling with AAS Proxy
-      return new Promise((resolve) => {
-        axios
-          .get(
-            `${AAS_PROXY_URL}/shells/${digitalTwin.identification}/aas/${digitalTwin.submodelDescriptors[0].identification}/submodel?content=value&extent=withBlobValue`,
-            {
-              auth: {
-                username: "someuser",
-                password: "somepassword",
-              },
-            }
-          )
-          .then((response) => {
-            console.log("PassportView (SubModel):", response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            this.errors.push(e);
-            resolve("rejected");
-          });
-      });
-    },
-    async getPassport(assetIds) {
-      const digitalTwinId = await this.getDigitalTwinId(assetIds);
-      const digitalTwin = await this.getDigitalTwinObjectById(digitalTwinId);
-      const response = await this.getSubmodelData(digitalTwin);
-      return response;
-    },
-  },
   async created() {
-    let assetIds = this.$route.params.assetIds;
-    this.data = await this.getPassport(assetIds);
+    //this.loading = false;
+    //let assetIds = this.$route.params.assetIds;
+    this.data = await this.getPassport(this.passId);
     this.loading = false;
+  },
+  methods: {
+    async getPassport(assetId) {
+      let assetIdJson = [{ key: "Battery_ID_DMC_Code", value: assetId }];
+      let aas = new AAS();
+      let wrapper = new apiWrapper();
+      let accessToken = await this.auth.getAuthTokenForTechnicalUser();
+      let AASRequestHeader = {
+        Authorization: "Bearer " + accessToken,
+      };
+
+      const shellId = await aas.getAasShellId(
+        JSON.stringify(assetIdJson),
+        AASRequestHeader
+      );
+      const shellDescriptor = await aas.getShellDescriptor(
+        shellId[0],
+        AASRequestHeader
+      );
+      const subModel = await aas.getSubmodelDescriptor(
+        shellDescriptor,
+        AASRequestHeader
+      );
+      if (subModel.endpoints.length > 0) {
+        let providerConnector = {
+          connectorAddress:
+            subModel.endpoints[0].protocolInformation.endpointAddress,
+          idShort: subModel.idShort,
+        };
+        let APIWrapperRequestHeader = {
+          "x-api-key": API_KEY,
+        };
+        //let assetId = JSON.parse(assetIds)[1].value; // Two elements in json array [batteryIDDMCode, assetId], get the last element and it wll always be the asset id i.e., [1]
+        console.info("Selected asset Id: " + assetId);
+        const response = await wrapper.performEDCDataTransfer(
+          assetId,
+          providerConnector,
+          APIWrapperRequestHeader
+        );
+        return response;
+      } else
+        alert(
+          "There is no connector endpoint defined in submodel.. Could not proceed further!"
+        );
+    },
   },
 };
 </script>
@@ -165,15 +135,18 @@ export default {
 }
 .spinner {
   margin: auto;
-
   width: 8vh;
-
   animation: rotate 3s infinite;
 }
-
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 750px) {
+  .pass-container {
+    width: 100%;
+    margin: 0;
   }
 }
 </style>

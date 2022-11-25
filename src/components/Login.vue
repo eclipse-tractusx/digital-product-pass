@@ -8,38 +8,32 @@
       <div class="sign-in-container" data-cy="sign-in-container">
         <div class="sign-in-title">Sign In</div>
         <div class="new-user-title">
-          New user?<span
-            ><router-link to="/sign-up" class="sign-up"
-              >Sign Up</router-link
-            ></span
-          >
+          <span>New user?</span>
+          <router-link to="/sign-up" class="sign-up">Sign Up</router-link>
         </div>
-
         <div class="col-md-4">
           <input
-            class="form-control input"
             v-model="email"
+            class="form-control input"
             type="text"
             placeholder="Username or email"
             data-cy="email-input"
           />
         </div>
-
         <div class="col-md-4">
           <input
-            class="form-control input"
             v-model="password"
+            class="form-control input"
             type="password"
             placeholder="Password"
             data-cy="password-input"
           />
         </div>
-
         <div class="col-md-4">
           <button
             class="btn btn-success btn-login"
-            v-on:click="login"
             data-cy="sign-in-btn"
+            @click="login"
           >
             Sign In
           </button>
@@ -48,9 +42,8 @@
           <span>
             <router-link to="#" class="public-data"
               >See public data</router-link
-            ></span
-          >
-
+            >
+          </span>
           <!-- <span>
               <router-link to="/api/scanpassport"
                 >Scan QR Code</router-link
@@ -66,48 +59,31 @@
 import axios from "axios";
 import CatenaLogo from "../assets/logotype.png";
 import LogoBG from "../assets/logo.png";
-import {MOCK_AUTH_URL} from "@/services/service.const";
-
-
+import { MOCK_AUTH_URL } from "@/services/service.const";
 
 export default {
   name: "LoginPage",
-  data() {
-    return {
-      email: "",
-      password: "",
-    };
-  },
-  components: {
-CatenaLogo,
-LogoBG
-  },
   setup() {
     return {
-      CatenaLogo, LogoBG
-
+      CatenaLogo,
+      LogoBG,
     };
   },
-  methods: {
-    async login() {
-
-      let result = await axios.get(`${MOCK_AUTH_URL}/users?email=${this.email}&password=${this.password}`);
-      if (result.status === 200 && result.data.length > 0) {
-
-        //alert("login successful..!")
-        localStorage.setItem("user-info", JSON.stringify(result.data[0]));
-        if (localStorage.getItem("QRCode-info")){
-          const isAccessUsingQRCode = localStorage.getItem("QRCode-info")
-
-            let query = { "provider": JSON.parse(isAccessUsingQRCode).provider, "battery": JSON.parse(isAccessUsingQRCode).battery}
-            this.$router.push({ name: "Home", query: query });
-        }
-        else
-           this.$router.push({ name: "Home" });
-      }
-      else {
-          alert("user is not registered or invalid credentails..!")
-      }
+  computed: {
+    email: {
+      set(newEmail) {
+        this.$store.commit("setEmail", newEmail);
+      },
+    },
+    password: {
+      set(newPassword) {
+        this.$store.commit("setPassword", newPassword);
+      },
+    },
+    role: {
+      set(newRole) {
+        this.$store.commit("setRole", newRole);
+      },
     },
   },
   mounted() {
@@ -116,7 +92,28 @@ LogoBG
       this.$router.push({ name: "Home" });
     }
   },
+  methods: {
+    async login() {
+      let result = await axios.get(
+        `${MOCK_AUTH_URL}/users?email=${this.$store.state.email}&password=${this.$store.state.password}`
+      );
+      if (result.status === 200 && result.data.length > 0) {
+        //alert("login successful..!")
+        localStorage.setItem("user-info", JSON.stringify(result.data[0]));
+        if (localStorage.getItem("QRCode-info")) {
+          const isAccessUsingQRCode = localStorage.getItem("QRCode-info");
 
+          let query = {
+            provider: JSON.parse(isAccessUsingQRCode).provider,
+            battery: JSON.parse(isAccessUsingQRCode).battery,
+          };
+          this.$router.push({ name: "Home", query: query });
+        } else this.$router.push({ name: "Home" });
+      } else {
+        alert("user is not registered or invalid credentials..!");
+      }
+    },
+  },
 };
 </script>
 
@@ -127,17 +124,20 @@ LogoBG
   flex-direction: column;
   position: relative;
 }
+
 .sign-in-wrapper {
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .sign-in-container {
   width: 280px;
   justify-content: center;
   align-items: center;
 }
+
 .btn-login {
   width: 280px;
   height: 48px;
@@ -149,6 +149,7 @@ LogoBG
   border: solid 1px #b3cb2d;
   border-radius: 4px;
 }
+
 .bg-logo {
   width: 46%;
   z-index: 0;
@@ -157,26 +158,31 @@ LogoBG
   bottom: -4%;
   opacity: 0.2;
 }
+
 .sign-up {
   color: #ffa600;
   margin-left: 10px;
   text-decoration: none;
 }
+
 .new-user-title {
   font-size: 16px;
   font-weight: bold;
   margin: 20px 0 20px 0px;
 }
+
 .sign-in-title {
   font-size: 32px;
   font-weight: bold;
 }
+
 .public-data {
   margin: 30px 0 0 78px;
   text-decoration: none;
   color: #7a7a7a;
   font-weight: bold;
 }
+
 .input {
   width: 280px;
   height: 48px;
@@ -188,14 +194,17 @@ LogoBG
   font-size: 16px;
   color: #545d64;
 }
+
 ::placeholder {
   color: #cccccc;
   font-size: 16px;
 }
+
 .logo-container {
   margin: 48px;
   display: block;
 }
+
 .logo {
   display: block;
   width: 209px;

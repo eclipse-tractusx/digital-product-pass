@@ -6,6 +6,7 @@
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <a
+        data-cy="responsible-raw-materials-report"
         :href="informationResponsibleSourcing.responsibleRawMaterialsReport.url"
         class="field-container"
         target="_blank"

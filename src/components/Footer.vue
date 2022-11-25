@@ -1,7 +1,7 @@
 <template>
   <div class="footer-container">
     <div class="footer-wrapper">
-      <div class="logo-wrapper">
+      <div data-cy="footer-logo-wrapper" class="logo-wrapper">
         <img :src="CatenaLogo" alt="logo" class="logo" />
       </div>
       <div class="links-wrapper">
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import CatenaLogo from '../assets/logo.png';
+import CatenaLogo from "../assets/logo.png";
 
 export default {
-  name: 'FooterComponent',
+  name: "FooterComponent",
   components: {},
   setup() {
     return {
@@ -90,6 +90,5 @@ export default {
   .buttons {
     margin: 12px 0;
   }
-
 }
 </style>

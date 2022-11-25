@@ -7,10 +7,8 @@
 			"name": "test-battery 1",
 			"type": "car battery",
 			"AssetIds": [
-				{ "key": "batteryId", "value": "334593247" },
-				{ "key": "passportNumber", "value": "12345" },
-				{ "key": "batteryBatchNumber", "value": "999999" },
-				{ "key": "BattProducer", "value": "BattProducer" }
+				{ "key": "batteryIDDMCCode", "value": "X123456789012X12345678901234567" },
+				{ "key": "AssetId", "value": "urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918" }
 			]
 
 			}

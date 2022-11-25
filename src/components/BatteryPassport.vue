@@ -2,66 +2,7 @@
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
     <Header />
-    <div class="container" data-cy="battery-pass-container">
-      <label class="label" for="Provider">Battery Provider:</label>
-      <select
-        id="selectProvider"
-        v-model="selectedProvider"
-        class="select"
-        placeholder="Select Battery Provider"
-        data-cy="provider-select"
-        @change="getBatteriesByProvider()"
-      >
-        <option value="" disabled selected>Select Battery Provider...</option>
-        <option
-          v-for="provider in listProviders"
-          :key="provider.id"
-          :value="provider.name"
-        >
-          {{ provider.name }}
-        </option>
-      </select>
-      <label class="label" for="Battery">Battery:</label>
-      <select
-        id="selectBattery"
-        v-model="selectedBattery"
-        required
-        class="form-select select"
-        :disabled="selectedProvider === ''"
-        placeholder="Select Battery"
-        data-cy="battery-select"
-        @change="getAssetIdsByBattery()"
-      >
-        <option value="" disabled selected>Select Battery...</option>
-        <option
-          v-for="(battery, id) in provider.batteries"
-          :key="id"
-          :value="battery.id"
-        >
-          {{ battery.name }}
-        </option>
-      </select>
-      <br />
-      <!-- <div v-if="assetIdsVisible">
-        <label class="label" for="Search criteria">Search Criteria:</label
-        ><br /><br />
-        <textarea
-          v-model="assetIds"
-          disabled
-          style="height: 120px; width: 340px"
-        ></textarea>
-      </div> -->
-      <button
-        :disabled="!validateFields(selectedProvider, selectedBattery)"
-        class="btn btn-success center success-btn"
-        type="button"
-        data-cy="passport-btn"
-        @click="getProductPassport"
-      >
-        Get Battery Passport
-      </button>
-    </div>
-    <div class="dashboard-container">
+    <div data-cy="dashboard-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>
@@ -98,6 +39,7 @@ export default {
       assetIds: {},
       assetIdsVisible: false,
       name: "",
+      MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
     };
   },
   created() {
@@ -236,7 +178,7 @@ export default {
 
 .dashboard-container {
   width: 64%;
-  margin: 0 18% 70px 18%;
+  margin: 10% 18% 70px 18%;
 }
 
 .titles-container {

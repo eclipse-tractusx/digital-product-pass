@@ -1,75 +1,92 @@
-<template>
+<template v-if="generalInformation.batteryIdentification">
   <SectionHeader title="1. General information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div class="sub-section-container">
-      <Field label="Battery ID" :value="generalInformation.batteryId" />
-      <Field label="Battery Type" :value="generalInformation.batteryType" />
-      <Field label="Battery Model" :value="generalInformation.batteryModel" />
+    <div
+      v-if="generalInformation.batteryIdentification"
+      class="sub-section-container"
+    >
+      <Field
+        data-cy="battery-id"
+        label="Battery ID"
+        :value="generalInformation.batteryIdentification.batteryIDDMCCode"
+      />
+      <Field
+        label="Battery Type"
+        :value="generalInformation.batteryIdentification.batteryType"
+      />
+      <Field
+        label="Battery Model"
+        :value="generalInformation.batteryIdentification.batteryModel"
+      />
     </div>
-    <div class="sub-section-container">
+    <div v-if="generalInformation.manufacturer" class="sub-section-container">
       <Field
         class="full-width"
-        label="Importer Information"
-        :value="generalInformation.importerInformation.importerName"
+        label="Manufacturer Information"
+        :value="generalInformation.manufacturer.name"
       />
       <Field
         class="longer"
         label="Address"
-        :city="generalInformation.importerInformation.address.city"
-        :country="generalInformation.importerInformation.address.country"
-        :postal="generalInformation.importerInformation.address.postal"
-        :value="generalInformation.importerInformation.address.street"
+        :city="generalInformation.manufacturer.address.locality.value"
+        :country="generalInformation.manufacturer.address.country.shortName"
+        :postal="generalInformation.manufacturer.address.postCode.value"
+        :value="generalInformation.manufacturer.name"
       />
       <Field
         label="Contact phone number"
-        :value="generalInformation.importerInformation.address.phoneNumber"
+        :value="generalInformation.manufacturer.contact.phoneNumber"
       />
       <Field
         label="Email"
-        :value="generalInformation.importerInformation.address.email"
+        :value="generalInformation.manufacturer.contact.email"
       />
     </div>
-    <div class="sub-section-container">
+    <div
+      v-if="generalInformation.physicalDimensions"
+      class="sub-section-container"
+    >
       <Field
         label="Dimensions of the battery"
-        :height="generalInformation.dimensions.height.value"
-        :length="generalInformation.dimensions.length.value"
-        :unit="generalInformation.dimensions.length.unit"
-        :width="generalInformation.dimensions.width.value"
+        :height="generalInformation.physicalDimensions.height"
+        :length="generalInformation.physicalDimensions.length"
+        unit="mm"
+        :width="generalInformation.physicalDimensions.width"
       />
+
       <Field
         label="Weight of the battery"
-        :unit="generalInformation.weight.unit"
-        :value="generalInformation.weight.value"
+        unit="kg"
+        :value="generalInformation.physicalDimensions.weight"
       />
+
       <Field
         label="Date of Manufacture"
-        :day="generalInformation.manufacuringDate.day"
-        :month="generalInformation.manufacuringDate.month"
-        :year="generalInformation.manufacuringDate.year"
+        :day="generalInformation.manufacturing.dateOfManufacturing"
       />
       <Field
         label="Place of Manufacturing"
-        :value="generalInformation.manufacturingPlace"
+        :value="generalInformation.manufacturing.address.locality.value"
       />
       <Field
         class="two-third-width"
         label="Data of placing on the market"
-        :day="generalInformation.placedToMarketDate.day"
-        :month="generalInformation.placedToMarketDate.month"
-        :year="generalInformation.placedToMarketDate.year"
+        :day="generalInformation.datePlacedOnMarket"
       />
       <Field
         class="longer"
         label="Period for which the Commercial Warranty for the calendar life
           applies"
-        :value="generalInformation.warranty"
+        :value="generalInformation.warrantyPeriod"
       />
-      <Field label="Status of the battery" :value="generalInformation.status" />
+      <Field
+        label="Status of the battery"
+        :value="generalInformation.stateOfBattery.statusBattery"
+      />
       <Field
         label="CO2 Footprint Total"
-        :unit="generalInformation.co2.co2FootprintTotalKG.unit"
-        :value="generalInformation.co2.co2FootprintTotalKG.value"
+        unit="kg"
+        :value="generalInformation.cO2FootprintTotal"
       />
     </div>
   </div>

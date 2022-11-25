@@ -18,11 +18,10 @@ RUN npm run build
 
 FROM nginx:alpine as production-build
 
-# for debugging purpose
-RUN apk add curl
-
 # Copy entrypoint script as /entrypoint.sh
 COPY ./entrypoint.sh /entrypoint.sh
+
+HEALTHCHECK NONE
 
 # make the 'app' folder the current working directory
 WORKDIR /app

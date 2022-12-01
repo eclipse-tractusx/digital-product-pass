@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main ]
+    branches: [ "main", "QG4/static_app_security_testing_CMP-295" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 permissions:
@@ -33,7 +33,7 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-    - run: java -jar pipeline-scan.jar -p "Product-Battery-Pass-Consumer-App" --veracode_api_id "${{secrets.ORG_VERACODE_API_ID}}" --veracode_api_key "${{secrets.ORG_VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
+    - run: java -jar pipeline-scan.jar -p "Product-Battery-Pass-Consumer-App" --veracode_api_id "${{secrets.ORG_VERACODE_API_ID}}" --veracode_api_key "${{secrets.ORG_VERACODE_API_KEY}}" --fail_on_severity="Very High, High, Medium" --file veracode-scan-target.zip
       continue-on-error: true
     - name: Convert pipeline scan output to SARIF format
       id: convert

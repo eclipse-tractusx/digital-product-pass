@@ -2,10 +2,10 @@ name: Veracode Static Analysis Pipeline Scan
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "QG4/static_app_security_testing_CMP-295" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main", "QG4/static_app_security_testing_CMP-295" ]
+    branches: [ main ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 permissions:

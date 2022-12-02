@@ -2,7 +2,7 @@ name: "Veracode upload and scan"
 
 on:
   push:
-    branches: [ "main", "QG4/static_app_security_testing_CMP-295" ]
+    branches: [ main ]
   schedule:
     # Once a day
     - cron: "0 0 * * *"

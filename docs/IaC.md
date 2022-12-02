@@ -37,17 +37,10 @@ Code must be scanned weekly with Veracode tool, medium risks require mitigation 
 
 ### Veracode Static Analysis pipeline Scan
 
-
-
-### Result
-
+It performs code analysis in the pipeline, show results and feedback once pipeline is finished. It helps for pull requests to know about very high/high security findings prior to merging code. This job is optional at the moment.
 
 ### Veracode Upload and Scan
 
-
-
-### Result
-
-
+It builds, package up the code and upload results to the [veracode platform](https://analysiscenter.veracode.com). It is one of the important jobs, and must be aligned to the quality gate requirements. 
 
 Please see more details about Veracode tool integration [here](https://catenax-ng.github.io/docs/security/how-to-integrate-veracode).

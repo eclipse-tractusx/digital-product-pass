@@ -49,3 +49,29 @@ The variables ***API_KEY, VUE_APP_CLIENT_ID, VUE_APP_CLIENT_SECRET*** must be se
 
 
 Further info about vault plugin for helm charts: [argocd-vault-plugin-helm](https://catenax-ng.github.io/docs/guides/ArgoCD/howto-use-vault-secrets-with-argocd#argocd-vault-plugin-helm)
+
+
+## Secrets Scanning
+
+### Veracode
+Veracode upload-and-scan is used for secret scanning and scan results are then published in veracode dashboard once job is completed [Static Application Serucity Testing](./IaC.md)
+
+### Git Guardian
+
+Git Guardian tool is used to scan secrets within application. It is currently active in the repository and managed by SEC team.
+
+#### Pre-commit Hook:
+
+A client side git hook that runs prior to commit code changes.
+
+#### Pre-push Hook:
+
+A client-side git hook similar to pre-commit hook that runs right before code changes are pushed to a remote origin.
+
+GitGuardian hooks are performed through ggshield utility. ggshield is a wrapper around GitGuardian API for secrets detection that requires an API key to work. Please refer the official documentation for more information [here](https://docs.gitguardian.com/ggshield-docs/integrations/git-hooks/pre-commit)
+
+The git hooks for this repository are set up in [yaml file](../pre-commit-config.yaml)
+
+
+
+Setting up Git Guradian for the project [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)

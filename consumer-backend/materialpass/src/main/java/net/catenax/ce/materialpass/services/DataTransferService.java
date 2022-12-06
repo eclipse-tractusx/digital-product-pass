@@ -1,7 +1,8 @@
 package net.catenax.ce.materialpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import net.catenax.ce.materialpass.models.Catalog;
+import net.catenax.ce.materialpass.exceptions.ServiceException;
+import net.catenax.ce.materialpass.models.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,33 +16,84 @@ import java.util.Map;
 public class DataTransferService {
     public static final configTools configuration = new configTools();
     public Catalog getContractOfferCatalog(String providerUrl){
-        String provider = providerUrl;
-        if(providerUrl == null){
-            provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
-        }
-        if(provider == null){
-            return null;
-        }
-        String path = "/consumer/data/catalog";
-        String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
-        if(serverUrl == null){
-            return null;
-        }
+        try {
+            String provider = providerUrl;
+            String path = "/consumer/data/catalog";
+            if (providerUrl == null) {
+                provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+            }
+            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
+            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
+            if(serverUrl == null || APIKey==null || provider==null){
+                return null;
+            }
 
-        String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
-        if(APIKey == null){
-            return null;
+            String url = serverUrl + path;
+            Map<String, Object> params = httpTools.getParams();
+            params.put("providerUrl", provider);
+            HttpHeaders headers = httpTools.getHeaders();
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", APIKey);
+            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
+            String body = (String) response.getBody();
+            JsonNode json = jsonTools.toJsonNode(body);
+            return (Catalog) jsonTools.bindJsonNode(json, Catalog.class);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getContractOfferCatalog",
+                    e,
+                    "It was not possible to retrieve the catalog!");
         }
-
-        String url = serverUrl + path;
-        Map<String, Object> params = httpTools.getParams();
-        params.put("providerUrl", provider);
-        HttpHeaders headers = httpTools.getHeaders();
-        headers.add("Content-Type", "application/json");
-        headers.add("X-Api-Key", APIKey);
-        ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
-        String body = (String) response.getBody();
-        JsonNode json = jsonTools.toJsonNode(body);
-        return (Catalog) jsonTools.bindJsonNode(json, Catalog.class);
     }
+
+    public Negotiation doContractNegotiations(Offer contractOffer){
+        try{
+
+            contractOffer.open();
+            HttpHeaders headers = httpTools.getHeaders();
+            String path = "/consumer/data/contractnegotiations";
+            // Get variables from configuration
+            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
+            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
+            String providerUrl = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+            if(serverUrl == null || APIKey==null || providerUrl==null){
+                return null;
+            }
+            String url = serverUrl + path;
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", APIKey);
+            Object body = new NegotiationOffer(contractOffer.getConnectorId(),providerUrl,contractOffer);
+            System.out.println(jsonTools.toJson(body));
+            ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
+            String responseBody = (String) response.getBody();
+            return (Negotiation) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Negotiation.class);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"doContractNegotiations",
+                    e,
+                    "It was not possible to retrieve the catalog!");
+        }
+    }
+    public Negotiation getNegotiation(String Id){
+        try {
+            HttpHeaders headers = httpTools.getHeaders();
+            String path = "/consumer/data/contractnegotiations";
+            // Get variables from configuration
+            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
+            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
+            if(serverUrl == null || APIKey==null){
+                return null;
+            }
+            String url = serverUrl + path + "/" + Id;
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", APIKey);
+            Map<String, Object> params = httpTools.getParams();
+            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
+            String body = (String) response.getBody();
+            return (Negotiation) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Negotiation.class);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
+                    e,
+                    "It was not possible to retrieve the catalog!");
+        }
+    }
+
 }

@@ -19,7 +19,7 @@ For login and log out!
 For Roles Authenticated API's!
 
 ```
-\auth\oem
+\auth\oem 
 \auth\recycler
 ```
 

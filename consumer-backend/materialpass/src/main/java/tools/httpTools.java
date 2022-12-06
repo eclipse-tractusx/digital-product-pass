@@ -48,56 +48,62 @@ public final class httpTools {
 
     private static final configTools configurations = new configTools();
 
-    public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request) {
-        AccessToken user = httpTools.getCurrentUser(request); // Get user from request
+    /**************************************************
+     * User Authentication Related Functions
+     * @param request + Extra details
+     **************************************************/
+
+    public static Set<String> getUserRealmRoles(HttpServletRequest request) {
+        AccessToken user = httpTools.getUser(request); // Get user from request
         if (user == null) {
             return null;
         }
         return user.getRealmAccess().getRoles(); // Get roles from user
     }
 
-    public static void redirect(HttpServletResponse httpResponse, String url) {
-        try {
-            httpResponse.sendRedirect(url);
-        } catch (IOException e) {
-            throw new ToolException(httpTools.class, e, "It was not posible to redirect to [" + url + "]");
-        }
+    public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
+        KeycloakPrincipal principal = httpTools.getUserPrincipal(httpRequest);
+        return principal != null;
     }
 
-    public static Set<String> getCurrentUserClientRoles(HttpServletRequest request, String clientId) {
-        AccessToken user = httpTools.getCurrentUser(request); // Get user from request
+    public static Set<String> getUserClientRoles(HttpServletRequest request, String clientId) {
+        AccessToken user = httpTools.getUser(request); // Get user from request
         if (user == null) {
             return null;
         }
         return user.getResourceAccess(clientId).getRoles(); // Get roles from user
     }
 
-    public static AccessToken getCurrentUser(HttpServletRequest request) {
-        KeycloakSecurityContext session = httpTools.getCurrentUserSession(request); // Get the session from the request
+    public static AccessToken getUser(HttpServletRequest request) {
+        KeycloakSecurityContext session = httpTools.getUserSession(request); // Get the session from the request
         if (session == null) {
             return null;
         }
         return session.getToken(); // Return user info
     }
 
-    public static KeycloakPrincipal getCurrentUserPrincipal(HttpServletRequest request) {
+    public static KeycloakPrincipal getUserPrincipal(HttpServletRequest request) {
         return (KeycloakPrincipal) request.getUserPrincipal();// Get the user data from the request
     }
 
+    /**************************************************
+     * Session Related Methods
+     * @param request + Extra details
+     **************************************************/
+
     public static String getJWTToken(HttpServletRequest request) {
-        AccessToken token = httpTools.getCurrentUser(request);
+        AccessToken token = httpTools.getUser(request);
         logTools.printMessage(jsonTools.toJson(token));
         return crypTools.toBase64Url(jsonTools.toJson(token));
     }
 
-    public static KeycloakSecurityContext getCurrentUserSession(HttpServletRequest request) {
-        KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(request); // Get the principal to access the session
+    public static KeycloakSecurityContext getUserSession(HttpServletRequest request) {
+        KeycloakPrincipal principal = httpTools.getUserPrincipal(request); // Get the principal to access the session
         if (principal == null) {
             return null;
         }
         return principal.getKeycloakSecurityContext();
     }
-
 
     public static Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);
@@ -119,9 +125,42 @@ public final class httpTools {
         return false;
     }
 
+
+    /**************************************************
+     * HTTP Related Methods
+     * @param httpRequest + Extra details
+     **************************************************/
+
     public static String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
     }
+
+    public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
+        String requestParam = httpRequest.getParameter(param);
+        if (requestParam == null) {
+            return defaultPattern;
+        }
+        return requestParam;
+    }
+    public static String buildUrl(String url, Map<String, ?> params, Boolean encode){
+        StringBuilder finalUrl = new StringBuilder(url);
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+
+            String value = String.valueOf(entry.getValue());
+            if(encode) {
+                value = URLEncoder.encode(value, StandardCharsets.UTF_8);
+            }
+            if(finalUrl.toString().contains("?")){
+                finalUrl.append("&").append(entry.getKey()).append("=").append(value);
+            }
+            finalUrl.append("?").append(entry.getKey()).append("=").append(value);
+        }
+        return finalUrl.toString();
+    }
+
+    /**************************************************
+     * Response Methods *******************************
+     **************************************************/
 
     public static Response getResponse() {
         return new Response(
@@ -147,34 +186,17 @@ public final class httpTools {
                 data
         );
     }
-
-    public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
-        KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(httpRequest);
-        return principal != null;
-    }
-
-    public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
-        String requestParam = httpRequest.getParameter(param);
-        if (requestParam == null) {
-            return defaultPattern;
+    public static void redirect(HttpServletResponse httpResponse, String url) {
+        try {
+            httpResponse.sendRedirect(url);
+        } catch (IOException e) {
+            throw new ToolException(httpTools.class, e, "It was not posible to redirect to [" + url + "]");
         }
-        return requestParam;
     }
-    public static String buildUrl(String url, Map<String, ?> params, Boolean encode){
-        StringBuilder finalUrl = new StringBuilder(url);
-        for(Map.Entry<String, ?> entry : params.entrySet()){
 
-            String value = String.valueOf(entry.getValue());
-            if(encode) {
-                value = URLEncoder.encode(value, StandardCharsets.UTF_8);
-            }
-            if(finalUrl.toString().contains("?")){
-                finalUrl.append("&").append(entry.getKey()).append("=").append(value);
-            }
-            finalUrl.append("?").append(entry.getKey()).append("=").append(value);
-        }
-        return finalUrl.toString();
-    }
+    /**************************************************
+     * Generic Request Methods ************************
+     **************************************************/
     public static ResponseEntity<Object> doRequest(String url, Class responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
         String finalUrl = httpTools.buildUrl(url, params, encode);
@@ -197,7 +219,7 @@ public final class httpTools {
         }
 
         if (response == null) {
-            throw new ToolException(httpTools.class, "It was not possible to do " + method.name() + " request to " + url);
+            throw new ToolException(httpTools.class, "It was not possible execute request to " + url);
         }
         return response;
     }

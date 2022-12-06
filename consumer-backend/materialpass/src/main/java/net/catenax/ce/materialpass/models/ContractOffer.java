@@ -12,7 +12,6 @@ public class ContractOffer {
     @JsonProperty("asset")
     Asset asset;
 
-
     @JsonProperty("assetId")
     String assetId;
     @JsonProperty("provider")

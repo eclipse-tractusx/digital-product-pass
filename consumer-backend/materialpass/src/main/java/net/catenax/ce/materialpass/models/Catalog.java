@@ -11,7 +11,7 @@ public class Catalog {
     @JsonProperty("id")
     String id;
     @JsonProperty("contractOffers")
-    List<ContractOffer> contractOffers;
+    List<Offer> contractOffers;
 
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();
@@ -24,17 +24,17 @@ public class Catalog {
         this.id = id;
     }
 
-    public List<ContractOffer> getContractOffers() {
+    public List<Offer> getContractOffers() {
         return contractOffers;
     }
 
-    public void setContractOffers(List<ContractOffer> contractOffers) {
+    public void setContractOffers(List<Offer> contractOffers) {
         this.contractOffers = contractOffers;
     }
 
     public Map<String, Integer> loadContractOffersMapByAssetId(){
         int i = 0;
-        for(ContractOffer contractOffer: this.contractOffers){
+        for(Offer contractOffer: this.contractOffers){
             this.contractOffersMap.put(contractOffer.getAsset().getId(),i);
             i++;
         }

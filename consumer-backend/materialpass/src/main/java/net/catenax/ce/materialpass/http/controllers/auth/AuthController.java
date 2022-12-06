@@ -53,7 +53,7 @@ public class AuthController {
 
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
-        Set<String> roles = httpTools.getCurrentUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
+        Set<String> roles = httpTools.getUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
 
         if(roles == null) {
             response.message = "You have no assigned roles!";
@@ -61,7 +61,7 @@ public class AuthController {
         }
 
         response.message = "You are logged with this roles: " + roles.toString();
-        AccessToken accessToken = httpTools.getCurrentUser(this.httpRequest);
+        AccessToken accessToken = httpTools.getUser(this.httpRequest);
         if(!httpTools.isInSession(this.httpRequest, "user")){
 
             // TODO: Get client credentials from hashiCorpVault
@@ -116,7 +116,7 @@ public class AuthController {
     public Response recycler(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        Set<String> roles = httpTools.getUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
         response.message = "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
         return response;
     }
@@ -125,7 +125,7 @@ public class AuthController {
     public Response oem(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        Set<String> roles = httpTools.getUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
         response.message = "You are logged in as OEM role | " + "This are the received roles " + roles;
         return response;
     }

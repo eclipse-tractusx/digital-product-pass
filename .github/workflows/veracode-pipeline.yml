@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main ]
+    branches: [ "main", "develop" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 permissions:

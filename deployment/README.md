@@ -64,11 +64,13 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 #### Example Screenshots:
 
-![Login Page](./images/cx_login_page.png)
+![Login Page](./images/cx_login.png)
 
-![Dashboard](./images/batterypass_dashboard.png)
+![QR Code Scanner](./images/qr_code_scanner.png)
 
-![Battery Passport](./images/battery_passport_data.png)
+![Dashboard](./images/dashboard.png)
+
+![Battery Passport](./images/battery_pass.png)
 
 <br />
 

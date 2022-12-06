@@ -3,7 +3,19 @@
     <router-link to="/dashboard">
       <img :src="CatenaLogo" alt="logo" class="logo" />
     </router-link>
-    <p>{{ error }}</p>
+    <div
+      class="toast-alert"
+      :class="{
+        'display-toast-alert': error,
+      }"
+    >
+      <h3 class="error-message">
+        {{ error }}
+        <span @click="error = !error">
+          <img :src="Close" alt="close" class="close" />
+        </span>
+      </h3>
+    </div>
     <div class="header-container">
       <div class="left-menu-wrapper">
         <div class="left-menu-container">
@@ -43,27 +55,32 @@
         </div>
       </div>
     </div>
-    <div class="qr-frame">
-      <img :src="QRFrame" alt="frame" class="frame" />
+    <div v-if="!error">
+      <div class="qr-frame">
+        <img :src="QRFrame" alt="frame" class="frame" />
+      </div>
+      <qrcode-stream
+        :torch="torch"
+        class="qrcode-stream"
+        @init="onInit"
+        @decode="onDecode"
+      ></qrcode-stream>
+      <div>
+        <form class="input-form" @submit.prevent="onClick">
+          <input
+            v-model="typedCode"
+            class="input"
+            type="text"
+            placeholder="Type ID"
+          />
+          <button class="submit-btn">
+            <img :src="Search" alt="search" />
+          </button>
+        </form>
+      </div>
     </div>
-    <qrcode-stream
-      :torch="torch"
-      class="qrcode-stream"
-      @init="onInit"
-      @decode="onDecode"
-    ></qrcode-stream>
-    <div>
-      <form class="input-form" @submit.prevent="onClick">
-        <input
-          v-model="typedCode"
-          class="input"
-          type="text"
-          placeholder="Type ID"
-        />
-        <button class="submit-btn">
-          <img :src="Search" alt="search" />
-        </button>
-      </form>
+    <div v-else class="error-frame">
+      <Spinner class="spinner-container" />
     </div>
   </div>
   <div class="footer-container">
@@ -75,6 +92,7 @@
 import { QrcodeStream } from "vue3-qrcode-reader";
 import CatenaLogo from "../assets/logo.png";
 import Flesh from "../assets/flesh.svg";
+import Close from "../assets/close.svg";
 import QRFrame from "../assets/qrFrame.svg";
 import Search from "../assets/qrSearch.svg";
 import Footer from "@/components/Footer.vue";
@@ -83,17 +101,20 @@ import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import { inject } from "vue";
+import Spinner from "../components/Spinner.vue";
 
 export default {
   name: "PassportView",
   components: {
     QrcodeStream,
     Footer,
+    Spinner,
   },
   setup() {
     return {
       CatenaLogo,
       Flesh,
+      Close,
       Search,
       QRFrame,
       Profile,
@@ -170,6 +191,13 @@ export default {
 </script>
 
 <style scoped>
+.error-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
+
 .qr-container {
   position: relative;
   max-height: 900px;
@@ -212,7 +240,6 @@ export default {
 
 .top-layer {
   white-space: nowrap;
-
   text-overflow: ellipsis;
 }
 
@@ -258,7 +285,6 @@ export default {
 
 .left-menu-wrapper {
   position: absolute;
-
   width: 20%;
   left: 0;
   right: 0;
@@ -341,6 +367,32 @@ p {
   border-radius: 10px;
 }
 
+.toast-alert {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px 20px 60px;
+  margin-top: 10px;
+  background-color: #b3cb2c;
+  border-radius: 6px;
+  top: -12vh;
+  left: 50%;
+  z-index: 99;
+  min-width: auto;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  box-shadow: 3px 3px 20px 3px #e7e7e7;
+}
+
+.display-toast-alert {
+  top: 4vh;
+}
+
+.close {
+  padding-left: 20px;
+}
+
 @media (max-width: 856px) {
   .right-manu-wrapper {
     padding-right: 50px;
@@ -368,6 +420,14 @@ p {
     display: none;
   }
 
+  .error-message {
+    font-size: 12px;
+  }
+
+  .close {
+    padding: 0;
+  }
+
   .frame {
     width: 150px;
     height: 150px;
@@ -393,6 +453,16 @@ p {
   h2 {
     font-size: 16px;
   }
+
+  .toast-alert {
+    padding: 70px 10px 40px 20px;
+    width: 100vw;
+  }
+
+  .display-toast-alert {
+    top: 10px;
+  }
+
   .logo {
     position: absolute;
     top: 20px;

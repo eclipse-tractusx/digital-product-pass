@@ -100,7 +100,7 @@ final __representation of the data__.
     * __Battery-Passport-UI__
         * Started with from repository root on __Port 8080__:
             * `npm install --legacy-peer-deps`
-            * `ng serve`
+            * `npm run serve`
         * Int- Deployment: [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/)
 
 __Notes:__

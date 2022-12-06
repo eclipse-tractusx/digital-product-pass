@@ -45,7 +45,6 @@ import { API_KEY } from "@/services/service.const";
 import apiWrapper from "@/services/wrapper";
 import AAS from "@/services/aasServices";
 import { inject } from "vue";
-
 export default {
   name: "PassportView",
   components: {
@@ -59,7 +58,6 @@ export default {
     Footer,
     Spinner,
   },
-
   data() {
     return {
       auth: inject("authentication"),
@@ -70,7 +68,6 @@ export default {
     };
   },
   async created() {
-
     //this.loading = false;
     //let assetIds = this.$route.params.assetIds;
     this.data = await this.getPassport(this.passId);
@@ -78,16 +75,18 @@ export default {
   },
   methods: {
     async getPassport(assetId) {
-      
-      let assetIdJson = [{"key": "Battery_ID_DMC_Code", "value": assetId }];
+      let assetIdJson = [{ key: "Battery_ID_DMC_Code", value: assetId }];
       let aas = new AAS();
       let wrapper = new apiWrapper();
       let accessToken = await this.auth.getAuthTokenForTechnicalUser();
       let AASRequestHeader = {
         Authorization: "Bearer " + accessToken,
       };
-      
-      const shellId = await aas.getAasShellId(JSON.stringify(assetIdJson), AASRequestHeader);
+
+      const shellId = await aas.getAasShellId(
+        JSON.stringify(assetIdJson),
+        AASRequestHeader
+      );
       const shellDescriptor = await aas.getShellDescriptor(
         shellId[0],
         AASRequestHeader
@@ -105,7 +104,6 @@ export default {
         let APIWrapperRequestHeader = {
           "x-api-key": API_KEY,
         };
-
         //let assetId = JSON.parse(assetIds)[1].value; // Two elements in json array [batteryIDDMCode, assetId], get the last element and it wll always be the asset id i.e., [1]
         console.info("Selected asset Id: " + assetId);
         const response = await wrapper.performEDCDataTransfer(
@@ -128,7 +126,6 @@ export default {
   width: 76%;
   margin: 0 12% 0 12%;
 }
-
 .spinner-container {
   width: 100vw;
   height: 100vh;
@@ -136,21 +133,16 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .spinner {
   margin: auto;
-
   width: 8vh;
-
   animation: rotate 3s infinite;
 }
-
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
   }
 }
-
 @media (max-width: 750px) {
   .pass-container {
     width: 100%;

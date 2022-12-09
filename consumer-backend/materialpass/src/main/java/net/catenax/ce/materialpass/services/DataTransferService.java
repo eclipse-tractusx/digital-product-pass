@@ -15,6 +15,10 @@ import java.util.Map;
 @Service
 public class DataTransferService {
     public static final configTools configuration = new configTools();
+    public final String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
+    public final String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
+    public final String providerUrl = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+
     public Catalog getContractOfferCatalog(String providerUrl){
         try {
             String provider = providerUrl;
@@ -22,8 +26,6 @@ public class DataTransferService {
             if (providerUrl == null) {
                 provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
             }
-            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
-            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
             if(serverUrl == null || APIKey==null || provider==null){
                 return null;
             }
@@ -52,9 +54,6 @@ public class DataTransferService {
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
-            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
-            String providerUrl = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
             if(serverUrl == null || APIKey==null || providerUrl==null){
                 return null;
             }
@@ -77,8 +76,6 @@ public class DataTransferService {
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
-            String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
             if(serverUrl == null || APIKey==null){
                 return null;
             }
@@ -93,6 +90,34 @@ public class DataTransferService {
             throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
                     e,
                     "It was not possible to retrieve the catalog!");
+        }
+    }
+    public String doTransferProcess(Negotiation negotiation, Offer offer, Boolean managedResources){
+        try{
+            HttpHeaders headers = httpTools.getHeaders();
+            String path = "/consumer/data/transferprocess";
+            // Get variables from configuration
+            String url = serverUrl + path;
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", APIKey);
+            Object body = new TransferRequest(
+                    negotiation.getId(),
+                    offer.getConnectorId(),
+                    negotiation.getCounterPartyAddress(),
+                    negotiation.getContractAgreementId(),
+                    offer.getAssetId(),
+                    managedResources,
+                    "HttpProxy"
+            );
+            System.out.println(jsonTools.toJson(body));
+            ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
+            String responseBody = (String) response.getBody();
+            //return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Transfer.class);
+            return responseBody;
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"doTransferProcess",
+                    e,
+                    "It was not possible to do transfer process!");
         }
     }
 

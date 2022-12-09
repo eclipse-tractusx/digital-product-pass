@@ -86,7 +86,8 @@ public class ApiController {
             response.statusText = "Negotiation Failed";
             return response;
         }
-        response.data = dataService.getNegotiation(negotiation.getId());
+        negotiation = dataService.getNegotiation(negotiation.getId());
+        response.data = dataService.doTransferProcess(negotiation, contractOffer, false);
         return response;
     }
 }

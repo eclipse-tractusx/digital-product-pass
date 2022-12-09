@@ -21,7 +21,7 @@ public class Offer extends ContractOffer{
     }
 
     public String getConnectorId() {
-        return this.offerId.split(":")[1];
+        return this.id.split(":")[1];
     }
     public String getAssetId() {
         return this.id.split(":")[0];

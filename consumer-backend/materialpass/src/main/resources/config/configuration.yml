@@ -2,7 +2,13 @@ logLevel: 7
 logDir: "log"
 logBaseFileName: "material-pass.log"
 maxRetries: 3
+
 variables:
   serverUrl: 'https://materialpass.int.demo.catena-x.net'
   providerUrl: 'https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data'
+  registryUrl: 'https://semantics.int.demo.catena-x.net'
   apiKey: 'password'
+
+
+vault:
+  uri: 'https://vault.demo.catena-x.net'

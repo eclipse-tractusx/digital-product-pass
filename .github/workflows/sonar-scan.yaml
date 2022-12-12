@@ -29,10 +29,10 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Build and analyze
-        uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: consumer-backend/materialpass
+        run: cd consumer-backend/materialpass;
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar

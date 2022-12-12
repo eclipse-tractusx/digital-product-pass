@@ -32,7 +32,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        defaults:
-          run:
-            working-directory: consumer-backend/materialpass
+        with:
+          projectBaseDir: consumer-backend/materialpass
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar

@@ -12,3 +12,4 @@ variables:
 
 vault:
   uri: 'https://vault.demo.catena-x.net'
+  token-file: 'vault.token.yml'

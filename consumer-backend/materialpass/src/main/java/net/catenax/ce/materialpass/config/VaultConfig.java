@@ -8,7 +8,6 @@ import org.springframework.vault.client.VaultEndpoint;
 import org.springframework.vault.config.AbstractVaultConfiguration;
 import tools.configTools;
 import tools.fileTools;
-import tools.yamlTools;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -17,16 +16,18 @@ import java.nio.file.Path;
 public class VaultConfig extends AbstractVaultConfiguration {
     public static final configTools configuration = new configTools();
     private final String vaultUri = (String) configuration.getConfigurationParam("vault.uri", ".", null);
+    private final String tokenFile = (String) configuration.getConfigurationParam("vault.token-file", ".", null);
     public String dataDir;
 
     @Override
     public ClientAuthentication clientAuthentication() {
         try{
             this.dataDir = fileTools.createDataDir(this.getClass().getName());
-            String path = Path.of()
-            fileTools.fileExists()
-            String vaultToken = yamlTools.readFile()
-            return new TokenAuthentication();
+            String filePath = Path.of(this.dataDir, tokenFile).toAbsolutePath().toString();
+            if(fileTools.pathExists(filePath)){
+                ///
+            };
+            return new TokenAuthentication("00000000");
         } catch (Exception e) {
             throw new ConfigException("VaultConfig.clientAuthentication", e, "It was not possible to set the ClientAuthentication Token");
         }

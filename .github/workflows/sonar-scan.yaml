@@ -34,5 +34,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: consumer-backend/materialpass
-        run: cd consumer-backend/materialpass;
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: cd consumer-backend/materialpass; mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar

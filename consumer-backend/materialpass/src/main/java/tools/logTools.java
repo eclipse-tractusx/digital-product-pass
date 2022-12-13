@@ -126,6 +126,14 @@ public final class logTools {
         threadTools.runThread(new LogPrinter(logLevel, message));
         threadTools.runThread(new LogWritter(message));
     }
+    public static void printFatalLog(String strMessage){
+        String date = dateTimeTools.getDateTimeFormatted(null);
+        Long pid = systemTools.getPid();
+        String memoryUsage = systemTools.getUsedHeapMemory();
+        String message = date +"|"+pid+"|"+ memoryUsage+"| [FATAL] " + strMessage;
+        System.err.println(message);
+        threadTools.runThread(new LogWritter(message));
+    }
 
     private static class LogPrinter implements Runnable {
 

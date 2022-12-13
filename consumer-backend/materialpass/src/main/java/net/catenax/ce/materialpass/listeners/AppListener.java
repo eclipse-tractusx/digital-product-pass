@@ -7,6 +7,7 @@ import tools.logTools;
 
 @Component
 public class AppListener {
+
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
         String serverStartUpMessage = "\n\n" +

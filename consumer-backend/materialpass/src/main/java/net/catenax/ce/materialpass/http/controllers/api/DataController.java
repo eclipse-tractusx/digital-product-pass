@@ -2,6 +2,7 @@ package net.catenax.ce.materialpass.http.controllers.api;
 
 import net.catenax.ce.materialpass.models.Response;
 import net.catenax.ce.materialpass.services.DataTransferService;
+import net.catenax.ce.materialpass.services.VaultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,12 +19,20 @@ public class DataController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
+    private @Autowired VaultService vaultService;
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
 
+        return response;
+    }
+
+    @RequestMapping(value = "/secrets", method = {RequestMethod.GET})
+    public Response getSecret(){
+        Response response = httpTools.getResponse();
+        response.data = vaultService.getSecret("material-pass/int/aasregistry");
         return response;
     }
 }

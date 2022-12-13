@@ -27,6 +27,7 @@ public class AasService {
                     e,
                     "It was not possible to retrieve shell");
         }
+        return null;
     }
 
 

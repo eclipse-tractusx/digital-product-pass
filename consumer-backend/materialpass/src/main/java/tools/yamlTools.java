@@ -49,11 +49,11 @@ public final class yamlTools {
             throw new ToolException(yamlTools.class, "There was an error in loading the yaml content! " + e.getMessage());
         }
     }
-    public static Map<String, Object> parseYmlStream(InputStream fileContent){
+    public static Map<String, Object> parseYmlStream(InputStream fileContent) {
         try {
             Yaml yaml = new Yaml();
             return yaml.load(fileContent);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ToolException(yamlTools.class, "There was an error in loading the yaml content! " + e.getMessage());
         }
     }

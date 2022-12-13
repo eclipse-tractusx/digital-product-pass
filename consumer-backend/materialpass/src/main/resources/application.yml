@@ -37,13 +37,6 @@ spring:
     name: 'Material Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    vault:
-      token: '00000000-0000-0000-0000-000000000000'
-      scheme: 'https'
-      kv:
-        enabled: true
-      import: 'vault://'
 
 server:
   error:

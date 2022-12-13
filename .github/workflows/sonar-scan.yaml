@@ -1,0 +1,40 @@
+name: "Sonar Cloud Analyze"
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+    pull_request:
+      types: [ opened, reopened, synchronize ]
+
+env:
+  JAVA_VERSION: 17
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          cd consumer-backend/materialpass
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar

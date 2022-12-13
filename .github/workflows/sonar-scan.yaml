@@ -2,7 +2,10 @@ name: "Sonar Cloud Analyze"
 on:
   push:
     branches:
-      - CodeQuality/sonar-cloud-scan_CMP-291
+      - 'main'
+      - 'develop'
+    pull_request:
+      types: [ opened, reopened, synchronize ]
 
 env:
   JAVA_VERSION: 17

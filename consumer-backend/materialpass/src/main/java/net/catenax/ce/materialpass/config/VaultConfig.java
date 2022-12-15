@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.client.VaultEndpoint;
-import org.springframework.vault.config.AbstractVaultConfiguration;
+import org.springframework.vault.config.AbstractReactiveVaultConfiguration;
 import tools.*;
 
 import java.net.URI;
@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 @Configuration
-public class VaultConfig extends AbstractVaultConfiguration {
+public class VaultConfig extends AbstractReactiveVaultConfiguration {
 
     public static final configTools configuration = new configTools();
     private final String vaultUri = (String) configuration.getConfigurationParam("vault.uri", ".", null);

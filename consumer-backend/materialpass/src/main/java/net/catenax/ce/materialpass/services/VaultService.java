@@ -4,18 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.ce.materialpass.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.vault.core.VaultTemplate;
+import org.springframework.vault.core.ReactiveVaultTemplate;
 import org.springframework.vault.support.VaultResponse;
+import reactor.core.publisher.Mono;
 
 @Service
 public class VaultService {
 
     @Autowired
-    private VaultTemplate vaultTemplate;
+    private ReactiveVaultTemplate vaultTemplate;
 
     public Object mapSecret(String secretPath, Class ClassType) {
         try {
-            VaultResponse response = vaultTemplate.read(secretPath);
+            Mono<VaultResponse> vaultResponse = vaultTemplate.read(secretPath);
+            VaultResponse response = vaultResponse.block();
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.convertValue(response.getData().get("data"), ClassType);
         }catch (Exception e){
@@ -26,7 +28,8 @@ public class VaultService {
     }
     public Object getSecret(String secretPath) {
         try {
-            VaultResponse response = vaultTemplate.read(secretPath);
+            Mono<VaultResponse> vaultResponse = vaultTemplate.read(secretPath);
+            VaultResponse response = vaultResponse.block();
             return response.getData();
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getSecret",

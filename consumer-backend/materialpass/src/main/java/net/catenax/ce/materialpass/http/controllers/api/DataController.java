@@ -27,7 +27,7 @@ public class DataController {
         }
         AssetManager assetManager = (AssetManager) httpTools.getSessionValue(httpRequest, "AssetManager");
         response.data = jsonTools.dumpJson(assetManager.dataModel,4);
-
+        assetManager.saveDataModel();
         return response;
     }
 }

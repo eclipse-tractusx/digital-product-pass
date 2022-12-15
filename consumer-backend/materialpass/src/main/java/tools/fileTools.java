@@ -36,18 +36,15 @@ import java.nio.file.Paths;
 public final class fileTools {
 
     public static String toFile(String filePath, String content, Boolean append) throws IOException {
-        FileWriter fw = null;
-        try {
-            fileTools.createFile(filePath);
-            fw = new FileWriter(filePath,append);
+        fileTools.createFile(filePath);
+        try(
+            FileWriter fw = new FileWriter(filePath,append)
+        ){
             fw.write(content);
         }
         catch(Exception ioe)
         {
             throw new ToolException(fileTools.class, ioe, "It was not possible to create file ["+filePath+"]");
-        }finally {
-            assert fw != null;
-            fw.close();
         }
         return filePath;
     }

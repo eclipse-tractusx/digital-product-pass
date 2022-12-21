@@ -9,12 +9,9 @@ on:
     pull_request:
       types: [ opened, reopened, synchronize ]
 
-env:
-  JAVA_VERSION: 17
-
 jobs:
-  sonarCloud-backend:
-    name: sonarCloud-backend
+  sonarCloud:
+    name: sonarCloud
     runs-on: ubuntu-latest
 
     steps:
@@ -22,20 +19,12 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
       
       - name: Analyze code
         uses: sonarsource/sonarcloud-github-action@master

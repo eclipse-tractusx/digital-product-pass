@@ -1,8 +1,3 @@
-
-vault:
-  uri:'http://localhost:8200'
-  token:'s.npj4vbfvXd7MDmYHdimslXMO'
-
 keycloak:
   realm: CX-Central
   resource: Cl13-CX-Battery
@@ -32,11 +27,14 @@ keycloak:
         - name: 'OEM API'
           patterns: [ '/auth/recycler' ]
 
+
 spring:
   application:
-    name: 'Material Passport Consumer Backend'
+    name: 'Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
 
 server:
   error:

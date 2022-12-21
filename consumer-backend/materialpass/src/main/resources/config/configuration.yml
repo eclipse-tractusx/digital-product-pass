@@ -11,5 +11,6 @@ variables:
 
 
 vault:
-  uri: 'https://vault.demo.catena-x.net'
+  #uri: 'https://vault.demo.catena-x.net'
+  uri: 'http://localhost:8200/'
   token-file: 'vault.token.yml'

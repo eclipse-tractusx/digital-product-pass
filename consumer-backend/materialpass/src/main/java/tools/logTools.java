@@ -119,20 +119,20 @@ public final class logTools {
     }
 
     public static void printLog(Level logLevel, String strMessage){
-        String date = dateTimeTools.getDateTimeFormatted(null);
+        //String date = dateTimeTools.getDateTimeFormatted(null);
         Long pid = systemTools.getPid();
         String memoryUsage = systemTools.getUsedHeapMemory();
-        String message = date +"|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
+        String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
         threadTools.runThread(new LogPrinter(logLevel, message));
-        threadTools.runThread(new LogWritter(message));
+        //threadTools.runThread(new LogWritter(message));
     }
     public static void printFatalLog(String strMessage){
-        String date = dateTimeTools.getDateTimeFormatted(null);
+        //String date = dateTimeTools.getDateTimeFormatted(null);
         Long pid = systemTools.getPid();
         String memoryUsage = systemTools.getUsedHeapMemory();
-        String message = date +"|"+pid+"|"+ memoryUsage+"| [FATAL] " + strMessage;
+        String message = "|"+pid+"|"+ memoryUsage+"| [FATAL] " + strMessage;
         System.err.println(message);
-        threadTools.runThread(new LogWritter(message));
+        //threadTools.runThread(new LogWritter(message));
     }
 
     private static class LogPrinter implements Runnable {

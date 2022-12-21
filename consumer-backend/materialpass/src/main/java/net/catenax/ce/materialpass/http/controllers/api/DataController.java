@@ -32,7 +32,7 @@ public class DataController {
     @RequestMapping(value = "/secrets", method = {RequestMethod.GET})
     public Response getSecret(){
         Response response = httpTools.getResponse();
-        response.data = vaultService.getSecret("material-pass/int/aasregistry");
+        response.data = vaultService.getSecret("material-pass/dev/aasregistry");
         return response;
     }
 }

@@ -1,4 +1,4 @@
-name: "Sonar Cloud Analyze - Backend"
+name: "Sonar Cloud Analyze"
 on:
   push:
     branches:
@@ -38,7 +38,7 @@ jobs:
         run: npm install --legacy-peer-deps
       
       - name: Analyze code
-        uses: vtex/action-sonarqube@main
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

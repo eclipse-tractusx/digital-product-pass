@@ -31,7 +31,7 @@
 
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <!-- Rollover daily and when the file reaches 10 MegaBytes -->
             <fileNamePattern>
                 ${LOGS}/archived/${day}/${time}/%d{yyyy-MM-dd}_${time}-${LOG_FILE}.%i.log.gz
             </fileNamePattern>

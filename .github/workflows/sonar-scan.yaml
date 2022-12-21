@@ -5,6 +5,7 @@ on:
       - 'main'
       - 'develop'
       - 'CodeQuality/sonar-cloud-scan_CMP-291'
+
     pull_request:
       types: [ opened, reopened, synchronize ]
 
@@ -21,10 +22,10 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - uses: actions/setup-java@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'adopt'
+          node-version: ${{ matrix.node-version }}
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -33,37 +34,11 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build and analyze
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      
+      - name: Analyze code
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          cd consumer-backend/materialpass
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-
-  # SonarScanner:
-  #   name: Sonar Scanner
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [ 16.x ]
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-
-  #     - name: Install dependencies
-  #       run: npm install --legacy-peer-deps
-  #     - name: Scan code
-  #       uses: vtex/action-sonarqube@main
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-

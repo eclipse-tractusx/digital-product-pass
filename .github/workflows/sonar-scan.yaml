@@ -9,15 +9,35 @@ on:
     pull_request:
       types: [ opened, reopened, synchronize ]
 
+env:
+  JAVA_VERSION: 17
+
 jobs:
   sonarCloud:
     name: sonarCloud
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run npm install
+        run: npm install --legacy-peer-deps
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3

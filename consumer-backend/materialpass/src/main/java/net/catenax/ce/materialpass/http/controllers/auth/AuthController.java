@@ -27,6 +27,7 @@ package net.catenax.ce.materialpass.http.controllers.auth;
 import net.catenax.ce.materialpass.models.Credential;
 import net.catenax.ce.materialpass.models.Response;
 import net.catenax.ce.materialpass.models.UserCredential;
+import net.catenax.ce.materialpass.services.AuthenticationService;
 import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -51,6 +52,7 @@ public class AuthController {
     private @Autowired HttpServletResponse httpResponse;
     final static String clientIdPath = "keycloak.resource";
 
+    private @Autowired AuthenticationService authService;
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
         Set<String> roles = httpTools.getUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
@@ -110,6 +112,13 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     Response login() throws Exception{
         return loginFromHttpRequest();
+    }
+
+    @RequestMapping(value = "/token", method = RequestMethod.GET)
+    Response getToken(){
+        Response response = httpTools.getResponse();
+        response.data = authService.getToken();
+        return response;
     }
 
     @RequestMapping(value = "/recycler", method = RequestMethod.GET)

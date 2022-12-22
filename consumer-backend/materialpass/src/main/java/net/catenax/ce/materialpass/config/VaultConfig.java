@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.client.VaultEndpoint;
-import org.springframework.vault.config.AbstractReactiveVaultConfiguration;
+import org.springframework.vault.config.AbstractVaultConfiguration;
 import tools.*;
 
 import java.net.URI;
@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 @Configuration
-public class VaultConfig extends AbstractReactiveVaultConfiguration {
+public class VaultConfig extends AbstractVaultConfiguration {
 
     public static final configTools configuration = new configTools();
     private final String vaultUri = (String) configuration.getConfigurationParam("vault.uri", ".", null);
@@ -27,7 +27,7 @@ public class VaultConfig extends AbstractReactiveVaultConfiguration {
             String filePath = Path.of(this.dataDir, tokenFile).toAbsolutePath().toString();
             if(!fileTools.pathExists(filePath)){
                 logTools.printMessage("No vault token file found, creating yaml file in ["+filePath+"]");
-                fileTools.toFile(filePath, "token: ''", false); // Create YAML token file
+                fileTools.toFile(filePath, "token: ''\nclient: \n\tid: ''\n\tsecret: ''", false); // Create YAML token file
             };
 
             Map<String, Object> content = yamlTools.readFile(filePath);

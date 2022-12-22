@@ -3,6 +3,10 @@ logDir: "log"
 logBaseFileName: "material-pass.log"
 maxRetries: 3
 
+keycloak:
+  tokenUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+
+
 variables:
   serverUrl: 'https://materialpass.int.demo.catena-x.net'
   providerUrl: 'https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data'
@@ -12,5 +16,5 @@ variables:
 
 vault:
   #uri: 'https://vault.demo.catena-x.net'
-  uri: 'http://localhost:8200/'
+  uri: 'http://localhost:8200'
   token-file: 'vault.token.yml'

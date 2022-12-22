@@ -25,14 +25,6 @@ public class DataController {
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
-
-        return response;
-    }
-
-    @RequestMapping(value = "/secrets", method = {RequestMethod.GET})
-    public Response getSecret(){
-        Response response = httpTools.getResponse();
-        response.data = vaultService.getSecret("material-pass/dev/aasregistry");
         return response;
     }
 }

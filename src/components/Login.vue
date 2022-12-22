@@ -44,11 +44,6 @@
               >See public data</router-link
             >
           </span>
-          <!-- <span>
-              <router-link to="/api/scanpassport"
-                >Scan QR Code</router-link
-              ></span
-            > -->
         </div>
       </div>
     </div>

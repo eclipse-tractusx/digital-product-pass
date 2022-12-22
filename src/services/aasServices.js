@@ -4,13 +4,9 @@ import axios from "axios";
 
 export default class aasServices {
 
-  constructor(){
-        
-  }
   getAasShellId(assetIds, requestHeaders) {
     return new Promise((resolve) => {
-      //let encodedAssetIds = encodeURIComponent(assetIds);
-      //console.log(encodedAssetIds);
+
       axios.get(`${CX_REGISTRY_URL}/registry/lookup/shells?assetIds=${assetIds}`,
         {
           headers: requestHeaders

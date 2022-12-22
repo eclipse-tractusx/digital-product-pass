@@ -1,0 +1,12 @@
+{
+    "id": "3",
+    "criteria": [
+        {
+            "operandLeft": "asset:prop:id",
+            "operator": "=",
+            "operandRight": "IMR18650V1"
+        }
+    ],
+    "accessPolicyId": "4b480f48-79a0-4851-a56c-6ef71e19ebb3",
+    "contractPolicyId": "4b480f48-79a0-4851-a56c-6ef71e19ebb3"
+}

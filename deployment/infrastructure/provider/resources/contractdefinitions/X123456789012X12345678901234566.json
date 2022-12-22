@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "criteria": [
+        {
+            "operandLeft": "asset:prop:id",
+            "operator": "=",
+            "operandRight": "X123456789012X12345678901234566"
+        }
+    ],
+    "accessPolicyId": "ad8d2c57-cf32-409c-96a8-be59675b6ae5",
+    "contractPolicyId": "ad8d2c57-cf32-409c-96a8-be59675b6ae5"
+}

@@ -6,7 +6,6 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
-
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']

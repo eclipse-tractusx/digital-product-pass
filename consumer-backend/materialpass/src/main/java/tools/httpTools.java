@@ -157,6 +157,18 @@ public final class httpTools {
         }
         return finalUrl.toString();
     }
+    public static String mapToParams(Map<String, ?> params, Boolean encode){
+        StringBuilder finalUrl = new StringBuilder();
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+
+            String value = String.valueOf(entry.getValue());
+            if(encode) {
+                value = URLEncoder.encode(value, StandardCharsets.UTF_8);
+            }
+            finalUrl.append("&").append(entry.getKey()).append("=").append(value);
+        }
+        return finalUrl.toString();
+    }
 
     /**************************************************
      * Response Methods *******************************

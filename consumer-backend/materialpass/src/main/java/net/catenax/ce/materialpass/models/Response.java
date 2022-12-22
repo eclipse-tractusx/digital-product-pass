@@ -24,13 +24,21 @@
 
 package net.catenax.ce.materialpass.models;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
+    @JsonProperty("message")
     public String message = null;
+    @JsonProperty("status")
     public Integer status = 200;
+    @JsonProperty("statusText")
     public String statusText = "Success";
+
+    @JsonProperty("data")
     public Object data = null;
 
     public Response(String message, Integer status, String statusText) {

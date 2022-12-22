@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.vault.core.VaultTemplate;
 import org.springframework.vault.support.VaultResponse;
-import tools.configTools;
-import tools.fileTools;
-import tools.logTools;
-import tools.yamlTools;
+import tools.*;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -54,7 +51,7 @@ public class VaultService {
 
             Map<String, Object> content = yamlTools.readFile(filePath);
             try {
-                secret = (String) content.get(localSecretPath);
+                secret = (String) jsonTools.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
                 throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "It was not possible to get secrets credentials from file");
             }

@@ -24,16 +24,7 @@ public class DataController {
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
-<<<<<<< HEAD
         response.data = dataService.getContractOfferCatalog(providerUrl);
-=======
-        if(!httpTools.isInSession(httpRequest, "AssetManager")){
-            httpTools.setSessionValue(httpRequest, "AssetManager", new AssetManager());
-        }
-        AssetManager assetManager = (AssetManager) httpTools.getSessionValue(httpRequest, "AssetManager");
-        response.data = jsonTools.dumpJson(assetManager.dataModel,4);
-        assetManager.saveDataModel();
->>>>>>> 345bda961b5219ed02e168b98962b81306803480
         return response;
     }
 }

@@ -24,10 +24,35 @@
 
 package net.catenax.ce.materialpass.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtToken {
 
+    @JsonProperty("access_token")
     String accessToken;
+
+    @JsonProperty("refresh_token")
     String refreshToken;
+    @JsonProperty("expires_in")
+    Integer expiresIn;
+
+    @JsonProperty("refresh_expires_in")
+    Integer refreshExpiresIn;
+
+    @JsonProperty("token_type")
+    String tokenType;
+
+    @JsonProperty("id_token")
+    String idToken;
+
+    @JsonProperty("not-before-policy")
+    String notBeforePolicy;
+
+    @JsonProperty("scope")
+    String scope;
+
+
     public JwtToken(){
 
     }
@@ -52,4 +77,51 @@ public class JwtToken {
         this.refreshToken = refreshToken;
     }
 
+    public Integer getExpiresIn() {
+        return expiresIn;
+    }
+
+    public void setExpiresIn(Integer expiresIn) {
+        this.expiresIn = expiresIn;
+    }
+
+    public Integer getRefreshExpiresIn() {
+        return refreshExpiresIn;
+    }
+
+    public void setRefreshExpiresIn(Integer refreshExpiresIn) {
+        this.refreshExpiresIn = refreshExpiresIn;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
+
+    public String getIdToken() {
+        return idToken;
+    }
+
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
+    }
+
+    public String getNotBeforePolicy() {
+        return notBeforePolicy;
+    }
+
+    public void setNotBeforePolicy(String notBeforePolicy) {
+        this.notBeforePolicy = notBeforePolicy;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
 }

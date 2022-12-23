@@ -2,7 +2,7 @@ import { CX_REGISTRY_URL } from "@/services/service.const";
 import axios from "axios";
 
 
-export default class aasServices {
+export default class AasServices {
 
   getAasShellId(assetIds, requestHeaders) {
     return new Promise((resolve) => {

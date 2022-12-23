@@ -1,6 +1,7 @@
 <template>
   <img
     class="logo"
+    alt="catena-x logo"
     src="../assets/catenaX-logo.png"
     style="margin-top: 150px"
   />
@@ -10,7 +11,7 @@
   </div>
   <br />
   <div>
-    <img height="200" src="../assets/QR.png" width="200" />
+    <img height="200" alt="QR code" src="../assets/QR.png" width="200" />
   </div>
   <div class="margin-top" hidden>
     <div class="container">
@@ -48,7 +49,7 @@
         </button>
       </div>
       <div>
-        <img :src="generatedQrCodeUrl" />
+        <img alt="generated QR code URL" :src="generatedQrCodeUrl" />
       </div>
 
       <div>

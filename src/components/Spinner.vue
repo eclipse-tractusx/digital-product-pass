@@ -1,6 +1,6 @@
 <template>
   <div class="spinner-container">
-    <img class="spinner" src="../assets/spinner.svg" />
+    <img class="spinner" alt="loading spinner" src="../assets/spinner.svg" />
   </div>
 </template>
 

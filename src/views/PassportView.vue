@@ -42,8 +42,8 @@ import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { API_KEY } from "@/services/service.const";
-import apiWrapper from "@/services/wrapper";
-import AAS from "@/services/aasServices";
+import apiWrapper from "@/services/Wrapper";
+import AAS from "@/services/AasServices";
 import { inject } from "vue";
 export default {
   name: "PassportView",

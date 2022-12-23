@@ -1,7 +1,7 @@
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
 
-export default class wrapper {
+export default class Wrapper {
 
   // Step 1: Request contract offers from the catalog
   getContractOfferCatalog(providerUrl, requestHeaders) {

@@ -4,7 +4,7 @@ import axios from "axios";
 import store from '../store/index';
 
 
-export default class authentication {
+export default class Authentication {
 
     keycloak;
     constructor(){

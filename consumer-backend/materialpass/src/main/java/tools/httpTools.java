@@ -46,7 +46,12 @@ import java.util.Set;
 
 public final class httpTools {
 
+
+    private static final String SUCCESS_TEXT = "Success";
     private static final configTools configurations = new configTools();
+
+    private static final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
+    private static final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
     public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request) {
         AccessToken user = httpTools.getCurrentUser(request); // Get user from request
@@ -123,11 +128,12 @@ public final class httpTools {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
     }
 
+
     public static Response getResponse() {
         return new Response(
-                "",
+                null,
                 200,
-                "Success"
+                SUCCESS_TEXT
         );
     }
 
@@ -135,7 +141,7 @@ public final class httpTools {
         return new Response(
                 message,
                 200,
-                "Success"
+                SUCCESS_TEXT
         );
     }
 
@@ -143,7 +149,7 @@ public final class httpTools {
         return new Response(
                 message,
                 200,
-                "Success",
+                SUCCESS_TEXT,
                 data
         );
     }
@@ -206,6 +212,8 @@ public final class httpTools {
     /// REQUEST Methods --------------------------------------------
     /// ============================================================
 
+
+
     /*
      * GET With PARAMS + HEADERS
      */
@@ -214,7 +222,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -226,7 +234,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -238,7 +246,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -250,7 +258,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -262,7 +270,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -273,7 +281,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -286,7 +294,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -298,7 +306,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -310,7 +318,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -322,7 +330,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -333,7 +341,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -344,7 +352,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     public static HttpHeaders getHeaders() {

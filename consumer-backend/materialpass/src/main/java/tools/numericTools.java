@@ -29,6 +29,9 @@ public final class numericTools {
      * Static Tools to parse numbers if is possible
      *
      */
+    private numericTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
 
     public static Integer parseInt(String value){
         try{

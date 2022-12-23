@@ -33,7 +33,9 @@ public final class dateTimeTools {
      * Static tools to get current dateTime used for logging.
      *
      */
-
+    private dateTimeTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static String getDateTimeFormatted(String pattern){
         String defaultPattern = "dd/MM/yyyy HH:mm:ss.SSS";
         if(pattern == null){

@@ -25,6 +25,9 @@
 package tools;
 
 public final class reflectionTools {
+    private reflectionTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static String getCurrentClassName(Class classObj){
         return classObj.getSimpleName();
     }

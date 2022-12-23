@@ -1,11 +1,8 @@
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
 
-export default class wrapper {
+export default class Wrapper {
 
-  constructor(){
-        
-  }
   // Step 1: Request contract offers from the catalog
   getContractOfferCatalog(providerUrl, requestHeaders) {
     return new Promise(resolve => {
@@ -26,7 +23,7 @@ export default class wrapper {
   }
   // Step 2: Negotiate a contract based on contract offer retrieved in previous step
   doContractNegotiation(payload, requestHeaders) {
-    var requestBody = {
+    let requestBody = {
       "connectorId": payload.connectorId,
       "connectorAddress": payload.connectorAddress,
       "offer": {
@@ -90,7 +87,7 @@ export default class wrapper {
   // Step 4.1: Initiate data transfer process based on agreement id from previous step
   initiateTransfer(assetId, requestHeaders, payload){
 
-    var requestBody = {
+    let requestBody = {
       "id": payload.transferProcessId,
       "connectorId": payload.connectorId,
       "connectorAddress": payload.connectorAddress,
@@ -159,28 +156,28 @@ export default class wrapper {
   }
 
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    var contractId = "";
-    var data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
+    let contractId = "";
+    let data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
 
     // Contarct catalog returns array of contract offers, select one that matches assetId //
-    var contractOffer = data.contractOffers.filter(offer => {
+    let contractOffer = data.contractOffers.filter(offer => {
       return offer.asset.id.includes(assetId);
     });
 
     // Contract negotiation request parameters //
-    var payload = {
+    let payload = {
       connectorAddress: providerConnector.connectorAddress,
       connectorId: providerConnector.idShort,
       contractOffer: contractOffer[0]
     };
     console.log(payload);
-    var negotiation = await this.doContractNegotiation(payload, requestHeaders);
+    let negotiation = await this.doContractNegotiation(payload, requestHeaders);
     console.log("Negotiation ID: " + negotiation.id);
 
 
     // Check agreement status //
     // Status: INITIAL, REQUESTED, CONFIRMED
-    var response = null;
+    let response = null;
     // Check the agreement status until it is of status CONFIRMED
     while (response == null || response.state != "CONFIRMED") {
       response = await this.getAgreementId(negotiation.id, requestHeaders);
@@ -189,7 +186,7 @@ export default class wrapper {
     }
 
     // initiate data transfer
-    var requestBody = {
+    let requestBody = {
       transferProcessId: Date.now(),
       connectorId: providerConnector.idShort,
       connectorAddress: providerConnector.connectorAddress,
@@ -197,10 +194,10 @@ export default class wrapper {
       assetId: assetId,
       type: "HttpProxy"
     };
-    var transfer = await this.initiateTransfer(assetId, requestHeaders, requestBody);
+    let transfer = await this.initiateTransfer(assetId, requestHeaders, requestBody);
     console.log("Transfer Id: " + transfer.id);
 
-    var result = null;
+    let result = null;
     // Check the transfer status repeatedly until it is COMPLETED from consumer side
     while (result == null || result.state != "COMPLETED") {
 

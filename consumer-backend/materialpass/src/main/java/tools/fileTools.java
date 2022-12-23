@@ -34,7 +34,9 @@ import java.nio.file.Paths;
 
 
 public final class fileTools {
-
+    private fileTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static String toFile(String filePath, String content, Boolean append) throws IOException {
         fileTools.createFile(filePath);
         try(
@@ -136,25 +138,33 @@ public final class fileTools {
 
             try {
                 if(!fileTools.pathExists(path)) {
-                    logTools.printError("It was not possible to read file [" + path + "]!");
+                    logTools.printError("The file does not exists in [" + path + "]!");
                     return null;
                 }
                 return new String(Files.readAllBytes(Paths.get(path)));
             } catch (Exception e) {
-                throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+                throw new ToolException(fileTools.class, "It was not possible to read file in [" + path + "]");
             }
 
+    }
+
+    public static String getRootPath(){
+        try {
+            return System.getProperty("user.dir");
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class, "It was not possible to get root path");
+        }
     }
     public static String readFile(Path path){
 
         try {
             if(!fileTools.pathExists(path)) {
-                logTools.printError("It was not possible to read file [" + path + "]!");
+                logTools.printError("The file does not exists in path [" + path.toString() + "]!");
                 return null;
             }
             return new String(Files.readAllBytes(path));
         } catch (Exception e) {
-            throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+            throw new ToolException(fileTools.class, "It was not possible to read file in path [" + path + "]");
         }
 
     }

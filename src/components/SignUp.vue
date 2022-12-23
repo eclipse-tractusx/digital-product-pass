@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <img class="logo" src="../assets/catenaX-logo.png" style="margin-left: 45%"/>
+    <img class="logo" alt="catena-x logo" src="../assets/catenaX-logo.png" style="margin-left: 45%"/>
     <br/>
     <div class="margin-top">
       <p class="h1" style="margin-left: 49%; font-weight: bolder; font-size: x-large;">Sign Up</p>

@@ -5,7 +5,9 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
 public final class systemTools {
-
+    private systemTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static Long getMemoryUsage(){
         return systemTools.getTotalMemory() - systemTools.getFreeMemory();
     }

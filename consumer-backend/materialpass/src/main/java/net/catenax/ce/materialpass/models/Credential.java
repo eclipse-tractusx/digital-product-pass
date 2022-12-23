@@ -50,18 +50,28 @@ public class Credential {
         this.tab_id = tab_id;
         this.userCredential = new UserCredential(username, password, credentialId);
     }
-    public Credential(String session_code, String execution, String client_id, String tab_id, UserCredential UserCredential) {
+    public Credential(String session_code, String execution, String client_id, String tab_id, UserCredential userCredential) {
         this.session_code = session_code;
         this.execution = execution;
         this.client_id = client_id;
         this.tab_id = tab_id;
-        this.userCredential = new UserCredential();
+        this.userCredential = userCredential;
     }
     public Credential(String session_code, String execution, String client_id, String tab_id) {
         this.session_code = session_code;
         this.execution = execution;
         this.client_id = client_id;
         this.tab_id = tab_id;
+        this.userCredential = new UserCredential();
+    }
+
+    public Credential(String session_code, String execution, String client_id, String client_secret, String tab_id, UserCredential userCredential) {
+        this.session_code = session_code;
+        this.execution = execution;
+        this.client_id = client_id;
+        this.client_secret = client_secret;
+        this.tab_id = tab_id;
+        this.userCredential = userCredential;
     }
 
     public void mapKeycloakResponse(HttpServletRequest request){
@@ -108,5 +118,13 @@ public class Credential {
 
     public void setUserCredential(UserCredential userCredential) {
         this.userCredential = userCredential;
+    }
+
+    public String getClient_secret() {
+        return client_secret;
+    }
+
+    public void setClient_secret(String client_secret) {
+        this.client_secret = client_secret;
     }
 }

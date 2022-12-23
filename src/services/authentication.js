@@ -4,7 +4,7 @@ import axios from "axios";
 import store from '../store/index';
 
 
-export default class authentication {
+export default class Authentication {
 
     keycloak;
     constructor(){
@@ -70,7 +70,7 @@ export default class authentication {
       return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }
     logout() {
-      var logoutOptions = { redirectUri: REDIRECT_URI };
+      let logoutOptions = { redirectUri: REDIRECT_URI };
 
       this.keycloak.logout(logoutOptions).then((success) => {
         console.log("--> log: logout success ", success);
@@ -108,7 +108,6 @@ export default class authentication {
 
         }).then(response => {
 
-          //console.log(response.data);
           resolve(response.data.access_token);
 
         }).catch(error => {

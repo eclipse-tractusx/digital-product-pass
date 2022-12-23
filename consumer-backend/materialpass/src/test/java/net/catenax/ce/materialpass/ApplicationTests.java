@@ -8,6 +8,7 @@ class ApplicationTests {
 
 	@Test
 	void contextLoads() {
+        // Test code goes here
 	}
 
 }

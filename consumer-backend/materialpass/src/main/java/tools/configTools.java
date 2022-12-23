@@ -31,17 +31,18 @@ import java.util.Map;
 
 public final class configTools {
 
-    private static final String rootPath = System.getProperty("user.dir");
-    private static final String configurationFileName = "config/configuration.yml";
+    private static final String CONFIGURATION_FILE_NAME = "config/configuration.yml";
     private Map<String, Object> configuration;
 
+
+
     public configTools(){
-        InputStream fileContent  = fileTools.getResourceContent(this.getClass(), configurationFileName);
+        InputStream fileContent  = fileTools.getResourceContent(this.getClass(), CONFIGURATION_FILE_NAME);
         this.configuration = yamlTools.parseYmlStream(fileContent);
     }
     public Map<String, Object> getConfiguration(){
         if (this.configuration == null) {
-            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+configurationFileName+"] not loaded!");
+            throw new ToolException(configTools.class,"[CRITICAL] Configuration file ["+ CONFIGURATION_FILE_NAME +"] not loaded!");
         }
         return this.configuration;
     }

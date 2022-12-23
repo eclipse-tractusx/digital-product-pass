@@ -46,64 +46,65 @@ import java.util.Set;
 
 public final class httpTools {
 
+    private httpTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
+    private static final String SUCCESS_TEXT = "Success";
     private static final configTools configurations = new configTools();
 
-    /**************************************************
-     * User Authentication Related Functions
-     * @param request + Extra details
-     **************************************************/
+    private static final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
+    private static final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
-    public static Set<String> getUserRealmRoles(HttpServletRequest request) {
-        AccessToken user = httpTools.getUser(request); // Get user from request
+    public static Set<String> getCurrentUserRealmRoles(HttpServletRequest request) {
+        AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if (user == null) {
             return null;
         }
         return user.getRealmAccess().getRoles(); // Get roles from user
     }
 
-    public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
-        KeycloakPrincipal principal = httpTools.getUserPrincipal(httpRequest);
-        return principal != null;
+    public static void redirect(HttpServletResponse httpResponse, String url) {
+        try {
+            httpResponse.sendRedirect(url);
+        } catch (IOException e) {
+            throw new ToolException(httpTools.class, e, "It was not posible to redirect to [" + url + "]");
+        }
     }
 
-    public static Set<String> getUserClientRoles(HttpServletRequest request, String clientId) {
-        AccessToken user = httpTools.getUser(request); // Get user from request
+    public static Set<String> getCurrentUserClientRoles(HttpServletRequest request, String clientId) {
+        AccessToken user = httpTools.getCurrentUser(request); // Get user from request
         if (user == null) {
             return null;
         }
         return user.getResourceAccess(clientId).getRoles(); // Get roles from user
     }
 
-    public static AccessToken getUser(HttpServletRequest request) {
-        KeycloakSecurityContext session = httpTools.getUserSession(request); // Get the session from the request
+    public static AccessToken getCurrentUser(HttpServletRequest request) {
+        KeycloakSecurityContext session = httpTools.getCurrentUserSession(request); // Get the session from the request
         if (session == null) {
             return null;
         }
         return session.getToken(); // Return user info
     }
 
-    public static KeycloakPrincipal getUserPrincipal(HttpServletRequest request) {
+    public static KeycloakPrincipal getCurrentUserPrincipal(HttpServletRequest request) {
         return (KeycloakPrincipal) request.getUserPrincipal();// Get the user data from the request
     }
 
-    /**************************************************
-     * Session Related Methods
-     * @param request + Extra details
-     **************************************************/
-
     public static String getJWTToken(HttpServletRequest request) {
-        AccessToken token = httpTools.getUser(request);
+        AccessToken token = httpTools.getCurrentUser(request);
         logTools.printMessage(jsonTools.toJson(token));
         return crypTools.toBase64Url(jsonTools.toJson(token));
     }
 
-    public static KeycloakSecurityContext getUserSession(HttpServletRequest request) {
-        KeycloakPrincipal principal = httpTools.getUserPrincipal(request); // Get the principal to access the session
+    public static KeycloakSecurityContext getCurrentUserSession(HttpServletRequest request) {
+        KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(request); // Get the principal to access the session
         if (principal == null) {
             return null;
         }
         return principal.getKeycloakSecurityContext();
     }
+
 
     public static Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);
@@ -125,14 +126,39 @@ public final class httpTools {
         return false;
     }
 
-
-    /**************************************************
-     * HTTP Related Methods
-     * @param httpRequest + Extra details
-     **************************************************/
-
     public static String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
+    }
+
+
+    public static Response getResponse() {
+        return new Response(
+                null,
+                200,
+                SUCCESS_TEXT
+        );
+    }
+
+    public static Response getResponse(String message) {
+        return new Response(
+                message,
+                200,
+                SUCCESS_TEXT
+        );
+    }
+
+    public static Response getResponse(String message, Object data) {
+        return new Response(
+                message,
+                200,
+                SUCCESS_TEXT,
+                data
+        );
+    }
+
+    public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
+        KeycloakPrincipal principal = httpTools.getCurrentUserPrincipal(httpRequest);
+        return principal != null;
     }
 
     public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
@@ -157,59 +183,6 @@ public final class httpTools {
         }
         return finalUrl.toString();
     }
-    public static String mapToParams(Map<String, ?> params, Boolean encode){
-        StringBuilder finalUrl = new StringBuilder();
-        for(Map.Entry<String, ?> entry : params.entrySet()){
-
-            String value = String.valueOf(entry.getValue());
-            if(encode) {
-                value = URLEncoder.encode(value, StandardCharsets.UTF_8);
-            }
-            finalUrl.append("&").append(entry.getKey()).append("=").append(value);
-        }
-        return finalUrl.toString();
-    }
-
-
-    /**************************************************
-     * Response Methods *******************************
-     **************************************************/
-
-    public static Response getResponse() {
-        return new Response(
-                "",
-                200,
-                "Success"
-        );
-    }
-
-    public static Response getResponse(String message) {
-        return new Response(
-                message,
-                200,
-                "Success"
-        );
-    }
-
-    public static Response getResponse(String message, Object data) {
-        return new Response(
-                message,
-                200,
-                "Success",
-                data
-        );
-    }
-    public static void redirect(HttpServletResponse httpResponse, String url) {
-        try {
-            httpResponse.sendRedirect(url);
-        } catch (IOException e) {
-            throw new ToolException(httpTools.class, e, "It was not posible to redirect to [" + url + "]");
-        }
-    }
-
-    /**************************************************
-     * Generic Request Methods ************************
-     **************************************************/
     public static ResponseEntity<Object> doRequest(String url, Class responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
         String finalUrl = httpTools.buildUrl(url, params, encode);
@@ -222,17 +195,17 @@ public final class httpTools {
         int i = 0;
         Integer maxRetries = (Integer) configurations.getConfigurationParam("maxRetries");
         if (maxRetries == null) {
-            throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, "It was not possible to request to " + url);
         }
 
         while (response == null && i < maxRetries) {
             response = restTemplate.exchange(finalUrl, method, payload, responseType, params);
-            logTools.printDebug("[" + i + "] Retrying GET request to " + url);
+            logTools.printDebug("[" + i + "] Retrying request to " + url);
             i++;
         }
 
         if (response == null) {
-            throw new ToolException(httpTools.class, "It was not possible execute request to " + url);
+            throw new ToolException(httpTools.class, "It was not possible to do " + method.name() + " request to " + url);
         }
         return response;
     }
@@ -240,6 +213,8 @@ public final class httpTools {
     /// ============================================================
     /// REQUEST Methods --------------------------------------------
     /// ============================================================
+
+
 
     /*
      * GET With PARAMS + HEADERS
@@ -249,7 +224,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -261,7 +236,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -273,7 +248,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -285,7 +260,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -297,7 +272,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -308,7 +283,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, e, GET_ERROR_MESSAGE + url);
         }
     }
 
@@ -321,7 +296,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -333,7 +308,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -345,7 +320,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
 
@@ -357,7 +332,7 @@ public final class httpTools {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -368,7 +343,7 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     /*
@@ -379,18 +354,13 @@ public final class httpTools {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);
         } catch (Exception e) {
-            throw new ToolException(httpTools.class, e, "It was not possible to do POST request to " + url);
+            throw new ToolException(httpTools.class, e, POST_ERROR_MESSAGE + url);
         }
     }
     public static HttpHeaders getHeaders() {
         return new HttpHeaders();
     }
 
-    public static HttpHeaders getHeadersWithToken(String accessToken) {
-        HttpHeaders headers =  new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        return headers;
-    }
     public static Map<String, Object> getParams() {
         return new HashMap<String, Object>();
     }

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-var CryptoJS = require("crypto-js");
+const CryptoJS = require("crypto-js");
 
 export default createStore({
 

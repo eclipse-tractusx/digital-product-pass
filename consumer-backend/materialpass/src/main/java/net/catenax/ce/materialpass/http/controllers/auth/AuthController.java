@@ -90,7 +90,7 @@ public class AuthController {
     /*
      */
     @RequestMapping(method = RequestMethod.GET)
-    Response index() throws Exception{
+    Response index(){
         httpTools.redirect(httpResponse,"/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
@@ -108,7 +108,7 @@ public class AuthController {
         return httpTools.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    Response login() throws Exception{
+    Response login(){
         return loginFromHttpRequest();
     }
 

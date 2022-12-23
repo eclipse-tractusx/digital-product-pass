@@ -31,7 +31,6 @@ import java.util.Map;
 
 public final class configTools {
 
-    private static final String ROOT_PATH = System.getProperty("user.dir");
     private static final String CONFIGURATION_FILE_NAME = "config/configuration.yml";
     private Map<String, Object> configuration;
 

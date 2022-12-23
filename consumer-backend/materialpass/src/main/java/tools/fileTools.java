@@ -145,6 +145,14 @@ public final class fileTools {
             }
 
     }
+
+    public static String getRootPath(){
+        try {
+            return System.getProperty("user.dir");
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class, "It was not possible to get root path");
+        }
+    }
     public static String readFile(Path path){
 
         try {

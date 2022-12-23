@@ -34,7 +34,9 @@ import java.nio.file.Paths;
 
 
 public final class fileTools {
-
+    private fileTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static String toFile(String filePath, String content, Boolean append) throws IOException {
         fileTools.createFile(filePath);
         try(
@@ -144,6 +146,14 @@ public final class fileTools {
                 throw new ToolException(fileTools.class, "It was not possible to read file in [" + path + "]");
             }
 
+    }
+
+    public static String getRootPath(){
+        try {
+            return System.getProperty("user.dir");
+        } catch (Exception e) {
+            throw new ToolException(fileTools.class, "It was not possible to get root path");
+        }
     }
     public static String readFile(Path path){
 

@@ -32,6 +32,9 @@ import org.springframework.core.task.TaskExecutor;
 
 import java.util.Map;
 public final class logTools {
+    private logTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
 
     /**
      * Static Tools to print logs with format and current date.

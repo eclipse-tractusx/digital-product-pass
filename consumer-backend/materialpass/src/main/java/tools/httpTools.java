@@ -46,7 +46,9 @@ import java.util.Set;
 
 public final class httpTools {
 
-
+    private httpTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     private static final String SUCCESS_TEXT = "Success";
     private static final configTools configurations = new configTools();
 
@@ -193,12 +195,12 @@ public final class httpTools {
         int i = 0;
         Integer maxRetries = (Integer) configurations.getConfigurationParam("maxRetries");
         if (maxRetries == null) {
-            throw new ToolException(httpTools.class, "It was not possible to do GET request to " + url);
+            throw new ToolException(httpTools.class, "It was not possible to request to " + url);
         }
 
         while (response == null && i < maxRetries) {
             response = restTemplate.exchange(finalUrl, method, payload, responseType, params);
-            logTools.printDebug("[" + i + "] Retrying GET request to " + url);
+            logTools.printDebug("[" + i + "] Retrying request to " + url);
             i++;
         }
 

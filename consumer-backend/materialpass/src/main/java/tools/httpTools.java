@@ -46,7 +46,9 @@ import java.util.Set;
 
 public final class httpTools {
 
-
+    private httpTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     private static final String SUCCESS_TEXT = "Success";
     private static final configTools configurations = new configTools();
 

@@ -33,6 +33,10 @@ import java.util.List;
 
 public final class csvTools {
 
+    private csvTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
+
     /**
      * Static tools to manage csv files.
      * At the moment just readFile is available

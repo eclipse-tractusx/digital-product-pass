@@ -6,6 +6,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public final class crypTools {
+    private crypTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
     public static String toBase64(String str){
         return Base64.getEncoder().encodeToString(str.getBytes());
     }

@@ -49,11 +49,11 @@ public class AuthController {
 
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
-    final static String CLIENTIDPATH = "keycloak.resource";
+    final static String CLIENT_ID_PATH = "keycloak.resource";
 
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
-        Set<String> roles = httpTools.getCurrentUserClientRoles(this.httpRequest,env.getProperty(CLIENTIDPATH));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(this.httpRequest,env.getProperty(CLIENT_ID_PATH));
 
         if(roles == null) {
             response.message = "You have no assigned roles!";
@@ -116,7 +116,7 @@ public class AuthController {
     public Response recycler(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENTIDPATH));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENT_ID_PATH));
         response.message = "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
         return response;
     }
@@ -125,7 +125,7 @@ public class AuthController {
     public Response oem(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENTIDPATH));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENT_ID_PATH));
         response.message = "You are logged in as OEM role | " + "This are the received roles " + roles;
         return response;
     }

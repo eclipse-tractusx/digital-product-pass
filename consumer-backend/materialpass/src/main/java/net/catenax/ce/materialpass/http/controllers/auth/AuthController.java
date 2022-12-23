@@ -49,11 +49,11 @@ public class AuthController {
 
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
-    final static String clientIdPath = "keycloak.resource";
+    final static String CLIENTIDPATH = "keycloak.resource";
 
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
-        Set<String> roles = httpTools.getCurrentUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(this.httpRequest,env.getProperty(CLIENTIDPATH));
 
         if(roles == null) {
             response.message = "You have no assigned roles!";

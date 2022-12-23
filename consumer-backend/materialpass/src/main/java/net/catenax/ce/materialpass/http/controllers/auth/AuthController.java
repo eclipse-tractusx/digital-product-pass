@@ -116,7 +116,7 @@ public class AuthController {
     public Response recycler(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENTIDPATH));
         response.message = "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
         return response;
     }
@@ -125,7 +125,7 @@ public class AuthController {
     public Response oem(){
         Response response = httpTools.getResponse();
 
-        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
+        Set<String> roles = httpTools.getCurrentUserClientRoles(httpRequest,env.getProperty(CLIENTIDPATH));
         response.message = "You are logged in as OEM role | " + "This are the received roles " + roles;
         return response;
     }

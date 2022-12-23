@@ -49,7 +49,7 @@ public class AuthController {
 
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
-    final static String CLIENT_ID_PATH = "keycloak.resource";
+    static final String CLIENT_ID_PATH = "keycloak.resource";
 
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
@@ -64,15 +64,14 @@ public class AuthController {
         AccessToken accessToken = httpTools.getCurrentUser(this.httpRequest);
         if(!httpTools.isInSession(this.httpRequest, "user")){
 
-            // TODO: Get client credentials from hashiCorpVault
-            Credential Credential = new Credential(
+            Credential credential = new Credential(
                     new UserCredential(
                             accessToken.getPreferredUsername(),
                             accessToken.getSubject(),
                             ""
                     )
             );
-            httpTools.setSessionValue(this.httpRequest, "Credential",Credential);
+            httpTools.setSessionValue(this.httpRequest, "Credential",credential);
         }
         Credential currentCredential = (Credential) httpTools.getSessionValue(this.httpRequest, "Credential");
         currentCredential.setClient_id(accessToken.getIssuedFor());

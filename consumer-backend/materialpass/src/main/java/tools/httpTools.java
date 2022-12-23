@@ -362,6 +362,6 @@ public final class httpTools {
     }
 
     public static Map<String, Object> getParams() {
-        return new HashMap<String, Object>();
+        return new HashMap<>();
     }
 }

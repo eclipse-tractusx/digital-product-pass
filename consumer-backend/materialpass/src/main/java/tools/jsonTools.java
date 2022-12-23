@@ -19,7 +19,7 @@ public final class jsonTools {
     }
 
     public static ArrayList<Object> getObjectArray(Object... data){
-        return new ArrayList<Object>(
+        return new ArrayList<>(
                 Arrays.asList(
                         data)
         );

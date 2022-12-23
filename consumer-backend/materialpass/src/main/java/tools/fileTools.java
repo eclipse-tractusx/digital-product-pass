@@ -136,12 +136,12 @@ public final class fileTools {
 
             try {
                 if(!fileTools.pathExists(path)) {
-                    logTools.printError("It was not possible to read file [" + path + "]!");
+                    logTools.printError("The file does not exists in [" + path + "]!");
                     return null;
                 }
                 return new String(Files.readAllBytes(Paths.get(path)));
             } catch (Exception e) {
-                throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+                throw new ToolException(fileTools.class, "It was not possible to read file in [" + path + "]");
             }
 
     }
@@ -149,12 +149,12 @@ public final class fileTools {
 
         try {
             if(!fileTools.pathExists(path)) {
-                logTools.printError("It was not possible to read file [" + path + "]!");
+                logTools.printError("The file does not exists in path [" + path.toString() + "]!");
                 return null;
             }
             return new String(Files.readAllBytes(path));
         } catch (Exception e) {
-            throw new ToolException(fileTools.class, "It was not possible to read file [" + path + "]");
+            throw new ToolException(fileTools.class, "It was not possible to read file in path [" + path + "]");
         }
 
     }

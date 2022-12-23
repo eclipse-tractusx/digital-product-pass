@@ -92,7 +92,7 @@ public class DataTransferService {
                     "It was not possible to retrieve the catalog!");
         }
     }
-    public String doTransferProcess(Negotiation negotiation, Offer offer, Boolean managedResources){
+    public String doTransferProcess(Negotiation negotiation, String idShort, String connectorAddress, Offer offer, Boolean managedResources){
         try{
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
@@ -102,8 +102,8 @@ public class DataTransferService {
             headers.add("X-Api-Key", APIKey);
             Object body = new TransferRequest(
                     negotiation.getId(),
-                    offer.getConnectorId(),
-                    negotiation.getCounterPartyAddress(),
+                    idShort,
+                    connectorAddress,
                     negotiation.getContractAgreementId(),
                     offer.getAssetId(),
                     managedResources,

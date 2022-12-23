@@ -170,6 +170,7 @@ public final class httpTools {
         return finalUrl.toString();
     }
 
+
     /**************************************************
      * Response Methods *******************************
      **************************************************/
@@ -385,6 +386,11 @@ public final class httpTools {
         return new HttpHeaders();
     }
 
+    public static HttpHeaders getHeadersWithToken(String accessToken) {
+        HttpHeaders headers =  new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        return headers;
+    }
     public static Map<String, Object> getParams() {
         return new HashMap<String, Object>();
     }

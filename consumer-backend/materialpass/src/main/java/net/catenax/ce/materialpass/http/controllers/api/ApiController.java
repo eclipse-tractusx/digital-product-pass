@@ -2,6 +2,7 @@ package net.catenax.ce.materialpass.http.controllers.api;
 
 import net.catenax.ce.materialpass.exceptions.ControllerException;
 import net.catenax.ce.materialpass.models.*;
+import net.catenax.ce.materialpass.services.AasService;
 import net.catenax.ce.materialpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ public class ApiController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
+    private @Autowired AasService aasService;
 
     public Offer getContractOfferByAssetId(String assetId) throws ControllerException {
         try {
@@ -87,7 +89,14 @@ public class ApiController {
             return response;
         }
         negotiation = dataService.getNegotiation(negotiation.getId());
-        response.data = dataService.doTransferProcess(negotiation, contractOffer, false);
+
+        /// TODO: Hardcoded value
+        int position = 0; // This position could be passed by parameter in the request...
+
+        SubModel subModel = aasService.searchSubModel("Battery_ID_DMC_Code", assetId, position);
+        String contractId = subModel.getIdShort();
+        String connectorAddress = subModel.getEndpoints().get(position).getProtocolInformation().getEndpointAddress();
+        response.data = dataService.doTransferProcess(negotiation,contractId, connectorAddress,contractOffer,false);
         return response;
     }
 }

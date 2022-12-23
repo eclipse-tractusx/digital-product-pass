@@ -48,13 +48,16 @@ public class BaseInterceptor implements HandlerInterceptor {
     }
     @Override
     public void postHandle(
+
             HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
+        //[NOTE]: Post Handle not implemented!
     }
 
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
                                 Object handler, Exception exception) throws Exception{
+        //[NOTE]: After Completion not implemented!
     }
 }

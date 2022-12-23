@@ -40,7 +40,7 @@ public final class logTools {
     @Autowired
     private TaskExecutor taskExecutor;
     public static final configTools configuration = new configTools();
-    public static final String absoluteLogPath = logTools.getLogPath();
+    public static final String ABSOLUTE_LOG_PATH = logTools.getLogPath();
     static Logger logger = LogManager.getLogger(logTools.class);
     private static final Level INFO = Level.forName("INFO", 400);
     private static final Level HTTP = Level.forName("HTTP", 420);
@@ -148,9 +148,9 @@ public final class logTools {
         }
         public void run() {
            try {
-               fileTools.toFile(absoluteLogPath, logMessage, true);
+               fileTools.toFile(ABSOLUTE_LOG_PATH, logMessage, true);
            }catch (Exception e){
-               logger.log(EXCEPTION, "It was not possible to write log message to file "+ absoluteLogPath, e);
+               logger.log(EXCEPTION, "It was not possible to write log message to file "+ ABSOLUTE_LOG_PATH, e);
            }
         }
 

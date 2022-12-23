@@ -39,5 +39,6 @@ public class DataModel extends JSONObject {
     }
 
     public void save(){
+        // Save not implemented
     }
 }

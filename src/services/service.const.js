@@ -41,9 +41,8 @@ else { // for local run
     onLoad: 'login-required'
   };
   REDIRECT_URI = "http://localhost:8080/";
+  SERVER_URL = INT_SERVER_URL; // this server url should come from DEV. Because DEV is not working at the moment, we use INT Server for testing purpose. Once, DEV is up and running, we change this to DEV.  
 }
-SERVER_URL = REDIRECT_URI;
-
 
 export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL};
 

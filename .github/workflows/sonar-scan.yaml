@@ -4,7 +4,7 @@ on:
     branches:
       - 'main'
       - 'develop'
-      - 'sonar/frontend_test'
+      - 'sonar/backend_test'
 
     pull_request:
       types: [ opened, reopened, synchronize ]
@@ -38,27 +38,27 @@ jobs:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
       
-      # - name: Build and analyze Java Code
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     cd consumer-backend/materialpass
-      #     mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-      
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Run npm install
-        run: npm install --legacy-peer-deps
-      
-      - name: Analyze Frontend Code
-        uses: sonarsource/sonarcloud-github-action@master
+      - name: Build and analyze Java Code
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          cd consumer-backend/materialpass
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+
+      # - name: Run npm install
+      #   run: npm install --legacy-peer-deps
+      
+      # - name: Analyze Frontend Code
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   
 
 

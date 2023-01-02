@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "0566ca7f-470c-4f28-a76d-70b1b68aee26",
-		"name": "Battery-Pass",
+		"name": "Battery-Pass_INT",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -28,7 +28,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"electrochemicalProperties\": {\r\n        \"ratedCapacity\": 200,\r\n        \"batteryEnergy\": {\r\n            \"energyRoundtripEfficiencyChange\": 80,\r\n            \"maximumAllowedBatteryEnergy\": 60000.0,\r\n            \"energyRoundtripEfficiency\": 48\r\n        },\r\n        \"ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy\": 0.833,\r\n        \"batteryVoltage\": {\r\n            \"nominalVoltage\": 3.6,\r\n            \"maxVoltage\": 4.2,\r\n            \"minVoltage\": 2.5\r\n        },\r\n        \"internalResistance\": {\r\n            \"cellInternalResistance\": 0.3,\r\n            \"packInternalResistanceIncrease\": 0.21,\r\n            \"packInternalResistance\": 53\r\n        },\r\n        \"capacityThresholdExhaustion\": 20,\r\n        \"batteryPower\": {\r\n            \"originalPowerCapability\": 150,\r\n            \"powerFade\": 12.1,\r\n            \"originalPowerCapabilityLimits\": 734.8,\r\n            \"maximumAllowedBatteryPower\": 100000,\r\n            \"powerCapabilityAt20Charge\": 500000,\r\n            \"originalPower\": 40000,\r\n            \"powerCapabilityAt80Charge\": 120000\r\n        },\r\n        \"capacityFade\": 1.5\r\n    },\r\n    \"document\": {\r\n        \"responsibleSourcing\": [\r\n            {\r\n                \"title\": \"Responsible Sourcing Report 2021\",\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n            }\r\n        ],\r\n        \"packagingInstructions\": [\r\n            {\r\n                \"title\": \"Packing Instruction for Lithium cells and batteries\",\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n            }\r\n        ],\r\n        \"transportationInstructions\": [\r\n            {\r\n                \"title\": \"Shipping guidelines\",\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n            }\r\n        ],\r\n        \"vehicleDismantlingProcedure\": [\r\n            {\r\n                \"title\": \"Dissmantling procedure of battery from the car\",\r\n                \"fileLocation\": \"http://www.ietf.org/rfc/rfc2396.txt\"\r\n            }\r\n        ],\r\n        \"testReportsResults\": [\r\n            {\r\n                \"title\": \"Laboratory Test Results for Battery ID no: X123456789012X12345678901234566\",\r\n                \"fileLocation\": \"\"\r\n            }\r\n        ],\r\n        \"batteryDismantlingProcedure\": [\r\n            {\r\n                \"title\": \"Dismantling Procedure for Battery Model: Li-Ion  X-series\",\r\n                \"fileLocation\": \"http://www.wikipedia.org\"\r\n            }\r\n        ],\r\n        \"safetyMeasures\": [\r\n            {\r\n                \"title\": \"Lithium battery safety document\",\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n            }\r\n        ],\r\n        \"declarationOfConformity\": [\r\n            {\r\n                \"title\": \"Declaration of Conformity No. 1\",\r\n                \"fileLocation\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"datePlacedOnMarket\": \"27.02.2022\",\r\n    \"cellChemistry\": {\r\n        \"electrolyteComposition\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Ethylene Carbonate\"\r\n            }\r\n        ],\r\n        \"anodeCompositionOther\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Polyacrylic acid\"\r\n            }\r\n        ],\r\n        \"recyclateContentActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": 4,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Ni/2021/PlantA\"\r\n            },\r\n            {\r\n                \"matierialPercentageMassFraction\": 4,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Li/2021/PlantA\"\r\n            },\r\n            {\r\n                \"matierialPercentageMassFraction\": 0,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Pb(battery model does not contain Pb)\"\r\n            },\r\n            {\r\n                \"matierialPercentageMassFraction\": 12,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Co/2021/PlantA\"\r\n            }\r\n        ],\r\n        \"anodeActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"Graphite\"\r\n            }\r\n        ],\r\n        \"cathodeActiveMaterials\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"(NCM)Lithium nickel cobalt manganese oxide\"\r\n            }\r\n        ],\r\n        \"cathodeCompositionOther\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"carbon black, PVDR\"\r\n            }\r\n        ]\r\n    },\r\n    \"physicalDimensions\": {\r\n        \"length\": 1500,\r\n        \"width\": 1000,\r\n        \"weight\": 1500,\r\n        \"diameter\": null,\r\n        \"height\": 50\r\n    },\r\n    \"temperatureRangeIdleState\": {\r\n        \"temperatureRangeIdleStateUpperLimit\": 50,\r\n        \"temperatureRangeIdleStateLowerLimit\": -20\r\n    },\r\n    \"batteryCycleLife\": {\r\n        \"cycleLifeTestCRate\": 90,\r\n        \"cycleLifeTestDepthOfDischarge\": 67,\r\n        \"expectedLifetime\": 2800\r\n    },\r\n    \"manufacturer\": {\r\n        \"name\": \"CompanyA\",\r\n        \"contact\": {\r\n            \"faxNumber\": \"+49 89 0987654322\",\r\n            \"website\": \"http://www.CompanyA.com\",\r\n            \"phoneNumber\": \"+49 89 1234567891\",\r\n            \"email\": \"companyA@company.com\"\r\n        },\r\n        \"address\": {\r\n            \"locality\": {\r\n                \"value\": \"CityA\",\r\n                \"technicalKey\": \"BLOCK\"\r\n            },\r\n            \"country\": {\r\n                \"shortName\": \"Germany\"\r\n            },\r\n            \"postCode\": {\r\n                \"value\": \"65-250A\",\r\n                \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"value\": \"StreetA\",\r\n                \"number\": \"1\",\r\n                \"technicalKey\": \"STREET\"\r\n            },\r\n            \"premise\": {\r\n                \"value\": \"\",\r\n                \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"value\": \"Tor 1\",\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n            }\r\n        }\r\n    },\r\n    \"warrantyPeriod\": 96,\r\n    \"composition\": {\r\n        \"compositionOfBattery\": [\r\n            {\r\n                \"matierialPercentageMassFraction\": null,\r\n                \"matierialWeight\": null,\r\n                \"materialName\": \"current collector: Cupper, Separator: PP, Casing: Aluminium\"\r\n            }\r\n        ],\r\n        \"criticalRawMaterials\": \"Lithium, Bauxite, Natural graphite\",\r\n        \"components\": {\r\n            \"componentsPartNumber\": \"Battery Management Unit Model: 75345\",\r\n            \"componentsSupplier\": [\r\n                {\r\n                    \"address\": {\r\n                        \"locality\": {\r\n                            \"value\": \"CityB\",\r\n                            \"technicalKey\": \"BLOCK\"\r\n                        },\r\n                        \"country\": {\r\n                            \"shortName\": \"Germany\"\r\n                        },\r\n                        \"postCode\": {\r\n                            \"value\": \"65-250B\",\r\n                            \"technicalKey\": \"CEDEX\"\r\n                        },\r\n                        \"thoroughfare\": {\r\n                            \"value\": \"StreetB\",\r\n                            \"number\": \"1\",\r\n                            \"technicalKey\": \"STREET\"\r\n                        },\r\n                        \"premise\": {\r\n                            \"value\": \"PlantB\",\r\n                            \"technicalKey\": \"BUILDING\"\r\n                        },\r\n                        \"postalDeliveryPoint\": {\r\n                            \"value\": \"GateB\",\r\n                            \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n                        }\r\n                    },\r\n                    \"contact\": {\r\n                        \"faxNumber\": \"+49 89 0987654322\",\r\n                        \"website\": \"https://www.companyB.com\",\r\n                        \"phoneNumber\": \"+49 89 1234567890\",\r\n                        \"email\": \"companyB@company.com\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    },\r\n    \"manufacturing\": {\r\n        \"dateOfManufacturing\": \"2022-01-24\",\r\n        \"address\": {\r\n            \"locality\": {\r\n                \"value\": \"CityA\",\r\n                \"technicalKey\": \"BLOCK\"\r\n            },\r\n            \"country\": {\r\n                \"shortName\": \"Germany\"\r\n            },\r\n            \"postCode\": {\r\n                \"value\": \"65-250A\",\r\n                \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"value\": \"StreetA\",\r\n                \"number\": \"1\",\r\n                \"technicalKey\": \"STREET\"\r\n            },\r\n            \"premise\": {\r\n                \"value\": \"PlantA\",\r\n                \"technicalKey\": \"BUILDING\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"value\": \"GateA\",\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n            }\r\n        }\r\n    },\r\n    \"batteryIdentification\": {\r\n        \"batteryType\": \"LiNMC\",\r\n        \"batteryIDDMCCode\": \"X123456789012X12345678901234566\",\r\n        \"batteryModel\": \"Li-Ion  X-series\"\r\n    },\r\n    \"stateOfBattery\": {\r\n        \"stateOfHealth\": 100,\r\n        \"statusBattery\": \"first life\",\r\n        \"stateOfCharge\": 99\r\n    },\r\n    \"cO2FootprintTotal\": 3120\r\n}",
+							"raw": "{\r\n  \"electrochemicalProperties\": {\r\n    \"ratedCapacity\": 56,\r\n    \"batteryEnergy\": {\r\n      \"energyRoundtripEfficiencyChange\": 45,\r\n      \"maximumAllowedBatteryEnergy\": 75000.0,\r\n      \"energyRoundtripEfficiency\": 80\r\n    },\r\n    \"ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy\": 0.666,\r\n    \"batteryVoltage\": {\r\n      \"nominalVoltage\": 3.6,\r\n      \"maxVoltage\": 4.2,\r\n      \"minVoltage\": 2.5\r\n    },\r\n    \"internalResistance\": {\r\n      \"cellInternalResistance\": 3.0,\r\n      \"packInternalResistanceIncrease\": 2,\r\n      \"packInternalResistance\": 80\r\n    },\r\n    \"capacityThresholdExhaustion\": 23,\r\n    \"batteryPower\": {\r\n      \"originalPowerCapability\": 90,\r\n      \"powerFade\": 0.37,\r\n      \"originalPowerCapabilityLimits\": 734.8,\r\n      \"maximumAllowedBatteryPower\": 100000,\r\n      \"powerCapabilityAt20Charge\": 500000,\r\n      \"originalPower\": 40000,\r\n      \"powerCapabilityAt80Charge\": 120000\r\n    },\r\n    \"capacityFade\": 2.0\r\n  },\r\n  \"document\": {\r\n    \"responsibleSourcing\": [\r\n      {\r\n        \"title\": \"Sustainability Report 2021\",\r\n        \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n      }\r\n    ],\r\n    \"packagingInstructions\": [\r\n      {\r\n        \"title\": \"Packaging and transport Instruction\",\r\n        \"fileLocation\": \"telnet://192.0.2.16:80/\"\r\n      }\r\n    ],\r\n    \"transportationInstructions\": [\r\n      {\r\n        \"title\": \"Packaging and transport Instruction\",\r\n        \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n      }\r\n    ],\r\n    \"vehicleDismantlingProcedure\": [\r\n      {\r\n        \"title\": \"Packaging and transport Instruction\",\r\n        \"fileLocation\": \"http://www.ietf.org/rfc/rfc2396.txt\"\r\n      }\r\n    ],\r\n    \"testReportsResults\": [\r\n      {\r\n        \"title\": \"Certificates of Testing battery\",\r\n        \"fileLocation\": \"\"\r\n      }\r\n    ],\r\n    \"batteryDismantlingProcedure\": [\r\n      {\r\n        \"title\": \"Certificates of Testing battery\",\r\n        \"fileLocation\": \"http://www.wikipedia.org\"\r\n      }\r\n    ],\r\n    \"safetyMeasures\": [\r\n      {\r\n        \"title\": \"Battery user safety precautions\",\r\n        \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\"\r\n      }\r\n    ],\r\n    \"declarationOfConformity\": [\r\n      {\r\n        \"title\": \"Declaration of Conformity No. 2\",\r\n        \"fileLocation\": \"\"\r\n      }\r\n    ]\r\n  },\r\n  \"datePlacedOnMarket\": \"27.03.2022\",\r\n  \"cellChemistry\": {\r\n    \"electrolyteComposition\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"LiPF6\"\r\n      }\r\n    ],\r\n    \"anodeCompositionOther\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Styren butadien\"\r\n      }\r\n    ],\r\n    \"recyclateContentActiveMaterials\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": 4,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Ni/2022/PlantC\"\r\n      },\r\n      {\r\n        \"matierialPercentageMassFraction\": 5,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Li/2021/PlantC\"\r\n      },\r\n      {\r\n        \"matierialPercentageMassFraction\": 0,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Pb(battery model does not contain Pb)\"\r\n      },\r\n      {\r\n        \"matierialPercentageMassFraction\": 15,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Co/2021/PlantC\"\r\n      }\r\n    ],\r\n    \"anodeActiveMaterials\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"SiO2-C\"\r\n      }\r\n    ],\r\n    \"cathodeActiveMaterials\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"NCA (Lithium nickel cobalt aluminum oxide)\"\r\n      }\r\n    ],\r\n    \"cathodeCompositionOther\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"carbon black\"\r\n      }\r\n    ]\r\n  },\r\n  \"physicalDimensions\": {\r\n    \"length\": 1800,\r\n    \"width\": 1000,\r\n    \"weight\": 2000,\r\n    \"diameter\": null,\r\n    \"height\": 150\r\n  },\r\n  \"temperatureRangeIdleState\": {\r\n    \"temperatureRangeIdleStateUpperLimit\": 40,\r\n    \"temperatureRangeIdleStateLowerLimit\": -20\r\n  },\r\n  \"batteryCycleLife\": {\r\n    \"cycleLifeTestCRate\": 2,\r\n    \"cycleLifeTestDepthOfDischarge\": 1.5,\r\n    \"expectedLifetime\": 3000\r\n  },\r\n  \"manufacturer\": {\r\n    \"name\": \"CompanyC\",\r\n    \"contact\": {\r\n      \"faxNumber\": \"+49 89 0987654323\",\r\n      \"website\": \"http://www.CompanyC.com\",\r\n      \"phoneNumber\": \"+49 89 1234567892\",\r\n      \"email\": \"companyC@company.com\"\r\n    },\r\n    \"address\": {\r\n      \"locality\": {\r\n        \"value\": \"CityC\",\r\n        \"technicalKey\": \"BLOCK\"\r\n      },\r\n      \"country\": {\r\n        \"shortName\": \"Germany\"\r\n      },\r\n      \"postCode\": {\r\n        \"value\": \"65-250A\",\r\n        \"technicalKey\": \"CEDEX\"\r\n      },\r\n      \"thoroughfare\": {\r\n        \"value\": \"StreetA\",\r\n        \"number\": \"1\",\r\n        \"technicalKey\": \"STREET\"\r\n      },\r\n      \"premise\": {\r\n        \"value\": \"\",\r\n        \"technicalKey\": \"CEDEX\"\r\n      },\r\n      \"postalDeliveryPoint\": {\r\n        \"value\": \"Tor 1\",\r\n        \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n      }\r\n    }\r\n  },\r\n  \"warrantyPeriod\": 120,\r\n  \"composition\": {\r\n    \"compositionOfBattery\": [\r\n      {\r\n        \"matierialPercentageMassFraction\": null,\r\n        \"matierialWeight\": null,\r\n        \"materialName\": \"Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic\"\r\n      }\r\n    ],\r\n    \"criticalRawMaterials\": \"Lithium, Cobalt, Natural graphite\",\r\n    \"components\": {\r\n      \"componentsPartNumber\": \"Casing Tray: Model C\",\r\n      \"componentsSupplier\": [\r\n        {\r\n          \"address\": {\r\n            \"locality\": {\r\n              \"value\": \"CityD\",\r\n              \"technicalKey\": \"BLOCK\"\r\n            },\r\n            \"country\": {\r\n              \"shortName\": \"Germany\"\r\n            },\r\n            \"postCode\": {\r\n              \"value\": \"65-250B\",\r\n              \"technicalKey\": \"CEDEX\"\r\n            },\r\n            \"thoroughfare\": {\r\n              \"value\": \"StreetD\",\r\n              \"number\": \"1\",\r\n              \"technicalKey\": \"STREET\"\r\n            },\r\n            \"premise\": {\r\n              \"value\": \"PlantD\",\r\n              \"technicalKey\": \"BUILDING\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n              \"value\": \"GateD\",\r\n              \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n            }\r\n          },\r\n          \"contact\": {\r\n            \"faxNumber\": \"+49 89 0987654322\",\r\n            \"website\": \"https://www.companyD.com\",\r\n            \"phoneNumber\": \"+49 89 1234567890\",\r\n            \"email\": \"companyD@company.com\"\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"manufacturing\": {\r\n    \"dateOfManufacturing\": \"2022-01-24\",\r\n    \"address\": {\r\n      \"locality\": {\r\n        \"value\": \"CityC\",\r\n        \"technicalKey\": \"BLOCK\"\r\n      },\r\n      \"country\": {\r\n        \"shortName\": \"Germany\"\r\n      },\r\n      \"postCode\": {\r\n        \"value\": \"65-250A\",\r\n        \"technicalKey\": \"CEDEX\"\r\n      },\r\n      \"thoroughfare\": {\r\n        \"value\": \"StreetC\",\r\n        \"number\": \"1\",\r\n        \"technicalKey\": \"STREET\"\r\n      },\r\n      \"premise\": {\r\n        \"value\": \"PlantC\",\r\n        \"technicalKey\": \"BUILDING\"\r\n      },\r\n      \"postalDeliveryPoint\": {\r\n        \"value\": \"GateC\",\r\n        \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\"\r\n      }\r\n    }\r\n  },\r\n  \"batteryIdentification\": {\r\n    \"batteryType\": \"NCA\",\r\n    \"batteryIDDMCCode\": \"NCR186850B\",\r\n    \"batteryModel\": \"Li-ion S-model\"\r\n  },\r\n  \"stateOfBattery\": {\r\n    \"stateOfHealth\": 50,\r\n    \"statusBattery\": \"first life\",\r\n    \"stateOfCharge\": 33\r\n  },\r\n  \"cO2FootprintTotal\": 15000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -36,9 +36,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}",
+							"raw": "{{INTServer}}/provider_backend/data/{{digitalTwinSubmodelId}}",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider_backend",
@@ -72,9 +72,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{serverUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}",
+							"raw": "{{INTServer}}/provider_backend/data/{{digitalTwinSubmodelId}}",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider_backend",
@@ -104,7 +104,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -124,7 +124,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"asset\": {\r\n        \"properties\": {\r\n            \"asset:prop:id\": \"{{assetId}}\",\r\n            \"asset:prop:description\": \"Battery Passport test data\"\r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"properties\": {\r\n            \"type\": \"HttpData\",\r\n            \"baseUrl\": \"{{serverUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}\"\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"asset\": {\r\n        \"properties\": {\r\n            \"asset:prop:id\": \"{{assetId}}\",\r\n            \"asset:prop:description\": \"Battery Passport test data\"\r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"properties\": {\r\n            \"type\": \"HttpData\",\r\n            \"baseUrl\": \"{{IntServerUrl}}/provider_backend/data/{{digitalTwinSubmodelId}}\"\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -132,9 +132,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/assets",
+							"raw": "{{INTServer}}/provider/data/assets",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -153,7 +153,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -172,9 +172,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/assets",
+							"raw": "{{INTServer}}/provider/data/assets",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -204,7 +204,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -232,9 +232,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/policydefinitions",
+							"raw": "{{INTServer}}/provider/data/policydefinitions",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -253,7 +253,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -272,9 +272,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/policydefinitions",
+							"raw": "{{INTServer}}/provider/data/policydefinitions",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -304,7 +304,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -332,9 +332,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/contractdefinitions",
+							"raw": "{{INTServer}}/provider/data/contractdefinitions",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -353,7 +353,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "password",
+									"value": "{{APIKey}}",
 									"type": "string"
 								},
 								{
@@ -372,9 +372,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{serverUrl}}/provider/data/contractdefinitions",
+							"raw": "{{INTServer}}/provider/data/contractdefinitions",
 							"host": [
-								"{{serverUrl}}"
+								"{{INTServer}}"
 							],
 							"path": [
 								"provider",
@@ -398,7 +398,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"demo_catena_test_1.txt\"\r\n        }\r\n    ],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"{{digitalTwinId}}\"\r\n        ]\r\n    },\r\n    \"idShort\": \"demo_catena_test_1.txt\",\r\n    \"identification\": \"{{digitalTwinId}}\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"Battery_ID_DMC_Code\",\r\n            \"value\": \"{{assetId}}\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"MaterialPass\",\r\n            \"identification\": \"{{digitalTwinSubmodelId}}\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn_bamm_io.catenax.battery.battery_pass_2.0.0\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL.SIEM.0002\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"demo_catena_test_1.txt\"\r\n        }\r\n    ],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"{{digitalTwinId}}\"\r\n        ]\r\n    },\r\n    \"idShort\": \"demo_catena_test_1.txt\",\r\n    \"identification\": \"{{digitalTwinId}}\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"Battery_ID_DMC_Code\",\r\n            \"value\": \"{{assetId}}\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"MaterialPass\",\r\n            \"identification\": \"{{digitalTwinSubmodelId}}\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn_bamm_io.catenax.battery.battery_pass_2.0.0\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL.SIEM.0002\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"{{IntServerUrl}}/provider/api/v1/ids/data\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -431,15 +431,24 @@
 							}
 						],
 						"url": {
-							"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}",
+							"raw": "{{registryUrl}}/registry/registry/shell-descriptors?page=20&pageSize=100",
 							"host": [
 								"{{registryUrl}}"
 							],
 							"path": [
 								"registry",
 								"registry",
-								"shell-descriptors",
-								"{{digitalTwinId}}"
+								"shell-descriptors"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "20"
+								},
+								{
+									"key": "pageSize",
+									"value": "100"
+								}
 							]
 						}
 					},
@@ -459,7 +468,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{registryUrl}}/registry/lookup/shells?assetIds=[\"{\n\\\"key\\\": \\\"Battery_ID_DMC_Code\\\", \n\\\"value\\\": \\\"X123456789012X12345678901234566\\\"}\n\"]",
+									"raw": "{{registryUrl}}/registry/lookup/shells?assetIds=[\"{\\\"key\\\": \\\"Battery_ID_DMC_Code\\\", \\\"value\\\": \\\"X123456789012X12345678901234566\\\"}\"]",
 									"host": [
 										"{{registryUrl}}"
 									],
@@ -471,7 +480,7 @@
 									"query": [
 										{
 											"key": "assetIds",
-											"value": "[\"{\n\\\"key\\\": \\\"Battery_ID_DMC_Code\\\", \n\\\"value\\\": \\\"X123456789012X12345678901234566\\\"}\n\"]"
+											"value": "[\"{\\\"key\\\": \\\"Battery_ID_DMC_Code\\\", \\\"value\\\": \\\"X123456789012X12345678901234566\\\"}\"]"
 										}
 									]
 								}
@@ -484,7 +493,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:31180e8d-b6d6-4449-8d4e-89289ca90cd7",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:32aa72de-297a-4405-9148-13e12744028a",
 									"host": [
 										"{{registryUrl}}"
 									],
@@ -492,7 +501,7 @@
 										"registry",
 										"registry",
 										"shell-descriptors",
-										"urn:uuid:31180e8d-b6d6-4449-8d4e-89289ca90cd7"
+										"urn:uuid:32aa72de-297a-4405-9148-13e12744028a"
 									]
 								}
 							},
@@ -504,7 +513,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:32aa72de-297a-4405-9148-13e12744028a",
 									"host": [
 										"{{registryUrl}}"
 									],
@@ -512,7 +521,7 @@
 										"registry",
 										"registry",
 										"shell-descriptors",
-										"{{digitalTwinId}}"
+										"urn:uuid:32aa72de-297a-4405-9148-13e12744028a"
 									]
 								}
 							},
@@ -536,7 +545,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}/submodel-descriptors/{{digitalTwinSubmodelId}}",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:32aa72de-297a-4405-9148-13e12744028a/submodel-descriptors/urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a",
 									"host": [
 										"{{registryUrl}}"
 									],
@@ -544,9 +553,9 @@
 										"registry",
 										"registry",
 										"shell-descriptors",
-										"{{digitalTwinId}}",
+										"urn:uuid:32aa72de-297a-4405-9148-13e12744028a",
 										"submodel-descriptors",
-										"{{digitalTwinSubmodelId}}"
+										"urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a"
 									],
 									"query": [
 										{
@@ -575,7 +584,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "password",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
@@ -594,9 +603,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{serverUrl}}/consumer/data/catalog?providerUrl=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+									"raw": "{{INTServer}}/consumer/data/catalog?providerUrl=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer",
@@ -642,7 +651,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "password",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
@@ -670,9 +679,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverUrl}}/consumer/data/contractnegotiations",
+									"raw": "{{INTServer}}/consumer/data/contractnegotiations",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer",
@@ -715,7 +724,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "password",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
@@ -743,9 +752,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverUrl}}/consumer/data/contractnegotiations/{{negotiationId}}",
+									"raw": "{{INTServer}}/consumer/data/contractnegotiations/{{negotiationId}}",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer",
@@ -777,7 +786,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "password",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
@@ -799,9 +808,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverUrl}}/consumer/data/transferprocess",
+									"raw": "{{INTServer}}/consumer/data/transferprocess",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer",
@@ -831,7 +840,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "password",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
@@ -844,9 +853,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverUrl}}/consumer/data/transferprocess/fd37f8b4-a504-46b3-b907-43134231ad53",
+									"raw": "{{INTServer}}/consumer/data/transferprocess/fd37f8b4-a504-46b3-b907-43134231ad53",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer",
@@ -899,9 +908,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverUrl}}/consumer_backend/1",
+									"raw": "{{INTServer}}/consumer_backend/1",
 									"host": [
-										"{{serverUrl}}"
+										"{{INTServer}}"
 									],
 									"path": [
 										"consumer_backend",
@@ -1033,48 +1042,53 @@
 			"type": "default"
 		},
 		{
-			"key": "serverUrl",
-			"value": "https://materialpass.int.demo.catena-x.net",
+			"key": "APIKey",
+			"value": "",
 			"type": "default"
 		},
 		{
+			"key": "INTServer",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "DEVServer",
+			"value": ""
+		},
+		{
 			"key": "negotiationId",
-			"value": "1",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "transferId",
-			"value": "1",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "contractAgreementId",
-			"value": "1",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "transferProcessId",
-			"value": "3",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "assetId",
-			"value": "1",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "policyId",
-			"value": "3",
+			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "contractDefinitionId",
-			"value": "3",
-			"type": "default"
-		},
-		{
 			"value": "",
-			"disabled": true
+			"type": "default"
 		}
 	]
 }

@@ -98,18 +98,25 @@ export default {
     getBatteriesByProvider: function () {
       this.assetIds = "";
       this.assetIdsVisible = false;
-      this.listProviders.forEach((arrObj) => {
-        arrObj.name == this.selectedProvider ? (this.provider = arrObj) : null;
-      });
+      this.listProviders.forEach(this.findProvider);
+    },
+    findProvider : function(item){
+      if (item.name == this.selectedProvider)
+        this.provider = item;
+      else
+        return null;
     },
     getAssetIdsByBattery: function () {
-      this.provider.batteries.forEach((arrObj) => {
-        arrObj.id == this.selectedBattery
-          ? (this.assetIds = JSON.stringify(arrObj.AssetIds))
-          : null;
-      });
+      this.provider.batteries.forEach(this.findAssetId);
       this.assetIdsVisible = true;
       console.log(this.assetIds);
+    },
+    findAssetId : function(item){
+      let assetId = JSON.stringify(item.AssetIds);
+      if (item.id == this.selectedBattery)
+        this.assetIds = assetId;
+      else
+        return null;
     },
     async getBatteryDataUsingQRCode() {
       // To get the provider and batteries

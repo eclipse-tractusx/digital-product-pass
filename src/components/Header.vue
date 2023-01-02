@@ -6,7 +6,6 @@
       Profile
     </h3>
     <div v-if="profileMenu" class="profile-menu-mobile">
-      <!-- <img :src="Profile" alt="profile" class="" /> -->
       <span class="mobile-menu-links">
         {{ username }}
         <p class="">{{ role }}</p>

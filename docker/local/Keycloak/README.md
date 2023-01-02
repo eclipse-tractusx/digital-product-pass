@@ -33,7 +33,7 @@ After importing the realm, the users need to be created manually.
 
 Install the keycloak plugin for vuejs app from ```npm install keycloak-js```
 
-The keycloak configurations are defined in [src/services/service.const.js](../../../src/services/service.const.js) and [src/services/authentication.js](../../../src/services/authentication.js) files for different deployment environments.
+The keycloak configurations are defined in [src/services/service.const.js](../../../src/services/service.const.js) and [src/services/Authentication.js](../../../src/services/Authentication.js) files for different deployment environments.
 
 ### Build and run the app
 

@@ -2,15 +2,11 @@ import { CX_REGISTRY_URL } from "@/services/service.const";
 import axios from "axios";
 
 
-export default class aasServices {
+export default class AasServices {
 
-  constructor(){
-        
-  }
   getAasShellId(assetIds, requestHeaders) {
     return new Promise((resolve) => {
-      //let encodedAssetIds = encodeURIComponent(assetIds);
-      //console.log(encodedAssetIds);
+
       axios.get(`${CX_REGISTRY_URL}/registry/lookup/shells?assetIds=${assetIds}`,
         {
           headers: requestHeaders

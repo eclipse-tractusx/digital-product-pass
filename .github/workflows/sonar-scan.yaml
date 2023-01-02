@@ -16,9 +16,9 @@ jobs:
     name: sonarCloud
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [ 16.x ]
+    # strategy:
+    #   matrix:
+    #     node-version: [ 16.x ]
 
     steps:
       - uses: actions/checkout@v3
@@ -45,19 +45,20 @@ jobs:
           cd consumer-backend/materialpass
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      # cannot scan frontend component in one sonar cloud project where backend is also running, because frontend implemented in different technology
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
 
-      - name: Run npm install
-        run: npm install --legacy-peer-deps
+      # - name: Run npm install
+      #   run: npm install --legacy-peer-deps
       
-      - name: Analyze Frontend Code
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: Analyze Frontend Code
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 
 

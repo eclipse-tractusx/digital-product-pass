@@ -1,0 +1,283 @@
+{
+    "electrochemicalProperties": {
+      "ratedCapacity": 94,
+      "batteryEnergy": {
+        "energyRoundtripEfficiencyChange": 48.2,
+        "maximumAllowedBatteryEnergy": 85000,
+        "energyRoundtripEfficiency": 25
+      },
+      "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.588,
+      "batteryVoltage": {
+        "nominalVoltage": 3.7,
+        "maxVoltage": 4.2,
+        "minVoltage": 2.5
+      },
+      "internalResistance": {
+        "cellInternalResistance": 0.36,
+        "packInternalResistanceIncrease": 1,
+        "packInternalResistance": 100
+      },
+      "capacityThresholdExhaustion": 23,
+      "batteryPower": {
+        "originalPowerCapability": 50,
+        "powerFade": 0.5,
+        "originalPowerCapabilityLimits": 50,
+        "maximumAllowedBatteryPower": 110000,
+        "powerCapabilityAt20Charge": 100000,
+        "originalPower": 12000,
+        "powerCapabilityAt80Charge": 12000
+      },
+      "capacityFade": 1.55
+    },
+    "document": {
+      "responsibleSourcing": [
+        {
+          "title": "2021 Responsible Sourcing document",
+          "fileLocation": null
+        }
+      ],
+      "packagingInstructions": [
+        {
+          "title": "Packing Instruction v.2.0",
+          "fileLocation": null
+        }
+      ],
+      "transportationInstructions": [
+        {
+          "title": "Transport manual",
+          "fileLocation": null
+        }
+      ],
+      "vehicleDismantlingProcedure": [
+        {
+          "title": "Car dismantling manual",
+          "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+        }
+      ],
+      "testReportsResults": [
+        {
+          "title": "Battery Test Reports",
+          "fileLocation": "http://www.Batterytestreports.de"
+        }
+      ],
+      "batteryDismantlingProcedure": [
+        {
+          "title": "Dismantling Manual",
+          "fileLocation": "http://www.dissmantlingmanual.org"
+        }
+      ],
+      "safetyMeasures": [
+        {
+          "title": "Safety Instruction",
+          "fileLocation": "http://www.safetyinstructions.txt"
+        }
+      ],
+      "declarationOfConformity": [
+        {
+          "title": "Declaration of Conformity No. 3",
+          "fileLocation": null
+        }
+      ]
+    },
+    "datePlacedOnMarket": "27.04.2022",
+    "cellChemistry": {
+      "electrolyteComposition": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "dimethyl carbonate (DCM)"
+        }
+      ],
+      "anodeCompositionOther": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Carboxymethyl cellulose"
+        }
+      ],
+      "recyclateContentActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": 6,
+          "matierialWeight": null,
+          "materialName": "Ni/2021/PlantE"
+        },
+        {
+          "matierialPercentageMassFraction": 4,
+          "matierialWeight": null,
+          "materialName": "Li/2021/PlantE"
+        },
+        {
+          "matierialPercentageMassFraction": 0,
+          "matierialWeight": null,
+          "materialName": "Pb(battery model does not contain Pb)"
+        },
+        {
+          "matierialPercentageMassFraction": 0,
+          "matierialWeight": null,
+          "materialName": "Co(battery model does not contain Pb)"
+        }
+      ],
+      "anodeActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Graphite"
+        }
+      ],
+      "cathodeActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "LiMn2O4 Lithium Manganese Oxide"
+        }
+      ],
+      "cathodeCompositionOther": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "binder:PVDF"
+        }
+      ]
+    },
+    "physicalDimensions": {
+      "length": 2000,
+      "width": 1000,
+      "weight": 3500,
+      "diameter": null,
+      "height": 200
+    },
+    "temperatureRangeIdleState": {
+      "temperatureRangeIdleStateUpperLimit": 50,
+      "temperatureRangeIdleStateLowerLimit": -20
+    },
+    "batteryCycleLife": {
+      "cycleLifeTestCRate": 2,
+      "cycleLifeTestDepthOfDischarge": 1.8,
+      "expectedLifetime": 2500
+    },
+    "manufacturer": {
+      "name": "CompanyE",
+      "contact": {
+        "faxNumber": "+49 89 0987654324",
+        "website": "https://www.CompanyE.com",
+        "phoneNumber": "+49 89 1234567893",
+        "email": "companyE@company.com"
+      },
+      "address": {
+        "locality": {
+          "value": "CityE",
+          "technicalKey": "BLOCK"
+        },
+        "country": {
+          "shortName": "Germany"
+        },
+        "postCode": {
+          "value": "65-250E",
+          "technicalKey": "CEDEX"
+        },
+        "thoroughfare": {
+          "value": "StreetE",
+          "number": "1",
+          "technicalKey": "STREET"
+        },
+        "premise": {
+          "value": null,
+          "technicalKey": "BUILDING"
+        },
+        "postalDeliveryPoint": {
+          "value": null,
+          "technicalKey": "INTERURBAN_DELIVERY_POINT"
+        }
+      }
+    },
+    "warrantyPeriod": 96,
+    "composition": {
+      "compositionOfBattery": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Separator: PE"
+        }
+      ],
+      "criticalRawMaterials": "Lithium, Natural graphite",
+      "components": {
+        "componentsPartNumber": "Voltage cables",
+        "componentsSupplier": [
+          {
+            "address": {
+              "locality": {
+                "value": "CityF",
+                "technicalKey": "BLOCK"
+              },
+              "country": {
+                "shortName": "Germany"
+              },
+              "postCode": {
+                "value": "65-250F",
+                "technicalKey": "CEDEX"
+              },
+              "thoroughfare": {
+                "value": "StreetF",
+                "number": "1",
+                "technicalKey": "STREET"
+              },
+              "premise": {
+                "value": "PlantF",
+                "technicalKey": "BUILDING"
+              },
+              "postalDeliveryPoint": {
+                "value": null,
+                "technicalKey": "INTERURBAN_DELIVERY_POINT"
+              }
+            },
+            "contact": {
+              "faxNumber": "+49 89 0987654324",
+              "website": "https://www.companyF.com",
+              "phoneNumber": "+49 89 1234567893",
+              "email": "companyF@companyF.com"
+            }
+          }
+        ]
+      }
+    },
+    "manufacturing": {
+      "dateOfManufacturing": "2022-01-24",
+      "address": {
+        "locality": {
+          "value": "CityE",
+          "technicalKey": "BLOCK"
+        },
+        "country": {
+          "shortName": "Germany"
+        },
+        "postCode": {
+          "value": "65-250E",
+          "technicalKey": "CEDEX"
+        },
+        "thoroughfare": {
+          "value": "StreetE",
+          "number": "1",
+          "technicalKey": "STREET"
+        },
+        "premise": {
+          "value": "PlantE",
+          "technicalKey": "BUILDING"
+        },
+        "postalDeliveryPoint": {
+          "value": "GateE",
+          "technicalKey": "INTERURBAN_DELIVERY_POINT"
+        }
+      }
+    },
+    "batteryIdentification": {
+      "batteryType": "Lithium-Manganese-Oxide (LMO)",
+      "batteryIDDMCCode": "IMR18650V1",
+      "batteryModel": "Pi4 Orionis"
+    },
+    "stateOfBattery": {
+      "stateOfHealth": 20,
+      "statusBattery": "first life",
+      "stateOfCharge": 50
+    },
+    "cO2FootprintTotal": 210
+}

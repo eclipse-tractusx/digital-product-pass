@@ -16,86 +16,106 @@ DIGITAL_TWIN_SUBMODEL_ID_3='urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918'
 
 SERVER_URL='https://materialpass.int.demo.catena-x.net'
 
+
+# put access token without 'Bearer ' prefix
 BEARER_TOKEN=''
+
 API_KEY=''
 
 
 echo '**************************Asset 1 **********************'
-echo ''
+echo
 # Create Submodel data
 echo "Create sample data for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/X123456789012X12345678901234566.json" --header 'X-Api-Key: ${API_KEY}'  $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_1
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_1
+echo
 
 # Create a asset
 echo "Create asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/assets
+echo
 
 # Create a general policy
 echo "Create policy for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/policydefinitions
+echo
 
 # Create a contract definition
 echo "Create contract definition for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/contractdefinitions
+echo
 
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 1 and register it into CX registry..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/digitaltwins/X123456789012X12345678901234566.json" 'https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors' --header 'Content-Type: application/json' --header 'Authorization: ${BEARER_TOKEN}'
-echo ''
-echo ''
+
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+echo
+echo
 
 
 
 echo '**************************Asset 2 **********************'
-echo ''
+
+echo 
 # Create Submodel data
 echo "Create sample data for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/NCR186850B.json" --header 'X-Api-Key: ${API_KEY}'  $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_2
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_2
+echo
 
 # Create a asset
 echo "Create asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/NCR186850B.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/assets
+echo
 
 # Create a general policy
 echo "Create policy for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/NCR186850B.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/policydefinitions
+echo
 
 # Create a contract definition
 echo "Create contract definition for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/contractdefinitions
+echo
+
 
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 2 and register it into CX registry..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/digitaltwins/NCR186850B.json" 'https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors' --header 'Content-Type: application/json' --header 'Authorization: ${BEARER_TOKEN}'
-echo ''
-echo ''
+
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+echo
+echo
 
 
 
 echo '**************************Asset 3 **********************'
 # Create Submodel data
 echo "Create sample data for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/IMR18650V1.json" --header 'X-Api-Key: ${API_KEY}'  $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_3
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/$DIGITAL_TWIN_SUBMODEL_ID_3
+echo
 
 # Create a asset
 echo "Create asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/assets
+echo
 
 # Create a general policy
 echo "Create policy for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/policydefinitions
+echo
 
 # Create a contract definition
 echo "Create contract definition for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: ${API_KEY}' $SERVER_URL/provider/data/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/provider/data/contractdefinitions
+echo
 
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 3 and register it into CX registry..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/digitaltwins/IMR18650V1.json" 'https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors' --header 'Content-Type: application/json' --header 'Authorization: ${BEARER_TOKEN}'
-echo ''
+
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+echo
 
 echo 'Provider setup completed...'
 echo 'Done'

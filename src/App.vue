@@ -81,11 +81,19 @@ nav a.router-link-exact-active {
 }
 
 .snackbar {
-  border: 1px solid #676bc6;
+  border: 1px solid red;
   border-radius: 8px;
   background-color: white;
   font-weight: 400;
   margin-top: 25px;
   box-shadow: 0px 20px 40px rgba(80, 80, 80, 0.3);
+}
+
+v-main {
+  background-image: url(https://portal.dev.demo.catena-x.net/assets/images/frame/Home.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow-x: hidden;
 }
 </style>

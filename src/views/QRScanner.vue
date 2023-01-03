@@ -1,11 +1,26 @@
 <template>
+  <div v-if="error">
+    <div class="text-container">
+      <p class="text">Your camera is off.</p>
+      <p class="text">Turn it on or type the ID.</p>
+    </div>
+    <form class="input-form" @submit.prevent="onClick">
+      <input
+        v-model="typedCode"
+        class="input"
+        type="text"
+        placeholder="Type ID"
+      />
+      <button class="submit-btn"></button>
+    </form>
+  </div>
   <div class="qr-container">
     <router-link to="/dashboard"> </router-link>
 
     <v-snackbar
       v-if="error ? (snackbar = true) : (snackbar = false)"
       v-model="snackbar"
-      location="center"
+      location="top"
       content-class="snackbar"
       variant="plain"
     >
@@ -21,19 +36,7 @@
         @init="onInit"
         @decode="onDecode"
       ></qrcode-stream>
-      <div>
-        <!-- <form class="input-form" @submit.prevent="onClick">
-          <input
-            v-model="typedCode"
-            class="input"
-            type="text"
-            placeholder="Type ID"
-          />
-          <button class="submit-btn">
-            <img :src="Search" alt="search" />
-          </button>
-        </form> -->
-      </div>
+      <div></div>
     </div>
     <div v-else class="error-frame"></div>
   </div>
@@ -51,13 +54,11 @@ import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import { inject } from "vue";
-import Spinner from "../components/Spinner.vue";
 
 export default {
   name: "PassportView",
   components: {
     QrcodeStream,
-    Spinner,
   },
   setup() {
     return {
@@ -190,6 +191,18 @@ export default {
   z-index: 5;
 }
 
+.text-container {
+  position: fixed;
+  top: 25vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+}
+
+.text {
+  font-size: 2rem;
+  text-align: center;
+}
 .qr-frame {
   position: absolute;
   top: 50%;
@@ -212,23 +225,39 @@ export default {
 
 .input-form {
   position: absolute;
-  top: 80%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 17px;
+  background: linear-gradient(to right, #f8b500, #f88000);
+  display: inline-block;
+  border-radius: 35px;
+  z-index: 999999999999999;
 }
 .input {
-  position: relative;
-  width: 418px;
-  height: 48px;
-  border: 2px solid #b3cb2c;
-  border-radius: 4px;
-  padding-left: 10px;
+  width: 560px;
+  border-radius: 20px;
+  color: #444;
+  padding: 18px;
+  padding-left: 60px;
+  font-size: 20px;
+  display: inline-block;
+  outline: none;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhMGEwYTA7fS5jbHMtMntmaWxsOiNhMGEwYTA7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjUgMTYgNS45MSAxMy4wOSAzIDkuNSAzUzMgNS45MSAzIDkuNSA1LjkxIDE2IDkuNSAxNmMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBDNy4wMSAxNCA1IDExLjk5IDUgOS41UzcuMDEgNSA5LjUgNSAxNCA3LjAxIDE0IDkuNSAxMS45OSAxNCA5LjUgMTR6Ii8+PC9zdmc+Cg==);
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 32px 32px;
+  border: 1px solid lightgray;
+  border-radius: 25px;
+  background-color: white;
 }
 
 .submit-btn {
   position: absolute;
-  right: 0;
-  height: 48px;
+  left: 0;
+  margin-left: -130px;
+  height: 68px;
+  width: 200px;
   background: none;
   border: none;
   cursor: pointer;

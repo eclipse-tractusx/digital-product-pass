@@ -30,7 +30,7 @@ keycloak:
 
 spring:
   application:
-    name: 'Product Passport Consumer Backend'
+    name: 'Catena-X Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
   devtools:

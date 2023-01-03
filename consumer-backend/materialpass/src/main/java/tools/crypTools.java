@@ -22,10 +22,10 @@ public final class crypTools {
         return new String(Base64.getUrlDecoder().decode(base64));
     }
 
-    public static String decodeURL(String encodedURL){
+    public static String decodeFromUtf8(String encodedURL){
         return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8);
     }
-    public static String encodeURL(String decodedURL){
+    public static String encodeToUtf8(String decodedURL){
         return URLEncoder.encode(decodedURL, StandardCharsets.UTF_8);
     }
 

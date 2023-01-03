@@ -91,8 +91,7 @@ public class ApiController {
         negotiation = dataService.getNegotiation(negotiation.getId());
 
         /// TODO: Hardcoded value
-        int position = 0; // This position could be passed by parameter in the request...
-
+        int position = 0; // This position could be passed by parameter in the request maybe?
         SubModel subModel = aasService.searchSubModel("Battery_ID_DMC_Code", assetId, position);
         String contractId = subModel.getIdShort();
         String connectorAddress = subModel.getEndpoints().get(position).getProtocolInformation().getEndpointAddress();

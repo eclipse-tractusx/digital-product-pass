@@ -14,6 +14,7 @@ import java.util.Map;
 @Service
 public class VaultService {
     public static final configTools configuration = new configTools();
+    public static final String TEMPLATE_VAULT_FILE = "token: ''\nclient: \n\tid: ''\n\tsecret: ''\napiKey: ''";
     @Autowired
     private VaultTemplate vaultTemplate;
     private final String tokenFile = (String) configuration.getConfigurationParam("vault.token-file", ".", null);
@@ -46,14 +47,17 @@ public class VaultService {
             String filePath = Path.of(dataDir, tokenFile).toAbsolutePath().toString();
             if(!fileTools.pathExists(filePath)){
                 logTools.printMessage("No vault token file found, creating yaml file in ["+filePath+"]");
-                fileTools.toFile(filePath, "token: ''\nclient: \n\tid: ''\n\tsecret: ''", false); // Create YAML token file
+                fileTools.toFile(filePath, TEMPLATE_VAULT_FILE, false); // Create YAML token file
             };
 
             Map<String, Object> content = yamlTools.readFile(filePath);
             try {
                 secret = (String) jsonTools.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
-                throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "It was not possible to get secrets credentials from file");
+                throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was a error while searching the secret ["+localSecretPath+"] in file!");
+            }
+            if(secret == null){
+                throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", "Secret ["+localSecretPath+"] not found in file!");
             }
             return secret;
         }catch (Exception e){

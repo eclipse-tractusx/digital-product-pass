@@ -14,9 +14,11 @@ import java.util.Map;
 
 @Service
 public class DataTransferService {
+
+    private final VaultService vaultService = new VaultService();
     public static final configTools configuration = new configTools();
     public final String serverUrl = (String) configuration.getConfigurationParam("variables.serverUrl", ".", null);
-    public final String APIKey = (String) configuration.getConfigurationParam("variables.apiKey", ".", null);
+    public final String APIKey = (String) vaultService.getLocalSecret("apiKey");
     public final String providerUrl = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
 
     public Catalog getContractOfferCatalog(String providerUrl){

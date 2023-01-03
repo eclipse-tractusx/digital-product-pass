@@ -12,8 +12,8 @@
 	<artifactId>materialpass</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-	<name>materialpass</name>
-	<description>Material passport consumer backend service</description>
+	<name>Catena-X Product Passport Consumer Backend</name>
+	<description>Product Passport Consumer Backend System for Product Passport Consumer Frontend Application</description>
 	<properties>
 		<!--<java.version>19</java.version> !-->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -175,11 +175,19 @@
    </dependencyManagement>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
-			</plugin>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Creates test coverage report
             <plugin>
                 <groupId>org.jacoco</groupId>

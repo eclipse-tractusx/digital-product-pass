@@ -169,9 +169,9 @@ public class AasService {
             HttpHeaders headers = httpTools.getHeadersWithToken(token.getAccessToken());
             String jsonString = jsonTools.dumpJson(new JSONObject(assetIds),0);
             ArrayList<String> jsonArray = new ArrayList<>();
-            jsonArray.add('"'+jsonString+'"');
+            jsonArray.add(jsonString);
             params.put("assetIds",jsonArray);
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, true);
+            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
             ArrayList<String> responseBody = (ArrayList) response.getBody();
             return responseBody;
 

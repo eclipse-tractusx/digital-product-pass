@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import tools.configTools;
 import tools.httpTools;
 import tools.jsonTools;
+import tools.logTools;
 
 import java.util.Map;
 
@@ -36,7 +37,9 @@ public class AuthenticationService {
         ResponseEntity<Object> response = httpTools.doPost(tokenUri, String.class, headers, httpTools.getParams(), encodedBody, false, false);
         String responseBody = (String) response.getBody();
         JsonNode json = jsonTools.toJsonNode(responseBody);
-        return (JwtToken) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), JwtToken.class);
+        JwtToken token = (JwtToken) jsonTools.bindJsonNode(json, JwtToken.class);
+        logTools.printDebug(token.getAccessToken());
+        return token;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getToken",
                     e,

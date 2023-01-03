@@ -5,7 +5,7 @@
     <v-snackbar
       v-if="error ? (snackbar = true) : (snackbar = false)"
       v-model="snackbar"
-      location="top"
+      location="center"
       content-class="snackbar"
       variant="plain"
     >
@@ -35,9 +35,7 @@
         </form> -->
       </div>
     </div>
-    <div v-else class="error-frame">
-      <Spinner class="spinner-container" />
-    </div>
+    <div v-else class="error-frame"></div>
   </div>
 </template>
 

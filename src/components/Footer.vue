@@ -1,6 +1,30 @@
 <template>
   <footer>
-    <div class="links"></div>
+    <div class="links">
+      <div>
+        <a id="lnkHelp" href="${env.HELP}">Help</a>
+      </div>
+      <div>
+        <a id="lnkContact" href="${env.CONTACT}">Contact</a>
+      </div>
+      <div>
+        <a id="lnkImprint" href="${env.IMPRINT}">Imprint</a>
+      </div>
+      <div>
+        <a id="lnkPrivacy" href="${env.PRIVACY_POLICY}">Privacy</a>
+      </div>
+      <div>
+        <a id="lnkTerms" href="${env.TERMS_AND_CONDITION}">Terms of Service</a>
+      </div>
+      <div>
+        <a id="lnkCookies" href="${env.COOKIE_POLICY}">Cookie Policy</a>
+      </div>
+      <div>
+        <a id="lnkLicenseNote" href="${env.THIRD_PARTY_LICENSES}"
+          >Third Party Licenses</a
+        >
+      </div>
+    </div>
     <div class="copy">Copyright © Catena-X Automotive Network.</div>
   </footer>
 </template>
@@ -40,6 +64,15 @@ footer {
 
 .links {
   padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a {
+  margin: 0 1rem;
+  color: #000;
+  font-size: 12px;
 }
 
 .links,

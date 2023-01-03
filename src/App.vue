@@ -86,5 +86,6 @@ nav a.router-link-exact-active {
   background-color: white;
   font-weight: 400;
   margin-top: 25px;
+  box-shadow: 0px 20px 40px rgba(80, 80, 80, 0.3);
 }
 </style>

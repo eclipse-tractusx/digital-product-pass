@@ -1,57 +1,24 @@
 <template>
-  <div class="search-container">
-    <div class="search-sub-container">
-      <span v-if="searchMenu" class="input-label">search field:</span>
-      <select v-if="searchMenu" v-model="searchField" class="select">
-        <option>model</option>
-        <option>producer</option>
-        <option>capacity</option>
-      </select>
-      <span v-if="searchMenu" class="input-label">search value: </span>
-      <input
-        v-model="searchValue"
-        data-cy="search-input"
-        type="text"
-        class="input"
-        :class="{ extended: searchMenu }"
-      />
-    </div>
-    <img
-      :src="Search"
-      alt="search"
-      class="search-button"
-      title="search"
-      data-cy="search-btn"
-      @click="
-        resetFields();
-        searchMenu = !searchMenu;
-      "
-    />
-  </div>
-  <EasyDataTable
-    table-class-name="customize-table"
-    hide-footer
-    :headers="headers"
-    :items="items"
-    :search-field="searchField"
-    :search-value="searchValue"
-    alternating
-  >
-    <template #header-model="header">
-      <div class="customize-header">
-        {{ header.text }}
-      </div>
-    </template>
-    <template #item-model="{ model, page }">
-      <div class="model-wrapper">
-        <a :href="page" data-cy="select-battery">
-          <span class="link-text">
-            {{ model }}
-          </span>
-        </a>
-      </div>
-    </template>
-  </EasyDataTable>
+  <v-table hover class="table">
+    <thead>
+      <tr class="header">
+        <th class="text-left">Car model</th>
+        <th class="text-left">Car producer</th>
+        <th class="text-left">Battery capacity</th>
+        <th class="text-left">Date of admission</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in items" :key="item.model">
+        <td>
+          {{ item.model }}
+        </td>
+        <td>{{ item.producer }}</td>
+        <td>{{ item.capacity }}</td>
+        <td>{{ item.date }}</td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
 
 
@@ -89,21 +56,21 @@ export default {
           producer: "Volkswagen",
           capacity: "98 kWh",
           date: "15.02.2022",
-          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-1",
+          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-2",
         },
         {
           model: "ID.4",
           producer: "Volkswagen",
           capacity: "98 kWh",
           date: "11.01.2022",
-          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-1",
+          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-2",
         },
         {
           model: "ID.15",
           producer: "Volkswagen",
           capacity: "98 kWh",
           date: "11.01.2022",
-          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-1",
+          page: "https://materialpass.int.demo.catena-x.net/?provider=BMW&battery=test-battery-2",
         },
         {
           model: "i7",
@@ -215,30 +182,25 @@ select:focus-visible {
   padding: 0 10px;
 }
 
-.customize-table {
-  min-width: 60%;
-  --easy-table-header-font-color: #cccccc;
-  --easy-table-header-background-color: white;
-  --easy-table-body-row-height: 56px;
-  --easy-table-body-row-font-size: 14px;
-  --easy-table-body-row-font-color: #3d3d3d;
-  --easy-table-body-row-background-color: #f4f7df;
-  --easy-table-body-even-row-background-color: #fbfdf4;
-  --easy-table-body-row-hover-background-color: #ffd280;
-  --easy-table-header-background-color: #f8f9fa;
-  --easy-table-header-font-color: #7a7a7a;
-  --easy-table-header-height: 49px;
-  --easy-table-border: none;
-  --easy-table-row-border: none;
+.table {
+  border: 1px solid #dcdcdc;
+  border-radius: 24px;
 }
+
 a {
-  position: absolute;
-  bottom: 6px;
-  padding: 12px 50vw 12px 12px;
+  padding: 12px 0 12px 12px;
   color: #3d3d3d;
   text-decoration: none;
   white-space: nowrap;
-  z-index: 12;
+}
+
+tr {
+  height: 74px;
+}
+
+.header {
+  background: #e9e9e9;
+  height: 76px;
 }
 
 .model-wrapper {

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import tools.exceptions.ToolException;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public final class jsonTools {
 
         return g.fromJson(jsonString, classType);
     }
+
+    public static String escapeJson(String jsonString){
+        return JSONObject.quote(jsonString);
+    }
+
     public static JSONObject parseJson(String jsonString){
         try {
             return new JSONObject(jsonString);

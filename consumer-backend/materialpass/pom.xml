@@ -23,7 +23,11 @@
         <jacoco.version>0.8.7</jacoco.version>
 	</properties>
 	<dependencies>
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>LATEST</version>
+        </dependency>
         <!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

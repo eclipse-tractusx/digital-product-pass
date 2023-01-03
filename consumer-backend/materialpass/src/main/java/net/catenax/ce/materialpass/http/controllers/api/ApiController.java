@@ -90,12 +90,22 @@ public class ApiController {
         }
         negotiation = dataService.getNegotiation(negotiation.getId());
 
+
         /// TODO: Hardcoded value
         int position = 0; // This position could be passed by parameter in the request maybe?
-        SubModel subModel = aasService.searchSubModel("Battery_ID_DMC_Code", assetId, position);
+        String assetType = "Battery_ID_DMC_Code"; // Also hard coded
+
+        SubModel subModel = aasService.searchSubModel(assetType, assetId, position);
         String contractId = subModel.getIdShort();
         String connectorAddress = subModel.getEndpoints().get(position).getProtocolInformation().getEndpointAddress();
-        response.data = dataService.doTransferProcess(negotiation,contractId, connectorAddress,contractOffer,false);
+        Transfer transfer = dataService.doTransferProcess(negotiation,contractId, connectorAddress,contractOffer,false);
+        if(transfer.getId() == null){
+            response.message = "Transfer Id not received, something went wrong";
+            response.status = 400;
+            response.statusText = "Transfer Failed";
+            return response;
+        }
+        response.data = dataService.getTransfer(transfer.getId());
         return response;
     }
 }

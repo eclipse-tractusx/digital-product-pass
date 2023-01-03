@@ -1,5 +1,7 @@
 package tools;
 
+import com.google.common.hash.Hashing;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +24,12 @@ public final class crypTools {
         return new String(Base64.getUrlDecoder().decode(base64));
     }
 
+
+    public static String sha256(String digest){
+        return Hashing.sha256()
+                .hashString(digest, StandardCharsets.UTF_8)
+                .toString();
+    }
     public static String decodeFromUtf8(String encodedURL){
         return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8);
     }

@@ -33,11 +33,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import tools.exceptions.ToolException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -177,6 +179,15 @@ public final class httpTools {
         return finalUrl.toString();
     }
 
+    public static Map<String, ?> encodeParams(Map<String, ?> params){
+        Map<String, Object> encodedParams = new HashMap<>();
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+            String value = String.valueOf(entry.getValue());
+            value = URLEncoder.encode(value, StandardCharsets.UTF_8);
+            encodedParams.put(entry.getKey(),value);
+        }
+        return encodedParams;
+    }
 
     /**************************************************
      * Response Methods *******************************
@@ -214,16 +225,24 @@ public final class httpTools {
         }
     }
 
+    public static URI buildUri(String url, Map<String, ?> params, Boolean encoded){
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
+        return builder.build(encoded).toUri();
+    }
+
     /**************************************************
      * Generic Request Methods ************************
      **************************************************/
     public static ResponseEntity<Object> doRequest(String url, Class responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
-        String finalUrl = httpTools.buildUrl(url, params, encode);
-        logTools.printDebug("["+httpTools.class+"]: Calling URL->["+finalUrl+"] with method->["+method.name()+"]");
-        ResponseEntity<Object> response = restTemplate.exchange(finalUrl, method, payload, responseType);
+        URI finalUri = httpTools.buildUri(url, params, encode);
+        logTools.printDebug("["+httpTools.class+"]: Calling URL->["+finalUri+"] with method->["+method.name()+"]");
+        ResponseEntity<Object> response = restTemplate.exchange(finalUri, method, payload, responseType);
         if (!retry || response != null) {
-            logTools.printDebug("["+httpTools.class+"]: Success! Response for URL->["+finalUrl+"] received!");
+            logTools.printDebug("["+httpTools.class+"]: Success! Response for URL->["+finalUri+"] received!");
             return response;
         }
         int i = 0;
@@ -233,7 +252,7 @@ public final class httpTools {
         }
 
         while (response == null && i < maxRetries) {
-            response = restTemplate.exchange(finalUrl, method, payload, responseType, params);
+            response = restTemplate.exchange(finalUri, method, payload, responseType);
             logTools.printDebug("[" + i + "] Retrying request to " + url);
             i++;
         }

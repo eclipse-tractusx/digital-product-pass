@@ -19,7 +19,7 @@ public class TransferRequest {
     @JsonProperty("managedResources")
     Boolean managedResources;
     @JsonProperty("dataDestination")
-    Destination dataDestination;
+    Properties dataDestination;
 
     public TransferRequest(String id, String connectorId, String connectorAddress, String contractId, String assetId, Boolean managedResources, String destinationType) {
         this.id = id;
@@ -28,7 +28,7 @@ public class TransferRequest {
         this.contractId = contractId;
         this.assetId = assetId;
         this.managedResources = managedResources;
-        this.dataDestination = new Destination(destinationType);
+        this.dataDestination = new Properties(destinationType);
     }
 
     public TransferRequest() {
@@ -74,11 +74,11 @@ public class TransferRequest {
         this.managedResources = managedResources;
     }
 
-    public Destination getDataDestination() {
+    public Properties getDataDestination() {
         return dataDestination;
     }
 
-    public void setDataDestination(Destination dataDestination) {
+    public void setDataDestination(Properties dataDestination) {
         this.dataDestination = dataDestination;
     }
 
@@ -90,20 +90,4 @@ public class TransferRequest {
         this.contractId = contractId;
     }
 
-    static class Destination {
-        @JsonProperty("type")
-        String type;
-
-        public Destination(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
 }

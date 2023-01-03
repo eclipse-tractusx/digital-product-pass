@@ -6,9 +6,7 @@ import net.catenax.ce.materialpass.models.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import tools.configTools;
-import tools.httpTools;
-import tools.jsonTools;
+import tools.*;
 
 import java.util.Map;
 
@@ -94,7 +92,9 @@ public class DataTransferService {
                     "It was not possible to retrieve the catalog!");
         }
     }
-    public String doTransferProcess(Negotiation negotiation, String idShort, String connectorAddress, Offer offer, Boolean managedResources){
+
+
+    public Transfer doTransferProcess(Negotiation negotiation, String connectorId, String connectorAddress, Offer offer, Boolean managedResources){
         try{
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
@@ -103,10 +103,11 @@ public class DataTransferService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Object body = new TransferRequest(
-                    negotiation.getId(),
-                    idShort,
+                    DataTransferService.generateTransferId(negotiation, connectorId, connectorAddress),
+                    connectorId,
                     connectorAddress,
-                    negotiation.getContractAgreementId(),
+                    //negotiation.getContractAgreementId(), -> At the moment null
+                    negotiation.getId(),
                     offer.getAssetId(),
                     managedResources,
                     "HttpProxy"
@@ -114,8 +115,7 @@ public class DataTransferService {
             System.out.println(jsonTools.toJson(body));
             ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
             String responseBody = (String) response.getBody();
-            //return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Transfer.class);
-            return responseBody;
+            return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Transfer.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"doTransferProcess",
                     e,
@@ -123,4 +123,31 @@ public class DataTransferService {
         }
     }
 
+    public Transfer getTransfer(String Id){
+        try {
+            HttpHeaders headers = httpTools.getHeaders();
+            String path = "/consumer/data/transferprocess";
+            // Get variables from configuration
+            if(serverUrl == null || APIKey==null){
+                return null;
+            }
+            String url = serverUrl + path + "/" + Id;
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", APIKey);
+            Map<String, Object> params = httpTools.getParams();
+            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
+            String body = (String) response.getBody();
+            return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Transfer.class);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
+                    e,
+                    "It was not possible to retrieve the transfer!");
+        }
+    }
+    /*
+    STATIC FUNCTIONS
+     */
+    public static String generateTransferId(Negotiation negotiation, String connectorId, String connectorAddress){
+        return crypTools.sha256(dateTimeTools.getDateTimeFormatted("yyyyMMddHHmmssSSS") + negotiation.getId() + connectorId + connectorAddress);
+    }
 }

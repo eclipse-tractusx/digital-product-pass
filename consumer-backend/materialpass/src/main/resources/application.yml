@@ -35,6 +35,9 @@ spring:
     allow-bean-definition-overriding: true
   devtools:
     add-properties: false
+  jackson:
+    serialization:
+      indent_output: true
 
 server:
   error:

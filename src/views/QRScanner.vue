@@ -1,60 +1,16 @@
 <template>
   <div class="qr-container">
-    <router-link to="/dashboard">
-      <img :src="CatenaLogo" alt="logo" class="logo" />
-    </router-link>
-    <div
-      class="toast-alert"
-      :class="{
-        'display-toast-alert': error,
-      }"
+    <router-link to="/dashboard"> </router-link>
+
+    <v-snackbar
+      v-if="error ? (snackbar = true) : (snackbar = false)"
+      v-model="snackbar"
+      location="top"
+      content-class="snackbar"
+      variant="plain"
     >
-      <h3 class="error-message">
-        {{ error }}
-        <span @click="error = !error">
-          <img :src="Close" alt="close" class="close" />
-        </span>
-      </h3>
-    </div>
-    <div class="header-container">
-      <div class="left-menu-wrapper">
-        <div class="left-menu-container">
-          <div class="empty-pusher"></div>
-          <h2 class="top-layer">Scan QR code</h2>
-          <div class="top-layer" @click="torch = !torch">
-            <img :src="Flesh" alt="flesh" />
-          </div>
-        </div>
-      </div>
-      <div class="right-manu-wrapper">
-        <div class="right-menu-container">
-          <img :src="Settings" alt="settings" class="buttons" />
-          <img :src="Notifications" alt="profile" class="buttons" />
-          <span>
-            <span @mouseover="hover = true">
-              <img
-                :src="Profile"
-                alt="profile"
-                class="buttons"
-                title="User profile"
-              />
-            </span>
-            <div v-if="hover" class="profile-menu" @mouseleave="hover = false">
-              <div class="menu-btn">
-                <img :src="Profile" alt="profile" class="menu-profile" />
-                <span class="profile-text">
-                  {{ username }}
-                  <p>{{ role }}</p>
-                </span>
-              </div>
-              <div class="menu-btn">
-                <span class="profile-text" @click="logout">Sign out</span>
-              </div>
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
+      {{ error }}
+    </v-snackbar>
     <div v-if="!error">
       <div class="qr-frame">
         <img :src="QRFrame" alt="frame" class="frame" />
@@ -66,7 +22,7 @@
         @decode="onDecode"
       ></qrcode-stream>
       <div>
-        <form class="input-form" @submit.prevent="onClick">
+        <!-- <form class="input-form" @submit.prevent="onClick">
           <input
             v-model="typedCode"
             class="input"
@@ -76,15 +32,12 @@
           <button class="submit-btn">
             <img :src="Search" alt="search" />
           </button>
-        </form>
+        </form> -->
       </div>
     </div>
     <div v-else class="error-frame">
       <Spinner class="spinner-container" />
     </div>
-  </div>
-  <div class="footer-container">
-    <Footer />
   </div>
 </template>
 
@@ -95,7 +48,6 @@ import Flesh from "../assets/flesh.svg";
 import Close from "../assets/close.svg";
 import QRFrame from "../assets/qrFrame.svg";
 import Search from "../assets/qrSearch.svg";
-import Footer from "@/components/Footer.vue";
 import Logout from "../assets/logout.png";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
@@ -107,7 +59,6 @@ export default {
   name: "PassportView",
   components: {
     QrcodeStream,
-    Footer,
     Spinner,
   },
   setup() {
@@ -128,6 +79,7 @@ export default {
     return {
       hover: false,
       error: "",
+      snackbar: false,
       decodedString: "",
       torch: false,
       MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
@@ -191,6 +143,15 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .error-frame {
   display: flex;
   align-items: center;
@@ -199,13 +160,16 @@ export default {
 }
 
 .qr-container {
-  position: relative;
-  max-height: 900px;
-  overflow: hidden;
+  position: fixed;
+  z-index: -1;
+  top: 132px;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .qrcode-stream {
-  max-width: 100%;
+  max-width: 500%;
 }
 
 .header-container {
@@ -285,11 +249,13 @@ export default {
 
 .left-menu-wrapper {
   position: absolute;
-  width: 20%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.qrcode-stream-camera {
+  width: 160%;
 }
 
 .left-menu-container {

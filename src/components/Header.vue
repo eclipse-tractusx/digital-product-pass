@@ -1,64 +1,56 @@
 <template>
-  <div v-if="hamburgerMenu" class="hamburger-menu">
-    <h3 v-if="hamburgerMenu" class="links">Settings</h3>
-    <h3 v-if="hamburgerMenu" class="links">Notifications</h3>
-    <h3 v-if="hamburgerMenu" class="links" @click="profileMenu = !profileMenu">
-      Profile
-    </h3>
-    <div v-if="profileMenu" class="profile-menu-mobile">
-      <span class="mobile-menu-links">
-        {{ username }}
-        <p class="">{{ role }}</p>
-      </span>
-      <span class="mobile-menu-links" @click="logout"> Sign out </span>
-    </div>
-  </div>
   <div>
-    <div class="header-container profile-container">
+    <div class="header-container">
       <div class="logo-container">
         <router-link to="/">
           <img :src="CatenaLogo" alt="logo" class="logo" />
-          <img :src="CatenaLogoType" alt="logotype" class="logo-type" />
         </router-link>
       </div>
-      <div class="toggle-button" @click="hamburgerMenu = !hamburgerMenu">
-        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
-        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
-        <span class="bar" :class="hamburgerMenu ? 'white-bar' : ''"></span>
-      </div>
+      <v-container class="tabs">
+        <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''">
+          <v-tab value="one">History page</v-tab>
+          <v-tab value="two">QR code scanner</v-tab>
+        </v-tabs>
+      </v-container>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
-          <router-link to="/">
-            <img :src="QRScanner" alt="QRScanner" class="buttons" />
-          </router-link>
-          <img :src="Settings" alt="settings" class="buttons" />
-          <img :src="Notifications" alt="profile" class="buttons" />
-          <span>
-            <span @mouseover="hover = true">
+          <v-menu>
+            <template #activator="{ props }">
               <img
+                v-bind="props"
                 :src="Profile"
                 alt="profile"
                 class="buttons"
-                title="User profile"
               />
-            </span>
-            <div v-if="hover" class="profile-menu" @mouseleave="hover = false">
-              <div class="menu-btn">
-                <img :src="Profile" alt="profile" class="menu-profile" />
-                <!--TODO: Profile page onClick-->
+            </template>
+            <v-list class="dropdown" rounded="xl">
+              <div class="profile-menu-header">
                 <span class="profile-text">
                   {{ username }}
-                  <p>{{ role }}</p>
+                  <p class="role">{{ role }}</p>
                 </span>
               </div>
               <div class="menu-btn">
-                <span class="profile-text" @click="logout">Sign out</span>
+                <span class="profile-text" @click="logout">Logout</span>
               </div>
-            </div>
-          </span>
+            </v-list>
+          </v-menu>
         </div>
       </div>
     </div>
+    <v-container v-if="!batteryId">
+      <v-window v-model="tab">
+        <v-main>
+          <v-window-item value="one">
+            <BatteryPassport />
+          </v-window-item>
+          <v-window-item value="two">
+            <div class="ghost"></div>
+            <QRScanner />
+          </v-window-item>
+        </v-main>
+      </v-window>
+    </v-container>
     <div v-if="batteryId" class="id-container">
       <div class="id-wrapper">
         <h1>
@@ -70,7 +62,13 @@
           }}
         </h1>
       </div>
-      <div v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'X123456789012X12345678901234566'" class="code-container">
+      <div
+        v-if="
+          batteryId.batteryIdentification.batteryIDDMCCode ==
+          'X123456789012X12345678901234566'
+        "
+        class="code-container"
+      >
         <img
           :src="X123456789012X12345678901234566"
           alt="profile"
@@ -79,7 +77,12 @@
           height="170"
         />
       </div>
-      <div v-else-if="batteryId.batteryIdentification.batteryIDDMCCode == 'NCR186850B'" class="code-container">
+      <div
+        v-else-if="
+          batteryId.batteryIdentification.batteryIDDMCCode == 'NCR186850B'
+        "
+        class="code-container"
+      >
         <img
           :src="NCR186850B"
           alt="profile"
@@ -88,7 +91,10 @@
           height="170"
         />
       </div>
-      <div v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'IMR18650V1'" class="code-container">
+      <div
+        v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'IMR18650V1'"
+        class="code-container"
+      >
         <img
           :src="IMR18650V1"
           alt="profile"
@@ -98,41 +104,49 @@
         />
       </div>
     </div>
+    <Footer v-if="!batteryId" />
   </div>
 </template>
 
 <script>
 import CatenaLogoType from "../assets/logotype.png";
-import CatenaLogo from "../assets/logo.png";
+import CatenaLogo from "../assets/Catena-X_Logo_mit_Zusatz_2021.svg";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
-import QRScanner from "../assets/qr-icon.svg";
+import QRScannerIcon from "../assets/qr-icon.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import IMR18650V1 from "../assets/IMR18650V1.svg";
 import X123456789012X12345678901234566 from "../assets/X123456789012X12345678901234566.svg";
 import NCR186850B from "../assets/NCR186850B.svg";
-
-
+import QRScanner from "../views/QRScanner.vue";
+import BatteryPassport from "../components/BatteryPassport.vue";
+import Footer from "../components/Footer.vue";
 import Logout from "../assets/logout.png";
 import { inject } from "vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
+  components: {
+    QRScanner,
+    BatteryPassport,
+    Footer,
+  },
   props: {
     batteryId: {
       type: Object,
       default: null,
     },
   },
+
   setup() {
     return {
       CatenaLogoType,
       CatenaLogo,
       Profile,
       Notifications,
-      QRScanner,
+      QRScannerIcon,
       Settings,
       QrCode,
       IMR18650V1,
@@ -141,14 +155,16 @@ export default {
       Logout,
     };
   },
+
   data() {
     return {
-      hover: false,
+      profileHover: false,
       hamburgerMenu: false,
       profileMenu: false,
       username: "",
       role: "",
       auth: inject("authentication"),
+      tab: null,
     };
   },
   mounted() {
@@ -156,6 +172,7 @@ export default {
       this.username = this.auth.getUserName();
       this.role = this.auth.getRole();
     }
+    console.log("user hello", this.username);
   },
   methods: {
     logout() {
@@ -169,25 +186,51 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
 h1 {
   font-weight: bold;
 }
 
+.ghost {
+  height: 54vh;
+}
+
+.dropdown {
+  margin-top: 20px;
+  border-radius: 16px;
+  width: 256px;
+  padding: 0;
+}
+
 .header-container {
   display: flex;
-  width: 76%;
-  margin: 4% 12% 0 12%;
+  width: 100%;
+  margin: 30px 12% 0 0;
+  padding: 0 4% 20px;
+  border-bottom: 2px solid lightgray;
 }
 
 .logo-container {
-  display: relative;
-  width: 50%;
+  padding-top: 10px;
 }
 
 .logo {
-  position: absolute;
-  height: 49px;
-  left: -56px;
+  height: 40px;
+  left: 40px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-tabs {
+  display: none;
 }
 
 .logo-type {
@@ -205,7 +248,7 @@ h1 {
 }
 
 .right-manu-wrapper {
-  width: 50%;
+  width: 20%;
   display: flex;
   justify-content: flex-end;
 }
@@ -224,9 +267,7 @@ h1 {
 }
 
 .buttons {
-  width: 26px;
-  height: 26px;
-  margin: 15px 0 15px 30px;
+  margin: 15px 0 0 30px;
   cursor: pointer;
 }
 
@@ -234,19 +275,21 @@ h1 {
   position: relative;
 }
 
-.profile-menu {
-  position: absolute;
-  min-width: 342px;
-  border: solid 1px #ffa600;
-  right: 0;
-  background-color: white;
-  cursor: pointer;
+.profile-menu-header {
+  background-color: #f3f3f3;
+  border-radius: 16px 16px 0 0;
+  padding: 17px 0 0 0;
+}
+
+.role {
+  padding: 3px 0 16px 24px;
+  font-size: 14px;
+  color: #888888;
 }
 
 .menu-btn {
   display: flex;
-  border-top: solid 1px #ffa600;
-  padding: 16px;
+  border-top: 1px solid #dcdcdc;
   align-items: center;
 }
 
@@ -255,13 +298,14 @@ h1 {
 }
 
 .menu-btn:hover {
-  background-color: #f8f9fa;
+  background: rgba(15, 113, 203, 0.05);
+  color: #0d55af;
 }
 
 .profile-text {
-  padding: 0 16px 0 12px;
-  font-size: 18px;
-  font-weight: bold;
+  padding: 17px 0 35px 24px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 p {
@@ -367,14 +411,14 @@ p {
     width: 100%;
     justify-content: center;
     align-items: center;
-    border: solid 1px #b3cb2c;
+    border: 1px solid #dcdcdc;
   }
 
   .mobile-menu-links {
     text-align: center;
     font-weight: bold;
     font-size: 16px;
-    border-bottom: solid 1px #b3cb2c;
+    border: 1px solid #dcdcdc;
     width: 100%;
     min-height: 60px;
     padding: 16px 0 0 0px;

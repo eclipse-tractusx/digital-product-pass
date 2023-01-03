@@ -7,10 +7,10 @@ import store from '../store/index';
 export default class Authentication {
 
     keycloak;
-    constructor(){
+    constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
-    keycloakInit(app){
+    keycloakInit(app) {
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
         if (!auth) {
           window.location.reload();
@@ -22,7 +22,7 @@ export default class Authentication {
         setInterval(() => {
           this.updateToken(60);
         }, 60000);
-        
+
       }).catch((e) => {
         console.log(e);
         console.error("keycloakInit -> Login Failure");
@@ -42,7 +42,7 @@ export default class Authentication {
           console.info('Token refreshed' + refreshed);
         } else {
           console.warn('Token not refreshed, valid for '
-                    + Math.round( this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+                    + Math.round(this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
         }
       }).catch(() => {
         console.error("updateToken -> Failed to refresh token");
@@ -56,10 +56,10 @@ export default class Authentication {
       return this.keycloak.clientId;
     }
     decodeAccessToken() {
-      return JSON.parse(window.atob( this.keycloak.token.split(".")[1]));
+      return JSON.parse(window.atob(this.keycloak.token.split(".")[1]));
     }
     getUserName() {
-      return this.decodeAccessToken().name;
+      return this.decodeAccessToken().preferred_username;
     }
     getSessionId() {
       return this.keycloak.sessionId;
@@ -81,13 +81,13 @@ export default class Authentication {
     }
     /***** Technical User Authentication *****/
 
-    getAuthTokenForTechnicalUser() {   
+    getAuthTokenForTechnicalUser() {
 
       // encrypt client credentials using keycloak session id to access in a safe manner// 
       store.commit("setSessionId", this.getSessionId());
       store.commit("setClientId", CLIENT_CREDENTIALS.client_id);
       store.commit("setClientSecret", CLIENT_CREDENTIALS.client_secret);
-    
+
       const params = new URLSearchParams({
 
         grant_type: CLIENT_CREDENTIALS.grant_type,
@@ -95,7 +95,7 @@ export default class Authentication {
         client_secret: store.getters.getClientSecret,
         scope: CLIENT_CREDENTIALS.scope
       });
-        
+
       return new Promise((resolve) => {
         axios({
 
@@ -103,7 +103,7 @@ export default class Authentication {
           url: IDP_URL + 'realms/CX-Central/protocol/openid-connect/token',
           data: params.toString(),
           config: {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
           }
 
         }).then(response => {

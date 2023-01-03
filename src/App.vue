@@ -1,11 +1,14 @@
 <template>
-  <router-view />
+  <v-app>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
 };
 </script>
 
@@ -25,9 +28,14 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-image: url(https://portal.dev.demo.catena-x.net/assets/images/frame/Home.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow-x: hidden;
 }
 
-.table-borderless> :not(caption)>*>* {
+.table-borderless > :not(caption) > * > * {
   border-bottom-width: 0;
   padding-left: 40px !important;
 }
@@ -40,7 +48,7 @@ export default {
   background-color: rgba(179, 203, 44, 0.05);
 }
 
-.table>thead {
+.table > thead {
   vertical-align: bottom;
   color: gray;
   font-size: 12px;
@@ -57,5 +65,26 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.section-content {
+  width: 100%;
+  border: solid 1px #b3cb2d;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+  margin-bottom: 50px;
+}
+.sub-section-container {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: solid 1px #edefe5;
+}
+
+.snackbar {
+  border: 1px solid #676bc6;
+  border-radius: 8px;
+  background-color: white;
+  font-weight: 400;
+  margin-top: 25px;
 }
 </style>

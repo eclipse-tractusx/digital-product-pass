@@ -3,6 +3,7 @@
     <div class="text-container">
       <p class="text">Your camera is off.</p>
       <p class="text">Turn it on or type the ID.</p>
+      <p class="error">{{ error }}</p>
     </div>
     <form class="input-form" @submit.prevent="onClick">
       <input
@@ -16,16 +17,6 @@
   </div>
   <div class="qr-container">
     <router-link to="/dashboard"> </router-link>
-
-    <v-snackbar
-      v-if="error ? (snackbar = true) : (snackbar = false)"
-      v-model="snackbar"
-      location="top"
-      content-class="snackbar"
-      variant="plain"
-    >
-      {{ error }}
-    </v-snackbar>
     <div v-if="!error">
       <div class="qr-frame">
         <img :src="QRFrame" alt="frame" class="frame" />
@@ -151,6 +142,10 @@ export default {
   visibility: visible;
 }
 
+.error {
+  font-weight: bold;
+}
+
 .error-frame {
   display: flex;
   align-items: center;
@@ -193,7 +188,7 @@ export default {
 
 .text-container {
   position: fixed;
-  top: 25vh;
+  top: 22vh;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 40;

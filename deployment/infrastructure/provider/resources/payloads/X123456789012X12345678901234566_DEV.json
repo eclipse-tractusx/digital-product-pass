@@ -1,0 +1,283 @@
+{
+    "electrochemicalProperties": {
+      "ratedCapacity": 200,
+      "batteryEnergy": {
+        "energyRoundtripEfficiencyChange": 80,
+        "maximumAllowedBatteryEnergy": 60000.0,
+        "energyRoundtripEfficiency": 48
+      },
+      "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.833,
+      "batteryVoltage": {
+        "nominalVoltage": 3.6,
+        "maxVoltage": 4.2,
+        "minVoltage": 2.5
+      },
+      "internalResistance": {
+        "cellInternalResistance": 0.3,
+        "packInternalResistanceIncrease": 0.21,
+        "packInternalResistance": 53
+      },
+      "capacityThresholdExhaustion": 20,
+      "batteryPower": {
+        "originalPowerCapability": 150,
+        "powerFade": 12.1,
+        "originalPowerCapabilityLimits": 734.8,
+        "maximumAllowedBatteryPower": 100000,
+        "powerCapabilityAt20Charge": 500000,
+        "originalPower": 40000,
+        "powerCapabilityAt80Charge": 120000
+      },
+      "capacityFade": 1.5
+    },
+    "document": {
+      "responsibleSourcing": [
+        {
+          "title": "Responsible Sourcing Report 2021",
+          "fileLocation": "telnet://192.0.2.16:80/"
+        }
+      ],
+      "packagingInstructions": [
+        {
+          "title": "Packing Instruction for Lithium cells and batteries",
+          "fileLocation": "telnet://192.0.2.16:80/"
+        }
+      ],
+      "transportationInstructions": [
+        {
+          "title": "Shipping guidelines",
+          "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        }
+      ],
+      "vehicleDismantlingProcedure": [
+        {
+          "title": "Dissmantling procedure of battery from the car",
+          "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+        }
+      ],
+      "testReportsResults": [
+        {
+          "title": "Laboratory Test Results for Battery ID no: X123456789012X12345678901234566",
+          "fileLocation": ""
+        }
+      ],
+      "batteryDismantlingProcedure": [
+        {
+          "title": "Dismantling Procedure for Battery Model: Li-Ion  X-series",
+          "fileLocation": "http://www.wikipedia.org"
+        }
+      ],
+      "safetyMeasures": [
+        {
+          "title": "Lithium battery safety document",
+          "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        }
+      ],
+      "declarationOfConformity": [
+        {
+          "title": "Declaration of Conformity No. 1",
+          "fileLocation": ""
+        }
+      ]
+    },
+    "datePlacedOnMarket": "27.02.2022",
+    "cellChemistry": {
+      "electrolyteComposition": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Ethylene Carbonate"
+        }
+      ],
+      "anodeCompositionOther": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Polyacrylic acid"
+        }
+      ],
+      "recyclateContentActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": 4,
+          "matierialWeight": null,
+          "materialName": "Ni/2021/PlantA"
+        },
+        {
+          "matierialPercentageMassFraction": 4,
+          "matierialWeight": null,
+          "materialName": "Li/2021/PlantA"
+        },
+        {
+          "matierialPercentageMassFraction": 0,
+          "matierialWeight": null,
+          "materialName": "Pb(battery model does not contain Pb)"
+        },
+        {
+          "matierialPercentageMassFraction": 12,
+          "matierialWeight": null,
+          "materialName": "Co/2021/PlantA"
+        }
+      ],
+      "anodeActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "Graphite"
+        }
+      ],
+      "cathodeActiveMaterials": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "(NCM)Lithium nickel cobalt manganese oxide"
+        }
+      ],
+      "cathodeCompositionOther": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "carbon black, PVDR"
+        }
+      ]
+    },
+    "physicalDimensions": {
+      "length": 1500,
+      "width": 1000,
+      "weight": 1500,
+      "diameter": null,
+      "height": 50
+    },
+    "temperatureRangeIdleState": {
+      "temperatureRangeIdleStateUpperLimit": 50,
+      "temperatureRangeIdleStateLowerLimit": -20
+    },
+    "batteryCycleLife": {
+      "cycleLifeTestCRate": 90,
+      "cycleLifeTestDepthOfDischarge": 67,
+      "expectedLifetime": 2800
+    },
+    "manufacturer": {
+      "name": "CompanyA",
+      "contact": {
+        "faxNumber": "+49 89 0987654322",
+        "website": "http://www.CompanyA.com",
+        "phoneNumber": "+49 89 1234567891",
+        "email": "companyA@company.com"
+      },
+      "address": {
+        "locality": {
+          "value": "CityA",
+          "technicalKey": "BLOCK"
+        },
+        "country": {
+          "shortName": "Germany"
+        },
+        "postCode": {
+          "value": "65-250A",
+          "technicalKey": "CEDEX"
+        },
+        "thoroughfare": {
+          "value": "StreetA",
+          "number": "1",
+          "technicalKey": "STREET"
+        },
+        "premise": {
+          "value": "",
+          "technicalKey": "CEDEX"
+        },
+        "postalDeliveryPoint": {
+          "value": "Tor 1",
+          "technicalKey": "INTERURBAN_DELIVERY_POINT"
+        }
+      }
+    },
+    "warrantyPeriod": 96,
+    "composition": {
+      "compositionOfBattery": [
+        {
+          "matierialPercentageMassFraction": null,
+          "matierialWeight": null,
+          "materialName": "current collector: Cupper, Separator: PP, Casing: Aluminium"
+        }
+      ],
+      "criticalRawMaterials": "Lithium, Bauxite, Natural graphite",
+      "components": {
+        "componentsPartNumber": "Battery Management Unit Model: 75345",
+        "componentsSupplier": [
+          {
+            "address": {
+              "locality": {
+                "value": "CityB",
+                "technicalKey": "BLOCK"
+              },
+              "country": {
+                "shortName": "Germany"
+              },
+              "postCode": {
+                "value": "65-250B",
+                "technicalKey": "CEDEX"
+              },
+              "thoroughfare": {
+                "value": "StreetB",
+                "number": "1",
+                "technicalKey": "STREET"
+              },
+              "premise": {
+                "value": "PlantB",
+                "technicalKey": "BUILDING"
+              },
+              "postalDeliveryPoint": {
+                "value": "GateB",
+                "technicalKey": "INTERURBAN_DELIVERY_POINT"
+              }
+            },
+            "contact": {
+              "faxNumber": "+49 89 0987654322",
+              "website": "https://www.companyB.com",
+              "phoneNumber": "+49 89 1234567890",
+              "email": "companyB@company.com"
+            }
+          }
+        ]
+      }
+    },
+    "manufacturing": {
+      "dateOfManufacturing": "2022-01-24",
+      "address": {
+        "locality": {
+          "value": "CityA",
+          "technicalKey": "BLOCK"
+        },
+        "country": {
+          "shortName": "Germany"
+        },
+        "postCode": {
+          "value": "65-250A",
+          "technicalKey": "CEDEX"
+        },
+        "thoroughfare": {
+          "value": "StreetA",
+          "number": "1",
+          "technicalKey": "STREET"
+        },
+        "premise": {
+          "value": "PlantA",
+          "technicalKey": "BUILDING"
+        },
+        "postalDeliveryPoint": {
+          "value": "GateA",
+          "technicalKey": "INTERURBAN_DELIVERY_POINT"
+        }
+      }
+    },
+    "batteryIdentification": {
+      "batteryType": "LiNMC",
+      "batteryIDDMCCode": "X123456789012X12345678901234566",
+      "batteryModel": "Li-Ion  X-series"
+    },
+    "stateOfBattery": {
+      "stateOfHealth": 100,
+      "statusBattery": "first life",
+      "stateOfCharge": 99
+    },
+    "cO2FootprintTotal": 3120
+}

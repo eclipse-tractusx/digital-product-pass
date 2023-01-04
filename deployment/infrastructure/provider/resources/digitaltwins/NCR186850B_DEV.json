@@ -1,0 +1,48 @@
+{
+    "description": [
+        {
+            "language": "en",
+            "text": "demo_catena_test_1.txt"
+        }
+    ],
+    "globalAssetId": {
+        "value": [
+            "urn:uuid:bda9c9b0-0817-4dad-a279-6b141b250bae"
+        ]
+    },
+    "idShort": "demo_catena_test_2.txt",
+    "identification": "urn:uuid:bda9c9b0-0817-4dad-a279-6b141b250bae",
+    "specificAssetIds": [
+        {
+            "key": "Battery_ID_DMC_Code",
+            "value": "NCR186850B_DEV"
+        }
+    ],
+    "submodelDescriptors": [
+        {
+            "description": [
+                {
+                    "language": "en",
+                    "text": "Battery Passport Submodel"
+                }
+            ],
+            "idShort": "MaterialPass",
+            "identification": "urn:uuid:79a66c94-14b6-438b-b0f0-7d651243a708",
+            "semanticId": {
+                "value": [
+                    "urn_bamm_io.catenax.battery.battery_pass_2.0.0"
+                ]
+            },
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL.SIEM.0002",
+                    "protocolInformation": {
+                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data",
+                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
+                        "endpointProtocolVersion": "0.0.1-SNAPSHOT"
+                    }
+                }
+            ]
+        }
+    ]
+}

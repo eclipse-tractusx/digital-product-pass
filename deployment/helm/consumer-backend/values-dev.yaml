@@ -6,10 +6,10 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-backend
+  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: placeholder
 
 imagePullSecrets: []
 nameOverride: "consumer-backend"

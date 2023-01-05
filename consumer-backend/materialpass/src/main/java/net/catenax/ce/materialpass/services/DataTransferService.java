@@ -123,7 +123,7 @@ public class DataTransferService {
         }
     }
 
-    public Transfer getTransfer(String Id){
+    public Object getTransfer(String Id){
         try {
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
@@ -135,9 +135,23 @@ public class DataTransferService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Map<String, Object> params = httpTools.getParams();
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
-            String body = (String) response.getBody();
-            return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Transfer.class);
+            String state = "INITIAL";
+            JsonNode result = null;
+            boolean sw = true;
+            while(sw) {
+                ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
+                result = (JsonNode) response.getBody();
+                if(!result.has("state") || result.get("state") == null){
+                    throw new ServiceException(this.getClass().getName()+"."+"getTransfer",
+                            "It was not possible to retrieve the transfer!");
+                }
+                state = String.valueOf(result.get("state"));
+                if(state.equals("COMPLETED") || state.equals("ERROR")){
+                    sw = false;
+                }
+            }
+            //return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Transfer.class);
+            return result;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
                     e,

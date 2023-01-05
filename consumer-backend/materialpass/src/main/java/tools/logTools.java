@@ -51,14 +51,16 @@ public final class logTools {
     private static final Level EXCEPTION = Level.forName( "EXCEPTION", 100);
     private static final Level WARNING = Level.forName("WARNING", 300);
     private static final Level ERROR = Level.forName("ERROR", 200);
+    private static final Level FATAL = Level.forName("FATAL", 200);
 
     private static final Map<Level, Integer> LOGLEVELS = Map.of(
-                    ERROR, 1,
-                    EXCEPTION,2,
-                    WARNING, 3,
-                    HTTP, 4,
-                    INFO, 5,
-                    DEBUG, 6
+                    FATAL,1,
+                    ERROR, 2,
+                    EXCEPTION,3,
+                    WARNING, 5,
+                    HTTP, 6,
+                    INFO, 7,
+                    DEBUG, 8
             );
 
 
@@ -129,13 +131,12 @@ public final class logTools {
         threadTools.runThread(new LogPrinter(logLevel, message));
         //threadTools.runThread(new LogWritter(message));
     }
-    public static void printFatalLog(String strMessage){
-        //String date = dateTimeTools.getDateTimeFormatted(null);
-        Long pid = systemTools.getPid();
-        String memoryUsage = systemTools.getUsedHeapMemory();
-        String message = "|"+pid+"|"+ memoryUsage+"| [FATAL] " + strMessage;
-        System.err.println(message);
-        //threadTools.runThread(new LogWritter(message));
+    public static void printFatal(String strMessage){
+        Level logLevel = FATAL;
+        if(!logTools.checkLogLevel(logLevel)){
+            return;
+        }
+        logTools.printLog(logLevel, strMessage);
     }
 
     private static class LogPrinter implements Runnable {

@@ -95,13 +95,14 @@
         "materialName": "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX"
       }
     ],
-    "recyclateContentActiveMaterials": [
       {
+        "name": "recyclateContentActiveMaterials",
+      
         "matierialPercentageMassFraction": 19,
         "matierialWeight": 2.5,
         "materialName": "UfzQhdgLLfDTDGspDb"
       }
-    ],
+    ,
     "anodeActiveMaterials": [
       {
         "matierialPercentageMassFraction": 19,
@@ -184,7 +185,7 @@
         "materialName": "Oxm"
       }
     ],
-    "criticalRawMaterials": "QIn",
+    "criticalRawMaterialscriticalRawMaterials": "QIn",
     "components": {
       "componentsPartNumber": "Case xxxxxxx/xx; Controller xxxxxxx/xx",
       "componentsSupplier": [

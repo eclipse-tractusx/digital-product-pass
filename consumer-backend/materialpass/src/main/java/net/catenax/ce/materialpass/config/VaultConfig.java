@@ -9,32 +9,29 @@ import org.springframework.vault.config.AbstractVaultConfiguration;
 import tools.*;
 
 import java.net.URI;
-import java.nio.file.Path;
 import java.util.Map;
 
 @Configuration
 public class VaultConfig extends AbstractVaultConfiguration {
 
     public static final configTools configuration = new configTools();
+    private final String vaultType = (String) configuration.getConfigurationParam("vault.type", ".", null);
     private final String vaultUri = (String) configuration.getConfigurationParam("vault.uri", ".", null);
-    private final String tokenFile = (String) configuration.getConfigurationParam("vault.token-file", ".", null);
+    private final String tokenFile = (String) configuration.getConfigurationParam("vault.file", ".", null);
     public String dataDir;
 
     @Override
     public ClientAuthentication clientAuthentication() {
         try{
             this.dataDir = fileTools.createDataDir("VaultConfig");
-            String filePath = Path.of(this.dataDir, tokenFile).toAbsolutePath().toString();
-            if(!fileTools.pathExists(filePath)){
-                logTools.printMessage("No vault token file found, creating yaml file in ["+filePath+"]");
-                fileTools.toFile(filePath, "token: ''\nclient: \n\tid: ''\n\tsecret: ''", false); // Create YAML token file
-            };
+            String filePath = vaultTools.createLocalVaultFile();
 
             Map<String, Object> content = yamlTools.readFile(filePath);
             String token = (String) content.get("token");
             if(stringTools.isEmpty(token)){
-                logTools.printFatalLog("Please add the Vault token to ["+filePath+"] file, in order to start the application.");
-                throw new ConfigException("VaultConfig.clientAuthentication", "Token field is empty in ["+filePath+"], no token is set.");
+                logTools.printFatal("Please add the Vault token to ["+filePath+"] file, in order to start the application.");
+                //throw new ConfigException("VaultConfig.clientAuthentication", "Token field is empty in ["+filePath+"], no token is set.");
+                token = "00000000000-00000000000000000-00000000000";
             }
             return (TokenAuthentication) new TokenAuthentication(token);
         } catch (Exception e) {

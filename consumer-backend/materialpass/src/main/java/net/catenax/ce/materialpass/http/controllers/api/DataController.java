@@ -25,6 +25,6 @@ public class DataController {
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
-        return response;
+        return httpTools.buildResponse(response, httpResponse);
     }
 }

@@ -2,16 +2,19 @@ package net.catenax.ce.materialpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import net.catenax.ce.materialpass.exceptions.ServiceException;
+import net.catenax.ce.materialpass.exceptions.ServiceInitializationException;
 import net.catenax.ce.materialpass.models.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tools.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataTransferService {
+public class DataTransferService extends BaseService{
 
     private final VaultService vaultService = new VaultService();
     public static final configTools configuration = new configTools();
@@ -19,15 +22,38 @@ public class DataTransferService {
     public final String APIKey = (String) vaultService.getLocalSecret("apiKey");
     public final String providerUrl = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
 
+    public DataTransferService() throws ServiceInitializationException {
+        this.checkEmptyVariables(List.of("APIKey")); // Add API Key as optional for initialization
+    }
+
+    @Override
+    public List<String> getEmptyVariables() {
+        List<String> missingVariables = new ArrayList<>();
+        if (serverUrl == null || serverUrl.isEmpty()) {
+            missingVariables.add("serverUrl");
+        }
+        if (APIKey == null || APIKey.isEmpty()) {
+            missingVariables.add("APIKey");
+        }
+        if (providerUrl == null || providerUrl.isEmpty()) {
+            missingVariables.add("providerUrl");
+        }
+        return missingVariables;
+    }
+
     public Catalog getContractOfferCatalog(String providerUrl){
         try {
+            this.checkEmptyVariables();
             String provider = providerUrl;
             String path = "/consumer/data/catalog";
             if (providerUrl == null) {
                 provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
             }
-            if(serverUrl == null || APIKey==null || provider==null){
-                return null;
+            if(APIKey.isEmpty()){
+                throw new ServiceInitializationException(this.getClass().getName()+ ".getContractOfferCatalog","API Key is not defined!");
+            }
+            if(serverUrl.isEmpty() || provider.isEmpty()){
+                throw new ServiceInitializationException(this.getClass().getName()+ ".getContractOfferCatalog","The server url or the provider url is not defined!");
             }
 
             String url = serverUrl + path;
@@ -49,7 +75,7 @@ public class DataTransferService {
 
     public Negotiation doContractNegotiations(Offer contractOffer){
         try{
-
+            this.checkEmptyVariables();
             contractOffer.open();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
@@ -73,6 +99,7 @@ public class DataTransferService {
     }
     public Negotiation getNegotiation(String Id){
         try {
+            this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
@@ -96,6 +123,7 @@ public class DataTransferService {
 
     public Transfer doTransferProcess(Negotiation negotiation, String connectorId, String connectorAddress, Offer offer, Boolean managedResources){
         try{
+            this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
             // Get variables from configuration
@@ -125,12 +153,9 @@ public class DataTransferService {
 
     public Object getTransfer(String Id){
         try {
+            this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
-            // Get variables from configuration
-            if(serverUrl == null || APIKey==null){
-                return null;
-            }
             String url = serverUrl + path + "/" + Id;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
@@ -164,4 +189,5 @@ public class DataTransferService {
     public static String generateTransferId(Negotiation negotiation, String connectorId, String connectorAddress){
         return crypTools.sha256(dateTimeTools.getDateTimeFormatted("yyyyMMddHHmmssSSS") + negotiation.getId() + connectorId + connectorAddress);
     }
+
 }

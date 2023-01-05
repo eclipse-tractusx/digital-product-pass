@@ -1,6 +1,8 @@
 package net.catenax.ce.materialpass.services;
 
 import net.catenax.ce.materialpass.exceptions.ServiceException;
+import net.catenax.ce.materialpass.exceptions.ServiceInitializationException;
+import net.catenax.ce.materialpass.models.BaseService;
 import net.catenax.ce.materialpass.models.DigitalTwin;
 import net.catenax.ce.materialpass.models.JwtToken;
 import net.catenax.ce.materialpass.models.SubModel;
@@ -14,15 +16,28 @@ import tools.httpTools;
 import tools.jsonTools;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class AasService {
+public class AasService extends BaseService {
     public static final configTools configuration = new configTools();
     public final String registryUrl = (String) configuration.getConfigurationParam("variables.registryUrl", ".", null);
-
     @Autowired
     private AuthenticationService authService;
+
+    public AasService() throws ServiceInitializationException {
+        this.checkEmptyVariables();
+    }
+
+    @Override
+    public List<String> getEmptyVariables() {
+        List<String> missingVariables = new ArrayList<>();
+        if (registryUrl == null || registryUrl.isEmpty()) {
+            missingVariables.add("registryUrl");
+        }
+        return missingVariables;
+    }
     public SubModel searchSubModelInDigitalTwin(String assetType,String assetId, Integer position){
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);

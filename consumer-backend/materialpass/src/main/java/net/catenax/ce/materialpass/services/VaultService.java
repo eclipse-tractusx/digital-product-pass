@@ -2,19 +2,31 @@ package net.catenax.ce.materialpass.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.ce.materialpass.exceptions.ServiceException;
+import net.catenax.ce.materialpass.exceptions.ServiceInitializationException;
+import net.catenax.ce.materialpass.models.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.vault.core.VaultTemplate;
 import org.springframework.vault.support.VaultResponse;
-import tools.*;
+import tools.configTools;
+import tools.jsonTools;
+import tools.vaultTools;
+import tools.yamlTools;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class VaultService {
+public class VaultService extends BaseService {
     public static final configTools configuration = new configTools();
     @Autowired
     private VaultTemplate vaultTemplate;
+
+    public VaultService() throws ServiceInitializationException {
+        this.checkEmptyVariables();
+    }
+
     public Object mapSecret(String secretPath, Class ClassType) {
         try {
             VaultResponse vaultResponse = vaultTemplate.read(secretPath);
@@ -61,4 +73,8 @@ public class VaultService {
     }
 
 
+    @Override
+    public List<String> getEmptyVariables() {
+        return new ArrayList<>();
+    }
 }

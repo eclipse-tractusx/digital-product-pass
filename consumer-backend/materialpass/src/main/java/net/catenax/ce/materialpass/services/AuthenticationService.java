@@ -2,6 +2,8 @@ package net.catenax.ce.materialpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import net.catenax.ce.materialpass.exceptions.ServiceException;
+import net.catenax.ce.materialpass.exceptions.ServiceInitializationException;
+import net.catenax.ce.materialpass.models.BaseService;
 import net.catenax.ce.materialpass.models.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,14 +14,30 @@ import tools.httpTools;
 import tools.jsonTools;
 import tools.logTools;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService extends BaseService {
     @Autowired
     private VaultService vaultService;
     public static final configTools configuration = new configTools();
     public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
+
+    public AuthenticationService() throws ServiceInitializationException {
+        this.checkEmptyVariables();
+    }
+
+    @Override
+    public List<String> getEmptyVariables() {
+        List<String> missingVariables = new ArrayList<>();
+        if (tokenUri == null || tokenUri.isEmpty()) {
+            missingVariables.add("tokenUri");
+        }
+        return missingVariables;
+    }
+
     public JwtToken getToken(){
         try{
         String clientId = (String) vaultService.getLocalSecret("client.id");
@@ -46,7 +64,6 @@ public class AuthenticationService {
                     "It was not possible to retrieve the token!");
         }
     }
-
 
 
 

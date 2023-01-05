@@ -36,7 +36,7 @@ public class Response {
     @JsonProperty("status")
     public Integer status = 200;
     @JsonProperty("statusText")
-    public String statusText = "Success";
+    public String statusText = null;
 
     @JsonProperty("data")
     public Object data = null;
@@ -56,6 +56,10 @@ public class Response {
         this.message = message;
         this.status = status;
         this.data = data;
+    }
+    public Response(String message, Integer status) {
+        this.message = message;
+        this.status = status;
     }
     public Response() {
     }

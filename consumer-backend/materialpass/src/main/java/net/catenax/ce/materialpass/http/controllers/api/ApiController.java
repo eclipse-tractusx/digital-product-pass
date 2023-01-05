@@ -41,21 +41,23 @@ public class ApiController {
     public Response getContract(@PathVariable("assetId") String assetId) {
         Response response = httpTools.getResponse();
         ContractOffer contractOffer = null;
-        boolean error = false;
         try {
             contractOffer = this.getContractOfferByAssetId(assetId);
         } catch (ControllerException e) {
-            error = true;
+            response.message = e.getMessage();
+            response.status = 500;
+            response.statusText = "Server Internal Error";
+            return httpTools.buildResponse(response, httpResponse);
         }
-        if(error || contractOffer == null){
+        if(contractOffer == null){
             response.message = "Asset ID not found in any contract!";
             response.status = 404;
             response.statusText = "Not Found";
-            return response;
+            return httpTools.buildResponse(response, httpResponse);
         };
         response.message = "Asset ID: " + assetId+" found in contractOffer ["+contractOffer.getId()+"]";
         response.data = contractOffer;
-        return response;
+        return httpTools.buildResponse(response, httpResponse);
     }
 
     @RequestMapping(value = "/contracts", method = {RequestMethod.GET})
@@ -69,24 +71,23 @@ public class ApiController {
     public Response negotiate(@PathVariable("assetId") String assetId) {
         Response response = httpTools.getResponse();
         Offer contractOffer = null;
-        boolean error = false;
         try {
             contractOffer = this.getContractOfferByAssetId(assetId);
         } catch (ControllerException e) {
-            error = true;
+            response.message = e.getMessage();
+            response.status = 502;
+            return httpTools.buildResponse(response, httpResponse);
         }
-        if(error || contractOffer == null){
+        if(contractOffer == null){
             response.message = "Asset ID not found in any contract!";
             response.status = 404;
-            response.statusText = "Not Found";
-            return response;
+            return httpTools.buildResponse(response, httpResponse);
         };
         Negotiation negotiation = dataService.doContractNegotiations(contractOffer);
         if(negotiation.getId() == null){
             response.message = "Negotiation Id not received, something went wrong";
             response.status = 400;
-            response.statusText = "Negotiation Failed";
-            return response;
+            return httpTools.buildResponse(response, httpResponse);
         }
         negotiation = dataService.getNegotiation(negotiation.getId());
 
@@ -102,10 +103,9 @@ public class ApiController {
         if(transfer.getId() == null){
             response.message = "Transfer Id not received, something went wrong";
             response.status = 400;
-            response.statusText = "Transfer Failed";
-            return response;
+            return httpTools.buildResponse(response, httpResponse);
         }
         response.data = dataService.getTransfer(transfer.getId());
-        return response;
+        return httpTools.buildResponse(response, httpResponse);
     }
 }

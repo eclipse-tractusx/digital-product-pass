@@ -193,19 +193,23 @@ public final class httpTools {
      * Response Methods *******************************
      **************************************************/
 
+    public static Response buildResponse(Response response, HttpServletResponse servletResponse){
+        servletResponse.setStatus(response.getStatus());
+        servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST");
+        return response;
+    }
     public static Response getResponse() {
         return new Response(
                 null,
-                200,
-                SUCCESS_TEXT
+                200
         );
     }
 
     public static Response getResponse(String message) {
         return new Response(
                 message,
-                200,
-                SUCCESS_TEXT
+                200
         );
     }
 
@@ -213,7 +217,6 @@ public final class httpTools {
         return new Response(
                 message,
                 200,
-                SUCCESS_TEXT,
                 data
         );
     }

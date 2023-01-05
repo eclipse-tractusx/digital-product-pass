@@ -15,9 +15,7 @@ import java.util.Map;
 public class VaultConfig extends AbstractVaultConfiguration {
 
     public static final configTools configuration = new configTools();
-    private final String vaultType = (String) configuration.getConfigurationParam("vault.type", ".", null);
     private final String vaultUri = (String) configuration.getConfigurationParam("vault.uri", ".", null);
-    private final String tokenFile = (String) configuration.getConfigurationParam("vault.file", ".", null);
     public String dataDir;
 
     @Override
@@ -25,7 +23,6 @@ public class VaultConfig extends AbstractVaultConfiguration {
         try{
             this.dataDir = fileTools.createDataDir("VaultConfig");
             String filePath = vaultTools.createLocalVaultFile();
-
             Map<String, Object> content = yamlTools.readFile(filePath);
             String token = (String) content.get("token");
             if(stringTools.isEmpty(token)){

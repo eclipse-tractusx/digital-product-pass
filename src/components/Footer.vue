@@ -1,16 +1,32 @@
 <template>
-  <div class="footer-container">
-    <div class="footer-wrapper">
-      <div data-cy="footer-logo-wrapper" class="logo-wrapper">
-        <img :src="CatenaLogo" alt="logo" class="logo" />
+  <footer>
+    <div class="links">
+      <div>
+        <a id="lnkHelp" href="${env.HELP}">Help</a>
       </div>
-      <div class="links-wrapper">
-        <h3 class="buttons">Contact</h3>
-        <h3 class="buttons">Legal Notice</h3>
-        <h3 class="buttons">Privacy Policy</h3>
+      <div>
+        <a id="lnkContact" href="${env.CONTACT}">Contact</a>
+      </div>
+      <div>
+        <a id="lnkImprint" href="${env.IMPRINT}">Imprint</a>
+      </div>
+      <div>
+        <a id="lnkPrivacy" href="${env.PRIVACY_POLICY}">Privacy</a>
+      </div>
+      <div>
+        <a id="lnkTerms" href="${env.TERMS_AND_CONDITION}">Terms of Service</a>
+      </div>
+      <div>
+        <a id="lnkCookies" href="${env.COOKIE_POLICY}">Cookie Policy</a>
+      </div>
+      <div>
+        <a id="lnkLicenseNote" href="${env.THIRD_PARTY_LICENSES}"
+          >Third Party Licenses</a
+        >
       </div>
     </div>
-  </div>
+    <div class="copy">Copyright © Catena-X Automotive Network.</div>
+  </footer>
 </template>
 
 <script>
@@ -28,67 +44,40 @@ export default {
 </script>
 
 <style scoped>
-.footer-container {
-  background-color: #e7e7e7;
-  height: auto;
-  min-height: 165px;
-  padding-top: 30px;
+footer {
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  padding-top: 16vh;
+  padding-bottom: 20px;
+  /* background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE0NDAgMzYwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMSIgeDE9IjExMzAuOSIgeTE9Ii00NjEiIHgyPSIxNjYzLjQiIHkyPSI0MjYuNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZmYjMyNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmNzgyYyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cGF0aCBzdHlsZT0iZmlsbDp1cmwoI2cxKSIgZD0ibTEyNzAuNSAzMS44bDAuMy0wLjFjNTYuNC0xMC43IDExMi44LTIxLjQgMTY5LjItMzEuN3YzNjBoLTE0NDB2LTIzNy40cTM1OS44IDM3LjcgNzE5LjUtMS4yYzE4My43LTE5LjkgMzY3LjMtNTQuOCA1NTEtODkuNnoiLz4KPC9zdmc+); */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.footer-wrapper {
+.copy {
+  font-size: 12px;
+}
+
+.links {
+  padding-top: 20px;
   display: flex;
-  width: 76%;
-  margin: 0 12% 0 12%;
+  align-items: center;
+  justify-content: center;
 }
 
-.logo-wrapper {
-  width: 30%;
+a {
+  margin: 0 1rem;
+  color: #000;
+  font-size: 12px;
 }
 
-.links-wrapper {
-  width: 70%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.logo {
-  display: block;
-  height: 49px;
-}
-
-.buttons {
-  color: #3d3d3d;
-  margin: 15px 0 15px 30px;
-}
-
-@media (max-width: 750px) {
-  .logo-wrapper {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .links-wrapper {
-    flex-direction: column;
-    width: 100%;
-    padding: 18px 0;
-  }
-
-  .footer-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    min-height: 185px;
-    margin: 0;
-  }
-
-  .links-wrapper {
-    align-items: center;
-  }
-
-  .buttons {
-    margin: 12px 0;
-  }
+.links,
+.copy {
+  line-height: 60px;
+  min-height: 60px;
 }
 </style>

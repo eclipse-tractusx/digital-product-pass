@@ -1,60 +1,22 @@
 <template>
+  <div v-if="error">
+    <div class="text-container">
+      <p class="text">Your camera is off.</p>
+      <p class="text">Turn it on or type the ID.</p>
+      <p class="error">{{ error }}</p>
+    </div>
+    <form class="input-form" @submit.prevent="onClick">
+      <input
+        v-model="typedCode"
+        class="input"
+        type="text"
+        placeholder="Type ID"
+      />
+      <button class="submit-btn"></button>
+    </form>
+  </div>
   <div class="qr-container">
-    <router-link to="/dashboard">
-      <img :src="CatenaLogo" alt="logo" class="logo" />
-    </router-link>
-    <div
-      class="toast-alert"
-      :class="{
-        'display-toast-alert': error,
-      }"
-    >
-      <h3 class="error-message">
-        {{ error }}
-        <span @click="error = !error">
-          <img :src="Close" alt="close" class="close" />
-        </span>
-      </h3>
-    </div>
-    <div class="header-container">
-      <div class="left-menu-wrapper">
-        <div class="left-menu-container">
-          <div class="empty-pusher"></div>
-          <h2 class="top-layer">Scan QR code</h2>
-          <div class="top-layer" @click="torch = !torch">
-            <img :src="Flesh" alt="flesh" />
-          </div>
-        </div>
-      </div>
-      <div class="right-manu-wrapper">
-        <div class="right-menu-container">
-          <img :src="Settings" alt="settings" class="buttons" />
-          <img :src="Notifications" alt="profile" class="buttons" />
-          <span>
-            <span @mouseover="hover = true">
-              <img
-                :src="Profile"
-                alt="profile"
-                class="buttons"
-                title="User profile"
-              />
-            </span>
-            <div v-if="hover" class="profile-menu" @mouseleave="hover = false">
-              <div class="menu-btn">
-                <img :src="Profile" alt="profile" class="menu-profile" />
-                <span class="profile-text">
-                  {{ username }}
-                  <p>{{ role }}</p>
-                </span>
-              </div>
-              <div class="menu-btn">
-                <span class="profile-text" @click="logout">Sign out</span>
-              </div>
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
+    <router-link to="/dashboard"> </router-link>
     <div v-if="!error">
       <div class="qr-frame">
         <img :src="QRFrame" alt="frame" class="frame" />
@@ -65,26 +27,9 @@
         @init="onInit"
         @decode="onDecode"
       ></qrcode-stream>
-      <div>
-        <form class="input-form" @submit.prevent="onClick">
-          <input
-            v-model="typedCode"
-            class="input"
-            type="text"
-            placeholder="Type ID"
-          />
-          <button class="submit-btn">
-            <img :src="Search" alt="search" />
-          </button>
-        </form>
-      </div>
+      <div></div>
     </div>
-    <div v-else class="error-frame">
-      <Spinner class="spinner-container" />
-    </div>
-  </div>
-  <div class="footer-container">
-    <Footer />
+    <div v-else class="error-frame"></div>
   </div>
 </template>
 
@@ -95,20 +40,16 @@ import Flesh from "../assets/flesh.svg";
 import Close from "../assets/close.svg";
 import QRFrame from "../assets/qrFrame.svg";
 import Search from "../assets/qrSearch.svg";
-import Footer from "@/components/Footer.vue";
 import Logout from "../assets/logout.png";
 import Profile from "../assets/profile.svg";
 import Notifications from "../assets/notifications.svg";
 import Settings from "../assets/settings.svg";
 import { inject } from "vue";
-import Spinner from "../components/Spinner.vue";
 
 export default {
   name: "PassportView",
   components: {
     QrcodeStream,
-    Footer,
-    Spinner,
   },
   setup() {
     return {
@@ -128,6 +69,7 @@ export default {
     return {
       hover: false,
       error: "",
+      snackbar: false,
       decodedString: "",
       torch: false,
       MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
@@ -191,6 +133,19 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.error {
+  font-weight: bold;
+}
+
 .error-frame {
   display: flex;
   align-items: center;
@@ -199,13 +154,16 @@ export default {
 }
 
 .qr-container {
-  position: relative;
-  max-height: 900px;
-  overflow: hidden;
+  position: fixed;
+  z-index: -1;
+  top: 132px;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .qrcode-stream {
-  max-width: 100%;
+  max-width: 500%;
 }
 
 .header-container {
@@ -228,6 +186,18 @@ export default {
   z-index: 5;
 }
 
+.text-container {
+  position: fixed;
+  top: 22vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+}
+
+.text {
+  font-size: 2rem;
+  text-align: center;
+}
 .qr-frame {
   position: absolute;
   top: 50%;
@@ -250,23 +220,39 @@ export default {
 
 .input-form {
   position: absolute;
-  top: 80%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 17px;
+  background: linear-gradient(to right, #f8b500, #f88000);
+  display: inline-block;
+  border-radius: 35px;
+  z-index: 999999999999999;
 }
 .input {
-  position: relative;
-  width: 418px;
-  height: 48px;
-  border: 2px solid #b3cb2c;
-  border-radius: 4px;
-  padding-left: 10px;
+  width: 560px;
+  border-radius: 20px;
+  color: #444;
+  padding: 18px;
+  padding-left: 60px;
+  font-size: 20px;
+  display: inline-block;
+  outline: none;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhMGEwYTA7fS5jbHMtMntmaWxsOiNhMGEwYTA7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjUgMTYgNS45MSAxMy4wOSAzIDkuNSAzUzMgNS45MSAzIDkuNSA1LjkxIDE2IDkuNSAxNmMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBDNy4wMSAxNCA1IDExLjk5IDUgOS41UzcuMDEgNSA5LjUgNSAxNCA3LjAxIDE0IDkuNSAxMS45OSAxNCA5LjUgMTR6Ii8+PC9zdmc+Cg==);
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 32px 32px;
+  border: 1px solid lightgray;
+  border-radius: 25px;
+  background-color: white;
 }
 
 .submit-btn {
   position: absolute;
-  right: 0;
-  height: 48px;
+  left: 0;
+  margin-left: -130px;
+  height: 68px;
+  width: 200px;
   background: none;
   border: none;
   cursor: pointer;
@@ -285,11 +271,13 @@ export default {
 
 .left-menu-wrapper {
   position: absolute;
-  width: 20%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.qrcode-stream-camera {
+  width: 160%;
 }
 
 .left-menu-container {

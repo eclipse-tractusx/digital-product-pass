@@ -1,0 +1,12 @@
+{
+    "id": "2",
+    "criteria": [
+        {
+            "operandLeft": "asset:prop:id",
+            "operator": "=",
+            "operandRight": "NCR186850B_DEV"
+        }
+    ],
+    "accessPolicyId": "609e305c-2fbf-4257-8e1d-7fedc27df987",
+    "contractPolicyId": "609e305c-2fbf-4257-8e1d-7fedc27df987"
+}

@@ -1,12 +1,12 @@
 import Home from './components/Home.vue';
 import { createRouter, createWebHistory } from "vue-router";
-import QRScanner from "./views/QRScanner.vue";
+import Header from "./components/Header.vue";
 
 const routes = [
   {
     path: "/",
-    name: "QRScanner",
-    component: QRScanner,
+    name: "Header",
+    component: Header,
   },
   {
     path: '/dashboard',

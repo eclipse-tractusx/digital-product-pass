@@ -8,12 +8,12 @@ appVersion: "0.0.1"
 dependencies:
   - name: edc-controlplane
     alias: controlplane
-    version: ">=0.0.1"
+    version: "0.2.0"
     repository: https://catenax-ng.github.io/product-edc
     condition: controlplane.enabled
   - name: edc-dataplane
     alias: dataplane
-    version: ">=0.0.1"
+    version: "0.2.0"
     repository: https://catenax-ng.github.io/product-edc
     condition: dataplane.enabled
   - name: backend-service
@@ -23,6 +23,6 @@ dependencies:
     condition: providerbackendapplication.enabled
   - name: postgresql
     alias: postgres
-    version: 11.2.4
+    version: 12.1.5
     repository: https://charts.bitnami.com/bitnami
     condition: postgres.enabled

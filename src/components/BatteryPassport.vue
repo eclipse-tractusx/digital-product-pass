@@ -1,7 +1,6 @@
 <template id="battery-passport-root">
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
-    <Header />
     <div data-cy="dashboard-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
@@ -14,7 +13,6 @@
 </template>
 
 <script type="text/jsx">
-import Header from "@/components/Header.vue";
 import Spinner from "@/components/Spinner.vue";
 import DashboardTable from "@/components/DashboardTable.vue";
 import { inject } from "vue";
@@ -25,7 +23,7 @@ export default {
   name: "BatteryPassport",
   components: {
     Spinner,
-    Header,
+
     DashboardTable,
   },
   data() {
@@ -98,18 +96,21 @@ export default {
     getBatteriesByProvider: function () {
       this.assetIds = "";
       this.assetIdsVisible = false;
-      this.listProviders.forEach((arrObj) => {
-        arrObj.name == this.selectedProvider ? (this.provider = arrObj) : null;
-      });
+      this.listProviders.forEach(this.findProvider);
+    },
+    findProvider: function (item) {
+      if (item.name == this.selectedProvider) this.provider = item;
+      else return null;
     },
     getAssetIdsByBattery: function () {
-      this.provider.batteries.forEach((arrObj) => {
-        arrObj.id == this.selectedBattery
-          ? (this.assetIds = JSON.stringify(arrObj.AssetIds))
-          : null;
-      });
+      this.provider.batteries.forEach(this.findAssetId);
       this.assetIdsVisible = true;
       console.log(this.assetIds);
+    },
+    findAssetId: function (item) {
+      let assetId = JSON.stringify(item.AssetIds);
+      if (item.id == this.selectedBattery) this.assetIds = assetId;
+      else return null;
     },
     async getBatteryDataUsingQRCode() {
       // To get the provider and batteries

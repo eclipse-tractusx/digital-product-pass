@@ -42,8 +42,8 @@ import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { API_KEY } from "@/services/service.const";
-import apiWrapper from "@/services/wrapper";
-import AAS from "@/services/aasServices";
+import apiWrapper from "@/services/Wrapper";
+import AAS from "@/services/AasServices";
 import { inject } from "vue";
 export default {
   name: "PassportView",
@@ -68,8 +68,6 @@ export default {
     };
   },
   async created() {
-    //this.loading = false;
-    //let assetIds = this.$route.params.assetIds;
     this.data = await this.getPassport(this.passId);
     this.loading = false;
   },
@@ -104,7 +102,7 @@ export default {
         let APIWrapperRequestHeader = {
           "x-api-key": API_KEY,
         };
-        //let assetId = JSON.parse(assetIds)[1].value; // Two elements in json array [batteryIDDMCode, assetId], get the last element and it wll always be the asset id i.e., [1]
+        
         console.info("Selected asset Id: " + assetId);
         const response = await wrapper.performEDCDataTransfer(
           assetId,

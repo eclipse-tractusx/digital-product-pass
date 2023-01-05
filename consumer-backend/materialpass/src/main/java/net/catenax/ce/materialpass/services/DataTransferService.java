@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tools.*;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +79,7 @@ public class DataTransferService extends BaseService{
         try{
             this.checkEmptyVariables();
             contractOffer.open();
+            logTools.printMessage("===== [INITIALIZING CONTRACT NEGOTIATION] ===========================================");
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
@@ -88,9 +91,9 @@ public class DataTransferService extends BaseService{
             headers.add("X-Api-Key", APIKey);
             Object body = new NegotiationOffer(contractOffer.getConnectorId(),providerUrl,contractOffer);
             System.out.println(jsonTools.toJson(body));
-            ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
-            String responseBody = (String) response.getBody();
-            return (Negotiation) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Negotiation.class);
+            ResponseEntity<Object> response = httpTools.doPost(url, JsonNode.class, headers, httpTools.getParams(), body, false, false);
+            JsonNode result = (JsonNode) response.getBody();
+            return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"doContractNegotiations",
                     e,
@@ -110,9 +113,36 @@ public class DataTransferService extends BaseService{
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Map<String, Object> params = httpTools.getParams();
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
-            String body = (String) response.getBody();
-            return (Negotiation) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Negotiation.class);
+            JsonNode result = null;
+            String actualState = "";
+            boolean sw = true;
+            Instant start = Instant.now();
+            Instant end = start;
+            logTools.printMessage("===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION] ===========================================");
+            while(sw) {
+                ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
+                result = (JsonNode) response.getBody();
+                logTools.printMessage(result.toString());
+                if(!result.has("state") || result.get("state") == null){
+                    logTools.printMessage("===== [ERROR CONTRACT NEGOTIATION] ===========================================");
+                    throw new ServiceException(this.getClass().getName()+"."+"doContractNegotiations",
+                            "It was not possible to do contract negotiations!");
+                }
+                String state = result.get("state").asText();
+                if(state.equals("CONFIRMED") || state.equals("ERROR")){
+                    sw = false;
+                    logTools.printMessage("===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
+                }
+                if(!state.equals(actualState)){
+                    actualState = state; // Update current state
+                    end = Instant.now();
+                    Duration timeElapsed = Duration.between(start, end);
+                    logTools.printMessage("The contract negotiation status changed: ["+state+"] - TIME->["+timeElapsed+"]s");
+                    start = Instant.now();
+                }
+                logTools.printMessage(".");
+            }
+            return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
                     e,
@@ -121,7 +151,7 @@ public class DataTransferService extends BaseService{
     }
 
 
-    public Transfer doTransferProcess(Negotiation negotiation, String connectorId, String connectorAddress, Offer offer, Boolean managedResources){
+    public Transfer initiateTransfer(Negotiation negotiation, String connectorId, String connectorAddress, Offer offer, Boolean managedResources){
         try{
             this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
@@ -134,8 +164,7 @@ public class DataTransferService extends BaseService{
                     DataTransferService.generateTransferId(negotiation, connectorId, connectorAddress),
                     connectorId,
                     connectorAddress,
-                    //negotiation.getContractAgreementId(), -> At the moment null
-                    negotiation.getId(),
+                    negotiation.getContractAgreementId(),
                     offer.getAssetId(),
                     managedResources,
                     "HttpProxy"
@@ -151,7 +180,7 @@ public class DataTransferService extends BaseService{
         }
     }
 
-    public Object getTransfer(String Id){
+    public Transfer getTransfer(String Id){
         try {
             this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
@@ -160,29 +189,44 @@ public class DataTransferService extends BaseService{
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Map<String, Object> params = httpTools.getParams();
-            String state = "INITIAL";
             JsonNode result = null;
+            String actualState = "";
             boolean sw = true;
+            Instant start = Instant.now();
+            Instant end = start;
+            logTools.printMessage("===== [STARTING CONTRACT TRANSFER] ===========================================");
             while(sw) {
                 ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
                 result = (JsonNode) response.getBody();
                 if(!result.has("state") || result.get("state") == null){
+                    logTools.printMessage("===== [ERROR CONTRACT TRANSFER] ===========================================");
                     throw new ServiceException(this.getClass().getName()+"."+"getTransfer",
                             "It was not possible to retrieve the transfer!");
                 }
-                state = String.valueOf(result.get("state"));
+                String state = result.get("state").asText();
                 if(state.equals("COMPLETED") || state.equals("ERROR")){
+                    logTools.printMessage("===== [FINISHED CONTRACT TRANSFER] ===========================================");
                     sw = false;
                 }
+                if(!state.equals(actualState)){
+                    actualState = state; // Update current state
+                    end = Instant.now();
+                    Duration timeElapsed = Duration.between(start, end);
+                    logTools.printMessage("The contract transfer status changed: ["+state+"] - TIME->["+timeElapsed+"]s");
+                    start = Instant.now();
+                }
             }
-            //return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(body), Transfer.class);
-            return result;
-        }catch (Exception e){
+            return (Transfer) jsonTools.bindJsonNode(result, Transfer.class);
+            }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
                     e,
                     "It was not possible to retrieve the transfer!");
         }
     }
+
+
+
+
     /*
     STATIC FUNCTIONS
      */

@@ -60,13 +60,6 @@ public class ApiController {
         return httpTools.buildResponse(response, httpResponse);
     }
 
-    @RequestMapping(value = "/contracts", method = {RequestMethod.GET})
-    public Response getContracts() {
-        Response response = httpTools.getResponse();
-        response.data = dataService.getContractOfferCatalog(null);
-        return response;
-    }
-
     @RequestMapping(value = "/negotiate/{assetId}", method = {RequestMethod.GET})
     public Response negotiate(@PathVariable("assetId") String assetId) {
         Response response = httpTools.getResponse();
@@ -97,9 +90,9 @@ public class ApiController {
         String assetType = "Battery_ID_DMC_Code"; // Also hard coded
 
         SubModel subModel = aasService.searchSubModel(assetType, assetId, position);
-        String contractId = subModel.getIdShort();
+        String connectorId = subModel.getIdShort();
         String connectorAddress = subModel.getEndpoints().get(position).getProtocolInformation().getEndpointAddress();
-        Transfer transfer = dataService.doTransferProcess(negotiation,contractId, connectorAddress,contractOffer,false);
+        Transfer transfer = dataService.initiateTransfer(negotiation, connectorId, connectorAddress, contractOffer,false);
         if(transfer.getId() == null){
             response.message = "Transfer Id not received, something went wrong";
             response.status = 400;

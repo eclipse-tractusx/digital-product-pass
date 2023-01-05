@@ -22,11 +22,14 @@ import java.util.Map;
 public class AuthenticationService extends BaseService {
     @Autowired
     private VaultService vaultService;
+
     public static final configTools configuration = new configTools();
     public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
+    public String clientId;
+    public String clientSecret;
 
     public AuthenticationService() throws ServiceInitializationException {
-        this.checkEmptyVariables();
+        this.checkEmptyVariables(List.of("clientId", "clientSecret"));
     }
 
     @Override
@@ -35,29 +38,36 @@ public class AuthenticationService extends BaseService {
         if (tokenUri == null || tokenUri.isEmpty()) {
             missingVariables.add("tokenUri");
         }
+        if (clientId == null || clientId.isEmpty()) {
+            missingVariables.add("clientId");
+        }
+        if (clientSecret == null || clientSecret.isEmpty()) {
+            missingVariables.add("clientSecret");
+        }
         return missingVariables;
     }
 
     public JwtToken getToken(){
         try{
-        String clientId = (String) vaultService.getLocalSecret("client.id");
-        String clientSecret = (String) vaultService.getLocalSecret("client.secret");
-        HttpHeaders headers = httpTools.getHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
-        Map<String,?> body = Map.of(
-                "grant_type", "client_credentials",
-                "client_id", clientId,
-                "client_secret", clientSecret,
-                "scope", "openid profile email"
-        );
+            this.clientId = (String) vaultService.getLocalSecret("client.id");
+            this.clientSecret = (String) vaultService.getLocalSecret("client.secret");
+            this.checkEmptyVariables();
+            HttpHeaders headers = httpTools.getHeaders();
+            headers.add("Content-Type", "application/x-www-form-urlencoded");
+            Map<String,?> body = Map.of(
+                    "grant_type", "client_credentials",
+                    "client_id", clientId,
+                    "client_secret", clientSecret,
+                    "scope", "openid profile email"
+            );
 
-        String encodedBody = httpTools.mapToParams(body, false);
-        ResponseEntity<Object> response = httpTools.doPost(tokenUri, String.class, headers, httpTools.getParams(), encodedBody, false, false);
-        String responseBody = (String) response.getBody();
-        JsonNode json = jsonTools.toJsonNode(responseBody);
-        JwtToken token = (JwtToken) jsonTools.bindJsonNode(json, JwtToken.class);
-        logTools.printDebug(token.getAccessToken());
-        return token;
+            String encodedBody = httpTools.mapToParams(body, false);
+            ResponseEntity<Object> response = httpTools.doPost(tokenUri, String.class, headers, httpTools.getParams(), encodedBody, false, false);
+            String responseBody = (String) response.getBody();
+            JsonNode json = jsonTools.toJsonNode(responseBody);
+            JwtToken token = (JwtToken) jsonTools.bindJsonNode(json, JwtToken.class);
+            logTools.printDebug(token.getAccessToken());
+            return token;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getToken",
                     e,

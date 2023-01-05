@@ -1,0 +1,14 @@
+{
+    "asset": {
+        "properties": {
+            "asset:prop:id": "X123456789012X12345678901234566",
+            "asset:prop:description": "Battery Passport test data"
+        }
+    },
+    "dataAddress": {
+        "properties": {
+            "type": "HttpData",
+            "baseUrl": "https://materialpass.int.demo.catena-x.net/provider_backend/data/urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a"
+        }
+    }
+}

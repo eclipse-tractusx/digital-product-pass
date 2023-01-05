@@ -1,0 +1,142 @@
+# Default values for ..
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  # -- Which container image to use
+  repository: ghcr.io/denisneuling/cx-backend-service
+  # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion
+  tag: "0.0.6"
+
+# -- Image pull secret to create to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
+imagePullSecrets: []
+
+# -- Overrides the charts name
+nameOverride: ""
+
+# -- Overrides the releases full name
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) should be created per release
+  create: true
+  # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) to add to the service account
+  annotations: {}
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the release's fullname template
+  name: ""
+
+# -- Whether to [automount kubernetes API credentials](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server) into the pod
+automountServiceAccountToken: false
+
+# -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) added to deployed [pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+podAnnotations: {}
+
+# The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
+podSecurityContext: {}
+
+# The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
+securityContext: {}
+
+service:
+  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
+  type: ClusterIP
+  frontend:
+    # -- Port on which to run the "frontend" api
+    port: 8080
+  backend:
+    # -- Port on which to run the "backend" api
+    port: 8081
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    #kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  hosts:
+    - host: materialpass.int.demo.catena-x.net
+      paths:
+        - path: /consumer_backend(/|$)(.*)
+          pathType: Prefix
+  tls:
+    - secretName: tls-secret
+      hosts:
+        - materialpass.int.demo.catena-x.net
+
+# -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+  enabled: false
+  # -- Minimal replicas if resource consumption falls below resource threshholds
+  minReplicas: 1
+  # -- Maximum replicas if resource consumption exceeds resource threshholds
+  maxReplicas: 100
+  # -- targetAverageUtilization of cpu provided to a pod
+  targetCPUUtilizationPercentage: 80
+  # -- targetAverageUtilization of memory provided to a pod
+  targetMemoryUtilizationPercentage: 80
+
+# -- [Liveness-Probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to detect and remedy broken applications
+livenessProbe:
+  # -- exec command for liveness check
+  exec:
+    command:
+      - /bin/bash
+      - -c
+      - /bin/ps -ef | grep backend-service | grep -v grep
+  # -- initialDelaySeconds before performing the first probe
+  initialDelaySeconds: 10
+  # -- periodSeconds between each probe
+  periodSeconds: 10
+
+# -- [Readiness-Probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to detect ready applications to receive traffic
+readinessProbe:
+  # -- exec command for readiness check
+  exec:
+    command:
+      - /bin/bash
+      - -c
+      - /bin/ps -ef | grep backend-service | grep -v grep
+  # -- initialDelaySeconds before performing the first probe
+  initialDelaySeconds: 10
+  # -- periodSeconds between each probe
+  periodSeconds: 10
+
+# -- [Node-Selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain the Pod to nodes with specific labels.
+nodeSelector: {}
+
+# -- [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) are applied to Pods to schedule onto nodes with matching taints.
+tolerations: []
+
+# -- [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) constrains which nodes the Pod can be scheduled on based on node labels.
+affinity: {}
+
+persistence:
+  # -- Whether to enable persistence via [PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reserving-a-persistentvolume)
+  enabled: false
+  # -- [PersistentVolume Access Modes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes) Access mode to use. One of (ReadOnlyMany, ReadWriteOnce, ReadWriteMany, ReadWriteOncePod)
+  accessMode:
+  # -- Storage class to use together with the claimed [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  storageClassName:
+  # -- Capacity given to the claimed [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  capacity: 100M

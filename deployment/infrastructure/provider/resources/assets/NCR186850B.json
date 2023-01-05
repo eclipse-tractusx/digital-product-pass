@@ -1,0 +1,15 @@
+{
+    "asset": {
+        "properties": {
+            "asset:prop:id": "NCR186850B",
+            "asset:prop:description": "Battery Passport test data"
+        }
+    },
+    "dataAddress": {
+        "properties": {
+            "type": "HttpData",
+            "baseUrl": "https://materialpass.int.demo.catena-x.net/provider_backend/data/urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+        }
+    }
+}
+

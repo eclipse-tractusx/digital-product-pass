@@ -1,0 +1,16 @@
+{
+    "id": "4959072c-a902-4da0-942d-da5a0caa4498",
+    "policy": {
+        "prohibitions": [],
+        "obligations": [],
+        "permissions": [
+            {
+                "edctype": "dataspaceconnector:permission",
+                "action": {
+                    "type": "USE"
+                },
+                "constraints": []
+            }
+        ]
+    }
+}

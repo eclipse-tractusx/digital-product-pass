@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>net.catenax.ce</groupId>
-	<artifactId>materialpass</artifactId>
+	<artifactId>productpass</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 	<name>Catena-X Product Passport Consumer Backend</name>

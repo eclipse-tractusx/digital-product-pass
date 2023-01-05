@@ -11,6 +11,9 @@ variables:
   providerUrl: 'https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data'
   registryUrl: 'https://semantics.int.demo.catena-x.net'
 
+passport:
+  versions:
+    - 'v1'
 
 vault:
   type: 'local'

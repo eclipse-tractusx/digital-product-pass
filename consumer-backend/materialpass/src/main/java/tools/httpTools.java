@@ -24,7 +24,7 @@
 
 package tools;
 
-import net.catenax.ce.materialpass.models.Response;
+import net.catenax.ce.productpass.models.http.Response;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.AccessToken;

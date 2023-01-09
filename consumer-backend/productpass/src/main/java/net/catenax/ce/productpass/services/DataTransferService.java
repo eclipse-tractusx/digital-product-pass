@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataTransferService extends BaseService{
+public class DataTransferService extends BaseService {
 
     private final VaultService vaultService = new VaultService();
     public static final configTools configuration = new configTools();
@@ -45,7 +45,7 @@ public class DataTransferService extends BaseService{
         return missingVariables;
     }
 
-    public Catalog getContractOfferCatalog(String providerUrl){
+    public Catalog getContractOfferCatalog(String providerUrl) {
         try {
             this.checkEmptyVariables();
             String provider = providerUrl;
@@ -63,45 +63,46 @@ public class DataTransferService extends BaseService{
             String body = (String) response.getBody();
             JsonNode json = jsonTools.toJsonNode(body);
             return (Catalog) jsonTools.bindJsonNode(json, Catalog.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getContractOfferCatalog",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
                     e,
                     "It was not possible to retrieve the catalog!");
         }
     }
 
-    public Negotiation doContractNegotiations(Offer contractOffer){
-        try{
+    public Negotiation doContractNegotiations(Offer contractOffer) {
+        try {
             this.checkEmptyVariables();
             contractOffer.open();
             logTools.printMessage("===== [INITIALIZING CONTRACT NEGOTIATION] ===========================================");
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            if(serverUrl == null || APIKey==null || providerUrl==null){
+            if (serverUrl == null || APIKey == null || providerUrl == null) {
                 return null;
             }
             String url = serverUrl + path;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            Object body = new NegotiationOffer(contractOffer.getConnectorId(),providerUrl,contractOffer);
+            Object body = new NegotiationOffer(contractOffer.getConnectorId(), providerUrl, contractOffer);
             System.out.println(jsonTools.toJson(body));
             ResponseEntity<Object> response = httpTools.doPost(url, JsonNode.class, headers, httpTools.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"doContractNegotiations",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "doContractNegotiations",
                     e,
                     "It was not possible to retrieve the catalog!");
         }
     }
-    public Negotiation getNegotiation(String Id){
+
+    public Negotiation getNegotiation(String Id) {
         try {
             this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            if(serverUrl == null || APIKey==null){
+            if (serverUrl == null || APIKey == null) {
                 return null;
             }
             String url = serverUrl + path + "/" + Id;
@@ -114,40 +115,40 @@ public class DataTransferService extends BaseService{
             Instant start = Instant.now();
             Instant end = start;
             logTools.printMessage("===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION] ===========================================");
-            while(sw) {
+            while (sw) {
                 ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
                 result = (JsonNode) response.getBody();
                 logTools.printMessage(result.toString());
-                if(!result.has("state") || result.get("state") == null){
+                if (!result.has("state") || result.get("state") == null) {
                     logTools.printMessage("===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName()+"."+"doContractNegotiations",
+                    throw new ServiceException(this.getClass().getName() + "." + "doContractNegotiations",
                             "It was not possible to do contract negotiations!");
                 }
                 String state = result.get("state").asText();
-                if(state.equals("CONFIRMED") || state.equals("ERROR")){
+                if (state.equals("CONFIRMED") || state.equals("ERROR")) {
                     sw = false;
                     logTools.printMessage("===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
                 }
-                if(!state.equals(actualState)){
+                if (!state.equals(actualState)) {
                     actualState = state; // Update current state
                     end = Instant.now();
                     Duration timeElapsed = Duration.between(start, end);
-                    logTools.printMessage("The contract negotiation status changed: ["+state+"] - TIME->["+timeElapsed+"]s");
+                    logTools.printMessage("The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                     start = Instant.now();
                 }
                 logTools.printMessage(".");
             }
             return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
                     "It was not possible to retrieve the catalog!");
         }
     }
 
 
-    public Transfer initiateTransfer(TransferRequest transferRequest){
-        try{
+    public Transfer initiateTransfer(TransferRequest transferRequest) {
+        try {
             this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
             String path = "/consumer/data/transferprocess";
@@ -159,14 +160,14 @@ public class DataTransferService extends BaseService{
             ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
             String responseBody = (String) response.getBody();
             return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Transfer.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"doTransferProcess",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "doTransferProcess",
                     e,
-                    "It was not possible to do dtregistry process!");
+                    "It was not possible to initiate transfer process!");
         }
     }
 
-    public Transfer getTransfer(String Id){
+    public Transfer getTransfer(String Id) {
         try {
             this.checkEmptyVariables();
             HttpHeaders headers = httpTools.getHeaders();
@@ -181,41 +182,41 @@ public class DataTransferService extends BaseService{
             Instant start = Instant.now();
             Instant end = start;
             logTools.printMessage("===== [STARTING CONTRACT TRANSFER] ===========================================");
-            while(sw) {
+            while (sw) {
                 ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
                 result = (JsonNode) response.getBody();
-                if(!result.has("state") || result.get("state") == null){
+                if (!result.has("state") || result.get("state") == null) {
                     logTools.printMessage("===== [ERROR CONTRACT TRANSFER] ===========================================");
-                    throw new ServiceException(this.getClass().getName()+"."+"getTransfer",
-                            "It was not possible to retrieve the dtregistry!");
+                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
+                            "It was not possible to do the transfer process!");
                 }
                 String state = result.get("state").asText();
-                if(state.equals("COMPLETED") || state.equals("ERROR")){
+                if (state.equals("COMPLETED") || state.equals("ERROR")) {
                     logTools.printMessage("===== [FINISHED CONTRACT TRANSFER] ===========================================");
                     sw = false;
                 }
-                if(!state.equals(actualState)){
+                if (!state.equals(actualState)) {
                     actualState = state; // Update current state
                     end = Instant.now();
                     Duration timeElapsed = Duration.between(start, end);
-                    logTools.printMessage("The contract dtregistry status changed: ["+state+"] - TIME->["+timeElapsed+"]s");
+                    logTools.printMessage("The contract dtregistry status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                     start = Instant.now();
                 }
             }
             return (Transfer) jsonTools.bindJsonNode(result, Transfer.class);
-            }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getNegotiation",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
-                    "It was not possible to retrieve the dtregistry!");
+                    "It was not possible to transfer the contract! " + Id);
         }
     }
 
 
-    public PassportV1 getPassportV1(String transferProcessId){
+    public PassportV1 getPassportV1(String transferProcessId) {
         try {
             this.checkEmptyVariables();
             String path = "/consumer_backend";
-            String url = serverUrl + path + "/"+ transferProcessId;
+            String url = serverUrl + path + "/" + transferProcessId;
             Map<String, Object> params = httpTools.getParams();
             HttpHeaders headers = httpTools.getHeaders();
             headers.add("Content-Type", "application/json");
@@ -223,8 +224,8 @@ public class DataTransferService extends BaseService{
             ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
             JsonNode body = (JsonNode) response.getBody();
             return (PassportV1) jsonTools.bindJsonNode(body, PassportV1.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getContractOfferCatalog",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
                     e,
                     "It was not possible to retrieve the catalog!");
         }
@@ -233,7 +234,7 @@ public class DataTransferService extends BaseService{
     /*
     STATIC FUNCTIONS
      */
-    public static String generateTransferId(Negotiation negotiation, String connectorId, String connectorAddress){
+    public static String generateTransferId(Negotiation negotiation, String connectorId, String connectorAddress) {
         return crypTools.sha256(dateTimeTools.getDateTimeFormatted("yyyyMMddHHmmssSSS") + negotiation.getId() + connectorId + connectorAddress);
     }
 

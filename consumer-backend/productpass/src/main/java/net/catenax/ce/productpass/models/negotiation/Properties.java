@@ -1,7 +1,9 @@
-package net.catenax.ce.productpass.models.dtregistry;
+package net.catenax.ce.productpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Properties {
     @JsonProperty("type")
     String type;

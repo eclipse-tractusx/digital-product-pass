@@ -1,13 +1,12 @@
 package net.catenax.ce.productpass.http.controllers.api;
 
+import net.catenax.ce.productpass.models.dtregistry.SubModel;
 import net.catenax.ce.productpass.models.http.Response;
+import net.catenax.ce.productpass.services.AasService;
 import net.catenax.ce.productpass.services.DataTransferService;
 import net.catenax.ce.productpass.services.VaultService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tools.httpTools;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +19,39 @@ public class DataController {
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
     private @Autowired VaultService vaultService;
+    private @Autowired AasService aasService;
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
+        return httpTools.buildResponse(response, httpResponse);
+    }
+    @RequestMapping(value = "/submodel/{assetId}", method = {RequestMethod.GET})
+    public Response getSubmodel(@PathVariable("assetId") String assetId,
+                                @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
+                               @RequestParam(value = "index", required = false, defaultValue = "0") Integer index) {
+        Response response = httpTools.getResponse();
+        SubModel subModel;
+        String connectorId;
+        String connectorAddress;
+        try {
+            subModel = aasService.searchSubModel(idType, assetId, index);
+            connectorId = subModel.getIdShort();
+            connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
+        } catch (Exception e) {
+            response.message = "Failed to get subModel from digital twin registry" + " [" + e.getMessage() + "]";
+            response.status = 404;
+            return httpTools.buildResponse(response, httpResponse);
+        }
+        if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
+            response.message = "Failed to get connectorId and connectorAddress!";
+            response.status = 400;
+            response.data = subModel;
+            return httpTools.buildResponse(response, httpResponse);
+        }
+        response.data = subModel;
+        response.status = 200;
         return httpTools.buildResponse(response, httpResponse);
     }
 }

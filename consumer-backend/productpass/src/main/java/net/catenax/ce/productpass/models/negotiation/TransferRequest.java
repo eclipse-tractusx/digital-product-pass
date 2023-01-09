@@ -2,7 +2,6 @@ package net.catenax.ce.productpass.models.negotiation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.catenax.ce.productpass.models.dtregistry.Properties;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

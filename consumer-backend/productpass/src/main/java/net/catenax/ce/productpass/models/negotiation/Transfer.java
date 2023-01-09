@@ -2,7 +2,7 @@ package net.catenax.ce.productpass.models.negotiation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.catenax.ce.productpass.models.dtregistry.Properties;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transfer {
@@ -28,7 +28,7 @@ public class Transfer {
     DataRequest dataRequest;
 
     @JsonProperty("dataDestination")
-    DataDestination dataDestination;
+    JsonNode dataDestination;
 
     public String getType() {
         return type;
@@ -131,11 +131,11 @@ public class Transfer {
         this.createdAt = createdAt;
     }
 
-    public DataDestination getDataDestination() {
+    public JsonNode getDataDestination() {
         return dataDestination;
     }
 
-    public void setDataDestination(DataDestination properties) {
+    public void setDataDestination(JsonNode properties) {
         this.dataDestination = properties;
     }
     public String getUpdatedAt() {

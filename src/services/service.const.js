@@ -7,13 +7,15 @@ const DUMMY_SERVICE = "http://localhost:3000";
 const INT_SERVER_URL = "https://materialpass.int.demo.catena-x.net";
 const DEV_SERVER_URL = "https://materialpass.dev.demo.catena-x.net";
 const CX_REGISTRY_URL = "https://semantics.int.demo.catena-x.net";
-const IDP_URL = "https://centralidp.int.demo.catena-x.net/auth/";
+const IDP_URL_INT = "https://centralidp.int.demo.catena-x.net/auth/";
+const IDP_URL_DEV = "https://centralidp.dev.demo.catena-x.net/auth/";
 const API_KEY = "X_API_KEY";
 const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
 const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
 
 let SERVER_URL = "";
 let INIT_OPTIONS = {};
+let IDP_URL = "";
 let REDIRECT_URI = "";
 let CLIENT_CREDENTIALS = {
   grant_type: 'client_credentials',
@@ -21,17 +23,32 @@ let CLIENT_CREDENTIALS = {
   client_secret: AAS_REGISTRY_SECRET,
   scope: 'openid profile email'
 };
-INIT_OPTIONS = {
-  url: IDP_URL,
-  clientId: 'Cl13-CX-Battery',
-  realm: 'CX-Central',
-  onLoad: 'login-required'
-};
+
 if (window.location.href.includes("materialpass.int.demo.catena-x.net")) { // for integration
-  REDIRECT_URI = INT_SERVER_URL;
+  {
+    INIT_OPTIONS = {
+      url: IDP_URL_INT,
+      clientId: 'Cl13-CX-Battery',
+      realm: 'CX-Central',
+      onLoad: 'login-required'
+    };
+    REDIRECT_URI = INT_SERVER_URL;
+    IDP_URL = IDP_URL_INT;
+
+  }
 }
 else if (window.location.href.includes("materialpass.dev.demo.catena-x.net")) { // for development
-  REDIRECT_URI = DEV_SERVER_URL;
+  {
+    INIT_OPTIONS = {
+      url: IDP_URL_DEV,
+      clientId: 'Cl13-CX-Battery',
+      realm: 'CX-Central',
+      onLoad: 'login-required'
+    };
+    REDIRECT_URI = DEV_SERVER_URL;
+    IDP_URL = IDP_URL_DEV;
+  }
+  
 }
 else { // for local run
   INIT_OPTIONS = {

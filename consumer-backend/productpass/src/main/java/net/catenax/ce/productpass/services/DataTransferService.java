@@ -3,9 +3,9 @@ package net.catenax.ce.productpass.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.catenax.ce.productpass.exceptions.ServiceException;
 import net.catenax.ce.productpass.exceptions.ServiceInitializationException;
-import net.catenax.ce.productpass.models.service.BaseService;
 import net.catenax.ce.productpass.models.negotiation.*;
 import net.catenax.ce.productpass.models.passports.PassportV1;
+import net.catenax.ce.productpass.models.service.BaseService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -114,20 +114,19 @@ public class DataTransferService extends BaseService {
             boolean sw = true;
             Instant start = Instant.now();
             Instant end = start;
-            logTools.printMessage("===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION] ===========================================");
+            logTools.printMessage("===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION] ["+Id+"] ===========================================");
             while (sw) {
                 ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
                 result = (JsonNode) response.getBody();
-                logTools.printMessage(result.toString());
                 if (!result.has("state") || result.get("state") == null) {
-                    logTools.printMessage("===== [ERROR CONTRACT NEGOTIATION] ===========================================");
+                    logTools.printMessage("===== [ERROR CONTRACT NEGOTIATION] ["+Id+"]===========================================");
                     throw new ServiceException(this.getClass().getName() + "." + "doContractNegotiations",
                             "It was not possible to do contract negotiations!");
                 }
                 String state = result.get("state").asText();
                 if (state.equals("CONFIRMED") || state.equals("ERROR")) {
                     sw = false;
-                    logTools.printMessage("===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
+                    logTools.printMessage("===== [FINISHED CONTRACT NEGOTIATION] ["+Id+"]===========================================");
                 }
                 if (!state.equals(actualState)) {
                     actualState = state; // Update current state
@@ -136,7 +135,6 @@ public class DataTransferService extends BaseService {
                     logTools.printMessage("The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                     start = Instant.now();
                 }
-                logTools.printMessage(".");
             }
             return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
         } catch (Exception e) {
@@ -181,25 +179,25 @@ public class DataTransferService extends BaseService {
             boolean sw = true;
             Instant start = Instant.now();
             Instant end = start;
-            logTools.printMessage("===== [STARTING CONTRACT TRANSFER] ===========================================");
+            logTools.printMessage("===== [STARTING CONTRACT TRANSFER] ["+Id+"] ===========================================");
             while (sw) {
                 ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
                 result = (JsonNode) response.getBody();
                 if (!result.has("state") || result.get("state") == null) {
-                    logTools.printMessage("===== [ERROR CONTRACT TRANSFER] ===========================================");
+                    logTools.printMessage("===== [ERROR CONTRACT TRANSFER] ["+Id+"] ===========================================");
                     throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                             "It was not possible to do the transfer process!");
                 }
                 String state = result.get("state").asText();
                 if (state.equals("COMPLETED") || state.equals("ERROR")) {
-                    logTools.printMessage("===== [FINISHED CONTRACT TRANSFER] ===========================================");
+                    logTools.printMessage("===== [FINISHED CONTRACT TRANSFER] ["+Id+"]===========================================");
                     sw = false;
                 }
                 if (!state.equals(actualState)) {
                     actualState = state; // Update current state
                     end = Instant.now();
                     Duration timeElapsed = Duration.between(start, end);
-                    logTools.printMessage("The contract dtregistry status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                    logTools.printMessage("The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                     start = Instant.now();
                 }
             }
@@ -219,15 +217,14 @@ public class DataTransferService extends BaseService {
             String url = serverUrl + path + "/" + transferProcessId;
             Map<String, Object> params = httpTools.getParams();
             HttpHeaders headers = httpTools.getHeaders();
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", APIKey);
-            ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
-            JsonNode body = (JsonNode) response.getBody();
-            return (PassportV1) jsonTools.bindJsonNode(body, PassportV1.class);
+            headers.add("Accept", "application/octet-stream");
+            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, true, false);
+            String responseBody = (String) response.getBody();
+            return (PassportV1) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), PassportV1.class);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
+            throw new ServiceException(this.getClass().getName() + "." + "getPassportV1",
                     e,
-                    "It was not possible to retrieve the catalog!");
+                    "It was not possible to retrieve the getPassport V1 for transferProcessId ["+transferProcessId+"]!");
         }
     }
 

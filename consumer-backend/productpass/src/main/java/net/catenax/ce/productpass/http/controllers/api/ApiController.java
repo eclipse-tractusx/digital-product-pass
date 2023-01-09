@@ -1,8 +1,8 @@
 package net.catenax.ce.productpass.http.controllers.api;
 
 import net.catenax.ce.productpass.exceptions.ControllerException;
-import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.dtregistry.SubModel;
+import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.negotiation.*;
 import net.catenax.ce.productpass.models.passports.PassportV1;
 import net.catenax.ce.productpass.services.AasService;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tools.configTools;
 import tools.httpTools;
+import tools.logTools;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,11 +172,10 @@ public class ApiController {
                     connectorId,
                     connectorAddress,
                     negotiation.getContractAgreementId(),
-                    contractOffer.getAssetId(),
+                    assetId,
                     false,
                     "HttpProxy"
             );
-
             /*[7]=========================================*/
             // Initiate the transfer process
             Transfer transfer = new Transfer();
@@ -191,6 +191,7 @@ public class ApiController {
                 response.status = 500;
                 return httpTools.buildResponse(response, httpResponse);
             }
+
 
 
             /*[8]=========================================*/
@@ -217,10 +218,11 @@ public class ApiController {
                 // Get passport from consumer backend
                 PassportV1 passportV1 = dataService.getPassportV1(transferRequest.getId());
                 if (passportV1 == null) {
-                    response.message = "Was not possible to get the passport!";
+                    response.message = "It was not possible to get the passport!";
                     response.status = 400;
                     return httpTools.buildResponse(response, httpResponse);
                 }
+                logTools.printMessage("Passport Version ["+version+"] from Asset ID ["+assetId+"] retrieved!");
                 response.data = passportV1;
                 return httpTools.buildResponse(response, httpResponse);
             }
@@ -231,6 +233,7 @@ public class ApiController {
         } catch (Exception e) {
             response.message = e.getMessage();
             response.status = 500;
+            response.statusText = "INTERNAL SERVER ERROR";
             return httpTools.buildResponse(response, httpResponse);
         }
     }

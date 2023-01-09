@@ -1,4 +1,4 @@
-logLevel: 7
+logLevel: 7 # 7 FOR INFO AND 8 FOR DEBUG
 logDir: "log"
 logBaseFileName: "material-pass.log"
 maxRetries: 3

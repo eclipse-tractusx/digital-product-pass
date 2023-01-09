@@ -11,9 +11,16 @@ public final class threadTools {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(runnable);
     }
+    public static Thread runThread(Runnable runnable,String name){
+        Thread thread = new Thread(runnable, name);
+        thread.start();
+
+        return thread;
+    }
     public static Thread runThread(Runnable runnable){
         Thread thread = new Thread(runnable);
         thread.start();
+
         return thread;
     }
 }

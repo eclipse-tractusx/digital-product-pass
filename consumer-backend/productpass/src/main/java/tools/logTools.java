@@ -84,7 +84,9 @@ public final class logTools {
         if(!logTools.checkLogLevel(logLevel)){
             return;
         }
+
         logTools.printLog(logLevel, strMessage);
+
     }
     public static void printHTTPMessage(String strMessage){
         Level logLevel = HTTP;
@@ -115,7 +117,8 @@ public final class logTools {
         }
         logTools.printLog(logLevel, strMessage);
     }
-    public static void printDebug(String strMessage){
+
+    public static void printDebug(String strMessage) {
         Level logLevel = DEBUG;
         if(!logTools.checkLogLevel(logLevel)){
             return;
@@ -128,8 +131,8 @@ public final class logTools {
         Long pid = systemTools.getPid();
         String memoryUsage = systemTools.getUsedHeapMemory();
         String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
-        threadTools.runThread(new LogPrinter(logLevel, message));
-        //threadTools.runThread(new LogWritter(message));
+        //logger.log(logLevel,message);
+        threadTools.runThread(new LogPrinter(logLevel, message), "logThread");
     }
     public static void printFatal(String strMessage){
         Level logLevel = FATAL;
@@ -153,7 +156,6 @@ public final class logTools {
         }
     }
     private static class LogWritter implements Runnable {
-
         private String logMessage;
         public LogWritter(String message) {
             this.logMessage = message + "\n";

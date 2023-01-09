@@ -3,8 +3,8 @@ package net.catenax.ce.productpass.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.catenax.ce.productpass.exceptions.ServiceException;
 import net.catenax.ce.productpass.exceptions.ServiceInitializationException;
-import net.catenax.ce.productpass.models.service.BaseService;
 import net.catenax.ce.productpass.models.auth.JwtToken;
+import net.catenax.ce.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import tools.configTools;
 import tools.httpTools;
 import tools.jsonTools;
-import tools.logTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,6 @@ public class AuthenticationService extends BaseService {
             String responseBody = (String) response.getBody();
             JsonNode json = jsonTools.toJsonNode(responseBody);
             JwtToken token = (JwtToken) jsonTools.bindJsonNode(json, JwtToken.class);
-            logTools.printDebug(token.getAccessToken());
             return token;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getToken",

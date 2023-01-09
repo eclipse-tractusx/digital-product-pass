@@ -4,7 +4,6 @@ import net.catenax.ce.productpass.exceptions.ControllerException;
 import net.catenax.ce.productpass.models.dtregistry.SubModel;
 import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.negotiation.*;
-import net.catenax.ce.productpass.models.passports.PassportV1;
 import net.catenax.ce.productpass.services.AasService;
 import net.catenax.ce.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import tools.configTools;
 import tools.httpTools;
 import tools.logTools;
+import tools.threadTools;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +25,7 @@ public class ApiController {
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
     private @Autowired AasService aasService;
+    private @Autowired DataController dataController;
 
     public static final configTools configuration = new configTools();
     public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
@@ -67,6 +68,7 @@ public class ApiController {
         return httpTools.buildResponse(response, httpResponse);
     }
 
+
     /**
      * @param assetId Asset id that identifies the object that has a passport
      * @param idType  Type of asset id, the name of the code in the digital twin registry
@@ -85,6 +87,10 @@ public class ApiController {
         // Initialize response
         Response response = httpTools.getResponse();
         try {
+            // Configure digital twin registry query and params
+            AasService.DigitalTwinRegistryQuery digitalTwinRegistry = aasService.new DigitalTwinRegistryQuery(assetId,idType, index);
+            Thread digitalTwinRegistryThread = threadTools.runThread(digitalTwinRegistry);
+
             // Initialize variables
             Offer contractOffer = null;
             // Check if version is available
@@ -145,17 +151,17 @@ public class ApiController {
                 return httpTools.buildResponse(response, httpResponse);
             }
 
-            /*[5]=========================================*/
-            // Check data in digital twin registry
+            // Wait for thread to close and give a response
+            digitalTwinRegistryThread.join();
             SubModel subModel;
             String connectorId;
             String connectorAddress;
             try {
-                subModel = aasService.searchSubModel(idType, assetId, index);
+                subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
                 connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
             } catch (Exception e) {
-                response.message = "Failed to get subModel from digital twin registry" + " [" + e.getMessage() + "]";
+                response.message = "Failed to get subModel from digital twin registry!";
                 response.status = 504;
                 return httpTools.buildResponse(response, httpResponse);
             }
@@ -165,6 +171,7 @@ public class ApiController {
                 response.data = subModel;
                 return httpTools.buildResponse(response, httpResponse);
             }
+
             /*[6]=========================================*/
             // Configure Transfer Request
             TransferRequest transferRequest = new TransferRequest(
@@ -216,15 +223,13 @@ public class ApiController {
             // Get passport by versions
             if (version.equals("v1")) {
                 // Get passport from consumer backend
-                PassportV1 passportV1 = dataService.getPassportV1(transferRequest.getId());
-                if (passportV1 == null) {
-                    response.message = "It was not possible to get the passport!";
-                    response.status = 400;
-                    return httpTools.buildResponse(response, httpResponse);
+                try {
+                    return dataController.getPassport(transferRequest.getId());
+                }catch (Exception e){
+                    logTools.printError("["+transferRequest.getId()+"] It was not possible to retrieve passport from consumer backend in one step, waiting 5 seconds and retrying...");
+                    Thread.sleep(5000);
+                    return dataController.getPassport(transferRequest.getId());
                 }
-                logTools.printMessage("Passport Version ["+version+"] from Asset ID ["+assetId+"] retrieved!");
-                response.data = passportV1;
-                return httpTools.buildResponse(response, httpResponse);
             }
 
             response.message = "Transfer process completed but passport version selected is not supported!";

@@ -251,7 +251,7 @@ public final class httpTools {
         int i = 0;
         Integer maxRetries = (Integer) configurations.getConfigurationParam("maxRetries");
         if (maxRetries == null) {
-            throw new ToolException(httpTools.class, "It was not possible to request to " + url);
+            throw new ToolException(httpTools.class, "It was not possible to request to " + url+ " max retries not defined");
         }
 
         while (response == null && i < maxRetries) {

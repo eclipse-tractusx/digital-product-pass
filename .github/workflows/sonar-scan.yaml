@@ -4,6 +4,7 @@ on:
     branches:
       - 'main'
       - 'develop'
+      - 'backend-api-develop'
 
     pull_request:
       types: [ opened, reopened, synchronize ]

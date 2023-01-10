@@ -15,16 +15,17 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "consumer-ui"
+  CONSUMER_UI_IMAGE_NAME: "consumer-ui"
+  CONSUMER_BACKEND_IMAGE_NAME: "product-pass-consumer-backend"
   IMAGE_TAG: ${{ github.sha }}
+  JAVA_VERSION: 17
     
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: docker
+    permissions:
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -46,4 +47,22 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_UI_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+      
+      - name:  Build consumer backend with maven
+        run: |
+          cd consumer-backend/materialpass
+          mvn -B clean install
+        
+      - name: Build and push
+        id: build-and-push-backend
+        uses: docker/build-push-action@v3
+        with:
+          context: consumer-backend/materialpass
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}

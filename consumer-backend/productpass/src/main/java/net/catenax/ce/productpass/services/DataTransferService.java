@@ -125,7 +125,7 @@ public class DataTransferService extends BaseService {
                 String state = result.get("state").asText();
                 if (state.equals("CONFIRMED") || state.equals("ERROR")) {
                     sw = false;
-                    logTools.printMessage("["+Id+"]===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
+                    logTools.printMessage("["+Id+"] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
                 }
                 if (!state.equals(actualState)) {
                     actualState = state; // Update current state

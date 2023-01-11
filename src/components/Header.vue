@@ -8,8 +8,8 @@
       </div>
       <v-container class="tabs">
         <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''">
-          <v-tab value="one">History page</v-tab>
-          <v-tab value="two">QR code scanner</v-tab>
+          <v-tab value="one" data-cy="history-tab">History page</v-tab>
+          <v-tab value="two" data-cy="QR-scanner-tab">QR code scanner</v-tab>
         </v-tabs>
       </v-container>
       <div class="right-manu-wrapper">

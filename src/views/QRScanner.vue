@@ -15,7 +15,7 @@
       <button class="submit-btn"></button>
     </form>
   </div>
-  <div class="qr-container">
+  <div class="qr-container" data-cy="qr-container">
     <router-link to="/dashboard"> </router-link>
     <div v-if="!error">
       <div class="qr-frame">

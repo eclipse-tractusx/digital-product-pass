@@ -4,14 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import tools.configTools;
+import tools.envTools;
 import tools.logTools;
 
 @Component
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
+
+    @Autowired
+    public Environment environment;
+    public static final envTools env = new envTools();
 
     public static final configTools configuration = new configTools();
     @EventListener(ApplicationReadyEvent.class)
@@ -22,7 +28,7 @@ public class AppListener {
                 "Copyright (c) 2022-2023: CGI Deutschland B.V. & Co. KG\n" +
                 "Copyright (c) 2022-2023: Contributors to the CatenaX (ng) GitHub Organisation.\n" +
                 "Version: "+ buildProperties.getVersion()  + "\n\n" +
-                "Environment: " + configuration.environment  +
+                "Environment: " + env.environment +
                  "\n\n-------------> [ SERVER STARTED ] <-------------\n" +
                 "Listening to requests...\n\n";
 

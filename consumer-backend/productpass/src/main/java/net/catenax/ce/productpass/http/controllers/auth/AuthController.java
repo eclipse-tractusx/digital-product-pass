@@ -121,22 +121,4 @@ public class AuthController {
         return response;
     }
 
-    @RequestMapping(value = "/recycler", method = RequestMethod.GET)
-    public Response recycler(){
-        Response response = httpTools.getResponse();
-
-        Set<String> roles = httpTools.getUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
-        response.message = "You are logged in as Recycler role | " + "This are the received roles " + roles.toString();
-        return response;
-    }
-
-    @RequestMapping(value = "/oem", method = RequestMethod.GET)
-    public Response oem(){
-        Response response = httpTools.getResponse();
-
-        Set<String> roles = httpTools.getUserClientRoles(httpRequest,env.getProperty("keycloak.resource"));
-        response.message = "You are logged in as OEM role | " + "This are the received roles " + roles;
-        return response;
-    }
-
 }

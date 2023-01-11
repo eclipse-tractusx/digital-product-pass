@@ -29,20 +29,20 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
-import tools.configTools;
+import tools.envTools;
 
 
 @SpringBootApplication
 @EnableAsync
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class})
 public class Application {
-    public static final configTools configuration = new configTools();
+    public static final envTools env = new envTools();
 	public static void main(String[] args) {
 
-        SpringApplication.run(
-                Application.class,
-                args
-        );
+        SpringApplication application =
+                new SpringApplication(Application.class);
+        application.setAdditionalProfiles(env.getEnvironment());
+        application.run(args);
 
 	}
 }

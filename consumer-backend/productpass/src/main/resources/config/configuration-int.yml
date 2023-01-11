@@ -17,6 +17,6 @@ passport:
 
 vault:
   type: 'local'
-  file: 'vault.token.yml'
+  file: 'vault.token-int.yml'
   #uri: 'https://vault.demo.catena-x.net'
   uri: 'http://localhost:8200'

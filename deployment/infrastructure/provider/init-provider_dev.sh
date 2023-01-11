@@ -15,6 +15,7 @@ DIGITAL_TWIN_3='urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199'
 DIGITAL_TWIN_SUBMODEL_ID_3='urn:uuid:10d094e0-aecc-4e84-b937-a1d606112cdd'
 
 SERVER_URL='https://materialpass.dev.demo.catena-x.net'
+REGISTRY_URL='https://semantics.dev.demo.catena-x.net/registry/registry/shell-descriptors'
 
 # put access token without 'Bearer ' prefix
 BEARER_TOKEN=''
@@ -47,7 +48,7 @@ echo
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 1 and register it into CX registry..."
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566_DEV.json"  https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566_DEV.json"  $REGISTRY_URL
 echo
 echo
 
@@ -78,7 +79,7 @@ echo
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 2 and register it into CX registry..."
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B_DEV.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B_DEV.json" $REGISTRY_URL
 echo
 echo
 
@@ -108,7 +109,7 @@ echo
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 3 and register it into CX registry..."
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1_DEV.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1_DEV.json" $REGISTRY_URL
 echo
 
 echo 'Provider setup completed...'

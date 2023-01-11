@@ -1,0 +1,22 @@
+logLevel: 7 # 7 FOR INFO AND 8 FOR DEBUG
+logDir: "log"
+logBaseFileName: "material-pass.log"
+maxRetries: 5
+
+keycloak:
+  tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+
+variables:
+  serverUrl: 'https://materialpass.dev.demo.catena-x.net'
+  providerUrl: 'https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data'
+  registryUrl: 'https://semantics.dev.demo.catena-x.net'
+
+passport:
+  versions:
+    - 'v1'
+
+vault:
+  type: 'local'
+  file: 'vault.token.yml'
+  #uri: 'https://vault.demo.catena-x.net'
+  uri: 'http://localhost:8200'

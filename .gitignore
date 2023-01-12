@@ -22,5 +22,9 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+# Log files
+*.log
+*.lst
+
 ## gg shield files
 *.cache_ggshield

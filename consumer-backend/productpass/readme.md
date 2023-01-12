@@ -16,6 +16,8 @@ For login and log out!
 ------
 \auth\logout
 ------
+\auth\token #Request token from the keycloak instance
+------
 \auth #Calling this api will redirect you to \auth\login
 ```
 

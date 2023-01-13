@@ -24,7 +24,6 @@ public final class vaultTools {
             if(!fileTools.pathExists(filePath)){
                 logTools.printMessage("No vault token file found, creating yaml file in ["+filePath+"]");
                 fileTools.toFile(filePath, "", false); // Create YAML token file
-                return filePath;
             }
             String fileContent = fileTools.readFile(filePath);
             Map<String, Object> vaultFileContent =  yamlTools.parseYml(fileContent);

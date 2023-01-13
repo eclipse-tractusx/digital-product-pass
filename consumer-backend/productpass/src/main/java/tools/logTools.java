@@ -47,7 +47,7 @@ public final class logTools {
     private static final Level WARNING = Level.forName("WARNING", 300);
     private static final Level ERROR = Level.forName("ERROR", 200);
     private static final Level FATAL = Level.forName("FATAL", 200);
-
+    private static final Level TEST = Level.forName("TEST", 400);
     private static final Map<Level, Integer> LOGLEVELS = Map.of(
                     FATAL,1,
                     ERROR, 2,
@@ -65,7 +65,13 @@ public final class logTools {
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
-
+    public static void printTest(String strMessage){
+        Level logLevel = TEST;
+        Long pid = systemTools.getPid();
+        String memoryUsage = systemTools.getUsedHeapMemory();
+        String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
+        threadTools.runThread(new LogPrinter(logLevel, message), "testLogThread");
+    }
     public static void printMessage(String strMessage){
         Level logLevel = INFO;
         if(!logTools.checkLogLevel(logLevel)){

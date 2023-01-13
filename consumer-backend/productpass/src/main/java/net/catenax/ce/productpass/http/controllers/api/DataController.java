@@ -21,6 +21,12 @@ public class DataController {
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
     public Response getCatalog(@RequestParam(value="providerUrl") String providerUrl) {
-        return httpTools.getResponse();
+        Response response = httpTools.getResponse();
+        if(!httpTools.isInSession(httpRequest, "AssetManager")){
+            httpTools.setSessionValue(httpRequest, "AssetManager", new AssetManager());
+        }
+        AssetManager assetManager = (AssetManager) httpTools.getSessionValue(httpRequest, "AssetManager");
+        response.data = jsonTools.dumpJson(assetManager.dataModel,4);
+        return response;
     }
 }

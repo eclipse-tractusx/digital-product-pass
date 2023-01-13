@@ -1,0 +1,44 @@
+keycloak:
+  realm: CX-Central
+  resource: Cl13-CX-Battery
+  auth-server-url: http://localhost:8088/auth
+  ssl-required: external
+  public-client: true
+  use-resource-role-mappings: true
+
+  securityConstraints:
+
+    - authRoles: ['Recycler', 'OEM']
+      securityCollections:
+        - name: 'Common Auth'
+          patterns: [
+            '/api',
+            '/api/*',
+            '/auth/login'
+          ]
+
+    - authRoles: 'Recycler'
+      securityCollections:
+        - name: 'Recycler API'
+          patterns: ['/auth/recycler']
+
+    - authRoles: 'OEM'
+      securityCollections:
+        - name: 'OEM API'
+          patterns: [ '/auth/recycler' ]
+
+spring:
+  application:
+    name: 'Product Passport Consumer Backend'
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-stacktrace: ON_PARAM
+    include-exception: false
+  port: 8080
+
+

@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer data-cy="footer">
     <div class="links">
       <div>
         <a id="lnkHelp" href="${env.HELP}">Help</a>

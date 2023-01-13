@@ -29,7 +29,7 @@ keycloak:
 
 spring:
   application:
-    name: 'Material Passport Consumer Backend'
+    name: 'Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
 

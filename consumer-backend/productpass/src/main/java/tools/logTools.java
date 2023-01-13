@@ -27,8 +27,6 @@ package tools;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
 
 import java.util.Map;
 public final class logTools {
@@ -38,12 +36,9 @@ public final class logTools {
 
     /**
      * Static Tools to print logs with format and current date.
-     * Not available at the moment to add files, usage of fileTools.
      */
-    @Autowired
-    private TaskExecutor taskExecutor;
     public static final configTools configuration = new configTools();
-    public static final String ABSOLUTE_LOG_PATH = logTools.getLogPath();
+    public static final Boolean asyncLog = (Boolean) configuration.getConfigurationParam("logTools.async", ".",  false);
     static Logger logger = LogManager.getLogger(logTools.class);
     private static final Level INFO = Level.forName("INFO", 400);
     private static final Level HTTP = Level.forName("HTTP", 420);
@@ -64,17 +59,9 @@ public final class logTools {
             );
 
 
-    private static String getLogPath(){
-        return fileTools.normalizePath(fileTools.getWorkdirPath() + "/"+
-                configuration.getConfigurationParam("logDir") +
-                "/" +
-                dateTimeTools.getFileDateTimeFormatted(null) +
-                "_" +
-                configuration.getConfigurationParam("logBaseFileName"));
-    }
 
     private static boolean checkLogLevel(Level logLevel){
-        Integer currentLevel = (Integer) configuration.getConfigurationParam("logLevel");
+        Integer currentLevel = (Integer) configuration.getConfigurationParam("logTools.level", ".", null);
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
@@ -131,8 +118,11 @@ public final class logTools {
         Long pid = systemTools.getPid();
         String memoryUsage = systemTools.getUsedHeapMemory();
         String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
-        //logger.log(logLevel,message);
-        threadTools.runThread(new LogPrinter(logLevel, message), "logThread");
+        if(asyncLog){
+            threadTools.runThread(new LogPrinter(logLevel, message), "logThread");
+        }else {
+            logger.log(logLevel, message);
+        }
     }
     public static void printFatal(String strMessage){
         Level logLevel = FATAL;
@@ -155,18 +145,5 @@ public final class logTools {
             logger.log(this.logLevel,this.message);
         }
     }
-    private static class LogWritter implements Runnable {
-        private String logMessage;
-        public LogWritter(String message) {
-            this.logMessage = message + "\n";
-        }
-        public void run() {
-           try {
-               fileTools.toFile(ABSOLUTE_LOG_PATH, logMessage, true);
-           }catch (Exception e){
-               logger.log(EXCEPTION, "It was not possible to write log message to file "+ ABSOLUTE_LOG_PATH, e);
-           }
-        }
 
-    }
 }

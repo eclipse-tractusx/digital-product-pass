@@ -24,6 +24,7 @@
 
 package tools;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import tools.exceptions.ToolException;
 
@@ -64,17 +65,25 @@ public final class yamlTools {
         }
     }
 
-    public static String dumpYml(Map<String, Object> map) {
+    public static String dumpYml(Map<String, Object> map, Integer indent, Boolean prettyPrint) {
         try {
-            Yaml yaml = new Yaml();
+            DumperOptions options = new DumperOptions();
+            options.setIndent(indent);
+            options.setPrettyFlow(prettyPrint);
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml = new Yaml(options);
             return yaml.dump(map);
         } catch (Exception e) {
             throw new ToolException(yamlTools.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
-    public static String dumpYml(Object obj) {
+    public static String dumpYml(Object obj, Integer indent, Boolean prettyPrint) {
         try {
-            Yaml yaml = new Yaml();
+            DumperOptions options = new DumperOptions();
+            options.setIndent(indent);
+            options.setPrettyFlow(prettyPrint);
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml = new Yaml(options);
             return yaml.dump(obj);
         } catch (Exception e) {
             throw new ToolException(yamlTools.class, "It was not possible to dump map into yaml " + e.getMessage());

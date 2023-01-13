@@ -68,8 +68,8 @@ public final class configTools {
         if(this.configuration == null){
             return defaultValue;
         }
-        Object value = jsonTools.getValue(this.configuration, param, separator, defaultValue);
-        if (value == defaultValue) {
+        Object value = jsonTools.getValue(this.configuration, param, separator, null);
+        if (value == null) {
             throw new ToolException(configTools.class,"[ERROR] Configuration param ["+param+"] not found!");
         }
         return value;
@@ -78,8 +78,8 @@ public final class configTools {
         if(config == null){
             return defaultValue;
         }
-        Object value = jsonTools.getValue(config, param, separator, defaultValue);
-        if (value == defaultValue) {
+        Object value = jsonTools.getValue(config, param, separator, null);
+        if (value == null) {
             throw new ToolException(configTools.class,"[ERROR] Configuration param ["+param+"] not found!");
         }
         return value;

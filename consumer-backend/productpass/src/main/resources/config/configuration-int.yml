@@ -1,6 +1,7 @@
-logLevel: 7 # 7 FOR INFO AND 8 FOR DEBUG
-logDir: "log"
-logBaseFileName: "material-pass.log"
+logTools:
+  level: 7 # 7 FOR INFO AND 8 FOR DEBUG
+  async: false
+
 maxRetries: 5
 
 keycloak:
@@ -20,3 +21,12 @@ vault:
   file: 'vault.token-int.yml'
   #uri: 'https://vault.demo.catena-x.net'
   uri: 'http://localhost:8200'
+  pathSep: "."
+  prettyPrint: true
+  indent: 2
+  defaultValue: '<Add secret value here>'
+  attributes:
+    - "token"
+    - "client.id"
+    - "client.secret"
+    - "apiKey"

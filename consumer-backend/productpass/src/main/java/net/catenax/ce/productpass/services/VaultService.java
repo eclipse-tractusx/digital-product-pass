@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.vault.core.VaultTemplate;
 import org.springframework.vault.support.VaultResponse;
-import tools.configTools;
-import tools.jsonTools;
-import tools.vaultTools;
-import tools.yamlTools;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +40,8 @@ public class VaultService extends BaseService {
             VaultResponse vaultResponse = vaultTemplate.read(secretPath);
             Object data = vaultResponse.getData();
             if(data == null){
-
+                throw new ServiceException(this.getClass().getName()+"."+"getSecret",
+                        "It was not possible to get secret from vault. Data is null!");
             }
             return vaultResponse.getData().get("data");
         }catch (Exception e){
@@ -61,12 +59,12 @@ public class VaultService extends BaseService {
             try {
                 secret = (String) jsonTools.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
-                //logTools.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was a error while searching the secret ["+localSecretPath+"] in file!");
-                throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was a error while searching the secret ["+localSecretPath+"] in file!");
+                logTools.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was a error while searching the secret ["+localSecretPath+"] in file!");
+                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was a error while searching the secret ["+localSecretPath+"] in file!");
             }
             if(secret == null){
-                //logTools.printError("["+this.getClass().getName()+"."+"getLocalSecret] " + "Secret ["+localSecretPath+"] not found in file!");
-                throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", "Secret ["+localSecretPath+"] not found in file!");
+                logTools.printError("["+this.getClass().getName()+"."+"getLocalSecret] " + "Secret ["+localSecretPath+"] not found in file!");
+                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", "Secret ["+localSecretPath+"] not found in file!");
             }
             return secret;
         }catch (Exception e){

@@ -136,33 +136,45 @@ public final class jsonTools {
                 //Un comment for debug logTools.printError("[DEBUG] keyValue empty or pathSep empty!");
                 return defaultValue;
             }
+            Map<String, Object> tmpObject;
             String[] parts = keyPath.split(String.format("\\%s",pathSep));
+            // If is simple path just add it
+            if(parts.length == 1){
+                try{
+                    tmpObject = (Map<String, Object>) sourceObj;
+                }catch (Exception e){
+                    //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map");
+                    return defaultValue;
+                }
+                tmpObject.put(keyPath, keyValue);
+                return tmpObject;
+            }
+
+            // If is a complex path
             List<String> currentPath = new LinkedList<String>(Arrays.asList(parts.clone()));
             Object tmpValue = keyValue;
-            Map<String, Object> tmpObject = new HashMap<>();
             String part;
             String parentPath;
-            Map<String, Object> tmpParent;
+            Map<String, Object> tmpParent = null;
             for(int i = parts.length - 1; i >= 0; i--){
+                tmpObject = new HashMap<>();
                 part = parts[i]; // Get element from the list
-                logTools.printMessage("["+i+"] "+part);
                 currentPath.remove(part); // Remove part of path from list (Go to parent path)
-                tmpObject.put(part, tmpValue); // Add parent to the return object
                 parentPath = String.join(pathSep, currentPath); // Get current path from parent in sourceObj
                 try {
                     tmpParent = (Map<String, Object>) jsonTools.getValue(sourceObj, parentPath, pathSep, null);
                 }catch (Exception e){
                     //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map the parent, because it already exists as another type");
-                    return defaultValue;
+                    throw new ToolException(jsonTools.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");
                 }
                 if(tmpParent == null){
-                    tmpParent = new HashMap<>() ;
+                    tmpParent = new HashMap<>();
                 }
-                // Exchange objects
-                tmpValue = tmpObject;
-                tmpObject = tmpParent;
+                tmpObject.put(part, tmpValue); //Add value to object
+                tmpObject.putAll(tmpParent); //Merge with father and existing values
+                tmpValue = tmpObject; // Update the next value
             }
-            return tmpObject;
+            return tmpValue;
         } catch (Exception e) {
             throw new ToolException(jsonTools.class, "It was not possible to set value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");
         }

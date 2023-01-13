@@ -108,7 +108,7 @@ public class DataTransferService extends BaseService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Map<String, Object> params = httpTools.getParams();
-            JsonNode result = null;
+            JsonNode body = null;
             String actualState = "";
             boolean sw = true;
             Instant start = Instant.now();
@@ -116,19 +116,18 @@ public class DataTransferService extends BaseService {
             logTools.printMessage("["+Id+"] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
             while (sw) {
                 ResponseEntity<?> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
-                Object body = response.getBody();
+                body = (JsonNode) response.getBody();
                 if(body == null){
                     sw = false;
                     throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
                             "No response received from url [" + url + "]!");
                 }
-                result = (JsonNode) body;
-                if (!result.has("state") || result.get("state") == null) {
+                if (!body.has("state") || body.get("state") == null) {
                     logTools.printMessage("["+Id+"] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
                     throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
                             "It was not possible to do contract negotiations!");
                 }
-                String state = result.get("state").asText();
+                String state = body.get("state").asText();
                 if (state.equals("CONFIRMED") || state.equals("ERROR")) {
                     sw = false;
                     logTools.printMessage("["+Id+"] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
@@ -141,7 +140,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
             }
-            return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
+            return (Negotiation) jsonTools.bindJsonNode(body, Negotiation.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -179,7 +178,7 @@ public class DataTransferService extends BaseService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Map<String, Object> params = httpTools.getParams();
-            JsonNode result = null;
+            JsonNode body =  null;
             String actualState = "";
             boolean sw = true;
             Instant start = Instant.now();
@@ -187,18 +186,18 @@ public class DataTransferService extends BaseService {
             logTools.printMessage("["+Id+"] ===== [STARTING CONTRACT TRANSFER] ===========================================");
             while (sw) {
                 ResponseEntity<?> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
-                Object body = response.getBody();
+                body = (JsonNode) response.getBody();
                 if(body == null){
                     sw = false;
                     throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
                             "No response received from url [" + url + "]!");
                 }
-                if (!result.has("state") || result.get("state") == null) {
+                if (!body.has("state") || body.get("state") == null) {
                     logTools.printMessage("["+Id+"] ===== [ERROR CONTRACT TRANSFER]===========================================");
                     throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                             "It was not possible to do the transfer process!");
                 }
-                String state = result.get("state").asText();
+                String state = body.get("state").asText();
                 if (state.equals("COMPLETED") || state.equals("ERROR")) {
                     logTools.printMessage("["+Id+"] ===== [FINISHED CONTRACT TRANSFER] ["+Id+"]===========================================");
                     sw = false;
@@ -211,7 +210,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
             }
-            return (Transfer) jsonTools.bindJsonNode(result, Transfer.class);
+            return (Transfer) jsonTools.bindJsonNode(body, Transfer.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,

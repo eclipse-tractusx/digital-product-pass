@@ -24,11 +24,20 @@ public class VaultService extends BaseService {
         this.checkEmptyVariables();
     }
 
-    public Object mapSecret(String secretPath, Class ClassType) {
+    public Object mapSecret(String secretPath, Class<?> ClassType) {
         try {
             VaultResponse vaultResponse = vaultTemplate.read(secretPath);
+            if(vaultResponse == null){
+                throw new ServiceException(this.getClass().getName()+"."+"getSecret",
+                        "It was not possible to get secret from vault. Vault Response is null!");
+            }
+            Object data = vaultResponse.getData();
+            if(data == null){
+                throw new ServiceException(this.getClass().getName()+"."+"getSecret",
+                        "It was not possible to get secret from vault. Data is null!");
+            }
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.convertValue(vaultResponse.getData().get("data"), ClassType);
+            return objectMapper.convertValue(data, ClassType);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"mapSecret",
                     e,
@@ -38,6 +47,10 @@ public class VaultService extends BaseService {
     public Object getSecret(String secretPath) {
         try {
             VaultResponse vaultResponse = vaultTemplate.read(secretPath);
+            if(vaultResponse == null){
+                throw new ServiceException(this.getClass().getName()+"."+"getSecret",
+                        "It was not possible to get secret from vault. Vault Response is null!");
+            }
             Object data = vaultResponse.getData();
             if(data == null){
                 throw new ServiceException(this.getClass().getName()+"."+"getSecret",

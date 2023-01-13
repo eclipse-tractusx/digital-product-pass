@@ -17,7 +17,7 @@ public class ThreadConfig {
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(10);
         executor.setQueueCapacity(25);
-        executor.setThreadNamePrefix("productpass_thread_worker");
+        executor.setThreadNamePrefix("materialpass_thread_worker");
         executor.initialize();
 
         return executor;

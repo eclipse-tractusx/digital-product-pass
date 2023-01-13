@@ -1,4 +1,4 @@
-package net.catenax.ce.materialpass.config;
+package net.catenax.ce.productpass.config;
 
 import org.junit.Test;
 

@@ -1,13 +1,16 @@
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
 
+
+## Table of contents
 <!-- TOC -->
-* [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
+  * [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
   * [Services Available](#services-available)
     * [Authentication Services](#authentication-services)
     * [API Services](#api-services)
       * [Data](#data)
       * [Passport API](#passport-api)
         * [Versions Available](#versions-available)
+      * [Contract API](#contract-api)
       * [Contracts](#contracts)
     * [Public APIs](#public-apis)
   * [Run the application](#run-the-application)
@@ -58,14 +61,19 @@ default index = 0
 
 ------
 
+\api\data\passport?transferId=<...> #Get passport if the transferId is available -> No contract exchange is required if transferId exists
+
 ```
 
 #### Passport API
 
-Get a passport from a Catena-X Provider by using its AssetId
+Get a passport from a Catena-X Provider by using its AssetId, this will start a negotiation with the provider and retrieve passport
 
 ```bash
-\api\passport\<version>\<assetId>
+\api\passport\<version>\<assetId>?idType=<...>&index=<...>
+__________
+default idType = "Battery_ID_DMC_Code"
+default index = 0
 ```
 
 ##### Versions Available
@@ -82,11 +90,12 @@ passport:
     - 'v1'
 ```
 
+#### Contract API
 
-
-
-
-
+Get a contract from the catalog searching by assetId
+```bash
+\api\contracts\<assetId>
+```
 
 
 #### Contracts

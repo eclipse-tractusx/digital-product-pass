@@ -88,7 +88,7 @@ public class ApiController {
         Response response = httpTools.getResponse();
         try {
             // Configure digital twin registry query and params
-            AasService.DigitalTwinRegistryQuery digitalTwinRegistry = aasService.new DigitalTwinRegistryQuery(assetId,idType, index);
+            AasService.DigitalTwinRegistryQuery digitalTwinRegistry = aasService.new DigitalTwinRegistryQuery(assetId, idType, index);
             Thread digitalTwinRegistryThread = threadTools.runThread(digitalTwinRegistry);
 
             // Initialize variables
@@ -225,8 +225,8 @@ public class ApiController {
                 // Get passport from consumer backend
                 try {
                     return dataController.getPassport(transferRequest.getId());
-                }catch (Exception e){
-                    logTools.printError("["+transferRequest.getId()+"] It was not possible to retrieve passport from consumer backend in one step, waiting 5 seconds and retrying...");
+                } catch (Exception e) {
+                    logTools.printError("[" + transferRequest.getId() + "] It was not possible to retrieve passport from consumer backend in one step, waiting 5 seconds and retrying...");
                     Thread.sleep(5000);
                     return dataController.getPassport(transferRequest.getId());
                 }
@@ -235,12 +235,20 @@ public class ApiController {
             response.message = "Transfer process completed but passport version selected is not supported!";
             response.status = 403;
             return httpTools.buildResponse(response, httpResponse);
+        } catch (InterruptedException e) {
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
+            response.message = e.getMessage();
+            response.status = 500;
+            response.statusText = "INTERNAL SERVER ERROR";
+            return httpTools.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
             response.status = 500;
             response.statusText = "INTERNAL SERVER ERROR";
             return httpTools.buildResponse(response, httpResponse);
         }
+
     }
 
 }

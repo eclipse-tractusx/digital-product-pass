@@ -110,7 +110,7 @@ public class AasService extends BaseService {
                 Map<String, Object> params = httpTools.getParams();
                 JwtToken token = authService.getToken();
                 HttpHeaders headers = httpTools.getHeadersWithToken(token.getAccessToken());
-                ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, true, false);
+                ResponseEntity<?> response = httpTools.doGet(url, String.class, headers, params, true, false);
                 String responseBody = (String) response.getBody();
                 return (DigitalTwin) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), DigitalTwin.class);
             } catch (Exception e) {
@@ -145,7 +145,7 @@ public class AasService extends BaseService {
             Map<String, Object> params = httpTools.getParams();
             JwtToken token = authService.getToken();
             HttpHeaders headers = httpTools.getHeadersWithToken(token.getAccessToken());
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, true, false);
+            ResponseEntity<?> response = httpTools.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
             return (SubModel) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), SubModel.class);
         } catch (Exception e) {
@@ -161,7 +161,7 @@ public class AasService extends BaseService {
             Map<String, Object> params = httpTools.getParams();
             JwtToken token = authService.getToken();
             HttpHeaders headers = httpTools.getHeadersWithToken(token.getAccessToken());
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, true, false);
+            ResponseEntity<?> response = httpTools.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
             return (SubModel) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), SubModel.class);
         } catch (Exception e) {
@@ -183,8 +183,8 @@ public class AasService extends BaseService {
             HttpHeaders headers = httpTools.getHeadersWithToken(token.getAccessToken());
             String jsonString = jsonTools.dumpJson(new JSONObject(assetIds),0);
             params.put("assetIds", jsonString);
-            ResponseEntity<Object> response = httpTools.doGet(url, ArrayList.class, headers, params, true, false);
-            ArrayList<String> responseBody = (ArrayList) response.getBody();
+            ResponseEntity<?> response = httpTools.doGet(url, ArrayList.class, headers, params, true, false);
+            ArrayList<String> responseBody = (ArrayList<String>) response.getBody();
             return responseBody;
 
         } catch (Exception e) {

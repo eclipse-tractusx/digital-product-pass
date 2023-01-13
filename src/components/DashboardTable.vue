@@ -1,24 +1,26 @@
 <template>
-  <v-table hover class="table">
-    <thead>
-      <tr class="header">
-        <th class="text-left">Car model</th>
-        <th class="text-left">Car producer</th>
-        <th class="text-left">Battery capacity</th>
-        <th class="text-left">Date of admission</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in items" :key="item.model">
-        <td>
-          {{ item.model }}
-        </td>
-        <td>{{ item.producer }}</td>
-        <td>{{ item.capacity }}</td>
-        <td>{{ item.date }}</td>
-      </tr>
-    </tbody>
-  </v-table>
+  <router-link to="/X123456789012X12345678901234566" data-cy="passport-link">
+    <v-table hover class="table">
+      <thead>
+        <tr class="header">
+          <th class="text-left">Car model</th>
+          <th class="text-left">Car producer</th>
+          <th class="text-left">Battery capacity</th>
+          <th class="text-left">Date of admission</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in items" :key="item.model">
+          <td>
+            {{ item.model }}
+          </td>
+          <td>{{ item.producer }}</td>
+          <td>{{ item.capacity }}</td>
+          <td>{{ item.date }}</td>
+        </tr>
+      </tbody>
+    </v-table>
+  </router-link>
 </template>
 
 

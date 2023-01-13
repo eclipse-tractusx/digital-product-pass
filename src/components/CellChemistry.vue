@@ -5,6 +5,7 @@
     <AttributeField
       :attributes-list="cellChemistry.electrolyteComposition"
       label="Composition of electrolyte"
+      data-cy="electrolyte-composition"
     />
     <!-- Composition of Anode -->
     <AttributeField

@@ -1,5 +1,25 @@
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
 
+<!-- TOC -->
+* [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
+  * [Services Available](#services-available)
+    * [Authentication Services](#authentication-services)
+    * [API Services](#api-services)
+      * [Data](#data)
+      * [Passport API](#passport-api)
+        * [Versions Available](#versions-available)
+      * [Contracts](#contracts)
+    * [Public APIs](#public-apis)
+  * [Run the application](#run-the-application)
+    * [Available Environments](#available-environments)
+      * [Development Environment](#development-environment)
+      * [Integration Environment](#integration-environment)
+      * [Configuration of Environment](#configuration-of-environment)
+      * [Adding a new Environment](#adding-a-new-environment)
+  * [License](#license)
+<!-- TOC -->
+
+
 ## What is this backend app responsible for?
 
 This backend includes the services and *logics* to manage the *passports* of the `frontend app`.
@@ -22,9 +42,11 @@ For login and log out!
 ```
 
 ### API Services
+>  **_NOTE:_** You must be authenticated with the keycloak instance to access this APIs
+
 
 #### Data
-At the moment api services are just implemented for testing.
+Get data from Catena-X Services
 ```bash
 \api\data\catalog?providerUrl=<...> #Get all the catalog from the provider
 
@@ -37,7 +59,35 @@ default index = 0
 ------
 
 ```
->  **_NOTE:_** You must be authenticated with the keycloak instance to access this APIs
+
+#### Passport API
+
+Get a passport from a Catena-X Provider by using its AssetId
+
+```bash
+\api\passport\<version>\<assetId>
+```
+
+##### Versions Available
+The passport available versions are:
+```bash
+[ "v1" ] -> Battery Passport
+```
+
+To change the available versions add in the configurations for each environment ``
+
+```yaml
+passport:
+  versions:
+    - 'v1'
+```
+
+
+
+
+
+
+
 
 #### Contracts
 You can search for contracts using the assetId from the product
@@ -62,9 +112,9 @@ Public APIs don't require authentication
 ```
 ## Run the application
 
-Use maven to run the spring boot application indicating the environment:
+Use maven to run the spring boot application:
 ```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=<environmentCode>
+mvn spring-boot:run
 ```
 
 
@@ -137,8 +187,8 @@ default:
 
 3. Configure the following files
    - Vault File:  `data/VaultConfig/vault.token-newEnvironmentCode.yml`
-   - Application Configuration File: `src/main/resources/config/configuration-dev.yml`
-   - Spring Boot Configuration File: `src/main/resources/application-dev.yml`
+   - Application Configuration File: `src/main/resources/config/configuration-newEnvironmentCode.yml`
+   - Spring Boot Configuration File: `src/main/resources/application-newEnvironmentCode.yml`
 
 ## License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

@@ -1,7 +1,7 @@
 <template id="battery-passport-root">
   <Spinner v-if="loading" class="spinner-container" />
   <div v-else>
-    <div data-cy="dashboard-container" class="dashboard-container">
+    <div data-cy="history-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
         <div class="sub-title">See batteries scanned today</div>

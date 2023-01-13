@@ -15,6 +15,7 @@ DIGITAL_TWIN_3='urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002'
 DIGITAL_TWIN_SUBMODEL_ID_3='urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918'
 
 SERVER_URL='https://materialpass.int.demo.catena-x.net'
+REGISTRY_URL='https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors'
 
 
 # put access token without 'Bearer ' prefix
@@ -49,7 +50,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 1 and register it into CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL
 echo
 echo
 
@@ -83,7 +84,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 2 and register it into CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" $REGISTRY_URL
 echo
 echo
 
@@ -114,7 +115,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 3 and register it into CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" https://semantics.int.demo.catena-x.net/registry/registry/shell-descriptors
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" $REGISTRY_URL
 echo
 
 echo 'Provider setup completed...'

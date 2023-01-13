@@ -3,7 +3,7 @@
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <Field
-        data-cy="battery-id"
+        data-cy="state-of-charge"
         label="State of health"
         :value="stateOfBattery.stateOfBattery.stateOfHealth"
       />

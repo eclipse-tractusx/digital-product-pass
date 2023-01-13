@@ -7,12 +7,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import tools.exceptions.ToolException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 public final class jsonTools {
     private jsonTools() {
@@ -42,6 +39,18 @@ public final class jsonTools {
             throw new ToolException(jsonTools.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
+
+    public static Boolean isJson(Object object){
+        try {
+            JSONObject jsonObj =  new JSONObject(object);
+            if(!jsonObj.isEmpty()){
+                return true;
+            }
+        } catch (JSONException e) {
+           // Do nothing
+        }
+        return false;
+    }
     public static String toJson(Object object){
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         try {
@@ -50,6 +59,10 @@ public final class jsonTools {
             throw new ToolException(jsonTools.class, "I was not possible to format to JSON! -> [" + e.getMessage() + "]");
         }
     }
+
+
+
+
     public static String toJsonFile(String path, JSONObject json){
         try {
             return fileTools.toFile(path, jsonTools.dumpJson(json, 4), false);
@@ -76,15 +89,16 @@ public final class jsonTools {
     public static Object getValue(Object sourceObj, String keyPath, String pathSep, Object defaultValue){
         try {
             if(sourceObj == null){
-                System.out.println("[DEBUG] Object == null!");
+                //Uncomment for debug logTools.printError("[DEBUG] Object == null!");
                 return defaultValue;
             }
             if(keyPath == null || keyPath.equals("") || pathSep.equals("")){
-               System.out.println("[DEBUG] keyPath empty or pathSep empty!");
+                //Uncomment for debug logTools.printError("[DEBUG] keyPath empty or pathSep empty!");
                 return defaultValue;
             }
             String[] parts = keyPath.split(String.format("\\%s",pathSep));
             if(parts.length < 1){
+                //Uncomment for debug logTools.printError("[DEBUG] Not able to split path!");
                 return defaultValue;
             }
             Map<String, Object> tmpValue;
@@ -93,9 +107,11 @@ public final class jsonTools {
                 try{
                     tmpValue = (Map<String, Object>) tmpObject;
                 }catch (Exception e){
+                    //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map");
                     return defaultValue;
                 }
                 if (!tmpValue.containsKey(part)) {
+                    //Uncomment for debug logTools.printError("[DEBUG] Key is not available");
                     return defaultValue;
                 }
                 tmpObject = tmpValue.get(part);
@@ -103,6 +119,52 @@ public final class jsonTools {
             return tmpObject;
         } catch (Exception e) {
             throw new ToolException(jsonTools.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "]");
+        }
+    }
+    public static Object setValue(Object sourceObj, String keyPath, Object keyValue, String pathSep, Object defaultValue){
+        try {
+            if(sourceObj == null){
+                //Un comment for debug logTools.printError("[DEBUG] Object == null!");
+                return defaultValue;
+            }
+            if(keyPath == null || keyPath.equals("") || pathSep.equals("")){
+                //Un comment for debug logTools.printError("[DEBUG] keyPath empty or pathSep empty!");
+                return defaultValue;
+            }
+
+            if(keyValue== null){
+                //Un comment for debug logTools.printError("[DEBUG] keyValue empty or pathSep empty!");
+                return defaultValue;
+            }
+            String[] parts = keyPath.split(String.format("\\%s",pathSep));
+            List<String> currentPath = new LinkedList<String>(Arrays.asList(parts.clone()));
+            Object tmpValue = keyValue;
+            Map<String, Object> tmpObject = new HashMap<>();
+            String part;
+            String parentPath;
+            Map<String, Object> tmpParent;
+            for(int i = parts.length - 1; i >= 0; i--){
+                part = parts[i]; // Get element from the list
+                logTools.printMessage("["+i+"] "+part);
+                currentPath.remove(part); // Remove part of path from list (Go to parent path)
+                tmpObject.put(part, tmpValue); // Add parent to the return object
+                parentPath = String.join(pathSep, currentPath); // Get current path from parent in sourceObj
+                try {
+                    tmpParent = (Map<String, Object>) jsonTools.getValue(sourceObj, parentPath, pathSep, null);
+                }catch (Exception e){
+                    //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map the parent, because it already exists as another type");
+                    return defaultValue;
+                }
+                if(tmpParent == null){
+                    tmpParent = new HashMap<>() ;
+                }
+                // Exchange objects
+                tmpValue = tmpObject;
+                tmpObject = tmpParent;
+            }
+            return tmpObject;
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "It was not possible to set value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");
         }
     }
     public static JsonNode toJsonNode(String json){

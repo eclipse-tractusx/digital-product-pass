@@ -193,6 +193,7 @@ public final class httpTools {
      * Response Methods *******************************
      **************************************************/
 
+
     public static Response buildResponse(Response response, HttpServletResponse servletResponse){
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
@@ -239,11 +240,11 @@ public final class httpTools {
     /**************************************************
      * Generic Request Methods ************************
      **************************************************/
-    public static ResponseEntity<Object> doRequest(String url, Class responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
         URI finalUri = httpTools.buildUri(url, params, encode);
         logTools.printDebug("["+httpTools.class+"]: Calling URL->["+finalUri+"] with method->["+method.name()+"]");
-        ResponseEntity<Object> response = restTemplate.exchange(finalUri, method, payload, responseType);
+        ResponseEntity<?> response = restTemplate.exchange(finalUri, method, payload, responseType);
         if (!retry || response != null) {
             logTools.printDebug("["+httpTools.class+"]: Success! Response for URL->["+finalUri+"] received!");
             return response;
@@ -275,7 +276,7 @@ public final class httpTools {
     /*
      * GET With PARAMS + HEADERS
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
@@ -287,7 +288,7 @@ public final class httpTools {
     /*
      * GET With HEADERS
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, HttpHeaders headers, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, encode);
@@ -299,7 +300,7 @@ public final class httpTools {
     /*
      * GET With PARAMS + HEADERS + BODY
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
@@ -311,7 +312,7 @@ public final class httpTools {
     /*
      * GET With PARAMS
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
@@ -323,7 +324,7 @@ public final class httpTools {
     /*
      * GET With BODY + PARAMS
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
@@ -334,7 +335,7 @@ public final class httpTools {
     /*
      * GET Without anything
      */
-    public static ResponseEntity<Object> doGet(String url, Class responseType, Boolean retry) {
+    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.GET, requestEntity, httpTools.getParams(), retry, false);
@@ -347,7 +348,7 @@ public final class httpTools {
     /*
      * POST With PARAMS + HEADERS
      */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
@@ -359,7 +360,7 @@ public final class httpTools {
     /*
      * POST With PARAMS + HEADERS + BODY
      */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
@@ -371,7 +372,7 @@ public final class httpTools {
     /*
      * POST With PARAMS
      */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
@@ -383,7 +384,7 @@ public final class httpTools {
     /*
     * POST With BODY + PARAMS
     */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
@@ -394,7 +395,7 @@ public final class httpTools {
     /*
      * POST With HEADERS
      */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, HttpHeaders headers, Boolean retry) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);
@@ -405,7 +406,7 @@ public final class httpTools {
     /*
      * POST Without anything
      */
-    public static ResponseEntity<Object> doPost(String url, Class responseType, Boolean retry) {
+    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(httpTools.getHeaders());
             return httpTools.doRequest(url, responseType, HttpMethod.POST, requestEntity, httpTools.getParams(), retry, false);

@@ -41,6 +41,10 @@ public class VaultService extends BaseService {
     public Object getSecret(String secretPath) {
         try {
             VaultResponse vaultResponse = vaultTemplate.read(secretPath);
+            Object data = vaultResponse.getData();
+            if(data == null){
+
+            }
             return vaultResponse.getData().get("data");
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getSecret",

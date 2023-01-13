@@ -35,29 +35,49 @@ public final class yamlTools {
     private yamlTools() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
     }
-    public static Map<String, Object> readFile(String filePath){
+
+    public static Map<String, Object> readFile(String filePath) {
         try {
             InputStream inputStream = new FileInputStream(fileTools.newFile(filePath));
             Yaml yaml = new Yaml();
             return yaml.load(inputStream);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ToolException(yamlTools.class, "There was an error in loading the yaml file [" + filePath + "], " + e.getMessage());
         }
     }
-    public static Map<String, Object> parseYml(String fileContent){
+
+    public static Map<String, Object> parseYml(String fileContent) {
         try {
             Yaml yaml = new Yaml();
             return yaml.load(fileContent);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ToolException(yamlTools.class, "There was an error in loading the yaml content! " + e.getMessage());
         }
     }
+
     public static Map<String, Object> parseYmlStream(InputStream fileContent) {
         try {
             Yaml yaml = new Yaml();
             return yaml.load(fileContent);
         } catch (Exception e) {
             throw new ToolException(yamlTools.class, "There was an error in loading the yaml content! " + e.getMessage());
+        }
+    }
+
+    public static String dumpYml(Map<String, Object> map) {
+        try {
+            Yaml yaml = new Yaml();
+            return yaml.dump(map);
+        } catch (Exception e) {
+            throw new ToolException(yamlTools.class, "It was not possible to dump map into yaml " + e.getMessage());
+        }
+    }
+    public static String dumpYml(Object obj) {
+        try {
+            Yaml yaml = new Yaml();
+            return yaml.dump(obj);
+        } catch (Exception e) {
+            throw new ToolException(yamlTools.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
 }

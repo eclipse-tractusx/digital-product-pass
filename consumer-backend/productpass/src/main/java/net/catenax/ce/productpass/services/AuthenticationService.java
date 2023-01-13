@@ -61,7 +61,7 @@ public class AuthenticationService extends BaseService {
             );
 
             String encodedBody = httpTools.mapToParams(body, false);
-            ResponseEntity<Object> response = httpTools.doPost(tokenUri, String.class, headers, httpTools.getParams(), encodedBody, false, false);
+            ResponseEntity<?> response = httpTools.doPost(tokenUri, String.class, headers, httpTools.getParams(), encodedBody, false, false);
             String responseBody = (String) response.getBody();
             JsonNode json = jsonTools.toJsonNode(responseBody);
             JwtToken token = (JwtToken) jsonTools.bindJsonNode(json, JwtToken.class);

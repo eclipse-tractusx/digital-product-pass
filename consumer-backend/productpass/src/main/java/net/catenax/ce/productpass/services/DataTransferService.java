@@ -59,7 +59,7 @@ public class DataTransferService extends BaseService {
             HttpHeaders headers = httpTools.getHeaders();
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            ResponseEntity<Object> response = httpTools.doGet(url, String.class, headers, params, false, false);
+            ResponseEntity<?> response = httpTools.doGet(url, String.class, headers, params, false, false);
             String body = (String) response.getBody();
             JsonNode json = jsonTools.toJsonNode(body);
             return (Catalog) jsonTools.bindJsonNode(json, Catalog.class);
@@ -85,7 +85,7 @@ public class DataTransferService extends BaseService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Object body = new NegotiationOffer(contractOffer.getConnectorId(), providerUrl, contractOffer);
-            ResponseEntity<Object> response = httpTools.doPost(url, JsonNode.class, headers, httpTools.getParams(), body, false, false);
+            ResponseEntity<?> response = httpTools.doPost(url, JsonNode.class, headers, httpTools.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Negotiation) jsonTools.bindJsonNode(result, Negotiation.class);
         } catch (Exception e) {
@@ -115,11 +115,17 @@ public class DataTransferService extends BaseService {
             Instant end = start;
             logTools.printMessage("["+Id+"] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
             while (sw) {
-                ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
-                result = (JsonNode) response.getBody();
+                ResponseEntity<?> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
+                Object body = response.getBody();
+                if(body == null){
+                    sw = false;
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
+                            "No response received from url [" + url + "]!");
+                }
+                result = (JsonNode) body;
                 if (!result.has("state") || result.get("state") == null) {
                     logTools.printMessage("["+Id+"] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "doContractNegotiations",
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
                             "It was not possible to do contract negotiations!");
                 }
                 String state = result.get("state").asText();
@@ -154,7 +160,7 @@ public class DataTransferService extends BaseService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Object body = transferRequest;
-            ResponseEntity<Object> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
+            ResponseEntity<?> response = httpTools.doPost(url, String.class, headers, httpTools.getParams(), body, false, false);
             String responseBody = (String) response.getBody();
             return (Transfer) jsonTools.bindJsonNode(jsonTools.toJsonNode(responseBody), Transfer.class);
         } catch (Exception e) {
@@ -180,8 +186,13 @@ public class DataTransferService extends BaseService {
             Instant end = start;
             logTools.printMessage("["+Id+"] ===== [STARTING CONTRACT TRANSFER] ===========================================");
             while (sw) {
-                ResponseEntity<Object> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
-                result = (JsonNode) response.getBody();
+                ResponseEntity<?> response = httpTools.doGet(url, JsonNode.class, headers, params, false, false);
+                Object body = response.getBody();
+                if(body == null){
+                    sw = false;
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
+                            "No response received from url [" + url + "]!");
+                }
                 if (!result.has("state") || result.get("state") == null) {
                     logTools.printMessage("["+Id+"] ===== [ERROR CONTRACT TRANSFER]===========================================");
                     throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
@@ -218,7 +229,7 @@ public class DataTransferService extends BaseService {
             HttpHeaders headers = httpTools.getHeaders();
             headers.add("Accept", "application/octet-stream");
             boolean retry = false;
-            ResponseEntity<Object> response = null;
+            ResponseEntity<?> response = null;
             try {
                 response = httpTools.doGet(url, String.class, headers, params, false, false);
             }catch (Exception e){

@@ -1,4 +1,4 @@
-package net.catenax.ce.productpass;
+package net.catenax.ce.materialpass;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

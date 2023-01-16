@@ -93,14 +93,14 @@ public class AuthController {
      */
     @RequestMapping(method = RequestMethod.GET)
     Response index() throws Exception{
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/api/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     Response logout() throws Exception{
         Response response = httpTools.getResponse();
         httpRequest.logout();
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/api/auth/login");
         response.message = "Logged out successfully!";
         return response;
     }

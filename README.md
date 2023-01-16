@@ -9,6 +9,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ## Getting Started
 
+Before contributing please read:
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+
 ### Prerequisites:
 
 - Git

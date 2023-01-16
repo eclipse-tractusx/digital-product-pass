@@ -1,5 +1,6 @@
 package net.catenax.ce.productpass.http.controllers.api;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import net.catenax.ce.productpass.models.dtregistry.SubModel;
 import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.passports.PassportV1;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/data")
+@SecurityRequirement(name = "API-Key")
 public class DataController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;

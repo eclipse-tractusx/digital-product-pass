@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.catenax.ce</groupId>
 	<artifactId>productpass</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 	<name>Catena-X Product Passport Consumer Backend</name>
 	<description>Product Passport Consumer Backend System for Product Passport Consumer Frontend Application</description>
@@ -169,6 +169,13 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.14</version>
+        </dependency>
+
     </dependencies>
    <dependencyManagement>
        <dependencies>
@@ -230,5 +237,4 @@
             </plugin>
         </plugins>
 	</build>
-
 </project>

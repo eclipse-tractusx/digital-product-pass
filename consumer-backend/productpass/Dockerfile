@@ -6,7 +6,7 @@ RUN addgroup -g 10001 appgroup \
 WORKDIR /app
 
 COPY  ./target .
-COPY  ./data ./data/
+COPY  ./data ./data/ 
 COPY  ./log ./log/
 
 #HEALTHCHECK --interval=60s --timeout=4s CMD curl -f http://localhost:8080/health || exit 1
@@ -19,4 +19,4 @@ RUN chown -R appuser:appuser /app && chmod -R 755 /app
 USER appuser
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "./materialpass-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./productpass-0.1.1-SNAPSHOT.jar"]

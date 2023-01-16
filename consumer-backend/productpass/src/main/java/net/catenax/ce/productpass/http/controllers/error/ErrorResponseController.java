@@ -31,6 +31,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import tools.httpTools;
@@ -45,7 +46,7 @@ public class ErrorResponseController implements ErrorController {
     @Autowired
     private ErrorAttributes errorAttributes;
 
-    @RequestMapping("/error")
+    @RequestMapping(value="/error",  method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Response handleError(HttpServletRequest httpRequest) {
         ErrorAttributeOptions options = ErrorAttributeOptions

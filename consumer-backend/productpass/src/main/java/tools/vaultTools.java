@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public final class vaultTools {
-
+    private vaultTools() {
+        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    }
 
     public static final configTools configuration = new configTools();
     private static final String ATTRIBUTES_PATH_SEP = (String) configuration.getConfigurationParam("vault.pathSep", ".", ".");

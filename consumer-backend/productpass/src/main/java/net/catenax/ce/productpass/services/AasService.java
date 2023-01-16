@@ -43,30 +43,30 @@ public class AasService extends BaseService {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);
             if(digitalTwinIds==null || digitalTwinIds.size()==0){
                 throw new ServiceException(this.getClass().getName() + "." + "getIdShort",
-                        "It was not possible to find digital twin for asset type: " + assetType + " and assetId "+assetId);
+                        "It was not possible to get digital twin for the selected asset type and the the selected assetId");
             }
             if(position > digitalTwinIds.size()){
                 throw new ServiceException(this.getClass().getName() + "." + "getIdShort",
-                        "It was not possible to get the digital twin id in position "+position+" for asset type: " + assetType + " and assetId "+assetId);
+                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
 
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId);
             if(digitalTwin == null){
                 throw new ServiceException(this.getClass().getName() + "." + "getIdShort",
-                        "It was not possible to get digital twin in position: " + position + " for asset type: " + assetType + " and assetId " + assetId);
+                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
             if(subModel == null){
                 throw new ServiceException(this.getClass().getName() + "." + "getIdShort",
-                        "It was not possible to get subModel of digitalTwin  in position: " + position + " for asset type: " + assetType + " and assetId " + assetId);
+                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
             return subModel;
         }
         catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getIdShort",
                     e,
-                    "It was not possible to get idShort!");
+                    "It was not possible to get subModel!");
         }
     }
 

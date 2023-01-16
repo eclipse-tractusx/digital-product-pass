@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/auth")
 public class AuthController {
     // [Logic Methods] ----------------------------------------------------------------
     @Autowired

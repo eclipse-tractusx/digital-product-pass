@@ -13,6 +13,7 @@ Before contributing please read:
 - [Community Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Contributing Guidelines](./CONTRIBUTING.md)
 - [Notice on tractus-x Repositories](./NOTICE_template.md)
+- [Security Policy](./SECURITY.md)
 
 ### Prerequisites:
 

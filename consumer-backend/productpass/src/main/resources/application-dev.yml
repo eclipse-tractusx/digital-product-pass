@@ -18,6 +18,8 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
+  redirect-rewrite-rules:
+    "auth": "backend/auth"
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']
@@ -47,9 +49,5 @@ server:
   port: 8080
   tomcat:
     max-connections: 10000
-  servlet:
-    context-path: /backend/
-    session:
-      cookie:
-        path: /
+
 

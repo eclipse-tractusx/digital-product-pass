@@ -12,8 +12,8 @@ RUN mkdir -p ./data
 USER $CONTAINER_USER_ID
 
 COPY  ./target .
-COPY  ./data ./data
-COPY  ./log ./log
+COPY  ./data/ ./data/
+COPY  ./log/ ./log/
 
 #HEALTHCHECK --interval=60s --timeout=4s CMD curl -f http://localhost:8080/health || exit 1
 HEALTHCHECK NONE
@@ -25,4 +25,4 @@ RUN chown -R appuser:appuser /app && chmod -R 755 /app
 USER appuser
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "./productpass-0.1.5-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./productpass-0.1.6-SNAPSHOT.jar"]

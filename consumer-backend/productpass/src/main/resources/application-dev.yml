@@ -48,8 +48,4 @@ server:
   tomcat:
     max-connections: 10000
   servlet:
-    context-path: /backend/
-    session:
-      cookie:
-        path: /
 

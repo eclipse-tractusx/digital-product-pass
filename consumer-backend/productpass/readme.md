@@ -19,6 +19,7 @@
       * [Integration Environment](#integration-environment)
       * [Configuration of Environment](#configuration-of-environment)
       * [Adding a new Environment](#adding-a-new-environment)
+      * [OSS License Check](#oss-license-check)
   * [License](#license)
 <!-- TOC -->
 
@@ -199,5 +200,23 @@ default:
    - Application Configuration File: `src/main/resources/config/configuration-newEnvironmentCode.yml`
    - Spring Boot Configuration File: `src/main/resources/application-newEnvironmentCode.yml`
 
+## OSS License Check
+
+ The third party library dependecies, utilized in this app have to  be approved from The Eclipse Foundation.
+
+The [Dash Licence Tool](https://github.com/eclipse/dash-licenses) is used to scan the dependencies
+
+[OSS License Checks with Dash & Compliance with Apache 2.0](https://confluence.catena-x.net/pages/viewpage.action?pageId=54989501)
+
+At the time of writing this manual, the dependencies have status approved and therefore no need to generate  IP Team Review request further.
+
+[Maven plugin](https://github.com/eclipse/dash-licenses/blob/master/README.md#maven-plugin-options) used to check OSS license
+
+How to run: 
+```bash
+mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES
+```
+
 ## License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)
+

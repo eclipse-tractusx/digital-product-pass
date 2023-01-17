@@ -51,16 +51,17 @@ public class AuthController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     final static String clientIdPath = "keycloak.resource";
-
     private @Autowired AuthenticationService authService;
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
         Set<String> roles = httpTools.getUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
 
+
         if(roles == null) {
             response.message = "You have no assigned roles!";
             return response;
         }
+
 
         response.message = "You are logged with this roles: " + roles.toString();
         AccessToken accessToken = httpTools.getUser(this.httpRequest);

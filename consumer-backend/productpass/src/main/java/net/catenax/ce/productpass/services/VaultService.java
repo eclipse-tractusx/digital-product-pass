@@ -51,12 +51,12 @@ public class VaultService extends BaseService {
                 throw new ServiceException(this.getClass().getName()+"."+"getSecret",
                         "It was not possible to get secret from vault. Vault Response is null!");
             }
-            Object data = vaultResponse.getData();
+            Map<?, ?> data = vaultResponse.getData();
             if(data == null){
                 throw new ServiceException(this.getClass().getName()+"."+"getSecret",
                         "It was not possible to get secret from vault. Data is null!");
             }
-            return vaultResponse.getData().get("data");
+            return data.get("data");
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getSecret",
                     e,

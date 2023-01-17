@@ -5,11 +5,10 @@ RUN addgroup -g 10001 appgroup \
 WORKDIR /app
 
 VOLUME data log
-USER 0
+
 RUN mkdir -p ./log
 RUN mkdir -p ./data
 
-USER $CONTAINER_USER_ID
 
 COPY  ./target .
 

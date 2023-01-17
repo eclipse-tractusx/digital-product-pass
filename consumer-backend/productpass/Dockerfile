@@ -5,6 +5,9 @@ RUN addgroup -g 10001 appgroup \
 
 WORKDIR /app
 
+RUN mkdir -p log
+RUN mkdir -p data
+
 COPY  ./target .
 COPY  ./data ./data/
 COPY  ./log ./log/
@@ -19,4 +22,4 @@ RUN chown -R appuser:appuser /app && chmod -R 755 /app
 USER appuser
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "./productpass-0.1.3-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./productpass-0.1.5-SNAPSHOT.jar"]

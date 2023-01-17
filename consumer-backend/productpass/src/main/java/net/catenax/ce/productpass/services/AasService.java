@@ -196,7 +196,7 @@ public class AasService extends BaseService {
     }
 
     public class DigitalTwinRegistryQuery implements Runnable{
-        private volatile SubModel subModel;
+        private SubModel subModel;
         private final String assetId;
         private final String idType;
 

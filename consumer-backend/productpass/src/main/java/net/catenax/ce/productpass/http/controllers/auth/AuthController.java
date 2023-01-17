@@ -24,9 +24,15 @@
 
 package net.catenax.ce.productpass.http.controllers.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import net.catenax.ce.productpass.models.auth.Credential;
 import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.auth.UserCredential;
+import net.catenax.ce.productpass.models.negotiation.ContractOffer;
+import net.catenax.ce.productpass.models.passports.PassportV1;
 import net.catenax.ce.productpass.services.AuthenticationService;
 import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +99,13 @@ public class AuthController {
     /*
      */
     @RequestMapping(method = RequestMethod.GET)
+    @Operation(summary = "Performs authentication against backend service")
     Response index() throws Exception{
         httpTools.redirect(httpResponse,"/api/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @Operation(summary = "Performs logout operation against backend service")
     Response logout() throws Exception{
         Response response = httpTools.getResponse();
         httpRequest.logout();
@@ -106,16 +114,25 @@ public class AuthController {
         return response;
     }
     @RequestMapping(value = "/check", method = RequestMethod.GET)
+    @Operation(summary = "Checks the user logged in status", responses = {
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class)))
+    })
     Response check(){
         Boolean check = httpTools.isAuthenticated(httpRequest);
         return httpTools.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @Operation(summary = "Performs authentication against backend service")
     Response login() throws Exception{
         return loginFromHttpRequest();
     }
 
     @RequestMapping(value = "/token", method = RequestMethod.GET)
+    @Operation(summary = "Returns access token", responses = {
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class)))
+    })
     Response getToken(){
         Response response = httpTools.getResponse();
         response.data = authService.getToken();

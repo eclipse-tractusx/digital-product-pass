@@ -25,14 +25,16 @@
 package net.catenax.ce.productpass;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import tools.envTools;
 import tools.logTools;
@@ -40,7 +42,6 @@ import tools.logTools;
 
 @SpringBootApplication
 @EnableAsync
-@OpenAPIDefinition(info = @Info(title = "Product Passport Consumer Backend", version = "1.0", description = "The openapi documentation for Product Passport Consumer Backend"))
 @SecurityScheme(name = "API-Key", scheme = "basic", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class})
 public class Application {
@@ -54,4 +55,18 @@ public class Application {
         application.run(args);
 
 	}
+
+    @Bean
+    public OpenAPI openApiConfig(){
+        return new OpenAPI().info(getApiInfo());
+    }
+
+    public Info getApiInfo(){
+        Info info = new Info();
+        info.title("Product Passport Consumer Backend");
+        info.description("The openapi documentation for Product Passport Consumer Backend");
+        info.version("1.0");
+
+        return info;
+    }
 }

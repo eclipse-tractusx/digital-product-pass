@@ -5,12 +5,15 @@ RUN addgroup -g 10001 appgroup \
 
 WORKDIR /app
 
-RUN mkdir -p log
-RUN mkdir -p data
+USER 0
+RUN mkdir -p ./log
+RUN mkdir -p ./data
+
+USER $CONTAINER_USER_ID
 
 COPY  ./target .
-COPY  ./data ./data/
-COPY  ./log ./log/
+COPY  ./data ./data
+COPY  ./log ./log
 
 #HEALTHCHECK --interval=60s --timeout=4s CMD curl -f http://localhost:8080/health || exit 1
 HEALTHCHECK NONE

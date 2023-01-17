@@ -2,9 +2,9 @@ FROM openjdk:17-alpine
 
 RUN addgroup -g 10001 appgroup \
 	&& adduser -u 10000 -g 10001 -h /home/appuser -D appuser
-
 WORKDIR /app
 
+VOLUME data log
 USER 0
 RUN mkdir -p ./log
 RUN mkdir -p ./data

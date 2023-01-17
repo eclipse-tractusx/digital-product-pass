@@ -24,8 +24,7 @@ keycloak:
       securityCollections:
         - name: 'Common Auth'
           patterns: [
-            '/api',
-            '/api/*',
+            '/*',
             '/auth/login'
           ]
 
@@ -39,7 +38,6 @@ keycloak:
         - name: 'OEM API'
           patterns: [ '/auth/recycler' ]
 
-
 server:
   error:
     include-message: ALWAYS
@@ -47,5 +45,11 @@ server:
     include-stacktrace: ON_PARAM
     include-exception: false
   port: 8080
-
+  tomcat:
+    max-connections: 10000
+  servlet:
+    contextPath: /api
+    session:
+      cookie:
+        path: /
 

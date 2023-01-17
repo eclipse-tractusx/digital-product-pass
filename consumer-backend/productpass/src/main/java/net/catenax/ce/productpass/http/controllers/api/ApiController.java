@@ -43,6 +43,11 @@ public class ApiController {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
+    @RequestMapping(value="/api/*", method = RequestMethod.GET)
+    Response index() throws Exception{
+        httpTools.redirect(httpResponse,"/");
+        return httpTools.getResponse("Redirect to Login");
+    }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})
     public Response getContract(@PathVariable("assetId") String assetId) {

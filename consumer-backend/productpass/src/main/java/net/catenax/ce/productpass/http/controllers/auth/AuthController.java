@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     // [Logic Methods] ----------------------------------------------------------------
     @Autowired
@@ -51,16 +51,17 @@ public class AuthController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     final static String clientIdPath = "keycloak.resource";
-
     private @Autowired AuthenticationService authService;
     private Response loginFromHttpRequest(){
         Response response = httpTools.getResponse();
         Set<String> roles = httpTools.getUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
 
+
         if(roles == null) {
             response.message = "You have no assigned roles!";
             return response;
         }
+
 
         response.message = "You are logged with this roles: " + roles.toString();
         AccessToken accessToken = httpTools.getUser(this.httpRequest);
@@ -93,14 +94,14 @@ public class AuthController {
      */
     @RequestMapping(method = RequestMethod.GET)
     Response index() throws Exception{
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/api/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     Response logout() throws Exception{
         Response response = httpTools.getResponse();
         httpRequest.logout();
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/api/auth/login");
         response.message = "Logged out successfully!";
         return response;
     }

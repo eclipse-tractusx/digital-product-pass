@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/")
 @SecurityRequirement(name = "API-Key")
-@RequestMapping("/api")
 public class ApiController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
@@ -44,6 +44,11 @@ public class ApiController {
         } catch (Exception e) {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
+    }
+    @RequestMapping(value="/api/*", method = RequestMethod.GET)
+    Response index() throws Exception{
+        httpTools.redirect(httpResponse,"/");
+        return httpTools.getResponse("Redirect to Login");
     }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})

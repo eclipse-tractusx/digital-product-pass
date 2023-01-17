@@ -35,6 +35,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import tools.envTools;
+import tools.logTools;
 
 
 @SpringBootApplication
@@ -46,9 +47,10 @@ public class Application {
     public static final envTools env = new envTools();
 	public static void main(String[] args) {
 
+        String environment = env.getEnvironment();
         SpringApplication application =
                 new SpringApplication(Application.class);
-        application.setAdditionalProfiles(env.getEnvironment());
+        application.setAdditionalProfiles(environment);
         application.run(args);
 
 	}

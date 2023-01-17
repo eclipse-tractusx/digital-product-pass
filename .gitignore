@@ -22,9 +22,17 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-# Log files
+
+### Local Logging Backend ###
+log
 *.log
+
+### Local Data Files Backend ###
+data
 *.lst
 
+### Local Temporal Files Backend ###
+tmp
+target
 ## gg shield files
 *.cache_ggshield

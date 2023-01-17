@@ -16,12 +16,14 @@ public class AppController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
 
+
     @GetMapping("/")
     public Response index(){
         Response response = httpTools.getResponse();
         response.message = "Welcome to the Catena-X Consumer Backend!";
         return response;
     }
+
 
     @GetMapping("/health")
     public Response health(){

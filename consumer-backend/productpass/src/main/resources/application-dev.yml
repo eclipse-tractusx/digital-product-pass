@@ -9,6 +9,7 @@ spring:
     serialization:
       indent_output: true
 
+
 keycloak:
   realm: CX-Central
   resource: Cl13-CX-Battery
@@ -17,14 +18,15 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
+  redirect-rewrite-rules:
+    "auth": "backend/auth"
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']
       securityCollections:
         - name: 'Common Auth'
           patterns: [
-            '/api',
-            '/api/*',
+            '/*',
             '/auth/login'
           ]
 
@@ -38,7 +40,6 @@ keycloak:
         - name: 'OEM API'
           patterns: [ '/auth/recycler' ]
 
-
 server:
   error:
     include-message: ALWAYS
@@ -46,5 +47,6 @@ server:
     include-stacktrace: ON_PARAM
     include-exception: false
   port: 8080
-
+  tomcat:
+    max-connections: 10000
 

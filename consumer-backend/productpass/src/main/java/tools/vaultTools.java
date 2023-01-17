@@ -24,11 +24,16 @@ public final class vaultTools {
             String dataDir = fileTools.createDataDir("VaultConfig");
             String filePath = Path.of(dataDir, TOKEN_FILE_NAME).toAbsolutePath().toString();
             if(!fileTools.pathExists(filePath)){
-                logTools.printMessage("No vault token file found, creating yaml file in ["+filePath+"]");
-                fileTools.toFile(filePath, "", false); // Create YAML token file
+                logTools.printWarning("No vault token file found, creating yaml file in ["+filePath+"]");
+                fileTools.createFile(filePath); // Create YAML token file
             }
             String fileContent = fileTools.readFile(filePath);
-            Map<String, Object> vaultFileContent =  yamlTools.parseYml(fileContent);
+            Map<String, Object> vaultFileContent = null;
+            try {
+                vaultFileContent = yamlTools.parseYml(fileContent);
+            }catch (Exception e){
+                logTools.printError("It was not possible to parse Yaml file ["+filePath+"]! Invalid format! Recreating file...");
+            }
             if(vaultFileContent == null){
                 vaultFileContent = new HashMap<>();
             }

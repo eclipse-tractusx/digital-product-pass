@@ -1,3 +1,5 @@
+
+
 /**********************************************************
  *
  * Catena-X - Material Passport Consumer Backend
@@ -21,7 +23,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  **********************************************************/
-
 package net.catenax.ce.productpass.models.auth;
 
 public class UserCredential {

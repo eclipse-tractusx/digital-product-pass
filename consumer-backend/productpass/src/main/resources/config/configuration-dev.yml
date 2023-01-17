@@ -18,13 +18,13 @@ passport:
 
 vault:
   type: 'local'
-  file: 'vault.token-int.yml'
+  file: 'vault.token-dev.yml'
   #uri: 'https://vault.demo.catena-x.net'
   uri: 'http://localhost:8200'
   pathSep: "."
   prettyPrint: true
   indent: 2
-  defaultValue: '"<Add secret value here>"'
+  defaultValue: '<Add secret value here>'
   attributes:
     - "token"
     - "client.id"

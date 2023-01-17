@@ -207,11 +207,15 @@ h1 {
 }
 
 .header-container {
+  position: fixed;
+  top: 0;
   display: flex;
   width: 100%;
-  margin: 30px 12% 0 0;
-  padding: 0 4% 20px;
+  margin: 0 12% 0 0;
+  padding: 30px 4% 20px;
   border-bottom: 2px solid lightgray;
+  background-color: #ffff;
+  z-index: 99999;
 }
 
 .logo-container {
@@ -300,6 +304,7 @@ h1 {
 .menu-btn:hover {
   background: rgba(15, 113, 203, 0.05);
   color: #0d55af;
+  cursor: pointer;
 }
 
 .profile-text {

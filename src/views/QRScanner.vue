@@ -1,4 +1,11 @@
 <template>
+  <div v-if="!error" class="switch-container">
+    <v-switch
+      v-model="QRtoggle"
+      color="#0F71CB"
+      label="Camera switch"
+    ></v-switch>
+  </div>
   <div v-if="error">
     <div class="text-container">
       <p class="text">Your camera is off.</p>
@@ -12,24 +19,41 @@
         type="text"
         placeholder="Type ID"
       />
-      <button class="submit-btn"></button>
+      <v-btn rounded="pill" color="#0F71CB" size="small" class="submit-btn"
+        >Search
+        <!-- <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon> -->
+      </v-btn>
     </form>
   </div>
   <div class="qr-container" data-cy="qr-container">
     <router-link to="/dashboard"> </router-link>
     <div v-if="!error">
-      <div class="qr-frame">
-        <img :src="QRFrame" alt="frame" class="frame" />
+      <div v-if="QRtoggle">
+        <div class="qr-frame">
+          <img :src="QRFrame" alt="frame" class="frame" />
+        </div>
+        <qrcode-stream
+          :torch="torch"
+          class="qrcode-stream"
+          @init="onInit"
+          @decode="onDecode"
+        ></qrcode-stream>
       </div>
-      <qrcode-stream
-        :torch="torch"
-        class="qrcode-stream"
-        @init="onInit"
-        @decode="onDecode"
-      ></qrcode-stream>
-      <div></div>
+      <div v-else>
+        <form class="input-form" @submit.prevent="onClick">
+          <input
+            v-model="typedCode"
+            class="input"
+            type="text"
+            placeholder="Type ID"
+          />
+          <v-btn rounded="pill" color="#0F71CB" size="small" class="submit-btn"
+            >Search
+            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon
+          ></v-btn>
+        </form>
+      </div>
     </div>
-    <div v-else class="error-frame"></div>
   </div>
 </template>
 
@@ -68,8 +92,8 @@ export default {
   data() {
     return {
       hover: false,
+      QRtoggle: false,
       error: "",
-      snackbar: false,
       decodedString: "",
       torch: false,
       MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
@@ -133,6 +157,17 @@ export default {
 </script>
 
 <style scoped>
+.icon {
+  padding-left: 20px;
+}
+
+.switch-container {
+  z-index: 900;
+  position: absolute;
+  top: 150px;
+  right: 0px;
+}
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -249,10 +284,14 @@ export default {
 
 .submit-btn {
   position: absolute;
-  left: 0;
-  margin-left: -130px;
-  height: 68px;
-  width: 200px;
+  right: 0;
+  top: 0;
+  margin-top: 150px;
+  height: 56px;
+  width: 185px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
   background: none;
   border: none;
   cursor: pointer;

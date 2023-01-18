@@ -50,7 +50,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    // [Logic Methods] ----------------------------------------------------------------
+    // [Logic Methods] -------------
+    // ---------------------------------------------------
     @Autowired
     private Environment env;
 

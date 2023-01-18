@@ -18,27 +18,25 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
-  redirect-rewrite-rules:
-    "auth": "backend/auth"
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']
       securityCollections:
         - name: 'Common Auth'
           patterns: [
-            '/*',
-            '/auth/login'
+            '/api/*'
+            '/auth/*'
           ]
 
     - authRoles: 'Recycler'
       securityCollections:
-        - name: 'Recycler API'
-          patterns: ['/auth/recycler']
+        - name: 'Recycler APIs'
+          patterns: []
 
     - authRoles: 'OEM'
       securityCollections:
-        - name: 'OEM API'
-          patterns: [ '/auth/recycler' ]
+        - name: 'OEM APIs'
+          patterns: [ ]
 
 server:
   error:

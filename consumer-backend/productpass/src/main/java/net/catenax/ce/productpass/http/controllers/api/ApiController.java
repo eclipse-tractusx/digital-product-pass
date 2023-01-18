@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 @SecurityRequirement(name = "API-Key")
 public class ApiController {
     private @Autowired HttpServletRequest httpRequest;

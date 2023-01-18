@@ -1,9 +1,16 @@
 package net.catenax.ce.productpass.http.controllers.api;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import net.catenax.ce.productpass.exceptions.ControllerException;
 import net.catenax.ce.productpass.models.dtregistry.SubModel;
 import net.catenax.ce.productpass.models.http.Response;
 import net.catenax.ce.productpass.models.negotiation.*;
+import net.catenax.ce.productpass.models.passports.PassportV1;
 import net.catenax.ce.productpass.services.AasService;
 import net.catenax.ce.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "API-Key")
 public class ApiController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
@@ -44,12 +52,17 @@ public class ApiController {
         }
     }
     @RequestMapping(value="/api/*", method = RequestMethod.GET)
+    @Hidden         // hide this endpoint from api documentation - swagger-ui
     Response index() throws Exception{
         httpTools.redirect(httpResponse,"/");
         return httpTools.getResponse("Redirect to Login");
     }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns contracts by asset Id", responses = {
+            @ApiResponse(description = "Returns specific contract", responseCode = "200", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ContractOffer.class)))
+    })
     public Response getContract(@PathVariable("assetId") String assetId) {
         Response response = httpTools.getResponse();
         ContractOffer contractOffer = null;
@@ -83,6 +96,10 @@ public class ApiController {
      * @return PassportV1
      */
     @RequestMapping(value = "/passport/{version}/{assetId}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns versioned product passport by asset Id", responses = {
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PassportV1.class)))
+    })
     public Response getPassport(
             @PathVariable("assetId") String assetId,
             @PathVariable("version") String version,

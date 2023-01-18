@@ -1,7 +1,14 @@
 package net.catenax.ce.productpass.http.controllers.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import net.catenax.ce.productpass.models.dtregistry.SubModel;
 import net.catenax.ce.productpass.models.http.Response;
+import net.catenax.ce.productpass.models.negotiation.Catalog;
+import net.catenax.ce.productpass.models.negotiation.ContractOffer;
 import net.catenax.ce.productpass.models.passports.PassportV1;
 import net.catenax.ce.productpass.services.AasService;
 import net.catenax.ce.productpass.services.DataTransferService;
@@ -16,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/data")
+@SecurityRequirement(name = "API-Key")
 public class DataController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
@@ -24,6 +32,10 @@ public class DataController {
     private @Autowired AasService aasService;
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
+    @Operation(summary = "Returns contract offers catalog", responses = {
+            @ApiResponse(description = "Gets contract offer catalog from provider", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Catalog.class)))
+    })
     public Response getCatalog(@RequestParam(value = "providerUrl") String providerUrl) {
         Response response = httpTools.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
@@ -31,6 +43,10 @@ public class DataController {
     }
 
     @RequestMapping(value = "/submodel/{assetId}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns asset submodel by asset Id", responses = {
+            @ApiResponse(description = "Gets submodel for specific asset", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = SubModel.class)))
+    })
     public Response getSubmodel(@PathVariable("assetId") String assetId,
                                 @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
                                 @RequestParam(value = "index", required = false, defaultValue = "0") Integer index) {
@@ -59,6 +75,10 @@ public class DataController {
     }
 
     @RequestMapping(value = "/passport/{transferId}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns product passport by transfer process Id", responses = {
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PassportV1.class)))
+    })
     public Response getPassport(@PathVariable("transferId") String transferId) {
         Response response = httpTools.getResponse();
         PassportV1 passportV1 = dataService.getPassportV1(transferId);

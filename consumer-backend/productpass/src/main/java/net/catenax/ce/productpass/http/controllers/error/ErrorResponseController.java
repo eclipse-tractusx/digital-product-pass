@@ -24,6 +24,7 @@
 
 package net.catenax.ce.productpass.http.controllers.error;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import net.catenax.ce.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -41,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
+@Hidden     // hide this endpoint from api documentation  - swagger-ui
 public class ErrorResponseController implements ErrorController {
 
     @Autowired

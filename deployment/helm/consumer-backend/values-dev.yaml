@@ -17,7 +17,7 @@ fullnameOverride: "consumer-backend"
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 8888
 
 ingress:
   enabled: true
@@ -28,17 +28,17 @@ ingress:
     # kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    #nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
-    - host: materialpass.dev.demo.catena-x.net
+    - host: materialpass.dev.demo.catena-x.net:8888
       paths:
-        - path: /api(/|$)(.*)
+        - path: /
           pathType: Prefix
   tls:
     - secretName: tls-secret
       hosts:
-        - materialpass.dev.demo.catena-x.net
+        - materialpass.dev.demo.catena-x.net:8888
 
 avp:
   helm:

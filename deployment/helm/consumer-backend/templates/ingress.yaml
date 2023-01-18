@@ -52,10 +52,10 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 8080
+                  number: 8888
               {{- else }}
               serviceName: {{ $fullName }}
-              servicePort: 8080
+              servicePort: 8888
               {{- end }}
           {{- end }}
     {{- end }}

@@ -19,7 +19,7 @@ keycloak:
   public-client: true
   use-resource-role-mappings: true
   redirect-rewrite-rules:
-    "auth": "backend/auth"
+    "auth": "api/auth"
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']

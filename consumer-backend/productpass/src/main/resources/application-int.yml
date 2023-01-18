@@ -17,6 +17,8 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
+  redirect-rewrite-rules:
+    "auth": "api/auth"
   securityConstraints:
 
     - authRoles: ['Recycler', 'OEM']

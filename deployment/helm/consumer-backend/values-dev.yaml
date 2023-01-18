@@ -33,7 +33,7 @@ ingress:
   hosts:
     - host: materialpass.dev.demo.catena-x.net
       paths:
-        - path: /api(/|$)(.*)
+        - path: /api (/|$)(.*)
           pathType: Prefix
   tls:
     - secretName: tls-secret

@@ -9,6 +9,12 @@ In particular, the appliction is used to access the battery passport data provid
 
 ## Getting Started
 
+Before contributing please read:
+- [Community Code of Conduct](./docs/tractusx/CODE_OF_CONDUCT.md)
+- [Contributing Guidelines](./docs/tractusx/CONTRIBUTING.md)
+- [Notice on tractus-x Repositories](./docs/tractusx/NOTICE_template.md)
+- [Security Policy](./docs/tractusx/SECURITY.md)
+
 ### Prerequisites:
 
 - Git

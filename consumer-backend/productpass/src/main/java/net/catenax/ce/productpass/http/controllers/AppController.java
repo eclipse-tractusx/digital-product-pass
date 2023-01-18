@@ -27,9 +27,8 @@ public class AppController {
     @GetMapping("/")
     @Hidden                     // hides this endpoint from api documentation - swagger-ui
     public Response index(){
-        Response response = httpTools.getResponse();
-        response.message = "Welcome to the Catena-X Consumer Backend!";
-        return response;
+        httpTools.redirect(httpResponse,"/passport");
+        return httpTools.getResponse("Redirect to UI");
     }
 
 

@@ -46,7 +46,5 @@ server:
   port: 8080
   tomcat:
     max-connections: 10000
-  servlet:
-    context-path: '/backend'
 
 

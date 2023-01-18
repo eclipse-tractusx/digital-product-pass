@@ -54,8 +54,8 @@ public class ApiController {
     @RequestMapping(value="/api/*", method = RequestMethod.GET)
     @Hidden         // hide this endpoint from api documentation - swagger-ui
     Response index() throws Exception{
-        httpTools.redirect(httpResponse,"/");
-        return httpTools.getResponse("Redirect to Login");
+        httpTools.redirect(httpResponse,"/passport");
+        return httpTools.getResponse("Redirect to UI");
     }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})

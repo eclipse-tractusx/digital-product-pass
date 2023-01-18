@@ -23,20 +23,19 @@ keycloak:
       securityCollections:
         - name: 'Common Auth'
           patterns: [
-            '/api',
             '/api/*',
-            '/auth/login'
+            '/auth/*'
           ]
 
     - authRoles: 'Recycler'
       securityCollections:
         - name: 'Recycler API'
-          patterns: ['/auth/recycler']
+          patterns: []
 
     - authRoles: 'OEM'
       securityCollections:
         - name: 'OEM API'
-          patterns: [ '/auth/recycler' ]
+          patterns: [ ]
 
 server:
   error:

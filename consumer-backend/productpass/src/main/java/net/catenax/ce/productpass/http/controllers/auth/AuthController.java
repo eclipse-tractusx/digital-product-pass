@@ -102,7 +102,7 @@ public class AuthController {
     @RequestMapping(method = RequestMethod.GET)
     @Operation(summary = "Performs authentication against backend service")
     Response index() throws Exception{
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/backend/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -110,7 +110,7 @@ public class AuthController {
     Response logout() throws Exception{
         Response response = httpTools.getResponse();
         httpRequest.logout();
-        httpTools.redirect(httpResponse,"/auth/login");
+        httpTools.redirect(httpResponse,"/backend/auth/login");
         response.message = "Logged out successfully!";
         return response;
     }

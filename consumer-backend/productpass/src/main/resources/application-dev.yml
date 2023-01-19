@@ -20,23 +20,14 @@ keycloak:
   use-resource-role-mappings: true
   securityConstraints:
 
-    - authRoles: ['Recycler', 'OEM']
+    - authRoles: ['Recycler', 'OEM', 'Dismantler']
       securityCollections:
         - name: 'Common Auth'
           patterns: [
             '/api/*',
-            '/auth/*'
+            '/auth/login'
+            '/auth/token'
           ]
-
-    - authRoles: 'Recycler'
-      securityCollections:
-        - name: 'Recycler APIs'
-          patterns: []
-
-    - authRoles: 'OEM'
-      securityCollections:
-        - name: 'OEM APIs'
-          patterns: [ ]
 
 server:
   error:

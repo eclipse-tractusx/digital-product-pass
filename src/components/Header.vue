@@ -25,7 +25,7 @@
             </template>
             <v-list class="dropdown" rounded="xl">
               <div class="profile-menu-header">
-                <span class="profile-text">
+                <span>
                   {{ username }}
                   <p class="role">{{ role }}</p>
                 </span>
@@ -45,7 +45,6 @@
             <BatteryPassport />
           </v-window-item>
           <v-window-item value="two">
-            <div class="ghost"></div>
             <QRScanner />
           </v-window-item>
         </v-main>
@@ -207,11 +206,15 @@ h1 {
 }
 
 .header-container {
+  position: fixed;
+  top: 0;
   display: flex;
   width: 100%;
-  margin: 30px 12% 0 0;
-  padding: 0 4% 20px;
+  margin: 0 12% 0 0;
+  padding: 30px 4% 20px;
   border-bottom: 2px solid lightgray;
+  background-color: #ffff;
+  z-index: 99999;
 }
 
 .logo-container {
@@ -245,6 +248,7 @@ h1 {
 
 .id-wrapper {
   width: 60%;
+  line-break: anywhere;
 }
 
 .right-manu-wrapper {
@@ -262,7 +266,7 @@ h1 {
   display: flex;
   align-items: center;
   width: 76%;
-  margin: 2% 12% 6% 12%;
+  margin: 12em 12% 6% 12%;
   padding: 20px 0;
 }
 
@@ -278,11 +282,14 @@ h1 {
 .profile-menu-header {
   background-color: #f3f3f3;
   border-radius: 16px 16px 0 0;
-  padding: 17px 0 0 0;
+  padding: 17px 24px 0 24px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: normal;
 }
 
 .role {
-  padding: 3px 0 16px 24px;
+  padding: 3px 0 16px 0;
   font-size: 14px;
   color: #888888;
 }
@@ -300,6 +307,7 @@ h1 {
 .menu-btn:hover {
   background: rgba(15, 113, 203, 0.05);
   color: #0d55af;
+  cursor: pointer;
 }
 
 .profile-text {
@@ -361,12 +369,17 @@ p {
 
   .header-container {
     width: 100%;
-    margin: 30px;
+    margin: 0;
   }
 
   .id-container {
-    margin: 45px 0 0 30px;
+    margin: 12em 0 2em 3em;
     padding: 20px 0;
+    width: 85%;
+  }
+
+  .id-wrapper {
+    width: 100%;
   }
 
   h1 {

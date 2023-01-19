@@ -2,26 +2,28 @@
   <footer data-cy="footer">
     <div class="links">
       <div>
-        <a id="lnkHelp" href="${env.HELP}">Help</a>
+        <router-link id="lnkHelp" to="/PageNotFound">Help</router-link>
       </div>
       <div>
-        <a id="lnkContact" href="${env.CONTACT}">Contact</a>
+        <router-link id="lnkHelp" to="/PageNotFound">Contact</router-link>
       </div>
       <div>
-        <a id="lnkImprint" href="${env.IMPRINT}">Imprint</a>
+        <router-link id="lnkHelp" to="/PageNotFound">Imprint</router-link>
       </div>
       <div>
-        <a id="lnkPrivacy" href="${env.PRIVACY_POLICY}">Privacy</a>
+        <router-link id="lnkHelp" to="/PageNotFound">Privacy</router-link>
       </div>
       <div>
-        <a id="lnkTerms" href="${env.TERMS_AND_CONDITION}">Terms of Service</a>
+        <router-link id="lnkHelp" to="/PageNotFound"
+          >Terms of Service</router-link
+        >
       </div>
       <div>
-        <a id="lnkCookies" href="${env.COOKIE_POLICY}">Cookie Policy</a>
+        <router-link id="lnkHelp" to="/PageNotFound">Cookie Policy</router-link>
       </div>
       <div>
-        <a id="lnkLicenseNote" href="${env.THIRD_PARTY_LICENSES}"
-          >Third Party Licenses</a
+        <router-link id="lnkHelp" to="/PageNotFound"
+          >Third Party Licenses</router-link
         >
       </div>
     </div>

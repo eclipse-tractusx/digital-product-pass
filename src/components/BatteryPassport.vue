@@ -4,8 +4,9 @@
     <div data-cy="history-container" class="dashboard-container">
       <div class="titles-container">
         <div class="title">Welcome back {{ name }}!</div>
-        <div class="sub-title">See batteries scanned today</div>
-        <div class="sub-title orange">See full history</div>
+        <div class="sub-title">Batteries scanned today:</div>
+        <!-- TODO: History of scanned batteries -->
+        <!-- <div class="sub-title orange">See full history</div> -->
       </div>
       <DashboardTable />
     </div>
@@ -179,7 +180,7 @@ export default {
 
 .dashboard-container {
   width: 64%;
-  margin: 10% 18% 70px 18%;
+  margin: 20% 18% 70px 18%;
 }
 
 .titles-container {

@@ -67,7 +67,7 @@ public class VaultService extends BaseService {
     public Object getLocalSecret(String localSecretPath) {
         try {
             String secret = null;
-            String filePath = vaultTools.createLocalVaultFile();
+            String filePath = vaultTools.createLocalVaultFile(true);
             Map<String, Object> content = yamlTools.readFile(filePath);
             try {
                 secret = (String) jsonTools.getValue(content,localSecretPath, ".",null);

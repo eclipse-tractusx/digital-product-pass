@@ -19,7 +19,7 @@ public final class vaultTools {
     private static final Boolean PRETTY_PRINT = (Boolean) configuration.getConfigurationParam("vault.prettyPrint", ".", 2);
     private static final String DEFAULT_VALUE = (String) configuration.getConfigurationParam("vault.defaultValue", ".", null);
     private static final String TOKEN_FILE_NAME = (String) configuration.getConfigurationParam("vault.file", ".", null);
-    public static String createLocalVaultFile(){
+    public static String createLocalVaultFile(Boolean searchSystemVariables){
         try {
             String dataDir = fileTools.createDataDir("VaultConfig");
             String filePath = Path.of(dataDir, TOKEN_FILE_NAME).toAbsolutePath().toString();
@@ -38,12 +38,16 @@ public final class vaultTools {
                 vaultFileContent = new HashMap<>();
             }
             boolean update = false;
+            String newDefaultValue = DEFAULT_VALUE;
             for (String attribute: VAULT_ATTRIBUTES){
                 if(jsonTools.getValue(vaultFileContent, attribute, ATTRIBUTES_PATH_SEP, null) != null) {
                     continue;
                 }
                 try {
-                    vaultFileContent = (Map<String, Object>) jsonTools.setValue(vaultFileContent, attribute, DEFAULT_VALUE, ".", null);
+                    if(searchSystemVariables){
+                        newDefaultValue = systemTools.getEnvironmentVariable(attribute, DEFAULT_VALUE);
+                    }
+                    vaultFileContent = (Map<String, Object>) jsonTools.setValue(vaultFileContent, attribute, newDefaultValue, ".", null);
                 }catch (Exception e){
                     throw new ToolException(vaultTools.class,
                             e,

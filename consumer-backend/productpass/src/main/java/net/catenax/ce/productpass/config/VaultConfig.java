@@ -22,7 +22,7 @@ public class VaultConfig extends AbstractVaultConfiguration {
     public ClientAuthentication clientAuthentication() {
         try{
             this.dataDir = fileTools.createDataDir("VaultConfig");
-            String filePath = vaultTools.createLocalVaultFile();
+            String filePath = vaultTools.createLocalVaultFile(true);
             Map<String, Object> content = yamlTools.readFile(filePath);
             String token = (String) content.get("token");
             if(stringTools.isEmpty(token)){

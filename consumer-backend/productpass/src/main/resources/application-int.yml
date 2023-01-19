@@ -24,7 +24,7 @@ keycloak:
         - name: 'Common Auth'
           patterns: [
             '/api/*',
-            '/auth/login'
+            '/auth/login',
             '/auth/token'
           ]
 server:

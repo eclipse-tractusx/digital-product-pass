@@ -38,9 +38,14 @@ public final class systemTools {
         return String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getMax()/1073741824);
     }
 
-    public Long getDiskUsage(){
+    public static Long getDiskUsage(){
         String path = fileTools.getWorkdirPath();
         File diskPartition = new File(path);
         return diskPartition.getTotalSpace() - diskPartition.getFreeSpace();
     }
+
+    public static String getEnvironmentVariable(String name, String defaultValue){
+       return System.getenv().getOrDefault(name, defaultValue);
+    }
+
 }

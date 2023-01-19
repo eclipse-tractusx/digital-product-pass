@@ -1,7 +1,8 @@
 <template>
   <div class="PageNotFound">
-    <h1>This is an about page</h1>
-    <img :src="Error" alt="error" class="error" />
+    <router-link to="/">
+      <img :src="Error" alt="error" class="error" />
+    </router-link>
   </div>
 </template>
 
@@ -21,6 +22,6 @@ export default {
 </script>
 <style scoped>
 .error {
-  width: 100%;
+  width: 110%;
 }
 </style>

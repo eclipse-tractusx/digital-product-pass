@@ -1,10 +1,12 @@
 <template>
   <div v-if="!error" class="switch-container">
-    <v-switch
-      v-model="QRtoggle"
-      color="#0F71CB"
-      label="Camera switch"
-    ></v-switch>
+    <div>
+      <v-switch
+        v-model="QRtoggle"
+        color="#0F71CB"
+        label="Camera switch"
+      ></v-switch>
+    </div>
   </div>
   <div v-if="error" class="qr-container">
     <div class="text-container">
@@ -48,7 +50,7 @@
         ></qrcode-stream>
       </div>
       <div v-else class="qr-container">
-        <v-form>
+        <v-form class="form">
           <div class="input-form">
             <input
               v-model="typedCode"
@@ -179,6 +181,8 @@ export default {
 }
 
 .switch-container {
+  display: flex;
+  justify-content: flex-end;
   margin: 150px 0 0 0;
 }
 

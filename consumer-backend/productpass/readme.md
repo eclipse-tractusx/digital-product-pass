@@ -1,5 +1,5 @@
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
-
+# Version: 0.1.6
 
 ## Table of contents
 <!-- TOC -->
@@ -22,7 +22,6 @@
       * [OSS License Check](#oss-license-check)
   * [License](#license)
 <!-- TOC -->
-
 
 ## What is this backend app responsible for?
 

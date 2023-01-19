@@ -118,6 +118,7 @@ a {
   font-size: 16px;
   line-height: 20px;
   font-weight: bold;
+  line-break: anywhere;
 }
 
 .test-container {

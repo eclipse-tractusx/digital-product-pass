@@ -101,13 +101,13 @@ public class AuthController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @Operation(summary = "Performs authentication against backend service")
-    Response index() throws Exception{
+    public Response index() throws Exception{
         httpTools.redirect(httpResponse,"/auth/login");
         return httpTools.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @Operation(summary = "Performs logout operation against backend service")
-    Response logout() throws Exception{
+    public Response logout() throws Exception{
         Response response = httpTools.getResponse();
         httpRequest.logout();
         httpTools.redirect(httpResponse,"/auth/login");
@@ -119,13 +119,13 @@ public class AuthController {
             @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
-    Response check(){
+    public Response check(){
         Boolean check = httpTools.isAuthenticated(httpRequest);
         return httpTools.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @Operation(summary = "Performs authentication against backend service")
-    Response login() throws Exception{
+    public Response login() throws Exception{
         return loginFromHttpRequest();
     }
 
@@ -134,7 +134,7 @@ public class AuthController {
             @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
-    Response getToken(){
+    public Response getToken(){
         Response response = httpTools.getResponse();
         response.data = authService.getToken();
         return response;

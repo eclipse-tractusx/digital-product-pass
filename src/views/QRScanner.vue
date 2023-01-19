@@ -6,24 +6,32 @@
       label="Camera switch"
     ></v-switch>
   </div>
-  <div v-if="error">
+  <div v-if="error" class="qr-container">
     <div class="text-container">
       <p class="text">Your camera is off.</p>
       <p class="text">Turn it on or type the ID.</p>
       <p class="error">{{ error }}</p>
     </div>
-    <form class="input-form" @submit.prevent="onClick">
-      <input
-        v-model="typedCode"
-        class="input"
-        type="text"
-        placeholder="Type ID"
-      />
-      <v-btn rounded="pill" color="#0F71CB" size="small" class="submit-btn"
-        >Search
-        <!-- <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon> -->
+    <v-form class="form">
+      <div class="input-form">
+        <input
+          v-model="typedCode"
+          class="input"
+          type="text"
+          placeholder="Type ID"
+        />
+      </div>
+      <v-btn
+        rounded="pill"
+        color="#0F71CB"
+        size="small"
+        class="submit-btn"
+        @click="onClick"
+      >
+        Search
+        <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
       </v-btn>
-    </form>
+    </v-form>
   </div>
   <div class="qr-container" data-cy="qr-container">
     <router-link to="/dashboard"> </router-link>
@@ -39,19 +47,27 @@
           @decode="onDecode"
         ></qrcode-stream>
       </div>
-      <div v-else>
-        <form class="input-form" @submit.prevent="onClick">
-          <input
-            v-model="typedCode"
-            class="input"
-            type="text"
-            placeholder="Type ID"
-          />
-          <v-btn rounded="pill" color="#0F71CB" size="small" class="submit-btn"
-            >Search
-            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon
-          ></v-btn>
-        </form>
+      <div v-else class="qr-container">
+        <v-form>
+          <div class="input-form">
+            <input
+              v-model="typedCode"
+              class="input"
+              type="text"
+              placeholder="Type ID"
+            />
+          </div>
+          <v-btn
+            rounded="pill"
+            color="#0F71CB"
+            size="small"
+            class="submit-btn"
+            @click="onClick"
+          >
+            Search
+            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+          </v-btn>
+        </v-form>
       </div>
     </div>
   </div>
@@ -92,7 +108,7 @@ export default {
   data() {
     return {
       hover: false,
-      QRtoggle: false,
+      QRtoggle: true,
       error: "",
       decodedString: "",
       torch: false,
@@ -151,6 +167,7 @@ export default {
       this.$router.push({
         path: `/${this.typedCode}`,
       });
+      console.log("clicked");
     },
   },
 };
@@ -162,23 +179,13 @@ export default {
 }
 
 .switch-container {
-  z-index: 900;
-  position: absolute;
-  top: 150px;
-  right: 0px;
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
+  margin: 150px 0 0 0;
 }
 
 .error {
   font-weight: bold;
+  text-align: center;
+  padding: 0 0 70px 0;
 }
 
 .error-frame {
@@ -189,8 +196,6 @@ export default {
 }
 
 .qr-container {
-  position: fixed;
-  z-index: -1;
   top: 132px;
   bottom: 0;
   right: 0;
@@ -222,11 +227,7 @@ export default {
 }
 
 .text-container {
-  position: fixed;
-  top: 22vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 40;
+  margin: 250px 0 0 0;
 }
 
 .text {
@@ -235,7 +236,7 @@ export default {
 }
 .qr-frame {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
@@ -253,16 +254,18 @@ export default {
   backdrop-filter: blur(9px);
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .input-form {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   padding: 17px;
   background: linear-gradient(to right, #f8b500, #f88000);
-  display: inline-block;
   border-radius: 35px;
-  z-index: 999999999999999;
+  width: 600px;
 }
 .input {
   width: 560px;
@@ -271,7 +274,6 @@ export default {
   padding: 18px;
   padding-left: 60px;
   font-size: 20px;
-  display: inline-block;
   outline: none;
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhMGEwYTA7fS5jbHMtMntmaWxsOiNhMGEwYTA7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjUgMTYgNS45MSAxMy4wOSAzIDkuNSAzUzMgNS45MSAzIDkuNSA1LjkxIDE2IDkuNSAxNmMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBDNy4wMSAxNCA1IDExLjk5IDUgOS41UzcuMDEgNSA5LjUgNSAxNCA3LjAxIDE0IDkuNSAxMS45OSAxNCA5LjUgMTR6Ii8+PC9zdmc+Cg==);
   background-repeat: no-repeat;
@@ -283,10 +285,7 @@ export default {
 }
 
 .submit-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 150px;
+  margin-top: 30px;
   height: 56px;
   width: 185px;
   font-size: 16px;
@@ -297,51 +296,14 @@ export default {
   cursor: pointer;
 }
 
-.empty-pusher {
-  width: 56px;
-}
-
-.right-manu-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding-right: 100px;
-}
-
-.left-menu-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .qrcode-stream-camera {
   width: 160%;
-}
-
-.left-menu-container {
-  display: flex;
-  align-items: center;
 }
 
 .buttons {
   width: 26px;
   height: 26px;
   margin: 15px 0 15px 30px;
-  cursor: pointer;
-}
-
-.profile-container {
-  position: relative;
-}
-
-.profile-menu {
-  position: absolute;
-  margin-right: 100px;
-  min-width: 342px;
-  border: solid 1px #ffa600;
-  right: 0;
-  background-color: white;
   cursor: pointer;
 }
 

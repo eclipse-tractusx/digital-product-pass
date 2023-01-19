@@ -25,7 +25,7 @@
             </template>
             <v-list class="dropdown" rounded="xl">
               <div class="profile-menu-header">
-                <span class="profile-text">
+                <span>
                   {{ username }}
                   <p class="role">{{ role }}</p>
                 </span>
@@ -45,7 +45,6 @@
             <BatteryPassport />
           </v-window-item>
           <v-window-item value="two">
-            <div class="ghost"></div>
             <QRScanner />
           </v-window-item>
         </v-main>
@@ -282,11 +281,14 @@ h1 {
 .profile-menu-header {
   background-color: #f3f3f3;
   border-radius: 16px 16px 0 0;
-  padding: 17px 0 0 0;
+  padding: 17px 24px 0 24px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: normal;
 }
 
 .role {
-  padding: 3px 0 16px 24px;
+  padding: 3px 0 16px 0;
   font-size: 14px;
   color: #888888;
 }

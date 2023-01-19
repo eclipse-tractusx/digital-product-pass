@@ -1,5 +1,7 @@
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
 
+# Version: 0.0.5
+
 ## What is this backend app responsible for?
 
 This backend includes the services and *logics* to manage the *passports* of the `frontend app`.

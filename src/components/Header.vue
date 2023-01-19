@@ -248,6 +248,7 @@ h1 {
 
 .id-wrapper {
   width: 60%;
+  line-break: anywhere;
 }
 
 .right-manu-wrapper {
@@ -265,7 +266,7 @@ h1 {
   display: flex;
   align-items: center;
   width: 76%;
-  margin: 2% 12% 6% 12%;
+  margin: 12em 12% 6% 12%;
   padding: 20px 0;
 }
 
@@ -372,8 +373,13 @@ p {
   }
 
   .id-container {
-    margin: 45px 0 0 30px;
+    margin: 12em 0 2em 3em;
     padding: 20px 0;
+    width: 85%;
+  }
+
+  .id-wrapper {
+    width: 100%;
   }
 
   h1 {

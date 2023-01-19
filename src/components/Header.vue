@@ -369,7 +369,7 @@ p {
 
   .header-container {
     width: 100%;
-    margin: 30px;
+    margin: 0;
   }
 
   .id-container {

@@ -4,15 +4,15 @@ describe("e2e test", () => {
     cy.visit("http://localhost:8080");
   });
   it("Sign in and battery select", () => {
-    cy.get('#username').type("company 2 user");
-    cy.get('#password').type("changeme");
-    cy.get('#kc-login').click();
-    cy.get('[data-cy="QR-scanner-tab"]').click();
-    cy.get('[data-cy="qr-container"]');
-    cy.get('[data-cy="history-tab"]').click();
-    cy.get('[data-cy="history-container"]');
-    cy.get('[data-cy="passport-link"]').click();
-    cy.wait(20000);
+    cy.get('#username').type("company 2 user"); // typing username
+    cy.get('#password').type("changeme"); // typing password
+    cy.get('#kc-login').click(); // btn click
+    cy.get('[data-cy="QR-scanner-tab"]').click(); // changing tab
+    cy.get('[data-cy="qr-container"]'); // checking qr scanner display
+    cy.get('[data-cy="history-tab"]').click(); // changing tab
+    cy.get('[data-cy="history-container"]'); // checking history page display
+    cy.get('[data-cy="passport-link"]').click(); // getting a passport 
+    cy.wait(20000); // timeout for loading
     cy.get('[data-cy="battery-id"]'); // 1. General information first field check
     cy.get('[data-cy="electrolyte-composition"]'); // 2. Battery composition first field check
     cy.get('[data-cy="remaining-capacity"]'); // 3. State of health first field check

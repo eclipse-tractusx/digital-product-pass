@@ -2,9 +2,10 @@ import Home from './components/Home.vue';
 import { createRouter, createWebHistory } from "vue-router";
 import Header from "./components/Header.vue";
 
+
 const routes = [
   {
-    path: "/",
+    path: '/',
     name: "Header",
     component: Header,
   },
@@ -21,7 +22,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/passport"),
   routes: routes,
   linkActiveClass: "active",
 });

@@ -8,9 +8,10 @@ keycloak:
   tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
 
 variables:
-  serverUrl: 'https://materialpass.dev.demo.catena-x.net'
-  providerUrl: 'https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data'
-  registryUrl: 'https://semantics.dev.demo.catena-x.net'
+  default:
+    providerUrl: 'https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data'
+    serverUrl: 'https://materialpass.dev.demo.catena-x.net'
+    registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
 passport:
   versions:

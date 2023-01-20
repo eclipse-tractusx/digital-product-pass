@@ -1,3 +1,28 @@
+/*********************************************************************************
+ *
+ * Catena-X - Product Passport Consumer Backend
+ *
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
 package net.catenax.ce.productpass.http.controllers.api;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -37,10 +62,10 @@ public class ApiController {
 
     public static final configTools configuration = new configTools();
     public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
-
-    public Offer getContractOfferByAssetId(String assetId) throws ControllerException {
+    public static final String defaultProviderUrl = (String) configuration.getConfigurationParam("variables.default.providerUrl", ".", null);
+    public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         try {
-            Catalog catalog = dataService.getContractOfferCatalog(null);
+            Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
             Map<String, Integer> offers = catalog.loadContractOffersMapByAssetId();
             if (!offers.containsKey(assetId)) {
                 return null;
@@ -63,11 +88,17 @@ public class ApiController {
             @ApiResponse(description = "Returns specific contract", responseCode = "200", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = ContractOffer.class)))
     })
-    public Response getContract(@PathVariable("assetId") String assetId) {
+    public Response getContract(
+        @PathVariable("assetId") String assetId,
+        @RequestParam(value = "providerUrl", required = false, defaultValue = "") String providerUrl
+    ) {
+        if(providerUrl == null || providerUrl.equals("")){
+            providerUrl = defaultProviderUrl;
+        }
         Response response = httpTools.getResponse();
         ContractOffer contractOffer = null;
         try {
-            contractOffer = this.getContractOfferByAssetId(assetId);
+            contractOffer = this.getContractOfferByAssetId(assetId, providerUrl);
         } catch (ControllerException e) {
             response.message = e.getMessage();
             response.status = 500;
@@ -123,10 +154,32 @@ public class ApiController {
                 return httpTools.buildResponse(response, httpResponse);
             }
 
+            // Wait for thread to close and give a response
+            digitalTwinRegistryThread.join();
+            SubModel subModel;
+            String connectorId;
+            String connectorAddress;
+            try {
+                subModel = digitalTwinRegistry.getSubModel();
+                connectorId = subModel.getIdShort();
+                connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
+            } catch (Exception e) {
+                response.message = "Failed to get subModel from digital twin registry!";
+                response.status = 504;
+                return httpTools.buildResponse(response, httpResponse);
+            }
+            if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
+                response.message = "Failed to get connectorId and connectorAddress!";
+                response.status = 400;
+                response.data = subModel;
+                return httpTools.buildResponse(response, httpResponse);
+            }
+
+
             /*[1]=========================================*/
             // Get catalog with all the contract offers
             try {
-                contractOffer = this.getContractOfferByAssetId(assetId);
+                contractOffer = this.getContractOfferByAssetId(assetId, connectorAddress);
             } catch (ControllerException e) {
                 response.message = e.getMessage();
                 response.status = 502;
@@ -173,26 +226,6 @@ public class ApiController {
                 return httpTools.buildResponse(response, httpResponse);
             }
 
-            // Wait for thread to close and give a response
-            digitalTwinRegistryThread.join();
-            SubModel subModel;
-            String connectorId;
-            String connectorAddress;
-            try {
-                subModel = digitalTwinRegistry.getSubModel();
-                connectorId = subModel.getIdShort();
-                connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
-            } catch (Exception e) {
-                response.message = "Failed to get subModel from digital twin registry!";
-                response.status = 504;
-                return httpTools.buildResponse(response, httpResponse);
-            }
-            if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
-                response.message = "Failed to get connectorId and connectorAddress!";
-                response.status = 400;
-                response.data = subModel;
-                return httpTools.buildResponse(response, httpResponse);
-            }
 
             /*[6]=========================================*/
             // Configure Transfer Request

@@ -1,14 +1,39 @@
+/*********************************************************************************
+ *
+ * Catena-X - Product Passport Consumer Backend
+ *
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
 package tools;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
-import org.json.JSONException;
-import org.json.JSONObject;
 import tools.exceptions.ToolException;
 
+import java.io.IOException;
 import java.util.*;
 
 public final class jsonTools {
@@ -22,67 +47,73 @@ public final class jsonTools {
                         data)
         );
     }
-    public static Object loadJson(String jsonString, Class classType){
-        Gson g = new Gson();
-
-        return g.fromJson(jsonString, classType);
+    public static Object loadJson(String jsonString, Class<?> classType){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(jsonString, classType);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "I was not possible to load JSON in object -> [" + e.getMessage() + "]");
+        }
     }
 
     public static String escapeJson(String jsonString){
-        return JSONObject.quote(jsonString);
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
+            mapper.getFactory().configure(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature(), true);
+            return mapper.writeValueAsString(jsonString);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "I was not possible to escape JSON -> [" + e.getMessage() + "]");
+        }
     }
 
-    public static JSONObject parseJson(String jsonString){
+    public static Object parseJson(String jsonString){
         try {
-            return new JSONObject(jsonString);
-        } catch (JSONException e) {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(jsonString, Object.class);
+        } catch (Exception e) {
             throw new ToolException(jsonTools.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
-
-    public static Boolean isJson(Object object){
-        try {
-            JSONObject jsonObj =  new JSONObject(object);
-            if(!jsonObj.isEmpty()){
-                return true;
-            }
-        } catch (JSONException e) {
-           // Do nothing
-        }
-        return false;
-    }
-    public static String toJson(Object object){
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        try {
-            return ow.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new ToolException(jsonTools.class, "I was not possible to format to JSON! -> [" + e.getMessage() + "]");
-        }
+    public static ObjectNode newJson(){
+        return JsonNodeFactory.instance.objectNode();
     }
 
-
-
-
-    public static String toJsonFile(String path, JSONObject json){
+    public static Boolean isJson(String jsonString){
         try {
-            return fileTools.toFile(path, jsonTools.dumpJson(json, 4), false);
+            ObjectMapper mapper = new ObjectMapper()
+                    .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+            mapper.readTree(jsonString);
+        } catch (JacksonException e) {
+            return false;
+        }
+        return true;
+    }
+    public static String toJson(Object json, Boolean prettyPrint){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            if(prettyPrint) {
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writerWithDefaultPrettyPrinter();
+            };
+            return mapper.writeValueAsString(json);
+        } catch (Exception e) {
+            throw new ToolException(jsonTools.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
+        }
+    }
+    public static String toJsonFile(String path, Object json, Boolean prettyPrint){
+        try {
+            return fileTools.toFile(path, jsonTools.toJson(json, prettyPrint), false);
         } catch (Exception e) {
             throw new ToolException(jsonTools.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
-    public static JSONObject fromJsonFile(String path){
+    public static Object fromJsonFile(String path){
         try {
             String fileContent = fileTools.readFile(path);
             return jsonTools.parseJson(fileContent);
         } catch (Exception e) {
             throw new ToolException(jsonTools.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
-        }
-    }
-    public static String dumpJson(JSONObject json, Integer indent){
-        try {
-            return json.toString(indent);
-        } catch (JSONException e) {
-            throw new ToolException(jsonTools.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
         }
     }
 

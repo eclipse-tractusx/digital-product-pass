@@ -27,6 +27,7 @@ package tools;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -134,11 +135,13 @@ public final class jsonTools {
             }
             Map<String, Object> tmpValue;
             Object tmpObject = sourceObj;
+            ObjectMapper mapper = new ObjectMapper();
             for (String part : parts) {
+
                 try{
-                    tmpValue = (Map<String, Object>) tmpObject;
+                    tmpValue = mapper.convertValue(tmpObject, new TypeReference<Map<String, Object>>(){});
                 }catch (Exception e){
-                    //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map");
+                    logTools.printError("[DEBUG] It was not possible to parse to map");
                     return defaultValue;
                 }
                 if (!tmpValue.containsKey(part)) {
@@ -169,10 +172,11 @@ public final class jsonTools {
             }
             Map<String, Object> tmpObject;
             String[] parts = keyPath.split(String.format("\\%s",pathSep));
+            ObjectMapper mapper = new ObjectMapper();
             // If is simple path just add it
             if(parts.length == 1){
                 try{
-                    tmpObject = (Map<String, Object>) sourceObj;
+                    tmpObject = mapper.convertValue(sourceObj, new TypeReference<Map<String, Object>>(){});
                 }catch (Exception e){
                     //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map");
                     return defaultValue;
@@ -193,7 +197,7 @@ public final class jsonTools {
                 currentPath.remove(part); // Remove part of path from list (Go to parent path)
                 parentPath = String.join(pathSep, currentPath); // Get current path from parent in sourceObj
                 try {
-                    tmpParent = (Map<String, Object>) jsonTools.getValue(sourceObj, parentPath, pathSep, null);
+                    tmpParent = mapper.convertValue(jsonTools.getValue(sourceObj, parentPath, pathSep, null), new TypeReference<Map<String, Object>>(){});
                 }catch (Exception e){
                     //Uncomment for debug logTools.printError("[DEBUG] It was not possible to parse to map the parent, because it already exists as another type");
                     throw new ToolException(jsonTools.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");

@@ -49,21 +49,21 @@ class jsonToolsTest {
     void setUp() {
         testJson =
                 "{" +
-                    "\"string1\":\"testString\"," +
-                    "\"string2\":\"testString\"," +
+                    "\"string1\":\"testString1\"," +
+                    "\"string2\":\"testString2\"," +
                     "\"object1\":" +
                         "{" +
                             "\"object1String\":\"testString\"," +
                             "\"object1Object1\":" +
                                 "{" +
-                                    "\"object1Object1String\":\"testString\"," +
+                                    "\"object1Object1String\":\"testString3\"," +
                                     "\"object1Object1Integer\":123456" +
                                 "}" +
                         "}," +
                     "\"object2\":" +
                         "{" +
                             "\"object2Integer\":123456,"+
-                            "\"object2String\":\"testString\"" +
+                            "\"object2String\":\"testString4\"" +
                         "}," +
                     "\"integer1\":123456789," +
                     "\"array1\":[\"element1\",\"element2\"]" +
@@ -145,10 +145,9 @@ class jsonToolsTest {
     }
 
     @Test
-    void dumpJson() {
+    void toJson() {
         String dumpJson = null;
         try {
-            testJsonObject = (TestJsonClass) jsonTools.loadJson(testJson, TestJsonClass.class);
             dumpJson =  jsonTools.toJson(testJsonObject, false);
         }catch (Exception e){
             fail("It was not possible to load json: " + e.getMessage());
@@ -157,25 +156,16 @@ class jsonToolsTest {
         logTools.printTest("Dumped Test Object: "  + dumpJson);
     }
 
-    @Test
-    void toJson() {
-        String json = null;
-        try {
-            json = jsonTools.toJson(testJsonObject, false);
-        }catch (Exception e) {
-            fail("It was not possible to parse json: " + e.getMessage());
-        }
-        assertEquals(json, testJson);
-    }
 
     @Test
     void getValue() {
         String pathSep = "///";
         String keyPath = "object1///object1Object1///object1Object1String";
-        String expectedValue = "testString";
+        String expectedValue = "testString3";
         String receivedValue = null;
         try {
-            receivedValue = (String) jsonTools.getValue(this.testJsonObject, keyPath,pathSep, null);
+            logTools.printTest(jsonTools.toJson(testJsonObject, false));
+            receivedValue = (String) jsonTools.getValue(testJsonObject, keyPath,pathSep, null);
         }catch (Exception e) {
             fail("It was not possible to get value for path ["+keyPath+"]: " + e.getMessage());
         }

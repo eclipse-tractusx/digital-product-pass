@@ -20,6 +20,7 @@
       * [Configuration of Environment](#configuration-of-environment)
       * [Adding a new Environment](#adding-a-new-environment)
       * [OSS License Check](#oss-license-check)
+      * [Swagger Docs](#swagger-docs)
   * [License](#license)
 <!-- TOC -->
 
@@ -207,6 +208,16 @@ How to run:
 ```bash
 mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES
 ```
+
+
+## Swagger Docs
+
+Swagger documentation is now automatically available at the following  path:
+
+```https://<host>/swagger-ui/index.html```
+
+![img.png](docs/media/img2.png)
+
 
 ## License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

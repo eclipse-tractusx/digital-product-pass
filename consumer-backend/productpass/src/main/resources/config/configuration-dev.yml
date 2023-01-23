@@ -1,4 +1,4 @@
-logTools:
+LogUtil:
   level: 7 # 7 FOR INFO AND 8 FOR DEBUG
   async: false
 
@@ -20,7 +20,6 @@ passport:
 vault:
   type: 'local'
   file: 'vault.token-dev.yml'
-  #uri: 'https://vault.demo.catena-x.net'
   uri: 'http://localhost:8200'
   pathSep: "."
   prettyPrint: true

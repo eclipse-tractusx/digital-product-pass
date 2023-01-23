@@ -1,5 +1,5 @@
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
-# Version: 0.1.6
+# Version: 0.2.0
 
 ## Table of contents
 <!-- TOC -->
@@ -97,13 +97,6 @@ Get a contract from the catalog searching by assetId
 \api\contracts\<assetId>
 ```
 
-
-#### Contracts
-You can search for contracts using the assetId from the product
-![img.png](docs/media/img.png)
-
-You can also get all the contracts available:
-![img.png](docs/media/img2.png)
 ### Public APIs
 
 Public APIs don't require authentication
@@ -114,7 +107,6 @@ Public APIs don't require authentication
 {
     "message": "RUNNING",
     "status": 200,
-    "statusText": "Success",
     "data": "24/11/2022 17:48:18.487"
 }
 

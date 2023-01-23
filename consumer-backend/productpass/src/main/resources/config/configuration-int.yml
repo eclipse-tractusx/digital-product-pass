@@ -1,4 +1,4 @@
-logTools:
+LogUtil:
   level: 7 # 7 FOR INFO AND 8 FOR DEBUG
   async: false
 

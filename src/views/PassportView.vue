@@ -25,6 +25,10 @@
       />
 
       <Documents section-title="Documents" :documents="data.document" />
+      <ContractInformation
+        section-title="Contract Information"
+        :contract-information="contractInformation"
+      />
     </div>
     <Footer />
   </div>
@@ -38,6 +42,7 @@ import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vu
 import BatteryComposition from "@/components/BatteryComposition.vue";
 import StateOfBattery from "@/components/StateOfBattery.vue";
 import Documents from "@/components/Documents.vue";
+import ContractInformation from "@/components/ContractInformation.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -55,6 +60,7 @@ export default {
     ElectrochemicalProperties,
     BatteryComposition,
     Documents,
+    ContractInformation,
     Footer,
     Spinner,
   },
@@ -65,6 +71,7 @@ export default {
       loading: true,
       errors: [],
       passId: this.$route.params.id,
+      contractInformation: null,
     };
   },
   async created() {
@@ -102,13 +109,15 @@ export default {
         let APIWrapperRequestHeader = {
           "x-api-key": API_KEY,
         };
-        
+
         console.info("Selected asset Id: " + assetId);
         const response = await wrapper.performEDCDataTransfer(
           assetId,
           providerConnector,
           APIWrapperRequestHeader
         );
+        this.contractInformation = providerConnector;
+        console.log("EDCtransferData", response);
         return response;
       } else
         alert(

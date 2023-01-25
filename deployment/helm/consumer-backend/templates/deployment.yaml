@@ -24,23 +24,23 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:          
-            - name: "VUE_APP_CLIENT_ID"
+            - name: "client.id"
               valueFrom:
                 secretKeyRef:
                   key:  clientId
                   name: avp-cx-registry-auth
-            - name: "VUE_APP_CLIENT_SECRET"
+            - name: "client.secret"
               valueFrom:
                 secretKeyRef:
                   key:  clientSecret
                   name: avp-cx-registry-auth
-            - name: "X_API_KEY"
+            - name: "apiKey"
               valueFrom:
                 secretKeyRef:
                   key:  xApiKey
                   name: avp-edc-oauth
           ports:
-            - containerPort: 8080
+            - containerPort: 8888
               name: http
               protocol: TCP
           resources:

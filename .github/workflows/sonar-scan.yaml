@@ -43,7 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd consumer-backend/productpass
-          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
       # cannot scan frontend component in one sonar cloud project where backend is also running, because frontend implemented in different technology
       # - name: Use Node.js ${{ matrix.node-version }}

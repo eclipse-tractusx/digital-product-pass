@@ -33,10 +33,10 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers(
-                "/provider",
-                "/consumer",
-                "/provider_backend",
-                "/consumer_backend"
+                "/provider/*",
+                "/consumer/*",
+                "/provider_backend/*",
+                "/consumer_backend/*"
         );
     }
 }

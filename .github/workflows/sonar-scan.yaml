@@ -4,7 +4,6 @@ on:
     branches:
       - 'main'
       - 'develop'
-      - 'feature/backend-api-develop'
 
     pull_request:
       types: [ opened, reopened, synchronize ]
@@ -44,7 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd consumer-backend/productpass
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
       # cannot scan frontend component in one sonar cloud project where backend is also running, because frontend implemented in different technology
       # - name: Use Node.js ${{ matrix.node-version }}

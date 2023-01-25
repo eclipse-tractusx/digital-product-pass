@@ -25,49 +25,27 @@
 
 package org.eclipse.tractusx.productpass.models.passports;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class PassportV1 extends Passport{
+import java.util.Map;
 
-    @JsonProperty("electrochemicalProperties")
-    JsonNode electrochemicalProperties;
-    @JsonProperty("document")
-    JsonNode document;
 
-    @JsonProperty("datePlacedOnMarket")
-    String datePlacedOnMarket;
+/*
+ * Passport Response given to the consumer with data from the transaction
+ * and the passport
+ */
+public class PassportResponse {
+    @JsonProperty("metadata")
+    Map<String, Object> metadata;
+    @JsonProperty("passport")
+    Passport passport;
 
-    @JsonProperty("cellChemistry")
-    JsonNode cellChemistry;
-    @JsonProperty("physicalDimensions")
-    JsonNode physicalDimensions;
+    public PassportResponse(Map<String, Object> metadata, Passport passport) {
+        this.metadata = metadata;
+        this.passport = passport;
+    }
 
-    @JsonProperty("temperatureRangeIdleState")
-    JsonNode temperatureRangeIdleState;
-    @JsonProperty("batteryCycleLife")
-    JsonNode batteryCycleLife;
-    @JsonProperty("manufacturer")
-    JsonNode manufacturer;
-
-    @JsonProperty("warrantyPeriod")
-    String warrantyPeriod;
-
-    @JsonProperty("composition")
-    JsonNode composition;
-
-    @JsonProperty("manufacturing")
-    JsonNode manufacturing;
-
-    @JsonProperty("batteryIdentification")
-    JsonNode batteryIdentification;
-
-    @JsonProperty("stateOfBattery")
-    JsonNode stateOfBattery;
-
-    @JsonProperty("cO2FootprintTotal")
-    JsonNode cO2FootprintTotal;
-
+    public PassportResponse() {
+    }
 }

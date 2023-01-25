@@ -35,6 +35,8 @@ import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
+import org.eclipse.tractusx.productpass.models.passports.Passport;
+import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.models.passports.PassportV1;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -63,6 +65,9 @@ public class ApiController {
     public static final ConfigUtil configuration = new ConfigUtil();
     public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
     public static final String defaultProviderUrl = (String) configuration.getConfigurationParam("variables.default.providerUrl", ".", null);
+
+    public static final Integer maxRetries = (Integer) configuration.getConfigurationParam("maxRetries", ".", null);
+
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         try {
             Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
@@ -199,13 +204,14 @@ public class ApiController {
             Negotiation negotiation;
             try {
                 negotiation = dataService.doContractNegotiations(contractOffer);
-                if (negotiation.getId() == null) {
-                    response.message = "Negotiation Id not received, something went wrong";
-                    response.status = 400;
-                    return HttpUtil.buildResponse(response, httpResponse);
-                }
             } catch (Exception e) {
                 response.message = "Negotiation Id not received, something went wrong" + " [" + e.getMessage() + "]";
+                response.status = 400;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+
+            if (negotiation.getId() == null) {
+                response.message = "Negotiation Id not received, something went wrong";
                 response.status = 400;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
@@ -240,56 +246,77 @@ public class ApiController {
             );
             /*[7]=========================================*/
             // Initiate the transfer process
-            Transfer transfer = new Transfer();
+            Transfer transfer = null;
             try {
                 transfer = dataService.initiateTransfer(transferRequest);
-                if (transfer.getId() == null) {
-                    response.message = "Transfer Id not received, something went wrong";
-                    response.status = 400;
-                    return HttpUtil.buildResponse(response, httpResponse);
-                }
             } catch (Exception e) {
                 response.message = e.getMessage();
                 response.status = 500;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
-
+            if (transfer.getId() == null) {
+                response.message = "Transfer Id not received, something went wrong";
+                response.status = 400;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
 
 
             /*[8]=========================================*/
             // Check for transfer updates and the status
             try {
                 transfer = dataService.getTransfer(transfer.getId());
-
-                // If error return transfer message
-                if (transfer.getState().equals("ERROR")) {
-                    response.data = transfer;
-                    response.message = "The transfer process failed!";
-                    response.status = 400;
-                    return HttpUtil.buildResponse(response, httpResponse);
-                }
             } catch (Exception e) {
                 response.message = e.getMessage();
                 response.status = 500;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
-            /*[9]=========================================*/
-            // Get passport by versions
-            if (version.equals("v1")) {
-                // Get passport from consumer backend
-                try {
-                    return dataController.getPassport(transferRequest.getId());
-                } catch (Exception e) {
-                    LogUtil.printError("[" + transferRequest.getId() + "] It was not possible to retrieve passport from consumer backend in one step, waiting 5 seconds and retrying...");
-                    Thread.sleep(5000);
-                    return dataController.getPassport(transferRequest.getId());
-                }
+            // If error return transfer message
+            if (transfer.getState().equals("ERROR")) {
+                response.data = transfer;
+                response.message = "The transfer process failed!";
+                response.status = 400;
+                return HttpUtil.buildResponse(response, httpResponse);
             }
 
-            response.message = "Transfer process completed but passport version selected is not supported!";
-            response.status = 403;
+            /*[9]=========================================*/
+            // Get passport by versions
+
+            int actualRetries = 1;
+            while (actualRetries <= maxRetries) {
+                try {
+                    response = dataController.getPassport(transferRequest.getId(), version);
+                } catch (Exception e) {
+                    LogUtil.printError("[" + transferRequest.getId() + "] Waiting 5 seconds and retrying #"+actualRetries+" of "+maxRetries+"... ");
+                    Thread.sleep(5000);
+                }
+                if(response.data!=null){
+                    break;
+                }
+                actualRetries++;
+            }
+
+            // Correct Response
+            if(response.data != null) {
+                Passport passport = (Passport) response.data;
+                Map<String, Object> metadata = Map.of(
+                        "contractOffer", contractOffer,
+                        "negotiation", negotiation,
+                        "transferRequest", transferRequest,
+                        "transfer", transfer
+                );
+                response.data = new PassportResponse(metadata, passport);
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+
+            // Error or Exception response
+            if(response.message == null){
+                response.message = "Passport for transfer [" + transferRequest.getId() + "] not found in provider!";
+                response.status = 404;
+                LogUtil.printError("["+response.status+" Not Found]: "+response.message);
+            }
             return HttpUtil.buildResponse(response, httpResponse);
+
         } catch (InterruptedException e) {
             // Restore interrupted state...
             Thread.currentThread().interrupt();

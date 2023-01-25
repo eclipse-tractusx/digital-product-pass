@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
+import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportV1;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -103,16 +104,24 @@ public class DataController {
             @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportV1.class)))
     })
-    public Response getPassport(@PathVariable("transferId") String transferId) {
+    public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v1") String version) {
         Response response = HttpUtil.getResponse();
-        PassportV1 passportV1 = dataService.getPassportV1(transferId);
-        if (passportV1 == null) {
-            response.message = "Passport for transfer [" + transferId + "] not found!";
-            response.status = 404;
-            response.data = transferId;
+        Passport passport = null;
+        if(version.equals("v1")) {
+            passport = dataService.getPassportV1(transferId);
+        }else{
+            response.message = "Version is not available!";
+            response.status = 400;
+            response.data = null;
             return HttpUtil.buildResponse(response, httpResponse);
         }
-        response.data = passportV1;
+        if (passport == null) {
+            response.message = "Passport for transfer [" + transferId + "] not found!";
+            response.status = 404;
+            response.data = null;
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
+        response.data = passport;
         LogUtil.printMessage("Passport for transfer [" + transferId + "] retrieved successfully!");
         return HttpUtil.buildResponse(response, httpResponse);
     }

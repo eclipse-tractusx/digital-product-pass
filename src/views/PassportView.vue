@@ -1,33 +1,68 @@
+
 <template>
-  <Spinner v-if="loading" class="spinner-container" />
+  <v-container v-if="loading">
+    <v-alert
+      v-if="data.status !== 200"
+      closable
+      type="error"
+      title="Error"
+      :text="data.message"
+    ></v-alert>
+    <v-alert
+      v-if="data.status === 200"
+      type="info"
+      variant="outlined"
+      class="ma-15 pa-10"
+    >
+      <span>
+        Contract ID: {{ data.data.metadata.transferRequest.contractId }}</span
+      >
+    </v-alert>
+    <v-alert
+      v-if="negotiationId"
+      type="info"
+      variant="outlined"
+      class="ma-15 pa-10"
+    >
+      <span>Negotiation ID: {{ data.data.metadata.negotiation.id }}</span>
+    </v-alert>
+    <div class="loading-container">
+      <Spinner class="spinner-container" />
+    </div>
+  </v-container>
   <div v-else>
-    <Header :battery-id="data" />
+    <Header :battery-id="data.data.passport" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data"
+        :general-information="data.data.passport"
       />
       <CellChemistry
         section-title="Cell chemistry"
-        :cell-chemistry="data.cellChemistry"
+        :cell-chemistry="data.data.passport.cellChemistry"
       />
       <ElectrochemicalProperties
         section-title="State of Health"
-        :electrochemical-properties="data.electrochemicalProperties"
+        :electrochemical-properties="
+          data.data.passport.electrochemicalProperties
+        "
       />
       <BatteryComposition
         section-title="Parameters of The Battery"
-        :battery-composition="data.composition"
+        :battery-composition="data.data.passport.composition"
       />
       <StateOfBattery
         section-title="State of Battery"
-        :state-of-battery="data"
+        :state-of-battery="data.data.passport"
       />
 
-      <Documents section-title="Documents" :documents="data.document" />
+      <Documents
+        section-title="Documents"
+        :documents="data.data.passport.document"
+      />
       <ContractInformation
         section-title="Contract Information"
-        :contract-information="contractInformation"
+        :contract-information="data.data.metadata"
       />
     </div>
     <Footer />
@@ -71,7 +106,6 @@ export default {
       loading: true,
       errors: [],
       passId: this.$route.params.id,
-      contractInformation: null,
     };
   },
   async created() {
@@ -117,7 +151,6 @@ export default {
           APIWrapperRequestHeader
         );
         this.contractInformation = providerConnector;
-        console.log("EDCtransferData", response);
         return response;
       } else
         alert(
@@ -129,6 +162,12 @@ export default {
 </script>
 
 <style>
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .pass-container {
   width: 76%;
   margin: 0 12% 0 12%;

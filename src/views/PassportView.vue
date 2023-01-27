@@ -19,7 +19,7 @@
       >
     </v-alert>
     <v-alert
-      v-if="negotiationId"
+      v-if="data.status === 200"
       type="info"
       variant="outlined"
       class="ma-15 pa-10"

@@ -182,20 +182,15 @@ controlplane:
       edc.datasource.contractdefinition.name=contractdefinition
       edc.datasource.contractdefinition.user=<path:material-pass/data/dev/edc/database#user>
       edc.datasource.contractdefinition.url=jdbc:postgresql://consumer-postgresql:5432/edc
-
       edc.datasource.contractnegotiation.name=contractnegotiation
       edc.datasource.contractnegotiation.user=<path:material-pass/data/dev/edc/database#user>
       edc.datasource.contractnegotiation.url=jdbc:postgresql://consumer-postgresql:5432/edc
-
       edc.datasource.policy.name=policy
       edc.datasource.policy.user=<path:material-pass/data/dev/edc/database#user>
       edc.datasource.policy.url=jdbc:postgresql://consumer-postgresql:5432/edc
-
       edc.datasource.transferprocess.name=transferprocess
       edc.datasource.transferprocess.user=<path:material-pass/data/dev/edc/database#user>
       edc.datasource.transferprocess.url=jdbc:postgresql://consumer-postgresql:5432/edc
-
-
       # edc.datasource.default.pool.maxIdleConnections=
       # edc.datasource.default.pool.maxTotalConnections=
       # edc.datasource.default.pool.minIdleConnections=
@@ -207,11 +202,9 @@ controlplane:
       edc.datasource.default.url=jdbc:postgresql://consumer-postgresql:5432/edc
       edc.datasource.default.user=<path:material-pass/data/dev/edc/database#user>
       edc.datasource.default.password=psql_password
-
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
       # edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/provider/api/dataplane/control
-
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
       # edc.events.topic.name=
@@ -223,7 +216,6 @@ controlplane:
       edc.ids.description="Provider Control Plane"
       edc.ids.endpoint=https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids
       edc.ids.endpoint.audience=https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data
-
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=

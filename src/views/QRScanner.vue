@@ -24,6 +24,7 @@
         />
       </div>
       <v-btn
+        :disabled="typedCode === ''"
         rounded="pill"
         color="#0F71CB"
         size="small"
@@ -60,6 +61,7 @@
             />
           </div>
           <v-btn
+            :disabled="typedCode === ''"
             rounded="pill"
             color="#0F71CB"
             size="small"

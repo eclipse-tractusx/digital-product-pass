@@ -1,5 +1,5 @@
 <template v-if="documents">
-  <SectionHeader title="8. Additional information" @click="toggle = !toggle" />
+  <SectionHeader title="6. Additional information" @click="toggle = !toggle" />
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div class="sub-section-container">
       <div v-if="documents.responsibleSourcing" class="field-container">

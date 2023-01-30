@@ -2,14 +2,10 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v1.1
+Version: v1.1 </br>
+Latest Revision Jan 18, 2023
 
-|    | Date | Author |
-| -- | -----| ------ |
-| Created|Jan 10, 2023 | [Mathias Brunkow Moser](C:\display\~mathias.brunkowmoser@cgi.com) |
-| Latest Revision | Jan 18, 2023 | [Muhammad Saud Khan](C:\display\~muhammadsaud.khan@cgi.com)|  
-
-</br></br>
+>Some links might not be accesible as they lead to a private confluence. If you need access please reach out to the dev Team and request what information you need for what reason.
 
 ## Table of Contents
 

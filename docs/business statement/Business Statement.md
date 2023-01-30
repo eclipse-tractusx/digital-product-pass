@@ -1,13 +1,13 @@
 # [MP] Product Passport Application
 
+>Some links might not be accesible as they lead to a private confluence. If you need access please reach out to the dev Team and request what information you need for what reason.
+
 The Product Passport Application enables the user to retrieve detailed information for a given product. The product can be looked up via ID or via a QR Code which is printed on the product.  
 
 This first version of the Product Passport Application is focusing exclusively on the battery:  
 
 *"The Battery Passport is the key instrument to develop a sustainable and circular battery value chain delivering on 10 principles by monitoring the sustainability performance based on data Understandable, Standardized, Accurate, Differentiating, Auditable, Comprehensive and providing the insights to trigger improvement action. The Battery Passport is will be the cornerstone for the Digital Product Passport.
 The Passport itself is defined by the usage of Catena-X shared services, a standardized data model and an application which will enable stakeholders to access the relevant data."*  
-
-Source: [R03 STAN-XX SR Use Case CE - Solution "Digital product passports"](C:\pages\viewpage.action?pageId=55007611)  
 
 ## Persona:
 

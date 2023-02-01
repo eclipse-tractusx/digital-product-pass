@@ -62,10 +62,10 @@ export default class Wrapper {
     });
   }
   // Step 3: Get the contract agreement id to verify if the negotiation is aprroved or declined
-  getAgreementId(uuid, requestHeaders){
+  getAgreementId(uuid, requestHeaders) {
     return new Promise(resolve => {
 
-      setTimeout(()=>{
+      setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
           headers: requestHeaders
         })
@@ -80,12 +80,13 @@ export default class Wrapper {
             alert(e);
             resolve('rejected');
           });
-        ;},5000);
+        ;
+      }, 5000);
 
     });
   }
   // Step 4.1: Initiate data transfer process based on agreement id from previous step
-  initiateTransfer(assetId, requestHeaders, payload){
+  initiateTransfer(assetId, requestHeaders, payload) {
 
     let requestBody = {
       "id": payload.transferProcessId,
@@ -114,7 +115,7 @@ export default class Wrapper {
     });
   }
   // Step 4.2: Verify data transfer status
-  getTransferProcessById(transferId, requestHeaders){
+  getTransferProcessById(transferId, requestHeaders) {
 
     return new Promise(resolve => {
       setTimeout(() => {
@@ -133,11 +134,11 @@ export default class Wrapper {
     });
   }
   // Step 4.3: Query transferred data from consumer backend system
-  getDataFromConsumerBackend(transferProcessId){
+  getDataFromConsumerBackend(transferProcessId) {
 
     return new Promise(resolve => {
 
-      setTimeout(()=>{
+      setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer_backend/${transferProcessId}`, {
           headers: {
             'Accept': 'application/octet-stream'
@@ -151,7 +152,8 @@ export default class Wrapper {
             console.error("getDataFromConsumerBackend -> " + e);
             resolve('rejected');
           });
-        ;}, 5000);
+        ;
+      }, 5000);
     });
   }
 
@@ -186,7 +188,7 @@ export default class Wrapper {
     }
 
     // initiate data transfer
-    let requestBody = {
+    const transferRequest = {
       transferProcessId: Date.now(),
       connectorId: providerConnector.idShort,
       connectorAddress: providerConnector.connectorAddress,
@@ -194,16 +196,29 @@ export default class Wrapper {
       assetId: assetId,
       type: "HttpProxy"
     };
-    let transfer = await this.initiateTransfer(assetId, requestHeaders, requestBody);
+    let transfer = await this.initiateTransfer(assetId, requestHeaders, transferRequest);
     console.log("Transfer Id: " + transfer.id);
 
     let result = null;
     // Check the transfer status repeatedly until it is COMPLETED from consumer side
     while (result == null || result.state != "COMPLETED") {
 
-      result = await this.getTransferProcessById(transfer.id, requestHeaders);
-      console.log("Transfer state:  ", result.type + '_' + result.state);
+      result = await this.getTransferProcessById(transfer.id, requestHeaders[1]);
+      console.log("Transfer state:  ", result.type + '_' + result.state[0]);
     }
-    return await this.getDataFromConsumerBackend(requestBody.transferProcessId);
+
+    const passport = this.getDataFromConsumerBackend(transferRequest.transferProcessId);
+    const response = {
+      "metadata": {
+        "contractOffer": payload.contractOffer,
+        "negotiation":  negotiation,
+        "transferRequest": transferRequest,
+        "transfer": transfer
+      },
+      "passport": passport
+
+    }
+
+    return await response;
   }
 }

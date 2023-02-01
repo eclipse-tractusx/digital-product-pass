@@ -203,22 +203,23 @@ export default class Wrapper {
     // Check the transfer status repeatedly until it is COMPLETED from consumer side
     while (result == null || result.state != "COMPLETED") {
 
-      result = await this.getTransferProcessById(transfer.id, requestHeaders[1]);
+      result = await this.getTransferProcessById(transfer.id, requestHeaders);
       console.log("Transfer state:  ", result.type + '_' + result.state[0]);
     }
 
-    const passport = this.getDataFromConsumerBackend(transferRequest.transferProcessId);
-    const response = {
-      "metadata": {
-        "contractOffer": payload.contractOffer,
-        "negotiation":  negotiation,
-        "transferRequest": transferRequest,
-        "transfer": transfer
-      },
-      "passport": passport
+    const passport = await this.getDataFromConsumerBackend(transferRequest.transferProcessId);
+    const responseData = {
+      "data":{
+        "metadata": {
+          "contractOffer": payload.contractOffer,
+          "negotiation":  negotiation,
+          "transferRequest": transferRequest,
+          "transfer": transfer
+        },
+        "passport": passport
+      }
+    };
 
-    }
-
-    return await response;
+    return responseData;
   }
 }

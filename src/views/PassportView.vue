@@ -1,30 +1,44 @@
+
 <template>
-  <Spinner v-if="loading" class="spinner-container" />
+  <v-container v-if="loading">
+    <div class="loading-container">
+      <Spinner class="spinner-container" />
+    </div>
+  </v-container>
   <div v-else>
-    <Header :battery-id="data" />
+    <Header :battery-id="data.data.passport" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data"
+        :general-information="data.data.passport"
       />
       <CellChemistry
         section-title="Cell chemistry"
-        :cell-chemistry="data.cellChemistry"
+        :cell-chemistry="data.data.passport.cellChemistry"
       />
       <ElectrochemicalProperties
         section-title="State of Health"
-        :electrochemical-properties="data.electrochemicalProperties"
+        :electrochemical-properties="
+          data.data.passport.electrochemicalProperties
+        "
       />
       <BatteryComposition
         section-title="Parameters of The Battery"
-        :battery-composition="data.composition"
+        :battery-composition="data.data.passport.composition"
       />
       <StateOfBattery
         section-title="State of Battery"
-        :state-of-battery="data"
+        :state-of-battery="data.data.passport"
       />
 
-      <Documents section-title="Documents" :documents="data.document" />
+      <Documents
+        section-title="Documents"
+        :documents="data.data.passport.document"
+      />
+      <ContractInformation
+        section-title="Contract Information"
+        :contract-information="data.data.metadata"
+      />
     </div>
     <Footer />
   </div>
@@ -38,6 +52,7 @@ import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vu
 import BatteryComposition from "@/components/BatteryComposition.vue";
 import StateOfBattery from "@/components/StateOfBattery.vue";
 import Documents from "@/components/Documents.vue";
+import ContractInformation from "@/components/ContractInformation.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -55,6 +70,7 @@ export default {
     ElectrochemicalProperties,
     BatteryComposition,
     Documents,
+    ContractInformation,
     Footer,
     Spinner,
   },
@@ -80,7 +96,6 @@ export default {
       let AASRequestHeader = {
         Authorization: "Bearer " + accessToken,
       };
-
       const shellId = await aas.getAasShellId(
         JSON.stringify(assetIdJson),
         AASRequestHeader
@@ -102,24 +117,30 @@ export default {
         let APIWrapperRequestHeader = {
           "x-api-key": API_KEY,
         };
-        
         console.info("Selected asset Id: " + assetId);
         const response = await wrapper.performEDCDataTransfer(
           assetId,
           providerConnector,
           APIWrapperRequestHeader
         );
+        this.contractInformation = providerConnector;
         return response;
-      } else
+      } else{
         alert(
           "There is no connector endpoint defined in submodel.. Could not proceed further!"
         );
+      }
     },
   },
 };
 </script>
 
 <style>
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .pass-container {
   width: 76%;
   margin: 0 12% 0 12%;

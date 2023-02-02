@@ -468,8 +468,8 @@ p {
   }
   .qr-frame {
     position: absolute;
-    top: 85%!important;
-    left: 63%!important;
+    top: 75%!important;
+    left: 50%!important;
     transform: translate(-50%, -50%);
     z-index: 10;
   }

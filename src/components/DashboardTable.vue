@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/X123456789012X12345678901234566" data-cy="passport-link">
+  <router-link to="/NCR186850B" data-cy="passport-link">
     <v-table hover class="table">
       <thead>
         <tr class="header">

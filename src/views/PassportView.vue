@@ -9,24 +9,24 @@
     <div class="loading-container d-flex align-items-center w-100 h-100">
       <Alert class="w-100" :description="errorObj.description" :title="errorObj.title" :type="errorObj.type" icon="mdi-alert-circle-outline" :closable="false" variant="outlined">
         
-          <div class="d-flex flex-row align-center justify-space-between mt-3">
-            <div>
+          <v-row class="justify-space-between mt-3">
+            <v-col class="v-col-auto">
               Click in the <strong>"return"</strong> button to go back to the search field
-            </div>
-
-            <v-btn
-                style="color:white!important"
-                rounded="pill"
-                color="#0F71CB"
-                size="large"
-                class="submit-btn"
-                @click="$router.go(-1)"
-            >
-            <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-            Return
-        
-        </v-btn>
-          </div>
+            </v-col>
+            <v-col class="v-col-auto">
+                <v-btn
+                    style="color:white!important"
+                    rounded="pill"
+                    color="#0F71CB"
+                    size="large"
+                    class="submit-btn"
+                    @click="$router.go(-1)"
+                >
+                <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
+                Return
+              </v-btn>
+            </v-col>
+          </v-row>
       </Alert>
     </div>
   </v-container>

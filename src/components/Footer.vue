@@ -82,4 +82,13 @@ a {
   line-height: 60px;
   min-height: 60px;
 }
+
+@media(max-width: 740px){
+  
+.links {
+  padding-top: 20px;
+  display: initial;
+}
+}
+
 </style>

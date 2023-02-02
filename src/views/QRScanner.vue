@@ -238,7 +238,7 @@ export default {
   font-size: 2rem;
   text-align: center;
 }
-.qr-frame[data-v-08150d73] {
+.qr-frame {
     position: absolute;
     top: 60%;
     left: 43%;

@@ -1,78 +1,78 @@
 <template>
-  <div v-if="!error" class="switch-container">
-    <div>
-      <v-switch
-        v-model="QRtoggle"
-        color="#0F71CB"
-        label="Camera switch"
-      ></v-switch>
-    </div>
-  </div>
-  <div v-if="error" class="qr-container">
-    <div class="text-container">
-      <p class="text">Your camera is off.</p>
-      <p class="text">Turn it on or type the ID.</p>
-      <p class="error">{{ error }}</p>
-    </div>
-    <v-form class="form">
-      <div class="input-form">
-        <input
-          v-model="typedCode"
-          class="input"
-          type="text"
-          placeholder="Type ID"
-        />
+    <div v-if="!error" class="switch-container">
+      <div>
+        <v-switch
+          v-model="QRtoggle"
+          color="#0F71CB"
+          label="Camera switch"
+        ></v-switch>
       </div>
-      <v-btn
-        rounded="pill"
-        color="#0F71CB"
-        size="small"
-        class="submit-btn"
-        @click="onClick"
-      >
-        Search
-        <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-      </v-btn>
-    </v-form>
-  </div>
-  <div class="qr-container" data-cy="qr-container">
-    <router-link to="/dashboard"> </router-link>
-    <div v-if="!error">
-      <div v-if="QRtoggle">
-        <div class="qr-frame">
-          <img :src="QRFrame" alt="frame" class="frame" />
+    </div>
+    <div v-if="error" class="qr-container">
+      <div class="text-container">
+        <p class="text">Your camera is off.</p>
+        <p class="text">Turn it on or type the ID.</p>
+        <p class="error">{{ error }}</p>
+      </div>
+      <v-form class="form">
+        <div class="input-form">
+          <input
+            v-model="typedCode"
+            class="input"
+            type="text"
+            placeholder="Type ID"
+          />
         </div>
-        <qrcode-stream
-          :torch="torch"
-          class="qrcode-stream"
-          @init="onInit"
-          @decode="onDecode"
-        ></qrcode-stream>
-      </div>
-      <div v-else class="qr-container">
-        <v-form class="form">
-          <div class="input-form">
-            <input
-              v-model="typedCode"
-              class="input"
-              type="text"
-              placeholder="Type ID"
-            />
+        <v-btn
+          rounded="pill"
+          color="#0F71CB"
+          size="small"
+          class="submit-btn"
+          @click="onClick"
+        >
+          Search
+          <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+        </v-btn>
+      </v-form>
+    </div>
+    <div class="qr-container" data-cy="qr-container">
+      <router-link to="/dashboard"> </router-link>
+      <div v-if="!error">
+        <div v-if="QRtoggle">
+          <div class="qr-frame">
+            <img :src="QRFrame" alt="frame" class="frame" />
           </div>
-          <v-btn
-            rounded="pill"
-            color="#0F71CB"
-            size="small"
-            class="submit-btn"
-            @click="onClick"
-          >
-            Search
-            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-          </v-btn>
-        </v-form>
+          <qrcode-stream
+            :torch="torch"
+            class="qrcode-stream"
+            @init="onInit"
+            @decode="onDecode"
+          ></qrcode-stream>
+        </div>
+        <div v-else class="qr-container">
+          <v-form class="form">
+            <div class="input-form">
+              <input
+                v-model="typedCode"
+                class="input"
+                type="text"
+                placeholder="Type ID"
+              />
+            </div>
+            <v-btn
+              rounded="pill"
+              color="#0F71CB"
+              size="small"
+              class="submit-btn"
+              @click="onClick"
+            >
+              Search
+              <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+            </v-btn>
+          </v-form>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -183,7 +183,7 @@ export default {
 .switch-container {
   display: flex;
   justify-content: flex-end;
-  margin: 150px 0 0 0;
+  margin: 14em 0 0 0;
 }
 
 .error {
@@ -238,14 +238,14 @@ export default {
   font-size: 2rem;
   text-align: center;
 }
-.qr-frame {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
-  z-index: 10;
+.qr-frame[data-v-08150d73] {
+    position: absolute;
+    top: 60%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    z-index: 10;
 }
 
 .top-layer {
@@ -269,7 +269,6 @@ export default {
   padding: 17px;
   background: linear-gradient(to right, #f8b500, #f88000);
   border-radius: 35px;
-  width: 600px;
 }
 .input {
   width: 560px;
@@ -385,6 +384,17 @@ p {
 .close {
   padding-left: 20px;
 }
+@media (max-width: 1024px) {
+.qr-frame{
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    z-index: 10;
+}
+}
 
 @media (max-width: 856px) {
   .right-manu-wrapper {
@@ -402,7 +412,13 @@ p {
     width: 250px;
     height: 250px;
   }
-
+  .qr-frame {
+      position: absolute!important;
+      top: 70%!important;
+      left: 50%!important;
+      transform: translate(-50%, -50%)!important;
+      z-index: 10!important;
+  }
   .input {
     position: relative;
     width: 50vw;
@@ -420,6 +436,13 @@ p {
   .close {
     padding: 0;
   }
+  .qr-frame {
+    position: absolute!important;
+    top: 72%!important;
+    left: 50%!important;
+    transform: translate(-50%, -50%)!important;
+    z-index: 10!important;
+}
 
   .frame {
     width: 150px;
@@ -429,6 +452,7 @@ p {
     width: 150px;
     height: 150px;
   }
+  
 
   h2 {
     font-size: 16px;
@@ -442,7 +466,14 @@ p {
   .header-container {
     height: 90px;
   }
-
+  .qr-frame {
+    position: absolute;
+    top: 85%!important;
+    left: 63%!important;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+  
   h2 {
     font-size: 16px;
   }
@@ -466,12 +497,6 @@ p {
 }
 
 @media (max-width: 375px) {
-  .qr-container {
-    position: relative;
-    height: 80vh;
-    overflow: hidden;
-  }
-
   .right-manu-wrapper {
     display: none;
   }

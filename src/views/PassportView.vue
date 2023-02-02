@@ -1,30 +1,69 @@
+
 <template>
-  <Spinner v-if="loading" class="spinner-container" />
+  <v-container v-if="loading">
+    <div class="loading-container">
+      <Spinner class="spinner-container" />
+    </div>
+  </v-container>
+  <v-container v-else-if="error" class="h-100 w-100">
+    <div class="loading-container d-flex align-items-center w-100 h-100">
+      <Alert class="w-100" :description="errorObj.description" :title="errorObj.title" :type="errorObj.type" icon="mdi-alert-circle-outline" :closable="false" variant="outlined">
+        
+          <v-row class="justify-space-between mt-3">
+            <v-col class="v-col-auto">
+              Click in the <strong>"return"</strong> button to go back to the search field
+            </v-col>
+            <v-col class="v-col-auto">
+                <v-btn
+                    style="color:white!important"
+                    rounded="pill"
+                    color="#0F71CB"
+                    size="large"
+                    class="submit-btn"
+                    @click="$router.go(-1)"
+                >
+                <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
+                Return
+              </v-btn>
+            </v-col>
+          </v-row>
+      </Alert>
+    </div>
+  </v-container>
   <div v-else>
-    <Header :battery-id="data" />
+    <Header :battery-id="data.data.passport" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data"
+        :general-information="data.data.passport"
       />
       <CellChemistry
         section-title="Cell chemistry"
-        :cell-chemistry="data.cellChemistry"
+        :cell-chemistry="data.data.passport.cellChemistry"
       />
       <ElectrochemicalProperties
         section-title="State of Health"
-        :electrochemical-properties="data.electrochemicalProperties"
+        :electrochemical-properties="
+          data.data.passport.electrochemicalProperties
+        "
       />
       <BatteryComposition
         section-title="Parameters of The Battery"
-        :battery-composition="data.composition"
+        :battery-composition="data.data.passport.composition"
       />
       <StateOfBattery
         section-title="State of Battery"
-        :state-of-battery="data"
+        :state-of-battery="data.data.passport"
       />
 
-      <Documents section-title="Documents" :documents="data.document" />
+      <Documents
+        section-title="Documents"
+        :documents="data.data.passport.document"
+      />
+      <ContractInformation
+        section-title="Contract Information"
+        :contract-information="data.data.metadata"
+      />
     </div>
     <Footer />
   </div>
@@ -38,8 +77,10 @@ import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vu
 import BatteryComposition from "@/components/BatteryComposition.vue";
 import StateOfBattery from "@/components/StateOfBattery.vue";
 import Documents from "@/components/Documents.vue";
+import ContractInformation from "@/components/ContractInformation.vue";
 import Spinner from "@/components/Spinner.vue";
 import Header from "@/components/Header.vue";
+import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/Footer.vue";
 import { API_KEY } from "@/services/service.const";
 import apiWrapper from "@/services/Wrapper";
@@ -55,8 +96,10 @@ export default {
     ElectrochemicalProperties,
     BatteryComposition,
     Documents,
+    ContractInformation,
     Footer,
     Spinner,
+    Alert,
   },
   data() {
     return {
@@ -65,6 +108,12 @@ export default {
       loading: true,
       errors: [],
       passId: this.$route.params.id,
+      error:false,
+      errorObj: {
+        "title": "",
+        "description": "",
+        "type": "error"
+      }
     };
   },
   async created() {
@@ -80,46 +129,80 @@ export default {
       let AASRequestHeader = {
         Authorization: "Bearer " + accessToken,
       };
+      var shellId,shellDescriptor,subModel = null;
 
-      const shellId = await aas.getAasShellId(
-        JSON.stringify(assetIdJson),
-        AASRequestHeader
-      );
-      const shellDescriptor = await aas.getShellDescriptor(
-        shellId[0],
-        AASRequestHeader
-      );
-      const subModel = await aas.getSubmodelDescriptor(
-        shellDescriptor,
-        AASRequestHeader
-      );
-      if (subModel.endpoints.length > 0) {
-        let providerConnector = {
-          connectorAddress:
-            subModel.endpoints[0].protocolInformation.endpointAddress,
-          idShort: subModel.idShort,
-        };
-        let APIWrapperRequestHeader = {
-          "x-api-key": API_KEY,
-        };
-        
-        console.info("Selected asset Id: " + assetId);
-        const response = await wrapper.performEDCDataTransfer(
+      try{
+        shellId = await aas.getAasShellId(
+          JSON.stringify(assetIdJson),
+          AASRequestHeader
+        );
+        shellDescriptor = await aas.getShellDescriptor(
+          shellId[0],
+          AASRequestHeader
+        );
+        subModel = await aas.getSubmodelDescriptor(
+          shellDescriptor,
+          AASRequestHeader
+        );
+      }catch(e){
+        this.loading = false;
+        this.error = true;
+        this.errorObj.title = "We are sorry, the searched ID was not found!";
+        this.errorObj.description = "It was not possible to find the searched ID ["+this.passId+"] in the Digital Twin Registry";
+        return null;
+      }
+      if (subModel.endpoints.length < 0){
+        this.loading = false;
+        this.error = true;
+        this.errorObj.title = "We are sorry, the searched ID was not found!";
+        this.errorObj.description = "It was not possible to find the searched ID ["+this.passId+"] in the Digital Twin Registry, it might not be registered";
+        return null;
+      }
+      let providerConnector = {
+        connectorAddress:
+          subModel.endpoints[0].protocolInformation.endpointAddress,
+        idShort: subModel.idShort,
+      };
+      let APIWrapperRequestHeader = {
+        "x-api-key": API_KEY,
+      };
+      console.info("Selected asset Id: " + assetId);
+      var response = null;
+      try{
+        response = await wrapper.performEDCDataTransfer(
           assetId,
           providerConnector,
           APIWrapperRequestHeader
         );
-        return response;
-      } else
-        alert(
-          "There is no connector endpoint defined in submodel.. Could not proceed further!"
-        );
+      }catch(e){
+        this.loading = false;
+        this.error = true;
+        this.errorObj.title = "Failed to return passport";
+        this.errorObj.description = "It was not possible to transfer the passport.";
+        return null;
+      };
+
+      if(response.data.passport==null || typeof response.data.passport != "object" || response.data.passport.errors != null){
+        this.loading = false;
+        this.error = true;
+        this.errorObj.title = "Failed to return passport";
+        this.errorObj.description = "It was not possible to complete the passport transfer.";
+        return null;
+      }
+      this.contractInformation = providerConnector;
+      return response;
     },
   },
 };
 </script>
 
 <style>
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .pass-container {
   width: 76%;
   margin: 0 12% 0 12%;

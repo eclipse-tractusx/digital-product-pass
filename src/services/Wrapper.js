@@ -204,7 +204,7 @@ export default class Wrapper {
     while (result == null || result.state != "COMPLETED") {
 
       result = await this.getTransferProcessById(transfer.id, requestHeaders);
-      console.log("Transfer state:  ", result.type + '_' + result.state[0]);
+      console.log("Transfer state:  ", result.type + '_' + result.state);
     }
 
     const passport = await this.getDataFromConsumerBackend(transferRequest.transferProcessId);

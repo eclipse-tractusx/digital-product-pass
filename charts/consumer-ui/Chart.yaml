@@ -1,6 +1,6 @@
 apiVersion: v2
 name: consumer-ui
-description: A Helm chart for Kubernetes
+description: Consumer Frontend Helm Deployment for the Product Passport Application
 
 # A chart can be either an 'application' or a 'library' chart.
 #

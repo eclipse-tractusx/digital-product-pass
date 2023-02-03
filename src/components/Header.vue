@@ -1,16 +1,20 @@
 <template>
   <div>
     <div class="header-container">
-      <div class="logo-container">
-        <router-link to="/">
-          <img :src="CatenaLogo" alt="logo" class="logo" />
-        </router-link>
-      </div>
-      <v-container class="tabs">
-        <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''">
-          <v-tab value="one" data-cy="history-tab">History page</v-tab>
-          <v-tab value="two" data-cy="QR-scanner-tab">QR code scanner</v-tab>
-        </v-tabs>
+      <v-container>
+      <v-row class="d-flex justify-content-between">
+        <v-col class="v-col-auto logo-container">
+          <router-link to="/">
+            <img :src="CatenaLogo" alt="logo" class="logo" />
+          </router-link>
+        </v-col>
+        <v-col class="tabs">
+          <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''" show-arrows>
+            <v-tab value="one" data-cy="history-tab">History page</v-tab>
+            <v-tab value="two" data-cy="QR-scanner-tab">QR code scanner</v-tab>
+          </v-tabs>
+        </v-col>
+      </v-row>
       </v-container>
       <div class="right-manu-wrapper">
         <div class="right-menu-container">
@@ -30,8 +34,8 @@
                   <p class="role">{{ role }}</p>
                 </span>
               </div>
-              <div class="menu-btn">
-                <span class="profile-text" @click="logout">Logout</span>
+              <div class="menu-btn" @click="logout">
+                <span class="profile-text">Logout</span>
               </div>
             </v-list>
           </v-menu>
@@ -64,21 +68,7 @@
       <div
         v-if="
           batteryId.batteryIdentification.batteryIDDMCCode ==
-          'X123456789012X12345678901234566'
-        "
-        class="code-container"
-      >
-        <img
-          :src="X123456789012X12345678901234566"
-          alt="profile"
-          class="code"
-          width="170"
-          height="170"
-        />
-      </div>
-      <div
-        v-else-if="
-          batteryId.batteryIdentification.batteryIDDMCCode == 'NCR186850B'
+          'NCR186850B'
         "
         class="code-container"
       >
@@ -116,7 +106,6 @@ import Settings from "../assets/settings.svg";
 import QRScannerIcon from "../assets/qr-icon.svg";
 import QrCode from "../assets/BMW_test-battery-1.svg";
 import IMR18650V1 from "../assets/IMR18650V1.svg";
-import X123456789012X12345678901234566 from "../assets/X123456789012X12345678901234566.svg";
 import NCR186850B from "../assets/NCR186850B.svg";
 import QRScanner from "../views/QRScanner.vue";
 import BatteryPassport from "../components/BatteryPassport.vue";
@@ -149,7 +138,6 @@ export default {
       Settings,
       QrCode,
       IMR18650V1,
-      X123456789012X12345678901234566,
       NCR186850B,
       Logout,
     };

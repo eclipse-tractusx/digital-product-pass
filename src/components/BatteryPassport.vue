@@ -179,8 +179,8 @@ export default {
 }
 
 .dashboard-container {
-  width: 64%;
-  margin: 12em 18% 70px 18%;
+  width: 70%;
+  margin: 14em 15% 70px 15%
 }
 
 .titles-container {

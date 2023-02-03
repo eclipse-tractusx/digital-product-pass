@@ -3,16 +3,16 @@
   <div class="section-content" :class="[toggle ? 'hidden' : '']">
     <div v-if="contractInformation" class="sub-section-container">
       <Field
-        label="contract ID"
-        :value="contractInformation.transferRequest.contractId"
+        label="Contract ID"
+        :value="contractInformation.negotiation.id"
       />
       <Field
-        label="Contract agreement ID"
-        :value="contractInformation.negotiation.contractAgreementId"
+        label="Contract Agreement ID"
+        :value="contractInformation.transferRequest.contractAgreementId"
       />
       <Field
-        label="Contract agreement ID"
-        :value="contractInformation.contractOffer.offerId"
+        label="Transfer Process ID"
+        :value="contractInformation.transferRequest.transferProcessId"
       />
     </div>
   </div>
@@ -21,7 +21,6 @@
 <script>
 import SectionHeader from "./SectionHeader.vue";
 import Field from "./Field.vue";
-
 export default {
   name: "ContractInformation",
   components: {
@@ -39,7 +38,6 @@ export default {
       default: Object,
     },
   },
-
   data() {
     return {
       toggle: false,
@@ -52,17 +50,14 @@ export default {
 .full-width {
   width: 100% !important;
 }
-
 .sub-section-container {
   display: flex;
   flex-wrap: wrap;
   border-bottom: solid 1px #edefe5;
 }
-
 .two-third-width {
   width: 66% !important;
 }
-
 .section-content {
   width: 100%;
   border: solid 1px #b3cb2d;
@@ -70,24 +65,19 @@ export default {
   background-color: #fff;
   margin-bottom: 50px;
 }
-
 .hidden {
   display: none;
 }
-
 .longer {
   padding-bottom: 50px;
 }
-
 @media (max-width: 750px) {
   .section-content {
     border: none;
   }
-
   .section-content {
     margin-bottom: 0;
   }
-
   .longer {
     padding-bottom: 0;
   }

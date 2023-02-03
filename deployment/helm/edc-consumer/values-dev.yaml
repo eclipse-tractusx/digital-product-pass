@@ -288,11 +288,11 @@ controlplane:
       # edc.negotiation.consumer.state-machine.batch-size=
       # edc.negotiation.provider.state-machine.batch-size=
       edc.oauth.client.id=<path:material-pass/data/dev/edc/oauth#client.id>
-      edc.oauth.private.key.alias=ids-daps_key
+      edc.oauth.private.key.alias=daps-key-dev
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       # edc.oauth.provider.jwks.refresh=
       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-      edc.oauth.public.key.alias=ids-daps_crt
+      edc.oauth.public.key.alias=daps-crt-dev
       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
@@ -300,8 +300,8 @@ controlplane:
       edc.receiver.http.endpoint=http://materialpass-edc-backend
       edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/api/public
       # edc.transfer.proxy.token.validity.seconds=
-      edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
-      edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt
+      edc.transfer.proxy.token.signer.privatekey.alias=daps-key-dev
+      edc.transfer.proxy.token.verifier.publickey.alias=daps-crt-dev
       # edc.transfer.functions.check.endpoint=
       # edc.transfer.functions.enabled.protocols=
       # edc.transfer.functions.transfer.endpoint=

@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: 'Catena-X Product Passport Consumer Backend'
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
+  jackson:
+    serialization:
+      indent_output: true
+
+keycloak:
+  realm: CX-Central
+  resource: Cl13-CX-Battery
+  #auth-server-url: http://localhost:8088/auth
+  auth-server-url: https://centralidp.int.demo.catena-x.net/auth
+  ssl-required: external
+  public-client: true
+  use-resource-role-mappings: true
+  securityConstraints:
+
+    - authRoles: ['Recycler', 'OEM', 'Dismantler']
+      securityCollections:
+        - name: 'Common Auth'
+          patterns: [
+            '/api/*',
+            '/auth/login',
+            '/auth/token'
+          ]
+server:
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-stacktrace: ON_PARAM
+    include-exception: false
+  port: 8888
+  tomcat:
+    max-connections: 10000
+
+

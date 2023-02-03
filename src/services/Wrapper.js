@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SERVER_URL } from "@/services/service.const";
+import { SERVER_URL, BACKEND } from "@/services/service.const";
 import axios from "axios";
 
 export default class Wrapper {
@@ -172,70 +172,94 @@ export default class Wrapper {
       }, 5000);
     });
   }
+  async getPassportV1(assetId){
+    return new Promise(resolve => {
 
-  async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    let contractId = "";
-    let data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
-
-    // Contarct catalog returns array of contract offers, select one that matches assetId //
-    let contractOffer = data.contractOffers.filter(offer => {
-      return offer.asset.id.includes(assetId);
+      setTimeout(() => {
+        axios.get(`${SERVER_URL}/api/passport/v1/${assetId}`, {
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+          .then((response) => {
+            console.log(response.data);
+            resolve(response.data);
+          })
+          .catch((e) => {
+            console.error("getPassportV1 -> " + e);
+            resolve('rejected');
+          });
+        ;
+      }, 5000);
     });
+  }
+  async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
+    if(BACKEND == true){
+      return await this.getPassportV1(assetId);
+    }else{
+      let contractId = "";
+      let data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
 
-    // Contract negotiation request parameters //
-    let payload = {
-      connectorAddress: providerConnector.connectorAddress,
-      connectorId: providerConnector.idShort,
-      contractOffer: contractOffer[0]
-    };
-    console.log(payload);
-    let negotiation = await this.doContractNegotiation(payload, requestHeaders);
-    console.log("Negotiation ID: " + negotiation.id);
+      // Contarct catalog returns array of contract offers, select one that matches assetId //
+      let contractOffer = data.contractOffers.filter(offer => {
+        return offer.asset.id.includes(assetId);
+      });
+
+      // Contract negotiation request parameters //
+      let payload = {
+        connectorAddress: providerConnector.connectorAddress,
+        connectorId: providerConnector.idShort,
+        contractOffer: contractOffer[0]
+      };
+      console.log(payload);
+      let negotiation = await this.doContractNegotiation(payload, requestHeaders);
+      console.log("Negotiation ID: " + negotiation.id);
 
 
-    // Check agreement status //
-    // Status: INITIAL, REQUESTED, CONFIRMED
-    let response = null;
-    // Check the agreement status until it is of status CONFIRMED
-    while (response == null || response.state != "CONFIRMED") {
-      response = await this.getAgreementId(negotiation.id, requestHeaders);
-      console.log("Agreement state:  ", response.state + '_' + response.contractAgreementId);
-      contractId = response.contractAgreementId;
-    }
-
-    // initiate data transfer
-    const transferRequest = {
-      transferProcessId: Date.now(),
-      connectorId: providerConnector.idShort,
-      connectorAddress: providerConnector.connectorAddress,
-      contractAgreementId: contractId,
-      assetId: assetId,
-      type: "HttpProxy"
-    };
-    let transfer = await this.initiateTransfer(assetId, requestHeaders, transferRequest);
-    console.log("Transfer Id: " + transfer.id);
-
-    let result = null;
-    // Check the transfer status repeatedly until it is COMPLETED from consumer side
-    while (result == null || result.state != "COMPLETED") {
-
-      result = await this.getTransferProcessById(transfer.id, requestHeaders);
-      console.log("Transfer state:  ", result.type + '_' + result.state);
-    }
-
-    const passport = await this.getDataFromConsumerBackend(transferRequest.transferProcessId);
-    const responseData = {
-      "data":{
-        "metadata": {
-          "contractOffer": payload.contractOffer,
-          "negotiation":  negotiation,
-          "transferRequest": transferRequest,
-          "transfer": transfer
-        },
-        "passport": passport
+      // Check agreement status //
+      // Status: INITIAL, REQUESTED, CONFIRMED
+      let response = null;
+      // Check the agreement status until it is of status CONFIRMED
+      while (response == null || response.state != "CONFIRMED") {
+        response = await this.getAgreementId(negotiation.id, requestHeaders);
+        console.log("Agreement state:  ", response.state + '_' + response.contractAgreementId);
+        contractId = response.contractAgreementId;
       }
-    };
 
-    return responseData;
+      // initiate data transfer
+      const transferRequest = {
+        transferProcessId: Date.now(),
+        connectorId: providerConnector.idShort,
+        connectorAddress: providerConnector.connectorAddress,
+        contractAgreementId: contractId,
+        assetId: assetId,
+        type: "HttpProxy"
+      };
+      let transfer = await this.initiateTransfer(assetId, requestHeaders, transferRequest);
+      console.log("Transfer Id: " + transfer.id);
+
+      let result = null;
+      // Check the transfer status repeatedly until it is COMPLETED from consumer side
+      while (result == null || result.state != "COMPLETED") {
+
+        result = await this.getTransferProcessById(transfer.id, requestHeaders);
+        console.log("Transfer state:  ", result.type + '_' + result.state);
+      }
+      
+      const passport = await this.getDataFromConsumerBackend(transferRequest.transferProcessId);
+      const responseData = {
+        "data":{
+          "metadata": {
+            "contractOffer": payload.contractOffer,
+            "negotiation":  negotiation,
+            "transferRequest": transferRequest,
+            "transfer": transfer
+          },
+          "passport": passport
+        }
+      };
+
+      return responseData;
+    }
   }
 }

@@ -75,7 +75,7 @@ export default class Authentication {
       return JSON.parse(window.atob(this.keycloak.token.split(".")[1]));
     }
     getUserName() {
-      return this.decodeAccessToken().preferred_username;
+      return this.decodeAccessToken().email;
     }
     getSessionId() {
       return this.keycloak.sessionId;

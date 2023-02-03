@@ -46,7 +46,7 @@
             <v-list class="dropdown" rounded="xl">
               <div class="profile-menu-header">
                 <span>
-                  {{ username }}
+                  {{ email }}
                   <p class="role">{{ role }}</p>
                 </span>
               </div>
@@ -164,7 +164,7 @@ export default {
       profileHover: false,
       hamburgerMenu: false,
       profileMenu: false,
-      username: "",
+      email: "",
       role: "",
       auth: inject("authentication"),
       tab: null,
@@ -172,10 +172,9 @@ export default {
   },
   mounted() {
     if (this.auth.isUserAuthenticated) {
-      this.username = this.auth.getUserName();
+      this.email = this.auth.getUserName();
       this.role = this.auth.getRole();
     }
-    console.log("user hello", this.username);
   },
   methods: {
     logout() {

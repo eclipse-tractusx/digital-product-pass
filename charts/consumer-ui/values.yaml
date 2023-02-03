@@ -38,6 +38,7 @@ ingress:
 
 avp:
   helm:
+    backend: false
     clientId: "Add your secret here"
     clientSecret: "Add your secret here"
     xApiKey: "Add your secret here"
@@ -59,3 +60,4 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+

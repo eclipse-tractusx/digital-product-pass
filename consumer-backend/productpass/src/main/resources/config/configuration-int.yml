@@ -1,0 +1,33 @@
+LogUtil:
+  level: 7 # 7 FOR INFO AND 8 FOR DEBUG
+  async: false
+
+maxRetries: 5
+
+keycloak:
+  tokenUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+
+variables:
+  default:
+    providerUrl: 'https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data'
+    serverUrl: 'https://materialpass.int.demo.catena-x.net'
+    registryUrl: 'https://semantics.int.demo.catena-x.net'
+
+passport:
+  versions:
+    - 'v1'
+
+vault:
+  type: 'local'
+  file: 'vault.token-int.yml'
+  #uri: 'https://vault.demo.catena-x.net'
+  uri: 'http://localhost:8200'
+  pathSep: "."
+  prettyPrint: true
+  indent: 2
+  defaultValue: '<Add secret value here>'
+  attributes:
+    - "token"
+    - "client.id"
+    - "client.secret"
+    - "apiKey"

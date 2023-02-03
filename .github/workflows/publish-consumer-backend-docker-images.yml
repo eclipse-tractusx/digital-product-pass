@@ -1,4 +1,18 @@
-name: "Publish docker images"
+# Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "Publish Consumer Backend Docker Images"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -15,9 +29,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  CONSUMER_UI_IMAGE_NAME: "consumer-ui"
-  CONSUMER_BACKEND_IMAGE_NAME: "product-pass-consumer-backend"
-  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_NAME: "product-pass-consumer-backend"
   JAVA_VERSION: 17
     
 jobs:
@@ -31,6 +43,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+
+
       # Login against a Docker registry
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -39,15 +65,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Build and push Docker image with Buildx
-      # https://github.com/docker/build-push-action
-      - name: Build and push frontend
-        id: build-and-push-frontend
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_UI_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - uses: actions/setup-java@v3
         with:
@@ -65,4 +82,5 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

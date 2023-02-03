@@ -1,4 +1,20 @@
+/**
+ * Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+const VERSION = "APP_VER";
 const TWIN_REGISTRY_URL = "http://localhost:4243";
 const AAS_PROXY_URL = "http://localhost:4245";
 const MOCK_AUTH_URL = "https://mock--server.herokuapp.com";
@@ -13,6 +29,7 @@ const IDP_URL_DEV = "https://centralidp.dev.demo.catena-x.net/auth/";
 const API_KEY = "X_API_KEY";
 const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
 const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
+const BACKEND = 'APP_BACK';
 
 let SERVER_URL = "";
 let INIT_OPTIONS = {};
@@ -66,5 +83,5 @@ else { // for local run
   CX_REGISTRY_URL = CX_REGISTRY_URL_INT;
 }
 
-export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL};
+export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL, BACKEND, VERSION};
 

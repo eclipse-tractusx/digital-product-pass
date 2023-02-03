@@ -20,10 +20,16 @@
 
 The battery passport consumer application provides a user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
-In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
+In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. A Guide for End Users can be found here: [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)
 
 
 ## Getting Started
+
+Before contributing please read:
+- [Community Code of Conduct](./docs/tractusx/CODE_OF_CONDUCT.md)
+- [Contributing Guidelines](./docs/tractusx/CONTRIBUTING.md)
+- [Notice on tractus-x Repositories](./docs/tractusx/NOTICE_template.md)
+- [Security Policy](./docs/tractusx/SECURITY.md)
 
 ### Prerequisites:
 

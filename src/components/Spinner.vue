@@ -36,7 +36,7 @@ export default {
 <style scoped>
 .spinner-container {
   width: 100vw;
-  height: 100vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;

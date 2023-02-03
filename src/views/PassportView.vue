@@ -198,7 +198,7 @@ export default {
         return null;
       };
 
-      if(response.data.passport==null || typeof response.data.passport != "object" || response.data.passport.errors != null){
+      if(response == null || typeof response == "string" || typeof response.data.passport != "object" || response.data.passport==null || response.data.passport.errors != null){
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Failed to return passport";
@@ -213,7 +213,6 @@ export default {
 </script>
 
 <style>
-
 .loading-container {
   display: flex;
   justify-content: center;

@@ -8,7 +8,7 @@ name: "Publish docker images"
 on:
   push:
 
-    branches: [ "main", "develop"]
+    branches: [ "main", "develop", "hotfix/quality-gate-4"]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
@@ -30,6 +30,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
@@ -65,4 +79,5 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

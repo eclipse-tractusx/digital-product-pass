@@ -1,24 +1,4 @@
-# Default values for consumer-backend.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-replicaCount: 1
-namespace: product-material-pass
-
-image:
-  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: placeholder
-
-imagePullSecrets: []
-nameOverride: "consumer-backend"
-fullnameOverride: "consumer-backend"
-
-service:
-  type: ClusterIP
-  port: 8080
-
+---
 ingress:
   enabled: true
   # className: "nginx"
@@ -45,21 +25,3 @@ avp:
     clientId: <path:material-pass/data/int/aasregistry#client.id>
     clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}

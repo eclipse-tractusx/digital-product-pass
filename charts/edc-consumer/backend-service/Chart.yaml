@@ -1,9 +1,0 @@
----
-apiVersion: v2
-name: backend-service
-description: Small CX Backend Service Implementation for Testing Purposes
-home: https://github.com/denisneuling/cx-backend-service
-type: application
-version: 0.0.6
-appVersion: "0.0.6"
-maintainers: []

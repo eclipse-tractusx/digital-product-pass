@@ -22,7 +22,7 @@ name: "Publish Consumer Backend Docker Images"
 on:
   push:
 
-    branches: [ "main", "develop", "hotfix/quality-gate-4"]
+    branches: [ "main", "develop"]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]

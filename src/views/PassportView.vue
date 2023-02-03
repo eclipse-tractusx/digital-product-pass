@@ -174,14 +174,6 @@ export default {
           providerConnector,
           APIWrapperRequestHeader
         );
-<<<<<<< HEAD
-        this.contractInformation = providerConnector;
-        return response;
-      } else
-        alert(
-          "There is no connector endpoint defined in submodel.. Could not proceed further!"
-        );
-=======
       }catch(e){
         this.loading = false;
         this.error = true;
@@ -199,26 +191,17 @@ export default {
       }
       this.contractInformation = providerConnector;
       return response;
->>>>>>> 4d2213bc79b968e576223b1ba711eb74a54d5e42
     },
   },
 };
 </script>
 
 <style>
-<<<<<<< HEAD
-=======
-
->>>>>>> 4d2213bc79b968e576223b1ba711eb74a54d5e42
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 4d2213bc79b968e576223b1ba711eb74a54d5e42
 .pass-container {
   width: 76%;
   margin: 0 12% 0 12%;

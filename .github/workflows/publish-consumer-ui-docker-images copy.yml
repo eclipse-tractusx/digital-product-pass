@@ -1,4 +1,4 @@
-name: "Publish docker images"
+name: "Publish Consumer UI Docker Images"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -15,9 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  CONSUMER_UI_IMAGE_NAME: "consumer-ui"
-  CONSUMER_BACKEND_IMAGE_NAME: "product-pass-consumer-backend"
-  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_NAME: "consumer-ui"
   JAVA_VERSION: 17
     
 jobs:
@@ -35,13 +33,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}
             type=semver,pattern={{major}}.{{minor}}
-
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
@@ -59,23 +58,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_UI_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'adopt'
-      
-      - name:  Build consumer backend with maven
-        run: |
-          cd consumer-backend/productpass
-          mvn -B clean install
-        
-      - name: Build and push backend
-        id: build-and-push-backend
-        uses: docker/build-push-action@v3
-        with:
-          context: consumer-backend/productpass
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.CONSUMER_BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

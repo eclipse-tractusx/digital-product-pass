@@ -3,10 +3,10 @@ name: Release - Helm Charts
 on:
   push:
     paths:
+      - '.github/workflows/release-helm-charts.yml'
       - 'charts/**'
     branches:
       - main
-      - hotfix/quality-gate-4
 jobs:
   release:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
@@ -32,9 +32,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Repos
+      - name: Install Helm Repos
         run: | 
           helm repo add product-edc https://catenax-ng.github.io/product-edc
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add cx-backend-service https://denisneuling.github.io/cx-backend-service
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.1

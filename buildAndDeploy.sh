@@ -20,6 +20,8 @@ IMAGE_TAG="latest"
 VUE_APP_CLIENT_ID=""
 VUE_APP_CLIENT_SECRET=""
 X_API_KEY=""
+APP_BACKEND=""
+APP_VER=""
 
 docker rm -f ${CONTAINER_NAME}
 
@@ -27,6 +29,6 @@ echo "Build docker image..."
 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
 
 echo "Run docker container..."
-docker run --name ${CONTAINER_NAME} -p 8080:80 -d -e VUE_APP_CLIENT_ID=${VUE_APP_CLIENT_ID} -e VUE_APP_CLIENT_SECRET=${VUE_APP_CLIENT_SECRET} -e X_API_KEY=${X_API_KEY} ${IMAGE_NAME}:${IMAGE_TAG}
+docker run --name ${CONTAINER_NAME} -p 8080:80 -d -e VUE_APP_CLIENT_ID=${VUE_APP_CLIENT_ID} -e VUE_APP_CLIENT_SECRET=${VUE_APP_CLIENT_SECRET} -e X_API_KEY=${X_API_KEY} -e APP_BACKEND=${APP_BACKEND} -e APP_VER=${APP_VER} ${IMAGE_NAME}:${IMAGE_TAG}
 
 echo "Done"

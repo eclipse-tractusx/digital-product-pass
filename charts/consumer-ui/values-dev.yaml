@@ -35,6 +35,7 @@ ingress:
 
 avp:
   helm:
+    backend: false
     clientId: <path:material-pass/data/dev/aasregistry#client.id>
     clientSecret: <path:material-pass/data/dev/aasregistry#client.secret>
     xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>

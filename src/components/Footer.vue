@@ -43,12 +43,13 @@
         >
       </div>
     </div>
-    <div class="copy">Copyright © Catena-X Automotive Network.</div>
+    <div class="copy">Copyright © Catena-X Automotive Network. {{ VERSION }}</div>
   </footer>
 </template>
 
 <script>
 import CatenaLogo from "../assets/logo.png";
+import { VERSION } from "@/services/service.const";
 
 export default {
   name: "FooterComponent",
@@ -56,6 +57,7 @@ export default {
   setup() {
     return {
       CatenaLogo,
+      VERSION
     };
   },
 };

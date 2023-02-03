@@ -53,6 +53,10 @@ spec:
                 secretKeyRef:
                   key:  xApiKey
                   name: avp-edc-oauth
+            - name: "BACKEND"
+              value: {{ .Values.avp.helm.backend }}
+            - name: "VERSION"
+              value: {{ .Chart.AppVersion }}
           ports:
             - containerPort: 8080
               name: http

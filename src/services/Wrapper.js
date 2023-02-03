@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SERVER_URL, BACKEND_ENABLED } from "@/services/service.const";
+import { SERVER_URL, BACKEND } from "@/services/service.const";
 import axios from "axios";
 
 export default class Wrapper {
@@ -194,7 +194,7 @@ export default class Wrapper {
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    if(BACKEND_ENABLED){
+    if(BACKEND == true){
       return await this.getPassportV1(assetId);
     }else{
       let contractId = "";

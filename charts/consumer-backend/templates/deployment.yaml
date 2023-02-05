@@ -42,17 +42,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key:  clientId
-                  name: avp-cx-registry-auth
+                  name: avp-consumer-backend-cx-registry-auth
             - name: "client.secret"
               valueFrom:
                 secretKeyRef:
                   key:  clientSecret
-                  name: avp-cx-registry-auth
+                  name: avp-consumer-backend-cx-registry-auth
             - name: "apiKey"
               valueFrom:
                 secretKeyRef:
                   key:  xApiKey
-                  name: avp-edc-oauth
+                  name: avp-consumer-backend-edc-oauth
           ports:
             - containerPort: 8888
               name: http

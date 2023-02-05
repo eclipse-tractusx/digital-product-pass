@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-apiVersion: v1
+apiVersion: v2
 name: consumer-backend
 description: Consumer Backend Helm Deployment for the Product Passport Application
 
@@ -36,3 +36,4 @@ version: 0.1.5
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "0.4.2"
+

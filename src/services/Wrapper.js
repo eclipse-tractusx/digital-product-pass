@@ -194,7 +194,7 @@ export default class Wrapper {
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    if(BACKEND == true){
+    if(BACKEND === true){
       return await this.getPassportV1(assetId);
     }else{
       let contractId = "";

@@ -20,15 +20,11 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.0] - 2023-01-19
+## [0.4.2] - 2023-02-05
 ### Added
-- Added search button for battery input
-- Added Vuetify 3 components
-- Added backend initial deployment and health check
-- Backend version 0.0.5-SNAPSHOT
-- Fixed frontend bugs found in version 0.3.0
-- Mock 404 page
-- Catena-X Guidelines followed in design
+- Deployment refactored to fit and follow new guidelines from DevSecOps team.
+- Data soverenity printing the contract id
+- 
 
 ### Updated
 - Optimized the reponsive from the application

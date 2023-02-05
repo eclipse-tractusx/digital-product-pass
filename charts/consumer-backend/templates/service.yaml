@@ -23,7 +23,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}    # host port
-      targetPort: 8080                      # container port
+      targetPort: 8888                      # container port
       protocol: TCP
       name: http
   selector:

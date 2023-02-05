@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-apiVersion: v1
+apiVersion: v2
 name: consumer-ui
 description: Consumer Frontend Helm Deployment for the Product Passport Application
 

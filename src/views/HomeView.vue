@@ -15,97 +15,429 @@
 -->
 
 <template>
-  <div class="container">
-    <div class="main">
-      <h5 class="center">Step # 1: Load contract offers from the battery provider</h5><br />
-      <div class="container">
-        <label class="center" for="Provider"><strong>Battery Provider:</strong></label> <br />
-        <select
-id="selectProvider" v-model="selectedProvider" class="form-select center ddl"
-          placeholder="Select Battery Provider">
-          <option disabled selected value="">Select Battery Provider...</option>
-          <option v-for="provider in listProviders" :key="provider.id" :value="provider.name">{{
-             provider.name 
-            }}
-          </option>
-        </select>
+  <div>
+    <div class="header-container">
+      <v-container>
+      <v-row class="d-flex justify-content-between">
+        <v-col class="v-col-auto logo-container">
+          <router-link to="/">
+            <img :src="CatenaLogo" alt="logo" class="logo" />
+          </router-link>
+        </v-col>
+        <v-col class="tabs">
+          <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''" show-arrows>
+            <v-tab value="one" data-cy="history-tab">History page</v-tab>
+            <v-tab value="two" data-cy="QR-scanner-tab">QR code scanner</v-tab>
+          </v-tabs>
+        </v-col>
+      </v-row>
+      </v-container>
+      <div class="right-manu-wrapper">
+        <div class="right-menu-container">
+          <v-menu>
+            <template #activator="{ props }">
+              <img
+                v-bind="props"
+                :src="Profile"
+                alt="profile"
+                class="buttons"
+              />
+            </template>
+            <v-list class="dropdown" rounded="xl">
+              <div class="profile-menu-header">
+                <span>
+                  {{ email }}
+                  <p class="role">{{ role }}</p>
+                </span>
+              </div>
+              <div class="menu-btn" @click="logout">
+                <span class="profile-text">Logout</span>
+              </div>
+            </v-list>
+          </v-menu>
+        </div>
       </div>
-      <br />
-      <div class="container">
-        <button
-:disabled="isDisabled" class="btn btn-success center success-btn" type="button"
-          @click="GetProviderInfo">Load Contract Offers
-        </button>
-        <span id="loadContracts" class="container" style="margin-left: 20px"></span>
-      </div>
-      <br />
-      <h5 class="center">Step # 2: Negotiate the edc contract</h5><br />
-      <div class="container">
-        <label class="center" for="contractOffer"><strong>Contract Offers:</strong></label><br />
-        <select
-id="selectOffer" v-model="selectedContract" class="form-select center ddl" placeholder="Select Offer"
-          required @change="setSelectedContract($event)">
-          <option disabled selected value="">Select an Offer...</option>
-          <option v-for="(offer, index) in provider.contractOffers" :key="index">{{  offer  }}
-          </option>
-        </select>
-      </div>
-      <br />
-      <div class="container">
-        <label class="center" for="Battery"><strong>Battery:</strong></label><br />
-        <select
-id="selectBattery" v-model="selectedBattery" class="form-select center ddl" placeholder="Select Battery"
-          required @change="setSelectedBattery($event)">
-          <option disabled selected value="">Select Battery...</option>
-          <option v-for="(battery, id) in provider.batteries" :key="id" :value="battery.id">{{  battery.name  }}
-          </option>
-        </select>
-      </div>
-      <br />
-      <div class="container">
-        <button
-:disabled="isDisabled" class="btn btn-success center success-btn" type="button"
-          @click="doNegotiation">Start Negotiation
-        </button>
-        <span id="negotiateContract" class="container" style="margin-left: 20px"></span>
-      </div>
-      <br />
-      <h5 class="center">Step # 3: Get battery passport from the provider</h5><br />
-      <div class="container">
-        <button
-:disabled="isDisabled" class="btn btn-success center success-btn" type="button"
-          @click="initiateTransfer">Get Battery Passport
-        </button>
-      </div>
-      <br />
     </div>
-    <br />
-  </div>
-  <div v-if="isLoading" style="margin-left:49%">
-    <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-      <span class="sr-only"></span>
+    <v-container v-if="!batteryId">
+      <v-window v-model="tab">
+        <v-main>
+          <v-window-item value="one">
+            <LandingView />
+          </v-window-item>
+          <v-window-item value="two">
+            <QRScanner />
+          </v-window-item>
+        </v-main>
+      </v-window>
+    </v-container>
+    <div v-if="batteryId" class="id-container">
+      <div class="id-wrapper">
+        <h1>
+          BatteryID:
+          {{
+            batteryId.batteryIdentification.batteryIDDMCCode
+              ? batteryId.batteryIdentification.batteryIDDMCCode
+              : "—"
+          }}
+        </h1>
+      </div>
+      <div
+        v-if="
+          batteryId.batteryIdentification.batteryIDDMCCode ==
+          'NCR186850B'
+        "
+        class="code-container"
+      >
+        <img
+          :src="NCR186850B"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
+      </div>
+      <div
+        v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'IMR18650V1'"
+        class="code-container"
+      >
+        <img
+          :src="IMR18650V1"
+          alt="profile"
+          class="code"
+          width="170"
+          height="170"
+        />
+      </div>
     </div>
-    <br />
-    <div class="h5">{{  currentStatus  }}</div>
+    <Footer v-if="!batteryId" />
   </div>
 </template>
 
-
-<!-- change the script below -->
 <script>
-// @ is an alias to /src
+import CatenaLogoType from "../assets/logotype.png";
+import CatenaLogo from "../assets/Catena-X_Logo_mit_Zusatz_2021.svg";
+import Profile from "../assets/profile.svg";
+import Notifications from "../assets/notifications.svg";
+import Settings from "../assets/settings.svg";
+import QRScannerIcon from "../assets/qr-icon.svg";
+import QrCode from "../assets/BMW_test-battery-1.svg";
+import IMR18650V1 from "../assets/IMR18650V1.svg";
+import NCR186850B from "../assets/NCR186850B.svg";
+import QRScanner from "./QRScanner.vue";
+import LandingView from "./LandingView.vue";
+import Footer from "../components/Footer.vue";
+import Logout from "../assets/logout.png";
+import { inject } from "vue";
 
 export default {
-  name: 'PassportView',
-  components: {},
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Header",
+  components: {
+    QRScanner,
+    LandingView,
+    Footer,
+  },
+  props: {
+    batteryId: {
+      type: Object,
+      default: null,
+    },
+  },
+
+  setup() {
+    return {
+      CatenaLogoType,
+      CatenaLogo,
+      Profile,
+      Notifications,
+      QRScannerIcon,
+      Settings,
+      QrCode,
+      IMR18650V1,
+      NCR186850B,
+      Logout,
+    };
+  },
+
+  data() {
+    return {
+      profileHover: false,
+      hamburgerMenu: false,
+      profileMenu: false,
+      email: "",
+      role: "",
+      auth: inject("authentication"),
+      tab: null,
+    };
+  },
+  mounted() {
+    if (this.auth.isUserAuthenticated) {
+      this.email = this.auth.getUserName();
+      this.role = this.auth.getRole();
+    }
+  },
   methods: {
-  }
+    logout() {
+      this.auth.logout();
+    },
+    scanQRCode() {
+      this.$router.push({ name: "ScanPassport" });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.container {
-  max-width: 88%;
-  padding-left: 130px;
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.ghost {
+  height: 54vh;
+}
+
+.dropdown {
+  margin-top: 20px;
+  border-radius: 16px;
+  width: 256px;
+  padding: 0;
+}
+
+.header-container {
+  position: fixed;
+  top: 0;
+  display: flex;
+  width: 100%;
+  margin: 0 12% 0 0;
+  padding: 30px 4% 20px;
+  border-bottom: 2px solid lightgray;
+  background-color: #ffff;
+  z-index: 99999;
+}
+
+.logo-container {
+  padding-top: 10px;
+}
+
+.logo {
+  height: 40px;
+  left: 40px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-tabs {
+  display: none;
+}
+
+.logo-type {
+  height: 49px;
+}
+
+.code-container {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.id-wrapper {
+  width: 60%;
+  line-break: anywhere;
+}
+
+.right-manu-wrapper {
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.code {
+  padding: 0;
+  margin: 0;
+}
+
+.id-container {
+  display: flex;
+  align-items: center;
+  width: 76%;
+  margin: 12em 12% 6% 12%;
+  padding: 20px 0;
+}
+
+.buttons {
+  margin: 15px 0 0 30px;
+  cursor: pointer;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.profile-menu-header {
+  background-color: #f3f3f3;
+  border-radius: 16px 16px 0 0;
+  padding: 17px 24px 0 24px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: normal;
+}
+
+.role {
+  padding: 3px 0 16px 0;
+  font-size: 14px;
+  color: #888888;
+}
+
+.menu-btn {
+  display: flex;
+  border-top: 1px solid #dcdcdc;
+  align-items: center;
+}
+
+.menu-btn:first-child {
+  border-top: none;
+}
+
+.menu-btn:hover {
+  background: rgba(15, 113, 203, 0.05);
+  color: #0d55af;
+  cursor: pointer;
+}
+
+.profile-text {
+  padding: 17px 0 35px 24px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.menu-profile {
+  padding: 16px;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  z-index: 1;
+}
+
+.toggle-button .bar {
+  height: 4px;
+  width: 100%;
+  background-color: #b3cb2c;
+  border-radius: 10px;
+}
+
+@media (max-width: 750px) {
+  .right-manu-wrapper {
+    display: none;
+  }
+
+  .toggle-button {
+    display: flex;
+    margin-right: 36px;
+  }
+
+  .code-container {
+    display: none;
+  }
+
+  .logo {
+    height: 45px;
+    left: 0;
+  }
+
+  .logo-type {
+    display: none;
+  }
+
+  .header-container {
+    width: 100%;
+    margin: 0;
+  }
+
+  .id-container {
+    margin: 12em 0 2em 3em;
+    padding: 20px 0;
+    width: 85%;
+  }
+
+  .id-wrapper {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 25px;
+    line-height: 36px;
+  }
+
+  .hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    background-color: #b3cb2c;
+    height: auto;
+    min-height: 270px;
+    padding: 80px 0 0 0;
+    z-index: 1;
+  }
+
+  .links {
+    margin: 12px;
+    font-weight: bold;
+  }
+
+  h3 {
+    color: white;
+  }
+
+  .toggle-button .white-bar {
+    background-color: white;
+  }
+
+  .toggle-button-color {
+    background-color: white;
+  }
+
+  .profile-menu-mobile {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dcdcdc;
+  }
+
+  .mobile-menu-links {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid #dcdcdc;
+    width: 100%;
+    min-height: 60px;
+    padding: 16px 0 0 0px;
+  }
 }
 </style>

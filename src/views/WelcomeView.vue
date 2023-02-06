@@ -34,7 +34,6 @@ import Spinner from "@/components/general/Spinner.vue";
 import DashboardTable from "@/components/landing/DashboardTable.vue";
 import { inject } from "vue";
 
-
 export default {
   name: "WelcomeView",
   components: {
@@ -153,47 +152,9 @@ export default {
   min-height: 100vh;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10vh;
-}
-
-.success-btn {
-  width: 340px;
-  height: 48px;
-  margin: 12px 0 60px 0;
-  background: #b3cb2d;
-  color: white;
-  font-size: 16px;
-  font-weight: bolder;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.success-btn:disabled {
-  cursor: not-allowed;
-  /* TODO add disabled color #b7c567*/
-}
-
-.label {
-  padding: 12px 0 12px 0;
-  font-weight: bold;
-}
-
-.select {
-  width: 340px;
-  height: 48px;
-  border: solid 1px #b3cb2c;
-  border-radius: 4px;
-}
-
 .dashboard-container {
   width: 70%;
-  margin: 14em 15% 70px 15%
+  margin: 14em 15% 70px 15%;
 }
 
 .titles-container {
@@ -211,25 +172,5 @@ export default {
 .sub-title {
   font-size: 16px;
   font-weight: bold;
-}
-
-.orange {
-  color: #ffa600;
-}
-
-@media (max-width: 750px) {
-  .container {
-    width: 80%;
-    margin: 25% 10% 0 10%;
-  }
-
-  .success-btn {
-    width: 90%;
-    margin: 0;
-  }
-
-  .select {
-    width: 90%;
-  }
 }
 </style>

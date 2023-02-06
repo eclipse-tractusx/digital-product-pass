@@ -159,57 +159,9 @@ export default {
 </script>
 
 <style scoped>
-.search-container {
-  position: relative;
-  min-width: 60%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 20px 0;
-}
-
-input:focus-visible {
-  outline-color: #b3cb2c;
-}
-
-.input {
-  border: 1px solid #b3cb2c;
-  border-radius: 4px;
-  margin: 0 0 0 10px;
-  height: 39px;
-  width: 39px;
-  padding: 0 8px;
-}
-
-select:focus-visible {
-  outline-color: #b3cb2c;
-}
-
-.select {
-  border: 1px solid #b3cb2c;
-  border-radius: 4px;
-  margin: 0 0 0 10px;
-  width: 100px;
-  height: 39px;
-  padding: 0 8px;
-  color: #3d3d3d;
-  background: white;
-}
-
-.input-label {
-  padding: 0 10px;
-}
-
 .table {
   border: 1px solid #dcdcdc;
   border-radius: 24px;
-}
-
-a {
-  padding: 12px 0 12px 12px;
-  color: #3d3d3d;
-  text-decoration: none;
-  white-space: nowrap;
 }
 
 tr {
@@ -219,25 +171,5 @@ tr {
 .header {
   background: #e9e9e9;
   height: 76px;
-}
-
-.model-wrapper {
-  font-size: 14px;
-  padding-left: 8px;
-  bottom: 5px;
-}
-
-.search-button {
-  position: absolute;
-  cursor: pointer;
-  margin: 20px 0;
-}
-
-.extended {
-  width: 12vw;
-}
-
-.customize-header {
-  padding-left: 16px;
 }
 </style>

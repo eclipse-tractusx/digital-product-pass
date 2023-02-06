@@ -15,80 +15,80 @@
 -->
 
 <template>
-    <div v-if="!error" class="switch-container">
-      <div>
-        <v-switch
-          v-model="QRtoggle"
-          color="#0F71CB"
-          label="Camera switch"
-        ></v-switch>
-      </div>
+  <div v-if="!error" class="switch-container">
+    <div>
+      <v-switch
+        v-model="QRtoggle"
+        color="#0F71CB"
+        label="Camera switch"
+      ></v-switch>
     </div>
-    <div v-if="error" class="qr-container">
-      <div class="text-container">
-        <p class="text">Your camera is off.</p>
-        <p class="text">Turn it on or type the ID.</p>
-        <p class="error">{{ error }}</p>
+  </div>
+  <div v-if="error" class="qr-container">
+    <div class="text-container">
+      <p class="text">Your camera is off.</p>
+      <p class="text">Turn it on or type the ID.</p>
+      <p class="error">{{ error }}</p>
+    </div>
+    <v-form class="form">
+      <div class="input-form">
+        <input
+          v-model="typedCode"
+          class="input"
+          type="text"
+          placeholder="Type ID"
+        />
       </div>
-      <v-form class="form">
-        <div class="input-form">
-          <input
-            v-model="typedCode"
-            class="input"
-            type="text"
-            placeholder="Type ID"
-          />
+      <v-btn
+        rounded="pill"
+        color="#0F71CB"
+        size="small"
+        class="submit-btn"
+        @click="onClick"
+      >
+        Search
+        <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+      </v-btn>
+    </v-form>
+  </div>
+  <div class="qr-container" data-cy="qr-container">
+    <router-link to="/dashboard"> </router-link>
+    <div v-if="!error">
+      <div v-if="QRtoggle">
+        <div class="qr-frame">
+          <img :src="QRFrame" alt="frame" class="frame" />
         </div>
-        <v-btn
-          rounded="pill"
-          color="#0F71CB"
-          size="small"
-          class="submit-btn"
-          @click="onClick"
-        >
-          Search
-          <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-        </v-btn>
-      </v-form>
-    </div>
-    <div class="qr-container" data-cy="qr-container">
-      <router-link to="/dashboard"> </router-link>
-      <div v-if="!error">
-        <div v-if="QRtoggle">
-          <div class="qr-frame">
-            <img :src="QRFrame" alt="frame" class="frame" />
+        <qrcode-stream
+          :torch="torch"
+          class="qrcode-stream"
+          @init="onInit"
+          @decode="onDecode"
+        ></qrcode-stream>
+      </div>
+      <div v-else class="qr-container">
+        <v-form class="form">
+          <div class="input-form">
+            <input
+              v-model="typedCode"
+              class="input"
+              type="text"
+              placeholder="Type ID"
+            />
           </div>
-          <qrcode-stream
-            :torch="torch"
-            class="qrcode-stream"
-            @init="onInit"
-            @decode="onDecode"
-          ></qrcode-stream>
-        </div>
-        <div v-else class="qr-container">
-          <v-form class="form">
-            <div class="input-form">
-              <input
-                v-model="typedCode"
-                class="input"
-                type="text"
-                placeholder="Type ID"
-              />
-            </div>
-            <v-btn
-              rounded="pill"
-              color="#0F71CB"
-              size="small"
-              class="submit-btn"
-              @click="onClick"
-            >
-              Search
-              <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-            </v-btn>
-          </v-form>
-        </div>
+          <v-btn
+            rounded="pill"
+            color="#0F71CB"
+            size="small"
+            class="submit-btn"
+            @click="onClick"
+          >
+            Search
+            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+          </v-btn>
+        </v-form>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -208,13 +208,6 @@ export default {
   padding: 0 0 70px 0;
 }
 
-.error-frame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 85vh;
-}
-
 .qr-container {
   top: 132px;
   bottom: 0;
@@ -226,26 +219,6 @@ export default {
   max-width: 500%;
 }
 
-.header-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 100%;
-  height: 137px;
-  background-color: rgba(255, 255, 255, 0.3);
-  z-index: 3;
-  box-shadow: 0 0 10px 0 rgb(81, 81, 81);
-}
-
-.logo {
-  position: absolute;
-  top: 40px;
-  left: 50px;
-  height: 49px;
-  z-index: 5;
-}
-
 .text-container {
   margin: 250px 0 0 0;
 }
@@ -254,24 +227,15 @@ export default {
   font-size: 2rem;
   text-align: center;
 }
+
 .qr-frame {
-    position: absolute;
-    top: 60%;
-    left: 43%;
-    transform: translate(-50%, -50%);
-    width: 250px;
-    height: 250px;
-    z-index: 10;
-}
-
-.top-layer {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.qrcode-stream-overlay {
   position: absolute;
-  backdrop-filter: blur(9px);
+  top: 60%;
+  left: 43%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
+  z-index: 10;
 }
 
 .form {
@@ -315,93 +279,13 @@ export default {
   cursor: pointer;
 }
 
-.qrcode-stream-camera {
-  width: 160%;
-}
-
-.buttons {
-  width: 26px;
-  height: 26px;
-  margin: 15px 0 15px 30px;
-  cursor: pointer;
-}
-
-.menu-btn {
-  display: flex;
-  border-top: solid 1px #ffa600;
-  padding: 16px;
-  align-items: center;
-}
-
-.menu-btn:first-child {
-  border-top: none;
-}
-
-.menu-btn:hover {
-  background-color: #f8f9fa;
-}
-
-.profile-text {
-  padding: 0 16px 0 12px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 p {
   font-size: 14px;
   font-weight: 500;
 }
 
-.menu-profile {
-  padding: 16px;
-}
-
-.toggle-button {
-  position: absolute;
-  top: 0.75rem;
-  right: 1rem;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-  z-index: 1;
-}
-
-.toggle-button .bar {
-  height: 4px;
-  width: 100%;
-  background-color: #b3cb2c;
-  border-radius: 10px;
-}
-
-.toast-alert {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 10px 20px 60px;
-  margin-top: 10px;
-  background-color: #b3cb2c;
-  border-radius: 6px;
-  top: -12vh;
-  left: 50%;
-  z-index: 99;
-  min-width: auto;
-  white-space: nowrap;
-  transform: translate(-50%, -50%);
-  box-shadow: 3px 3px 20px 3px #e7e7e7;
-}
-
-.display-toast-alert {
-  top: 4vh;
-}
-
-.close {
-  padding-left: 20px;
-}
 @media (max-width: 1024px) {
-.qr-frame{
+  .qr-frame {
     position: absolute;
     top: 68%;
     left: 50%;
@@ -409,17 +293,10 @@ p {
     width: 250px;
     height: 250px;
     z-index: 10;
-}
+  }
 }
 
 @media (max-width: 856px) {
-  .right-manu-wrapper {
-    padding-right: 50px;
-  }
-
-  .profile-menu {
-    margin-right: 50px;
-  }
   .frame {
     width: 250px;
     height: 250px;
@@ -429,11 +306,11 @@ p {
     height: 250px;
   }
   .qr-frame {
-      position: absolute!important;
-      top: 70%!important;
-      left: 50%!important;
-      transform: translate(-50%, -50%)!important;
-      z-index: 10!important;
+    position: absolute !important;
+    top: 70% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
   }
   .input {
     position: relative;
@@ -441,24 +318,13 @@ p {
   }
 }
 @media (max-width: 670px) {
-  .right-manu-wrapper {
-    display: none;
-  }
-
-  .error-message {
-    font-size: 12px;
-  }
-
-  .close {
-    padding: 0;
-  }
   .qr-frame {
-    position: absolute!important;
-    top: 72%!important;
-    left: 50%!important;
-    transform: translate(-50%, -50%)!important;
-    z-index: 10!important;
-}
+    position: absolute !important;
+    top: 72% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
+  }
 
   .frame {
     width: 150px;
@@ -468,54 +334,18 @@ p {
     width: 150px;
     height: 150px;
   }
-  
-
-  h2 {
-    font-size: 16px;
-  }
 }
 @media (max-width: 570px) {
-  .right-manu-wrapper {
-    display: none;
-  }
-
-  .header-container {
-    height: 90px;
-  }
   .qr-frame {
     position: absolute;
-    top: 75%!important;
-    left: 50%!important;
+    top: 75% !important;
+    left: 50% !important;
     transform: translate(-50%, -50%);
     z-index: 10;
-  }
-  
-  h2 {
-    font-size: 16px;
-  }
-
-  .toast-alert {
-    padding: 70px 10px 40px 20px;
-    width: 100vw;
-  }
-
-  .display-toast-alert {
-    top: 10px;
-  }
-
-  .logo {
-    position: absolute;
-    top: 20px;
-    left: 50px;
-    height: 49px;
-    z-index: 5;
   }
 }
 
 @media (max-width: 375px) {
-  .right-manu-wrapper {
-    display: none;
-  }
   .input {
     position: relative;
     width: 80vw;

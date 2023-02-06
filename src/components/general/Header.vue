@@ -92,19 +92,6 @@ export default {
 </script>
 
 <style scoped>
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-h1 {
-  font-weight: bold;
-}
-
-.ghost {
-  height: 54vh;
-}
-
 .dropdown {
   margin-top: 20px;
   border-radius: 16px;
@@ -143,21 +130,6 @@ h1 {
   display: none;
 }
 
-.logo-type {
-  height: 49px;
-}
-
-.code-container {
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.id-wrapper {
-  width: 60%;
-  line-break: anywhere;
-}
-
 .right-manu-wrapper {
   width: 20%;
   display: flex;
@@ -169,21 +141,9 @@ h1 {
   margin: 0;
 }
 
-.id-container {
-  display: flex;
-  align-items: center;
-  width: 76%;
-  margin: 12em 12% 6% 12%;
-  padding: 20px 0;
-}
-
 .buttons {
   margin: 15px 0 0 30px;
   cursor: pointer;
-}
-
-.profile-container {
-  position: relative;
 }
 
 .profile-menu-header {
@@ -207,16 +167,6 @@ h1 {
   align-items: center;
 }
 
-.menu-btn:first-child {
-  border-top: none;
-}
-
-.menu-btn:hover {
-  background: rgba(15, 113, 203, 0.05);
-  color: #0d55af;
-  cursor: pointer;
-}
-
 .profile-text {
   padding: 17px 0 35px 24px;
   font-size: 14px;
@@ -228,40 +178,8 @@ p {
   font-weight: 500;
 }
 
-.menu-profile {
-  padding: 16px;
-}
-
-.toggle-button {
-  position: absolute;
-  top: 0.75rem;
-  right: 1rem;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-  z-index: 1;
-}
-
-.toggle-button .bar {
-  height: 4px;
-  width: 100%;
-  background-color: #b3cb2c;
-  border-radius: 10px;
-}
-
 @media (max-width: 750px) {
   .right-manu-wrapper {
-    display: none;
-  }
-
-  .toggle-button {
-    display: flex;
-    margin-right: 36px;
-  }
-
-  .code-container {
     display: none;
   }
 
@@ -270,78 +188,9 @@ p {
     left: 0;
   }
 
-  .logo-type {
-    display: none;
-  }
-
   .header-container {
     width: 100%;
     margin: 0;
-  }
-
-  .id-container {
-    margin: 12em 0 2em 3em;
-    padding: 20px 0;
-    width: 85%;
-  }
-
-  .id-wrapper {
-    width: 100%;
-  }
-
-  h1 {
-    font-size: 25px;
-    line-height: 36px;
-  }
-
-  .hamburger-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    background-color: #b3cb2c;
-    height: auto;
-    min-height: 270px;
-    padding: 80px 0 0 0;
-    z-index: 1;
-  }
-
-  .links {
-    margin: 12px;
-    font-weight: bold;
-  }
-
-  h3 {
-    color: white;
-  }
-
-  .toggle-button .white-bar {
-    background-color: white;
-  }
-
-  .toggle-button-color {
-    background-color: white;
-  }
-
-  .profile-menu-mobile {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #dcdcdc;
-  }
-
-  .mobile-menu-links {
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    border: 1px solid #dcdcdc;
-    width: 100%;
-    min-height: 60px;
-    padding: 16px 0 0 0px;
   }
 }
 </style>

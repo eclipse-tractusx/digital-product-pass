@@ -149,12 +149,6 @@ export default {
   border-bottom: solid 1px #edefe5;
 }
 
-.field-container {
-  display: flex;
-  flex-direction: column;
-  width: 33%;
-}
-
 .sub-title {
   font-weight: bold;
   font-size: 20px;
@@ -199,10 +193,6 @@ li {
 
   .section-content {
     margin-bottom: 0;
-  }
-
-  .field-container {
-    width: 100%;
   }
 
   .list-container {

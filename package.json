@@ -1,6 +1,6 @@
 {
-  "name": "materialpass-webclient",
-  "version": "0.1.0",
+  "name": "productpass-consumer-ui",
+  "version": "0.4.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --host localhost",

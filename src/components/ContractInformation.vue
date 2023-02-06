@@ -24,11 +24,11 @@
       />
       <Field
         label="Contract Agreement ID"
-        :value="contractInformation.transferRequest.contractAgreementId"
+        :value="contractInformation.transferRequest.contractId"
       />
       <Field
         label="Transfer Process ID"
-        :value="contractInformation.transferRequest.transferProcessId"
+        :value="contractInformation.transferRequest.id"
       />
     </div>
   </div>

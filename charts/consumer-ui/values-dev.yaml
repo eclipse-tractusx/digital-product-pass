@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
 ingress:
   enabled: true
   #className: ""
@@ -21,12 +20,12 @@ ingress:
     # kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
     - host: materialpass.dev.demo.catena-x.net
       paths:
-        - path: /
+        - path: /passport(/|$)(.*)
           pathType: Prefix
   tls:
     - secretName: tls-secret

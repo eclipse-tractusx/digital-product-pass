@@ -105,10 +105,10 @@ export default class Wrapper {
   initiateTransfer(assetId, requestHeaders, payload) {
 
     let requestBody = {
-      "id": payload.transferProcessId,
+      "id": payload.id,
       "connectorId": payload.connectorId,
       "connectorAddress": payload.connectorAddress,
-      "contractId": payload.contractAgreementId,
+      "contractId": payload.contractId,
       "assetId": assetId,
       "managedResources": false,
       "dataDestination": {
@@ -194,7 +194,7 @@ export default class Wrapper {
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    if(BACKEND == true){
+    if((BACKEND === 'true') || (BACKEND == true)){
       return await this.getPassportV1(assetId);
     }else{
       let contractId = "";
@@ -228,10 +228,10 @@ export default class Wrapper {
 
       // initiate data transfer
       const transferRequest = {
-        transferProcessId: Date.now(),
+        id: Date.now(),
         connectorId: providerConnector.idShort,
         connectorAddress: providerConnector.connectorAddress,
-        contractAgreementId: contractId,
+        contractId: contractId,
         assetId: assetId,
         type: "HttpProxy"
       };
@@ -246,7 +246,7 @@ export default class Wrapper {
         console.log("Transfer state:  ", result.type + '_' + result.state);
       }
       
-      const passport = await this.getDataFromConsumerBackend(transferRequest.transferProcessId);
+      const passport = await this.getDataFromConsumerBackend(transferRequest.id);
       const responseData = {
         "data":{
           "metadata": {

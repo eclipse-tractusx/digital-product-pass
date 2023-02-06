@@ -30,24 +30,21 @@
 </template>
 
 <script type="text/jsx">
-import Spinner from "@/components/Spinner.vue";
-import DashboardTable from "@/components/DashboardTable.vue";
+import Spinner from "@/components/general/Spinner.vue";
+import DashboardTable from "@/components/landing/DashboardTable.vue";
 import { inject } from "vue";
 
-let listBatteryProviders = require("../assets/providers.json");
 
 export default {
-  name: "LandingvIRE",
+  name: "WelcomeView",
   components: {
     Spinner,
-
     DashboardTable,
   },
   data() {
     return {
       auth: inject("authentication"),
       loading: true,
-      listProviders: listBatteryProviders,
       provider: {},
       selectedProvider: "",
       selectedBattery: "",

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Spinner from "../assets/spinner.gif";
+import Spinner from "../../media/spinner.gif";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Spinner",

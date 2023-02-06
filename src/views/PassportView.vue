@@ -47,7 +47,8 @@
     </div>
   </v-container>
   <div v-else>
-    <Header :battery-id="data.data.passport" />
+    <Header />
+    <PassportHeader :id="data.data.passport.batteryId.batteryIdentification.batteryIDDMCCode" type="BatteryId" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
@@ -87,17 +88,17 @@
 
 <script>
 // @ is an alias to /src
-import GeneralInformation from "@/components/GeneralInformation.vue";
-import CellChemistry from "@/components/CellChemistry.vue";
-import ElectrochemicalProperties from "@/components/ElectrochemicalProperties.vue";
-import BatteryComposition from "@/components/BatteryComposition.vue";
-import StateOfBattery from "@/components/StateOfBattery.vue";
-import Documents from "@/components/Documents.vue";
-import ContractInformation from "@/components/ContractInformation.vue";
-import Spinner from "@/components/Spinner.vue";
-import Header from "@/components/Header.vue";
+import GeneralInformation from "@/components/passport/sections/GeneralInformation.vue";
+import CellChemistry from "@/components/passport/sections/CellChemistry.vue";
+import ElectrochemicalProperties from "@/components/passport/sections/ElectrochemicalProperties.vue";
+import BatteryComposition from "@/components/passport/sections/BatteryComposition.vue";
+import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
+import Documents from "@/components/passport/sections/Documents.vue";
+import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
+import Spinner from "@/components/general/Spinner.vue";
+import Header from "@/components/general/Header.vue";
 import Alert from "@/components/general/Alert.vue";
-import Footer from "@/components/Footer.vue";
+import Footer from "@/components/general/Footer.vue";
 import { API_KEY } from "@/services/service.const";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";

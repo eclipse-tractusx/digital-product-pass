@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import SectionHeader from "../SectionHeader.vue";
+import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 
 export default {

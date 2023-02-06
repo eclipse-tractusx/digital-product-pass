@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Toggle from "../assets/toggle.svg";
+import Toggle from "../../media/toggle.svg";
 
 export default {
   name: "SectionHeader",

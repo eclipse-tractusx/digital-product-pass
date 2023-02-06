@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Error from "../assets/500error.png";
+import Error from "../media/500error.png";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

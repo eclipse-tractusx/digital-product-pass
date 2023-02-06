@@ -93,19 +93,19 @@
 
 <script>
 import { QrcodeStream } from "vue3-qrcode-reader";
-import CatenaLogo from "../assets/logo.png";
-import Flesh from "../assets/flesh.svg";
-import Close from "../assets/close.svg";
-import QRFrame from "../assets/qrFrame.svg";
-import Search from "../assets/qrSearch.svg";
-import Logout from "../assets/logout.png";
-import Profile from "../assets/profile.svg";
-import Notifications from "../assets/notifications.svg";
-import Settings from "../assets/settings.svg";
+import CatenaLogo from "../media/logo.png";
+import Flesh from "../media/flesh.svg";
+import Close from "../media/close.svg";
+import QRFrame from "../media/qrFrame.svg";
+import Search from "../media/qrSearch.svg";
+import Logout from "../media/logout.png";
+import Profile from "../media/profile.svg";
+import Notifications from "../media/notifications.svg";
+import Settings from "../media/settings.svg";
 import { inject } from "vue";
 
 export default {
-  name: "PassportView",
+  name: "QRScannerView",
   components: {
     QrcodeStream,
   },
@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       hover: false,
-      QRtoggle: true,
+      QRtoggle: false,
       error: "",
       decodedString: "",
       torch: false,

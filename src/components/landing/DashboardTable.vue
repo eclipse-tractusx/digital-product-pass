@@ -42,7 +42,7 @@
 
 <script type="text/jsx">
 import { ref } from "vue";
-import Search from "../assets/search.svg";
+import Search from "../../media/search.svg";
 
 export default {
   name: "DashboardTable",

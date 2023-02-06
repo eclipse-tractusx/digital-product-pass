@@ -15,127 +15,40 @@
 -->
 
 <template>
-  <div>
-    <div class="header-container">
-      <v-container>
-      <v-row class="d-flex justify-content-between">
-        <v-col class="v-col-auto logo-container">
-          <router-link to="/">
-            <img :src="CatenaLogo" alt="logo" class="logo" />
-          </router-link>
-        </v-col>
-        <v-col class="tabs">
-          <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''" show-arrows>
-            <v-tab value="one" data-cy="history-tab">History page</v-tab>
-            <v-tab value="two" data-cy="QR-scanner-tab">QR code scanner</v-tab>
-          </v-tabs>
-        </v-col>
-      </v-row>
-      </v-container>
-      <div class="right-manu-wrapper">
-        <div class="right-menu-container">
-          <v-menu>
-            <template #activator="{ props }">
-              <img
-                v-bind="props"
-                :src="Profile"
-                alt="profile"
-                class="buttons"
-              />
-            </template>
-            <v-list class="dropdown" rounded="xl">
-              <div class="profile-menu-header">
-                <span>
-                  {{ email }}
-                  <p class="role">{{ role }}</p>
-                </span>
-              </div>
-              <div class="menu-btn" @click="logout">
-                <span class="profile-text">Logout</span>
-              </div>
-            </v-list>
-          </v-menu>
-        </div>
-      </div>
-    </div>
-    <v-container v-if="!batteryId">
+  <div> 
+    <Header />
+    <v-container>
       <v-window v-model="tab">
         <v-main>
           <v-window-item value="one">
-            <LandingView />
+            <WelcomeView />
           </v-window-item>
           <v-window-item value="two">
-            <QRScanner />
+            <QRScannerView />
           </v-window-item>
         </v-main>
       </v-window>
     </v-container>
-    <div v-if="batteryId" class="id-container">
-      <div class="id-wrapper">
-        <h1>
-          BatteryID:
-          {{
-            batteryId.batteryIdentification.batteryIDDMCCode
-              ? batteryId.batteryIdentification.batteryIDDMCCode
-              : "—"
-          }}
-        </h1>
-      </div>
-      <div
-        v-if="
-          batteryId.batteryIdentification.batteryIDDMCCode ==
-          'NCR186850B'
-        "
-        class="code-container"
-      >
-        <img
-          :src="NCR186850B"
-          alt="profile"
-          class="code"
-          width="170"
-          height="170"
-        />
-      </div>
-      <div
-        v-if="batteryId.batteryIdentification.batteryIDDMCCode == 'IMR18650V1'"
-        class="code-container"
-      >
-        <img
-          :src="IMR18650V1"
-          alt="profile"
-          class="code"
-          width="170"
-          height="170"
-        />
-      </div>
-    </div>
-    <Footer v-if="!batteryId" />
+    <Footer />
   </div>
 </template>
 
 <script>
-import CatenaLogoType from "../assets/logotype.png";
-import CatenaLogo from "../assets/Catena-X_Logo_mit_Zusatz_2021.svg";
-import Profile from "../assets/profile.svg";
-import Notifications from "../assets/notifications.svg";
-import Settings from "../assets/settings.svg";
-import QRScannerIcon from "../assets/qr-icon.svg";
-import QrCode from "../assets/BMW_test-battery-1.svg";
-import IMR18650V1 from "../assets/IMR18650V1.svg";
-import NCR186850B from "../assets/NCR186850B.svg";
-import QRScanner from "./QRScanner.vue";
-import LandingView from "./LandingView.vue";
-import Footer from "../components/Footer.vue";
-import Logout from "../assets/logout.png";
+import QRScannerView from "./SearchView.vue";
+import WelcomeView from "./WelcomeView.vue";
+import Footer from "../components/general/Footer.vue";
+import Header from "../components/general/Header.vue";
+import Logout from "../media/logout.png";
 import { inject } from "vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Header",
+  name: "HomeView",
   components: {
-    QRScanner,
-    LandingView,
+    QRScannerView,
+    WelcomeView,
     Footer,
+    Header,
   },
   props: {
     batteryId: {
@@ -152,7 +65,6 @@ export default {
       Notifications,
       QRScannerIcon,
       Settings,
-      QrCode,
       IMR18650V1,
       NCR186850B,
       Logout,

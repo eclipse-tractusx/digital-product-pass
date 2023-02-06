@@ -16,7 +16,7 @@ name: "Veracode upload and scan"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "hotfix/quality-gate-4" ]
   schedule:
     # Once a day
     - cron: "0 0 * * *"

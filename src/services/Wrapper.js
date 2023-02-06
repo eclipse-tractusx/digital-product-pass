@@ -16,6 +16,7 @@
 
 import { SERVER_URL, BACKEND } from "@/services/service.const";
 import axios from "axios";
+import backendService from "@/services/BackendService";
 
 export default class Wrapper {
 
@@ -172,30 +173,9 @@ export default class Wrapper {
       }, 5000);
     });
   }
-  async getPassportV1(assetId){
-    return new Promise(resolve => {
-
-      setTimeout(() => {
-        axios.get(`${SERVER_URL}/api/passport/v1/${assetId}`, {
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
-          .then((response) => {
-            console.log(response.data);
-            resolve(response.data);
-          })
-          .catch((e) => {
-            console.error("getPassportV1 -> " + e);
-            resolve('rejected');
-          });
-        ;
-      }, 5000);
-    });
-  }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
     if((BACKEND === 'true') || (BACKEND == true)){
-      return await this.getPassportV1(assetId);
+      return await backendService.getPassportV1(assetId);
     }else{
       let contractId = "";
       let data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);

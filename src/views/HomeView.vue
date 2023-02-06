@@ -16,7 +16,12 @@
 
 <template>
   <div> 
-    <Header />
+    <Header>
+      <v-tabs v-model="tab" show-arrows>
+        <v-tab value="one" data-cy="history-tab">History Page</v-tab>
+        <v-tab value="two" data-cy="QR-scanner-tab">Search Passport</v-tab>
+      </v-tabs>
+    </Header>
     <v-container>
       <v-window v-model="tab">
         <v-main>
@@ -38,8 +43,6 @@ import QRScannerView from "./SearchView.vue";
 import WelcomeView from "./WelcomeView.vue";
 import Footer from "../components/general/Footer.vue";
 import Header from "../components/general/Header.vue";
-import Logout from "../media/logout.png";
-import { inject } from "vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -50,52 +53,11 @@ export default {
     Footer,
     Header,
   },
-  props: {
-    batteryId: {
-      type: Object,
-      default: null,
-    },
-  },
-
-  setup() {
-    return {
-      CatenaLogoType,
-      CatenaLogo,
-      Profile,
-      Notifications,
-      QRScannerIcon,
-      Settings,
-      IMR18650V1,
-      NCR186850B,
-      Logout,
-    };
-  },
-
   data() {
     return {
-      profileHover: false,
-      hamburgerMenu: false,
-      profileMenu: false,
-      email: "",
-      role: "",
-      auth: inject("authentication"),
-      tab: null,
+      tab: null
     };
-  },
-  mounted() {
-    if (this.auth.isUserAuthenticated) {
-      this.email = this.auth.getUserName();
-      this.role = this.auth.getRole();
-    }
-  },
-  methods: {
-    logout() {
-      this.auth.logout();
-    },
-    scanQRCode() {
-      this.$router.push({ name: "ScanPassport" });
-    },
-  },
+  }
 };
 </script>
 

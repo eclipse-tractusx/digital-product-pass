@@ -22,11 +22,8 @@
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
-        <v-col class="tabs">
-          <v-tabs v-model="tab" :class="batteryId ? 'no-tabs' : ''" show-arrows>
-            <v-tab value="one" data-cy="history-tab">History Page</v-tab>
-            <v-tab value="two" data-cy="QR-scanner-tab">Search Passport</v-tab>
-          </v-tabs>
+        <v-col class="content">
+          <slot></slot>
         </v-col>
       </v-row>
     </v-container>
@@ -54,18 +51,42 @@
 </template>
 
 <script>
-import CatenaLogoType from "../media/logotype.png";
-import CatenaLogo from "../media/Catena-X_Logo_mit_Zusatz_2021.svg";
-import Profile from "../media/profile.svg";
+import CatenaLogo from "../../media/Catena-X_Logo_mit_Zusatz_2021.svg";
+import Profile from "../../media/profile.svg";
+import { inject } from "vue";
+
 export default {
-    
   name: "HeaderComponent",
   setup() {
     return {
       CatenaLogo,
-      CatenaLogoType,
-      Profile
+      Profile,
     };
+  },
+  data() {
+    return {
+      profileHover: false,
+      hamburgerMenu: false,
+      profileMenu: false,
+      email: "",
+      role: "",
+      auth: inject("authentication"),
+      tab: null,
+    };
+  },
+  mounted() {
+    if (this.auth.isUserAuthenticated) {
+      this.email = this.auth.getUserName();
+      this.role = this.auth.getRole();
+    }
+  },
+  methods: {
+    logout() {
+      this.auth.logout();
+    },
+    scanQRCode() {
+      this.$router.push({ name: "SearchView" });
+    },
   },
 };
 </script>
@@ -112,7 +133,7 @@ h1 {
   left: 40px;
 }
 
-.tabs {
+.content {
   display: flex;
   align-items: center;
   justify-content: center;

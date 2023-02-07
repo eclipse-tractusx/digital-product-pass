@@ -46,7 +46,8 @@ avp:
 productpass:
   backend: false
   api:
-    timeout: 45000 # 45 seconds in milliseconds
+    max_retries: 5 # Max Retries for getting passport transfer
+    timeout: 60000 # 45 seconds in milliseconds
     delay: 2000 # 2 seconds in milliseconds
 
 resources: {}

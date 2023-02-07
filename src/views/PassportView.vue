@@ -146,13 +146,13 @@ export default {
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description = "We are sorry, it took too long to retreive the passport.";
+        this.errorObj.description = "We are sorry, it took too long to retrieve the passport.";
       }
     }catch(e){
       this.loading = false;
       this.error = true;
       this.errorObj.title = "Failed to return passport!";
-      this.errorObj.description = "We are sorry, it was not posible to retreive the passport.";
+      this.errorObj.description = "We are sorry, it was not posible to retrieve the passport.";
     }finally{
       this.loading = false;
     }

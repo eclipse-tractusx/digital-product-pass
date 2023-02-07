@@ -26,7 +26,8 @@ do
 	sed -i 's|APP_VER|'${VERSION}'|g' $file
 	sed -i 's|APP_API_TIMEOUT|'${API_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file
-	
+	sed -i 's|APP_API_MAX_RETRIES|'${API_MAX_RETRIES}'|g' $file
+
 done
 
 exec "$@"

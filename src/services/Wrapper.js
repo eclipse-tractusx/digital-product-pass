@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SERVER_URL, BACKEND, API_DELAY } from "@/services/service.const";
+import { SERVER_URL, BACKEND, API_DELAY, API_MAX_RETRIES } from "@/services/service.const";
 import axios from "axios";
 import backendService from "@/services/BackendService";
 
@@ -164,9 +164,8 @@ export default class Wrapper {
           })
           .catch((e) => {
             console.error("getDataFromConsumerBackend -> " + e);
-            resolve('rejected');
+            resolve(null);
           });
-        ;
       }, 5000);
     });
   }
@@ -221,8 +220,28 @@ export default class Wrapper {
         result = await this.getTransferProcessById(transfer.id, requestHeaders);
         console.log("Transfer state:  ", result.type + '_' + result.state);
       }
+      let tmpPassport = null;
+      let retries = 0;
       
-      const passport = await this.getDataFromConsumerBackend(transferRequest.id);
+      const transferRequestId = transferRequest.id;
+      // Get passport or retry
+      while (retries < API_MAX_RETRIES) {
+        try{
+          tmpPassport = await this.getDataFromConsumerBackend(transferRequestId);
+          if(tmpPassport && tmpPassport != null){
+            break;
+          }
+        }catch(e){
+          // Do nothing
+        }
+        retries++;
+        console.log("Retrying "+retries + "# from " + API_MAX_RETRIES+ "to get passport with transferId ["+transferRequestId+"]");
+      }
+      if(!tmpPassport || tmpPassport == null){
+        return null;
+      }
+      const passport = tmpPassport;
+
       const responseData = {
         "data":{
           "metadata": {

@@ -48,7 +48,7 @@
   </v-container>
   <div v-else>
     <Header />
-    <PassportHeader :id="data.data.passport.batteryId.batteryIdentification.batteryIDDMCCode" type="BatteryId" />
+    <PassportHeader :id="data.data.passport.batteryIdentification.batteryIDDMCCode" type="BatteryID" />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
@@ -97,9 +97,10 @@ import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import Spinner from "@/components/general/Spinner.vue";
 import Header from "@/components/general/Header.vue";
+import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/general/Footer.vue";
-import { API_KEY } from "@/services/service.const";
+import { API_KEY, PASSPORT_TIMEOUT } from "@/services/service.const";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import { inject } from "vue";
@@ -108,6 +109,7 @@ export default {
   components: {
     Header,
     GeneralInformation,
+    PassportHeader,
     CellChemistry,
     StateOfBattery,
     ElectrochemicalProperties,

@@ -58,7 +58,7 @@ spec:
 
             - name: "PASS_TIMEOUT"
               value: "{{ .Values.productpass.timeout }}"
-
+              
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"
           ports:

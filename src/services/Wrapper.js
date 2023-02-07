@@ -17,6 +17,7 @@
 import { SERVER_URL, BACKEND } from "@/services/service.const";
 import axios from "axios";
 import backendService from "@/services/BackendService";
+import { API_TIMEOUT, API_DELAY } from "./service.const";
 
 export default class Wrapper {
 
@@ -85,7 +86,11 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
           headers: requestHeaders
-        })
+        },
+        { 
+          timeout: API_TIMEOUT
+        }
+        )
           .then((response) => {
             console.log('check_state : ' + response.data.state);
             console.log('Agreement Id: ' + response.data.contractAgreementId);
@@ -98,7 +103,7 @@ export default class Wrapper {
             resolve('rejected');
           });
         ;
-      }, 5000);
+      }, API_DELAY);
 
     });
   }
@@ -120,7 +125,11 @@ export default class Wrapper {
       console.log(requestBody);
       axios.post(`${SERVER_URL}/consumer/data/transferprocess`, requestBody, {
         headers: requestHeaders
-      })
+      },
+      { 
+        timeout: API_TIMEOUT
+      }
+      )
         .then((response) => {
           console.log(response.data);
           resolve(response.data);
@@ -138,7 +147,11 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/transferprocess/${transferId}`, {
           headers: requestHeaders
-        })
+        },
+        { 
+          timeout: API_TIMEOUT
+        }
+        )
           .then((response) => {
             console.log(response.data);
             resolve(response.data);
@@ -147,7 +160,7 @@ export default class Wrapper {
             console.error("getTransferProcessById -> " + e);
             resolve('rejected');
           });
-      }, 5000);
+      }, API_DELAY);
     });
   }
   // Step 4.3: Query transferred data from consumer backend system
@@ -160,7 +173,11 @@ export default class Wrapper {
           headers: {
             'Accept': 'application/octet-stream'
           }
-        })
+        },
+        { 
+          timeout: API_TIMEOUT
+        }
+        )
           .then((response) => {
             console.log(response.data);
             resolve(response.data);
@@ -170,7 +187,7 @@ export default class Wrapper {
             resolve('rejected');
           });
         ;
-      }, 5000);
+      }, API_DELAY);
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {

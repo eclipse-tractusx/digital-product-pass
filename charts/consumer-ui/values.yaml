@@ -42,9 +42,13 @@ avp:
     clientSecret: "Add your secret here"
     xApiKey: "Add your secret here"
 
+# Product Passport UI Configuration
 productpass:
   backend: false
-  timeout: 60000 # One minute in milliseconds
+  api:
+    max_retries: 5 # Max Retries for getting passport transfer
+    timeout: 60000 # 45 seconds in milliseconds
+    delay: 2000 # 2 seconds in milliseconds
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

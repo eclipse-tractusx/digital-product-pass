@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SERVER_URL, BACKEND } from "@/services/service.const";
+import { SERVER_URL, BACKEND, API_DELAY, API_MAX_RETRIES } from "@/services/service.const";
 import axios from "axios";
 import backendService from "@/services/BackendService";
 
@@ -63,12 +63,12 @@ export default class Wrapper {
         }
       }
     };
-
     return new Promise(resolve => {
 
       axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, requestBody, {
         headers: requestHeaders
-      })
+      }
+      )
         .then((response) => {
           resolve(response.data);
         })
@@ -85,11 +85,9 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
           headers: requestHeaders
-        })
+        }
+        )
           .then((response) => {
-            console.log('check_state : ' + response.data.state);
-            console.log('Agreement Id: ' + response.data.contractAgreementId);
-            console.log('Agreement state: ' + response.data.state);
             resolve(response.data);
           })
           .catch((e) => {
@@ -98,7 +96,7 @@ export default class Wrapper {
             resolve('rejected');
           });
         ;
-      }, 5000);
+      }, API_DELAY);
 
     });
   }
@@ -117,12 +115,11 @@ export default class Wrapper {
       },
     };
     return new Promise(resolve => {
-      console.log(requestBody);
       axios.post(`${SERVER_URL}/consumer/data/transferprocess`, requestBody, {
         headers: requestHeaders
-      })
+      }
+      )
         .then((response) => {
-          console.log(response.data);
           resolve(response.data);
         })
         .catch((e) => {
@@ -138,16 +135,16 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/transferprocess/${transferId}`, {
           headers: requestHeaders
-        })
+        }
+        )
           .then((response) => {
-            console.log(response.data);
             resolve(response.data);
           })
           .catch((e) => {
             console.error("getTransferProcessById -> " + e);
             resolve('rejected');
           });
-      }, 5000);
+      }, API_DELAY);
     });
   }
   // Step 4.3: Query transferred data from consumer backend system
@@ -160,16 +157,15 @@ export default class Wrapper {
           headers: {
             'Accept': 'application/octet-stream'
           }
-        })
+        }
+        )
           .then((response) => {
-            console.log(response.data);
             resolve(response.data);
           })
           .catch((e) => {
             console.error("getDataFromConsumerBackend -> " + e);
-            resolve('rejected');
+            resolve(null);
           });
-        ;
       }, 5000);
     });
   }
@@ -191,7 +187,6 @@ export default class Wrapper {
         connectorId: providerConnector.idShort,
         contractOffer: contractOffer[0]
       };
-      console.log(payload);
       let negotiation = await this.doContractNegotiation(payload, requestHeaders);
       console.log("Negotiation ID: " + negotiation.id);
 
@@ -225,8 +220,28 @@ export default class Wrapper {
         result = await this.getTransferProcessById(transfer.id, requestHeaders);
         console.log("Transfer state:  ", result.type + '_' + result.state);
       }
+      let tmpPassport = null;
+      let retries = 0;
       
-      const passport = await this.getDataFromConsumerBackend(transferRequest.id);
+      const transferRequestId = transferRequest.id;
+      // Get passport or retry
+      while (retries < API_MAX_RETRIES) {
+        try{
+          tmpPassport = await this.getDataFromConsumerBackend(transferRequestId);
+          if(tmpPassport && tmpPassport != null){
+            break;
+          }
+        }catch(e){
+          // Do nothing
+        }
+        retries++;
+        console.log("Retrying "+retries + "# from " + API_MAX_RETRIES+ "to get passport with transferId ["+transferRequestId+"]");
+      }
+      if(!tmpPassport || tmpPassport == null){
+        return null;
+      }
+      const passport = tmpPassport;
+
       const responseData = {
         "data":{
           "metadata": {

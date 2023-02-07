@@ -13,21 +13,14 @@
 // limitations under the License.
 
 export default {
-  
-  async executeWithTimeout(asyncPromise, timeLimit, callbackFunction){
-    let timeoutHandle;
-
-    const timeoutPromise = new Promise((_resolve, reject) => {
-      timeoutHandle = setTimeout(
-        () => reject(new Error('Async call timeout limit reached')),
-        timeLimit
-      );
+  timeout(ms, defaultValue=null) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(defaultValue);
+      }, ms);
     });
-
-    return Promise.race([asyncPromise, timeoutPromise]).then(result => {
-      clearTimeout(timeoutHandle);
-      callbackFunction(result);
-      return result;
-    });
+  },
+  async execWithTimeout(promise, timeout, defaultValue=null){
+    return Promise.race([promise, this.timeout(timeout, defaultValue)]);
   }
 };

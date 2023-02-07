@@ -56,9 +56,15 @@ spec:
             - name: "BACKEND"
               value: "{{ .Values.productpass.backend }}"
 
-            - name: "PASS_TIMEOUT"
-              value: "{{ .Values.productpass.timeout }}"
-              
+            - name: "API_TIMEOUT"
+              value: "{{ .Values.productpass.api.timeout }}"
+            
+            - name: "API_MAX_RETRIES"
+              value: "{{ .Values.productpass.api.max_retries }}"
+
+            - name: "API_DELAY"
+              value: "{{ .Values.productpass.api.delay }}"
+
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"
           ports:

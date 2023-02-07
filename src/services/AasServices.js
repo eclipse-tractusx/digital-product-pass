@@ -29,7 +29,6 @@ export default class AasServices {
         }
       )
         .then((response) => {
-          console.log("PassportView (AAS Shell Id):", response.data);
           resolve(response.data);
         })
         .catch((e) => {
@@ -47,7 +46,6 @@ export default class AasServices {
           }
         )
         .then((response) => {
-          console.log("PassportView (Shell Descriptor Object):", response.data);
           resolve(response.data);
         })
         .catch((e) => {
@@ -66,7 +64,6 @@ export default class AasServices {
           }
         )
         .then((response) => {
-          console.log("PassportView (SubModel):", response.data);
           resolve(response.data);
         })
         .catch((e) => {

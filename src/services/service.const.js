@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VER";
 const TWIN_REGISTRY_URL = "http://localhost:4243";
 const AAS_PROXY_URL = "http://localhost:4245";
@@ -30,7 +31,19 @@ const API_KEY = "X_API_KEY";
 const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
 const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
 const BACKEND = 'APP_BACK';
-const PASSPORT_TIMEOUT = 'APP_PASS_TIMEOUT';
+let retries = 'APP_API_MAX_RETRIES';
+let timeout = 'APP_API_TIMEOUT';
+let delay = 'APP_API_DELAY';
+
+// Default Variables if value is not specified or is not a integer
+timeout = numberUtil.parseInt(timeout, 60000);
+delay = numberUtil.parseInt(delay, 2000);
+retries = numberUtil.parseInt(retries, 5);
+
+
+const API_MAX_RETRIES = retries;
+const API_TIMEOUT = timeout;
+const API_DELAY = delay;
 
 let SERVER_URL = "";
 let INIT_OPTIONS = {};
@@ -84,5 +97,5 @@ else { // for local run
   CX_REGISTRY_URL = CX_REGISTRY_URL_INT;
 }
 
-export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL, BACKEND, VERSION, PASSPORT_TIMEOUT};
+export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL, BACKEND, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES};
 

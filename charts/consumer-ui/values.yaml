@@ -42,7 +42,7 @@ avp:
     clientSecret: "Add your secret here"
     xApiKey: "Add your secret here"
 
-product-pass:
+productpass:
   backend: false
   timeout: 60000 # One minute in milliseconds
 

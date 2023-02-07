@@ -38,6 +38,6 @@ avp:
     clientSecret: <path:material-pass/data/dev/aasregistry#client.secret>
     xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
 
-product-pass:
+productpass:
   backend: false
   timeout: 60000 # One minute milliseconds

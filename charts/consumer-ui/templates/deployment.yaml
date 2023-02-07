@@ -54,9 +54,11 @@ spec:
                   key:  xApiKey
                   name: avp-consumer-ui-edc-oauth
             - name: "BACKEND"
-              value: "{{ .Values.product-pass.backend }}"
+              value: "{{ .Values.productpass.backend }}"
+
             - name: "PASS_TIMEOUT"
-              value: "{{ .Values.product-pass.timeout }}"
+              value: "{{ .Values.productpass.timeout }}"
+              
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"
           ports:

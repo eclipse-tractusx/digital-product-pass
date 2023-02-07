@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import { SERVER_URL, BACKEND } from "@/services/service.const";
+import { SERVER_URL, BACKEND, API_DELAY } from "@/services/service.const";
 import axios from "axios";
 import backendService from "@/services/BackendService";
-import { API_TIMEOUT, API_DELAY } from "./service.const";
 
 export default class Wrapper {
 
@@ -64,12 +63,12 @@ export default class Wrapper {
         }
       }
     };
-
     return new Promise(resolve => {
 
       axios.post(`${SERVER_URL}/consumer/data/contractnegotiations`, requestBody, {
         headers: requestHeaders
-      })
+      }
+      )
         .then((response) => {
           resolve(response.data);
         })
@@ -86,15 +85,9 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/contractnegotiations/${uuid}`, {
           headers: requestHeaders
-        },
-        { 
-          timeout: API_TIMEOUT
         }
         )
           .then((response) => {
-            console.log('check_state : ' + response.data.state);
-            console.log('Agreement Id: ' + response.data.contractAgreementId);
-            console.log('Agreement state: ' + response.data.state);
             resolve(response.data);
           })
           .catch((e) => {
@@ -122,16 +115,11 @@ export default class Wrapper {
       },
     };
     return new Promise(resolve => {
-      console.log(requestBody);
       axios.post(`${SERVER_URL}/consumer/data/transferprocess`, requestBody, {
         headers: requestHeaders
-      },
-      { 
-        timeout: API_TIMEOUT
       }
       )
         .then((response) => {
-          console.log(response.data);
           resolve(response.data);
         })
         .catch((e) => {
@@ -147,13 +135,9 @@ export default class Wrapper {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/consumer/data/transferprocess/${transferId}`, {
           headers: requestHeaders
-        },
-        { 
-          timeout: API_TIMEOUT
         }
         )
           .then((response) => {
-            console.log(response.data);
             resolve(response.data);
           })
           .catch((e) => {
@@ -173,13 +157,9 @@ export default class Wrapper {
           headers: {
             'Accept': 'application/octet-stream'
           }
-        },
-        { 
-          timeout: API_TIMEOUT
         }
         )
           .then((response) => {
-            console.log(response.data);
             resolve(response.data);
           })
           .catch((e) => {
@@ -187,7 +167,7 @@ export default class Wrapper {
             resolve('rejected');
           });
         ;
-      }, API_DELAY);
+      }, 5000);
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
@@ -208,7 +188,6 @@ export default class Wrapper {
         connectorId: providerConnector.idShort,
         contractOffer: contractOffer[0]
       };
-      console.log(payload);
       let negotiation = await this.doContractNegotiation(payload, requestHeaders);
       console.log("Negotiation ID: " + negotiation.id);
 

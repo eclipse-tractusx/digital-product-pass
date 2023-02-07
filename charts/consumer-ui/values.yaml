@@ -47,7 +47,7 @@ productpass:
   backend: false
   api:
     timeout: 45000 # 45 seconds in milliseconds
-    delay: 5000 # 5 seconds in milliseconds
+    delay: 2000 # 2 seconds in milliseconds
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

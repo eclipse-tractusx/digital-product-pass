@@ -20,7 +20,7 @@
       <v-switch
         v-model="QRtoggle"
         color="#0F71CB"
-        label="Camera switch"
+        label="QR Code Scanner"
       ></v-switch>
     </div>
   </div>

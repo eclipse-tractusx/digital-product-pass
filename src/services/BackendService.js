@@ -15,7 +15,6 @@
  */
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
-
 export default class BackendService {
   async getPassportV1(assetId) {
     return await this.getPassport("v1", assetId);
@@ -27,14 +26,16 @@ export default class BackendService {
           headers: {
             'Accept': 'application/json'
           }
-        }).then((response) => {
-          resolve(response.data);
-        })
+        }
+        )
+          .then((response) => {
+            resolve(response.data);
+          })
           .catch((e) => {
             console.error("getPassport -> " + e);
             resolve('rejected');
           });
-      }, 5000);
+      });
     });
   }
 }

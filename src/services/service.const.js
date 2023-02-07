@@ -30,20 +30,30 @@ const API_KEY = "X_API_KEY";
 const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
 const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
 const BACKEND = 'APP_BACK';
-let API_TIMEOUT = 'APP_API_TIMEOUT';
-let API_DELAY = 'APP_API_DELAY';
+let timeout = 'APP_API_TIMEOUT';
+let delay = 'APP_API_DELAY';
 
 // Default Variables if value is not specified or is not a integer
 try{
-  API_TIMEOUT = parseInt(API_TIMEOUT);
+  timeout = parseInt(timeout);
 }catch(e){
-  API_TIMEOUT = 45000;
+  timeout = 45000;
 }
+if(!timeout){
+  timeout = 45000;
+}
+
 try{
-  API_DELAY = parseInt(API_DELAY);
+  delay = parseInt(delay);
 }catch(e){
-  API_DELAY = 5000;
+  delay = 2000;
 }
+if(!delay){
+  delay = 2000;
+}
+
+const API_TIMEOUT = timeout;
+const API_DELAY = delay;
 
 let SERVER_URL = "";
 let INIT_OPTIONS = {};

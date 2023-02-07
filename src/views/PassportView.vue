@@ -100,7 +100,8 @@ import Header from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/general/Footer.vue";
-import { API_KEY, PASSPORT_TIMEOUT } from "@/services/service.const";
+import { API_KEY, API_TIMEOUT } from "@/services/service.const";
+import threadUtil from "@/utils/threadUtil.js";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import { inject } from "vue";
@@ -136,8 +137,25 @@ export default {
     };
   },
   async created() {
-    this.data = await this.getPassport(this.passId);
-    this.loading = false;
+    try{
+      let passportPromise = this.getPassport(this.passId);
+      const result = await threadUtil.execWithTimeout(passportPromise, API_TIMEOUT, null);
+      if(result && result != null){
+        this.data = result;
+      }else{
+        this.loading = false;
+        this.error = true;
+        this.errorObj.title = "Timeout! Failed to return passport!";
+        this.errorObj.description = "We are sorry, it took too long to retreive the passport.";
+      }
+    }catch(e){
+      this.loading = false;
+      this.error = true;
+      this.errorObj.title = "Failed to return passport!";
+      this.errorObj.description = "We are sorry, it was not posible to retreive the passport.";
+    }finally{
+      this.loading = false;
+    }
   },
   methods: {
     async getPassport(assetId) {

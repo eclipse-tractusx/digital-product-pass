@@ -43,4 +43,4 @@ productpass:
   backend: false
   api:
     timeout: 45000 # 45 seconds in milliseconds
-    delay: 5000 # 5 seconds in milliseconds
+    delay: 2000 # 5 seconds in milliseconds

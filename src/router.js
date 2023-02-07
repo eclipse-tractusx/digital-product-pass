@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-import Home from './components/Home.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import { createRouter, createWebHistory } from "vue-router";
-import Header from "./components/Header.vue";
+import HomeView from "./views/HomeView.vue";
 
 
 const routes = [
   {
     path: '/',
-    name: "Header",
-    component: Header,
+    name: "Home Page",
+    component: HomeView,
   },
   {
     path: "/:catchAll(.*)",
@@ -35,11 +34,6 @@ const routes = [
     path: "/PageNotFound",
     name: "PageNotFound",
     component: PageNotFound,
-  },
-  {
-    path: '/dashboard',
-    name: 'Home',
-    component: Home,
   },
   {
     path: "/:id",

@@ -21,7 +21,6 @@
     "popper.js": "^1.16.1",
     "vue": "^3.2.31",
     "vue-router": "^4.0.13",
-    "vue3-easy-data-table": "^1.4.17",
     "vue3-qrcode-reader": "^0.0.1",
     "vuetify": "^3.0.4",
     "vuex": "^4.0.2",

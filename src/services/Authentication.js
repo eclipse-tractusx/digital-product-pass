@@ -18,15 +18,18 @@ import { REDIRECT_URI, INIT_OPTIONS, CLIENT_CREDENTIALS, IDP_URL } from "@/servi
 import Keycloak from 'keycloak-js';
 import axios from "axios";
 import store from '../store/index';
+//import BackendService from "@/services/BackendService";
 
 
 export default class Authentication {
-
     keycloak;
     constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
     keycloakInit(app) {
+      // if((BACKEND === 'true') || (BACKEND == true)) {
+      //   BackendService.login();
+      // }
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
         if (!auth) {
           window.location.reload();
@@ -87,13 +90,14 @@ export default class Authentication {
     }
     logout() {
       let logoutOptions = { redirectUri: REDIRECT_URI };
-
+      // if((BACKEND === 'true') || (BACKEND == true)) {
+      //   return BackendService.logout(REDIRECT_URI);
+      // }
       this.keycloak.logout(logoutOptions).then((success) => {
         console.log("--> log: logout success ", success);
       }).catch((error) => {
         console.log("--> log: logout error ", error);
       });
-
     }
     /***** Technical User Authentication *****/
 

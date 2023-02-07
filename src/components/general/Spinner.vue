@@ -15,29 +15,42 @@
 -->
 
 <template>
-  <div class="PageNotFound">
-    <router-link to="/">
-      <img :src="Error" alt="error" class="error" />
-    </router-link>
+  <div class="spinner-container">
+    <img class="spinner" :src="Spinner" />
   </div>
 </template>
 
 <script>
-import Error from "../media/500error.png";
-
+import Spinner from "../../media/spinner.gif";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "PageNotFound",
-  components: {},
+  name: "Spinner",
   setup() {
     return {
-      Error,
+      Spinner,
     };
   },
 };
 </script>
+
 <style scoped>
-.error {
-  width: 110%;
+.spinner-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  margin: auto;
+  width: 8vh;
+  animation: rotate 3s infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: "Alert",
+  name: "AlertComponent",
   props: {
     title: {
       type: String,

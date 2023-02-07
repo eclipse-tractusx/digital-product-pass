@@ -24,6 +24,8 @@ do
 	sed -i 's|X_API_KEY|'${X_API_KEY}'|g' $file
 	sed -i 's|APP_BACK|'${BACKEND}'|g' $file
 	sed -i 's|APP_VER|'${VERSION}'|g' $file
+	sed -i 's|APP_PASS_TIMEOUT|'${PASS_TIMEOUT}'|g' $file
+	
 done
 
 exec "$@"

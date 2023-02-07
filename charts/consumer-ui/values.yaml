@@ -38,10 +38,13 @@ ingress:
 
 avp:
   helm:
-    backend: false
     clientId: "Add your secret here"
     clientSecret: "Add your secret here"
     xApiKey: "Add your secret here"
+
+productpass:
+  backend: false
+  timeout: 60000 # One minute in milliseconds
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

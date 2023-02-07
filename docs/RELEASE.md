@@ -28,9 +28,12 @@ The changelog must also be updated from [CHANGELOG.md](../CHANGELOG.md) file, sh
 
 ## Release Helm charts
 
-Helm charts of below components can be found in *deployment/helm* folder.
+Helm charts released:
+- [consumer-ui](../charts/consumer-ui/Chart.yaml)
+- [consumer-backend](../charts/consumer-backend/Chart.yaml)
 
-- [consumer-ui](../deployment/helm/consumer-ui/Chart.yaml)
+
+Aditional Helm charts of below components can be found in *deployment/helm* folder.
 - [edc-consumer](../deployment/helm/edc-consumer/Chart.yaml)
 - [edc-provider](../deployment/helm/edc-provider/Chart.yaml)
 

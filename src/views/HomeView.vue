@@ -18,10 +18,10 @@
   <div>
     <Header>
       <v-tabs v-model="tab" show-arrows>
-        <v-tab value="one" class="text-capitalize" data-cy="history-tab"
+        <v-tab value="one" class="text-uppercase" data-cy="history-tab"
           >History Page</v-tab
         >
-        <v-tab value="two" class="text-capitalize" data-cy="QR-scanner-tab"
+        <v-tab value="two" class="text-uppercase" data-cy="QR-scanner-tab"
           >Search Passport</v-tab
         >
       </v-tabs>

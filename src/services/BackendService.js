@@ -28,7 +28,6 @@ export default class BackendService {
             'Accept': 'application/json'
           }
         }).then((response) => {
-          console.log(response.data);
           resolve(response.data);
         })
           .catch((e) => {

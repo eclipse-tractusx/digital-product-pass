@@ -172,4 +172,9 @@ tr {
   background: #e9e9e9;
   height: 76px;
 }
+a {
+  color: #3d3d3d;
+  text-decoration: none;
+  white-space: nowrap;
+}
 </style>

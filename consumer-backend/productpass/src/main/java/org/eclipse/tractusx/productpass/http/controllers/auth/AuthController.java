@@ -44,6 +44,8 @@ import utils.JsonUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.LogUtil;
+
 import java.util.Set;
 
 @RestController
@@ -60,11 +62,12 @@ public class AuthController {
     private @Autowired AuthenticationService authService;
     private Response loginFromHttpRequest(){
         Response response = HttpUtil.getResponse();
+
+
         Set<String> roles = HttpUtil.getUserClientRoles(this.httpRequest,env.getProperty(clientIdPath));
-
-
         if(roles == null) {
             response.message = "You have no assigned roles!";
+            response.status = 500;
             return response;
         }
 

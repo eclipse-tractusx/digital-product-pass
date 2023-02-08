@@ -45,6 +45,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 public final class HttpUtil {
 
     private HttpUtil() {

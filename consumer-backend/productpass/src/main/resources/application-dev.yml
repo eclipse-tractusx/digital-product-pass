@@ -24,6 +24,8 @@ spring:
       indent_output: true
 
 
+
+
 keycloak:
   realm: CX-Central
   resource: Cl13-CX-Battery
@@ -33,7 +35,6 @@ keycloak:
   public-client: true
   use-resource-role-mappings: true
   securityConstraints:
-
     - authRoles: ['Recycler', 'OEM', 'Dismantler']
       securityCollections:
         - name: 'Common Auth'
@@ -52,3 +53,4 @@ server:
   port: 8888
   tomcat:
     max-connections: 10000
+

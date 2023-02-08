@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+## Release helm chart workflow
 name: Release - Helm Charts
 
 on:
@@ -23,14 +24,11 @@ on:
       - main
 jobs:
   release:
-    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
-    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
       contents: write
     runs-on: ubuntu-latest
 
     steps:
-      # fetch-depth: 0 is required to determine differences in chart(s)
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -56,3 +54,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.4.1
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      

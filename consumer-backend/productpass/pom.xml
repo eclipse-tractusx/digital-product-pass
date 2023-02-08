@@ -30,12 +30,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.5</version>
+        <version>2.7.8</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.eclipse.tractusx</groupId>
 	<artifactId>productpass</artifactId>
-	<version>0.2.9-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 	<name>Catena-X Product Passport Consumer Backend</name>
 	<description>Product Passport Consumer Backend System for Product Passport Consumer Frontend Application</description>
@@ -53,6 +53,12 @@
             <artifactId>guava</artifactId>
             <version>31.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -60,6 +66,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
+            <version>1.33</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -95,6 +102,7 @@
                    <artifactId>spring-boot-starter-logging</artifactId>
                </exclusion>
            </exclusions>
+           <version>3.0.2</version>
        </dependency>
        <dependency>
            <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -115,6 +123,7 @@
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-security</artifactId>
+           <version>3.0.2</version>
        </dependency>
        <dependency>
            <groupId>org.sonarsource.scanner.maven</groupId>
@@ -125,7 +134,11 @@
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-data-rest</artifactId>
        </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>6.0.0</version>
+        </dependency>
        <dependency>
            <groupId>org.springframework.data</groupId>
            <artifactId>spring-data-commons</artifactId>
@@ -134,6 +147,7 @@
        <dependency>
            <groupId>org.keycloak</groupId>
            <artifactId>keycloak-spring-boot-starter</artifactId>
+           <version>20.0.3</version>
        </dependency>
 
        <dependency>
@@ -151,7 +165,7 @@
        <dependency>
            <groupId>org.keycloak</groupId>
            <artifactId>keycloak-spring-security-adapter</artifactId>
-           <version>20.0.0</version>
+           <version>20.0.3</version>
        </dependency>
        <dependency>
            <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -206,6 +220,7 @@
                     <execution>
                         <id>build-info</id>
                         <goals>
+                            <goal>repackage</goal>
                             <goal>build-info</goal>
                         </goals>
                     </execution>
@@ -254,10 +269,12 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
             </plugin>
         </plugins>
-	</build>
+    </build>
     <pluginRepositories>
         <pluginRepository>
             <id>dash-licenses-snapshots</id>

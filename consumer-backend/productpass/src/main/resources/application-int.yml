@@ -47,7 +47,7 @@ server:
     include-binding-errors: ALWAYS
     include-stacktrace: ON_PARAM
     include-exception: false
-  port: 8888
+  port: 8080
   tomcat:
     max-connections: 10000
 

@@ -16,7 +16,7 @@ name: "Veracode upload and scan"
 
 on:
   push:
-    branches: [ "main", "hotfix/backend-veracode-scanning" ]
+    branches: [ "main" ]
   schedule:
     # Once a day
     - cron: "0 0 * * *"

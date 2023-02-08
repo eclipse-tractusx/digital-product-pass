@@ -33,6 +33,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "vue-loader": "*",
     "cypress": "^12.3.0",
     "cypress-keycloak": "^1.9.0",
     "eslint": "^7.32.0",

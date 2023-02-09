@@ -35,6 +35,16 @@ jobs:
         with:
           repository: ''
 
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 19
+          distribution: 'adopt'
+
+      - name: build
+        run: |
+          cd consumer-backend/productpass
+          mvn dependency:purge-local-repository clean verify
+
       - run: zip -r veracode-scan-target.zip ./
 
       - name: Run Veracode Upload And Scan

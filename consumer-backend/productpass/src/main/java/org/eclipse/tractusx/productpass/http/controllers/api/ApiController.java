@@ -39,6 +39,7 @@ import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.models.passports.PassportV1;
 import org.eclipse.tractusx.productpass.services.AasService;
+import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +62,8 @@ public class ApiController {
     private @Autowired DataTransferService dataService;
     private @Autowired AasService aasService;
     private @Autowired DataController dataController;
+
+    private @Autowired AuthenticationService authService;
 
     public static final ConfigUtil configuration = new ConfigUtil();
     public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
@@ -98,7 +101,7 @@ public class ApiController {
         @RequestParam(value = "providerUrl", required = false, defaultValue = "") String providerUrl
     ) {
         // Check if user is Authenticated
-        if(!HttpUtil.isAuthenticated(httpRequest)){
+        if(!authService.isAuthenticated(httpRequest)){
             Response response = HttpUtil.getNotAuthorizedResponse();
             return HttpUtil.buildResponse(response, httpResponse);
         }
@@ -148,7 +151,7 @@ public class ApiController {
             @RequestParam(value = "index", required = false, defaultValue = "0") Integer index
     ) {
         // Check if user is Authenticated
-        if(!HttpUtil.isAuthenticated(httpRequest)){
+        if(!authService.isAuthenticated(httpRequest)){
             Response response = HttpUtil.getNotAuthorizedResponse();
             return HttpUtil.buildResponse(response, httpResponse);
         }

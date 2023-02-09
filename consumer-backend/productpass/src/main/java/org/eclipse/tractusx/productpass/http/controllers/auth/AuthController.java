@@ -87,15 +87,17 @@ public class AuthController {
         HttpUtil.redirect(httpResponse,"/passport");
         return response;
     }
+
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     @Operation(summary = "Checks the user logged in status", responses = {
             @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
     public Response check(){
-        Boolean check = HttpUtil.isAuthenticated(httpRequest);
+        Boolean check = authService.isAuthenticated(httpRequest);
         return HttpUtil.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
+
 
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     @Operation(summary = "Returns access token", responses = {
@@ -104,7 +106,7 @@ public class AuthController {
     })
     public Response getToken(){
         // Check if user is Authenticated
-        if(!HttpUtil.isAuthenticated(httpRequest)){
+        if(!authService.isAuthenticated(httpRequest)){
             return HttpUtil.buildResponse(HttpUtil.getNotAuthorizedResponse(), httpResponse);
         }
 
@@ -117,7 +119,7 @@ public class AuthController {
     public Response getUserInfo(){
         Response response = HttpUtil.getNotAuthorizedResponse();
         // Check if user is Authenticated
-        if(!HttpUtil.isAuthenticated(httpRequest)){
+        if(!authService.isAuthenticated(httpRequest)){
             return HttpUtil.buildResponse(response, httpResponse);
         }
         String token = HttpUtil.getAuthorizationToken(httpRequest);

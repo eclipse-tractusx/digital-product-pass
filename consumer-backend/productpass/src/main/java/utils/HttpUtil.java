@@ -55,10 +55,6 @@ public final class HttpUtil {
     private static final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
     private static final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
-    public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
-        String token = HttpUtil.getAuthorizationToken(httpRequest);
-        return token != null;
-    }
 
     public static Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);

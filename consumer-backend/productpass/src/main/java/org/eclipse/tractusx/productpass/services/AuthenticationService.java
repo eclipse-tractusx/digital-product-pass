@@ -26,6 +26,8 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.http.protocol.HTTP;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
@@ -106,6 +108,19 @@ public class AuthenticationService extends BaseService {
         UserInfo userInfo = null;
         try {
             userInfo = this.getUserInfo(jwtToken);
+        }catch (Exception e){
+            return false;
+        }
+        return userInfo != null;
+    }
+    public Boolean isAuthenticated(HttpServletRequest httpRequest){
+        String token = HttpUtil.getAuthorizationToken(httpRequest);
+        if(token == null){
+            return false;
+        }
+        UserInfo userInfo = null;
+        try {
+            userInfo = this.getUserInfo(token);
         }catch (Exception e){
             return false;
         }

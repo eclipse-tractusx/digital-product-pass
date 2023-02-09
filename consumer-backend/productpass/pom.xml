@@ -35,7 +35,7 @@
 	</parent>
 	<groupId>org.eclipse.tractusx</groupId>
 	<artifactId>productpass</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>0.3.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 	<name>Catena-X Product Passport Consumer Backend</name>
 	<description>Product Passport Consumer Backend System for Product Passport Consumer Frontend Application</description>
@@ -212,9 +212,8 @@
                 <version>${project.parent.version}</version>
                 <executions>
                     <execution>
-                        <id>build-info</id>
                         <goals>
-                            <goal>repackage</goal>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -262,8 +261,6 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
-                    <debug>true</debug>
-                    <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
             </plugin>
         </plugins>

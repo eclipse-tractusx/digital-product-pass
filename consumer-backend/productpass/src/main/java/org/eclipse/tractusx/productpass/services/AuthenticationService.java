@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
+import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +49,10 @@ public class AuthenticationService extends BaseService {
     private VaultService vaultService;
 
     public static final ConfigUtil configuration = new ConfigUtil();
+    public final String userInfoUri = (String) configuration.getConfigurationParam("keycloak.userInfoUri", ".", null);
     public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
+    public final String realm = (String) configuration.getConfigurationParam("keycloak.realm", ".", null);
+    public final String resource = (String) configuration.getConfigurationParam("keycloak.resource", ".", null);
     public String clientId;
     public String clientSecret;
 
@@ -95,6 +99,32 @@ public class AuthenticationService extends BaseService {
             throw new ServiceException(this.getClass().getName()+"."+"getToken",
                     e,
                     "It was not possible to retrieve the token!");
+        }
+    }
+
+    public Boolean isAuthenticated(String jwtToken){
+        UserInfo userInfo = null;
+        try {
+            userInfo = this.getUserInfo(jwtToken);
+        }catch (Exception e){
+            return false;
+        }
+        return userInfo != null;
+    }
+
+    public UserInfo getUserInfo(String jwtToken){
+        try{
+            HttpHeaders headers = HttpUtil.getHeadersWithToken(jwtToken);
+            headers.add("Accept", "application/json");
+
+            ResponseEntity<?> response = HttpUtil.doPost(userInfoUri, String.class, headers, HttpUtil.getParams(), false, false);
+            String responseBody = (String) response.getBody();
+            JsonNode json = JsonUtil.toJsonNode(responseBody);
+            return (UserInfo) JsonUtil.bindJsonNode(json, UserInfo.class);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getUserInfo",
+                    e,
+                    "It was not possible to getUserInfo!");
         }
     }
 

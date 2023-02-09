@@ -26,9 +26,6 @@
 package utils;
 
 import org.eclipse.tractusx.productpass.models.http.Response;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.AccessToken;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -43,7 +40,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,62 +54,10 @@ public final class HttpUtil {
 
     private static final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
     private static final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
-    /**************************************************
-     * User Authentication Related Functions
-     * @param request + Extra details
-     **************************************************/
-
-    public static Set<String> getUserRealmRoles(HttpServletRequest request) {
-        AccessToken user = HttpUtil.getUser(request); // Get user from request
-
-        if (user == null) {
-            return null;
-        }
-        return user.getRealmAccess().getRoles(); // Get roles from user
-    }
 
     public static Boolean isAuthenticated(HttpServletRequest httpRequest) {
-        KeycloakPrincipal principal = HttpUtil.getUserPrincipal(httpRequest);
-        return principal != null;
-    }
-
-    public static Set<String> getUserClientRoles(HttpServletRequest request, String clientId) {
-        AccessToken user = HttpUtil.getUser(request); // Get user from request
-        if (user == null) {
-            return null;
-        }
-        return user.getResourceAccess(clientId).getRoles(); // Get roles from user
-    }
-
-    public static AccessToken getUser(HttpServletRequest request) {
-        KeycloakSecurityContext session = HttpUtil.getUserSession(request); // Get the session from the request
-        if (session == null) {
-            return null;
-        }
-        return session.getToken(); // Return user info
-    }
-
-    public static KeycloakPrincipal getUserPrincipal(HttpServletRequest request) {
-        return (KeycloakPrincipal) request.getUserPrincipal();// Get the user data from the request
-    }
-
-    /**************************************************
-     * Session Related Methods
-     * @param request + Extra details
-     **************************************************/
-
-    public static String getJWTToken(HttpServletRequest request) {
-        AccessToken token = HttpUtil.getUser(request);
-        LogUtil.printMessage(JsonUtil.toJson(token, false));
-        return CrypUtil.toBase64Url(JsonUtil.toJson(token, false));
-    }
-
-    public static KeycloakSecurityContext getUserSession(HttpServletRequest request) {
-        KeycloakPrincipal principal = HttpUtil.getUserPrincipal(request); // Get the principal to access the session
-        if (principal == null) {
-            return null;
-        }
-        return principal.getKeycloakSecurityContext();
+        String token = HttpUtil.getAuthorizationToken(httpRequest);
+        return token != null;
     }
 
     public static Object getSessionValue(HttpServletRequest httpRequest, String key) {
@@ -152,6 +96,18 @@ public final class HttpUtil {
             return defaultPattern;
         }
         return requestParam;
+    }
+
+    public static String getAuthorizationToken(HttpServletRequest httpRequest){
+        final String authorizationHeaderValue = httpRequest.getHeader("Authorization");
+        String token = null;
+        if (authorizationHeaderValue != null && authorizationHeaderValue.startsWith("Bearer")) {
+            token = authorizationHeaderValue.substring(7, authorizationHeaderValue.length());
+        }
+        if(token == null || token.isEmpty() || token.isBlank()){
+            return null;
+        }
+        return token;
     }
     public static String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
@@ -221,6 +177,12 @@ public final class HttpUtil {
                 message,
                 200,
                 data
+        );
+    }
+    public static Response getNotAuthorizedResponse() {
+        return new Response(
+                "Not Authorized",
+                401
         );
     }
     public static void redirect(HttpServletResponse httpResponse, String url) {

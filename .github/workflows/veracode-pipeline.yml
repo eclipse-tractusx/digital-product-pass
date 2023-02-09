@@ -46,7 +46,7 @@ jobs:
     - name: build
       run: |
         cd consumer-backend/productpass
-        mvn dependency:purge-local-repository clean install
+        mvn dependency:purge-local-repository clean verify
 
     - run: zip -r veracode-scan-target.zip ./
 

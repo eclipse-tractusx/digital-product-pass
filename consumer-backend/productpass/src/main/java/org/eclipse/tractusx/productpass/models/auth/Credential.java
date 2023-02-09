@@ -28,7 +28,7 @@ package org.eclipse.tractusx.productpass.models.auth;
 
 import utils.HttpUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class Credential {
     private String session_code;

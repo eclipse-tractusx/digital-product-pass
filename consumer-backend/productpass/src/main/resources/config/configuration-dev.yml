@@ -19,7 +19,10 @@ LogUtil:
 maxRetries: 5
 
 keycloak:
+  realm: CX-Central
+  resource: Cl13-CX-Battery
   tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+  userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
 variables:
   default:

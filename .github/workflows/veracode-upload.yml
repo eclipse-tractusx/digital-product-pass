@@ -17,6 +17,7 @@ name: "Veracode upload and scan"
 on:
   push:
     branches: [ "main" ]
+
   schedule:
     # Once a day
     - cron: "0 0 * * *"

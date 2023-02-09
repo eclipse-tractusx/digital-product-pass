@@ -39,6 +39,7 @@ import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.models.passports.PassportV1;
 import org.eclipse.tractusx.productpass.services.AasService;
+import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,8 @@ import utils.HttpUtil;
 import utils.LogUtil;
 import utils.ThreadUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,8 @@ public class ApiController {
     private @Autowired DataTransferService dataService;
     private @Autowired AasService aasService;
     private @Autowired DataController dataController;
+
+    private @Autowired AuthenticationService authService;
 
     public static final ConfigUtil configuration = new ConfigUtil();
     public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
@@ -97,6 +100,11 @@ public class ApiController {
         @PathVariable("assetId") String assetId,
         @RequestParam(value = "providerUrl", required = false, defaultValue = "") String providerUrl
     ) {
+        // Check if user is Authenticated
+        if(!authService.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         if(providerUrl == null || providerUrl.equals("")){
             providerUrl = defaultProviderUrl;
         }
@@ -142,6 +150,11 @@ public class ApiController {
             @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
             @RequestParam(value = "index", required = false, defaultValue = "0") Integer index
     ) {
+        // Check if user is Authenticated
+        if(!authService.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         // Initialize response
         Response response = HttpUtil.getResponse();
         try {

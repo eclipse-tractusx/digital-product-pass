@@ -17,7 +17,6 @@
 import { SERVER_URL, BACKEND, API_DELAY, API_MAX_RETRIES } from "@/services/service.const";
 import axios from "axios";
 import backendService from "@/services/BackendService";
-
 export default class Wrapper {
 
   // Step 1: Request contract offers from the catalog
@@ -149,7 +148,6 @@ export default class Wrapper {
   }
   // Step 4.3: Query transferred data from consumer backend system
   getDataFromConsumerBackend(transferProcessId) {
-
     return new Promise(resolve => {
 
       setTimeout(() => {

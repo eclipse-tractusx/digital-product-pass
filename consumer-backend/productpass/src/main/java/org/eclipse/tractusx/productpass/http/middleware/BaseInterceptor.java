@@ -31,16 +31,16 @@ import org.springframework.web.servlet.ModelAndView;
 import utils.HttpUtil;
 import utils.LogUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class BaseInterceptor implements HandlerInterceptor {
 
-
     @Override
     public boolean preHandle(
-        HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
+            HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
         if(!httpRequest.getRequestURI().equals("/error")) {
             String httpInfo = HttpUtil.getHttpInfo(httpRequest, httpResponse.getStatus());
             LogUtil.printHTTPMessage(httpInfo);

@@ -114,18 +114,14 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/userInfo", method = RequestMethod.POST)
-    public Response getUserInfo(@RequestBody(required = false) HashMap<String, String> body){
+    public Response getUserInfo(){
         Response response = HttpUtil.getNotAuthorizedResponse();
-        if(body == null){
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
             return HttpUtil.buildResponse(response, httpResponse);
         }
-        if(!body.containsKey("token")){
-            response.message = "Token not included";
-            return HttpUtil.buildResponse(response, httpResponse);
-        }
-        String token = body.get("token");
-        if(token.isBlank() || token.isEmpty()){
-            response.message = "Token is empty";
+        String token = HttpUtil.getAuthorizationToken(httpRequest);
+        if(token == null || token.isEmpty() || token.isBlank()){
             return HttpUtil.buildResponse(response, httpResponse);
         }
         UserInfo userInfo = null;

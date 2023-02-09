@@ -97,6 +97,11 @@ public class ApiController {
         @PathVariable("assetId") String assetId,
         @RequestParam(value = "providerUrl", required = false, defaultValue = "") String providerUrl
     ) {
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         if(providerUrl == null || providerUrl.equals("")){
             providerUrl = defaultProviderUrl;
         }
@@ -142,6 +147,11 @@ public class ApiController {
             @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
             @RequestParam(value = "index", required = false, defaultValue = "0") Integer index
     ) {
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         // Initialize response
         Response response = HttpUtil.getResponse();
         try {

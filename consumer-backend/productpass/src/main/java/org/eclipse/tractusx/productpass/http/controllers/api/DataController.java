@@ -62,6 +62,11 @@ public class DataController {
                     schema = @Schema(implementation = Catalog.class)))
     })
     public Response getCatalog(@RequestParam(value = "providerUrl") String providerUrl) {
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         Response response = HttpUtil.getResponse();
         response.data = dataService.getContractOfferCatalog(providerUrl);
         return HttpUtil.buildResponse(response, httpResponse);
@@ -75,6 +80,11 @@ public class DataController {
     public Response getSubmodel(@PathVariable("assetId") String assetId,
                                 @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
                                 @RequestParam(value = "index", required = false, defaultValue = "0") Integer index) {
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         Response response = HttpUtil.getResponse();
         SubModel subModel;
         String connectorId;
@@ -105,6 +115,11 @@ public class DataController {
                     schema = @Schema(implementation = PassportV1.class)))
     })
     public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v1") String version) {
+        // Check if user is Authenticated
+        if(!HttpUtil.isAuthenticated(httpRequest)){
+            Response response = HttpUtil.getNotAuthorizedResponse();
+            return HttpUtil.buildResponse(response, httpResponse);
+        }
         Response response = HttpUtil.getResponse();
         Passport passport = null;
         if(version.equals("v1")) {

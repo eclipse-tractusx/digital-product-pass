@@ -15,7 +15,7 @@
 -->
 
 # ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
-# Version: 0.3.1-SNAPSHOT
+# Version: 0.3.2-SNAPSHOT
 
 ## Table of contents
 <!-- TOC -->

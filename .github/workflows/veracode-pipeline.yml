@@ -33,14 +33,20 @@ jobs:
       security-events: write
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v3
       with:
         repository: ''
+    
+    - uses: actions/setup-java@v3
+      with:
+        java-version: 19
+        distribution: 'adopt'
 
     - name: build
       run: |
         cd consumer-backend/productpass
-        mvn clean verify
+        mvn dependency:purge-local-repository clean install
 
     - run: zip -r veracode-scan-target.zip ./
 

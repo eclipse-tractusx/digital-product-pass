@@ -23,7 +23,7 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 // https://vitejs.dev/config/
 export default defineConfig(async ({ command, mode }) => {
   return {
-    base: './',
+    base: '/passport',
     // https://vitejs.dev/config/shared-options.html#define
     define: { 'process.env': {} },
     optimizeDeps: {

@@ -22,7 +22,6 @@ import store from '../store/index';
 
 
 export default class Authentication {
-    keycloak;
     constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }

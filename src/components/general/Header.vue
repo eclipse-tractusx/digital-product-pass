@@ -165,11 +165,12 @@ export default {
   display: flex;
   border-top: 1px solid #dcdcdc;
   align-items: center;
+  cursor: pointer;
 }
-
 .profile-text {
   padding: 17px 0 35px 24px;
   font-size: 14px;
+  cursor: pointer;
   font-weight: 500;
 }
 

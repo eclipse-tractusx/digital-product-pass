@@ -19,7 +19,7 @@ on:
     branches: [ "main" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop"]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 permissions:
@@ -33,9 +33,21 @@ jobs:
       security-events: write
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v3
       with:
         repository: ''
+    
+    - uses: actions/setup-java@v3
+      with:
+        java-version: 19
+        distribution: 'adopt'
+
+    - name: build
+      run: |
+        cd consumer-backend/productpass
+        mvn dependency:purge-local-repository clean verify
+
     - run: zip -r veracode-scan-target.zip ./
 
     # download the Veracode Static Analysis Pipeline scan jar
@@ -46,7 +58,7 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-    - run: java -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{secrets.ORG_VERACODE_API_ID}}" --veracode_api_key "${{secrets.ORG_VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
+    - run: java -Dpipeline.debug=true -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{secrets.ORG_VERACODE_API_ID}}" --veracode_api_key "${{secrets.ORG_VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
       continue-on-error: true
     - name: Convert pipeline scan output to SARIF format
       id: convert

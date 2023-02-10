@@ -51,7 +51,7 @@
         <file>${LOGS}/${day}/${day}_${time}-${LOG_FILE}.log</file>
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %p %C{1.} %m%n</Pattern>
+            <Pattern>%d %p %C{1} %m%n</Pattern>
         </encoder>
 
         <rollingPolicy

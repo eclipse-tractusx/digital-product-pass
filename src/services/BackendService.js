@@ -15,16 +15,20 @@
  */
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
+import { inject } from "vue";
 export default class BackendService {
   async getPassportV1(assetId) {
     return await this.getPassport("v1", assetId);
   }
   async getPassport(version, assetId) {
+    var authentication = inject("authentication");
+    const jwtToken = authentication.getAccessToken();
     return new Promise(resolve => {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
           headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': "Bearer "+ jwtToken
           }
         }
         )

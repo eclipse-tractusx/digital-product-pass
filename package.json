@@ -3,15 +3,20 @@
   "version": "0.4.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --host localhost",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "serve": "vite --host localhost",
+    "clean": "rimraf ./node_modules/.vite",
+    "build:analyze": "vite build --mode analyze",
+    "build:clean": "rimraf dist",
+    "lint": "eslint --init",
+    "preview": "vite preview",
+    "build": "vite build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
     "@popperjs/core": "^2.11.2",
+    "@vitejs/plugin-vue": "^4.0.0",
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
     "crypto-js": "^4.1.1",
@@ -19,10 +24,13 @@
     "keycloak-js": "^19.0.1",
     "path": "^0.12.7",
     "popper.js": "^1.16.1",
-    "vue": "^3.2.31",
+    "rimraf": "^4.1.2",
+    "vite": "^4.1.1",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vue": "^3.2.47",
     "vue-router": "^4.0.13",
     "vue3-qrcode-reader": "^0.0.1",
-    "vuetify": "^3.0.4",
+    "vuetify": "^3.1.4",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "webfontloader": "^1.0.0"
@@ -30,47 +38,13 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
     "cypress": "^12.3.0",
     "cypress-keycloak": "^1.9.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "vue-cli-plugin-vuetify": "~2.5.8",
-    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-recommended",
-      "eslint:recommended",
-      "prettier"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {
-      "semi": [
-        "error",
-        "always"
-      ],
-      "indent": [
-        "error",
-        2
-      ],
-      "no-multi-spaces": [
-        "error"
-      ]
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "eslint-plugin-vue": "^9.9.0",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "sass": "^1.58.0",
+    "vite-plugin-checker": "^0.5.5",
+    "vue-tsc": "^1.0.24"
+  }
 }

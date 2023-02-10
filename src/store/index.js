@@ -15,7 +15,7 @@
  */
 
 import { createStore } from 'vuex';
-const CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 
 export default createStore({
 
@@ -33,13 +33,13 @@ export default createStore({
     sessionId: ''
   },
   getters: {
-    getClientId(state){
+    getClientId(state) {
       return CryptoJS.AES.decrypt(state.clientId, state.sessionId).toString(CryptoJS.enc.Utf8);
     },
-    getClientSecret(state){
+    getClientSecret(state) {
       return CryptoJS.AES.decrypt(state.clientSecret, state.sessionId).toString(CryptoJS.enc.Utf8);
     },
-    getSessionId(state){
+    getSessionId(state) {
       return state.sessionId;
     },
 
@@ -50,7 +50,7 @@ export default createStore({
     },
     setPassword(state, newPassword) {
       state.password = newPassword;
-      
+
     },
     setClientId(state, clientId) {
       let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);
@@ -63,7 +63,7 @@ export default createStore({
     setSessionId(state, sessionId) {
       state.clientSecret = sessionId;
     }
-    
+
   },
   actions: {},
   modules: {},

@@ -14,26 +14,29 @@
  limitations under the License.
 -->
 
-<template id="battery-passport-root">
-  <Spinner v-if="loading" class="spinner-container" />
-  <div v-else>
-    <div data-cy="history-container" class="dashboard-container">
-      <div class="titles-container">
-        <div class="title">Welcome back {{ name }}!</div>
-        <div class="sub-title">Batteries scanned today:</div>
-        <!-- TODO: History of scanned batteries -->
-        <!-- <div class="sub-title orange">See full history</div> -->
+<template >
+  <div>
+    <Spinner v-if="loading" class="spinner-container" />
+    <div v-else>
+      <div data-cy="history-container" class="dashboard-container">
+        <div class="titles-container">
+          <div class="title">Welcome back {{ name }}!</div>
+          <div class="sub-title">Batteries scanned today:</div>
+          <!-- TODO: History of scanned batteries -->
+          <!-- <div class="sub-title orange">See full history</div> -->
+        </div>
+        <DashboardTable />
       </div>
-      <DashboardTable />
     </div>
   </div>
 </template>
 
-<script type="text/jsx">
+<script setup >
 import Spinner from "@/components/general/Spinner.vue";
 import DashboardTable from "@/components/landing/DashboardTable.vue";
 import { inject } from "vue";
-
+</script>
+<script>
 export default {
   name: "WelcomeView",
   components: {

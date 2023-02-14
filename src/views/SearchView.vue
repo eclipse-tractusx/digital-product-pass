@@ -15,77 +15,81 @@
 -->
 
 <template>
-  <div v-if="!error" class="switch-container">
-    <div>
-      <v-switch
-        v-model="QRtoggle"
-        color="#0F71CB"
-        label="QR Code Scanner"
-      ></v-switch>
-    </div>
-  </div>
-  <div v-if="error" class="qr-container">
-    <div class="text-container">
-      <p class="text">Your camera is off.</p>
-      <p class="text">Turn it on or type the ID.</p>
-      <p class="error">{{ error }}</p>
-    </div>
-    <v-form class="form">
-      <div class="input-form">
-        <input
-          v-model="typedCode"
-          class="input"
-          type="text"
-          placeholder="Type ID"
-        />
+  <div>
+    <div v-if="!error" class="switch-container">
+      <div>
+        <v-switch
+          v-model="QRtoggle"
+          color="#0F71CB"
+          label="QR Code Scanner"
+        ></v-switch>
       </div>
-      <v-btn
-        rounded="pill"
-        color="#0F71CB"
-        size="small"
-        class="submit-btn"
-        @click="onClick"
-      >
-        Search
-        <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-      </v-btn>
-    </v-form>
-  </div>
-  <div class="qr-container" data-cy="qr-container">
-    <router-link to="/dashboard"> </router-link>
-    <div v-if="!error">
-      <div v-if="QRtoggle">
-        <div class="qr-frame">
-          <img :src="QRFrame" alt="frame" class="frame" />
+    </div>
+    <div v-if="error" class="qr-container">
+      <div class="text-container">
+        <p class="text">Your camera is off.</p>
+        <p class="text">Turn it on or type the ID.</p>
+        <p class="error">{{ error }}</p>
+      </div>
+      <v-form class="form">
+        <div class="input-form">
+          <input
+            v-model="typedCode"
+            class="input"
+            type="text"
+            placeholder="Type ID"
+          />
         </div>
-        <qrcode-stream
-          :torch="torch"
-          class="qrcode-stream"
-          @init="onInit"
-          @decode="onDecode"
-        ></qrcode-stream>
-      </div>
-      <div v-else class="qr-container">
-        <v-form class="form">
-          <div class="input-form">
-            <input
-              v-model="typedCode"
-              class="input"
-              type="text"
-              placeholder="Type ID"
-            />
+        <v-btn
+          rounded="pill"
+          color="#0F71CB"
+          size="small"
+          class="submit-btn"
+          @click="onClick"
+          type="submit"
+        >
+          Search
+          <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+        </v-btn>
+      </v-form>
+    </div>
+    <div class="qr-container" data-cy="qr-container">
+      <router-link to="/dashboard"> </router-link>
+      <div v-if="!error">
+        <div v-if="QRtoggle">
+          <div class="qr-frame">
+            <img :src="QRFrame" alt="frame" class="frame" />
           </div>
-          <v-btn
-            rounded="pill"
-            color="#0F71CB"
-            size="small"
-            class="submit-btn"
-            @click="onClick"
-          >
-            Search
-            <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
-          </v-btn>
-        </v-form>
+          <qrcode-stream
+            :torch="torch"
+            class="qrcode-stream"
+            @init="onInit"
+            @decode="onDecode"
+          ></qrcode-stream>
+        </div>
+        <div v-else class="qr-container">
+          <v-form class="form" @submit.prevent>
+            <div class="input-form">
+              <input
+                v-model="typedCode"
+                class="input"
+                type="text"
+                placeholder="Type ID"
+              />
+            </div>
+            <v-btn
+              rounded="pill"
+              color="#0F71CB"
+              size="small"
+              class="submit-btn"
+              @click="onClick"
+              type="submit"
+            >
+              Search
+              <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
+            </v-btn>
+          </v-form>
+        </div>
       </div>
     </div>
   </div>

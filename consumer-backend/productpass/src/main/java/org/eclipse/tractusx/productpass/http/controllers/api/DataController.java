@@ -51,7 +51,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/data")
 @Tag(name = "Data Controller")
-@SecurityRequirement(name = "BearerAuthentication")
+@SecurityRequirement(name = "Bearer Authorization")
 public class DataController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
@@ -62,9 +62,7 @@ public class DataController {
 
     @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
     @Operation(summary = "Returns contract offers catalog", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+            @ApiResponse(description = "Gets contract offer catalog from provider", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Catalog.class)))
     })
 
@@ -81,9 +79,7 @@ public class DataController {
 
     @RequestMapping(value = "/submodel/{assetId}", method = {RequestMethod.GET})
     @Operation(summary = "Returns asset submodel by asset Id", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+            @ApiResponse(description = "Gets submodel for specific asset", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = SubModel.class)))
     })
     public Response getSubmodel(@PathVariable("assetId") String assetId,
@@ -120,9 +116,7 @@ public class DataController {
 
     @RequestMapping(value = "/passport/{transferId}", method = {RequestMethod.GET})
     @Operation(summary = "Returns product passport by transfer process Id", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportV1.class)))
     })
     public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v1") String version) {

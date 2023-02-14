@@ -25,10 +25,13 @@
 
 package org.eclipse.tractusx.productpass.http.controllers.auth;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.models.auth.Credential;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.http.Response;
@@ -51,6 +54,8 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth Controller")
+@SecurityRequirement(name = "Bearer Authorization")
 public class AuthController {
     // [Logic Methods] -------------
     // ---------------------------------------------------
@@ -66,13 +71,13 @@ public class AuthController {
     /*
      */
     @RequestMapping(method = RequestMethod.GET)
-    @Operation(summary = "Performs authentication against backend service")
+    @Hidden
     public Response index() throws Exception{
         HttpUtil.redirect(httpResponse,"/passport");
         return HttpUtil.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    @Operation(summary = "Performs logout operation against backend service")
+    @Hidden
     public Response logout() throws Exception{
         Response response = HttpUtil.getResponse();
         httpRequest.logout();
@@ -81,7 +86,7 @@ public class AuthController {
         return response;
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @Operation(summary = "Performs login in passport")
+    @Hidden
     public Response login() throws Exception{
         Response response = HttpUtil.getResponse();
         HttpUtil.redirect(httpResponse,"/passport");
@@ -114,8 +119,12 @@ public class AuthController {
         response.data = authService.getToken();
         return response;
     }
-
     @RequestMapping(value = "/userInfo", method = RequestMethod.POST)
+    @Operation(security = {@SecurityRequirement(name = "Bearer Authorization")},
+            summary = "Returns user info related to JWT Token", responses = {
+            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class)))
+    })
     public Response getUserInfo(){
         Response response = HttpUtil.getNotAuthorizedResponse();
         // Check if user is Authenticated

@@ -42,7 +42,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@Tag(name = "default")
+@Tag(name = "Public Controller")
 public class AppController {
 
     private @Autowired HttpServletRequest httpRequest;

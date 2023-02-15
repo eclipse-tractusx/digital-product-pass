@@ -100,7 +100,7 @@ import Header from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/general/Footer.vue";
-import { API_KEY, API_TIMEOUT } from "@/services/service.const";
+import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
@@ -133,7 +133,8 @@ export default {
         "title": "",
         "description": "",
         "type": "error"
-      }
+      },
+      backend: BACKEND
     };
   },
   async created() {

@@ -69,7 +69,7 @@ npm/npmjs/-/crypto-js/4.1.1, MIT AND BSD-2-Clause, approved, #6630
 npm/npmjs/-/cssesc/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/csstype/2.6.21, MIT, approved, clearlydefined
 npm/npmjs/-/cypress-keycloak/1.9.0, MIT, approved, #6952
-npm/npmjs/-/cypress/12.5.1, , restricted, clearlydefined
+npm/npmjs/-/cypress/12.5.1, MIT AND OFL-1.1 AND BSD-3-Clause AND Apache-2.0 AND ISC AND (BSD-2-Clause AND MIT), approved, #7095
 npm/npmjs/-/dashdash/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/-/dayjs/1.11.7, MIT, approved, clearlydefined
 npm/npmjs/-/de-indent/1.0.2, MIT, approved, clearlydefined
@@ -90,7 +90,7 @@ npm/npmjs/-/escalade/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/eslint-config-prettier/8.5.0, MIT, approved, clearlydefined
-npm/npmjs/-/eslint-plugin-vue/9.9.0, , restricted, clearlydefined
+npm/npmjs/-/eslint-plugin-vue/9.9.0, MIT, approved, #7089
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-scope/7.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-utils/2.1.0, MIT, approved, #2498
@@ -231,7 +231,7 @@ npm/npmjs/-/nth-check/2.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/object-inspect/1.12.3, MIT, approved, clearlydefined
 npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
 npm/npmjs/-/onetime/5.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/open/8.4.1, , restricted, clearlydefined
+npm/npmjs/-/open/8.4.1, MIT, approved, #7102
 npm/npmjs/-/optionator/0.9.1, MIT, approved, clearlydefined
 npm/npmjs/-/ospath/1.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/p-limit/2.3.0, MIT, approved, clearlydefined
@@ -274,9 +274,9 @@ npm/npmjs/-/restore-cursor/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/rfdc/1.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/rimraf/3.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/rimraf/4.1.2, , restricted, clearlydefined
+npm/npmjs/-/rimraf/4.1.2, ISC, approved, #7085
 npm/npmjs/-/rollup-plugin-visualizer/5.9.0, MIT, approved, clearlydefined
-npm/npmjs/-/rollup/3.14.0, , restricted, clearlydefined
+npm/npmjs/-/rollup/3.14.0, MIT AND (ISC AND MIT), approved, #7087
 npm/npmjs/-/rtcpeerconnection-shim/1.2.15, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/rxjs/7.8.0, Apache-2.0 AND (0BSD AND Apache-2.0) AND 0BSD, approved, #5993
@@ -332,9 +332,9 @@ npm/npmjs/-/util/0.10.4, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #2438
 npm/npmjs/-/v8-compile-cache/2.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/verror/1.10.0, MIT, approved, clearlydefined
-npm/npmjs/-/vite-plugin-checker/0.5.5, , restricted, clearlydefined
-npm/npmjs/-/vite-plugin-vuetify/1.0.2, , restricted, clearlydefined
-npm/npmjs/-/vite/4.1.1, , restricted, clearlydefined
+npm/npmjs/-/vite-plugin-checker/0.5.5, MIT, approved, #7096
+npm/npmjs/-/vite-plugin-vuetify/1.0.2, MIT, approved, #7100
+npm/npmjs/-/vite/4.1.1, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #7101
 npm/npmjs/-/vscode-jsonrpc/6.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/vscode-languageclient/7.0.0, MIT AND (ISC AND MIT), approved, #4126
 npm/npmjs/-/vscode-languageserver-protocol/3.16.0, MIT, approved, clearlydefined
@@ -342,13 +342,13 @@ npm/npmjs/-/vscode-languageserver-textdocument/1.0.8, MIT, approved, #2677
 npm/npmjs/-/vscode-languageserver-types/3.16.0, MIT, approved, clearlydefined
 npm/npmjs/-/vscode-languageserver/7.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/vscode-uri/3.0.7, MIT, approved, #5741
-npm/npmjs/-/vue-eslint-parser/9.1.0, MIT, restricted, clearlydefined
+npm/npmjs/-/vue-eslint-parser/9.1.0, MIT, approved, #7091
 npm/npmjs/-/vue-router/4.0.13, MIT, approved, clearlydefined
 npm/npmjs/-/vue-template-compiler/2.7.14, 0BSD AND MIT AND MIT, approved, #3476
 npm/npmjs/-/vue-tsc/1.0.24, MIT, approved, clearlydefined
-npm/npmjs/-/vue/3.2.47, , restricted, clearlydefined
+npm/npmjs/-/vue/3.2.47, MIT, approved, #7094
 npm/npmjs/-/vue3-qrcode-reader/0.0.1, MIT AND (BSD-3-Clause AND MIT), approved, #6958
-npm/npmjs/-/vuetify/3.1.4, , restricted, clearlydefined
+npm/npmjs/-/vuetify/3.1.4, , restricted, #7092
 npm/npmjs/-/vuex-persistedstate/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/vuex/4.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/webfontloader/1.6.28, Apache-2.0, approved, clearlydefined
@@ -439,15 +439,15 @@ npm/npmjs/@volar/source-map/1.0.24, MIT, approved, clearlydefined
 npm/npmjs/@volar/typescript/1.0.24, MIT, approved, clearlydefined
 npm/npmjs/@volar/vue-language-core/1.0.24, MIT, approved, clearlydefined
 npm/npmjs/@volar/vue-typescript/1.0.24, MIT, approved, clearlydefined
-npm/npmjs/@vue/compiler-core/3.2.47, , restricted, clearlydefined
-npm/npmjs/@vue/compiler-dom/3.2.47, , restricted, clearlydefined
+npm/npmjs/@vue/compiler-core/3.2.47, MIT, approved, #7097
+npm/npmjs/@vue/compiler-dom/3.2.47, MIT, approved, #7093
 npm/npmjs/@vue/compiler-sfc/3.2.47, MIT, approved, #3104
-npm/npmjs/@vue/compiler-ssr/3.2.47, , restricted, clearlydefined
+npm/npmjs/@vue/compiler-ssr/3.2.47, MIT, approved, #7098
 npm/npmjs/@vue/devtools-api/6.0.12, MIT, approved, clearlydefined
 npm/npmjs/@vue/reactivity-transform/3.2.47, MIT, approved, #3096
-npm/npmjs/@vue/reactivity/3.2.47, , restricted, clearlydefined
-npm/npmjs/@vue/runtime-core/3.2.47, , restricted, clearlydefined
-npm/npmjs/@vue/runtime-dom/3.2.47, , restricted, clearlydefined
+npm/npmjs/@vue/reactivity/3.2.47, MIT, approved, #7088
+npm/npmjs/@vue/runtime-core/3.2.47, MIT, approved, #7086
+npm/npmjs/@vue/runtime-dom/3.2.47, MIT, approved, #7099
 npm/npmjs/@vue/server-renderer/3.2.47, MIT, approved, #3105
-npm/npmjs/@vue/shared/3.2.47, , restricted, clearlydefined
+npm/npmjs/@vue/shared/3.2.47, MIT, approved, #7090
 npm/npmjs/@vuetify/loader-shared/1.7.1, MIT, approved, #6949

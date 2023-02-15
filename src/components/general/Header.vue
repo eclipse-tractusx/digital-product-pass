@@ -15,9 +15,9 @@
 -->
 <template>
   <div class="header-container">
-    <v-container>
+    <v-container fluid="true">
       <v-row class="d-flex justify-content-between">
-        <v-col class="v-col-auto logo-container">
+        <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
@@ -25,28 +25,37 @@
         <v-col class="content">
           <slot></slot>
         </v-col>
+        <v-col class="v-col-auto">
+          <v-container fluid="true" class="d-flex align-center justify-content-end">
+            <v-row>
+              <v-col>
+                <router-link to="/">
+                  <v-btn>Help</v-btn>
+                </router-link>
+              </v-col>
+              <v-col>
+                <v-menu>
+                  <template #activator="{ props }">
+                    <img v-bind="props" :src="Profile" alt="profile" class="buttons" />
+                  </template>
+                  <v-list class="dropdown" rounded="xl">
+                    <div class="profile-menu-header">
+                      <span>
+                        {{ email }}
+                        <p class="role">{{ role }}</p>
+                      </span>
+                    </div>
+                    <div class="menu-btn" @click="logout">
+                      <span class="profile-text">Logout</span>
+                    </div>
+                  </v-list>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
       </v-row>
     </v-container>
-    <div class="right-manu-wrapper">
-      <div class="right-menu-container">
-        <v-menu>
-          <template #activator="{ props }">
-            <img v-bind="props" :src="Profile" alt="profile" class="buttons" />
-          </template>
-          <v-list class="dropdown" rounded="xl">
-            <div class="profile-menu-header">
-              <span>
-                {{ email }}
-                <p class="role">{{ role }}</p>
-              </span>
-            </div>
-            <div class="menu-btn" @click="logout">
-              <span class="profile-text">Logout</span>
-            </div>
-          </v-list>
-        </v-menu>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -54,7 +63,6 @@
 import CatenaLogo from "../../media/Catena-X_Logo_mit_Zusatz_2021.svg";
 import Profile from "../../media/profile.svg";
 import { inject } from "vue";
-
 export default {
   name: "HeaderComponent",
   setup() {
@@ -98,7 +106,6 @@ export default {
   width: 256px;
   padding: 0;
 }
-
 .header-container {
   height: 85px;
   display: flex;
@@ -108,44 +115,35 @@ export default {
   border-bottom: 2px solid lightgray;
   background-color: #ffff;
   z-index: 99999;
+  font-size: 14px!important;
 }
-
 .logo-container {
-  width: 170px;
-  padding-top: 22px;
-  padding-bottom: 22px;
+  padding-top: 10px;
 }
-
 .logo {
-  width: 170px;
+  height: 40px;
+  left: 40px;
 }
-
 .content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .no-tabs {
   display: none;
 }
-
 .right-manu-wrapper {
   width: 20%;
   display: flex;
   justify-content: flex-end;
 }
-
 .code {
   padding: 0;
   margin: 0;
 }
-
 .buttons {
-  margin: 15px 0 0 30px;
   cursor: pointer;
 }
-
 .profile-menu-header {
   background-color: #f3f3f3;
   border-radius: 16px 16px 0 0;
@@ -154,13 +152,11 @@ export default {
   font-weight: 500;
   white-space: normal;
 }
-
 .role {
   padding: 3px 0 16px 0;
   font-size: 14px;
   color: #888888;
 }
-
 .menu-btn {
   display: flex;
   border-top: 1px solid #dcdcdc;
@@ -173,22 +169,18 @@ export default {
   cursor: pointer;
   font-weight: 500;
 }
-
 p {
   font-size: 14px;
   font-weight: 500;
 }
-
 @media (max-width: 750px) {
   .right-manu-wrapper {
     display: none;
   }
-
   .logo {
     height: 45px;
     left: 0;
   }
-
   .header-container {
     width: 100%;
     margin: 0;

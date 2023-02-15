@@ -14,8 +14,8 @@
  limitations under the License.
 -->
 
-# ![Product Battery Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
-# Version: 0.3.2-SNAPSHOT
+# ![Digital Product Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
+# Version: 0.3.3-SNAPSHOT
 
 ## Table of contents
 <!-- TOC -->
@@ -233,12 +233,15 @@ mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCI
 
 ## Swagger Docs
 
-Swagger documentation is now automatically available at the following  path:
+Swagger documentation is now automatically available at the following path:
 
 ```https://<host>/swagger-ui/index.html```
 
 ![img.png](docs/media/img2.png)
 
+For authorization, you will need to add a JWT Access token from the Catena-X IAM:
+
+![img3.png](docs/media/img3.png)
 
 ## License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

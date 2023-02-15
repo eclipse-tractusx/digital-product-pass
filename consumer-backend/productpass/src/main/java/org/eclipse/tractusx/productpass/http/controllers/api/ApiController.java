@@ -31,7 +31,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
@@ -55,7 +57,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@SecurityRequirement(name = "API-Key")
+@Tag(name = "API Controller")
+@SecurityRequirement(name = "BearerAuthentication")
 public class ApiController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
@@ -92,8 +95,10 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})
-    @Operation(summary = "Returns contracts by asset Id", responses = {
-            @ApiResponse(description = "Returns specific contract", responseCode = "200", content = @Content(mediaType = "application/json",
+    @Operation(summary = "Returns first found available contract offers for asset Id", responses = {
+            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class))),
+            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = ContractOffer.class)))
     })
     public Response getContract(
@@ -141,8 +146,12 @@ public class ApiController {
      */
     @RequestMapping(value = "/passport/{version}/{assetId}", method = {RequestMethod.GET})
     @Operation(summary = "Returns versioned product passport by asset Id", responses = {
-            @ApiResponse(description = "", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PassportV1.class)))
+        @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Response.class))),
+        @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = PassportResponse.class))),
+        @ApiResponse(description = "Content of Passport Field in Data Field",useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = PassportV1.class)))
     })
     public Response getPassport(
             @PathVariable("assetId") String assetId,

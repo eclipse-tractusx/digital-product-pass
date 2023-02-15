@@ -100,24 +100,24 @@ export default {
 }
 
 .header-container {
-  position: fixed;
-  top: 0;
+  height: 85px;
   display: flex;
   width: 100%;
-  margin: 0 12% 0 0;
-  padding: 30px 4% 20px;
+  /* margin: 0 12% 0 0; */
+  padding: 0 30px 0 30px;
   border-bottom: 2px solid lightgray;
   background-color: #ffff;
   z-index: 99999;
 }
 
 .logo-container {
-  padding-top: 10px;
+  width: 170px;
+  padding-top: 22px;
+  padding-bottom: 22px;
 }
 
 .logo {
-  height: 40px;
-  left: 40px;
+  width: 170px;
 }
 
 .content {

@@ -16,6 +16,7 @@
 name: Release - Helm Charts
 
 on:
+  workflow_dispatch: # Trigger manually
   push:
     paths:
       - '.github/workflows/release-helm-charts.yml'

@@ -33,7 +33,7 @@
             <v-row>
               <v-col class="d-flex justify-content-between align-center">
                 <router-link to="/">
-                  <v-btn rounded>Help</v-btn>
+                  <v-btn class="help-btn" rounded>Help</v-btn>
                 </router-link>
               </v-col>
               <v-col class="d-flex justify-content-between align-center">

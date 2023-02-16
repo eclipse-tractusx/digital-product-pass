@@ -18,10 +18,10 @@
   <div>
     <Header>
       <v-tabs v-model="tab" show-arrows class="menu">
-        <v-tab class="nav-items" value="one" data-cy="history-tab"
+        <v-tab :ripple="{ class: 'ripple-background' }" class="nav-items" value="one" data-cy="history-tab"
           >History Page</v-tab
         >
-        <v-tab class="nav-items" value="two" data-cy="QR-scanner-tab"
+        <v-tab :ripple="{ class: 'ripple-background' }" class="nav-items" value="two" data-cy="QR-scanner-tab"
           >Search Passport</v-tab
         >
       </v-tabs>

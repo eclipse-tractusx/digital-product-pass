@@ -15,7 +15,7 @@
 -->
 <template>
   <div class="header-container">
-    <v-container fluid="true">
+    <v-container fluid="true" class="header">
       <v-row class="d-flex justify-content-between">
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
@@ -26,17 +26,25 @@
           <slot></slot>
         </v-col>
         <v-col class="v-col-auto">
-          <v-container fluid="true" class="d-flex align-center justify-content-end">
+          <v-container
+            fluid="true"
+            class="d-flex align-center justify-content-end"
+          >
             <v-row>
               <v-col>
                 <router-link to="/">
-                  <v-btn>Help</v-btn>
+                  <v-btn variant="outlined" rounded>Help</v-btn>
                 </router-link>
               </v-col>
               <v-col>
                 <v-menu>
                   <template #activator="{ props }">
-                    <img v-bind="props" :src="Profile" alt="profile" class="buttons" />
+                    <img
+                      v-bind="props"
+                      :src="Profile"
+                      alt="profile"
+                      class="buttons"
+                    />
                   </template>
                   <v-list class="dropdown" rounded="xl">
                     <div class="profile-menu-header">
@@ -110,12 +118,11 @@ export default {
   height: 85px;
   display: flex;
   width: 100%;
-  /* margin: 0 12% 0 0; */
   padding: 0 30px 0 30px;
   border-bottom: 2px solid lightgray;
   background-color: #ffff;
   z-index: 99999;
-  font-size: 14px!important;
+  font-size: 14px !important;
 }
 .logo-container {
   padding-top: 10px;

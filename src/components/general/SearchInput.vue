@@ -1,12 +1,22 @@
 <template>
-  <v-form class="form" @submit.prevent>
+  <v-form
+    ref="form"
+    class="form"
+    v-model="valid"
+    lazy-validation
+    @submit.prevent
+  >
     <div class="input-form">
-      <input
+      <v-text-field
         v-model="typedCode"
         class="input"
         type="text"
         placeholder="Type ID"
-      />
+      ></v-text-field>
+
+      <v-btn v-if="typedCode !== '' && typedCode !== null" @click="reset"
+        >X</v-btn
+      >
     </div>
     <v-btn
       rounded="pill"
@@ -26,6 +36,7 @@
 export default {
   data() {
     return {
+      valid: true,
       typedCode: "",
     };
   },
@@ -34,6 +45,10 @@ export default {
       this.$router.push({
         path: `/${this.typedCode}`,
       });
+    },
+    reset() {
+      this.$refs.form.reset();
+      console.log("input: " + this.typedCode);
     },
   },
 };

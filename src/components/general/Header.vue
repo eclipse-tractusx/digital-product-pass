@@ -16,13 +16,13 @@
 <template>
   <div class="header-container">
     <v-container fluid="true" class="header">
-      <v-row class="d-flex justify-content-between align-center">
+      <v-row class="d-flex justify-xl-between justify-lg-between  justify-md-center justify-sm-center justify-center align-center">
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
-        <v-col class="content d-flex justify-content-between align-center" >
+        <v-col class="content d-flex justify-between align-center" >
           <slot></slot>
         </v-col>
         <v-col class="v-col-auto" style="padding:0">
@@ -108,94 +108,4 @@ export default {
 </script>
 
 <style scoped>
-.dropdown {
-  margin-top: 20px;
-  border-radius: 16px;
-  width: 256px;
-  padding: 0;
-}
-.header-container {
-  position: fixed;
-  top: 0;
-  height: 85px;
-  display: flex;
-  width: 100%;
-  padding: 0 30px 0 30px;
-  background-color: rgb(231 235 238);
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXc3NyBAeViAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==);
-  background-repeat: repeat-x;
-  background-position: 0px bottom;
-
-  z-index: 99999;
-  font-size: 14px !important;
-}
-.logo-container {
-  padding-top: 10px;
-}
-.logo {
-  height: 40px;
-  left: 40px;
-}
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.no-tabs {
-  display: none;
-}
-.right-manu-wrapper {
-  width: 20%;
-  display: flex;
-  justify-content: flex-end;
-}
-.code {
-  padding: 0;
-  margin: 0;
-}
-.buttons {
-  cursor: pointer;
-}
-.profile-menu-header {
-  background-color: #f3f3f3;
-  border-radius: 16px 16px 0 0;
-  padding: 17px 24px 0 24px;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: normal;
-}
-.role {
-  padding: 3px 0 16px 0;
-  font-size: 14px;
-  color: #888888;
-}
-.menu-btn {
-  display: flex;
-  border-top: 1px solid #dcdcdc;
-  align-items: center;
-  cursor: pointer;
-}
-.profile-text {
-  padding: 17px 0 35px 24px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 500;
-}
-p {
-  font-size: 14px;
-  font-weight: 500;
-}
-@media (max-width: 750px) {
-  .right-manu-wrapper {
-    display: none;
-  }
-  .logo {
-    height: 45px;
-    left: 0;
-  }
-  .header-container {
-    width: 100%;
-    margin: 0;
-  }
-}
 </style>

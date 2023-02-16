@@ -16,27 +16,27 @@
 <template>
   <div class="header-container">
     <v-container fluid="true" class="header">
-      <v-row class="d-flex justify-content-between">
+      <v-row class="d-flex justify-content-between align-center">
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
-        <v-col class="content">
+        <v-col class="content d-flex justify-content-between align-center" >
           <slot></slot>
         </v-col>
-        <v-col class="v-col-auto">
+        <v-col class="v-col-auto" style="padding:0">
           <v-container
             fluid="true"
             class="d-flex align-center justify-content-end"
           >
             <v-row>
-              <v-col>
+              <v-col class="d-flex justify-content-between align-center">
                 <router-link to="/">
-                  <v-btn variant="outlined" rounded>Help</v-btn>
+                  <v-btn rounded>Help</v-btn>
                 </router-link>
               </v-col>
-              <v-col>
+              <v-col class="d-flex justify-content-between align-center">
                 <v-menu>
                   <template #activator="{ props }">
                     <img
@@ -115,12 +115,17 @@ export default {
   padding: 0;
 }
 .header-container {
+  position: fixed;
+  top: 0;
   height: 85px;
   display: flex;
   width: 100%;
   padding: 0 30px 0 30px;
-  border-bottom: 2px solid lightgray;
-  background-color: #ffff;
+  background-color: rgb(231 235 238);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXc3NyBAeViAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==);
+  background-repeat: repeat-x;
+  background-position: 0px bottom;
+
   z-index: 99999;
   font-size: 14px !important;
 }

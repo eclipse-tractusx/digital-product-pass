@@ -21,33 +21,43 @@
         <div>
           <a
             id="lnkHelp"
+            target="_blank"
             href="https://portal.int.demo.catena-x.net/documentation/?path=docs"
             >Help</a
           >
         </div>
         <div>
-          <a id="lnkHelp" href="https://portal.int.demo.catena-x.net/contact"
+          <a id="lnkHelp" 
+          target="_blank"
+          href="https://portal.int.demo.catena-x.net/contact"
             >Contact</a
           >
         </div>
         <div>
-          <a id="lnkHelp" href="https://portal.int.demo.catena-x.net/imprint"
+          <a id="lnkHelp" 
+          target="_blank"
+          href="https://portal.int.demo.catena-x.net/imprint"
             >Imprint</a
           >
         </div>
         <div>
-          <a id="lnkHelp" href="https://portal.int.demo.catena-x.net/privacy"
+          <a id="lnkHelp" 
+          target="_blank"
+          href="https://portal.int.demo.catena-x.net/privacy"
             >Privacy</a
           >
         </div>
         <div>
-          <a id="lnkHelp" href="https://portal.int.demo.catena-x.net/terms"
+          <a id="lnkHelp" 
+          target="_blank"
+          href="https://portal.int.demo.catena-x.net/terms"
             >Terms of Service</a
           >
         </div>
         <div>
           <a
             id="lnkHelp"
+            target="_blank"
             href="https://portal.int.demo.catena-x.net/cookiepolicy"
             >Cookies</a
           >
@@ -55,13 +65,14 @@
         <div>
           <a
             id="lnkHelp"
+            target="_blank"
             href="https://portal.int.demo.catena-x.net/thirdpartylicenses"
             >Third Party Licenses</a
           >
         </div>
       </div>
       <div class="copyright">
-        Copyright © Catena-X Automotive Network. {{ VERSION }}
+        Copyright © Catena-X Automotive Network. <a target="_blank" id="version" :href="tagRepoUrl">v{{ VERSION }}</a>
       </div>
     </div>
   </footer>
@@ -73,9 +84,22 @@ import { VERSION } from "@/services/service.const";
 export default {
   name: "FooterComponent",
   components: {},
+  data(){
+    return{
+      repoUrl: "https://github.com/eclipse-tractusx/digital-product-pass"
+    }
+  },
+  computed: {
+    tagRepoUrl(){
+      if(VERSION == null || VERSION === "" || VERSION === "VERSION"){
+        return this.repoUrl;
+      }
+      return this.repoUrl + "/releases/tag/v"+VERSION;
+    }
+  },
   setup() {
     return {
-      VERSION,
+      VERSION
     };
   },
 };

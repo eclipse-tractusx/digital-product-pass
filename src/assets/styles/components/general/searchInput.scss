@@ -9,7 +9,12 @@
     font-size: 20px;
     font-weight: 500;
   }
-
+  .ripple-background{
+    color: $catena-x-light-blue;
+  }
+  .clear:hover {
+    color: $catena-x-blue; 
+  }
   .v-field--variant-filled .v-field__overlay {
     background-color: none;
     border-radius: none;

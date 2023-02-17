@@ -21,11 +21,9 @@ name: "Publish Consumer UI Docker Images"
 
 on:
   push:
-
     branches: [ "main", "develop" ]
-
-    # Publish semver tags as releases.
-    # tags: [ 'v*.*.*' ]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   REGISTRY: ghcr.io
@@ -72,5 +70,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

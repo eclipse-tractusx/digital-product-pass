@@ -25,7 +25,6 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
-
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: "consumer-ui"
@@ -33,7 +32,6 @@ env:
     
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       packages: write

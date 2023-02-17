@@ -18,6 +18,7 @@
         v-if="typedCode !== '' && typedCode !== null"
         @click="reset"
         class="clear"
+        :ripple="{ class: 'ripple-background' }"
       >
         <v-icon icon="mdi-close-thick" size="large"></v-icon>
       </v-btn>
@@ -52,7 +53,6 @@ export default {
     },
     reset() {
       this.$refs.form.reset();
-      console.log("input: " + this.typedCode);
     },
   },
 };

@@ -22,7 +22,7 @@
   }
   .v-slide-group-item--active{
     .v-btn__content {
-        color:rgb(15, 113, 203);  
+        color: $catena-x-blue;
         --v-border-color: 0, 0, 224;
         --v-theme-on-surface: 13, 85, 175;
     }
@@ -49,11 +49,11 @@
     z-index: 1;
   }
   .help-btn {
-    color:rgb(15, 113, 203);
+    color: $catena-x-blue;
   }
   .v-btn:hover {
     .v-btn__content{
-      color: rgb(13, 85, 175);
+      color: $catena-x-dark-blue;
     }
     --v-hover-opacity: 1
   }

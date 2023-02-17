@@ -81,4 +81,11 @@
   .icon {
     padding-left: 20px;
   }
+  
+  @media (max-width: 856px) {
+    .input {
+      position: relative;
+      width: 80vw;
+    }
+  }
 }

@@ -11,11 +11,11 @@
         v-model="typedCode"
         class="input"
         type="text"
-        placeholder="Enter your company name"
+        placeholder="Type ID"
       ></v-text-field>
 
       <v-btn
-        v-if="typedCode !== '' && typedCode !== null"
+        v-if="isContent"
         @click="reset"
         class="clear"
         :ripple="{ class: 'ripple-background' }"
@@ -30,6 +30,7 @@
       class="submit-btn"
       @click="onClick"
       type="submit"
+      :disabled="!isContent"
     >
       Search
       <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
@@ -44,6 +45,11 @@ export default {
       valid: true,
       typedCode: "",
     };
+  },
+  computed:{
+    isContent() {
+      return this.typedCode !== '' && this.typedCode !== null;
+    }
   },
   methods: {
     onClick() {

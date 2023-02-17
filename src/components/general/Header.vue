@@ -16,22 +16,39 @@
 <template>
   <div class="header-container">
     <v-container fluid="true" class="header">
-      <v-row class="d-flex justify-xl-between justify-lg-between  justify-md-center justify-sm-center justify-center align-center">
+      <v-row
+        class="
+          d-flex
+          justify-xl-between
+          justify-lg-between
+          justify-md-center
+          justify-sm-center
+          justify-center
+          align-center
+        "
+      >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
-        <v-col class="content d-flex justify-between align-center" >
+        <v-col class="content d-flex justify-between align-center">
           <slot></slot>
         </v-col>
-        <v-col class="v-col-auto" style="padding:0">
+        <v-col class="v-col-auto" style="padding: 0">
           <v-container
             fluid="true"
             class="d-flex align-center justify-content-end"
           >
             <v-row>
-              <v-col class="d-flex justify-content-between align-center">
+              <v-col
+                class="
+                  d-flex
+                  justify-content-between
+                  align-center
+                  help-container
+                "
+              >
                 <router-link to="/">
                   <v-btn class="help-btn" rounded>Help</v-btn>
                 </router-link>
@@ -49,12 +66,16 @@
                   <v-list class="dropdown" rounded="xl">
                     <div class="profile-menu-header">
                       <span>
-                        {{ email }}
+                        {{ email ? email : "Test user" }}
                         <p class="role">{{ role }}</p>
                       </span>
                     </div>
                     <div class="menu-btn" @click="logout">
-                      <span class="profile-text">Logout</span>
+                      <span class="profile-text">Sign Out</span>
+                    </div>
+                    <div class="profile-menu-lang">
+                      <span class="inactive">DE</span>
+                      <span class="active">EN</span>
                     </div>
                   </v-list>
                 </v-menu>
@@ -106,6 +127,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

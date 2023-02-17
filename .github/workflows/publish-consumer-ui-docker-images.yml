@@ -22,7 +22,7 @@ name: "Publish Consumer UI Docker Images"
 on:
   push:
 
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", hotfix/deployment ]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
@@ -72,5 +72,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

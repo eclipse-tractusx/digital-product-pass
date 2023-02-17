@@ -22,7 +22,7 @@ do
 	sed -i 's|VUE_APP_CLIENT_ID|'${VUE_APP_CLIENT_ID}'|g' $file
 	sed -i 's|VUE_APP_CLIENT_SECRET|'${VUE_APP_CLIENT_SECRET}'|g' $file
 	sed -i 's|X_API_KEY|'${X_API_KEY}'|g' $file
-	sed -i 's|APP_BACK|'${BACKEND}'|g' $file
+	sed -i 's|APP_BACK|'${APP_BACKEND}'|g' $file
 	sed -i 's|APP_VER|'${VERSION}'|g' $file
 	sed -i 's|APP_API_TIMEOUT|'${API_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file

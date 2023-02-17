@@ -22,7 +22,7 @@ name: "Publish Consumer Backend Docker Images"
 on:
   push:
 
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", hotfix/deployment ]
 
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
@@ -82,5 +82,5 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

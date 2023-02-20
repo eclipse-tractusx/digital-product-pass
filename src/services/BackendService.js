@@ -18,26 +18,28 @@ import axios from "axios";
 import { inject } from "vue";
 export default class BackendService {
   async getPassportV1(assetId) {
-    return await this.getPassport("v1", assetId);
+    return this.getPassport("v1", assetId);
   }
   async getPassport(version, assetId) {
     var authentication = inject("authentication");
     const jwtToken = authentication.getAccessToken();
     return new Promise(resolve => {
-      axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': "Bearer "+ jwtToken
+      setTimeout(() => {
+        axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': "Bearer "+ jwtToken
+          }
         }
-      }
-      )
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((e) => {
-          console.error("getPassport -> " + e);
-          resolve('rejected');
-        });
+        )
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch((e) => {
+            console.error("getPassport -> " + e);
+            resolve('rejected');
+          });
+      }, 2000);
     });
   }
 }

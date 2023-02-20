@@ -104,6 +104,7 @@ import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
+import backendService from "@/services/BackendService";
 import { inject } from "vue";
 export default {
   name: "PassportView",
@@ -207,11 +208,15 @@ export default {
       console.info("Selected asset Id: " + assetId);
       var response = null;
       try{
-        response = await wrapper.performEDCDataTransfer(
-          assetId,
-          providerConnector,
-          APIWrapperRequestHeader
-        )
+        if((this.backend === 'true') || (this.backend == true)){
+          response = await backendService.getPassportV1(assetId);
+        }else{
+          response = await wrapper.performEDCDataTransfer(
+            assetId,
+            providerConnector,
+            APIWrapperRequestHeader
+          )
+        }
       }catch(e){
         this.loading = false;
         this.error = true;

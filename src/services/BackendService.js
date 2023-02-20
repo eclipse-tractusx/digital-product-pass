@@ -24,22 +24,20 @@ export default class BackendService {
     var authentication = inject("authentication");
     const jwtToken = authentication.getAccessToken();
     return new Promise(resolve => {
-      setTimeout(() => {
-        axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': "Bearer "+ jwtToken
-          }
+      axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': "Bearer "+ jwtToken
         }
-        )
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((e) => {
-            console.error("getPassport -> " + e);
-            resolve('rejected');
-          });
-      });
+      }
+      )
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => {
+          console.error("getPassport -> " + e);
+          resolve('rejected');
+        });
     });
   }
 }

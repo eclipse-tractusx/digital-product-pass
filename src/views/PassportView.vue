@@ -104,6 +104,7 @@ import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
+import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 export default {
   name: "PassportView",
@@ -144,13 +145,15 @@ export default {
       if(result && result != null){
         this.data = result;
       }else{
-        this.loading = false;
         this.error = true;
-        this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description = "We are sorry, it took too long to retrieve the passport.";
+        if(this.errorObj.title == null){
+          this.errorObj.title = "Timeout! Failed to return passport!";
+        }
+        if(this.errorObj.description == null){
+          this.errorObj.description = "We are sorry, it took too long to retrieve the passport.";
+        }
       }
     }catch(e){
-      this.loading = false;
       this.error = true;
       this.errorObj.title = "Failed to return passport!";
       this.errorObj.description = "We are sorry, it was not posible to retrieve the passport.";
@@ -207,18 +210,24 @@ export default {
       console.info("Selected asset Id: " + assetId);
       var response = null;
       try{
-        response = await wrapper.performEDCDataTransfer(
-          assetId,
-          providerConnector,
-          APIWrapperRequestHeader
-        );
+        if((this.backend === 'true') || (this.backend == true)){
+          let backendService = new BackendService();
+          let jwtToken = await this.auth.getAccessToken();
+          response = await backendService.getPassportV1(assetId, jwtToken);
+        }else{
+          response = await wrapper.performEDCDataTransfer(
+            assetId,
+            providerConnector,
+            APIWrapperRequestHeader
+          )
+        }
       }catch(e){
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
         return null;
-      };
+      }
 
       if(response == null || typeof response == "string" || typeof response.data.passport != "object" || response.data.passport==null || response.data.passport.errors != null){
         this.loading = false;

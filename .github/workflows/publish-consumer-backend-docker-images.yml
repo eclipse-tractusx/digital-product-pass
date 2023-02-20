@@ -23,7 +23,8 @@ on:
   push:
 
     branches: [ "main", "develop" ]
-
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
 
@@ -82,5 +83,5 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

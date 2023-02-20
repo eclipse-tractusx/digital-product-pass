@@ -23,7 +23,6 @@ maven/mavencentral/com.nimbusds/nimbus-jose-jwt/9.24.4, Apache-2.0, approved, cl
 maven/mavencentral/com.nimbusds/oauth2-oidc-sdk/9.43.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.opencsv/opencsv/5.7.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.sun.activation/jakarta.activation/1.2.2, EPL-2.0 OR BSD-3-Clause OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.jaf
-maven/mavencentral/com.vaadin.external.google/android-json/0.0.20131108.vaadin1, Apache-2.0, approved, CQ21310
 maven/mavencentral/commons-beanutils/commons-beanutils/1.9.4, Apache-2.0, approved, CQ12654
 maven/mavencentral/commons-codec/commons-codec/1.15, Apache-2.0 AND BSD-3-Clause AND LicenseRef-Public-Domain, approved, CQ22641
 maven/mavencentral/commons-collections/commons-collections/3.2.2, Apache-2.0, approved, CQ10385
@@ -52,17 +51,14 @@ maven/mavencentral/io.netty/netty-transport/4.1.87.Final, Apache-2.0 AND BSD-3-C
 maven/mavencentral/io.projectreactor.netty/reactor-netty-core/1.1.2, Apache-2.0, approved, #5946
 maven/mavencentral/io.projectreactor.netty/reactor-netty-http/1.1.2, Apache-2.0, approved, #6999
 maven/mavencentral/io.projectreactor/reactor-core/3.5.2, Apache-2.0, approved, #5934
-maven/mavencentral/io.swagger.core.v3/swagger-annotations/2.2.7, Apache-2.0, approved, clearlydefined
-maven/mavencentral/io.swagger.core.v3/swagger-core/2.2.7, Apache-2.0, approved, clearlydefined
-maven/mavencentral/io.swagger.core.v3/swagger-models/2.2.7, Apache-2.0, approved, clearlydefined
+maven/mavencentral/io.swagger.core.v3/swagger-annotations-jakarta/2.2.7, Apache-2.0, approved, #5947
+maven/mavencentral/io.swagger.core.v3/swagger-core-jakarta/2.2.7, Apache-2.0, approved, #5929
+maven/mavencentral/io.swagger.core.v3/swagger-models-jakarta/2.2.7, Apache-2.0, approved, #5919
 maven/mavencentral/jakarta.activation/jakarta.activation-api/2.1.1, EPL-2.0 OR BSD-3-Clause OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.jaf
 maven/mavencentral/jakarta.annotation/jakarta.annotation-api/2.1.1, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.ca
 maven/mavencentral/jakarta.servlet/jakarta.servlet-api/6.0.0, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.servlet
 maven/mavencentral/jakarta.validation/jakarta.validation-api/3.0.2, Apache-2.0, approved, ee4j.bean-validation
 maven/mavencentral/jakarta.xml.bind/jakarta.xml.bind-api/4.0.0, BSD-3-Clause, approved, ee4j.jaxb
-maven/mavencentral/junit/junit/4.13.2, EPL-2.0, approved, CQ23636
-maven/mavencentral/net.bytebuddy/byte-buddy-agent/1.12.22, Apache-2.0, approved, #1810
-maven/mavencentral/net.bytebuddy/byte-buddy/1.12.22, Apache-2.0 AND BSD-3-Clause, approved, #1811
 maven/mavencentral/net.minidev/accessors-smart/2.4.8, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.minidev/json-smart/2.4.8, Apache-2.0, approved, #3288
 maven/mavencentral/org.apache.commons/commons-collections4/4.4, Apache-2.0, approved, clearlydefined
@@ -76,23 +72,13 @@ maven/mavencentral/org.apache.logging.log4j/log4j-to-slf4j/2.19.0, Apache-2.0, a
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.5, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND W3C AND CC0-1.0, approved, #5949
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/10.1.5, Apache-2.0, approved, #6997
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/10.1.5, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.assertj/assertj-core/3.23.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.atteo/evo-inflector/1.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.70, MIT, approved, #1712
 maven/mavencentral/org.bouncycastle/bcutil-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.checkerframework/checker-qual/3.12.0, MIT, approved, clearlydefined
 maven/mavencentral/org.codehaus.plexus/plexus-utils/3.2.1, , approved, CQ20774
-maven/mavencentral/org.hamcrest/hamcrest-core/2.2, BSD-3-Clause, approved, clearlydefined
-maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/org.jboss.logging/jboss-logging/3.5.0.Final, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.9.2, EPL-2.0, approved, #3133
-maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.9.2, EPL-2.0, approved, #3125
-maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.9.2, EPL-2.0, approved, #3134
-maven/mavencentral/org.junit.jupiter/junit-jupiter/5.9.2, EPL-2.0, approved, #6972
-maven/mavencentral/org.junit.platform/junit-platform-commons/1.9.2, EPL-2.0, approved, #3130
-maven/mavencentral/org.junit.platform/junit-platform-engine/1.9.2, EPL-2.0, approved, #3128
 maven/mavencentral/org.keycloak/keycloak-adapter-core/20.0.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.keycloak/keycloak-adapter-spi/20.0.0, Apache-2.0, approved, #6338
 maven/mavencentral/org.keycloak/keycloak-authz-client/20.0.0, Apache-2.0, approved, #6339
@@ -106,22 +92,17 @@ maven/mavencentral/org.keycloak/keycloak-spring-boot-adapter-core/20.0.0, Apache
 maven/mavencentral/org.keycloak/keycloak-spring-boot-starter/20.0.3, , restricted, clearlydefined
 maven/mavencentral/org.keycloak/keycloak-spring-security-adapter/20.0.3, Apache-2.0, approved, #6344
 maven/mavencentral/org.keycloak/spring-boot-container-bundle/20.0.0, Apache-2.0, approved, #6343
-maven/mavencentral/org.mockito/mockito-core/4.8.1, MIT, approved, clearlydefined
-maven/mavencentral/org.mockito/mockito-junit-jupiter/4.8.1, MIT, approved, clearlydefined
-maven/mavencentral/org.objenesis/objenesis/3.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.opentest4j/opentest4j/1.2.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.ow2.asm/asm/9.1, BSD-3-Clause, approved, CQ23029
 maven/mavencentral/org.reactivestreams/reactive-streams/1.0.4, CC0-1.0, approved, CQ16332
-maven/mavencentral/org.skyscreamer/jsonassert/1.5.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.slf4j/jul-to-slf4j/2.0.6, MIT, approved, clearlydefined
 maven/mavencentral/org.slf4j/slf4j-api/2.0.6, MIT, approved, #5915
 maven/mavencentral/org.sonarsource.scanner.api/sonar-scanner-api/2.16.2.588, LGPL-3.0-or-later, approved, #6945
 maven/mavencentral/org.sonarsource.scanner.maven/sonar-maven-plugin/3.9.1.2184, LGPL-3.0-or-later, approved, #6944
 maven/mavencentral/org.sonatype.plexus/plexus-cipher/1.4, Apache-2.0, approved, CQ4600
 maven/mavencentral/org.sonatype.plexus/plexus-sec-dispatcher/1.4, Apache-2.0, approved, CQ16491
-maven/mavencentral/org.springdoc/springdoc-openapi-common/1.6.14, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springdoc/springdoc-openapi-ui/1.6.14, Apache-2.0, approved, #4347
-maven/mavencentral/org.springdoc/springdoc-openapi-webmvc-core/1.6.14, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springdoc/springdoc-openapi-starter-common/2.0.2, Apache-2.0, approved, #5920
+maven/mavencentral/org.springdoc/springdoc-openapi-starter-webmvc-api/2.0.2, Apache-2.0, approved, #5950
+maven/mavencentral/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.0.2, Apache-2.0, approved, #5923
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.0.2, Apache-2.0, approved, #6981
 maven/mavencentral/org.springframework.boot/spring-boot-starter-data-rest/3.0.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.0.2, Apache-2.0, approved, #7006
@@ -129,13 +110,10 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.0.2, A
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.0.2, Apache-2.0, approved, #5932
 maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.0.2, Apache-2.0, approved, #6989
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.0.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter-test/3.0.2, Apache-2.0, approved, #7001
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.0.2, Apache-2.0, approved, #6987
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.0.2, Apache-2.0, approved, #5945
 maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.0.2, Apache-2.0, approved, #6986
 maven/mavencentral/org.springframework.boot/spring-boot-starter/3.0.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-test-autoconfigure/3.0.2, Apache-2.0, approved, #6966
-maven/mavencentral/org.springframework.boot/spring-boot-test/3.0.2, Apache-2.0, approved, #6976
 maven/mavencentral/org.springframework.boot/spring-boot/3.0.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.cloud/spring-cloud-commons/3.1.5, Apache-2.0, approved, #4726
 maven/mavencentral/org.springframework.cloud/spring-cloud-context/3.1.5, Apache-2.0, approved, #4722
@@ -145,7 +123,7 @@ maven/mavencentral/org.springframework.data/spring-data-commons/3.0.1, Apache-2.
 maven/mavencentral/org.springframework.data/spring-data-rest-core/4.0.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.data/spring-data-rest-webmvc/4.0.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.hateoas/spring-hateoas/2.0.1, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.plugin/spring-plugin-core/3.0.0, Apache-2.0, restricted, clearlydefined
+maven/mavencentral/org.springframework.plugin/spring-plugin-core/3.0.0, Apache-2.0, approved, #7104
 maven/mavencentral/org.springframework.security/spring-security-config/6.0.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-core/6.0.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-crypto/6.0.1, Apache-2.0, approved, clearlydefined
@@ -163,12 +141,10 @@ maven/mavencentral/org.springframework/spring-core/6.0.4, Apache-2.0 AND BSD-3-C
 maven/mavencentral/org.springframework/spring-expression/6.0.4, Apache-2.0, approved, #3284
 maven/mavencentral/org.springframework/spring-jcl/6.0.4, Apache-2.0, approved, #3283
 maven/mavencentral/org.springframework/spring-jdbc/6.0.4, Apache-2.0, approved, #5924
-maven/mavencentral/org.springframework/spring-test/6.0.4, Apache-2.0, approved, #7003
 maven/mavencentral/org.springframework/spring-tx/6.0.4, Apache-2.0, approved, #5926
 maven/mavencentral/org.springframework/spring-web/6.0.4, Apache-2.0, approved, #5942
 maven/mavencentral/org.springframework/spring-webflux/6.0.4, Apache-2.0, approved, #6964
 maven/mavencentral/org.springframework/spring-webmvc/6.0.4, Apache-2.0, approved, #5944
 maven/mavencentral/org.webjars/swagger-ui/4.15.5, Apache-2.0 AND MIT, approved, #5921
 maven/mavencentral/org.webjars/webjars-locator-core/0.52, MIT, approved, clearlydefined
-maven/mavencentral/org.xmlunit/xmlunit-core/2.9.1, Apache-2.0, approved, #6272
 maven/mavencentral/org.yaml/snakeyaml/1.33, Apache-2.0, approved, clearlydefined

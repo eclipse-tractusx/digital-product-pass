@@ -24,8 +24,6 @@ namespace: product-material-pass
 image:
   repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/product-pass-consumer-backend
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: placeholder
 
 imagePullSecrets: []
 nameOverride: "consumer-backend"

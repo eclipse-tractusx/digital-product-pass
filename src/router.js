@@ -20,32 +20,27 @@ import HomeView from "./views/HomeView.vue";
 
 
 const routes = [
-  {
-    path: '/',
-    name: "Home Page",
-    component: HomeView,
-  },
-  {
-    path: "/:catchAll(.*)",
-    name: "PageNotFound",
-    component: PageNotFound,
-  },
-  {
-    path: "/PageNotFound",
-    name: "PageNotFound",
-    component: PageNotFound,
-  },
-  {
-    path: "/:id",
-    name: "PassportView",
-    component: () => import("./views/PassportView.vue"),
-  },
+    {
+        path: '/',
+        name: "Home Page",
+        component: HomeView,
+    },
+    {
+        path: "/:catchAll(.*)",
+        name: "PageNotFound",
+        component: PageNotFound,
+    },
+    {
+        path: "/:id",
+        name: "PassportView",
+        component: () => import("./views/PassportView.vue"),
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory("/passport"),
-  routes: routes,
-  linkActiveClass: "active",
+    history: createWebHistory("/passport"),
+    routes: routes,
+    linkActiveClass: "active",
 });
 
 export default router;

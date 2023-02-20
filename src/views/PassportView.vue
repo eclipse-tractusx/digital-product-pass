@@ -211,14 +211,14 @@ export default {
           assetId,
           providerConnector,
           APIWrapperRequestHeader
-        );
+        )
       }catch(e){
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
         return null;
-      };
+      }
 
       if(response == null || typeof response == "string" || typeof response.data.passport != "object" || response.data.passport==null || response.data.passport.errors != null){
         this.loading = false;

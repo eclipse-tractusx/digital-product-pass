@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-alpine
 
 RUN addgroup -g 10001 appgroup \
 	&& adduser -u 10000 -g 10001 -h /home/appuser -D appuser
@@ -23,12 +23,10 @@ VOLUME data log
 RUN mkdir -p ./log
 RUN mkdir -p ./data
 
-
-COPY  ./target .
+COPY ./target/productpass*.jar productpass.jar
 
 #HEALTHCHECK --interval=60s --timeout=4s CMD curl -f http://localhost:8080/health || exit 1
 HEALTHCHECK NONE
-
 
 # add permissions for a user
 RUN chown -R appuser:appuser /app && chmod -R 755 /app
@@ -36,4 +34,4 @@ RUN chown -R appuser:appuser /app && chmod -R 755 /app
 USER appuser
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "./productpass-0.3.4-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./productpass.jar"]

@@ -212,7 +212,8 @@ export default {
       try{
         if((this.backend === 'true') || (this.backend == true)){
           let backendService = new BackendService();
-          response = await backendService.getPassportV1(assetId, accessToken);
+          let jwtToken = await this.auth.getAccessToken();
+          response = await backendService.getPassportV1(assetId, jwtToken);
         }else{
           response = await wrapper.performEDCDataTransfer(
             assetId,

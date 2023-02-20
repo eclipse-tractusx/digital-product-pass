@@ -50,7 +50,7 @@
                 "
               >
                 <router-link to="/">
-                  <v-btn class="help-btn" rounded>Help</v-btn>
+                  <v-btn class="help-btn" :ripple="{class: 'ripple-background'}" rounded>Help</v-btn>
                 </router-link>
               </v-col>
               <v-col class="d-flex justify-content-between align-center">
@@ -63,16 +63,16 @@
                       class="buttons"
                     />
                   </template>
-                  <v-list class="dropdown" rounded="xl">
+                  <v-list class="menu-dropdown" rounded="xl">
                     <div class="profile-menu-header">
                       <span>
                         {{ email ? email : "Test user" }}
                         <p class="role">{{ role }}</p>
                       </span>
                     </div>
-                    <div class="menu-btn" @click="logout">
+                    <v-btn :ripple="{class: 'ripple-background'}" class="menu-btn" @click="logout">
                       <span class="profile-text">Sign Out</span>
-                    </div>
+                    </v-btn>
                     <div class="profile-menu-lang">
                       <span class="inactive">DE</span>
                       <span class="active">EN</span>

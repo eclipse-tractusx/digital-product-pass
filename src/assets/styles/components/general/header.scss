@@ -175,7 +175,7 @@ p {
 
   .v-slide-group-item--active {
     .v-btn__content {
-      color: rgb(15, 113, 203);
+      color: $catena-x-blue;
       --v-border-color: 0, 0, 224;
       --v-theme-on-surface: 13, 85, 175;
     }
@@ -214,11 +214,12 @@ p {
     color: rgb(15, 113, 203);
     box-shadow: none;
     height: 45px;
+    color: $catena-x-blue;
   }
 
   .v-btn:hover {
-    .v-btn__content {
-      color: rgb(13, 85, 175);
+    .v-btn__content{
+      color: $catena-x-dark-blue;
     }
     --v-hover-opacity: 1;
   }

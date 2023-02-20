@@ -49,9 +49,18 @@
                   help-container
                 "
               >
-                <router-link to="/">
-                  <v-btn class="help-btn" :ripple="{class: 'ripple-background'}" rounded>Help</v-btn>
-                </router-link>
+                <a
+                  id="lnkHelp"
+                  target="_blank"
+                  href="https://portal.int.demo.catena-x.net/documentation/?path=docs"
+                >
+                  <v-btn
+                    class="help-btn"
+                    :ripple="{ class: 'ripple-background' }"
+                    rounded
+                    >Help</v-btn
+                  >
+                </a>
               </v-col>
               <v-col class="d-flex justify-content-between align-center">
                 <v-menu>
@@ -70,7 +79,11 @@
                         <p class="role">{{ role }}</p>
                       </span>
                     </div>
-                    <v-btn :ripple="{class: 'ripple-background'}" class="menu-btn" @click="logout">
+                    <v-btn
+                      :ripple="{ class: 'ripple-background' }"
+                      class="menu-btn"
+                      @click="logout"
+                    >
                       <span class="profile-text">Sign Out</span>
                     </v-btn>
                     <div class="profile-menu-lang">

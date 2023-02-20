@@ -15,29 +15,29 @@
  */
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
-
+import { inject } from "vue";
 export default class BackendService {
-  async getPassportV1(assetId, jwtToken) {
-    return this.getPassport("v1", assetId, jwtToken);
+  async getPassportV1(assetId) {
+    return await this.getPassport("v1", assetId);
   }
-  async getPassport(version, assetId, jwtToken) {
+  async getPassport(version, assetId) {
+    var authentication = inject("authentication");
+    const jwtToken = authentication.getAccessToken();
     return new Promise(resolve => {
-      setTimeout(() => {
-        axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': "Bearer "+ jwtToken
-          }
+      axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': "Bearer "+ jwtToken
         }
-        )
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((e) => {
-            console.error("getPassport -> " + e);
-            resolve('rejected');
-          });
-      }, 2000);
+      }
+      )
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => {
+          console.error("getPassport -> " + e);
+          resolve('rejected');
+        });
     });
   }
 }

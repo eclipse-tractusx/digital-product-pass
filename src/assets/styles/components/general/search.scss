@@ -9,11 +9,16 @@
     font-size: 20px;
     font-weight: 500;
   }
-  .ripple-background{
+  .ripple-background {
     color: $catena-x-light-blue;
   }
+
+  .v-btn__overlay {
+    background-color: white;
+  }
+
   .clear:hover {
-    color: $catena-x-blue; 
+    color: $catena-x-blue;
   }
   .v-field--variant-filled .v-field__overlay {
     background-color: none;
@@ -81,7 +86,7 @@
   .icon {
     padding-left: 20px;
   }
-  
+
   @media (max-width: 856px) {
     .input {
       position: relative;

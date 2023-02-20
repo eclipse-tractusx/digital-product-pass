@@ -18,10 +18,18 @@
   <div>
     <Header>
       <v-tabs v-model="tab" show-arrows class="menu">
-        <v-tab :ripple="{ class: 'ripple-background' }" class="nav-items" value="one" data-cy="history-tab"
+        <v-tab
+          :ripple="{ class: 'ripple-background' }"
+          class="nav-items"
+          value="one"
+          data-cy="history-tab"
           >History Page</v-tab
         >
-        <v-tab :ripple="{ class: 'ripple-background' }" class="nav-items" value="two" data-cy="QR-scanner-tab"
+        <v-tab
+          :ripple="{ class: 'ripple-background' }"
+          class="nav-items"
+          value="two"
+          data-cy="QR-scanner-tab"
           >Search Passport</v-tab
         >
       </v-tabs>
@@ -33,7 +41,7 @@
             <WelcomeView />
           </v-window-item>
           <v-window-item value="two">
-            <QRScannerView />
+            <SearchView />
           </v-window-item>
         </v-main>
       </v-window>
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-import QRScannerView from "./SearchView.vue";
+import SearchView from "./SearchView.vue";
 import WelcomeView from "./WelcomeView.vue";
 import Footer from "../components/general/Footer.vue";
 import Header from "../components/general/Header.vue";
@@ -52,7 +60,7 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomeView",
   components: {
-    QRScannerView,
+    SearchView,
     WelcomeView,
     Footer,
     Header,
@@ -65,5 +73,3 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>

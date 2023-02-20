@@ -74,8 +74,8 @@
                       <span class="profile-text">Sign Out</span>
                     </v-btn>
                     <div class="profile-menu-lang">
-                      <span class="inactive">DE</span>
-                      <span class="active">EN</span>
+                      <a disabled class="language inactive">DE</a>
+                      <a class="language active">EN</a>
                     </div>
                   </v-list>
                 </v-menu>

@@ -22,199 +22,14 @@
     />
     <div class="section-content" :class="[toggle ? 'hidden' : '']">
       <div class="sub-section-container">
-        <div v-if="documents.responsibleSourcing" class="field-container">
-          <a
-            v-for="document in documents.responsibleSourcing"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div v-if="documents.packagingInstructions" class="field-container">
-          <a
-            v-for="document in documents.packagingInstructions"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div
-          v-if="documents.transportationInstructions"
-          class="field-container"
-        >
-          <a
-            v-for="document in documents.transportationInstructions"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div
-          v-if="documents.vehicleDismantlingProcedure"
-          class="field-container"
-        >
-          <a
-            v-for="document in documents.vehicleDismantlingProcedure"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div v-if="documents.testReportsResults" class="field-container">
-          <a
-            v-for="document in documents.testReportsResults"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div
-          v-if="documents.batteryDismantlingProcedure"
-          class="field-container"
-        >
-          <a
-            v-for="document in documents.batteryDismantlingProcedure"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div v-if="documents.safetyMeasures" class="field-container">
-          <a
-            v-for="document in documents.safetyMeasures"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
-        <div v-if="documents.declarationOfConformity" class="field-container">
-          <a
-            v-for="document in documents.declarationOfConformity"
-            :key="document"
-            :href="document.fileLocation"
-            target="_blank"
-            class="link-container"
-            data-cy="link-to-the-label-element"
-          >
-            <span class="field-label">{{ document.title }}</span>
-
-            <span class="field-value link-wrapper">
-              <v-icon
-                v-if="document.fileLocation && document.fileLocation != null"
-                icon="mdi-text-box-outline"
-                class="document-icon"
-              ></v-icon>
-              <span class="link">
-                {{ document.fileLocation }}
-              </span>
-            </span>
-          </a>
-        </div>
+        <DocumentField :field="documents.responsibleSourcing" />
+        <DocumentField :field="documents.packagingInstructions" />
+        <DocumentField :field="documents.transportationInstructions" />
+        <DocumentField :field="documents.vehicleDismantlingProcedure" />
+        <DocumentField :field="documents.testReportsResults" />
+        <DocumentField :field="documents.batteryDismantlingProcedure" />
+        <DocumentField :field="documents.safetyMeasures" />
+        <DocumentField :field="documents.declarationOfConformity" />
       </div>
     </div>
   </div>
@@ -222,11 +37,13 @@
  
 <script>
 import SectionHeader from "../../general/SectionHeader.vue";
+import DocumentField from "../DocumentField.vue";
 
 export default {
   name: "AdditionalDocuments",
   components: {
     SectionHeader,
+    DocumentField,
   },
   props: {
     sectionTitle: {

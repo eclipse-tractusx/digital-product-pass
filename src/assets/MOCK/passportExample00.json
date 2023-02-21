@@ -1,11 +1,21 @@
 {
   "electrochemicalProperties": {
-    "ratedCapacity": 200,
-    "batteryEnergy": {
-      "energyRoundtripEfficiencyChange": 80,
-      "maximumAllowedBatteryEnergy": 60000.0,
-      "energyRoundtripEfficiency": 48
-    },
+      "ratedCapacity": 210,
+      "batteryEnergy": {
+        "value":{
+            "energyRoundtripEfficiencyChange": 67,
+            "maximumAllowedBatteryEnergy": 90000.0,
+            "energyRoundtripEfficiency": 56
+        },
+        "type": "object"
+      },
+      "type": "object"
+    }
+  }
+
+"specifications"."batteryEnergy"."energyRoundtripEfficiencyChange".value = 67
+"specifications".electrochemicalProperties.value."batteryEnergy".value."energyRoundtripEfficiencyChange".value
+
     "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.611,
     "batteryVoltage": {
       "nominalVoltage": 4.3,

@@ -20,12 +20,16 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.2] - 2023-02-05
-### Added
-- Deployment refactored to fit and follow new guidelines from DevSecOps team.
-- Data soverenity printing the contract id
+## [0.4.4] - 2023-02-21 
+###  Preparing for archiving the repository
 
-### Updated
-- Optimized the reponsive from the application
-- Optimized the passport display
-- Updated components with Vuetify 3, making the application more stable. 
+## Updated
+- Reworked header component to match portal
+- Reworked footer component to match portal
+- Reworked search input to match portal
+
+## Added
+- New SCSS structure, allowing a optimized scalability from the application
+- Updated frontend dependencies file.
+- Matched portal styles
+- Refactored responsiveness from components

@@ -134,6 +134,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
+  margin-bottom: 290px;
 }
 
 .qrcode-stream {
@@ -177,6 +178,9 @@ p {
 }
 
 @media (max-width: 856px) {
+  .qr-container {
+    margin-bottom: 0;
+  }
   .frame {
     width: 250px;
     height: 250px;
@@ -196,6 +200,9 @@ p {
   }
 }
 @media (max-width: 670px) {
+  .qr-container {
+    margin-bottom: 0;
+  }
   .qr-frame {
     position: absolute !important;
     top: 72% !important;
@@ -215,6 +222,9 @@ p {
   }
 }
 @media (max-width: 570px) {
+  .qr-container {
+    margin-bottom: 0;
+  }
   .qr-frame {
     position: absolute;
     top: 75% !important;

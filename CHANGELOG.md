@@ -24,7 +24,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Added
 - Deployment refactored to fit and follow new guidelines from DevSecOps team.
 - Data soverenity printing the contract id
-- 
 
 ### Updated
 - Optimized the reponsive from the application

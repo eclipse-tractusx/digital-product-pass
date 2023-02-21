@@ -3,10 +3,12 @@
     color: $catena-x-blue;
     font-weight: 100;
   }
+
   .link-wrapper {
     font-weight: normal !important;
     line-break: anywhere;
   }
+
   .link {
     text-decoration: underline;
   }
@@ -14,6 +16,7 @@
   .document-icon {
     padding-right: 3px;
   }
+
   .section-content {
     width: 100%;
     border: solid 1px #b3cb2d;
@@ -32,6 +35,7 @@
     width: 33%;
     padding-right: 20px;
   }
+
   .link-container {
     display: flex;
     flex-direction: column;

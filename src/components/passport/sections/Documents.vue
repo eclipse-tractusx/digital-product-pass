@@ -35,6 +35,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -57,6 +58,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -82,6 +84,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -107,6 +110,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -129,6 +133,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -154,6 +159,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -176,6 +182,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>
@@ -198,6 +205,7 @@
 
             <span class="field-value link-wrapper">
               <v-icon
+                v-if="document.fileLocation && document.fileLocation != null"
                 icon="mdi-text-box-outline"
                 class="document-icon"
               ></v-icon>

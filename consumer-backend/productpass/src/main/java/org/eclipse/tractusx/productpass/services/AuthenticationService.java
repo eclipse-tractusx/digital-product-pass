@@ -27,7 +27,6 @@ package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.http.protocol.HTTP;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;

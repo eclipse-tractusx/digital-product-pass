@@ -15,39 +15,41 @@
 -->
 
 <template v-if="cellChemistry">
-  <SectionHeader title="2. Cell chemistry" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <!-- Composition of Electrolyte -->
-    <AttributeField
-      :attributes-list="cellChemistry.electrolyteComposition"
-      label="Composition of electrolyte"
-      data-cy="electrolyte-composition"
-    />
-    <!-- Composition of Anode -->
-    <AttributeField
-      :attributes-list="cellChemistry.anodeActiveMaterials"
-      label="Composition of Anode"
-    />
-    <!-- Composition of Anode other -->
-    <AttributeField
-      :attributes-list="cellChemistry.anodeCompositionOther"
-      label="Composition of other Anode materials"
-    />
-    <!-- Composition of Cathode -->
-    <AttributeField
-      :attributes-list="cellChemistry.cathodeActiveMaterials"
-      label="Composition of Cathode"
-    />
-    <!-- Composition of Cathode other -->
-    <AttributeField
-      :attributes-list="cellChemistry.cathodeCompositionOther"
-      label="Composition of other Cathode materials"
-    />
-    <!-- Recyclate content active materials -->
-    <AttributeField
-      :attributes-list="cellChemistry.recyclateContentActiveMaterials"
-      label="Recyclate content active materials"
-    />
+  <div>
+    <SectionHeader title="2. Cell chemistry" @click="toggle = !toggle" />
+    <div class="section-content" :class="[toggle ? 'hidden' : '']">
+      <!-- Composition of Electrolyte -->
+      <AttributeField
+        :attributes-list="cellChemistry.electrolyteComposition"
+        label="Composition of electrolyte"
+        data-cy="electrolyte-composition"
+      />
+      <!-- Composition of Anode -->
+      <AttributeField
+        :attributes-list="cellChemistry.anodeActiveMaterials"
+        label="Composition of Anode"
+      />
+      <!-- Composition of Anode other -->
+      <AttributeField
+        :attributes-list="cellChemistry.anodeCompositionOther"
+        label="Composition of other Anode materials"
+      />
+      <!-- Composition of Cathode -->
+      <AttributeField
+        :attributes-list="cellChemistry.cathodeActiveMaterials"
+        label="Composition of Cathode"
+      />
+      <!-- Composition of Cathode other -->
+      <AttributeField
+        :attributes-list="cellChemistry.cathodeCompositionOther"
+        label="Composition of other Cathode materials"
+      />
+      <!-- Recyclate content active materials -->
+      <AttributeField
+        :attributes-list="cellChemistry.recyclateContentActiveMaterials"
+        label="Recyclate content active materials"
+      />
+    </div>
   </div>
 </template>
 

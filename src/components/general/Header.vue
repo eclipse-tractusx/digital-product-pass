@@ -17,15 +17,7 @@
   <div class="header-container">
     <v-container fluid="true" class="header">
       <v-row
-        class="
-          d-flex
-          justify-xl-between
-          justify-lg-between
-          justify-md-center
-          justify-sm-center
-          justify-center
-          align-center
-        "
+        class="d-flex justify-xl-between justify-lg-between justify-md-center justify-sm-center justify-center align-center"
       >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
@@ -38,16 +30,11 @@
         <v-col class="v-col-auto" style="padding: 0">
           <v-container
             fluid="true"
-            class="d-flex align-center justify-content-end"
+            class="d-flex align-center justify-content-end profile-container"
           >
             <v-row>
               <v-col
-                class="
-                  d-flex
-                  justify-content-between
-                  align-center
-                  help-container
-                "
+                class="d-flex justify-content-between align-center help-container"
               >
                 <a
                   id="lnkHelp"
@@ -62,7 +49,9 @@
                   >
                 </a>
               </v-col>
-              <v-col class="d-flex justify-content-between align-center">
+              <v-col
+                class="d-flex justify-content-between align-center profile"
+              >
                 <v-menu>
                   <template #activator="{ props }">
                     <img

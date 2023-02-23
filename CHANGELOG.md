@@ -27,6 +27,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Reworked header component to match portal
 - Reworked footer component to match portal
 - Reworked search input to match portal
+- Reworked table to match guidelines
 
 ## Added
 - New SCSS structure, allowing a optimized scalability from the application

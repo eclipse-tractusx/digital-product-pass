@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { SERVER_URL, BACKEND, API_DELAY, API_MAX_RETRIES } from "@/services/service.const";
+import { SERVER_URL, API_DELAY, API_MAX_RETRIES } from "@/services/service.const";
 import axios from "axios";
-import backendService from "@/services/BackendService";
 export default class Wrapper {
 
   // Step 1: Request contract offers from the catalog
@@ -167,9 +166,6 @@ export default class Wrapper {
     });
   }
   async performEDCDataTransfer(assetId, providerConnector, requestHeaders) {
-    if((BACKEND === 'true') || (BACKEND == true)){
-      return await backendService.getPassportV1(assetId);
-    }else{
       let contractId = "";
       let data = await this.getContractOfferCatalog(providerConnector.connectorAddress, requestHeaders);
 
@@ -252,6 +248,5 @@ export default class Wrapper {
       };
 
       return responseData;
-    }
   }
 }

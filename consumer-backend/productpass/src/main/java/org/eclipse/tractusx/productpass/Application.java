@@ -25,25 +25,44 @@
 
 package org.eclipse.tractusx.productpass;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import org.eclipse.tractusx.productpass.models.http.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import utils.EnvUtil;
 
+import java.util.Map;
+
 
 @SpringBootApplication
 @EnableAsync
-@SecurityScheme(name = "API-Key", scheme = "basic", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
-@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class})
+@SecurityScheme(
+        description = "Access token generated in the Product Passport Consumer Frontend, against the Catena-X IAM Service",
+        name = "BearerAuthentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer",
+        in = SecuritySchemeIn.HEADER
+)
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class Application {
+    @Autowired
+    BuildProperties buildProperties;
+
     public static final EnvUtil env = new EnvUtil();
 	public static void main(String[] args) {
 
@@ -62,10 +81,10 @@ public class Application {
 
     public Info getApiInfo(){
         Info info = new Info();
-        info.title("Product Passport Consumer Backend");
-        info.description("The openapi documentation for Product Passport Consumer Backend");
-        info.version("1.0");
-
+        info.title(buildProperties.getName());
+        info.description("Open API documentation for the "+buildProperties.getName());
+        info.version(buildProperties.getVersion());
+        info.license(new License().name("Apache 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"));
         return info;
     }
 }

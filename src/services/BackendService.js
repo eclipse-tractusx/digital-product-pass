@@ -15,14 +15,12 @@
  */
 import { SERVER_URL } from "@/services/service.const";
 import axios from "axios";
-import { inject } from "vue";
+
 export default class BackendService {
-  async getPassportV1(assetId) {
-    return await this.getPassport("v1", assetId);
+  async getPassportV1(assetId, jwtToken) {
+    return this.getPassport("v1", assetId, jwtToken);
   }
-  async getPassport(version, assetId) {
-    var authentication = inject("authentication");
-    const jwtToken = authentication.getAccessToken();
+  async getPassport(version, assetId, jwtToken) {
     return new Promise(resolve => {
       setTimeout(() => {
         axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
@@ -39,7 +37,7 @@ export default class BackendService {
             console.error("getPassport -> " + e);
             resolve('rejected');
           });
-      });
+      }, 2000);
     });
   }
 }

@@ -14,11 +14,11 @@
  limitations under the License.
 -->
 
-# ![Product Battery Passport Consumer Application (Frontend)](./docs/catena-x-logo.svg) Product Battery Passport Consumer App (Frontend)
+# ![Digital Product Passport Consumer Application (Frontend)](./docs/catena-x-logo.svg) Digital Product Passport Consumer App (Frontend)
 
-## What is battery passport consumer application?
+## What is digital product passport consumer application?
 
-The battery passport consumer application provides a user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
+The digital product passport consumer application provides a user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
 In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
 
@@ -30,7 +30,7 @@ To get Started you can have a look into our documentation:
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Arc42](\docs\arc42\Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
-| [Administration Guide](\docs\admin_guide\Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
+| [Administration Guide](\docs\admin%20guide\Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
 | [Backend Documentation](\consumer-backend\productpass\readme.md)          | Backend documentation Product Passport App                                                                                                                         |
 | [Deployment in Hotel Budapest](\deployment\README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
 | [Docker Overview](\docker\README.md)                                      | Overview on general docker commands                                                                                                                                |
@@ -57,7 +57,7 @@ To get Started you can have a look into our documentation:
 ### Clone project repository
 
 ```bash
-git clone https://github.com/catenax-ng/product-battery-passport-consumer-app.git
+git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 ```
 
 ### Install dependencies
@@ -101,16 +101,16 @@ docker stop consumer-ui; docker rm consumer-ui;
 ```
 You can run the application in docker container with existing image from GitHub packages.
 
-See consumer frontend docker image in registry: [consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui)
+See consumer frontend docker image in registry: [consumer-ui](https://github.com/eclipse-tractusx/digital-product-pass/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui)
 
 ```bash
 # pull the image 
 # Replace placeholder <LATEST_TAG> with the most recent tag in registry
 
-docker pull ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:<LATEST_TAG>
+docker pull ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:<LATEST_TAG>
 
 # run docker image
-docker run -p 8080:8080 --name consumer-ui -d ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui:<LATEST_TAG>
+docker run -p 8080:8080 --name consumer-ui -d ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:<LATEST_TAG>
 ```
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 
@@ -122,4 +122,4 @@ See [VSCode configuration](https://confluence.catena-x.net/pages/viewpage.action
 
 ## License
 
-[Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)
+[Apache-2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/digital-product-pass/main/LICENSE)

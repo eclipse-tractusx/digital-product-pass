@@ -1,3 +1,19 @@
+<!--
+ Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 # (CEC) ARC42 - Product Passport Consumer Application Documentation
 
 ![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
@@ -5,8 +21,7 @@
 Version: v2.0
 Latest Revision Dec. 13, 2022
 
->Some links might not be accesible as they lead to a private confluence. If you need access please reach out to the dev Team and request what information you need for what reason.
-
+Some of the links might lead to restricted areas. In case you need acess please reach out to the core team.
 
 ## Table of Contents
 
@@ -200,19 +215,6 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * DevOps Documentation:
   * [Intro | Catena-x - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
 
-#### Documentation
-
-* ARC24 Documentation:
-  * <a href="hCDPP\(CEC)+ARC42+-+Product+Passport+Consumer+Application+Documentation">(CEC) ARC42 - Product Passport Consumer Application Documentation</a>
-* GitHub Documentation:
-  * [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/main/docs](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/main/docs)
-
-#### Security
-
-* IT security Product Overview:
-  * [Product Passport](cxsecurity\Product+Passport)
-* Products List
-  * [Products Security Overview (incl. Assessments)](C:\pages\viewpage.action?pageId=55002308)
 
 #### Catena-X Shared Services
 
@@ -301,10 +303,6 @@ Helm is a package manager for Kubernetes and chart describes a set of Kubernetes
 
 In order to maintain the system safe and to comply with the quality gates a series of security applications are used.
 
-Most of our security documentation can be found at this SecTeam Confluence Page:
-
-Security Team Documentation: [Product Passport](cxsecurity\Product+Passport)
-
 **Contents.**  
 *A short summary and explanation of the fundamental decisions and solution strategies, that shape the system's architecture. These include:*
 
@@ -380,8 +378,6 @@ The application deployment is translated into Kubernetes resources through helm 
 | GitHub Container Registry (GHCR) | A container registry to store and manage container images and version them with tags |
 | Kubernetes deployment | Kubernetes manifest yaml files such as deployment, pod, service, ingress |
 | Argo CD | Application runtime environment managed by DevSecOps team |
-
-The detailed version of application building blocks can be seen [here](C:\download\attachments\54986005\Building%20blocks.png?version=1&modificationDate=1671208934362&api=v2).
 
 *Here you describe the decomposition of the overall system using the following white box template. It contains:*
 
@@ -527,18 +523,6 @@ As the Product Passport product is part of the Catena-X Network we are required 
 
 The description of this quality gates can be found in the following documentation:
 
-### Quality Gates
-
-#### Quality Gates 4
-
-**GQ4 Documentation:** [Battery Pass - QG 4 FOSS](CDPP\Battery+Pass+-+QG+4+FOSS)  
-
-**Delivery Date:** 07.02.2023
-
-#### Quality Gates 5
-
-**QG5 Documentation:** [[MP] Consortia QG 5 (Release 3.0.0)](C:\pages\viewpage.action?pageId=69423364)
-
 **Delivery Date:** 03.03.2023
 
 **Contents.**  
@@ -547,28 +531,6 @@ Here you can also capture quality requirements with lesser priority, which will 
 
 **Motivation.**  
 *Since quality requirements will have a lot of influence on architectural decisions you should know for every stakeholder what is really important to them, concrete and measurable.*
-
-### Quality Tree
-
-At the moment no quality tree is defined because there is no metrics and aspects from the business side to the system yet defined.  
-
-A ticket was created to assure that there is a follow up related with this topic:  
-
-[CMP-389](https://jira.catena-x.net/browse/CMP-389) - Abrufen der Vorgangsdetails... STATUS
-
-**Contents.**  
-*The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.*
-
-**Motivation.**  
-*The tree structure with priorities provides an overview for a sometimes large number of quality requirements.*
-
-**Form.**  
-*The quality tree is a high-level overview of the quality goals and requirements:*
-
-* *tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root*
-* *a mind map with quality categories as main branches*
-
-*In any case the tree should include links to the scenarios of the following section.*
 
 ### Quality Scenarios
 
@@ -579,7 +541,7 @@ When a used access the application and requests are performed from the frontend 
 An user needs to be able to understand easily the application interface, in order to access the required data and to navigate thought the app.
 
 *An extra ticket was created to follow up the quality scenarios definitions.*  
-[CMP-390](https://jira.catena-x.net/browse/CMP-390) - Abrufen der Vorgangsdetails... STATUS
+[CMP-390](https://jira.catena-x.net/browse/CMP-390)
 
 **Contents.**  
 *Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.  

@@ -15,92 +15,94 @@
 -->
 
 <template v-if="batteryComposition">
-  <SectionHeader title="4. Battery composition" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <!-- Composition of battery -->
+  <div class="section">
+    <SectionHeader title="4. Battery composition" @click="toggle = !toggle" />
+    <div class="section-content" :class="[toggle ? 'hidden' : '']">
+      <!-- Composition of battery -->
 
-    <AttributeField
-      :attributes-list="batteryComposition.compositionOfBattery"
-      label="Composition of battery"
-    />
-    <!-- Critical raw materials -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Critical raw materials</span>
+      <AttributeField
+        :attributes-list="batteryComposition.compositionOfBattery"
+        label="Composition of battery"
+      />
+      <!-- Critical raw materials -->
+      <div class="sub-section-container">
+        <div class="sub-title-container">
+          <span class="sub-title">Critical raw materials</span>
+        </div>
+        <div
+          v-if="batteryComposition.criticalRawMaterials"
+          class="list-container"
+        >
+          <ul>
+            <span class="list-label"></span>
+            <li>
+              <span>
+                {{ batteryComposition.criticalRawMaterials }}
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div
-        v-if="batteryComposition.criticalRawMaterials"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label"></span>
-          <li>
-            <span>
-              {{ batteryComposition.criticalRawMaterials }}
-            </span>
-          </li>
-        </ul>
+      <!-- Components -->
+      <div class="sub-section-container">
+        <div class="sub-title-container">
+          <span class="sub-title">Components</span>
+        </div>
+        <div v-if="batteryComposition.components" class="list-container">
+          <ul>
+            <span class="list-label">Components part number</span>
+            <li>
+              <span>
+                {{ batteryComposition.components.componentsPartNumber }}
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <!-- Components -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Components</span>
-      </div>
-      <div v-if="batteryComposition.components" class="list-container">
-        <ul>
-          <span class="list-label">Components part number</span>
-          <li>
-            <span>
-              {{ batteryComposition.components.componentsPartNumber }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- Components supplier -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Components supplier</span>
-      </div>
-      <div
-        v-if="batteryComposition.components.componentsSupplier"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label">Address</span>
-          <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>{{ supplierDetails.address.locality.value }}</p>
-            <p>{{ supplierDetails.address.country.shortName }}</p>
-            <p>{{ supplierDetails.address.postCode.value }}</p>
-            <p>
-              {{ supplierDetails.address.thoroughfare.value }}
-              {{ supplierDetails.address.thoroughfare.number }}
-            </p>
-            <p>{{ supplierDetails.address.premise.value }}</p>
-            <p>{{ supplierDetails.address.postalDeliveryPoint.value }}</p>
-          </li>
-        </ul>
-        <ul>
-          <span class="list-label">Contact</span>
-          <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
-            <p>www: {{ supplierDetails.contact.website }}</p>
-            <p>tel: {{ supplierDetails.contact.phoneNumber }}</p>
-            <p>
-              email:
-              {{ supplierDetails.contact.email }}
-            </p>
-          </li>
-        </ul>
+      <!-- Components supplier -->
+      <div class="sub-section-container">
+        <div class="sub-title-container">
+          <span class="sub-title">Components supplier</span>
+        </div>
+        <div
+          v-if="batteryComposition.components.componentsSupplier"
+          class="list-container"
+        >
+          <ul>
+            <span class="list-label">Address</span>
+            <li
+              v-for="supplierDetails in batteryComposition.components
+                .componentsSupplier"
+              :key="supplierDetails"
+            >
+              <p>{{ supplierDetails.address.locality.value }}</p>
+              <p>{{ supplierDetails.address.country.shortName }}</p>
+              <p>{{ supplierDetails.address.postCode.value }}</p>
+              <p>
+                {{ supplierDetails.address.thoroughfare.value }}
+                {{ supplierDetails.address.thoroughfare.number }}
+              </p>
+              <p>{{ supplierDetails.address.premise.value }}</p>
+              <p>{{ supplierDetails.address.postalDeliveryPoint.value }}</p>
+            </li>
+          </ul>
+          <ul>
+            <span class="list-label">Contact</span>
+            <li
+              v-for="supplierDetails in batteryComposition.components
+                .componentsSupplier"
+              :key="supplierDetails"
+            >
+              <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
+              <p>www: {{ supplierDetails.contact.website }}</p>
+              <p>tel: {{ supplierDetails.contact.phoneNumber }}</p>
+              <p>
+                email:
+                {{ supplierDetails.contact.email }}
+              </p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

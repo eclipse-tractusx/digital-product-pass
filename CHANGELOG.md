@@ -20,8 +20,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.4] - 2023-02-21 
-###  Preparing for archiving the repository
+## [0.4.4] - 2023-02-23 
 
 ## Updated
 - Reworked header component to match portal

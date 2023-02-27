@@ -36,7 +36,7 @@ postgres:
 dataplane:
   image:
     repository: ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault
-    tag: 0.2.0
+    tag: 0.1.6
     pullPolicy: IfNotPresent
   envSecretName: "consumer-dataplane-secret"
   fullnameOverride: "materialpass-edc-dataplane"
@@ -102,7 +102,7 @@ controlplane:
   fullnameOverride: "materialpass-edc-controlplane"
   image:
     repository: ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault
-    tag: 0.2.0
+    tag: 0.1.6
     pullPolicy: IfNotPresent
   envSecretName: "consumer-controlplane-secret"
   edc:

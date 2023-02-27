@@ -20,16 +20,29 @@
 
 The battery passport consumer application provides a user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
-In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. A Guide for End Users can be found here: [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)
+In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
 
 
 ## Getting Started
 
-Before contributing please read:
-- [Community Code of Conduct](./docs/tractusx/CODE_OF_CONDUCT.md)
-- [Contributing Guidelines](./docs/tractusx/CONTRIBUTING.md)
-- [Notice on tractus-x Repositories](./docs/tractusx/NOTICE_template.md)
-- [Security Policy](./docs/tractusx/SECURITY.md)
+To get Started you can have a look into our documentation:
+
+| Name                                                                      | Description                                                                                                                                                        |
+| ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
+| [Arc42](\docs\arc42\Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
+| [Administration Guide](\docs\admin_guide\Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
+| [Backend Documentation](\consumer-backend\productpass\readme.md)          | Backend documentation Product Passport App                                                                                                                         |
+| [Deployment in Hotel Budapest](\deployment\README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
+| [Docker Overview](\docker\README.md)                                      | Overview on general docker commands                                                                                                                                |
+| [Keycloak Overview](\docker\local\Keycloak\README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                               |
+| [Short Introduction into the project](\docs\GETTING-STARTED.md)           | Battery Pass Allpication infrastructure, installation guide, technical usage guide                                                                                 |
+| [Code Scaning with Kics and Trivy](\docs\IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Release Guideance](\docs\RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
+| [Secret Management](\docs\SECRETS-MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+| [Cypress Overview](\docs\cypress\CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                            |
+| [End User Manual](\User%20Manual%20Product%20Viewer%20App.md)             | Enduser Manual Product Viewer App                                                                                                                                  |
+| [Postman Overview](\postman\README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
+| [Changelog](\CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
 
 ### Prerequisites:
 

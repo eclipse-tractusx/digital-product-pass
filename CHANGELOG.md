@@ -20,16 +20,41 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.4] - 2023-02-23 
+## [0.4.4] - 2023-02-27 
 
 ## Updated
 - Reworked header component to match portal
 - Reworked footer component to match portal
 - Reworked search input to match portal
-- Updated image repository for consumer-ui and consumer-backend helm deployments 
+- Updated image repository for consumer-ui and consumer-backend helm deployments
+- Reworked table component to match portal
 
 ## Added
 - New SCSS structure, allowing a optimized scalability from the application
 - Updated frontend dependencies file.
 - Matched portal styles
 - Refactored responsiveness from components
+
+## [0.4.3] - 2023-02-17 
+
+## Updated
+- Fixed Swagger UI documentation (updated to correct one)
+- Fixed Enter Key Search Bug (Adding submit property)
+- Fixed Deployment issues.
+- Fixed Incorrect image building
+- Fixed Import Bugs related with integration
+
+## Security Issues:
+- Removed Keycloak Library vulnerability 
+
+
+## [0.4.2] - 2023-02-05
+### Added
+- Deployment refactored to fit and follow new guidelines from DevSecOps team.
+- Data soverenity printing the contract id
+- Tractus-X Ready code 
+
+### Updated
+- Optimized the reponsive from the application
+- Optimized the passport display
+- Updated components with Vuetify 3, making the application more stable. 

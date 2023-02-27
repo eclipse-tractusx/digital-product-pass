@@ -138,29 +138,16 @@
            <groupId>org.springframework.data</groupId>
            <artifactId>spring-data-commons</artifactId>
        </dependency>
-
-       <dependency>
-           <groupId>org.keycloak</groupId>
-           <artifactId>keycloak-spring-boot-starter</artifactId>
-           <version>20.0.3</version>
-       </dependency>
-
        <dependency>
            <groupId>com.opencsv</groupId>
            <artifactId>opencsv</artifactId>
            <version>5.7.1</version>
        </dependency>
-
        <dependency>
            <groupId>junit</groupId>
            <artifactId>junit</artifactId>
            <version>4.13.2</version>
            <scope>test</scope>
-       </dependency>
-       <dependency>
-           <groupId>org.keycloak</groupId>
-           <artifactId>keycloak-spring-security-adapter</artifactId>
-           <version>20.0.3</version>
        </dependency>
        <dependency>
            <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -193,17 +180,6 @@
             <version>2.0.2</version>
         </dependency>
     </dependencies>
-   <dependencyManagement>
-       <dependencies>
-           <dependency>
-               <groupId>org.keycloak.bom</groupId>
-               <artifactId>keycloak-adapter-bom</artifactId>
-               <version>20.0.0</version>
-               <type>pom</type>
-               <scope>import</scope>
-           </dependency>
-       </dependencies>
-   </dependencyManagement>
 	<build>
 		<plugins>
             <plugin>

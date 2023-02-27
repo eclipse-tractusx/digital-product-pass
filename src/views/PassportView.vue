@@ -55,40 +55,45 @@
     </div>
   </v-container>
   <div v-else>
-    <HeaderComponent />
+    <Header />
     <PassportHeader
-      :id="data.batteryIdentification.batteryIDDMCCode"
+      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
     />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data"
+        :general-information="data.data.passport"
       />
       <CellChemistry
         section-title="Cell chemistry"
-        :cell-chemistry="data.cellChemistry"
+        :cell-chemistry="data.data.passport.cellChemistry"
       />
       <ElectrochemicalProperties
         section-title="State of Health"
-        :electrochemical-properties="data.electrochemicalProperties"
+        :electrochemical-properties="
+          data.data.passport.electrochemicalProperties
+        "
       />
       <BatteryComposition
         section-title="Parameters of The Battery"
-        :battery-composition="data.composition"
+        :battery-composition="data.data.passport.composition"
       />
       <StateOfBattery
         section-title="State of Battery"
-        :state-of-battery="data"
+        :state-of-battery="data.data.passport"
       />
 
-      <Documents section-title="Documents" :documents="data.document" />
-      <!-- <ContractInformation
+      <Documents
+        section-title="Documents"
+        :documents="data.data.passport.document"
+      />
+      <ContractInformation
         section-title="Contract Information"
         :contract-information="data.data.metadata"
-      /> -->
+      />
     </div>
-    <FooterComponent />
+    <Footer />
   </div>
 </template>
 
@@ -102,22 +107,20 @@ import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import Spinner from "@/components/general/Spinner.vue";
-import HeaderComponent from "@/components/general/Header.vue";
+import Header from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
-import FooterComponent from "@/components/general/Footer.vue";
+import Footer from "@/components/general/Footer.vue";
 import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import MOCK_DATA from "../assets/MOCK/passportExample03.json";
-
 export default {
   name: "PassportView",
   components: {
-    HeaderComponent,
+    Header,
     GeneralInformation,
     PassportHeader,
     CellChemistry,
@@ -126,7 +129,7 @@ export default {
     BatteryComposition,
     Documents,
     ContractInformation,
-    FooterComponent,
+    Footer,
     Spinner,
     Alert,
   },
@@ -147,8 +150,33 @@ export default {
     };
   },
   async created() {
-    this.loading = false;
-    this.data = MOCK_DATA;
+    try {
+      let passportPromise = this.getPassport(this.passId);
+      const result = await threadUtil.execWithTimeout(
+        passportPromise,
+        API_TIMEOUT,
+        null
+      );
+      if (result && result != null) {
+        this.data = result;
+      } else {
+        this.error = true;
+        if (this.errorObj.title == null) {
+          this.errorObj.title = "Timeout! Failed to return passport!";
+        }
+        if (this.errorObj.description == null) {
+          this.errorObj.description =
+            "We are sorry, it took too long to retrieve the passport.";
+        }
+      }
+    } catch (e) {
+      this.error = true;
+      this.errorObj.title = "Failed to return passport!";
+      this.errorObj.description =
+        "We are sorry, it was not posible to retrieve the passport.";
+    } finally {
+      this.loading = false;
+    }
   },
   methods: {
     async getPassport(assetId) {
@@ -230,9 +258,9 @@ export default {
       if (
         response == null ||
         typeof response == "string" ||
-        typeof response != "object" ||
-        response == null ||
-        response.errors != null
+        typeof response.data.passport != "object" ||
+        response.data.passport == null ||
+        response.data.passport.errors != null
       ) {
         this.loading = false;
         this.error = true;

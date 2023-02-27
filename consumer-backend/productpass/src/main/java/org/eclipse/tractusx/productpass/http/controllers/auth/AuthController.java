@@ -38,6 +38,7 @@ import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.auth.UserCredential;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
+import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;

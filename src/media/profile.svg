@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
   <g id="Group_46" data-name="Group 46" transform="translate(-1360 -40)">
-    <rect id="Rectangle_129" data-name="Rectangle 129" width="40" height="40" rx="20" transform="translate(1360 40)" fill="#0d55af"/>
-    <path id="Path_98" data-name="Path 98" d="M1380,54a2,2,0,1,1-2,2A2.006,2.006,0,0,1,1380,54Zm0,9c2.7,0,5.8,1.29,6,2v1h-12v-.99C1374.2,64.29,1377.3,63,1380,63Zm0-11a4,4,0,1,0,4,4A4,4,0,0,0,1380,52Zm0,9c-2.67,0-8,1.34-8,4v3h16V65C1388,62.34,1382.67,61,1380,61Z" fill="#fff"/>
+    <rect id="Rectangle_129" data-name="Rectangle 129" width="40" height="40" rx="20" transform="translate(1360 40)" fill="#0f71cb"/>
+    <path id="Path_98" data-name="Path 98" d="M1378.665,53.666A1.666,1.666,0,1,1,1377,55.332a1.666,1.666,0,0,1,1.666-1.666Zm0,7.5c2.249,0,4.832,1.075,5,1.666v.833h-10v-.825C1373.833,62.239,1376.416,61.164,1378.665,61.164Zm0-9.164A3.333,3.333,0,1,0,1382,55.332,3.333,3.333,0,0,0,1378.665,52Zm0,7.5c-2.224,0-6.665,1.116-6.665,3.333v2.5h13.33v-2.5C1385.33,60.615,1380.89,59.5,1378.665,59.5Z" transform="translate(1 1)" fill="#fff"/>
   </g>
 </svg>

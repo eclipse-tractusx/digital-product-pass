@@ -20,14 +20,15 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.3] - 17/02/2023 
+## [0.4.4] - 2023-02-23 
 
 ## Updated
-- Fixed Swagger UI documentation (updated to correct one)
-- Fixed Enter Key Search Bug (Adding submit property)
-- Fixed Deployment issues.
-- Fixed Incorrect image building
-- Fixed Import Bugs related with integration
+- Reworked header component to match portal
+- Reworked footer component to match portal
+- Reworked search input to match portal
 
-## Security Issues:
-- Removed Keycloak Library vulnerability 
+## Added
+- New SCSS structure, allowing a optimized scalability from the application
+- Updated frontend dependencies file.
+- Matched portal styles
+- Refactored responsiveness from components

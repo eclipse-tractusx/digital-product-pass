@@ -23,17 +23,19 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## [0.4.4] - 2023-02-27 
 
 ## Updated
-- Reworked header component to match portal
-- Reworked footer component to match portal
-- Reworked search input to match portal
+- Reworked header component and styles to match portal
+- Reworked footer component and styles to match portal
+- Reworked search input and styles to match portal
 - Updated image repository for consumer-ui and consumer-backend helm deployments
-- Reworked table component to match portal
+- Reworked table component and styles to match portal
 
 ## Added
-- New SCSS structure, allowing a optimized scalability from the application
+- Refactored SCSS styles structure, allowing a optimized scalability from the application
 - Updated frontend dependencies file.
-- Matched portal styles
+- Matched portal styles to pass quality gate 5
 - Refactored responsiveness from components
+- Important Documentation related with the product and repository
+
 
 ## [0.4.3] - 2023-02-17 
 

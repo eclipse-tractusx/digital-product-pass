@@ -57,41 +57,36 @@
   <div v-else>
     <HeaderComponent />
     <PassportHeader
-      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+      :id="data.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
     />
     <div class="pass-container">
       <GeneralInformation
         section-title="General information"
-        :general-information="data.data.passport"
+        :general-information="data"
       />
       <CellChemistry
         section-title="Cell chemistry"
-        :cell-chemistry="data.data.passport.cellChemistry"
+        :cell-chemistry="data.cellChemistry"
       />
       <ElectrochemicalProperties
         section-title="State of Health"
-        :electrochemical-properties="
-          data.data.passport.electrochemicalProperties
-        "
+        :electrochemical-properties="data.electrochemicalProperties"
       />
       <BatteryComposition
         section-title="Parameters of The Battery"
-        :battery-composition="data.data.passport.composition"
+        :battery-composition="data.composition"
       />
       <StateOfBattery
         section-title="State of Battery"
-        :state-of-battery="data.data.passport"
+        :state-of-battery="data"
       />
 
-      <Documents
-        section-title="Documents"
-        :documents="data.data.passport.document"
-      />
-      <ContractInformation
+      <Documents section-title="Documents" :documents="data.document" />
+      <!-- <ContractInformation
         section-title="Contract Information"
         :contract-information="data.data.metadata"
-      />
+      /> -->
     </div>
     <FooterComponent />
   </div>
@@ -117,6 +112,8 @@ import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import MOCK_DATA from "../assets/MOCK/passportExample03.json";
+
 export default {
   name: "PassportView",
   components: {
@@ -150,33 +147,8 @@ export default {
     };
   },
   async created() {
-    try {
-      let passportPromise = this.getPassport(this.passId);
-      const result = await threadUtil.execWithTimeout(
-        passportPromise,
-        API_TIMEOUT,
-        null
-      );
-      if (result && result != null) {
-        this.data = result;
-      } else {
-        this.error = true;
-        if (this.errorObj.title == null) {
-          this.errorObj.title = "Timeout! Failed to return passport!";
-        }
-        if (this.errorObj.description == null) {
-          this.errorObj.description =
-            "We are sorry, it took too long to retrieve the passport.";
-        }
-      }
-    } catch (e) {
-      this.error = true;
-      this.errorObj.title = "Failed to return passport!";
-      this.errorObj.description =
-        "We are sorry, it was not posible to retrieve the passport.";
-    } finally {
-      this.loading = false;
-    }
+    this.loading = false;
+    this.data = MOCK_DATA;
   },
   methods: {
     async getPassport(assetId) {
@@ -258,9 +230,9 @@ export default {
       if (
         response == null ||
         typeof response == "string" ||
-        typeof response.data.passport != "object" ||
-        response.data.passport == null ||
-        response.data.passport.errors != null
+        typeof response != "object" ||
+        response == null ||
+        response.errors != null
       ) {
         this.loading = false;
         this.error = true;

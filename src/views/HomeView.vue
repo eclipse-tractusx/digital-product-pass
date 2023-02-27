@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <Header>
+    <HeaderComponent>
       <v-tabs v-model="tab" show-arrows class="menu">
         <v-tab
           :ripple="{ class: 'ripple-background' }"
@@ -33,7 +33,7 @@
           >Search Passport</v-tab
         >
       </v-tabs>
-    </Header>
+    </HeaderComponent>
     <v-container>
       <v-window v-model="tab">
         <v-main>
@@ -46,15 +46,15 @@
         </v-main>
       </v-window>
     </v-container>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
 import SearchView from "./SearchView.vue";
 import WelcomeView from "./WelcomeView.vue";
-import Footer from "../components/general/Footer.vue";
-import Header from "../components/general/Header.vue";
+import FooterComponent from "../components/general/Footer.vue";
+import HeaderComponent from "../components/general/Header.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -62,8 +62,8 @@ export default {
   components: {
     SearchView,
     WelcomeView,
-    Footer,
-    Header,
+    FooterComponent,
+    HeaderComponent,
   },
   data() {
     return {

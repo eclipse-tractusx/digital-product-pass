@@ -15,7 +15,7 @@
 -->
 
 <template v-if="documents">
-  <div class="documents">
+  <div class="section">
     <SectionHeader
       title="6. Additional information"
       @click="toggle = !toggle"

@@ -15,21 +15,23 @@
 -->
 
 <template v-if="contractInformation">
-  <SectionHeader title="7. Contract information" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div v-if="contractInformation" class="sub-section-container">
-      <Field
-        label="Contract ID"
-        :value="contractInformation.negotiation.id"
-      />
-      <Field
-        label="Contract Agreement ID"
-        :value="contractInformation.transferRequest.contractId"
-      />
-      <Field
-        label="Transfer Process ID"
-        :value="contractInformation.transferRequest.id"
-      />
+  <div class="section">
+    <SectionHeader title="7. Contract information" @click="toggle = !toggle" />
+    <div class="section-content" :class="[toggle ? 'hidden' : '']">
+      <div v-if="contractInformation" class="sub-section-container">
+        <Field
+          label="Contract ID"
+          :value="contractInformation.negotiation.id"
+        />
+        <Field
+          label="Contract Agreement ID"
+          :value="contractInformation.transferRequest.contractId"
+        />
+        <Field
+          label="Transfer Process ID"
+          :value="contractInformation.transferRequest.id"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -61,41 +63,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.full-width {
-  width: 100% !important;
-}
-.sub-section-container {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #edefe5;
-}
-.two-third-width {
-  width: 66% !important;
-}
-.section-content {
-  width: 100%;
-  border: solid 1px #b3cb2d;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  margin-bottom: 50px;
-}
-.hidden {
-  display: none;
-}
-.longer {
-  padding-bottom: 50px;
-}
-@media (max-width: 750px) {
-  .section-content {
-    border: none;
-  }
-  .section-content {
-    margin-bottom: 0;
-  }
-  .longer {
-    padding-bottom: 0;
-  }
-}
-</style>

@@ -16,20 +16,25 @@
 
 # Release Notes Digital Product Pass Application
 
-**February 28 (initial release, version 0.4.5)**  
+
+**February 28 2023 (Version 0.4.6)**  
 *28.02.2023*
 
-## Security Issues
+### Updated
+Updated documentation issues, fixing incorrect structure.
+
+**February 28 2023 (Version 0.4.5)**  
+*28.02.2023*
+
+### Security Issues
 Updated security issues related with a library.
 
-**February 27 (initial release, version 0.4.4)**  
+**February 27 2023 (Initial Release, Version 0.4.4)**  
 *27.02.2023*
 
 Welcome to the inital release of the **Product Pass App**. Here is an overview on the applications features.
 
 Here is what's new in **Version 0.4.4:**
-
-- [Added](#added)
 
 ## Added
 

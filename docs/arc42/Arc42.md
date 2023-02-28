@@ -131,11 +131,11 @@ As the data provider might not send every data field regarding to the users priv
 
 ## Architecture Constraints
 
-Catena-X Standard to DataExchange, Trust and Security. **Architecture Framework - Catena-X – Overarching Project Information - Confluence**
+Catena-X Standard to DataExchange, Trust and Security. **We follow the Catena-X Architecture Framework**
 
-FOSS Guardrails (Confluence Refernce!?)
+FOSS Guardrails
 
-Guardrails for Data Souveranity **DS Guardrails for PI5 - Catena-X – Overarching Project Information - Confluence**
+Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from PI5**
 
 **Contents.**  
 *Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.*
@@ -156,8 +156,6 @@ The Product Passport Application is a Catena-X terms a "blue" application. This 
 
 The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
 
-**(CEC) Product diagrams - Batterypass**. The detailed diagram was linked to here so it is also visible in this ARC42 Documentation in its latest version:
-
 ![Detailed Explanation Product Passport App](./GraphicDetailedExPPApp.jpg)
 
 #### Product Passport Component
@@ -166,7 +164,7 @@ The interaction between the Product Passport Application previous the "BatteryPa
 
 ![Application State Design](./GraphicApplicationStateDiagram.png)
 
-##### Technicl Integration Design
+##### Technical Integration Design
 
 ![Technical Integration Design](./GraphicTechnicalIntegrationDesign.png)
 

@@ -20,6 +20,13 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
+## [0.4.6] - 2023-02-28
+
+## Updated
+- Updated documentation, corrected links.
+
+## [released]
+
 ## [0.4.5] - 2023-02-28
 
 # Security Issues

@@ -16,6 +16,12 @@
 
 # Release Notes Digital Product Pass Application
 
+**February 28 (initial release, version 0.4.5)**  
+*28.02.2023*
+
+## Security Issues
+Updated security issues related with a library.
+
 **February 27 (initial release, version 0.4.4)**  
 *27.02.2023*
 

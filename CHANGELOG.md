@@ -20,6 +20,13 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
+## [0.4.5] - 2023-02-28
+
+# Security Issues
+- Insecure SnakeYaml library version 1.33 updated to Secure version 2.0
+
+## [released]
+
 ## [0.4.4] - 2023-02-27 
 
 ## Updated

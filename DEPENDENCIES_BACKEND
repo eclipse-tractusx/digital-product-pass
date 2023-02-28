@@ -128,4 +128,4 @@ maven/mavencentral/org.springframework/spring-webflux/6.0.4, Apache-2.0, approve
 maven/mavencentral/org.springframework/spring-webmvc/6.0.4, Apache-2.0, approved, #5944
 maven/mavencentral/org.webjars/swagger-ui/4.15.5, Apache-2.0 AND MIT, approved, #5921
 maven/mavencentral/org.webjars/webjars-locator-core/0.52, MIT, approved, clearlydefined
-maven/mavencentral/org.yaml/snakeyaml/1.33, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.yaml/snakeyaml/2.0, , restricted, clearlydefined

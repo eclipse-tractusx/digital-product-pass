@@ -18,10 +18,9 @@
 
 ![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
 
-Version: v2.0
-Latest Revision Dec. 13, 2022
+Version: v2.1 <br>
+Latest Revision Feb. 28, 2023
 
-Some of the links might lead to restricted areas. In case you need acess please reach out to the core team.
 
 ## Table of Contents
 
@@ -81,7 +80,7 @@ This passports can be used for different products like **Batteries**, **Gearboxe
 
 The product passport consumer app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
 
-This application is developed by the [Product Passport Team](https://confluence.catena-x.net/display/ARTV/%5BMP%5D+Team+Members), one of the members from [Catena-X Circular Economy Team](https://confluence.catena-x.net/display/ARTV/%5BCEC%5D+Circular+Economy), aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
+This application is developed by the **Product Passport Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
 
 ### Requirements Overview
 
@@ -132,11 +131,11 @@ As the data provider might not send every data field regarding to the users priv
 
 ## Architecture Constraints
 
-Catena-X Standard to DataExchange, Trust and Security. [Architecture Framework - Catena-X – Overarching Project Information - Confluence](https://confluence.catena-x.net/display/PL/Architecture+Framework)
+Catena-X Standard to DataExchange, Trust and Security. **Architecture Framework - Catena-X – Overarching Project Information - Confluence**
 
 FOSS Guardrails (Confluence Refernce!?)
 
-Guardrails for Data Souveranity [DS Guardrails for PI5 - Catena-X – Overarching Project Information - Confluence](https://confluence.catena-x.net/display/PL/DS+Guardrails+for+PI5)
+Guardrails for Data Souveranity **DS Guardrails for PI5 - Catena-X – Overarching Project Information - Confluence**
 
 **Contents.**  
 *Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.*
@@ -157,7 +156,7 @@ The Product Passport Application is a Catena-X terms a "blue" application. This 
 
 The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
 
-[(CEC) Product diagrams - Batterypass](C:\pages\createpage.action?spaceKey=CDPP&title=(CEC)+Product+diagrams+-+Batterypass&linkCreation=true&fromPageId=54986005). The detailed diagram was linked to here so it is also visible in this ARC42 Documentation in its latest version:
+**(CEC) Product diagrams - Batterypass**. The detailed diagram was linked to here so it is also visible in this ARC42 Documentation in its latest version:
 
 ![Detailed Explanation Product Passport App](./GraphicDetailedExPPApp.jpg)
 
@@ -172,8 +171,6 @@ The interaction between the Product Passport Application previous the "BatteryPa
 ![Technical Integration Design](./GraphicTechnicalIntegrationDesign.png)
 
 ### Business Context
-
-[CMP-391](https://jira.catena-x.net/browse/CMP-391) - Abrufen der Vorgangsdetails... STATUS
 
 **Contents.**  
 Specification of all communication partners (users, IT-systems, …) with explanations of domain specific inputs and outputs or interfaces. Optionally you can add domain specific formats or communication protocols.
@@ -211,9 +208,9 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * Managed by ArgoCD:
   * [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/)
 * GitHub Repository:
-  * [https://github.com/catenax-ng/product-battery-passport-consumer-app](https://github.com/catenax-ng/product-battery-passport-consumer-app)
+  * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
 * DevOps Documentation:
-  * [Intro | Catena-x - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
+  * [Intro | Tractus-X - Release Guidelines](https://eclipse-tractusx.github.io/docs/release)
 
 
 #### Catena-X Shared Services
@@ -540,8 +537,6 @@ When a used access the application and requests are performed from the frontend 
 **QS-02: The application needs to provide a intuitive UI to the user.:**  
 An user needs to be able to understand easily the application interface, in order to access the required data and to navigate thought the app.
 
-*An extra ticket was created to follow up the quality scenarios definitions.*  
-[CMP-390](https://jira.catena-x.net/browse/CMP-390)
 
 **Contents.**  
 *Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.  

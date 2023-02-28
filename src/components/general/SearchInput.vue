@@ -1,12 +1,43 @@
+<!--
+ Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 <template>
-  <v-form class="form" @submit.prevent>
+  <v-form
+    ref="form"
+    class="form"
+    v-model="valid"
+    lazy-validation
+    @submit.prevent
+  >
     <div class="input-form">
-      <input
+      <v-text-field
         v-model="typedCode"
         class="input"
         type="text"
         placeholder="Type ID"
-      />
+      ></v-text-field>
+
+      <v-btn
+        v-if="isContent"
+        @click="reset"
+        class="clear"
+        :ripple="{ class: 'ripple-background' }"
+      >
+        <v-icon icon="mdi-close-thick" size="large"></v-icon>
+      </v-btn>
     </div>
     <v-btn
       rounded="pill"
@@ -15,6 +46,7 @@
       class="submit-btn"
       @click="onClick"
       type="submit"
+      :disabled="!isContent"
     >
       Search
       <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
@@ -26,8 +58,14 @@
 export default {
   data() {
     return {
+      valid: true,
       typedCode: "",
     };
+  },
+  computed:{
+    isContent() {
+      return this.typedCode !== '' && this.typedCode !== null;
+    }
   },
   methods: {
     onClick() {
@@ -35,67 +73,9 @@ export default {
         path: `/${this.typedCode}`,
       });
     },
+    reset() {
+      this.$refs.form.reset();
+    },
   },
 };
 </script>
-
-<style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.input-form {
-  padding: 17px;
-  background: linear-gradient(to right, #f8b500, #f88000);
-  border-radius: 35px;
-}
-.input {
-  width: 560px;
-  border-radius: 20px;
-  color: #444;
-  padding: 18px;
-  padding-left: 60px;
-  font-size: 20px;
-  outline: none;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhMGEwYTA7fS5jbHMtMntmaWxsOiNhMGEwYTA7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjUgMTYgNS45MSAxMy4wOSAzIDkuNSAzUzMgNS45MSAzIDkuNSA1LjkxIDE2IDkuNSAxNmMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBDNy4wMSAxNCA1IDExLjk5IDUgOS41UzcuMDEgNSA5LjUgNSAxNCA3LjAxIDE0IDkuNSAxMS45OSAxNCA5LjUgMTR6Ii8+PC9zdmc+Cg==);
-  background-repeat: no-repeat;
-  background-position: 16px center;
-  background-size: 32px 32px;
-  border: 1px solid lightgray;
-  border-radius: 25px;
-  background-color: white;
-}
-
-.submit-btn {
-  margin-top: 30px;
-  height: 56px;
-  width: 185px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.icon {
-  padding-left: 20px;
-}
-
-@media (max-width: 856px) {
-  .input {
-    position: relative;
-    width: 50vw;
-  }
-}
-
-@media (max-width: 375px) {
-  .input {
-    position: relative;
-    width: 80vw;
-  }
-}
-</style>

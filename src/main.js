@@ -20,6 +20,7 @@ import store from './store';
 import vuetify from './assets/plugins/vuetify';
 import { loadFonts } from './assets/plugins/webfontloader';
 import router from './router';
+import '@/assets/styles/main.scss';
 import authentication from '@/services/Authentication';
 
 loadFonts();

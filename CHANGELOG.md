@@ -20,15 +20,57 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.4] - 2023-02-23 
+## [0.4.6] - 2023-03-01
 
 ## Updated
-- Reworked header component to match portal
-- Reworked footer component to match portal
-- Reworked search input to match portal
+- Updated documentation, corrected links.
+
+## [released]
+
+## [0.4.5] - 2023-02-28
+
+# Security Issues
+- Insecure SnakeYaml library version 1.33 updated to Secure version 2.0
+
+## [released]
+
+## [0.4.4] - 2023-02-27 
+
+## Updated
+- Reworked header component and styles to match portal
+- Reworked footer component and styles to match portal
+- Reworked search input and styles to match portal
+- Updated image repository for consumer-ui and consumer-backend helm deployments
+- Reworked table component and styles to match portal
 
 ## Added
-- New SCSS structure, allowing a optimized scalability from the application
+- Refactored SCSS styles structure, allowing a optimized scalability from the application
 - Updated frontend dependencies file.
-- Matched portal styles
+- Matched portal styles to pass quality gate 5
 - Refactored responsiveness from components
+- Important Documentation related with the product and repository
+
+
+## [0.4.3] - 2023-02-17 
+
+## Updated
+- Fixed Swagger UI documentation (updated to correct one)
+- Fixed Enter Key Search Bug (Adding submit property)
+- Fixed Deployment issues.
+- Fixed Incorrect image building
+- Fixed Import Bugs related with integration
+
+## Security Issues:
+- Removed Keycloak Library vulnerability 
+
+
+## [0.4.2] - 2023-02-05
+### Added
+- Deployment refactored to fit and follow new guidelines from DevSecOps team.
+- Data soverenity printing the contract id
+- Tractus-X Ready code 
+
+### Updated
+- Optimized the reponsive from the application
+- Optimized the passport display
+- Updated components with Vuetify 3, making the application more stable. 

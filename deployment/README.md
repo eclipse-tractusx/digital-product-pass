@@ -17,7 +17,7 @@
 ## Technical Guide - Deployment in ArgoCD Hotel Budapest
 
 
-> [Getting Started Documentation](getting-started.md)
+> [Getting Started Documentation](../docs/GETTING-STARTED.md)
 
 This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
 
@@ -27,8 +27,9 @@ This document describes the battery pass application deployment steps in hotel b
 
 - [edc-provider](./helm/edc-provider)
 
-- [consumer-ui](./helm/consumer-ui)
+- [consumer-ui](../charts/consumer-ui)
 
+- [consumer-backend](../charts/consumer-backend)
 
 #### Sign in via the GitHub account
 
@@ -40,30 +41,34 @@ Create new app from the top-left corner button.
 Fill out the following required fields.
 - **Application Name:** <APP_NAME> (e.g., materialpass-edc)
 - **Project:** project-material-pass
-- **Source:** Git repository where the application artifacts are stored (https://github.com/catenax-ng/product-battery-passport-consumer-app)
+- **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
-- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, deployment/helm/consumer-ui)
+- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, charts/consumer-ui, charts/consumer-backend)
 - **Cluster URL:** https://kubernetes.default.svc
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args
-    - set ENV as ***helm_args : --set image.tag='$ARGOCD_APP_REVISION'***
+    - Set following helm args with the corresponding application:
+        - consumer-ui: set ENV as ***helm_args = --set productpass.backend=true -f values.yaml -f values-int.yaml'***
+        - consumer-backend: set ENV as ***helm_args = -f values.yaml -f values-int.yaml'***
+        - edc-consumer: set ENV as ***helm_args = -f values-int.yaml'***
+        - edc-consumer: set ENV as ***helm_args = -f values-int.yaml'***
 
 Click on 'Create' button
 
-![Create New App](./images/create_application_with_vault_plugin.png)
+![Create New App](./images/create-app-with-vault-plugin.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](./images/app_sync.png)
+![Sync App](./images/sync-app.png)
 
-![Sync App](./images/pod_sync.png)
+![Sync App](./images/pod-sync.png)
 
 - Navigate inside the pod
 
-![Consumer Pod](./images/consumer-ui_pod.png)
+![Consumer Pod](./images/pod-consumer-ui.png)
 - Go to the logs tab
 
-![Consumer connector logs](./images/logs.png)
+![Consumer connector logs](./images/consumer-ui-logs.png)
 
 If everything works fine then the application is deployed...
 
@@ -75,18 +80,20 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 ##### Login credentails:
 - **Company Selection:** CX-Test-Access
-- **User 1:** Role: OEM, user: company 1 user, Password: changeme
+- **User 1:** Role: Dismantler, user: company 1 user, Password: changeme
 - **User 2:** Role: Recycler, user: company 2 user, Password: changeme
 
 #### Example Screenshots:
 
-![Login Page](./images/cx_login.png)
+![Company Selection Page](./images/company-selection.png)
 
-![QR Code Scanner](./images/qr_code_scanner.png)
+![Login Page](./images/login.png)
 
-![Dashboard](./images/dashboard.png)
+![QR Code Scanner](./images/qr-code-scanner.png)
 
-![Battery Passport](./images/battery_pass.png)
+![Dashboard](./images/battery-pass-dashboard.png)
+
+![Battery Passport](./images/battery-pass.png)
 
 <br />
 

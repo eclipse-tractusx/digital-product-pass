@@ -29,20 +29,20 @@ To get Started you can have a look into our documentation:
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Arc42](\docs\arc42\Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
-| [Administration Guide](\docs\admin%20guide\Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
-| [Backend Documentation](\consumer-backend\productpass\readme.md)          | Backend documentation Product Passport App                                                                                                                         |
-| [Deployment in Hotel Budapest](\deployment\README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
-| [Docker Overview](\docker\README.md)                                      | Overview on general docker commands                                                                                                                                |
-| [Keycloak Overview](\docker\local\Keycloak\README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                               |
-| [Short Introduction into the project](\docs\GETTING-STARTED.md)           | Battery Pass Allpication infrastructure, installation guide, technical usage guide                                                                                 |
-| [Code Scaning with Kics and Trivy](\docs\IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
-| [Release Guideance](\docs\RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
-| [Secret Management](\docs\SECRETS-MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
-| [Cypress Overview](\docs\cypress\CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                            |
-| [End User Manual](\User%20Manual%20Product%20Viewer%20App.md)             | Enduser Manual Product Viewer App                                                                                                                                  |
-| [Postman Overview](\postman\README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
-| [Changelog](\CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
+| [Arc42](./docs/arc42/Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
+| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
+| [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         |
+| [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
+| [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                                |
+| [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                               |
+| [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Battery Pass Allpication infrastructure, installation guide, technical usage guide                                                                                 |
+| [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Release Guideance](./docs/RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
+| [Secret Management](./docs/SECRETS-MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+| [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                            |
+| [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                                  |
+| [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
+| [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
 
 ### Prerequisites:
 
@@ -63,7 +63,7 @@ git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 ### Install dependencies
 
 ```bash
-cd product-battery-passport-consumer-app/
+cd digital-product-pass/
 npm install --legacy-peer-deps
 ```
 
@@ -101,8 +101,6 @@ docker stop consumer-ui; docker rm consumer-ui;
 ```
 You can run the application in docker container with existing image from GitHub packages.
 
-See consumer frontend docker image in registry: [consumer-ui](https://github.com/eclipse-tractusx/digital-product-pass/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui)
-
 ```bash
 # pull the image 
 # Replace placeholder <LATEST_TAG> with the most recent tag in registry
@@ -118,7 +116,7 @@ The consumer frontend is available in browser at [http://localhost:8080](http://
 
 ### How to set up a code editor
 
-See [VSCode configuration](https://confluence.catena-x.net/pages/viewpage.action?pageId=55009683).
+See [VSCode configuration](https://code.visualstudio.com/docs/getstarted/settings).
 
 ## License
 

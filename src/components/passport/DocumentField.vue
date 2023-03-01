@@ -1,6 +1,6 @@
 <template>
   <div class="document-field">
-    <div class="field-container">
+    <div class="document-field-container">
       <a
         v-for="document in field"
         :key="document"

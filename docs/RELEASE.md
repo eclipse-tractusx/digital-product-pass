@@ -21,7 +21,7 @@
 
 ## Release an application
 
-The application is released through [GitHub Releases page](https://github.com/catenax-ng/product-battery-passport-consumer-app/releases) by creating a new release and tag. Follow the [Semantic Versioning Scheme](https://semver.org/spec/v2.0.0.html) while creating a new tag.
+The application is released through [GitHub Releases page](https://github.com/eclipse-tractusx/digital-product-pass/releases) by creating a new release and tag. Follow the [Semantic Versioning Scheme](https://semver.org/spec/v2.0.0.html) while creating a new tag.
 
 
 The changelog must also be updated from [CHANGELOG.md](../CHANGELOG.md) file, showing the changes in release using [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.

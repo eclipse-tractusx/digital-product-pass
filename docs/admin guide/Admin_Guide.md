@@ -2,10 +2,8 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v1.1 </br>
-Latest Revision Jan 18, 2023
-
->Some links might not be accesible as they lead to a private confluence. If you need access please reach out to the dev Team and request what information you need for what reason.
+Version: v1.2 </br>
+Latest Revision Feb 28, 2023
 
 ## Table of Contents
 
@@ -36,7 +34,7 @@ To start the configuration of the Product Passport Application please follow thi
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Getting Started Guide | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docs/GETTING-STARTED.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docs/GETTING-STARTED.md) |  
+| Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md) |  
 
 ## Deployment Configuration
 
@@ -46,7 +44,7 @@ All the information about deploying you can find in this resource:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Technical Guide for Development | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/deployment/README.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/deployment/README.md) |
+| Technical Guide for Development | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/README.md) |
 
 ## Local Keycloak Configuration
 
@@ -59,12 +57,12 @@ Additionally two test users shall be created and the correct roles shall be assi
 **User 1:** "company 1 user" (OEM, Dismantler)  
 **User 2:** "company 2 user" (Recycler)  
 
-Follow the [Local Keycloak Setup Guide](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docker/local/Keycloak/README.md) in order to set up the users, and their passwords correctly:
+Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) in order to set up the users, and their passwords correctly:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Local Keycloak Setup Guide | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docker/local/Keycloak/README.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docker/local/Keycloak/README.md) |
-| Realm Configuration File | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docker/local/Keycloak/realm.json](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docker/local/Keycloak/realm.json) |
+| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) |
+| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json) |
 
 ## Helm Charts Configuration
 
@@ -79,10 +77,10 @@ All the values for the helm charts are configured for each environment and set u
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Helm Charts Main Directory | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm) |
-| Consumer UI Helm Directory | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/consumer-ui](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/consumer-ui) |
-| EDC Consumer Helm Charts | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-consumer](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-consumer) |
-| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-provider](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/deployment/helm/edc-provider) |
+| Helm Charts Main Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts) |
+| Consumer UI Helm Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/consumer-ui](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/consumer-ui) |
+| EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer) |
+| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider) |
 
 ## Consumer Backend Configuration
 
@@ -92,8 +90,8 @@ All the information about the backend services is described in this documentatio
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Consumer Backend Guide | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/materialpass/readme.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/materialpass/readme.md) |
-| Open API - swagger **(in progress)** | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/product-passport-consumer-backend.json](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/QG4-open-api/document-api_cmp-392/consumer-backend/productpass/openapi/product-passport-consumer-backend.json) |
+| Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md) |
+| Open API - swagger **(in progress)** | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
 
@@ -101,7 +99,7 @@ The configurations of log levels and other variables can be set in the following
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Backend Application Configuration | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/productpass/src/main/resources/config/configuration.yml](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/productpass/src/main/resources/config/configuration.yml) |
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/config/configuration-int.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/config/configuration-int.yml) |
 
 All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
 
@@ -111,7 +109,7 @@ The Consumer Backend is running over a Spring Boot server, therefore a applicati
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Server Configuration | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/consumer-backend/productpass/src/main/resources/application.yml) |
+| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
 
 ### Spring Boot Logging Configuration
 
@@ -119,7 +117,7 @@ In order to manage the logs from the application a XML file was set, it contains
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Logging Configuration | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/feature/backend-api-develop/consumer-backend/productpass/src/main/resources/logback-spring.xml](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/feature/backend-api-develop/consumer-backend/productpass/src/main/resources/logback-spring.xml) |
+| Spring Boot Logging Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/logback-spring.xml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/logback-spring.xml) |
 
 ## Postman Collection
 
@@ -127,8 +125,8 @@ In order to document and test easily the API that are set up and used by the Pro
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Postman Collection Directory | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/postman](https://github.com/catenax-ng/product-battery-passport-consumer-app/tree/develop/postman) |
-| Postman Getting Started Guide | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/postman/README.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/postman/README.md) |
+| Postman Collection Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman) |
+| Postman Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md) |
 
 ## Secrets Management
 
@@ -136,4 +134,4 @@ In order to set up the secret management please follow this guide:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Secrets Management Documentation | GitHub | [https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docs/SECRETS_MANAGEMENT.md](https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/develop/docs/SECRETS_MANAGEMENT.md) |
+| Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md) |

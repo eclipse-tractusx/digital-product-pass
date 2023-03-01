@@ -53,7 +53,6 @@ export default {
       assetIds: {},
       assetIdsVisible: false,
       name: "",
-      MATERIAL_URL: process.env.VUE_APP_MATERIAL_URL,
     };
   },
   created() {

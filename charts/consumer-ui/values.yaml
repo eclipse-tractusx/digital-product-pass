@@ -20,7 +20,7 @@ replicaCount: 1
 namespace: product-material-pass
 
 image:
-  repository: ghcr.io/catenax-ng/product-battery-passport-consumer-app/consumer-ui
+  repository: ghcr.io/catenax-ng/tx-digital-product-pass/consumer-ui
   pullPolicy: Always
 
 imagePullSecrets: []

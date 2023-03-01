@@ -14,13 +14,12 @@
  limitations under the License.
 -->
 
-<template v-if="batteryComposition">
-  <SectionHeader title="4. Battery composition" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
+<template v-if="propsData">
+  <div>
     <!-- Composition of battery -->
 
     <AttributeField
-      :attributes-list="batteryComposition.compositionOfBattery"
+      :attributes-list="propsData.compositionOfBattery"
       label="Composition of battery"
     />
     <!-- Critical raw materials -->
@@ -28,15 +27,12 @@
       <div class="sub-title-container">
         <span class="sub-title">Critical raw materials</span>
       </div>
-      <div
-        v-if="batteryComposition.criticalRawMaterials"
-        class="list-container"
-      >
+      <div v-if="propsData.criticalRawMaterials" class="list-container">
         <ul>
           <span class="list-label"></span>
           <li>
             <span>
-              {{ batteryComposition.criticalRawMaterials }}
+              {{ propsData.criticalRawMaterials }}
             </span>
           </li>
         </ul>
@@ -47,12 +43,12 @@
       <div class="sub-title-container">
         <span class="sub-title">Components</span>
       </div>
-      <div v-if="batteryComposition.components" class="list-container">
+      <div v-if="propsData.components" class="list-container">
         <ul>
           <span class="list-label">Components part number</span>
           <li>
             <span>
-              {{ batteryComposition.components.componentsPartNumber }}
+              {{ propsData.components.componentsPartNumber }}
             </span>
           </li>
         </ul>
@@ -64,14 +60,13 @@
         <span class="sub-title">Components supplier</span>
       </div>
       <div
-        v-if="batteryComposition.components.componentsSupplier"
+        v-if="propsData.components.componentsSupplier"
         class="list-container"
       >
         <ul>
           <span class="list-label">Address</span>
           <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
+            v-for="supplierDetails in propsData.components.componentsSupplier"
             :key="supplierDetails"
           >
             <p>{{ supplierDetails.address.locality.value }}</p>
@@ -88,8 +83,7 @@
         <ul>
           <span class="list-label">Contact</span>
           <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
+            v-for="supplierDetails in propsData.components.componentsSupplier"
             :key="supplierDetails"
           >
             <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
@@ -107,13 +101,11 @@
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import AttributeField from "../AttributeField.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
-    SectionHeader,
     AttributeField,
   },
   props: {
@@ -121,7 +113,7 @@ export default {
       type: String,
       default: "",
     },
-    batteryComposition: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -129,6 +121,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport.composition,
     };
   },
 };

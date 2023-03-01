@@ -14,46 +14,45 @@
  limitations under the License.
 -->
 
-<template v-if="stateOfBattery.batteryIdentification">
-  <SectionHeader title="5. State of battery" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
+<template v-if="propsData">
+  <div>
     <div class="sub-section-container">
       <Field
         data-cy="state-of-charge"
         label="State of health"
-        :value="stateOfBattery.stateOfBattery.stateOfHealth"
+        :value="propsData.stateOfBattery.stateOfHealth"
       />
       <Field
         label="Status battery"
-        :value="stateOfBattery.stateOfBattery.statusBattery"
+        :value="propsData.stateOfBattery.statusBattery"
       />
       <Field
         label="State of charge"
-        :value="stateOfBattery.stateOfBattery.stateOfCharge"
+        :value="propsData.stateOfBattery.stateOfCharge"
       />
       <Field
         label="Cycle life test c rate"
-        :value="stateOfBattery.batteryCycleLife.cycleLifeTestCRate"
+        :value="propsData.batteryCycleLife.cycleLifeTestCRate"
       />
       <Field
         label="Cycle life test depth of discharge"
-        :value="stateOfBattery.batteryCycleLife.cycleLifeTestDepthOfDischarge"
+        :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
       />
       <Field
         label="Expected lifetime"
-        :value="stateOfBattery.batteryCycleLife.expectedLifetime"
+        :value="propsData.batteryCycleLife.expectedLifetime"
       />
       <Field
         label="Temperature range idle state upper limit"
         :value="
-          stateOfBattery.temperatureRangeIdleState
+          propsData.temperatureRangeIdleState
             .temperatureRangeIdleStateUpperLimit
         "
       />
       <Field
         label="Temperature range idle state lower limit"
         :value="
-          stateOfBattery.temperatureRangeIdleState
+          propsData.temperatureRangeIdleState
             .temperatureRangeIdleStateLowerLimit
         "
       />
@@ -62,14 +61,12 @@
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 
 export default {
   name: "StateOfBattery",
   components: {
     Field,
-    SectionHeader,
   },
   props: {
     sectionTitle: {
@@ -77,7 +74,7 @@ export default {
       required: false,
       default: "",
     },
-    stateOfBattery: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -86,6 +83,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport,
     };
   },
 };

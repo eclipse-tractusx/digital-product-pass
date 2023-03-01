@@ -23,68 +23,55 @@
   </v-container>
   <v-container v-else-if="error" class="h-100 w-100">
     <div class="loading-container d-flex align-items-center w-100 h-100">
-      <Alert class="w-100" :description="errorObj.description" :title="errorObj.title" :type="errorObj.type" icon="mdi-alert-circle-outline" :closable="false" variant="outlined">
-        
-          <v-row class="justify-space-between mt-3">
-            <v-col class="v-col-auto">
-              Click in the <strong>"return"</strong> button to go back to the search field
-            </v-col>
-            <v-col class="v-col-auto">
-                <v-btn
-                    style="color:white!important"
-                    rounded="pill"
-                    color="#0F71CB"
-                    size="large"
-                    class="submit-btn"
-                    @click="$router.go(-1)"
-                >
-                <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-                Return
-              </v-btn>
-            </v-col>
-          </v-row>
+      <Alert
+        class="w-100"
+        :description="errorObj.description"
+        :title="errorObj.title"
+        :type="errorObj.type"
+        icon="mdi-alert-circle-outline"
+        :closable="false"
+        variant="outlined"
+      >
+        <v-row class="justify-space-between mt-3">
+          <v-col class="v-col-auto">
+            Click in the <strong>"return"</strong> button to go back to the
+            search field
+          </v-col>
+          <v-col class="v-col-auto">
+            <v-btn
+              style="color: white !important"
+              rounded="pill"
+              color="#0F71CB"
+              size="large"
+              class="submit-btn"
+              @click="$router.go(-1)"
+            >
+              <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
+              Return
+            </v-btn>
+          </v-col>
+        </v-row>
       </Alert>
     </div>
   </v-container>
   <div v-else>
     <Header />
-    <PassportHeader :id="data.data.passport.batteryIdentification.batteryIDDMCCode" type="BatteryID" />
+    <PassportHeader
+      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+      type="BatteryID"
+    />
     <div class="pass-container">
-      <GeneralInformation
-        section-title="General information"
-        :general-information="data.data.passport"
-      />
-      <CellChemistry
-        section-title="Cell chemistry"
-        :cell-chemistry="data.data.passport.cellChemistry"
-      />
-      <ElectrochemicalProperties
-        section-title="State of Health"
-        :electrochemical-properties="
-          data.data.passport.electrochemicalProperties
-        "
-      />
-      <BatteryComposition
-        section-title="Parameters of The Battery"
-        :battery-composition="data.data.passport.composition"
-      />
-      <StateOfBattery
-        section-title="State of Battery"
-        :state-of-battery="data.data.passport"
-      />
-
-      <Documents
-        section-title="Documents"
-        :documents="data.data.passport.document"
-      />
-      <ContractInformation
-        section-title="Contract Information"
-        :contract-information="data.data.metadata"
-      />
+      <div v-for="(section, index) in componentsNames" :key="index">
+        <SectionComponent :title="`${index + 1}. ${section.label}`">
+          <component :is="section.component" :data="data" />
+        </SectionComponent>
+      </div>
     </div>
     <Footer />
   </div>
 </template>
+
+
 
 <script>
 // @ is an alias to /src
@@ -106,6 +93,8 @@ import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import SectionComponent from "@/components/passport/Section.vue";
+
 export default {
   name: "PassportView",
   components: {
@@ -121,43 +110,80 @@ export default {
     Footer,
     Spinner,
     Alert,
+    SectionComponent,
   },
   data() {
     return {
+      componentsNames: [
+        {
+          label: "General information",
+          component: "GeneralInformation",
+        },
+        {
+          label: "Cell chemistry",
+          component: "CellChemistry",
+        },
+        {
+          label: "Electrochemical properties",
+          component: "ElectrochemicalProperties",
+        },
+        {
+          label: "Battery composition",
+          component: "BatteryComposition",
+        },
+        {
+          label: "State of battery",
+          component: "StateOfBattery",
+        },
+        {
+          label: "Additional information",
+          component: "Documents",
+        },
+        {
+          label: "Contract information",
+          component: "ContractInformation",
+        },
+      ],
       auth: inject("authentication"),
       data: null,
       loading: true,
       errors: [],
       passId: this.$route.params.id,
-      error:false,
+      error: false,
       errorObj: {
-        "title": "",
-        "description": "",
-        "type": "error"
+        title: "",
+        description: "",
+        type: "error",
       },
-      backend: BACKEND
+      backend: BACKEND,
     };
   },
   async created() {
-    try{
+    try {
       let passportPromise = this.getPassport(this.passId);
-      const result = await threadUtil.execWithTimeout(passportPromise, API_TIMEOUT, null);
-      if(result && result != null){
+      const result = await threadUtil.execWithTimeout(
+        passportPromise,
+        API_TIMEOUT,
+        null
+      );
+      if (result && result != null) {
         this.data = result;
-      }else{
+      } else {
         this.error = true;
-        if(this.errorObj.title == null){
+        if (this.errorObj.title == null) {
           this.errorObj.title = "Timeout! Failed to return passport!";
         }
-        if(this.errorObj.description == null){
-          this.errorObj.description = "We are sorry, it took too long to retrieve the passport.";
+        if (this.errorObj.description == null) {
+          this.errorObj.description =
+            "We are sorry, it took too long to retrieve the passport.";
         }
       }
-    }catch(e){
+    } catch (e) {
       this.error = true;
       this.errorObj.title = "Failed to return passport!";
-      this.errorObj.description = "We are sorry, it was not posible to retrieve the passport.";
-    }finally{
+      this.errorObj.description =
+        "We are sorry, it was not posible to retrieve the passport.";
+    } finally {
       this.loading = false;
     }
   },
@@ -170,9 +196,11 @@ export default {
       let AASRequestHeader = {
         Authorization: "Bearer " + accessToken,
       };
-      var shellId,shellDescriptor,subModel = null;
+      var shellId,
+        shellDescriptor,
+        subModel = null;
 
-      try{
+      try {
         shellId = await aas.getAasShellId(
           JSON.stringify(assetIdJson),
           AASRequestHeader
@@ -185,18 +213,24 @@ export default {
           shellDescriptor,
           AASRequestHeader
         );
-      }catch(e){
+      } catch (e) {
         this.loading = false;
         this.error = true;
         this.errorObj.title = "We are sorry, the searched ID was not found!";
-        this.errorObj.description = "It was not possible to find the searched ID ["+this.passId+"] in the Digital Twin Registry";
+        this.errorObj.description =
+          "It was not possible to find the searched ID [" +
+          this.passId +
+          "] in the Digital Twin Registry";
         return null;
       }
-      if (subModel.endpoints.length < 0){
+      if (subModel.endpoints.length < 0) {
         this.loading = false;
         this.error = true;
         this.errorObj.title = "We are sorry, the searched ID was not found!";
-        this.errorObj.description = "It was not possible to find the searched ID ["+this.passId+"] in the Digital Twin Registry, it might not be registered";
+        this.errorObj.description =
+          "It was not possible to find the searched ID [" +
+          this.passId +
+          "] in the Digital Twin Registry, it might not be registered";
         return null;
       }
       let providerConnector = {
@@ -209,31 +243,39 @@ export default {
       };
       console.info("Selected asset Id: " + assetId);
       var response = null;
-      try{
-        if((this.backend === 'true') || (this.backend == true)){
+      try {
+        if (this.backend === "true" || this.backend == true) {
           let backendService = new BackendService();
           let jwtToken = await this.auth.getAccessToken();
           response = await backendService.getPassportV1(assetId, jwtToken);
-        }else{
+        } else {
           response = await wrapper.performEDCDataTransfer(
             assetId,
             providerConnector,
             APIWrapperRequestHeader
-          )
+          );
         }
-      }catch(e){
+      } catch (e) {
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Failed to return passport";
-        this.errorObj.description = "It was not possible to transfer the passport.";
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
         return null;
       }
 
-      if(response == null || typeof response == "string" || typeof response.data.passport != "object" || response.data.passport==null || response.data.passport.errors != null){
+      if (
+        response == null ||
+        typeof response == "string" ||
+        typeof response.data.passport != "object" ||
+        response.data.passport == null ||
+        response.data.passport.errors != null
+      ) {
         this.loading = false;
         this.error = true;
         this.errorObj.title = "Failed to return passport";
-        this.errorObj.description = "It was not possible to complete the passport transfer.";
+        this.errorObj.description =
+          "It was not possible to complete the passport transfer.";
         return null;
       }
       this.contractInformation = providerConnector;

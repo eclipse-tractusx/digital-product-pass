@@ -101,8 +101,6 @@ docker stop consumer-ui; docker rm consumer-ui;
 ```
 You can run the application in docker container with existing image from GitHub packages.
 
-See consumer frontend docker image in registry: [consumer-ui](https://github.com/eclipse-tractusx/digital-product-pass/pkgs/container/product-battery-passport-consumer-app%2Fconsumer-ui)
-
 ```bash
 # pull the image 
 # Replace placeholder <LATEST_TAG> with the most recent tag in registry

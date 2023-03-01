@@ -17,8 +17,8 @@
 # Release Notes Digital Product Pass Application
 
 
-**February 28 2023 (Version 0.4.6)**  
-*28.02.2023*
+**March 01 2023 (Version 0.4.6)**  
+*01.03.2023*
 
 ### Updated
 Updated documentation issues, fixing incorrect structure.

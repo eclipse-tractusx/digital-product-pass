@@ -20,7 +20,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.4.6] - 2023-02-28
+## [0.4.6] - 2023-03-01
 
 ## Updated
 - Updated documentation, corrected links.

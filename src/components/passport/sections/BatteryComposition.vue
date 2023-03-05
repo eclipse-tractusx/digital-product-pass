@@ -57,12 +57,12 @@
         <div class="sub-title-container">
           <span class="sub-title">Components</span>
         </div>
-        <div v-if="batteryComposition.components" class="list-container">
+        <div v-if="propsData.components" class="list-container">
           <ul>
             <span class="list-label">Components part number</span>
             <li>
               <span>
-                {{ batteryComposition.components.componentsPartNumber }}
+                {{ propsData.components.componentsPartNumber }}
               </span>
             </li>
           </ul>

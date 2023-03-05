@@ -16,7 +16,7 @@
 
 
 <template v-if="propsData">
-  <div>
+  <div class="section">
     <div v-if="propsData.batteryIdentification" class="sub-section-container">
       <Field
         data-cy="battery-id"

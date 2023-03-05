@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 .document-field {
   width: 33%;
 
@@ -99,38 +99,37 @@
   .short-label {
     max-width: 53%;
   }
+}
+@media (max-width: 750px) {
+  .document-field {
+    width: 100% !important;
+  }
+  .section-content {
+    border: none;
+    margin-bottom: 0;
+  }
 
-  @media (max-width: 750px) {
-    .section-content {
-      border: none;
-    }
+  .longer {
+    padding-bottom: 22px;
+  }
 
-    .section-content {
-      margin-bottom: 0;
-    }
+  .sub-title-container {
+    padding: 22px 40px 0 30px;
+  }
 
-    .longer {
-      padding-bottom: 22px;
-    }
+  .list-container {
+    width: 100%;
+    padding-left: 40px;
+    padding-bottom: 40px;
+  }
 
-    .sub-title-container {
-      padding: 22px 40px 0 30px;
-    }
+  .document-field-container {
+    border-bottom: solid 1px #edefe5;
+    width: 100%;
+    min-height: 120px;
+  }
 
-    .list-container {
-      width: 100%;
-      padding-left: 40px;
-      padding-bottom: 40px;
-    }
-
-    .document-field-container {
-      border-bottom: solid 1px #edefe5;
-      width: 100%;
-      min-height: 120px;
-    }
-
-    .two-third-width {
-      width: 100% !important;
-    }
+  .two-third-width {
+    width: 100% !important;
   }
 }

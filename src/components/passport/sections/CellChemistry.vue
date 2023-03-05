@@ -15,7 +15,7 @@
 -->
 
 <template v-if="propsData">
-  <div>
+  <div class="section">
     <!-- Composition of Electrolyte -->
     <AttributeField
       :attributes-list="propsData.electrolyteComposition"

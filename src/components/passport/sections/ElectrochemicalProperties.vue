@@ -15,7 +15,7 @@
 -->
 
 <template  v-if="data" >
-  <div>
+  <div class="section">
     <div class="sub-section-container">
       <Field
         data-cy="remaining-capacity"

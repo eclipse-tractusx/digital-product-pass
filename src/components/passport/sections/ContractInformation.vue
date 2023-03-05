@@ -15,7 +15,7 @@
 -->
 
 <template v-if="propsDate">
-  <div>
+  <div class="section">
     <div class="sub-section-container">
       <Field label="Contract ID" :value="propsData.negotiation.id" />
       <Field

@@ -15,7 +15,7 @@
 -->
 
 <template v-if="propsData">
-  <div>
+  <div class="section">
     <div class="sub-section-container">
       <DocumentField :field="propsData.responsibleSourcing" />
       <DocumentField :field="propsData.packagingInstructions" />
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport,
+      propsData: this.$props.data.data.passport.document,
     };
   },
 };

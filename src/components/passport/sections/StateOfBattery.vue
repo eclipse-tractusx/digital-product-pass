@@ -15,7 +15,7 @@
 -->
 
 <template v-if="propsData">
-  <div>
+  <div class="section">
     <div class="sub-section-container">
       <Field
         data-cy="state-of-charge"

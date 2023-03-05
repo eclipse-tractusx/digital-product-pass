@@ -15,7 +15,7 @@
 -->
 
 <template v-if="propsData">
-  <div>
+  <div class="section">
     <!-- Composition of battery -->
     <AttributeField
       :attributes-list="propsData.compositionOfBattery"
@@ -51,22 +51,6 @@
             </span>
           </li>
         </ul>
-      </div>
-      <!-- Components -->
-      <div class="sub-section-container">
-        <div class="sub-title-container">
-          <span class="sub-title">Components</span>
-        </div>
-        <div v-if="propsData.components" class="list-container">
-          <ul>
-            <span class="list-label">Components part number</span>
-            <li>
-              <span>
-                {{ propsData.components.componentsPartNumber }}
-              </span>
-            </li>
-          </ul>
-        </div>
       </div>
       <div
         v-if="propsData.components.componentsSupplier"

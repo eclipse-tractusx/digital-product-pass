@@ -15,7 +15,7 @@
     "specificAssetIds": [
         {
             "key": "Battery_ID_DMC_Code",
-            "value": "NCR186850B_DEV"
+            "value": "NCR186850B"
         }
     ],
     "submodelDescriptors": [

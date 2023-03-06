@@ -1,7 +1,7 @@
 {
     "asset": {
         "properties": {
-            "asset:prop:id": "X123456789012X12345678901234566_DEV",
+            "asset:prop:id": "X123456789012X12345678901234566",
             "asset:prop:description": "Battery Passport test data"
         }
     },

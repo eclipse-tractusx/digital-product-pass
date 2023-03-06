@@ -15,7 +15,7 @@
     "specificAssetIds": [
         {
             "key": "Battery_ID_DMC_Code",
-            "value": "X123456789012X12345678901234566_DEV"
+            "value": "X123456789012X12345678901234566"
         }
     ],
     "submodelDescriptors": [

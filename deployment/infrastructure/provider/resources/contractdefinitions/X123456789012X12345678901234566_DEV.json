@@ -4,7 +4,7 @@
         {
             "operandLeft": "asset:prop:id",
             "operator": "=",
-            "operandRight": "X123456789012X12345678901234566_DEV"
+            "operandRight": "X123456789012X12345678901234566"
         }
     ],
     "accessPolicyId": "ae1e1225-ce28-48e5-9fa7-2b782beed533",

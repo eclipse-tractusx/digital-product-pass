@@ -1,7 +1,7 @@
 {
     "asset": {
         "properties": {
-            "asset:prop:id": "IMR18650V1_DEV",
+            "asset:prop:id": "IMR18650V1",
             "asset:prop:description": "Battery Passport test data"
         }
     },

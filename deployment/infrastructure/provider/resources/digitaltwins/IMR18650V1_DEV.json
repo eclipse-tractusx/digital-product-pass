@@ -15,7 +15,7 @@
     "specificAssetIds": [
         {
             "key": "Battery_ID_DMC_Code",
-            "value": "IMR18650V1_DEV"
+            "value": "IMR18650V1"
         }
     ],
     "submodelDescriptors": [

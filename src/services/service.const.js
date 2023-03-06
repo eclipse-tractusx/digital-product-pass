@@ -23,10 +23,13 @@ const GOOGLE_CHART_API_URL = "https://chart.googleapis.com";
 const DUMMY_SERVICE = "http://localhost:3000";
 const SERVER_URL_INT = "https://materialpass.int.demo.catena-x.net";
 const SERVER_URL_DEV = "https://materialpass.dev.demo.catena-x.net";
+const SERVER_URL_BETA = "https://materialpass.beta.demo.catena-x.net";
 const CX_REGISTRY_URL_INT = "https://semantics.int.demo.catena-x.net";
 const CX_REGISTRY_URL_DEV = "https://semantics.dev.demo.catena-x.net";
+const CX_REGISTRY_URL_BETA = "https://semantics.beta.demo.catena-x.net";
 const IDP_URL_INT = "https://centralidp.int.demo.catena-x.net/auth/";
 const IDP_URL_DEV = "https://centralidp.dev.demo.catena-x.net/auth/";
+const IDP_URL_BETA = "https://centralidp.beta.demo.catena-x.net/auth/";
 const API_KEY = "X_API_KEY";
 const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
 const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
@@ -82,6 +85,20 @@ else if (window.location.href.includes("materialpass.dev.demo.catena-x.net")) { 
     REDIRECT_URI = SERVER_URL_DEV;
     IDP_URL = IDP_URL_DEV;
     CX_REGISTRY_URL = CX_REGISTRY_URL_DEV;
+  }
+  
+}
+else if (window.location.href.includes("materialpass.beta.demo.catena-x.net")) { // for beta
+  {
+    INIT_OPTIONS = {
+      url: IDP_URL_BETA,
+      clientId: 'Cl13-CX-Battery',
+      realm: 'CX-Central',
+      onLoad: 'login-required'
+    };
+    REDIRECT_URI = SERVER_URL_BETA;
+    IDP_URL = IDP_URL_BETA;
+    CX_REGISTRY_URL = CX_REGISTRY_URL_BETA;
   }
   
 }

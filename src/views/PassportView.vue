@@ -61,41 +61,17 @@
       type="BatteryID"
     />
     <div class="pass-container">
-      <GeneralInformation
-        section-title="General information"
-        :general-information="data.data.passport"
-      />
-      <CellChemistry
-        section-title="Cell chemistry"
-        :cell-chemistry="data.data.passport.cellChemistry"
-      />
-      <ElectrochemicalProperties
-        section-title="State of Health"
-        :electrochemical-properties="
-          data.data.passport.electrochemicalProperties
-        "
-      />
-      <BatteryComposition
-        section-title="Parameters of The Battery"
-        :battery-composition="data.data.passport.composition"
-      />
-      <StateOfBattery
-        section-title="State of Battery"
-        :state-of-battery="data.data.passport"
-      />
-
-      <Documents
-        section-title="Documents"
-        :documents="data.data.passport.document"
-      />
-      <ContractInformation
-        section-title="Contract Information"
-        :contract-information="data.data.metadata"
-      />
+      <div v-for="(section, index) in componentsNames" :key="index">
+        <SectionComponent :title="`${index + 1}. ${section.label}`">
+          <component :is="section.component" :data="data" />
+        </SectionComponent>
+      </div>
     </div>
     <Footer />
   </div>
 </template>
+
+
 
 <script>
 // @ is an alias to /src
@@ -117,6 +93,8 @@ import apiWrapper from "@/services/Wrapper";
 import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import SectionComponent from "@/components/passport/Section.vue";
+
 export default {
   name: "PassportView",
   components: {
@@ -132,9 +110,40 @@ export default {
     Footer,
     Spinner,
     Alert,
+    SectionComponent,
   },
   data() {
     return {
+      componentsNames: [
+        {
+          label: "General information",
+          component: "GeneralInformation",
+        },
+        {
+          label: "Cell chemistry",
+          component: "CellChemistry",
+        },
+        {
+          label: "Electrochemical properties",
+          component: "ElectrochemicalProperties",
+        },
+        {
+          label: "Battery composition",
+          component: "BatteryComposition",
+        },
+        {
+          label: "State of battery",
+          component: "StateOfBattery",
+        },
+        {
+          label: "Additional information",
+          component: "Documents",
+        },
+        {
+          label: "Contract information",
+          component: "ContractInformation",
+        },
+      ],
       auth: inject("authentication"),
       data: null,
       loading: true,

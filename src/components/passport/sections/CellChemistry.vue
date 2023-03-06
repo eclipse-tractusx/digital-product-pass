@@ -14,61 +14,52 @@
  limitations under the License.
 -->
 
-<template v-if="cellChemistry">
+<template v-if="propsData">
   <div class="section">
-    <SectionHeader title="2. Cell chemistry" @click="toggle = !toggle" />
-    <div class="section-content" :class="[toggle ? 'hidden' : '']">
-      <!-- Composition of Electrolyte -->
-      <AttributeField
-        :attributes-list="cellChemistry.electrolyteComposition"
-        label="Composition of electrolyte"
-        data-cy="electrolyte-composition"
-      />
-      <!-- Composition of Anode -->
-      <AttributeField
-        :attributes-list="cellChemistry.anodeActiveMaterials"
-        label="Composition of Anode"
-      />
-      <!-- Composition of Anode other -->
-      <AttributeField
-        :attributes-list="cellChemistry.anodeCompositionOther"
-        label="Composition of other Anode materials"
-      />
-      <!-- Composition of Cathode -->
-      <AttributeField
-        :attributes-list="cellChemistry.cathodeActiveMaterials"
-        label="Composition of Cathode"
-      />
-      <!-- Composition of Cathode other -->
-      <AttributeField
-        :attributes-list="cellChemistry.cathodeCompositionOther"
-        label="Composition of other Cathode materials"
-      />
-      <!-- Recyclate content active materials -->
-      <AttributeField
-        :attributes-list="cellChemistry.recyclateContentActiveMaterials"
-        label="Recyclate content active materials"
-      />
-    </div>
+    <!-- Composition of Electrolyte -->
+    <AttributeField
+      :attributes-list="propsData.electrolyteComposition"
+      label="Composition of electrolyte"
+      data-cy="electrolyte-composition"
+    />
+    <!-- Composition of Anode -->
+    <AttributeField
+      :attributes-list="propsData.anodeActiveMaterials"
+      label="Composition of Anode"
+    />
+    <!-- Composition of Anode other -->
+    <AttributeField
+      :attributes-list="propsData.anodeCompositionOther"
+      label="Composition of other Anode materials"
+    />
+    <!-- Composition of Cathode -->
+    <AttributeField
+      :attributes-list="propsData.cathodeActiveMaterials"
+      label="Composition of Cathode"
+    />
+    <!-- Composition of Cathode other -->
+    <AttributeField
+      :attributes-list="propsData.cathodeCompositionOther"
+      label="Composition of other Cathode materials"
+    />
+    <!-- Recyclate content active materials -->
+    <AttributeField
+      :attributes-list="propsData.recyclateContentActiveMaterials"
+      label="Recyclate content active materials"
+    />
   </div>
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import AttributeField from "../AttributeField.vue";
 
 export default {
   name: "CellChemistry",
   components: {
-    SectionHeader,
     AttributeField,
   },
   props: {
-    sectionTitle: {
-      type: String,
-      default: "",
-    },
-    cellChemistry: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -76,6 +67,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport.cellChemistry,
     };
   },
 };

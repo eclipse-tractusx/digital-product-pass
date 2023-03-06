@@ -14,111 +14,98 @@
  limitations under the License.
 -->
 
-<template v-if="generalInformation.batteryIdentification">
+
+<template v-if="propsData">
   <div class="section">
-    <SectionHeader title="1. General information" @click="toggle = !toggle" />
-    <div class="section-content" :class="[toggle ? 'hidden' : '']">
-      <div
-        v-if="generalInformation.batteryIdentification"
-        class="sub-section-container"
-      >
-        <Field
-          data-cy="battery-id"
-          label="Battery ID"
-          :value="generalInformation.batteryIdentification.batteryIDDMCCode"
-        />
-        <Field
-          label="Battery Type"
-          :value="generalInformation.batteryIdentification.batteryType"
-        />
-        <Field
-          label="Battery Model"
-          :value="generalInformation.batteryIdentification.batteryModel"
-        />
-      </div>
-      <div v-if="generalInformation.manufacturer" class="sub-section-container">
-        <Field
-          class="full-width"
-          label="Manufacturer Information"
-          :value="generalInformation.manufacturer.name"
-        />
-        <Field
-          class="longer"
-          label="Address"
-          :city="generalInformation.manufacturer.address.locality.value"
-          :country="generalInformation.manufacturer.address.country.shortName"
-          :postal="generalInformation.manufacturer.address.postCode.value"
-          :value="generalInformation.manufacturer.name"
-        />
-        <Field
-          label="Contact phone number"
-          :value="generalInformation.manufacturer.contact.phoneNumber"
-        />
-        <Field
-          label="Email"
-          :value="generalInformation.manufacturer.contact.email"
-        />
-      </div>
-      <div
-        v-if="generalInformation.physicalDimensions"
-        class="sub-section-container"
-      >
-        <Field
-          label="Dimensions of the battery"
-          :height="generalInformation.physicalDimensions.height"
-          :length="generalInformation.physicalDimensions.length"
-          unit="mm"
-          :width="generalInformation.physicalDimensions.width"
-        />
+    <div v-if="propsData.batteryIdentification" class="sub-section-container">
+      <Field
+        data-cy="battery-id"
+        label="Battery ID"
+        :value="propsData.batteryIdentification.batteryIDDMCCode"
+      />
+      <Field
+        label="Battery Type"
+        :value="propsData.batteryIdentification.batteryType"
+      />
+      <Field
+        label="Battery Model"
+        :value="propsData.batteryIdentification.batteryModel"
+      />
+    </div>
+    <div v-if="propsData.manufacturer" class="sub-section-container">
+      <Field
+        class="full-width"
+        label="Manufacturer Information"
+        :value="propsData.manufacturer.name"
+      />
+      <Field
+        class="longer"
+        label="Address"
+        :city="propsData.manufacturer.address.locality.value"
+        :country="propsData.manufacturer.address.country.shortName"
+        :postal="propsData.manufacturer.address.postCode.value"
+        :value="propsData.manufacturer.name"
+      />
+      <Field
+        label="Contact phone number"
+        :value="propsData.manufacturer.contact.phoneNumber"
+      />
+      <Field label="Email" :value="propsData.manufacturer.contact.email" />
+    </div>
+    <div v-if="propsData.physicalDimensions" class="sub-section-container">
+      <Field
+        label="Dimensions of the battery"
+        :height="propsData.physicalDimensions.height"
+        :length="propsData.physicalDimensions.length"
+        unit="mm"
+        :width="propsData.physicalDimensions.width"
+      />
 
-        <Field
-          label="Weight of the battery"
-          unit="kg"
-          :value="generalInformation.physicalDimensions.weight"
-        />
+      <Field
+        label="Weight of the battery"
+        unit="kg"
+        :value="propsData.physicalDimensions.weight"
+      />
 
-        <Field
-          label="Date of Manufacture"
-          :day="generalInformation.manufacturing.dateOfManufacturing"
-        />
-        <Field
-          label="Place of Manufacturing"
-          :value="generalInformation.manufacturing.address.locality.value"
-        />
-        <Field
-          class="two-third-width"
-          label="Data of placing on the market"
-          :day="generalInformation.datePlacedOnMarket"
-        />
-        <Field
-          class="longer"
-          label="Period for which the Commercial Warranty for the calendar life
+      <Field
+        label="Date of Manufacture"
+        :day="propsData.manufacturing.dateOfManufacturing"
+      />
+      <Field
+        label="Place of Manufacturing"
+        :value="propsData.manufacturing.address.locality.value"
+      />
+      <Field
+        class="two-third-width"
+        label="Date of placing on the market"
+        :day="propsData.datePlacedOnMarket"
+      />
+      <Field
+        class="longer"
+        label="Period for which the Commercial Warranty for the calendar life
           applies"
-          :value="generalInformation.warrantyPeriod"
-        />
-        <Field
-          label="Status of the battery"
-          :value="generalInformation.stateOfBattery.statusBattery"
-        />
-        <Field
-          label="CO2 Footprint Total"
-          unit="kg"
-          :value="generalInformation.cO2FootprintTotal"
-        />
-      </div>
+        :value="propsData.warrantyPeriod"
+      />
+      <Field
+        label="Status of the battery"
+        :value="propsData.stateOfBattery.statusBattery"
+      />
+      <Field
+        label="CO2 Footprint Total"
+        unit="kg"
+        :value="propsData.cO2FootprintTotal"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 
 export default {
   name: "GeneralInformation",
   components: {
     Field,
-    SectionHeader,
   },
   props: {
     sectionTitle: {
@@ -126,7 +113,7 @@ export default {
       required: false,
       default: "",
     },
-    generalInformation: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -135,6 +122,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport,
     };
   },
 };

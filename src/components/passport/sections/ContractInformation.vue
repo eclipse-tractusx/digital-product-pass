@@ -14,36 +14,28 @@
  limitations under the License.
 -->
 
-<template v-if="contractInformation">
+<template v-if="propsDate">
   <div class="section">
-    <SectionHeader title="7. Contract information" @click="toggle = !toggle" />
-    <div class="section-content" :class="[toggle ? 'hidden' : '']">
-      <div v-if="contractInformation" class="sub-section-container">
-        <Field
-          label="Contract ID"
-          :value="contractInformation.negotiation.id"
-        />
-        <Field
-          label="Contract Agreement ID"
-          :value="contractInformation.transferRequest.contractId"
-        />
-        <Field
-          label="Transfer Process ID"
-          :value="contractInformation.transferRequest.id"
-        />
-      </div>
+    <div class="sub-section-container">
+      <Field label="Contract ID" :value="propsData.negotiation.id" />
+      <Field
+        label="Contract Agreement ID"
+        :value="propsData.transferRequest.contractId"
+      />
+      <Field
+        label="Transfer Process ID"
+        :value="propsData.transferRequest.id"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 export default {
   name: "ContractInformation",
   components: {
     Field,
-    SectionHeader,
   },
   props: {
     sectionTitle: {
@@ -51,7 +43,7 @@ export default {
       required: false,
       default: "",
     },
-    contractInformation: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -59,6 +51,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport,
     };
   },
 };

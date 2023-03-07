@@ -45,8 +45,11 @@
                     class="help-btn"
                     :ripple="{ class: 'ripple-background' }"
                     rounded
-                    >Help</v-btn
-                  >
+                    >Help
+                    <TooltipComponent
+                      data-tooltip="This is help if you need to know more about Catena."
+                    />
+                  </v-btn>
                 </a>
               </v-col>
               <v-col
@@ -93,9 +96,13 @@
 <script>
 import CatenaLogo from "../../media/Catena-X_Logo_mit_Zusatz_2021.svg";
 import Profile from "../../media/profile.svg";
+import TooltipComponent from "../general/Tooltip.vue";
 import { inject } from "vue";
 export default {
   name: "HeaderComponent",
+  components: {
+    TooltipComponent,
+  },
   setup() {
     return {
       CatenaLogo,
@@ -129,3 +136,6 @@ export default {
   },
 };
 </script>
+
+<style >
+</style>

@@ -50,8 +50,8 @@ jobs:
       - name: Run Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.1
         with:
-          appname: "Battery-Passport-Consumer-App"
+          appname: "Digital-Product-Pass"
           createprofile: false
           filepath: "./veracode-scan-target.zip"
-          vid: "${{ secrets.ORG_VERACODE_API_ID }}"
-          vkey: "${{ secrets.ORG_VERACODE_API_KEY }}"
+          vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

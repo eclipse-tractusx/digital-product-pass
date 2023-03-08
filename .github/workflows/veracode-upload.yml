@@ -17,6 +17,13 @@ name: "Veracode upload and scan"
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to use"
+        required: true
+        default: 'develop'
+        type: string
 
   schedule:
     # Once a day

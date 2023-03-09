@@ -15,20 +15,13 @@
 -->
 
 <template>
-  <v-tooltip content-class="tooltip" activator="parent" location="bottom">{{
-    dataTooltip
-  }}</v-tooltip>
+  <v-tooltip content-class="tooltip" activator="parent" location="bottom">
+    <slot></slot>
+  </v-tooltip>
 </template>
 
 <script>
 export default {
-  name: "TooltipComponent",
-  props: {
-    dataTooltip: {
-      type: String,
-      required: false,
-      default: "",
-    },
-  },
+  name: "TooltipComponent"
 };
 </script>

@@ -179,6 +179,30 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
+
+    public SubModel getSubModelByIdShort(DigitalTwin digitalTwin, String idShort) {
+        try {
+            ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
+            if (subModels.size() < 1) {
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                        "No subModel found in digitalTwin!");
+            }
+            // Search for first subModel with matching idShort, if it fails gives null
+            SubModel subModel = subModels.stream().filter(s -> s.getIdShort().equals(idShort)).findFirst().orElse(null);
+
+            if(subModel == null){
+                // If the subModel idShort does not exist
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                        "SubModel for idShort not found!");
+            }
+            // Return subModel if found
+            return subModel;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                    e,
+                    "It was not possible to get subModel!");
+        }
+    }
     public SubModel getSubModel(String digitalTwinId, String subModelId) {
         try {
             String path = "/registry/registry/shell-descriptors";
@@ -226,7 +250,7 @@ public class AasService extends BaseService {
 
         private final Integer index;
 
-        public DigitalTwinRegistryQuery(String assetId,String idTyp, Integer index){
+        public DigitalTwinRegistryQuery(String assetId, String idTyp, Integer index){
             this.assetId = assetId;
             this.idType = idTyp;
             this.index = index;

@@ -2,189 +2,173 @@
   "data": {
     "passport": {
       "electrochemicalProperties": {
-        "ratedCapacity": 56,
+        "ratedCapacity": 210,
         "batteryEnergy": {
-          "energyRoundtripEfficiencyChange": 45,
-          "maximumAllowedBatteryEnergy": 75000.0,
-          "energyRoundtripEfficiency": 80
+          "energyRoundtripEfficiencyChange": 67,
+          "maximumAllowedBatteryEnergy": 90000,
+          "energyRoundtripEfficiency": 56
         },
-        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.666,
+        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.611,
         "batteryVoltage": {
-          "nominalVoltage": 3.6,
-          "maxVoltage": 4.2,
-          "minVoltage": 2.5
+          "nominalVoltage": 4.3,
+          "maxVoltage": 6,
+          "minVoltage": 2.04
         },
         "internalResistance": {
-          "cellInternalResistance": 3.0,
-          "packInternalResistanceIncrease": 2,
-          "packInternalResistance": 80
+          "cellInternalResistance": 45,
+          "packInternalResistanceIncrease": 23,
+          "packInternalResistance": 67
         },
         "capacityThresholdExhaustion": 23,
         "batteryPower": {
-          "originalPowerCapability": 90,
-          "powerFade": 0.37,
-          "originalPowerCapabilityLimits": 734.8,
-          "maximumAllowedBatteryPower": 100000,
-          "powerCapabilityAt20Charge": 500000,
-          "originalPower": 40000,
-          "powerCapabilityAt80Charge": 120000
+          "powerFade": 23,
+          "originalPowerCapability": -1.7976931348623157E+308,
+          "originalPowerCapabilityLimits": -1.7976931348623157E+308,
+          "maximumAllowedBatteryPower": -1.7976931348623157E+308,
+          "powerCapabilityAt20Charge": -1.7976931348623157E+308,
+          "powerCapabilityAt80Charge": -1.7976931348623157E+308
         },
-        "capacityFade": 2.0
+        "capacityFade": 34
       },
       "document": {
         "responsibleSourcing": [
           {
-            "title": "Sustainability Report 2021",
+            "title": "LlN",
             "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "packagingInstructions": [
           {
-            "title": "Packaging and transport Instruction",
+            "title": "eOMtThyhVNLWUZNRcBaQKxI",
             "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "transportationInstructions": [
           {
-            "title": "Packaging and transport Instruction",
+            "title": "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
             "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
           }
         ],
         "vehicleDismantlingProcedure": [
           {
-            "title": "Packaging and transport Instruction",
+            "title": "JxkyvRnL",
             "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
           }
         ],
         "testReportsResults": [
           {
-            "title": "Certificates of Testing battery",
-            "fileLocation": ""
+            "title": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
+            "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "batteryDismantlingProcedure": [
           {
-            "title": "Certificates of Testing battery",
+            "title": "RYtGKbgicZaHCBRQDSx",
             "fileLocation": "http://www.wikipedia.org"
           }
         ],
         "safetyMeasures": [
           {
-            "title": "Battery user safety precautions",
+            "title": "VLhpfQGTMDYpsBZxvfBoeygjb",
             "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
           }
         ],
         "declarationOfConformity": [
           {
-            "title": "Declaration of Conformity No. 2",
-            "fileLocation": ""
+            "title": "dpHYZGhtgdntugzvvKAXLhM",
+            "fileLocation": "http://www.wikipedia.org"
           }
         ]
       },
-      "datePlacedOnMarket": "27.03.2022",
+      "datePlacedOnMarket": "2023-03-08T10:46:19.166Z",
       "cellChemistry": {
         "electrolyteComposition": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "LiPF6"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
         "anodeCompositionOther": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "Styren butadien"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
         "recyclateContentActiveMaterials": [
           {
-            "matierialPercentageMassFraction": 4,
-            "matierialWeight": null,
-            "materialName": "Ni/2022/PlantC"
-          },
-          {
-            "matierialPercentageMassFraction": 5,
-            "matierialWeight": null,
-            "materialName": "Li/2021/PlantC"
-          },
-          {
-            "matierialPercentageMassFraction": 0,
-            "matierialWeight": null,
-            "materialName": "Pb(battery model does not contain Pb)"
-          },
-          {
-            "matierialPercentageMassFraction": 15,
-            "matierialWeight": null,
-            "materialName": "Co/2021/PlantC"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
         "anodeActiveMaterials": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "SiO2-C"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
         "cathodeActiveMaterials": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "NCA (Lithium nickel cobalt aluminum oxide)"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
         "cathodeCompositionOther": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "carbon black"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ]
       },
       "physicalDimensions": {
-        "length": 1800,
+        "length": 20000,
         "width": 1000,
-        "weight": 2000,
-        "diameter": null,
-        "height": 150
+        "weight": 1007,
+        "diameter": 3,
+        "height": 1
       },
       "temperatureRangeIdleState": {
-        "temperatureRangeIdleStateUpperLimit": 40,
-        "temperatureRangeIdleStateLowerLimit": -20
+        "temperatureRangeIdleStateUpperLimit": 67,
+        "temperatureRangeIdleStateLowerLimit": 67
       },
       "batteryCycleLife": {
-        "cycleLifeTestCRate": 2,
-        "cycleLifeTestDepthOfDischarge": 1.5,
-        "expectedLifetime": 3000
+        "cycleLifeTestCRate": 45,
+        "cycleLifeTestDepthOfDischarge": 23,
+        "expectedLifetime": 456
       },
       "manufacturer": {
-        "name": "CompanyC",
+        "name": "Company A",
         "contact": {
-          "faxNumber": "+49 89 0987654323",
-          "website": "http://www.CompanyC.com",
-          "phoneNumber": "+49 89 1234567892",
-          "email": "companyC@company.com"
+          "faxNumber": "+49 89 0987654321",
+          "website": "https://www.samsung.com",
+          "phoneNumber": "+49 89 1234567890",
+          "email": "test.mail@example.com"
         },
         "address": {
           "locality": {
-            "value": "CityC",
+            "value": "Mannheim",
             "technicalKey": "BLOCK"
           },
           "country": {
-            "shortName": "Germany"
+            "shortName": "TG-Y"
           },
           "postCode": {
-            "value": "65-250A",
+            "value": "68161\\12",
             "technicalKey": "CEDEX"
           },
           "thoroughfare": {
-            "value": "StreetA",
-            "number": "1",
+            "value": "Bernstraße",
+            "number": "45",
             "technicalKey": "STREET"
           },
           "premise": {
-            "value": "",
-            "technicalKey": "CEDEX"
+            "value": "Werk 1",
+            "technicalKey": "BUILDING"
           },
           "postalDeliveryPoint": {
             "value": "Tor 1",
@@ -192,96 +176,99 @@
           }
         }
       },
-      "warrantyPeriod": 120,
+      "warrantyPeriod": 60,
       "composition": {
         "compositionOfBattery": [
           {
-            "matierialPercentageMassFraction": null,
-            "matierialWeight": null,
-            "materialName": "Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic"
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
-        "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
+        "criticalRawMaterials": "gNfZBdyFGRajVfJNonEnOinZj",
         "components": {
-          "componentsPartNumber": "Casing Tray: Model C",
+          "componentsPartNumber": [
+            "Case xxxxxxx/xx; Controller xxxxxxx/xx"
+          ],
           "componentsSupplier": [
             {
+              "componentsSupplierName": "XY Corporation",
               "address": {
                 "locality": {
-                  "value": "CityD",
+                  "value": "Mannheim",
                   "technicalKey": "BLOCK"
                 },
                 "country": {
-                  "shortName": "Germany"
+                  "shortName": ""
                 },
                 "postCode": {
-                  "value": "65-250B",
+                  "value": "68161\\12",
                   "technicalKey": "CEDEX"
                 },
                 "thoroughfare": {
-                  "value": "StreetD",
-                  "number": "1",
+                  "value": "Bernstraße",
+                  "number": "45",
                   "technicalKey": "STREET"
                 },
                 "premise": {
-                  "value": "PlantD",
+                  "value": "Werk 1",
                   "technicalKey": "BUILDING"
                 },
                 "postalDeliveryPoint": {
-                  "value": "GateD",
+                  "value": "Tor 1",
                   "technicalKey": "INTERURBAN_DELIVERY_POINT"
                 }
               },
               "contact": {
-                "faxNumber": "+49 89 0987654322",
-                "website": "https://www.companyD.com",
+                "faxNumber": "+49 89 0987654321",
+                "website": "https://www.samsung.com",
                 "phoneNumber": "+49 89 1234567890",
-                "email": "companyD@company.com"
+                "email": "test.mail@example.com"
               }
             }
           ]
         }
       },
       "manufacturing": {
-        "dateOfManufacturing": "2022-01-24",
+        "dateOfManufacturing": "2023-03-07",
         "address": {
           "locality": {
-            "value": "CityC",
+            "value": "Mannheim",
             "technicalKey": "BLOCK"
           },
           "country": {
-            "shortName": "Germany"
+            "shortName": ""
           },
           "postCode": {
-            "value": "65-250A",
+            "value": "68161\\12",
             "technicalKey": "CEDEX"
           },
           "thoroughfare": {
-            "value": "StreetC",
-            "number": "1",
+            "value": "Bernstraße",
+            "number": "45",
             "technicalKey": "STREET"
           },
           "premise": {
-            "value": "PlantC",
+            "value": "Werk 1",
             "technicalKey": "BUILDING"
           },
           "postalDeliveryPoint": {
-            "value": "GateC",
+            "value": "Tor 1",
             "technicalKey": "INTERURBAN_DELIVERY_POINT"
           }
         }
       },
       "batteryIdentification": {
-        "batteryType": "NCA",
-        "batteryIDDMCCode": "NCR186850B",
-        "batteryModel": "Li-ion S-model"
+        "batteryType": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State",
+        "batteryIDDMCCode": "X123456789012X12345678901234567",
+        "batteryModel": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State"
       },
       "stateOfBattery": {
-        "stateOfHealth": 50,
-        "statusBattery": "first life",
-        "stateOfCharge": 33
+        "stateOfHealth": 12,
+        "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
+        "stateOfCharge": 23
       },
-      "cO2FootprintTotal": 15000
+      "cO2FootprintTotal": 124.0
     }
   }
 }

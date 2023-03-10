@@ -140,7 +140,9 @@ public class ApiController {
      * @param assetId Asset id that identifies the object that has a passport
      * @param idType  Type of asset id, the name of the code in the digital twin registry
      *                Default: "Battery_ID_DMC_Code"
-     * @param index   Index from the asset in the digital twin registry
+     * @param dtIndex Index from the asset in the digital twin registry
+     *                Default: 0
+     * @param idShort Id from subModel
      *                Default: 0
      * @return PassportV1
      */
@@ -157,7 +159,8 @@ public class ApiController {
             @PathVariable("assetId") String assetId,
             @PathVariable("version") String version,
             @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
-            @RequestParam(value = "index", required = false, defaultValue = "0") Integer index
+            @RequestParam(value = "dtIndex", required = false, defaultValue = "0") Integer dtIndex,
+            @RequestParam(value = "idShort", required = false, defaultValue = "batteryPass") String idShort
     ) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
@@ -168,7 +171,7 @@ public class ApiController {
         Response response = HttpUtil.getResponse();
         try {
             // Configure digital twin registry query and params
-            AasService.DigitalTwinRegistryQuery digitalTwinRegistry = aasService.new DigitalTwinRegistryQuery(assetId, idType, index);
+            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(assetId, idType, dtIndex, idShort);
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
 
             // Initialize variables
@@ -189,7 +192,7 @@ public class ApiController {
             try {
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
-                connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
+                connectorAddress = subModel.getEndpoints().get(dtIndex).getProtocolInformation().getEndpointAddress();
             } catch (Exception e) {
                 response.message = "Failed to get subModel from digital twin registry!";
                 response.status = 504;

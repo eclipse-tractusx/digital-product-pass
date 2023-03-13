@@ -33,13 +33,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
-import org.eclipse.tractusx.productpass.models.passports.PassportV1;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -153,14 +152,14 @@ public class ApiController {
         @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = PassportResponse.class))),
         @ApiResponse(description = "Content of Passport Field in Data Field",useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = PassportV1.class)))
+                schema = @Schema(implementation = PassportV3.class)))
     })
     public Response getPassport(
             @PathVariable("assetId") String assetId,
-            @PathVariable("version") String version,
-            @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
-            @RequestParam(value = "dtIndex", required = false, defaultValue = "0") Integer dtIndex,
-            @RequestParam(value = "idShort", required = false, defaultValue = "batteryPass") String idShort
+            @PathVariable(value="version") String version,
+            @RequestParam(value = "idType", required = false, defaultValue = "partInstanceId") String idType,
+            @RequestParam(value = "idShort", required = false, defaultValue = "batteryPass") String idShort,
+            @RequestParam(value = "dtIndex", required = false, defaultValue = "0") Integer dtIndex
     ) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){

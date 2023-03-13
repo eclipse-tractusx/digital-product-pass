@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.passports.PassportV1;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -244,7 +244,7 @@ public class DataTransferService extends BaseService {
     }
 
 
-    public PassportV1 getPassportV1(String transferProcessId) {
+    public PassportV3 getPassportV3(String transferProcessId) {
         try {
             this.checkEmptyVariables();
             String path = "/consumer_backend";
@@ -260,7 +260,7 @@ public class DataTransferService extends BaseService {
                 throw new ServiceException(this.getClass().getName() + ".getPassportV1", "It was not possible to get passport with id " + transferProcessId);
             }
             String responseBody = (String) response.getBody();
-            return (PassportV1) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), PassportV1.class);
+            return (PassportV3) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), PassportV3.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getPassportV1",
                     e,

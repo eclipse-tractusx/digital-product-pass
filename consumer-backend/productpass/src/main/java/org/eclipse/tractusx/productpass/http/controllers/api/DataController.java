@@ -35,7 +35,7 @@ import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
-import org.eclipse.tractusx.productpass.models.passports.PassportV1;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -123,9 +123,9 @@ public class DataController {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PassportV1.class)))
+                    schema = @Schema(implementation = PassportV3.class)))
     })
-    public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v1") String version) {
+    public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v3.0.1") String version) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
             Response response = HttpUtil.getNotAuthorizedResponse();
@@ -133,8 +133,8 @@ public class DataController {
         }
         Response response = HttpUtil.getResponse();
         Passport passport = null;
-        if(version.equals("v1")) {
-            passport = dataService.getPassportV1(transferId);
+        if(version.equals("v3.0.1")) {
+            passport = dataService.getPassportV3(transferId);
         }else{
             response.message = "Version is not available!";
             response.status = 400;

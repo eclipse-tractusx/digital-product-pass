@@ -74,10 +74,12 @@
 </root>
 
 <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="net.catenax" level="trace" additivity="false">
-        <!-- <appender-ref ref="File" />-->
+    <logger name="utils" level="debug" additivity="false">
          <appender-ref ref="RollingFile" />
-         <appender-ref ref="Console" />
-     </logger>
+    </logger>
+    <logger name="utils" level="info" additivity="false">
+        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile" />
+    </logger>
 
  </configuration>

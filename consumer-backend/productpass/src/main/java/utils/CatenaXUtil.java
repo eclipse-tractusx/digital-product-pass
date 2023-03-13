@@ -33,5 +33,8 @@ public final class CatenaXUtil {
     public static Boolean getBPN(String url){
         return url.matches(".*BPN.*");
     }
+    public static String buildEndpoint(String endpoint){
+        return "";
+    }
 
 }

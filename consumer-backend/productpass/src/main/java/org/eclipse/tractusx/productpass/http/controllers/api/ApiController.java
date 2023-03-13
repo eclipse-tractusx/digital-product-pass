@@ -147,7 +147,7 @@ public class ApiController {
      *                Default: 0
      * @param idShort Id from subModel
      *                Default: 0
-     * @return PassportV1
+     * @return PassportV3
      */
     @RequestMapping(value = "/passport/{version}/{id}", method = {RequestMethod.GET})
     @Operation(summary = "Returns versioned product passport by id", responses = {

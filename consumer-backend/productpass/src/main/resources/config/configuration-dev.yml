@@ -13,7 +13,7 @@
 # limitations under the License.
 
 LogUtil:
-  level: 7 # 7 FOR INFO AND 8 FOR DEBUG
+  level: 8 # 7 FOR INFO AND 8 FOR DEBUG
   async: false
 
 maxRetries: 5

@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
@@ -74,6 +75,9 @@ public class ApiController {
     public static final Integer maxRetries = (Integer) configuration.getConfigurationParam("maxRetries", ".", null);
 
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
+        /*
+         *   This method receives the assetId (partInstanceId or Battery_ID_DMC_Code) and looks up for targets with the same name.
+         */
         try {
             Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
             Map<String, Integer> offers = catalog.loadContractOffersMapByAssetId();
@@ -84,6 +88,24 @@ public class ApiController {
             return catalog.getContractOffers().get(index);
         } catch (Exception e) {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
+        }
+    }
+
+    public Offer getContractOfferByAssetId(String digitalTwinId, String submoduleId, String providerUrl) throws ControllerException {
+        /*
+         *   This method receives the digitalTwinId, submoduleId and providerUrl, and get the contract offers that match it.
+         */
+        try {
+            Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
+            Map<String, Integer> offers = catalog.loadContractOffersMapByAssetId();
+            String assetId = String.join("-",digitalTwinId, submoduleId);
+            if (!offers.containsKey(assetId)) {
+                return null;
+            }
+            Integer index = offers.get(assetId);
+            return catalog.getContractOffers().get(index);
+        } catch (Exception e) {
+            throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId!");
         }
     }
     @RequestMapping(value="/api/*", method = RequestMethod.GET)
@@ -185,10 +207,12 @@ public class ApiController {
 
             // Wait for thread to close and give a response
             digitalTwinRegistryThread.join();
+            DigitalTwin digitalTwin;
             SubModel subModel;
             String connectorId;
             String connectorAddress;
             try {
+                digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
                 connectorAddress = subModel.getEndpoints().get(dtIndex).getProtocolInformation().getEndpointAddress();
@@ -208,7 +232,7 @@ public class ApiController {
             /*[1]=========================================*/
             // Get catalog with all the contract offers
             try {
-                contractOffer = this.getContractOfferByAssetId(assetId, connectorAddress);
+                contractOffer = this.getContractOfferByAssetId(digitalTwin.getIdentification(),subModel.getIdentification(), connectorAddress);
             } catch (ControllerException e) {
                 response.message = e.getMessage();
                 response.status = 502;

@@ -97,11 +97,11 @@ public class AasService extends BaseService {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);
             if(digitalTwinIds==null || digitalTwinIds.size()==0){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get digital twin for the selected asset type and the the selected assetId");
             }
             if(position > digitalTwinIds.size()){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
 
@@ -109,18 +109,18 @@ public class AasService extends BaseService {
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId);
             if(digitalTwin == null){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
             }
             SubModel subModel = this.getSubModelById(digitalTwin, idShort);
             if(subModel == null){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
             }
             return subModel;
         }
         catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+            throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                     e,
                     "It was not possible to search submodel!");
         }

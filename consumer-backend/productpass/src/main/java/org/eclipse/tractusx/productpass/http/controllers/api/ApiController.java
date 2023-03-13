@@ -90,24 +90,6 @@ public class ApiController {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
-
-    public Offer getContractOfferByAssetId(String digitalTwinId, String submoduleId, String providerUrl) throws ControllerException {
-        /*
-         *   This method receives the digitalTwinId, submoduleId and providerUrl, and get the contract offers that match it.
-         */
-        try {
-            Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
-            Map<String, Integer> offers = catalog.loadContractOffersMapByAssetId();
-            String assetId = String.join("-",digitalTwinId, submoduleId);
-            if (!offers.containsKey(assetId)) {
-                return null;
-            }
-            Integer index = offers.get(assetId);
-            return catalog.getContractOffers().get(index);
-        } catch (Exception e) {
-            throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId!");
-        }
-    }
     @RequestMapping(value="/api/*", method = RequestMethod.GET)
     @Hidden         // hide this endpoint from api documentation - swagger-ui
     Response index() throws Exception{
@@ -158,7 +140,7 @@ public class ApiController {
 
 
     /**
-     * @param assetId Asset id that identifies the object that has a passport
+     * @param id Asset id that identifies the object that has a passport
      * @param idType  Type of asset id, the name of the code in the digital twin registry
      *                Default: "Battery_ID_DMC_Code"
      * @param dtIndex Index from the asset in the digital twin registry
@@ -167,8 +149,8 @@ public class ApiController {
      *                Default: 0
      * @return PassportV1
      */
-    @RequestMapping(value = "/passport/{version}/{assetId}", method = {RequestMethod.GET})
-    @Operation(summary = "Returns versioned product passport by asset Id", responses = {
+    @RequestMapping(value = "/passport/{version}/{id}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns versioned product passport by id", responses = {
         @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = Response.class))),
         @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
@@ -177,8 +159,8 @@ public class ApiController {
                 schema = @Schema(implementation = PassportV3.class)))
     })
     public Response getPassport(
-            @PathVariable("assetId") String assetId,
-            @PathVariable(value="version") String version,
+            @PathVariable("id") String id,
+            @PathVariable("version") String version,
             @RequestParam(value = "idType", required = false, defaultValue = "partInstanceId") String idType,
             @RequestParam(value = "idShort", required = false, defaultValue = "batteryPass") String idShort,
             @RequestParam(value = "dtIndex", required = false, defaultValue = "0") Integer dtIndex
@@ -192,7 +174,7 @@ public class ApiController {
         Response response = HttpUtil.getResponse();
         try {
             // Configure digital twin registry query and params
-            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(assetId, idType, dtIndex, idShort);
+            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(id, idType, dtIndex, idShort);
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
 
             // Initialize variables
@@ -228,11 +210,12 @@ public class ApiController {
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
+            String assetId = String.join("-",digitalTwin.getIdentification(), subModel.getIdentification());
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
             try {
-                contractOffer = this.getContractOfferByAssetId(digitalTwin.getIdentification(),subModel.getIdentification(), connectorAddress);
+                contractOffer = this.getContractOfferByAssetId(assetId, connectorAddress);
             } catch (ControllerException e) {
                 response.message = e.getMessage();
                 response.status = 502;

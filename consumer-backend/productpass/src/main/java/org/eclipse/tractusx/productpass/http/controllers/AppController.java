@@ -34,7 +34,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import utils.CatenaXUtil;
 import utils.DateTimeUtil;
 import utils.HttpUtil;
 
@@ -70,4 +72,5 @@ public class AppController {
         response.data = DateTimeUtil.getDateTimeFormatted(null);
         return response;
     }
+
 }

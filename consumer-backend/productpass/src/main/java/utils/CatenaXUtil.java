@@ -25,16 +25,49 @@
 
 package utils;
 
+import utils.exceptions.UtilException;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public final class CatenaXUtil {
 
-    public static Boolean containsBPN(String url){
-        return url.matches(".*BPN[A-Z][0-9][A-Z].*");
+    private final static String bpnNumberPattern = "BPN[A-Z][0-9]{8}[A-Z]{4}";
+    private final static String edcDataEndpoint = "/api/v1/ids/data";
+
+    public static Boolean containsBPN(String str){
+        return str.matches(".*"+bpnNumberPattern+".*");
     }
-    public static Boolean getBPN(String url){
-        return url.matches(".*BPN.*");
+    public static Boolean containsEdcEndpoint(String str){
+        return str.matches(".*"+edcDataEndpoint);
+    }
+    public static String getBPN(String str){
+        Pattern pattern = Pattern.compile(bpnNumberPattern);
+        Matcher matcher = pattern.matcher(str);
+        if(!matcher.find())
+        {
+            return null;
+
+        }
+        return matcher.group();
     }
     public static String buildEndpoint(String endpoint){
-        return "";
+        try {
+            if (CatenaXUtil.containsEdcEndpoint(endpoint)) {
+                return endpoint;
+            }
+            String cleanUrl = HttpUtil.cleanUrl(endpoint);
+            // Build Url
+            if (CatenaXUtil.containsBPN(endpoint)){
+                String BPN = CatenaXUtil.getBPN(endpoint);
+                return String.format("%s/"+BPN+edcDataEndpoint,cleanUrl);
+            }else{
+                return String.format("%s"+edcDataEndpoint,cleanUrl);
+            }
+        }catch (Exception e){
+            throw new UtilException(CatenaXUtil.class,"[ERROR] Invalid url ["+endpoint+"] given!");
+        }
+
     }
 
 }

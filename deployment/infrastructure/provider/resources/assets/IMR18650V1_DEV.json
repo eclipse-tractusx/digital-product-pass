@@ -1,14 +1,14 @@
 {
     "asset": {
         "properties": {
-            "asset:prop:id": "IMR18650V1",
+            "asset:prop:id": "urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918",
             "asset:prop:description": "Battery Passport test data"
         }
     },
     "dataAddress": {
         "properties": {
             "type": "HttpData",
-            "baseUrl": "https://materialpass.dev.demo.catena-x.net/provider_backend/data/urn:uuid:10d094e0-aecc-4e84-b937-a1d606112cdd"
+            "baseUrl": "https://materialpass.dev.demo.catena-x.net/provider_backend/data/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918"
         }
     }
 }

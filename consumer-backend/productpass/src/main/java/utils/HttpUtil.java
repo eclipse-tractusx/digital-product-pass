@@ -186,7 +186,7 @@ public final class HttpUtil {
     public static Response buildResponse(Response response, HttpServletResponse servletResponse){
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST");
+        servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         return response;
     }
     public static Response getResponse() {

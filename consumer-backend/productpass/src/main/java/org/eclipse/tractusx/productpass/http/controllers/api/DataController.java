@@ -76,7 +76,7 @@ public class DataController {
         }
         Response response = HttpUtil.getResponse();
         Passport passport = null;
-        if(version.equals("v3.0.1")) {
+        if(version.equals("v3.0.1")) { // Currently supporting just version v3
             passport = dataService.getPassportV3(transferId);
         }else{
             response.message = "Version is not available!";

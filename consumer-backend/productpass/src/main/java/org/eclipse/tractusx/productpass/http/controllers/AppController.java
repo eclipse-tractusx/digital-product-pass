@@ -72,5 +72,5 @@ public class AppController {
         response.data = DateTimeUtil.getDateTimeFormatted(null);
         return response;
     }
-
+    
 }

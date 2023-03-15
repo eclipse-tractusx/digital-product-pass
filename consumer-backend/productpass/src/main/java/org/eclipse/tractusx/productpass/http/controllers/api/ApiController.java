@@ -45,10 +45,7 @@ import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import utils.ConfigUtil;
-import utils.HttpUtil;
-import utils.LogUtil;
-import utils.ThreadUtil;
+import utils.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -206,6 +203,20 @@ public class ApiController {
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
                 response.message = "Failed to get connectorId and connectorAddress!";
                 response.status = 400;
+                response.data = subModel;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+
+            try {
+                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
+            }catch (Exception e) {
+                response.message = "Failed to build endpoint url to ["+connectorAddress+"]!";
+                response.status = 422;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+            if (connectorAddress.isEmpty()) {
+                response.message = "Failed to parse endpoint ["+connectorAddress+"]!";
+                response.status = 422;
                 response.data = subModel;
                 return HttpUtil.buildResponse(response, httpResponse);
             }

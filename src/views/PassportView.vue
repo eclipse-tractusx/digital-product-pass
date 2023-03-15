@@ -55,7 +55,9 @@
     </div>
   </v-container>
   <div v-else>
-    <Header />
+    <HeaderComponent>
+      <span class="header-title">Battery passport</span>
+    </HeaderComponent>
     <PassportHeader
       :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
@@ -83,7 +85,7 @@ import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import Spinner from "@/components/general/Spinner.vue";
-import Header from "@/components/general/Header.vue";
+import HeaderComponent from "../components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/general/Footer.vue";
@@ -94,11 +96,12 @@ import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 import SectionComponent from "@/components/passport/Section.vue";
+import MOCK_DATA from "../assets/MOCK/passportExample02.json";
 
 export default {
   name: "PassportView",
   components: {
-    Header,
+    HeaderComponent,
     GeneralInformation,
     PassportHeader,
     CellChemistry,
@@ -139,10 +142,10 @@ export default {
           label: "Additional information",
           component: "Documents",
         },
-        {
-          label: "Contract information",
-          component: "ContractInformation",
-        },
+        // {
+        //   label: "Contract information",
+        //   component: "ContractInformation",
+        // },
       ],
       auth: inject("authentication"),
       data: null,
@@ -159,33 +162,35 @@ export default {
     };
   },
   async created() {
-    try {
-      let passportPromise = this.getPassport(this.passId);
-      const result = await threadUtil.execWithTimeout(
-        passportPromise,
-        API_TIMEOUT,
-        null
-      );
-      if (result && result != null) {
-        this.data = result;
-      } else {
-        this.error = true;
-        if (this.errorObj.title == null) {
-          this.errorObj.title = "Timeout! Failed to return passport!";
-        }
-        if (this.errorObj.description == null) {
-          this.errorObj.description =
-            "We are sorry, it took too long to retrieve the passport.";
-        }
-      }
-    } catch (e) {
-      this.error = true;
-      this.errorObj.title = "Failed to return passport!";
-      this.errorObj.description =
-        "We are sorry, it was not posible to retrieve the passport.";
-    } finally {
-      this.loading = false;
-    }
+    this.loading = false;
+    this.data = MOCK_DATA;
+    // try {
+    //   let passportPromise = this.getPassport(this.passId);
+    //   const result = await threadUtil.execWithTimeout(
+    //     passportPromise,
+    //     API_TIMEOUT,
+    //     null
+    //   );
+    //   if (result && result != null) {
+    //     this.data = result;
+    //   } else {
+    //     this.error = true;
+    //     if (this.errorObj.title == null) {
+    //       this.errorObj.title = "Timeout! Failed to return passport!";
+    //     }
+    //     if (this.errorObj.description == null) {
+    //       this.errorObj.description =
+    //         "We are sorry, it took too long to retrieve the passport.";
+    //     }
+    //   }
+    // } catch (e) {
+    //   this.error = true;
+    //   this.errorObj.title = "Failed to return passport!";
+    //   this.errorObj.description =
+    //     "We are sorry, it was not posible to retrieve the passport.";
+    // } finally {
+    //   this.loading = false;
+    // }
   },
   methods: {
     async getPassport(assetId) {
@@ -286,6 +291,11 @@ export default {
 </script>
 
 <style>
+.header-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .loading-container {
   display: flex;
   justify-content: center;

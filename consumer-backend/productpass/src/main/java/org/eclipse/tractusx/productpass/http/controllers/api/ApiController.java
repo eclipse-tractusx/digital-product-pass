@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.bouncycastle.pqc.crypto.lms.LMOtsParameters;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
@@ -194,7 +195,8 @@ public class ApiController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
-                connectorAddress = subModel.getEndpoints().get(dtIndex).getProtocolInformation().getEndpointAddress();
+                connectorAddress = subModel.getEndpoints().get(0).getProtocolInformation().getEndpointAddress();
+
             } catch (Exception e) {
                 response.message = "Failed to get subModel from digital twin registry!";
                 response.status = 504;
@@ -206,6 +208,8 @@ public class ApiController {
                 response.data = subModel;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
+
+            LogUtil.printMessage("===== [DEBUG] ");
 
             try {
                 connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
@@ -245,7 +249,7 @@ public class ApiController {
             // Start Negotiation
             Negotiation negotiation;
             try {
-                negotiation = dataService.doContractNegotiations(contractOffer);
+                negotiation = dataService.doContractNegotiations(contractOffer, connectorAddress);
             } catch (Exception e) {
                 response.message = "Negotiation Id not received, something went wrong" + " [" + e.getMessage() + "]";
                 response.status = 400;

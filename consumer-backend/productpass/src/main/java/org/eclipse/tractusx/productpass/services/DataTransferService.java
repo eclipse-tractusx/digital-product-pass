@@ -95,21 +95,25 @@ public class DataTransferService extends BaseService {
         }
     }
 
-    public Negotiation doContractNegotiations(Offer contractOffer) {
+    public Negotiation doContractNegotiations(Offer contractOffer,String providerUrl) {
         try {
             this.checkEmptyVariables();
             contractOffer.open();
+            String provider = providerUrl;
             LogUtil.printDebug("["+contractOffer.getId()+"] ===== [INITIALIZING CONTRACT NEGOTIATION] ===========================================", true);
             HttpHeaders headers = HttpUtil.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            if (serverUrl == null || APIKey == null || providerUrl == null) {
+            if (providerUrl == null) {
+                provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+            }
+            if (serverUrl == null || APIKey == null) {
                 return null;
             }
             String url = serverUrl + path;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            Object body = new NegotiationOffer(contractOffer.getConnectorId(), providerUrl, contractOffer);
+            Object body = new NegotiationOffer(contractOffer.getConnectorId(), provider, contractOffer);
             ResponseEntity<?> response = HttpUtil.doPost(url, JsonNode.class, headers, HttpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Negotiation) JsonUtil.bindJsonNode(result, Negotiation.class);

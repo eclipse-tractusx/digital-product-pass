@@ -74,10 +74,7 @@
 </root>
 
 <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="utils" level="debug" additivity="false">
-         <appender-ref ref="RollingFile" />
-    </logger>
-    <logger name="utils" level="info" additivity="false">
+    <logger name="utils" level="trace" additivity="false">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
     </logger>

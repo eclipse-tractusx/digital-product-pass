@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SERVER_URL } from "@/services/service.const";
+import { BACKEND_URL } from "@/services/service.const";
 import axios from "axios";
 
 export default class BackendService {
-  async getPassportV1(assetId, jwtToken) {
-    return this.getPassport("v1", assetId, jwtToken);
-  }
   async getPassport(version, assetId, jwtToken) {
     return new Promise(resolve => {
       setTimeout(() => {
-        axios.get(`${SERVER_URL}/api/passport/${version}/${assetId}`, {
+        axios.get(`${BACKEND_URL}/api/passport/${version}/${assetId}`, {
           headers: {
             'Accept': 'application/json',
             'Authorization': "Bearer "+ jwtToken

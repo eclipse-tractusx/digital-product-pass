@@ -25,6 +25,7 @@
 
 package utils;
 
+import org.checkerframework.checker.units.qual.A;
 import utils.exceptions.UtilException;
 
 import java.util.regex.Matcher;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
 
 public final class CatenaXUtil {
 
-    private final static String bpnNumberPattern = "BPN[A-Z][0-9]{8}[A-Z]{4}";
+    private final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
     private final static String edcDataEndpoint = "/api/v1/ids/data";
 
     public static Boolean containsBPN(String str){

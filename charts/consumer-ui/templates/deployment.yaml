@@ -53,8 +53,20 @@ spec:
                 secretKeyRef:
                   key:  xApiKey
                   name: avp-consumer-ui-edc-oauth
-            - name: "BACKEND"
-              value: "{{ .Values.productpass.backend }}"
+                  
+            {{- with (first .Values.ingress.hosts) }}
+            - name: "SERVER_URL"
+              value: "https://{{ .host }}"
+
+            - name: "BACKEND_URL"
+              value: "https://{{ .Values.productpass.backend_url | default .host }}"
+            {{- end }}
+
+            - name: "IDP_URL"
+              value: "https://{{ .Values.productpass.idp_url }}"
+
+            - name: "PASSPORT_VERSION"
+              value: "{{ .Values.productpass.passport.version }}"
 
             - name: "API_TIMEOUT"
               value: "{{ .Values.productpass.api.timeout }}"
@@ -67,6 +79,7 @@ spec:
 
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"
+
           ports:
             - containerPort: 8080
               name: http

@@ -259,9 +259,9 @@
         }
       },
       "batteryIdentification": {
-        "batteryType": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State",
+        "batteryType": "Li-Ion",
         "batteryIDDMCCode": "X123456789012X12345678901234567",
-        "batteryModel": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State"
+        "batteryModel": "SB 28"
       },
       "stateOfBattery": {
         "stateOfHealth": 12,

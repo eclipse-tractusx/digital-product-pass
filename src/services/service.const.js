@@ -17,15 +17,15 @@
 import numberUtil from "@/utils/numberUtil";
 
 // Independentant Constants (If not defined will not crash the system)
-const VERSION = "APP_VERSION";
+const VERSION = "0.5.0";
 
 // Mandatory URLs
-const IDP_URL = "IDENTITY_PROVIDER_URL";
+const IDP_URL = "https://centralidp.dev.demo.catena-x.net/auth/";
 
 // Get urls that can be empty
-let serverUrl = "HOST_URL";
-let backendUrl = "DATA_URL";
-let passver = "PASS_VERSION";
+let serverUrl = "http://localhost:8080";
+let backendUrl = "http://localhost:8888";
+let passver = 'v3.0.1';
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let delay = 'APP_API_DELAY';
@@ -33,7 +33,7 @@ let delay = 'APP_API_DELAY';
 
 // Default values if the value is not specified
 serverUrl = (serverUrl!= null && serverUrl !== "SERV"+"_"+"URL")?serverUrl:"https://materialpass.int.demo.catena-x.net"
-backendUrl=(backendUrl != null && backendUrl !== "BACK"+"_"+"URL")?backendUrl:serverUrl
+backendUrl=(backendUrl != null && backendUrl !== "BACK"+"_"+"VER")?backendUrl:serverUrl
 passver = (passver != null && passver !== "PASS"+"_"+"VER")?passver:"v3.0.1"
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);

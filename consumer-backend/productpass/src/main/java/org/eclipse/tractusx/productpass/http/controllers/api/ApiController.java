@@ -209,8 +209,6 @@ public class ApiController {
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
-            LogUtil.printMessage("===== [DEBUG] ");
-
             try {
                 connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
             }catch (Exception e) {

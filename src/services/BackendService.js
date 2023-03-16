@@ -19,22 +19,26 @@ import axios from "axios";
 export default class BackendService {
   async getPassport(version, assetId, jwtToken) {
     return new Promise(resolve => {
-      setTimeout(() => {
-        axios.get(`${BACKEND_URL}/api/passport/${version}/${assetId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': "Bearer "+ jwtToken
-          }
+      axios.get(`${BACKEND_URL}/api/passport/${version}/${assetId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': "Bearer "+ jwtToken
         }
-        )
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((e) => {
-            console.error("getPassport -> " + e);
-            resolve('rejected');
-          });
-      }, 2000);
+      }
+      )
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => {
+          if(e.response.data){
+            resolve(e.response.data);
+          }else if(e.request){
+            resolve(e.request);
+          }else{
+            resolve(e.message)
+          }
+          
+        });
     });
   }
 }

@@ -13,7 +13,7 @@
 
     <div v-else>
       <div>{{ label }}</div>
-      <div>{{ value }}</div>
+      <div>{{ value }} {{ valueUnits }}</div>
       <v-divider></v-divider>
       <div v-if="title === 'HEALTH'">
         <div>progress bar</div>
@@ -35,6 +35,7 @@ export default {
     icon: { type: [String, Number], default: "" },
     label: { type: [String, Number], default: "" },
     value: { type: [String, Number], default: "" },
+    valueUnits: { type: [String, Number], default: "" },
     secondLabel: { type: [String, Number], default: "" },
     secondValue: { type: [String, Number], default: "" },
     info: { type: [String, Number], default: "" },

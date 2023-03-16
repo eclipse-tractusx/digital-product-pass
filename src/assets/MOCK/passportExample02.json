@@ -22,7 +22,7 @@
         "capacityThresholdExhaustion": 23,
         "batteryPower": {
           "powerFade": 23,
-          "originalPowerCapability": -1.7976931348623157E+308,
+          "originalPowerCapability": 305,
           "originalPowerCapabilityLimits": -1.7976931348623157E+308,
           "maximumAllowedBatteryPower": -1.7976931348623157E+308,
           "powerCapabilityAt20Charge": -1.7976931348623157E+308,
@@ -84,43 +84,58 @@
       "cellChemistry": {
         "electrolyteComposition": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 4,
+            "materialName": "Ni",
             "materialWeight": 2.5
           }
         ],
         "anodeCompositionOther": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 15,
+            "materialName": "Co",
             "materialWeight": 2.5
           }
         ],
         "recyclateContentActiveMaterials": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 5,
+            "materialName": "Li",
             "materialWeight": 2.5
           }
         ],
         "anodeActiveMaterials": [
           {
-            "materialPercentageMassFraction": 19,
+            "materialPercentageMassFraction": 5,
             "materialName": "Graphite",
             "materialWeight": 2.5
           }
         ],
         "cathodeActiveMaterials": [
           {
+            "materialPercentageMassFraction": 14,
+            "materialName": "Ni",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 9,
+            "materialName": "Co",
+            "materialWeight": 2.5
+          },
+          {
             "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialName": "Li",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 0,
+            "materialName": "Pb",
             "materialWeight": 2.5
           }
         ],
         "cathodeCompositionOther": [
           {
             "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialName": "Pb",
             "materialWeight": 2.5
           }
         ]
@@ -268,7 +283,7 @@
         "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
         "stateOfCharge": 23
       },
-      "cO2FootprintTotal": 124.0
+      "cO2FootprintTotal": 1.3
     }
   }
 }

@@ -54,7 +54,7 @@
       </Alert>
     </div>
   </v-container>
-  <div v-else>
+  <div class="very-big" v-else>
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
@@ -62,21 +62,7 @@
       :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
     />
-    <v-container class="passport-view">
-      <v-row>
-        <CardComponent
-          v-for="(card, index) in cards"
-          :key="index"
-          :title="card.title"
-          :label="card.label"
-          :value="card.value"
-          :secondLabel="card.secondLabel"
-          :secondValue="card.secondValue"
-          :icon="card.icon"
-          :info="card.info"
-        />
-      </v-row>
-    </v-container>
+    <CardsComponent :data="data" />
     <div class="pass-container">
       <div v-for="(section, index) in componentsNames" :key="index">
         <SectionComponent :title="`${index + 1}. ${section.label}`">
@@ -103,6 +89,7 @@ import Spinner from "@/components/general/Spinner.vue";
 import HeaderComponent from "../components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import CardComponent from "@/components/passport/Card.vue";
+import CardsComponent from "@/components/passport/Cards.vue";
 import Alert from "@/components/general/Alert.vue";
 import Footer from "@/components/general/Footer.vue";
 import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
@@ -121,6 +108,7 @@ export default {
     GeneralInformation,
     PassportHeader,
     CardComponent,
+    CardsComponent,
     CellChemistry,
     StateOfBattery,
     ElectrochemicalProperties,
@@ -164,7 +152,6 @@ export default {
         //   component: "ContractInformation",
         // },
       ],
-      cards: [],
       auth: inject("authentication"),
       data: null,
       loading: true,
@@ -182,44 +169,7 @@ export default {
   async created() {
     this.loading = false;
     this.data = MOCK_DATA;
-    this.cards = [
-      {
-        title: "GENERAL",
-        label: "Type",
-        secondLabel: "Model",
-        icon: "mdi-pound",
-        value: this.data.data.passport.batteryIdentification.batteryType,
-        secondValue: this.data.data.passport.batteryIdentification.batteryModel,
-        info: "info",
-      },
-      {
-        title: "PERFORMANCE",
-        label: "Rated Capacity",
-        secondLabel: "Original Power",
-        icon: "mdi-image-size-select-small",
-        value: this.data.data.passport.batteryIdentification.batteryType,
-        secondValue: this.data.data.passport.batteryIdentification.batteryModel,
-        info: "info",
-      },
-      {
-        title: "HEALTH",
-        label: "Type",
-        secondLabel: "Model",
-        icon: "mdi-battery-plus",
-        value: this.data.data.passport.batteryIdentification.batteryType,
-        secondValue: this.data.data.passport.batteryIdentification.batteryModel,
-        info: "info",
-      },
-      {
-        title: "SUSTAINABILITY",
-        label: "Type",
-        secondLabel: "Model",
-        icon: "mdi-molecule-co2",
-        value: this.data.data.passport.batteryIdentification.batteryType,
-        secondValue: this.data.data.passport.batteryIdentification.batteryModel,
-        info: "info",
-      },
-    ];
+
     // try {
     //   let passportPromise = this.getPassport(this.passId);
     //   const result = await threadUtil.execWithTimeout(
@@ -347,14 +297,9 @@ export default {
 </script>
 
 <style>
-.passport-view {
+.very-big {
+  margin-top: -14px;
   background-color: #f9f9f9;
-}
-
-.card-container {
-  background-color: #fff;
-  border-radius: 10px;
-  border: solid 1px #dcdcdc;
 }
 
 .header-title {

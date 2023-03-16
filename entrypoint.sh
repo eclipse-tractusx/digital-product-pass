@@ -19,11 +19,11 @@ echo "Replacing docker environment constants in JavaScript files"
 for file in $ROOT_DIR/assets/index-*.js* $ROOT_DIR/index.html;
 do
 	echo "Processing $file ...";
-	sed -i 's|VUE_APP_CLIENT_ID|'${VUE_APP_CLIENT_ID}'|g' $file
-	sed -i 's|VUE_APP_CLIENT_SECRET|'${VUE_APP_CLIENT_SECRET}'|g' $file
-	sed -i 's|X_API_KEY|'${X_API_KEY}'|g' $file
-	sed -i 's|APP_BACK|'${BACKEND}'|g' $file
-	sed -i 's|APP_VER|'${VERSION}'|g' $file
+	sed -i 's|PASS_VERSION|'${PASSPORT_VERSION}'|g' $file
+	sed -i 's|IDENTITY_PROVIDER_URL|'${IDP_URL}'|g' $file
+	sed -i 's|HOST_URL|'${SERVER_URL}'|g' $file
+	sed -i 's|DATA_URL|'${BACKEND_URL}'|g' $file
+	sed -i 's|APP_VERSION|'${VERSION}'|g' $file
 	sed -i 's|APP_API_TIMEOUT|'${API_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file
 	sed -i 's|APP_API_MAX_RETRIES|'${API_MAX_RETRIES}'|g' $file

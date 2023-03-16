@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "6f31deff-c300-4abd-88d9-1c042952e996",
-		"name": "Battery-Pass_DEV",
+		"_postman_id": "2a70e5bf-1c5d-4fe1-94ed-e7a7d5416852",
+		"name": "Battery-Pass_BETA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -36,9 +36,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{DEVServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
+							"raw": "{{BETAServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"provider_backend",
@@ -72,9 +72,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{DEVServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
+							"raw": "{{BETAServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"provider_backend",
@@ -124,7 +124,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"asset\": {\r\n        \"properties\": {\r\n            \"asset:prop:id\": \"{{assetId}}\",\r\n            \"asset:prop:description\": \"Battery Passport test data\"\r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"properties\": {\r\n            \"type\": \"HttpData\",\r\n            \"baseUrl\": \"{{DEVServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}\"\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"asset\": {\r\n        \"properties\": {\r\n            \"asset:prop:id\": \"{{assetId}}\",\r\n            \"asset:prop:description\": \"Battery Passport test data\"\r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"properties\": {\r\n            \"type\": \"HttpData\",\r\n            \"baseUrl\": \"{{BETAServer}}/provider_backend/data/{{digitalTwinId}}-{{digitalTwinSubmodelId}}\"\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -132,9 +132,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/assets",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/assets",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -172,9 +172,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/assets",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/assets",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -232,9 +232,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/policydefinitions",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/policydefinitions",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -272,9 +272,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/policydefinitions",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/policydefinitions",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -332,9 +332,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/contractdefinitions",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/contractdefinitions",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -372,9 +372,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{DEVServer}}/BPNL000000000000/data/contractdefinitions",
+							"raw": "{{BETAServer}}/BPNL000000000000/data/contractdefinitions",
 							"host": [
-								"{{DEVServer}}"
+								"{{BETAServer}}"
 							],
 							"path": [
 								"BPNL000000000000",
@@ -398,7 +398,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": [],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"urn:uuid:32aa72de-297a-4405-9148-13e12744028a\"\r\n        ]\r\n    },\r\n    \"idShort\": \"Battery_X123456789012X12345678901234566\",\r\n    \"identification\": \"urn:uuid:32aa72de-297a-4405-9148-13e12744028a\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"partInstanceId\",\r\n            \"value\": \"X123456789012X12345678901234566\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"batteryPass\",\r\n            \"identification\": \"urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"EDC\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"{{DEVServer}}/BPNL000000000000/urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a/submodel?content=value&extent=WithBLOBValue\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"description\": [],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"urn:uuid:32aa72de-297a-4405-9148-13e12744028a\"\r\n        ]\r\n    },\r\n    \"idShort\": \"Battery_X123456789012X12345678901234566\",\r\n    \"identification\": \"urn:uuid:32aa72de-297a-4405-9148-13e12744028a\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"partInstanceId\",\r\n            \"value\": \"X123456789012X12345678901234566\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"batteryPass\",\r\n            \"identification\": \"urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"EDC\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"{{BETAServer}}/BPNL000000000000/urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a/submodel?content=value&extent=WithBLOBValue\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -460,18 +460,6 @@
 					"item": [
 						{
 							"name": "1. /lookup/shells - Query Digital Twin",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const jsonResponse = pm.response.json();\r",
-											"pm.collectionVariables.set(\"digitalTwinId\", jsonResponse[0]);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -501,7 +489,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:1e4b62e8-dc0d-4327-9ece-fd333cea06d8",
+									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199",
 									"host": [
 										"{{registryUrl}}"
 									],
@@ -509,7 +497,7 @@
 										"registry",
 										"registry",
 										"shell-descriptors",
-										"urn:uuid:1e4b62e8-dc0d-4327-9ece-fd333cea06d8"
+										"urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199"
 									]
 								}
 							},
@@ -517,21 +505,9 @@
 						},
 						{
 							"name": "2. /registry/shell-descriptors/{id} - Get Digital Twin By Id",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"description\": [],\r\n    \"globalAssetId\": {\r\n        \"value\": [\r\n            \"urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199\"\r\n        ]\r\n    },\r\n    \"idShort\": \"Battery_IMR18650V1\",\r\n    \"identification\": \"urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"key\": \"partInstanceId\",\r\n            \"value\": \"IMR18650V1\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ],\r\n            \"idShort\": \"batteryPass\",\r\n            \"identification\": \"urn:uuid:10d094e0-aecc-4e84-b937-a1d606112cdd\",\r\n            \"semanticId\": {\r\n                \"value\": [\r\n                    \"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass\"\r\n                ]\r\n            },\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"EDC\",\r\n                    \"protocolInformation\": {\r\n                        \"endpointAddress\": \"https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": \"0.0.1-SNAPSHOT\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "{{registryUrl}}/registry/registry/shell-descriptors/{{digitalTwinId}}",
 									"host": [
@@ -596,7 +572,6 @@
 						{
 							"name": "1. Get contract offer catalog",
 							"protocolProfileBehavior": {
-								"disableBodyPruning": true,
 								"disabledSystemHeaders": {}
 							},
 							"request": {
@@ -623,19 +598,10 @@
 										"type": "default"
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{DEVServer}}/consumer/data/catalog?providerUrl=https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/ids/data",
+									"raw": "{{BETAServer}}/consumer/data/catalog?providerUrl=https://materialpass.beta.demo.catena-x.net/BPNL000000000000/api/v1/ids/data",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer",
@@ -645,7 +611,7 @@
 									"query": [
 										{
 											"key": "providerUrl",
-											"value": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/ids/data"
+											"value": "https://materialpass.beta.demo.catena-x.net/BPNL000000000000/api/v1/ids/data"
 										}
 									]
 								}
@@ -701,7 +667,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"connectorId\": \"foo\",\r\n    \"connectorAddress\": \"{{DEVServer}}/BPNL000000000000/api/v1/ids/data\",\r\n    \"offer\": {\r\n        \"offerId\": \"300:fe0ed727-617b-4c24-93b3-31ef29d69ff2\",\r\n        \"assetId\": \"{{assetId}}\",\r\n        \"policy\": {\r\n            \"uid\": null,\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\"\r\n                    },\r\n                    \"target\": \"{{assetId}}\",\r\n                    \"constraints\": []\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}",
+									"raw": "{\r\n    \"connectorId\": \"foo\",\r\n    \"connectorAddress\": \"{{BETAServer}}/BPNL000000000000/api/v1/ids/data\",\r\n    \"offer\": {\r\n        \"offerId\": \"300:66bd0148-78ab-4247-b09e-68fc1b98bcb5\",\r\n        \"assetId\": \"{{assetId}}\",\r\n        \"policy\": {\r\n            \"uid\": null,\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\"\r\n                    },\r\n                    \"target\": \"{{assetId}}\",\r\n                    \"constraints\": []\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -709,9 +675,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{DEVServer}}/consumer/data/contractnegotiations",
+									"raw": "{{BETAServer}}/consumer/data/contractnegotiations",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer",
@@ -782,9 +748,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{DEVServer}}/consumer/data/contractnegotiations/{{negotiationId}}",
+									"raw": "{{BETAServer}}/consumer/data/contractnegotiations/{{negotiationId}}",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer",
@@ -830,7 +796,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"{{transferProcessId}}\",\r\n    \"connectorId\": \"foo\",\r\n    \"connectorAddress\": \"{{DEVServer}}/BPNL000000000000/api/v1/ids/data\",\r\n    \"contractId\": \"{{contractAgreementId}}\",\r\n    \"assetId\": \"{{assetId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"id\": \"{{transferProcessId}}\",\r\n    \"connectorId\": \"foo\",\r\n    \"connectorAddress\": \"{{BETAServer}}/BPNL000000000000/api/v1/ids/data\",\r\n    \"contractId\": \"{{contractAgreementId}}\",\r\n    \"assetId\": \"{{assetId}}\",\r\n    \"managedResources\": \"false\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -838,9 +804,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{DEVServer}}/consumer/data/transferprocess",
+									"raw": "{{BETAServer}}/consumer/data/transferprocess",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer",
@@ -883,9 +849,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{DEVServer}}/consumer/data/transferprocess/{{transferId}}",
+									"raw": "{{BETAServer}}/consumer/data/transferprocess/{{transferId}}",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer",
@@ -913,7 +879,6 @@
 								}
 							],
 							"protocolProfileBehavior": {
-								"disableBodyPruning": true,
 								"disabledSystemHeaders": {}
 							},
 							"request": {
@@ -928,19 +893,10 @@
 										"type": "default"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{DEVServer}}/consumer_backend/{{transferProcessId}}",
+									"raw": "{{BETAServer}}/consumer_backend/{{transferProcessId}}",
 									"host": [
-										"{{DEVServer}}"
+										"{{BETAServer}}"
 									],
 									"path": [
 										"consumer_backend",
@@ -960,7 +916,7 @@
 		"oauth2": [
 			{
 				"key": "accessTokenUrl",
-				"value": "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
+				"value": "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
 				"type": "string"
 			},
 			{
@@ -1053,7 +1009,7 @@
 		},
 		{
 			"key": "registryUrl",
-			"value": "https://semantics.dev.demo.catena-x.net",
+			"value": "https://semantics.beta.demo.catena-x.net",
 			"type": "default"
 		},
 		{
@@ -1077,7 +1033,7 @@
 			"type": "default"
 		},
 		{
-			"key": "DEVServer",
+			"key": "BETAServer",
 			"value": ""
 		},
 		{

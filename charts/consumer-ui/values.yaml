@@ -33,6 +33,11 @@ service:
 
 ingress:
   enabled: false
+  hosts:
+    - host: materialpass.int.demo.catena-x.net # Default URL
+      paths:
+        - path: /passport(/|$)(.*)
+          pathType: Prefix
 
 avp:
   helm:
@@ -42,7 +47,10 @@ avp:
 
 # Product Passport UI Configuration
 productpass:
-  backend: false
+  backend_url: "materialpass.int.demo.catena-x.net"
+  idp_url: "centralidp.int.demo.catena-x.net/auth/" # Default URL
+  passport:
+    version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
   api:
     max_retries: 5 # Max Retries for getting passport transfer
     timeout: 60000 # 45 seconds in milliseconds

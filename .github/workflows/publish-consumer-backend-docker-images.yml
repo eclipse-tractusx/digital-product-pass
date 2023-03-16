@@ -21,12 +21,19 @@ name: "Publish Consumer Backend Docker Images"
 
 on:
   push:
-
     branches: [ "main", "develop", "beta" ]
+
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to use"
+        required: true
+        default: 'develop'
+        type: string
 
 env:
   REGISTRY: ghcr.io

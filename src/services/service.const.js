@@ -17,15 +17,15 @@
 import numberUtil from "@/utils/numberUtil";
 
 // Independentant Constants (If not defined will not crash the system)
-const VERSION = "APP_VER";
+const VERSION = "APP_VERSION";
 
 // Mandatory URLs
 const IDP_URL = "IDENTIFY_PROVIDER_URL";
 
 // Get urls that can be empty
-let serverUrl = "SERV_URL";
-let backendUrl = "BACK_URL";
-let passver = "PASS_VER";
+let serverUrl = "HOST_URL";
+let backendUrl = "DATA_URL";
+let passver = "PASS_VERSION";
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let delay = 'APP_API_DELAY';

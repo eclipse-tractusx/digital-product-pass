@@ -57,10 +57,10 @@ spec:
             {{- with (first .Values.ingress.hosts) }}
             - name: "SERVER_URL"
               value: "https://{{ .host }}"
+            {{- end }}
 
             - name: "BACKEND_URL"
-              value: "https://{{ .Values.productpass.backend_url | default .host }}"
-            {{- end }}
+              value: "https://{{ .Values.productpass.backend_url }}"
 
             - name: "IDP_URL"
               value: "https://{{ .Values.productpass.idp_url }}"

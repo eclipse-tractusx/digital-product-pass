@@ -20,7 +20,7 @@ import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VERSION";
 
 // Mandatory URLs
-const IDP_URL = "IDENTIFY_PROVIDER_URL";
+const IDP_URL = "IDENTITY_PROVIDER_URL";
 
 // Get urls that can be empty
 let serverUrl = "HOST_URL";

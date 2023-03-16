@@ -45,16 +45,16 @@ dataplane:
     endpoints:
       default:
         port: 8080
-        path: /provider/api
+        path: /BPNL000000000000/api
       public:
         port: 8185
-        path: /provider/api/public
+        path: /BPNL000000000000/api/public
       control:
         port: 9999
-        path: /provider/api/dataplane/control
+        path: /BPNL000000000000/api/dataplane/control
       metrics:
         port: 9090
-        path: /provider/metrics
+        path: /BPNL000000000000/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -75,7 +75,7 @@ dataplane:
       otel.javaagent.debug=false
   env:
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/provider/validation/token
+    EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/BPNL000000000000/validation/token
 
     EDC_VAULT_HASHICORP_URL: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
     EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
@@ -96,22 +96,22 @@ controlplane:
     endpoints:
       default:
         port: 8080
-        path: /provider/controlplane/api
+        path: /BPNL000000000000/controlplane/api
       data:
         port: 8181
-        path: /provider/data
+        path: /BPNL000000000000/data
       validation:
         port: 8182
-        path: /provider/validation
+        path: /BPNL000000000000/validation
       control:
         port: 9999
-        path: /provider/api/controlplane/control
+        path: /BPNL000000000000/api/controlplane/control
       ids:
         port: 8282
-        path: /provider/api/v1/ids
+        path: /BPNL000000000000/api/v1/ids
       metrics:
         port: 9090
-        path: /provider/controlplane/metrics
+        path: /BPNL000000000000/controlplane/metrics
   ingresses:
     - enabled: true
       hostname: "materialpass.int.demo.catena-x.net"
@@ -157,12 +157,12 @@ controlplane:
     EDC_VAULT_HASHICORP_HEALTH_CHECK_STANDBY_OK: "true"
 
     
-    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_URL: http://materialpass-edc-provider-dataplane:9999/provider/api/dataplane/control
+    EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_URL: http://materialpass-edc-provider-dataplane:9999/BPNL000000000000/api/dataplane/control
     EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_SOURCETYPES : HttpData
     EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_DESTINATIONTYPES: HttpProxy
     EDC_DATAPLANE_SELECTOR_PROVIDERPLANE_PROPERTIES: >-
       { 
-        "publicApiUrl": "http://materialpass-edc-provider-dataplane:8185/provider/api/public"
+        "publicApiUrl": "http://materialpass-edc-provider-dataplane:8185/BPNL000000000000/api/public"
       }
   
   configuration:
@@ -191,23 +191,23 @@ controlplane:
       # edc.dataplane.workers=
       edc.datasource.asset.name=asset
       edc.datasource.asset.user=<path:material-pass/data/int/edc/database#user>
-      edc.datasource.asset.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.asset.url=jdbc:postgresql://provider-postgresql:5432/edc
       
       edc.datasource.contractdefinition.name=contractdefinition
       edc.datasource.contractdefinition.user=<path:material-pass/data/int/edc/database#user>
-      edc.datasource.contractdefinition.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.contractdefinition.url=jdbc:postgresql://provider-postgresql:5432/edc
 
       edc.datasource.contractnegotiation.name=contractnegotiation
       edc.datasource.contractnegotiation.user=<path:material-pass/data/int/edc/database#user>
-      edc.datasource.contractnegotiation.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.contractnegotiation.url=jdbc:postgresql://provider-postgresql:5432/edc
 
       edc.datasource.policy.name=policy
       edc.datasource.policy.user=<path:material-pass/data/int/edc/database#user>
-      edc.datasource.policy.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.policy.url=jdbc:postgresql://provider-postgresql:5432/edc
 
       edc.datasource.transferprocess.name=transferprocess
       edc.datasource.transferprocess.user=<path:material-pass/data/int/edc/database#user>
-      edc.datasource.transferprocess.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.transferprocess.url=jdbc:postgresql://provider-postgresql:5432/edc
 
 
       # edc.datasource.default.pool.maxIdleConnections=
@@ -218,13 +218,13 @@ controlplane:
       # edc.datasource.default.pool.testConnectionOnReturn=
       # edc.datasource.default.pool.testConnectionWhileIdle=
       # edc.datasource.default.pool.testQuery=
-      edc.datasource.default.url=jdbc:postgresql://consumer-postgresql:5432/edc
+      edc.datasource.default.url=jdbc:postgresql://provider-postgresql:5432/edc
       edc.datasource.default.user=<path:material-pass/data/int/edc/database#user>
       edc.datasource.default.password=<path:material-pass/data/int/edc/database#password>
 
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
-      # edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/provider/api/dataplane/control
+      # edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/BPNL000000000000/api/dataplane/control
 
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
@@ -235,12 +235,12 @@ controlplane:
       # edc.ids.catalog.id=
       # edc.ids.curator=
       edc.ids.description="Provider Control Plane"
-      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids
-      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data
+      edc.ids.endpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/ids/data
 
       # localhost configuration
-      # edc.ids.endpoint=http://materialpass-edc-provider-controlplane:8282/provider/api/v1/ids
-      # edc.ids.endpoint.audience=http://materialpass-edc-provider-controlplane:8282/provider/api/v1/ids/data
+      # edc.ids.endpoint=http://materialpass-edc-provider-controlplane:8282/BPNL000000000000/api/v1/ids
+      # edc.ids.endpoint.audience=http://materialpass-edc-provider-controlplane:8282/BPNL000000000000/api/v1/ids/data
       # localhost configuration
 
       # edc.ids.id=
@@ -270,7 +270,7 @@ controlplane:
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
       edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
-      edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/provider/api/public
+      edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/BPNL000000000000/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
       edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt

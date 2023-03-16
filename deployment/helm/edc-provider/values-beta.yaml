@@ -27,8 +27,8 @@ postgres:
   enabled: true
   fullnameOverride: "provider-postgresql"
   auth:
-    password: <path:material-pass/data/dev/edc/database#password>
-    username: &psqlUsername <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/beta/edc/database#password>
+    username: &psqlUsername <path:material-pass/data/beta/edc/database#user>
     database: "edc"
   persistence:
     enabled: true
@@ -57,7 +57,7 @@ dataplane:
         path: /BPNL000000000000/metrics
   ingresses:
     - enabled: true
-      hostname: "materialpass.dev.demo.catena-x.net"
+      hostname: "materialpass.beta.demo.catena-x.net"
       endpoints:
         - default
         - public
@@ -77,11 +77,11 @@ dataplane:
     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
     EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://materialpass-edc-provider-controlplane:8182/BPNL000000000000/validation/token
 
-    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
-    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
-    EDC_OAUTH_TOKEN_URL: https://daps1.int.demo.catena-x.net/token
-    EDC_OAUTH_PROVIDER_JWKS_URL: https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/beta/edc/vault#vault.hashicorp.url>
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/beta/edc/vault#vault.hashicorp.api.secret.path>
+    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/beta/edc/vault#vault.hashicorp.token>
+    EDC_OAUTH_TOKEN_URL: https://daps.beta.demo.catena-x.net/token
+    EDC_OAUTH_PROVIDER_JWKS_URL: https://daps.beta.demo.catena-x.net/.well-known/jwks.json
     EDC_OAUTH_PROVIDER_AUDIENCE: idsc:IDS_CONNECTORS_ALL
     EDC_VAULT_HASHICORP_HEALTH_CHECK_STANDBY_OK: "true"
 
@@ -114,7 +114,7 @@ controlplane:
         path: /BPNL000000000000/controlplane/metrics
   ingresses:
     - enabled: true
-      hostname: "materialpass.dev.demo.catena-x.net"
+      hostname: "materialpass.beta.demo.catena-x.net"
       endpoints:
         - default
         - data
@@ -150,10 +150,10 @@ controlplane:
     EDC_DATASOURCE_TRANSFERPROCESS_NAME: transferprocess
     EDC_DATASOURCE_TRANSFERPROCESS_USER: *psqlUsername
     EDC_DATASOURCE_TRANSFERPROCESS_URL: *psqlJdbcUrl
-    EDC_API_AUTH_KEY: <path:material-pass/data/dev/edc/oauth#api.key>
-    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
-    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
-    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
+    EDC_API_AUTH_KEY: <path:material-pass/data/beta/edc/oauth#api.key>
+    EDC_VAULT_HASHICORP_URL: <path:material-pass/data/beta/edc/vault#vault.hashicorp.url>
+    EDC_VAULT_HASHICORP_API_SECRET_PATH: <path:material-pass/data/beta/edc/vault#vault.hashicorp.api.secret.path>
+    EDC_VAULT_HASHICORP_TOKEN: <path:material-pass/data/beta/edc/vault#vault.hashicorp.token>
     EDC_VAULT_HASHICORP_HEALTH_CHECK_STANDBY_OK: "true"
 
     
@@ -190,21 +190,26 @@ controlplane:
       # edc.dataplane.wait=
       # edc.dataplane.workers=
       edc.datasource.asset.name=asset
-      edc.datasource.asset.user=<path:material-pass/data/dev/edc/database#user>
+      edc.datasource.asset.user=<path:material-pass/data/beta/edc/database#user>
       edc.datasource.asset.url=jdbc:postgresql://provider-postgresql:5432/edc
       
       edc.datasource.contractdefinition.name=contractdefinition
-      edc.datasource.contractdefinition.user=<path:material-pass/data/dev/edc/database#user>
+      edc.datasource.contractdefinition.user=<path:material-pass/data/beta/edc/database#user>
       edc.datasource.contractdefinition.url=jdbc:postgresql://provider-postgresql:5432/edc
+
       edc.datasource.contractnegotiation.name=contractnegotiation
-      edc.datasource.contractnegotiation.user=<path:material-pass/data/dev/edc/database#user>
+      edc.datasource.contractnegotiation.user=<path:material-pass/data/beta/edc/database#user>
       edc.datasource.contractnegotiation.url=jdbc:postgresql://provider-postgresql:5432/edc
+
       edc.datasource.policy.name=policy
-      edc.datasource.policy.user=<path:material-pass/data/dev/edc/database#user>
+      edc.datasource.policy.user=<path:material-pass/data/beta/edc/database#user>
       edc.datasource.policy.url=jdbc:postgresql://provider-postgresql:5432/edc
+
       edc.datasource.transferprocess.name=transferprocess
-      edc.datasource.transferprocess.user=<path:material-pass/data/dev/edc/database#user>
+      edc.datasource.transferprocess.user=<path:material-pass/data/beta/edc/database#user>
       edc.datasource.transferprocess.url=jdbc:postgresql://provider-postgresql:5432/edc
+
+
       # edc.datasource.default.pool.maxIdleConnections=
       # edc.datasource.default.pool.maxTotalConnections=
       # edc.datasource.default.pool.minIdleConnections=
@@ -214,11 +219,13 @@ controlplane:
       # edc.datasource.default.pool.testConnectionWhileIdle=
       # edc.datasource.default.pool.testQuery=
       edc.datasource.default.url=jdbc:postgresql://provider-postgresql:5432/edc
-      edc.datasource.default.user=<path:material-pass/data/dev/edc/database#user>
-      edc.datasource.default.password=psql_password
+      edc.datasource.default.user=<path:material-pass/data/beta/edc/database#user>
+      edc.datasource.default.password=<path:material-pass/data/beta/edc/database#password>
+
       edc.data.encryption.algorithm=NONE
       edc.data.encryption.keys.alias=edc-encryption-key
       # edc.dataplane.selector.httpproxy.url=http://materialpass-edc-provider-dataplane:9999/BPNL000000000000/api/dataplane/control
+
       # edc.dpf.selector.url=
       # edc.events.topic.endpoint=
       # edc.events.topic.name=
@@ -228,8 +235,14 @@ controlplane:
       # edc.ids.catalog.id=
       # edc.ids.curator=
       edc.ids.description="Provider Control Plane"
-      edc.ids.endpoint=https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/ids
-      edc.ids.endpoint.audience=https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/ids/data
+      edc.ids.endpoint=https://materialpass.beta.demo.catena-x.net/BPNL000000000000/api/v1/ids
+      edc.ids.endpoint.audience=https://materialpass.beta.demo.catena-x.net/BPNL000000000000/api/v1/ids/data
+
+      # localhost configuration
+      # edc.ids.endpoint=http://materialpass-edc-provider-controlplane:8282/BPNL000000000000/api/v1/ids
+      # edc.ids.endpoint.audience=http://materialpass-edc-provider-controlplane:8282/BPNL000000000000/api/v1/ids/data
+      # localhost configuration
+
       # edc.ids.id=
       # edc.ids.maintainer=
       # edc.ids.security.profile=
@@ -246,21 +259,21 @@ controlplane:
       # edc.metrics.system.enabled=
       # edc.negotiation.provider.state-machine.batch-size=
       # edc.negotiation.provider.state-machine.batch-size=
-      edc.oauth.client.id=<path:material-pass/data/dev/edc/oauth#client.id>
-      edc.oauth.private.key.alias=daps-key-dev
+      edc.oauth.client.id=<path:material-pass/data/beta/edc/oauth#client.id>
+      edc.oauth.private.key.alias=ids-daps_key
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       # edc.oauth.provider.jwks.refresh=
-      edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-      edc.oauth.public.key.alias=daps-crt-dev
-      edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+      edc.oauth.provider.jwks.url=https://daps.beta.demo.catena-x.net/.well-known/jwks.json
+      edc.oauth.public.key.alias=ids-daps_crt
+      edc.oauth.token.url=https://daps.beta.demo.catena-x.net/token
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
       edc.receiver.http.endpoint=http://materialpass-edc-provider-backend
       edc.transfer.proxy.endpoint=http://materialpass-edc-provider-dataplane:8185/BPNL000000000000/api/public
       # edc.transfer.proxy.token.validity.seconds=
-      edc.transfer.proxy.token.signer.privatekey.alias=daps-key-dev
-      edc.transfer.proxy.token.verifier.publickey.alias=daps-crt-dev
+      edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key
+      edc.transfer.proxy.token.verifier.publickey.alias=ids-daps_crt
       # edc.transfer.functions.check.endpoint=
       # edc.transfer.functions.enabled.protocols=
       # edc.transfer.functions.transfer.endpoint=
@@ -272,9 +285,9 @@ controlplane:
       # edc.vault.clientsecret=
       # edc.vault.name=
       # edc.vault.tenantid=
-      edc.vault.hashicorp.url=<path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
-      edc.vault.hashicorp.token=<path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
-      edc.vault.hashicorp.api.secret.path=<path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
+      edc.vault.hashicorp.url=<path:material-pass/data/beta/edc/vault#vault.hashicorp.url>
+      edc.vault.hashicorp.token=<path:material-pass/data/beta/edc/vault#vault.hashicorp.token>
+      edc.vault.hashicorp.api.secret.path=<path:material-pass/data/beta/edc/vault#vault.hashicorp.api.secret.path>
       edc.vault.hashicorp.health.check.standby.ok=true
       # edc.vault.hashicorp.timeout.seconds=
       # edc.webdid.doh.url=
@@ -282,4 +295,5 @@ controlplane:
       # edc.web.rest.cors.headers=
       # edc.web.rest.cors.methods=
       # edc.web.rest.cors.origins=
-      ids.webhook.address=https://materialpass.dev.demo.catena-x.net
+      ids.webhook.address=https://materialpass.beta.demo.catena-x.net
+      # ids.webhook.address=http://materialpass-edc-provider-controlplane:8282

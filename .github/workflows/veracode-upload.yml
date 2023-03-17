@@ -17,6 +17,13 @@ name: "Veracode upload and scan"
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to use"
+        required: true
+        default: 'main'
+        type: string
 
   schedule:
     # Once a day
@@ -53,5 +60,5 @@ jobs:
           appname: "Battery-Passport-Consumer-App"
           createprofile: false
           filepath: "./veracode-scan-target.zip"
-          vid: "${{ secrets.ORG_VERACODE_API_ID }}"
-          vkey: "${{ secrets.ORG_VERACODE_API_KEY }}"
+          vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

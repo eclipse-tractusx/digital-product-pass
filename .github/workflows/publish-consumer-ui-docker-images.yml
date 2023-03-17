@@ -21,9 +21,16 @@ name: "Publish Consumer UI Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "beta" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to use"
+        required: true
+        default: 'develop'
+        type: string
 
 env:
   REGISTRY: ghcr.io

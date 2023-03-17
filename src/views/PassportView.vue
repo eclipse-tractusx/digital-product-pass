@@ -55,7 +55,7 @@
     </div>
   </v-container>
   <div v-else>
-    <Header />
+    <HeaderComponent />
     <PassportHeader
       :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
@@ -67,7 +67,7 @@
         </SectionComponent>
       </div>
     </div>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
@@ -83,14 +83,13 @@ import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import Spinner from "@/components/general/Spinner.vue";
-import Header from "@/components/general/Header.vue";
+import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import Alert from "@/components/general/Alert.vue";
-import Footer from "@/components/general/Footer.vue";
-import { API_KEY, API_TIMEOUT, BACKEND } from "@/services/service.const";
+import FooterComponent from "@/components/general/Footer.vue";
+import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
-import apiWrapper from "@/services/Wrapper";
-import AAS from "@/services/AasServices";
+import jsonUtil from "@/utils/jsonUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 import SectionComponent from "@/components/passport/Section.vue";
@@ -98,7 +97,7 @@ import SectionComponent from "@/components/passport/Section.vue";
 export default {
   name: "PassportView",
   components: {
-    Header,
+    HeaderComponent,
     GeneralInformation,
     PassportHeader,
     CellChemistry,
@@ -107,7 +106,7 @@ export default {
     BatteryComposition,
     Documents,
     ContractInformation,
-    Footer,
+    FooterComponent,
     Spinner,
     Alert,
     SectionComponent,
@@ -148,137 +147,89 @@ export default {
       data: null,
       loading: true,
       errors: [],
-      passId: this.$route.params.id,
-      error: false,
+      id: this.$route.params.id,
+      error: true,
       errorObj: {
-        title: "",
-        description: "",
+        title: "Something went wrong while returning the passport!",
+        description: "We are sorry for that, you can retry or try again later",
         type: "error",
       },
-      backend: BACKEND,
+      version: PASSPORT_VERSION,
     };
   },
   async created() {
+    let result = null;
     try {
-      let passportPromise = this.getPassport(this.passId);
-      const result = await threadUtil.execWithTimeout(
+      // Setup passport promise
+      let passportPromise = this.getPassport(this.id);
+      // Execute promisse with a Timeout
+      result = await threadUtil.execWithTimeout(
         passportPromise,
         API_TIMEOUT,
         null
       );
-      if (result && result != null) {
-        this.data = result;
-      } else {
-        this.error = true;
-        if (this.errorObj.title == null) {
-          this.errorObj.title = "Timeout! Failed to return passport!";
-        }
-        if (this.errorObj.description == null) {
-          this.errorObj.description =
-            "We are sorry, it took too long to retrieve the passport.";
-        }
+      if(!result || result == null){
+        this.errorObj.title = "Timeout! Failed to return passport!";
+        this.errorObj.description = "The request took too long... Please retry or try again later."
       }
+      this.data = result;
     } catch (e) {
-      this.error = true;
-      this.errorObj.title = "Failed to return passport!";
-      this.errorObj.description =
-        "We are sorry, it was not posible to retrieve the passport.";
+      console.log("passportView -> " + e);
     } finally {
+      if (
+        this.data && jsonUtil.exists("status", this.data) && this.data["status"] == 200
+      ) {
+        this.error = false;
+      }
+      // Stop loading
       this.loading = false;
     }
   },
   methods: {
-    async getPassport(assetId) {
-      let assetIdJson = [{ key: "Battery_ID_DMC_Code", value: assetId }];
-      let aas = new AAS();
-      let wrapper = new apiWrapper();
-      let accessToken = await this.auth.getAuthTokenForTechnicalUser();
-      let AASRequestHeader = {
-        Authorization: "Bearer " + accessToken,
-      };
-      var shellId,
-        shellDescriptor,
-        subModel = null;
-
+    async getPassport(id) {
+      let response = null;
+      // Get Passport in Backend
       try {
-        shellId = await aas.getAasShellId(
-          JSON.stringify(assetIdJson),
-          AASRequestHeader
-        );
-        shellDescriptor = await aas.getShellDescriptor(
-          shellId[0],
-          AASRequestHeader
-        );
-        subModel = await aas.getSubmodelDescriptor(
-          shellDescriptor,
-          AASRequestHeader
-        );
+        // Init backendService
+        let backendService = new BackendService();
+        // Get access token from IDP
+        let jwtToken = await this.auth.getAccessToken();
+        // Get the passport for the selected version
+        response = await backendService.getPassport(this.version, id, jwtToken);
       } catch (e) {
-        this.loading = false;
-        this.error = true;
-        this.errorObj.title = "We are sorry, the searched ID was not found!";
-        this.errorObj.description =
-          "It was not possible to find the searched ID [" +
-          this.passId +
-          "] in the Digital Twin Registry";
-        return null;
-      }
-      if (subModel.endpoints.length < 0) {
-        this.loading = false;
-        this.error = true;
-        this.errorObj.title = "We are sorry, the searched ID was not found!";
-        this.errorObj.description =
-          "It was not possible to find the searched ID [" +
-          this.passId +
-          "] in the Digital Twin Registry, it might not be registered";
-        return null;
-      }
-      let providerConnector = {
-        connectorAddress:
-          subModel.endpoints[0].protocolInformation.endpointAddress,
-        idShort: subModel.idShort,
-      };
-      let APIWrapperRequestHeader = {
-        "x-api-key": API_KEY,
-      };
-      console.info("Selected asset Id: " + assetId);
-      var response = null;
-      try {
-        if (this.backend === "true" || this.backend == true) {
-          let backendService = new BackendService();
-          let jwtToken = await this.auth.getAccessToken();
-          response = await backendService.getPassportV1(assetId, jwtToken);
-        } else {
-          response = await wrapper.performEDCDataTransfer(
-            assetId,
-            providerConnector,
-            APIWrapperRequestHeader
-          );
-        }
-      } catch (e) {
-        this.loading = false;
-        this.error = true;
-        this.errorObj.title = "Failed to return passport";
-        this.errorObj.description =
-          "It was not possible to transfer the passport.";
-        return null;
+        console.log("passportView.getPassport() -> " + e);
+        this.errorObj.title = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Failed to return passport";
+        this.errorObj.description = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "It was not possible to transfer the passport.";
+        return response;
       }
 
-      if (
-        response == null ||
-        typeof response == "string" ||
-        typeof response.data.passport != "object" ||
-        response.data.passport == null ||
-        response.data.passport.errors != null
-      ) {
-        this.loading = false;
-        this.error = true;
+      response = jsonUtil.copy(response, true);
+
+      // Check if the response is empty and give an error
+      if (!response) {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
         return null;
       }
-      this.contractInformation = providerConnector;
+
+      // Check if reponse content was successfull and if not print error comming message from backend
+      if (
+        jsonUtil.exists("status", response) && 
+        response["status"] != 200
+      ) {
+        this.errorObj.title = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "An error occured when searching for the passport!";
+        this.errorObj.description = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "It was not possible to retrieve the passport";
+      }
+
       return response;
     },
   },

@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-import { REDIRECT_URI, INIT_OPTIONS, CLIENT_CREDENTIALS, IDP_URL } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
-import axios from "axios";
-import store from '../store/index';
-//import BackendService from "@/services/BackendService";
-
 
 export default class Authentication {
     constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
     keycloakInit(app) {
-      // if((BACKEND === 'true') || (BACKEND == true)) {
-      //   BackendService.login();
-      // }
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
         if (!auth) {
           window.location.reload();
@@ -89,52 +82,10 @@ export default class Authentication {
     }
     logout() {
       let logoutOptions = { redirectUri: REDIRECT_URI };
-      // if((BACKEND === 'true') || (BACKEND == true)) {
-      //   return BackendService.logout(REDIRECT_URI);
-      // }
       this.keycloak.logout(logoutOptions).then((success) => {
         console.log("--> log: logout success ", success);
       }).catch((error) => {
         console.log("--> log: logout error ", error);
-      });
-    }
-    /***** Technical User Authentication *****/
-
-    getAuthTokenForTechnicalUser() {
-
-      // encrypt client credentials using keycloak session id to access in a safe manner// 
-      store.commit("setSessionId", this.getSessionId());
-      store.commit("setClientId", CLIENT_CREDENTIALS.client_id);
-      store.commit("setClientSecret", CLIENT_CREDENTIALS.client_secret);
-
-      const params = new URLSearchParams({
-
-        grant_type: CLIENT_CREDENTIALS.grant_type,
-        client_id: store.getters.getClientId,
-        client_secret: store.getters.getClientSecret,
-        scope: CLIENT_CREDENTIALS.scope
-      });
-
-      return new Promise((resolve) => {
-        axios({
-
-          method: 'post',
-          url: IDP_URL + 'realms/CX-Central/protocol/openid-connect/token',
-          data: params.toString(),
-          config: {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }
-
-        }).then(response => {
-
-          resolve(response.data.access_token);
-
-        }).catch(error => {
-
-          console.error("getAuthTokenForTechnicalUser -> " + error);
-          resolve("rejected");
-
-        });
       });
     }
 }

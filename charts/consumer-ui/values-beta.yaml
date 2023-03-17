@@ -23,22 +23,22 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
-    - host: materialpass.int.demo.catena-x.net
+    - host: materialpass.beta.demo.catena-x.net
       paths:
         - path: /passport(/|$)(.*)
           pathType: Prefix
   tls:
     - secretName: tls-secret
       hosts:
-        - materialpass.int.demo.catena-x.net
+        - materialpass.beta.demo.catena-x.net
 
 avp:
   helm:
-    clientId: <path:material-pass/data/int/aasregistry#client.id>
-    clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
-    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+    clientId: <path:material-pass/data/beta/aasregistry#client.id>
+    clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
 
 # Product Passport UI Configuration
 productpass:
-  backend_url: "materialpass.int.demo.catena-x.net"
-  idp_url: "centralidp.int.demo.catena-x.net/auth/"
+  backend_url: "materialpass.beta.demo.catena-x.net"
+  idp_url: "centralidp.beta.demo.catena-x.net/auth/"

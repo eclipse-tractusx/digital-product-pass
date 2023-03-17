@@ -62,24 +62,8 @@ public class AasService extends BaseService {
         }
         return missingVariables;
     }
-    public SubModel searchSubModelInDigitalTwin(String assetType, String assetId, Integer position){
+    public SubModel searchSubModelInDigitalTwinByIndex(DigitalTwin digitalTwin, Integer position){
         try {
-            ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);
-            if(digitalTwinIds==null || digitalTwinIds.size()==0){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelInDigitalTwin",
-                        "It was not possible to get digital twin for the selected asset type and the the selected assetId");
-            }
-            if(position > digitalTwinIds.size()){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelInDigitalTwin",
-                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
-            }
-
-            String digitalTwinId = digitalTwinIds.get(position);
-            DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId);
-            if(digitalTwin == null){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelInDigitalTwin",
-                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
-            }
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
             if(subModel == null){
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModelInDigitalTwin",
@@ -94,25 +78,49 @@ public class AasService extends BaseService {
         }
     }
 
-    public SubModel searchSubModel(String assetType,String assetId, Integer position){
+    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position){
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);
-            if(digitalTwinIds==null || digitalTwinIds.size()==0){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+            if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin for the selected asset type and the the selected assetId");
             }
-            if(position > digitalTwinIds.size()){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+            if (position > digitalTwinIds.size()) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
 
 
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId);
-            if(digitalTwin == null){
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
+            if (digitalTwin == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
+                        "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
+            }
+            return digitalTwin;
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
+                    e,
+                    "It was not possible to search digital twin!");
+        }
+    }
+    public SubModel searchSubModelById(DigitalTwin digitalTwin, String idShort){
+        try {
+            SubModel subModel = this.getSubModelById(digitalTwin, idShort);
+            if(subModel == null){
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
             }
+            return subModel;
+        }
+        catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
+                    e,
+                    "It was not possible to search submodel!");
+        }
+    }
+    public SubModel searchSubModel(DigitalTwin digitalTwin, Integer position){
+        try {
             SubModel subModel = this.getSubModel(digitalTwin, position);
             if(subModel == null){
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
@@ -179,6 +187,30 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
+
+    public SubModel getSubModelById(DigitalTwin digitalTwin, String idShort) {
+        try {
+            ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
+            if (subModels.size() < 1) {
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                        "No subModel found in digitalTwin!");
+            }
+            // Search for first subModel with matching idShort, if it fails gives null
+            SubModel subModel = subModels.stream().filter(s -> s.getIdShort().equalsIgnoreCase(idShort)).findFirst().orElse(null);
+
+            if(subModel == null){
+                // If the subModel idShort does not exist
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                        "SubModel for idShort not found!");
+            }
+            // Return subModel if found
+            return subModel;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                    e,
+                    "It was not possible to get subModel!");
+        }
+    }
     public SubModel getSubModel(String digitalTwinId, String subModelId) {
         try {
             String path = "/registry/registry/shell-descriptors";
@@ -219,26 +251,65 @@ public class AasService extends BaseService {
         }
     }
 
-    public class DigitalTwinRegistryQuery implements Runnable{
+    public class DigitalTwinRegistryQueryById implements Runnable{
         private SubModel subModel;
+        private DigitalTwin digitalTwin;
+
         private final String assetId;
         private final String idType;
 
-        private final Integer index;
+        private final Integer dtIndex;
 
-        public DigitalTwinRegistryQuery(String assetId,String idTyp, Integer index){
+
+        private final String idShort;
+        public DigitalTwinRegistryQueryById(String assetId, String idType, Integer dtIndex, String idShort){
             this.assetId = assetId;
-            this.idType = idTyp;
-            this.index = index;
+            this.idType = idType;
+            this.dtIndex = dtIndex;
+            this.idShort = idShort;
         }
 
         @Override
         public void run() {
-            this.subModel = searchSubModel(this.idType, this.assetId, this.index);
+            this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex);
+            this.subModel = searchSubModelById(this.digitalTwin, this.idShort);
         }
 
         public SubModel getSubModel() {
             return this.subModel;
+        }
+        public DigitalTwin getDigitalTwin() {
+            return this.digitalTwin;
+        }
+    }
+
+
+    public class DigitalTwinRegistryQuery implements Runnable{
+        private SubModel subModel;
+        private DigitalTwin digitalTwin;
+        private final String assetId;
+        private final String idType;
+
+        private final Integer dtIndex;
+
+        public DigitalTwinRegistryQuery(String assetId, String idType, Integer dtIndex){
+            this.assetId = assetId;
+            this.idType = idType;
+            this.dtIndex = dtIndex;
+        }
+
+        @Override
+        public void run() {
+            this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex);
+            this.subModel = searchSubModel(this.digitalTwin, this.dtIndex);
+        }
+
+        public SubModel getSubModel() {
+            return this.subModel;
+        }
+
+        public DigitalTwin getDigitalTwin() {
+            return this.digitalTwin;
         }
 
     }

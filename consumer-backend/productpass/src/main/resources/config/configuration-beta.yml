@@ -21,22 +21,23 @@ maxRetries: 5
 keycloak:
   realm: CX-Central
   resource: Cl13-CX-Battery
-  tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-  userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
+  tokenUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+  userInfoUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
 variables:
   default:
-    providerUrl: 'https://materialpass.dev.demo.catena-x.net/BPNL000000000000'
-    serverUrl: 'https://materialpass.dev.demo.catena-x.net'
-    registryUrl: 'https://semantics.dev.demo.catena-x.net'
+    providerUrl: 'https://materialpass.beta.demo.catena-x.net/provider/api/v1/ids/data'
+    serverUrl: 'https://materialpass.beta.demo.catena-x.net'
+    registryUrl: 'https://semantics.beta.demo.catena-x.net'
 
 passport:
   versions:
-    - 'v3.0.1'
+    - 'v1'
 
 vault:
   type: 'local'
-  file: 'vault.token-dev.yml'
+  file: 'vault.token-beta.yml'
+  #uri: 'https://vault.demo.catena-x.net'
   uri: 'http://localhost:8200'
   pathSep: "."
   prettyPrint: true

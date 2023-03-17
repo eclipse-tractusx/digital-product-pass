@@ -22,7 +22,7 @@ on:
       branch:
         description: "Branch to use"
         required: true
-        default: 'develop'
+        default: 'main'
         type: string
 
   schedule:

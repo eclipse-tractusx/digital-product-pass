@@ -27,6 +27,9 @@ do
 	sed -i 's|APP_API_TIMEOUT|'${API_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file
 	sed -i 's|APP_API_MAX_RETRIES|'${API_MAX_RETRIES}'|g' $file
+	sed -i 's|KEYCLOAK_CLIENTID|'${KEYCLOAK_CLIENTID}'|g' $file
+	sed -i 's|KEYCLOAK_REALM|'${KEYCLOAK_REALM}'|g' $file
+	sed -i 's|KEYCLOAK_ONLOAD|'${KEYCLOAK_ONLOAD}'|g' $file
 
 done
 

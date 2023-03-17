@@ -59,6 +59,15 @@ spec:
               value: "https://{{ .host }}"
             {{- end }}
 
+            - name: "KEYCLOAK_CLIENTID"
+              value: "{{ .Values.productpass.keycloak.clientId }}"
+
+            - name: "KEYCLOAK_REALM"
+              value: "{{ .Values.productpass.keycloak.realm }}"
+            
+            - name: "KEYCLOAK_ONLOAD"
+              value: "{{ .Values.productpass.keycloak.onLoad }}"
+
             - name: "BACKEND_URL"
               value: "https://{{ .Values.productpass.backend_url }}"
 

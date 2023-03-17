@@ -40,8 +40,5 @@ avp:
 
 # Product Passport UI Configuration
 productpass:
-  backend: false
-  api:
-    max_retries: 5 # Max Retries for getting passport transfer
-    timeout: 60000 # 45 seconds in milliseconds
-    delay: 2000 # 5 seconds in milliseconds
+  backend_url: "materialpass.beta.demo.catena-x.net"
+  idp_url: "centralidp.beta.demo.catena-x.net/auth/"

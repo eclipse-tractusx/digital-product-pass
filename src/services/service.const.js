@@ -20,7 +20,7 @@ import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VERSION";
 
 // Mandatory URLs
-const IDP_URL = "IDENTITY_PROVIDER_URL";
+const IDP_URL = "https://centralidp.dev.demo.catena-x.net/auth/";
 
 // Get urls that can be empty
 let serverUrl = "HOST_URL";
@@ -33,6 +33,10 @@ let clientId = "KEYCLOAK_CLIENTID";
 let realm = "KEYCLOAK_REALM";
 let onLoad = "KEYCLOAK_ONLOAD";
 
+
+console.log(serverUrl);
+console.log(backendUrl);
+
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "HOST" + "_" + "URL") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "DATA" + "_" + "URL") ? backendUrl : serverUrl
@@ -40,6 +44,9 @@ passVer = (passVer != null && passVer !== "PASS" + "_" + "VERSION") ? passVer : 
 clientId = (clientId != null && clientId !== "KEYCLOAK" + "_" + "CLIENTID") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "KEYCLOAK" + "_" + "REALM") ? realm : "CX-Central"
 onLoad = (serverUrl != null && onLoad !== "KEYCLOAK" + "_" + "ONLOAD") ? onLoad : "login-required"
+
+console.log(serverUrl);
+console.log(backendUrl);
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);

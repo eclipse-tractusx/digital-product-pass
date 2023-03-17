@@ -20,7 +20,7 @@ import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VERSION";
 
 // Mandatory URLs
-const IDP_URL = "https://centralidp.dev.demo.catena-x.net/auth/";
+const IDP_URL = "IDENTITY_PROVIDER_URL";
 
 // Get urls that can be empty
 let serverUrl = "HOST_URL";
@@ -34,19 +34,13 @@ let realm = "KEYCLOAK_REALM";
 let onLoad = "KEYCLOAK_ONLOAD";
 
 
-console.log(serverUrl);
-console.log(backendUrl);
-
 // Default values if the value is not specified
-serverUrl = (serverUrl != null && serverUrl !== "HOST" + "_" + "URL") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
-backendUrl = (backendUrl != null && backendUrl !== "DATA" + "_" + "URL") ? backendUrl : serverUrl
-passVer = (passVer != null && passVer !== "PASS" + "_" + "VERSION") ? passVer : "v3.0.1"
-clientId = (clientId != null && clientId !== "KEYCLOAK" + "_" + "CLIENTID") ? clientId : "Cl13-CX-Battery"
-realm = (realm != null && realm !== "KEYCLOAK" + "_" + "REALM") ? realm : "CX-Central"
-onLoad = (serverUrl != null && onLoad !== "KEYCLOAK" + "_" + "ONLOAD") ? onLoad : "login-required"
-
-console.log(serverUrl);
-console.log(backendUrl);
+serverUrl = (serverUrl != null) ? serverUrl : "https://materialpass.int.demo.catena-x.net"
+backendUrl = (backendUrl != null) ? backendUrl : serverUrl
+passVer = (passVer != null) ? passVer : "v3.0.1"
+clientId = (clientId != null) ? clientId : "Cl13-CX-Battery"
+realm = (realm != null) ? realm : "CX-Central"
+onLoad = (serverUrl != null) ? onLoad : "login-required"
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
@@ -74,7 +68,7 @@ let INIT_OPTIONS = {
 let REDIRECT_URI = "";
 
 if (window.location.href.includes("localhost")) { //Modify credentials for local runs
-  INIT_OPTIONS["url"] = (IDP_URL != null && IDP_URL !== "IDENTITY" + "_" + "PROVIDER" + "_" + "URL") ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
+  INIT_OPTIONS["url"] = (IDP_URL != null) ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
   REDIRECT_URI = "http://localhost:8080/";
 } else {
   INIT_OPTIONS["url"] = IDP_URL;

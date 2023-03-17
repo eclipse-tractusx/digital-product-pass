@@ -48,3 +48,7 @@ productpass:
     max_retries: 5 # Max Retries for getting passport transfer
     timeout: 60000 # 45 seconds in milliseconds
     delay: 2000 # 5 seconds in milliseconds
+  keycloak:
+    clientId: 'Cl13-CX-Battery'
+    realm: 'CX-Central'
+    onLoad: 'login-required'

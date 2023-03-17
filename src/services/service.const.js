@@ -25,16 +25,22 @@ const IDP_URL = "IDENTITY_PROVIDER_URL";
 // Get urls that can be empty
 let serverUrl = "HOST_URL";
 let backendUrl = "DATA_URL";
-let passver = 'PASS_VERSION';
+let passVer = 'PASS_VERSION';
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let delay = 'APP_API_DELAY';
-
+let clientId = "KEYCLOAK_CLIENTID";
+let realm = "KEYCLOAK_REALM";
+let onLoad = "KEYCLOAK_ONLOAD";
 
 // Default values if the value is not specified
-serverUrl = (serverUrl!= null && serverUrl !== "HOST"+"_"+"URL")?serverUrl:"https://materialpass.int.demo.catena-x.net"
-backendUrl=(backendUrl != null && backendUrl !== "DATA"+"_"+"URL")?backendUrl:serverUrl
-passver = (passver != null && passver !== "PASS"+"_"+"VERSION")?passver:"v3.0.1"
+serverUrl = (serverUrl != null && serverUrl !== "HOST" + "_" + "URL") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
+backendUrl = (backendUrl != null && backendUrl !== "DATA" + "_" + "URL") ? backendUrl : serverUrl
+passVer = (passVer != null && passVer !== "PASS" + "_" + "VERSION") ? passVer : "v3.0.1"
+clientId = (clientId != null && clientId !== "KEYCLOAK" + "_" + "CLIENTID") ? clientId : "Cl13-CX-Battery"
+realm = (realm != null && realm !== "KEYCLOAK" + "_" + "REALM") ? realm : "CX-Central"
+onLoad = (serverUrl != null && onLoad !== "KEYCLOAK" + "_" + "ONLOAD") ? onLoad : "login-required"
+
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
 delay = numberUtil.parseInt(delay, 2000);
@@ -43,32 +49,30 @@ retries = numberUtil.parseInt(retries, 5);
 // Define constants
 const SERVER_URL = serverUrl;
 const BACKEND_URL = backendUrl;
-const PASSPORT_VERSION = passver;
+const PASSPORT_VERSION = passVer;
 const API_MAX_RETRIES = retries;
 const API_TIMEOUT = timeout;
 const API_DELAY = delay;
+const CLIENT_ID = clientId;
+const REALM = realm;
+const ONLOAD = onLoad;
 
 // Initialize configuration objects
-let INIT_OPTIONS = {};
+let INIT_OPTIONS = {
+  url: null,
+  clientId: CLIENT_ID, // Catena-X ClientId for Battery Pass
+  realm: REALM, // Catena-X Realm
+  onLoad: ONLOAD
+};
 let REDIRECT_URI = "";
 
-if (window.location.href.includes("localhost")){ //Modify credentials for local runs
-  INIT_OPTIONS = {
-    url: (IDP_URL != null && IDP_URL !== "IDENTITY"+"_"+"PROVIDER"+"_"+"URL")?IDP_URL:"http://localhost:8088/auth/", //Point to IDP service if specified or localh
-    clientId: 'Cl13-CX-Battery', // Catena-X ClientId for Battery Pass
-    realm: 'CX-Central', // Catena-X Realm
-    onLoad: 'login-required'
-  };
-  REDIRECT_URI = "http://localhost:8080/"; 
-}else{
-  INIT_OPTIONS = {
-    url: IDP_URL,
-    clientId: 'Cl13-CX-Battery', // Catena-X ClientId for Battery Pass
-    realm: 'CX-Central', // Catena-X Realm
-    onLoad: 'login-required'
-  };
+if (window.location.href.includes("localhost")) { //Modify credentials for local runs
+  INIT_OPTIONS["url"] = (IDP_URL != null && IDP_URL !== "IDENTITY" + "_" + "PROVIDER" + "_" + "URL") ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
+  REDIRECT_URI = "http://localhost:8080/";
+} else {
+  INIT_OPTIONS["url"] = IDP_URL;
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export {INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES};
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES };
 

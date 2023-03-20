@@ -16,86 +16,115 @@
 
 
 <template v-if="propsData">
-  <div class="section">
-    <div v-if="propsData.batteryIdentification" class="sub-section-container">
-      <Field
-        data-cy="battery-id"
-        label="Battery ID"
-        :value="propsData.batteryIdentification.batteryIDDMCCode"
-      />
-      <Field
-        label="Battery Type"
-        :value="propsData.batteryIdentification.batteryType"
-      />
-      <Field
-        label="Battery Model"
-        :value="propsData.batteryIdentification.batteryModel"
-      />
-    </div>
-    <div v-if="propsData.manufacturer" class="sub-section-container">
-      <Field
-        class="full-width"
-        label="Manufacturer Information"
-        :value="propsData.manufacturer.name"
-      />
-      <Field
-        class="longer"
-        label="Address"
-        :city="propsData.manufacturer.address.locality.value"
-        :country="propsData.manufacturer.address.country.shortName"
-        :postal="propsData.manufacturer.address.postCode.value"
-        :value="propsData.manufacturer.name"
-      />
-      <Field
-        label="Contact phone number"
-        :value="propsData.manufacturer.contact.phoneNumber"
-      />
-      <Field label="Email" :value="propsData.manufacturer.contact.email" />
-    </div>
-    <div v-if="propsData.physicalDimensions" class="sub-section-container">
-      <Field
-        label="Dimensions of the battery"
-        :height="propsData.physicalDimensions.height"
-        :length="propsData.physicalDimensions.length"
-        unit="mm"
-        :width="propsData.physicalDimensions.width"
-      />
-
-      <Field
-        label="Weight of the battery"
-        unit="kg"
-        :value="propsData.physicalDimensions.weight"
-      />
-
-      <Field
-        label="Date of Manufacture"
-        :day="propsData.manufacturing.dateOfManufacturing"
-      />
-      <Field
-        label="Place of Manufacturing"
-        :value="propsData.manufacturing.address.locality.value"
-      />
-      <Field
-        class="two-third-width"
-        label="Date of placing on the market"
-        :day="propsData.datePlacedOnMarket"
-      />
-      <Field
-        class="longer"
-        label="Period for which the Commercial Warranty for the calendar life
-          applies"
-        :value="propsData.warrantyPeriod"
-      />
-      <Field
-        label="Status of the battery"
-        :value="propsData.stateOfBattery.statusBattery"
-      />
-      <Field
-        label="CO2 Footprint Total"
-        unit="kg"
-        :value="propsData.cO2FootprintTotal"
-      />
-    </div>
+  <div style="display: flex">
+    <v-container>
+      <v-row v-if="propsData.batteryIdentification">
+        <v-col md="9" class="pa-0 ma-0">
+          <Field
+            data-cy="battery-id"
+            icon="mdi-fingerprint"
+            label="Battery ID"
+            :value="propsData.batteryIdentification.batteryIDDMCCode"
+          />
+        </v-col>
+        <v-col md="3" class="pa-0 ma-0"> </v-col>
+      </v-row>
+      <v-row>
+        <v-col md="4" class="pa-0 ma-0">
+          <Field
+            label="Battery Type"
+            icon="mdi-battery-unknown"
+            :value="propsData.batteryIdentification.batteryType"
+          />
+        </v-col>
+        <v-col md="5" class="pa-0 ma-0">
+          <Field
+            icon="mdi-battery"
+            label="Battery Model"
+            :value="propsData.batteryIdentification.batteryModel"
+          />
+        </v-col>
+        <v-col md="3" class="pa-0 ma-0">
+          <Field
+            class="longer"
+            icon="mdi-license"
+            label="Warranty"
+            :value="propsData.warrantyPeriod"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col md="9" v-if="propsData.physicalDimensions" class="pa-0 ma-0">
+          <Field
+            icon="mdi-ruler"
+            label="Dimensions of the battery"
+            :height="propsData.physicalDimensions.height"
+            :length="propsData.physicalDimensions.length"
+            unit="mm"
+            :width="propsData.physicalDimensions.width"
+          />
+        </v-col>
+        <v-col md="3" class="pa-0 ma-0">
+          <Field
+            icon="mdi-scale"
+            label="Weight"
+            unit="kg"
+            :value="propsData.physicalDimensions.weight"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container style="width: 70%">
+      <v-row>
+        <v-col md="8" class="pa-0 ma-0">
+          <Field
+            icon="mdi-calendar-range"
+            style="background: #f9f9f9"
+            label="Date of Manufacture"
+            :day="propsData.manufacturing.dateOfManufacturing"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col md="8" class="pa-0 ma-0">
+          <Field
+            icon="mdi-map-marker-outline"
+            style="background: #f9f9f9"
+            label="Place of Manufacturing"
+            :value="propsData.manufacturing.address.locality.value"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col md="8" class="pa-0 ma-0">
+          <Field
+            style="background: #f9f9f9"
+            icon="mdi-calendar-range"
+            label="Date of placing on the market"
+            :day="propsData.datePlacedOnMarket"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container style="width: 50%">
+      <v-row>
+        <v-col md="12">
+          <Field
+            v-if="propsData.manufacturer"
+            style="background: #f9f9f9"
+            icon="mdi-factory"
+            label="Manufacturer Information"
+            :city="propsData.manufacturer.address.locality.value"
+            :country="propsData.manufacturer.address.country.shortName"
+            :phone="propsData.manufacturer.contact.phoneNumber"
+            :email="propsData.manufacturer.contact.email"
+            :website="propsData.manufacturer.contact.website"
+            :postal="propsData.manufacturer.address.postCode.value"
+            :value="propsData.manufacturer.name"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

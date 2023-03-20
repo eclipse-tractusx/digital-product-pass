@@ -1,5 +1,5 @@
 <template>
-  <v-container class="passport-view">
+  <v-container>
     <v-row>
       <v-col v-for="(card, index) in cards" :key="index" class="card-container">
         <span class="card-title">{{ card.title }} </span>
@@ -47,8 +47,24 @@
           <div class="card-label">{{ card.label }}</div>
           <div class="card-value">{{ card.value }} {{ card.valueUnits }}</div>
           <v-divider></v-divider>
-          <div v-if="card.title === 'HEALTH'">
-            <div>progress bar</div>
+          <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
+            <div class="charging-cycles-title">Charging Cycles</div>
+            <div class="charging-cycles">
+              <div class="bar-chart" />
+              <div
+                class="bar-chart"
+                :style="`width: ${barChart(
+                  currentValue,
+                  maxValue
+                )}; background: #0f71cb`"
+              />
+              <div class="chart-value current">
+                {{ isNumeric(currentValue) ? currentValue : "No data" }}
+              </div>
+              <div class="chart-value max">
+                {{ isNumeric(maxValue) ? maxValue : "No data" }}
+              </div>
+            </div>
           </div>
           <div v-else>
             <div class="card-second-value">
@@ -70,7 +86,6 @@
 
 <script>
 import Tooltip from "../general/Tooltip.vue";
-
 export default {
   name: "CardsComponent",
   components: {
@@ -84,6 +99,11 @@ export default {
   },
   data() {
     return {
+      currentValue:
+        this.$props.data.data.passport.batteryCycleLife
+          .cycleLifeTestDepthOfDischarge,
+      maxValue:
+        this.$props.data.data.passport.batteryCycleLife.expectedLifetime,
       cards: [
         {
           title: "GENERAL",
@@ -134,6 +154,19 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    barChart(currentValue, maxValue) {
+      if (!currentValue || !maxValue) return 0;
+      if (this.isNumeric(!currentValue) || this.isNumeric(!maxValue)) return 0;
+
+      const bar = (currentValue * 100) / maxValue;
+
+      return bar + "%";
+    },
+    isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    },
   },
 };
 </script>

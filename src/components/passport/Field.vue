@@ -16,6 +16,7 @@
 
 <template>
   <div class="field-container">
+    <v-icon start md :icon="icon"> </v-icon>
     <span class="field-label">{{ label }}</span>
     <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
     <span v-else-if="length"></span>
@@ -26,11 +27,17 @@
     <span v-else-if="day"></span>
     <span v-else class="field-value">—</span>
     <!-- This block of code is for section 1 General information Importer information, STREET goes as a value and than the rest below -->
-    <span v-if="city" class="field-value">{{ city ? city : "—" }} </span>
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
+    <span v-if="city" class="field-value">{{ city ? city : "—" }} </span>
     <span v-if="country" class="field-value"
       >{{ country ? country : "—" }}
     </span>
+    <span v-if="phone" class="field-value">{{ phone ? phone : "—" }} </span>
+    <span v-if="website" class="field-value"
+      >{{ website ? website : "—" }}
+    </span>
+    <span v-if="email" class="field-value">{{ email ? email : "—" }} </span>
+
     <!-- This block of code is for section 4 Parameters of the battery where we have tests and temp ranges -->
     <div v-if="tempMin || test" class="test-container">
       <span v-if="tempMin" class="test"
@@ -56,6 +63,7 @@
 export default {
   name: "FieldComponent",
   props: {
+    icon: { type: [String, Number], default: "mdi-information-outline" },
     label: { type: [String, Number], default: "" },
     value: { type: [String, Number], default: "" },
     unit: { type: [String, Number], default: "" },
@@ -63,6 +71,9 @@ export default {
     city: { type: [String, Number], default: "" },
     postal: { type: [String, Number], default: "" },
     country: { type: [String, Number], default: "" },
+    phone: { type: [String, Number], default: "" },
+    email: { type: [String, Number], default: "" },
+    website: { type: [String, Number], default: "" },
     length: { type: [String, Number], default: "" },
     height: { type: [String, Number], default: "" },
     width: { type: [String, Number], default: "" },
@@ -79,61 +90,25 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-.section-content {
-  width: 100%;
-  border: solid 1px #b3cb2d;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  margin-bottom: 50px;
-}
-
-.sub-section-container {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #edefe5;
-}
-
-.test {
-  font-size: 12px;
-  padding-left: 40px;
-}
-
 .field-container {
   display: flex;
   flex-direction: column;
-  width: 33%;
-  min-height: 120px;
+  background-color: #f4fbfd;
+  border-radius: 10px;
+  margin: 6px;
+  padding: 7px 7px 10px 7px;
 }
 
 .field-label {
-  padding: 30px 0 10px 40px;
   font-size: 12px;
-  color: #777777;
+  font-weight: 500;
+  color: #252525;
 }
 
 .field-value {
-  padding-left: 40px;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: bold;
+  color: #252525;
+  font-size: 14px;
+  font-weight: 600;
   line-break: anywhere;
 }
 
@@ -141,57 +116,5 @@ a {
   display: flex;
   flex-direction: column;
   padding: 12px 0 22px 0;
-}
-
-@media (max-width: 750px) {
-  .section-content {
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    background-color: #fff;
-    margin-bottom: 50px;
-  }
-
-  .sub-section-container {
-    display: flex;
-    flex-wrap: wrap;
-    border-bottom: solid 1px #edefe5;
-  }
-
-  .test {
-    font-size: 12px;
-    padding: 4px 0 4px 40px;
-  }
-
-  .test-container {
-    padding: 0 0 22px 0;
-    margin-top: -18px;
-  }
-
-  .field-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 50px;
-    border-bottom: solid 1px #edefe5;
-  }
-
-  .field-label {
-    padding: 22px 40px 8px 50px;
-    font-size: 14px;
-    color: #777777;
-    overflow: auto;
-  }
-
-  .field-value {
-    padding: 0 0 22px 50px;
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: bold;
-  }
-
-  .test {
-    padding: 0 0 0 50px;
-  }
 }
 </style>

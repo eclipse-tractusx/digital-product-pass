@@ -2,7 +2,7 @@
   "data": {
     "passport": {
       "electrochemicalProperties": {
-        "ratedCapacity": 210,
+        "ratedCapacity": 120,
         "batteryEnergy": {
           "energyRoundtripEfficiencyChange": 67,
           "maximumAllowedBatteryEnergy": 90000,
@@ -80,7 +80,7 @@
           }
         ]
       },
-      "datePlacedOnMarket": "2023-03-08T10:46:19.166Z",
+      "datePlacedOnMarket": "2023-03-08",
       "cellChemistry": {
         "electrolyteComposition": [
           {
@@ -153,8 +153,8 @@
       },
       "batteryCycleLife": {
         "cycleLifeTestCRate": 45,
-        "cycleLifeTestDepthOfDischarge": 23,
-        "expectedLifetime": 456
+        "cycleLifeTestDepthOfDischarge": 40,
+        "expectedLifetime": 100
       },
       "manufacturer": {
         "name": "Company A",

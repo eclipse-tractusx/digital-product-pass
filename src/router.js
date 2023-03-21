@@ -31,6 +31,11 @@ const routes = [
         component: PageNotFound,
     },
     {
+        path: "/404",
+        name: "PageNotFound",
+        component: PageNotFound,
+    },
+    {
         path: "/:id",
         name: "PassportView",
         component: () => import("./views/PassportView.vue"),

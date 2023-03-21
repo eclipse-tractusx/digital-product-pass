@@ -13,23 +13,22 @@
 # limitations under the License.
 
 spring:
-  config:
-    import: "application-dev.yml"
+  application:
+    name: 'Catena-X Product Passport Consumer Backend'
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
+  jackson:
+    serialization:
+      indent_output: true
 
----
-
-spring:
-  config:
-    activate:
-      on-profile: "beta"
-    import: "application-beta.yml"
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: "int"
-    import: "application-int.yml"
-
-
+server:
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-stacktrace: ON_PARAM
+    include-exception: false
+  port: 8888
+  tomcat:
+    max-connections: 10000

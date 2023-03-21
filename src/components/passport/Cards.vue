@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="cards-container">
     <v-row>
       <v-col v-for="(card, index) in cards" :key="index" class="card-container">
         <span class="card-title">{{ card.title }} </span>
@@ -16,7 +16,7 @@
 
         <v-container v-if="card.title === 'SUSTAINABILITY'">
           <v-row>
-            <v-col class="materials-container">
+            <v-col md="8" class="materials-container">
               <v-row>
                 <div
                   class="material-container"
@@ -32,10 +32,8 @@
                 </div>
               </v-row>
             </v-col>
-
             <v-divider vertical></v-divider>
-
-            <v-col class="co2-container">
+            <v-col md="4" class="co2-container">
               <span class="card-value">
                 {{ card.secondValue }} {{ card.secondValueUnits }}
               </span>

@@ -21,8 +21,18 @@
     <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
     <span v-else-if="length"></span>
     <span v-else-if="tempRangeMin" class="field-value">
-      {{ tempRangeMin }} {{ tempUnit }}—{{ tempRangeMax }} {{ tempUnit }}</span
-    >
+      {{ tempRangeMin }} {{ tempUnit }} to {{ tempRangeMax }}
+      {{ tempUnit }}
+      <span>
+        <span class="temp-range-value temp-range-min"
+          >{{ tempRangeMin }} {{ tempUnit }}</span
+        >
+        <span class="temp-range-value temp-range-max"
+          >{{ tempRangeMax }} {{ tempUnit }}</span
+        >
+        <img :src="img" alt="tempRange" class="temp-range" />
+      </span>
+    </span>
 
     <span v-else-if="day"></span>
     <span v-else class="field-value">—</span>
@@ -42,7 +52,7 @@
     <div v-if="tempMin || test" class="test-container">
       <span v-if="tempMin" class="test"
         >Temp ranges:
-        <b>{{ tempMin }} {{ tempUnit }} — {{ tempMax }} {{ tempUnit }}</b>
+        <b>{{ tempMin }} {{ tempUnit }} to {{ tempMax }} {{ tempUnit }}</b>
       </span>
       <span v-if="test" class="test"
         >Reference test: <b>{{ test }}</b>
@@ -65,6 +75,7 @@ export default {
   props: {
     icon: { type: [String, Number], default: "mdi-information-outline" },
     label: { type: [String, Number], default: "" },
+    img: { type: [String, Number], default: "" },
     value: { type: [String, Number], default: "" },
     unit: { type: [String, Number], default: "" },
     test: { type: [String, Number], default: "" },
@@ -91,6 +102,7 @@ export default {
 
 <style scoped>
 .field-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: #f4fbfd;
@@ -112,6 +124,34 @@ export default {
   line-break: anywhere;
 }
 
+.temp-range {
+  position: absolute;
+  left: 200px;
+  top: 7px;
+  margin-right: 50px;
+}
+
+.temp-range-value {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 9;
+}
+
+.temp-range-min {
+  left: 253px;
+  top: 21px;
+}
+
+.temp-range-max {
+  left: 204px;
+  top: 16px;
+}
+
+.temp-range-min {
+  position: absolute;
+}
 .test-container {
   display: flex;
   flex-direction: column;

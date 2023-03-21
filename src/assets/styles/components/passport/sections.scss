@@ -1,4 +1,5 @@
 .section {
+  display: flex;
   .full-width {
     width: 100% !important;
   }
@@ -54,12 +55,6 @@
     width: 100%;
   }
 
-  .field-container {
-    display: flex;
-    flex-direction: column;
-    width: 33%;
-  }
-
   .hidden {
     display: none;
   }
@@ -67,29 +62,9 @@
   .longer {
     padding-bottom: 50px;
   }
-
-  @media (max-width: 750px) {
-    .section-content {
-      margin-bottom: 0;
-      border: none;
-    }
-
-    .longer {
-      padding-bottom: 0;
-    }
-
-    .sub-title-container {
-      padding: 22px 40px 0 30px;
-    }
-
-    .list-container {
-      width: 100%;
-      padding-left: 50px;
-    }
-
-    .field-container {
-      width: 100%;
-    }
+}
+@media (max-width: 960px) {
+  .section {
+    flex-direction: column;
   }
 }
-

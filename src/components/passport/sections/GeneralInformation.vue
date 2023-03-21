@@ -16,10 +16,10 @@
 
 
 <template v-if="propsData">
-  <div style="display: flex">
+  <div class="section">
     <v-container>
       <v-row v-if="propsData.batteryIdentification">
-        <v-col md="9" class="pa-0 ma-0">
+        <v-col sm="12" md="9" class="pa-0 ma-0">
           <Field
             data-cy="battery-id"
             icon="mdi-fingerprint"
@@ -27,24 +27,23 @@
             :value="propsData.batteryIdentification.batteryIDDMCCode"
           />
         </v-col>
-        <v-col md="3" class="pa-0 ma-0"> </v-col>
       </v-row>
-      <v-row>
-        <v-col md="4" class="pa-0 ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             label="Battery Type"
             icon="mdi-battery-unknown"
             :value="propsData.batteryIdentification.batteryType"
           />
         </v-col>
-        <v-col md="5" class="pa-0 ma-0">
+        <v-col sm="12" md="5" class="pa-0 ma-0">
           <Field
             icon="mdi-battery"
             label="Battery Model"
             :value="propsData.batteryIdentification.batteryModel"
           />
         </v-col>
-        <v-col md="3" class="pa-0 ma-0">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
           <Field
             class="longer"
             icon="mdi-license"
@@ -53,8 +52,13 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col md="9" v-if="propsData.physicalDimensions" class="pa-0 ma-0">
+      <v-row class="section">
+        <v-col
+          sm="12"
+          md="9"
+          v-if="propsData.physicalDimensions"
+          class="pa-0 ma-0"
+        >
           <Field
             icon="mdi-ruler"
             label="Dimensions of the battery"
@@ -64,7 +68,7 @@
             :width="propsData.physicalDimensions.width"
           />
         </v-col>
-        <v-col md="3" class="pa-0 ma-0">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
           <Field
             icon="mdi-scale"
             label="Weight"
@@ -75,8 +79,8 @@
       </v-row>
     </v-container>
     <v-container style="width: 70%">
-      <v-row>
-        <v-col md="8" class="pa-0 ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="8" class="pa-0 ma-0">
           <Field
             icon="mdi-calendar-range"
             style="background: #f9f9f9"
@@ -86,7 +90,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col md="8" class="pa-0 ma-0">
+        <v-col sm="12" md="8" class="pa-0 ma-0">
           <Field
             icon="mdi-map-marker-outline"
             style="background: #f9f9f9"
@@ -106,9 +110,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container style="width: 50%">
+    <v-container style="width: 60%">
       <v-row>
-        <v-col md="12">
+        <v-col md="12" class="pa-0 ma-0">
           <Field
             v-if="propsData.manufacturer"
             style="background: #f9f9f9"

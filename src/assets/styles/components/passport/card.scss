@@ -1,127 +1,136 @@
-.card-container {
-  position: relative;
-  column-gap: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  border: solid 1px #dcdcdc;
-  margin-right: 14px;
+.cards-container {
+  width: 100%;
+  margin: 0 40px 24px 40px;
 
-  .charging-cycles-title {
-    font-size: 12px;
-    font-weight: 500;
-    margin: 12px 0 5px 0;
-  }
-
-  .charging-cycles {
+  .card-container {
     position: relative;
-    width: 80%;
+    column-gap: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: solid 1px #dcdcdc;
+    margin-right: 14px;
 
-    .bar-chart {
-      position: absolute;
-      background: #ececec;
-      border-radius: 8px;
-      width: 100%;
-      height: 19px;
-    }
-
-    .chart-value {
+    .charging-cycles-title {
       font-size: 12px;
-      position: absolute;
-      top: 20px;
+      font-weight: 500;
+      margin: 12px 0 5px 0;
     }
 
-    .current {
-      left: 0;
-    }
-    .max {
-      right: 0;
-    }
-  }
-
-  .card-title {
-    font-size: 11px;
-    font-weight: 500;
-    color: #888888;
-  }
-
-  .card-icon {
-    position: absolute;
-    right: 7px;
-    top: 7px;
-    color: #0f71cb;
-  }
-
-  .card-icon-green {
-    color: #428c5b;
-  }
-
-  .card-label {
-    font-size: 12px;
-    font-weight: 500;
-    padding-top: 13px;
-  }
-
-  .card-value {
-    font-size: 24px;
-    font-weight: 600;
-    padding-bottom: 12px;
-  }
-
-  .card-second-value {
-    font-size: 18px;
-    font-weight: 500;
-    padding-top: 12px;
-  }
-
-  .card-second-label {
-    font-size: 12px;
-    font-weight: 500;
-    padding-top: 1 px;
-  }
-
-  .card-info-icon {
-    position: absolute;
-    right: 0;
-    bottom: 7px;
-    color: #0f71cb;
-  }
-
-  .materials-container {
-    width: 250px;
-
-    .material-container {
+    .charging-cycles {
       position: relative;
-      width: 60px;
-      height: 60px;
-      background-color: #eaf1fe;
-      border-radius: 10px;
-      padding-top: 20px;
-      margin: 0 15px 15px 0;
+      width: 80%;
 
-      .material-label {
+      .bar-chart {
         position: absolute;
-        top: 5px;
-        left: 5px;
+        background: #ececec;
+        border-radius: 8px;
+        width: 100%;
+        height: 19px;
+      }
+
+      .chart-value {
         font-size: 12px;
-        font-weight: 500;
-      }
-      .material-value {
         position: absolute;
-        font-size: 18px;
-        font-weight: 600;
         top: 20px;
-        left: 50%;
-        transform: translate(-50%, 0);
       }
+
+      .no-value {
+        display: none;
+      }
+
+      .current {
+        left: 0;
+      }
+      .max {
+        right: 0;
+      }
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: #888888;
+    }
+
+    .card-icon {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      color: #0f71cb;
+    }
+
+    .card-icon-green {
+      color: #428c5b;
+    }
+
+    .card-label {
+      font-size: 12px;
+      font-weight: 500;
+      padding-top: 13px;
+    }
+
+    .card-value {
+      font-size: 24px;
+      font-weight: 600;
+      padding-bottom: 12px;
+    }
+
+    .card-second-value {
+      font-size: 18px;
+      font-weight: 500;
+      padding-top: 12px;
+    }
+
+    .card-second-label {
+      font-size: 12px;
+      font-weight: 500;
+      padding-top: 1 px;
+    }
+
+    .card-info-icon {
+      position: absolute;
+      right: 0;
+      bottom: 7px;
+      color: #0f71cb;
+    }
+
+    .materials-container {
+      width: 250px;
+
+      .material-container {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        background-color: #eaf1fe;
+        border-radius: 10px;
+        padding-top: 20px;
+        margin: 0 15px 15px 0;
+
+        .material-label {
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+        .material-value {
+          position: absolute;
+          font-size: 18px;
+          font-weight: 600;
+          top: 20px;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+      }
+    }
+
+    .co2-container {
+      max-width: 150px !important;
+      margin-right: -50px;
     }
   }
 
-  .co2-container {
-    max-width: 150px !important;
-    margin-right: -50px;
+  .card-container:last-child {
+    margin-right: 0;
   }
-}
-
-.card-container:last-child {
-  margin-right: 0;
 }

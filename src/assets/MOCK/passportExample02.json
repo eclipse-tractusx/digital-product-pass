@@ -149,11 +149,11 @@
       },
       "temperatureRangeIdleState": {
         "temperatureRangeIdleStateUpperLimit": 67,
-        "temperatureRangeIdleStateLowerLimit": 67
+        "temperatureRangeIdleStateLowerLimit": -22
       },
       "batteryCycleLife": {
         "cycleLifeTestCRate": 45,
-        "cycleLifeTestDepthOfDischarge": 40,
+        "cycleLifeTestDepthOfDischarge": 50,
         "expectedLifetime": 100
       },
       "manufacturer": {
@@ -280,7 +280,7 @@
       },
       "stateOfBattery": {
         "stateOfHealth": 12,
-        "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
+        "statusBattery": "first life",
         "stateOfCharge": 23
       },
       "cO2FootprintTotal": 1.3

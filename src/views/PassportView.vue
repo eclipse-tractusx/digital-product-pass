@@ -66,7 +66,7 @@
 
     <div class="pass-container">
       <v-card>
-        <v-tabs v-model="tab" center-active>
+        <v-tabs v-model="tab" center-active show-arrows class="menu">
           <v-tab
             v-for="(section, index) in componentsNames"
             :key="index"

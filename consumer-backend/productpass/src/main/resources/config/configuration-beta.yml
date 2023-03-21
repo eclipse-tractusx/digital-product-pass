@@ -32,7 +32,7 @@ variables:
 
 passport:
   versions:
-    - 'v1'
+    - 'v3.0.1'
 
 vault:
   type: 'local'

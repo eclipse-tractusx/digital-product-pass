@@ -16,22 +16,7 @@
 
         <v-container v-if="card.title === 'SUSTAINABILITY'">
           <v-row>
-            <v-col md="8" class="materials-container">
-              <v-row>
-                <div
-                  class="material-container"
-                  v-for="(material, index) in card.value"
-                  :key="index"
-                >
-                  <span class="material-label">{{
-                    material.materialName
-                  }}</span>
-                  <span class="material-value">
-                    {{ material.materialPercentageMassFraction }}%
-                  </span>
-                </div>
-              </v-row>
-            </v-col>
+            <ElementChart :data="card.value" />
             <v-divider vertical></v-divider>
             <v-col md="4" class="co2-container">
               <span class="card-value">
@@ -84,10 +69,12 @@
 
 <script>
 import Tooltip from "../general/Tooltip.vue";
+import ElementChart from "../passport/ElementChart.vue";
 export default {
   name: "CardsComponent",
   components: {
     Tooltip,
+    ElementChart,
   },
   props: {
     data: {
@@ -140,7 +127,6 @@ export default {
           info: "info",
         },
         {
-          /////////////////tut/////
           title: "SUSTAINABILITY",
           icon: "mdi-molecule-co2",
           secondLabel: "CO2 Total",

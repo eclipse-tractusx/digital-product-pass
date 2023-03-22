@@ -4,6 +4,13 @@
     width: 100% !important;
   }
 
+  .element-chart-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    min-height: 20px;
+  }
+
   .sub-section-container {
     display: flex;
     flex-wrap: wrap;

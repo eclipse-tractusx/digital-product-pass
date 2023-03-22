@@ -45,7 +45,6 @@
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
           <Field
-            class="longer"
             icon="mdi-license"
             label="Warranty"
             :value="propsData.warrantyPeriod"

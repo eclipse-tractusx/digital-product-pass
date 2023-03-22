@@ -1,6 +1,7 @@
 <template>
   <div class="document-field">
-    <div class="document-field-container">
+    <div class="field-container">
+      <v-icon icon="mdi-text-box-outline" class="document-icon"></v-icon>
       <a
         v-for="document in field"
         :key="document"
@@ -12,11 +13,6 @@
         <span class="field-label">{{ document.title }}</span>
 
         <span class="field-value link-wrapper">
-          <v-icon
-            v-if="document.fileLocation && document.fileLocation != null"
-            icon="mdi-text-box-outline"
-            class="document-icon"
-          ></v-icon>
           <span class="link">
             {{ document.fileLocation }}
           </span>

@@ -198,9 +198,44 @@
             "materialPercentageMassFraction": 19,
             "materialName": "Graphite",
             "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
-        "criticalRawMaterials": "gNfZBdyFGRajVfJNonEnOinZj",
+        "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
         "components": {
           "componentsPartNumber": [
             "Case xxxxxxx/xx; Controller xxxxxxx/xx"

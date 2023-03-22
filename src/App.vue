@@ -51,6 +51,10 @@ export default {
   overflow-x: hidden;
 }
 
+.v-container {
+  max-width: 100% !important;
+}
+
 .table-borderless > :not(caption) > * > * {
   border-bottom-width: 0;
   padding-left: 40px !important;

@@ -68,9 +68,6 @@
           </v-row>
         </v-col>
       </v-row>
-
-      <!-- What am I supposed to do with this -->
-      <!--  -->
     </v-container>
   </div>
 </template>

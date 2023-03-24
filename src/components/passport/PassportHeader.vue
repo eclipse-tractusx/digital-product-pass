@@ -24,6 +24,7 @@
         class="back-btn"
         @click="$router.go(-1)"
         variant="outlined"
+        style="border: 2px solid; text-transform: initial"
       >
         <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
         Back
@@ -35,13 +36,7 @@
         {{ id ? id : "—" }}
       </p>
     </div>
-    <div class="share-wrapper">
-      <v-icon
-        class="share"
-        icon="mdi-share-variant-outline"
-        size="x-large"
-      ></v-icon>
-    </div>
+    <div class="share-wrapper"></div>
   </div>
 </template>
 
@@ -101,8 +96,8 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  width: 76%;
-  margin: 6em 12% 1em 12%;
+  width: 100%;
+  margin: 6em 40px 0 40px;
   padding: 20px 0;
 }
 .code-container {

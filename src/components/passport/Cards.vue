@@ -1,67 +1,69 @@
 <template>
   <v-container class="cards-container">
     <v-row>
-      <v-col v-for="(card, index) in cards" :key="index" class="card-container">
-        <span class="card-title">{{ card.title }} </span>
-        <span>
-          <v-icon
-            :class="[card.title === 'HEALTH' ? 'card-icon-green' : '']"
-            class="card-icon"
-            start
-            md
-            :icon="card.icon"
-            size="x-large"
-          ></v-icon>
-        </span>
+      <v-col
+        cols="12"
+        md="3"
+        v-for="(card, index) in cards"
+        :key="index"
+        style="padding: 6px !important"
+      >
+        <div class="card-container">
+          <span class="card-title">{{ card.title }} </span>
+          <span>
+            <v-icon
+              :class="[card.title === 'HEALTH' ? 'card-icon-green' : '']"
+              class="card-icon"
+              start
+              md
+              :icon="card.icon"
+              size="x-large"
+            ></v-icon>
+          </span>
 
-        <v-container v-if="card.title === 'SUSTAINABILITY'">
-          <v-row>
-            <ElementChart :data="card.value" />
-            <v-divider vertical></v-divider>
-            <v-col md="4" class="co2-container">
-              <span class="card-value">
-                {{ card.secondValue }} {{ card.secondValueUnits }}
-              </span>
-              <div class="card-label">{{ card.secondLabel }}</div>
-            </v-col>
-          </v-row>
-        </v-container>
-        <div v-else>
-          <div class="card-label">{{ card.label }}</div>
-          <div class="card-value">{{ card.value }} {{ card.valueUnits }}</div>
-          <v-divider></v-divider>
-          <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
-            <div class="charging-cycles-title">Charging Cycles</div>
-            <div class="charging-cycles">
-              <div class="bar-chart" />
-              <div
-                class="bar-chart"
-                :style="`width: ${barChart(
-                  currentValue,
-                  maxValue
-                )}; background: #0f71cb`"
+          <v-container class="pa-0" v-if="card.title === 'SUSTAINABILITY'">
+            <v-row class="pa-0 ma-0">
+              <ElementChart
+                :data="card.value"
+                style="margin: 24px 4px 2px 12px; padding: 0"
               />
-              <div class="chart-value current">
-                {{ isNumeric(currentValue) ? currentValue : "No data" }}
-              </div>
-              <div class="chart-value max">
-                {{ isNumeric(maxValue) ? maxValue : "No data" }}
-              </div>
-            </div>
-          </div>
+              <v-divider vertical></v-divider>
+              <v-col cols="4" class="ma-0 pa-0; co2-container">
+                <span class="card-value" style="padding-bottom: 0">
+                  {{ card.secondValue }} {{ card.secondValueUnits }}
+                </span>
+                <div class="card-label" style="padding-top: 0">
+                  {{ card.secondLabel }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
           <div v-else>
-            <div class="card-second-value">
-              {{ card.secondValue }} {{ card.secondValueUnits }}
+            <div class="card-label">
+              {{ card.label }}
             </div>
-            <div class="card-second-label">{{ card.secondLabel }}</div>
+            <div class="card-value">{{ card.value }} {{ card.valueUnits }}</div>
+            <v-divider></v-divider>
+            <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
+              <div class="charging-cycles-title">Charging Cycles</div>
+              <BarChart :currentValue="currentValue" :maxValue="maxValue" />
+            </div>
+            <div v-else>
+              <div class="card-second-value">
+                {{ card.secondValue }} {{ card.secondValueUnits }}
+              </div>
+              <div class="card-second-label">
+                {{ card.secondLabel }}
+              </div>
+            </div>
           </div>
+          <span v-if="card.info" class="card-info-icon">
+            <v-icon start md icon="mdi-information-outline"> </v-icon>
+            <Tooltip>
+              {{ card.info }}
+            </Tooltip>
+          </span>
         </div>
-        <span v-if="card.info" class="card-info-icon">
-          <v-icon start md icon="mdi-information-outline"> </v-icon>
-          <Tooltip>
-            {{ card.info }}
-          </Tooltip>
-        </span>
       </v-col>
     </v-row>
   </v-container>
@@ -70,11 +72,13 @@
 <script>
 import Tooltip from "../general/Tooltip.vue";
 import ElementChart from "../passport/ElementChart.vue";
+import BarChart from "../passport/BarChart.vue";
 export default {
   name: "CardsComponent",
   components: {
     Tooltip,
     ElementChart,
+    BarChart,
   },
   props: {
     data: {
@@ -129,7 +133,7 @@ export default {
         {
           title: "SUSTAINABILITY",
           icon: "mdi-molecule-co2",
-          secondLabel: "CO2 Total",
+          secondLabel: "CO Total",
           secondValueUnits: "t",
           value:
             this.$props.data.data.passport.cellChemistry.cathodeActiveMaterials,
@@ -138,19 +142,6 @@ export default {
         },
       ],
     };
-  },
-  methods: {
-    barChart(currentValue, maxValue) {
-      if (!currentValue || !maxValue) return 0;
-      if (this.isNumeric(!currentValue) || this.isNumeric(!maxValue)) return 0;
-
-      const bar = (currentValue * 100) / maxValue;
-
-      return bar + "%";
-    },
-    isNumeric(n) {
-      return !isNaN(parseFloat(n)) && isFinite(n);
-    },
   },
 };
 </script>

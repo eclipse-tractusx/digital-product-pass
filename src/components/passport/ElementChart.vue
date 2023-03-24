@@ -1,6 +1,6 @@
 <template>
-  <v-col md="8" class="materials-container">
-    <v-row>
+  <v-col cols="7" class="materials-container">
+    <v-row class="yeah">
       <div
         class="material-container"
         v-for="(material, index) in data"
@@ -39,7 +39,7 @@ export default {
   background-color: #eaf1fe;
   border-radius: 10px;
   padding-top: 20px;
-  margin: 0 15px 15px 0;
+  margin: 7px;
 }
 .material-label {
   position: absolute;
@@ -56,4 +56,7 @@ export default {
   left: 50%;
   transform: translate(-50%, 0);
 }
+</style>
+
+<style scoped>
 </style>

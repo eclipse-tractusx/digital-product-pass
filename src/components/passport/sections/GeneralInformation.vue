@@ -77,7 +77,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container style="width: 70%">
+    <v-container class="container-width-70">
       <v-row class="section">
         <v-col sm="12" md="8" class="pa-0 ma-0">
           <Field
@@ -109,7 +109,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container style="width: 60%">
+    <v-container class="container-width-60">
       <v-row>
         <v-col md="12" class="pa-0 ma-0">
           <Field

@@ -15,24 +15,18 @@
  */
 
 .document-field {
-  .document-field-container {
-    padding-right: 20px;
-  }
-
   .link-container {
     display: flex;
     flex-direction: column;
-    min-height: 120px;
     text-decoration: none;
   }
 
   a {
     color: $catena-x-blue;
-    font-weight: 100;
+    font-weight: 600;
   }
 
   .link-wrapper {
-    font-weight: normal !important;
     line-break: anywhere;
   }
 
@@ -45,14 +39,12 @@
   }
 
   .field-label {
-    padding: 30px 0 10px 40px;
     font-size: 14px;
     color: #777777;
     line-break: anywhere;
   }
 
   .field-value {
-    padding-left: 40px;
     font-size: 14px;
     line-height: 20px;
     font-weight: bold;
@@ -96,38 +88,5 @@
 
   .short-label {
     max-width: 53%;
-  }
-}
-@media (max-width: 750px) {
-  .document-field {
-    width: 100% !important;
-  }
-  .section-content {
-    border: none;
-    margin-bottom: 0;
-  }
-
-  .longer {
-    padding-bottom: 22px;
-  }
-
-  .sub-title-container {
-    padding: 22px 40px 0 30px;
-  }
-
-  .list-container {
-    width: 100%;
-    padding-left: 40px;
-    padding-bottom: 40px;
-  }
-
-  .document-field-container {
-    border-bottom: solid 1px #edefe5;
-    width: 100%;
-    min-height: 120px;
-  }
-
-  .two-third-width {
-    width: 100% !important;
   }
 }

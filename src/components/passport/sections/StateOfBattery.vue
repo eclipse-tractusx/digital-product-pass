@@ -54,6 +54,7 @@
             label="Expected lifetime"
             style="background: #f9f9f9; margin-bottom: 12px"
             :value="propsData.batteryCycleLife.expectedLifetime"
+            unit="cycles"
           />
           <Field
             icon="mdi-thermometer-low"

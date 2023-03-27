@@ -119,7 +119,6 @@ import AAS from "@/services/AasServices";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 import SectionComponent from "@/components/passport/Section.vue";
-import MOCK_DATA from "../assets/MOCK/passportExample02.json";
 
 export default {
   name: "PassportView",
@@ -142,7 +141,6 @@ export default {
   data() {
     return {
       tab: null,
-
       componentsNames: [
         {
           label: "General Information",
@@ -196,36 +194,33 @@ export default {
     };
   },
   async created() {
-    this.loading = false;
-    this.data = MOCK_DATA;
-
-    // try {
-    //   let passportPromise = this.getPassport(this.passId);
-    //   const result = await threadUtil.execWithTimeout(
-    //     passportPromise,
-    //     API_TIMEOUT,
-    //     null
-    //   );
-    //   if (result && result != null) {
-    //     this.data = result;
-    //   } else {
-    //     this.error = true;
-    //     if (this.errorObj.title == null) {
-    //       this.errorObj.title = "Timeout! Failed to return passport!";
-    //     }
-    //     if (this.errorObj.description == null) {
-    //       this.errorObj.description =
-    //         "We are sorry, it took too long to retrieve the passport.";
-    //     }
-    //   }
-    // } catch (e) {
-    //   this.error = true;
-    //   this.errorObj.title = "Failed to return passport!";
-    //   this.errorObj.description =
-    //     "We are sorry, it was not posible to retrieve the passport.";
-    // } finally {
-    //   this.loading = false;
-    // }
+    try {
+      let passportPromise = this.getPassport(this.passId);
+      const result = await threadUtil.execWithTimeout(
+        passportPromise,
+        API_TIMEOUT,
+        null
+      );
+      if (result && result != null) {
+        this.data = result;
+      } else {
+        this.error = true;
+        if (this.errorObj.title == null) {
+          this.errorObj.title = "Timeout! Failed to return passport!";
+        }
+        if (this.errorObj.description == null) {
+          this.errorObj.description =
+            "We are sorry, it took too long to retrieve the passport.";
+        }
+      }
+    } catch (e) {
+      this.error = true;
+      this.errorObj.title = "Failed to return passport!";
+      this.errorObj.description =
+        "We are sorry, it was not posible to retrieve the passport.";
+    } finally {
+      this.loading = false;
+    }
   },
   methods: {
     async getPassport(assetId) {

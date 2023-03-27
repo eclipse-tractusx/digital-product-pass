@@ -23,7 +23,7 @@
           <Field
             data-cy="battery-id"
             icon="mdi-fingerprint"
-            label="Battery ID"
+            label="Battery ID (DMC)"
             :value="propsData.batteryIdentification.batteryIDDMCCode"
           />
         </v-col>

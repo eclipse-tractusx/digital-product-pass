@@ -119,6 +119,30 @@
           {
             "title": "LlN",
             "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "packagingInstructions": [
@@ -237,8 +261,8 @@
       },
       "batteryCycleLife": {
         "cycleLifeTestCRate": 45,
-        "cycleLifeTestDepthOfDischarge": 50,
-        "expectedLifetime": 100
+        "cycleLifeTestDepthOfDischarge": "123",
+        "expectedLifetime": "daw"
       },
       "manufacturer": {
         "name": "Company A",

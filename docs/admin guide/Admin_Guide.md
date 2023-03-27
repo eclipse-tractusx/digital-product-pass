@@ -2,8 +2,8 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v1.2 </br>
-Latest Revision Feb 28, 2023
+Version: v1.3 </br>
+Latest Revision Mar 27, 2023
 
 ## Table of Contents
 
@@ -18,8 +18,13 @@ Latest Revision Feb 28, 2023
     7.2  [Spring Boot Configuration](#spring-boot-configuration)  
     7.3  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)  
 8. [Postman Collection](#postman-collection)
-9. [Secrets Management](#secrets-management)  
-
+9. [Secrets Management](#secrets-management)
+10. [EDC Provider Configuration](#edc-provider-configuration)  
+    10.1 [Documentation Description](#documentation-description)    
+    10.2 [Asset Configuration](#asset-configuration)   
+    10.3 [Policies Configuration](#policies-configuration)   
+    10.4 [Contract Definition Configuration](#contract-definition-configuration)  
+    10.5 [Digital Twin Registration](#digital-twin-registration)
 ## Introduction
 
 This guide contains all the available information for an administrator to configure, operate and deploy the Product Passport Application.  
@@ -68,10 +73,11 @@ Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digi
 
 At the moment, the Product Passport Application is hosted in two environments:
 
-|  | Materialpass | ArgoCD Development |
+|  | Application Runtime Environment | ArgoCD - Deployment Platform |
 | - | -------- | ---- |
-| **Development Environment** | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
-| **Integration Environment** | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
+| **Development** | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
+| **Integration** | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
+| **Beta** | [https://materialpass.beta.demo.catena-x.net/](https://materialpass.beta.demo.catena-x.net/) | [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/) |
 
 All the values for the helm charts are configured for each environment and set up in the Product Passport Application source code:  
 
@@ -91,7 +97,7 @@ All the information about the backend services is described in this documentatio
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md) |
-| Open API - swagger **(in progress)** | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
+| Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
 
@@ -135,3 +141,190 @@ In order to set up the secret management please follow this guide:
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md) |
+
+
+## EDC Provider Configuration
+
+When configuring your EDC Provider you need to take info consideration the following guidelines and formats:
+
+***Note:*** 
+*Please take into consideration following our Postman Collection while setting your EDC Provider*
+
+### Documentation Description
+
+All variables are written in the following notation: ***{{ VARIABLE_NAME }}***
+All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/catenax-ng/product-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
+
+### Asset Configuration
+
+When configurating you EDC provider you will be able to set some assets which reference to a certain endpoint.
+
+***Info:*** 
+*All public assets must be registered in a SubModel from a Digital Twin in the [Digital Twin Registry](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html).*
+
+#### **Variables:**
+
+| Name | Description | Example Value |
+| ---- | -------- | ---- |
+| AssetId | Combination of Digital Twin and Sub Model UUIDs | urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+| Description | Simple description of the asset | Battery Passport Test Data |
+| DataProvider_EndpointUrl | URL to the endpoint which stores and serves the data | [https://materialpass.int.demo.catena-x.net/provider_backend/data](https://materialpass.int.demo.catena-x.net/provider_backend/data) |
+| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+
+
+#### **Format and Fields:**
+```
+{
+    "asset": {
+        "properties": {
+            "asset:prop:id": "{{AssetId}}",
+            "asset:prop:description": "{{Description}}"
+        }
+    },
+    "dataAddress": {
+        "properties": {
+            "type": "HttpData",
+            "baseUrl": "{{DataProvider_EndpointUrl}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}"
+        }
+    }
+}
+```
+### Policies Configuration
+Policies are important for configuration the **access, prohibitions, obligations and permissions to certain assets.**
+
+A policy can have more and less configurations, depending of the restrictions you want to give to each asset.
+
+Here we specify a simple policy with just the USAGE permission, so we are able to retrieve the whole asset without obligations and prohibitions.
+
+#### **Variables:**
+
+| Name | Description | Example Value |
+| ---- | -------- | ---- |
+| PolicyId | UUID that identifies the policy in the EDC Connector | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
+| PermissionType | DID Permission Type | dataspaceconnector:permission |
+
+
+#### **Format and Fields:**
+
+```
+{
+    "id": "{{PolicyId}}",
+    "policy": {
+        "prohibitions": [],
+        "obligations": [],
+        "permissions": [
+            {
+                "edctype": "{{PermissionType}}",
+                "action": {
+                    "type": "USE"
+                },
+                "constraints": []
+            }
+        ]
+    }
+}
+```
+
+
+### Contract Definition Configuration
+
+Contract definitions allow us to expose the assets and link them to a contract policy and a access policy.
+
+***Info:*** 
+*Remember that all **policies and assets** you bind to a contract **must be defined in the same EDC Connector** and linked though their ID in the configuration from the contract. *
+
+#### **Variables:**
+
+| Name | Description | Example Value |
+| ---- | -------- | ---- |
+| ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df |
+| AssetId | Combination of Digital Twin and Sub Model UUIDs | urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+| AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
+| ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
+
+
+#### **Format and Fields:**
+
+***Info:*** 
+*For testing proposes and in order to ease the access to your assets we are going to define the **same policy as accessPolicy and as contractPolicy**. However, you are recommended to configure two separated policies and specify them adapting each one of them to your specific needs.*
+
+```
+{
+    "id": "{{ContractDefinitionId}}",
+    "criteria": [
+        {
+            "operandLeft": "asset:prop:id",
+            "operator": "=",
+            "operandRight": "{{AssetId}}"
+        }
+    ],
+    "accessPolicyId": "{{AccessPolicyId}}",
+    "contractPolicyId": "{{ContractPolicyId}}"
+}
+```
+
+### Digital Twin Registration
+
+Once you finish the configuration, to make the endpoint public configure in the following way your Digital Twin:
+
+***Info:*** 
+*You need to be able to request tokens for the **Catena-X Central IAM** in order to **configure Digital Twins** in the Registry.*
+
+
+
+#### **Variables:**
+
+| Name | Description | Example Value |
+| ---- | -------- | ---- |
+| DigitalTwinId | Manually generated DID that contains a UUID | urn:uuid:32aa72de-297a-4405-9148-13e12744028a |
+| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+| partInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
+| EDC_ProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
+
+#### **Format and Fields:**
+
+```
+{
+    "description": [],
+    "globalAssetId": {
+        "value": [
+            "{{DigitalTwinId}}"
+        ]
+    },
+    "idShort": "Battery_X123456789012X12345678901234566",
+    "identification": "{{DigitalTwinId}}",
+    "specificAssetIds": [
+        {
+            "key": "partInstanceId",
+            "value": "X123456789012X12345678901234566"
+        }
+    ],
+    "submodelDescriptors": [
+        {
+            "description": [
+                {
+                    "language": "en",
+                    "text": "Battery Passport Submodel"
+                }
+            ],
+            "idShort": "batteryPass",
+            "identification": "{{DigitalTwinSubmodelId}}",
+            "semanticId": {
+                "value": [
+                    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+                ]
+            },
+            "endpoints": [
+                {
+                    "interface": "EDC",
+                    "protocolInformation": {
+                        "endpointAddress": "{{EDC_ProviderUrl}}/BPNL000000000000/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel?content=value&extent=WithBLOBValue",
+                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
+                        "endpointProtocolVersion": "0.0.1-SNAPSHOT"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```

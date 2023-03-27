@@ -19,14 +19,13 @@
       },
       "capacityThresholdExhaustion": 23,
       "batteryPower": {
-        "originalPowerCapability": 50,
-        "powerFade": 0.5,
-        "originalPowerCapabilityLimits": 50,
-        "maximumAllowedBatteryPower": 110000,
-        "powerCapabilityAt20Charge": 100000,
-        "originalPower": 12000,
-        "powerCapabilityAt80Charge": 12000
-      },
+          "powerFade": 23,
+          "originalPowerCapability": -1.7976931348623157E+308,
+          "originalPowerCapabilityLimits": -1.7976931348623157E+308,
+          "maximumAllowedBatteryPower": -1.7976931348623157E+308,
+          "powerCapabilityAt20Charge": -1.7976931348623157E+308,
+          "powerCapabilityAt80Charge": -1.7976931348623157E+308
+        },
       "capacityFade": 1.55
     },
     "document": {
@@ -204,6 +203,7 @@
         "componentsPartNumber": "Voltage cables",
         "componentsSupplier": [
           {
+		    "componentsSupplierName": "AB Corporation",
             "address": {
               "locality": {
                 "value": "CityF",

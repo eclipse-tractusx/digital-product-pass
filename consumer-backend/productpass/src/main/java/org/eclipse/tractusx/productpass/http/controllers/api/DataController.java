@@ -35,7 +35,7 @@ import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
-import org.eclipse.tractusx.productpass.models.passports.PassportV1;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -47,6 +47,7 @@ import utils.LogUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.ThreadUtil;
 
 @RestController
 @RequestMapping("/api/data")
@@ -60,72 +61,14 @@ public class DataController {
     private @Autowired AasService aasService;
     private @Autowired AuthenticationService authService;
 
-    @RequestMapping(value = "/catalog", method = {RequestMethod.GET})
-    @Operation(summary = "Returns contract offers catalog", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Catalog.class)))
-    })
-
-    public Response getCatalog(@RequestParam(value = "providerUrl") String providerUrl) {
-        // Check if user is Authenticated
-        if(!authService.isAuthenticated(httpRequest)){
-            Response response = HttpUtil.getNotAuthorizedResponse();
-            return HttpUtil.buildResponse(response, httpResponse);
-        }
-        Response response = HttpUtil.getResponse();
-        response.data = dataService.getContractOfferCatalog(providerUrl);
-        return HttpUtil.buildResponse(response, httpResponse);
-    }
-
-    @RequestMapping(value = "/submodel/{assetId}", method = {RequestMethod.GET})
-    @Operation(summary = "Returns asset submodel by asset Id", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = SubModel.class)))
-    })
-    public Response getSubmodel(@PathVariable("assetId") String assetId,
-                                @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
-                                @RequestParam(value = "index", required = false, defaultValue = "0") Integer index) {
-        // Check if user is Authenticated
-        if(!authService.isAuthenticated(httpRequest)){
-            Response response = HttpUtil.getNotAuthorizedResponse();
-            return HttpUtil.buildResponse(response, httpResponse);
-        }
-        Response response = HttpUtil.getResponse();
-        SubModel subModel;
-        String connectorId;
-        String connectorAddress;
-        try {
-            subModel = aasService.searchSubModel(idType, assetId, index);
-            connectorId = subModel.getIdShort();
-            connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
-        } catch (Exception e) {
-            response.message = "Failed to get subModel from digital twin registry" + " [" + e.getMessage() + "]";
-            response.status = 404;
-            return HttpUtil.buildResponse(response, httpResponse);
-        }
-        if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
-            response.message = "Failed to get connectorId and connectorAddress!";
-            response.status = 400;
-            response.data = subModel;
-            return HttpUtil.buildResponse(response, httpResponse);
-        }
-        response.data = subModel;
-        response.status = 200;
-        return HttpUtil.buildResponse(response, httpResponse);
-    }
-
     @RequestMapping(value = "/passport/{transferId}", method = {RequestMethod.GET})
     @Operation(summary = "Returns product passport by transfer process Id", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PassportV1.class)))
+                    schema = @Schema(implementation = PassportV3.class)))
     })
-    public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v1") String version) {
+    public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v3.0.1") String version) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
             Response response = HttpUtil.getNotAuthorizedResponse();
@@ -133,8 +76,8 @@ public class DataController {
         }
         Response response = HttpUtil.getResponse();
         Passport passport = null;
-        if(version.equals("v1")) {
-            passport = dataService.getPassportV1(transferId);
+        if(version.equals("v3.0.1")) { // Currently supporting just version v3
+            passport = dataService.getPassportV3(transferId);
         }else{
             response.message = "Version is not available!";
             response.status = 400;

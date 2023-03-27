@@ -32,23 +32,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.bouncycastle.pqc.crypto.lms.LMOtsParameters;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.models.auth.UserInfo;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
-import org.eclipse.tractusx.productpass.models.passports.PassportV1;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import utils.ConfigUtil;
-import utils.HttpUtil;
-import utils.LogUtil;
-import utils.ThreadUtil;
+import utils.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -75,6 +73,9 @@ public class ApiController {
     public static final Integer maxRetries = (Integer) configuration.getConfigurationParam("maxRetries", ".", null);
 
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
+        /*
+         *   This method receives the assetId (partInstanceId or Battery_ID_DMC_Code) and looks up for targets with the same name.
+         */
         try {
             Catalog catalog = dataService.getContractOfferCatalog(providerUrl);
             Map<String, Integer> offers = catalog.loadContractOffersMapByAssetId();
@@ -137,27 +138,30 @@ public class ApiController {
 
 
     /**
-     * @param assetId Asset id that identifies the object that has a passport
+     * @param id Asset id that identifies the object that has a passport
      * @param idType  Type of asset id, the name of the code in the digital twin registry
      *                Default: "Battery_ID_DMC_Code"
-     * @param index   Index from the asset in the digital twin registry
+     * @param dtIndex Index from the asset in the digital twin registry
      *                Default: 0
-     * @return PassportV1
+     * @param idShort Id from subModel
+     *                Default: 0
+     * @return PassportV3
      */
-    @RequestMapping(value = "/passport/{version}/{assetId}", method = {RequestMethod.GET})
-    @Operation(summary = "Returns versioned product passport by asset Id", responses = {
+    @RequestMapping(value = "/passport/{version}/{id}", method = {RequestMethod.GET})
+    @Operation(summary = "Returns versioned product passport by id", responses = {
         @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = Response.class))),
         @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = PassportResponse.class))),
         @ApiResponse(description = "Content of Passport Field in Data Field",useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = PassportV1.class)))
+                schema = @Schema(implementation = PassportV3.class)))
     })
     public Response getPassport(
-            @PathVariable("assetId") String assetId,
+            @PathVariable("id") String id,
             @PathVariable("version") String version,
-            @RequestParam(value = "idType", required = false, defaultValue = "Battery_ID_DMC_Code") String idType,
-            @RequestParam(value = "index", required = false, defaultValue = "0") Integer index
+            @RequestParam(value = "idType", required = false, defaultValue = "partInstanceId") String idType,
+            @RequestParam(value = "idShort", required = false, defaultValue = "batteryPass") String idShort,
+            @RequestParam(value = "dtIndex", required = false, defaultValue = "0") Integer dtIndex
     ) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
@@ -168,7 +172,7 @@ public class ApiController {
         Response response = HttpUtil.getResponse();
         try {
             // Configure digital twin registry query and params
-            AasService.DigitalTwinRegistryQuery digitalTwinRegistry = aasService.new DigitalTwinRegistryQuery(assetId, idType, index);
+            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(id, idType, dtIndex, idShort);
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
 
             // Initialize variables
@@ -183,13 +187,16 @@ public class ApiController {
 
             // Wait for thread to close and give a response
             digitalTwinRegistryThread.join();
+            DigitalTwin digitalTwin;
             SubModel subModel;
             String connectorId;
             String connectorAddress;
             try {
+                digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
-                connectorAddress = subModel.getEndpoints().get(index).getProtocolInformation().getEndpointAddress();
+                connectorAddress = subModel.getEndpoints().get(0).getProtocolInformation().getEndpointAddress();
+
             } catch (Exception e) {
                 response.message = "Failed to get subModel from digital twin registry!";
                 response.status = 504;
@@ -202,6 +209,21 @@ public class ApiController {
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
+            try {
+                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
+            }catch (Exception e) {
+                response.message = "Failed to build endpoint url to ["+connectorAddress+"]!";
+                response.status = 422;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+            if (connectorAddress.isEmpty()) {
+                response.message = "Failed to parse endpoint ["+connectorAddress+"]!";
+                response.status = 422;
+                response.data = subModel;
+                return HttpUtil.buildResponse(response, httpResponse);
+            }
+
+            String assetId = String.join("-",digitalTwin.getIdentification(), subModel.getIdentification());
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
@@ -225,7 +247,7 @@ public class ApiController {
             // Start Negotiation
             Negotiation negotiation;
             try {
-                negotiation = dataService.doContractNegotiations(contractOffer);
+                negotiation = dataService.doContractNegotiations(contractOffer, connectorAddress);
             } catch (Exception e) {
                 response.message = "Negotiation Id not received, something went wrong" + " [" + e.getMessage() + "]";
                 response.status = 400;

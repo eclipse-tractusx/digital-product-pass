@@ -21,6 +21,14 @@ spring:
 spring:
   config:
     activate:
+      on-profile: "beta"
+    import: "application-beta.yml"
+
+---
+
+spring:
+  config:
+    activate:
       on-profile: "int"
     import: "application-int.yml"
 

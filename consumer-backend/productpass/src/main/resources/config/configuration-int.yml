@@ -26,13 +26,13 @@ keycloak:
 
 variables:
   default:
-    providerUrl: 'https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data'
+    providerUrl: 'https://materialpass.int.demo.catena-x.net/BPNL000000000000'
     serverUrl: 'https://materialpass.int.demo.catena-x.net'
     registryUrl: 'https://semantics.int.demo.catena-x.net'
 
 passport:
   versions:
-    - 'v1'
+    - 'v3.0.1'
 
 vault:
   type: 'local'

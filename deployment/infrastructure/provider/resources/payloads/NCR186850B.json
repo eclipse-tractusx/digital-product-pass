@@ -19,14 +19,13 @@
       },
       "capacityThresholdExhaustion": 23,
       "batteryPower": {
-        "originalPowerCapability": 90,
-        "powerFade": 0.37,
-        "originalPowerCapabilityLimits": 734.8,
-        "maximumAllowedBatteryPower": 100000,
-        "powerCapabilityAt20Charge": 500000,
-        "originalPower": 40000,
-        "powerCapabilityAt80Charge": 120000
-      },
+          "powerFade": 23,
+          "originalPowerCapability": -1.7976931348623157E+308,
+          "originalPowerCapabilityLimits": -1.7976931348623157E+308,
+          "maximumAllowedBatteryPower": -1.7976931348623157E+308,
+          "powerCapabilityAt20Charge": -1.7976931348623157E+308,
+          "powerCapabilityAt80Charge": -1.7976931348623157E+308
+        },
       "capacityFade": 2.0
     },
     "document": {
@@ -156,7 +155,7 @@
       "expectedLifetime": 3000
     },
     "manufacturer": {
-      "name": "CompanyC",
+      "name": "Company C",
       "contact": {
         "faxNumber": "+49 89 0987654323",
         "website": "http://www.CompanyC.com",
@@ -204,6 +203,7 @@
         "componentsPartNumber": "Casing Tray: Model C",
         "componentsSupplier": [
           {
+		    "componentsSupplierName": "XY Corporation",
             "address": {
               "locality": {
                 "value": "CityD",
@@ -276,8 +276,8 @@
     },
     "stateOfBattery": {
       "stateOfHealth": 50,
-      "statusBattery": "first life",
+      "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
       "stateOfCharge": 33
     },
-    "cO2FootprintTotal": 15000
+    "cO2FootprintTotal": 124.0
 }

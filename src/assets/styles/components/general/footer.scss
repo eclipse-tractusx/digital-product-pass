@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 .footer-content {
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
     font-size: 14px;
     line-height: 1.42857;
     letter-spacing: 0px;
-    margin: 0px 8px;
+    margin: 0px 7px;
     cursor: pointer;
     color: $catena-x-blue;
   }
@@ -55,13 +55,52 @@
     font-size: 12px;
     padding-bottom: 72px;
   }
+}
+@media (max-width: 1264px) {
+  .footer-content {
+    flex-direction: row;
+    min-height: 48px;
+    margin: 0 40px;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-  @media (max-width: 740px) {
+    a {
+      font-size: 11px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #5a5d57;
+    }
+
     .links {
-      display: initial;
-      div {
-        margin: 20px 0 10px 0;
-      }
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 0;
+      margin-left: 0;
+      margin-right: auto;
+      padding: 10px 0;
+    }
+
+    .copyright {
+      padding: 14px 0;
+      font-size: 11px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5a5d57;
+    }
+  }
+}
+
+@media (max-width: 893px) {
+  .footer-content {
+    a {
+      margin: 0px 4px;
+    }
+  }
+}
+@media (max-width: 844px) {
+  .footer-content {
+    a {
+      margin: 0px 2px;
     }
   }
 }

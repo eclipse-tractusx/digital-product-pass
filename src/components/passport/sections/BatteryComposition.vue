@@ -16,29 +16,38 @@
 
 <template v-if="propsData">
   <div class="section">
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col
+          sm="12"
+          md="12"
+          class="pa-0 ma-0"
+          style="display: flex; margin-bottom: 12px"
+        >
+          <AttributeField
+            icon="mdi-newspaper-variant-outline"
+            :attributes-list="propsData.compositionOfBattery"
+            label="Main Battery Composites"
+            style="background: #f9f9f9; min-width: 300px"
+          />
+          <Field
+            icon="mdi-select-all"
+            label="Critical raw materials"
+            :value="propsData.criticalRawMaterials"
+            style="min-width: 300px"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- Composition of battery -->
-    <AttributeField
+    <!-- <AttributeField
       :attributes-list="propsData.compositionOfBattery"
       label="Composition of battery"
-    />
-    <!-- Critical raw materials -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Critical raw materials</span>
-      </div>
-      <div v-if="propsData.criticalRawMaterials" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li>
-            <span>
-              {{ propsData.criticalRawMaterials }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    /> -->
+
     <!-- Components -->
-    <div class="sub-section-container">
+    <!-- <div class="sub-section-container">
       <div class="sub-title-container">
         <span class="sub-title">Components</span>
       </div>
@@ -89,17 +98,19 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import AttributeField from "../AttributeField.vue";
+import Field from "../Field.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
     AttributeField,
+    Field,
   },
   props: {
     sectionTitle: {

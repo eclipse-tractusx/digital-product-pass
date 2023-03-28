@@ -54,7 +54,7 @@
       </Alert>
     </div>
   </v-container>
-  <div class="very-big" v-else>
+  <div class="pass-container-bg" v-else>
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
@@ -62,13 +62,34 @@
       :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
       type="BatteryID"
     />
-    <CardsComponent :data="data" />
     <div class="pass-container">
-      <div v-for="(section, index) in componentsNames" :key="index">
-        <SectionComponent :title="`${index + 1}. ${section.label}`">
-          <component :is="section.component" :data="data" />
-        </SectionComponent>
-      </div>
+      <CardsComponent :data="data" />
+    </div>
+
+    <div class="pass-container">
+      <v-card>
+        <v-tabs v-model="tab" center-active show-arrows class="menu">
+          <v-tab
+            v-for="(section, index) in componentsNames"
+            :key="index"
+            :value="section.component"
+          >
+            <v-icon start md :icon="section.icon"> </v-icon>
+            {{ section.label }}</v-tab
+          >
+        </v-tabs>
+        <v-card-text>
+          <v-window v-model="tab">
+            <v-window-item
+              v-for="(section, index) in componentsNames"
+              :key="index"
+              :value="section.component"
+            >
+              <component :is="section.component" :data="data" />
+            </v-window-item>
+          </v-window>
+        </v-card-text>
+      </v-card>
     </div>
     <FooterComponent />
   </div>
@@ -88,7 +109,6 @@ import ContractInformation from "@/components/passport/sections/ContractInformat
 import Spinner from "@/components/general/Spinner.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
-import CardComponent from "@/components/passport/Card.vue";
 import CardsComponent from "@/components/passport/Cards.vue";
 import Alert from "@/components/general/Alert.vue";
 import FooterComponent from "@/components/general/Footer.vue";
@@ -105,7 +125,6 @@ export default {
     HeaderComponent,
     GeneralInformation,
     PassportHeader,
-    CardComponent,
     CardsComponent,
     CellChemistry,
     StateOfBattery,
@@ -120,33 +139,42 @@ export default {
   },
   data() {
     return {
+      tab: null,
       componentsNames: [
         {
-          label: "General information",
+          label: "General Information",
+          icon: "mdi-information-outline",
           component: "GeneralInformation",
         },
         {
+          label: "Product Condition",
+          icon: "mdi-battery-charging",
+          component: "StateOfBattery",
+        },
+        {
+          label: "Composition",
+          icon: "mdi-battery-unknown",
+          component: "BatteryComposition",
+        },
+        {
           label: "Cell chemistry",
+          icon: "mdi-flask-empty-outline",
           component: "CellChemistry",
         },
         {
           label: "Electrochemical properties",
+          icon: "mdi-microscope",
           component: "ElectrochemicalProperties",
         },
-        {
-          label: "Battery composition",
-          component: "BatteryComposition",
-        },
-        {
-          label: "State of battery",
-          component: "StateOfBattery",
-        },
+
         {
           label: "Additional information",
+          icon: "mdi-text-box-multiple-outline",
           component: "Documents",
         },
         {
-          label: "Contract information",
+          label: "Data exchange information",
+          icon: "mdi-file-swap-outline",
           component: "ContractInformation",
         },
       ],
@@ -242,48 +270,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.very-big {
-  margin-top: -14px;
-  background-color: #f9f9f9;
-}
-
-.header-title {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.pass-container {
-  width: 76%;
-  margin: 0 12% 0 12%;
-}
-.spinner-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.spinner {
-  margin: auto;
-  width: 8vh;
-  animation: rotate 3s infinite;
-}
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@media (max-width: 750px) {
-  .pass-container {
-    width: 100%;
-    margin: 0;
-  }
-}
-</style>

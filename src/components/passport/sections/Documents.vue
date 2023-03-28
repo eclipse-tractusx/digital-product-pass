@@ -16,16 +16,59 @@
 
 <template v-if="propsData">
   <div class="section">
-    <div class="sub-section-container">
-      <DocumentField :field="propsData.responsibleSourcing" />
-      <DocumentField :field="propsData.packagingInstructions" />
-      <DocumentField :field="propsData.transportationInstructions" />
-      <DocumentField :field="propsData.vehicleDismantlingProcedure" />
-      <DocumentField :field="propsData.testReportsResults" />
-      <DocumentField :field="propsData.batteryDismantlingProcedure" />
-      <DocumentField :field="propsData.safetyMeasures" />
-      <DocumentField :field="propsData.declarationOfConformity" />
-    </div>
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col
+          sm="12"
+          md="3"
+          class="pa-0 ma-0"
+          style="padding-right: 24px !important"
+        >
+          <v-row class="section">
+            <v-col sm="12" md="12" class="pa-0 ma-0">
+              <DocumentField :field="propsData.responsibleSourcing" />
+            </v-col>
+          </v-row>
+          <v-row class="section">
+            <v-col sm="12" md="12" class="pa-0 ma-0">
+              <DocumentField :field="propsData.packagingInstructions" />
+            </v-col>
+          </v-row>
+
+          <v-row class="section">
+            <v-col sm="12" md="12" class="pa-0 ma-0">
+              <DocumentField :field="propsData.declarationOfConformity" />
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col sm="12" md="9" class="pa-0 ma-0">
+          <v-row class="section">
+            <v-col sm="12" md="6" class="pa-0 ma-0">
+              <DocumentField :field="propsData.transportationInstructions" />
+            </v-col>
+            <v-col sm="12" md="6" class="pa-0 ma-0">
+              <DocumentField :field="propsData.vehicleDismantlingProcedure" />
+            </v-col>
+          </v-row>
+          <v-row class="section">
+            <v-col sm="12" md="6" class="pa-0 ma-0">
+              <DocumentField :field="propsData.vehicleDismantlingProcedure" />
+            </v-col>
+            <v-col sm="12" md="6" class="pa-0 ma-0">
+              <DocumentField :field="propsData.testReportsResults" />
+            </v-col>
+          </v-row>
+          <v-row class="section">
+            <v-col sm="12" md="3" class="pa-0 ma-0">
+              <DocumentField :field="propsData.batteryDismantlingProcedure" />
+            </v-col>
+            <v-col sm="12" md="9" class="pa-0 ma-0">
+              <DocumentField :field="propsData.safetyMeasures" />
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
  

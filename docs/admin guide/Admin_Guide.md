@@ -22,8 +22,8 @@ Latest Revision Mar 27, 2023
 10. [EDC Provider Configuration](#edc-provider-configuration)  
     10.1 [Documentation Description](#documentation-description)    
     10.2 [Asset Configuration](#asset-configuration)   
-    10.3 [Policies Configuration](#policies-configuration)   
-    10.4 [Contract Definition Configuration](#contract-definition-configuration)  
+    10.3 [Policies Configuration](#policies-configuration)    
+    10.4 [Contract Definition Configuration](#contract-definition-configuration)        
     10.5 [Digital Twin Registration](#digital-twin-registration)
 ## Introduction
 
@@ -152,7 +152,8 @@ When configuring your EDC Provider you need to take info consideration the follo
 
 ### Documentation Description
 
-All variables are written in the following notation: ***{{ VARIABLE_NAME }}***
+**All variables are written in the following notation: ***{{ VARIABLE_NAME }}*****
+
 All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/catenax-ng/product-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
 
 ### Asset Configuration
@@ -168,7 +169,8 @@ When configurating you EDC provider you will be able to set some assets which re
 | ---- | -------- | ---- |
 | AssetId | Combination of Digital Twin and Sub Model UUIDs | urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
 | Description | Simple description of the asset | Battery Passport Test Data |
-| DataProvider_EndpointUrl | URL to the endpoint which stores and serves the data | [https://materialpass.int.demo.catena-x.net/provider_backend/data](https://materialpass.int.demo.catena-x.net/provider_backend/data) |
+| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://materialpass.int.demo.catena-x.net/provider_backend/data](https://materialpass.int.demo.catena-x.net/provider_backend/data) |
+| DigitalTwinId | Id from the Digital Twin	 | urn:uuid:32aa72de-297a-4405-9148-13e12744028a  |
 | DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
 
 
@@ -184,11 +186,14 @@ When configurating you EDC provider you will be able to set some assets which re
     "dataAddress": {
         "properties": {
             "type": "HttpData",
-            "baseUrl": "{{DataProvider_EndpointUrl}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}"
+            "baseUrl": "{{DataProviderEndpointUrl}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}"
         }
     }
 }
 ```
+When configurating your EDC provider you will be able to set some assets which reference to a certain endpoint.
+
+
 ### Policies Configuration
 Policies are important for configuration the **access, prohibitions, obligations and permissions to certain assets.**
 
@@ -196,12 +201,22 @@ A policy can have more and less configurations, depending of the restrictions yo
 
 Here we specify a simple policy with just the USAGE permission, so we are able to retrieve the whole asset without obligations and prohibitions.
 
+#### Usage Policies
+
+| Policy Name | Description |
+| ---- | -------- |
+| Usage Permission Policy | In order to use/access the assets from the EDC Provider the Usage Policy is required |
+
+***Note:*** 
+*At the moment only Usage Permission Policies are assigned to assets, however restriction policies could be also configured if it is required for a specific use case.*
+
 #### **Variables:**
 
 | Name | Description | Example Value |
 | ---- | -------- | ---- |
 | PolicyId | UUID that identifies the policy in the EDC Connector | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
 | PermissionType | DID Permission Type | dataspaceconnector:permission |
+| PermissionActionType | Defines the action allowed when the permission is assigned to an asset. In case of the usage policy the value "USE" is necessary | "USE" |
 
 
 #### **Format and Fields:**
@@ -216,7 +231,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
             {
                 "edctype": "{{PermissionType}}",
                 "action": {
-                    "type": "USE"
+                    "type": "{{PermissionActionType}}"
                 },
                 "constraints": []
             }
@@ -278,8 +293,15 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | ---- | -------- | ---- |
 | DigitalTwinId | Manually generated DID that contains a UUID | urn:uuid:32aa72de-297a-4405-9148-13e12744028a |
 | DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
-| partInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
-| EDC_ProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
+| PartInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
+| EDCProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) |
+| BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
+| SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
+| BammModelVersionId | The semantic version of the asset passport model, currently the latest version v3.0.1 is used | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
+
+***Info:*** 
+*It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here*
+
 
 #### **Format and Fields:**
 
@@ -291,12 +313,12 @@ Once you finish the configuration, to make the endpoint public configure in the 
             "{{DigitalTwinId}}"
         ]
     },
-    "idShort": "Battery_X123456789012X12345678901234566",
+    "idShort": "Battery_{{PartInstanceId}}",
     "identification": "{{DigitalTwinId}}",
     "specificAssetIds": [
         {
             "key": "partInstanceId",
-            "value": "X123456789012X12345678901234566"
+            "value": "{{PartInstanceId}}"
         }
     ],
     "submodelDescriptors": [
@@ -307,18 +329,18 @@ Once you finish the configuration, to make the endpoint public configure in the 
                     "text": "Battery Passport Submodel"
                 }
             ],
-            "idShort": "batteryPass",
+            "idShort": "{{SubmodelIdShort}}",
             "identification": "{{DigitalTwinSubmodelId}}",
             "semanticId": {
                 "value": [
-                    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+                    "{{BammModelVersionId}}"
                 ]
             },
             "endpoints": [
                 {
                     "interface": "EDC",
                     "protocolInformation": {
-                        "endpointAddress": "{{EDC_ProviderUrl}}/BPNL000000000000/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel?content=value&extent=WithBLOBValue",
+                        "endpointAddress": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel?content=value&extent=WithBLOBValue",
                         "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
                         "endpointProtocolVersion": "0.0.1-SNAPSHOT"
                     }
@@ -328,3 +350,6 @@ Once you finish the configuration, to make the endpoint public configure in the 
     ]
 }
 ```
+
+***Note:*** 
+*The BPN number is not required for the configuration of the endpoint, just **make sure that the host is pointing to the EDC Provider**.*

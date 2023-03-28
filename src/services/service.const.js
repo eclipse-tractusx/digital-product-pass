@@ -15,87 +15,65 @@
  */
 
 import numberUtil from "@/utils/numberUtil";
-const VERSION = "APP_VER";
-const TWIN_REGISTRY_URL = "http://localhost:4243";
-const AAS_PROXY_URL = "http://localhost:4245";
-const MOCK_AUTH_URL = "https://mock--server.herokuapp.com";
-const GOOGLE_CHART_API_URL = "https://chart.googleapis.com";
-const DUMMY_SERVICE = "http://localhost:3000";
-const SERVER_URL_INT = "https://materialpass.int.demo.catena-x.net";
-const SERVER_URL_DEV = "https://materialpass.dev.demo.catena-x.net";
-const CX_REGISTRY_URL_INT = "https://semantics.int.demo.catena-x.net";
-const CX_REGISTRY_URL_DEV = "https://semantics.dev.demo.catena-x.net";
-const IDP_URL_INT = "https://centralidp.int.demo.catena-x.net/auth/";
-const IDP_URL_DEV = "https://centralidp.dev.demo.catena-x.net/auth/";
-const API_KEY = "X_API_KEY";
-const AAS_REGISTRY_CLIENT = 'VUE_APP_CLIENT_ID';
-const AAS_REGISTRY_SECRET = 'VUE_APP_CLIENT_SECRET';
-const BACKEND = 'APP_BACK';
+
+// Independentant Constants (If not defined will not crash the system)
+const VERSION = "APP_VERSION";
+
+// Mandatory URLs
+const IDP_URL = "IDENTITY_PROVIDER_URL";
+
+// Get urls that can be empty
+let serverUrl = "HOST_URL";
+let backendUrl = "DATA_URL";
+let passVer = 'PASS_VERSION';
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let delay = 'APP_API_DELAY';
+let clientId = "KEYCLOAK_CLIENTID";
+let realm = "KEYCLOAK_REALM";
+let onLoad = "KEYCLOAK_ONLOAD";
+
+
+// Default values if the value is not specified
+serverUrl = (serverUrl != null) ? serverUrl : "https://materialpass.int.demo.catena-x.net"
+backendUrl = (backendUrl != null) ? backendUrl : serverUrl
+passVer = (passVer != null) ? passVer : "v3.0.1"
+clientId = (clientId != null) ? clientId : "Cl13-CX-Battery"
+realm = (realm != null) ? realm : "CX-Central"
+onLoad = (serverUrl != null) ? onLoad : "login-required"
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
 delay = numberUtil.parseInt(delay, 2000);
 retries = numberUtil.parseInt(retries, 5);
 
-
+// Define constants
+const SERVER_URL = serverUrl;
+const BACKEND_URL = backendUrl;
+const PASSPORT_VERSION = passVer;
 const API_MAX_RETRIES = retries;
 const API_TIMEOUT = timeout;
 const API_DELAY = delay;
+const CLIENT_ID = clientId;
+const REALM = realm;
+const ONLOAD = onLoad;
 
-let SERVER_URL = "";
-let INIT_OPTIONS = {};
-let IDP_URL = "";
-let REDIRECT_URI = "";
-let CX_REGISTRY_URL = "";
-let CLIENT_CREDENTIALS = {
-  grant_type: 'client_credentials',
-  client_id: AAS_REGISTRY_CLIENT,
-  client_secret: AAS_REGISTRY_SECRET,
-  scope: 'openid profile email'
+// Initialize configuration objects
+let INIT_OPTIONS = {
+  url: null,
+  clientId: CLIENT_ID, // Catena-X ClientId for Battery Pass
+  realm: REALM, // Catena-X Realm
+  onLoad: ONLOAD
 };
+let REDIRECT_URI = "";
 
-if (window.location.href.includes("materialpass.int.demo.catena-x.net")) { // for integration
-  {
-    INIT_OPTIONS = {
-      url: IDP_URL_INT,
-      clientId: 'Cl13-CX-Battery',
-      realm: 'CX-Central',
-      onLoad: 'login-required'
-    };
-    REDIRECT_URI = SERVER_URL_INT;
-    IDP_URL = IDP_URL_INT;
-    CX_REGISTRY_URL = CX_REGISTRY_URL_INT;
-
-  }
-}
-else if (window.location.href.includes("materialpass.dev.demo.catena-x.net")) { // for development
-  {
-    INIT_OPTIONS = {
-      url: IDP_URL_DEV,
-      clientId: 'Cl13-CX-Battery',
-      realm: 'CX-Central',
-      onLoad: 'login-required'
-    };
-    REDIRECT_URI = SERVER_URL_DEV;
-    IDP_URL = IDP_URL_DEV;
-    CX_REGISTRY_URL = CX_REGISTRY_URL_DEV;
-  }
-  
-}
-else { // for local run
-  INIT_OPTIONS = {
-    url: 'http://localhost:8088/auth/',
-    clientId: 'Cl13-CX-Battery',
-    realm: 'CX-Central',
-    onLoad: 'login-required'
-  };
+if (window.location.href.includes("localhost")) { //Modify credentials for local runs
+  INIT_OPTIONS["url"] = (IDP_URL != null) ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
   REDIRECT_URI = "http://localhost:8080/";
-  SERVER_URL = SERVER_URL_INT; // this server url should come from DEV. Because DEV is not working at the moment, we use INT Server for testing purpose. Once, DEV is up and running, we change this to DEV.  
-  CX_REGISTRY_URL = CX_REGISTRY_URL_INT;
+} else {
+  INIT_OPTIONS["url"] = IDP_URL;
+  REDIRECT_URI = SERVER_URL;
 }
-
-export {TWIN_REGISTRY_URL, AAS_PROXY_URL, MOCK_AUTH_URL, GOOGLE_CHART_API_URL, DUMMY_SERVICE, INIT_OPTIONS, REDIRECT_URI, CX_REGISTRY_URL, SERVER_URL, API_KEY, CLIENT_CREDENTIALS, IDP_URL, BACKEND, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES};
+// Export all the CONSTANTS and VARIABLES
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES };
 

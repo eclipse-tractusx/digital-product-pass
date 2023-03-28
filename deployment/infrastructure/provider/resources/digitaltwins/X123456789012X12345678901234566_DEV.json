@@ -1,21 +1,16 @@
 {
-    "description": [
-        {
-            "language": "en",
-            "text": "demo_catena_test_1.txt"
-        }
-    ],
+    "description": [],
     "globalAssetId": {
         "value": [
-            "urn:uuid:1e4b62e8-dc0d-4327-9ece-fd333cea06d8"
+            "urn:uuid:32aa72de-297a-4405-9148-13e12744028a"
         ]
     },
-    "idShort": "demo_catena_test_1.txt",
-    "identification": "urn:uuid:1e4b62e8-dc0d-4327-9ece-fd333cea06d8",
+    "idShort": "Battery_X123456789012X12345678901234566",
+    "identification": "urn:uuid:32aa72de-297a-4405-9148-13e12744028a",
     "specificAssetIds": [
         {
-            "key": "Battery_ID_DMC_Code",
-            "value": "X123456789012X12345678901234566_DEV"
+            "key": "partInstanceId",
+            "value": "X123456789012X12345678901234566"
         }
     ],
     "submodelDescriptors": [
@@ -26,18 +21,18 @@
                     "text": "Battery Passport Submodel"
                 }
             ],
-            "idShort": "MaterialPass",
-            "identification": "urn:uuid:db3fed5d-86cb-4d99-9adf-5e1c6267d293",
+            "idShort": "batteryPass",
+            "identification": "urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a",
             "semanticId": {
                 "value": [
-                    "urn_bamm_io.catenax.battery.battery_pass_2.0.0"
+                    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
                 ]
             },
             "endpoints": [
                 {
-                    "interface": "SUBMODEL.SIEM.0002",
+                    "interface": "EDC",
                     "protocolInformation": {
-                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data",
+                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a/submodel?content=value&extent=WithBLOBValue",
                         "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
                         "endpointProtocolVersion": "0.0.1-SNAPSHOT"
                     }

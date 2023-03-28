@@ -35,9 +35,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import utils.exceptions.UtilException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,6 +146,38 @@ public final class HttpUtil {
         return encodedParams;
     }
 
+    public static String getHost(String url) throws MalformedURLException {
+        return new URL(url).getHost();
+    }
+    public static String getProtocol(String url) throws MalformedURLException {
+        return new URL(url).getProtocol();
+    }
+    public static Integer getPort(String url) throws MalformedURLException {
+        int port = new URL(url).getPort();
+        return (port!=-1)?port:null;
+    }
+    public static String getAuthority(String url) throws MalformedURLException {
+        return new URL(url).getAuthority();
+    }
+
+    public static HashMap<String, Object> splitUrl(String strUrl) throws MalformedURLException{
+        HashMap<String, Object> retObj = new HashMap<>();
+        URL url = new URL(strUrl);
+        retObj.put("protocol", url.getProtocol());
+        retObj.put("host", url.getHost());
+        int port = url.getPort();
+        retObj.put("port",(port!=-1)?port:null);
+        retObj.put("authority", url.getAuthority());
+        return retObj;
+    }
+    public static String cleanUrl(String strUrl) throws MalformedURLException{
+        URL url = new URL(strUrl);
+        String protocol = url.getProtocol();
+        String authority = url.getAuthority();
+        return String.format("%s://%s", protocol, authority);
+    }
+
+
     /**************************************************
      * Response Methods *******************************
      **************************************************/
@@ -151,7 +186,7 @@ public final class HttpUtil {
     public static Response buildResponse(Response response, HttpServletResponse servletResponse){
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST");
+        servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         return response;
     }
     public static Response getResponse() {

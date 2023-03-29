@@ -24,8 +24,8 @@
 
 ![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
 
-Version: v2.1 <br>
-Latest Revision Feb. 28, 2023
+Version: v2.2 <br>
+Latest Revision Mar. 27, 2023
 
 
 ## Table of Contents
@@ -43,13 +43,14 @@ Latest Revision Feb. 28, 2023
             2. [Technical Integration Design](#technicl-integration-design)
     2. [Business Context](#business-context)
     3. [Technical Context](#technical-context)
-        1. [Container Ecosystem](#container-ecosystem)
+        1. [Runtime Environments](#runtime-environments)
+        2. [Container Ecosystem](#container-ecosystem)
              1. [Kubernetes Container Platform (Gardener)](#kubernetes-container-platform-gardener)
              2. [Containers](#containers)
-        2. [CI/CD](#cicd)
-        3. [Documentation](#documentation)
-        4. [Security](#security)
-        5. [Catena-X Shared Services](#catena-x-shared-services)
+        3. [CI/CD](#cicd)
+        4. [Documentation](#documentation-links)
+        5. [Security](#security)
+        6. [Catena-X Shared Services](#catena-x-shared-services)
 5. [Solution Strategy](#solution-strategy)
     1. [Architecture Diagram](#architecture-diagram)
     2. [Technology & Architecture Detail](#technology--architecture-detail)
@@ -96,7 +97,7 @@ It displays a specific passport for each product, in the Catena-X network hosted
 
 The product passport consumer app UI follows the Catena-X CI layout, keeping things simple for the user while still providing the necessary information.
 
-An User can request a passport...
+A User can request a passport...
 
 * Either by scanning a **QR-code** which leads to the a passport view UI, allowing the user to visualize all the necessary/required information of a product. Making easier to dismantle it.
 * In case a QR is not provided, the user is able to introduce the product id manually in a search field.
@@ -162,17 +163,21 @@ The Product Passport Application is a Catena-X terms a "blue" application. This 
 
 The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
 
-![Detailed Explanation Product Passport App](./GraphicDetailedExPPApp.jpg)
+![Detailed Explanation Product Passport App](./GraphicDetailedDPPApp.jpg)
 
 #### Product Passport Component
 
 ##### Application State Diagram
 
-![Application State Design](./GraphicApplicationStateDiagram.png)
+![Application State Design](./GraphicApplicationStateDiagram.jpg)
 
 ##### Technical Integration Design
 
-![Technical Integration Design](./GraphicTechnicalIntegrationDesign.png)
+![Technical Integration Design](./GraphicTechnicalIntegrationDesign.jpg)
+
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html
+)
+
 
 ### Business Context
 
@@ -190,13 +195,29 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ### Technical Context
 
-**Aplication URL:** [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/)
+#### Runtime Environments
+
+At the moment, the Product Passport Application is hosted in three different environments:
+
+| Application Runtime Environments | URLs |
+| ---- | ----------- |
+| Development (DEV) | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) |
+| Integration (INT) | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) |
+| Beta (BETA) | [https://materialpass.beta.demo.catena-x.net/](https://materialpass.beta.demo.catena-x.net/) |
+
+
+| ArgoCD Deployment | URLs |
+| ---- | ----------- |
+| Development (DEV) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
+| Integration (INT) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
+| Beta (BETA) | [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/) |
+
 
 #### Container Ecosystem
 
 ##### Kubernetes Container platform (gardener)
 
-* Hotel Budapest (Integration and Production Environments)
+* Hotel Budapest (Development, Integration and Beta Environments)
 * Namespace:
   * product-material-pass
 
@@ -205,16 +226,27 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * EDC-Consumer Connector
 * Consumer-UI
 * PostgreSQL
-* Dummy Data Provider (Until real provider is set)
 
 #### CI/CD
 
 * Managed by ArgoCD:
+  * [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/)
   * [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/)
-* GitHub Repository:
+  * [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/)
+* Source code management - GitHub Repository:
   * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
-* DevOps Documentation:
-  * [Intro | Tractus-X - Release Guidelines](https://eclipse-tractusx.github.io/docs/release)
+* DevSecOps:
+  * [Intro | Catena-x - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
+* Eclipse Tractus-X Release Guidelines:
+  * [Intro | Eclipse Tractus-X - Release Guidelines](https://eclipse-tractusx.github.io/docs/release)
+
+
+#### Documentation links
+
+* [ARC42 Documentation](#)
+* [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
+* [Administration Guide](../admin%20guide/Admin_Guide.md)
+* [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 
 #### Catena-X Shared Services
@@ -232,7 +264,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ### Architecture Diagram
 
-![Architecture Diag](./GraphicArchitectureDiag.jpg)
+![Architecture Diagram](./GraphicArchitectureDiagram.jpeg)
 
 **Contents.**  
 *Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.*
@@ -258,7 +290,7 @@ According to the [Vue documentation](https://vuejs.org/guide/introduction.html),
 
 Vue.js in the version 3 allows us to build stable components and have control of all the application lifecycle. One advantage of Vue is that all the components that are build can be scalabled easily, allowing the structure to be generalized.
 
-In order to speed the development and build safe and stable components, an component has been selected.
+In order to speed the development and build safe and stable components, a component has been selected.
 
 ##### Vuetify
 
@@ -269,6 +301,23 @@ According to the [Vuetify documentation](https://next.vuetifyjs.com/en/introduct
 ![Vue Framework Comparison](./GraphicVueFrameworkComparison2022.png)
 
 Another advantage from Vuetify is its documentation. There you are allowed to understand all the components and personalize them on-flight. Example: [Vuetify Alerts](https://next.vuetifyjs.com/en/components/alerts/).
+
+Here we can see the components from the frontend of the application:
+
+![Frontend Component](./GraphicFrontendComponent.jpg)
+
+
+#### Component Description
+
+| Component | Description |
+| ---- | ----------- |
+| Landing Page View | This component is part of the User Interface (UI), it is also responsible of asking the Authentication Module if the user is authenticated and wait for being redirected to the Central IDP, IAM Services from Catena-X. |
+| Search Passport View | This component is part of the User Interface (UI), it offers the user the possibility of searching by partInstanceId or Scanning a QR Code that contains the partInstanceId. |
+| Passport Viewer View | This component is part of the User Interface (UI), it requests the Passport from the Backend, report errors from the backend, gives a timeout error if the request takes too long or retrieves the passport. |
+| Authentication Module | Uses the following library: [https://www.npmjs.com/package/keycloak-js](https://www.npmjs.com/package/keycloak-js). This component is responsible for managing the user authentication, making Central IDP API calls, identifying users and requesting access token and refreshing it  |
+
+***Info:*** 
+*Just principal components with logics  are represented in this diagram, they are composed of several other smaller visual components, however they include no extra logic rather than displaying information to the user in the User Interface.*
 
 #### Backend (Server Side)
 
@@ -287,6 +336,24 @@ We selected spring boot because it allows us to:
 * Exception Handling is quite comfortable within Java because of the type-safety. Don’t you something like @SneakyThrows and try to not use minor exceptions like RuntimeExceptions, because otherwise you don't have to deal with them explicitly.
 * For session management there are [Session Scoped Beans](https://www.baeldung.com/spring-bean-scopes#2-session-scope) in Spring and they live within one http session.
 * It allows us to comply with Catena-X security requirements and integrate Keycloak instances for authentication.
+
+To ease the understanding and get a general technical context of the backend the following diagram was created:
+
+![Backend Component](./GraphicBackendComponent.jpg)
+
+#### Component Description
+
+| Component | Description |
+| ---- | ----------- |
+| HTTP Controllers | The http controllers are the main components and they are responsible for handling the external HTTP calls and APIs allowing other systems to access data |
+| Services | The services are second main component and they are  responsible of interacting and getting data of external systems |
+| Listeners | This component is responsible for listening to events and executing logics when they occur |
+| Configurations | This component is integrated in Spring Boot and with the Utils, they are responsible for setting the parameters and logics of the whole backend system.  |
+| Data Managers | This component is responsible for storing and retrieving data. (At the moment no data is stored apart from configurations) |
+| Middleware and Interceptors | These components are integrated with the HTTP Controllers, however they are responsible for the information and for adding logics between the requests. Thanks to this component that we are able to log all API calls coming from the Frontend or external systems |
+| Exceptions | This component contains the exception definitions, they can be in Runtime Exeception or Normal Exception Types. |
+| Utils | This component is the base for all the  components, we are able to manage such as, Catena-X Logics, Configuration Logics, Cryptography, Logging, etc...|
+
 
 ### Infrastructure
 

@@ -28,7 +28,6 @@ Latest Revision Mar. 27, 2023
 2. [Introduction and Goals](#introduction-and-goals)
     1. [Requirements Overview](#requirements-overview)
     2. [Quality Goals](#quality-goals)
-    3. [Stakeholders](#stakeholders)
 3. [Architecture Constraints](#architecture-constraints)
 4. [System Scope and Context](#system-scope-and-context)
     1. [Detailed Explanation from Product Passport Application](#detailed-explanation-from-product-passport-application)
@@ -42,8 +41,7 @@ Latest Revision Mar. 27, 2023
              1. [Kubernetes Container Platform (Gardener)](#kubernetes-container-platform-gardener)
              2. [Containers](#containers)
         3. [CI/CD](#cicd)
-        4. [Documentation](#documentation-links)
-        5. [Security](#security)
+        4. [Documentation Links](#documentation-links)
         6. [Catena-X Shared Services](#catena-x-shared-services)
 5. [Solution Strategy](#solution-strategy)
     1. [Architecture Diagram](#architecture-diagram)
@@ -56,7 +54,7 @@ Latest Revision Mar. 27, 2023
                     1. [Spring Boot](#spring-boot)
     3. [Infrastructure](#infrastructure)
         1. [Kubernetes and Helm Charts](#kubernetes-and-helm-charts)
-    4. [Security](#security-solution-strategy)
+    4. [Security Solution Strategy](#security-solution-strategy)
 6. [Building Block View](#building-block-view)
     1. [Blackbox Overall System](#blackbox-overall-system)
     2. [Whitebox Overall System](#whitebox-overall-system)
@@ -64,11 +62,7 @@ Latest Revision Mar. 27, 2023
 8. [Deployment View](#deployment-view)
 9. [Cross-Cutting Concepts](#cross-cutting-concepts)
 10. [Design Decisions](#design-decisions)
-11. [Quality Requirements](#quality-requirements)
-    1. [Quality Gates](#quality-gates)
-        1. [Quality Gates 4](#quality-gates-4)
-        2. [Quality Gates 5](#quality-gates-5)
-    2. [Quality Tree](#quality-tree)
+11. [Quality Requirements](#quality-requirements)   
     3. [Qualtiy Scenarios](#quality-scenarios)
 12. [Risks and Technical Debts](#risks-and-technical-debts)
 13. [Glossary](#glossary)
@@ -399,13 +393,13 @@ There are different levels categorized concerning the application resources depl
 
 **Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD (Hotel Budapest - INT) through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
 
-**Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc and consumer-ui. In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
+**Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, consumer-backend and consumer-ui. In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
 
 **Level 2:** A centralized source control repository where the source code and build artifacts are stored and version controlled. It also contains various git actions, for instance, the Build pipeline that publishes compiled applications onto the GitHub Container Packages Registry (GHCR) which is further accessed by the next level and other build actions that get triggered to verify the CatenaX quality gate requirements.
 
 **Level 3:** A development level where application source code is developed and built by developers.
 
-![Building Block View](./GraphicBulidingBlockView.png)
+![Building Block View](./GraphicBulidingBlockView.jpg)
 
 **Contents.**  
 *The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, datas structures, …) as well as their dependencies (relationships, associations, …)*
@@ -420,7 +414,7 @@ There are different levels categorized concerning the application resources depl
 
 ### Blackbox Overall System
 
-![Blackbox Overall System](./GraphicBlackboxOverallSys.png)
+![Blackbox Overall System](./GraphicBlackboxOverallSys.jpg)
 
 ### Whitebox Overall System
 
@@ -501,7 +495,7 @@ The application deployment is translated into Kubernetes resources through helm 
 
 ## Deployment View
 
-![DeploymentView](./GraphicDeploymentView.png)
+![DeploymentView](./GraphicDeploymentView.jpg)
 
 **Contents.**  
 *The deployment view describes:*
@@ -562,7 +556,33 @@ Maybe the highest level deployment diagram is already contained in section 3.2. 
 
 ## Design Decisions
 
-* David's mock-ups
+Designs are followed using the Catena-X Style Guidelines.
+
+### History View (Landing Page)
+
+![History Page](./GraphicHistoryPage.png)
+
+
+It was used a basic table, the logo, the footer and the avatar from Catena-X design guidelines:
+
+![Implementation View - Basic Table](./GraphicBasicTable.png)
+
+![Catena-X Logo Style Guidelines](./GraphicLogos.png)
+
+![Catena-X Avatar](./GraphicAvatar.png)
+
+### QR Code and Searching View
+
+The QR Code view was also design following the Catena-X buttons and search style guides
+
+![QR Code and Search View](./GraphicQRCodeView.png)
+
+### Battery Passport View
+
+The passport view was designed following using Catena-X accordion guidelines.
+
+![Battery Passport View](./GraphicBatteryPassportView.png)
+
 
 **Contents.**  
 *Important, expensive, large scale or risky architecture decisions including rationals. With "decisions" we mean selecting one alternative based on given criteria.  

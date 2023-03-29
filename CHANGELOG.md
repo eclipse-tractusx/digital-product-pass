@@ -18,6 +18,52 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [released]
+
+## [0.5.0] - 2023-03-30
+
+## Updated
+- Updated documentation
+- Upgraded EDC version to 0.1.6
+- Refactor passport view
+- Support passport semantic version 3.0.1
+- Upgraded frontend and backend integration to permanent
+- Updated Exception handling and application robustness
+- Updated Swagger documentation
+    - Removed login/ logout auth APIs
+- Updated postman collection for INT and DEV to retrieve passport version 3.0.1
+- Refactor assets registration scripts for the mock provider
+- Change the mock provider endpoint configuration from `/provider` to `/BPNL000000000000`
+- Update all environment configuration files to adapt semantic version 3.0.1
+- Upgraded frontend mockups to support semantic version 3.0.1
+
+
+## Added
+- Added BETA environment configuration
+    - Added helm charts
+    - Added backend configuration
+    - Added mock provider and consumer EDC configurations
+- Externalized the frontend configuration using helm charts
+- Added tooltip component in frontend
+- Added veracode workflow_dispatch
+- Added search in backend for submodel with `idShort` as `batteryPass` in the Digital Twin Registry (DTR)
+- Added `endpointAddress` parsing in backend with and without `BPN`
+- Added search for `assetId` in a provider catalog using the scheme `{DigitalTwinId}-{DigitalTwinSubmodelId}`
+- Enabled "OPTIONS" method in backend CORS configuration
+    - Allowing local browser calls to the backend
+- Support end-to-end integration with external company in BETA
+
+
+## Issues Fixed
+- EsLint configuration
+- Veracode secret names for tractusx
+
+## Deleted
+- Removed Wrapper.js from frontend component
+- Removed additional mocks in frontend configuration
+
+
 ## [released]
 
 ## [0.4.6] - 2023-03-01

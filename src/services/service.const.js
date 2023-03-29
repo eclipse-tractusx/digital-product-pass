@@ -76,4 +76,3 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
 }
 // Export all the CONSTANTS and VARIABLES
 export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES };
-

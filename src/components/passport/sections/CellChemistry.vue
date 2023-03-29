@@ -16,47 +16,54 @@
 
 <template v-if="propsData">
   <div class="section">
-    <!-- Composition of Electrolyte -->
-    <AttributeField
-      :attributes-list="propsData.electrolyteComposition"
-      label="Composition of electrolyte"
-      data-cy="electrolyte-composition"
-    />
-    <!-- Composition of Anode -->
-    <AttributeField
-      :attributes-list="propsData.anodeActiveMaterials"
-      label="Composition of Anode"
-    />
-    <!-- Composition of Anode other -->
-    <AttributeField
-      :attributes-list="propsData.anodeCompositionOther"
-      label="Composition of other Anode materials"
-    />
-    <!-- Composition of Cathode -->
-    <AttributeField
-      :attributes-list="propsData.cathodeActiveMaterials"
-      label="Composition of Cathode"
-    />
-    <!-- Composition of Cathode other -->
-    <AttributeField
-      :attributes-list="propsData.cathodeCompositionOther"
-      label="Composition of other Cathode materials"
-    />
-    <!-- Recyclate content active materials -->
-    <AttributeField
-      :attributes-list="propsData.recyclateContentActiveMaterials"
-      label="Recyclate content active materials"
-    />
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <AttributeField
+            icon="mdi-battery-plus"
+            :attributes-list="propsData.electrolyteComposition"
+            label="Composition of electrolyte"
+            data-cy="electrolyte-composition"
+            style="margin-bottom: 12px; amx"
+          />
+          <div>
+            <img
+              :src="BatteryComposition"
+              alt="BatteryComposition"
+              style="margin-left: 6px"
+            />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="12" class="pa-0 ma-0">
+          <div class="element-chart-label">
+            Recyclate Content Active Materials
+          </div>
+          <ElementChart :data="propsData.cathodeActiveMaterials" />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import AttributeField from "../AttributeField.vue";
+import BatteryComposition from "../../../media/BatteryComposition.svg";
+import ElementChart from "../../passport/ElementChart.vue";
 
 export default {
   name: "CellChemistry",
   components: {
     AttributeField,
+    ElementChart,
+  },
+  setup() {
+    return {
+      BatteryComposition,
+    };
   },
   props: {
     data: {

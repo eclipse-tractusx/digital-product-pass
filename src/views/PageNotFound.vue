@@ -16,7 +16,25 @@
 
 <template>
   <div class="PageNotFound">
-    
+    <v-container>
+      <v-row>
+        <v-col>
+        </v-col>
+        <v-col>
+          <v-container>
+            <v-row>
+              <v-col></v-col>
+            </v-row>
+            <v-row>
+              <v-col></v-col>
+            </v-row>
+            <v-row>
+              <v-col></v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -25,12 +43,24 @@
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "PageNotFound",
-  components: {},
-  setup() {
-    return {
-      Error,
-    };
-  },
+  props: {
+    title: {
+      type: [String,Number],
+      default: "404 Not Found",
+    },
+    subTitle:{
+      type: [String,Number],
+      default: "Oops, Something went wrong"
+    },
+    description: {
+      type: [String,Number],
+      default: "The server encountered an internal error or misconfiguration and was unable to complete your request."
+    },
+    adminLink:{
+      type: String,
+      default: "m"
+    }
+  }
 };
 </script>
 <style scoped>

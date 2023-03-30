@@ -16,27 +16,25 @@
 
 <template>
   <div class="id-container">
-    <div class="back-wrapper">
-      <v-btn
-        rounded="pill"
-        color="#0F71CB"
-        size="large"
-        class="back-btn"
-        @click="$router.go(-1)"
-        variant="outlined"
-        style="border: 2px solid; text-transform: initial"
-      >
-        <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-        Back
-      </v-btn>
-    </div>
+    <v-btn
+      rounded="pill"
+      color="#0F71CB"
+      size="large"
+      class="back-btn"
+      @click="$router.go(-1)"
+      variant="outlined"
+      style="border: 2px solid; text-transform: initial"
+    >
+      <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
+      Back
+    </v-btn>
+
     <div class="id-wrapper">
       <p class="id">
         {{ type }}:
         {{ id ? id : "—" }}
       </p>
     </div>
-    <div class="share-wrapper"></div>
   </div>
 </template>
 
@@ -65,60 +63,34 @@ export default {
 </script>
 
 <style>
-.back-wrapper {
-  position: absolute;
-}
-.share {
-  cursor: not-allowed;
-}
-
-.share-wrapper {
-  position: absolute;
-  right: 0;
-}
-
 .id-wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
+  padding-right: 115px;
   line-break: anywhere;
 }
-.code {
-  padding: 0;
-  margin: 0;
-}
+
 .id {
   font-size: 14px;
   line-height: 36px;
   font-weight: bold;
 }
 .id-container {
-  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
   margin: 6em 40px 0 40px;
   padding: 20px 0;
 }
-.code-container {
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
-}
 @media (max-width: 750px) {
-  .code-container {
-    display: none;
-  }
   .id-container {
-    margin: 12em 0 2em 3em;
-    padding: 20px 0;
-    width: 85%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   .id-wrapper {
-    width: 100%;
-  }
-  .id {
-    font-size: 1.5em;
+    margin-top: 15px;
   }
 }
 </style>

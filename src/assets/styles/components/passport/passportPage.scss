@@ -86,3 +86,9 @@
     margin: 0;
   }
 }
+
+@media (max-width: 550px) {
+  .header-title {
+    display: none !important;
+  }
+}

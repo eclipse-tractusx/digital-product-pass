@@ -16,28 +16,31 @@
 
 .footer-content {
   display: flex;
-  flex-direction: column;
-  min-height: 200px;
+  flex-direction: row;
+  min-height: 48px;
   text-align: center;
-  justify-content: center;
-  align-items: center;
+  margin: 0 40px;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   .links {
     display: flex;
-    justify-content: center;
-    margin-bottom: 14px;
-    margin-left: auto;
+    justify-content: flex-start;
+    margin-bottom: 0;
+    margin-left: 0;
     margin-right: auto;
-    padding-top: 75px;
+    padding: 10px 0;
   }
 
   a {
-    font-size: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
     line-height: 1.42857;
     letter-spacing: 0px;
     margin: 0px 7px;
     cursor: pointer;
-    color: $catena-x-blue;
+    color: #5a5d57;
   }
 
   a:hover {
@@ -52,55 +55,36 @@
   }
 
   .copyright {
-    font-size: 12px;
+    padding: 14px 0;
+    font-size: 11px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a5d57;
     padding-bottom: 72px;
-  }
-}
-@media (max-width: 1264px) {
-  .footer-content {
-    flex-direction: row;
-    min-height: 48px;
-    margin: 0 40px;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-    a {
-      font-size: 11px;
-      font-weight: 600;
-      text-decoration: none;
-      color: #5a5d57;
-    }
-
-    .links {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 0;
-      margin-left: 0;
-      margin-right: auto;
-      padding: 10px 0;
-    }
-
-    .copyright {
-      padding: 14px 0;
-      font-size: 11px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #5a5d57;
-    }
   }
 }
 
 @media (max-width: 893px) {
   .footer-content {
-    a {
-      margin: 0px 4px;
+    flex-direction: column;
+    align-items: center;
+    .links {
+      margin-left: auto;
     }
   }
 }
-@media (max-width: 844px) {
+
+@media (max-width: 585px) {
   .footer-content {
+    flex-direction: column;
+    align-items: center;
+    .links {
+      margin-top: 15px;
+      margin-left: auto;
+      flex-direction: column;
+    }
     a {
-      margin: 0px 2px;
+      line-height: 3.42857;
     }
   }
 }

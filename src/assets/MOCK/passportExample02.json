@@ -261,8 +261,8 @@
       },
       "batteryCycleLife": {
         "cycleLifeTestCRate": 45,
-        "cycleLifeTestDepthOfDischarge": "123",
-        "expectedLifetime": "daw"
+        "cycleLifeTestDepthOfDischarge": 2,
+        "expectedLifetime": 1200
       },
       "manufacturer": {
         "name": "Company A",
@@ -426,7 +426,7 @@
         "statusBattery": "first life",
         "stateOfCharge": 23
       },
-      "cO2FootprintTotal": 1.3
+      "cO2FootprintTotal": "110"
     }
   }
 }

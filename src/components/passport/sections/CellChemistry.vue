@@ -21,7 +21,7 @@
         <v-col sm="12" md="3" class="pa-0 ma-0">
           <AttributeField
             icon="mdi-battery-plus"
-            :attributes-list="propsData.electrolyteComposition"
+            :attributes-list="electrolyteComposition"
             label="Composition of electrolyte"
             data-cy="electrolyte-composition"
             style="margin-bottom: 12px; amx"
@@ -97,6 +97,13 @@ export default {
         },
       ],
       cathodeCompositionOther: [
+        {
+          materialPercentageMassFraction: 19,
+          materialName: "Pb",
+          materialWeight: 2.5,
+        },
+      ],
+      electrolyteComposition: [
         {
           materialPercentageMassFraction: 19,
           materialName: "Pb",

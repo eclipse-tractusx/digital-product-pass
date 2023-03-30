@@ -7,7 +7,7 @@
   }
 
   .card-container {
-    max-height: 193px;
+    min-height: 193px;
     position: relative;
     background-color: #fff;
     border-radius: 10px;
@@ -22,7 +22,7 @@
 
     .charging-cycles {
       position: relative;
-      width: 80%;
+      width: 100%;
 
       .bar-chart {
         position: absolute;
@@ -83,6 +83,7 @@
       font-size: 18px;
       font-weight: 500;
       padding-top: 12px;
+      word-wrap: break-word;
     }
 
     .card-second-label {

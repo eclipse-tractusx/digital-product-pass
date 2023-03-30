@@ -25,12 +25,14 @@
             label="State of health"
             :value="propsData.stateOfBattery.stateOfHealth"
             style="margin-bottom: 12px"
+            unit="%"
           />
           <Field
             icon="mdi-recycle-variant"
             label="Cycle life test c rate"
             :value="propsData.batteryCycleLife.cycleLifeTestCRate"
             style="margin-bottom: 12px"
+            unit="cycles"
           />
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
@@ -39,6 +41,7 @@
             label="State of charge"
             :value="propsData.stateOfBattery.stateOfCharge"
             style="margin-bottom: 12px"
+            unit="%"
           />
 
           <Field
@@ -46,6 +49,7 @@
             label="Cycle life test depth of discharge"
             :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
             style="margin-bottom: 12px"
+            unit="cycles"
           />
         </v-col>
         <v-col sm="12" md="5" class="pa-0 ma-0">

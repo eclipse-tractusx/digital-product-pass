@@ -81,7 +81,7 @@ export default {
   align-items: center;
   width: 100%;
   margin: 6em 40px 0 40px;
-  padding: 20px 0;
+  padding: 15px 0 10px 0;
 }
 @media (max-width: 750px) {
   .id-container {

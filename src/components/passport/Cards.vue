@@ -25,7 +25,7 @@
         :key="index"
         style="padding: 6px !important"
       >
-        <div class="card-container fill-height">
+        <div class="card-container">
           <span class="card-title">{{ card.title }} </span>
           <span>
             <v-icon

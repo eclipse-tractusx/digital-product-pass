@@ -52,7 +52,6 @@
 <script>
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: "ErrorComponent",
   props: {
     title: {
@@ -93,7 +92,7 @@ export default {
     },
     reloadLabel:{
       type: String, 
-      default: "ReloadPage"
+      default: "Reload Page"
     },
     reloadIcon:{
       type: String,

@@ -31,6 +31,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import utils.exceptions.UtilException;
 
@@ -144,6 +145,17 @@ public final class HttpUtil {
             encodedParams.put(entry.getKey(),value);
         }
         return encodedParams;
+    }
+
+    public static String getCurrentHost(HttpServletRequest httpRequest){
+        try {
+            return ServletUriComponentsBuilder.fromRequestUri(httpRequest)
+                    .replacePath(null)
+                    .build()
+                    .toUriString();
+        } catch (Exception e) {
+            throw new UtilException(HttpUtil.class, e, "It was not able to return current host url");
+        }
     }
 
     public static String getHost(String url) throws MalformedURLException {

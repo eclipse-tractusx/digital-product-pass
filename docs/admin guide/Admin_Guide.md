@@ -2,8 +2,8 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v1.3 </br>
-Latest Revision Mar 27, 2023
+Version: v1.5 </br>
+Latest Revision Mar 30, 2023
 
 ## Table of Contents
 
@@ -147,7 +147,7 @@ In order to set up the secret management please follow this guide:
 
 When configuring your EDC Provider you need to take info consideration the following guidelines and formats:
 
-***Note:*** 
+> **_NOTE:_**
 *Please take into consideration following our Postman Collection while setting your EDC Provider*
 
 ### Documentation Description
@@ -160,8 +160,7 @@ All the configurations are in JSON notation and follow the [EDC Configuration fr
 
 When configurating you EDC provider you will be able to set some assets which reference to a certain endpoint.
 
-***Info:*** 
-*All public assets must be registered in a SubModel from a Digital Twin in the [Digital Twin Registry](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html).*
+> **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the [Digital Twin Registry](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html).*
 
 #### **Variables:**
 
@@ -207,7 +206,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 | ---- | -------- |
 | Usage Permission Policy | In order to use/access the assets from the EDC Provider the Usage Policy is required |
 
-***Note:*** 
+> **_NOTE:_**
 *At the moment only Usage Permission Policies are assigned to assets, however restriction policies could be also configured if it is required for a specific use case.*
 
 #### **Variables:**
@@ -245,8 +244,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 
 Contract definitions allow us to expose the assets and link them to a contract policy and a access policy.
 
-***Info:*** 
-*Remember that all **policies and assets** you bind to a contract **must be defined in the same EDC Connector** and linked though their ID in the configuration from the contract. *
+> **_INFO:_** *Remember that all **policies and assets** you bind to a contract **must be defined in the same EDC Connector** and linked though their ID in the configuration from the contract.*
 
 #### **Variables:**
 
@@ -260,8 +258,7 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 #### **Format and Fields:**
 
-***Info:*** 
-*For testing proposes and in order to ease the access to your assets we are going to define the **same policy as accessPolicy and as contractPolicy**. However, you are recommended to configure two separated policies and specify them adapting each one of them to your specific needs.*
+> **_INFO:_** *For testing proposes and in order to ease the access to your assets we are going to define the **same policy as accessPolicy and as contractPolicy**. However, you are recommended to configure two separated policies and specify them adapting each one of them to your specific needs.*
 
 ```
 {
@@ -282,8 +279,7 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 Once you finish the configuration, to make the endpoint public configure in the following way your Digital Twin:
 
-***Info:*** 
-*You need to be able to request tokens for the **Catena-X Central IAM** in order to **configure Digital Twins** in the Registry.*
+ > **_INFO:_** *You need to be able to request tokens for the **Catena-X Central IAM** in order to **configure Digital Twins** in the Registry.*
 
 
 
@@ -299,8 +295,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
 | BammModelVersionId | The semantic version of the asset passport model, currently the latest version v3.0.1 is used | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
 
-***Info:*** 
-*It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here*
+> **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here.*
 
 
 #### **Format and Fields:**
@@ -351,5 +346,9 @@ Once you finish the configuration, to make the endpoint public configure in the 
 }
 ```
 
-***Note:*** 
+
+
+> **_NOTE:_** 
 *The BPN number is not required for the configuration of the endpoint, just **make sure that the host is pointing to the EDC Provider**.*
+
+

@@ -195,6 +195,7 @@ public class ApiController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
+                // Get first connectorAddress, a posibility is to check for "EDC" type
                 connectorAddress = subModel.getEndpoints().get(0).getProtocolInformation().getEndpointAddress();
 
             } catch (Exception e) {

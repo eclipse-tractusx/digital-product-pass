@@ -14,6 +14,8 @@
  limitations under the License.
 -->
 
+
+
 <template>
     <v-container class="page-not-found fill-height align-self-center justify-center">
       <v-row class="justify-center">
@@ -32,9 +34,9 @@
                 <v-col><span class="subTitle">{{ subTitle }}</span></v-col>
               </v-row>
             </template>
-            <template v-if="description || adminLabel">
+            <template v-if="explanation || description || adminLabel">
               <v-row>
-                <v-col><span class="description"><template v-if="description">{{ description }}</template> <template v-if="description">{{ explanation }}</template> <template v-if="adminLabel"><a :href="'mailto:'+adminEmail">{{adminLabel}}</a></template></span></v-col>
+                <v-col><span class="description"><template v-if="description">{{ description }}</template> <template v-if="explanation">{{ explanation }}</template> <template v-if="adminLabel"><a :href="'mailto:'+adminEmail">{{adminLabel}}</a></template></span></v-col>
               </v-row>
             </template>
             <template v-if="buttonsVisible">

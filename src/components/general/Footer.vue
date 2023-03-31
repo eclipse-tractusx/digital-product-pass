@@ -14,6 +14,8 @@
  limitations under the License.
 -->
 
+
+
 <template>
   <footer data-cy="footer">
     <div class="footer-content">

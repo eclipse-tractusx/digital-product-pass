@@ -26,6 +26,7 @@
 package org.eclipse.tractusx.productpass.http.controllers.error;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -51,7 +52,7 @@ public class ErrorResponseController implements ErrorController {
 
     @RequestMapping(value="/error",  method = {RequestMethod.GET})
     @ResponseBody
-    public Response handleError(HttpServletRequest httpRequest) {
+    public Response handleError(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         ErrorAttributeOptions options = ErrorAttributeOptions
                 .defaults()
                 .including(ErrorAttributeOptions.Include.MESSAGE)
@@ -60,6 +61,8 @@ public class ErrorResponseController implements ErrorController {
         Map<String, Object> errors = this.errorAttributes.getErrorAttributes(servletWebRequest, options);
         Response response = new Response().mapError(errors);
         String httpInfo = HttpUtil.getHttpInfo(httpRequest, response.getStatus());
+        HttpUtil.getCurrentHost(httpRequest);
+        HttpUtil.redirect(httpResponse,"/passport/404");
         LogUtil.printHTTPMessage(httpInfo + " " + response.errorString());
         return response;
     }

@@ -1,13 +1,19 @@
 .cards-container {
   margin-bottom: 24px;
   padding: 6px !important;
+
+  .sustainability {
+    display: flex;
+  }
+
   .card-container {
-    max-height: 193px;
+    min-height: 193px;
     position: relative;
     background-color: #fff;
     border-radius: 10px;
     border: solid 1px #dcdcdc;
     padding: 8px 16px;
+    overflow: hidden;
 
     .charging-cycles-title {
       font-size: 12px;
@@ -78,13 +84,13 @@
       font-size: 18px;
       font-weight: 500;
       padding-top: 12px;
+      word-wrap: break-word;
     }
 
     .card-second-label {
       font-size: 12px;
       font-weight: 500;
       padding-top: 1px;
-      padding-bottom: 41px;
     }
 
     .card-info-icon {
@@ -95,7 +101,7 @@
     }
 
     .materials-container {
-      width: 250px;
+      width: 50%;
 
       .material-container {
         position: relative;
@@ -125,10 +131,124 @@
     }
 
     .co2-container {
+      width: 45%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      border-left: 1px solid lightgrey;
+      .co2-value {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .co2-label {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .cards-container {
+    .card-container {
+      .materials-container {
+        width: 50%;
+      }
+      .co2-container {
+        width: 30%;
+        padding-left: 15%;
+      }
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .cards-container {
+    .card-container {
+      height: 193px;
+      .materials-container {
+        .material-container {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1125px) {
+  .cards-container {
+    .card-container {
+      height: 193px;
+      .materials-container {
+        .material-container {
+          width: 80%;
+          height: 30px;
+          margin: 2px 20px 2px 0;
+          .material-value {
+            position: absolute;
+            font-size: 10px;
+            font-weight: 600;
+            top: 6px;
+            left: 50%;
+            transform: translate(-50%, 0);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .cards-container {
+    .card-container {
+      height: auto;
+      padding-bottom: 40px;
+      .materials-container {
+        width: 50%;
+
+        .material-container {
+          position: relative;
+          width: 60px;
+          height: 60px;
+          background-color: #eaf1fe;
+          border-radius: 10px;
+          padding-top: 20px;
+          margin: 0 15px 15px 0;
+
+          .material-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 12px;
+            font-weight: 500;
+          }
+          .material-value {
+            position: absolute;
+            font-size: 18px;
+            font-weight: 600;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, 0);
+          }
+        }
+      }
+
+      .co2-container {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid lightgrey;
+        .co2-value {
+          font-weight: 600;
+          font-size: 16px;
+        }
+        .co2-label {
+          font-size: 10px;
+        }
+      }
     }
   }
 }

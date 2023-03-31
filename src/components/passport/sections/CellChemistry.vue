@@ -18,10 +18,10 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
           <AttributeField
             icon="mdi-battery-plus"
-            :attributes-list="propsData.electrolyteComposition"
+            :attributes-list="electrolyteComposition"
             label="Composition of electrolyte"
             data-cy="electrolyte-composition"
             style="margin-bottom: 12px; amx"
@@ -42,7 +42,7 @@
           <div class="element-chart-label">
             Recyclate Content Active Materials
           </div>
-          <ElementChart :data="propsData.cathodeActiveMaterials" />
+          <ElementChart :data="propsData" />
         </v-col>
       </v-row>
     </v-container>
@@ -74,7 +74,42 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.cellChemistry,
+      propsData: [
+        {
+          materialPercentageMassFraction: 47,
+          materialName: "Ni",
+          materialWeight: 2.5,
+        },
+        {
+          materialPercentageMassFraction: 9,
+          materialName: "Co",
+          materialWeight: 2.5,
+        },
+        {
+          materialPercentageMassFraction: 19,
+          materialName: "Li",
+          materialWeight: 2.5,
+        },
+        {
+          materialPercentageMassFraction: 0,
+          materialName: "Pb",
+          materialWeight: 2.5,
+        },
+      ],
+      cathodeCompositionOther: [
+        {
+          materialPercentageMassFraction: 19,
+          materialName: "Pb",
+          materialWeight: 2.5,
+        },
+      ],
+      electrolyteComposition: [
+        {
+          materialPercentageMassFraction: 19,
+          materialName: "Pb",
+          materialWeight: 2.5,
+        },
+      ],
     };
   },
 };

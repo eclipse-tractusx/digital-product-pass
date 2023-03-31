@@ -48,6 +48,7 @@
             icon="mdi-license"
             label="Warranty"
             :value="propsData.warrantyPeriod"
+            unit="months"
           />
         </v-col>
       </v-row>

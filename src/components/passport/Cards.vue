@@ -25,7 +25,7 @@
         :key="index"
         style="padding: 6px !important"
       >
-        <div class="card-container">
+        <div class="card-container fill-height">
           <span class="card-title">{{ card.title }} </span>
           <span>
             <v-icon
@@ -39,20 +39,20 @@
           </span>
 
           <v-container class="pa-0" v-if="card.title === 'SUSTAINABILITY'">
-            <v-row class="pa-0 ma-0">
+            <v-row class="sustainability pa-0 ma-0">
               <ElementChart
                 :data="card.value"
                 style="margin: 24px 4px 2px 12px; padding: 0"
               />
-              <v-divider vertical></v-divider>
-              <v-col cols="4" class="ma-0 pa-0; co2-container">
-                <span class="card-value" style="padding-bottom: 0">
+
+              <div class="ma-0 pa-0; co2-container">
+                <span class="co2-value" style="padding-bottom: 0">
                   {{ card.secondValue }} {{ card.secondValueUnits }}
                 </span>
-                <div class="card-label" style="padding-top: 0">
+                <div class="co2-label" style="padding-top: 0">
                   {{ card.secondLabel }}
                 </div>
-              </v-col>
+              </div>
             </v-row>
           </v-container>
           <div v-else>
@@ -150,10 +150,37 @@ export default {
         {
           title: "SUSTAINABILITY",
           icon: "mdi-molecule-co2",
-          secondLabel: "CO Total",
-          secondValueUnits: "t",
-          value:
-            this.$props.data.data.passport.cellChemistry.cathodeActiveMaterials,
+          secondLabel: "CO2e/kWh",
+
+          value: [
+            {
+              materialPercentageMassFraction: 47,
+              materialName: "Ni",
+              materialWeight: 2.5,
+            },
+            {
+              materialPercentageMassFraction: 9,
+              materialName: "Co",
+              materialWeight: 2.5,
+            },
+            {
+              materialPercentageMassFraction: 19,
+              materialName: "Li",
+              materialWeight: 2.5,
+            },
+            {
+              materialPercentageMassFraction: 0,
+              materialName: "Pb",
+              materialWeight: 2.5,
+            },
+          ],
+          cathodeCompositionOther: [
+            {
+              materialPercentageMassFraction: 19,
+              materialName: "Pb",
+              materialWeight: 2.5,
+            },
+          ],
           secondValue: this.$props.data.data.passport.cO2FootprintTotal,
           info: "info",
         },

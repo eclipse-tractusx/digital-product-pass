@@ -46,7 +46,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -106,20 +105,8 @@ nav a.router-link-exact-active {
   border-bottom: solid 1px #edefe5;
 }
 
-.snackbar {
-  border: 1px solid red;
-  border-radius: 8px;
-  background-color: white;
-  font-weight: 400;
-  margin-top: 25px;
-  box-shadow: 0px 20px 40px rgba(80, 80, 80, 0.3);
-}
-
-v-main {
-  background-image: url(https://portal.dev.demo.catena-x.net/assets/images/frame/Home.png);
-  background-repeat: no-repeat;
+.v-main {
+  background-color: #f9f9f9;
   background-size: cover;
-  background-position: center;
-  overflow-x: hidden;
 }
 </style>

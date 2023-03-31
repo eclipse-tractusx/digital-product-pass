@@ -16,29 +16,24 @@
 
 <template>
   <div class="id-container">
+    <v-btn
+      rounded="pill"
+      color="#0F71CB"
+      size="large"
+      class="back-btn"
+      @click="$router.go(-1)"
+      variant="outlined"
+      style="border: 2px solid; text-transform: initial"
+    >
+      <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
+      Back
+    </v-btn>
+
     <div class="id-wrapper">
       <p class="id">
         {{ type }}:
         {{ id ? id : "—" }}
       </p>
-    </div>
-    <div v-if="id === 'NCR186850B'" class="code-container">
-      <img
-        :src="NCR186850B"
-        alt="profile"
-        class="code"
-        width="170"
-        height="170"
-      />
-    </div>
-    <div v-if="id === 'IMR18650V1'" class="code-container">
-      <img
-        :src="IMR18650V1"
-        alt="profile"
-        class="code"
-        width="170"
-        height="170"
-      />
     </div>
   </div>
 </template>
@@ -69,44 +64,33 @@ export default {
 
 <style>
 .id-wrapper {
-  width: 60%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-right: 115px;
   line-break: anywhere;
 }
-.code {
-  padding: 0;
-  margin: 0;
-}
-.id{
-    font-size: 2em;
-    line-height: 36px;
-    font-weight: bold;
+
+.id {
+  font-size: 14px;
+  line-height: 36px;
+  font-weight: bold;
 }
 .id-container {
   display: flex;
   align-items: center;
-  width: 76%;
-  margin: 12em 12% 6% 12%;
-  padding: 20px 0;
-}
-.code-container {
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  margin: 6em 40px 0 40px;
+  padding: 15px 0 10px 0;
 }
 @media (max-width: 750px) {
-  .code-container {
-    display: none;
-  }
   .id-container {
-    margin: 12em 0 2em 3em;
-    padding: 20px 0;
-    width: 85%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   .id-wrapper {
-    width: 100%;
-  }
-  .id {
-    font-size: 1.5em;
+    margin-top: 15px;
   }
 }
 </style>

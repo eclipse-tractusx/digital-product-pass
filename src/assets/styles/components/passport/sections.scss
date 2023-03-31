@@ -1,6 +1,14 @@
 .section {
+  display: flex;
   .full-width {
     width: 100% !important;
+  }
+
+  .element-chart-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 6px 8px;
+    min-height: 20px;
   }
 
   .sub-section-container {
@@ -49,47 +57,21 @@
     color: #c6cca3;
   }
 
-  .sub-title-container {
-    padding: 40px 40px 20px 40px;
-    width: 100%;
+  .container-width-70 {
+    width: 70%;
   }
-
-  .field-container {
-    display: flex;
+  .container-width-60 {
+    width: 60%;
+  }
+}
+@media (max-width: 960px) {
+  .section {
     flex-direction: column;
-    width: 33%;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .longer {
-    padding-bottom: 50px;
-  }
-
-  @media (max-width: 750px) {
-    .section-content {
-      margin-bottom: 0;
-      border: none;
-    }
-
-    .longer {
-      padding-bottom: 0;
-    }
-
-    .sub-title-container {
-      padding: 22px 40px 0 30px;
-    }
-
-    .list-container {
+    .container-width-70 {
       width: 100%;
-      padding-left: 50px;
     }
-
-    .field-container {
+    .container-width-60 {
       width: 100%;
     }
   }
 }
-

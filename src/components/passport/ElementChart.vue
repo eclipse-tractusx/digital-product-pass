@@ -16,35 +16,31 @@
 
 
 <template>
-  <div class="document-field">
-    <div class="field-container">
-      <v-icon icon="mdi-text-box-outline" class="document-icon"></v-icon>
-      <a
-        v-for="document in field"
-        :key="document"
-        :href="document.fileLocation"
-        target="_blank"
-        class="link-container"
-        data-cy="link-to-the-label-element"
+  <div class="materials-container">
+    <v-row>
+      <div
+        class="material-container"
+        v-for="(material, index) in data"
+        :key="index"
       >
-        <span class="field-label">{{ document.title }}</span>
-
-        <span class="field-value link-wrapper">
-          <span class="link">
-            {{ document.fileLocation }}
-          </span>
+        <span class="material-label">{{ material.materialName }}</span>
+        <span class="material-value">
+          {{ material.materialPercentageMassFraction }}%
         </span>
-      </a>
-    </div>
+      </div>
+    </v-row>
   </div>
 </template>
 
+
 <script>
 export default {
-  name: "DocumentField",
+  name: "ElementChart",
   props: {
-    field: { type: [String, Number], default: "" },
+    data: {
+      type: Object,
+      default: Object,
+    },
   },
 };
 </script>
-

@@ -13,31 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 .footer-content {
   display: flex;
-  flex-direction: column;
-  min-height: 200px;
+  flex-direction: row;
+  min-height: 48px;
   text-align: center;
-  justify-content: center;
-  align-items: center;
+  margin: 0 40px;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   .links {
     display: flex;
-    justify-content: center;
-    margin-bottom: 14px;
-    margin-left: auto;
+    justify-content: flex-start;
+    margin-bottom: 0;
+    margin-left: 0;
     margin-right: auto;
-    padding-top: 75px;
+    padding: 10px 0;
   }
 
   a {
-    font-size: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
     line-height: 1.42857;
     letter-spacing: 0px;
-    margin: 0px 8px;
+    margin: 0px 7px;
     cursor: pointer;
-    color: $catena-x-blue;
+    color: #5a5d57;
   }
 
   a:hover {
@@ -52,16 +55,36 @@
   }
 
   .copyright {
-    font-size: 12px;
+    padding: 14px 0;
+    font-size: 11px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a5d57;
     padding-bottom: 72px;
   }
+}
 
-  @media (max-width: 740px) {
+@media (max-width: 893px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
     .links {
-      display: initial;
-      div {
-        margin: 20px 0 10px 0;
-      }
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 585px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    .links {
+      margin-top: 15px;
+      margin-left: auto;
+      flex-direction: column;
+    }
+    a {
+      line-height: 3.42857;
     }
   }
 }

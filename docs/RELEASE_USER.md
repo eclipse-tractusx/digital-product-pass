@@ -22,6 +22,14 @@
 
 # Release Notes Digital Product Pass Application
 
+**March 31 2023 (Version 0.5.1)**  
+*31.03.2023*
+
+### Updated
+
+Updated license headers to include the `SPDX` attribute
+
+
 **March 30 2023 (Version 0.5.0)**  
 *30.03.2023*
 

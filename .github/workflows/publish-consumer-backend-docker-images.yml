@@ -21,7 +21,7 @@ name: "Publish Consumer Backend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop", "beta" ]
+    branches: [ "main" ]
 
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
@@ -32,7 +32,7 @@ on:
       branch:
         description: "Branch to use"
         required: true
-        default: 'develop'
+        default: 'main'
         type: string
 
 env:

@@ -40,10 +40,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 
 ## Added
-- Added BETA environment configuration
-    - Added helm charts
-    - Added backend configuration
-    - Added mock provider and consumer EDC configurations
 - Externalized the frontend configuration using helm charts
 - Added tooltip component in frontend
 - Added veracode workflow_dispatch
@@ -52,7 +48,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added search for `assetId` in a provider catalog using the scheme `{DigitalTwinId}-{DigitalTwinSubmodelId}`
 - Enabled "OPTIONS" method in backend CORS configuration
     - Allowing local browser calls to the backend
-- Support end-to-end integration with external company in BETA
+- Support end-to-end integration with external companies
 
 
 ## Issues Fixed

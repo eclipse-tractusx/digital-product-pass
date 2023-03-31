@@ -54,7 +54,7 @@
       </Alert>
     </div>
   </v-container>
-  <div class="pass-container-bg" v-else>
+  <div v-else>
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
@@ -203,16 +203,19 @@ export default {
         API_TIMEOUT,
         null
       );
-      if(!result || result == null){
+      if (!result || result == null) {
         this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description = "The request took too long... Please retry or try again later."
+        this.errorObj.description =
+          "The request took too long... Please retry or try again later.";
       }
       this.data = result;
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {
       if (
-        this.data && jsonUtil.exists("status", this.data) && this.data["status"] == 200
+        this.data &&
+        jsonUtil.exists("status", this.data) &&
+        this.data["status"] == 200
       ) {
         this.error = false;
       }
@@ -253,10 +256,7 @@ export default {
       }
 
       // Check if reponse content was successfull and if not print error comming message from backend
-      if (
-        jsonUtil.exists("status", response) && 
-        response["status"] != 200
-      ) {
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "An error occured when searching for the passport!";

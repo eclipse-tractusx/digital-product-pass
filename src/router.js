@@ -31,7 +31,7 @@ const routes = [
         component: ErrorComponent,
     },
     {
-        path: "/404",
+        path: "/not-found",
         name: "PageNotFound",
         component: ErrorComponent,
     },

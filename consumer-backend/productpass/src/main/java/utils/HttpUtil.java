@@ -158,6 +158,14 @@ public final class HttpUtil {
         }
     }
 
+    public static String getCurrentUrl(HttpServletRequest httpRequest){
+        try {
+            return httpRequest.getRequestURL().toString();
+        } catch (Exception e) {
+            throw new UtilException(HttpUtil.class, e, "It was not posible to get current url");
+        }
+    }
+
     public static String getHost(String url) throws MalformedURLException {
         return new URL(url).getHost();
     }

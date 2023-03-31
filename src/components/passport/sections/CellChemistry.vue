@@ -18,7 +18,7 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
           <AttributeField
             icon="mdi-battery-plus"
             :attributes-list="electrolyteComposition"

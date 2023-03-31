@@ -90,7 +90,7 @@
 
 <script>
 import Field from "../Field.vue";
-import TempRange from "../../../media/TempRange.svg";
+import TempRange from "../../../media/tempRange.svg";
 
 export default {
   name: "StateOfBattery",

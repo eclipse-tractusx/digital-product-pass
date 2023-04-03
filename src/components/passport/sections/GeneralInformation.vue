@@ -14,109 +14,98 @@
  limitations under the License.
 -->
 
-<template v-if="generalInformation.batteryIdentification">
-  <SectionHeader title="1. General information" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div
-      v-if="generalInformation.batteryIdentification"
-      class="sub-section-container"
-    >
+
+<template v-if="propsData">
+  <div class="section">
+    <div v-if="propsData.batteryIdentification" class="sub-section-container">
       <Field
         data-cy="battery-id"
         label="Battery ID"
-        :value="generalInformation.batteryIdentification.batteryIDDMCCode"
+        :value="propsData.batteryIdentification.batteryIDDMCCode"
       />
       <Field
         label="Battery Type"
-        :value="generalInformation.batteryIdentification.batteryType"
+        :value="propsData.batteryIdentification.batteryType"
       />
       <Field
         label="Battery Model"
-        :value="generalInformation.batteryIdentification.batteryModel"
+        :value="propsData.batteryIdentification.batteryModel"
       />
     </div>
-    <div v-if="generalInformation.manufacturer" class="sub-section-container">
+    <div v-if="propsData.manufacturer" class="sub-section-container">
       <Field
         class="full-width"
         label="Manufacturer Information"
-        :value="generalInformation.manufacturer.name"
+        :value="propsData.manufacturer.name"
       />
       <Field
         class="longer"
         label="Address"
-        :city="generalInformation.manufacturer.address.locality.value"
-        :country="generalInformation.manufacturer.address.country.shortName"
-        :postal="generalInformation.manufacturer.address.postCode.value"
-        :value="generalInformation.manufacturer.name"
+        :city="propsData.manufacturer.address.locality.value"
+        :country="propsData.manufacturer.address.country.shortName"
+        :postal="propsData.manufacturer.address.postCode.value"
+        :value="propsData.manufacturer.name"
       />
       <Field
         label="Contact phone number"
-        :value="generalInformation.manufacturer.contact.phoneNumber"
+        :value="propsData.manufacturer.contact.phoneNumber"
       />
-      <Field
-        label="Email"
-        :value="generalInformation.manufacturer.contact.email"
-      />
+      <Field label="Email" :value="propsData.manufacturer.contact.email" />
     </div>
-    <div
-      v-if="generalInformation.physicalDimensions"
-      class="sub-section-container"
-    >
+    <div v-if="propsData.physicalDimensions" class="sub-section-container">
       <Field
         label="Dimensions of the battery"
-        :height="generalInformation.physicalDimensions.height"
-        :length="generalInformation.physicalDimensions.length"
+        :height="propsData.physicalDimensions.height"
+        :length="propsData.physicalDimensions.length"
         unit="mm"
-        :width="generalInformation.physicalDimensions.width"
+        :width="propsData.physicalDimensions.width"
       />
 
       <Field
         label="Weight of the battery"
         unit="kg"
-        :value="generalInformation.physicalDimensions.weight"
+        :value="propsData.physicalDimensions.weight"
       />
 
       <Field
         label="Date of Manufacture"
-        :day="generalInformation.manufacturing.dateOfManufacturing"
+        :day="propsData.manufacturing.dateOfManufacturing"
       />
       <Field
         label="Place of Manufacturing"
-        :value="generalInformation.manufacturing.address.locality.value"
+        :value="propsData.manufacturing.address.locality.value"
       />
       <Field
         class="two-third-width"
-        label="Data of placing on the market"
-        :day="generalInformation.datePlacedOnMarket"
+        label="Date of placing on the market"
+        :day="propsData.datePlacedOnMarket"
       />
       <Field
         class="longer"
         label="Period for which the Commercial Warranty for the calendar life
           applies"
-        :value="generalInformation.warrantyPeriod"
+        :value="propsData.warrantyPeriod"
       />
       <Field
         label="Status of the battery"
-        :value="generalInformation.stateOfBattery.statusBattery"
+        :value="propsData.stateOfBattery.statusBattery"
       />
       <Field
         label="CO2 Footprint Total"
         unit="kg"
-        :value="generalInformation.cO2FootprintTotal"
+        :value="propsData.cO2FootprintTotal"
       />
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 
 export default {
   name: "GeneralInformation",
   components: {
     Field,
-    SectionHeader,
   },
   props: {
     sectionTitle: {
@@ -124,7 +113,7 @@ export default {
       required: false,
       default: "",
     },
-    generalInformation: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -133,53 +122,8 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport,
     };
   },
 };
 </script>
-
-<style scoped>
-.full-width {
-  width: 100% !important;
-}
-
-.sub-section-container {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #edefe5;
-}
-
-.two-third-width {
-  width: 66% !important;
-}
-
-.section-content {
-  width: 100%;
-  border: solid 1px #b3cb2d;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  margin-bottom: 50px;
-}
-
-.hidden {
-  display: none;
-}
-
-.longer {
-  padding-bottom: 50px;
-}
-
-@media (max-width: 750px) {
-  .section-content {
-    border: none;
-  }
-
-  .section-content {
-    margin-bottom: 0;
-  }
-
-  .longer {
-    padding-bottom: 0;
-  }
-}
-</style>

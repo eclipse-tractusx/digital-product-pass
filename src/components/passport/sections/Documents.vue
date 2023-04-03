@@ -14,35 +14,27 @@
  limitations under the License.
 -->
 
-<template v-if="documents">
-  <div class="documents">
-    <SectionHeader
-      title="6. Additional information"
-      @click="toggle = !toggle"
-    />
-    <div class="section-content" :class="[toggle ? 'hidden' : '']">
-      <div class="sub-section-container">
-        <DocumentField :field="documents.responsibleSourcing" />
-        <DocumentField :field="documents.packagingInstructions" />
-        <DocumentField :field="documents.transportationInstructions" />
-        <DocumentField :field="documents.vehicleDismantlingProcedure" />
-        <DocumentField :field="documents.testReportsResults" />
-        <DocumentField :field="documents.batteryDismantlingProcedure" />
-        <DocumentField :field="documents.safetyMeasures" />
-        <DocumentField :field="documents.declarationOfConformity" />
-      </div>
+<template v-if="propsData">
+  <div class="section">
+    <div class="sub-section-container">
+      <DocumentField :field="propsData.responsibleSourcing" />
+      <DocumentField :field="propsData.packagingInstructions" />
+      <DocumentField :field="propsData.transportationInstructions" />
+      <DocumentField :field="propsData.vehicleDismantlingProcedure" />
+      <DocumentField :field="propsData.testReportsResults" />
+      <DocumentField :field="propsData.batteryDismantlingProcedure" />
+      <DocumentField :field="propsData.safetyMeasures" />
+      <DocumentField :field="propsData.declarationOfConformity" />
     </div>
   </div>
 </template>
  
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import DocumentField from "../DocumentField.vue";
 
 export default {
   name: "AdditionalDocuments",
   components: {
-    SectionHeader,
     DocumentField,
   },
   props: {
@@ -51,7 +43,7 @@ export default {
       required: false,
       default: "",
     },
-    documents: {
+    data: {
       type: Object,
       required: false,
       default: Object,
@@ -61,6 +53,7 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport.document,
     };
   },
 };

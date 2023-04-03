@@ -1,21 +1,16 @@
 {
-    "description": [
-        {
-            "language": "en",
-            "text": "demo_catena_test_3.txt"
-        }
-    ],
+    "description": [],
     "globalAssetId": {
         "value": [
-            "urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199"
+            "urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002"
         ]
     },
-    "idShort": "demo_catena_test_1.txt",
-    "identification": "urn:uuid:51b1cd81-d03b-441d-a7c2-41ef9d789199",
+    "idShort": "Battery_IMR18650V1",
+    "identification": "urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002",
     "specificAssetIds": [
         {
-            "key": "Battery_ID_DMC_Code",
-            "value": "IMR18650V1_DEV"
+            "key": "partInstanceId",
+            "value": "IMR18650V1"
         }
     ],
     "submodelDescriptors": [
@@ -26,18 +21,18 @@
                     "text": "Battery Passport Submodel"
                 }
             ],
-            "idShort": "MaterialPass",
-            "identification": "urn:uuid:10d094e0-aecc-4e84-b937-a1d606112cdd",
+            "idShort": "batteryPass",
+            "identification": "urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918",
             "semanticId": {
                 "value": [
-                    "urn_bamm_io.catenax.battery.battery_pass_2.0.0"
+                    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
                 ]
             },
             "endpoints": [
                 {
-                    "interface": "SUBMODEL.SIEM.0002",
+                    "interface": "EDC",
                     "protocolInformation": {
-                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/provider/api/v1/ids/data",
+                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/urn:uuid:365e6fbe-bb34-11ec-8422-0242ac120002-urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918/submodel?content=value&extent=WithBLOBValue",
                         "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
                         "endpointProtocolVersion": "0.0.1-SNAPSHOT"
                     }

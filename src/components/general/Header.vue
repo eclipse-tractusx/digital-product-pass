@@ -15,7 +15,7 @@
 -->
 <template>
   <div class="header-container">
-    <v-container fluid="true" class="header">
+    <v-container fluid class="header">
       <v-row
         class="d-flex justify-xl-between justify-lg-between justify-md-center justify-sm-center justify-center align-center"
       >
@@ -29,7 +29,7 @@
         </v-col>
         <v-col class="v-col-auto" style="padding: 0">
           <v-container
-            fluid="true"
+            fluid
             class="d-flex align-center justify-content-end profile-container"
           >
             <v-row>
@@ -45,8 +45,11 @@
                     class="help-btn"
                     :ripple="{ class: 'ripple-background' }"
                     rounded
-                    >Help</v-btn
-                  >
+                    >Help
+                    <Tooltip>
+                      Here you can get help if you need to know more about Catena-X
+                    </Tooltip>
+                  </v-btn>
                 </a>
               </v-col>
               <v-col
@@ -91,15 +94,20 @@
 </template>
 
 <script>
-import CatenaLogo from "../../media/Catena-X_Logo_mit_Zusatz_2021.svg";
-import Profile from "../../media/profile.svg";
+import CatenaLogo from "@/media/Catena-X_Logo_mit_Zusatz_2021.svg";
+import Profile from "@/media/profile.svg";
+import Tooltip from "@/components/general/Tooltip.vue";
 import { inject } from "vue";
+
 export default {
   name: "HeaderComponent",
+  components: {
+    Tooltip
+  },
   setup() {
     return {
       CatenaLogo,
-      Profile,
+      Profile
     };
   },
   data() {
@@ -111,6 +119,7 @@ export default {
       role: "",
       auth: inject("authentication"),
       tab: null,
+      lang: "en-EN"
     };
   },
   mounted() {
@@ -125,7 +134,10 @@ export default {
     },
     scanQRCode() {
       this.$router.push({ name: "SearchView" });
-    },
+    }
   },
 };
 </script>
+
+<style >
+</style>

@@ -14,34 +14,28 @@
  limitations under the License.
 -->
 
-<template v-if="contractInformation">
-  <SectionHeader title="7. Contract information" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
-    <div v-if="contractInformation" class="sub-section-container">
-      <Field
-        label="Contract ID"
-        :value="contractInformation.negotiation.id"
-      />
+<template v-if="propsDate">
+  <div class="section">
+    <div class="sub-section-container">
+      <Field label="Contract ID" :value="propsData.negotiation.id" />
       <Field
         label="Contract Agreement ID"
-        :value="contractInformation.transferRequest.contractId"
+        :value="propsData.transferRequest.contractId"
       />
       <Field
         label="Transfer Process ID"
-        :value="contractInformation.transferRequest.id"
+        :value="propsData.transferRequest.id"
       />
     </div>
   </div>
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import Field from "../Field.vue";
 export default {
   name: "ContractInformation",
   components: {
     Field,
-    SectionHeader,
   },
   props: {
     sectionTitle: {
@@ -49,7 +43,7 @@ export default {
       required: false,
       default: "",
     },
-    contractInformation: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -57,45 +51,8 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.metadata,
     };
   },
 };
 </script>
-
-<style scoped>
-.full-width {
-  width: 100% !important;
-}
-.sub-section-container {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #edefe5;
-}
-.two-third-width {
-  width: 66% !important;
-}
-.section-content {
-  width: 100%;
-  border: solid 1px #b3cb2d;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  margin-bottom: 50px;
-}
-.hidden {
-  display: none;
-}
-.longer {
-  padding-bottom: 50px;
-}
-@media (max-width: 750px) {
-  .section-content {
-    border: none;
-  }
-  .section-content {
-    margin-bottom: 0;
-  }
-  .longer {
-    padding-bottom: 0;
-  }
-}
-</style>

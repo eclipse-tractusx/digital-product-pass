@@ -14,13 +14,11 @@
  limitations under the License.
 -->
 
-<template v-if="batteryComposition">
-  <SectionHeader title="4. Battery composition" @click="toggle = !toggle" />
-  <div class="section-content" :class="[toggle ? 'hidden' : '']">
+<template v-if="propsData">
+  <div class="section">
     <!-- Composition of battery -->
-
     <AttributeField
-      :attributes-list="batteryComposition.compositionOfBattery"
+      :attributes-list="propsData.compositionOfBattery"
       label="Composition of battery"
     />
     <!-- Critical raw materials -->
@@ -28,15 +26,12 @@
       <div class="sub-title-container">
         <span class="sub-title">Critical raw materials</span>
       </div>
-      <div
-        v-if="batteryComposition.criticalRawMaterials"
-        class="list-container"
-      >
+      <div v-if="propsData.criticalRawMaterials" class="list-container">
         <ul>
           <span class="list-label"></span>
           <li>
             <span>
-              {{ batteryComposition.criticalRawMaterials }}
+              {{ propsData.criticalRawMaterials }}
             </span>
           </li>
         </ul>
@@ -47,31 +42,24 @@
       <div class="sub-title-container">
         <span class="sub-title">Components</span>
       </div>
-      <div v-if="batteryComposition.components" class="list-container">
+      <div v-if="propsData.components" class="list-container">
         <ul>
           <span class="list-label">Components part number</span>
           <li>
             <span>
-              {{ batteryComposition.components.componentsPartNumber }}
+              {{ propsData.components.componentsPartNumber }}
             </span>
           </li>
         </ul>
       </div>
-    </div>
-    <!-- Components supplier -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Components supplier</span>
-      </div>
       <div
-        v-if="batteryComposition.components.componentsSupplier"
+        v-if="propsData.components.componentsSupplier"
         class="list-container"
       >
         <ul>
           <span class="list-label">Address</span>
           <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
+            v-for="supplierDetails in propsData.components.componentsSupplier"
             :key="supplierDetails"
           >
             <p>{{ supplierDetails.address.locality.value }}</p>
@@ -88,8 +76,7 @@
         <ul>
           <span class="list-label">Contact</span>
           <li
-            v-for="supplierDetails in batteryComposition.components
-              .componentsSupplier"
+            v-for="supplierDetails in propsData.components.componentsSupplier"
             :key="supplierDetails"
           >
             <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
@@ -107,13 +94,11 @@
 </template>
 
 <script>
-import SectionHeader from "../../general/SectionHeader.vue";
 import AttributeField from "../AttributeField.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
-    SectionHeader,
     AttributeField,
   },
   props: {
@@ -121,7 +106,7 @@ export default {
       type: String,
       default: "",
     },
-    batteryComposition: {
+    data: {
       type: Object,
       default: Object,
     },
@@ -129,84 +114,8 @@ export default {
   data() {
     return {
       toggle: false,
+      propsData: this.$props.data.data.passport.composition,
     };
   },
 };
 </script>
-
-<style scoped>
-.section-content {
-  width: 100%;
-  border: solid 1px #b3cb2d;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  margin-bottom: 50px;
-}
-
-.sub-section-container {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #edefe5;
-}
-
-.sub-title {
-  font-weight: bold;
-  font-size: 20px;
-  color: #c6cca3;
-}
-
-.sub-title-container {
-  padding: 22px 40px 0 40px;
-  width: 100%;
-}
-
-.list-container {
-  width: 33%;
-  padding: 0 0 22px 40px;
-}
-
-.list-label {
-  padding: 22px 0 10px 0;
-  font-size: 12px;
-  color: #777777;
-}
-
-ul {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-}
-
-li {
-  margin-left: 20px;
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
-}
-
-@media (max-width: 750px) {
-  .section-content {
-    border: none;
-  }
-
-  .section-content {
-    margin-bottom: 0;
-  }
-
-  .list-container {
-    width: 100%;
-    padding-left: 50px;
-  }
-
-  .section-content {
-    border: none;
-    margin-bottom: 0;
-  }
-
-  .sub-title-container {
-    padding: 22px 40px 0 30px;
-  }
-}
-</style>

@@ -1,0 +1,19 @@
+.tooltip {
+  background-color: #303030 !important;
+  border-radius: 2px !important;
+  max-width: 200px !important;
+  white-space: pre-line !important;
+  line-break: word !important;
+  padding: 15px !important;
+}
+
+.tooltip::after {
+  position: absolute;
+  top: -19px !important;
+  right: 50% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  content: "" !important;
+  border: 10px solid transparent !important;
+  border-bottom-color: #303030 !important;
+}

@@ -26,11 +26,11 @@
           <span>
             {{ attribute.materialName }}
           </span>
-          <span v-if="attribute.matierialPercentageMassFraction">
-            - {{ attribute.matierialPercentageMassFraction }}%
+          <span v-if="attribute.materialPercentageMassFraction">
+            - {{ attribute.materialPercentageMassFraction }}%
           </span>
-          <span v-if="attribute.matierialWeight">
-            - {{ attribute.matierialWeight }}kg
+          <span v-if="attribute.materialWeight">
+            - {{ attribute.materialWeight }}kg
           </span>
         </li>
       </ul>

@@ -58,7 +58,7 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-    - run: java -Dpipeline.debug=true -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{secrets.ORG_VERACODE_API_ID}}" --veracode_api_key "${{secrets.ORG_VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
+    - run: java -Dpipeline.debug=true -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}" --veracode_api_key "${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
       continue-on-error: true
     - name: Convert pipeline scan output to SARIF format
       id: convert

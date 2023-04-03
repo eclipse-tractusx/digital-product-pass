@@ -25,6 +25,7 @@
 
 package utils;
 
+import org.apache.juli.logging.Log;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -118,6 +119,14 @@ public final class LogUtil {
             return;
         }
         LogUtil.printLog(logLevel, strMessage);
+    }
+
+    public static void printDebug(String strMessage, Boolean keepLog) {
+        Level logLevel = Level.forName("DEBUG",500); // Real debug level
+        if(keepLog){
+            ThreadUtil.runThread(new LogPrinter(logLevel, strMessage), "keepLogLogger");
+        }
+        LogUtil.printDebug(strMessage);
     }
 
     public static void printLog(Level logLevel, String strMessage){

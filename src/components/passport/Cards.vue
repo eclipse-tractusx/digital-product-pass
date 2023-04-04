@@ -29,7 +29,6 @@
           <span class="card-title">{{ card.title }} </span>
           <span>
             <v-icon
-              :class="[card.title === 'HEALTH' ? 'card-icon-green' : '']"
               class="card-icon"
               start
               md
@@ -125,12 +124,12 @@ export default {
           title: "PERFORMANCE",
           label: "Rated Capacity",
           secondLabel: "Original Power",
-          icon: "mdi-image-size-select-small",
+          icon: "mdi-chart-timeline-variant-shimmer",
           value:
             this.$props.data.data.passport.electrochemicalProperties
               .ratedCapacity,
-          valueUnits: "kW",
-          secondValueUnits: "Ah",
+          valueUnits: "kWh",
+          secondValueUnits: "kW",
           secondValue:
             this.$props.data.data.passport.electrochemicalProperties
               .batteryPower.originalPowerCapability,
@@ -149,7 +148,7 @@ export default {
         },
         {
           title: "SUSTAINABILITY",
-          icon: "mdi-molecule-co2",
+          icon: "mdi-leaf",
           secondLabel: "CO2e/kWh",
 
           value: [

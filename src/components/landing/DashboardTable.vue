@@ -27,46 +27,25 @@
     <tbody>
       <tr v-for="item in items" :key="item.model">
         <td>
-          <router-link
-            :to="'/' + item.id"
-            class="table-link"
-            data-cy="passport-link"
-          >
-          </router-link>
+          <router-link :to="'/' + item.id" class="table-link" data-cy="passport-link"> </router-link>
           {{ item.model }}
         </td>
         <td>
-          <router-link
-            :to="'/' + item.id"
-            class="table-link"
-            data-cy="passport-link"
-          >
-          </router-link>
+          <router-link :to="'/' + item.id" class="table-link" data-cy="passport-link"> </router-link>
           {{ item.producer }}
         </td>
         <td>
-          <router-link
-            :to="'/' + item.id"
-            class="table-link"
-            data-cy="passport-link"
-          >
-          </router-link>
+          <router-link :to="'/' + item.id" class="table-link" data-cy="passport-link"> </router-link>
           {{ item.capacity }}
         </td>
         <td>
-          <router-link
-            :to="'/' + item.id"
-            class="table-link"
-            data-cy="passport-link"
-          >
-          </router-link>
+          <router-link :to="'/' + item.id" class="table-link" data-cy="passport-link"> </router-link>
           {{ item.date }}
         </td>
       </tr>
     </tbody>
   </v-table>
 </template>
-
 
 <script type="text/jsx">
 import { ref } from "vue";
@@ -102,7 +81,7 @@ export default {
           producer: "Volkswagen",
           capacity: "98 kWh",
           date: "15.02.2022",
-          id: "NCR186850B",
+          id: "IMR18650V1",
         },
         {
           model: "ID.4",
@@ -172,7 +151,7 @@ export default {
           producer: "Volvo",
           capacity: "120 kWh",
           date: "28.08.2022",
-          id: "NCR186850B",
+          id: "X123456789012X12345678901234566",
         },
       ],
     };

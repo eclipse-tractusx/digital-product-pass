@@ -17,30 +17,12 @@
 <template>
   <div>
     <HeaderComponent>
-      <v-tabs v-model="tab" show-arrows class="menu">
-        <v-tab
-          :ripple="{ class: 'ripple-background' }"
-          class="nav-items"
-          value="one"
-          data-cy="history-tab"
-          >History Page</v-tab
-        >
-        <v-tab
-          :ripple="{ class: 'ripple-background' }"
-          class="nav-items"
-          value="two"
-          data-cy="QR-scanner-tab"
-          >Search Passport</v-tab
-        >
-      </v-tabs>
+      <div class="header-title">Search Passport</div>
     </HeaderComponent>
     <v-container>
-      <v-window v-model="tab">
+      <v-window>
         <v-main>
-          <v-window-item value="one">
-            <WelcomeView />
-          </v-window-item>
-          <v-window-item value="two">
+          <v-window-item>
             <SearchView />
           </v-window-item>
         </v-main>
@@ -52,7 +34,6 @@
 
 <script>
 import SearchView from "./SearchView.vue";
-import WelcomeView from "./WelcomeView.vue";
 import FooterComponent from "../components/general/Footer.vue";
 import HeaderComponent from "../components/general/Header.vue";
 
@@ -61,14 +42,8 @@ export default {
   name: "HomeView",
   components: {
     SearchView,
-    WelcomeView,
     FooterComponent,
     HeaderComponent,
-  },
-  data() {
-    return {
-      tab: null,
-    };
   },
 };
 </script>

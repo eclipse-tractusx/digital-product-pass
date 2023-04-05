@@ -117,7 +117,6 @@ import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import SectionComponent from "@/components/passport/Section.vue";
 
 export default {
   name: "PassportView",
@@ -135,7 +134,6 @@ export default {
     FooterComponent,
     Spinner,
     Alert,
-    SectionComponent,
   },
   data() {
     return {

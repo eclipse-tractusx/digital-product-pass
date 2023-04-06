@@ -46,7 +46,8 @@
 
               <div class="ma-0 pa-0; co2-container">
                 <span class="co2-value" style="padding-bottom: 0">
-                  {{ card.secondValue }} {{ card.secondValueUnits }}
+                  {{ card.secondValue ? card.secondValue : "-" }}
+                  {{ card.secondValueUnits }}
                 </span>
                 <div class="co2-label" style="padding-top: 0">
                   {{ card.secondLabel }}
@@ -58,7 +59,9 @@
             <div class="card-label">
               {{ card.label }}
             </div>
-            <div class="card-value">{{ card.value }} {{ card.valueUnits }}</div>
+            <div class="card-value">
+              {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
+            </div>
             <v-divider></v-divider>
             <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
               <div class="charging-cycles-title">Charging Cycles</div>
@@ -66,7 +69,8 @@
             </div>
             <div v-else>
               <div class="card-second-value">
-                {{ card.secondValue }} {{ card.secondValueUnits }}
+                {{ card.secondValue ? card.secondValue : "-" }}
+                {{ card.secondValueUnits }}
               </div>
               <div class="card-second-label">
                 {{ card.secondLabel }}
@@ -130,9 +134,11 @@ export default {
               .ratedCapacity,
           valueUnits: "kWh",
           secondValueUnits: "kW",
-          secondValue:
-            this.$props.data.data.passport.electrochemicalProperties
-              .batteryPower.originalPowerCapability,
+          secondValue: this.$props.data.data.passport.electrochemicalProperties
+            .batteryPower
+            ? this.$props.data.data.passport.electrochemicalProperties
+                .batteryPower.originalPowerCapability
+            : "-",
           info: "info",
         },
         {

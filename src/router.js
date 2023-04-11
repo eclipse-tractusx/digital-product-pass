@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import PageNotFound from './views/PageNotFound.vue';
+import ErrorComponent from './components/general/ErrorComponent.vue';
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "./views/HomeView.vue";
 
@@ -28,7 +28,12 @@ const routes = [
     {
         path: "/:catchAll(.*)",
         name: "PageNotFound",
-        component: PageNotFound,
+        component: ErrorComponent,
+    },
+    {
+        path: "/not-found",
+        name: "PageNotFound",
+        component: ErrorComponent,
     },
     {
         path: "/:id",

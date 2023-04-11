@@ -137,7 +137,6 @@ export default {
     FooterComponent,
     Spinner,
     Alert,
-    SectionComponent,
     ErrorComponent
   },
   data() {

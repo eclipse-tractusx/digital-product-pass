@@ -23,7 +23,14 @@
   </v-container>
   <v-container v-else-if="error" class="h-100 w-100">
     <div class="loading-container d-flex align-items-center w-100 h-100">
-      <Alert
+      <ErrorComponent
+        :title="errorObj.status + ' ' + errorObj.statusText"
+        :subTitle="errorObj.title"
+        :description="errorObj.description"
+        reloadLabel="Return"
+        reloadIcon="mdi-arrow-left"
+      />
+      <!-- <Alert
         class="w-100"
         :description="errorObj.description"
         :title="errorObj.title"
@@ -51,7 +58,7 @@
             </v-btn>
           </v-col>
         </v-row>
-      </Alert>
+      </Alert> -->
     </div>
   </v-container>
   <div v-else>
@@ -109,13 +116,12 @@ import PassportHeader from "@/components/passport/PassportHeader.vue";
 import CardsComponent from "@/components/passport/Cards.vue";
 import Alert from "@/components/general/Alert.vue";
 import FooterComponent from "@/components/general/Footer.vue";
+import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import SectionComponent from "@/components/passport/Section.vue";
-import MOCK from "../assets/mock/passportExample02.json";
 
 export default {
   name: "PassportView",
@@ -134,6 +140,7 @@ export default {
     Spinner,
     Alert,
     SectionComponent,
+    ErrorComponent,
   },
   data() {
     return {
@@ -176,98 +183,115 @@ export default {
           component: "ContractInformation",
         },
       ],
-      // auth: inject("authentication"),
-      data: MOCK,
-      loading: false,
-      // errors: [],
-      // id: this.$route.params.id,
-      // error: true,
-      // errorObj: {
-      //   title: "Something went wrong while returning the passport!",
-      //   description: "We are sorry for that, you can retry or try again later",
-      //   type: "error",
-      // },
+      auth: inject("authentication"),
+      data: null,
+      loading: true,
+      errors: [],
+      id: this.$route.params.id,
+      error: true,
+      errorObj: {
+        title: "Something went wrong while returning the passport!",
+        description: "We are sorry for that, you can retry or try again later",
+        type: "error",
+        status: 500,
+        statusText: "Internal Server Error",
+      },
       version: PASSPORT_VERSION,
     };
   },
   async created() {
-    this.loading = false;
-    this.data = MOCK;
-
-    // let result = null;
-    // try {
-    //   // Setup passport promise
-    //   let passportPromise = this.getPassport(this.id);
-    //   // Execute promisse with a Timeout
-    //   result = await threadUtil.execWithTimeout(
-    //     passportPromise,
-    //     API_TIMEOUT,
-    //     null
-    //   );
-    //   if (!result || result == null) {
-    //     this.errorObj.title = "Timeout! Failed to return passport!";
-    //     this.errorObj.description =
-    //       "The request took too long... Please retry or try again later.";
-    //   }
-    //   this.data = result;
-    // } catch (e) {
-    //   console.log("passportView -> " + e);
-    // } finally {
-    //   if (
-    //     this.data &&
-    //     jsonUtil.exists("status", this.data) &&
-    //     this.data["status"] == 200
-    //   ) {
-    //     this.error = false;
-    //   }
-    //   // Stop loading
-    //   this.loading = false;
-    // }
+    let result = null;
+    try {
+      // Setup passport promise
+      let passportPromise = this.getPassport(this.id);
+      // Execute promisse with a Timeout
+      result = await threadUtil.execWithTimeout(
+        passportPromise,
+        API_TIMEOUT,
+        null
+      );
+      if (!result || result == null) {
+        this.errorObj.title = "Timeout! Failed to return passport!";
+        this.errorObj.description =
+          "The request took too long... Please retry or try again later.";
+        this.status = 408;
+        this.statusText = "Request Timeout";
+      }
+      this.data = result;
+    } catch (e) {
+      console.log("passportView -> " + e);
+    } finally {
+      if (
+        this.data &&
+        jsonUtil.exists("status", this.data) &&
+        this.data["status"] == 200
+      ) {
+        this.error = false;
+      }
+      // Stop loading
+      this.loading = false;
+    }
   },
-  // methods: {
-  //   async getPassport(id) {
-  //     let response = null;
-  //     // Get Passport in Backend
-  //     try {
-  //       // Init backendService
-  //       let backendService = new BackendService();
-  //       // Get access token from IDP
-  //       let jwtToken = await this.auth.getAccessToken();
-  //       // Get the passport for the selected version
-  //       response = await backendService.getPassport(this.version, id, jwtToken);
-  //     } catch (e) {
-  //       console.log("passportView.getPassport() -> " + e);
-  //       this.errorObj.title = jsonUtil.exists("statusText", response)
-  //         ? response["statusText"]
-  //         : "Failed to return passport";
-  //       this.errorObj.description = jsonUtil.exists("message", response)
-  //         ? response["message"]
-  //         : "It was not possible to transfer the passport.";
-  //       return response;
-  //     }
+  methods: {
+    async getPassport(id) {
+      let response = null;
+      // Get Passport in Backend
+      try {
+        // Init backendService
+        let backendService = new BackendService();
+        // Get access token from IDP
+        let jwtToken = await this.auth.getAccessToken();
+        // Get the passport for the selected version
+        response = await backendService.getPassport(this.version, id, jwtToken);
+      } catch (e) {
+        console.log("passportView.getPassport() -> " + e);
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
 
-  //     response = jsonUtil.copy(response, true);
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 500;
 
-  //     // Check if the response is empty and give an error
-  //     if (!response) {
-  //       this.errorObj.title = "Failed to return passport";
-  //       this.errorObj.description =
-  //         "It was not possible to complete the passport transfer.";
-  //       return null;
-  //     }
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Internal Server Error";
+        return response;
+      }
 
-  //     // Check if reponse content was successfull and if not print error comming message from backend
-  //     if (jsonUtil.exists("status", response) && response["status"] != 200) {
-  //       this.errorObj.title = jsonUtil.exists("statusText", response)
-  //         ? response["statusText"]
-  //         : "An error occured when searching for the passport!";
-  //       this.errorObj.description = jsonUtil.exists("message", response)
-  //         ? response["message"]
-  //         : "It was not possible to retrieve the passport";
-  //     }
+      //     response = jsonUtil.copy(response, true);
 
-  //     return response;
-  //   },
-  // },
+      // Check if the response is empty and give an error
+      if (!response) {
+        this.errorObj.title = "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to complete the passport transfer.";
+        this.errorObj.status = 400;
+        this.errorObj.statusText = "Bad Request";
+
+        return null;
+      }
+
+      // Check if reponse content was successfull and if not print error comming message from backend
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "An error occured when searching for the passport!";
+        this.errorObj.description =
+          "An error occured when searching for the passport!";
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 404;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not found";
+      }
+
+      return response;
+    },
+  },
 };
 </script>

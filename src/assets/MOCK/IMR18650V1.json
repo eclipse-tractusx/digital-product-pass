@@ -1,0 +1,390 @@
+{
+  "data": {
+    "metadata": {
+      "negotiation": {
+        "createdAt": 1679579334111,
+        "updatedAt": 1679579340178,
+        "state": "CONFIRMED",
+        "type": "CONSUMER",
+        "id": "8f1f59e4-490f-4aad-83fa-fface6e849b0",
+        "contractAgreementId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+        "counterPartyAddress": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+        "protocol": "ids-multipart"
+      },
+      "contractOffer": {
+        "connectorId": "2937009c-d5c0-4c7c-8a18-7e2cb831b739",
+        "id": "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
+        "policy": {
+          "permissions": [
+            {
+              "edctype": "dataspaceconnector:permission",
+              "uid": null,
+              "target": "IMR18650V1",
+              "action": {
+                "type": "USE",
+                "includedIn": null,
+                "constraint": null
+              },
+              "assignee": null,
+              "assigner": null,
+              "constraints": [],
+              "duties": []
+            }
+          ],
+          "prohibitions": [],
+          "obligations": [],
+          "extensibleProperties": {},
+          "target": "IMR18650V1",
+          "@type": {
+            "@policytype": "set"
+          }
+        },
+        "asset": {
+          "id": "IMR18650V1",
+          "createdAt": "1679579334105",
+          "properties": {
+            "asset:prop:byteSize": null,
+            "asset:prop:description": "Battery Passport test data",
+            "asset:prop:id": "IMR18650V1",
+            "asset:prop:fileName": null
+          }
+        },
+        "assetId": "2",
+        "provider": "urn:connector:provider",
+        "consumer": "urn:connector:consumer",
+        "offerId": "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739"
+      },
+      "transfer": {
+        "id": "2dbb60d8-8c56-4175-95c5-4c1355206e21",
+        "createdAt": "1679579340194",
+        "updatedAt": "1679579350085",
+        "type": "CONSUMER",
+        "state": "COMPLETED",
+        "stateTimestamp": 1679579350085,
+        "dataRequest": {
+          "assetId": "IMR18650V1",
+          "contractId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+          "connectorId": "MaterialPass"
+        },
+        "dataDestination": {
+          "properties": {
+            "type": "HttpProxy"
+          }
+        }
+      },
+      "transferRequest": {
+        "id": "70e85af6e338e1cfa0c1fdac785dfdda1290a434a95e7c8046f15df466fc97f0",
+        "connectorId": "MaterialPass",
+        "connectorAddress": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+        "contractId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+        "assetId": "IMR18650V1",
+        "managedResources": false,
+        "dataDestination": {
+          "type": "HttpProxy"
+        }
+      }
+    },
+    "passport": {
+      "electrochemicalProperties": {
+        "ratedCapacity": 94,
+        "batteryEnergy": {
+          "energyRoundtripEfficiencyChange": 48.2,
+          "maximumAllowedBatteryEnergy": 85000,
+          "energyRoundtripEfficiency": 25
+        },
+        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.588,
+        "batteryVoltage": {
+          "nominalVoltage": 3.7,
+          "maxVoltage": 4.2,
+          "minVoltage": 2.5
+        },
+        "internalResistance": {
+          "cellInternalResistance": 0.36,
+          "packInternalResistanceIncrease": 1,
+          "packInternalResistance": 100
+        },
+        "capacityThresholdExhaustion": 23,
+        "batteryPower": {
+          "powerFade": 23,
+          "originalPowerCapability": -1.7976931348623157E+308,
+          "originalPowerCapabilityLimits": -1.7976931348623157E+308,
+          "maximumAllowedBatteryPower": -1.7976931348623157E+308,
+          "powerCapabilityAt20Charge": -1.7976931348623157E+308,
+          "powerCapabilityAt80Charge": -1.7976931348623157E+308
+        },
+        "capacityFade": 1.55
+      },
+      "document": {
+        "responsibleSourcing": [
+          {
+            "title": "LlN",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          }
+        ],
+        "packagingInstructions": [
+          {
+            "title": "eOMtThyhVNLWUZNRcBaQKxI",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          }
+        ],
+        "transportationInstructions": [
+          {
+            "title": "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
+            "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+          }
+        ],
+        "vehicleDismantlingProcedure": [
+          {
+            "title": "JxkyvRnL",
+            "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+          }
+        ],
+        "testReportsResults": [
+          {
+            "title": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          }
+        ],
+        "batteryDismantlingProcedure": [
+          {
+            "title": "RYtGKbgicZaHCBRQDSx",
+            "fileLocation": "http://www.wikipedia.org"
+          }
+        ],
+        "safetyMeasures": [
+          {
+            "title": "VLhpfQGTMDYpsBZxvfBoeygjb",
+            "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+          }
+        ],
+        "declarationOfConformity": [
+          {
+            "title": "dpHYZGhtgdntugzvvKAXLhM",
+            "fileLocation": "http://www.wikipedia.org"
+          }
+        ]
+      },
+      "datePlacedOnMarket": "2022-04-27",
+      "cellChemistry": {
+        "electrolyteComposition": [
+          {
+            "materialPercentageMassFraction": 4,
+            "materialName": "Ni",
+            "materialWeight": 2.5
+          }
+        ],
+        "anodeCompositionOther": [
+          {
+            "materialPercentageMassFraction": 15,
+            "materialName": "Co",
+            "materialWeight": 2.5
+          }
+        ],
+        "recyclateContentActiveMaterials": [
+          {
+            "materialPercentageMassFraction": 6,
+            "materialWeight": null,
+            "materialName": "Ni/2021/PlantE"
+          },
+          {
+            "materialPercentageMassFraction": 4,
+            "materialWeight": null,
+            "materialName": "Li/2021/PlantE"
+          },
+          {
+            "materialPercentageMassFraction": 0,
+            "materialWeight": null,
+            "materialName": "Pb(battery model does not contain Pb)"
+          },
+          {
+            "materialPercentageMassFraction": 0,
+            "materialWeight": null,
+            "materialName": "Co(battery model does not contain Pb)"
+          }
+        ],
+        "anodeActiveMaterials": [
+          {
+            "materialPercentageMassFraction": 5,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          }
+        ],
+        "cathodeActiveMaterials": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialWeight": null,
+          "materialName": "LiMn2O4 Lithium Manganese Oxide"
+        }
+        ],
+        "cathodeCompositionOther": [
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Pb",
+            "materialWeight": 2.5
+          }
+        ]
+      },
+      "physicalDimensions": {
+        "length": 20000,
+        "width": 1000,
+        "weight": 3500,
+        "diameter": 3,
+        "height": 200
+      },
+      "temperatureRangeIdleState": {
+        "temperatureRangeIdleStateUpperLimit": 50,
+        "temperatureRangeIdleStateLowerLimit": -20
+      },
+      "batteryCycleLife": {
+        "cycleLifeTestCRate": 2,
+        "cycleLifeTestDepthOfDischarge": 1.8,
+        "expectedLifetime": 1200
+      },
+      "manufacturer": {
+        "name": "Company E",
+        "contact": {
+          "faxNumber": "+49 89 0987654324",
+          "website": "https://www.CompanyE.com",
+          "phoneNumber": "+49 89 1234567893",
+          "email": "companyE@company.com"
+        },
+        "address": {
+          "locality": {
+            "value": "CityE",
+            "technicalKey": "BLOCK"
+          },
+          "country": {
+            "shortName": "TG-Y"
+          },
+          "postCode": {
+            "value": "68161\\12",
+            "technicalKey": "CEDEX"
+          },
+          "thoroughfare": {
+            "value": "Bernstraße",
+            "number": "45",
+            "technicalKey": "STREET"
+          },
+          "premise": {
+            "value": "Werk 1",
+            "technicalKey": "BUILDING"
+          },
+          "postalDeliveryPoint": {
+            "value": "Tor 1",
+            "technicalKey": "INTERURBAN_DELIVERY_POINT"
+          }
+        }
+      },
+      "warrantyPeriod": 96,
+      "composition": {
+        "compositionOfBattery": [
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Separator: PE",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          }
+        ],
+        "criticalRawMaterials": "Lithium, Natural graphite",
+        "components": {
+          "componentsPartNumber": [
+            "Case xxxxxxx/xx; Controller xxxxxxx/xx"
+          ],
+          "componentsSupplier": [
+            {
+              "componentsSupplierName": "AB Corporation",
+              "address": {
+                "locality": {
+                  "value": "CityF",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": ""
+                },
+                "postCode": {
+                  "value": "68161\\12",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "Bernstraße",
+                  "number": "45",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "Werk 1",
+                  "technicalKey": "BUILDING"
+                },
+                "postalDeliveryPoint": {
+                  "value": "Tor 1",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                }
+              },
+              "contact": {
+                "faxNumber": "+49 89 0987654324",
+                "website": "https://www.companyF.com",
+                "phoneNumber": "+49 89 1234567893",
+                "email": "companyF@companyF.com"
+              }
+            }
+          ]
+        }
+      },
+      "manufacturing": {
+        "dateOfManufacturing": "2022-01-24",
+        "address": {
+          "locality": {
+            "value": "CityE",
+            "technicalKey": "BLOCK"
+          },
+          "country": {
+            "shortName": "Germany"
+          },
+          "postCode": {
+            "value": "68161\\12",
+            "technicalKey": "CEDEX"
+          },
+          "thoroughfare": {
+            "value": "Bernstraße",
+            "number": "45",
+            "technicalKey": "STREET"
+          },
+          "premise": {
+            "value": "Werk 1",
+            "technicalKey": "BUILDING"
+          },
+          "postalDeliveryPoint": {
+            "value": "Tor 1",
+            "technicalKey": "INTERURBAN_DELIVERY_POINT"
+          }
+        }
+      },
+      "batteryIdentification": {
+        "batteryType": "Lithium-Manganese-Oxide (LMO)",
+        "batteryIDDMCCode": "IMR18650V1",
+        "batteryModel": "Pi4 Orionis"
+      },
+      "stateOfBattery": {
+        "stateOfHealth": 20,
+        "statusBattery": "recycled",
+        "stateOfCharge": 50
+      },
+      "cO2FootprintTotal": "210"
+    }
+  }
+}

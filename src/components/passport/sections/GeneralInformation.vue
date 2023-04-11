@@ -18,31 +18,35 @@
 <template v-if="propsData">
   <div class="section">
     <v-container>
-      <v-row v-if="propsData.batteryIdentification">
-        <v-col sm="12" md="9" class="pa-0 ma-0">
-          <Field
-            data-cy="battery-id"
-            icon="mdi-fingerprint"
-            label="Battery ID (DMC)"
-            :value="propsData.batteryIdentification.batteryIDDMCCode"
-          />
-        </v-col>
-      </v-row>
+      <template v-if="propsData.batteryIdentification">
+        <v-row>
+          <v-col sm="12" md="9" class="pa-0 ma-0">
+            <Field
+              data-cy="battery-id"
+              icon="mdi-fingerprint"
+              label="Battery ID (DMC)"
+              :value="propsData.batteryIdentification.batteryIDDMCCode"
+            />
+          </v-col>
+        </v-row>
+      </template>
       <v-row class="section">
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <Field
-            label="Battery Type"
-            icon="mdi-battery-unknown"
-            :value="propsData.batteryIdentification.batteryType"
-          />
-        </v-col>
-        <v-col sm="12" md="5" class="pa-0 ma-0">
-          <Field
-            icon="mdi-battery"
-            label="Battery Model"
-            :value="propsData.batteryIdentification.batteryModel"
-          />
-        </v-col>
+        <template v-if="propsData.batteryIdentification">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
+            <Field
+              label="Battery Type"
+              icon="mdi-battery-unknown"
+              :value="propsData.batteryIdentification.batteryType"
+            />
+          </v-col>
+          <v-col sm="12" md="5" class="pa-0 ma-0">
+            <Field
+              icon="mdi-battery"
+              label="Battery Model"
+              :value="propsData.batteryIdentification.batteryModel"
+            />
+          </v-col>
+        </template>
         <v-col sm="12" md="3" class="pa-0 ma-0">
           <Field
             icon="mdi-license"
@@ -52,31 +56,28 @@
           />
         </v-col>
       </v-row>
-      <v-row class="section">
-        <v-col
-          sm="12"
-          md="9"
-          v-if="propsData.physicalDimensions"
-          class="pa-0 ma-0"
-        >
-          <Field
-            icon="mdi-ruler"
-            label="Dimensions of the battery"
-            :height="propsData.physicalDimensions.height"
-            :length="propsData.physicalDimensions.length"
-            unit="mm"
-            :width="propsData.physicalDimensions.width"
-          />
-        </v-col>
-        <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-scale"
-            label="Weight"
-            unit="kg"
-            :value="propsData.physicalDimensions.weight"
-          />
-        </v-col>
-      </v-row>
+      <template v-if="propsData.physicalDimensions">
+        <v-row class="section">
+          <v-col sm="12" md="9" class="pa-0 ma-0">
+            <Field
+              icon="mdi-ruler"
+              label="Dimensions of the battery"
+              :height="propsData.physicalDimensions.height"
+              :length="propsData.physicalDimensions.length"
+              unit="mm"
+              :width="propsData.physicalDimensions.width"
+            />
+          </v-col>
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <Field
+              icon="mdi-scale"
+              label="Weight"
+              unit="kg"
+              :value="propsData.physicalDimensions.weight"
+            />
+          </v-col>
+        </v-row>
+      </template>
     </v-container>
     <v-container class="container-width-50">
       <v-row class="section">
@@ -89,16 +90,22 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12" class="pa-0 ma-0">
-          <Field
-            icon="mdi-map-marker-outline"
-            style="background: #f9f9f9"
-            label="Place of Manufacturing"
-            :value="propsData.manufacturing.address.locality.value"
-          />
-        </v-col>
-      </v-row>
+      <template v-if="propsData.manufacturing">
+        <v-row>
+          <v-col
+            v-if="propsData.manufacturing.address"
+            cols="12"
+            class="pa-0 ma-0"
+          >
+            <Field
+              icon="mdi-map-marker-outline"
+              style="background: #f9f9f9"
+              label="Place of Manufacturing"
+              :value="propsData.manufacturing.address.locality.value"
+            />
+          </v-col>
+        </v-row>
+      </template>
       <v-row>
         <v-col cols="12" class="pa-0 ma-0">
           <Field
@@ -112,34 +119,35 @@
     </v-container>
     <v-container class="container-width-80">
       <v-row style="min-height: 180px">
-        <v-col md="5" class="pa-0 ma-0">
-          <Field
-            v-if="propsData.manufacturer"
-            style="min-height: 168px"
-            icon="mdi-factory"
-            label="Manufacturer Information"
-            :city="propsData.manufacturer.address.locality.value"
-            :country="propsData.manufacturer.address.country.shortName"
-            :postal="propsData.manufacturer.address.postCode.value"
-            :value="propsData.manufacturer.name"
-          />
-        </v-col>
-        <v-col md="7" class="pa-0 ma-0">
-          <Field
-            v-if="propsData.manufacturer"
-            style="min-height: 168px"
-            icon="no-icon"
-            label=" "
-            :phone="propsData.manufacturer.contact.phoneNumber"
-            :email="propsData.manufacturer.contact.email"
-            :website="propsData.manufacturer.contact.website"
-          />
-        </v-col>
+        <template v-if="propsData.manufacturer">
+          <v-col v-if="propsData.manufacturer.address" md="5" class="pa-0 ma-0">
+            <Field
+              style="min-height: 168px"
+              icon="mdi-factory"
+              label="Manufacturer Information"
+              :city="propsData.manufacturer.address.locality.value"
+              :country="propsData.manufacturer.address.country.shortName"
+              :postal="propsData.manufacturer.address.postCode.value"
+              :value="propsData.manufacturer.name"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.manufacturer">
+          <v-col v-if="propsData.manufacturer.contact" md="7" class="pa-0 ma-0">
+            <Field
+              style="min-height: 168px"
+              icon="no-icon"
+              label=" "
+              :phone="propsData.manufacturer.contact.phoneNumber"
+              :email="propsData.manufacturer.contact.email"
+              :website="propsData.manufacturer.contact.website"
+            />
+          </v-col>
+        </template>
       </v-row>
       <v-row>
-        <v-col md="12" class="pa-0 ma-0">
+        <v-col v-if="propsData.manufacturer" md="12" class="pa-0 ma-0">
           <Field
-            v-if="propsData.manufacturer"
             icon="mdi-molecule-co2"
             label="CO2 Footprint"
             :value="propsData.cO2FootprintTotal"

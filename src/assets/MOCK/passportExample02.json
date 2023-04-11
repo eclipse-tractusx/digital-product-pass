@@ -86,347 +86,286 @@
     },
     "passport": {
       "electrochemicalProperties": {
-        "ratedCapacity": null,
+        "ratedCapacity": 56,
         "batteryEnergy": {
-          "energyRoundtripEfficiencyChange": null,
-          "maximumAllowedBatteryEnergy": null,
-          "energyRoundtripEfficiency": null
+          "energyRoundtripEfficiencyChange": 45,
+          "maximumAllowedBatteryEnergy": 75000.0,
+          "energyRoundtripEfficiency": 80
         },
-        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": null,
+        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.666,
         "batteryVoltage": {
-          "nominalVoltage": null,
-          "maxVoltage": null,
-          "minVoltage": null
+          "nominalVoltage": 3.6,
+          "maxVoltage": 4.2,
+          "minVoltage": 2.5
         },
         "internalResistance": {
-          "cellInternalResistance": null,
-          "packInternalResistanceIncrease": null,
-          "packInternalResistance": null
+          "cellInternalResistance": 3.0,
+          "packInternalResistanceIncrease": 2,
+          "packInternalResistance": 80
         },
-        "capacityThresholdExhaustion": null,
+        "capacityThresholdExhaustion": 23,
         "batteryPower": {
-          "powerFade": null,
-          "originalPowerCapability": null,
-          "originalPowerCapabilityLimits": null,
-          "maximumAllowedBatteryPower": null,
-          "powerCapabilityAt20Charge": null,
-          "powerCapabilityAt80Charge": null
+          "originalPowerCapability": 90,
+          "powerFade": 0.37,
+          "originalPowerCapabilityLimits": 734.8,
+          "maximumAllowedBatteryPower": 100000,
+          "powerCapabilityAt20Charge": 500000,
+          "originalPower": 40000,
+          "powerCapabilityAt80Charge": 120000
         },
-        "capacityFade": null
+        "capacityFade": 2.0
       },
       "document": {
         "responsibleSourcing": [
           {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
-          },
-          {
-            "title": null,
-            "fileLocation": null
+            "title": "Sustainability Report 2021",
+            "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "packagingInstructions": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Packaging and transport Instruction",
+            "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
         "transportationInstructions": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Packaging and transport Instruction",
+            "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
           }
         ],
         "vehicleDismantlingProcedure": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Packaging and transport Instruction",
+            "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
           }
         ],
         "testReportsResults": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Certificates of Testing battery",
+            "fileLocation": ""
           }
         ],
         "batteryDismantlingProcedure": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Certificates of Testing battery",
+            "fileLocation": "http://www.wikipedia.org"
           }
         ],
         "safetyMeasures": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Battery user safety precautions",
+            "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
           }
         ],
         "declarationOfConformity": [
           {
-            "title": null,
-            "fileLocation": null
+            "title": "Declaration of Conformity No. 2",
+            "fileLocation": ""
           }
         ]
       },
-      "datePlacedOnMarket": null,
+      "datePlacedOnMarket": "27.03.2022",
       "cellChemistry": {
         "electrolyteComposition": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "LiPF6"
           }
         ],
         "anodeCompositionOther": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "Styren butadien"
           }
         ],
         "recyclateContentActiveMaterials": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": 4,
+            "matierialWeight": null,
+            "materialName": "Ni/2022/PlantC"
+          },
+          {
+            "matierialPercentageMassFraction": 5,
+            "matierialWeight": null,
+            "materialName": "Li/2021/PlantC"
+          },
+          {
+            "matierialPercentageMassFraction": 0,
+            "matierialWeight": null,
+            "materialName": "Pb(battery model does not contain Pb)"
+          },
+          {
+            "matierialPercentageMassFraction": 15,
+            "matierialWeight": null,
+            "materialName": "Co/2021/PlantC"
           }
         ],
         "anodeActiveMaterials": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "SiO2-C"
           }
         ],
         "cathodeActiveMaterials": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "NCA (Lithium nickel cobalt aluminum oxide)"
           }
         ],
         "cathodeCompositionOther": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "carbon black"
           }
         ]
       },
       "physicalDimensions": {
-        "length": null,
-        "width": null,
-        "weight": null,
+        "length": 1800,
+        "width": 1000,
+        "weight": 2000,
         "diameter": null,
-        "height": null
+        "height": 150
       },
       "temperatureRangeIdleState": {
-        "temperatureRangeIdleStateUpperLimit": null,
-        "temperatureRangeIdleStateLowerLimit": null
+        "temperatureRangeIdleStateUpperLimit": 40,
+        "temperatureRangeIdleStateLowerLimit": -20
       },
       "batteryCycleLife": {
-        "cycleLifeTestCRate": null,
-        "cycleLifeTestDepthOfDischarge": null,
-        "expectedLifetime": null
+        "cycleLifeTestCRate": 2,
+        "cycleLifeTestDepthOfDischarge": 1.5,
+        "expectedLifetime": 3000
       },
       "manufacturer": {
-        "name": null,
+        "name": "CompanyC",
         "contact": {
-          "faxNumber": null,
-          "website": null,
-          "phoneNumber": null,
-          "email": null
+          "faxNumber": "+49 89 0987654323",
+          "website": "http://www.CompanyC.com",
+          "phoneNumber": "+49 89 1234567892",
+          "email": "companyC@company.com"
         },
         "address": {
           "locality": {
-            "value": null,
-            "technicalKey": null
+            "value": "CityC",
+            "technicalKey": "BLOCK"
           },
           "country": {
-            "shortName": null
+            "shortName": "Germany"
           },
           "postCode": {
-            "value": null,
-            "technicalKey": null
+            "value": "65-250A",
+            "technicalKey": "CEDEX"
           },
           "thoroughfare": {
-            "value": null,
-            "number": null,
-            "technicalKey": null
+            "value": "StreetA",
+            "number": "1",
+            "technicalKey": "STREET"
           },
           "premise": {
-            "value": null,
-            "technicalKey": null
+            "value": "",
+            "technicalKey": "CEDEX"
           },
           "postalDeliveryPoint": {
-            "value": null,
-            "technicalKey": null
+            "value": "Tor 1",
+            "technicalKey": "INTERURBAN_DELIVERY_POINT"
           }
         }
       },
-      "warrantyPeriod": null,
+      "warrantyPeriod": 120,
       "composition": {
         "compositionOfBattery": [
           {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
-          },
-          {
-            "materialPercentageMassFraction": null,
-            "materialName": null,
-            "materialWeight": null
+            "matierialPercentageMassFraction": null,
+            "matierialWeight": null,
+            "materialName": "Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic"
           }
         ],
-        "criticalRawMaterials": null,
+        "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
         "components": {
-          "componentsPartNumber": [
-            null
-          ],
+          "componentsPartNumber": "Casing Tray: Model C",
           "componentsSupplier": [
             {
-              "componentsSupplierName": null,
               "address": {
                 "locality": {
-                  "value": null,
-                  "technicalKey": null
+                  "value": "CityD",
+                  "technicalKey": "BLOCK"
                 },
                 "country": {
-                  "shortName": null
+                  "shortName": "Germany"
                 },
                 "postCode": {
-                  "value": null,
-                  "technicalKey": null
+                  "value": "65-250B",
+                  "technicalKey": "CEDEX"
                 },
                 "thoroughfare": {
-                  "value": null,
-                  "number": null,
-                  "technicalKey": null
+                  "value": "StreetD",
+                  "number": "1",
+                  "technicalKey": "STREET"
                 },
                 "premise": {
-                  "value": null,
-                  "technicalKey": null
+                  "value": "PlantD",
+                  "technicalKey": "BUILDING"
                 },
                 "postalDeliveryPoint": {
-                  "value": null,
-                  "technicalKey": null
+                  "value": "GateD",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
                 }
               },
               "contact": {
-                "faxNumber": null,
-                "website": null,
-                "phoneNumber": null,
-                "email": null
+                "faxNumber": "+49 89 0987654322",
+                "website": "https://www.companyD.com",
+                "phoneNumber": "+49 89 1234567890",
+                "email": "companyD@company.com"
               }
             }
           ]
         }
       },
       "manufacturing": {
-        "dateOfManufacturing": null,
+        "dateOfManufacturing": "2022-01-24",
         "address": {
           "locality": {
-            "value": null,
-            "technicalKey": null
+            "value": "CityC",
+            "technicalKey": "BLOCK"
           },
           "country": {
-            "shortName": null
+            "shortName": "Germany"
           },
           "postCode": {
-            "value": null,
-            "technicalKey": null
+            "value": "65-250A",
+            "technicalKey": "CEDEX"
           },
           "thoroughfare": {
-            "value": null,
-            "number": null,
-            "technicalKey": null
+            "value": "StreetC",
+            "number": "1",
+            "technicalKey": "STREET"
           },
           "premise": {
-            "value": null,
-            "technicalKey": null
+            "value": "PlantC",
+            "technicalKey": "BUILDING"
           },
           "postalDeliveryPoint": {
-            "value": null,
-            "technicalKey": null
+            "value": "GateC",
+            "technicalKey": "INTERURBAN_DELIVERY_POINT"
           }
         }
       },
       "batteryIdentification": {
-        "batteryType": null,
-        "batteryIDDMCCode": null,
-        "batteryModel": null
+        "batteryType": "NCA",
+        "batteryIDDMCCode": "NCR186850B",
+        "batteryModel": "Li-ion S-model"
       },
       "stateOfBattery": {
-        "stateOfHealth": null,
-        "statusBattery": null,
-        "stateOfCharge": null
+        "stateOfHealth": 50,
+        "statusBattery": "first life",
+        "stateOfCharge": 33
       },
-      "cO2FootprintTotal": null
+      "cO2FootprintTotal": 15000
     }
   }
 }

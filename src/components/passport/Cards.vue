@@ -119,10 +119,12 @@ export default {
           label: "Type",
           secondLabel: "Model",
           icon: "mdi-pound",
-          value:
-            this.$props.data.data.passport.batteryIdentification.batteryType,
-          secondValue:
-            this.$props.data.data.passport.batteryIdentification.batteryModel,
+          value: this.$props.data.data.passport.batteryIdentification
+            ? this.$props.data.data.passport.batteryIdentification.batteryType
+            : "-",
+          secondValue: this.$props.data.data.passport.batteryIdentification
+            ? this.$props.data.data.passport.batteryIdentification.batteryModel
+            : "-",
         },
         {
           title: "PERFORMANCE",
@@ -146,10 +148,13 @@ export default {
           label: "State of Health (SoH)",
           secondLabel: "Charging Cycles",
           icon: "mdi-battery-plus",
-          value: this.$props.data.data.passport.stateOfBattery.stateOfHealth,
+          value: this.$props.data.data.passport.stateOfBattery
+            ? this.$props.data.data.passport.stateOfBattery.stateOfHealth
+            : "-",
           valueUnits: "%",
-          secondValue:
-            this.$props.data.data.passport.batteryIdentification.batteryModel,
+          secondValue: this.$props.data.data.passport.batteryIdentification
+            ? this.$props.data.data.passport.batteryIdentification.batteryModel
+            : "-",
           info: "info",
         },
         {

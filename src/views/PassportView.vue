@@ -58,10 +58,7 @@
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
-    <PassportHeader
-      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
-      type="BatteryID"
-    />
+    <PassportHeader :data="data.data.passport" type="BatteryID" />
     <div class="pass-container">
       <CardsComponent :data="data" />
     </div>

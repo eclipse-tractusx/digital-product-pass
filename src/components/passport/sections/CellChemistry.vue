@@ -39,7 +39,10 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="12" class="pa-0 ma-0">
-          <div class="element-chart-label">
+          <div
+            class="element-chart-label"
+            style="margin-left: -5px; margin-bottom: 15px"
+          >
             Recyclate Content Active Materials
           </div>
           <ElementChart :data="propsData" />

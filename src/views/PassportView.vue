@@ -36,35 +36,6 @@
         reloadLabel="Return"
         reloadIcon="mdi-arrow-left"
       />
-      <!-- <Alert
-        class="w-100"
-        :description="errorObj.description"
-        :title="errorObj.title"
-        :type="errorObj.type"
-        icon="mdi-alert-circle-outline"
-        :closable="false"
-        variant="outlined"
-      >
-        <v-row class="justify-space-between mt-3">
-          <v-col class="v-col-auto">
-            Click in the <strong>"return"</strong> button to go back to the
-            search field
-          </v-col>
-          <v-col class="v-col-auto">
-            <v-btn
-              style="color: white !important"
-              rounded="pill"
-              color="#0F71CB"
-              size="large"
-              class="submit-btn"
-              @click="$router.go(-1)"
-            >
-              <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-              Return
-            </v-btn>
-          </v-col>
-        </v-row>
-      </Alert> -->
     </div>
   </v-container>
   <div v-else>
@@ -126,8 +97,10 @@ import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
+import configUtil from "@/utils/configUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import { normalize } from 'path';
 
 export default {
   name: "PassportView",
@@ -229,8 +202,9 @@ export default {
       if (
         this.data &&
         jsonUtil.exists("status", this.data) &&
-        this.data["status"] == 200
+        this.data["status"] == 200 && jsonUtil.exists("data", this.data) && jsonUtil.exists("metadata", this.data["data"]) && jsonUtil.exists("passport", this.data["data"])
       ) {
+        this.data = configUtil.normalizePassport(jsonUtil.get("data.passport", this.data),jsonUtil.get("data.metadata", this.data));
         this.error = false;
       }
       // Stop loading

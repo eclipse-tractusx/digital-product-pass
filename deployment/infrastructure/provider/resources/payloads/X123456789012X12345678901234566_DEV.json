@@ -1,6 +1,6 @@
 {
       "electrochemicalProperties": {
-        "ratedCapacity": 210,
+        "ratedCapacity": 120,
         "batteryEnergy": {
           "energyRoundtripEfficiencyChange": 67,
           "maximumAllowedBatteryEnergy": 90000,
@@ -20,11 +20,11 @@
         "capacityThresholdExhaustion": 23,
         "batteryPower": {
           "powerFade": 23,
-          "originalPowerCapability": -1.7976931348623157E+308,
-          "originalPowerCapabilityLimits": -1.7976931348623157E+308,
-          "maximumAllowedBatteryPower": -1.7976931348623157E+308,
-          "powerCapabilityAt20Charge": -1.7976931348623157E+308,
-          "powerCapabilityAt80Charge": -1.7976931348623157E+308
+          "originalPowerCapability": 305,
+          "originalPowerCapabilityLimits": 12,
+          "maximumAllowedBatteryPower": 308,
+          "powerCapabilityAt20Charge": -308,
+          "powerCapabilityAt80Charge": 8
         },
         "capacityFade": 34
       },
@@ -32,6 +32,30 @@
         "responsibleSourcing": [
           {
             "title": "LlN",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
+            "fileLocation": "telnet://192.0.2.16:80/"
+          },
+          {
+            "title": "LlN 2222",
             "fileLocation": "telnet://192.0.2.16:80/"
           }
         ],
@@ -78,47 +102,62 @@
           }
         ]
       },
-      "datePlacedOnMarket": "2023-03-08T10:46:19.166Z",
+      "datePlacedOnMarket": "2023-03-08",
       "cellChemistry": {
         "electrolyteComposition": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 4,
+            "materialName": "Ni",
             "materialWeight": 2.5
           }
         ],
         "anodeCompositionOther": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 15,
+            "materialName": "Co",
             "materialWeight": 2.5
           }
         ],
         "recyclateContentActiveMaterials": [
           {
-            "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialPercentageMassFraction": 5,
+            "materialName": "Li",
             "materialWeight": 2.5
           }
         ],
         "anodeActiveMaterials": [
           {
-            "materialPercentageMassFraction": 19,
+            "materialPercentageMassFraction": 5,
             "materialName": "Graphite",
             "materialWeight": 2.5
           }
         ],
         "cathodeActiveMaterials": [
           {
+            "materialPercentageMassFraction": 14,
+            "materialName": "Ni",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 9,
+            "materialName": "Co",
+            "materialWeight": 2.5
+          },
+          {
             "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialName": "Li",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 0,
+            "materialName": "Pb",
             "materialWeight": 2.5
           }
         ],
         "cathodeCompositionOther": [
           {
             "materialPercentageMassFraction": 19,
-            "materialName": "Graphite",
+            "materialName": "Pb",
             "materialWeight": 2.5
           }
         ]
@@ -132,12 +171,12 @@
       },
       "temperatureRangeIdleState": {
         "temperatureRangeIdleStateUpperLimit": 67,
-        "temperatureRangeIdleStateLowerLimit": 67
+        "temperatureRangeIdleStateLowerLimit": -22
       },
       "batteryCycleLife": {
         "cycleLifeTestCRate": 45,
-        "cycleLifeTestDepthOfDischarge": 23,
-        "expectedLifetime": 456
+        "cycleLifeTestDepthOfDischarge": 2,
+        "expectedLifetime": 1200
       },
       "manufacturer": {
         "name": "Company A",
@@ -181,9 +220,44 @@
             "materialPercentageMassFraction": 19,
             "materialName": "Graphite",
             "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
+          },
+          {
+            "materialPercentageMassFraction": 19,
+            "materialName": "Graphite",
+            "materialWeight": 2.5
           }
         ],
-        "criticalRawMaterials": "gNfZBdyFGRajVfJNonEnOinZj",
+        "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
         "components": {
           "componentsPartNumber": [
             "Case xxxxxxx/xx; Controller xxxxxxx/xx"
@@ -257,14 +331,14 @@
         }
       },
       "batteryIdentification": {
-        "batteryType": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State",
+        "batteryType": "Li-Ion",
         "batteryIDDMCCode": "X123456789012X12345678901234566",
-        "batteryModel": "LFP, Natrium, Li-Ion, NMC, NCA, Solid-State"
+        "batteryModel": "SB 28"
       },
       "stateOfBattery": {
         "stateOfHealth": 12,
-        "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
+        "statusBattery": "first life",
         "stateOfCharge": 23
       },
-      "cO2FootprintTotal": 124.0
-}
+      "cO2FootprintTotal": "110"
+    }

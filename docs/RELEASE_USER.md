@@ -22,6 +22,14 @@
 
 # Release Notes Digital Product Pass Application
 
+**April 13 2023 (Version 0.5.2)**  
+*13.04.2023*
+
+### Security Issues
+
+Updated Spring Boot Version from `v3.0.2` to `v3.0.5` in order to fix the security issues found in two libraries.
+
+
 **March 31 2023 (Version 0.5.1)**  
 *31.03.2023*
 

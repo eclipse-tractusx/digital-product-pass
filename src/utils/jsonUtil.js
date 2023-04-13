@@ -374,5 +374,59 @@ export default {
         }catch {
             return defaultReturn;
         }
+    },
+    extendDeep(originJson, json){
+        if(!json){
+            return originJson;
+        }
+        if (!(json instanceof Object)) return originJson;
+        // Deep Copy param into object
+        let objects = JSON.parse(JSON.stringify(json));
+        let retObject = JSON.parse(JSON.stringify(originJson)); // Return/Final Object
+        let keys = Object.keys(objects); // Keys that it contains
+
+        while (keys.length > 0) {
+            // While it still has keys
+            for (let index in keys) {
+                // Interate over keys
+                let parentKey = keys.pop(index); // Get key value in array
+                let parent = this.get(parentKey, objects, ".", null); // Get current node value
+
+                if (parent == null) {
+                    // Skip null objects
+                    continue;
+                }
+
+                if (!(parent instanceof Object)) {
+                    // If current node is not a object
+                    retObject = this.set(parentKey, parent, retObject);
+                    continue;
+                }
+
+                for (let childKey in parent) {
+                    // Interate over children
+                    let child = parent[childKey]; // Get children
+                    
+                    if (child == null) {
+                        // Skip null children
+                        continue;
+                    }
+                    let childstoreKey = this.buildPath(parentKey, childKey);
+                    if (!(child instanceof Object)) {
+                        // If children is not a object is a property from the father
+                        // Check if key is not existing
+                        retObject = this.set(childstoreKey, child, retObject);
+                        continue;
+                    }
+                    //Child is a object
+                    if (Object.keys(child).length > 0) {
+                        // Add Object children to interation
+                        keys.push(childstoreKey);
+                    }
+                }
+
+            }
+        }
+        return retObject; // Return clean objects
     }
 };

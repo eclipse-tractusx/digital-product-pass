@@ -142,11 +142,12 @@
           <v-col v-if="propsData.manufacturer.contact" md="7" class="pa-0 ma-0">
             <Field
               style="min-height: 168px"
-              icon="no-icon"
-              label=" "
+              icon="mdi-at"
+              label="Manufaturer Contact"
               :phone="propsData.manufacturer.contact.phoneNumber"
               :email="propsData.manufacturer.contact.email"
               :website="propsData.manufacturer.contact.website"
+              value=" "
             />
           </v-col>
         </template>

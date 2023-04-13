@@ -100,7 +100,6 @@ import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import { normalize } from 'path';
 
 export default {
   name: "PassportView",

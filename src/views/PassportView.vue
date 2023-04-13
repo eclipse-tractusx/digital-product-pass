@@ -42,7 +42,7 @@
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
-    <PassportHeader :data="data.data.passport" type="BatteryID" />
+    <PassportHeader :data="data.passport" type="BatteryID" />
     <div class="pass-container">
       <CardsComponent :data="data" />
     </div>
@@ -199,6 +199,7 @@ export default {
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {
+      console.log(this.data);
       if (
         this.data &&
         jsonUtil.exists("status", this.data) &&
@@ -207,6 +208,7 @@ export default {
         this.data = configUtil.normalizePassport(jsonUtil.get("data.passport", this.data),jsonUtil.get("data.metadata", this.data));
         this.error = false;
       }
+      console.log(this.data);
       // Stop loading
       this.loading = false;
     }

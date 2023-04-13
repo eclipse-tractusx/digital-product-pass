@@ -128,7 +128,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport,
+      propsData: this.$props.data.passport,
     };
   },
 };

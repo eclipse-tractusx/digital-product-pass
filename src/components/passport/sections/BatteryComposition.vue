@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.composition,
+      propsData: this.$props.data.passport.composition,
     };
   },
 };

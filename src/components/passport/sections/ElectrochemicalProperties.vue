@@ -188,7 +188,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.electrochemicalProperties,
+      propsData: this.$props.data.passport.electrochemicalProperties,
     };
   },
 };

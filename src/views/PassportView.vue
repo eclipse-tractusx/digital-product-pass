@@ -29,47 +29,20 @@
   </v-container>
   <v-container v-else-if="error" class="h-100 w-100">
     <div class="loading-container d-flex align-items-center w-100 h-100">
-
-      <ErrorComponent :title="errorObj.status + ' ' + errorObj.statusText " :subTitle="errorObj.title" :description="errorObj.description" reloadLabel="Return" reloadIcon="mdi-arrow-left"/>
-      <!-- <Alert
-        class="w-100"
+      <ErrorComponent
+        :title="errorObj.status + ' ' + errorObj.statusText"
+        :subTitle="errorObj.title"
         :description="errorObj.description"
-        :title="errorObj.title"
-        :type="errorObj.type"
-        icon="mdi-alert-circle-outline"
-        :closable="false"
-        variant="outlined"
-      >
-        <v-row class="justify-space-between mt-3">
-          <v-col class="v-col-auto">
-            Click in the <strong>"return"</strong> button to go back to the
-            search field
-          </v-col>
-          <v-col class="v-col-auto">
-            <v-btn
-              style="color: white !important"
-              rounded="pill"
-              color="#0F71CB"
-              size="large"
-              class="submit-btn"
-              @click="$router.go(-1)"
-            >
-              <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-              Return
-            </v-btn>
-          </v-col>
-        </v-row>
-      </Alert> -->
+        reloadLabel="Return"
+        reloadIcon="mdi-arrow-left"
+      />
     </div>
   </v-container>
   <div v-else>
     <HeaderComponent>
       <span class="header-title">Battery passport</span>
     </HeaderComponent>
-    <PassportHeader
-      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
-      type="BatteryID"
-    />
+    <PassportHeader :data="data.passport" type="BatteryID" />
     <div class="pass-container">
       <CardsComponent :data="data" />
     </div>
@@ -124,8 +97,10 @@ import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
+import configUtil from "@/utils/configUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import { normalize } from 'path';
 
 export default {
   name: "PassportView",
@@ -197,7 +172,7 @@ export default {
         description: "We are sorry for that, you can retry or try again later",
         type: "error",
         status: 500,
-        statusText: "Internal Server Error"
+        statusText: "Internal Server Error",
       },
       version: PASSPORT_VERSION,
     };
@@ -215,9 +190,10 @@ export default {
       );
       if (!result || result == null) {
         this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description = "The request took too long... Please retry or try again later."
-        this.status = 408
-        this.statusText = "Request Timeout"
+        this.errorObj.description =
+          "The request took too long... Please retry or try again later.";
+        this.status = 408;
+        this.statusText = "Request Timeout";
       }
       this.data = result;
     } catch (e) {
@@ -226,8 +202,9 @@ export default {
       if (
         this.data &&
         jsonUtil.exists("status", this.data) &&
-        this.data["status"] == 200
+        this.data["status"] == 200 && jsonUtil.exists("data", this.data) && jsonUtil.exists("metadata", this.data["data"]) && jsonUtil.exists("passport", this.data["data"])
       ) {
+        this.data = configUtil.normalizePassport(jsonUtil.get("data.passport", this.data),jsonUtil.get("data.metadata", this.data));
         this.error = false;
       }
       // Stop loading
@@ -250,44 +227,43 @@ export default {
         this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
           : "Failed to return passport";
-        this.errorObj.description = "It was not possible to transfer the passport.";
-        
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
+
         this.errorObj.status = jsonUtil.exists("status", response)
           ? response["status"]
           : 500;
-        
+
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
         return response;
       }
 
-      response = jsonUtil.copy(response, true);
+      //     response = jsonUtil.copy(response, true);
 
       // Check if the response is empty and give an error
       if (!response) {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
-        this.errorObj.status = 400
-        this.errorObj.statusText = "Bad Request"
+        this.errorObj.status = 400;
+        this.errorObj.statusText = "Bad Request";
 
         return null;
       }
 
       // Check if reponse content was successfull and if not print error comming message from backend
-      if (
-        jsonUtil.exists("status", response) && 
-        response["status"] != 200
-      ) {
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
           : "An error occured when searching for the passport!";
-        this.errorObj.description = "An error occured when searching for the passport!";
+        this.errorObj.description =
+          "An error occured when searching for the passport!";
         this.errorObj.status = jsonUtil.exists("status", response)
           ? response["status"]
           : 404;
-        
+
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";

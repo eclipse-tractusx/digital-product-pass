@@ -25,14 +25,16 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="2" class="pa-0 ma-0">
-          <Field
-            icon="mdi-battery-plus"
-            data-cy="state-of-charge"
-            label="State of health"
-            :value="propsData.stateOfBattery.stateOfHealth"
-            style="margin-bottom: 12px"
-            unit="%"
-          />
+          <template v-if="propsData.stateOfBattery">
+            <Field
+              icon="mdi-battery-plus"
+              data-cy="state-of-charge"
+              label="State of health"
+              :value="propsData.stateOfBattery.stateOfHealth"
+              style="margin-bottom: 12px"
+              unit="%"
+            />
+          </template>
           <Field
             icon="mdi-recycle-variant"
             label="Cycle life test c rate"
@@ -42,14 +44,15 @@
           />
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-flash-outline"
-            label="State of charge"
-            :value="propsData.stateOfBattery.stateOfCharge"
-            style="margin-bottom: 12px"
-            unit="%"
-          />
-
+          <template v-if="propsData.stateOfBattery">
+            <Field
+              icon="mdi-flash-outline"
+              label="State of charge"
+              :value="propsData.stateOfBattery.stateOfCharge"
+              style="margin-bottom: 12px"
+              unit="%"
+            />
+          </template>
           <Field
             icon="mdi-flash-outline"
             label="Cycle life test depth of discharge"
@@ -82,13 +85,15 @@
             :img="TempRange"
           />
         </v-col>
-        <v-col sm="12" md="2" class="pa-0 ma-0">
-          <Field
-            icon="mdi-numeric-1-circle-outline"
-            label="Status battery"
-            :value="propsData.stateOfBattery.statusBattery"
-          />
-        </v-col>
+        <template v-if="propsData.stateOfBattery">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
+            <Field
+              icon="mdi-numeric-1-circle-outline"
+              label="Status battery"
+              :value="propsData.stateOfBattery.statusBattery"
+            />
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </div>
@@ -123,7 +128,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport,
+      propsData: this.$props.data.passport,
     };
   },
 };

@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.document,
+      propsData: this.$props.data.passport.document,
     };
   },
 };

@@ -306,19 +306,19 @@ export default {
         }
     },
     deleteKeys(sourceObj, keys) {
-        let tempSourceObj = this.deepCopy(sourceObj)
+        let tempSourceObj = this.copy(sourceObj);
         for (let i = 0; i < keys.length; i++) {
             let element = keys[i];
             if (!this.isIn(tempSourceObj, element)) {
                 continue
             }
-            delete tempSourceObj[element]
+            delete tempSourceObj[element];
         }
-        return tempSourceObj
+        return tempSourceObj;
     },
     deleteDeepKey(ref,json,  sep = ".", defaultReturn = null ) {
         try {
-            let tmpJson = this.deepCopy(json);
+            let tmpJson = this.copy(json);
             let refs = ref.split(sep);
             if(refs.length == 1){
                 if(!Object.prototype.hasOwnProperty.call(tmpJson, ref)){
@@ -338,17 +338,17 @@ export default {
             }
             delete parent[lastRef];
 
-            return this.setValue(parentPath, parent,tmpJson, sep, defaultReturn);
+            return this.set(parentPath, parent,tmpJson, sep, defaultReturn);
         } catch {
             return defaultReturn;
         }
     },
-    setValue(ref, data, json, sep = ".", defaultReturn = null){
+    set(ref, data, json, sep = ".", defaultReturn = null){
         try{
-            let tmpObject = {}
+            let tmpObject = {};
             let refs = ref.split(sep);
             if(refs.length == 1){
-                tmpObject = this.deepCopy(json);
+                tmpObject = this.copy(json);
                 tmpObject[ref] = data;
                 return tmpObject;
             }
@@ -360,12 +360,9 @@ export default {
             for(let i = refs.length - 1; i >= 0; i--){
                 tmpObject = {}
                 part = refs[i];
-                currentPath.filter(e => e !== part);
+                currentPath = currentPath.filter(e => e !== part);
                 parentPath = currentPath.join(sep);
-                tmpParent = this.get(parentPath, json, sep, null);
-                if(tmpParent == null){
-                    tmpParent = null;
-                }
+                tmpParent = this.get(parentPath, json, sep, {});
                 tmpObject[part] = tmpValue;
                 tmpParent = this.extend(tmpParent, tmpObject);
                 tmpValue = tmpParent;

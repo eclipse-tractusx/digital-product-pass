@@ -51,13 +51,70 @@ export default {
         let response = {
             "metadata": metadata,
             "passport": passport
-        } 
+        }
         if(responsePassport){
-            response["passport"] = jsonUtil.extend(passport, responsePassport);
+            response["passport"] = this.extendPassport(responsePassport);
         }
         if(responseMetadata){
             response["metadata"] = jsonUtil.extend(metadata, responseMetadata);
         }
         return response;
+    },
+    extendPassport(responsePassport=null){
+        if(!responsePassport){
+            return passport;
+        }
+        if (!(responsePassport instanceof Object)) return passport;
+        // Deep Copy param into object
+        let objects = JSON.parse(JSON.stringify(responsePassport));
+        let retObject = JSON.parse(JSON.stringify(passport)); // Return/Final Object
+        let keys = Object.keys(objects); // Keys that it contains
+
+        while (keys.length > 0) {
+            // While it still has keys
+            for (let index in keys) {
+                // Interate over keys
+                let parentKey = keys.pop(index); // Get key value in array
+                let parent = jsonUtil.get(parentKey, objects, ".", null); // Get current node value
+
+                if (parent == null) {
+                    // Skip null objects
+                    continue;
+                }
+
+                if (!(parent instanceof Object)) {
+                    // If current node is not a object
+                    retObject = jsonUtil.set(parentKey, parent, retObject);
+                    continue;
+                }
+
+                for (let childKey in parent) {
+                    // Interate over children
+                    let child = parent[childKey]; // Get children
+                    
+                    if (child == null) {
+                        // Skip null children
+                        continue;
+                    }
+                    let childstoreKey = jsonUtil.buildPath(parentKey, childKey);
+                    if (!(child instanceof Object)) {
+                        // If children is not a object is a property from the father
+                        // Check if key is not existing
+                        retObject = jsonUtil.set(childstoreKey, child, retObject);
+                        continue;
+                    }
+                    //Child is a object
+                    if (Object.keys(child).length > 0) {
+                        // Add Object children to interation
+                        keys.push(childstoreKey);
+                    }
+                }
+
+            }
+        }
+        return retObject; // Return clean objects
+
+
+
     }
 };

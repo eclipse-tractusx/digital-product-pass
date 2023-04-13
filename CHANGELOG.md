@@ -24,6 +24,17 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [released]
+
+## [0.5.2] - 2023-04-13
+
+## Security Issues
+
+- Updated Spring Boot Version from `v3.0.2` to `v3.0.5` fixing the following vulnerable libraries:
+  - Spring Expression *v6.0.4* -> `v6.0.7`
+  - JSON Smart *v2.4.8* -> `v2.4.10`
+
 ## [released]
 
 ## [0.5.1] - 2023-03-31

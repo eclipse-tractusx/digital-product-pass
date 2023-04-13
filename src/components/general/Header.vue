@@ -27,7 +27,7 @@
       >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
-            <img :src="CatenaLogo" alt="logo" class="logo" />
+            <img :src="BatteryLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
         <v-col class="content d-flex justify-between align-center">
@@ -102,6 +102,7 @@
 
 <script>
 import CatenaLogo from "@/media/Catena-X_Logo_mit_Zusatz_2021.svg";
+import BatteryLogo from "@/media/BatteryLogo.svg";
 import Profile from "@/media/profile.svg";
 import Tooltip from "@/components/general/Tooltip.vue";
 import { inject } from "vue";
@@ -114,6 +115,7 @@ export default {
   setup() {
     return {
       CatenaLogo,
+      BatteryLogo,
       Profile,
     };
   },

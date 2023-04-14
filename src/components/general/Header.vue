@@ -27,7 +27,8 @@
       >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
-            <img :src="BatteryLogo" alt="logo" class="logo" />
+            <!-- To change the logo simply replace "CatenaLogo" with "BatteryLogo" in :src  -->
+            <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
         <v-col class="content d-flex justify-between align-center">

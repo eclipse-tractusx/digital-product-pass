@@ -27,7 +27,7 @@
       >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
-            <!-- To change the logo simply replace "CatenaLogo" with "BatteryLogo" in :src  -->
+            <!-- To change the logo simply replace "CatenaLogo" with "BatteryLogo" or "BatteryLogotype" in :src  -->
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
@@ -104,6 +104,7 @@
 <script>
 import CatenaLogo from "@/media/Catena-X_Logo_mit_Zusatz_2021.svg";
 import BatteryLogo from "@/media/BatteryLogo.svg";
+import BatteryLogotype from "@/media/BatteryLogotype.svg";
 import Profile from "@/media/profile.svg";
 import Tooltip from "@/components/general/Tooltip.vue";
 import { inject } from "vue";
@@ -117,6 +118,7 @@ export default {
     return {
       CatenaLogo,
       BatteryLogo,
+      BatteryLogotype,
       Profile,
     };
   },

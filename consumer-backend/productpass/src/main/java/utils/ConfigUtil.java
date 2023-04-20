@@ -35,7 +35,6 @@ public final class ConfigUtil {
     public String CONFIGURATION_FILE_PATH;
     private Map<String, Object> configuration;
 
-    public static EnvUtil env = new EnvUtil();
     public ConfigUtil(){
         this.CONFIGURATION_FILE_PATH = CONFIGURATION_FILE_NAME +".yml";
         InputStream fileContent  = FileUtil.getResourceContent(this.getClass(), this.CONFIGURATION_FILE_PATH);

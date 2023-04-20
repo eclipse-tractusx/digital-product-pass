@@ -31,10 +31,9 @@ spring:
   jackson:
     serialization:
       indent_output: true
-  profiles.active: ínt
 
 configuration:
-  environment: "${spring.profiles.active}"
+
   logUtil:
     level: 7 # 7 FOR INFO AND 8 FOR DEBUG
     async: false
@@ -59,8 +58,7 @@ configuration:
 
   vault:
     type: 'local'
-    file: 'vault.token-dev.yml'
-    uri: 'http://localhost:8200'
+    file: 'vault.token.yml'
     pathSep: "."
     prettyPrint: true
     indent: 2

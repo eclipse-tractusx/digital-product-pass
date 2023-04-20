@@ -29,19 +29,22 @@ import java.io.InputStream;
 import java.util.Map;
 
 public final class ConfigUtil {
-    private static final String CONFIGURATION_DIR = "config";
-
-    private static final String CONFIGURATION_FILE_NAME = "configuration";
-
+    private static final String CONFIGURATION_DIR = "";
+    private static final String CONFIGURATION_FILE_NAME = "application";
+    private static final String CONFIGURATION_KEY = "configuration";
     public String CONFIGURATION_FILE_PATH;
-
     private Map<String, Object> configuration;
 
     public static EnvUtil env = new EnvUtil();
     public ConfigUtil(){
-        this.CONFIGURATION_FILE_PATH = CONFIGURATION_DIR+"/"+CONFIGURATION_FILE_NAME+"-"+env.getEnvironment()+".yml";
+        this.CONFIGURATION_FILE_PATH = CONFIGURATION_FILE_NAME +".yml";
         InputStream fileContent  = FileUtil.getResourceContent(this.getClass(), this.CONFIGURATION_FILE_PATH);
-        this.configuration = YamlUtil.parseYmlStream(fileContent);
+        Map<String,Object> tempConfiguration = YamlUtil.parseYmlStream(fileContent);
+        Object value = this.getConfigurationParam(tempConfiguration, CONFIGURATION_KEY, ".",null);
+        if (value == null) {
+            throw new UtilException(ConfigUtil.class,"[CRITICAL] Application configuration param not found!");
+        }
+        this.configuration = (Map<String, Object>) value;
     }
     public Map<String, Object> getConfiguration(){
         if (this.configuration == null) {

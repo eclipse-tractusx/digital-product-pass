@@ -23,15 +23,21 @@
 
 package utils;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import utils.exceptions.UtilException;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class YamlUtil {
+
     private YamlUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
     }
@@ -86,6 +92,13 @@ public final class YamlUtil {
             return yaml.dump(obj);
         } catch (Exception e) {
             throw new UtilException(YamlUtil.class, "It was not possible to dump map into yaml " + e.getMessage());
+        }
+    }
+    public static Map<String, Object> getValue(String key) {
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new UtilException(YamlUtil.class, "There was an error in loading the yaml content! " + e.getMessage());
         }
     }
 }

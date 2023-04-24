@@ -27,6 +27,7 @@
       >
         <v-col class="v-col-auto logo-container d-flex align-center">
           <router-link to="/">
+            <!-- To change the logo simply replace "CatenaLogo" with "BatteryLogo" or "BatteryLogotype" in :src  -->
             <img :src="CatenaLogo" alt="logo" class="logo" />
           </router-link>
         </v-col>
@@ -53,7 +54,8 @@
                     rounded
                     >Help
                     <Tooltip>
-                      Here you can get help if you need to know more about Catena-X
+                      Here you can get help if you need to know more about
+                      Catena-X
                     </Tooltip>
                   </v-btn>
                 </a>
@@ -101,6 +103,8 @@
 
 <script>
 import CatenaLogo from "@/media/Catena-X_Logo_mit_Zusatz_2021.svg";
+import BatteryLogo from "@/media/BatteryLogo.svg";
+import BatteryLogotype from "@/media/BatteryLogotype.svg";
 import Profile from "@/media/profile.svg";
 import Tooltip from "@/components/general/Tooltip.vue";
 import { inject } from "vue";
@@ -108,12 +112,14 @@ import { inject } from "vue";
 export default {
   name: "HeaderComponent",
   components: {
-    Tooltip
+    Tooltip,
   },
   setup() {
     return {
       CatenaLogo,
-      Profile
+      BatteryLogo,
+      BatteryLogotype,
+      Profile,
     };
   },
   data() {
@@ -125,7 +131,7 @@ export default {
       role: "",
       auth: inject("authentication"),
       tab: null,
-      lang: "en-EN"
+      lang: "en-EN",
     };
   },
   mounted() {
@@ -140,10 +146,9 @@ export default {
     },
     scanQRCode() {
       this.$router.push({ name: "SearchView" });
-    }
+    },
   },
 };
 </script>
 
-<style >
-</style>
+

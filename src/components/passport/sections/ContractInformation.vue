@@ -22,17 +22,21 @@
 
 <template v-if="propsDate">
   <div class="section">
-    <div class="sub-section-container">
-      <Field label="Contract ID" :value="propsData.negotiation.id" />
-      <Field
-        label="Contract Agreement ID"
-        :value="propsData.transferRequest.contractId"
-      />
-      <Field
-        label="Transfer Process ID"
-        :value="propsData.transferRequest.id"
-      />
-    </div>
+    <Field
+      icon="mdi-file-swap-outline"
+      label="Contract ID"
+      :value="propsData.negotiation.id"
+    />
+    <Field
+      icon="mdi-file-swap-outline"
+      label="Contract Agreement ID"
+      :value="propsData.transferRequest.contractId"
+    />
+    <Field
+      icon="mdi-file-swap-outline"
+      label="Transfer Process ID"
+      :value="propsData.transferRequest.id"
+    />
   </div>
 </template>
 
@@ -57,7 +61,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.metadata,
+      propsData: this.$props.data.metadata,
     };
   },
 };

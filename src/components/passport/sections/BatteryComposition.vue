@@ -22,90 +22,41 @@
 
 <template v-if="propsData">
   <div class="section">
-    <!-- Composition of battery -->
-    <AttributeField
-      :attributes-list="propsData.compositionOfBattery"
-      label="Composition of battery"
-    />
-    <!-- Critical raw materials -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Critical raw materials</span>
-      </div>
-      <div v-if="propsData.criticalRawMaterials" class="list-container">
-        <ul>
-          <span class="list-label"></span>
-          <li>
-            <span>
-              {{ propsData.criticalRawMaterials }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- Components -->
-    <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Components</span>
-      </div>
-      <div v-if="propsData.components" class="list-container">
-        <ul>
-          <span class="list-label">Components part number</span>
-          <li>
-            <span>
-              {{ propsData.components.componentsPartNumber }}
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div
-        v-if="propsData.components.componentsSupplier"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label">Address</span>
-          <li
-            v-for="supplierDetails in propsData.components.componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>{{ supplierDetails.address.locality.value }}</p>
-            <p>{{ supplierDetails.address.country.shortName }}</p>
-            <p>{{ supplierDetails.address.postCode.value }}</p>
-            <p>
-              {{ supplierDetails.address.thoroughfare.value }}
-              {{ supplierDetails.address.thoroughfare.number }}
-            </p>
-            <p>{{ supplierDetails.address.premise.value }}</p>
-            <p>{{ supplierDetails.address.postalDeliveryPoint.value }}</p>
-          </li>
-        </ul>
-        <ul>
-          <span class="list-label">Contact</span>
-          <li
-            v-for="supplierDetails in propsData.components.componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
-            <p>www: {{ supplierDetails.contact.website }}</p>
-            <p>tel: {{ supplierDetails.contact.phoneNumber }}</p>
-            <p>
-              email:
-              {{ supplierDetails.contact.email }}
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col
+          sm="12"
+          md="12"
+          class="pa-0 ma-0"
+          style="display: flex; margin-bottom: 12px"
+        >
+          <AttributeField
+            icon="mdi-newspaper-variant-outline"
+            :attributes-list="propsData.compositionOfBattery"
+            label="Main Battery Composites"
+            style="background: #f9f9f9; min-width: 300px"
+          />
+          <Field
+            icon="mdi-select-all"
+            label="Critical raw materials"
+            :value="propsData.criticalRawMaterials"
+            style="min-width: 300px"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import AttributeField from "../AttributeField.vue";
+import Field from "../Field.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
     AttributeField,
+    Field,
   },
   props: {
     sectionTitle: {
@@ -120,7 +71,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.composition,
+      propsData: this.$props.data.passport.composition,
     };
   },
 };

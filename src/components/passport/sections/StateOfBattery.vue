@@ -22,57 +22,97 @@
 
 <template v-if="propsData">
   <div class="section">
-    <div class="sub-section-container">
-      <Field
-        data-cy="state-of-charge"
-        label="State of health"
-        :value="propsData.stateOfBattery.stateOfHealth"
-      />
-      <Field
-        label="Status battery"
-        :value="propsData.stateOfBattery.statusBattery"
-      />
-      <Field
-        label="State of charge"
-        :value="propsData.stateOfBattery.stateOfCharge"
-      />
-      <Field
-        label="Cycle life test c rate"
-        :value="propsData.batteryCycleLife.cycleLifeTestCRate"
-      />
-      <Field
-        label="Cycle life test depth of discharge"
-        :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
-      />
-      <Field
-        label="Expected lifetime"
-        :value="propsData.batteryCycleLife.expectedLifetime"
-      />
-      <Field
-        label="Temperature range idle state upper limit"
-        :value="
-          propsData.temperatureRangeIdleState
-            .temperatureRangeIdleStateUpperLimit
-        "
-      />
-      <Field
-        label="Temperature range idle state lower limit"
-        :value="
-          propsData.temperatureRangeIdleState
-            .temperatureRangeIdleStateLowerLimit
-        "
-      />
-    </div>
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <template v-if="propsData.stateOfBattery">
+            <Field
+              icon="mdi-battery-plus"
+              data-cy="state-of-charge"
+              label="State of health"
+              :value="propsData.stateOfBattery.stateOfHealth"
+              style="margin-bottom: 12px"
+              unit="%"
+            />
+          </template>
+          <Field
+            icon="mdi-recycle-variant"
+            label="Cycle life test c rate"
+            :value="propsData.batteryCycleLife.cycleLifeTestCRate"
+            style="margin-bottom: 12px"
+            unit="C"
+          />
+        </v-col>
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <template v-if="propsData.stateOfBattery">
+            <Field
+              icon="mdi-flash-outline"
+              label="State of charge"
+              :value="propsData.stateOfBattery.stateOfCharge"
+              style="margin-bottom: 12px"
+              unit="%"
+            />
+          </template>
+          <Field
+            icon="mdi-flash-outline"
+            label="Cycle life test depth of discharge"
+            :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
+            style="margin-bottom: 12px"
+            unit="%"
+          />
+        </v-col>
+        <v-col sm="12" md="5" class="pa-0 ma-0">
+          <!-- componet belowe needs to be repalced with charging cycle bar chart -->
+          <Field
+            icon="mdi-battery-charging"
+            label="Expected lifetime"
+            style="background: #f9f9f9; margin-bottom: 12px"
+            :value="propsData.batteryCycleLife.expectedLifetime"
+            unit="cycles"
+          />
+          <Field
+            icon="mdi-thermometer-low"
+            label="Temperature range (idle state)"
+            style="background: #f9f9f9; margin-bottom: 12px"
+            :tempRangeMin="
+              propsData.temperatureRangeIdleState
+                .temperatureRangeIdleStateLowerLimit
+            "
+            tempUnit="°C"
+            :tempRangeMax="
+              propsData.temperatureRangeIdleState
+                .temperatureRangeIdleStateUpperLimit
+            "
+            :img="TempRange"
+          />
+        </v-col>
+        <template v-if="propsData.stateOfBattery">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
+            <Field
+              icon="mdi-numeric-1-circle-outline"
+              label="Status battery"
+              :value="propsData.stateOfBattery.statusBattery"
+            />
+          </v-col>
+        </template>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import Field from "../Field.vue";
+import TempRange from "../../../media/tempRange.svg";
 
 export default {
   name: "StateOfBattery",
   components: {
     Field,
+  },
+  setup() {
+    return {
+      TempRange,
+    };
   },
   props: {
     sectionTitle: {
@@ -89,7 +129,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport,
+      propsData: this.$props.data.passport,
     };
   },
 };

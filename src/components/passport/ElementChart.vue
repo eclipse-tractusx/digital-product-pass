@@ -20,30 +20,33 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
+
 <template>
-  <div class="PageNotFound">
-    <router-link to="/">
-      <img :src="Error" alt="error" class="error" />
-    </router-link>
+  <div class="materials-container">
+    <v-row>
+      <div
+        class="material-container"
+        v-for="(material, index) in data"
+        :key="index"
+      >
+        <span class="material-label">{{ material.materialName }}</span>
+        <span class="material-value">
+          {{ material.materialPercentageMassFraction }}%
+        </span>
+      </div>
+    </v-row>
   </div>
 </template>
 
-<script>
-import Error from "../media/500error.png";
 
+<script>
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "PageNotFound",
-  components: {},
-  setup() {
-    return {
-      Error,
-    };
+  name: "ElementChart",
+  props: {
+    data: {
+      type: Object,
+      default: Object,
+    },
   },
 };
 </script>
-<style scoped>
-.error {
-  width: 110%;
-}
-</style>

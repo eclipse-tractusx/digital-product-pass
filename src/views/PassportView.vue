@@ -29,49 +29,48 @@
   </v-container>
   <v-container v-else-if="error" class="h-100 w-100">
     <div class="loading-container d-flex align-items-center w-100 h-100">
-      <Alert
-        class="w-100"
+      <ErrorComponent
+        :title="errorObj.status + ' ' + errorObj.statusText"
+        :subTitle="errorObj.title"
         :description="errorObj.description"
-        :title="errorObj.title"
-        :type="errorObj.type"
-        icon="mdi-alert-circle-outline"
-        :closable="false"
-        variant="outlined"
-      >
-        <v-row class="justify-space-between mt-3">
-          <v-col class="v-col-auto">
-            Click in the <strong>"return"</strong> button to go back to the
-            search field
-          </v-col>
-          <v-col class="v-col-auto">
-            <v-btn
-              style="color: white !important"
-              rounded="pill"
-              color="#0F71CB"
-              size="large"
-              class="submit-btn"
-              @click="$router.go(-1)"
-            >
-              <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-              Return
-            </v-btn>
-          </v-col>
-        </v-row>
-      </Alert>
+        reloadLabel="Return"
+        reloadIcon="mdi-arrow-left"
+      />
     </div>
   </v-container>
   <div v-else>
-    <HeaderComponent />
-    <PassportHeader
-      :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
-      type="BatteryID"
-    />
+    <HeaderComponent>
+      <span class="header-title">Battery passport</span>
+    </HeaderComponent>
+    <PassportHeader :data="data.passport" type="BatteryID" />
     <div class="pass-container">
-      <div v-for="(section, index) in componentsNames" :key="index">
-        <SectionComponent :title="`${index + 1}. ${section.label}`">
-          <component :is="section.component" :data="data" />
-        </SectionComponent>
-      </div>
+      <CardsComponent :data="data" />
+    </div>
+
+    <div class="pass-container footer-spacer">
+      <v-card>
+        <v-tabs v-model="tab" center-active show-arrows class="menu">
+          <v-tab
+            v-for="(section, index) in componentsNames"
+            :key="index"
+            :value="section.component"
+          >
+            <v-icon start md :icon="section.icon"> </v-icon>
+            {{ section.label }}</v-tab
+          >
+        </v-tabs>
+        <v-card-text>
+          <v-window v-model="tab">
+            <v-window-item
+              v-for="(section, index) in componentsNames"
+              :key="index"
+              :value="section.component"
+            >
+              <component :is="section.component" :data="data" />
+            </v-window-item>
+          </v-window>
+        </v-card-text>
+      </v-card>
     </div>
     <FooterComponent />
   </div>
@@ -91,14 +90,16 @@ import ContractInformation from "@/components/passport/sections/ContractInformat
 import Spinner from "@/components/general/Spinner.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
+import CardsComponent from "@/components/passport/Cards.vue";
 import Alert from "@/components/general/Alert.vue";
 import FooterComponent from "@/components/general/Footer.vue";
+import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
+import configUtil from "@/utils/configUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import SectionComponent from "@/components/passport/Section.vue";
 
 export default {
   name: "PassportView",
@@ -106,6 +107,7 @@ export default {
     HeaderComponent,
     GeneralInformation,
     PassportHeader,
+    CardsComponent,
     CellChemistry,
     StateOfBattery,
     ElectrochemicalProperties,
@@ -115,37 +117,46 @@ export default {
     FooterComponent,
     Spinner,
     Alert,
-    SectionComponent,
+    ErrorComponent,
   },
   data() {
     return {
+      tab: null,
       componentsNames: [
         {
-          label: "General information",
+          label: "General Information",
+          icon: "mdi-information-outline",
           component: "GeneralInformation",
         },
         {
+          label: "Product Condition",
+          icon: "mdi-battery-charging",
+          component: "StateOfBattery",
+        },
+        {
+          label: "Composition",
+          icon: "mdi-battery-unknown",
+          component: "BatteryComposition",
+        },
+        {
           label: "Cell chemistry",
+          icon: "mdi-flask-empty-outline",
           component: "CellChemistry",
         },
         {
           label: "Electrochemical properties",
+          icon: "mdi-microscope",
           component: "ElectrochemicalProperties",
         },
-        {
-          label: "Battery composition",
-          component: "BatteryComposition",
-        },
-        {
-          label: "State of battery",
-          component: "StateOfBattery",
-        },
+
         {
           label: "Additional information",
+          icon: "mdi-text-box-multiple-outline",
           component: "Documents",
         },
         {
-          label: "Contract information",
+          label: "Data exchange information",
+          icon: "mdi-file-swap-outline",
           component: "ContractInformation",
         },
       ],
@@ -159,6 +170,8 @@ export default {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",
         type: "error",
+        status: 500,
+        statusText: "Internal Server Error",
       },
       version: PASSPORT_VERSION,
     };
@@ -174,17 +187,29 @@ export default {
         API_TIMEOUT,
         null
       );
-      if(!result || result == null){
+      if (!result || result == null) {
         this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description = "The request took too long... Please retry or try again later."
+        this.errorObj.description =
+          "The request took too long... Please retry or try again later.";
+        this.status = 408;
+        this.statusText = "Request Timeout";
       }
       this.data = result;
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {
       if (
-        this.data && jsonUtil.exists("status", this.data) && this.data["status"] == 200
+        this.data &&
+        jsonUtil.exists("status", this.data) &&
+        this.data["status"] == 200 &&
+        jsonUtil.exists("data", this.data) &&
+        jsonUtil.exists("metadata", this.data["data"]) &&
+        jsonUtil.exists("passport", this.data["data"])
       ) {
+        this.data = configUtil.normalizePassport(
+          jsonUtil.get("data.passport", this.data),
+          jsonUtil.get("data.metadata", this.data)
+        );
         this.error = false;
       }
       // Stop loading
@@ -204,36 +229,49 @@ export default {
         response = await backendService.getPassport(this.version, id, jwtToken);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("statusText", response)
-          ? response["statusText"]
-          : "Failed to return passport";
-        this.errorObj.description = jsonUtil.exists("message", response)
+        this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
-          : "It was not possible to transfer the passport.";
+          : "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
+
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 500;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Internal Server Error";
         return response;
       }
 
-      response = jsonUtil.copy(response, true);
+      //     response = jsonUtil.copy(response, true);
 
       // Check if the response is empty and give an error
       if (!response) {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
+        this.errorObj.status = 400;
+        this.errorObj.statusText = "Bad Request";
+
         return null;
       }
 
       // Check if reponse content was successfull and if not print error comming message from backend
-      if (
-        jsonUtil.exists("status", response) && 
-        response["status"] != 200
-      ) {
-        this.errorObj.title = jsonUtil.exists("statusText", response)
-          ? response["statusText"]
-          : "An error occured when searching for the passport!";
-        this.errorObj.description = jsonUtil.exists("message", response)
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
-          : "It was not possible to retrieve the passport";
+          : "An error occured when searching for the passport!";
+        this.errorObj.description =
+          "An error occured when searching for the passport!";
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 404;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not found";
       }
 
       return response;
@@ -241,38 +279,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.pass-container {
-  width: 76%;
-  margin: 0 12% 0 12%;
-}
-.spinner-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.spinner {
-  margin: auto;
-  width: 8vh;
-  animation: rotate 3s infinite;
-}
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@media (max-width: 750px) {
-  .pass-container {
-    width: 100%;
-    margin: 0;
-  }
-}
-</style>

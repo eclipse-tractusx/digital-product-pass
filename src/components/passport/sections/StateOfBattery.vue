@@ -40,7 +40,7 @@
             label="Cycle life test c rate"
             :value="propsData.batteryCycleLife.cycleLifeTestCRate"
             style="margin-bottom: 12px"
-            unit="cycles"
+            unit="C"
           />
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
@@ -58,10 +58,11 @@
             label="Cycle life test depth of discharge"
             :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
             style="margin-bottom: 12px"
-            unit="cycles"
+            unit="%"
           />
         </v-col>
         <v-col sm="12" md="5" class="pa-0 ma-0">
+          <!-- componet belowe needs to be repalced with charging cycle bar chart -->
           <Field
             icon="mdi-battery-charging"
             label="Expected lifetime"

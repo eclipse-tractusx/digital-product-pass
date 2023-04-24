@@ -21,9 +21,12 @@
  */
 
 .footer-content {
+  position: absolute;
+  bottom: 0;
   display: flex;
   flex-direction: row;
   min-height: 48px;
+  width: 94%;
   text-align: center;
   margin: 0 40px;
   justify-content: flex-start;
@@ -31,6 +34,7 @@
 
   .links {
     display: flex;
+    width: 60%;
     justify-content: flex-start;
     margin-bottom: 0;
     margin-left: 0;
@@ -60,13 +64,18 @@
     font-size: 12px !important;
   }
 
-  .copyright {
-    padding: 14px 0;
-    font-size: 11px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #5a5d57;
-    padding-bottom: 72px;
+  .copyright-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 40%;
+    .copyright {
+      padding: 14px 0;
+      font-size: 11px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5a5d57;
+      padding-bottom: 24px;
+    }
   }
 }
 
@@ -74,8 +83,10 @@
   .footer-content {
     flex-direction: column;
     align-items: center;
+
     .links {
       margin-left: auto;
+      width: auto;
     }
   }
 }
@@ -84,6 +95,7 @@
   .footer-content {
     flex-direction: column;
     align-items: center;
+    width: 79%;
     .links {
       margin-top: 15px;
       margin-left: auto;

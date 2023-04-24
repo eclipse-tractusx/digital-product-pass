@@ -47,7 +47,7 @@
       <CardsComponent :data="data" />
     </div>
 
-    <div class="pass-container">
+    <div class="pass-container footer-spacer">
       <v-card>
         <v-tabs v-model="tab" center-active show-arrows class="menu">
           <v-tab
@@ -117,7 +117,7 @@ export default {
     FooterComponent,
     Spinner,
     Alert,
-    ErrorComponent
+    ErrorComponent,
   },
   data() {
     return {
@@ -201,9 +201,15 @@ export default {
       if (
         this.data &&
         jsonUtil.exists("status", this.data) &&
-        this.data["status"] == 200 && jsonUtil.exists("data", this.data) && jsonUtil.exists("metadata", this.data["data"]) && jsonUtil.exists("passport", this.data["data"])
+        this.data["status"] == 200 &&
+        jsonUtil.exists("data", this.data) &&
+        jsonUtil.exists("metadata", this.data["data"]) &&
+        jsonUtil.exists("passport", this.data["data"])
       ) {
-        this.data = configUtil.normalizePassport(jsonUtil.get("data.passport", this.data),jsonUtil.get("data.metadata", this.data));
+        this.data = configUtil.normalizePassport(
+          jsonUtil.get("data.passport", this.data),
+          jsonUtil.get("data.metadata", this.data)
+        );
         this.error = false;
       }
       // Stop loading

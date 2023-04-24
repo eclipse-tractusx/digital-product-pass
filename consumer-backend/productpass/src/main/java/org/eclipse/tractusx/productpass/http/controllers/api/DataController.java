@@ -79,12 +79,14 @@ public class DataController {
         }else{
             response.message = "Version is not available!";
             response.status = 400;
+            response.statusText = "Bad Request";
             response.data = null;
             return HttpUtil.buildResponse(response, httpResponse);
         }
         if (passport == null) {
             response.message = "Passport for transfer [" + transferId + "] not found!";
             response.status = 404;
+            response.statusText = "Not Found";
             response.data = null;
             return HttpUtil.buildResponse(response, httpResponse);
         }

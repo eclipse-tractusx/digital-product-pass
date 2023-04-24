@@ -29,7 +29,9 @@
   </v-container>
   <v-container v-else-if="error" class="h-100 w-100">
     <div class="loading-container d-flex align-items-center w-100 h-100">
-      <Alert
+
+      <ErrorComponent :title="errorObj.status + ' ' + errorObj.statusText " :subTitle="errorObj.title" :description="errorObj.description" reloadLabel="Return" reloadIcon="mdi-arrow-left"/>
+      <!-- <Alert
         class="w-100"
         :description="errorObj.description"
         :title="errorObj.title"
@@ -57,7 +59,7 @@
             </v-btn>
           </v-col>
         </v-row>
-      </Alert>
+      </Alert> -->
     </div>
   </v-container>
   <div v-else>
@@ -118,12 +120,12 @@ import PassportHeader from "@/components/passport/PassportHeader.vue";
 import CardsComponent from "@/components/passport/Cards.vue";
 import Alert from "@/components/general/Alert.vue";
 import FooterComponent from "@/components/general/Footer.vue";
+import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import SectionComponent from "@/components/passport/Section.vue";
 
 export default {
   name: "PassportView",
@@ -142,6 +144,7 @@ export default {
     Spinner,
     Alert,
     SectionComponent,
+    ErrorComponent
   },
   data() {
     return {
@@ -194,6 +197,8 @@ export default {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",
         type: "error",
+        status: 500,
+        statusText: "Internal Server Error"
       },
       version: PASSPORT_VERSION,
     };
@@ -211,8 +216,9 @@ export default {
       );
       if (!result || result == null) {
         this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description =
-          "The request took too long... Please retry or try again later.";
+        this.errorObj.description = "The request took too long... Please retry or try again later."
+        this.status = 408
+        this.statusText = "Request Timeout"
       }
       this.data = result;
     } catch (e) {
@@ -242,12 +248,18 @@ export default {
         response = await backendService.getPassport(this.version, id, jwtToken);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("statusText", response)
-          ? response["statusText"]
-          : "Failed to return passport";
-        this.errorObj.description = jsonUtil.exists("message", response)
+        this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
-          : "It was not possible to transfer the passport.";
+          : "Failed to return passport";
+        this.errorObj.description = "It was not possible to transfer the passport.";
+        
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 500;
+        
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Internal Server Error";
         return response;
       }
 
@@ -258,17 +270,28 @@ export default {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
+        this.errorObj.status = 400
+        this.errorObj.statusText = "Bad Request"
+
         return null;
       }
 
       // Check if reponse content was successfull and if not print error comming message from backend
-      if (jsonUtil.exists("status", response) && response["status"] != 200) {
-        this.errorObj.title = jsonUtil.exists("statusText", response)
-          ? response["statusText"]
-          : "An error occured when searching for the passport!";
-        this.errorObj.description = jsonUtil.exists("message", response)
+      if (
+        jsonUtil.exists("status", response) && 
+        response["status"] != 200
+      ) {
+        this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
-          : "It was not possible to retrieve the passport";
+          : "An error occured when searching for the passport!";
+        this.errorObj.description = "An error occured when searching for the passport!";
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 404;
+        
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not found";
       }
 
       return response;

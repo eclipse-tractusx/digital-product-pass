@@ -78,20 +78,20 @@
     color: #c6cca3;
   }
 
-  .container-width-70 {
-    width: 70%;
+  .container-width-80 {
+    width: 80%;
   }
-  .container-width-60 {
-    width: 60%;
+  .container-width-50 {
+    width: 50%;
   }
 }
 @media (max-width: 960px) {
   .section {
     flex-direction: column;
-    .container-width-70 {
+    .container-width-80 {
       width: 100%;
     }
-    .container-width-60 {
+    .container-width-50 {
       width: 100%;
     }
   }

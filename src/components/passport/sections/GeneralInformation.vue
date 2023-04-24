@@ -84,9 +84,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="container-width-70">
+    <v-container class="container-width-50">
       <v-row class="section">
-        <v-col sm="12" md="8" class="pa-0 ma-0">
+        <v-col cols="12" class="pa-0 ma-0">
           <Field
             icon="mdi-calendar-range"
             style="background: #f9f9f9"
@@ -96,7 +96,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col sm="12" md="8" class="pa-0 ma-0">
+        <v-col cols="12" class="pa-0 ma-0">
           <Field
             icon="mdi-map-marker-outline"
             style="background: #f9f9f9"
@@ -106,7 +106,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col md="8" class="pa-0 ma-0">
+        <v-col cols="12" class="pa-0 ma-0">
           <Field
             style="background: #f9f9f9"
             icon="mdi-calendar-range"
@@ -116,21 +116,40 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="container-width-60">
-      <v-row>
-        <v-col md="12" class="pa-0 ma-0">
+    <v-container class="container-width-80">
+      <v-row style="min-height: 180px">
+        <v-col md="5" class="pa-0 ma-0">
           <Field
             v-if="propsData.manufacturer"
-            style="background: #f9f9f9"
+            style="min-height: 168px"
             icon="mdi-factory"
             label="Manufacturer Information"
             :city="propsData.manufacturer.address.locality.value"
             :country="propsData.manufacturer.address.country.shortName"
+            :postal="propsData.manufacturer.address.postCode.value"
+            :value="propsData.manufacturer.name"
+          />
+        </v-col>
+        <v-col md="7" class="pa-0 ma-0">
+          <Field
+            v-if="propsData.manufacturer"
+            style="min-height: 168px"
+            icon="no-icon"
+            label=" "
             :phone="propsData.manufacturer.contact.phoneNumber"
             :email="propsData.manufacturer.contact.email"
             :website="propsData.manufacturer.contact.website"
-            :postal="propsData.manufacturer.address.postCode.value"
-            :value="propsData.manufacturer.name"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col md="12" class="pa-0 ma-0">
+          <Field
+            v-if="propsData.manufacturer"
+            icon="mdi-molecule-co2"
+            label="CO2 Footprint"
+            :value="propsData.cO2FootprintTotal"
+            unit="CO2e/kWh"
           />
         </v-col>
       </v-row>

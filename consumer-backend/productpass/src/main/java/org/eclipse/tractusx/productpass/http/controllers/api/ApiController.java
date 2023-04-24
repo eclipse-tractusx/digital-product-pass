@@ -179,7 +179,7 @@ public class ApiController {
             if (!passportVersions.contains(version)) {
                 response.message = "This passport version is not available at the moment!";
                 response.status = 403;
-                response.statusText = "FORBIDDEN";
+                response.statusText = "Forbidden";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -193,16 +193,19 @@ public class ApiController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
+                // Get first connectorAddress, a posibility is to check for "EDC" type
                 connectorAddress = subModel.getEndpoints().get(0).getProtocolInformation().getEndpointAddress();
 
             } catch (Exception e) {
-                response.message = "Failed to get subModel from digital twin registry!";
-                response.status = 504;
+                response.message = "Failed to get Submodel from the Digital Twin Registry!";
+                response.status = 404;
+                response.statusText = "Not Found";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
                 response.message = "Failed to get connectorId and connectorAddress!";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 response.data = subModel;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
@@ -212,11 +215,13 @@ public class ApiController {
             }catch (Exception e) {
                 response.message = "Failed to build endpoint url to ["+connectorAddress+"]!";
                 response.status = 422;
+                response.statusText = "Unprocessable Content";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
             if (connectorAddress.isEmpty()) {
                 response.message = "Failed to parse endpoint ["+connectorAddress+"]!";
                 response.status = 422;
+                response.statusText = "Unprocessable Content";
                 response.data = subModel;
                 return HttpUtil.buildResponse(response, httpResponse);
             }
@@ -230,13 +235,15 @@ public class ApiController {
             } catch (ControllerException e) {
                 response.message = e.getMessage();
                 response.status = 502;
+                response.statusText = "Bad Gateway";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
             // Check if contract offer was not received
             if (contractOffer == null) {
-                response.message = "Asset ID not found in any contract!";
+                response.message = "Asset Id not found in any contract!";
                 response.status = 404;
+                response.statusText = "Not Found";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -249,12 +256,14 @@ public class ApiController {
             } catch (Exception e) {
                 response.message = "Negotiation Id not received, something went wrong" + " [" + e.getMessage() + "]";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
             if (negotiation.getId() == null) {
                 response.message = "Negotiation Id not received, something went wrong";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -265,12 +274,14 @@ public class ApiController {
             } catch (Exception e) {
                 response.message = "The negotiation for asset id failed!" + " [" + e.getMessage() + "]";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
             if (negotiation.getState().equals("ERROR")) {
                 response.message = "The negotiation for asset id failed!";
                 response.status = 400;
                 response.data = negotiation;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -292,13 +303,15 @@ public class ApiController {
             try {
                 transfer = dataService.initiateTransfer(transferRequest);
             } catch (Exception e) {
-                response.message = e.getMessage();
+                response.message = "It was not posible to initiate the transfer process!";
                 response.status = 500;
+                response.statusText = "Internal Server Error";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
             if (transfer.getId() == null) {
                 response.message = "Transfer Id not received, something went wrong";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -308,8 +321,9 @@ public class ApiController {
             try {
                 transfer = dataService.getTransfer(transfer.getId());
             } catch (Exception e) {
-                response.message = e.getMessage();
+                response.message = "It was not posible to retrieve the transfer!";
                 response.status = 500;
+                response.statusText = "Internal Server Error";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -318,6 +332,7 @@ public class ApiController {
                 response.data = transfer;
                 response.message = "The transfer process failed!";
                 response.status = 400;
+                response.statusText = "Bad Request";
                 return HttpUtil.buildResponse(response, httpResponse);
             }
 
@@ -355,6 +370,7 @@ public class ApiController {
             if(response.message == null){
                 response.message = "Passport for transfer [" + transferRequest.getId() + "] not found in provider!";
                 response.status = 404;
+                response.statusText = "Not Found";
                 LogUtil.printError("["+response.status+" Not Found]: "+response.message);
             }
             return HttpUtil.buildResponse(response, httpResponse);
@@ -364,12 +380,12 @@ public class ApiController {
             Thread.currentThread().interrupt();
             response.message = e.getMessage();
             response.status = 500;
-            response.statusText = "INTERNAL SERVER ERROR";
+            response.statusText = "Internal Server Error";
             return HttpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
             response.status = 500;
-            response.statusText = "INTERNAL SERVER ERROR";
+            response.statusText = "Internal Server Error";
             return HttpUtil.buildResponse(response, httpResponse);
         }
 

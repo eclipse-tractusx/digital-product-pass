@@ -1,6 +1,6 @@
 {
   "name": "productpass-consumer-ui",
-  "version": "0.4.6",
+  "version": "0.5.2",
   "private": true,
   "scripts": {
     "serve": "vite --host localhost",

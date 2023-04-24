@@ -1,17 +1,25 @@
 #!/bin/bash
-# Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#################################################################################
+# Catena-X - Product Passport Consumer Application
+#
+# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
 # Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
 
 
 set -o errexit
@@ -34,7 +42,7 @@ REGISTRY_URL='https://semantics.int.demo.catena-x.net/registry/registry/shell-de
 
 
 # put access token without 'Bearer ' prefix
-BEARER_TOKEN='eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJIVUgzYjZrMzZvbFNQVTRDRTRaMVUxUjhVeHg4eFQwS3p4QXdLb3NkVk1VIn0.eyJleHAiOjE2Nzg4OTY3MDgsImlhdCI6MTY3ODg5NjQwOCwianRpIjoiNmU5ZDk4MjUtNDRlOC00YmRhLTk0MDQtZmU3NzMzYWY4NmMwIiwiaXNzIjoiaHR0cHM6Ly9jZW50cmFsaWRwLmludC5kZW1vLmNhdGVuYS14Lm5ldC9hdXRoL3JlYWxtcy9DWC1DZW50cmFsIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCIsIkNsNi1DWC1EQVBTIiwiQ2w0LUNYLURpZ2l0YWxUd2luIiwiYWNjb3VudCIsIkNsMy1DWC1TZW1hbnRpYyIsIkNsMi1DWC1Qb3J0YWwiXSwic3ViIjoiNDMxYmQzOWQtZjA0ZC00Yjk5LWExY2UtZGM5NzJiN2Y2MWIyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2EtY2w2LWN4LTI5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJodHRwczovL21hdGVyaWFscGFzcy5pbnQuZGVtby5jYXRlbmEteC5uZXQiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1jYXRlbmEteCByZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJtYW5hZ2UtdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJBcHAgVGVjaCBVc2VyIiwiQ29ubmVjdG9yIFVzZXIiXX0sIkNsNi1DWC1EQVBTIjp7InJvbGVzIjpbImNyZWF0ZV9kYXBzX2NsaWVudCJdfSwiQ2w0LUNYLURpZ2l0YWxUd2luIjp7InJvbGVzIjpbImFkZF9kaWdpdGFsX3R3aW4iLCJ2aWV3X2RpZ2l0YWxfdHdpbiIsImRlbGV0ZV9kaWdpdGFsX3R3aW4iLCJ1cGRhdGVfZGlnaXRhbF90d2luIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX0sIkNsMy1DWC1TZW1hbnRpYyI6eyJyb2xlcyI6WyJ2aWV3X3NlbWFudGljX21vZGVsIl19LCJDbDItQ1gtUG9ydGFsIjp7InJvbGVzIjpbInZpZXdfY29ubmVjdG9ycyJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJicG4iOiJCUE5MMDAwMDAwMDAwMDAwIiwiY2xpZW50SG9zdCI6IjEwLjI0MC4wLjQiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoic2EtY2w2LWN4LTI5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNhLWNsNi1jeC0yOSIsImNsaWVudEFkZHJlc3MiOiIxMC4yNDAuMC40In0.K2x6xGilulKC4p9xNBsodJzgh3dOJ2qDmp2tHb0rQbpN539zNLGud5umKRDR6XVFaSnemjYmrI7aXgYo79OnE976gwyEoNAVVHmbvXjykI3HjpL4IiaT5z3l3QbefjpIe30G-3SLea5xrwlwH3hiImRgO6JnjGhLZMqMobz1SI9JoAoP0x0BdxfvL8BOtpdOxB27f9M9QZrh2mlroK0_-BEQ4UJErF2QThNZKtj6-pGqNoV4K8jgzaOgC0N9ZVlsBeXpD8CQradV-A7LG2QZKYy4cKMxKpXatHn6QWiFLAgHOReds11vfYweV4ws_rnm6E8DeABA-4y5gbqxLxYuuQ'
+BEARER_TOKEN=''
 
 API_KEY=''
 ASSET_ID_1=${DIGITAL_TWIN_1}-${DIGITAL_TWIN_SUBMODEL_ID_1}

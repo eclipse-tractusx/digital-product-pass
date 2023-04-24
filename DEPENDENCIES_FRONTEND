@@ -146,7 +146,7 @@ npm/npmjs/-/glob/7.2.3, ISC, approved, clearlydefined
 npm/npmjs/-/global-dirs/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/globals/11.12.0, MIT, approved, clearlydefined
 npm/npmjs/-/globals/13.20.0, MIT, approved, #6953
-npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, clearlydefined
+npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, #7413
 npm/npmjs/-/has-flag/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-flag/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-symbols/1.0.3, MIT, approved, clearlydefined
@@ -221,7 +221,7 @@ npm/npmjs/-/minimatch/5.1.6, ISC, approved, #5952
 npm/npmjs/-/minimist/1.2.7, MIT, approved, #5886
 npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/muggle-string/0.1.0, MIT, approved, clearlydefined
-npm/npmjs/-/nanoid/3.3.4, MIT, approved, clearlydefined
+npm/npmjs/-/nanoid/3.3.4, MIT, approved, #7571
 npm/npmjs/-/natural-compare/1.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/node-releases/2.0.8, MIT, approved, #1954
 npm/npmjs/-/normalize-path/3.0.0, MIT, approved, clearlydefined
@@ -347,7 +347,7 @@ npm/npmjs/-/vue-template-compiler/2.7.14, 0BSD AND MIT AND MIT, approved, #3476
 npm/npmjs/-/vue-tsc/1.0.24, MIT, approved, clearlydefined
 npm/npmjs/-/vue/3.2.47, MIT, approved, #7094
 npm/npmjs/-/vue3-qrcode-reader/0.0.1, MIT AND (BSD-3-Clause AND MIT), approved, #6958
-npm/npmjs/-/vuetify/3.1.4, , restricted, #7092
+npm/npmjs/-/vuetify/3.1.4, MIT AND W3C-20150513, approved, #7092
 npm/npmjs/-/vuex-persistedstate/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/vuex/4.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/webfontloader/1.6.28, Apache-2.0, approved, clearlydefined

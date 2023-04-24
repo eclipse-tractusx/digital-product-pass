@@ -1,43 +1,51 @@
 <!--
- Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Catena-X - Product Passport Consumer Backend
  
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
  
-     http://www.apache.org/licenses/LICENSE-2.0
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
  
- Unless required by applicable law or agreed to in writing, software
- distributed under [readme.md](readme.md)the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
 -->
 
 # ![Digital Product Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
-# Version: 0.4.0-SNAPSHOT
+# Version: 0.4.1-SNAPSHOT
 
 ## Table of contents
 <!-- TOC -->
-* [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
-* [Services Available](#services-available)
-    * [Authentication Services](#authentication-services)
-    * [API Services](#api-services)
-        * [Data](#data)
-        * [Passport API](#passport-api)
-            * [Versions Available](#versions-available)
-        * [Contract API](#contract-api)
-        * [Contracts](#contracts)
-    * [Public APIs](#public-apis)
-* [Run the application](#run-the-application)
-    * [Available Environments](#available-environments)
-        * [Development Environment](#development-environment)
-        * [Integration Environment](#integration-environment)
-        * [Configuration of Environment](#configuration-of-environment)
-        * [Adding a new Environment](#adding-a-new-environment)
-        * [OSS License Check](#oss-license-check)
-        * [Swagger Docs](#swagger-docs)
-* [License](#license)
+- [ Product Battery Passport Consumer Backend](#-product-battery-passport-consumer-backend)
+- [Version: 0.4.0-SNAPSHOT](#version-040-snapshot)
+  - [Table of contents](#table-of-contents)
+  - [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
+  - [Services Available](#services-available)
+    - [Authentication Services](#authentication-services)
+    - [API Services](#api-services)
+      - [Data](#data)
+      - [Passport API](#passport-api)
+        - [Versions Available](#versions-available)
+      - [Contract API](#contract-api)
+    - [Public APIs](#public-apis)
+  - [Run the application](#run-the-application)
+    - [Available Environments](#available-environments)
+      - [Development Environment](#development-environment)
+      - [Integration Environment](#integration-environment)
+      - [Configuration of Environment](#configuration-of-environment)
+      - [Adding a new Environment](#adding-a-new-environment)
+  - [OSS License Check](#oss-license-check)
+  - [Swagger Docs](#swagger-docs)
+  - [License](#license)
 <!-- TOC -->
 
 ## What is this backend app responsible for?

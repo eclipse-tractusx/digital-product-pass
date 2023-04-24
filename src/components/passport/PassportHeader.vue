@@ -1,39 +1,50 @@
 <!--
- Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Catena-X - Product Passport Consumer Frontend
  
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
  
-     http://www.apache.org/licenses/LICENSE-2.0
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
  
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
 -->
 
 <template>
   <div class="id-container">
-    <v-btn
-      rounded="pill"
-      color="#0F71CB"
-      size="large"
-      class="back-btn"
-      @click="$router.go(-1)"
-      variant="outlined"
-      style="border: 2px solid; text-transform: initial"
-    >
-      <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-      Back
-    </v-btn>
-
     <div class="id-wrapper">
       <p class="id">
         {{ type }}:
         {{ id ? id : "—" }}
       </p>
+    </div>
+    <div v-if="id === 'NCR186850B'" class="code-container">
+      <img
+        :src="NCR186850B"
+        alt="profile"
+        class="code"
+        width="170"
+        height="170"
+      />
+    </div>
+    <div v-if="id === 'IMR18650V1'" class="code-container">
+      <img
+        :src="IMR18650V1"
+        alt="profile"
+        class="code"
+        width="170"
+        height="170"
+      />
     </div>
   </div>
 </template>
@@ -64,33 +75,44 @@ export default {
 
 <style>
 .id-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-right: 115px;
+  width: 60%;
   line-break: anywhere;
 }
-
-.id {
-  font-size: 14px;
-  line-height: 36px;
-  font-weight: bold;
+.code {
+  padding: 0;
+  margin: 0;
+}
+.id{
+    font-size: 2em;
+    line-height: 36px;
+    font-weight: bold;
 }
 .id-container {
   display: flex;
   align-items: center;
-  width: 100%;
-  margin: 6em 40px 0 40px;
-  padding: 15px 0 10px 0;
+  width: 76%;
+  margin: 12em 12% 6% 12%;
+  padding: 20px 0;
+}
+.code-container {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
 }
 @media (max-width: 750px) {
+  .code-container {
+    display: none;
+  }
   .id-container {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    margin: 12em 0 2em 3em;
+    padding: 20px 0;
+    width: 85%;
   }
   .id-wrapper {
-    margin-top: 15px;
+    width: 100%;
+  }
+  .id {
+    font-size: 1.5em;
   }
 }
 </style>

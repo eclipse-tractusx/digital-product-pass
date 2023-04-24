@@ -58,6 +58,11 @@
     align-items: center;
   }
 }
+
+.footer-spacer {
+  margin-bottom: 56px;
+}
+
 .spinner-container {
   width: 100vw;
   height: 100vh;
@@ -75,10 +80,26 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 960px) {
+  .footer-spacer {
+    margin-bottom: 112px;
+  }
+}
+
 @media (max-width: 750px) {
   .pass-container {
     width: 100%;
     margin: 0;
+  }
+  .footer-spacer {
+    margin-bottom: 112px;
+  }
+}
+
+@media (max-width: 585px) {
+  .footer-spacer {
+    margin-bottom: 425px;
   }
 }
 

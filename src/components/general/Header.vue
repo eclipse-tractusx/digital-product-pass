@@ -53,7 +53,8 @@
                     rounded
                     >Help
                     <Tooltip>
-                      Here you can get help if you need to know more about Catena-X
+                      Here you can get help if you need to know more about
+                      Catena-X
                     </Tooltip>
                   </v-btn>
                 </a>
@@ -108,12 +109,12 @@ import { inject } from "vue";
 export default {
   name: "HeaderComponent",
   components: {
-    Tooltip
+    Tooltip,
   },
   setup() {
     return {
       CatenaLogo,
-      Profile
+      Profile,
     };
   },
   data() {
@@ -125,7 +126,7 @@ export default {
       role: "",
       auth: inject("authentication"),
       tab: null,
-      lang: "en-EN"
+      lang: "en-EN",
     };
   },
   mounted() {
@@ -140,10 +141,9 @@ export default {
     },
     scanQRCode() {
       this.$router.push({ name: "SearchView" });
-    }
+    },
   },
 };
 </script>
 
-<style >
-</style>
+

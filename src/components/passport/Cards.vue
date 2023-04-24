@@ -46,7 +46,8 @@
 
               <div class="ma-0 pa-0; co2-container">
                 <span class="co2-value" style="padding-bottom: 0">
-                  {{ card.secondValue }} {{ card.secondValueUnits }}
+                  {{ card.secondValue ? card.secondValue : "-" }}
+                  {{ card.secondValueUnits }}
                 </span>
                 <div class="co2-label" style="padding-top: 0">
                   {{ card.secondLabel }}
@@ -58,7 +59,9 @@
             <div class="card-label">
               {{ card.label }}
             </div>
-            <div class="card-value">{{ card.value }} {{ card.valueUnits }}</div>
+            <div class="card-value">
+              {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
+            </div>
             <v-divider></v-divider>
             <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
               <div class="charging-cycles-title">Charging Cycles</div>
@@ -66,7 +69,8 @@
             </div>
             <div v-else>
               <div class="card-second-value">
-                {{ card.secondValue }} {{ card.secondValueUnits }}
+                {{ card.secondValue ? card.secondValue : "-" }}
+                {{ card.secondValueUnits }}
               </div>
               <div class="card-second-label">
                 {{ card.secondLabel }}
@@ -105,20 +109,22 @@ export default {
   data() {
     return {
       currentValue:
-        this.$props.data.data.passport.batteryCycleLife
+        this.$props.data.passport.batteryCycleLife
           .cycleLifeTestDepthOfDischarge,
       maxValue:
-        this.$props.data.data.passport.batteryCycleLife.expectedLifetime,
+        this.$props.data.passport.batteryCycleLife.expectedLifetime,
       cards: [
         {
           title: "GENERAL",
           label: "Type",
           secondLabel: "Model",
           icon: "mdi-pound",
-          value:
-            this.$props.data.data.passport.batteryIdentification.batteryType,
-          secondValue:
-            this.$props.data.data.passport.batteryIdentification.batteryModel,
+          value: this.$props.data.passport.batteryIdentification
+            ? this.$props.data.passport.batteryIdentification.batteryType
+            : "-",
+          secondValue: this.$props.data.passport.batteryIdentification
+            ? this.$props.data.passport.batteryIdentification.batteryModel
+            : "-",
         },
         {
           title: "PERFORMANCE",
@@ -126,13 +132,15 @@ export default {
           secondLabel: "Original Power",
           icon: "mdi-chart-timeline-variant-shimmer",
           value:
-            this.$props.data.data.passport.electrochemicalProperties
+            this.$props.data.passport.electrochemicalProperties
               .ratedCapacity,
           valueUnits: "kWh",
           secondValueUnits: "kW",
-          secondValue:
-            this.$props.data.data.passport.electrochemicalProperties
-              .batteryPower.originalPowerCapability,
+          secondValue: this.$props.data.passport.electrochemicalProperties
+            .batteryPower
+            ? this.$props.data.passport.electrochemicalProperties
+                .batteryPower.originalPowerCapability
+            : "-",
           info: "info",
         },
         {
@@ -140,10 +148,13 @@ export default {
           label: "State of Health (SoH)",
           secondLabel: "Charging Cycles",
           icon: "mdi-battery-plus",
-          value: this.$props.data.data.passport.stateOfBattery.stateOfHealth,
+          value: this.$props.data.passport.stateOfBattery
+            ? this.$props.data.passport.stateOfBattery.stateOfHealth
+            : "-",
           valueUnits: "%",
-          secondValue:
-            this.$props.data.data.passport.batteryIdentification.batteryModel,
+          secondValue: this.$props.data.passport.batteryIdentification
+            ? this.$props.data.passport.batteryIdentification.batteryModel
+            : "-",
           info: "info",
         },
         {
@@ -180,7 +191,7 @@ export default {
               materialWeight: 2.5,
             },
           ],
-          secondValue: this.$props.data.data.passport.cO2FootprintTotal,
+          secondValue: this.$props.data.passport.cO2FootprintTotal,
           info: "info",
         },
       ],

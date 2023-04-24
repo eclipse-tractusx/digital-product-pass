@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div>
+  <v-container class="search-page">
     <div v-if="!error" class="switch-container">
       <div>
         <v-switch
@@ -39,9 +39,9 @@
       </div>
       <SearchInput />
     </div>
-    <div class="qr-container" data-cy="qr-container">
+    <v-row data-cy="qr-container">
       <div v-if="!error">
-        <div v-if="QRtoggle">
+        <v-col class="qr-container" cols="12" v-if="QRtoggle">
           <div class="qr-frame">
             <img :src="QRFrame" alt="frame" class="frame" />
           </div>
@@ -51,13 +51,13 @@
             @init="onInit"
             @decode="onDecode"
           ></qrcode-stream>
-        </div>
-        <div v-else class="qr-container">
+        </v-col>
+        <v-col cols="12" v-else class="qr-container">
           <SearchInput />
-        </div>
+        </v-col>
       </div>
-    </div>
-  </div>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -121,122 +121,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.switch-container {
-  display: flex;
-  justify-content: flex-end;
-  margin: 14em 0 0 0;
-}
-
-.error {
-  font-weight: bold;
-  text-align: center;
-  padding: 0 0 70px 0;
-}
-
-.qr-container {
-  top: 132px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin-bottom: 290px;
-}
-
-.qrcode-stream {
-  max-width: 500%;
-}
-
-.text-container {
-  margin: 250px 0 0 0;
-}
-
-.text {
-  font-size: 2rem;
-  text-align: center;
-}
-
-.qr-frame {
-  position: absolute;
-  top: 60%;
-  left: 43%;
-  transform: translate(-50%, -50%);
-  width: 250px;
-  height: 250px;
-  z-index: 10;
-}
-
-p {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-@media (max-width: 1024px) {
-  .qr-frame {
-    position: absolute;
-    top: 68%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 250px;
-    height: 250px;
-    z-index: 10;
-  }
-}
-
-@media (max-width: 856px) {
-  .qr-container {
-    margin-bottom: 0;
-  }
-  .frame {
-    width: 250px;
-    height: 250px;
-  }
-
-  .qr-frame {
-    width: 250px;
-    height: 250px;
-  }
-
-  .qr-frame {
-    position: absolute !important;
-    top: 70% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10 !important;
-  }
-}
-@media (max-width: 670px) {
-  .qr-container {
-    margin-bottom: 0;
-  }
-  .qr-frame {
-    position: absolute !important;
-    top: 72% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10 !important;
-  }
-
-  .frame {
-    width: 150px;
-    height: 150px;
-  }
-
-  .qr-frame {
-    width: 150px;
-    height: 150px;
-  }
-}
-@media (max-width: 570px) {
-  .qr-container {
-    margin-bottom: 0;
-  }
-  .qr-frame {
-    position: absolute;
-    top: 75% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-  }
-}
-</style>

@@ -27,7 +27,7 @@
       color="#0F71CB"
       size="large"
       class="back-btn"
-      @click="$router.go(-1)"
+      href="/"
       variant="outlined"
       style="border: 2px solid; text-transform: initial"
     >

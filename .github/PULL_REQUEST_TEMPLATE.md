@@ -1,48 +1,20 @@
-<!--
-  Catena-X - Product Passport Consumer Application
+# Why we create this PR?
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+<< Quick description why the PR is being opened >>
  
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
+# What we want to achieve with this PR?
  
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
+<< Quick description of the objective of the PR >>
  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
+# What is new?
  
-  SPDX-License-Identifier: Apache-2.0
--->
+<< Content of the version change log functionalities OR functionalities >>
 
-## What this PR changes/adds
+## PR Linked to:
 
-_Briefly describe WHAT your pr changes, which features it adds/modifies._
+<< If there is a ticket include it here >>
 
-## Why it does that
-
-_Briefly state why the change was necessary._
-
-## Further notes
-
-_List other areas of code that have changed but are not necessarily linked to the main feature. This could be method
-signature changes, package declarations, bugs that were encountered and were fixed inline, etc._
-
-## Linked Issue(s)
-
-Closes # <-- _insert Issue number if one exists_
-
-## Checklist
-
-- [ ] added appropriate tests?
-- [ ] performed checkstyle check locally?
-- [ ] added/updated copyright headers?
-- [ ] documented public classes/methods?
-- [ ] added/updated relevant documentation?
-- [ ] added relevant details to the changelog? (_skip with label `no-changelog`_)
-- [ ] formatted title correctly? (_take a look at the [CONTRIBUTING](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/blob/main/CONTRIBUTING.md#submit-a-pull-request) and [styleguide](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector/blob/main/styleguide.md) for details_)
+| Tickets |
+| :---:   |
+| [cmp-xxx](www.link.com) |
+| [cmp-xxx](www.link.com)  |

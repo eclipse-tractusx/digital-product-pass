@@ -30,7 +30,7 @@
             icon="mdi-image-size-select-small"
             data-cy="remaining-capacity"
             label="Rated capacity"
-            unit="W"
+            unit="kWh"
             :value="propsData.ratedCapacity"
           />
           <Field
@@ -52,13 +52,13 @@
             <Field
               icon="mdi-lightning-bolt-outline"
               label="Original power capability"
-              unit="%"
+              unit="kW"
               :value="propsData.batteryPower.originalPowerCapability"
             />
             <Field
               icon="mdi-arrow-bottom-right-thin-circle-outline"
               label="Original power capability limits"
-              unit="%"
+              unit="kW"
               :value="propsData.batteryPower.originalPowerCapabilityLimits"
             />
           </v-col>
@@ -69,21 +69,21 @@
             <Field
               icon="mdi-battery"
               label="Maximum allowed battery energy (MABE)"
-              unit="%"
+              unit="kWh"
               :value="propsData.batteryEnergy.maximumAllowedBatteryEnergy"
             />
             <template v-if="propsData.batteryPower">
               <Field
                 icon="mdi-battery"
                 label="Maximum allowed battery power (MABP)"
-                unit="%"
+                unit="kW"
                 :value="propsData.batteryPower.maximumAllowedBatteryPower"
               />
             </template>
             <Field
               icon="mdi-battery"
               label="Ratio MABE vs. MABP"
-              unit=""
+              unit="%"
               :value="
                 propsData.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
               "
@@ -116,17 +116,11 @@
         <template v-if="propsData.internalResistance">
           <v-col sm="12" md="2" class="pa-0 ma-0">
             <div class="element-chart-label">Resistance</div>
-            <Field
-              icon="mdi-table-split-cell"
-              label="Cell internal resistance"
-              unit="%"
-              :value="propsData.internalResistance.cellInternalResistance"
-            />
 
             <Field
               icon="mdi-omega"
               label="Pack internal resistance"
-              unit="%"
+              unit="Ω"
               :value="propsData.internalResistance.packInternalResistance"
             />
             <Field
@@ -137,6 +131,12 @@
                 propsData.internalResistance.packInternalResistanceIncrease
               "
             />
+            <Field
+              icon="mdi-table-split-cell"
+              label="Cell internal resistance"
+              unit="Ω"
+              :value="propsData.internalResistance.cellInternalResistance"
+            />
           </v-col>
         </template>
         <template v-if="propsData.batteryVoltage">
@@ -145,19 +145,19 @@
             <Field
               icon="mdi-lightning-bolt-outline"
               label="Nominal voltage"
-              unit="%"
+              unit="V"
               :value="propsData.batteryVoltage.nominalVoltage"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
               label="Max voltage"
-              unit="%"
+              unit="V"
               :value="propsData.batteryVoltage.maxVoltage"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
               label="Min voltage"
-              unit="%"
+              unit="V"
               :value="propsData.batteryVoltage.minVoltage"
             />
           </v-col>

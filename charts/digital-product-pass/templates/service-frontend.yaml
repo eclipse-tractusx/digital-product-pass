@@ -26,7 +26,7 @@ metadata:
   name: {{ .Values.frontend.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.frontend.name }}
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
@@ -35,4 +35,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ .Values.frontend.name }}
+    {{- include "chart.selectorLabels" . | nindent 4 }}

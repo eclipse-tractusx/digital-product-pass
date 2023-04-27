@@ -25,7 +25,6 @@
 # Declare variables to be passed into your templates.
 
 name: "digital-product-pass"
-
 replicaCount: 1
 namespace: product-material-pass
 
@@ -41,11 +40,19 @@ frontend:
     type: ClusterIP
     port: 8080
 
+  ingress:
+    enabled: false
+    hosts:
+      - host: materialpass.int.demo.catena-x.net    # Default URL
+        paths:
+          - path: /passport(/|$)(.*)
+            pathType: Prefix
+
   avp:
     helm:
-      clientId: <path:material-pass/data/int/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+      clientId: "Add your secret here"
+      clientSecret: "Add your secret here"
+      xApiKey: "Add your secret here"
 
   # Product Passport UI Configuration
   productpass:
@@ -62,26 +69,6 @@ frontend:
       realm: 'CX-Central'
       onLoad: 'login-required'
 
-  ingress:
-    enabled: true
-    #className: ""
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    hosts:
-      - host: materialpass.int.demo.catena-x.net
-        paths:
-          - path: /passport(/|$)(.*)
-            pathType: Prefix
-    tls:
-      - secretName: tls-secret
-        hosts:
-          - materialpass.int.demo.catena-x.net
-
 backend:
   name: "consumer-backend" 
   image:
@@ -94,31 +81,14 @@ backend:
     type: ClusterIP
     port: 8888
 
+  ingress:
+    enabled: false
+
   avp:
     helm:
-      clientId: <path:material-pass/data/int/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-
-  ingress:
-    enabled: true
-    # className: "nginx"
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      #kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    hosts:
-      - host: materialpass.int.demo.catena-x.net
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: tls-secret
-        hosts:
-          - materialpass.int.demo.catena-x.net
+      clientId: "Add your secret here"
+      clientSecret: "Add your secret here"
+      xApiKey: "Add your secret here"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

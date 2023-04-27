@@ -38,7 +38,7 @@ public final class LogUtil {
      * Static Tools to print logs with format and current date.
      */
     public static final ConfigUtil configuration = new ConfigUtil();
-    public static final Boolean asyncLog = (Boolean) configuration.getConfigurationParam("LogUtil.async", ".",  false);
+    public static final Boolean asyncLog = (Boolean) configuration.getConfigurationParam("logUtil.async", ".",  false);
     static Logger logger = LogManager.getLogger(LogUtil.class);
     private static final Level INFO = Level.forName("INFO", 400);
     private static final Level HTTP = Level.forName("HTTP", 420);
@@ -61,7 +61,7 @@ public final class LogUtil {
 
 
     private static boolean checkLogLevel(Level logLevel){
-        Integer currentLevel = (Integer) configuration.getConfigurationParam("LogUtil.level", ".", null);
+        Integer currentLevel = (Integer) configuration.getConfigurationParam("logUtil.level", ".", null);
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }

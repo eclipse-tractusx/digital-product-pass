@@ -25,24 +25,25 @@ package org.eclipse.tractusx.productpass.listeners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.info.BuildProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import utils.ConfigUtil;
-import utils.EnvUtil;
 import utils.LogUtil;
 
 @Component
+@Configuration
+@EnableConfigurationProperties
+@ConfigurationProperties
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
 
-    @Autowired
-    public Environment environment;
-    public static final EnvUtil env = new EnvUtil();
-
     public static final ConfigUtil configuration = new ConfigUtil();
+
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
         String serverStartUpMessage = "\n\n" +
@@ -51,13 +52,13 @@ public class AppListener {
                 "Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
                 "Copyright (c) 2022, 2023: Contributors to the CatenaX (ng) GitHub Organisation.\n" +
                 "Version: "+ buildProperties.getVersion()  + "\n\n" +
-                "Environment: " + env.environment +
                  "\n\n-------------> [ SERVER STARTED ] <-------------\n" +
                 "Listening to requests...\n\n";
 
         LogUtil.printMessage(serverStartUpMessage);
         LogUtil.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         LogUtil.printMessage("Creating log file...");
-    }
+
+       }
 
 }

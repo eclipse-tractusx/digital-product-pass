@@ -14,6 +14,8 @@ To access a material pass vault space, a vault token is required
 - **ids-daps_key**
 - **ids_daps_crt**
 - **int/** (directory used for integration environment)
+- **dev/** (directory used for development purposes)
+- **beta/** (directory used for beta environment)
 
 To put a secret from vault, a special pattern is followed in helm values files:
 
@@ -35,18 +37,29 @@ To use a vault and create new secret, please look here: [how to-use vault create
 
 ### Using Docker
 
-If consumer frontend is run using docker, one needs to pass secret values through the variables: ***API_KEY, VUE_APP_CLIENT_ID, VUE_APP_CLIENT_SECRET*** in docker environment.
+If consumer frontend is run using docker, the following environment variables must be set in [build and deploy script](../buildAndDeploy.sh):
+
+- PASS_VERSION
+- APP_VERSION
+- APP_API_TIMEOUT
+- APP_API_MAX_RETRIES
+- APP_API_DELAY
+- IDENTITY_PROVIDER_URL
+- HOST_URL
+- DATA_URL
+- KEYCLOAK_CLIENTID
+- KEYCLOAK_REALM
+- KEYCLOAK_ONLOAD
+
+
 
 ```bash
-# example
-docker run --name consumer-ui -p 8080:8080 -d -e VUE_APP_CLIENT_ID=<YOUR_REGISTRY_CLIENT_ID_HERE> -e VUE_APP_CLIENT_SECRET=<YOUR_REGISTRY_CLIENT_SECRET_HERE> -e X_API_KEY=<YOUR_EDC_API_KEY_HERE> consumer-ui:<LATEST_TAG>
+# run script
+../buildAndDeploy.sh consumer-ui
 ```
-
-
 ### Using Helm
 
-The variables ***API_KEY, VUE_APP_CLIENT_ID, VUE_APP_CLIENT_SECRET*** must be set in values.yaml file manually.
-
+The required variables must be set in values-*.yaml file manually.
 
 Further info about vault plugin for helm charts: [argocd-vault-plugin-helm](https://catenax-ng.github.io/docs/guides/ArgoCD/howto-use-vault-secrets-with-argocd#argocd-vault-plugin-helm)
 

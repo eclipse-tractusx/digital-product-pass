@@ -31,7 +31,7 @@ In particular, the appliction is used to access the battery passport data provid
 
 ## Getting Started
 
-To get Started you can have a look into our documentation:
+To get started you can have a look into our documentation:
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
@@ -43,8 +43,8 @@ To get Started you can have a look into our documentation:
 | [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                               |
 | [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Battery Pass Allpication infrastructure, installation guide, technical usage guide                                                                                 |
 | [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
-| [Release Guideance](./docs/RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
-| [Secret Management](./docs/SECRETS-MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+| [Release Guidelines](./docs/RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
+| [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
 | [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                            |
 | [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                                  |
 | [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
@@ -90,32 +90,29 @@ npm run serve
 
 #### Method 2: With Docker
 
-The Dockerfile is located in the project root directory.
+The following environment variables must be set in [build and deploy](../buildAndDeploy.sh) script:
+
+- PASS_VERSION
+- APP_VERSION
+- APP_API_TIMEOUT
+- APP_API_MAX_RETRIES
+- APP_API_DELAY
+- IDENTITY_PROVIDER_URL
+- HOST_URL
+- DATA_URL
+- KEYCLOAK_CLIENTID
+- KEYCLOAK_REALM
+- KEYCLOAK_ONLOAD
+
+
 
 ```bash
-# build docker image
-docker build -t consumer-ui:latest .
-
-# run docker image
-docker run -p 8080:8080 --name consumer-ui -d consumer-ui:latest
-
-# check logs
-docker logs consumer-ui
-
-# stop and remove docker container
-docker stop consumer-ui; docker rm consumer-ui;
+# run script
+../buildAndDeploy.sh consumer-ui
 ```
-You can run the application in docker container with existing image from GitHub packages.
 
-```bash
-# pull the image 
-# Replace placeholder <LATEST_TAG> with the most recent tag in registry
+You can run the application in docker container with existing image `ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
 
-docker pull ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:<LATEST_TAG>
-
-# run docker image
-docker run -p 8080:8080 --name consumer-ui -d ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:<LATEST_TAG>
-```
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 
 ## Coding styles

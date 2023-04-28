@@ -22,23 +22,59 @@
 
 
 spring:
-  config:
-    import: "application-dev.yml"
+  application:
+    name: 'Catena-X Product Passport Consumer Backend'
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
+  jackson:
+    serialization:
+      indent_output: true
 
----
+configuration:
 
-spring:
-  config:
-    activate:
-      on-profile: "beta"
-    import: "application-beta.yml"
+  logUtil:
+    level: 7 # 7 FOR INFO AND 8 FOR DEBUG
+    async: false
 
----
+  maxRetries: 5
 
-spring:
-  config:
-    activate:
-      on-profile: "int"
-    import: "application-int.yml"
+  keycloak:
+    realm: CX-Central
+    resource: Cl13-CX-Battery
+    tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+    userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
+  variables:
+    default:
+      providerUrl: 'https://materialpass.dev.demo.catena-x.net/BPNL000000000000'
+      serverUrl: 'https://materialpass.dev.demo.catena-x.net'
+      registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
+  passport:
+    versions:
+      - 'v3.0.1'
+
+  vault:
+    type: 'local'
+    file: 'vault.token.yml'
+    pathSep: "."
+    prettyPrint: true
+    indent: 2
+    defaultValue: '<Add secret value here>'
+    attributes:
+      - "token"
+      - "client.id"
+      - "client.secret"
+      - "apiKey"
+
+server:
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-stacktrace: ON_PARAM
+    include-exception: false
+  port: 8888
+  tomcat:
+    max-connections: 10000

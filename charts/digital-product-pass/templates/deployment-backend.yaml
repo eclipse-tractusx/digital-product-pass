@@ -63,6 +63,9 @@ spec:
                 secretKeyRef:
                   key:  xApiKey
                   name: avp-consumer-backend-edc-oauth
+          volumeMounts:
+            - name: backend-config
+              mountPath: /app/config
           ports:
             - containerPort: 8888
               name: http
@@ -81,3 +84,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: backend-config
+          configMap:
+            name: backend-config
+

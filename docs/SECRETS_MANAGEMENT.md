@@ -1,3 +1,25 @@
+<!--
+  Catena-X - Product Passport Consumer Application
+ 
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
 ## Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP)
 
 The client credentials, database passwords, access tokens are considered as secrets and they are usually kept in a vault. CatenaX have a central Hashicorp vault component to store these types of secrets and credentails to prevant from revealing them in a public source code repository to ensure security. These secrets are then utilized by Kubernetes resources through helm charts in a safe and secure manner.

@@ -77,11 +77,16 @@
               </div>
             </div>
           </div>
-          <span v-if="card.info" class="card-info-icon">
-            <v-icon start md icon="mdi-information-outline"> </v-icon>
-            <Tooltip>
-              {{ card.info }}
-            </Tooltip>
+          <span v-if="card.description" class="card-info-icon">
+            <DialogComponent>
+              <v-icon start md icon="mdi-information-outline"></v-icon>
+              <template v-slot:title>
+                {{ card.description.title }}
+              </template>
+              <template v-slot:text>
+                {{ card.description.value }}
+              </template>
+            </DialogComponent>
           </span>
         </div>
       </v-col>
@@ -90,15 +95,16 @@
 </template>
 
 <script>
-import Tooltip from "../general/Tooltip.vue";
 import ElementChart from "../passport/ElementChart.vue";
 import BarChart from "../passport/BarChart.vue";
+import DialogComponent from "../general/Dialog.vue";
+
 export default {
   name: "CardsComponent",
   components: {
-    Tooltip,
     ElementChart,
     BarChart,
+    DialogComponent,
   },
   props: {
     data: {
@@ -111,8 +117,7 @@ export default {
       currentValue:
         this.$props.data.passport.batteryCycleLife
           .cycleLifeTestDepthOfDischarge,
-      maxValue:
-        this.$props.data.passport.batteryCycleLife.expectedLifetime,
+      maxValue: this.$props.data.passport.batteryCycleLife.expectedLifetime,
       cards: [
         {
           title: "GENERAL",
@@ -132,16 +137,18 @@ export default {
           secondLabel: "Original Power",
           icon: "mdi-chart-timeline-variant-shimmer",
           value:
-            this.$props.data.passport.electrochemicalProperties
-              .ratedCapacity,
+            this.$props.data.passport.electrochemicalProperties.ratedCapacity,
           valueUnits: "kWh",
           secondValueUnits: "kW",
           secondValue: this.$props.data.passport.electrochemicalProperties
             .batteryPower
-            ? this.$props.data.passport.electrochemicalProperties
-                .batteryPower.originalPowerCapability
+            ? this.$props.data.passport.electrochemicalProperties.batteryPower
+                .originalPowerCapability
             : "-",
-          info: "info",
+          description: {
+            title: "Performance",
+            value: "Description of the performance",
+          },
         },
         {
           title: "HEALTH",
@@ -155,7 +162,10 @@ export default {
           secondValue: this.$props.data.passport.batteryIdentification
             ? this.$props.data.passport.batteryIdentification.batteryModel
             : "-",
-          info: "info",
+          description: {
+            title: "Health",
+            value: "Description of the health",
+          },
         },
         {
           title: "SUSTAINABILITY",
@@ -192,7 +202,10 @@ export default {
             },
           ],
           secondValue: this.$props.data.passport.cO2FootprintTotal,
-          info: "info",
+          description: {
+            title: "Sustainability",
+            value: "Description of the Sustainability",
+          },
         },
       ],
     };

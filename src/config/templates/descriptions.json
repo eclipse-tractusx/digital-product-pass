@@ -1,0 +1,18 @@
+{
+  "vehicleDismantlingProcedure": {
+    "title": "Vehicle dismantling procedure",
+    "value": "Document containing the vehicle dismantling procedure is describing a regulatory requirement"
+  },
+  "cathodeActiveMaterials": {
+    "title": "Cathode active materials",
+    "value": "The total amount of valuable materials contained in CAM material: Nickel, Cobalt, Lithium"
+  },
+  "MaterialNameAndWeightAndPercentageMassFractionEntity": {
+    "title": "material name and weight and percent",
+    "value": "Entity to bundle a material's name, weight and percentage of mass"
+  },
+  "BatteryId": {
+    "title": "Battery ID",
+    "value": "Battery ID or DMC that you can find in your device settings"
+  }
+}

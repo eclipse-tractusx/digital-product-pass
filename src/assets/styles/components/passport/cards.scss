@@ -19,6 +19,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 .cards-container {
   margin-bottom: 24px;
   padding: 6px !important;
@@ -119,6 +120,11 @@
       right: 0;
       bottom: 7px;
       color: #0f71cb;
+    }
+
+    .card-info-icon:hover{
+      color: $catena-x-dark-blue;
+      cursor: pointer;
     }
 
     .materials-container {

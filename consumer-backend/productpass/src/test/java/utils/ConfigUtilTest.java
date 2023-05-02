@@ -47,8 +47,8 @@ class ConfigUtilTest {
     void setUp() {
         mandatoryAttributes = new ArrayList<String>();
         // Values mandatory in configuration
-        mandatoryAttributes.add( "LogUtil"+pathSep+ "level");
-        mandatoryAttributes.add("LogUtil"+pathSep+ "async");
+        mandatoryAttributes.add("logUtil"+pathSep+ "level");
+        mandatoryAttributes.add("logUtil"+pathSep+ "async");
         mandatoryAttributes.add("maxRetries");
         mandatoryAttributes.add("variables"+pathSep+"default"+pathSep+"providerUrl");
         mandatoryAttributes.add( "variables"+pathSep+ "default"+pathSep+ "serverUrl");
@@ -56,7 +56,6 @@ class ConfigUtilTest {
         mandatoryAttributes.add( "passport"+pathSep+ "versions");
         mandatoryAttributes.add( "vault"+pathSep+ "type");
         mandatoryAttributes.add( "vault"+pathSep+ "file");
-        mandatoryAttributes.add( "vault"+pathSep+ "uri");
         mandatoryAttributes.add( "vault"+pathSep+ "pathSep");
         mandatoryAttributes.add("vault"+pathSep+ "prettyPrint");
         mandatoryAttributes.add("vault"+pathSep+ "indent");

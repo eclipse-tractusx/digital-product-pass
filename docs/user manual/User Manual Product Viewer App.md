@@ -1,15 +1,38 @@
+<!--
+  Catena-X - Product Passport Consumer Application
+ 
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
 # User Manual
 
 This manual provides a step by step introduction on how to use the Product Pass Viewer app and gives an overview on its functionalities.
 
 ## Content
 
-1. [Content](#content)
-2. [Getting Started](#getting-started)
-3. [Main Menu](#main-menu)  
-4. [History Page](#history-page)
-5. [Search for Products](#search-for-products)
-6. [Results Page](#results-page)  
+- [User Manual](#user-manual)
+  - [Content](#content)
+  - [Getting Started](#getting-started)
+  - [Main Menu](#main-menu)
+  - [History Page](#history-page)
+  - [Search for Products](#search-for-products)
+  - [Results Page](#results-page)
 
 ## Getting Started
 

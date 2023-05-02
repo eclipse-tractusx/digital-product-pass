@@ -45,7 +45,7 @@ After signing in into the account, you can see the allocated space inside the na
 
 Create new app from the top-left corner button.
 Fill out the following required fields.
-- **Application Name:** <APP_NAME> (e.g., materialpass-edc)
+- **Application Name:** <APP_NAME> (e.g., materialpass-edc, digital-product-pass)
 - **Project:** project-material-pass
 - **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
@@ -54,10 +54,9 @@ Fill out the following required fields.
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args
     - Set following helm args with the corresponding application:
-        - consumer-ui: set ENV as ***helm_args = --set productpass.backend=true -f values.yaml -f values-int.yaml'***
-        - consumer-backend: set ENV as ***helm_args = -f values.yaml -f values-int.yaml'***
+        - digital-product-pass: set ENV as ***helm_args = -f values.yaml -f values-int.yaml'***
         - edc-consumer: set ENV as ***helm_args = -f values-int.yaml'***
-        - edc-consumer: set ENV as ***helm_args = -f values-int.yaml'***
+        - edc-provider: set ENV as ***helm_args = -f values-int.yaml'***
 
 Click on 'Create' button
 
@@ -69,12 +68,14 @@ Click on 'Create' button
 
 ![Sync App](./images/pod-sync.png)
 
-- Navigate inside the pod
+- Navigate inside the individual pods
 
-![Consumer Pod](./images/pod-consumer-ui.png)
-- Go to the logs tab
+![Consumer frontend and backend pods](./images/pods.png)
+- Go to the individual logs tab
 
-![Consumer connector logs](./images/consumer-ui-logs.png)
+![Consumer frontend logs](./images/consumer-frontend-logs.png)
+
+![Consumer backend logs](./images/consumer-backend-logs.png)
 
 If everything works fine then the application is deployed...
 
@@ -97,17 +98,17 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 ![Login Page](./images/login.png)
 
-![QR Code Scanner](./images/qr-code-scanner.png)
+![QR Code Scanner](./images/scan-passport.png)
 
-![Dashboard](./images/battery-pass-dashboard.png)
+![Battery Passport - General Information](./images/battery-pass-general-information.png)
 
-![Battery Passport](./images/battery-pass.png)
+![Battery Passport Electrochemical properties](./images/battery-pass-electrochemical-properties.png)
 
 ##### Consumer-Backend:
 
-This consumer backend is a Java based spring boot application which implements the services modules and business layer to manage the passports in consumer-frontend component.
+The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in consumer-frontend component.
 
-[Open API - Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+[Open API documentation in Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 <br />
 

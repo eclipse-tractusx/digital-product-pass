@@ -1,17 +1,23 @@
 <!--
- Copyright 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Catena-X - Product Passport Consumer Frontend
  
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
  
-     http://www.apache.org/licenses/LICENSE-2.0
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
  
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
 -->
 
 
@@ -77,11 +83,16 @@
               </div>
             </div>
           </div>
-          <span v-if="card.info" class="card-info-icon">
-            <v-icon start md icon="mdi-information-outline"> </v-icon>
-            <Tooltip>
-              {{ card.info }}
-            </Tooltip>
+          <span v-if="card.description" class="card-info-icon">
+            <DialogComponent>
+              <v-icon start md icon="mdi-information-outline"></v-icon>
+              <template v-slot:title>
+                {{ card.description.title }}
+              </template>
+              <template v-slot:text>
+                {{ card.description.value }}
+              </template>
+            </DialogComponent>
           </span>
         </div>
       </v-col>
@@ -90,15 +101,16 @@
 </template>
 
 <script>
-import Tooltip from "../general/Tooltip.vue";
 import ElementChart from "../passport/ElementChart.vue";
 import BarChart from "../passport/BarChart.vue";
+import DialogComponent from "../general/Dialog.vue";
+
 export default {
   name: "CardsComponent",
   components: {
-    Tooltip,
     ElementChart,
     BarChart,
+    DialogComponent,
   },
   props: {
     data: {
@@ -111,8 +123,7 @@ export default {
       currentValue:
         this.$props.data.passport.batteryCycleLife
           .cycleLifeTestDepthOfDischarge,
-      maxValue:
-        this.$props.data.passport.batteryCycleLife.expectedLifetime,
+      maxValue: this.$props.data.passport.batteryCycleLife.expectedLifetime,
       cards: [
         {
           title: "GENERAL",
@@ -132,16 +143,18 @@ export default {
           secondLabel: "Original Power",
           icon: "mdi-chart-timeline-variant-shimmer",
           value:
-            this.$props.data.passport.electrochemicalProperties
-              .ratedCapacity,
+            this.$props.data.passport.electrochemicalProperties.ratedCapacity,
           valueUnits: "kWh",
           secondValueUnits: "kW",
           secondValue: this.$props.data.passport.electrochemicalProperties
             .batteryPower
-            ? this.$props.data.passport.electrochemicalProperties
-                .batteryPower.originalPowerCapability
+            ? this.$props.data.passport.electrochemicalProperties.batteryPower
+                .originalPowerCapability
             : "-",
-          info: "info",
+          description: {
+            title: "Performance",
+            value: "Description of the performance",
+          },
         },
         {
           title: "HEALTH",
@@ -155,7 +168,10 @@ export default {
           secondValue: this.$props.data.passport.batteryIdentification
             ? this.$props.data.passport.batteryIdentification.batteryModel
             : "-",
-          info: "info",
+          description: {
+            title: "Health",
+            value: "Description of the health",
+          },
         },
         {
           title: "SUSTAINABILITY",
@@ -192,7 +208,10 @@ export default {
             },
           ],
           secondValue: this.$props.data.passport.cO2FootprintTotal,
-          info: "info",
+          description: {
+            title: "Sustainability",
+            value: "Description of the Sustainability",
+          },
         },
       ],
     };

@@ -22,8 +22,26 @@
 
 # Release Notes Digital Product Pass Application
 
+**April 24 2023 (Version 0.6.0)**  
+*24.04.2023*
+
+### Added
+#### Implementation of new User Interface (UI) design for the Battery Passport Viewer Page
+A new responsive design for the Battery Passport page is implemented which is more attractive and allows users to navigate easily through the various battery modules defined in respective tabs. 
+
+### Updated
+#### Updated Quality of Documentation from DPP
+Updated documentation to match the new design for the Digital Product Passport
+
+### Security Fixes
+Fixed security issues related with Spring Boot version `v3.0.5`, upgrading to `v3.0.6`.
+
 **April 13 2023 (Version 0.5.2)**  
 *13.04.2023*
+
+### Deleted
+#### Deletion of history table from Digital Product Passport (DPP) Dashboard
+The history table was removed from the dashboard.
 
 ### Security Issues
 

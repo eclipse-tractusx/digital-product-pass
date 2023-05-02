@@ -193,25 +193,27 @@ Integration (INT) deployment available through postman: [https://materialpass.in
   
  __Hashicorp-Vault__ & __DAPS__ are centralized components and managed by CatenaX shared services.
         
-* __Consumer Frontend - Battery Passport UI__
-Different possible ways to run frontend component:
-- Locally deployed component without helm chart (see [Run Project section](../README.md))
-- Using component helm chart
+* __Digital Product Passport (DPP) Components__
+    - Consumer User Interface (UI)
+    - Consumer Backend
+
+    Different possible ways to run DPP components:
+    - Without using helm chart:  
+        - Consumer frontend: locally deployed component (see [Run Project section](../README.md))
+        - Consumer backend: locally deployed component (see [Consumer backend setcion](../consumer-backend/productpass/readme.md))
+    - Using component helm chart
 
 Integration (INT) deployment is accessible at: [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net/)
 
 ```bash
 # Navigate to the working directory
-cd ../deployment/helm/consumer-ui
+cd ../charts/digital-product-pass
 
-# Update chart dependencies
-helm dependency update .
-
-# install helm chart named consumer-frontend in namespace product-material-pass
-helm install consumer-frontend . --values=./values-dev.yaml --namespace product-material-pass --create-namespace
+# install helm chart named digital-product-pass in namespace product-material-pass
+helm install digital-product-pass . -f ./values.yaml -f ./values-dev.yaml --namespace product-material-pass --create-namespace
 
 # optional: remove/uninstall helm chart 
-helm uninstall consumer-frontend
+helm uninstall digital-product-pass
 ```
 
 ```bash
@@ -219,16 +221,17 @@ helm uninstall consumer-frontend
 $ kubectl get pods -n product-material-pass
 
 # output
-NAME                           READY   STATUS    RESTARTS   AGE
-consumer-ui-6f99c94f9c-wlxth   1/1     Running   0          9s
+NAME                                 READY   STATUS    RESTARTS   AGE
+consumer-backend-74c6c6854c-lhw27    1/1     Running      0       36s
+consumer-ui-6fb95f466-t2m4h          1/1     Running      0       36s
 ```
-
 
 #### Port Mapping:
 
 ```bash
 kubectl get services -n product-material-pass
-kubectl port-forward services/consumer-frontend 8080:8080
+kubectl port-forward services/consumer-ui 8080:8080 -n product-material-pass
+kubectl port-forward services/consumer-backend 8888:8888 -n product-material-pass
 ```
 
 __Notes:__
@@ -240,7 +243,7 @@ __Notes:__
 To use the application, data needs to be prepared in the __EDC-Provider__ using the provider setup script [init-provider-dev.sh](../deployment/infrastructure/provider/init-provider_dev.sh)
 
 __Optional:__ One can also use the postman collection
-in [postman/Battery-Pass](../postman/Battery-Pass_INT.postman_collection.json) to access APIs, used among battery pass components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent need to be downloaded.
+in [postman/Battery-Pass](../postman/v3.0.1/Battery-Pass_INT.postman_collection.json) to access APIs, used among battery pass components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent need to be downloaded.
 
 
 | Who            | Action/Events                                                                                                |

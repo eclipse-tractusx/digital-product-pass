@@ -21,8 +21,8 @@
 #################################################################################
 ---
 apiVersion: v2
-name: consumer-ui
-description: Consumer Application Helm Deployment for the Product Passport Application
+name: digital-product-pass
+description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #

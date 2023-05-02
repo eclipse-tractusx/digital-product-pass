@@ -19,4 +19,4 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   application.yml: |-
-    {{ .Values.application.yml | nindent 4 }}
+    {{ .Values.backend.application.yml | nindent 4 }}

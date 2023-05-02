@@ -20,12 +20,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-{{- if .Values.ingress.enabled -}}
-{{- $fullName := include "consumer-backend.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
-{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
+{{- if .Values.backend.ingress.enabled -}}
+{{- $fullName := .Values.backend.name -}}
+{{- $svcPort := .Values.backend.service.port -}}
+{{- if and .Values.backend.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.backend.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.backend.ingress.annotations "kubernetes.io/ingress.class" .Values.backend.ingress.className}}
   {{- end }}
 {{- end }}
 
@@ -43,18 +43,18 @@ metadata:
   name: {{ $fullName }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "consumer-backend.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+    {{- include "chart.labels" . | nindent 4 }}
+  {{- with .Values.backend.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.className }}
+  {{- if and .Values.backend.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.backend.ingress.className }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.backend.ingress.tls }}
   tls:
-    {{- range .Values.ingress.tls }}
+    {{- range .Values.backend.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -63,7 +63,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.backend.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

@@ -20,11 +20,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################e governing permissions and
 
-
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "consumer-ui.name" -}}
+{{- define "chart.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -33,7 +32,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "consumer-ui.fullname" -}}
+{{- define "chart.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -49,16 +48,17 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "consumer-ui.chart" -}}
+{{- define "chart.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "consumer-ui.labels" -}}
-helm.sh/chart: {{ include "consumer-ui.chart" . }}
-{{ include "consumer-ui.selectorLabels" . }}
+
+{{- define "chart.labels" -}}
+helm.sh/chart: {{ include "chart.chart" . }}
+{{ include "chart.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -68,17 +68,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "consumer-ui.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "consumer-ui.name" . }}
+{{- define "chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "consumer-ui.serviceAccountName" -}}
+{{- define "chart.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "consumer-ui.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "chart.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

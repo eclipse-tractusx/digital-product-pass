@@ -23,16 +23,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "consumer-backend.fullname" . }}
+  name: {{ .Values.backend.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "consumer-backend.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.backend.service.type }}
   ports:
-    - port: {{ .Values.service.port }}    # host port
+    - port: {{ .Values.backend.service.port }}    # host port
       targetPort: 8888                      # container port
       protocol: TCP
       name: http
   selector:
-    {{- include "consumer-backend.selectorLabels" . | nindent 4 }}
+    {{- include "chart.selectorLabels" . | nindent 4 }}

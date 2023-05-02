@@ -23,28 +23,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "consumer-ui.fullname" . }}
+  name: {{ .Values.frontend.name }}
   labels:
-    {{- include "consumer-ui.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
   namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "consumer-ui.selectorLabels" . | nindent 6 }}
+      {{- include "chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "consumer-ui.selectorLabels" . | nindent 8 }}
+        {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.frontend.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Values.frontend.name }}
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           env:          
             - name: "VUE_APP_CLIENT_ID"
               valueFrom:
@@ -62,37 +62,37 @@ spec:
                   key:  xApiKey
                   name: avp-consumer-ui-edc-oauth
                   
-            {{- with (first .Values.ingress.hosts) }}
+            {{- with (first .Values.frontend.ingress.hosts) }}
             - name: "SERVER_URL"
               value: "https://{{ .host }}"
             {{- end }}
 
             - name: "KEYCLOAK_CLIENTID"
-              value: "{{ .Values.productpass.keycloak.clientId }}"
+              value: "{{ .Values.frontend.productpass.keycloak.clientId }}"
 
             - name: "KEYCLOAK_REALM"
-              value: "{{ .Values.productpass.keycloak.realm }}"
+              value: "{{ .Values.frontend.productpass.keycloak.realm }}"
             
             - name: "KEYCLOAK_ONLOAD"
-              value: "{{ .Values.productpass.keycloak.onLoad }}"
+              value: "{{ .Values.frontend.productpass.keycloak.onLoad }}"
 
             - name: "BACKEND_URL"
-              value: "https://{{ .Values.productpass.backend_url }}"
+              value: "https://{{ .Values.frontend.productpass.backend_url }}"
 
             - name: "IDP_URL"
-              value: "https://{{ .Values.productpass.idp_url }}"
+              value: "https://{{ .Values.frontend.productpass.idp_url }}"
 
             - name: "PASSPORT_VERSION"
-              value: "{{ .Values.productpass.passport.version }}"
+              value: "{{ .Values.frontend.productpass.passport.version }}"
 
             - name: "API_TIMEOUT"
-              value: "{{ .Values.productpass.api.timeout }}"
+              value: "{{ .Values.frontend.productpass.api.timeout }}"
             
             - name: "API_MAX_RETRIES"
-              value: "{{ .Values.productpass.api.max_retries }}"
+              value: "{{ .Values.frontend.productpass.api.max_retries }}"
 
             - name: "API_DELAY"
-              value: "{{ .Values.productpass.api.delay }}"
+              value: "{{ .Values.frontend.productpass.api.delay }}"
 
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"

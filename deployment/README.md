@@ -33,9 +33,9 @@ This document describes the battery pass application deployment steps in hotel b
 
 - [edc-provider](./helm/edc-provider)
 
-- [consumer-ui](../charts/consumer-ui)
-
-- [consumer-backend](../charts/consumer-backend)
+- [digital-product-pass](../charts/digital-product-pass)
+    - Consumer-UI
+    - Consumer-Backend
 
 #### Sign in via the GitHub account
 
@@ -49,7 +49,7 @@ Fill out the following required fields.
 - **Project:** project-material-pass
 - **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
-- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, charts/consumer-ui, charts/consumer-backend)
+- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, charts/digital-product-pass)
 - **Cluster URL:** https://kubernetes.default.svc
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args
@@ -78,7 +78,9 @@ Click on 'Create' button
 
 If everything works fine then the application is deployed...
 
-#### Consumer-UI:
+#### Digital-Product-Pass:
+
+##### Consumer-UI:
 
 The consumer frontend app for the material passport that interacts with the end-user. The steps above will be followed to deploy the consumer frontend component.
 
@@ -100,6 +102,12 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 ![Dashboard](./images/battery-pass-dashboard.png)
 
 ![Battery Passport](./images/battery-pass.png)
+
+##### Consumer-Backend:
+
+This consumer backend is a Java based spring boot application which implements the services modules and business layer to manage the passports in consumer-frontend component.
+
+[Open API - Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 <br />
 

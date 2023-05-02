@@ -90,7 +90,7 @@ npm run serve
 
 #### Method 2: With Docker
 
-The following environment variables must be set in [build and deploy](../buildAndDeploy.sh) script:
+The following environment variables must be set in [build and deploy](./buildAndDeploy.sh) script:
 
 - PASS_VERSION
 - APP_VERSION

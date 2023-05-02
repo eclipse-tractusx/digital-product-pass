@@ -202,6 +202,7 @@ At the moment, the Product Passport Application is hosted in three different env
 
 * EDC-Consumer Connector
 * Consumer-UI
+* Consumer-Backend
 * PostgreSQL
 
 #### CI/CD
@@ -354,7 +355,7 @@ There are different levels categorized concerning the application resources depl
 
 **Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD (Hotel Budapest - INT) through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
 
-**Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, consumer-backend and consumer-ui. In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
+**Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, and digital-product-pass (consumer-ui and consumer-backend). In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
 
 **Level 2:** A centralized source control repository where the source code and build artifacts are stored and version controlled. It also contains various git actions, for instance, the Build pipeline that publishes compiled applications onto the GitHub Container Packages Registry (GHCR) which is further accessed by the next level and other build actions that get triggered to verify the CatenaX quality gate requirements.
 
@@ -404,10 +405,6 @@ The application deployment is translated into Kubernetes resources through helm 
 
 Designs are followed using the Catena-X Style Guidelines.
 
-### History View (Landing Page)
-
-![History Page](./GraphicHistoryPage.png)
-
 
 It was used a basic table, the logo, the footer and the avatar from Catena-X design guidelines:
 
@@ -427,7 +424,9 @@ The QR Code view was also design following the Catena-X buttons and search style
 
 The passport view was designed following using Catena-X accordion guidelines.
 
-![Battery Passport View](./GraphicBatteryPassportView.png)
+![Battery Passport View - General Information](./GraphicBatteryPassportViewGeneralInfo.png)
+
+![Battery Passport View - Electrochemical properties](./GraphicBatteryPassportView.png)
 
 ## Quality Requirements
 

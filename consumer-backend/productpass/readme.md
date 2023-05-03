@@ -119,7 +119,7 @@ default index = 0
 #### Versions Available
 The passport available versions are:
 ```bash
-[ "v1" ] -> Battery Passport
+[ "v3.0.1" ] -> Battery Passport
 ```
 
 To change the available versions add in the configurations for each environment ``
@@ -127,7 +127,7 @@ To change the available versions add in the configurations for each environment 
 ```yaml
 passport:
     versions:
-        - 'v1'
+        - 'v3.0.1'
 ```
 
 ### Contract API

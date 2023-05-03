@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
     "title": "Product Passport Consumer Backend",
     "description": "The openapi documentation for Product Passport Consumer Backend",

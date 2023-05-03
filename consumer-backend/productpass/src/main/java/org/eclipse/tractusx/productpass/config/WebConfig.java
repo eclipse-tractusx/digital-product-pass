@@ -26,7 +26,9 @@ package org.eclipse.tractusx.productpass.config;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
@@ -49,6 +51,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
                 .indentOutput(true);
+        converters.add(new StringHttpMessageConverter());
         converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        converters.add(new ByteArrayHttpMessageConverter());
     }
 }

@@ -23,7 +23,36 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- 
 
+## [released]
+
+## [0.6.0] - 2023-04-25
+
+## Updated
+- Updated pull request (PR) template description
+- Upgrade battery pass test data for Passport Semantic version `v3.0.1`
+- Adjusted footer and search components in consumer frontend
+- Updated documentation for the digital product pass (Arc42 + Admin Guide)
+
+## Deleted
+- Removed history table from Dashboard page 
+
+## Added
+- Implemented new User Interface (UI) design for battery passport page
+- Added digital product passport (DPP) logo and favicon icon for DPP frontend component 
+- 404 and Error message in consumer backend handler
+- Added null and none checks in the passport (improved stability)
+  
+## Issues Fixed
+- Reference to the back button in consumer frontend
+- Updated battery QR code styles
+- Security vulnerabilities in veracode scanning tool
+- Fixed swagger ui display api documentation
+- Improved responsiveness from the application 
+
+## Security Issues
+- Fixed security vulnerabilities related to Spring Boot `v3.0.5` by upgrating to `v3.0.6`
 
 ## [released]
 

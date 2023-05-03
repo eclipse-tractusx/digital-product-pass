@@ -20,111 +20,136 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template  v-if="data" >
+<template>
   <div class="section">
-    <div class="sub-section-container">
-      <Field
-        data-cy="remaining-capacity"
-        label="Rated capacity"
-        unit="W"
-        :value="propsData.ratedCapacity"
-      />
-      <Field
-        label="Energy roundtrip efficiency change"
-        unit="%"
-        :value="propsData.batteryEnergy.energyRoundtripEfficiencyChange"
-      />
-      <Field
-        label="Maximum allowed battery energy"
-        unit="%"
-        :value="propsData.batteryEnergy.maximumAllowedBatteryEnergy"
-      />
-      <Field
-        label="Energy roundtrip efficiency"
-        unit="%"
-        :value="propsData.batteryEnergy.energyRoundtripEfficiency"
-      />
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label">Capacity</div>
+          <Field
+            icon="mdi-image-size-select-small"
+            data-cy="remaining-capacity"
+            label="Rated capacity"
+            unit="W"
+            :value="propsData.ratedCapacity"
+          />
+          <Field
+            icon="mdi-arrow-down-circle-outline"
+            label="Capacity fade"
+            unit="%"
+            :value="propsData.capacityFade"
+          />
+          <Field
+            icon="mdi-arrow-bottom-right-thin-circle-outline"
+            label="Capacity threshold exhaustion"
+            unit="%"
+            :value="propsData.capacityThresholdExhaustion"
+          />
+        </v-col>
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label">Efficiency</div>
+          <Field
+            icon="mdi-lightning-bolt-outline"
+            label="Original power capability"
+            unit="%"
+            :value="propsData.batteryPower.originalPowerCapability"
+          />
+          <Field
+            icon="mdi-arrow-bottom-right-thin-circle-outline"
+            label="Original power capability limits"
+            unit="%"
+            :value="propsData.batteryPower.originalPowerCapabilityLimits"
+          />
+        </v-col>
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label"></div>
+          <Field
+            icon="mdi-battery"
+            label="Maximum allowed battery energy (MABE)"
+            unit="%"
+            :value="propsData.batteryEnergy.maximumAllowedBatteryEnergy"
+          />
+          <Field
+            icon="mdi-battery"
+            label="Maximum allowed battery power (MABP)"
+            unit="%"
+            :value="propsData.batteryPower.maximumAllowedBatteryPower"
+          />
+          <Field
+            icon="mdi-battery"
+            label="Ratio MABE vs. MABP"
+            unit=""
+            :value="
+              propsData.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
+            "
+          />
+        </v-col>
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label"></div>
+          <Field
+            icon="mdi-battery"
+            label="Power capability at 20 charge"
+            unit="%"
+            :value="propsData.batteryPower.powerCapabilityAt20Charge"
+          />
+          <Field
+            icon="mdi-battery"
+            label="Power capability at 80 charge"
+            unit="%"
+            :value="propsData.batteryPower.powerCapabilityAt80Charge"
+          />
+          <Field
+            icon="mdi-battery"
+            label="Power fade"
+            unit="%"
+            :value="propsData.batteryPower.powerFade"
+          />
+        </v-col>
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label">Resistance</div>
+          <Field
+            icon="mdi-table-split-cell"
+            label="Cell internal resistance"
+            unit="%"
+            :value="propsData.internalResistance.cellInternalResistance"
+          />
 
-      <Field
-        label="Ratio maximum allowed battery power and maximum allowed battery energy"
-        unit=""
-        :value="
-          propsData.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
-        "
-      />
-      <Field
-        label="Nominal voltage"
-        unit="%"
-        :value="propsData.batteryVoltage.nominalVoltage"
-      />
-      <Field
-        label="Max voltage"
-        unit="%"
-        :value="propsData.batteryVoltage.maxVoltage"
-      />
-      <Field
-        label="Min voltage"
-        unit="%"
-        :value="propsData.batteryVoltage.minVoltage"
-      />
-      <Field
-        label="Cell internal resistance"
-        unit="%"
-        :value="propsData.internalResistance.cellInternalResistance"
-      />
-      <Field
-        label="Pack internal resistance increase"
-        unit="%"
-        :value="propsData.internalResistance.packInternalResistanceIncrease"
-      />
-      <Field
-        label="Pack internal resistance"
-        unit="%"
-        :value="propsData.internalResistance.packInternalResistance"
-      />
-
-      <Field
-        label="Capacity threshold exhaustion"
-        unit="%"
-        :value="propsData.capacityThresholdExhaustion"
-      />
-      <Field
-        label="Original power capability"
-        unit="%"
-        :value="propsData.batteryPower.originalPowerCapability"
-      />
-      <Field
-        label="Power fade"
-        unit="%"
-        :value="propsData.batteryPower.powerFade"
-      />
-      <Field
-        label="Original power capability limits"
-        unit="%"
-        :value="propsData.batteryPower.originalPowerCapabilityLimits"
-      />
-      <Field
-        label="Maximum allowed battery power"
-        unit="%"
-        :value="propsData.batteryPower.maximumAllowedBatteryPower"
-      />
-      <Field
-        label="Power capability at 20 charge"
-        unit="%"
-        :value="propsData.batteryPower.powerCapabilityAt20Charge"
-      />
-      <Field
-        label="Original power"
-        unit="%"
-        :value="propsData.batteryPower.originalPower"
-      />
-      <Field
-        label="Power capability at 80 charge"
-        unit="%"
-        :value="propsData.batteryPower.powerCapabilityAt80Charge"
-      />
-      <Field label="Capacity fade" unit="%" :value="propsData.capacityFade" />
-    </div>
+          <Field
+            icon="mdi-omega"
+            label="Pack internal resistance"
+            unit="%"
+            :value="propsData.internalResistance.packInternalResistance"
+          />
+          <Field
+            icon="mdi-arrow-up"
+            label="Pack internal resistance increase"
+            unit="%"
+            :value="propsData.internalResistance.packInternalResistanceIncrease"
+          />
+        </v-col>
+        <v-col sm="12" md="2" class="pa-0 ma-0">
+          <div class="element-chart-label">Voltage</div>
+          <Field
+            icon="mdi-lightning-bolt-outline"
+            label="Nominal voltage"
+            unit="%"
+            :value="propsData.batteryVoltage.nominalVoltage"
+          />
+          <Field
+            icon="mdi-arrow-down-circle-outline"
+            label="Max voltage"
+            unit="%"
+            :value="propsData.batteryVoltage.maxVoltage"
+          />
+          <Field
+            icon="mdi-arrow-down-circle-outline"
+            label="Min voltage"
+            unit="%"
+            :value="propsData.batteryVoltage.minVoltage"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

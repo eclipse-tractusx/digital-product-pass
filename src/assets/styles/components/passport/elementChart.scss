@@ -1,0 +1,38 @@
+.materials-container {
+  width: 300px;
+}
+.material-container {
+  position: relative;
+  width: 114px;
+  height: 114px;
+  background-color: #eaf1fe;
+  border-radius: 10px;
+  padding-top: 20px;
+  margin: 7px;
+}
+.material-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.material-value {
+  position: absolute;
+  font-size: 24px;
+  font-weight: 600;
+  top: 43px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+@media (max-width: 1137px) {
+  .material-container {
+    position: relative;
+    width: 94px;
+    height: 94px;
+
+    border-radius: 10px;
+    padding-top: 20px;
+    margin: 7px;
+  }
+}

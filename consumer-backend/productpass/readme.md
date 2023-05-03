@@ -22,12 +22,12 @@
 
 # ![Digital Product Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
 
-# Version: 0.4.2-SNAPSHOT
+# Version: 0.5.0-SNAPSHOT
 
 # Table of contents
 <!-- TOC -->
 - [ Product Battery Passport Consumer Backend](#-product-battery-passport-consumer-backend)
-- [Version: 0.4.2-SNAPSHOT](#version-042-snapshot)
+- [Version: 0.5.0-SNAPSHOT](#version-050-snapshot)
 - [Table of contents](#table-of-contents)
 - [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
 - [Services Available](#services-available)

@@ -194,9 +194,9 @@ If you want to run the application in a different way checkout the [frequently a
 ## Modify the configurations in the deployment files
 
 You can use the default configuration to start the application:
-```charts\digital-product-pass\values.yaml```
+```charts/digital-product-pass/values.yaml```
 
-However if you need to change it just create a new environment with this naming convention: ```values-env`.yaml``` where ```env``` is the name of your environment. You can use as an example the following configuration file: ```charts\digital-product-pass\values-int.yaml```.
+However if you need to change it just create a new environment with this naming convention: ```values-env`.yaml``` where ```env``` is the name of your environment. You can use as an example the following configuration file: ```charts/digital-product-pass/values-int.yaml```.
 
 The configuration for the consumer backend application is a yaml file that is configured in the following tag: ```backend.application```. Before the application starts all the configuration parameters must be specified, since they are required for initialization and will be checked at the test fase.
 
@@ -273,7 +273,7 @@ Substitute the `<version>` variable with the current version of the Digital Prod
 ```
 ### Configure the secrets
 
-Once the application is running a tmp file will be created in the following directory: `data\VaultConfig\vault.token.yml`
+Once the application is running a tmp file will be created in the following directory: `data/VaultConfig/vault.token.yml`
 
 ```yml
 token: <Add Vault token here> 

@@ -45,66 +45,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- Composition of battery -->
-    <!-- <AttributeField
-      :attributes-list="propsData.compositionOfBattery"
-      label="Composition of battery"
-    /> -->
-
-    <!-- Components -->
-    <!-- <div class="sub-section-container">
-      <div class="sub-title-container">
-        <span class="sub-title">Components</span>
-      </div>
-      <div v-if="propsData.components" class="list-container">
-        <ul>
-          <span class="list-label">Components part number</span>
-          <li>
-            <span>
-              {{ propsData.components.componentsPartNumber }}
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div
-        v-if="propsData.components.componentsSupplier"
-        class="list-container"
-      >
-        <ul>
-          <span class="list-label">Address</span>
-          <li
-            v-for="supplierDetails in propsData.components.componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>{{ supplierDetails.address.locality.value }}</p>
-            <p>{{ supplierDetails.address.country.shortName }}</p>
-            <p>{{ supplierDetails.address.postCode.value }}</p>
-            <p>
-              {{ supplierDetails.address.thoroughfare.value }}
-              {{ supplierDetails.address.thoroughfare.number }}
-            </p>
-            <p>{{ supplierDetails.address.premise.value }}</p>
-            <p>{{ supplierDetails.address.postalDeliveryPoint.value }}</p>
-          </li>
-        </ul>
-        <ul>
-          <span class="list-label">Contact</span>
-          <li
-            v-for="supplierDetails in propsData.components.componentsSupplier"
-            :key="supplierDetails"
-          >
-            <p>fax: {{ supplierDetails.contact.faxNumber }}</p>
-            <p>www: {{ supplierDetails.contact.website }}</p>
-            <p>tel: {{ supplierDetails.contact.phoneNumber }}</p>
-            <p>
-              email:
-              {{ supplierDetails.contact.email }}
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -131,7 +71,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.passport.composition,
+      propsData: this.$props.data.passport.composition,
     };
   },
 };

@@ -197,7 +197,7 @@ public class ApiController {
                 connectorAddress = subModel.getEndpoints().get(0).getProtocolInformation().getEndpointAddress();
 
             } catch (Exception e) {
-                response.message = "Failed to get Submodel from the Digital Twin Registry!";
+                response.message = "Failed to get the submodel from the digital twin registry!";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return HttpUtil.buildResponse(response, httpResponse);
@@ -233,7 +233,7 @@ public class ApiController {
             try {
                 contractOffer = this.getContractOfferByAssetId(assetId, connectorAddress);
             } catch (ControllerException e) {
-                response.message = e.getMessage();
+                response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";
                 return HttpUtil.buildResponse(response, httpResponse);
@@ -321,7 +321,7 @@ public class ApiController {
             try {
                 transfer = dataService.getTransfer(transfer.getId());
             } catch (Exception e) {
-                response.message = "It was not posible to retrieve the transfer!";
+                response.message = "It was not possible to retrieve the transfer!";
                 response.status = 500;
                 response.statusText = "Internal Server Error";
                 return HttpUtil.buildResponse(response, httpResponse);

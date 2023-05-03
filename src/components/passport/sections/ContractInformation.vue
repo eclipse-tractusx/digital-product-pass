@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.data.metadata,
+      propsData: this.$props.data.metadata,
     };
   },
 };

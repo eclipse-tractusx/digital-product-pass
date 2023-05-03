@@ -19,7 +19,7 @@
 <template>
     <v-container class="page-not-found fill-height align-self-center justify-center">
       <v-row class="justify-center">
-        <v-col class="v-col-auto justify-center">
+        <v-col class="v-col-auto justify-center" style="height: fit-content">
           <img src="@/media/404.svg" class="h-100"> 
         </v-col>
         <v-col class="v-col-sm-12 v-col-md-6 v-col-lg-6">

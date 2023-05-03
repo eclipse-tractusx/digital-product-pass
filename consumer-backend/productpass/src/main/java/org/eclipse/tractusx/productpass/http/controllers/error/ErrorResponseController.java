@@ -24,6 +24,8 @@
 package org.eclipse.tractusx.productpass.http.controllers.error;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import utils.HttpUtil;
+import utils.JsonUtil;
 import utils.LogUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +52,7 @@ public class ErrorResponseController implements ErrorController {
 
     @RequestMapping(value="/error",  method = {RequestMethod.GET})
     @ResponseBody
-    public Response handleError(HttpServletRequest httpRequest) {
+    public Response handleError(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         ErrorAttributeOptions options = ErrorAttributeOptions
                 .defaults()
                 .including(ErrorAttributeOptions.Include.MESSAGE)
@@ -57,7 +60,16 @@ public class ErrorResponseController implements ErrorController {
         ServletWebRequest servletWebRequest = new ServletWebRequest(httpRequest);
         Map<String, Object> errors = this.errorAttributes.getErrorAttributes(servletWebRequest, options);
         Response response = new Response().mapError(errors);
+        if(response.message.equals("No message available")) {
+            response.message = null;
+        }
         String httpInfo = HttpUtil.getHttpInfo(httpRequest, response.getStatus());
+        if(errors.containsKey("path") && !errors.get("path").equals("/passport/not-found")){
+            // Redirect to error page
+            String currentHost = HttpUtil.getCurrentHost(httpRequest);
+            String errorUrl = String.join("/",currentHost, "passport/not-found");
+            HttpUtil.redirect(httpResponse,errorUrl);
+        }
         LogUtil.printHTTPMessage(httpInfo + " " + response.errorString());
         return response;
     }

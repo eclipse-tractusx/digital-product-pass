@@ -20,6 +20,8 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
+
+
 <template>
   <footer data-cy="footer">
     <div class="footer-content">

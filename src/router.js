@@ -20,7 +20,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import PageNotFound from './views/PageNotFound.vue';
+import ErrorComponent from './components/general/ErrorComponent.vue';
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "./views/HomeView.vue";
 
@@ -34,7 +34,12 @@ const routes = [
     {
         path: "/:catchAll(.*)",
         name: "PageNotFound",
-        component: PageNotFound,
+        component: ErrorComponent,
+    },
+    {
+        path: "/not-found",
+        name: "PageNotFound",
+        component: ErrorComponent,
     },
     {
         path: "/:id",

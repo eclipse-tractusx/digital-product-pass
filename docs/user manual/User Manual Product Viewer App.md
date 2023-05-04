@@ -1,86 +1,71 @@
-<!--
-  Catena-X - Product Passport Consumer Application
- 
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
--->
-
 # User Manual
 
 This manual provides a step by step introduction on how to use the Product Pass Viewer app and gives an overview on its functionalities.
 
 ## Content
 
-- [User Manual](#user-manual)
-  - [Content](#content)
-  - [Getting Started](#getting-started)
-  - [Main Menu](#main-menu)
-  - [History Page](#history-page)
-  - [Search for Products](#search-for-products)
-  - [Results Page](#results-page)
+1. [Content](#content)
+2. [Getting Started](#getting-started)
+3. [Main Menu](#main-menu)
+    1. [Product Search](#search-for-a-product-passport)
+    2. [Profile Information and Settings](#settings-and-profile-information)
+    3. [Catena-X Helpdesk](#catena-x-helpdesk)
+4. [Results Page](#results-page)  
 
 ## Getting Started
 
-After opening the Product Pass Viewer application on your computer or phone, login with your company´s login credentials.
+After opening the Product Pass Viewer application on your computer or phone, login with your company's login credentials.
 </br></br>  
 
 ## Main Menu
 
-After logging in you will be forwarded to the Product Viewer´s main menu. At the top of the screen you will now be able to find the navigation bar. It allows you to choose switch the Product Viewer´s "[History Page](#history-page)" and the "[QR Code Scanner](#search-for-products)" page (1) and provides a section to view account information and logout of the application (2).  
+After logging in, you will be forwarded to the Product Viewer's main menu. Here you can access three functions:
 
-![Navigation Bar](./NavigationBar.PNG)  
+1. [Search for a Product Passport](#search-for-a-product-passport)
+2. [Adjust Settings and see Profile Information](#settings-and-profile-information)
+3. [Access the Catena-X Helpdesk](#catena-x-helpdesk)
+
+![Main Menu](./MainMenu.png)  
 </br></br>  
 
-Clicking on the blue icon in the upper right corner will not take you to a completely new page, but rather activate a drop-down menu. In this tab you find your general user information and assigned role within Catena-X (1) as well as the option to log out of your account (2).
+### Search for a Product Passport
 
-![Profile Information](./ProfileInformation.PNG)  
+The [Main Menu](#main-menu) provides two methods for searching for Product Passports. You can request information by:
+
+1. manually entering a product ID or
+2. scanning the product's QR code.
+
+Both options can be found in the center of the [Main Menu's](#main-menu) screen (1). Whenever you access the [Main Menu](#main-menu), the manual product ID search will be displayed by default (1a). By clicking on the switch above the manual search bar (1b), you activate the QR code scanner and the application will access your devices camera, which you can then capture the QR code with.
 </br></br>  
 
-## History Page
+### Settings and Profile Information
 
-The [History Page](#history-page) provides the user with an overview on previously scanned products. It enables a quick overview over past scans and the scanned products basic information. Clicking on one of the previously scanned products will take you back to the products results page, giving you a more detailed insight into the respective product pass (for more information see section [results page](#results-page)).
+Clicking on the blue icon in the upper right corner of the [Main Menu](#main-menu) (2) activates a drop-down menu containing your profile information and language settings. In this tab you find your specific user information and assigned role within Catena-X (4), can log out of your account (5) or change the applications's language (6) as shown below.
 
-![History Page](./HistoryPage.PNG)
+![Profile Information](./UserProfile.png)  
+</br></br>  
+
+### Catena-X Helpdesk
+
+If questions arise, you can access the Catena-X Helpdesk through clicking on "Help" in the upper right corner of the [Main Menu](#main-menu) (3).  
 </br></br>
-
-## Search for Products
-
-The [QR Code Scanner](#search-for-products) page lets the user request information about a product that is registered with a digital product pass. To request information you can use either of the two ways provided:
-
-1. By using the devies camera, the QR code applied on the respective product can be scanned
-2. or the products ID can be entered manually.
-
-![Code Scanner](./CodeScanner.PNG)
-</br></br>  
 
 ## Results Page
 
- After requesting the product data via the [QR Code Scanner](#search-for-products) page or by clicking on a past scan in the [History Page](#history-page) the information will be displayed on the screen. For a scanned battery, the results page currently includes the BatteryID (1) and a section containing general product information (2):
+ After requesting data via one of the [product search functions](#search-for-a-product-passport), the information will be displayed on the screen. An exemplary product passport of a battery can be seen below. It provides an overview on the battery's history, technical specifications and data exchange information:
 
 </br></br>
-![Product Pass](./BatteryPass.PNG)
+![Product Pass](./ProductPassport.png)
 </br></br>
 
-Whithin section (2) of the the results page, information of the follwoing categories can be found :  
+Hereby, the information is devided into the following sections:
 
-1. General information
-2. Cell information
-3. Electrochemical information
-4. Battery composition
-5. State of battery
-6. Additional information
+1. General Information
+2. Product Condition
+3. Composition
+4. Cell Chemistry
+5. Electromechanical Properties
+6. Additional Information
+7. Data exchange Information
+
+Each category can be accessed by clicking on its heading in the selection bar towards the middle of the product passport screen (7).

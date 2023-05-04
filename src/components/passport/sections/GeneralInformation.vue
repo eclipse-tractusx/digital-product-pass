@@ -27,12 +27,20 @@
       <template v-if="propsData.batteryIdentification">
         <v-row>
           <v-col sm="12" md="9" class="pa-0 ma-0">
-            <Field
-              data-cy="battery-id"
-              icon="mdi-fingerprint"
-              label="Battery ID (DMC)"
-              :value="propsData.batteryIdentification.batteryIDDMCCode"
-            />
+            <DialogComponent>
+              <Field
+                data-cy="battery-id"
+                icon="mdi-fingerprint"
+                label="Battery ID (DMC)"
+                :value="propsData.batteryIdentification.batteryIDDMCCode"
+              />
+              <template v-slot:title>
+                {{ descriptions.BatteryId.title }}
+              </template>
+              <template v-slot:text>
+                {{ descriptions.BatteryId.value }}
+              </template>
+            </DialogComponent>
           </v-col>
         </v-row>
       </template>
@@ -168,11 +176,14 @@
 
 <script>
 import Field from "../Field.vue";
+import DialogComponent from "../../general/Dialog.vue";
+import descriptions from "../../../config/templates/descriptions.json";
 
 export default {
   name: "GeneralInformation",
   components: {
     Field,
+    DialogComponent,
   },
   props: {
     sectionTitle: {
@@ -188,6 +199,7 @@ export default {
 
   data() {
     return {
+      descriptions: descriptions,
       toggle: false,
       propsData: this.$props.data.passport,
     };

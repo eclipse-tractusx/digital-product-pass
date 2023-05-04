@@ -20,19 +20,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { defineConfig } from "cypress";
 
-export default defineConfig({
-    //   e2e: {
-    //       setupNodeEvents(on, config) {
-    //           // implement node event listeners here
-    //       },
-    //   },
-    chromeWebSecurity: false,
+const { defineConfig } = require('cypress')
 
+module.exports = defineConfig({
     e2e: {
-        setupNodeEvents() {
-            // implement node event listeners here
-        },
+        baseUrl: 'http://localhost:8080',
     },
-});
+})

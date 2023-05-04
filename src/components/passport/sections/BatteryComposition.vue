@@ -31,6 +31,7 @@
           style="display: flex; margin-bottom: 12px"
         >
           <AttributeField
+            data-cy="composition"
             icon="mdi-newspaper-variant-outline"
             :attributes-list="propsData.compositionOfBattery"
             label="Main Battery Composites"

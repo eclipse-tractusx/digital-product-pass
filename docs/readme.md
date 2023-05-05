@@ -20,7 +20,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1>Digital Product Pass Documentation</h1>
+<h1 style="display:flex; align-items: center;"><img src="./catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Documentation</h1>
 
 Welcome to the documentation section, below you will find all the necesary docs of interest for undestanding the DPP application.
 

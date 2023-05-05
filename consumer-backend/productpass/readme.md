@@ -20,14 +20,15 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# ![Digital Product Passport Consumer Backend](../../docs/catena-x-logo.svg) Product Battery Passport Consumer Backend
+<h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
-# Version: 0.5.0-SNAPSHOT
+
+<h2><strong>Version</strong>: <span style="color: cyan">0.5.0-SNAPSHOT</span><h2>
+
+<br>
 
 # Table of contents
 <!-- TOC -->
-- [ Product Battery Passport Consumer Backend](#-product-battery-passport-consumer-backend)
-- [Version: 0.5.0-SNAPSHOT](#version-050-snapshot)
 - [Table of contents](#table-of-contents)
 - [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
 - [Services Available](#services-available)

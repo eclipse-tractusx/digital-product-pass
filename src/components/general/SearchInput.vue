@@ -46,6 +46,7 @@
       </v-btn>
     </div>
     <v-btn
+      id="search-btn"
       rounded="pill"
       color="#0F71CB"
       size="small"
@@ -68,10 +69,10 @@ export default {
       typedCode: "",
     };
   },
-  computed:{
+  computed: {
     isContent() {
-      return this.typedCode !== '' && this.typedCode !== null;
-    }
+      return this.typedCode !== "" && this.typedCode !== null;
+    },
   },
   methods: {
     onClick() {

@@ -28,7 +28,13 @@ The digital product passport consumer application provides a user interface to r
 
 In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
 
+## Application Preview
 
+Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.
+
+![General Info View](./docs/arc42/GraphicBatteryPassportViewGeneralInfo.png)
+
+> **Note:** For more information consult the [documentation section](./docs/)
 ## Getting Started
 
 To get started you can have a look into our documentation:
@@ -36,7 +42,7 @@ To get started you can have a look into our documentation:
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Arc42](./docs/arc42/Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
-| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Backend documentation Product Passport App                                                                                                                         |
+| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                          |
 | [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                                |

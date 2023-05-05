@@ -50,7 +50,7 @@ Welcome to the documentation section, below you will find all the necesary docs 
 
 # Business Statement and Application Use Case
 
-> **IMPORTANT!**: Before you start with the architecture docs **please take a look at the business context** from the application use case. In this way you will be able to understand much better the further documentation.
+> **Note**: *IMPORTANT!* Before you start with the architecture docs **please take a look at the business context** from the application use case. In this way you will be able to understand much better the further documentation.
 
 
 | Name                                                                      | Description                                                                                                                                                        |

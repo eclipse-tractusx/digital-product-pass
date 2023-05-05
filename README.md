@@ -34,7 +34,7 @@ Here is a preview from the DPP App UI, where we visualize a test battery passpor
 
 ![General Info View](./docs/arc42/GraphicBatteryPassportViewGeneralInfo.png)
 
-> **Note:** For more information check the [documentation section](./docs/)
+> **Note**: For more information check the [documentation section](./docs/)
 ## Getting Started
 
 To get started you can have a look into our documentation:

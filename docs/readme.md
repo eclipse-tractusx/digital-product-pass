@@ -178,7 +178,7 @@ Here you can find the API documentation, there is a postman collection with the 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------                                                                                                                                     |
 | [Postman Overview](../postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
-|                                                                        |
+
 
 
 ## Swagger Documetation 

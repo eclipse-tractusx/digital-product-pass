@@ -131,7 +131,6 @@ Here you will find the Infrastructure documentation for the Digital Product Pass
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-|
 | [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide 
 | [Deployment in Hotel Budapest](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
 | [Docker Overview](../docker/README.md)                                      | Overview on general docker commands                                                                                                                                |                   

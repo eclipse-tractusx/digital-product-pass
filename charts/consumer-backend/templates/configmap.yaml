@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Backend
+# Catena-X - Product Passport Consumer Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
 #
@@ -20,24 +20,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-spring:
-  application:
-    name: 'Catena-X Product Passport Consumer Backend'
-  main:
-    allow-bean-definition-overriding: true
-  devtools:
-    add-properties: false
-  jackson:
-    serialization:
-      indent_output: true
-
-server:
-  error:
-    include-message: ALWAYS
-    include-binding-errors: ALWAYS
-    include-stacktrace: ON_PARAM
-    include-exception: false
-  port: 8888
-  tomcat:
-    max-connections: 10000
-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: {{ .Values.namespace }}
+data:
+  application.yml: |-
+    {{ .Values.application.yml | nindent 4 }}

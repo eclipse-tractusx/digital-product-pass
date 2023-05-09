@@ -22,6 +22,11 @@
 
 # Release Notes Digital Product Pass Application
 
+**to be defined (Version 0.7.0)**
+
+#### Enabled the external backend configuration
+Now is posible to configure all the backend parameters of configuration in the helm charts.
+
 **April 24 2023 (Version 0.6.0)**  
 *24.04.2023*
 

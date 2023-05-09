@@ -1,3 +1,25 @@
+<!--
+  Catena-X - Product Passport Consumer Application
+ 
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
 # Product Passport Administrator Guide Documentation
 
 ![C-X Logo](./CXLogo.png)  
@@ -7,24 +29,34 @@ Latest Revision Mar 30, 2023
 
 ## Table of Contents
 
-1. [Table of contents](#table-of-contents)  
-2. [Introduction](#introduction)
-3. [Getting Started Guide](#getting-started-guide)
-4. [Deployment Configuration](#deployment-configuration)
-5. [Local Keycloak Configuration](#local-keycloak-configuration)
-6. [Helm Charts Configuration](#helm-charts-configuration)
-7. [Consumer Backend Configuration](#consumer-backend-configuration)  
-    7.1 [Backend Application Configuration](#backend-application-configuration)  
-    7.2  [Spring Boot Configuration](#spring-boot-configuration)  
-    7.3  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)  
-8. [Postman Collection](#postman-collection)
-9. [Secrets Management](#secrets-management)
-10. [EDC Provider Configuration](#edc-provider-configuration)  
-    10.1 [Documentation Description](#documentation-description)    
-    10.2 [Asset Configuration](#asset-configuration)   
-    10.3 [Policies Configuration](#policies-configuration)    
-    10.4 [Contract Definition Configuration](#contract-definition-configuration)        
-    10.5 [Digital Twin Registration](#digital-twin-registration)
+- [Product Passport Administrator Guide Documentation](#product-passport-administrator-guide-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Getting Started Guide](#getting-started-guide)
+  - [Deployment Configuration](#deployment-configuration)
+  - [Local Keycloak Configuration](#local-keycloak-configuration)
+  - [Helm Charts Configuration](#helm-charts-configuration)
+  - [Consumer Backend Configuration](#consumer-backend-configuration)
+    - [Backend Application Configuration](#backend-application-configuration)
+    - [Spring Boot Configuration](#spring-boot-configuration)
+    - [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
+  - [Postman Collection](#postman-collection)
+  - [Secrets Management](#secrets-management)
+  - [EDC Provider Configuration](#edc-provider-configuration)
+    - [Documentation Description](#documentation-description)
+    - [Asset Configuration](#asset-configuration)
+      - [**Variables:**](#variables)
+      - [**Format and Fields:**](#format-and-fields)
+    - [Policies Configuration](#policies-configuration)
+      - [Usage Policies](#usage-policies)
+      - [**Variables:**](#variables-1)
+      - [**Format and Fields:**](#format-and-fields-1)
+    - [Contract Definition Configuration](#contract-definition-configuration)
+      - [**Variables:**](#variables-2)
+      - [**Format and Fields:**](#format-and-fields-2)
+    - [Digital Twin Registration](#digital-twin-registration)
+      - [**Variables:**](#variables-3)
+      - [**Format and Fields:**](#format-and-fields-3)
 ## Introduction
 
 This guide contains all the available information for an administrator to configure, operate and deploy the Product Passport Application.  

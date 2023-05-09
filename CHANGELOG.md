@@ -36,6 +36,9 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Deleted
 - Removed environment-specific configurations from consumer-backend
 
+## Added
+- Added Tooltip Component
+- Added Bar Component Fix
 
 ## [released]
 

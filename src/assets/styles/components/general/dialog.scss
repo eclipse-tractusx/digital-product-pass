@@ -20,41 +20,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-.materials-container {
-  width: 300px;
-}
-.material-container {
+.dialog-container {
   position: relative;
-  width: 114px;
-  height: 114px;
-  background-color: #eaf1fe;
-  border-radius: 10px;
-  padding-top: 20px;
-  margin: 7px;
-}
-.material-label {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.material-value {
-  position: absolute;
-  font-size: 24px;
-  font-weight: 600;
-  top: 43px;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-@media (max-width: 1137px) {
-  .material-container {
-    position: relative;
-    width: 94px;
-    height: 94px;
+  width: 400px;
+  margin: auto;
+  .title-container {
+    display: flex;
+    font-size: 18px;
+    flex-direction: row;
+    align-items: center;
+    height: 68px;
+  }
 
-    border-radius: 10px;
-    padding-top: 20px;
-    margin: 7px;
+  .close-btn-container {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
+
+  .v-btn--block {
+    padding: 0 10px 0 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .dialog-container {
+    width: 350px;
   }
 }

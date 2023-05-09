@@ -52,6 +52,7 @@ export default {
     barChart(currentValue, maxValue) {
       const bar = (currentValue * 100) / maxValue;
       try {
+        if (currentValue > maxValue) return 100 + "%";
         if (bar < 3) return 3 + "%";
         return bar + "%";
       } catch (e) {

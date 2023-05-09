@@ -34,7 +34,7 @@ This technical guide depicts the battery pass end-to-end API calls through the p
 ### Steps to  Proceed
 - Setup up [Postman client](https://www.postman.com/downloads)
 
-- Import a [Battery Pass collection](./Battery-Pass_INT.postman_collection.json)
+- Import a [Battery Pass collection](./v3.0.1/Battery-Pass_INT.postman_collection.json)
 
 - Configure the ***clientId*** and ***clientSecret*** environment variables from the variables tab inside root directory.
 

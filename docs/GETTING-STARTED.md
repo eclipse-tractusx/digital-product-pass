@@ -196,6 +196,8 @@ Integration (INT) deployment available through postman: [https://materialpass.in
 * __Digital Product Passport (DPP) Components__
     - Consumer User Interface (UI)
     - Consumer Backend
+    
+    [Helm Chart](../charts/digital-product-pass/) hosted locally
 
     Different possible ways to run DPP components:
     - Without using helm chart:  

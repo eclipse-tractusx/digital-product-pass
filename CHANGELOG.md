@@ -23,7 +23,36 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-- 
+
+## [released]
+
+## [0.7.0] - 2023-05-05
+
+## Updated
+- Adapted springboot application yaml as a single source of configuration
+- Externalized the consumer-backend configuration through k8s configmaps and helm values
+-  Updated DPP documentation to align with current implemention:
+    - GETTING-STARTED.md
+    - RELEASE.md
+    - SECRETS_MANAGEMENT.md
+    - Arc42.md
+    - Admin_Guide.md
+    - deployment/readme
+    - Fix navigation links in root readme
+    - User Manual Product Viewer App.md
+    - Consumer-backend readme
+
+## Deleted
+- Removed environment-specific configurations from consumer-backend
+- Removed standalone consumer-ui and backend helm charts
+
+## Added
+- Added an umbrella helm chart digital-product-pass, containing consumer-frontend and consumer-backend helm deployments together
+- Prepare environment-specific values.yaml
+- Prepare values.yaml for default mode
+- Added Tooltip Component
+- Added Bar Component Fix
+  
 
 ## [released]
 

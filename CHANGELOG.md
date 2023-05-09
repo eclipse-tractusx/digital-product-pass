@@ -25,6 +25,18 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - 
 
+## [in preparation]
+
+## [0.7.0] - To be defined 
+
+## Updated
+- Adapted springboot application yaml as a single source of configuration
+- Externalized the consumer-backend configuration through k8s configmaps and helm values
+
+## Deleted
+- Removed environment-specific configurations from consumer-backend
+
+
 ## [released]
 
 ## [0.6.0] - 2023-04-25

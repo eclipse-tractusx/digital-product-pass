@@ -1,5 +1,5 @@
 <!--
-  Catena-X - Product Passport Consumer Application
+  Catena-X - Product Passport Consumer Frontend
  
   Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
  
@@ -20,30 +20,30 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# Cypress test
+<template>
+  <div class="PageNotFound">
+    <router-link to="/">
+      <img :src="Error" alt="error" class="error" />
+    </router-link>
+  </div>
+</template>
 
-This is the documentation for Battery Passport App E2E Cypress test.
+<script>
+import Error from "../media/500error.png";
 
-## Steps to perform the test with Cypress GUI
-
-1. npm run cypress:open
-2. Choose E2E testing 
-![GUI-start](./GUI-start.png)  
-</br></br>  
-
-3. Choose browser - Electron
-![GUI-browser](./GUI-browser.png)  
-</br></br>  
-
-4. Choose specs - e2e
-![GUI-specs](./GUI-specs.png)  
-</br></br> 
-
-5. DOcumentation of passing test on local env
-![GUI-passing](./GUI-passing.png)  
-</br></br> 
-
-## Steps tested
-
-![test](./test.png)  
-</br></br> 
+export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "PageNotFound",
+  components: {},
+  setup() {
+    return {
+      Error,
+    };
+  },
+};
+</script>
+<style scoped>
+.error {
+  width: 110%;
+}
+</style>

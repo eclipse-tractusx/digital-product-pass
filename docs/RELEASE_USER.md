@@ -27,6 +27,12 @@
 #### Enabled the external backend configuration
 Now is posible to configure all the backend parameters of configuration in the helm charts.
 
+#### Combined the helm charts from consumer-ui and consumer-backend into one single chart.
+in order to ease the deployment the frontend and backend helm charts were merged into one single chart.
+
+#### Fixed bugs related with the frontend
+A new tool tip interation was introduced and minor bugs were fixed.
+
 **April 24 2023 (Version 0.6.0)**  
 *24.04.2023*
 

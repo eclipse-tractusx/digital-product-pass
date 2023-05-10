@@ -21,10 +21,18 @@
 #################################################################################
 
 apiVersion: v1
-kind: ConfigMap
+kind: Service
 metadata:
-  name: backend-config
+  name: {{ .Values.backend.name }}
   namespace: {{ .Values.namespace }}
-data:
-  application.yml: |-
-    {{ .Values.application.yml | nindent 4 }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.backend.service.type }}
+  ports:
+    - port: {{ .Values.backend.service.port }}    # host port
+      targetPort: 8888                      # container port
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}

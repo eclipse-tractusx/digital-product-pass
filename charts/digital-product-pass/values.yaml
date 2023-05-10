@@ -20,55 +20,77 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-
-
-# Default values for consumer-backend.
+# Default values for consumer-ui.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+name: "digital-product-pass"
 replicaCount: 1
 namespace: product-material-pass
 
-image:
-  repository: ghcr.io/catenax-ng/tx-digital-product-pass/product-pass-consumer-backend
-  pullPolicy: Always
+frontend:
+  name: "consumer-ui"
+  image:
+    repository: ghcr.io/catenax-ng/tx-digital-product-pass/consumer-ui
+    pullPolicy: Always
+  
+  imagePullSecrets: []
 
-imagePullSecrets: []
-nameOverride: "consumer-backend"
-fullnameOverride: "consumer-backend"
+  service:
+    type: ClusterIP
+    port: 8080
 
-service:
-  type: ClusterIP
-  port: 8888
+  ingress:
+    enabled: false
+    hosts:
+      - host: materialpass.int.demo.catena-x.net    # Default URL
+        paths:
+          - path: /passport(/|$)(.*)
+            pathType: Prefix
 
-ingress:
-  enabled: false
+  avp:
+    helm:
+      clientId: "Add your secret here"
+      clientSecret: "Add your secret here"
+      xApiKey: "Add your secret here"
 
-avp:
-  helm:
-    clientId: "Add your secret here"
-    clientSecret: "Add your secret here"
-    xApiKey: "Add your secret here"
+  # Product Passport UI Configuration
+  productpass:
+    backend_url: "materialpass.int.demo.catena-x.net"
+    idp_url: "centralidp.int.demo.catena-x.net/auth/" # Default URL
+    passport:
+      version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
+    api:
+      max_retries: 5 # Max Retries for getting passport transfer
+      timeout: 60000 # 45 seconds in milliseconds
+      delay: 2000 # 2 seconds in milliseconds
+    keycloak:
+      clientId: 'Cl13-CX-Battery'
+      realm: 'CX-Central'
+      onLoad: 'login-required'
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+backend:
+  name: "consumer-backend" 
+  image:
+    repository: ghcr.io/catenax-ng/tx-digital-product-pass/product-pass-consumer-backend
+    pullPolicy: Always
 
-nodeSelector: {}
+  imagePullSecrets: []
 
-tolerations: []
+  service:
+    type: ClusterIP
+    port: 8888
 
-affinity: {}
+  ingress:
+    enabled: false
 
-application:
+  avp:
+    helm:
+      clientId: "Add your secret here"
+      clientSecret: "Add your secret here"
+      xApiKey: "Add your secret here"
+
+  application:
     yml: |-
       spring:
         application:
@@ -125,3 +147,22 @@ application:
         port: 8888
         tomcat:
           max-connections: 10000
+
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

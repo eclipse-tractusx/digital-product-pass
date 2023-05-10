@@ -35,8 +35,12 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## Deleted
 - Removed environment-specific configurations from consumer-backend
+- Removed standalone consumer-ui and backend helm charts
 
 ## Added
+- Added an umbrella helm chart digital-product-pass, containing consumer-frontend and consumer-backend helm deployments together
+- Prepare environment-specific values.yaml
+- Prepare values.yaml for default mode
 - Added Tooltip Component
 - Added Bar Component Fix
 

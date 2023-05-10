@@ -26,7 +26,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 
-## [0.7.0] - 2023-05-05
+## [0.7.0] - 2023-05-10
 
 ## Updated
 - Adapted springboot application yaml as a single source of configuration
@@ -56,25 +56,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
   
 ## Security Fixes
 - Blocked accessExcalation in the frontend helm templates.
-
-## [in preparation]
-
-## [0.7.0] - To be defined 
-
-## Updated
-- Adapted springboot application yaml as a single source of configuration
-- Externalized the consumer-backend configuration through k8s configmaps and helm values
-
-## Deleted
-- Removed environment-specific configurations from consumer-backend
-- Removed standalone consumer-ui and backend helm charts
-
-## Added
-- Added an umbrella helm chart digital-product-pass, containing consumer-frontend and consumer-backend helm deployments together
-- Prepare environment-specific values.yaml
-- Prepare values.yaml for default mode
-- Added Tooltip Component
-- Added Bar Component Fix
 
 ## [released]
 

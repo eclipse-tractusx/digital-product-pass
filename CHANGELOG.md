@@ -52,7 +52,10 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Prepare values.yaml for default mode
 - Added Tooltip Component
 - Added Bar Component Fix
+- Added new Readme to guide the developer/user thought the documentation
   
+## Security Fixes
+- Blocked accessExcalation in the frontend helm templates.
 
 ## [in preparation]
 

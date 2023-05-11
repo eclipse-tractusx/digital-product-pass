@@ -20,6 +20,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+
 import { defineConfig } from "cypress";
 
 export default defineConfig({
@@ -31,6 +32,7 @@ export default defineConfig({
     chromeWebSecurity: false,
 
     e2e: {
+        baseUrl: 'http://localhost:8080',
         setupNodeEvents() {
             // implement node event listeners here
         },

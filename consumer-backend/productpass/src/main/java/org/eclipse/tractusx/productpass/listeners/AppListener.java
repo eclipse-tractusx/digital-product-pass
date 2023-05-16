@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.listeners;
 
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -31,9 +32,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import utils.ConfigUtil;
 import utils.LogUtil;
+import utils.SystemUtil;
 
 @Component
 @Configuration
@@ -43,9 +46,8 @@ public class AppListener {
     @Autowired
     BuildProperties buildProperties;
 
-    public static final ConfigUtil configuration = new ConfigUtil();
-
-    public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
+    @Autowired
+    Environment env;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
@@ -59,7 +61,6 @@ public class AppListener {
                 "Listening to requests...\n\n";
 
         LogUtil.printMessage(serverStartUpMessage);
-        LogUtil.printMessage(tokenUri);
         LogUtil.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         LogUtil.printMessage("Creating log file...");
 

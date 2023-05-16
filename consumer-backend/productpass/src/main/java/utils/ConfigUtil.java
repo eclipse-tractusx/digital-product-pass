@@ -23,8 +23,10 @@
 
 package utils;
 
+import org.yaml.snakeyaml.Yaml;
 import utils.exceptions.UtilException;
 
+import javax.swing.*;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -37,13 +39,15 @@ public final class ConfigUtil {
 
     public ConfigUtil(){
         this.CONFIGURATION_FILE_PATH = CONFIGURATION_FILE_NAME +".yml";
-        InputStream fileContent  = FileUtil.getResourceContent(this.getClass(), this.CONFIGURATION_FILE_PATH);
-        Map<String,Object> tempConfiguration = YamlUtil.parseYmlStream(fileContent);
-        Object value = this.getConfigurationParam(tempConfiguration, CONFIGURATION_KEY, ".",null);
+        Map<String, Object> tempConfiguration;
+        InputStream fileContent = FileUtil.getResourceContent(this.getClass(), this.CONFIGURATION_FILE_PATH);
+        tempConfiguration = YamlUtil.parseYmlStream(fileContent);
+        Object value = this.getConfigurationParam(tempConfiguration, CONFIGURATION_KEY, ".", null);
         if (value == null) {
-            throw new UtilException(ConfigUtil.class,"[CRITICAL] Application configuration param not found!");
+            throw new UtilException(ConfigUtil.class, "[CRITICAL] Application configuration param not found!");
         }
         this.configuration = (Map<String, Object>) value;
+
     }
     public Map<String, Object> getConfiguration(){
         if (this.configuration == null) {

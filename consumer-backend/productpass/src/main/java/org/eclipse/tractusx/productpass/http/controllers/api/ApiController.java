@@ -43,11 +43,14 @@ import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,14 +64,10 @@ public class ApiController {
     private @Autowired DataTransferService dataService;
     private @Autowired AasService aasService;
     private @Autowired DataController dataController;
-
+    private @Autowired Environment env;
     private @Autowired AuthenticationService authService;
 
-    public static final ConfigUtil configuration = new ConfigUtil();
-    public final List<String> passportVersions = (List<String>) configuration.getConfigurationParam("passport.versions", ".", null);
-    public static final String defaultProviderUrl = (String) configuration.getConfigurationParam("variables.default.providerUrl", ".", null);
-
-    public static final Integer maxRetries = (Integer) configuration.getConfigurationParam("maxRetries", ".", null);
+    public ConfigUtil configuration = new ConfigUtil();
 
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         /*
@@ -110,7 +109,7 @@ public class ApiController {
             return HttpUtil.buildResponse(response, httpResponse);
         }
         if(providerUrl == null || providerUrl.equals("")){
-            providerUrl = defaultProviderUrl;
+            providerUrl = env.getProperty("configuration.variables.default.providerUrl", "");
         }
         Response response = HttpUtil.getResponse();
         ContractOffer contractOffer = null;
@@ -176,7 +175,7 @@ public class ApiController {
             // Initialize variables
             Offer contractOffer = null;
             // Check if version is available
-            if (!passportVersions.contains(version)) {
+            if (!env.getProperty("configuration.passport.versions", List.class, new ArrayList<String>()).contains(version)) {
                 response.message = "This passport version is not available at the moment!";
                 response.status = 403;
                 response.statusText = "Forbidden";
@@ -340,11 +339,11 @@ public class ApiController {
             // Get passport by versions
 
             int actualRetries = 1;
-            while (actualRetries <= maxRetries) {
+            while (actualRetries <= env.getProperty("configuration.maxRetries", Integer.class,5)) {
                 try {
                     response = dataController.getPassport(transferRequest.getId(), version);
                 } catch (Exception e) {
-                    LogUtil.printError("[" + transferRequest.getId() + "] Waiting 5 seconds and retrying #"+actualRetries+" of "+maxRetries+"... ");
+                    LogUtil.printError("[" + transferRequest.getId() + "] Waiting 5 seconds and retrying #"+actualRetries+" of "+env.getProperty("configuration.maxRetries", Integer.class,5)+"... ");
                     Thread.sleep(5000);
                 }
                 if(response.data!=null){

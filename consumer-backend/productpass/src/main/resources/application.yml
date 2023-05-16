@@ -22,15 +22,6 @@
 
 
 spring:
-  cloud:
-    kubernetes:
-      config:
-        name: backend-config
-        namespace: product-material-pass
-        sources:
-          - name: backend-config
-          - namespace: product-material-pass
-
   name: 'Catena-X Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true

@@ -47,7 +47,10 @@ spec:
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           securityContext: 
             allowPrivilegeEscalation: false 
-          env:          
+          env:
+            - name: "config.path"
+              value: "app/config"
+                        
             - name: "client.id"
               valueFrom:
                 secretKeyRef:

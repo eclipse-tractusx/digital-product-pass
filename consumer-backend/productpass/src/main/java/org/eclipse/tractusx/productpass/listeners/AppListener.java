@@ -43,6 +43,7 @@ public class AppListener {
     BuildProperties buildProperties;
 
     public static final ConfigUtil configuration = new ConfigUtil();
+    public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
@@ -56,6 +57,7 @@ public class AppListener {
                 "Listening to requests...\n\n";
 
         LogUtil.printMessage(serverStartUpMessage);
+        LogUtil.printMessage(tokenUri);
         LogUtil.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         LogUtil.printMessage("Creating log file...");
 

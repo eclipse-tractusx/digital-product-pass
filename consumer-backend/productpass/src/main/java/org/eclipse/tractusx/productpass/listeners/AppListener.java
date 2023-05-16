@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.listeners;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -43,6 +44,7 @@ public class AppListener {
     BuildProperties buildProperties;
 
     public static final ConfigUtil configuration = new ConfigUtil();
+
     public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
 
     @EventListener(ApplicationReadyEvent.class)

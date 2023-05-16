@@ -27,7 +27,10 @@ spring:
       config:
         name: backend-config
         namespace: product-material-pass
-        
+        sources:
+          - name: backend-config
+          - namespace: product-material-pass
+
   name: 'Catena-X Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
@@ -38,7 +41,6 @@ spring:
       indent_output: true
 
 configuration:
-
   logUtil:
     level: 7 # 7 FOR INFO AND 8 FOR DEBUG
     async: false

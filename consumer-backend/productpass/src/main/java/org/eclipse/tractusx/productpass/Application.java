@@ -41,11 +41,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
+import utils.LogUtil;
+
 import java.util.Map;
 
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={
+        "utils", "org.eclipse.tractusx.productpass"})
 @EnableAsync
 @SecurityScheme(
         description = "Access token generated in the Product Passport Consumer Frontend, against the Catena-X IAM Service",
@@ -60,7 +64,8 @@ public class Application {
     @Autowired
     BuildProperties buildProperties;
 
-
+    @Autowired
+    Environment env;
 	public static void main(String[] args) {
 
         SpringApplication application =

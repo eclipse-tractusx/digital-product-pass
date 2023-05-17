@@ -67,7 +67,7 @@ public class ApiController {
     private @Autowired Environment env;
     private @Autowired AuthenticationService authService;
 
-    public ConfigUtil configuration = new ConfigUtil();
+    private @Autowired HttpUtil httpUtil;
 
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         /*
@@ -88,8 +88,8 @@ public class ApiController {
     @RequestMapping(value="/api/*", method = RequestMethod.GET)
     @Hidden         // hide this endpoint from api documentation - swagger-ui
     Response index() throws Exception{
-        HttpUtil.redirect(httpResponse,"/passport");
-        return HttpUtil.getResponse("Redirect to UI");
+        httpUtil.redirect(httpResponse,"/passport");
+        return httpUtil.getResponse("Redirect to UI");
     }
 
     @RequestMapping(value = "/contracts/{assetId}", method = {RequestMethod.GET})
@@ -105,13 +105,13 @@ public class ApiController {
     ) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
-            Response response = HttpUtil.getNotAuthorizedResponse();
-            return HttpUtil.buildResponse(response, httpResponse);
+            Response response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
         }
         if(providerUrl == null || providerUrl.equals("")){
             providerUrl = env.getProperty("configuration.variables.default.providerUrl", "");
         }
-        Response response = HttpUtil.getResponse();
+        Response response = httpUtil.getResponse();
         ContractOffer contractOffer = null;
         try {
             contractOffer = this.getContractOfferByAssetId(assetId, providerUrl);
@@ -119,18 +119,18 @@ public class ApiController {
             response.message = e.getMessage();
             response.status = 500;
             response.statusText = "Server Internal Error";
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         if (contractOffer == null) {
             response.message = "Asset ID not found in any contract!";
             response.status = 404;
             response.statusText = "Not Found";
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         ;
         response.message = "Asset ID: " + assetId + " found in contractOffer [" + contractOffer.getId() + "]";
         response.data = contractOffer;
-        return HttpUtil.buildResponse(response, httpResponse);
+        return httpUtil.buildResponse(response, httpResponse);
     }
 
 
@@ -162,11 +162,13 @@ public class ApiController {
     ) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
-            Response response = HttpUtil.getNotAuthorizedResponse();
-            return HttpUtil.buildResponse(response, httpResponse);
+            Response response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
         }
         // Initialize response
-        Response response = HttpUtil.getResponse();
+        Response response = httpUtil.getResponse();
+        List<String> versions = env.getProperty("configuration.passport.versions", List.class, new ArrayList<String>());
+        LogUtil.printMessage(versions.toString());
         try {
             // Configure digital twin registry query and params
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(id, idType, dtIndex, idShort);
@@ -175,11 +177,11 @@ public class ApiController {
             // Initialize variables
             Offer contractOffer = null;
             // Check if version is available
-            if (!env.getProperty("configuration.passport.versions", List.class, new ArrayList<String>()).contains(version)) {
+            if (!versions.contains(version)) {
                 response.message = "This passport version is not available at the moment!";
                 response.status = 403;
                 response.statusText = "Forbidden";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             // Wait for thread to close and give a response
@@ -199,14 +201,14 @@ public class ApiController {
                 response.message = "Failed to get the submodel from the digital twin registry!";
                 response.status = 404;
                 response.statusText = "Not Found";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
                 response.message = "Failed to get connectorId and connectorAddress!";
                 response.status = 400;
                 response.statusText = "Bad Request";
                 response.data = subModel;
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             try {
@@ -215,14 +217,14 @@ public class ApiController {
                 response.message = "Failed to build endpoint url to ["+connectorAddress+"]!";
                 response.status = 422;
                 response.statusText = "Unprocessable Content";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
             if (connectorAddress.isEmpty()) {
                 response.message = "Failed to parse endpoint ["+connectorAddress+"]!";
                 response.status = 422;
                 response.statusText = "Unprocessable Content";
                 response.data = subModel;
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             String assetId = String.join("-",digitalTwin.getIdentification(), subModel.getIdentification());
@@ -235,7 +237,7 @@ public class ApiController {
                 response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             // Check if contract offer was not received
@@ -243,7 +245,7 @@ public class ApiController {
                 response.message = "Asset Id not found in any contract!";
                 response.status = 404;
                 response.statusText = "Not Found";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
 
@@ -256,14 +258,14 @@ public class ApiController {
                 response.message = "Negotiation Id not received, something went wrong" + " [" + e.getMessage() + "]";
                 response.status = 400;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             if (negotiation.getId() == null) {
                 response.message = "Negotiation Id not received, something went wrong";
                 response.status = 400;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             /*[3]=========================================*/
@@ -274,14 +276,14 @@ public class ApiController {
                 response.message = "The negotiation for asset id failed!" + " [" + e.getMessage() + "]";
                 response.status = 400;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
             if (negotiation.getState().equals("ERROR")) {
                 response.message = "The negotiation for asset id failed!";
                 response.status = 400;
                 response.data = negotiation;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
 
@@ -305,13 +307,13 @@ public class ApiController {
                 response.message = "It was not posible to initiate the transfer process!";
                 response.status = 500;
                 response.statusText = "Internal Server Error";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
             if (transfer.getId() == null) {
                 response.message = "Transfer Id not received, something went wrong";
                 response.status = 400;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
 
@@ -323,7 +325,7 @@ public class ApiController {
                 response.message = "It was not possible to retrieve the transfer!";
                 response.status = 500;
                 response.statusText = "Internal Server Error";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             // If error return transfer message
@@ -332,18 +334,19 @@ public class ApiController {
                 response.message = "The transfer process failed!";
                 response.status = 400;
                 response.statusText = "Bad Request";
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             /*[9]=========================================*/
             // Get passport by versions
 
             int actualRetries = 1;
-            while (actualRetries <= env.getProperty("configuration.maxRetries", Integer.class,5)) {
+            Integer maxRetries = env.getProperty("configuration.maxRetries", Integer.class,5);
+            while (actualRetries <= maxRetries) {
                 try {
                     response = dataController.getPassport(transferRequest.getId(), version);
                 } catch (Exception e) {
-                    LogUtil.printError("[" + transferRequest.getId() + "] Waiting 5 seconds and retrying #"+actualRetries+" of "+env.getProperty("configuration.maxRetries", Integer.class,5)+"... ");
+                    LogUtil.printError("[" + transferRequest.getId() + "] Waiting 5 seconds and retrying #"+actualRetries+" of "+maxRetries+"... ");
                     Thread.sleep(5000);
                 }
                 if(response.data!=null){
@@ -362,7 +365,7 @@ public class ApiController {
                         "transfer", transfer
                 );
                 response.data = new PassportResponse(metadata, passport);
-                return HttpUtil.buildResponse(response, httpResponse);
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
             // Error or Exception response
@@ -372,7 +375,7 @@ public class ApiController {
                 response.statusText = "Not Found";
                 LogUtil.printError("["+response.status+" Not Found]: "+response.message);
             }
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
 
         } catch (InterruptedException e) {
             // Restore interrupted state...
@@ -380,12 +383,12 @@ public class ApiController {
             response.message = e.getMessage();
             response.status = 500;
             response.statusText = "Internal Server Error";
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
             response.status = 500;
             response.statusText = "Internal Server Error";
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
 
     }

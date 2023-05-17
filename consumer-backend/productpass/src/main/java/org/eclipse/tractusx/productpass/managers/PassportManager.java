@@ -24,10 +24,13 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import org.eclipse.tractusx.productpass.models.manager.Manager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.LogUtil;
 import utils.ReflectionUtil;
 
 public abstract class PassportManager extends Manager {
+
     public PassportManager(){
         super();
         this.setManager(ReflectionUtil.getCurrentClassName(this.getClass()));

@@ -23,6 +23,9 @@
 
 package utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import utils.exceptions.UtilException;
 
 import java.io.*;
@@ -31,13 +34,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+@Service
 public final class FileUtil {
-    private FileUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
-    }
-    public static String toFile(String filePath, String content, Boolean append) throws IOException {
-        FileUtil.createFile(filePath);
+
+
+    public String toFile(String filePath, String content, Boolean append) throws IOException {
+        this.createFile(filePath);
         try(
             FileWriter fw = new FileWriter(filePath,append)
         ){
@@ -49,7 +51,7 @@ public final class FileUtil {
         }
         return filePath;
     }
-    public static File newFile(String filePath){
+    public File newFile(String filePath){
         return new File(filePath);
     }
 
@@ -57,23 +59,23 @@ public final class FileUtil {
         return Paths.get(System.getProperty("user.dir")).toString();
     }
 
-    public static String getBaseClassDir(Class selectedClass){
-        return FileUtil.normalizePath(selectedClass.getProtectionDomain().getCodeSource().getLocation().getPath());
+    public String getBaseClassDir(Class selectedClass){
+        return this.normalizePath(selectedClass.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
 
-    public static String createFile(String filePath){
+    public String createFile(String filePath){
         try {
             File myObj = new File(filePath);
             myObj.getParentFile().mkdirs();
             if (myObj.createNewFile()) {
-               LogUtil.printMessage("File created in path [" + filePath + "]");
+                LogUtil.printMessage("File created in path [" + filePath + "]");
             }
             return myObj.getPath();
         } catch (Exception e) {
             throw new UtilException(FileUtil.class,"It was not possible to create new file at ["+filePath+"], " + e.getMessage()) ;
         }
     }
-    public static String getResourceAsString(InputStream fileContent){
+    public String getResourceAsString(InputStream fileContent){
         InputStreamReader fileContentReader =  new InputStreamReader(
                 fileContent,
                 StandardCharsets.UTF_8);
@@ -92,33 +94,33 @@ public final class FileUtil {
         return text.toString();
     }
 
-    public static InputStream getResourceContent(Class selectedClass, String resourcePath){
+    public InputStream getResourceContent(Class selectedClass, String resourcePath){
         try {
             return selectedClass.getClassLoader().getResourceAsStream(resourcePath);
         }catch (Exception e) {
             throw new UtilException(FileUtil.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "], " + e.getMessage());
         }
     }
-    public static String getResourcePath(Class selectedClass, String resourcePath){
+    public String getResourcePath(Class selectedClass, String resourcePath){
         try {
-            return FileUtil.normalizePath(selectedClass.getClassLoader().getResource(resourcePath).getPath());
+            return this.normalizePath(selectedClass.getClassLoader().getResource(resourcePath).getPath());
         }catch (Exception e) {
             throw new UtilException(FileUtil.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "], " + e.getMessage());
         }
     }
 
-    public static String createDataDir(String name){
-        String workDir = FileUtil.getWorkdirPath();
+    public String createDataDir(String name){
+        String workDir = this.getWorkdirPath();
         String path = Paths.get(workDir ,"data" , name).toAbsolutePath().toString();
-        return FileUtil.createDir(path);
+        return this.createDir(path);
     }
-    public static String createTmpDir(String name){
-        String workDir = FileUtil.getWorkdirPath();
+    public String createTmpDir(String name){
+        String workDir = this.getWorkdirPath();
         String path = Paths.get(workDir ,"tmp" , name).toAbsolutePath().toString();
-        return FileUtil.createDir(path);
+        return this.createDir(path);
     }
 
-    public static String getTmpDir(String dirName){
+    public  String getTmpDir(String dirName){
         try {
             return Files.createTempDirectory(dirName).toFile().getAbsolutePath();
         } catch (IOException e) {
@@ -126,17 +128,17 @@ public final class FileUtil {
         }
     }
 
-    public static String createDir(String dirPath){
+    public  String createDir(String dirPath){
         try {
             return Files.createDirectories(Path.of(dirPath)).toAbsolutePath().toString();
         } catch (IOException e) {
             throw new UtilException(FileUtil.class, "It was not possible to create dir [" + dirPath + "]");
         }
     }
-    public static String readFile(String path){
+    public String readFile(String path){
 
             try {
-                if(!FileUtil.pathExists(path)) {
+                if(!this.pathExists(path)) {
                     LogUtil.printError("The file does not exists in [" + path + "]!");
                     return null;
                 }
@@ -147,17 +149,17 @@ public final class FileUtil {
 
     }
 
-    public static String getRootPath(){
+    public  String getRootPath(){
         try {
             return System.getProperty("user.dir");
         } catch (Exception e) {
             throw new UtilException(FileUtil.class, "It was not possible to get root path");
         }
     }
-    public static String readFile(Path path){
+    public String readFile(Path path){
 
         try {
-            if(!FileUtil.pathExists(path)) {
+            if(!this.pathExists(path)) {
                 LogUtil.printError("The file does not exists in path [" + path.toString() + "]!");
                 return null;
             }
@@ -167,16 +169,16 @@ public final class FileUtil {
         }
 
     }
-    public static String createDir(Path dirPath){
+    public  String createDir(Path dirPath){
         try {
             return Files.createDirectories(dirPath).toAbsolutePath().toString();
         } catch (IOException e) {
             throw new UtilException(FileUtil.class, "It was not possible to create dir [" + dirPath + "]");
         }
     }
-    public static String createSubDir(String dirPath, String subDirName){
+    public  String createSubDir(String dirPath, String subDirName){
         try {
-            if(!FileUtil.pathExists(dirPath)){
+            if(!this.pathExists(dirPath)){
                 throw new UtilException(FileUtil.class, "Path " + dirPath + " does not exist! Can't create subdir: " + subDirName);
             }
             return Files.createDirectories(Path.of(dirPath)).toAbsolutePath().toString();
@@ -184,7 +186,7 @@ public final class FileUtil {
             throw new UtilException(FileUtil.class, "It was not possible to create subdir [" + subDirName + "] in [" + dirPath + "]");
         }
     }
-    public static String getTmpFile(String fileName, String extension){
+    public  String getTmpFile(String fileName, String extension){
         try {
             return Files.createTempFile(fileName, extension).getFileName().toAbsolutePath().toString();
         } catch (Exception e) {
@@ -192,26 +194,26 @@ public final class FileUtil {
         }
     }
 
-    public static Boolean pathExists(String path){
+    public  Boolean pathExists(String path){
         return Files.exists(Path.of(path));
     }
-    public static Boolean fileExists(File file){
+    public  Boolean fileExists(File file){
         return file.exists();
     }
-    public static Boolean pathExists(Path path){
+    public  Boolean pathExists(Path path){
         return Files.exists(path);
     }
-    public static String normalizePath(String path) {
+    public  String normalizePath(String path) {
         try {
             return new File(path).getCanonicalPath();
         } catch (IOException e) {
             throw new UtilException(FileUtil.class,"[ERROR] It was not possible to normalize path ["+path+"]");
         }
     }
-    public static String getClassFile(Class selectedClass){
+    public  String getClassFile(Class selectedClass){
         return selectedClass.getName().replace(".", "/") + ".java";
     }
-    public static String getClassPackageDir(Class selectedClass){
+    public  String getClassPackageDir(Class selectedClass){
         return selectedClass.getPackageName().replace(".", "/");
     }
 }

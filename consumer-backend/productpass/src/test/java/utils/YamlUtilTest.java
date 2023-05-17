@@ -25,6 +25,10 @@ package utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.HashMap;
@@ -32,9 +36,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Component
 class YamlUtilTest {
 
-
+    private @Autowired
+    YamlUtil yamlUtil;
     String yaml;
     @BeforeEach
     void setUp() {
@@ -45,7 +51,7 @@ class YamlUtilTest {
         Map<String, Object> parsedYaml = null;
         String expected = "testString2";
         try{
-            parsedYaml = YamlUtil.parseYml(yaml);
+            parsedYaml = yamlUtil.parseYml(yaml);
         } catch(Exception e){
             fail("It was not possible to parse yaml: " + e.getMessage());
         }
@@ -57,11 +63,11 @@ class YamlUtilTest {
         Map<String, Object> parsedYaml;
         String dumpYaml = null;
         try{
-            parsedYaml = YamlUtil.parseYml(yaml);
+            parsedYaml = yamlUtil.parseYml(yaml);
             if(parsedYaml == null){
                 fail("It was not possible to parse yaml!");
             }
-            dumpYaml = YamlUtil.dumpYml(parsedYaml, 2, true);
+            dumpYaml = yamlUtil.dumpYml(parsedYaml, 2, true);
         } catch(Exception e){
             fail("It was not possible to dump yaml: " + e.getMessage());
         }

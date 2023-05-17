@@ -23,28 +23,32 @@
 
 package utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import utils.exceptions.UtilException;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public final class YamlUtil {
 
-    private YamlUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
-    }
 
-    public static Map<String, Object> readFile(String filePath) {
+    private @Autowired
+    FileUtil fileUtil;
+
+    public Map<String, Object> readFile(String filePath) {
         try {
-            InputStream inputStream = new FileInputStream(FileUtil.newFile(filePath));
+            InputStream inputStream = new FileInputStream(fileUtil.newFile(filePath));
             Yaml yaml = new Yaml();
             return yaml.load(inputStream);
         } catch (Exception e) {
@@ -52,7 +56,7 @@ public final class YamlUtil {
         }
     }
 
-    public static Map<String, Object> parseYml(String fileContent) {
+    public Map<String, Object> parseYml(String fileContent) {
         try {
             Yaml yaml = new Yaml();
             return yaml.load(fileContent);
@@ -61,7 +65,7 @@ public final class YamlUtil {
         }
     }
 
-    public static Map<String, Object> parseYmlStream(InputStream fileContent) {
+    public Map<String, Object> parseYmlStream(InputStream fileContent) {
         try {
             Yaml yaml = new Yaml();
             return yaml.load(fileContent);
@@ -70,7 +74,7 @@ public final class YamlUtil {
         }
     }
 
-    public static String dumpYml(Map<String, Object> map, Integer indent, Boolean prettyPrint) {
+    public String dumpYml(Map<String, Object> map, Integer indent, Boolean prettyPrint) {
         try {
             DumperOptions options = new DumperOptions();
             options.setIndent(indent);
@@ -82,7 +86,7 @@ public final class YamlUtil {
             throw new UtilException(YamlUtil.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
-    public static String dumpYml(Object obj, Integer indent, Boolean prettyPrint) {
+    public String dumpYml(Object obj, Integer indent, Boolean prettyPrint) {
         try {
             DumperOptions options = new DumperOptions();
             options.setIndent(indent);
@@ -94,7 +98,7 @@ public final class YamlUtil {
             throw new UtilException(YamlUtil.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
-    public static Map<String, Object> getValue(String key) {
+    public Map<String, Object> getValue(String key) {
         try {
             return null;
         } catch (Exception e) {

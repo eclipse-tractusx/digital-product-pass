@@ -27,6 +27,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +38,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Component
 class JsonUtilTest {
+
+    private @Autowired
+    JsonUtil jsonUtil;
 
     String testJson;
     String escapedJson;
@@ -76,7 +84,7 @@ class JsonUtilTest {
     void toMap() {
         Map<String, Object> map = null;
         try {
-            map = (Map<String, Object>) JsonUtil.toMap(testJsonObject);
+            map = (Map<String, Object>) jsonUtil.toMap(testJsonObject);
         }catch (Exception e){
             fail("It was not possible to map json object: " + e.getMessage());
         }
@@ -117,7 +125,7 @@ class JsonUtilTest {
 
     @Test
     void isJson() {
-        assertTrue(JsonUtil.isJson(testJson));
+        assertTrue(jsonUtil.isJson(testJson));
     }
 
 
@@ -125,7 +133,7 @@ class JsonUtilTest {
     void loadJson() {
         TestJsonClass json = null;
         try {
-            json = (TestJsonClass) JsonUtil.loadJson(testJson, TestJsonClass.class);
+            json = (TestJsonClass) jsonUtil.loadJson(testJson, TestJsonClass.class);
         }catch (Exception e){
             fail("It was not possible to load json: " + e.getMessage());
         }
@@ -137,7 +145,7 @@ class JsonUtilTest {
     void escapeJson() {
         String newJson = null;
         try {
-            newJson = JsonUtil.escapeJson(testJson);
+            newJson = jsonUtil.escapeJson(testJson);
         }catch (Exception e) {
             fail("It was not possible to escape json: " + e.getMessage());
         }
@@ -149,7 +157,7 @@ class JsonUtilTest {
     void parseJson() {
         Object newJson = null;
         try {
-            newJson = JsonUtil.parseJson(testJson);
+            newJson = jsonUtil.parseJson(testJson);
         }catch (Exception e) {
             fail("It was not possible to parse json: " + e.getMessage());
         }
@@ -160,7 +168,7 @@ class JsonUtilTest {
     void toJson() {
         String dumpJson = null;
         try {
-            dumpJson =  JsonUtil.toJson(testJsonObject, false);
+            dumpJson =  jsonUtil.toJson(testJsonObject, false);
         }catch (Exception e){
             fail("It was not possible to load json: " + e.getMessage());
         }
@@ -176,7 +184,7 @@ class JsonUtilTest {
         String expectedValue = "testString3";
         String receivedValue = null;
         try {
-            receivedValue = (String) JsonUtil.getValue(testJsonObject, keyPath,pathSep, null);
+            receivedValue = (String) jsonUtil.getValue(testJsonObject, keyPath,pathSep, null);
         }catch (Exception e) {
             fail("It was not possible to get value for path ["+keyPath+"]: " + e.getMessage());
         }
@@ -191,8 +199,8 @@ class JsonUtilTest {
         Integer settedValue = null;
         HashMap<String, Object> newJsonObject = null;
         try {
-            newJsonObject = (HashMap<String, Object>) JsonUtil.setValue(mappedTestObject, keyPath, expectedValue,pathSep, null);
-            settedValue = (Integer) JsonUtil.getValue(newJsonObject, keyPath, pathSep, null);
+            newJsonObject = (HashMap<String, Object>) jsonUtil.setValue(mappedTestObject, keyPath, expectedValue,pathSep, null);
+            settedValue = (Integer) jsonUtil.getValue(newJsonObject, keyPath, pathSep, null);
         }catch (Exception e) {
             fail("It was not possible to set value for path ["+keyPath+"]: " + e.getMessage());
         }
@@ -205,7 +213,7 @@ class JsonUtilTest {
         Integer expectedValue = 123456789;
         Integer receivedValue = null;
         try {
-            jsonNode = JsonUtil.toJsonNode(testJson);
+            jsonNode = jsonUtil.toJsonNode(testJson);
         }catch (Exception e) {
             fail("It was not possible to parse string to jsonNode: " + e.getMessage());
         }
@@ -223,8 +231,8 @@ class JsonUtilTest {
         JsonNode jsonNode = null;
         String expectedValue = "testString2";
         try {
-            jsonNode = JsonUtil.toJsonNode(testJson);
-            obj = (TestJsonClass) JsonUtil.bindJsonNode(jsonNode,TestJsonClass.class);
+            jsonNode = jsonUtil.toJsonNode(testJson);
+            obj = (TestJsonClass) jsonUtil.bindJsonNode(jsonNode,TestJsonClass.class);
         }catch (Exception e) {
             fail("It was not possible to bind json: " + e.getMessage());
         }

@@ -32,10 +32,6 @@ spring:
       indent_output: true
 
 configuration:
-  logUtil:
-    level: 7 # 7 FOR INFO AND 8 FOR DEBUG
-    async: false
-
   maxRetries: 5
 
   keycloak:

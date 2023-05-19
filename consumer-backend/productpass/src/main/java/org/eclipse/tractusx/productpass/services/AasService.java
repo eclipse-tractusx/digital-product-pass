@@ -23,7 +23,6 @@
 
 package org.eclipse.tractusx.productpass.services;
 
-import org.checkerframework.checker.units.qual.A;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.service.BaseService;

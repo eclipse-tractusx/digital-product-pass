@@ -137,7 +137,7 @@ npm/npmjs/-/function-bind/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/functional-red-black-tree/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/gensync/1.0.0-beta.2, MIT, approved, clearlydefined
 npm/npmjs/-/get-caller-file/2.0.5, ISC, approved, clearlydefined
-npm/npmjs/-/get-intrinsic/1.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/get-intrinsic/1.2.0, MIT, approved, #8453
 npm/npmjs/-/get-stream/5.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/getos/3.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/getpass/0.1.7, MIT, approved, clearlydefined
@@ -324,7 +324,7 @@ npm/npmjs/-/type-fest/0.21.3, MIT OR (CC0-1.0 AND MIT), approved, clearlydefined
 npm/npmjs/-/universalify/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/untildify/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/upath/2.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/update-browserslist-db/1.0.10, MIT, approved, clearlydefined
+npm/npmjs/-/update-browserslist-db/1.0.10, MIT, approved, #8237
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
 npm/npmjs/-/util/0.10.4, MIT, approved, clearlydefined

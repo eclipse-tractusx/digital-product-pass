@@ -23,12 +23,22 @@
 
 package org.eclipse.tractusx.productpass.models.manager;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.FileUtil;
 import utils.JsonUtil;
 
+import java.io.File;
 import java.nio.file.Paths;
-
+@Component
 public abstract class Manager {
+
+    @Autowired
+    FileUtil fileUtil;
+
+    @Autowired
+    JsonUtil jsonUtil;
+
     protected String dataModelName;
     protected String dataDir;
     protected String tmpDir;
@@ -37,8 +47,8 @@ public abstract class Manager {
     protected String dataModelPath;
 
     public void setManager(String className){
-        this.dataDir = FileUtil.createDataDir(className);
-        this.tmpDir = FileUtil.createTmpDir(className);
+        this.dataDir = fileUtil.createDataDir(className);
+        this.tmpDir = fileUtil.createTmpDir(className);
         this.dataModelName = this.getDataModelName();
         this.dataModel = new DataModel(this.dataModelName, this.dataDir);
     }
@@ -75,14 +85,14 @@ public abstract class Manager {
 
     public DataModel loadDataModel(){
         this.dataModelPath = this.buildDataModelPath();
-        if(!FileUtil.pathExists(this.dataModelPath)){
-            JsonUtil.toJsonFile(this.dataModelPath, this.dataModel, true);
+        if(!fileUtil.pathExists(this.dataModelPath)){
+            jsonUtil.toJsonFile(this.dataModelPath, this.dataModel, true);
         }
-        return (DataModel) JsonUtil.fromJsonFile(this.dataModelPath);
+        return (DataModel) jsonUtil.fromJsonFile(this.dataModelPath);
     }
     public String saveDataModel(){
         this.dataModelPath = this.buildDataModelPath();
-        return JsonUtil.toJsonFile(this.dataModelPath, this.dataModel, true);
+        return jsonUtil.toJsonFile(this.dataModelPath, this.dataModel, true);
     }
 
 

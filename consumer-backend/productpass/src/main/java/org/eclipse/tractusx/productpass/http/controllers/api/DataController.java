@@ -59,6 +59,10 @@ public class DataController {
     private @Autowired AasService aasService;
     private @Autowired AuthenticationService authService;
 
+
+    @Autowired
+    HttpUtil httpUtil;
+
     @RequestMapping(value = "/passport/{transferId}", method = {RequestMethod.GET})
     @Operation(summary = "Returns product passport by transfer process Id", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
@@ -69,10 +73,10 @@ public class DataController {
     public Response getPassport(@PathVariable("transferId") String transferId, @RequestParam(value="version", required = false, defaultValue = "v3.0.1") String version) {
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
-            Response response = HttpUtil.getNotAuthorizedResponse();
-            return HttpUtil.buildResponse(response, httpResponse);
+            Response response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
         }
-        Response response = HttpUtil.getResponse();
+        Response response = httpUtil.getResponse();
         Passport passport = null;
         if(version.equals("v3.0.1")) { // Currently supporting just version v3
             passport = dataService.getPassportV3(transferId);
@@ -81,17 +85,17 @@ public class DataController {
             response.status = 400;
             response.statusText = "Bad Request";
             response.data = null;
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         if (passport == null) {
             response.message = "Passport for transfer [" + transferId + "] not found!";
             response.status = 404;
             response.statusText = "Not Found";
             response.data = null;
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         response.data = passport;
         LogUtil.printMessage("Passport for transfer [" + transferId + "] retrieved successfully!");
-        return HttpUtil.buildResponse(response, httpResponse);
+        return httpUtil.buildResponse(response, httpResponse);
     }
 }

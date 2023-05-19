@@ -29,6 +29,10 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,26 +47,41 @@ import java.util.Map;
 @Service
 public class DataTransferService extends BaseService {
 
-    private final VaultService vaultService = new VaultService();
-    public static final ConfigUtil configuration = new ConfigUtil();
-    public final String serverUrl = (String) configuration.getConfigurationParam("variables.default.serverUrl", ".", null);
-    public final String APIKey = (String) vaultService.getLocalSecret("apiKey");
-    public final String providerUrl = (String) configuration.getConfigurationParam("variables.default.providerUrl", ".", null);
 
-    public DataTransferService() throws ServiceInitializationException {
+    private final HttpUtil httpUtil;
+
+    private final JsonUtil jsonUtil;
+
+    public String APIKey;
+
+    public String serverUrl;
+    public String providerUrl;
+
+
+    @Autowired
+    public DataTransferService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService) throws ServiceInitializationException {
+        this.httpUtil = httpUtil;
+        this.jsonUtil = jsonUtil;
+        this.init(vaultService, env);
         this.checkEmptyVariables(List.of("APIKey")); // Add API Key as optional for initialization
+    }
+
+    public void init(VaultService vaultService, Environment env){
+        this.APIKey = (String) vaultService.getLocalSecret("apiKey");
+        this.serverUrl = env.getProperty("configuration.endpoints.serverUrl", "");
+        this.providerUrl = env.getProperty("configuration.endpoints.providerUrl", "");
     }
 
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
-        if (serverUrl == null || serverUrl.isEmpty()) {
+        if (this.serverUrl == null || this.serverUrl.isEmpty()) {
             missingVariables.add("serverUrl");
         }
         if (APIKey == null || APIKey.isEmpty()) {
             missingVariables.add("APIKey");
         }
-        if (providerUrl == null || providerUrl.isEmpty()) {
+        if (this.serverUrl == null || this.providerUrl.isEmpty()) {
             missingVariables.add("providerUrl");
         }
         return missingVariables;
@@ -74,18 +93,18 @@ public class DataTransferService extends BaseService {
             String provider = providerUrl;
             String path = "/consumer/data/catalog";
             if (providerUrl == null) {
-                provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+                provider = this.providerUrl;
             }
-            String url = serverUrl + path;
-            Map<String, Object> params = HttpUtil.getParams();
+            String url =  this.serverUrl  + path;
+            Map<String, Object> params = httpUtil.getParams();
             params.put("providerUrl", provider);
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            ResponseEntity<?> response = HttpUtil.doGet(url, String.class, headers, params, false, false);
+            ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, false, false);
             String body = (String) response.getBody();
-            JsonNode json = JsonUtil.toJsonNode(body);
-            return (Catalog) JsonUtil.bindJsonNode(json, Catalog.class);
+            JsonNode json = jsonUtil.toJsonNode(body);
+            return (Catalog) jsonUtil.bindJsonNode(json, Catalog.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
                     e,
@@ -99,22 +118,22 @@ public class DataTransferService extends BaseService {
             contractOffer.open();
             String provider = providerUrl;
             LogUtil.printDebug("["+contractOffer.getId()+"] ===== [INITIALIZING CONTRACT NEGOTIATION] ===========================================", true);
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
             if (providerUrl == null) {
-                provider = (String) configuration.getConfigurationParam("variables.providerUrl", ".", null);
+                provider = this.providerUrl;
             }
-            if (serverUrl == null || APIKey == null) {
+            if (this.serverUrl .equals("") || APIKey == null) {
                 return null;
             }
-            String url = serverUrl + path;
+            String url =  this.serverUrl  + path;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Object body = new NegotiationOffer(contractOffer.getConnectorId(), provider, contractOffer);
-            ResponseEntity<?> response = HttpUtil.doPost(url, JsonNode.class, headers, HttpUtil.getParams(), body, false, false);
+            ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
-            return (Negotiation) JsonUtil.bindJsonNode(result, Negotiation.class);
+            return (Negotiation) jsonUtil.bindJsonNode(result, Negotiation.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "doContractNegotiations",
                     e,
@@ -125,16 +144,16 @@ public class DataTransferService extends BaseService {
     public Negotiation getNegotiation(String Id) {
         try {
             this.checkEmptyVariables();
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             String path = "/consumer/data/contractnegotiations";
             // Get variables from configuration
-            if (serverUrl == null || APIKey == null) {
+            if (this.serverUrl .equals("") || APIKey == null) {
                 return null;
             }
-            String url = serverUrl + path + "/" + Id;
+            String url = this.serverUrl  + path + "/" + Id;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            Map<String, Object> params = HttpUtil.getParams();
+            Map<String, Object> params = httpUtil.getParams();
             JsonNode body = null;
             String actualState = "";
             boolean sw = true;
@@ -142,7 +161,7 @@ public class DataTransferService extends BaseService {
             Instant end = start;
             LogUtil.printDebug("["+Id+"] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================", true);
             while (sw) {
-                ResponseEntity<?> response = HttpUtil.doGet(url, JsonNode.class, headers, params, false, false);
+                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
                 body = (JsonNode) response.getBody();
                 if(body == null){
                     sw = false;
@@ -167,7 +186,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
             }
-            return (Negotiation) JsonUtil.bindJsonNode(body, Negotiation.class);
+            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -179,16 +198,16 @@ public class DataTransferService extends BaseService {
     public Transfer initiateTransfer(TransferRequest transferRequest) {
         try {
             this.checkEmptyVariables();
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             String path = "/consumer/data/transferprocess";
             // Get variables from configuration
-            String url = serverUrl + path;
+            String url = this.serverUrl + path;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
             Object body = transferRequest;
-            ResponseEntity<?> response = HttpUtil.doPost(url, String.class, headers, HttpUtil.getParams(), body, false, false);
+            ResponseEntity<?> response = httpUtil.doPost(url, String.class, headers, httpUtil.getParams(), body, false, false);
             String responseBody = (String) response.getBody();
-            return (Transfer) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), Transfer.class);
+            return (Transfer) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), Transfer.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "doTransferProcess",
                     e,
@@ -199,12 +218,12 @@ public class DataTransferService extends BaseService {
     public Transfer getTransfer(String Id) {
         try {
             this.checkEmptyVariables();
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             String path = "/consumer/data/transferprocess";
-            String url = serverUrl + path + "/" + Id;
+            String url = this.serverUrl  + path + "/" + Id;
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", APIKey);
-            Map<String, Object> params = HttpUtil.getParams();
+            Map<String, Object> params = httpUtil.getParams();
             JsonNode body =  null;
             String actualState = "";
             boolean sw = true;
@@ -212,7 +231,7 @@ public class DataTransferService extends BaseService {
             Instant end = start;
             LogUtil.printDebug("["+Id+"] ===== [STARTING CONTRACT TRANSFER] ===========================================", true);
             while (sw) {
-                ResponseEntity<?> response = HttpUtil.doGet(url, JsonNode.class, headers, params, false, false);
+                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
                 body = (JsonNode) response.getBody();
                 if(body == null){
                     sw = false;
@@ -237,7 +256,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
             }
-            return (Transfer) JsonUtil.bindJsonNode(body, Transfer.class);
+            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
@@ -250,19 +269,19 @@ public class DataTransferService extends BaseService {
         try {
             this.checkEmptyVariables();
             String path = "/consumer_backend";
-            String url = serverUrl + path + "/" + transferProcessId;
-            Map<String, Object> params = HttpUtil.getParams();
-            HttpHeaders headers = HttpUtil.getHeaders();
+            String url = this.serverUrl  + path + "/" + transferProcessId;
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Accept", "application/octet-stream");
             boolean retry = false;
             ResponseEntity<?> response = null;
             try {
-                response = HttpUtil.doGet(url, String.class, headers, params, false, false);
+                response = httpUtil.doGet(url, String.class, headers, params, false, false);
             }catch (Exception e){
                 throw new ServiceException(this.getClass().getName() + ".getPassportV3", "It was not possible to get passport with id " + transferProcessId);
             }
             String responseBody = (String) response.getBody();
-            return (PassportV3) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), PassportV3.class);
+            return (PassportV3) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), PassportV3.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getPassportV3",
                     e,

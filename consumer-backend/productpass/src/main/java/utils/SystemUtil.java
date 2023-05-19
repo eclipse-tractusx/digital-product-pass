@@ -23,14 +23,15 @@
 
 package utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
 public final class SystemUtil {
-    private SystemUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
-    }
+
     public static Long getMemoryUsage(){
         return SystemUtil.getTotalMemory() - SystemUtil.getFreeMemory();
     }
@@ -54,11 +55,11 @@ public final class SystemUtil {
     }
     public static String getUsedHeapMemory(){
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        return String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getUsed()/1073741824);
+        return java.lang.String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getUsed()/1073741824);
     }
     public static String getMaxHeapMemory(){
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        return String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getMax()/1073741824);
+        return java.lang.String.format("%.2f",(double)memoryMXBean.getHeapMemoryUsage().getMax()/1073741824);
     }
 
     public static Long getDiskUsage(){

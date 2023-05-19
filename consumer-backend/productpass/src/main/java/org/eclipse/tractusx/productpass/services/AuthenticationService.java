@@ -31,12 +31,13 @@ import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import utils.ConfigUtil;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,25 +45,34 @@ import java.util.Map;
 
 @Service
 public class AuthenticationService extends BaseService {
-    @Autowired
-    private VaultService vaultService;
+    private final VaultService vaultService;
+    private final Environment env;
 
-    public static final ConfigUtil configuration = new ConfigUtil();
-    public final String userInfoUri = (String) configuration.getConfigurationParam("keycloak.userInfoUri", ".", null);
-    public final String tokenUri = (String) configuration.getConfigurationParam("keycloak.tokenUri", ".", null);
-    public final String realm = (String) configuration.getConfigurationParam("keycloak.realm", ".", null);
-    public final String resource = (String) configuration.getConfigurationParam("keycloak.resource", ".", null);
+    private final HttpUtil httpUtil;
+
+    private final JsonUtil jsonUtil;
+
+    public String tokenUri;
     public String clientId;
     public String clientSecret;
 
-    public AuthenticationService() throws ServiceInitializationException {
+    @Autowired
+    public AuthenticationService(VaultService vaultService, Environment env, HttpUtil httpUtil, JsonUtil jsonUtil) throws ServiceInitializationException {
+        this.vaultService = vaultService;
+        this.env = env;
+        this.httpUtil = httpUtil;
+        this.jsonUtil = jsonUtil;
+        this.init(env);
         this.checkEmptyVariables(List.of("clientId", "clientSecret"));
+    }
+    public void init(Environment env) {
+        this.tokenUri = env.getProperty("configuration.keycloak.tokenUri", String.class,  "");
     }
 
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
-        if (tokenUri == null || tokenUri.isEmpty()) {
+        if (this.tokenUri.isEmpty()) {
             missingVariables.add("tokenUri");
         }
         if (clientId == null || clientId.isEmpty()) {
@@ -78,8 +88,9 @@ public class AuthenticationService extends BaseService {
         try{
             this.clientId = (String) vaultService.getLocalSecret("client.id");
             this.clientSecret = (String) vaultService.getLocalSecret("client.secret");
+
             this.checkEmptyVariables();
-            HttpHeaders headers = HttpUtil.getHeaders();
+            HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/x-www-form-urlencoded");
             Map<String,?> body = Map.of(
                     "grant_type", "client_credentials",
@@ -88,11 +99,11 @@ public class AuthenticationService extends BaseService {
                     "scope", "openid profile email"
             );
 
-            String encodedBody = HttpUtil.mapToParams(body, false);
-            ResponseEntity<?> response = HttpUtil.doPost(tokenUri, String.class, headers, HttpUtil.getParams(), encodedBody, false, false);
+            String encodedBody = httpUtil.mapToParams(body, false);
+            ResponseEntity<?> response = httpUtil.doPost(this.tokenUri, String.class, headers, httpUtil.getParams(), encodedBody, false, false);
             String responseBody = (String) response.getBody();
-            JsonNode json = JsonUtil.toJsonNode(responseBody);
-            JwtToken token = (JwtToken) JsonUtil.bindJsonNode(json, JwtToken.class);
+            JsonNode json = jsonUtil.toJsonNode(responseBody);
+            JwtToken token = (JwtToken) jsonUtil.bindJsonNode(json, JwtToken.class);
             return token;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getToken",
@@ -111,7 +122,7 @@ public class AuthenticationService extends BaseService {
         return userInfo != null;
     }
     public Boolean isAuthenticated(HttpServletRequest httpRequest){
-        String token = HttpUtil.getAuthorizationToken(httpRequest);
+        String token = httpUtil.getAuthorizationToken(httpRequest);
         if(token == null){
             return false;
         }
@@ -126,13 +137,13 @@ public class AuthenticationService extends BaseService {
 
     public UserInfo getUserInfo(String jwtToken){
         try{
-            HttpHeaders headers = HttpUtil.getHeadersWithToken(jwtToken);
+            HttpHeaders headers = httpUtil.getHeadersWithToken(jwtToken);
             headers.add("Accept", "application/json");
-
-            ResponseEntity<?> response = HttpUtil.doPost(userInfoUri, String.class, headers, HttpUtil.getParams(), false, false);
+            String userInfoUri= env.getProperty("configuration.keycloak.userInfoUri", String.class, "");
+            ResponseEntity<?> response = httpUtil.doPost(userInfoUri, String.class, headers, httpUtil.getParams(), false, false);
             String responseBody = (String) response.getBody();
-            JsonNode json = JsonUtil.toJsonNode(responseBody);
-            return (UserInfo) JsonUtil.bindJsonNode(json, UserInfo.class);
+            JsonNode json = jsonUtil.toJsonNode(responseBody);
+            return (UserInfo) jsonUtil.bindJsonNode(json, UserInfo.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getUserInfo",
                     e,

@@ -23,6 +23,11 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**May 18 2023 (Version 0.8.0)**  
+*18.05.2023*
+
+#### Fixed bug with the backend external configuration.
+The backend configuration is not able to be deployed in different environments without bugs.
 
 **May 10 2023 (Version 0.7.0)**  
 *10.05.2023*

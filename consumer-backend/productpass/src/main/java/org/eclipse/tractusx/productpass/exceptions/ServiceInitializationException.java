@@ -23,9 +23,12 @@
 
 package org.eclipse.tractusx.productpass.exceptions;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.LogUtil;
 
 public class ServiceInitializationException extends Exception{
+
         public ServiceInitializationException(String serviceName, String errorMessage) {
             super("["+serviceName+"] " + errorMessage);
             LogUtil.printException(this, "["+serviceName+"] " + errorMessage);

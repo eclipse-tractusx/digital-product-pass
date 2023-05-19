@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.tractusx.productpass.config.VaultConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
@@ -43,44 +44,25 @@ import java.util.Map;
 public class VaultService extends BaseService {
 
 
-    @Autowired
-    Environment env;
+    private final FileUtil fileUtil;
+
+    private final JsonUtil jsonUtil;
+
+    private final YamlUtil yamlUtil;
+
+    private final VaultConfig vaultConfig;
 
     @Autowired
-    FileUtil fileUtil;
-
-    @Autowired
-    JsonUtil jsonUtil;
-
-    @Autowired
-    YamlUtil yamlUtil;
-
-
-    private String ATTRIBUTES_PATH_SEP;
-    private List<String> VAULT_ATTRIBUTES;
-    private Integer INDENT;
-    private Boolean PRETTY_PRINT;
-    private String DEFAULT_VALUE;
-    private String TOKEN_FILE_NAME;
-
-    @Autowired
-    public VaultService(Environment env, FileUtil fileUtil, JsonUtil jsonUtil, YamlUtil yamlUtil) throws ServiceInitializationException {
-        this.env = env;
+    public VaultService(VaultConfig vaultConfig, FileUtil fileUtil, JsonUtil jsonUtil, YamlUtil yamlUtil) throws ServiceInitializationException {
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
         this.yamlUtil = yamlUtil;
-        this.init(env);
+        this.vaultConfig = vaultConfig;
+        this.createLocalVaultFile(true);
         this.checkEmptyVariables();
     }
 
-    public void init(Environment env){
-        this.ATTRIBUTES_PATH_SEP = env.getProperty("configuration.vault.pathSep", ".");
-        this.VAULT_ATTRIBUTES = env.getProperty("configuration.vault.attributes", List.class, List.of("token", "client.id", "client.secret", "apiKey"));
-        this.INDENT = env.getProperty("configuration.vault.indent",Integer.class, 2);
-        this.PRETTY_PRINT = env.getProperty("configuration.vault.prettyPrint",Boolean.class, true);
-        this.DEFAULT_VALUE = env.getProperty("configuration.vault.defaultValue",String.class, "");
-        this.TOKEN_FILE_NAME = env.getProperty("configuration.vault.file", "");
-    }
+
     public Object getLocalSecret(String localSecretPath) {
         try {
             String secret = null;
@@ -89,8 +71,8 @@ public class VaultService extends BaseService {
             try {
                 secret = (String) jsonUtil.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
-                LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was a error while searching the secret ["+localSecretPath+"] in file!");
-                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was a error while searching the secret ["+localSecretPath+"] in file!");
+                LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was an error while searching the secret ["+localSecretPath+"] in file!");
+                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was an error while searching the secret ["+localSecretPath+"] in file!");
             }
             if(secret == null){
                 LogUtil.printError("["+this.getClass().getName()+"."+"getLocalSecret] " + "Secret ["+localSecretPath+"] not found in file!");
@@ -106,7 +88,7 @@ public class VaultService extends BaseService {
     public String createLocalVaultFile(Boolean searchSystemVariables){
         try {
             String dataDir = fileUtil.createDataDir("VaultConfig");
-            String filePath = Path.of(dataDir, this.TOKEN_FILE_NAME).toAbsolutePath().toString();
+            String filePath = Path.of(dataDir, this.vaultConfig.getFile()).toAbsolutePath().toString();
             if(!fileUtil.pathExists(filePath)){
                 LogUtil.printWarning("No vault token file found, creating yaml file in ["+filePath+"]");
                 fileUtil.createFile(filePath); // Create YAML token file
@@ -122,14 +104,14 @@ public class VaultService extends BaseService {
                 vaultFileContent = new HashMap<>();
             }
             boolean update = false;
-            String newDefaultValue = this.DEFAULT_VALUE;
-            for (String attribute: this.VAULT_ATTRIBUTES){
-                if(jsonUtil.getValue(vaultFileContent, attribute, this.ATTRIBUTES_PATH_SEP, null) != null) {
+            String newDefaultValue = this.vaultConfig.getDefaultValue();
+            for (String attribute: this.vaultConfig.getAttributes()){
+                if(jsonUtil.getValue(vaultFileContent, attribute, this.vaultConfig.getPathSep(), null) != null) {
                     continue;
                 }
                 try {
                     if(searchSystemVariables){
-                        newDefaultValue = SystemUtil.getEnvironmentVariable(attribute, this.DEFAULT_VALUE);
+                        newDefaultValue = SystemUtil.getEnvironmentVariable(attribute, this.vaultConfig.getDefaultValue());
                     }
                     vaultFileContent = (Map<String, Object>) jsonUtil.setValue(vaultFileContent, attribute, newDefaultValue, ".", null);
                 }catch (Exception e){
@@ -146,7 +128,7 @@ public class VaultService extends BaseService {
 
 
             if(update){
-                String vaultYAML = yamlUtil.dumpYml(vaultFileContent, this.INDENT , this.PRETTY_PRINT);
+                String vaultYAML = yamlUtil.dumpYml(vaultFileContent, this.vaultConfig.getIndent(), this.vaultConfig.getPrettyPrint());
                 fileUtil.toFile(filePath, vaultYAML, false); // Create YAML token file
             }
 

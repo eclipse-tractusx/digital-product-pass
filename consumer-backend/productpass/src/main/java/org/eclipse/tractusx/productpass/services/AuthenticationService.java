@@ -37,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class AuthenticationService extends BaseService {
         try{
             this.clientId = (String) vaultService.getLocalSecret("client.id");
             this.clientSecret = (String) vaultService.getLocalSecret("client.secret");
+
             this.checkEmptyVariables();
             HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/x-www-form-urlencoded");

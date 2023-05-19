@@ -40,11 +40,10 @@ configuration:
     tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
     userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
-  variables:
-    default:
-      providerUrl: 'https://materialpass.dev.demo.catena-x.net/BPNL000000000000'
-      serverUrl: 'https://materialpass.dev.demo.catena-x.net'
-      registryUrl: 'https://semantics.dev.demo.catena-x.net'
+  endpoints:
+    providerUrl: 'https://materialpass.dev.demo.catena-x.net/BPNL000000000000'
+    serverUrl: 'https://materialpass.dev.demo.catena-x.net'
+    registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
   passport:
     versions:

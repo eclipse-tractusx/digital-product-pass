@@ -64,7 +64,7 @@ public class AasService extends BaseService {
     }
 
     public void init(Environment env){
-        this.registryUrl = env.getProperty("configuration.variables.default.registryUrl", String.class, "");
+        this.registryUrl = env.getProperty("configuration.endpoints.registryUrl", String.class, "");
     }
     @Override
     public List<String> getEmptyVariables() {

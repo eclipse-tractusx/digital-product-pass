@@ -68,8 +68,8 @@ public class DataTransferService extends BaseService {
 
     public void init(VaultService vaultService, Environment env){
         this.APIKey = (String) vaultService.getLocalSecret("apiKey");
-        this.serverUrl = env.getProperty("configuration.variables.default.serverUrl", "");
-        this.providerUrl = env.getProperty("configuration.variables.default.providerUrl", "");
+        this.serverUrl = env.getProperty("configuration.endpoints.serverUrl", "");
+        this.providerUrl = env.getProperty("configuration.endpoints.providerUrl", "");
     }
 
     @Override

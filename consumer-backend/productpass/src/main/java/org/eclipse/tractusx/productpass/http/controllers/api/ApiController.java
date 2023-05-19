@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bouncycastle.pqc.crypto.lms.LMOtsParameters;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
@@ -51,6 +52,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +68,7 @@ public class ApiController {
     private @Autowired DataController dataController;
     private @Autowired Environment env;
     private @Autowired AuthenticationService authService;
-
+    private @Autowired PassportConfig passportConfig;
     private @Autowired HttpUtil httpUtil;
 
     public Offer getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
@@ -109,7 +111,7 @@ public class ApiController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         if(providerUrl == null || providerUrl.equals("")){
-            providerUrl = env.getProperty("configuration.variables.default.providerUrl", "");
+            providerUrl = env.getProperty("configuration.endpoints.providerUrl", "");
         }
         Response response = httpUtil.getResponse();
         ContractOffer contractOffer = null;
@@ -167,8 +169,7 @@ public class ApiController {
         }
         // Initialize response
         Response response = httpUtil.getResponse();
-        List<String> versions = env.getProperty("configuration.passport.versions", List.class, new ArrayList<String>());
-        LogUtil.printMessage(versions.toString());
+        List<String> versions = passportConfig.getVersions();
         try {
             // Configure digital twin registry query and params
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(id, idType, dtIndex, idShort);

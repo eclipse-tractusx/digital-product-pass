@@ -27,10 +27,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +40,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Component
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {utils.JsonUtil.class, utils.FileUtil.class})
 class JsonUtilTest {
 
-    private @Autowired
-    JsonUtil jsonUtil;
+    @Autowired
+    private JsonUtil jsonUtil;
 
     String testJson;
     String escapedJson;

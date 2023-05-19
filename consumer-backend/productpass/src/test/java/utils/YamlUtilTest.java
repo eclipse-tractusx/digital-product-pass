@@ -25,10 +25,14 @@ package utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.HashMap;
@@ -36,11 +40,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Component
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {utils.YamlUtil.class, utils.FileUtil.class})
 class YamlUtilTest {
 
-    private @Autowired
-    YamlUtil yamlUtil;
+    @Autowired
+    private YamlUtil yamlUtil;
     String yaml;
     @BeforeEach
     void setUp() {

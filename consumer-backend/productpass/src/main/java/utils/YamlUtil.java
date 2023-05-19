@@ -28,6 +28,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import utils.exceptions.UtilException;
@@ -41,10 +42,11 @@ import java.util.Map;
 
 @Component
 public final class YamlUtil {
-
-
-    private @Autowired
-    FileUtil fileUtil;
+    private final FileUtil fileUtil;
+    @Autowired
+    public YamlUtil(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
+    }
 
     public Map<String, Object> readFile(String filePath) {
         try {

@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import utils.exceptions.UtilException;
@@ -39,16 +40,17 @@ import java.io.File;
 import java.util.*;
 
 
-@Service
+@Component
 public final class JsonUtil {
 
+    private final FileUtil fileUtil;
+
     @Autowired
-    FileUtil fileUtil;
+    public JsonUtil(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
+    }
 
-
-
-
-    public ArrayList<Object> getObjectArray(Object... data){
+        public ArrayList<Object> getObjectArray(Object... data){
         return new ArrayList<>(
                 Arrays.asList(
                         data)

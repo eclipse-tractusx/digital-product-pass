@@ -57,11 +57,11 @@ public class HttpUtil {
     private Environment env;
 
     public Integer maxRetries;
+
     @Autowired
     public HttpUtil(Environment env) {
         this.maxRetries = env.getProperty("maxRetries", Integer.class, 5);
     }
-    private  final String SUCCESS_TEXT = "Success";
 
     private  final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
     private  final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";

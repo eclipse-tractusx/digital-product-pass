@@ -35,7 +35,6 @@ import java.util.Map;
 
 @Service
 public class DataPlainService extends BaseService {
-    public static final ConfigUtil configuration = new ConfigUtil();
     public DataPlainService() throws ServiceInitializationException {
         this.checkEmptyVariables();
     }

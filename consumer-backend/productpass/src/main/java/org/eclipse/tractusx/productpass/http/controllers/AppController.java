@@ -48,12 +48,14 @@ public class AppController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
 
+    @Autowired
+    HttpUtil httpUtil;
 
     @GetMapping("/")
     @Hidden                     // hides this endpoint from api documentation - swagger-ui
     public Response index(){
-        HttpUtil.redirect(httpResponse,"/passport");
-        return HttpUtil.getResponse("Redirect to UI");
+        httpUtil.redirect(httpResponse,"/passport");
+        return httpUtil.getResponse("Redirect to UI");
     }
 
 
@@ -63,7 +65,7 @@ public class AppController {
                     schema = @Schema(implementation = Response.class)))
     })
     public Response health(){
-        Response response = HttpUtil.getResponse(
+        Response response = httpUtil.getResponse(
                 "RUNNING",
                 200
         );

@@ -29,34 +29,23 @@ Latest Revision Mar 30, 2023
 
 ## Table of Contents
 
-- [Product Passport Administrator Guide Documentation](#product-passport-administrator-guide-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Getting Started Guide](#getting-started-guide)
-  - [Deployment Configuration](#deployment-configuration)
-  - [Local Keycloak Configuration](#local-keycloak-configuration)
-  - [Helm Charts Configuration](#helm-charts-configuration)
-  - [Consumer Backend Configuration](#consumer-backend-configuration)
-    - [Backend Application Configuration](#backend-application-configuration)
-    - [Spring Boot Configuration](#spring-boot-configuration)
-    - [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
-  - [Postman Collection](#postman-collection)
-  - [Secrets Management](#secrets-management)
-  - [EDC Provider Configuration](#edc-provider-configuration)
-    - [Documentation Description](#documentation-description)
-    - [Asset Configuration](#asset-configuration)
-      - [**Variables:**](#variables)
-      - [**Format and Fields:**](#format-and-fields)
-    - [Policies Configuration](#policies-configuration)
-      - [Usage Policies](#usage-policies)
-      - [**Variables:**](#variables-1)
-      - [**Format and Fields:**](#format-and-fields-1)
-    - [Contract Definition Configuration](#contract-definition-configuration)
-      - [**Variables:**](#variables-2)
-      - [**Format and Fields:**](#format-and-fields-2)
-    - [Digital Twin Registration](#digital-twin-registration)
-      - [**Variables:**](#variables-3)
-      - [**Format and Fields:**](#format-and-fields-3)
+1. [Table of contents](#table-of-contents)  
+2. [Introduction](#introduction)
+3. [Getting Started Guide](#getting-started-guide)
+4. [Deployment Configuration](#deployment-configuration)
+5. [Local Keycloak Configuration](#local-keycloak-configuration)
+6. [Helm Charts Configuration](#helm-charts-configuration)
+7. [Consumer Backend Configuration](#consumer-backend-configuration)  
+    7.1  [Backend Application Configuration](#backend-application-configuration-spring-boot)  
+    7.2  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
+8. [Postman Collection](#postman-collection)
+9. [Secrets Management](#secrets-management)
+10. [EDC Provider Configuration](#edc-provider-configuration)  
+    10.1 [Documentation Description](#documentation-description)    
+    10.2 [Asset Configuration](#asset-configuration)   
+    10.3 [Policies Configuration](#policies-configuration)    
+    10.4 [Contract Definition Configuration](#contract-definition-configuration)        
+    10.5 [Digital Twin Registration](#digital-twin-registration)
 ## Introduction
 
 This guide contains all the available information for an administrator to configure, operate and deploy the Product Passport Application.  
@@ -116,7 +105,7 @@ All the values for the helm charts are configured for each environment and set u
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Helm Charts Main Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts) |
-| Consumer UI Helm Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/consumer-ui](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/consumer-ui) |
+| Digital Product Pass | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) |
 | EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer) |
 | MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider) |
 
@@ -131,23 +120,17 @@ All the information about the backend services is described in this documentatio
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md) |
 | Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
-### Backend Application Configuration
 
-The configurations of log levels and other variables can be set in the following file:
-
-| Name | Location | Link |
-| ---- | -------- | ---- |
-| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/config/configuration-int.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/config/configuration-int.yml) |
-
-All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
-
-### Spring Boot Configuration
+### Backend Application Configuration (Spring Boot)
 
 The Consumer Backend is running over a Spring Boot server, therefore a application configuration file was created to set up mandatory parameters like the Keycloak host, and the security constrains for accessing each API and Services:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+| Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+
+All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
+
 
 ### Spring Boot Logging Configuration
 

@@ -50,6 +50,8 @@ public class ErrorResponseController implements ErrorController {
     @Autowired
     private ErrorAttributes errorAttributes;
 
+    @Autowired
+    HttpUtil httpUtil;
     @RequestMapping(value="/error",  method = {RequestMethod.GET})
     @ResponseBody
     public Response handleError(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
@@ -63,12 +65,12 @@ public class ErrorResponseController implements ErrorController {
         if(response.message.equals("No message available")) {
             response.message = null;
         }
-        String httpInfo = HttpUtil.getHttpInfo(httpRequest, response.getStatus());
+        String httpInfo = httpUtil.getHttpInfo(httpRequest, response.getStatus());
         if(errors.containsKey("path") && !errors.get("path").equals("/passport/not-found")){
             // Redirect to error page
-            String currentHost = HttpUtil.getCurrentHost(httpRequest);
+            String currentHost = httpUtil.getCurrentHost(httpRequest);
             String errorUrl = String.join("/",currentHost, "passport/not-found");
-            HttpUtil.redirect(httpResponse,errorUrl);
+            httpUtil.redirect(httpResponse,errorUrl);
         }
         LogUtil.printHTTPMessage(httpInfo + " " + response.errorString());
         return response;

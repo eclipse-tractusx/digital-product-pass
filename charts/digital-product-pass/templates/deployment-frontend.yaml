@@ -45,6 +45,8 @@ spec:
         - name: {{ .Values.frontend.name }}
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          securityContext: 
+            allowPrivilegeEscalation: false 
           env:          
             - name: "VUE_APP_CLIENT_ID"
               valueFrom:

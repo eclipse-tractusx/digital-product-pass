@@ -27,18 +27,19 @@ import org.apache.juli.logging.Log;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 public final class LogUtil {
-    private LogUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
-    }
+
+    private static final Integer level = 7;
+    private static final Boolean asyncLog = false;
 
     /**
      * Static Tools to print logs with format and current date.
      */
-    public static final ConfigUtil configuration = new ConfigUtil();
-    public static final Boolean asyncLog = (Boolean) configuration.getConfigurationParam("logUtil.async", ".",  false);
     static Logger logger = LogManager.getLogger(LogUtil.class);
     private static final Level INFO = Level.forName("INFO", 400);
     private static final Level HTTP = Level.forName("HTTP", 420);
@@ -61,7 +62,7 @@ public final class LogUtil {
 
 
     private static boolean checkLogLevel(Level logLevel){
-        Integer currentLevel = (Integer) configuration.getConfigurationParam("logUtil.level", ".", null);
+        Integer currentLevel = level;
         Integer assignedLevel = LOGLEVELS.get(logLevel);
         return currentLevel >= assignedLevel;
     }
@@ -132,7 +133,7 @@ public final class LogUtil {
         Long pid = SystemUtil.getPid();
         String memoryUsage = SystemUtil.getUsedHeapMemory();
         String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
-        if(asyncLog){
+        if(LogUtil.asyncLog){
             ThreadUtil.runThread(new LogPrinter(logLevel, message), "logThread");
         }else {
             logger.log(logLevel, message);

@@ -24,6 +24,7 @@
 package utils;
 
 import org.checkerframework.checker.units.qual.C;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -45,6 +46,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,8 @@ public class HttpUtil {
 
     private Environment env;
 
+    @Autowired
+    JsonUtil jsonUtil;
     public Integer maxRetries;
 
     @Autowired
@@ -165,6 +169,22 @@ public class HttpUtil {
         }
     }
 
+    public Jwt parseToken(String token){
+        try {
+            String[] chunks = token.split("\\.");
+            Jwt jwt = new Jwt();
+
+            String header = CrypUtil.fromBase64Url(chunks[0]);
+            String payload = CrypUtil.fromBase64Url(chunks[1]);
+            LogUtil.printMessage("token header: " + header + " payload: " + payload);
+            jwt.setHeader((Map<String, Object>) jsonUtil.parseJson(header));
+            jwt.setPayload((Map<String, Object>) jsonUtil.parseJson(payload));
+            return jwt;
+        }catch(Exception e){
+            throw new UtilException(HttpUtil.class, e, "It was not possible to parse JWT Token");
+        }
+
+    }
     public  String getCurrentUrl(HttpServletRequest httpRequest){
         try {
             return httpRequest.getRequestURL().toString();

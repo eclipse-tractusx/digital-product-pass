@@ -29,9 +29,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import utils.CatenaXUtil;
@@ -40,6 +42,7 @@ import utils.HttpUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.LogUtil;
 
 @RestController
 @Tag(name = "Public Controller")
@@ -56,6 +59,24 @@ public class AppController {
     public Response index(){
         httpUtil.redirect(httpResponse,"/passport");
         return httpUtil.getResponse("Redirect to UI");
+    }
+
+    @PostMapping("/endpoint")
+    @Operation(summary = "Receives the calls from the EDC", responses = {
+            @ApiResponse(description = "Get call from EDC", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class)))
+    })
+    public Response endpoint(){
+        String token = httpUtil.getAuthorizationToken(httpRequest);
+        if(token == null){
+            return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
+        }
+        LogUtil.printMessage("Request Received in Endpoint");
+        Jwt data = httpUtil.parseToken(token);
+        return httpUtil.getResponse(
+                "RUNNING",
+                data
+        );
     }
 
 

@@ -1,64 +1,65 @@
-<!--
-  Catena-X - Product Passport Consumer Frontend
- 
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
--->
-
 <template>
-  <v-container class="search-page">
-    <div v-if="!error" class="switch-container">
-      <div>
-        <v-switch
-          v-model="QRtoggle"
-          color="#0F71CB"
-          label="QR Code Scanner"
-        ></v-switch>
-      </div>
+  <div class="container">
+    <div class="left-container" :class="{ hidden: isHidden }">
+      <h2>Catena-X Battery Passport</h2>
+      <p>
+        The term "Battery Passport" refers to a digital document that contains
+        essential information about a battery, specifically in the context of
+        electric vehicles (EVs). This document includes details about the
+        battery's manufacturer, specifications, performance characteristics,
+        health status, and lifecycle data. The purpose of a Battery Passport is
+        to facilitate proper maintenance, servicing, and recycling of the
+        battery, while also enabling traceability and compliance.
+      </p>
     </div>
-    <div v-if="error" class="qr-container">
-      <div class="text-container">
-        <p class="text">Your camera is off.</p>
-        <p class="text">Turn it on or type the ID.</p>
-        <p class="error">{{ error }}</p>
-      </div>
-      <SearchInput />
-    </div>
-    <v-row data-cy="qr-container">
-      <div v-if="!error">
-        <v-col class="qr-container" cols="12" v-if="QRtoggle">
-          <div class="qr-frame">
-            <img :src="QRFrame" alt="frame" class="frame" />
+    <div class="right-container">
+      <button class="toggle-button" @click="toggleVisibility">
+        <v-icon
+          :icon="isHidden ? 'mdi-arrow-right' : 'mdi-arrow-left'"
+        ></v-icon>
+      </button>
+      <v-container class="search-page">
+        <div v-if="!error" class="switch-container">
+          <div>
+            <v-switch
+              v-model="QRtoggle"
+              color="#0F71CB"
+              label="QR Code Scanner"
+            ></v-switch>
           </div>
-          <qrcode-stream
-            :torch="torch"
-            class="qrcode-stream"
-            @init="onInit"
-            @decode="onDecode"
-          ></qrcode-stream>
-        </v-col>
-        <v-col cols="12" v-else class="qr-container">
+        </div>
+        <div v-if="error" class="qr-container">
+          <div class="text-container">
+            <p class="text">Your camera is off.</p>
+            <p class="text">Turn it on or type the ID.</p>
+            <p class="error">{{ error }}</p>
+          </div>
           <SearchInput />
-        </v-col>
-      </div>
-    </v-row>
-  </v-container>
+        </div>
+        <v-row data-cy="qr-container">
+          <div v-if="!error">
+            <v-col class="qr-container" cols="12" v-if="QRtoggle">
+              <div class="qr-frame">
+                <img :src="QRFrame" alt="frame" class="frame" />
+              </div>
+              <qrcode-stream
+                :torch="torch"
+                class="qrcode-stream"
+                @init="onInit"
+                @decode="onDecode"
+              ></qrcode-stream>
+            </v-col>
+            <v-col cols="12" v-else class="qr-container">
+              <SearchInput />
+            </v-col>
+          </div>
+        </v-row>
+      </v-container>
+    </div>
+  </div>
 </template>
+
+
 
 <script>
 import { QrcodeStream } from "vue3-qrcode-reader";
@@ -72,6 +73,14 @@ export default {
     QrcodeStream,
     SearchInput,
   },
+  data() {
+    return {
+      isHidden: false,
+      QRtoggle: true,
+      error: "",
+      decodedString: "",
+    };
+  },
   setup() {
     SearchInput;
     return {
@@ -79,15 +88,10 @@ export default {
       QRFrame,
     };
   },
-
-  data() {
-    return {
-      QRtoggle: false,
-      error: "",
-      decodedString: "",
-    };
-  },
   methods: {
+    toggleVisibility() {
+      this.isHidden = !this.isHidden;
+    },
     async onInit(promise) {
       try {
         await promise;
@@ -121,3 +125,38 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 500px;
+  margin-top: 100px;
+}
+
+.left-container {
+  width: 50%;
+
+  padding: 20px;
+  background-color: #f0f0f0;
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+.right-container {
+  flex: 1; /* Adjusted to take remaining space */
+  padding: 20px;
+  background-color: #ddd;
+  text-align: center;
+  position: relative;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+</style>

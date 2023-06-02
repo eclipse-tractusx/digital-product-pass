@@ -15,6 +15,7 @@
     <div class="right-container">
       <button class="toggle-button" @click="toggleVisibility">
         <v-icon
+          class="arrow-icon"
           :icon="isHidden ? 'mdi-arrow-right' : 'mdi-arrow-left'"
         ></v-icon>
       </button>
@@ -130,16 +131,17 @@ export default {
 .container {
   display: flex;
   justify-content: space-between;
-  height: 500px;
-  margin-top: 100px;
+  height: 90vh;
+  padding: 100px 35px 0 35px;
 }
 
 .left-container {
   width: 50%;
-
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #fff;
   position: relative;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
 }
 
 .hidden {
@@ -149,14 +151,30 @@ export default {
 .right-container {
   flex: 1; /* Adjusted to take remaining space */
   padding: 20px;
-  background-color: #ddd;
+  background-color: #fff;
   text-align: center;
   position: relative;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
 }
 
 .toggle-button {
   position: absolute;
   top: 10px;
   left: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #0f71cb;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.arrow-icon {
+  color: #0f71cb; /* Updated color */
+  font-size: 20px;
 }
 </style>

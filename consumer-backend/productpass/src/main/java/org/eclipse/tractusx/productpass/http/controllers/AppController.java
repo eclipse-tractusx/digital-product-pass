@@ -32,10 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utils.CatenaXUtil;
 import utils.DateTimeUtil;
 import utils.HttpUtil;
@@ -61,24 +58,6 @@ public class AppController {
         return httpUtil.getResponse("Redirect to UI");
     }
 
-    @PostMapping("/endpoint")
-    @Operation(summary = "Receives the calls from the EDC", responses = {
-            @ApiResponse(description = "Get call from EDC", responseCode = "200", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Response.class)))
-    })
-    public Response endpoint(){
-        String token = httpUtil.getAuthorizationToken(httpRequest);
-        if(token == null){
-            return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
-        }
-        LogUtil.printMessage("Request Received in Endpoint");
-        Jwt data = httpUtil.parseToken(token);
-        return httpUtil.getResponse(
-                "RUNNING",
-                data
-        );
-    }
-
 
     @GetMapping("/health")
     @Operation(summary = "Returns the backend health status", responses = {
@@ -93,5 +72,22 @@ public class AppController {
         response.data = DateTimeUtil.getDateTimeFormatted(null);
         return response;
     }
-    
+
+    @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
+    public Response endpoint(@RequestBody Object body){
+        LogUtil.printMessage("Body: ["+ body.toString()+"]");
+        String token = httpUtil.getAuthorizationToken(httpRequest);
+        if(token == null){
+            return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
+        }
+        LogUtil.printMessage("Request Received in Endpoint");
+        Jwt data = httpUtil.parseToken(token);
+        return httpUtil.getResponse(
+                "RUNNING",
+                data
+        );
+    }
+
+
+
 }

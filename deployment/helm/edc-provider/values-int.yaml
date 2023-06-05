@@ -540,6 +540,12 @@ tractusx-connector:
     paths:
       jwks: /.well-known/jwks.json
       token: /token
+    connectors:
+      - id: <path:material-pass/data/int/edc/oauth#client.id>
+        name: edcconector
+        attributes:
+          referringConnector: "https://materialpass.int.demo.catena-x.net/consumer/<path:material-pass/data/int/edc/participant#bpnNumber>"
+        certificate: <path:material-pass/data/ids-daps_crt#content>
 
   backendService:
     httpProxyTokenReceiverUrl: "http://dpp-edc-consumer-backend"

@@ -22,21 +22,74 @@
 
 <template v-if="propsDate">
   <div class="section">
-    <Field
-      icon="mdi-file-swap-outline"
-      label="Contract ID"
-      :value="propsData.negotiation.id"
-    />
-    <Field
-      icon="mdi-file-swap-outline"
-      label="Contract Agreement ID"
-      :value="propsData.transferRequest.contractId"
-    />
-    <Field
-      icon="mdi-file-swap-outline"
-      label="Transfer Process ID"
-      :value="propsData.transferRequest.id"
-    />
+    <v-row class="section">
+      <template v-if="propsData.negotiation">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Contract ID"
+            :value="propsData.negotiation.id"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Contract type"
+            :value="propsData.negotiation.type"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Contract state"
+            :value="propsData.negotiation.state"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Contract agreement ID"
+            :value="propsData.negotiation.contractAgreementId"
+          />
+        </v-col>
+      </template>
+      <template v-if="propsData.contractOffer">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Connector ID"
+            :value="propsData.contractOffer.connectorId"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="ID"
+            :value="propsData.contractOffer.id"
+          />
+        </v-col>
+      </template>
+      <template v-if="propsData.transfer">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Transfer ID"
+            :value="propsData.transfer.id"
+          />
+        </v-col>
+      </template>
+      <template v-if="propsData.transferRequest">
+        <v-col sm="12" md="3" class="pa-0 ma-0">
+          <Field
+            icon="mdi-file-swap-outline"
+            label="Transfer request connector ID"
+            :value="propsData.transferRequest.id"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="asset ID"
+            :value="propsData.transferRequest.assetId"
+          />
+          <Field
+            icon="mdi-file-swap-outline"
+            label="asset ID"
+            :value="propsData.transferRequest.assetId"
+          />
+        </v-col>
+      </template>
+    </v-row>
   </div>
 </template>
 

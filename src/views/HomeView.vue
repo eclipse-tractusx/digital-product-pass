@@ -23,7 +23,7 @@
 <template>
   <div>
     <HeaderComponent>
-      <div class="header-title">Search Passport</div>
+      <div class="header-title">Digital Product Passport</div>
     </HeaderComponent>
     <v-container>
       <v-window>

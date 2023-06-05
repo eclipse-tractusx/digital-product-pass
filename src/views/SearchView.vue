@@ -133,23 +133,33 @@ export default {
   justify-content: space-between;
   height: 90vh;
   padding: 100px 35px 0 35px;
+  gap: 33px;
 }
 
 .left-container {
   width: 50%;
+  display: block;
   padding: 20px;
+  margin-left: 0;
   background-color: #fff;
   position: relative;
   border: 1px solid #dcdcdc;
   border-radius: 10px;
+  transition-property: width;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  overflow: hidden;
 }
 
-.hidden {
-  display: none;
+.left-container.hidden {
+  width: 0;
+  padding: 0;
+  border: 0;
+  margin-left: -33px;
 }
 
 .right-container {
-  flex: 1; /* Adjusted to take remaining space */
+  flex: 1;
   padding: 20px;
   background-color: #fff;
   text-align: center;
@@ -174,7 +184,7 @@ export default {
 }
 
 .arrow-icon {
-  color: #0f71cb; /* Updated color */
+  color: #0f71cb;
   font-size: 20px;
 }
 </style>

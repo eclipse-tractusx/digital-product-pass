@@ -257,6 +257,13 @@ public class HttpUtil {
                 data
         );
     }
+
+    public  Response getForbiddenResponse() {
+        return new Response(
+                "Forbidden",
+                403
+        );
+    }
     public  Response getNotAuthorizedResponse() {
         return new Response(
                 "Not Authorized",

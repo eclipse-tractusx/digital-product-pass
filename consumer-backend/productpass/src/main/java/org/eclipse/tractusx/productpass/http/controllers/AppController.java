@@ -29,17 +29,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.eclipse.tractusx.productpass.models.edc.Jwt;
+import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.eclipse.tractusx.productpass.models.passports.Passport;
+import org.eclipse.tractusx.productpass.services.DataPlaneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import utils.CatenaXUtil;
-import utils.DateTimeUtil;
-import utils.HttpUtil;
+import utils.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import utils.LogUtil;
 
 @RestController
 @Tag(name = "Public Controller")
@@ -50,6 +50,15 @@ public class AppController {
 
     @Autowired
     HttpUtil httpUtil;
+    @Autowired
+    EdcUtil edcUtil;
+
+    @Autowired
+    PassportUtil passportUtil;
+
+    @Autowired
+    DataPlaneService dataPlaneService;
+
 
     @GetMapping("/")
     @Hidden                     // hides this endpoint from api documentation - swagger-ui
@@ -75,17 +84,28 @@ public class AppController {
 
     @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
     public Response endpoint(@RequestBody Object body){
-        LogUtil.printMessage("Body: ["+ body.toString()+"]");
-        String token = httpUtil.getAuthorizationToken(httpRequest);
-        if(token == null){
-            return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
+        try{
+
+            DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
+            if(endpointData == null){
+                throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
+            }
+            if(endpointData.getEndpoint().isEmpty()){
+                throw new ControllerException(this.getClass().getName(),"The data plane endpoint address is empty!");
+            }
+            if(endpointData.getAuthCode().isEmpty()){
+                throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+            }
+
+            Passport passport = dataPlaneService.getPassport(endpointData);
+            String passportPath = passportUtil.savePassport(passport, endpointData);
+            LogUtil.printMessage("[EDC] Passport Transfer Data ["+endpointData.getId()+"] Saved Successfully in ["+passportPath+"]!");
+
+        }catch(Exception e) {
+            LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
+            return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);
         }
-        LogUtil.printMessage("Request Received in Endpoint");
-        Jwt data = httpUtil.parseToken(token);
-        return httpUtil.getResponse(
-                "RUNNING",
-                data
-        );
+        return httpUtil.buildResponse(httpUtil.getResponse(), httpResponse);
     }
 
 

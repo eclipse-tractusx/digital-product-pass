@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,36 +23,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.services;
+package utils;
 
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.service.BaseService;
-import org.springframework.stereotype.Service;
-import utils.*;
+import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import utils.exceptions.UtilException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+@Component
+public class EdcUtil {
 
-@Service
-public class DataPlainService extends BaseService {
-    public DataPlainService() throws ServiceInitializationException {
-        this.checkEmptyVariables();
+    private final JsonUtil jsonUtil;
+    @Autowired
+    public EdcUtil(JsonUtil jsonUtil) {
+        this.jsonUtil = jsonUtil;
     }
-    public Object getTransferData(String transferId) {
+    public DataPlaneEndpoint parseDataPlaneEndpoint(Object body){
         try {
-            return null;
+            return (DataPlaneEndpoint) this.jsonUtil.bindObject(body, DataPlaneEndpoint.class);
         }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
-                    e,
-                    "It was not possible to get transfer from transfer id!");
+            throw new UtilException(EdcUtil.class, e, "It was not possible to parse the data plain endpoint");
         }
     }
 
 
-    @Override
-    public List<String> getEmptyVariables() {
-        return new ArrayList<>();
-    }
 }

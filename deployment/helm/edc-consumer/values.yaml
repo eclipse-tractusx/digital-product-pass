@@ -49,7 +49,7 @@ tractusx-connector:
 
     
   participant:
-    id: &bpnNumber "<path:material-pass/data/int/edc/participant#bpnNumber>"
+    id: &bpnNumber "<path:material-pass/data/dev/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -62,7 +62,7 @@ tractusx-connector:
       tag: "0.4.1"
     initContainers: []
     debug:
-      enabled: false
+      enabled: true
       port: 1044
       suspendOnStart: false
     internationalDataSpaces:
@@ -113,7 +113,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /consumer/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:material-pass/data/int/edc/oauth#api.key>
+        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -208,7 +208,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "materialpass.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -317,7 +317,7 @@ tractusx-connector:
       tag: "0.4.1"
     initContainers: []
     debug:
-      enabled: false
+      enabled: true
       port: 1044
       suspendOnStart: false
     livenessProbe:
@@ -438,7 +438,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "materialpass.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -511,12 +511,12 @@ tractusx-connector:
   postgresql:
     jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
     fullnameOverride: "postgresql"
-    username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#user>
+    username: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#user>
     auth:
       database: "edc"
-      username: <path:material-pass/data/int/edc/database#user>
-      password: <path:material-pass/data/int/edc/database#user>
+      username: <path:material-pass/data/dev/edc/database#user>
+      password: <path:material-pass/data/dev/edc/database#user>
 
   vault:
     fullnameOverride: "vault"
@@ -529,28 +529,28 @@ tractusx-connector:
       # Must be the same certificate that is configured in section 'daps'
       postStart:    # must be set externally!
     hashicorp:
-      url: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
+      url: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
+      token: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
       timeout: 30
       healthCheck:
         enabled: true
         standbyOk: true
       paths:
-        secret:  <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+        secret:  <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: ids-daps_key
-      transferProxyTokenSignerPublicKey: ids-daps_crt
+      transferProxyTokenSignerPrivateKey: daps-key-dev
+      transferProxyTokenSignerPublicKey: daps-crt-dev
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: ids-daps_key
-      dapsPublicKey: ids-daps_crt
+      dapsPrivateKey: daps-key-dev
+      dapsPublicKey: daps-crt-dev
 
   daps:
     fullnameOverride: "daps"
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: <path:material-pass/data/int/edc/oauth#client.id>
+    url: "https://daps.dev.demo.catena-x.net"
+    clientId: <path:material-pass/data/dev/edc/oauth#client.id>
     paths:
-      jwks: /.well-known/jwks.json
+      jwks: /jwks.json
       token: /token
 
   backendService:
@@ -569,7 +569,7 @@ tractusx-connector:
     
   idsdaps:
     connectors:
-      - certificate: <path:material-pass/data/ids-daps_crt#content>
+      - certificate: <path:material-pass/data/daps-crt-dev#content>
 
 postgresql:
   jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
@@ -582,5 +582,5 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#user>
+    username: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#user>

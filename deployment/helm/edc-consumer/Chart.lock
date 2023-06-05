@@ -1,0 +1,12 @@
+dependencies:
+- name: backend-service
+  repository: file://backend-service
+  version: 0.0.6
+- name: tractusx-connector
+  repository: https://eclipse-tractusx.github.io/charts/dev
+  version: 0.4.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.1.6
+digest: sha256:4cc46e7425e2188f1bd3c27688f1b15ee44bbb7e48c3a90272c36d251a577aa8
+generated: "2023-05-31T12:18:51.7515595+02:00"

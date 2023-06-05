@@ -25,35 +25,55 @@ package org.eclipse.tractusx.productpass.services;
 
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.models.auth.JwtToken;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
+import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import utils.HttpUtil;
+import utils.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataPlaneService extends BaseService {
+
+    @Autowired
+    HttpUtil httpUtil;
+
+    @Autowired
+    JsonUtil jsonUtil;
+
     public DataPlaneService() throws ServiceInitializationException {
         this.checkEmptyVariables();
     }
     public Object getTransferData(DataPlaneEndpoint endpointData) {
         try {
-            return null;
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers =  new HttpHeaders();
+            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
+            ResponseEntity<?> response = httpUtil.doGet(endpointData.getEndpoint(), Object.class, headers, params, true, true);
+            return response.getBody();
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
                     e,
-                    "It was not possible to get transfer from transfer id!");
+                    "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
         }
     }
     public Passport getPassport(DataPlaneEndpoint endpointData) {
         try {
-            return null;
+            return (PassportV3) jsonUtil.bindObject(this.getTransferData(endpointData), PassportV3.class);
         }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
+            throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,
-                    "It was not possible to get transfer from transfer id!");
+                    "It was not possible to get and parse passport for transfer ["+endpointData.getId()+"]");
         }
     }
 

@@ -96,11 +96,13 @@ public class AppController {
             if(endpointData.getAuthCode().isEmpty()){
                 throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
             }
+            if(endpointData.getOfferId().isEmpty()){
+                throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+            }
 
             Passport passport = dataPlaneService.getPassport(endpointData);
             String passportPath = passportUtil.savePassport(passport, endpointData);
             LogUtil.printMessage("[EDC] Passport Transfer Data ["+endpointData.getId()+"] Saved Successfully in ["+passportPath+"]!");
-
         }catch(Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
             return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);

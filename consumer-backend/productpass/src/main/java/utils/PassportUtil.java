@@ -28,16 +28,33 @@ package utils;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import utils.exceptions.UtilException;
+
+import java.io.File;
+import java.nio.file.Path;
 
 @Component
 public class PassportUtil {
     private final JsonUtil jsonUtil;
+    private final FileUtil fileUtil;
+    private final String transferDir;
+
+
     @Autowired
-    public PassportUtil(JsonUtil jsonUtil) {
+    public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil, Environment env) {
+        this.transferDir = env.getProperty("passport.transferDir", String.class, "data/transfer");
         this.jsonUtil = jsonUtil;
+        this.fileUtil = fileUtil;
     }
     public String savePassport(Passport passport, DataPlaneEndpoint endpointData){
-        return "/path/to/passport/json";
+        try {
+            fileUtil.createDir(this.transferDir);
+            String path = Path.of(this.transferDir, endpointData.getId() + ".json").toAbsolutePath().toString();
+            return jsonUtil.toJsonFile(path, passport, true);
+        }catch (Exception e){
+            throw new UtilException(PassportUtil.class, e, "Something went wrong while saving the passport for transfer ["+endpointData.getId()+"]");
+        }
     }
 }

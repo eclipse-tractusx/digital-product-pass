@@ -1,6 +1,0 @@
-dependencies:
-- name: backend-service
-  repository: https://denisneuling.github.io/cx-backend-service
-  version: 0.0.6
-digest: sha256:72b2ae445dd7411c6337efa4a99b45d74b220c357ea55dcded13130d8bc62508
-generated: "2022-10-18T14:57:07.8599852+02:00"

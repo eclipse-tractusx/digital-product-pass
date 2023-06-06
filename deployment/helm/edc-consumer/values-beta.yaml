@@ -21,15 +21,6 @@
 ##################################################################################
 
 ---
-consumerbackendapplication:
-  enabled: true
-  fullnameOverride: "materialpass-edc-backend"
-  service:
-    type: NodePort
-    frontend:
-      port: 80
-    backend:
-      port: 8081
 
 postgres:
   enabled: true
@@ -310,7 +301,7 @@ controlplane:
       # edc.oauth.validation.nbf.leeway=
       # edc.receiver.http.auth-code=
       # edc.receiver.http.auth-key=
-      edc.receiver.http.endpoint=http://materialpass-edc-backend
+      edc.receiver.http.endpoint=https://materialpass.beta.demo.catena-x.net/endpoint
       edc.transfer.proxy.endpoint=http://materialpass-edc-dataplane:8185/consumer/api/public
       # edc.transfer.proxy.token.validity.seconds=
       edc.transfer.proxy.token.signer.privatekey.alias=ids-daps_key

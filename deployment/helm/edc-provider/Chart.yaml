@@ -38,11 +38,6 @@ dependencies:
     version: "0.1.6"
     repository: https://catenax-ng.github.io/product-edc
     condition: dataplane.enabled
-  - name: backend-service
-    version: "0.0.6"
-    repository: https://denisneuling.github.io/cx-backend-service
-    alias: providerbackendapplication
-    condition: providerbackendapplication.enabled
   - name: postgresql
     alias: postgres
     version: 12.1.5

@@ -54,7 +54,7 @@ public class PassportUtil {
             if(!encrypted) {
                 return jsonUtil.toJsonFile(path, passport, prettyPrint); // Store the plain JSON
             }else{
-                return fileUtil.toFile(path, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), endpointData.getOfferId()), false); // Store Encrypted
+                return fileUtil.toFile(path, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), endpointData.getOfferId()+endpointData.getId()), false); // Store Encrypted
             }
         }catch (Exception e){
             throw new UtilException(PassportUtil.class, e, "Something went wrong while saving the passport for transfer ["+endpointData.getId()+"]");

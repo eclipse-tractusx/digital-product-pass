@@ -47,8 +47,8 @@ configuration:
 
   passport:
     dataTransfer:
-      encrypted: true
-      indented: true
+      encrypt: true
+      indent: true
       dir: "data/transfer"
     versions:
       - 'v3.0.1'

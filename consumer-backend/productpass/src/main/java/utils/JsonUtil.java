@@ -272,7 +272,7 @@ public final class JsonUtil {
     public Object bindMap(Map<String,Object> json, Class bindClass){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.convertValue(json, bindClass);
+            return mapper.convertValue(mapper.valueToTree(json), bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }
@@ -280,7 +280,7 @@ public final class JsonUtil {
     public Object bindObject(Object json, Class bindClass){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.convertValue(json, bindClass);
+            return this.bindJsonNode(mapper.valueToTree(json), bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }

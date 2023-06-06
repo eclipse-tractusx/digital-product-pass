@@ -46,7 +46,10 @@ configuration:
     registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
   passport:
-    transferDir: "data/transfer"
+    dataTransfer:
+      encrypted: true
+      indented: true
+      dir: "data/transfer"
     versions:
       - 'v3.0.1'
 

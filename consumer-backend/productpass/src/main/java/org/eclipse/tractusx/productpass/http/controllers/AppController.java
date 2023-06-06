@@ -35,6 +35,7 @@ import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.*;
 
@@ -52,6 +53,9 @@ public class AppController {
     HttpUtil httpUtil;
     @Autowired
     EdcUtil edcUtil;
+
+    @Autowired
+    Environment env;
 
     @Autowired
     PassportUtil passportUtil;
@@ -101,7 +105,9 @@ public class AppController {
             }
 
             Passport passport = dataPlaneService.getPassport(endpointData);
-            String passportPath = passportUtil.savePassport(passport, endpointData);
+            Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);
+            Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
+            String passportPath = passportUtil.savePassport(passport, endpointData, prettyPrint, encrypt);
             LogUtil.printMessage("[EDC] Passport Transfer Data ["+endpointData.getId()+"] Saved Successfully in ["+passportPath+"]!");
         }catch(Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");

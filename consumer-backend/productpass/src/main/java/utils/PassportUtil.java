@@ -41,18 +41,21 @@ public class PassportUtil {
     private final FileUtil fileUtil;
     private final String transferDir;
 
-
     @Autowired
     public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil, Environment env) {
-        this.transferDir = env.getProperty("passport.transferDir", String.class, "data/transfer");
+        this.transferDir = env.getProperty("passport.dataTransfer.dir", String.class, "data/transfer");
         this.jsonUtil = jsonUtil;
         this.fileUtil = fileUtil;
     }
-    public String savePassport(Passport passport, DataPlaneEndpoint endpointData){
+    public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
             fileUtil.createDir(this.transferDir);
             String path = Path.of(this.transferDir, endpointData.getId() + ".json").toAbsolutePath().toString();
-            return jsonUtil.toJsonFile(path, passport, true);
+            if(!encrypted) {
+                return jsonUtil.toJsonFile(path, passport, prettyPrint); // Store the plain JSON
+            }else{
+                return fileUtil.toFile(path, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), endpointData.getOfferId()), false); // Store Encrypted
+            }
         }catch (Exception e){
             throw new UtilException(PassportUtil.class, e, "Something went wrong while saving the passport for transfer ["+endpointData.getId()+"]");
         }

@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.middleware;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,11 +37,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class BaseInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    HttpUtil httpUtil;
     @Override
     public boolean preHandle(
             HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
         if(!httpRequest.getRequestURI().equals("/error")) {
-            String httpInfo = HttpUtil.getHttpInfo(httpRequest, httpResponse.getStatus());
+            String httpInfo = httpUtil.getHttpInfo(httpRequest, httpResponse.getStatus());
             LogUtil.printHTTPMessage(httpInfo);
         }
         return true;

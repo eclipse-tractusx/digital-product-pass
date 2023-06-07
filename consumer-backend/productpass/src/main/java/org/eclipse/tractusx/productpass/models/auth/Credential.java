@@ -24,11 +24,18 @@
 
 package org.eclipse.tractusx.productpass.models.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.HttpUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+@Component
 public class Credential {
+
+    @Autowired
+    HttpUtil httpUtil;
+
     private String session_code;
     private String execution;
     private String client_id;
@@ -75,10 +82,10 @@ public class Credential {
     }
 
     public void mapKeycloakResponse(HttpServletRequest request){
-        this.session_code = HttpUtil.getParamOrDefault(request, "session_code", null);
-        this.execution = HttpUtil.getParamOrDefault(request, "execution", null);
-        this.client_id = HttpUtil.getParamOrDefault(request, "client_id", null);
-        this.tab_id = HttpUtil.getParamOrDefault(request, "tab_id", null);
+        this.session_code = httpUtil.getParamOrDefault(request, "session_code", null);
+        this.execution = httpUtil.getParamOrDefault(request, "execution", null);
+        this.client_id = httpUtil.getParamOrDefault(request, "client_id", null);
+        this.tab_id = httpUtil.getParamOrDefault(request, "tab_id", null);
     }
     public String getSession_code() {
         return  session_code;

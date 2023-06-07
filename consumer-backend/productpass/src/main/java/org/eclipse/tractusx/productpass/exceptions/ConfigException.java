@@ -23,9 +23,12 @@
 
 package org.eclipse.tractusx.productpass.exceptions;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.LogUtil;
 
 public class ConfigException extends RuntimeException{
+
         public ConfigException(String configuration, String errorMessage) {
             super("["+configuration+"] " + errorMessage);
             LogUtil.printException(this, "["+configuration+"] " + errorMessage);

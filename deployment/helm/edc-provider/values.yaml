@@ -535,14 +535,20 @@ tractusx-connector:
 
   daps:
     fullnameOverride: "daps"
-    url: "https://daps.dev.demo.catena-x.net"
+    url: "https://daps1.int.demo.catena-x.net"
     clientId: <path:material-pass/data/dev/edc/oauth#client.id>
     paths:
-      jwks: /jwks.json
+      jwks: /.well-known/jwks.json
       token: /token
+    connectors:
+      - id: <path:material-pass/data/dev/edc/oauth#client.id>
+        name: edcconector
+        attributes:
+          referringConnector: "https://materialpass.dev.demo.catena-x.net/consumer/<path:material-pass/data/dev/edc/participant#bpnNumber>"
+        certificate: <path:material-pass/data/daps-crt-dev#content>
 
   backendService:
-    httpProxyTokenReceiverUrl: "http://dpp-edc-consumer-backend"
+    httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -557,7 +563,7 @@ tractusx-connector:
     
   idsdaps:
     connectors:
-      - certificate: <path:material-pass/data/daps-crt-dev#content>
+      - certificate: <path:material-pass/data/ids-daps_crt#content>
 
 postgresql:
   jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
@@ -571,4 +577,4 @@ postgresql:
   auth:
     database: "edc"
     username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#password>

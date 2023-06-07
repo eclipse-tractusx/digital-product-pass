@@ -25,17 +25,6 @@
 # Default values for eclipse-dataspace-connector.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-mockbackend:
-  enabled: true
-  fullnameOverride: "dpp-edc-consumer-backend"
-  service:
-    type: NodePort
-    frontend:
-      port: 80
-    backend:
-      port: 8081
-
-
 tractusx-connector:
   install:
     daps: false
@@ -62,7 +51,7 @@ tractusx-connector:
       tag: "0.4.1"
     initContainers: []
     debug:
-      enabled: true
+      enabled: false
       port: 1044
       suspendOnStart: false
     internationalDataSpaces:
@@ -317,7 +306,7 @@ tractusx-connector:
       tag: "0.4.1"
     initContainers: []
     debug:
-      enabled: true
+      enabled: false
       port: 1044
       suspendOnStart: false
     livenessProbe:
@@ -547,14 +536,21 @@ tractusx-connector:
 
   daps:
     fullnameOverride: "daps"
-    url: "https://daps.dev.demo.catena-x.net"
+    url: "https://daps1.int.demo.catena-x.net"
     clientId: <path:material-pass/data/dev/edc/oauth#client.id>
     paths:
-      jwks: /jwks.json
+      jwks: /.well-known/jwks.json
       token: /token
+    connectors:
+      - id: <path:material-pass/data/dev/edc/oauth#client.id>
+        name: edcconector
+        attributes:
+          referringConnector: "https://materialpass.dev.demo.catena-x.net/consumer/<path:material-pass/data/dev/edc/participant#bpnNumber>"
+        certificate: <path:material-pass/data/daps-crt-dev#content>
+
 
   backendService:
-    httpProxyTokenReceiverUrl: "http://dpp-edc-consumer-backend"
+    httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -582,5 +578,5 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#user>
+    username: <path:material-pass/data/int/edc/database#user>
+    password: <path:material-pass/data/int/edc/database#password>

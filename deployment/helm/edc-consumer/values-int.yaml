@@ -561,7 +561,7 @@ tractusx-connector:
         certificate: <path:material-pass/data/ids-daps_crt#content>
 
   backendService:
-    httpProxyTokenReceiverUrl: "http://dpp-edc-consumer-backend"
+     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -590,4 +590,4 @@ postgresql:
   auth:
     database: "edc"
     username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#user>
+    password: <path:material-pass/data/int/edc/database#password>

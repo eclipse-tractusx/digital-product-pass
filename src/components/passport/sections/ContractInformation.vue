@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-for-template-key -->
 <!--
   Catena-X - Product Passport Consumer Frontend
  
@@ -24,39 +25,39 @@
   <div class="section">
     <v-row class="section">
       <template v-if="propsData.negotiation">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract ID"
-            :value="propsData.negotiation.id"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract type"
-            :value="propsData.negotiation.type"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract state"
-            :value="propsData.negotiation.state"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract agreement ID"
-            :value="propsData.negotiation.contractAgreementId"
-          />
-        </v-col>
+        <FieldBox label="Negotiation">
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract ID"
+              :value="propsData.negotiation.id"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract type"
+              :value="propsData.negotiation.type"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract state"
+              :value="propsData.negotiation.state"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract Agreement ID"
+              :value="propsData.negotiation.contractAgreementId"
+            />
+        </FieldBox>
       </template>
       <template v-if="propsData.contractOffer">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
+        <v-col sm="12" md="3" class="pa-0 ma-0 w-100">
           <Field
             icon="mdi-file-swap-outline"
-            label="Connector ID"
+            label="Contract Offer Connector ID"
             :value="propsData.contractOffer.connectorId"
           />
           <Field
             icon="mdi-file-swap-outline"
-            label="ID"
+            label="Contract Offer Id"
             :value="propsData.contractOffer.id"
           />
         </v-col>
@@ -79,12 +80,7 @@
           />
           <Field
             icon="mdi-file-swap-outline"
-            label="asset ID"
-            :value="propsData.transferRequest.assetId"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="asset ID"
+            label="Asset ID"
             :value="propsData.transferRequest.assetId"
           />
         </v-col>
@@ -95,10 +91,12 @@
 
 <script>
 import Field from "../Field.vue";
+import FieldBox from "../../general/FieldBox.vue";
 export default {
   name: "ContractInformation",
   components: {
     Field,
+    FieldBox
   },
   props: {
     sectionTitle: {

@@ -24,6 +24,22 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [in preparation]
+## [0.8.1] - 2023-06-09
+
+## Updated
+- Updated the NGINX configuration
+- Updated ingress templates in product helm charts
+
+## Added
+- Added the base image recommended by the TRGs: `nginxinc/nginx-unprivileged:stable-alpine` in the frontend image generation.
+
+## Security Issues:
+- Updated version from vite to `v4.1.5` to fix critical vulnerability raised by the dependapot: https://github.com/eclipse-tractusx/digital-product-pass/security/dependabot/2
+
+
+
 ## [released]
 ## [0.8.0] - 2023-05-19
 

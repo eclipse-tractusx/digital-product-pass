@@ -81,11 +81,16 @@ tractusx-connector:
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
         hostname: "materialpass.int.demo.catena-x.net"
-                # -- Additional ingress annotations to add
+       # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
         endpoints:
-          - public
+          - default
+          - management
+          - control
+          - protocol
+          - metrics
+          - observability
         # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
         className: "nginx"
         # -- TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource
@@ -94,13 +99,6 @@ tractusx-connector:
           enabled: true
           # -- If present overwrites the default secret name
           secretName: "tls-secret"
-        ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
-        certManager:
-          # -- If preset enables certificate generation via cert-manager namespace scoped issuer
-          issuer: ""
-          # -- If preset enables certificate generation via cert-manager cluster-wide issuer
-          clusterIssuer: ""
-
   dataplane:
     enabled: true
     endpoints:

@@ -25,16 +25,6 @@
 # Default values for eclipse-dataspace-connector.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-mockbackend:
-  enabled: true
-  fullnameOverride: "dpp-edc-consumer-backend"
-  service:
-    type: NodePort
-    frontend:
-      port: 80
-    backend:
-      port: 8081
-
 
 tractusx-connector:
   install:

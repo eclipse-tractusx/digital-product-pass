@@ -23,7 +23,6 @@
 
 ---
 
-
 tractusx-connector:
   install:
     daps: false

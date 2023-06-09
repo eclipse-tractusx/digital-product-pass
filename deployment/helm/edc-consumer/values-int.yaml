@@ -31,6 +31,7 @@
 # Declare variables to be passed into your templates.
 
 tractusx-connector:
+  enabled: true
   participant:
     id: &bpnNumber "<path:material-pass/data/int/edc/participant#bpnNumber>"
 

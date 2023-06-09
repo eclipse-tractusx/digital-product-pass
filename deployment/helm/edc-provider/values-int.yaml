@@ -27,6 +27,7 @@
 
 
 tractusx-connector:
+  enabled: true
   participant:
     id: &bpnNumber "<path:material-pass/data/int/edc/participant#bpnNumber>"
 

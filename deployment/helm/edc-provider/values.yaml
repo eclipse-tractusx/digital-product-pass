@@ -27,6 +27,7 @@
 
 
 tractusx-connector:
+  enabled: true
   install:
     daps: false
     postgresql: false

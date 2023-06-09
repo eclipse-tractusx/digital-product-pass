@@ -188,11 +188,6 @@ export default {
   gap: 32px;
 }
 
-.left-container {
-  width: 50%;
-  position: relative;
-}
-
 .left-container-text {
   padding: 45px;
   margin-bottom: 23px;
@@ -230,12 +225,22 @@ h2 {
   height: auto;
   background-size: cover;
   background-repeat: no-repeat;
-
   background-position: center;
 }
 
+.left-container {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s linear, width 0.3s ease-in-out;
+}
+
 .hidden {
-  display: none;
+  width: 0;
+  opacity: 0;
+  margin-left: -32px;
+  visibility: hidden;
 }
 
 .right-container {

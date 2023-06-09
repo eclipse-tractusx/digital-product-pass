@@ -43,7 +43,7 @@ frontend:
   ingress:
     enabled: false
     hosts:
-      - host: materialpass.int.demo.catena-x.net    # Default URL
+      - host: <insert host>    # Default URL
         paths:
           - path: /passport(/|$)(.*)
             pathType: Prefix
@@ -56,8 +56,8 @@ frontend:
 
   # Product Passport UI Configuration
   productpass:
-    backend_url: "materialpass.int.demo.catena-x.net"
-    idp_url: "centralidp.int.demo.catena-x.net/auth/" # Default URL
+    backend_url: "materialpass.dev.demo.catena-x.net"
+    idp_url: "centralidp.dev.demo.catena-x.net/auth/" # Default URL
     passport:
       version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
     api:

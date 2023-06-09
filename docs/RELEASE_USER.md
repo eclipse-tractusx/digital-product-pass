@@ -23,6 +23,21 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+
+**June 09 2023 (Version 0.8.1)**  
+*09.06.2023*
+
+### Added
+
+#### Fixed frontend loading bug
+Now the frontend is able to load all the application without giving 502 errors.
+
+### Security Issues
+
+#### Updated version from Vite Library
+The vite library version was updated to version `4.1.5` to fix a vulnerability.
+
+
 **May 18 2023 (Version 0.8.0)**  
 *18.05.2023*
 

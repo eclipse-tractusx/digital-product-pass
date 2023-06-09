@@ -78,14 +78,31 @@ tractusx-connector:
         path: /consumer/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
-  
+
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
         hostname: "materialpass.int.demo.catena-x.net"
-       
+       # -- Additional ingress annotations to add
+        annotations: {}
+        # -- EDC endpoints exposed by this ingress resource
+        endpoints:
+          - default
+          - management
+          - control
+          - protocol
+          - metrics
+          - observability
+        # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+        className: "nginx"
+        # -- TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource
+        tls:
+          # -- Enables TLS on the ingress resource
+          enabled: true
+          # -- If present overwrites the default secret name
+          secretName: "tls-secret"
   dataplane:
     enabled: true
     endpoints:
@@ -119,7 +136,25 @@ tractusx-connector:
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
         hostname: "materialpass.int.demo.catena-x.net"
         # -- Additional ingress annotations to add
-        
+        annotations: {}
+        # -- EDC endpoints exposed by this ingress resource
+        endpoints:
+          - public
+        # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+        className: "nginx"
+        # -- TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource
+        tls:
+          # -- Enables TLS on the ingress resource
+          enabled: true
+          # -- If present overwrites the default secret name
+          secretName: "tls-secret"
+        ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
+        certManager:
+          # -- If preset enables certificate generation via cert-manager namespace scoped issuer
+          issuer: ""
+          # -- If preset enables certificate generation via cert-manager cluster-wide issuer
+          clusterIssuer: ""
+
   postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#user>

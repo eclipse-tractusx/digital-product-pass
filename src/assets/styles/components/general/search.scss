@@ -114,10 +114,12 @@
     padding-left: 20px;
   }
 
-  @media (max-width: 856px) {
+  @media (max-width: 900px) {
     .input {
-      position: relative;
-      width: 80vw;
+      width: 60vw;
+    }
+    .submit-btn {
+      margin-top: 15px;
     }
   }
 }

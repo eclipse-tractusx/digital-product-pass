@@ -21,70 +21,11 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template v-if="propsDate">
+<template >
   <div class="section">
     <v-row class="section">
-      <template v-if="propsData.negotiation">
-        <FieldBox label="Negotiation">
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Contract ID"
-              :value="propsData.negotiation.id"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Contract type"
-              :value="propsData.negotiation.type"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Contract state"
-              :value="propsData.negotiation.state"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Contract Agreement ID"
-              :value="propsData.negotiation.contractAgreementId"
-            />
-        </FieldBox>
-      </template>
-      <template v-if="propsData.contractOffer">
-        <v-col sm="12" md="3" class="pa-0 ma-0 w-100">
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract Offer Connector ID"
-            :value="propsData.contractOffer.connectorId"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Contract Offer Id"
-            :value="propsData.contractOffer.id"
-          />
-        </v-col>
-      </template>
-      <template v-if="propsData.transfer">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Transfer ID"
-            :value="propsData.transfer.id"
-          />
-        </v-col>
-      </template>
-      <template v-if="propsData.transferRequest">
-        <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Transfer request connector ID"
-            :value="propsData.transferRequest.id"
-          />
-          <Field
-            icon="mdi-file-swap-outline"
-            label="Asset ID"
-            :value="propsData.transferRequest.assetId"
-          />
-        </v-col>
-      </template>
+      <div>dawdasdasd</div>
+      <h2>daw</h2>
     </v-row>
   </div>
 </template>
@@ -96,7 +37,7 @@ export default {
   name: "ContractInformation",
   components: {
     Field,
-    FieldBox
+    FieldBox,
   },
   props: {
     sectionTitle: {
@@ -112,7 +53,92 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: this.$props.data.metadata,
+      propsData: {
+        negotiation: {
+          createdAt: 1679579334111,
+          updatedAt: 1679579340178,
+          state: "CONFIRMED",
+          type: "CONSUMER",
+          id: "8f1f59e4-490f-4aad-83fa-fface6e849b0",
+          contractAgreementId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+          counterPartyAddress:
+            "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+          protocol: "ids-multipart",
+        },
+        contractOffer: {
+          connectorId: "2937009c-d5c0-4c7c-8a18-7e2cb831b739",
+          id: "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
+          policy: {
+            permissions: [
+              {
+                edctype: "dataspaceconnector:permission",
+                uid: null,
+                target: "NCR186850B",
+                action: {
+                  type: "USE",
+                  includedIn: null,
+                  constraint: null,
+                },
+                assignee: null,
+                assigner: null,
+                constraints: [],
+                duties: [],
+              },
+            ],
+            prohibitions: [],
+            obligations: [],
+            extensibleProperties: {},
+            target: "NCR186850B",
+            "@type": {
+              "@policytype": "set",
+            },
+          },
+          asset: {
+            id: "NCR186850B",
+            createdAt: "1679579334105",
+            properties: {
+              "asset:prop:byteSize": null,
+              "asset:prop:description": "Battery Passport test data",
+              "asset:prop:id": "NCR186850B",
+              "asset:prop:fileName": null,
+            },
+          },
+          assetId: "2",
+          provider: "urn:connector:provider",
+          consumer: "urn:connector:consumer",
+          offerId: "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
+        },
+        transfer: {
+          id: "2dbb60d8-8c56-4175-95c5-4c1355206e21",
+          createdAt: "1679579340194",
+          updatedAt: "1679579350085",
+          type: "CONSUMER",
+          state: "COMPLETED",
+          stateTimestamp: 1679579350085,
+          dataRequest: {
+            assetId: "NCR186850B",
+            contractId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+            connectorId: "MaterialPass",
+          },
+          dataDestination: {
+            properties: {
+              type: "HttpProxy",
+            },
+          },
+        },
+        transferRequest: {
+          id: "70e85af6e338e1cfa0c1fdac785dfdda1290a434a95e7c8046f15df466fc97f0",
+          connectorId: "MaterialPass",
+          connectorAddress:
+            "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
+          contractId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
+          assetId: "NCR186850B",
+          managedResources: false,
+          dataDestination: {
+            type: "HttpProxy",
+          },
+        },
+      },
     };
   },
 };

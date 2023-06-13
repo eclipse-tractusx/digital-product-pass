@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-for-template-key -->
 <!--
   Catena-X - Product Passport Consumer Frontend
  
@@ -23,21 +22,146 @@
 
 <template >
   <div class="section">
-    <v-row class="section">
-      <div>dawdasdasd</div>
-      <h2>daw</h2>
-    </v-row>
+    <v-container class="ma-0">
+      <v-row class="section">
+        <template v-if="propsData.negotiation">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <div class="element-chart-label">Negotiation</div>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract ID"
+              :value="propsData.negotiation.id"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Creation Date"
+              :value="formattedDate(propsData.negotiation.createdAt)"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Update Date"
+              :value="formattedDate(propsData.negotiation.updatedAt)"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract type"
+              :value="propsData.negotiation.type"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract state"
+              :value="propsData.negotiation.state"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract agreement ID"
+              :value="propsData.negotiation.contractAgreementId"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Counter Party Address"
+              :value="propsData.negotiation.counterPartyAddress"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Protocol"
+              :value="propsData.negotiation.protocol"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.contractOffer">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <div class="element-chart-label">Contract Offer</div>
+
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Connector ID"
+              :value="propsData.contractOffer.connectorId"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract offer ID"
+              :value="propsData.contractOffer.id"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.transfer">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <div class="element-chart-label">Transfer</div>
+
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer ID"
+              :value="propsData.transfer.id"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer Creation Date"
+              :value="formattedDate(propsData.transfer.createdAt)"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer Update Date"
+              :value="formattedDate(propsData.transfer.updatedAt)"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer type"
+              :value="propsData.transfer.type"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer state"
+              :value="propsData.transfer.state"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label=" State timestamp"
+              :value="formattedDate(propsData.transfer.stateTimestamp)"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.transferRequest">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <div class="element-chart-label">Transfer request</div>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer request ID"
+              :value="propsData.transferRequest.id"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer request connector ID"
+              :value="propsData.transferRequest.connectorId"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Connector Address"
+              :value="propsData.transferRequest.connectorAddress"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Contract Id"
+              :value="propsData.transferRequest.contractId"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Asset ID"
+              :value="propsData.transferRequest.assetId"
+            />
+          </v-col>
+        </template>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import Field from "../Field.vue";
-import FieldBox from "../../general/FieldBox.vue";
 export default {
   name: "ContractInformation",
   components: {
     Field,
-    FieldBox,
   },
   props: {
     sectionTitle: {
@@ -53,93 +177,20 @@ export default {
   data() {
     return {
       toggle: false,
-      propsData: {
-        negotiation: {
-          createdAt: 1679579334111,
-          updatedAt: 1679579340178,
-          state: "CONFIRMED",
-          type: "CONSUMER",
-          id: "8f1f59e4-490f-4aad-83fa-fface6e849b0",
-          contractAgreementId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-          counterPartyAddress:
-            "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-          protocol: "ids-multipart",
-        },
-        contractOffer: {
-          connectorId: "2937009c-d5c0-4c7c-8a18-7e2cb831b739",
-          id: "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
-          policy: {
-            permissions: [
-              {
-                edctype: "dataspaceconnector:permission",
-                uid: null,
-                target: "NCR186850B",
-                action: {
-                  type: "USE",
-                  includedIn: null,
-                  constraint: null,
-                },
-                assignee: null,
-                assigner: null,
-                constraints: [],
-                duties: [],
-              },
-            ],
-            prohibitions: [],
-            obligations: [],
-            extensibleProperties: {},
-            target: "NCR186850B",
-            "@type": {
-              "@policytype": "set",
-            },
-          },
-          asset: {
-            id: "NCR186850B",
-            createdAt: "1679579334105",
-            properties: {
-              "asset:prop:byteSize": null,
-              "asset:prop:description": "Battery Passport test data",
-              "asset:prop:id": "NCR186850B",
-              "asset:prop:fileName": null,
-            },
-          },
-          assetId: "2",
-          provider: "urn:connector:provider",
-          consumer: "urn:connector:consumer",
-          offerId: "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
-        },
-        transfer: {
-          id: "2dbb60d8-8c56-4175-95c5-4c1355206e21",
-          createdAt: "1679579340194",
-          updatedAt: "1679579350085",
-          type: "CONSUMER",
-          state: "COMPLETED",
-          stateTimestamp: 1679579350085,
-          dataRequest: {
-            assetId: "NCR186850B",
-            contractId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-            connectorId: "MaterialPass",
-          },
-          dataDestination: {
-            properties: {
-              type: "HttpProxy",
-            },
-          },
-        },
-        transferRequest: {
-          id: "70e85af6e338e1cfa0c1fdac785dfdda1290a434a95e7c8046f15df466fc97f0",
-          connectorId: "MaterialPass",
-          connectorAddress:
-            "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-          contractId: "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-          assetId: "NCR186850B",
-          managedResources: false,
-          dataDestination: {
-            type: "HttpProxy",
-          },
-        },
-      },
+      propsData: this.$props.data.metadata,
+      exampleTimestamp: 1666358400,
     };
+  },
+  methods: {
+    formattedDate(timestamp) {
+      const date = new Date(timestamp);
+      const formattedDate = date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+      return formattedDate;
+    },
   },
 };
 </script>

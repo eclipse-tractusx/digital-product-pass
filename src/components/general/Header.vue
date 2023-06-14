@@ -137,6 +137,7 @@ export default {
   mounted() {
     if (this.auth.isUserAuthenticated) {
       this.email = this.auth.getUserName();
+      this.name = this.auth.getName();
       this.role = this.auth.getRole();
     }
   },

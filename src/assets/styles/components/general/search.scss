@@ -19,7 +19,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 .form {
   display: flex;
   flex-direction: column;
@@ -28,8 +28,9 @@
   font-size: 20px;
 
   .v-field__input {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
+    padding-top: 10px;
   }
   .ripple-background {
     color: $catena-x-light-blue;
@@ -62,9 +63,10 @@
   }
 
   .clear {
+    color: #444;
     position: absolute;
     right: 35px;
-    bottom: 35px;
+    top: 26px;
   }
 
   .v-btn--variant-elevated {
@@ -74,12 +76,15 @@
   .input-form {
     position: relative;
     padding: 17px;
-    background: linear-gradient(to right, #f8b500, #f88000);
-    border-radius: 35px;
+
+    .v-btn--variant-elevated,
+    .v-btn--variant-flat {
+      background: none;
+    }
   }
   .input {
-    width: 560px;
-    border-radius: 20px;
+    width: 30vw;
+    height: 56px;
     color: #444;
     padding: 2px;
     padding-left: 40px;
@@ -87,10 +92,10 @@
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhMGEwYTA7fS5jbHMtMntmaWxsOiNhMGEwYTA7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjUgMTYgNS45MSAxMy4wOSAzIDkuNSAzUzMgNS45MSAzIDkuNSA1LjkxIDE2IDkuNSAxNmMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBDNy4wMSAxNCA1IDExLjk5IDUgOS41UzcuMDEgNSA5LjUgNSAxNCA3LjAxIDE0IDkuNSAxMS45OSAxNCA5LjUgMTR6Ii8+PC9zdmc+Cg==);
     background-repeat: no-repeat;
     background-position: 16px center;
-    background-size: 32px 32px;
-    border: 1px solid lightgray;
-    border-radius: 25px;
-    background-color: white;
+    background-size: 24px 24px;
+    border: 1px solid #0f71cb;
+    border-radius: 8px;
+    background-color: #f4f7fa;
   }
 
   .submit-btn {
@@ -109,10 +114,12 @@
     padding-left: 20px;
   }
 
-  @media (max-width: 856px) {
+  @media (max-width: 900px) {
     .input {
-      position: relative;
-      width: 80vw;
+      width: 60vw;
+    }
+    .submit-btn {
+      margin-top: 15px;
     }
   }
 }

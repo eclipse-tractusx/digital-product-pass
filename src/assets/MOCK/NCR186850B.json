@@ -1,85 +1,168 @@
 {
   "metadata": {
-    "negotiation": {
-      "createdAt": 1679579334111,
-      "updatedAt": 1679679340178,
-      "state": "CONFIRMED",
-      "type": "CONSUMER",
-      "id": "8f1f59e4-490f-4aad-83fa-fface6e849b0",
-      "contractAgreementId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-      "counterPartyAddress": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-      "protocol": "ids-multipart"
-    },
-    "contractOffer": {
-      "connectorId": "2937009c-d5c0-4c7c-8a18-7e2cb831b739",
-      "id": "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739",
-      "policy": {
-        "permissions": [
-          {
-            "edctype": "dataspaceconnector:permission",
-            "uid": null,
-            "target": "NCR186850B",
-            "action": {
-              "type": "USE",
-              "includedIn": null,
-              "constraint": null
-            },
-            "assignee": null,
-            "assigner": null,
-            "constraints": [],
-            "duties": []
-          }
+    "contract": {
+      "@id": "e52a15a1-add8-46a8-8d8e-320fdfa2619d",
+      "@type": "dcat:Dataset",
+      "odrl:hasPolicy": {
+        "@id": "2:urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23:9b21d42e-b160-40a3-bc1c-061bb362d14e",
+        "@type": "odrl:Set",
+        "odrl:permission": [
+          "permission01",
+          "permission02",
+          "permission03",
+          "permission04"
         ],
-        "prohibitions": [],
-        "obligations": [],
-        "extensibleProperties": {},
-        "target": "NCR186850B",
-        "@type": {
-          "@policytype": "set"
-        }
+        "odrl:prohibition": [
+          "prohibition01",
+          "prohibition02"
+        ],
+        "odrl:obligation": [
+          "obligation01",
+          "obligation02"
+        ],
+        "odrl:target": "urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23"
       },
-      "asset": {
-        "id": "NCR186850B",
-        "createdAt": "1679579334105",
-        "properties": {
-          "asset:prop:byteSize": null,
-          "asset:prop:description": "Battery Passport test data",
-          "asset:prop:id": "NCR186850B",
-          "asset:prop:fileName": null
+      "dcat:distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "dct:format": {
+            "@id": "HttpProxy"
+          },
+          "dcat:accessService": "68b7d448-3018-449b-a1c3-fd30965f8715"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "dct:format": {
+            "@id": "AmazonS3"
+          },
+          "dcat:accessService": "68b7d448-3018-449b-a1c3-fd30965f8715"
         }
+      ],
+      "edc:description": "Battery Passport test data",
+      "edc:id": "urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+    },
+    "policy": {
+      "@id": "1:urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a:384abbc3-ae36-4f6d-8b5c-63c627c22240",
+      "@type": "odrl:Set",
+      "odrl:permission": [
+        {
+          "odrl:action": "USE",
+          "odrl:constraint": {
+            "@type": "LogicalConstraint",
+            "odrl:or": [
+              {
+                "@type": "Constraint",
+                "odrl:leftOperand": "BusinessPartnerNumber",
+                "odrl:operator": "EQ",
+                "odrl:rightOperand": "{{POLICY_BPN}}"
+              }
+            ]
+          }
+        },
+        {
+          "odrl:action": "USE",
+          "odrl:constraint": {
+            "@type": "LogicalConstraint",
+            "odrl:or": [
+              {
+                "@type": "Constraint",
+                "odrl:leftOperand": "BusinessPartnerNumber",
+                "odrl:operator": "EQ",
+                "odrl:rightOperand": "{{POLICY_BPN}}"
+              }
+            ]
+          }
+        }
+      ],
+      "odrl:prohibition": [],
+      "odrl:obligation": [],
+      "odrl:target": "urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a"
+    },
+    "negotiation": {
+      "@type": "edc:ContractNegotiationDto",
+      "@id": "f838e56f-a187-46fb-88cf-4e1ef6ea182a",
+      "edc:type": "CONSUMER",
+      "edc:protocol": "dataspace-protocol-http",
+      "edc:state": "FINALIZED",
+      "edc:counterPartyAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+      "edc:callbackAddresses": [],
+      "edc:contractAgreementId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe",
+      "@context": {
+        "dct": "https://purl.org/dc/terms/",
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "dcat": "https://www.w3.org/ns/dcat/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "dspace": "https://w3id.org/dspace/v0.8/"
+      }
+    },
+    "negotiationRequest": {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
       },
-      "assetId": "2",
-      "provider": "urn:connector:provider",
-      "consumer": "urn:connector:consumer",
-      "offerId": "2:2937009c-d5c0-4c7c-8a18-7e2cb831b739"
+      "@type": "NegotiationInitiateRequestDto",
+      "connectorAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+      "protocol": "dataspace-protocol-http",
+      "connectorId": "BPNL00000000CBA5",
+      "providerId": "",
+      "offer": {
+        "offerId": "3:3:30134ab3-1008-4041-8757-6ed6b2936127",
+        "assetId": "3",
+        "policy": {
+          "@type": "odrl:Set",
+          "odrl:permission": [],
+          "odrl:prohibition": [],
+          "odrl:obligation": [],
+          "odrl:target": "3"
+        }
+      }
     },
     "transfer": {
-      "id": "2dbb60d8-8c56-4175-95c5-4c1355206e21",
-      "createdAt": "1679579340194",
-      "updatedAt": "1679579350085",
-      "type": "CONSUMER",
-      "state": "COMPLETED",
-      "stateTimestamp": 1679579350085,
-      "dataRequest": {
-        "assetId": "NCR186850B",
-        "contractId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-        "connectorId": "MaterialPass"
+      "@id": "95a02165-ef16-4ae5-8bc8-873f1a9d1956",
+      "@type": "edc:TransferProcessDto",
+      "edc:state": "COMPLETED",
+      "edc:stateTimestamp": 1686745336116,
+      "edc:type": "CONSUMER",
+      "edc:callbackAddresses": [],
+      "edc:dataDestination": {
+        "edc:type": "HttpProxy"
       },
+      "edc:dataRequest": {
+        "@type": "edc:DataRequestDto",
+        "@id": "95a02165-ef16-4ae5-8bc8-873f1a9d1956",
+        "edc:assetId": "3",
+        "edc:contractId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe"
+      },
+      "edc:receiverHttpEndpoint": "https://materialpass.int.demo.catena-x.net/endpoint",
+      "@context": {
+        "dct": "https://purl.org/dc/terms/",
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "dcat": "https://www.w3.org/ns/dcat/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "dspace": "https://w3id.org/dspace/v0.8/"
+      }
+    },
+    "transferRequest": {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+      },
+      "assetId": "3",
+      "connectorAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+      "contractId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe",
       "dataDestination": {
         "properties": {
           "type": "HttpProxy"
         }
-      }
-    },
-    "transferRequest": {
-      "id": "70e85af6e338e1cfa0c1fdac785dfdda1290a434a95e7c8046f15df466fc97f0",
-      "connectorId": "MaterialPass",
-      "connectorAddress": "https://materialpass.int.demo.catena-x.net/provider/api/v1/ids/data",
-      "contractId": "2:4ede1eb4-81d3-475f-98e9-b2db2d429556",
-      "assetId": "NCR186850B",
+      },
       "managedResources": false,
-      "dataDestination": {
-        "type": "HttpProxy"
+      "privateProperties": {
+        "receiverHttpEndpoint": "https://materialpass.int.demo.catena-x.net/endpoint"
+      },
+      "protocol": "dataspace-protocol-http",
+      "transferType": {
+        "contentType": "application/octet-stream",
+        "isFinite": true
       }
     }
   },

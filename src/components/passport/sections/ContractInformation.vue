@@ -24,119 +24,301 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
+        <template v-if="propsData.contract">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
+            <div class="element-chart-label">Contract</div>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="ID"
+              :value="propsData.contract['@id']"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Type"
+              :value="propsData.contract['@type']"
+            />
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Policy ID"
+                :value="propsData.contract['odrl:hasPolicy']['@id']"
+              />
+              <template v-slot:title>
+                <h3>Policy</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.contract['odrl:hasPolicy']"
+                />
+              </template>
+            </DialogComponent>
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Distribution"
+                value="Distribution list"
+              />
+              <template v-slot:title>
+                <h3>Distribution</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.contract['dcat:distribution']"
+                />
+              </template>
+            </DialogComponent>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="EDC description"
+              :value="propsData.contract['edc:description']"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="EDC ID"
+              :value="propsData.contract['edc:id']"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.policy">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
+            <div class="element-chart-label">Policy</div>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="ID"
+              :value="propsData.policy['@id']"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Type"
+              :value="propsData.policy['@type']"
+            />
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Permission"
+                value="Permission detail"
+              />
+              <template v-slot:title>
+                <h3>Permission</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.policy['odrl:permission']"
+                />
+              </template>
+            </DialogComponent>
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Prohibition"
+                value="Prohibition detail"
+              />
+              <template v-slot:title>
+                <h3>Prohibition</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.policy['odrl:prohibition']"
+                />
+              </template>
+            </DialogComponent>
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Obligation"
+                value="Obligation detail"
+              />
+              <template v-slot:title>
+                <h3>Obligation</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.policy['odrl:obligation']"
+                />
+              </template>
+            </DialogComponent>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Target"
+              :value="propsData.policy['odrl:target']"
+            />
+          </v-col>
+        </template>
         <template v-if="propsData.negotiation">
-          <v-col sm="12" md="3" class="pa-0 ma-0">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
             <div class="element-chart-label">Negotiation</div>
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract ID"
-              :value="propsData.negotiation.id"
+              label="Type"
+              :value="propsData.negotiation['@type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Creation Date"
-              :value="formattedDate(propsData.negotiation.createdAt)"
+              label="ID"
+              :value="propsData.negotiation['@id']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Update Date"
-              :value="formattedDate(propsData.negotiation.updatedAt)"
+              label="EDC Type"
+              :value="propsData.negotiation['edc:type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract type"
-              :value="propsData.negotiation.type"
+              label="EDC protocol"
+              :value="propsData.negotiation['edc:protocol']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract state"
-              :value="propsData.negotiation.state"
+              label="EDC state"
+              :value="propsData.negotiation['edc:state']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract agreement ID"
-              :value="propsData.negotiation.contractAgreementId"
+              label="EDC counter party address"
+              :value="propsData.negotiation['edc:counterPartyAddress']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Counter Party Address"
-              :value="propsData.negotiation.counterPartyAddress"
+              label="EDC contract agreement ID"
+              :value="propsData.negotiation['edc:contractAgreementId']"
+            />
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Context"
+                :value="propsData.negotiation['@context'].dct"
+              />
+              <template v-slot:title>
+                <h3>Context</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.negotiation['@context']"
+                />
+              </template>
+            </DialogComponent>
+          </v-col>
+        </template>
+        <template v-if="propsData.negotiationRequest">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
+            <div class="element-chart-label">Negotiation request</div>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Type"
+              :value="propsData.negotiationRequest['@type']"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Connector address"
+              :value="propsData.negotiationRequest.connectorAddress"
             />
             <Field
               icon="mdi-file-swap-outline"
               label="Protocol"
-              :value="propsData.negotiation.protocol"
+              :value="propsData.negotiationRequest.protocol"
             />
-          </v-col>
-        </template>
-        <template v-if="propsData.contractOffer">
-          <v-col sm="12" md="3" class="pa-0 ma-0">
-            <div class="element-chart-label">Contract Offer</div>
-
             <Field
               icon="mdi-file-swap-outline"
               label="Connector ID"
-              :value="propsData.contractOffer.connectorId"
+              :value="propsData.negotiationRequest.connectorId"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract offer ID"
-              :value="propsData.contractOffer.id"
+              label="Provider ID"
+              :value="propsData.negotiationRequest.providerId"
             />
+            <DialogComponent class="field-dialog">
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="Offer"
+                value="Offer detail"
+              />
+              <template v-slot:title>
+                <h3>Offer</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.negotiationRequest.offer"
+                />
+              </template>
+            </DialogComponent>
           </v-col>
         </template>
         <template v-if="propsData.transfer">
-          <v-col sm="12" md="3" class="pa-0 ma-0">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
             <div class="element-chart-label">Transfer</div>
 
             <Field
               icon="mdi-file-swap-outline"
               label="Transfer ID"
-              :value="propsData.transfer.id"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Transfer Creation Date"
-              :value="formattedDate(propsData.transfer.createdAt)"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Transfer Update Date"
-              :value="formattedDate(propsData.transfer.updatedAt)"
+              :value="propsData.transfer['@id']"
             />
             <Field
               icon="mdi-file-swap-outline"
               label="Transfer type"
-              :value="propsData.transfer.type"
+              :value="propsData.transfer['@type']"
             />
             <Field
               icon="mdi-file-swap-outline"
               label="Transfer state"
-              :value="propsData.transfer.state"
+              :value="propsData.transfer['edc:state']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label=" State timestamp"
-              :value="formattedDate(propsData.transfer.stateTimestamp)"
+              label="EDC timestamp"
+              :value="formattedDate(propsData.transfer['edc:stateTimestamp'])"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="EDC type"
+              :value="propsData.transfer['edc:type']"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Transfer type"
+              :value="propsData.transfer['@type']"
+            />
+            <DialogComponent>
+              <Field
+                info
+                icon="mdi-file-swap-outline"
+                label="EDC data request ID"
+                :value="propsData.transfer['edc:dataRequest']['@id']"
+              />
+              <template v-slot:title>
+                <h3>EDC data request</h3>
+              </template>
+              <template v-slot:text>
+                <RecursiveComponent
+                  :jsonData="propsData.transfer['edc:dataRequest']"
+                />
+              </template>
+            </DialogComponent>
+            <Field
+              icon="mdi-file-swap-outline"
+              label="EDC receiver http endpoint"
+              :value="propsData.transfer['edc:receiverHttpEndpoint']"
             />
           </v-col>
         </template>
         <template v-if="propsData.transferRequest">
-          <v-col sm="12" md="3" class="pa-0 ma-0">
+          <v-col sm="12" md="2" class="pa-0 ma-0">
             <div class="element-chart-label">Transfer request</div>
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer request ID"
-              :value="propsData.transferRequest.id"
+              label="Asset ID"
+              :value="propsData.transferRequest.assetId"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer request connector ID"
-              :value="propsData.transferRequest.connectorId"
-            />
-            <Field
-              icon="mdi-file-swap-outline"
-              label="Connector Address"
+              label="Connector address"
               :value="propsData.transferRequest.connectorAddress"
             />
             <Field
@@ -146,8 +328,25 @@
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Asset ID"
-              :value="propsData.transferRequest.assetId"
+              label="Data destination"
+              :value="propsData.transferRequest.dataDestination.properties.type"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Reciver http endpoint"
+              :value="
+                propsData.transferRequest.privateProperties.receiverHttpEndpoint
+              "
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Protocol"
+              :value="propsData.transferRequest.protocol"
+            />
+            <Field
+              icon="mdi-file-swap-outline"
+              label="Content type"
+              :value="propsData.transferRequest.transferType.contentType"
             />
           </v-col>
         </template>
@@ -158,10 +357,15 @@
 
 <script>
 import Field from "../Field.vue";
+import DialogComponent from "../../general/Dialog.vue";
+import RecursiveComponent from "../../general/RecursiveComponent.vue";
+
 export default {
   name: "ContractInformation",
   components: {
     Field,
+    DialogComponent,
+    RecursiveComponent,
   },
   props: {
     sectionTitle: {
@@ -190,6 +394,17 @@ export default {
         year: "numeric",
       });
       return formattedDate;
+    },
+    arrayName(array) {
+      return Object.keys(array)[0];
+    },
+    toSentenceCase(text) {
+      // Convert the string to sentence case
+      const words = text.split(/(?=[A-Z])/);
+      const firstWord = [words[0].charAt(0).toUpperCase() + words[0].slice(1)];
+      const otherWords = words.slice(1).map((word) => word.toLowerCase());
+      const formattedWords = firstWord.concat(otherWords);
+      return formattedWords.join(" ");
     },
   },
 };

@@ -27,8 +27,9 @@
       <template v-if="propsData.batteryIdentification">
         <v-row>
           <v-col sm="12" md="9" class="pa-0 ma-0">
-            <DialogComponent>
+            <DialogComponent class="field-dialog">
               <Field
+                info
                 data-cy="battery-id"
                 icon="mdi-fingerprint"
                 label="Battery ID (DMC)"

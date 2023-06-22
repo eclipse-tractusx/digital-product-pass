@@ -82,6 +82,60 @@
             >Third Party Licenses</a
           >
         </div>
+        <DialogComponent>
+          <div>
+            <a id="legalNotice">Legal notice</a>
+          </div>
+          <template v-slot:title> Legal notice </template>
+          <template v-slot:text>
+            <div>
+              <span>Battery product passport: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
+                >here</a
+              >
+            </div>
+            <div>License: Apache-2.0</div>
+            <div>
+              <span>Licence Path: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                href="https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/c09f9020048277a041f61b8ccef91f65454bba18/LICENSE"
+                >here</a
+              >
+            </div>
+            <div>
+              <span>NOTICE: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                href="https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/c09f9020048277a041f61b8ccef91f65454bba18/NOTICE.md?plain=1#L22"
+                >here</a
+              >
+            </div>
+            <div>
+              <span>Source URL: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
+                >here</a
+              >
+            </div>
+            <div>
+              <span>Commit ID: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
+                >here</a
+              >
+            </div>
+          </template>
+        </DialogComponent>
       </div>
       <div class="copyright-container">
         <div class="copyright">
@@ -95,10 +149,12 @@
 
 <script>
 import { VERSION } from "@/services/service.const";
-
+import DialogComponent from "../general/Dialog.vue";
 export default {
   name: "FooterComponent",
-  components: {},
+  components: {
+    DialogComponent,
+  },
   data() {
     return {
       repoUrl: "https://github.com/eclipse-tractusx/digital-product-pass",

@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,46 +29,68 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NegotiationOffer {
-    @JsonProperty("connectorId")
-    String connectorId;
+public class Distribution {
+    @JsonProperty("@type")
+    String type;
 
-    @JsonProperty("connectorAddress")
-    String connectorAddress;
+    @JsonProperty("dct:format")
+    Format format;
 
-    @JsonProperty("offer")
-    Offer offer;
-    public NegotiationOffer(){
+    @JsonProperty("dcat:accessService")
+    String accessService;
 
+    public Distribution(String type, Format format, String accessService) {
+        this.type = type;
+        this.format = format;
+        this.accessService = accessService;
     }
 
-    public NegotiationOffer(String connectorId, String connectorAddress, Offer offer) {
-        this.connectorId = connectorId;
-        this.connectorAddress = connectorAddress;
-        this.offer = offer;
+    public Distribution() {
     }
 
-    public String getConnectorId() {
-        return connectorId;
+    public String getType() {
+        return type;
     }
 
-    public void setConnectorId(String connectorId) {
-        this.connectorId = connectorId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getConnectorAddress() {
-        return connectorAddress;
+    public Format getFormat() {
+        return format;
     }
 
-    public void setConnectorAddress(String connectorAddress) {
-        this.connectorAddress = connectorAddress;
+    public void setFormat(Format format) {
+        this.format = format;
     }
 
-    public Offer getOffer() {
-        return offer;
+    public String getAccessService() {
+        return accessService;
     }
 
-    public void setOffer(Offer offer) {
-        this.offer = offer;
+    public void setAccessService(String accessService) {
+        this.accessService = accessService;
     }
+
+    static class Format{
+        @JsonProperty("@id")
+        String id;
+
+        public Format(String id) {
+            this.id = id;
+        }
+
+        public Format() {
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+
+
 }

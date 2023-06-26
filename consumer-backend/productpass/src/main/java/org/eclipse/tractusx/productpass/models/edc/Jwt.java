@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,56 +23,32 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.models.negotiation;
+package org.eclipse.tractusx.productpass.models.edc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Offer {
+public class Jwt {
+    @JsonProperty("header")
+    Map<String, Object> header;
+    @JsonProperty("payload") Map<String, Object> payload;
 
-    @JsonProperty("offerId")
-    String offerId;
-
-    @JsonProperty("assetId")
-    String assetId;
-
-    @JsonProperty("policy")
-    Set policy;
-
-
-    public Offer(String offerId, String assetId, Set policy) {
-        this.offerId = offerId;
-        this.assetId = assetId;
-        this.policy = policy;
+    public Map<String, Object> getHeader() {
+        return header;
     }
 
-    public Offer() {
+    public void setHeader(Map<String, Object> header) {
+        this.header = header;
     }
 
-    public String getOfferId() {
-        return offerId;
+    public Map<String, Object> getPayload() {
+        return payload;
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
-    }
-
-    public String getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
-    }
-
-    public Set getPolicy() {
-        return policy;
-    }
-
-    public void setPolicy(Set policy) {
-        this.policy = policy;
+    public void setPayload(Map<String, Object> payload) {
+        this.payload = payload;
     }
 }

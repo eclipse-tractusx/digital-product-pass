@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -26,51 +28,34 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Offer {
+public class DidDocument {
+    @JsonProperty("@id")
+    String id;
+    @JsonProperty("@type")
+    String type;
 
-    @JsonProperty("offerId")
-    String offerId;
-
-    @JsonProperty("assetId")
-    String assetId;
-
-    @JsonProperty("policy")
-    Set policy;
-
-
-    public Offer(String offerId, String assetId, Set policy) {
-        this.offerId = offerId;
-        this.assetId = assetId;
-        this.policy = policy;
+    public DidDocument(String id, String type) {
+        this.id = id;
+        this.type = type;
     }
 
-    public Offer() {
+    public DidDocument() {
     }
 
-    public String getOfferId() {
-        return offerId;
+    public String getId() {
+        return id;
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getAssetId() {
-        return assetId;
+    public String getType() {
+        return type;
     }
 
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
-    }
-
-    public Set getPolicy() {
-        return policy;
-    }
-
-    public void setPolicy(Set policy) {
-        this.policy = policy;
+    public void setType(String type) {
+        this.type = type;
     }
 }

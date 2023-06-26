@@ -24,6 +24,23 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [released]
+## [0.9.0] - 2023-06-20
+
+# What is new?
+ 
+## Added
+ - Added new welcome screen with basic description of the application
+ - Added new search bar.
+ - Added new QR code advance searching mechanism
+
+## Updated
+- Optimized the responsiveness of the welcome screen and the search field.
+- Optimized UX to match the view of the passport.
+
+## Security Issues
+- Upgraded Spring Boot version to  `v0.3.1`
+
 
 ## [in  preparation]
 ## [0.9.0] - xxxx-xx-xx

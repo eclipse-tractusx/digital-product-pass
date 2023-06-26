@@ -79,56 +79,78 @@ backend:
       clientId: <path:material-pass/data/beta/aasregistry#client.id>
       clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
       xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+      participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
 
   application:
     yml: |-
-      spring:
-        application:
-          name: 'Catena-X Product Passport Consumer Backend'
-        main:
-          allow-bean-definition-overriding: true
-        devtools:
-          add-properties: false
-        jackson:
-          serialization:
-            indent_output: true
-      configuration:
-        maxRetries: 5
+    spring:
+      name: 'Catena-X Product Passport Consumer Backend'
+      main:
+        allow-bean-definition-overriding: true
+      devtools:
+        add-properties: false
+      jackson:
+        serialization:
+          indent_output: true
 
-        keycloak:
-          realm: CX-Central
-          resource: Cl13-CX-Battery
-          tokenUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-          userInfoUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
+    logging:
+      level:
+        root: INFO
+        utils: INFO
 
-        endpoints:
-          providerUrl: 'https://materialpass.beta.demo.catena-x.net/BPNL000000000000'
-          serverUrl: 'https://materialpass.beta.demo.catena-x.net'
-          registryUrl: 'https://semantics.beta.demo.catena-x.net'
+    configuration:
+      maxRetries: 5
 
-        passport:
-          versions:
-            - 'v3.0.1'
+      keycloak:
+        realm: CX-Central
+        resource: Cl13-CX-Battery
+        tokenUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+        userInfoUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
-        vault:
-          type: 'local'
-          file: 'vault.token.yml'
-          pathSep: "."
-          prettyPrint: true
-          indent: 2
-          defaultValue: '<Add secret value here>'
-          attributes:
-            - "token"
-            - "client.id"
-            - "client.secret"
-            - "apiKey"
-      server:
-        error:
-          include-message: ALWAYS
-          include-binding-errors: ALWAYS
-          include-stacktrace: ON_PARAM
-          include-exception: false
-        port: 8888
-        tomcat:
-          max-connections: 10000
+      edc:
+        endpoint: 'https://materialpass.beta.demo.catena-x.net/consumer'
+        management: '/management/v2'
+        catalog: '/catalog/request'
+        negotiation: '/contractnegotiations'
+        transfer: '/transferprocesses'
+        receiverEndpoint: 'https://materialpass.beta.demo.catena-x.net/endpoint'
 
+      process:
+        store: true
+        dir: 'process'
+        indent: true
+        signKey: '<path:material-pass/data/beta/backend/#signKey>'
+
+      endpoints:
+        registryUrl: 'https://semantics.beta.demo.catena-x.net'
+
+      passport:
+        dataTransfer:
+          encrypt: true
+          indent: true
+          dir: "data/transfer"
+        versions:
+          - 'v3.0.1'
+
+      vault:
+        type: 'local'
+        file: 'vault.token.yml'
+        pathSep: "."
+        prettyPrint: true
+        indent: 2
+        defaultValue: '<Add secret value here>'
+        attributes:
+          - "client.id"
+          - "client.secret"
+          - "edc.apiKey"
+          - "edc.participantId"
+
+    server:
+      error:
+        include-message: ALWAYS
+        include-binding-errors: ALWAYS
+        include-stacktrace: ON_PARAM
+        include-exception: false
+      port: 8888
+      tomcat:
+        max-connections: 10000

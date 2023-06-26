@@ -23,6 +23,46 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**xxxx xx xxxx (Version 1.0.0)**  
+*xx.xx.xxxx*
+
+### Added
+
+#### Made backend asynchronous.
+By creating a asynchronous backend we are improving the control that the user  has over the contract negotiation.
+Now the user can decline, cancel and sign the contract requests and visualize the status of the negotiation.
+Now the backend  is also negotiating faster with the EDC `v0.4.1` so that is quicker and optimized
+
+
+#### Added file system negotiation logs.
+Each process stores in the container file system (non persistent) the contract negotiation files as well the information for the transfer process.
+
+### Security Improvements
+
+#### Added a new layer of security in the contract negotiation
+Allow only the user to sign, decline or cancel the contract negotiation by using a session token generated uniquely in the backend and asigned to the user.
+That means that only the user can access its own data. And the backend will make sure that everything is correct otherwise no action is taken.
+
+#### Added cryptography to the passport transfer process
+As defined in the documentation of the EDC the passport must be store in the backend until the user  requests for its retrieval.
+We are now encrypting the passport  when it arrives from the EDC consumer data plane and we alse asure that the user  will be the only  one  that  can decrypt it. Once the user requests the  passport it is destroyed and no longer available.
+
+
+
+
+### Updated
+
+#### Update the postman colections and the infrastructure related topics
+Now is easier to configure the provider backend for the version `v0.4.1` of the EDC.
+
+
+
+
+#### Removed cx-backend-service support
+The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
+The API that should be used is `/endpoint`
+
+
 **June 20 2023 (Version 0.9.0)**
 *20.06.2023*
 
@@ -54,7 +94,6 @@ Now the frontend is able to load all the application without giving 502 errors.
 
 #### Updated version from Vite Library
 The vite library version was updated to version `4.1.5` to fix a vulnerability.
-
 
 **May 18 2023 (Version 0.8.0)**  
 *18.05.2023*

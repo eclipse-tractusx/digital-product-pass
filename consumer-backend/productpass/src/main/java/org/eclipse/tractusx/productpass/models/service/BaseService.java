@@ -25,6 +25,8 @@ package org.eclipse.tractusx.productpass.models.service;
 
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.interfaces.ServiceInitializationInterface;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
+import org.springframework.core.env.Environment;
 
 import java.util.List;
 

@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,16 +23,32 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.interfaces;
+package org.eclipse.tractusx.productpass.models.edc;
 
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.springframework.core.env.Environment;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+import java.util.Map;
 
-@org.springframework.stereotype.Service
-public interface ServiceInitializationInterface {
-    List<String> getEmptyVariables(); // Return the name of the variables that are not initialized
-    void checkEmptyVariables() throws ServiceInitializationException; // Call checkVariables and add your initialization configuration
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Jwt {
+    @JsonProperty("header")
+    Map<String, Object> header;
+    @JsonProperty("payload") Map<String, Object> payload;
 
+    public Map<String, Object> getHeader() {
+        return header;
+    }
+
+    public void setHeader(Map<String, Object> header) {
+        this.header = header;
+    }
+
+    public Map<String, Object> getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Map<String, Object> payload) {
+        this.payload = payload;
+    }
 }

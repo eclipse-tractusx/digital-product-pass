@@ -22,18 +22,6 @@
 
 
 ---
-# Default values for eclipse-dataspace-connector.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-mockbackend:
-  enabled: true
-  fullnameOverride: "dpp-edc-consumer-backend"
-  service:
-    type: NodePort
-    frontend:
-      port: 80
-    backend:
-      port: 8081
 
 
 tractusx-connector:
@@ -41,7 +29,7 @@ tractusx-connector:
     daps: false
     postgresql: false
     vault: false
-  fullnameOverride: "dpp-edc-consumer"
+  fullnameOverride: "dpp-edc-provider"
   nameOverride: ""
   # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
@@ -49,7 +37,7 @@ tractusx-connector:
 
     
   participant:
-    id: &bpnNumber "<path:material-pass/data/beta/edc/participant#bpnNumber>"
+    id: &bpnNumber "<path:material-pass/data/dev/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -105,39 +93,39 @@ tractusx-connector:
         # -- port for incoming api calls
         port: 8080
         # -- path for incoming api calls
-        path: /consumer/api
+        path: /BPNL000000000000/api
       # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
       management:
         # -- port for incoming api calls
         port: 8081
         # -- path for incoming api calls
-        path: /consumer/management
+        path: /BPNL000000000000/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:material-pass/data/beta/edc/oauth#api.key>
+        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
         port: 8083
         # -- path for incoming api calls
-        path: /consumer/control
+        path: /BPNL000000000000/control
       # -- ids api, used for inter connector communication and must be internet facing
       protocol:
         # -- port for incoming api calls
         port: 8084
         # -- path for incoming api calls
-        path: /consumer/api/v1/dsp
+        path: /BPNL000000000000/api/v1/dsp
       # -- metrics api, used for application metrics, must not be internet facing
       metrics:
         # -- port for incoming api calls
         port: 9090
         # -- path for incoming api calls
-        path: /consumer/metrics
+        path: /BPNL000000000000/metrics
       # -- observability api with unsecured access, must not be internet facing
       observability:
         # -- port for incoming API calls
         port: 8085
         # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
+        path: /BPNL000000000000/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
     businessPartnerValidation:
@@ -208,7 +196,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.beta.demo.catena-x.net"
+        hostname: "materialpass.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -353,26 +341,26 @@ tractusx-connector:
     endpoints:
       default:
         port: 8080
-        path: /consumer/api
+        path: /BPNL000000000000/api
       public:
         port: 8081
-        path: /consumer/api/public
+        path: /BPNL000000000000/api/public
       control:
         port: 8083
-        path: /consumer/api/dataplane/control
+        path: /BPNL000000000000/api/dataplane/control
       proxy:
         port: 8186
-        path: /consumer/proxy
+        path: /BPNL000000000000/proxy
       observability:
         # -- port for incoming API calls
         port: 8085
         # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
+        path: /BPNL000000000000/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
       metrics:
         port: 9090
-        path: /consumer/metrics
+        path: /BPNL000000000000/metrics
     aws:
       endpointOverride: ""
       accessKeyId: ""
@@ -438,7 +426,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.beta.demo.catena-x.net"
+        hostname: "materialpass.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -509,14 +497,14 @@ tractusx-connector:
       public: ""
 
   postgresql:
-    jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
+    jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
     fullnameOverride: "postgresql"
-    username: <path:material-pass/data/beta/edc/database#user>
-    password: <path:material-pass/data/beta/edc/database#user>
+    username: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#user>
     auth:
       database: "edc"
-      username: <path:material-pass/data/beta/edc/database#user>
-      password: <path:material-pass/data/beta/edc/database#user>
+      username: <path:material-pass/data/dev/edc/database#user>
+      password: <path:material-pass/data/dev/edc/database#user>
 
   vault:
     fullnameOverride: "vault"
@@ -529,39 +517,38 @@ tractusx-connector:
       # Must be the same certificate that is configured in section 'daps'
       postStart:    # must be set externally!
     hashicorp:
-      url: <path:material-pass/data/beta/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/beta/edc/vault#vault.hashicorp.token>
+      url: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
+      token: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
       timeout: 30
       healthCheck:
         enabled: true
         standbyOk: true
       paths:
-        secret:  <path:material-pass/data/beta/edc/vault#vault.hashicorp.api.secret.path>
+        secret: <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: ids-daps_key
-      transferProxyTokenSignerPublicKey: ids-daps_crt
+      transferProxyTokenSignerPrivateKey: daps-key-dev
+      transferProxyTokenSignerPublicKey: daps-crt-dev
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: ids-daps_key
-      dapsPublicKey: ids-daps_crt
+      dapsPrivateKey: daps-key-dev
+      dapsPublicKey: daps-crt-dev
 
   daps:
     fullnameOverride: "daps"
-    url: "https://daps.beta.demo.catena-x.net"
-    clientId: <path:material-pass/data/beta/edc/oauth#client.id>
+    url: "https://daps1.int.demo.catena-x.net"
+    clientId: <path:material-pass/data/dev/edc/oauth#client.id>
     paths:
       jwks: /.well-known/jwks.json
       token: /token
     connectors:
-      - id: <path:material-pass/data/beta/edc/oauth#client.id>
+      - id: <path:material-pass/data/dev/edc/oauth#client.id>
         name: edcconector
         attributes:
-          referringConnector: "https://materialpass.beta.demo.catena-x.net/consumer/<path:material-pass/data/beta/edc/participant#bpnNumber>"
-        # Must be the same certificate that is stores in section 'sokrates-vault'
-        certificate: <path:material-pass/data/ids-daps_crt#content>
+          referringConnector: "https://materialpass.dev.demo.catena-x.net/consumer/<path:material-pass/data/dev/edc/participant#bpnNumber>"
+        certificate: <path:material-pass/data/daps-crt-dev#content>
 
   backendService:
-     httpProxyTokenReceiverUrl: "https://materialpass.beta.demo.catena-x.net/endpoint"
+    httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -579,8 +566,8 @@ tractusx-connector:
       - certificate: <path:material-pass/data/ids-daps_crt#content>
 
 postgresql:
-  jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-  fullnameOverride: "postgresql"
+  jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
+  fullnameOverride: "postgresqlprovider"
   primary:
     persistence:
       enabled: true
@@ -589,5 +576,5 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/beta/edc/database#user>
-    password: <path:material-pass/data/beta/edc/database#password>
+    username: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#password>

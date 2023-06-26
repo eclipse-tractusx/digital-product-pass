@@ -23,11 +23,12 @@
 
 package org.eclipse.tractusx.productpass.managers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utils.LogUtil;
 import utils.ReflectionUtil;
 
 public class PassportV1Manager extends PassportManager {
-
     public PassportV1Manager(){
         super();
         this.setManager(ReflectionUtil.getCurrentClassName(this.getClass()));

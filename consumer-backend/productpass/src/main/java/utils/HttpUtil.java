@@ -23,11 +23,17 @@
 
 package utils;
 
+import org.checkerframework.checker.units.qual.C;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,33 +46,40 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public final class HttpUtil {
+@Component
+public class HttpUtil {
 
-    private HttpUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+    private Environment env;
+
+    @Autowired
+    JsonUtil jsonUtil;
+    public Integer maxRetries;
+
+    @Autowired
+    public HttpUtil(Environment env) {
+        this.maxRetries = env.getProperty("maxRetries", Integer.class, 5);
     }
-    private static final String SUCCESS_TEXT = "Success";
-    private static final ConfigUtil configurations = new ConfigUtil();
 
-    private static final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
-    private static final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
+    private  final String GET_ERROR_MESSAGE = "It was not possible to do GET request to ";
+    private  final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
 
-    public static Object getSessionValue(HttpServletRequest httpRequest, String key) {
+    public  Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);
     }
 
-    public static void setSessionValue(HttpServletRequest httpRequest, String key, Object value) {
+    public  void setSessionValue(HttpServletRequest httpRequest, String key, Object value) {
         httpRequest.getSession().setAttribute(key, value);
     }
 
-    public static Boolean isInSession(HttpServletRequest httpRequest, String key) {
+    public  Boolean isInSession(HttpServletRequest httpRequest, String key) {
         try {
             Object value = httpRequest.getSession().getAttribute(key);
             if (value != null) {
@@ -84,11 +97,11 @@ public final class HttpUtil {
      * @param httpRequest + Extra details
      **************************************************/
 
-    public static String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
+    public  String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
     }
 
-    public static String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
+    public  String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
         String requestParam = httpRequest.getParameter(param);
         if (requestParam == null) {
             return defaultPattern;
@@ -96,7 +109,7 @@ public final class HttpUtil {
         return requestParam;
     }
 
-    public static String getAuthorizationToken(HttpServletRequest httpRequest){
+    public  String getAuthorizationToken(HttpServletRequest httpRequest){
         final String authorizationHeaderValue = httpRequest.getHeader("Authorization");
         String token = null;
         if (authorizationHeaderValue != null && authorizationHeaderValue.startsWith("Bearer")) {
@@ -107,7 +120,7 @@ public final class HttpUtil {
         }
         return token;
     }
-    public static String buildUrl(String url, Map<String, ?> params, Boolean encode){
+    public  String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
 
@@ -122,7 +135,7 @@ public final class HttpUtil {
         }
         return finalUrl.toString();
     }
-    public static String mapToParams(Map<String, ?> params, Boolean encode){
+    public  String mapToParams(Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder();
         for(Map.Entry<String, ?> entry : params.entrySet()){
 
@@ -135,7 +148,7 @@ public final class HttpUtil {
         return finalUrl.toString();
     }
 
-    public static Map<String, ?> encodeParams(Map<String, ?> params){
+    public  Map<String, ?> encodeParams(Map<String, ?> params){
         Map<String, Object> encodedParams = new HashMap<>();
         for(Map.Entry<String, ?> entry : params.entrySet()){
             String value = String.valueOf(entry.getValue());
@@ -145,7 +158,7 @@ public final class HttpUtil {
         return encodedParams;
     }
 
-    public static String getCurrentHost(HttpServletRequest httpRequest){
+    public  String getCurrentHost(HttpServletRequest httpRequest){
         try {
             return ServletUriComponentsBuilder.fromRequestUri(httpRequest)
                     .replacePath(null)
@@ -156,7 +169,23 @@ public final class HttpUtil {
         }
     }
 
-    public static String getCurrentUrl(HttpServletRequest httpRequest){
+    public Jwt parseToken(String token){
+        try {
+            String[] chunks = token.split("\\.");
+            Jwt jwt = new Jwt();
+
+            String header = CrypUtil.fromBase64Url(chunks[0]);
+            String payload = CrypUtil.fromBase64Url(chunks[1]);
+            LogUtil.printMessage("token header: " + header + " payload: " + payload);
+            jwt.setHeader((Map<String, Object>) jsonUtil.parseJson(header));
+            jwt.setPayload((Map<String, Object>) jsonUtil.parseJson(payload));
+            return jwt;
+        }catch(Exception e){
+            throw new UtilException(HttpUtil.class, e, "It was not possible to parse JWT Token");
+        }
+
+    }
+    public  String getCurrentUrl(HttpServletRequest httpRequest){
         try {
             return httpRequest.getRequestURL().toString();
         } catch (Exception e) {
@@ -164,21 +193,21 @@ public final class HttpUtil {
         }
     }
 
-    public static String getHost(String url) throws MalformedURLException {
+    public  String getHost(String url) throws MalformedURLException {
         return new URL(url).getHost();
     }
-    public static String getProtocol(String url) throws MalformedURLException {
+    public  String getProtocol(String url) throws MalformedURLException {
         return new URL(url).getProtocol();
     }
-    public static Integer getPort(String url) throws MalformedURLException {
+    public  Integer getPort(String url) throws MalformedURLException {
         int port = new URL(url).getPort();
         return (port!=-1)?port:null;
     }
-    public static String getAuthority(String url) throws MalformedURLException {
+    public  String getAuthority(String url) throws MalformedURLException {
         return new URL(url).getAuthority();
     }
 
-    public static HashMap<String, Object> splitUrl(String strUrl) throws MalformedURLException{
+    public  HashMap<String, Object> splitUrl(String strUrl) throws MalformedURLException{
         HashMap<String, Object> retObj = new HashMap<>();
         URL url = new URL(strUrl);
         retObj.put("protocol", url.getProtocol());
@@ -201,40 +230,47 @@ public final class HttpUtil {
      **************************************************/
 
 
-    public static Response buildResponse(Response response, HttpServletResponse servletResponse){
+    public  Response buildResponse(Response response, HttpServletResponse servletResponse){
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
         servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         return response;
     }
-    public static Response getResponse() {
+    public  Response getResponse() {
         return new Response(
                 null,
                 200
         );
     }
 
-    public static Response getResponse(String message) {
+    public  Response getResponse(String message) {
         return new Response(
                 message,
                 200
         );
     }
 
-    public static Response getResponse(String message, Object data) {
+    public  Response getResponse(String message, Object data) {
         return new Response(
                 message,
                 200,
                 data
         );
     }
-    public static Response getNotAuthorizedResponse() {
+
+    public  Response getForbiddenResponse() {
+        return new Response(
+                "Forbidden",
+                403
+        );
+    }
+    public  Response getNotAuthorizedResponse() {
         return new Response(
                 "Not Authorized",
                 401
         );
     }
-    public static void redirect(HttpServletResponse httpResponse, String url) {
+    public  void redirect(HttpServletResponse httpResponse, String url) {
         try {
             httpResponse.sendRedirect(url);
         } catch (IOException e) {
@@ -242,7 +278,7 @@ public final class HttpUtil {
         }
     }
 
-    public static URI buildUri(String url, Map<String, ?> params, Boolean encoded){
+    public  URI buildUri(String url, Map<String, ?> params, Boolean encoded){
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
             builder.queryParam(entry.getKey(), entry.getValue());
@@ -253,9 +289,9 @@ public final class HttpUtil {
     /**************************************************
      * Generic Request Methods ************************
      **************************************************/
-    public static ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
-        URI finalUri = HttpUtil.buildUri(url, params, encode);
+        URI finalUri = this.buildUri(url, params, encode);
         LogUtil.printDebug("["+ HttpUtil.class+"]: Calling URL->["+finalUri+"] with method->["+method.name()+"]");
         ResponseEntity<?> response = restTemplate.exchange(finalUri, method, payload, responseType);
         if (!retry || response != null) {
@@ -263,7 +299,7 @@ public final class HttpUtil {
             return response;
         }
         int i = 0;
-        Integer maxRetries = (Integer) configurations.getConfigurationParam("maxRetries");
+        Integer maxRetries = this.maxRetries;
         if (maxRetries == null) {
             throw new UtilException(HttpUtil.class, "It was not possible to request to " + url+ " max retries not defined");
         }
@@ -289,10 +325,10 @@ public final class HttpUtil {
     /*
      * GET With PARAMS + HEADERS
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -301,10 +337,10 @@ public final class HttpUtil {
     /*
      * GET With HEADERS
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry, Boolean encode) {
+    public ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, HttpUtil.getParams(), retry, encode);
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, this.getParams(), retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -313,10 +349,10 @@ public final class HttpUtil {
     /*
      * GET With PARAMS + HEADERS + BODY
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -325,10 +361,10 @@ public final class HttpUtil {
     /*
      * GET With PARAMS
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
-            HttpEntity<Void> requestEntity = new HttpEntity<>(HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
+            HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -337,10 +373,10 @@ public final class HttpUtil {
     /*
      * GET With BODY + PARAMS
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
-            HttpEntity<Object> requestEntity = new HttpEntity<>(body, HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
+            HttpEntity<Object> requestEntity = new HttpEntity<>(body, this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -348,10 +384,10 @@ public final class HttpUtil {
     /*
      * GET Without anything
      */
-    public static ResponseEntity<?> doGet(String url,  Class<?> responseType, Boolean retry) {
+    public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Boolean retry) {
         try {
-            HttpEntity<Void> requestEntity = new HttpEntity<>(HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.GET, requestEntity, HttpUtil.getParams(), retry, false);
+            HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.GET, requestEntity, this.getParams(), retry, false);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
@@ -361,10 +397,10 @@ public final class HttpUtil {
     /*
      * POST With PARAMS + HEADERS
      */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
@@ -373,10 +409,10 @@ public final class HttpUtil {
     /*
      * POST With PARAMS + HEADERS + BODY
      */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
@@ -385,10 +421,10 @@ public final class HttpUtil {
     /*
      * POST With PARAMS
      */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
-            HttpEntity<Void> requestEntity = new HttpEntity<>(HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
+            HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
@@ -397,10 +433,10 @@ public final class HttpUtil {
     /*
     * POST With BODY + PARAMS
     */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
-            HttpEntity<Object> requestEntity = new HttpEntity<>(body, HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
+            HttpEntity<Object> requestEntity = new HttpEntity<>(body, this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
@@ -408,10 +444,10 @@ public final class HttpUtil {
     /*
      * POST With HEADERS
      */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, HttpUtil.getParams(), retry, false);
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, this.getParams(), retry, false);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
@@ -419,24 +455,24 @@ public final class HttpUtil {
     /*
      * POST Without anything
      */
-    public static ResponseEntity<?> doPost(String url,  Class<?> responseType, Boolean retry) {
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Boolean retry) {
         try {
-            HttpEntity<Void> requestEntity = new HttpEntity<>(HttpUtil.getHeaders());
-            return HttpUtil.doRequest(url, responseType, HttpMethod.POST, requestEntity, HttpUtil.getParams(), retry, false);
+            HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
+            return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, this.getParams(), retry, false);
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
     }
-    public static HttpHeaders getHeaders() {
+    public  HttpHeaders getHeaders() {
         return new HttpHeaders();
     }
 
-    public static HttpHeaders getHeadersWithToken(String accessToken) {
+    public  HttpHeaders getHeadersWithToken(String accessToken) {
         HttpHeaders headers =  new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         return headers;
     }
-    public static Map<String, Object> getParams() {
+    public  Map<String, Object> getParams() {
         return new HashMap<String, Object>();
     }
 }

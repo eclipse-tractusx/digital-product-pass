@@ -23,7 +23,7 @@
 <template>
   <div>
     <HeaderComponent>
-      <div class="header-title">Search Passport</div>
+      <div class="header-title">{{ welcome }}</div>
     </HeaderComponent>
     <v-container>
       <v-window>
@@ -42,10 +42,24 @@
 import SearchView from "./SearchView.vue";
 import FooterComponent from "../components/general/Footer.vue";
 import HeaderComponent from "../components/general/Header.vue";
-
+import { inject } from "vue";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomeView",
+  data(){
+    return{
+      auth: inject("authentication"),
+    }
+  },
+  computed: {
+    welcome(){
+        if (this.auth.isUserAuthenticated) {
+          return "Welcome " + this.auth.getName() + "!";
+        }else{
+          return "Home"
+        }
+    }
+  },
   components: {
     SearchView,
     FooterComponent,

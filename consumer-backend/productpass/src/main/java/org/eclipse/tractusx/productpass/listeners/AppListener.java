@@ -30,8 +30,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import utils.ConfigUtil;
 import utils.LogUtil;
 
 @Component
@@ -41,8 +41,8 @@ import utils.LogUtil;
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
-
-    public static final ConfigUtil configuration = new ConfigUtil();
+    @Autowired
+    Environment env;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {

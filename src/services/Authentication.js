@@ -78,6 +78,9 @@ export default class Authentication {
     getUserName() {
       return this.decodeAccessToken().email;
     }
+    getName() {
+      return this.decodeAccessToken().name;
+    }
     getSessionId() {
       return this.keycloak.sessionId;
     }

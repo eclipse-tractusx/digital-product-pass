@@ -24,9 +24,59 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [in  preparation]
+## [0.9.0] - xxxx-xx-xx
+
+## Deleted
+
+- Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
+
+## Added
+- Added new `/endpoint` api to store the payload incomming from the EDC data plane
+- Added the encryption and decryption in AES from passport payload.
+- Added AES unit tests
+- Added the DataPlane service in the backend to comunicate with the data plane.
+
+## Updated
+- Updated charts configurations related to the backend.
+- Updated the EDC test charts to remote the cx-backend-service configurations
+
+## [released]
+## [0.8.1] - 2023-06-09
+
+## Updated
+- Updated the NGINX configuration
+- Updated ingress templates in product helm charts
+
+## Added
+- Added the base image recommended by the TRGs: `nginxinc/nginx-unprivileged:stable-alpine` in the frontend image generation.
+
+## Security Issues:
+- Updated version from vite to `v4.1.5` to fix critical vulnerability raised by the dependapot: https://github.com/eclipse-tractusx/digital-product-pass/security/dependabot/2
+
+
+## [released]
+## [0.8.0] - 2023-05-19
+
+## Updated
+- Updated configuration charts
+- Updated backend utilities (added spring boot to the classes)
+- Updated tests to use spring boot to autowire the components.
+
+
+## Added
+- Added new configuration classes
+- Added new methods to get the configurations at the start of the services
+
+## Deleted
+- Deleted the configuration util (old alternative to spring boot configuration)
+- Deleted the tests for configuration util.
+
+
 ## [released]
 
-## [0.7.0] - 2023-05-05
+## [0.7.0] - 2023-05-10
 
 ## Updated
 - Adapted springboot application yaml as a single source of configuration
@@ -52,7 +102,10 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Prepare values.yaml for default mode
 - Added Tooltip Component
 - Added Bar Component Fix
+- Added new Readme to guide the developer/user thought the documentation
   
+## Security Fixes
+- Blocked accessExcalation in the frontend helm templates.
 
 ## [released]
 

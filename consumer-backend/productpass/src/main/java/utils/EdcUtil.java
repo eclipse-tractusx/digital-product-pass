@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,16 +23,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.interfaces;
+package utils;
 
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.springframework.core.env.Environment;
+import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import utils.exceptions.UtilException;
 
-import java.util.List;
+@Component
+public class EdcUtil {
 
-@org.springframework.stereotype.Service
-public interface ServiceInitializationInterface {
-    List<String> getEmptyVariables(); // Return the name of the variables that are not initialized
-    void checkEmptyVariables() throws ServiceInitializationException; // Call checkVariables and add your initialization configuration
+    private final JsonUtil jsonUtil;
+    @Autowired
+    public EdcUtil(JsonUtil jsonUtil) {
+        this.jsonUtil = jsonUtil;
+    }
+    public DataPlaneEndpoint parseDataPlaneEndpoint(Object body){
+        try {
+            return (DataPlaneEndpoint) this.jsonUtil.bindObject(body, DataPlaneEndpoint.class);
+        }catch (Exception e){
+            throw new UtilException(EdcUtil.class, e, "It was not possible to parse the data plain endpoint");
+        }
+    }
+
 
 }

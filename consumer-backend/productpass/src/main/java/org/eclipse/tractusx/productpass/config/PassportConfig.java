@@ -21,16 +21,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.interfaces;
+package org.eclipse.tractusx.productpass.config;
 
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.springframework.core.env.Environment;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-public interface ServiceInitializationInterface {
-    List<String> getEmptyVariables(); // Return the name of the variables that are not initialized
-    void checkEmptyVariables() throws ServiceInitializationException; // Call checkVariables and add your initialization configuration
+@Configuration
+@ConfigurationProperties(prefix="configuration.passport")
+public class PassportConfig {
+
+    private List<String> versions;
+
+
+    public List<String> getVersions() {
+        return this.versions;
+    }
+
+    public void setVersions(List<String> versions) {
+        this.versions = versions;
+    }
 
 }

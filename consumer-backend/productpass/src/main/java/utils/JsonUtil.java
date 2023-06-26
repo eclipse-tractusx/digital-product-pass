@@ -30,22 +30,33 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import utils.exceptions.UtilException;
 
+import java.io.File;
 import java.util.*;
 
+
+@Component
 public final class JsonUtil {
-    private JsonUtil() {
-        throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
+
+    private final FileUtil fileUtil;
+
+    @Autowired
+    public JsonUtil(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
     }
 
-    public static ArrayList<Object> getObjectArray(Object... data){
+        public ArrayList<Object> getObjectArray(Object... data){
         return new ArrayList<>(
                 Arrays.asList(
                         data)
         );
     }
-    public static Object loadJson(String jsonString, Class<?> classType){
+    public Object loadJson(String jsonString, Class<?> classType){
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(jsonString, classType);
@@ -54,7 +65,7 @@ public final class JsonUtil {
         }
     }
 
-    public static String escapeJson(String jsonString){
+    public String escapeJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
@@ -65,7 +76,7 @@ public final class JsonUtil {
         }
     }
 
-    public static Object parseJson(String jsonString){
+    public Object parseJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(jsonString, Object.class);
@@ -73,11 +84,11 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
-    public static ObjectNode newJson(){
+    public ObjectNode newJson(){
         return JsonNodeFactory.instance.objectNode();
     }
 
-    public static Boolean isJson(String jsonString){
+    public Boolean isJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper()
                     .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
@@ -87,7 +98,7 @@ public final class JsonUtil {
         }
         return true;
     }
-    public static String toJson(Object json, Boolean prettyPrint){
+    public String toJson(Object json, Boolean prettyPrint){
         try {
             ObjectMapper mapper = new ObjectMapper();
             if(prettyPrint) {
@@ -99,23 +110,23 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
         }
     }
-    public static String toJsonFile(String path, Object json, Boolean prettyPrint){
+    public String toJsonFile(String path, Object json, Boolean prettyPrint){
         try {
-            return FileUtil.toFile(path, JsonUtil.toJson(json, prettyPrint), false);
+            return fileUtil.toFile(path, this.toJson(json, prettyPrint), false);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
-    public static Object fromJsonFile(String path){
+    public Object fromJsonFile(String path){
         try {
-            String fileContent = FileUtil.readFile(path);
-            return JsonUtil.parseJson(fileContent);
+            String fileContent = fileUtil.readFile(path);
+            return this.parseJson(fileContent);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
 
-    public static Object getValue(Object sourceObj, String keyPath, String pathSep, Object defaultValue){
+    public Object getValue(Object sourceObj, String keyPath, String pathSep, Object defaultValue){
         try {
             if(sourceObj == null){
                 //Uncomment for debug logTools.printError("[DEBUG] Object == null!");
@@ -165,7 +176,7 @@ public final class JsonUtil {
     *   defaultValue if error
     *   HashMap updated with new value (keyValue) in keyPath
      */
-    public static Object setValue(Object sourceObj, String keyPath, Object keyValue, String pathSep, Object defaultValue){
+    public Object setValue(Object sourceObj, String keyPath, Object keyValue, String pathSep, Object defaultValue){
         try {
             if(sourceObj == null){
                 //Un comment for debug logTools.printError("[DEBUG] Object == null!");
@@ -208,7 +219,7 @@ public final class JsonUtil {
                 currentPath.remove(part); // Remove part of path from list (Go to parent path)
                 parentPath = String.join(pathSep, currentPath); // Get current path from parent in sourceObj
                 try {
-                    tmpParent = mapper.convertValue(JsonUtil.getValue(sourceObj, parentPath, pathSep, null), new TypeReference<Map<String, Object>>(){});
+                    tmpParent = mapper.convertValue(this.getValue(sourceObj, parentPath, pathSep, null), new TypeReference<Map<String, Object>>(){});
                 }catch (Exception e){
                     //LogUtil.printError("[DEBUG] It was not possible to parse to map the parent, because it already exists as another type");
                     throw new UtilException(JsonUtil.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");
@@ -232,7 +243,7 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to set value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");
         }
     }
-    public static JsonNode toJsonNode(String json){
+    public JsonNode toJsonNode(String json){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json,JsonNode.class);
@@ -241,7 +252,7 @@ public final class JsonUtil {
         }
     }
 
-    public static Map<?,?> toMap(Object obj){
+    public Map<?,?> toMap(Object obj){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.convertValue(obj, Map.class);
@@ -250,10 +261,26 @@ public final class JsonUtil {
         }
     }
 
-    public static Object bindJsonNode(JsonNode jsonNode, Class bindClass){
+    public Object bindJsonNode(JsonNode jsonNode, Class bindClass){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.treeToValue(jsonNode, bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    public Object bindMap(Map<String,Object> json, Class bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.convertValue(mapper.valueToTree(json), bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    public Object bindObject(Object json, Class bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return this.bindJsonNode(mapper.valueToTree(json), bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }

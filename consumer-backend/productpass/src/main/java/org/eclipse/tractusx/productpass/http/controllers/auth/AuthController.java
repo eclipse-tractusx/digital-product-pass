@@ -59,7 +59,11 @@ public class AuthController {
     // ---------------------------------------------------
     @Autowired
     private Environment env;
+    
+    @Autowired
 
+    HttpUtil httpUtil;
+    
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     final static String clientIdPath = "keycloak.resource";
@@ -71,23 +75,23 @@ public class AuthController {
     @RequestMapping(method = RequestMethod.GET)
     @Hidden
     public Response index() throws Exception{
-        HttpUtil.redirect(httpResponse,"/passport");
-        return HttpUtil.getResponse("Redirect to Login");
+        httpUtil.redirect(httpResponse,"/passport");
+        return httpUtil.getResponse("Redirect to Login");
     }
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @Hidden
     public Response logout() throws Exception{
-        Response response = HttpUtil.getResponse();
+        Response response = httpUtil.getResponse();
         httpRequest.logout();
-        HttpUtil.redirect(httpResponse,"/passport");
+        httpUtil.redirect(httpResponse,"/passport");
         response.message = "Logged out successfully!";
         return response;
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @Hidden
     public Response login() throws Exception{
-        Response response = HttpUtil.getResponse();
-        HttpUtil.redirect(httpResponse,"/passport");
+        Response response = httpUtil.getResponse();
+        httpUtil.redirect(httpResponse,"/passport");
         return response;
     }
 
@@ -98,7 +102,7 @@ public class AuthController {
     })
     public Response check(){
         Boolean check = authService.isAuthenticated(httpRequest);
-        return HttpUtil.getResponse(check ? "User Authenticated":"User not Authenticated", check);
+        return httpUtil.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
 
 
@@ -112,10 +116,10 @@ public class AuthController {
     public Response getToken(){
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
-            return HttpUtil.buildResponse(HttpUtil.getNotAuthorizedResponse(), httpResponse);
+            return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
         }
 
-        Response response = HttpUtil.getResponse();
+        Response response = httpUtil.getResponse();
         response.data = authService.getToken();
         return response;
     }
@@ -128,30 +132,30 @@ public class AuthController {
                     schema = @Schema(implementation = UserInfo.class))),
     })
     public Response getUserInfo(){
-        Response response = HttpUtil.getNotAuthorizedResponse();
+        Response response = httpUtil.getNotAuthorizedResponse();
         // Check if user is Authenticated
         if(!authService.isAuthenticated(httpRequest)){
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
-        String token = HttpUtil.getAuthorizationToken(httpRequest);
+        String token = httpUtil.getAuthorizationToken(httpRequest);
         if(token == null || token.isEmpty() || token.isBlank()){
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         UserInfo userInfo = null;
         try {
             userInfo = authService.getUserInfo(token);
         }catch (Exception e){
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
 
         if(userInfo==null){
             response.message = "No user info available";
-            return HttpUtil.buildResponse(response, httpResponse);
+            return httpUtil.buildResponse(response, httpResponse);
         }
         response.message = null;
         response.status = 200;
         response.data = userInfo;
-        return HttpUtil.buildResponse(response, httpResponse);
+        return httpUtil.buildResponse(response, httpResponse);
     }
 
 }

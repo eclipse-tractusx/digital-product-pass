@@ -31,6 +31,7 @@ frontend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/rewrite-target: /$2
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
       - host: materialpass.int.demo.catena-x.net
         paths:
@@ -92,11 +93,6 @@ backend:
           serialization:
             indent_output: true
       configuration:
-
-        logUtil:
-          level: 7 # 7 FOR INFO AND 8 FOR DEBUG
-          async: false
-
         maxRetries: 5
 
         keycloak:
@@ -105,13 +101,16 @@ backend:
           tokenUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
           userInfoUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
-        variables:
-          default:
-            providerUrl: 'https://materialpass.int.demo.catena-x.net/BPNL000000000000'
-            serverUrl: 'https://materialpass.int.demo.catena-x.net'
-            registryUrl: 'https://semantics.int.demo.catena-x.net'
+        endpoints:
+          providerUrl: 'https://materialpass.int.demo.catena-x.net/BPNL000000000000'
+          serverUrl: 'https://materialpass.int.demo.catena-x.net'
+          registryUrl: 'https://semantics.int.demo.catena-x.net'
 
         passport:
+          dataTransfer:
+            encrypt: true
+            indent: true
+            dir: "data/transfer"
           versions:
             - 'v3.0.1'
 

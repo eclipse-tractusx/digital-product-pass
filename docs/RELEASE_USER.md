@@ -21,6 +21,51 @@
 -->
 
 # Release Notes Digital Product Pass Application
+User friendly relase notes without especific technical details.
+
+
+
+**xxxx xx xxxx (Version 0.9.0)**  
+*xx.xx.xxxx*
+
+## Removed cx-backend-service support
+The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
+The API that should be used is `/endpoint`
+
+**June 09 2023 (Version 0.8.1)**  
+*09.06.2023*
+
+### Added
+
+#### Fixed frontend loading bug
+Now the frontend is able to load all the application without giving 502 errors.
+
+### Security Issues
+
+#### Updated version from Vite Library
+The vite library version was updated to version `4.1.5` to fix a vulnerability.
+
+**May 18 2023 (Version 0.8.0)**  
+*18.05.2023*
+
+#### Fixed bug with the backend external configuration.
+The backend configuration is not able to be deployed in different environments without bugs.
+
+**May 10 2023 (Version 0.7.0)**  
+*10.05.2023*
+
+#### Enabled the external backend configuration
+Now is posible to configure all the backend parameters of configuration in the helm charts.
+
+#### Combined the helm charts from consumer-ui and consumer-backend into one single chart.
+in order to ease the deployment the frontend and backend helm charts were merged into one single chart.
+
+#### Fixed bugs related with the frontend
+A new tool tip interation was introduced and minor bugs were fixed.
+
+#### Updated the main documentation and increased quality
+Created a new readme to guide the user into the digital product pass documentation, updated the quality of the docs and
+included preview images at the main readme file.
 
 **April 24 2023 (Version 0.6.0)**  
 *24.04.2023*

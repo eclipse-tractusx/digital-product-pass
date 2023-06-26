@@ -30,10 +30,11 @@ import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import utils.ConfigUtil;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
@@ -43,19 +44,32 @@ import java.util.Map;
 
 @Service
 public class AasService extends BaseService {
-    public static final ConfigUtil configuration = new ConfigUtil();
-    public final String registryUrl = (String) configuration.getConfigurationParam("variables.default.registryUrl", ".", null);
-    @Autowired
-    private AuthenticationService authService;
 
-    public AasService() throws ServiceInitializationException {
+    public String registryUrl;
+
+    private final HttpUtil httpUtil;
+
+    private final JsonUtil jsonUtil;
+
+    private final AuthenticationService authService;
+
+    @Autowired
+    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
+        this.httpUtil = httpUtil;
+        this.jsonUtil = jsonUtil;
+        this.authService = authService;
+        this.init(env);
         this.checkEmptyVariables();
     }
 
+    public void init(Environment env){
+        this.registryUrl = env.getProperty("configuration.endpoints.registryUrl", String.class, "");
+    }
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
-        if (registryUrl == null || registryUrl.isEmpty()) {
+
+        if (this.registryUrl.isEmpty()) {
             missingVariables.add("registryUrl");
         }
         return missingVariables;
@@ -137,13 +151,13 @@ public class AasService extends BaseService {
     public DigitalTwin getDigitalTwin(String digitalTwinId) {
             try {
                 String path = "/registry/registry/shell-descriptors";
-                String url = registryUrl + path + "/" + digitalTwinId;
-                Map<String, Object> params = HttpUtil.getParams();
+                String url = this.registryUrl + path + "/" + digitalTwinId;
+                Map<String, Object> params = httpUtil.getParams();
                 JwtToken token = authService.getToken();
-                HttpHeaders headers = HttpUtil.getHeadersWithToken(token.getAccessToken());
-                ResponseEntity<?> response = HttpUtil.doGet(url, String.class, headers, params, true, false);
+                HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
+                ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
                 String responseBody = (String) response.getBody();
-                return (DigitalTwin) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), DigitalTwin.class);
+                return (DigitalTwin) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), DigitalTwin.class);
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName() + "." + "getDigitalTwin",
                         e,
@@ -172,13 +186,13 @@ public class AasService extends BaseService {
         try {
             String path = "/registry/registry/shell-descriptors";
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
-            String url = registryUrl + path + "/" + digitalTwin.getIdentification() + "/submodel-descriptors/" + subModel.getIdentification();
-            Map<String, Object> params = HttpUtil.getParams();
+            String url = this.registryUrl + path + "/" + digitalTwin.getIdentification() + "/submodel-descriptors/" + subModel.getIdentification();
+            Map<String, Object> params = httpUtil.getParams();
             JwtToken token = authService.getToken();
-            HttpHeaders headers = HttpUtil.getHeadersWithToken(token.getAccessToken());
-            ResponseEntity<?> response = HttpUtil.doGet(url, String.class, headers, params, true, false);
+            HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
+            ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
-            return (SubModel) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), SubModel.class);
+            return (SubModel) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), SubModel.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getSubModel",
                     e,
@@ -212,13 +226,13 @@ public class AasService extends BaseService {
     public SubModel getSubModel(String digitalTwinId, String subModelId) {
         try {
             String path = "/registry/registry/shell-descriptors";
-            String url = registryUrl + path + "/" + digitalTwinId + "/submodel-descriptors/" + subModelId;
-            Map<String, Object> params = HttpUtil.getParams();
+            String url = this.registryUrl + path + "/" + digitalTwinId + "/submodel-descriptors/" + subModelId;
+            Map<String, Object> params = httpUtil.getParams();
             JwtToken token = authService.getToken();
-            HttpHeaders headers = HttpUtil.getHeadersWithToken(token.getAccessToken());
-            ResponseEntity<?> response = HttpUtil.doGet(url, String.class, headers, params, true, false);
+            HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
+            ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
-            return (SubModel) JsonUtil.bindJsonNode(JsonUtil.toJsonNode(responseBody), SubModel.class);
+            return (SubModel) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), SubModel.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getSubModel",
                     e,
@@ -228,17 +242,17 @@ public class AasService extends BaseService {
     public ArrayList<String> queryDigitalTwin(String assetType,String assetId) {
         try {
             String path = "/registry/lookup/shells";
-            String url = registryUrl + path;
-            Map<String, Object> params = HttpUtil.getParams();
+            String url = this.registryUrl + path;
+            Map<String, Object> params = httpUtil.getParams();
             Map<String, ?> assetIds = Map.of(
                     "key", assetType,
                     "value", assetId
             );
             JwtToken token = authService.getToken();
-            HttpHeaders headers = HttpUtil.getHeadersWithToken(token.getAccessToken());
-            String jsonString = JsonUtil.toJson(assetIds,false);
+            HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
+            String jsonString = jsonUtil.toJson(assetIds,false);
             params.put("assetIds", jsonString);
-            ResponseEntity<?> response = HttpUtil.doGet(url, ArrayList.class, headers, params, true, false);
+            ResponseEntity<?> response = httpUtil.doGet(url, ArrayList.class, headers, params, true, false);
             ArrayList<String> responseBody = (ArrayList<String>) response.getBody();
             return responseBody;
 

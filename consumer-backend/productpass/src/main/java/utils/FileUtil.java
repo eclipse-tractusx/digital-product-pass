@@ -67,9 +67,6 @@ public final class FileUtil {
         try {
             File myObj = new File(filePath);
             myObj.getParentFile().mkdirs();
-            if (myObj.createNewFile()) {
-                LogUtil.printMessage("File created in path [" + filePath + "]");
-            }
             return myObj.getPath();
         } catch (Exception e) {
             throw new UtilException(FileUtil.class,"It was not possible to create new file at ["+filePath+"], " + e.getMessage()) ;

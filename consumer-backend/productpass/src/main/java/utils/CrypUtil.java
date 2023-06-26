@@ -24,11 +24,26 @@
 package utils;
 
 import com.google.common.hash.Hashing;
+import utils.exceptions.UtilException;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 
 public final class CrypUtil {
     private CrypUtil() {
@@ -37,8 +52,14 @@ public final class CrypUtil {
     public static String toBase64(String str){
         return Base64.getEncoder().encodeToString(str.getBytes());
     }
+    public static String toBase64(byte[] bytes){
+        return Base64.getEncoder().encodeToString(bytes);
+    }
     public static String fromBase64(String base64){
         return new String(Base64.getDecoder().decode(base64));
+    }
+    public static byte[] fromBase64ToByte(String base64){
+        return Base64.getDecoder().decode(base64);
     }
     public static String toBase64Url(String str){
         return Base64.getUrlEncoder().encodeToString(str.getBytes());
@@ -48,16 +69,54 @@ public final class CrypUtil {
     }
 
 
-    public static String sha256(String digest){
+    public static String sha256(final String digest){
         return Hashing.sha256()
                 .hashString(digest, StandardCharsets.UTF_8)
                 .toString();
+    }
+
+    public static byte[] sha1Bytes(final String digest){
+        try {
+            return MessageDigest.getInstance("SHA-1").digest(digest.getBytes("UTF-8"));
+        } catch (Exception e)
+        {
+            throw new UtilException(CrypUtil.class,"It was not possible to generate sha1 hash" + e.getMessage()) ;
+        }
     }
     public static String decodeFromUtf8(String encodedURL){
         return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8);
     }
     public static String encodeToUtf8(String decodedURL){
         return URLEncoder.encode(decodedURL, StandardCharsets.UTF_8);
+    }
+    public static SecretKeySpec buildAesKey(final String secret) {
+        try {
+            byte[] bytesKey = CrypUtil.sha1Bytes(secret);
+            return new SecretKeySpec(Arrays.copyOf(bytesKey, 16), "AES");
+        } catch (Exception e) {
+            throw new UtilException(CrypUtil.class,"It was not possible to set key " + e.getMessage()) ;
+        }
+    }
+    public static String encryptAes(final String decoded, final String key) {
+        try {
+            SecretKeySpec secretKey = CrypUtil.buildAesKey(key);
+            Cipher encryptor = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            encryptor.init(Cipher.ENCRYPT_MODE, secretKey);
+            return CrypUtil.toBase64(encryptor.doFinal(decoded.getBytes("UTF-8")));
+        } catch (Exception e) {
+            throw new UtilException(CrypUtil.class,"It was not possible encrypt data" + e.getMessage()) ;
+        }
+    }
+
+    public static String decryptAes(final String encoded, final String key) {
+        try {
+            SecretKeySpec secretKey = CrypUtil.buildAesKey(key);
+            Cipher decryptor = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            decryptor.init(Cipher.DECRYPT_MODE, secretKey);
+            return new String(decryptor.doFinal(CrypUtil.fromBase64ToByte(encoded)));
+        } catch (Exception e) {
+            throw new UtilException(CrypUtil.class, "It was not possible encrypt dat" + e.getMessage());
+        }
     }
 
 }

@@ -67,9 +67,6 @@ public final class FileUtil {
         try {
             File myObj = new File(filePath);
             myObj.getParentFile().mkdirs();
-            if (myObj.createNewFile()) {
-                LogUtil.printMessage("File created in path [" + filePath + "]");
-            }
             return myObj.getPath();
         } catch (Exception e) {
             throw new UtilException(FileUtil.class,"It was not possible to create new file at ["+filePath+"], " + e.getMessage()) ;
@@ -107,6 +104,10 @@ public final class FileUtil {
         }catch (Exception e) {
             throw new UtilException(FileUtil.class,"[ERROR] Something when wrong when reading file in path [" + resourcePath + "], " + e.getMessage());
         }
+    }
+    public String getDataDir(){
+        String workDir = this.getWorkdirPath();
+        return Paths.get(workDir ,"data").toAbsolutePath().toString();
     }
 
     public String createDataDir(String name){
@@ -147,6 +148,19 @@ public final class FileUtil {
                 throw new UtilException(FileUtil.class, "It was not possible to read file in [" + path + "]");
             }
 
+    }
+
+
+    public Boolean deleteFile(String path){
+        try {
+            if(!this.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+                return null;
+            }
+            return Files.deleteIfExists(Paths.get(path));
+        } catch (Exception e) {
+            throw new UtilException(FileUtil.class, "It was not possible to delete file [" + path + "]");
+        }
     }
 
     public  String getRootPath(){

@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class Catalog extends DidDocument {
 
     @JsonProperty("dcat:dataset")
-    List<Dataset> contractOffers;
+    Object contractOffers;
 
     @JsonProperty("dcat:service")
     DataService service;
@@ -50,7 +51,7 @@ public class Catalog extends DidDocument {
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();
 
-    public Catalog(String id, String type, List<Dataset> contractOffers, DataService service, String participantId, JsonNode context) {
+    public Catalog(String id, String type, Object contractOffers, DataService service, String participantId, JsonNode context) {
         super(id, type);
         this.contractOffers = contractOffers;
         this.service = service;
@@ -66,22 +67,14 @@ public class Catalog extends DidDocument {
     }
 
 
-    public List<Dataset> getContractOffers() {
+    public Object getContractOffers() {
         return contractOffers;
     }
 
-    public void setContractOffers(List<Dataset> contractOffers) {
+    public void setContractOffer(Object contractOffers) {
         this.contractOffers = contractOffers;
     }
 
-    public Map<String, Integer> loadContractOffersMapByAssetId(){
-        int i = 0;
-        for(Dataset contractOffer: this.contractOffers){
-            this.contractOffersMap.put(contractOffer.getAssetId(),i);
-            i++;
-        }
-        return this.contractOffersMap;
-    }
     public Map<String, Integer> getContractOffersMap() {
         return contractOffersMap;
     }
@@ -89,6 +82,7 @@ public class Catalog extends DidDocument {
     public void setContractOffersMap(Map<String, Integer> contractOffersMap) {
         this.contractOffersMap = contractOffersMap;
     }
+
 
     public DataService getService() {
         return service;

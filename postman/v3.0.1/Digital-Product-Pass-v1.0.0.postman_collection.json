@@ -649,7 +649,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@context\": {},\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n    \"querySpec\": {}\r\n}"
+									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n    \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918\"\r\n            }\r\n        ]\r\n    }\r\n}"
 								},
 								"url": {
 									"raw": "{{Server}}/consumer/management/v2/catalog/request",

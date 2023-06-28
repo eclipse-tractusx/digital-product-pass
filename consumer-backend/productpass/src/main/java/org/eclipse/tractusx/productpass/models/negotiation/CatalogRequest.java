@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CatalogRequest {
     @JsonProperty("@context")
@@ -92,6 +94,11 @@ public class CatalogRequest {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class QuerySpec {
+
+        @JsonProperty("filterExpression")
+        List<FilterExpression> filterExpression;
+
+
         @JsonProperty("offset")
         Integer offset;
 
@@ -116,6 +123,57 @@ public class CatalogRequest {
         public QuerySpec() {
         }
 
+        public List<FilterExpression> getFilterExpression() {
+            return filterExpression;
+        }
+
+        public void setFilterExpression(List<FilterExpression> filterExpression) {
+            this.filterExpression = filterExpression;
+        }
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        public static class FilterExpression{
+            @JsonProperty("operandLeft")
+            String operandLeft;
+
+            @JsonProperty("operator")
+            String operator;
+
+            @JsonProperty("operandRight")
+            String operandRight;
+
+            public FilterExpression(String operandLeft, String operator, String operandRight) {
+                this.operandLeft = operandLeft;
+                this.operator = operator;
+                this.operandRight = operandRight;
+            }
+
+            public FilterExpression() {
+            }
+
+            public String getOperandLeft() {
+                return operandLeft;
+            }
+
+            public void setOperandLeft(String operandLeft) {
+                this.operandLeft = operandLeft;
+            }
+
+            public String getOperator() {
+                return operator;
+            }
+
+            public void setOperator(String operator) {
+                this.operator = operator;
+            }
+
+            public String getOperandRight() {
+                return operandRight;
+            }
+
+            public void setOperandRight(String operandRight) {
+                this.operandRight = operandRight;
+            }
+        }
         @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Range {
             @JsonProperty("from")

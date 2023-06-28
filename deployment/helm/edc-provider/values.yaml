@@ -566,6 +566,7 @@ tractusx-connector:
       - certificate: <path:material-pass/data/ids-daps_crt#content>
 
 postgresql:
+
   jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
   fullnameOverride: "postgresqlprovider"
   primary:
@@ -578,3 +579,55 @@ postgresql:
     database: "edc"
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
+
+registry:
+  enabled: true
+  image: 
+    registry: docker.io
+    repository: tractusx/sldt-digital-twin-registry
+    version: ""
+
+  replicaCount: 1
+  imagePullPolicy: IfNotPresent
+  containerPort: 4243
+  host: materialpass.dev.demo.catena-x.net
+  ## If 'authentication' is set to false, no OAuth authentication is enforced
+  authentication: true
+  # Issuer url for the dtr (resource server),
+  # make sure that the url points to an externally resolvable hostname.
+  # If no value is committed, and the integrated Keycloak is enabled,
+  # the K8s internal service name is used, which is a problem, when
+  # validating the issuer claim in an access token
+  idpIssuerUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
+  idpClientId: Cl13-CX-Battery
+  tenantId: default-tenant
+  service:
+    port: 8080
+    type: ClusterIP
+  dataSource:
+    driverClassName: org.postgresql.Driver
+    sqlInitPlatform: pg
+    ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+    ## In that case the postgresql auth parameters are used.
+    url: jdbc:postgresql://database:5432
+    user: default-user
+    password: ""
+  ingress:
+    enabled: true
+    tls: false
+    urlPrefix: /semantics/registry
+    className: nginx
+    annotations: {}
+      # Add annotations for the ingress, e.g.:
+      # cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+      # nginx.ingress.kubernetes.io/rewrite-target: /$2
+      # nginx.ingress.kubernetes.io/use-regex: "true"
+      # nginx.ingress.kubernetes.io/enable-cors: "true"
+      # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+      # nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
+  resources:
+    limits:
+      memory: "1024Mi"
+    requests:
+      memory: "512Mi"
+  

@@ -33,7 +33,7 @@
         v-model="typedCode"
         class="input"
         type="text"
-        placeholder="Type ID"
+        placeholder="Enter Battery ID"
       ></v-text-field>
 
       <v-btn

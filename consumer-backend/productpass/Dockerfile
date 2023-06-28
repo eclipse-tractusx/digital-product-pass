@@ -21,7 +21,7 @@
 #################################################################################
 
 
-FROM eclipse-temurin:17-alpine
+FROM eclipse-temurin:19-alpine
 
 RUN addgroup -g 10001 appgroup \
 	&& adduser -u 10000 -g 10001 -h /home/appuser -D appuser

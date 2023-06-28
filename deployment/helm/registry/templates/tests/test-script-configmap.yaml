@@ -1,0 +1,153 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: test-script
+data:
+  test-script.sh: |
+    #!/bin/sh
+    pip install -r requirements.txt
+    py.test . -vv --html=./output/report.html --self-contained-html
+  requirements.txt: |
+    pytest==7.1.2
+    tavern==1.23.3
+    pytest-html==3.1.1
+  common.yaml: |
+    ---
+    name: Common variable definitions
+    description:
+      Contains common variable definitions.
+
+    variables:
+      aas_registry_api_url: "{tavern.env_vars.AAS_REGISTRY_API_URL}"
+  stage_auth.yaml: |
+    ---
+    name: Authentication stage
+    description:
+      Reusable test stage for authentication
+
+    variables:
+      auth:
+        client_id: "{tavern.env_vars.CLIENT_ID}"
+        client_secret: "{tavern.env_vars.CLIENT_SECRET}"
+        auth_server_token_url: "{tavern.env_vars.AUTH_SERVER_TOKEN_URL}"
+
+    stages:
+      - id: request_auth_token
+        name: Request token
+        request:
+          url: "{auth.auth_server_token_url:s}"
+          headers:
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          data:
+            grant_type: "client_credentials"
+            client_id: "{auth.client_id:s}"
+            client_secret: "{auth.client_secret:s}"
+          method: POST
+        response:
+          status_code: 200
+          headers:
+            content-type: application/json
+          save:
+            json:
+              access_token: access_token
+  test_api.tavern.yaml: |
+    ---
+    test_name: Test APIs are protected with authentication
+
+    includes:
+      - !include common.yaml
+      - !include stage_auth.yaml
+
+    stages:
+      - name: Test get shell descriptors without access token
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors"
+          method: GET
+        response:
+          status_code: 401
+
+      - type: ref
+        id: request_auth_token
+
+      - name: Authenticated request
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors"
+          method: GET
+          headers:
+            Content-Type: application/json
+            Authorization: "Bearer {access_token}"
+        response:
+          status_code: 200
+          headers:
+            content-type: application/json
+
+    ---
+    test_name: Test create, read, update and delete of a shell descriptor
+
+    includes:
+      - !include common.yaml
+      - !include stage_auth.yaml
+
+    stages:
+      - type: ref
+        id: request_auth_token
+
+      - name: Create shell descriptor expect success
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors"
+          method: POST
+          headers:
+            Content-Type: application/json
+            Authorization: "Bearer {access_token}"
+          json: 
+            identification: !uuid
+            idShort: twin of a break (Testing)
+        response:
+          status_code: 201
+          headers:
+            content-type: application/json
+          save:
+            json:
+              returned_identification: identification
+        
+      - name: Get shell descriptor by identification
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors/{returned_identification:s}"
+          method: GET
+          headers:
+            Content-Type: application/json
+            Authorization: "Bearer {access_token}"
+        response:
+          status_code: 200
+          headers:
+            content-type: application/json
+          json: 
+            identification: "{returned_identification:s}"
+            idShort: twin of a break (Testing)
+            description: []
+            specificAssetIds: []
+            submodelDescriptors: []
+
+      - name: Update shell descriptor by identification
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors/{returned_identification:s}"
+          method: PUT
+          headers:
+            Content-Type: application/json
+            Authorization: "Bearer {access_token}"
+          json: 
+            identification: "{returned_identification:s}"
+            idShort: twin of a break (Testing Update)
+        response:
+          status_code: 204
+
+      - name: Delete shell descriptor by identification
+        request:
+          url: "{aas_registry_api_url:s}/registry/shell-descriptors/{returned_identification:s}"
+          method: DELETE
+          headers:
+            Content-Type: application/json
+            Authorization: "Bearer {access_token}"
+        response:
+          status_code: 204

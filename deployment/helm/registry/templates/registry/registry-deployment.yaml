@@ -1,0 +1,77 @@
+###############################################################
+# Copyright (c) 2021, 2023 Robert Bosch Manufacturing Solutions GmbH
+# Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+###############################################################
+
+{{- $deployment_name := printf "cx-%s-registry" .Release.Name }}
+{{- $sec_name := printf "%s-sec" $deployment_name }}
+{{- $svc_name := printf "%s-svc" $deployment_name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $deployment_name }}
+spec:
+  replicas: {{ .Values.registry.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $deployment_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $deployment_name }}
+    spec:
+      securityContext:
+        runAsUser: 100
+      containers:
+        - name: {{ $deployment_name }}
+          image: {{ .Values.registry.image.registry }}/{{ .Values.registry.image.repository }}:{{ .Values.registry.image.version | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.registry.imagePullPolicy }}
+          securityContext:
+            runAsUser: 100
+            allowPrivilegeEscalation: false
+          {{- if not .Values.registry.authentication }}
+          args: ["--spring.profiles.active=local"]
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.registry.containerPort }}
+          env:
+            - name: SPRING_DATASOURCE_DRIVERCLASSNAME
+              value: {{ .Values.registry.dataSource.driverClassName }}
+            - name: SPRING_SQL_INIT_PLATFORM
+              value: {{ .Values.registry.dataSource.sqlInitPlatform }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.registry.containerPort }}
+            initialDelaySeconds: 100
+            periodSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: {{ .Values.registry.containerPort }}
+            initialDelaySeconds: 60
+            periodSeconds: 3
+            failureThreshold: 3
+          envFrom:
+            - secretRef:
+                name: {{ $sec_name }}
+          resources:
+{{ .Values.registry.resources | toYaml | indent 12 }}
+      imagePullSecrets:
+{{ .Values.registry.imagePullSecrets | toYaml | indent 8 }}

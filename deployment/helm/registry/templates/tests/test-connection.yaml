@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test-script-pod"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test-container
+      image: python:3.8-slim
+      workingDir: /tests
+      command: ['./test-script.sh']
+      volumeMounts:
+        - name: test-script
+          mountPath: /tests
+        - name: test-output
+          mountPath: /tests/output
+      env:
+        - name: CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: test-credentials
+              key: clientId
+        - name: CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: test-credentials
+              key: clientSecret
+        - name: AAS_REGISTRY_API_URL
+          valueFrom:
+            secretKeyRef:
+              name: test-credentials
+              key: aasRegistryUrl
+        - name: AUTH_SERVER_TOKEN_URL
+          valueFrom:
+            secretKeyRef:
+              name: test-credentials
+              key: authServerTokenUrl
+  volumes:
+    - name: test-script
+      configMap:
+        name: test-script
+        defaultMode: 0777
+    - name: test-output
+      hostPath:
+        path: /opt
+        type: Directory
+
+  restartPolicy: Never

@@ -96,12 +96,12 @@ keycloak:
     # host: registry-postgresql
     # port: 5432
     # user: default-user
-    # password: password
+    # password: ""
     # database: default-database
     existingSecret: keycloak-database-credentials
   auth:
     adminUser: admin
-    adminPassword: "admin"
+    adminPassword: ""
   service:
     type: ClusterIP
   extraVolumes:

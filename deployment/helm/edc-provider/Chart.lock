@@ -5,8 +5,5 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 12.1.6
-- name: registry
-  repository: https://eclipse-tractusx.github.io/charts/dev
-  version: 0.3.6
-digest: sha256:ef378093cdc8ff50e4e9bc003e75858726d48501101013f0fc1c6151a24b5c23
-generated: "2023-06-28T11:51:42.4256295+02:00"
+digest: sha256:1f8d151c629ba0831a0b2ba66cee4ec3fdc0279767fe9af9718b9c4532dd7f2e
+generated: "2023-06-28T20:07:25.3716922+02:00"

@@ -61,8 +61,3 @@ dependencies:
     version: 12.1.6
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
-  - name: registry
-    alias: registry
-    version: 0.3.6
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: registry.enabled

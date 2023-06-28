@@ -618,17 +618,24 @@ registry:
     
   ingress:
     enabled: true
-    tls: false
+    tls: true
     urlPrefix: /semantics/registry
     className: nginx
-    annotations: {}
+    annotations:
       # Add annotations for the ingress, e.g.:
-      # cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       # nginx.ingress.kubernetes.io/rewrite-target: /$2
-      # nginx.ingress.kubernetes.io/use-regex: "true"
-      # nginx.ingress.kubernetes.io/enable-cors: "true"
-      # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      # nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
+      # nginx.ingress.kubernetes.io/service-upstream: "true"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+      nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
   resources:
     limits:
       memory: "1024Mi"

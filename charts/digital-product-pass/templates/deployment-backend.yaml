@@ -58,11 +58,18 @@ spec:
                 secretKeyRef:
                   key:  clientSecret
                   name: avp-consumer-backend-cx-registry-auth
-            - name: "apiKey"
+            - name: "edc.apiKey"
               valueFrom:
                 secretKeyRef:
                   key:  xApiKey
                   name: avp-consumer-backend-edc-oauth
+            - name: "edc.participantId"
+              valueFrom:
+                secretKeyRef:
+                  key:  participantId
+                  name: avp-consumer-backend-edc-oauth
+
+
           volumeMounts:
             - name: backend-config
               mountPath: /app/config

@@ -158,9 +158,6 @@ tractusx-connector:
   postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#user>
-    auth:
-      username: <path:material-pass/data/int/edc/database#user>
-      password: <path:material-pass/data/int/edc/database#user>
 
   vault:
    

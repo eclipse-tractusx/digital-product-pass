@@ -609,9 +609,13 @@ registry:
     sqlInitPlatform: pg
     ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
     ## In that case the postgresql auth parameters are used.
-    url: jdbc:postgresql://database:5432
-    user: default-user
-    password: ""
+    # url: jdbc:postgresql://database:5432
+    # user: default-user
+    # password: ""
+    url: jdbc:postgresql://postgresqlprovider:5432/edc
+    user: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#password>
+    
   ingress:
     enabled: true
     tls: false

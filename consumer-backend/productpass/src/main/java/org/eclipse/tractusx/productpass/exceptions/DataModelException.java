@@ -21,25 +21,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.managers;
+package org.eclipse.tractusx.productpass.exceptions;
 
-import org.eclipse.tractusx.productpass.models.manager.Manager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import utils.LogUtil;
-import utils.ReflectionUtil;
 
-public abstract class PassportManager extends Manager {
+public class DataModelException extends RuntimeException{
 
-    public PassportManager(){
-        super();
-        this.setManager(ReflectionUtil.getCurrentClassName(this.getClass()));
-        LogUtil.printMessage("[DEBUG] "+this.getDataModelName()+" created! : ["+this.dataModelPath +"]");
-    }
-
-    @Override
-    public String getDataModelName(){
-        return "passportDataModel";
-    }
+        public DataModelException(String configuration, String errorMessage) {
+            super("["+configuration+"] " + errorMessage);
+            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
+        }
+        public DataModelException(String configuration, Exception e, String errorMessage) {
+            super("["+configuration+"] " + errorMessage+", "+e.getMessage());
+            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
+        }
 
 }

@@ -29,7 +29,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
@@ -63,7 +65,9 @@ public class AppController {
     @Autowired
     DataPlaneService dataPlaneService;
 
-
+    @Autowired
+    ProcessManager processManager;
+    private @Autowired ProcessConfig processConfig;
     @GetMapping("/")
     @Hidden                     // hides this endpoint from api documentation - swagger-ui
     public Response index(){
@@ -86,28 +90,46 @@ public class AppController {
         return response;
     }
 
-    @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
-    public Response endpoint(@RequestBody Object body){
-        try{
+    public  DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
+        DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
+        if(endpointData == null){
+            throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
+        }
+        if(endpointData.getEndpoint().isEmpty()){
+            throw new ControllerException(this.getClass().getName(),"The data plane endpoint address is empty!");
+        }
+        if(endpointData.getAuthCode().isEmpty()){
+            throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+        }
+        if(endpointData.getOfferId().isEmpty()){
+            throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+        }
+        return endpointData;
+    }
 
-            DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
+    @RequestMapping(value = "/endpoint/{processId}", method = RequestMethod.POST)
+    public Response endpoint(@RequestBody Object body, @PathVariable String processId){
+        try{
+            DataPlaneEndpoint endpointData = null;
+            try {
+                endpointData = this.getEndpointData(body);
+            }catch (Exception e){
+                return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);
+            }
             if(endpointData == null){
-                throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
+                return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
             }
-            if(endpointData.getEndpoint().isEmpty()){
-                throw new ControllerException(this.getClass().getName(),"The data plane endpoint address is empty!");
-            }
-            if(endpointData.getAuthCode().isEmpty()){
-                throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
-            }
-            if(endpointData.getOfferId().isEmpty()){
-                throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+
+            if(!processManager.checkProcess(processId)){
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
             Passport passport = dataPlaneService.getPassport(endpointData);
-            Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);
-            Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
-            String passportPath = passportUtil.savePassport(passport, endpointData, prettyPrint, encrypt);
+            if(passport == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
+            }
+            String passportPath = processManager.savePassport(processId, endpointData, passport);
+
             LogUtil.printMessage("[EDC] Passport Transfer Data ["+endpointData.getId()+"] Saved Successfully in ["+passportPath+"]!");
         }catch(Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");

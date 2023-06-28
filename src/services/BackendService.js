@@ -21,29 +21,56 @@
  */
 import { BACKEND_URL } from "@/services/service.const";
 import axios from "axios";
-
+import jsonUtil from "@/utils/jsonUtil.js";
 export default class BackendService {
-  async getPassport(version, assetId, jwtToken) {
+  async getPassport(version, id, jwtToken) {
     return new Promise(resolve => {
-      axios.get(`${BACKEND_URL}/api/passport/${version}/${assetId}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': "Bearer "+ jwtToken
-        }
+      let negotiation =null;
+      try{
+       negotiation = this.searchContract(version, id, jwtToken);
+    } catch (e) {
+      resolve(negotiation);
+    }
+      
+      if (jsonUtil.exists("status", negotiation) && negotiation["status"] != 200) {
+        resolve(negotiation);
       }
-      )
+
+      resolve(negotiation["data"])
+    });
+  }
+
+  getHeaders(jwtToken) {
+    return {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': "Bearer " + jwtToken
+      }
+    }
+
+  }
+  getSearchBody(id, version) {
+    return {
+      "id": id,
+      "version": version
+    }
+  }
+  async searchContract(id, version, jwtToken) {
+    return new Promise(resolve => {
+      let body = this.getSearchBody(id, version);
+      axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(jwtToken))
         .then((response) => {
           resolve(response.data);
         })
         .catch((e) => {
-          if(e.response.data){
+          if (e.response.data) {
             resolve(e.response.data);
-          }else if(e.request){
+          } else if (e.request) {
             resolve(e.request);
-          }else{
+          } else {
             resolve(e.message)
           }
-          
+
         });
     });
   }

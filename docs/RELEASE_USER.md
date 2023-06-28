@@ -23,6 +23,24 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**June 20 2023 (Version 0.9.0)**
+*20.06.2023*
+
+### Added
+
+#### Added new welcome screen with basic description of the application and new search bar with QR code.
+Now the welcome screen has a description of the application and the search mechanism was improved.
+
+### Updated
+
+#### Optimized the responsiveness of the welcome screen and the search field and optimized UX to match the view of the passport.
+Now is more intuitive to navigate through the welcome screen and access the search field.
+
+
+### Security Issue
+#### The Spring Boot version was upgraded to `v0.3.1`
+To fix the security issues raised in veracode we needed to increase a version from Spring Boot.
+
 
 
 **xxxx xx xxxx (Version 0.9.0)**  

@@ -32,6 +32,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.info.BuildProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -63,7 +65,6 @@ import java.util.Map;
 public class Application {
     @Autowired
     BuildProperties buildProperties;
-
     @Autowired
     Environment env;
 	public static void main(String[] args) {
@@ -73,7 +74,6 @@ public class Application {
         application.run(args);
 
 	}
-
     @Bean
     public OpenAPI openApiConfig(){
         return new OpenAPI().info(getApiInfo());

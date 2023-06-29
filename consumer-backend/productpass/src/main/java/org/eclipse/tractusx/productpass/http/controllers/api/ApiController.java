@@ -81,10 +81,11 @@ public class ApiController {
 
     private @Autowired ProcessManager processManager;
 
-    @RequestMapping(value="/api/*", method = RequestMethod.GET)
-    @Hidden         // hide this endpoint from api documentation - swagger-ui
-    Response index() throws Exception{
-        httpUtil.redirect(httpResponse,"/passport");
+    @RequestMapping(value = "/api/*", method = RequestMethod.GET)
+    @Hidden
+        // hide this endpoint from api documentation - swagger-ui
+    Response index() throws Exception {
+        httpUtil.redirect(httpResponse, "/passport");
         return httpUtil.getResponse("Redirect to UI");
     }
 
@@ -94,7 +95,7 @@ public class ApiController {
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportResponse.class))),
-            @ApiResponse(description = "Content of Passport Field in Data Field",useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
+            @ApiResponse(description = "Content of Passport Field in Data Field", useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportV3.class)))
     })
     public Response getPassport(@Valid @RequestBody TokenRequest tokenRequestBody) {
@@ -178,18 +179,20 @@ public class ApiController {
 
             PassportV3 passport = processManager.loadPassport(processId);
 
-            if(passport == null){
+            if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
             Dataset dataset = processManager.loadDataset(processId);
             Map<String, Object> negotiation = processManager.loadNegotiation(processId);
-            Map<String, Object> transfer =processManager.loadTransfer(processId);
+            Map<String, Object> transfer = processManager.loadTransfer(processId);
             response = httpUtil.getResponse();
             response.data = Map.of(
-                    "contract", dataset,
-                    "negotiation", negotiation,
-                    "transfer", transfer,
+                    "metadata", Map.of(
+                            "contract", dataset,
+                            "negotiation", negotiation,
+                            "transfer", transfer
+                    ),
                     "passport", passport
             );
             return httpUtil.buildResponse(response, httpResponse);

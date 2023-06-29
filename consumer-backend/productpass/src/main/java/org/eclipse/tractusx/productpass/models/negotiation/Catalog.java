@@ -26,50 +26,85 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Catalog {
-    @JsonProperty("id")
-    String id;
-    @JsonProperty("contractOffers")
-    List<Offer> contractOffers;
+public class Catalog extends DidDocument {
+
+    @JsonProperty("dcat:dataset")
+    Object contractOffers;
+
+    @JsonProperty("dcat:service")
+    DataService service;
+
+    @JsonProperty("edc:participantId")
+    String participantId;
+
+    @JsonProperty("@context")
+    JsonNode context;
 
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();
 
-    public String getId() {
-        return id;
+    public Catalog(String id, String type, Object contractOffers, DataService service, String participantId, JsonNode context) {
+        super(id, type);
+        this.contractOffers = contractOffers;
+        this.service = service;
+        this.participantId = participantId;
+        this.context = context;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Catalog(String id, String type) {
+        super(id, type);
     }
 
-    public List<Offer> getContractOffers() {
+    public Catalog() {
+    }
+
+
+    public Object getContractOffers() {
         return contractOffers;
     }
 
-    public void setContractOffers(List<Offer> contractOffers) {
+    public void setContractOffer(Object contractOffers) {
         this.contractOffers = contractOffers;
     }
 
-    public Map<String, Integer> loadContractOffersMapByAssetId(){
-        int i = 0;
-        for(Offer contractOffer: this.contractOffers){
-            this.contractOffersMap.put(contractOffer.getAsset().getId(),i);
-            i++;
-        }
-        return this.contractOffersMap;
-    }
     public Map<String, Integer> getContractOffersMap() {
         return contractOffersMap;
     }
 
     public void setContractOffersMap(Map<String, Integer> contractOffersMap) {
         this.contractOffersMap = contractOffersMap;
+    }
+
+
+    public DataService getService() {
+        return service;
+    }
+
+    public void setService(DataService service) {
+        this.service = service;
+    }
+
+    public String getParticipantId() {
+        return participantId;
+    }
+
+    public void setParticipantId(String participantId) {
+        this.participantId = participantId;
+    }
+
+    public JsonNode getContext() {
+        return context;
+    }
+
+    public void setContext(JsonNode context) {
+        this.context = context;
     }
 }

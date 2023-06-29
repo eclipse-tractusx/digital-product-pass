@@ -23,6 +23,7 @@
 
 package utils;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -52,6 +53,10 @@ public final class DateTimeUtil {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    public static Long getTimestamp(){
+        return new Timestamp(System.currentTimeMillis()).getTime();
     }
 
 }

@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-name: "Publish DPP Frontend Docker Images"
+name: "Publish Digital Product Pass Frontend Docker Images"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -29,7 +29,7 @@ name: "Publish DPP Frontend Docker Images"
 
 on:
   push:
-    branches: [ "main", "feature/cmp-702/trg-4.05-migrate-images-to-dockerhub" ]
+    branches: [ "main" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:

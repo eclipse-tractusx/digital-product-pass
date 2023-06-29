@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-name: "Publish DPP Backend Docker Images"
+name: "Publish Digital Product Pass Backend Docker Images"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -42,13 +42,15 @@ on:
         type: string
 
 env:
-  IMAGE_NAMESPACE: "tractusx"
-  IMAGE_NAME: "dpp-backend"
+  IMAGE_NAME: "digital-product-pass-backend"
   JAVA_VERSION: 19
+  USER: ${{ secrets.DOCKER_HUB_USER == '' && github.actor || secrets.DOCKER_HUB_USER }}
+  TOKEN: ${{ secrets.DOCKER_HUB_TOKEN == '' && secrets.GITHUB_TOKEN || secrets.DOCKER_HUB_TOKEN }}
+  REGISTRY: ${{ secrets.DOCKER_HUB_USER == '' && 'ghcr.io' || 'docker.io' }}
+  IMAGE_NAMESPACE: ${{ secrets.DOCKER_HUB_USER == '' && github.repository || 'tractusx' }}
     
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -56,13 +58,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -71,13 +75,14 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
 
 
-      # Login against a Docker registry
+      # Login against container registry
       # https://github.com/docker/login-action
-      - name: Log into dockerhub registry
+      - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.USER }}
+          password: ${{ env.TOKEN }}
 
       - uses: actions/setup-java@v3
         with:
@@ -92,13 +97,13 @@ jobs:
         
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
-      - name: Build and push backend
+      - name: Build and push backend ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ github.sha }}
         id: build-and-push-backend
         uses: docker/build-push-action@v3
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ steps.meta.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ github.sha }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # https://github.com/peter-evans/dockerhub-description
@@ -108,6 +113,6 @@ jobs:
         with:
         # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   
         # readme-filepath: path/to/dedicated/notice-for-docker-image.md 
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          username: ${{ env.USER }}
+          password: ${{ env.TOKEN }}
           repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}

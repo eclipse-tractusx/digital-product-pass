@@ -26,87 +26,87 @@ import threadUtil from "../utils/threadUtil";
 export default class BackendService {
 
   async getPassport(version, id, authentication) {
-    return new Promise(resolve => {
-      let negotiationResponse = null;
-      // Try to get the negotiation contract
-      try {
-        negotiationResponse = this.searchContract(version, id, authentication);
-      } catch (e) {
-        resolve(negotiationResponse);
-      }
-      // Check if the negotiation status is successful or if the data is not retrieved
-      if (!negotiationResponse || (jsonUtil.exists("status", negotiationResponse) && negotiationResponse["status"] != 200) || !jsonUtil.exists("data", negotiationResponse)) {
-        resolve(negotiationResponse);
-      }
+    let negotiationResponse = null;
 
-      // Get negotiation property
-      let negotiation = negotiation["data"];
-      let processStatus = null;
 
-      // Check if the attributes in data exist
+    // Try to get the negotiation contract
+    try {
+      negotiationResponse = await this.searchContract(id, version, authentication);
+    } catch (e) {
+      return negotiationResponse;
+    }
+  
 
-      let token = jsonUtil.get("token", negotiation, ".", null);
-      let contractId = jsonUtil.get("contract.@id", negotiation, ".", null);
-      let processId = jsonUtil.get("id", negotiation, ".", null);
-      
-      // If is not existing we return an error imitating the response
-      if (!token || !contractId || !processId) {
-        resolve(
-          this.getErrorMessage(
-            "The contract request was not valid",
-            500,
-            "Internal Server Error"
-          )
-        )
-      }
+    // Check if the negotiation status is successful or if the data is not retrieved
+    if (!negotiationResponse || (jsonUtil.exists("status", negotiationResponse) && negotiationResponse["status"] != 200) || !jsonUtil.exists("data", negotiationResponse)) {
+      return negotiationResponse;
+    }
 
-      // Sign the contract request
-      try{
-        processStatus = this.signContract(negotiation, authentication);
-      }catch (e) {
-        resolve(processStatus);
-      }
-      // Check if the process status is successful or if the data is not retrieved
-      if (!processStatus || (jsonUtil.exists("status", processStatus) && processStatus["status"] != 200) || !jsonUtil.exists("data", processStatus)) {
-        resolve(processStatus);
-      }
-      
-      
-      let status = jsonUtil.get("data.status", processStatus, ".", null);
-      if(status == "FAILED"){
-        resolve(this.getErrorMessage(
-          "The negotiation process has failed",
-          500,
-          "Internal Server Error"
-        ))
-      }
+    // Get negotiation property
+    let negotiation = negotiationResponse["data"];
+    let processStatus = null;
+    // Check if the attributes in data exist
 
-      let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED"]
-      let maxRetries = 20;
-      let waitingTime = 1000; // Half second
-      let retries = 0;
-      let statusResponse = null; 
-      
-      while(retries < maxRetries){
-        statusResponse = this.getStatus(processId, authentication)
-        status = jsonUtil.get("data.status", statusResponse);
-        if(loopBreakStatus.includes(status) || status == null){
-          break;
-        }
-        threadUtil.sleep(waitingTime);
-        retries++;
-      }
+    let token = jsonUtil.get("token", negotiation, ".", null);
+    let contractId = jsonUtil.get("contract.@id", negotiation, ".", null);
+    let processId = jsonUtil.get("id", negotiation, ".", null);
 
-      if(status == "COMPLETED"){
-        resolve(this.retrievePassport(negotiation, authentication));  
-      }
-
-      resolve(this.getErrorMessage(
-        "Failed to retrieve passport!",
+    // If is not existing we return an error imitating the response
+    if (!token || !contractId || !processId) {
+      return this.getErrorMessage(
+        "The contract request was not valid",
         500,
         "Internal Server Error"
-      ))
-    });
+      )
+
+    }
+
+    // Sign the contract request
+    try {
+      processStatus = await this.signContract(negotiation, authentication);
+    } catch (e) {
+      return processStatus;
+    }
+    // Check if the process status is successful or if the data is not retrieved
+    if (!processStatus || (jsonUtil.exists("status", processStatus) && processStatus["status"] != 200) || !jsonUtil.exists("data", processStatus)) {
+      return processStatus;
+    }
+
+
+    let status = jsonUtil.get("data.status", processStatus, ".", null);
+    if (status == "FAILED") {
+      return this.getErrorMessage(
+        "The negotiation process has failed",
+        500,
+        "Internal Server Error"
+      )
+    }
+
+    let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED"]
+    let maxRetries = 20;
+    let waitingTime = 1000;
+    let retries = 0;
+    let statusResponse = null;
+
+    while (retries < maxRetries) {
+      statusResponse = await this.getStatus(processId, authentication)
+      status = jsonUtil.get("data.status", statusResponse);
+      if (loopBreakStatus.includes(status) || status == null) {
+        break;
+      }
+      await threadUtil.sleep(waitingTime);
+      retries++;
+    }
+
+    if (status == "COMPLETED") {
+      return await this.retrievePassport(negotiation, authentication);
+    }
+
+    return this.getErrorMessage(
+      "Failed to retrieve passport!",
+      500,
+      "Internal Server Error"
+    )
   }
   getErrorMessage(message, status, statusText) {
     return {
@@ -114,6 +114,12 @@ export default class BackendService {
       "status": status,
       "statusText": statusText
     }
+  }
+  getHeadersCredentials(authentication) {
+    let params = this.getHeaders(authentication); 
+    params["withCredentials"] = true;
+    return params;
+
   }
   getHeaders(authentication) {
     return {
@@ -127,7 +133,7 @@ export default class BackendService {
   getRequestBody(negotiation) {
     return {
       "processId": negotiation["id"],
-      "contractId": negotiation["contract"]["id"],
+      "contractId": negotiation["contract"]["@id"],
       "token": negotiation["token"]
     }
   }
@@ -140,7 +146,7 @@ export default class BackendService {
   }
   async getStatus(processId, authentication) {
     return new Promise(resolve => {
-      axios.get(`${BACKEND_URL}/api/contract/status/`+processId, this.getHeaders(authentication))
+      axios.get(`${BACKEND_URL}/api/contract/status/` + processId, this.getHeadersCredentials(authentication))
         .then((response) => {
           resolve(response.data);
         })
@@ -159,7 +165,7 @@ export default class BackendService {
   async retrievePassport(negotiation, authentication) {
     return new Promise(resolve => {
       let body = this.getRequestBody(negotiation);
-      axios.post(`${BACKEND_URL}/api/passport`, body, this.getHeaders(authentication))
+      axios.post(`${BACKEND_URL}/api/passport`, body, this.getHeadersCredentials(authentication))
         .then((response) => {
           resolve(response.data);
         })
@@ -178,7 +184,7 @@ export default class BackendService {
   async signContract(negotiation, authentication) {
     return new Promise(resolve => {
       let body = this.getRequestBody(negotiation);
-      axios.post(`${BACKEND_URL}/api/contract/sign`, body, this.getHeaders(authentication))
+      axios.post(`${BACKEND_URL}/api/contract/sign`, body, this.getHeadersCredentials(authentication))
         .then((response) => {
           resolve(response.data);
         })

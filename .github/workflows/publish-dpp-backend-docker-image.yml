@@ -108,19 +108,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      # https://github.com/peter-evans/dockerhub-description
-      # Important step to push image description to DockerHub 
-      - name: Update GHCR description
-        if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
-        uses: peter-evans/dockerhub-description@v3
-        with:
-        # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   
-        # readme-filepath: path/to/dedicated/notice-for-docker-image.md 
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
-
-
       # Build actions for docker hub registry
       - name: Docker meta for Docker Hub
         id: meta-for-dockerhub

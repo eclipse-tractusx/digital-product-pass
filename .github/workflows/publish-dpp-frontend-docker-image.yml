@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Frontend Docker Images"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/cmp-702/trg-4.05-migrate-images-to-dockerhub" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
@@ -41,9 +41,10 @@ on:
         type: string
 
 env:
-  IMAGE_NAMESPACE: "tractusx"
-  IMAGE_NAME: "dpp-frontend"
-    
+  IMAGE_NAME: "digital-product-pass-frontend"
+  REGISTRY: 'ghcr.io'
+  IMAGE_NAMESPACE: ${{ github.head.repo.full_name == 'eclipse-tractusx/digital-product-pass' && 'tractusx' || github.repository }}
+
 jobs:
   build:
 
@@ -54,9 +55,49 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
-      - name: Docker meta
-        id: meta
+      # Build actions for GHCR registry
+      - name: Docker meta for GHCR
+        id: meta-for-ghcr
+        if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      # Login against GHCR registry
+      # https://github.com/docker/login-action
+      - name: Log into GHCR registry
+        if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build and push Docker image with Buildx
+      # https://github.com/docker/build-push-action
+      - name: Build and push frontend for GHCR registry
+        id: build-and-push-frontend-ghcr
+        if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Build actions for docker hub registry
+      - name: Docker meta for Docker Hub
+        id: meta-for-dockerhub
+        if: ${{ env.IMAGE_NAMESPACE == 'tractusx' }}
         uses: docker/metadata-action@v4
         with:
           images: |
@@ -68,9 +109,10 @@ jobs:
             type=semver,pattern={{major}}
             type=semver,pattern={{major}}.{{minor}}
 
-      # Login against a Docker registry
+      # Login against docker registry
       # https://github.com/docker/login-action
-      - name: Log into dockerhub registry
+      - name: Log into a Docker registry
+        if: ${{ env.IMAGE_NAMESPACE == 'tractusx' }}
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
@@ -78,17 +120,19 @@ jobs:
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
-      - name: Build and push frontend
-        id: build-and-push-frontend
+      - name: Build and push frontend for Docker Hub
+        id: build-and-push-frontend-dockerhub
+        if: ${{ env.IMAGE_NAMESPACE == 'tractusx' }}
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ steps.meta.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # https://github.com/peter-evans/dockerhub-description
       # Important step to push image description to DockerHub 
       - name: Update Docker Hub description
+        if: ${{ env.IMAGE_NAMESPACE == 'tractusx' }}
         uses: peter-evans/dockerhub-description@v3
         with:
         # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   

@@ -23,34 +23,54 @@
 
 package org.eclipse.tractusx.productpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Offer extends ContractOffer {
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Offer {
 
     @JsonProperty("offerId")
     String offerId;
 
-    public void open(){
-        this.offerId = this.id;
-        this.assetId = this.getAssetId();
+    @JsonProperty("assetId")
+    String assetId;
+
+    @JsonProperty("policy")
+    Set policy;
+
+
+    public Offer(String offerId, String assetId, Set policy) {
+        this.offerId = offerId;
+        this.assetId = assetId;
+        this.policy = policy;
     }
-    public void close(){
-        this.offerId = null;
-        this.assetId = null;
+
+    public Offer() {
     }
 
     public String getOfferId() {
         return offerId;
     }
 
-    public String getConnectorId() {
-        return this.id.split(":")[1];
-    }
-    public String getAssetId() {
-        return this.id.split(":")[0];
-    }
-
     public void setOfferId(String offerId) {
         this.offerId = offerId;
+    }
+
+    public String getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
+    }
+
+    public Set getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(Set policy) {
+        this.policy = policy;
     }
 }

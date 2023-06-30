@@ -57,8 +57,8 @@ RUN chmod +x /entrypoint.sh
 # Install bash for env variables inject script
 RUN apk update && apk add --no-cache bash
 # Make nginx owner of /usr/share/nginx/html/ and change to nginx user
-RUN chown -R 101:101 /usr/share/nginx/html/
-USER 101
+RUN chown -R 1001:1001 /usr/share/nginx/html/
+USER 1001
 
 EXPOSE 8080
 

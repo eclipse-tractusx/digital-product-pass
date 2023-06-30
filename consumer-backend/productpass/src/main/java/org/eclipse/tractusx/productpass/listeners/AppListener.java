@@ -23,6 +23,9 @@
 
 package org.eclipse.tractusx.productpass.listeners;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,6 +35,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import utils.HttpUtil;
 import utils.LogUtil;
 
 @Component
@@ -41,8 +49,6 @@ import utils.LogUtil;
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
-    @Autowired
-    Environment env;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
@@ -58,7 +64,7 @@ public class AppListener {
         LogUtil.printMessage(serverStartUpMessage);
         LogUtil.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         LogUtil.printMessage("Creating log file...");
-
+        // Store the process manager in memory
        }
 
 }

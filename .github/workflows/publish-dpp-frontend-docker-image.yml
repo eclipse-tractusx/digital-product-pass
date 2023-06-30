@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Frontend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/cmp-702/trg-4.05-place-container-images-dockerhub" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
@@ -44,6 +44,7 @@ env:
   IMAGE_NAME: "digital-product-pass-frontend"
   REGISTRY: 'ghcr.io'
   IMAGE_NAMESPACE: ${{ github.head.repo.full_name == 'eclipse-tractusx/digital-product-pass' && 'tractusx' || github.repository }}
+  REPOSITORY_NAME: github.event.repository.name
 
 jobs:
   build:
@@ -59,7 +60,7 @@ jobs:
           ref: ${{ github.ref }}
 
       # Build actions for GHCR registry
-      - name: Docker meta for GHCR
+      - name: Docker meta for GHCR ${{ env.REPOSITORY_NAME }}
         id: meta-for-ghcr
         if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
         uses: docker/metadata-action@v4

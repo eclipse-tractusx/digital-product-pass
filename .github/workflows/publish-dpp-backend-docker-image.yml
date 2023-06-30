@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Backend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/cmp-702/trg-4.05-place-container-images-dockerhub" ]
 
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
@@ -46,6 +46,7 @@ env:
   JAVA_VERSION: 19
   REGISTRY: 'ghcr.io'
   IMAGE_NAMESPACE: ${{ github.head.repo.full_name == 'eclipse-tractusx/digital-product-pass' && 'tractusx' || github.repository }}
+  REPOSITORY_NAME: github.event.repository.name
     
 jobs:
   build:
@@ -76,7 +77,7 @@ jobs:
 
       # Login against GHCR registry
       # https://github.com/docker/login-action
-      - name: Log into GHCR registry
+      - name: Log into GHCR registry ${{ env.REPOSITORY_NAME }}
         if: ${{ env.IMAGE_NAMESPACE == 'catenax-ng/tx-digital-product-pass' }}
         uses: docker/login-action@v2
         with:

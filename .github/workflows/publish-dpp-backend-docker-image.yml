@@ -46,7 +46,7 @@ env:
   JAVA_VERSION: 19
   REGISTRY: 'ghcr.io'
   IMAGE_NAMESPACE: ${{ github.head.repo.full_name == 'eclipse-tractusx/digital-product-pass' && 'tractusx' || github.repository }}
-  REPOSITORY_NAME: github.event.repository.name
+  REPOSITORY_NAME: github.repository
     
 jobs:
   build:

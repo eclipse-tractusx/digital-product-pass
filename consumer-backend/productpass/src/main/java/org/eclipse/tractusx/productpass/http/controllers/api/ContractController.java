@@ -172,7 +172,6 @@ public class ContractController {
             try {
                 dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
             } catch (ControllerException e) {
-                LogUtil.printException(e, "Exception on edc");
                 response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";

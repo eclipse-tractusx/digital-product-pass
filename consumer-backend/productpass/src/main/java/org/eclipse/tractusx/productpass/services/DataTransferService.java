@@ -126,6 +126,9 @@ public class DataTransferService extends BaseService {
          */
         try {
             Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            if(catalog == null){
+                return null;
+            }
             Object offers = catalog.getContractOffers();
             if(offers == null){
                 return null;

@@ -61,9 +61,9 @@ frontend:
     passport:
       version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
     api:
-      max_retries: 5 # Max Retries for getting passport transfer
+      max_retries: 20 # Max Retries for getting status
       timeout: 60000 # 45 seconds in milliseconds
-      delay: 2000 # 2 seconds in milliseconds
+      delay: 1000 ## Delay from getting status
     keycloak:
       clientId: 'Cl13-CX-Battery'
       realm: 'CX-Central'

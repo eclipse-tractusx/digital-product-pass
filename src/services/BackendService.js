@@ -19,7 +19,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { BACKEND_URL } from "@/services/service.const";
+import { BACKEND_URL, API_MAX_RETRIES, API_DELAY } from "@/services/service.const";
 import axios from "axios";
 import jsonUtil from "@/utils/jsonUtil.js";
 import threadUtil from "../utils/threadUtil";
@@ -83,8 +83,8 @@ export default class BackendService {
     }
 
     let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED"]
-    let maxRetries = 20;
-    let waitingTime = 1000;
+    let maxRetries = API_MAX_RETRIES;
+    let waitingTime = API_DELAY;
     let retries = 0;
     let statusResponse = null;
 

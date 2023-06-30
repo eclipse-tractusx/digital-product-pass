@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Backend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/cmp-702/docker-images" ]
 
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
@@ -105,8 +105,8 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ steps.meta.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-for-ghcr.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta-for-ghcr.outputs.labels }}
 
       # Build actions for docker hub registry
       - name: Docker meta for Docker Hub
@@ -152,8 +152,8 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: ${{ steps.meta.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-for-dockerhub.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta-for-dockerhub.outputs.labels }}
 
       # https://github.com/peter-evans/dockerhub-description
       # Important step to push image description to DockerHub 

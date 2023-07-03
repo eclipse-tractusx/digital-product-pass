@@ -82,6 +82,59 @@
             >Third Party Licenses</a
           >
         </div>
+        <DialogComponent>
+          <div>
+            <a id="legalNotice">Legal notice</a>
+          </div>
+          <template v-slot:title> Legal notice </template>
+          <template v-slot:text>
+            <div>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="REPO_ENDPOINT"
+                >Digital Product Pass</a
+              >
+            </div>
+            <div>License: Apache-2.0</div>
+            <div>
+              <span>Licence Path: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="baseCommitUrl + '/LICENSE'"
+                >View License File</a
+              >
+            </div>
+            <div>
+              <span>NOTICE: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="baseCommitUrl + '/NOTICE.md'"
+                >View Notice File</a
+              >
+            </div>
+            <div>
+              <span>Source URL: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="REPO_ENDPOINT"
+                >{{REPO_ENDPOINT}}</a
+              >
+            </div>
+            <div>
+              <span>Commit ID: </span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="baseCommitUrl"
+                >{{ COMMIT_ID }}</a
+              >
+            </div>
+          </template>
+        </DialogComponent>
       </div>
       <div class="copyright-container">
         <div class="copyright">
@@ -94,14 +147,16 @@
 </template>
 
 <script>
-import { VERSION } from "@/services/service.const";
-
+import { VERSION, REPO_ENDPOINT, COMMIT_ID } from "@/services/service.const";
+import DialogComponent from "../general/Dialog.vue";
 export default {
   name: "FooterComponent",
-  components: {},
+  components: {
+    DialogComponent,
+  },
   data() {
     return {
-      repoUrl: "https://github.com/eclipse-tractusx/digital-product-pass",
+      baseCommitUrl: REPO_ENDPOINT+'/blob/'+COMMIT_ID,
     };
   },
   computed: {
@@ -115,6 +170,8 @@ export default {
   setup() {
     return {
       VERSION,
+      COMMIT_ID,
+      REPO_ENDPOINT
     };
   },
 };

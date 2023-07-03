@@ -40,6 +40,9 @@ RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:stable-alpine
 
+ARG REPO_COMMIT_ID='REPO_COMMIT_ID'
+ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'
+
 COPY ./entrypoint.sh /entrypoint.sh
 
 HEALTHCHECK NONE

@@ -1,513 +1,406 @@
 {
-  "metadata": {
-    "contract": {
-      "@id": "e52a15a1-add8-46a8-8d8e-320fdfa2619d",
-      "@type": "dcat:Dataset",
-      "odrl:hasPolicy": {
-        "@id": "2:urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23:9b21d42e-b160-40a3-bc1c-061bb362d14e",
-        "@type": "odrl:Set",
-        "odrl:permission": [
-          "permission01",
-          "permission02",
-          "permission03",
-          "permission04"
-        ],
-        "odrl:prohibition": [
-          "prohibition01",
-          "prohibition02"
-        ],
-        "odrl:obligation": [
-          "obligation01",
-          "obligation02"
-        ],
-        "odrl:target": "urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23"
-      },
-      "dcat:distribution": [
-        {
-          "@type": "dcat:Distribution",
-          "dct:format": {
-            "@id": "HttpProxy"
+  "status" : 200,
+  "data" : {
+    "metadata" : {
+      "contract" : {
+        "@id" : "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33",
+        "@type" : "dcat:Dataset",
+        "odrl:hasPolicy" : {
+          "@id" : "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:ac45d75a-2542-4d1a-a0fc-034c705418a9",
+          "@type" : "odrl:Set",
+          "odrl:permission" : [ ],
+          "odrl:prohibition" : [ ],
+          "odrl:obligation" : [ ],
+          "odrl:target" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+        },
+        "dcat:distribution" : [ {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
           },
-          "dcat:accessService": "68b7d448-3018-449b-a1c3-fd30965f8715"
-        },
-        {
-          "@type": "dcat:Distribution",
-          "dct:format": {
-            "@id": "AmazonS3"
+          "dcat:accessService" : "1795254a-e354-46c7-9d88-04608b05ca9f"
+        }, {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
           },
-          "dcat:accessService": "68b7d448-3018-449b-a1c3-fd30965f8715"
-        }
-      ],
-      "edc:description": "Battery Passport test data",
-      "edc:id": "urn:uuid:1f4a64f0-aba9-498a-917c-4936c24c50cd-urn:uuid:49a06ad2-64b7-46c8-9f3b-a718c462ca23"
-    },
-    "policy": {
-      "@id": "1:urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a:384abbc3-ae36-4f6d-8b5c-63c627c22240",
-      "@type": "odrl:Set",
-      "odrl:permission": [
-        {
-          "odrl:action": "USE",
-          "odrl:constraint": {
-            "@type": "LogicalConstraint",
-            "odrl:or": [
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "BusinessPartnerNumber",
-                "odrl:operator": "EQ",
-                "odrl:rightOperand": "{{POLICY_BPN}}"
-              }
-            ]
-          }
-        },
-        {
-          "odrl:action": "USE",
-          "odrl:constraint": {
-            "@type": "LogicalConstraint",
-            "odrl:or": [
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "BusinessPartnerNumber",
-                "odrl:operator": "EQ",
-                "odrl:rightOperand": "{{POLICY_BPN}}"
-              }
-            ]
-          }
-        }
-      ],
-      "odrl:prohibition": [],
-      "odrl:obligation": [],
-      "odrl:target": "urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a"
-    },
-    "negotiation": {
-      "@type": "edc:ContractNegotiationDto",
-      "@id": "f838e56f-a187-46fb-88cf-4e1ef6ea182a",
-      "edc:type": "CONSUMER",
-      "edc:protocol": "dataspace-protocol-http",
-      "edc:state": "FINALIZED",
-      "edc:counterPartyAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
-      "edc:callbackAddresses": [],
-      "edc:contractAgreementId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe",
-      "@context": {
-        "dct": "https://purl.org/dc/terms/",
-        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-        "edc": "https://w3id.org/edc/v0.0.1/ns/",
-        "dcat": "https://www.w3.org/ns/dcat/",
-        "odrl": "http://www.w3.org/ns/odrl/2/",
-        "dspace": "https://w3id.org/dspace/v0.8/"
-      }
-    },
-    "negotiationRequest": {
-      "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/"
+          "dcat:accessService" : "1795254a-e354-46c7-9d88-04608b05ca9f"
+        } ],
+        "edc:description" : "Battery Passport test data",
+        "edc:id" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
       },
-      "@type": "NegotiationInitiateRequestDto",
-      "connectorAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
-      "protocol": "dataspace-protocol-http",
-      "connectorId": "BPNL00000000CBA5",
-      "providerId": "",
-      "offer": {
-        "offerId": "3:3:30134ab3-1008-4041-8757-6ed6b2936127",
-        "assetId": "3",
-        "policy": {
-          "@type": "odrl:Set",
-          "odrl:permission": [],
-          "odrl:prohibition": [],
-          "odrl:obligation": [],
-          "odrl:target": "3"
-        }
-      }
-    },
-    "transfer": {
-      "@id": "95a02165-ef16-4ae5-8bc8-873f1a9d1956",
-      "@type": "edc:TransferProcessDto",
-      "edc:state": "COMPLETED",
-      "edc:stateTimestamp": 1686745336116,
-      "edc:type": "CONSUMER",
-      "edc:callbackAddresses": [],
-      "edc:dataDestination": {
-        "edc:type": "HttpProxy"
-      },
-      "edc:dataRequest": {
-        "@type": "edc:DataRequestDto",
-        "@id": "95a02165-ef16-4ae5-8bc8-873f1a9d1956",
-        "edc:assetId": "3",
-        "edc:contractId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe"
-      },
-      "edc:receiverHttpEndpoint": "https://materialpass.int.demo.catena-x.net/endpoint",
-      "@context": {
-        "dct": "https://purl.org/dc/terms/",
-        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-        "edc": "https://w3id.org/edc/v0.0.1/ns/",
-        "dcat": "https://www.w3.org/ns/dcat/",
-        "odrl": "http://www.w3.org/ns/odrl/2/",
-        "dspace": "https://w3id.org/dspace/v0.8/"
-      }
-    },
-    "transferRequest": {
-      "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/"
-      },
-      "assetId": "3",
-      "connectorAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
-      "contractId": "3:3:ae3d474a-3bd9-4bbe-aef1-000a7089ccfe",
-      "dataDestination": {
-        "properties": {
-          "type": "HttpProxy"
-        }
-      },
-      "managedResources": false,
-      "privateProperties": {
-        "receiverHttpEndpoint": "https://materialpass.int.demo.catena-x.net/endpoint"
-      },
-      "protocol": "dataspace-protocol-http",
-      "transferType": {
-        "contentType": "application/octet-stream",
-        "isFinite": true
-      }
-    }
-  },
-  "passport": {
-    "electrochemicalProperties": {
-      "ratedCapacity": 56,
-      "batteryEnergy": {
-        "energyRoundtripEfficiencyChange": 45,
-        "maximumAllowedBatteryEnergy": 75000,
-        "energyRoundtripEfficiency": 80
-      },
-      "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.611,
-      "batteryVoltage": {
-        "nominalVoltage": 3.6,
-        "maxVoltage": 4.2,
-        "minVoltage": 2.5
-      },
-      "internalResistance": {
-        "cellInternalResistance": 45,
-        "packInternalResistanceIncrease": 23,
-        "packInternalResistance": 67
-      },
-      "capacityThresholdExhaustion": 23,
-      "batteryPower": {
-        "powerFade": 23,
-        "originalPowerCapability": -1.7976931348623157E+308,
-        "originalPowerCapabilityLimits": -1.7976931348623157E+308,
-        "maximumAllowedBatteryPower": -1.7976931348623157E+308,
-        "powerCapabilityAt20Charge": -1.7976931348623157E+308,
-        "powerCapabilityAt80Charge": -1.7976931348623157E+308
-      },
-      "capacityFade": 35
-    },
-    "document": {
-      "responsibleSourcing": [
-        {
-          "title": "LlN",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        },
-        {
-          "title": "LlN 2222",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        }
-      ],
-      "packagingInstructions": [
-        {
-          "title": "eOMtThyhVNLWUZNRcBaQKxI",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        }
-      ],
-      "transportationInstructions": [
-        {
-          "title": "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
-          "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
-        }
-      ],
-      "vehicleDismantlingProcedure": [
-        {
-          "title": "JxkyvRnL",
-          "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
-        }
-      ],
-      "testReportsResults": [
-        {
-          "title": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
-          "fileLocation": "telnet://192.0.2.16:80/"
-        }
-      ],
-      "batteryDismantlingProcedure": [
-        {
-          "title": "RYtGKbgicZaHCBRQDSx",
-          "fileLocation": "http://www.wikipedia.org"
-        }
-      ],
-      "safetyMeasures": [
-        {
-          "title": "VLhpfQGTMDYpsBZxvfBoeygjb",
-          "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
-        }
-      ],
-      "declarationOfConformity": [
-        {
-          "title": "dpHYZGhtgdntugzvvKAXLhM",
-          "fileLocation": "http://www.wikipedia.org"
-        }
-      ]
-    },
-    "datePlacedOnMarket": "2022-03-27",
-    "cellChemistry": {
-      "electrolyteComposition": [
-        {
-          "materialPercentageMassFraction": 4,
-          "materialName": "Ni",
-          "materialWeight": 2.5
-        }
-      ],
-      "anodeCompositionOther": [
-        {
-          "materialPercentageMassFraction": 15,
-          "materialName": "Co",
-          "materialWeight": 2.5
-        }
-      ],
-      "recyclateContentActiveMaterials": [
-        {
-          "materialPercentageMassFraction": 5,
-          "materialName": "Li",
-          "materialWeight": 2.5
-        }
-      ],
-      "anodeActiveMaterials": [
-        {
-          "materialPercentageMassFraction": 5,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        }
-      ],
-      "cathodeActiveMaterials": [
-        {
-          "materialPercentageMassFraction": 14,
-          "materialName": "Ni",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 9,
-          "materialName": "Co",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Li",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 0,
-          "materialName": "Pb",
-          "materialWeight": 2.5
-        }
-      ],
-      "cathodeCompositionOther": [
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Pb",
-          "materialWeight": 2.5
-        }
-      ]
-    },
-    "physicalDimensions": {
-      "length": 18000,
-      "width": 1000,
-      "weight": 2000,
-      "diameter": 3,
-      "height": 150
-    },
-    "temperatureRangeIdleState": {
-      "temperatureRangeIdleStateUpperLimit": 67,
-      "temperatureRangeIdleStateLowerLimit": -22
-    },
-    "batteryCycleLife": {
-      "cycleLifeTestCRate": 45,
-      "cycleLifeTestDepthOfDischarge": 2,
-      "expectedLifetime": 3000
-    },
-    "manufacturer": {
-      "name": "Company C",
-      "contact": {
-        "faxNumber": "+49 89 0987654323",
-        "website": "http://www.CompanyC.com",
-        "phoneNumber": "+49 89 1234567892",
-        "email": "companyC@company.com"
-      },
-      "address": {
-        "locality": {
-          "value": "Mannheim",
-          "technicalKey": "BLOCK"
-        },
-        "country": {
-          "shortName": "TG-Y"
-        },
-        "postCode": {
-          "value": "68161\\12",
-          "technicalKey": "CEDEX"
-        },
-        "thoroughfare": {
-          "value": "Bernstraße",
-          "number": "45",
-          "technicalKey": "STREET"
-        },
-        "premise": {
-          "value": "Werk 1",
-          "technicalKey": "BUILDING"
-        },
-        "postalDeliveryPoint": {
-          "value": "Tor 1",
-          "technicalKey": "INTERURBAN_DELIVERY_POINT"
-        }
-      }
-    },
-    "warrantyPeriod": 120,
-    "composition": {
-      "compositionOfBattery": [
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        },
-        {
-          "materialPercentageMassFraction": 19,
-          "materialName": "Graphite",
-          "materialWeight": 2.5
-        }
-      ],
-      "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
-      "components": {
-        "componentsPartNumber": [
-          "Case xxxxxxx/xx; Controller xxxxxxx/xx"
-        ],
-        "componentsSupplier": [
-          {
-            "componentsSupplierName": "XY Corporation",
-            "address": {
-              "locality": {
-                "value": "Mannheim",
-                "technicalKey": "BLOCK"
-              },
-              "country": {
-                "shortName": ""
-              },
-              "postCode": {
-                "value": "68161\\12",
-                "technicalKey": "CEDEX"
-              },
-              "thoroughfare": {
-                "value": "Bernstraße",
-                "number": "45",
-                "technicalKey": "STREET"
-              },
-              "premise": {
-                "value": "Werk 1",
-                "technicalKey": "BUILDING"
-              },
-              "postalDeliveryPoint": {
-                "value": "Tor 1",
-                "technicalKey": "INTERURBAN_DELIVERY_POINT"
-              }
+      "negotiation" : {
+        "init" : {
+          "request" : {
+            "@context" : {
+              "odrl" : "http://www.w3.org/ns/odrl/2/"
             },
-            "contact": {
-              "faxNumber": "+49 89 0987654322",
-              "website": "https://www.companyC.com",
-              "phoneNumber": "+49 89 0987654322",
-              "email": "test.mail@example.com"
+            "@type" : "NegotiationInitiateRequestDto",
+            "connectorAddress" : "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+            "protocol" : "dataspace-protocol-http",
+            "connectorId" : "BPNL00000000CBA5",
+            "offer" : {
+              "offerId" : "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:ac45d75a-2542-4d1a-a0fc-034c705418a9",
+              "assetId" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
+              "policy" : {
+                "@type" : "odrl:Set",
+                "odrl:permission" : [ ],
+                "odrl:prohibition" : [ ],
+                "odrl:obligation" : [ ],
+                "odrl:target" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+              }
+            }
+          },
+          "response" : {
+            "@id" : "83892309-6b65-4597-b36a-f86bb7b42f2c",
+            "@type" : "edc:IdResponseDto",
+            "edc:createdAt" : 1688393668476,
+            "@context" : {
+              "dct" : "https://purl.org/dc/terms/",
+              "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+              "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+              "dcat" : "https://www.w3.org/ns/dcat/",
+              "odrl" : "http://www.w3.org/ns/odrl/2/",
+              "dspace" : "https://w3id.org/dspace/v0.8/"
             }
           }
-        ]
-      }
-    },
-    "manufacturing": {
-      "dateOfManufacturing": "2022-03-27",
-      "address": {
-        "locality": {
-          "value": "Mannheim",
-          "technicalKey": "BLOCK"
         },
-        "country": {
-          "shortName": ""
+        "get" : {
+          "response" : {
+            "@id" : "83892309-6b65-4597-b36a-f86bb7b42f2c",
+            "@type" : "edc:ContractNegotiationDto",
+            "edc:type" : "CONSUMER",
+            "edc:protocol" : "dataspace-protocol-http",
+            "edc:state" : "FINALIZED",
+            "edc:counterPartyAddress" : "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+            "edc:callbackAddresses" : [ ],
+            "edc:contractAgreementId" : "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb",
+            "@context" : {
+              "dct" : "https://purl.org/dc/terms/",
+              "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+              "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+              "dcat" : "https://www.w3.org/ns/dcat/",
+              "odrl" : "http://www.w3.org/ns/odrl/2/",
+              "dspace" : "https://w3id.org/dspace/v0.8/"
+            }
+          }
+        }
+      },
+      "transfer" : {
+        "init" : {
+          "request" : {
+            "@context" : {
+              "odrl" : "http://www.w3.org/ns/odrl/2/"
+            },
+            "assetId" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
+            "connectorAddress" : "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+            "contractId" : "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb",
+            "dataDestination" : {
+              "properties" : {
+                "type" : "HttpProxy"
+              }
+            },
+            "managedResources" : false,
+            "privateProperties" : {
+              "receiverHttpEndpoint" : "https://materialpass.dev.demo.catena-x.net/endpoint/d0bf9018-87ee-4b4a-b4a5-683b2701d90e"
+            },
+            "protocol" : "dataspace-protocol-http",
+            "transferType" : {
+              "contentType" : "application/octet-stream",
+              "isFinite" : true
+            }
+          },
+          "response" : {
+            "@id" : "ecdad987-afc4-4c49-aa88-9676b4599db0",
+            "@type" : "edc:IdResponseDto",
+            "edc:createdAt" : 1688393671434,
+            "@context" : {
+              "dct" : "https://purl.org/dc/terms/",
+              "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+              "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+              "dcat" : "https://www.w3.org/ns/dcat/",
+              "odrl" : "http://www.w3.org/ns/odrl/2/",
+              "dspace" : "https://w3id.org/dspace/v0.8/"
+            }
+          }
         },
-        "postCode": {
-          "value": "68161\\12",
-          "technicalKey": "CEDEX"
-        },
-        "thoroughfare": {
-          "value": "Bernstraße",
-          "number": "45",
-          "technicalKey": "STREET"
-        },
-        "premise": {
-          "value": "Werk 1",
-          "technicalKey": "BUILDING"
-        },
-        "postalDeliveryPoint": {
-          "value": "Tor 1",
-          "technicalKey": "INTERURBAN_DELIVERY_POINT"
+        "get" : {
+          "response" : {
+            "@id" : "ecdad987-afc4-4c49-aa88-9676b4599db0",
+            "@type" : "edc:TransferProcessDto",
+            "edc:state" : "COMPLETED",
+            "edc:stateTimestamp" : 1688393673622,
+            "edc:type" : "CONSUMER",
+            "edc:callbackAddresses" : [ ],
+            "edc:dataDestination" : {
+              "edc:type" : "HttpProxy"
+            },
+            "edc:dataRequest" : {
+              "@id" : "ecdad987-afc4-4c49-aa88-9676b4599db0",
+              "@type" : "edc:DataRequestDto",
+              "edc:assetId" : "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
+              "edc:contractId" : "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb"
+            },
+            "edc:receiverHttpEndpoint" : "https://materialpass.dev.demo.catena-x.net/endpoint/d0bf9018-87ee-4b4a-b4a5-683b2701d90e",
+            "@context" : {
+              "dct" : "https://purl.org/dc/terms/",
+              "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+              "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+              "dcat" : "https://www.w3.org/ns/dcat/",
+              "odrl" : "http://www.w3.org/ns/odrl/2/",
+              "dspace" : "https://w3id.org/dspace/v0.8/"
+            }
+          }
         }
       }
     },
-    "batteryIdentification": {
-      "batteryType": "NCA",
-      "batteryIDDMCCode": "NCR186850B",
-      "batteryModel": "Li-ion S-model"
-    },
-    "stateOfBattery": {
-      "stateOfHealth": 50,
-      "statusBattery": "repurposed",
-      "stateOfCharge": 33
-    },
-    "cO2FootprintTotal": "124"
+    "passport" : {
+      "electrochemicalProperties" : {
+        "ratedCapacity" : 56,
+        "batteryEnergy" : {
+          "energyRoundtripEfficiencyChange" : 45,
+          "maximumAllowedBatteryEnergy" : 75000.0,
+          "energyRoundtripEfficiency" : 80
+        },
+        "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy" : 0.666,
+        "batteryVoltage" : {
+          "nominalVoltage" : 3.6,
+          "maxVoltage" : 4.2,
+          "minVoltage" : 2.5
+        },
+        "internalResistance" : {
+          "cellinternalResistance" : 3.0,
+          "packinternalResistanceIncrease" : 2,
+          "packinternalResistance" : 80
+        },
+        "capacityThresholdExhaustion" : 23,
+        "batteryPower" : {
+          "powerFade" : 23,
+          "originalPowerCapability" : -1.7976931348623157E308,
+          "originalPowerCapabilityLimits" : -1.7976931348623157E308,
+          "maximumAllowedBatteryPower" : -1.7976931348623157E308,
+          "powerCapabilityAt20Charge" : -1.7976931348623157E308,
+          "powerCapabilityAt80Charge" : -1.7976931348623157E308
+        },
+        "capacityFade" : 2.0
+      },
+      "document" : {
+        "responsibleSourcing" : [ {
+          "title" : "Sustainability Report 2021",
+          "fileLocation" : "telnet://192.0.2.16:80/"
+        } ],
+        "packagingInstructions" : [ {
+          "title" : "Packaging and transport Instruction",
+          "fileLocation" : "telnet://192.0.2.16:80/"
+        } ],
+        "transportationInstructions" : [ {
+          "title" : "Packaging and transport Instruction",
+          "fileLocation" : "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        } ],
+        "vehicleDismantlingProcedure" : [ {
+          "title" : "Packaging and transport Instruction",
+          "fileLocation" : "http://www.ietf.org/rfc/rfc2396.txt"
+        } ],
+        "testReportsResults" : [ {
+          "title" : "Certificates of Testing battery",
+          "fileLocation" : ""
+        } ],
+        "batteryDismantlingProcedure" : [ {
+          "title" : "Certificates of Testing battery",
+          "fileLocation" : "http://www.wikipedia.org"
+        } ],
+        "safetyMeasures" : [ {
+          "title" : "Battery user safety precautions",
+          "fileLocation" : "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+        } ],
+        "declarationOfConformity" : [ {
+          "title" : "Declaration of Conformity No. 2",
+          "fileLocation" : ""
+        } ]
+      },
+      "datePlacedOnMarket" : "27.03.2022",
+      "cellChemistry" : {
+        "electrolyteComposition" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "LiPF6"
+        } ],
+        "anodeCompositionOther" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "Styren butadien"
+        } ],
+        "recyclateContentActiveMaterials" : [ {
+          "materialPercentageMassFraction" : 4,
+          "materialWeight" : null,
+          "materialName" : "Ni/2022/PlantC"
+        }, {
+          "materialPercentageMassFraction" : 5,
+          "materialWeight" : null,
+          "materialName" : "Li/2021/PlantC"
+        }, {
+          "materialPercentageMassFraction" : 0,
+          "materialWeight" : null,
+          "materialName" : "Pb(battery model does not contain Pb)"
+        }, {
+          "materialPercentageMassFraction" : 15,
+          "materialWeight" : null,
+          "materialName" : "Co/2021/PlantC"
+        } ],
+        "anodeActiveMaterials" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "SiO2-C"
+        } ],
+        "cathodeActiveMaterials" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "NCA (Lithium nickel cobalt aluminum oxide)"
+        } ],
+        "cathodeCompositionOther" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "carbon black"
+        } ]
+      },
+      "physicalDimensions" : {
+        "length" : 1800,
+        "width" : 1000,
+        "weight" : 2000,
+        "diameter" : null,
+        "height" : 150
+      },
+      "temperatureRangeIdleState" : {
+        "temperatureRangeIdleStateUpperLimit" : 40,
+        "temperatureRangeIdleStateLowerLimit" : -20
+      },
+      "batteryCycleLife" : {
+        "cycleLifeTestCRate" : 2,
+        "cycleLifeTestDepthOfDischarge" : 1.5,
+        "expectedLifetime" : 3000
+      },
+      "manufacturer" : {
+        "name" : "Company C",
+        "contact" : {
+          "faxNumber" : "+49 89 0987654323",
+          "website" : "http://www.CompanyC.com",
+          "phoneNumber" : "+49 89 1234567892",
+          "email" : "companyC@company.com"
+        },
+        "address" : {
+          "locality" : {
+            "value" : "CityC",
+            "technicalKey" : "BLOCK"
+          },
+          "country" : {
+            "shortName" : "Germany"
+          },
+          "postCode" : {
+            "value" : "65-250A",
+            "technicalKey" : "CEDEX"
+          },
+          "thoroughfare" : {
+            "value" : "StreetA",
+            "number" : "1",
+            "technicalKey" : "STREET"
+          },
+          "premise" : {
+            "value" : "",
+            "technicalKey" : "CEDEX"
+          },
+          "postalDeliveryPoint" : {
+            "value" : "Tor 1",
+            "technicalKey" : "intERURBAN_DELIVERY_POint"
+          }
+        }
+      },
+      "warrantyPeriod" : "120",
+      "composition" : {
+        "compositionOfBattery" : [ {
+          "materialPercentageMassFraction" : null,
+          "materialWeight" : null,
+          "materialName" : "Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic"
+        } ],
+        "criticalRawMaterials" : "Lithium, Cobalt, Natural graphite",
+        "components" : {
+          "componentsPartNumber" : "Casing Tray: Model C",
+          "componentsSupplier" : [ {
+            "componentsSupplierName" : "XY Corporation",
+            "address" : {
+              "locality" : {
+                "value" : "CityD",
+                "technicalKey" : "BLOCK"
+              },
+              "country" : {
+                "shortName" : "Germany"
+              },
+              "postCode" : {
+                "value" : "65-250B",
+                "technicalKey" : "CEDEX"
+              },
+              "thoroughfare" : {
+                "value" : "StreetD",
+                "number" : "1",
+                "technicalKey" : "STREET"
+              },
+              "premise" : {
+                "value" : "PlantD",
+                "technicalKey" : "BUILDING"
+              },
+              "postalDeliveryPoint" : {
+                "value" : "GateD",
+                "technicalKey" : "INTERURBAN_DELIVERY_POINT"
+              }
+            },
+            "contact" : {
+              "faxNumber" : "+49 89 0987654322",
+              "website" : "https://www.companyD.com",
+              "phoneNumber" : "+49 89 1234567890",
+              "email" : "companyD@company.com"
+            }
+          } ]
+        }
+      },
+      "manufacturing" : {
+        "dateOfManufacturing" : "2022-01-24",
+        "address" : {
+          "locality" : {
+            "value" : "CityC",
+            "technicalKey" : "BLOCK"
+          },
+          "country" : {
+            "shortName" : "Germany"
+          },
+          "postCode" : {
+            "value" : "65-250A",
+            "technicalKey" : "CEDEX"
+          },
+          "thoroughfare" : {
+            "value" : "StreetC",
+            "number" : "1",
+            "technicalKey" : "STREET"
+          },
+          "premise" : {
+            "value" : "PlantC",
+            "technicalKey" : "BUILDING"
+          },
+          "postalDeliveryPoint" : {
+            "value" : "GateC",
+            "technicalKey" : "INTERURBAN_DELIVERY_POINT"
+          }
+        }
+      },
+      "batteryIdentification" : {
+        "batteryType" : "NCA",
+        "batteryIDDMCCode" : "NCR186850B",
+        "batteryModel" : "Li-ion S-model"
+      },
+      "stateOfBattery" : {
+        "stateOfHealth" : 50,
+        "statusBattery" : "first life/ waste/ repaired/ repurposed/ recycled",
+        "stateOfCharge" : 33
+      },
+      "cO2FootprintTotal" : 124.0
+    }
   }
 }

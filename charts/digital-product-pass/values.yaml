@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-# Default values for consumer-ui.
+# Default values for dpp-frontend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -29,9 +29,9 @@ replicaCount: 1
 namespace: product-material-pass
 
 frontend:
-  name: "consumer-ui"
+  name: "dpp-frontend"
   image:
-    repository: ghcr.io/catenax-ng/tx-digital-product-pass/consumer-ui
+    repository: docker.io/tractusx/digital-product-pass-frontend
     pullPolicy: Always
   
   imagePullSecrets: []
@@ -70,9 +70,9 @@ frontend:
       onLoad: 'login-required'
 
 backend:
-  name: "consumer-backend" 
+  name: "dpp-backend" 
   image:
-    repository: ghcr.io/catenax-ng/tx-digital-product-pass/product-pass-consumer-backend
+    repository: docker.io/tractusx/digital-product-pass-backend
     pullPolicy: Always
 
   imagePullSecrets: []

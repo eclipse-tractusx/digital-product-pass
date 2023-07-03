@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,38 +27,36 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Asset {
-    @JsonProperty("id")
-    String id;
-    @JsonProperty("createdAt")
-    String createdAt;
-    @JsonProperty("properties")
-    JsonNode properties;
+public class DataService extends DidDocument {
+    @JsonProperty("dct:terms")
+    String terms;
+    @JsonProperty("dct:endpointUrl")
+    String endpoint;
 
-    public String getId() {
-        return id;
+    public DataService(String id, String type, String terms, String endpoint) {
+        super(id, type);
+        this.terms = terms;
+        this.endpoint = endpoint;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public DataService() {
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getTerms() {
+        return terms;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setTerms(String terms) {
+        this.terms = terms;
     }
 
-    public JsonNode getProperties() {
-        return properties;
+    public String getEndpoint() {
+        return endpoint;
     }
 
-    public void setProperties(JsonNode properties) {
-        this.properties = properties;
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 }

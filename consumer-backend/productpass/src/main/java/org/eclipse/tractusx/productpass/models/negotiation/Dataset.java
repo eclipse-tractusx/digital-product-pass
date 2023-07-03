@@ -29,33 +29,55 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Offer {
+public class Dataset extends DidDocument{
+    @JsonProperty("odrl:hasPolicy")
+    Set policy;
+    @JsonProperty("dcat:distribution")
+    List<Distribution> distributions;
 
-    @JsonProperty("offerId")
-    String offerId;
-
-    @JsonProperty("assetId")
+    @JsonProperty("edc:description")
+    String assetDescription;
+    @JsonProperty("edc:id")
     String assetId;
 
-    @JsonProperty("policy")
-    Set policy;
-
-
-    public Offer(String offerId, String assetId, Set policy) {
-        this.offerId = offerId;
+    public Dataset(String id, String type, Set policy, List<Distribution> distributions, String assetDescription, String assetId) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetDescription = assetDescription;
         this.assetId = assetId;
+    }
+
+    public Dataset(String id, String type) {
+        super(id, type);
+    }
+
+    public Dataset() {
+    }
+
+
+    public Set getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(Set policy) {
         this.policy = policy;
     }
 
-    public Offer() {
+    public List<Distribution> getDistributions() {
+        return distributions;
     }
 
-    public String getOfferId() {
-        return offerId;
+    public void setDistributions(List<Distribution> distributions) {
+        this.distributions = distributions;
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    public String getAssetDescription() {
+        return assetDescription;
+    }
+
+    public void setAssetDescription(String assetDescription) {
+        this.assetDescription = assetDescription;
     }
 
     public String getAssetId() {
@@ -64,13 +86,5 @@ public class Offer {
 
     public void setAssetId(String assetId) {
         this.assetId = assetId;
-    }
-
-    public Set getPolicy() {
-        return policy;
-    }
-
-    public void setPolicy(Set policy) {
-        this.policy = policy;
     }
 }

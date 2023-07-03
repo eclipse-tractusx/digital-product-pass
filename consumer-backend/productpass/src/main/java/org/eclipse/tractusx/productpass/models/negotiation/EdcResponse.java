@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,51 +25,25 @@
 
 package org.eclipse.tractusx.productpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
-public abstract class MetaData {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class EdcResponse extends DidDocument{
+    @JsonProperty("edc:createdAt")
+    Integer createdAt;
 
-    @JsonProperty("createdAt")
-    Long createdAt;
+    @JsonProperty("@context")
+    JsonNode context;
 
-    @JsonProperty("updatedAt")
-    Long updatedAt;
-
-    @JsonProperty("state")
-    String state;
-
-    @JsonProperty("type")
-    String type;
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Long createdAt) {
+    public EdcResponse(String id, String type, Integer createdAt, JsonNode context) {
+        super(id, type);
         this.createdAt = createdAt;
+        this.context = context;
     }
 
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Long updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public EdcResponse(String id, String type) {
+        super(id, type);
     }
 }

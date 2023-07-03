@@ -3,6 +3,8 @@
  * Catena-X - Product Passport Consumer Backend
  *
  * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,56 +23,53 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.models.negotiation;
+package org.eclipse.tractusx.productpass.models.http.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.productpass.models.negotiation.DidDocument;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Offer {
+public class IdResponse extends DidDocument {
 
-    @JsonProperty("offerId")
-    String offerId;
-
-    @JsonProperty("assetId")
-    String assetId;
-
-    @JsonProperty("policy")
-    Set policy;
+    @JsonProperty("edc:createdAt")
+    public Long createdAt;
+    @JsonProperty("@context")
+    JsonNode context;
 
 
-    public Offer(String offerId, String assetId, Set policy) {
-        this.offerId = offerId;
-        this.assetId = assetId;
-        this.policy = policy;
+    public IdResponse(String id, String type, Long createdAt, JsonNode context) {
+        super(id, type);
+        this.createdAt = createdAt;
+        this.context = context;
     }
 
-    public Offer() {
+    public IdResponse(Long createdAt, JsonNode context) {
+        this.createdAt = createdAt;
+        this.context = context;
     }
 
-    public String getOfferId() {
-        return offerId;
+    public IdResponse() {
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    public IdResponse(String id, String type) {
+        super(id, type);
     }
 
-    public String getAssetId() {
-        return assetId;
+    public Long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Set getPolicy() {
-        return policy;
+    public JsonNode getContext() {
+        return context;
     }
 
-    public void setPolicy(Set policy) {
-        this.policy = policy;
+    public void setContext(JsonNode context) {
+        this.context = context;
     }
 }

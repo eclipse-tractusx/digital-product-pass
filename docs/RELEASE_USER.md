@@ -48,17 +48,13 @@ As defined in the documentation of the EDC the passport must be store in the bac
 We are now encrypting the passport  when it arrives from the EDC consumer data plane and we alse asure that the user  will be the only  one  that  can decrypt it. Once the user requests the  passport it is destroyed and no longer available.
 
 
-
-
 ### Updated
 
-#### Update the postman colections and the infrastructure related topics
-Now is easier to configure the provider backend for the version `v0.4.1` of the EDC.
+#### Updated EDC Provider and Consumer Versions to `v0.4.1`
+Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
 
 
-
-
-#### Removed cx-backend-service support
+## Removed cx-backend-service support
 The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
 The API that should be used is `/endpoint`
 
@@ -80,15 +76,6 @@ Now is more intuitive to navigate through the welcome screen and access the sear
 ### Security Issue
 #### The Spring Boot version was upgraded to `v0.3.1`
 To fix the security issues raised in veracode we needed to increase a version from Spring Boot.
-
-
-
-**xxxx xx xxxx (Version 0.9.0)**  
-*xx.xx.xxxx*
-
-## Removed cx-backend-service support
-The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
-The API that should be used is `/endpoint`
 
 **June 09 2023 (Version 0.8.1)**  
 *09.06.2023*

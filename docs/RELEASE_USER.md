@@ -31,6 +31,11 @@ User friendly relase notes without especific technical details.
 #### Updated EDC Provider and Consumer Versions to `v0.4.1`
 Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
 
+
+## Removed cx-backend-service support
+The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
+The API that should be used is `/endpoint`
+
 **June 20 2023 (Version 0.9.0)**
 *20.06.2023*
 
@@ -48,15 +53,6 @@ Now is more intuitive to navigate through the welcome screen and access the sear
 ### Security Issue
 #### The Spring Boot version was upgraded to `v0.3.1`
 To fix the security issues raised in veracode we needed to increase a version from Spring Boot.
-
-
-
-**xxxx xx xxxx (Version 0.9.0)**  
-*xx.xx.xxxx*
-
-## Removed cx-backend-service support
-The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
-The API that should be used is `/endpoint`
 
 **June 09 2023 (Version 0.8.1)**  
 *09.06.2023*

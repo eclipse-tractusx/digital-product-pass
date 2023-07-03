@@ -24,19 +24,27 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [in preparation]
 ## [1.0.0] - xxxx-xx-xx
 
 ## Updated
 - EDC consumer updated from version `v0.1.6` to version `v0.4.1`
 - EDC provider updated from version `v0.1.6` to version  `v0.4.1`
+- Updated charts configurations related to the backend.
+- Updated the EDC test charts to remote the cx-backend-service configurations
 
 ## Added
 - Added the EDC connectors as dependencies.
 - Added new values files to the comply with the EDC configuration
+- Added new `/endpoint` api to store the payload incomming from the EDC data plane
+- Added the encryption and decryption in AES from passport payload.
+- Added AES unit tests
+- Added the DataPlane service in the backend to comunicate with the data plane.
 
 ## Deleted
 - Deleted the CX-Backend-Service from the dependencies and the local subchart 
+- Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
 
 ## [released]
 ## [0.9.0] - 2023-06-20
@@ -55,23 +63,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Security Issues
 - Upgraded Spring Boot version to  `v0.3.1`
 
-
-## [in  preparation]
-## [0.9.0] - xxxx-xx-xx
-
-## Deleted
-
-- Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
-
-## Added
-- Added new `/endpoint` api to store the payload incomming from the EDC data plane
-- Added the encryption and decryption in AES from passport payload.
-- Added AES unit tests
-- Added the DataPlane service in the backend to comunicate with the data plane.
-
-## Updated
-- Updated charts configurations related to the backend.
-- Updated the EDC test charts to remote the cx-backend-service configurations
 
 ## [released]
 ## [0.8.1] - 2023-06-09

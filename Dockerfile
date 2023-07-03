@@ -45,9 +45,6 @@ ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'
 ENV REPO_COMMIT_ID ${REPO_COMMIT_ID}
 ENV REPO_ENDPOINT_URL ${REPO_ENDPOINT_URL}
 
-RUN echo 'GitHub commit id: ' $REPO_COMMIT_ID
-RUN echo 'GitHub repository server url: ' $REPO_ENDPOINT_URL
-
 COPY ./entrypoint.sh /entrypoint.sh
 
 HEALTHCHECK NONE

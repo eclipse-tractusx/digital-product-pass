@@ -23,6 +23,32 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**XXXX XX XXXX (Version 1.0.0)**  
+*xx.xx.xxxx*
+
+### Updated
+
+#### Updated EDC Provider and Consumer Versions to `v0.4.1`
+Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
+
+**June 20 2023 (Version 0.9.0)**
+*20.06.2023*
+
+### Added
+
+#### Added new welcome screen with basic description of the application and new search bar with QR code.
+Now the welcome screen has a description of the application and the search mechanism was improved.
+
+### Updated
+
+#### Optimized the responsiveness of the welcome screen and the search field and optimized UX to match the view of the passport.
+Now is more intuitive to navigate through the welcome screen and access the search field.
+
+
+### Security Issue
+#### The Spring Boot version was upgraded to `v0.3.1`
+To fix the security issues raised in veracode we needed to increase a version from Spring Boot.
+
 
 
 **xxxx xx xxxx (Version 0.9.0)**  

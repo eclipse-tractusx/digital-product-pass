@@ -19,7 +19,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+.box {
+  background: #eaf1fe!important;
+  flex-direction: row!important;
+  align-items: center;
+  justify-content: center;
+}
 .document-field {
   .link-container {
     display: flex;

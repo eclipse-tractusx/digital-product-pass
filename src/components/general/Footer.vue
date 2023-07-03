@@ -89,12 +89,11 @@
           <template v-slot:title> Legal notice </template>
           <template v-slot:text>
             <div>
-              <span>Battery product passport: </span>
               <a
                 id="lnkHelp"
                 target="_blank"
-                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
-                >here</a
+                :href="REPO_ENDPOINT"
+                >Digital Product Pass</a
               >
             </div>
             <div>License: Apache-2.0</div>
@@ -103,8 +102,8 @@
               <a
                 id="lnkHelp"
                 target="_blank"
-                href="https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/c09f9020048277a041f61b8ccef91f65454bba18/LICENSE"
-                >here</a
+                :href="baseCommitUrl + '/LICENSE'"
+                >View License File</a
               >
             </div>
             <div>
@@ -112,8 +111,8 @@
               <a
                 id="lnkHelp"
                 target="_blank"
-                href="https://github.com/catenax-ng/product-battery-passport-consumer-app/blob/c09f9020048277a041f61b8ccef91f65454bba18/NOTICE.md?plain=1#L22"
-                >here</a
+                :href="baseCommitUrl + '/NOTICE.md'"
+                >View Notice File</a
               >
             </div>
             <div>
@@ -121,8 +120,8 @@
               <a
                 id="lnkHelp"
                 target="_blank"
-                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
-                >here</a
+                :href="REPO_ENDPOINT"
+                >{{REPO_ENDPOINT}}</a
               >
             </div>
             <div>
@@ -130,8 +129,8 @@
               <a
                 id="lnkHelp"
                 target="_blank"
-                href="https://github.com/catenax-ng/product-battery-passport-consumer-app"
-                >here</a
+                :href="baseCommitUrl"
+                >{{ COMMIT_ID }}</a
               >
             </div>
           </template>
@@ -148,7 +147,7 @@
 </template>
 
 <script>
-import { VERSION } from "@/services/service.const";
+import { VERSION, REPO_ENDPOINT, COMMIT_ID } from "@/services/service.const";
 import DialogComponent from "../general/Dialog.vue";
 export default {
   name: "FooterComponent",
@@ -157,7 +156,7 @@ export default {
   },
   data() {
     return {
-      repoUrl: "https://github.com/eclipse-tractusx/digital-product-pass",
+      baseCommitUrl: REPO_ENDPOINT+'/blob/'+COMMIT_ID,
     };
   },
   computed: {
@@ -171,6 +170,8 @@ export default {
   setup() {
     return {
       VERSION,
+      COMMIT_ID,
+      REPO_ENDPOINT
     };
   },
 };

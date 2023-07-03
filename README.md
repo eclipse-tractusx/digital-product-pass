@@ -35,6 +35,7 @@ Here is a preview from the DPP App UI, where we visualize a test battery passpor
 ![General Info View](./docs/arc42/GraphicBatteryPassportViewGeneralInfo.png)
 
 > **Note**: For more information check the [documentation section](./docs/)
+
 ## Getting Started
 
 To get started you can have a look into our documentation:
@@ -56,76 +57,8 @@ To get started you can have a look into our documentation:
 | [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
 | [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
 
-### Prerequisites:
-
-- Git
-- Code editor (VS Code/ IntelliJ recommended)
-- Nodejs 16 (Node Package Manager - npm)
-- Vuejs
-- Docker
-- Git Bash (for windows operating system only)
-
 ## Installation
-### Clone project repository
-
-```bash
-git clone https://github.com/eclipse-tractusx/digital-product-pass.git
-```
-
-### Install dependencies
-
-```bash
-cd digital-product-pass/
-npm install --legacy-peer-deps
-```
-
-## Run Project
-
-### Compiles and minifies for production
-
-```bash
-npm run build
-```
-#### Method 1: Without Docker
-
-#### Compiles and hot-reloads for development
-
-```bash
-npm run serve
-```
-
-#### Method 2: With Docker
-
-The following environment variables must be set in [build and deploy](./buildAndDeploy.sh) script:
-
-- PASS_VERSION
-- APP_VERSION
-- APP_API_TIMEOUT
-- APP_API_MAX_RETRIES
-- APP_API_DELAY
-- IDENTITY_PROVIDER_URL
-- HOST_URL
-- DATA_URL
-- KEYCLOAK_CLIENTID
-- KEYCLOAK_REALM
-- KEYCLOAK_ONLOAD
-
-
-
-```bash
-# run script
-../buildAndDeploy.sh consumer-ui
-```
-
-You can run the application in docker container with existing image `ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
-
-The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
-
-## Coding styles
-
-### How to set up a code editor
-
-See [VSCode configuration](https://code.visualstudio.com/docs/getstarted/settings).
+[INSTALL](./INSTALL.md)
 
 ## License
 

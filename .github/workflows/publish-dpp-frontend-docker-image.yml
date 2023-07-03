@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Frontend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/cmp-698/display-git-info" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:

@@ -23,16 +23,32 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
-**xxxx xx xxxx (Version 1.0.0)**  
+**xxxx xx xxxx (Version 1.0.0)** - **July 03 2023 (Pre-release 1.0.0-alpha)**
 *xx.xx.xxxx*
 
 ### Added
+
+#### Added legal notice in frontend UI
+Now the user is able to see the legal notice inclusing the license, the notice and the Commit Id from the source repository.
+
+#### Added legal files into the backend compiled JAR
+When the images are generated, and the backend is compiled the LICENSE, NOTICE and DEPENCENCIES_BACKEND are moved inside the JAR file,
+into the META-INF folder.
+
+#### Added Official Container Images to Docker Hub
+Now the container images are available publicly on the Docker Hub Registry Platform through automated workflows.
+They are released in the following URLs:
+  - https://hub.docker.com/r/tractusx/digital-product-pass-frontend
+  - https://hub.docker.com/r/tractusx/digital-product-pass-backend
+
+
+#### Integration from frontend and new asynchronous backend
+The frontend is now making the negotiation with the backend component in a asynchronous way.
 
 #### Made backend asynchronous.
 By creating a asynchronous backend we are improving the control that the user  has over the contract negotiation.
 Now the user can decline, cancel and sign the contract requests and visualize the status of the negotiation.
 Now the backend  is also negotiating faster with the EDC `v0.4.1` so that is quicker and optimized
-
 
 #### Added file system negotiation logs.
 Each process stores in the container file system (non persistent) the contract negotiation files as well the information for the transfer process.

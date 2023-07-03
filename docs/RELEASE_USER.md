@@ -23,6 +23,14 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**XXXX XX XXXX (Version 1.0.0)**  
+*xx.xx.xxxx*
+
+### Updated
+
+#### Updated EDC Provider and Consumer Versions to `v0.4.1`
+Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
+
 **June 20 2023 (Version 0.9.0)**
 *20.06.2023*
 

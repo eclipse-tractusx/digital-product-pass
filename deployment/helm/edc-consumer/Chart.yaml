@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Frontend
+# Catena-X - Product Passport Consumer Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
 #
@@ -18,33 +18,27 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-##################################################################################
-
+#################################################################################
 ---
 apiVersion: v2
-name: edc
-description: A Helm chart for Kubernetes
+name: tractusx-connector
+description: |
+  A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc consumer for the DPP applicatiton.
 type: application
-version: 0.0.3
-appVersion: "0.4.3"
+version: 0.3.3
+appVersion: "0.4.1"
+home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
+sources:
+  - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
+urls:
+  - https://github.com/eclipse-tractusx/tractusx-edc/releases/download/tractusx-connector-0.4.1/tractusx-connector-0.4.1.tgz
 dependencies:
-  - name: edc-controlplane
-    alias: controlplane
-    version: "0.1.6"
-    repository: https://catenax-ng.github.io/product-edc
-    condition: controlplane.enabled
-  - name: edc-dataplane
-    alias: dataplane
-    version: "0.1.6"
-    repository: https://catenax-ng.github.io/product-edc
-    condition: dataplane.enabled
-  - name: backend-service
-    version: "0.0.6"
-    repository: file://backend-service
-    alias: consumerbackendapplication
-    condition: consumerbackendapplication.enabled
+  - name: tractusx-connector
+    version: 0.4.1
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: enabled
   - name: postgresql
-    alias: postgres
-    version: 12.1.5
+    alias: postgresql
+    version: 12.1.6
     repository: https://charts.bitnami.com/bitnami
-    condition: postgres.enabled
+    condition: postgresql.enabled

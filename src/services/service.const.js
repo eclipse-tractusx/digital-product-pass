@@ -51,8 +51,8 @@ onLoad = (serverUrl != null) ? onLoad : "login-required"
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
-delay = numberUtil.parseInt(delay, 2000);
-retries = numberUtil.parseInt(retries, 5);
+delay = numberUtil.parseInt(delay, 1000);
+retries = numberUtil.parseInt(retries, 20);
 
 // Define constants
 const SERVER_URL = serverUrl;

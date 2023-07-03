@@ -25,17 +25,27 @@
     <Field
       icon="mdi-file-swap-outline"
       label="Contract ID"
-      :value="propsData.negotiation.id"
+      :value="propsData.contract['@id']"
+    />
+    <Field
+      icon="mdi-file-swap-outline"
+      label="Contract Policy ID"
+      :value="propsData.contract['odrl:hasPolicy']['@id']"
+    />
+    <Field
+      icon="mdi-file-swap-outline"
+      label="Negotiation ID"
+      :value="propsData.negotiation.init.response['@id']"
     />
     <Field
       icon="mdi-file-swap-outline"
       label="Contract Agreement ID"
-      :value="propsData.transferRequest.contractId"
+      :value="propsData.negotiation.get.response['edc:contractAgreementId']"
     />
     <Field
       icon="mdi-file-swap-outline"
       label="Transfer Process ID"
-      :value="propsData.transferRequest.id"
+      :value="propsData.transfer.init.response['@id']"
     />
   </div>
 </template>

@@ -1,85 +1,157 @@
 {
   "metadata": {
+    "contract": {
+      "@id": null,
+      "@type": null,
+      "odrl:hasPolicy": {
+        "@id": null,
+        "@type": null,
+        "odrl:permission": [],
+        "odrl:prohibition": [],
+        "odrl:obligation": [],
+        "odrl:target": null
+      },
+      "dcat:distribution": [
+        {
+          "@type": null,
+          "dct:format": {
+            "@id": null
+          },
+          "dcat:accessService": null
+        },
+        {
+          "@type": null,
+          "dct:format": {
+            "@id": null
+          },
+          "dcat:accessService": null
+        }
+      ],
+      "edc:description": null,
+      "edc:id": null
+    },
     "negotiation": {
-      "createdAt": null,
-      "updatedAt": null,
-      "state": null,
-      "type": null,
-      "id": null,
-      "contractAgreementId": null,
-      "counterPartyAddress": null,
-      "protocol": null
-    },
-    "contractOffer": {
-      "connectorId": null,
-      "id": null,
-      "policy": {
-        "permissions": [
-          {
-            "edctype": null,
-            "uid": null,
-            "target": null,
-            "action": {
-              "type": null,
-              "includedIn": null,
-              "constraint": null
-            },
-            "assignee": null,
-            "assigner": null,
-            "constraints": [],
-            "duties": []
+      "init": {
+        "request": {
+          "@context": {
+            "odrl": null
+          },
+          "@type": null,
+          "connectorAddress": null,
+          "protocol": null,
+          "connectorId": null,
+          "offer": {
+            "offerId": null,
+            "assetId": null,
+            "policy": {
+              "@type": null,
+              "odrl:permission": null,
+              "odrl:prohibition": null,
+              "odrl:obligation": null,
+              "odrl:target": null
+            }
           }
-        ],
-        "prohibitions": [],
-        "obligations": [],
-        "extensibleProperties": {},
-        "target": null,
-        "@type": {
-          "@policytype": null
+        },
+        "response": {
+          "@id": null,
+          "@type": null,
+          "edc:createdAt": null,
+          "@context": {
+            "dct": null,
+            "tx": null,
+            "edc": null,
+            "dcat": null,
+            "odrl": null,
+            "dspace": null
+          }
         }
       },
-      "asset": {
-        "id": null,
-        "createdAt": null,
-        "properties": {
-          "asset:prop:byteSize": null,
-          "asset:prop:description": null,
-          "asset:prop:id": null,
-          "asset:prop:fileName": null
-        }
-      },
-      "assetId": null,
-      "provider": null,
-      "consumer": null,
-      "offerId": null
-    },
-    "transfer": {
-      "id": null,
-      "createdAt": null,
-      "updatedAt": null,
-      "type": null,
-      "state": null,
-      "stateTimestamp": null,
-      "dataRequest": {
-        "assetId": null,
-        "contractId": null,
-        "connectorId": null
-      },
-      "dataDestination": {
-        "properties": {
-          "type": null
+      "get": {
+        "response": {
+          "@id": null,
+          "@type": null,
+          "edc:type": null,
+          "edc:protocol": null,
+          "edc:state": null,
+          "edc:counterPartyAddress": null,
+          "edc:callbackAddresses": null,
+          "edc:contractAgreementId": null,
+          "@context": {
+            "dct": null,
+            "tx": null,
+            "edc": null,
+            "dcat": null,
+            "odrl": null,
+            "dspace": null
+          }
         }
       }
     },
-    "transferRequest": {
-      "id": null,
-      "connectorId": null,
-      "connectorAddress": null,
-      "contractId": null,
-      "assetId": null,
-      "managedResources": null,
-      "dataDestination": {
-        "type": null
+    "transfer": {
+      "init": {
+        "request": {
+          "@context": {
+            "odrl": null
+          },
+          "assetId": null,
+          "connectorAddress": null,
+          "contractId": null,
+          "dataDestination": {
+            "properties": {
+              "type": null
+            }
+          },
+          "managedResources": null,
+          "privateProperties": {
+            "receiverHttpEndpoint": null
+          },
+          "protocol": null,
+          "transferType": {
+            "contentType": null,
+            "isFinite": null
+          }
+        },
+        "response": {
+          "@id": null,
+          "@type": null,
+          "edc:createdAt": null,
+          "@context": {
+            "dct": null,
+            "tx": null,
+            "edc": null,
+            "dcat": null,
+            "odrl": null,
+            "dspace": null
+          }
+        }
+      },
+      "get": {
+        "response": {
+          "@id": null,
+          "@type": null,
+          "edc:state": null,
+          "edc:stateTimestamp": null,
+          "edc:type": null,
+          "edc:callbackAddresses": null,
+          "edc:dataDestination": {
+            "edc:type": null
+          },
+          "edc:dataRequest": {
+            "@id": null,
+            "@type": null,
+            "edc:assetId": null,
+            "edc:contractId": null
+          },
+          "edc:receiverHttpEndpoint": null,
+          "@context": {
+            "dct": null,
+            "tx": null,
+            "edc": null,
+            "dcat": null,
+            "odrl": null,
+            "dspace": null
+          }
+        }
       }
     }
   },

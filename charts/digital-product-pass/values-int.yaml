@@ -107,6 +107,10 @@ backend:
           registryUrl: 'https://semantics.int.demo.catena-x.net'
 
         passport:
+          dataTransfer:
+            encrypt: true
+            indent: true
+            dir: "data/transfer"
           versions:
             - 'v3.0.1'
 

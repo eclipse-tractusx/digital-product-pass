@@ -25,7 +25,6 @@
 
 ---
 
-
 tractusx-connector:
   enabled: true
   participant:

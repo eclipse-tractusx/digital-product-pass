@@ -21,8 +21,8 @@
 -->
 
 <template>
-  <div class="field-container">
-    <v-icon start md :icon="icon"> </v-icon>
+  <div class="field-container" :class="{ 'info-dialog': info }">
+    <v-icon start md :icon="icon" class="icon"> </v-icon>
     <span class="field-label">{{ label }}</span>
     <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
     <span v-else-if="length"></span>
@@ -102,6 +102,7 @@ export default {
     tempUnit: { type: [String, Number], default: "" },
     tempRangeMin: { type: [String, Number], default: "" },
     tempRangeMax: { type: [String, Number], default: "" },
+    info: { type: Boolean, default: false },
   },
 };
 </script>

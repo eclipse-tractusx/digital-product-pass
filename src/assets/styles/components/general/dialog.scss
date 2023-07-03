@@ -22,7 +22,8 @@
 
 .dialog-container {
   position: relative;
-  width: 400px;
+  min-width: 400px;
+  width: auto;
   margin: auto;
   .title-container {
     display: flex;
@@ -31,7 +32,9 @@
     align-items: center;
     height: 68px;
   }
-
+  .dialog-text {
+    margin: 5px 15px 15px 15px;
+  }
   .close-btn-container {
     position: absolute;
     top: 4px;

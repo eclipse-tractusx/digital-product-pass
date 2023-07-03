@@ -224,9 +224,8 @@ export default {
         // Init backendService
         let backendService = new BackendService();
         // Get access token from IDP
-        let jwtToken = await this.auth.getAccessToken();
         // Get the passport for the selected version
-        response = await backendService.getPassport(this.version, id, jwtToken);
+        response = await backendService.getPassport(this.version, id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)

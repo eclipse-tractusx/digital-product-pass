@@ -32,6 +32,10 @@ class CrypUtilTest {
 
     String text = "I am a @Test!";
 
+    String testKey = "123456789";
+
+    String textEncryptedAes = "6QhWJ8RatgUqMr47BV0FhQ==";
+
     String encodedText = "SSBhbSBhIEBUZXN0IQ==";
 
     String encodedTextUrl = "SSBhbSBhIEBUZXN0IQ==";
@@ -91,11 +95,36 @@ class CrypUtilTest {
         String hash = null;
         try{
             hash = CrypUtil.sha256(text);
-            LogUtil.printTest("[CrypUtil.toBase64] Text HASH: ["+hash+"]");
+            LogUtil.printTest("[CrypUtil.sha256] Text HASH: ["+hash+"]");
         } catch(Exception e){
             fail("It was not possible to decode from base64: " + e.getMessage());
         }
         assertEquals(textHash, hash);
     }
 
+    @Test
+    void encryptAes() {
+        String encrypted = null;
+        try{
+            encrypted = CrypUtil.encryptAes(text, testKey);
+            LogUtil.printTest("[CrypUtil.encryptAes] Text Encrypted: ["+encrypted+"]");
+        } catch(Exception e){
+            fail("It was not possible to decrypt from AES: " + e.getMessage());
+        }
+        assertEquals(textEncryptedAes, encrypted);
+    }
+
+    @Test
+    void decryptAes() {
+        String decrypted = null;
+        try{
+            decrypted = CrypUtil.decryptAes(textEncryptedAes, testKey);
+            LogUtil.printTest("[CrypUtil.decryptAes] Text Decrypted: ["+decrypted+"]");
+        } catch(Exception e){
+            fail("It was not possible to decrypt from AES: " + e.getMessage());
+        }
+        assertEquals(text, decrypted);
+    }
+
 }
+

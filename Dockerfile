@@ -1,4 +1,3 @@
-
 #################################################################################
 # Catena-X - Product Passport Consumer Frontend
 #
@@ -39,33 +38,33 @@ COPY . .
 RUN npm run build
 
 
-FROM nginx:alpine as production-build
+FROM nginxinc/nginx-unprivileged:stable-alpine
 
-# Copy entrypoint script as /entrypoint.sh
+ARG REPO_COMMIT_ID='REPO_COMMIT_ID'
+ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'
+ENV REPO_COMMIT_ID ${REPO_COMMIT_ID}
+ENV REPO_ENDPOINT_URL ${REPO_ENDPOINT_URL}
+
 COPY ./entrypoint.sh /entrypoint.sh
 
 HEALTHCHECK NONE
 
-# make the 'app' folder the current working directory
 WORKDIR /app
 
-# Copy from the stahg 1
+COPY ./.nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
-## add permissions for nginx user
-RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
-        chown -R nginx:nginx /var/cache/nginx && \
-        chown -R nginx:nginx /var/log/nginx && \
-        chown -R nginx:nginx /etc/nginx/conf.d
-RUN touch /var/run/nginx.pid && \
-        chown -R nginx:nginx /var/run/nginx.pid
+USER root
 
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
-    chmod -R 755 /usr/share/nginx/html && \
-    chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-USER nginx
+
+# Install bash for env variables inject script
+RUN apk update && apk add --no-cache bash
+# Make nginx owner of /usr/share/nginx/html/ and change to nginx user
+RUN chown -R 1001:1001 /usr/share/nginx/html/
+USER 1001
+
 EXPOSE 8080
 
 ENTRYPOINT ["sh","/entrypoint.sh"]

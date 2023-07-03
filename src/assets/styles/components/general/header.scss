@@ -19,6 +19,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+ @media (max-width: 585px) {
+  .header-container{
+    padding: 0px 14px 0 0px!important;
+  }
+ }
+
 
 .header-container {
   position: fixed;

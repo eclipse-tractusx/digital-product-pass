@@ -84,7 +84,18 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
+    public Object parseJson(String jsonString, Class<?> bindClass){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(jsonString, bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
+        }
+    }
     public ObjectNode newJson(){
+        return JsonNodeFactory.instance.objectNode();
+    }
+    public JsonNode newJsonNode(){
         return JsonNodeFactory.instance.objectNode();
     }
 
@@ -125,6 +136,43 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
+    public Object fromJsonFileToObject(String path, Class<?> bindClass){
+        try {
+            String fileContent = fileUtil.readFile(path);
+            return this.parseJson(fileContent, bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+        }
+    }
+
+    public Boolean checkJsonKeys(Object sourceObj, List<String> keyPaths, String pathSep, Boolean allowEmpty){
+        try {
+            if(sourceObj == null){
+                //Uncomment for debug logTools.printError("[DEBUG] Object == null!");
+                return false;
+            }
+            if(keyPaths == null || keyPaths.isEmpty() || pathSep.equals("")){
+                //Uncomment for debug logTools.printError("[DEBUG] keyPath empty or pathSep empty!");
+                return false;
+            }
+            Object trigger = null;
+            for (String keyPath : keyPaths) {
+
+                trigger = this.getValue(sourceObj, keyPath, pathSep, null);
+                if(trigger == null){
+                    return false;
+                }
+                if(!allowEmpty && trigger.equals("")){
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, e,  "It was not possible to check for json keys!");
+        }
+    }
+
+
 
     public Object getValue(Object sourceObj, String keyPath, String pathSep, Object defaultValue){
         try {
@@ -252,6 +300,16 @@ public final class JsonUtil {
         }
     }
 
+    public JsonNode toJsonNode(Map<String, Object> json){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.valueToTree(json);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+
+
     public Map<?,?> toMap(Object obj){
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -261,10 +319,26 @@ public final class JsonUtil {
         }
     }
 
-    public Object bindJsonNode(JsonNode jsonNode, Class bindClass){
+    public Object bindJsonNode(JsonNode jsonNode, Class<?> bindClass){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.treeToValue(jsonNode, bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    public Object bindMap(Map<String,Object> json, Class<?> bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.convertValue(mapper.valueToTree(json), bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    public Object bindObject(Object json, Class<?> bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return this.bindJsonNode(mapper.valueToTree(json), bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }

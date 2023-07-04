@@ -161,11 +161,6 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (!status.historyExists("transfer-completed")) {
-                response = httpUtil.getNotFound("The passport transfer was not completed!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
             if (!status.historyExists("passport-received")) {
                 response = httpUtil.getNotFound("The passport is not available!");
                 return httpUtil.buildResponse(response, httpResponse);

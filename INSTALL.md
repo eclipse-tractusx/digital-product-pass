@@ -22,7 +22,7 @@
 
 <h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
-# Backend Installation
+# Application Installation
 
 ## Pre-requisites
 
@@ -78,8 +78,9 @@ localhost:8888/health
 
 Use the following commands to install/compile the application:
 
-### Install
-```bash 
+### Compile Backend
+```bash
+cd consumer-backend/productpass 
 mvn clean install test
 ```
 
@@ -113,7 +114,7 @@ mvn clean spring-boot:run
 ```
 
 
-# Frontend Installation
+# Compile Frontend Installation
 
 ### Prerequisites:
 

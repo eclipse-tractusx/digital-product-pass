@@ -61,6 +61,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Commit ID and Repo URL added in frontend image
 - Frontend component to display legal information
 - Added components to display more contract information.
+- Fixed bug related to backend get status, where it looped over the status received.
 
 ## Updated
 - Updated charts configurations related to the backend.

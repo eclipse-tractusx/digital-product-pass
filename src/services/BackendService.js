@@ -91,14 +91,14 @@ export default class BackendService {
     while (retries < maxRetries) {
       statusResponse = await this.getStatus(processId, authentication)
       status = jsonUtil.get("data.status", statusResponse);
-      if (loopBreakStatus.includes(status) || status == null) {
+      if (loopBreakStatus.includes(status) || status == null || (jsonUtil.exists("history", status) && jsonUtil.exists("transfer-completed",status["history"]))) {
         break;
       }
       await threadUtil.sleep(waitingTime);
       retries++;
     }
 
-    if (status == "COMPLETED") {
+    if (status == "COMPLETED" || (jsonUtil.exists("history", status) && jsonUtil.exists("transfer-completed",status["history"]))) {
       return await this.retrievePassport(negotiation, authentication);
     }
 

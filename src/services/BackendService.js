@@ -82,7 +82,7 @@ export default class BackendService {
       )
     }
 
-    let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED"]
+    let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED", "RECEIVED"]
     let maxRetries = API_MAX_RETRIES;
     let waitingTime = API_DELAY;
     let retries = 0;
@@ -91,14 +91,14 @@ export default class BackendService {
     while (retries < maxRetries) {
       statusResponse = await this.getStatus(processId, authentication)
       status = jsonUtil.get("data.status", statusResponse);
-      if (loopBreakStatus.includes(status) || status == null || (jsonUtil.exists("history", status) && jsonUtil.exists("transfer-completed",status["history"]))) {
+      if (loopBreakStatus.includes(status) || status == null) {
         break;
       }
       await threadUtil.sleep(waitingTime);
       retries++;
     }
 
-    if (status == "COMPLETED" || (jsonUtil.exists("history", status) && jsonUtil.exists("transfer-completed",status["history"]))) {
+    if (status === "COMPLETED" || status === "RECEIVED" ) {
       return await this.retrievePassport(negotiation, authentication);
     }
 

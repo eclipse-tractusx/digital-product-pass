@@ -38,6 +38,8 @@ do
 	sed -i 's|KEYCLOAK_CLIENTID|'${KEYCLOAK_CLIENTID}'|g' $file
 	sed -i 's|KEYCLOAK_REALM|'${KEYCLOAK_REALM}'|g' $file
 	sed -i 's|KEYCLOAK_ONLOAD|'${KEYCLOAK_ONLOAD}'|g' $file
+	sed -i 's|REPO_COMMIT_ID|'${REPO_COMMIT_ID}'|g' $file
+	sed -i 's|REPO_ENDPOINT_URL|'${REPO_ENDPOINT_URL}'|g' $file
 
 done
 

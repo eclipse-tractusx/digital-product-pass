@@ -19,7 +19,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+.info-dialog {
+  cursor: pointer;
+  .icon {
+    color: $catena-x-blue;
+  }
+}
 .field-container {
   position: relative;
   display: flex;

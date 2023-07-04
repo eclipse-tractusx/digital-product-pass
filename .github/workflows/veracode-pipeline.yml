@@ -33,9 +33,35 @@ on:
 permissions:
   contents: read
 
+env:
+  VID: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+  VKEY: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'
+
+
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      secrets-available: ${{ steps.secrets-exists.outputs.available }}
+    steps:
+      - name: Check for Secrets availability
+        id: secrets-exists
+        shell: bash
+        ## Check if the secrets are available in the environment
+        ## Check if the secrets are available in the environment
+        run: |
+          if [ "${{ env.VID }}" != '' ] && [ "${{ env.VKEY }}" != '' ]; then 
+            echo "available=true" >> $GITHUB_OUTPUT;
+            echo "Secrets are available at this environment!"
+          else
+            echo "available=false" >> $GITHUB_OUTPUT;
+            echo "No secrets are available at this environment!"
+          fi
+
   # This workflow contains a job to build and submit pipeline scan, you will need to customize the build process accordingly and make sure the artifact you build is used as the file input to the pipeline scan file parameter
   build-and-pipeline-scan:
+    needs: [ check-secrets ]
+    if: needs.check-secrets.outputs.secrets-available == 'true' ## Require that the secrets are available
     permissions:
       contents: read
       security-events: write
@@ -66,7 +92,7 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-    - run: java -Dpipeline.debug=true -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}" --veracode_api_key "${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
+    - run: java -Dpipeline.debug=true -jar pipeline-scan.jar -p "Product-Passport-Consumer-App" --veracode_api_id "${{ env.VID }}" --veracode_api_key "${{ env.VKEY }}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
       continue-on-error: true
     - name: Convert pipeline scan output to SARIF format
       id: convert

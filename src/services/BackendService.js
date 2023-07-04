@@ -82,7 +82,7 @@ export default class BackendService {
       )
     }
 
-    let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED"]
+    let loopBreakStatus = ["COMPLETED", "FAILED", "DECLINED", "RECEIVED"]
     let maxRetries = API_MAX_RETRIES;
     let waitingTime = API_DELAY;
     let retries = 0;
@@ -98,7 +98,7 @@ export default class BackendService {
       retries++;
     }
 
-    if (status == "COMPLETED") {
+    if (status === "COMPLETED" || status === "RECEIVED" ) {
       return await this.retrievePassport(negotiation, authentication);
     }
 

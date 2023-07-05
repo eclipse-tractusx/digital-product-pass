@@ -49,7 +49,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.4.1"
+      tag: "0.5.0-rc4"
     initContainers: []
     debug:
       enabled: false
@@ -133,6 +133,17 @@ tractusx-connector:
     businessPartnerValidation:
       log:
         agreementValidation: true
+
+    ssi:
+      miw:
+        url: "<path:material-pass/data/dev/edc/ssi#miwUrl>"
+        authorityId: "<path:material-pass/data/dev/edc/ssi#authorityId>"
+      oauth:
+        tokenurl: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "<path:material-pass/data/dev/aasregistry#client.id>"
+          secretAlias: "dev-client-secret"
+
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
       type: ClusterIP
@@ -304,7 +315,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.4.1"
+      tag: "0.5.0-rc4"
     initContainers: []
     debug:
       enabled: false

@@ -28,8 +28,9 @@ metadata:
     {{- include "chart.labels" . | nindent 4 }}
   namespace: {{ .Values.namespace }}
 spec:
+  storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Mi
+      storage: 1Gi

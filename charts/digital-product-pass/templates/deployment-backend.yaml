@@ -68,11 +68,13 @@ spec:
                 secretKeyRef:
                   key:  participantId
                   name: avp-consumer-backend-edc-oauth
-
-
           volumeMounts:
             - name: backend-config
               mountPath: /app/config
+            - name: data-processes
+              mountPath: /app/data/process
+            - name: data-logs
+              mountPath: /app/log
           ports:
             - containerPort: 8888
               name: http
@@ -95,4 +97,11 @@ spec:
         - name: backend-config
           configMap:
             name: backend-config
+        - name: data-processes
+          persistentVolumeClaim:
+            claimName: pvc-data
+        - name: data-logs
+          persistentVolumeClaim:
+            claimName: pvc-logs
+
 

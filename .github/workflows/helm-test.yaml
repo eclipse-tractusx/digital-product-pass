@@ -116,7 +116,7 @@ jobs:
             - name: Run chart-testing (lint)
               run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
             - name: Run chart-testing (install)
-              run: ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=image.tag=testing --set=image.repository=kind-registry:5000/digital-product-pass"
+              run: ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=image.tag=testing --set=image.repository=kind-registry:5000/digital-product-pass -n product-material-pass --create-namespace"
               if: steps.list-changed.outputs.changed == 'true'
 
               # Upgrade the released chart version with the locally available chart

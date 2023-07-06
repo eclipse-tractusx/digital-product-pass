@@ -38,7 +38,7 @@ COPY ./target/productpass*.jar productpass.jar
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R appuser:appuser /app && chmod -R 755 /app
+RUN chown -R appuser:appuser /app && chmod -R 775 /app
 
 USER appuser
 EXPOSE 8080

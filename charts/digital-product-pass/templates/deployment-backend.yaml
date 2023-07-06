@@ -41,12 +41,16 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
       containers:
         - name: {{ .Values.backend.name }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           securityContext: 
-            allowPrivilegeEscalation: false 
+            runAsUser: 0
+            runAsGroup: 0
           env:          
             - name: "client.id"
               valueFrom:
@@ -71,10 +75,13 @@ spec:
           volumeMounts:
             - name: backend-config
               mountPath: /app/config
-            - name: data-processes
+            - name: pvc-backend
               mountPath: /app/data/process
-            - name: data-logs
+              subPath: process
+            - name: pvc-backend
               mountPath: /app/log
+              subPath: log
+
           ports:
             - containerPort: 8888
               name: http
@@ -97,11 +104,8 @@ spec:
         - name: backend-config
           configMap:
             name: backend-config
-        - name: data-processes
+        - name: pvc-backend
           persistentVolumeClaim:
             claimName: pvc-data
-        - name: data-logs
-          persistentVolumeClaim:
-            claimName: pvc-logs
 
 

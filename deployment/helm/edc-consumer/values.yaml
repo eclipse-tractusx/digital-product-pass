@@ -147,7 +147,9 @@ tractusx-connector:
         client:
           id: "<path:material-pass/data/dev/edc/ssi#clientId>"
           secretAlias: "dev-client-secret"
-
+      endpoint:
+        audience: https://materialpass.dev.demo.catena-x.net/consumer
+        
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
       type: ClusterIP

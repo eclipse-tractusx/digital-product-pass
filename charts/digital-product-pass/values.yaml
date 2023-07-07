@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-# Default values for consumer-ui.
+# Default values for dpp-frontend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -29,9 +29,9 @@ replicaCount: 1
 namespace: product-material-pass
 
 frontend:
-  name: "consumer-ui"
+  name: "dpp-frontend"
   image:
-    repository: ghcr.io/catenax-ng/tx-digital-product-pass/consumer-ui
+    repository: docker.io/tractusx/digital-product-pass-frontend
     pullPolicy: Always
   
   imagePullSecrets: []
@@ -47,7 +47,6 @@ frontend:
         paths:
           - path: /passport(/|$)(.*)
             pathType: Prefix
-
   avp:
     helm:
       clientId: "Add your secret here"
@@ -61,18 +60,18 @@ frontend:
     passport:
       version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
     api:
-      max_retries: 5 # Max Retries for getting passport transfer
+      max_retries: 20 # Max Retries for getting status
       timeout: 60000 # 45 seconds in milliseconds
-      delay: 2000 # 2 seconds in milliseconds
+      delay: 1000 ## Delay from getting status
     keycloak:
       clientId: 'Cl13-CX-Battery'
       realm: 'CX-Central'
       onLoad: 'login-required'
 
 backend:
-  name: "consumer-backend" 
+  name: "dpp-backend" 
   image:
-    repository: ghcr.io/catenax-ng/tx-digital-product-pass/product-pass-consumer-backend
+    repository: docker.io/tractusx/digital-product-pass-backend
     pullPolicy: Always
 
   imagePullSecrets: []
@@ -89,12 +88,12 @@ backend:
       clientId: "Add your secret here"
       clientSecret: "Add your secret here"
       xApiKey: "Add your secret here"
+      participantId: "Add your secret here"
 
   application:
     yml: |-
       spring:
-        application:
-          name: 'Catena-X Product Passport Consumer Backend'
+        name: 'Catena-X Product Passport Consumer Backend'
         main:
           allow-bean-definition-overriding: true
         devtools:
@@ -102,6 +101,12 @@ backend:
         jackson:
           serialization:
             indent_output: true
+
+      logging:
+        level:
+          root: INFO
+          utils: INFO
+
       configuration:
         maxRetries: 5
 
@@ -111,9 +116,21 @@ backend:
           tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
           userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
+        edc:
+          endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
+          management: '/management/v2'
+          catalog: '/catalog/request'
+          negotiation: '/contractnegotiations'
+          transfer: '/transferprocesses'
+          receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
+
+        process:
+          store: true
+          dir: 'process'
+          indent: true
+          signKey: ''
+
         endpoints:
-          providerUrl: 'https://materialpass.dev.demo.catena-x.net/BPNL000000000000'
-          serverUrl: 'https://materialpass.dev.demo.catena-x.net'
           registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
         passport:
@@ -132,10 +149,11 @@ backend:
           indent: 2
           defaultValue: '<Add secret value here>'
           attributes:
-            - "token"
             - "client.id"
             - "client.secret"
-            - "apiKey"
+            - "edc.apiKey"
+          - "edc.participantId"
+
       server:
         error:
           include-message: ALWAYS
@@ -147,17 +165,15 @@ backend:
           max-connections: 10000
 
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
 
 nodeSelector: {}
 

@@ -71,7 +71,7 @@ npm/npmjs/-/csstype/2.6.21, MIT, approved, clearlydefined
 npm/npmjs/-/cypress-keycloak/1.9.0, MIT, approved, #6952
 npm/npmjs/-/cypress/12.5.1, MIT AND OFL-1.1 AND BSD-3-Clause AND Apache-2.0 AND ISC AND (BSD-2-Clause AND MIT), approved, #7095
 npm/npmjs/-/dashdash/1.14.1, MIT, approved, clearlydefined
-npm/npmjs/-/dayjs/1.11.7, MIT, approved, clearlydefined
+npm/npmjs/-/dayjs/1.11.7, MIT, approved, #9149
 npm/npmjs/-/de-indent/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/debug/3.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
@@ -231,7 +231,7 @@ npm/npmjs/-/object-inspect/1.12.3, MIT, approved, clearlydefined
 npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
 npm/npmjs/-/onetime/5.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/open/8.4.1, MIT, approved, #7102
-npm/npmjs/-/optionator/0.9.1, MIT, approved, clearlydefined
+npm/npmjs/-/optionator/0.9.1, MIT, approved, #9208
 npm/npmjs/-/ospath/1.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/p-limit/2.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/p-locate/4.1.0, MIT, approved, clearlydefined

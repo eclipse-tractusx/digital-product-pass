@@ -25,6 +25,7 @@ package org.eclipse.tractusx.productpass.services;
 
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
@@ -274,11 +275,11 @@ public class AasService extends BaseService {
 
 
         private final String idShort;
-        public DigitalTwinRegistryQueryById(String assetId, String idType, Integer dtIndex, String idShort){
-            this.assetId = assetId;
-            this.idType = idType;
-            this.dtIndex = dtIndex;
-            this.idShort = idShort;
+        public DigitalTwinRegistryQueryById(Search search){
+            this.assetId = search.getId();
+            this.idType = search.getIdType();
+            this.dtIndex = search.getDtIndex();
+            this.idShort = search.getIdShort();
         }
 
         @Override

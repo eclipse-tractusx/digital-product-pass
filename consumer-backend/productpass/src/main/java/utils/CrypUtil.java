@@ -40,6 +40,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -68,6 +69,9 @@ public final class CrypUtil {
         return new String(Base64.getUrlDecoder().decode(base64));
     }
 
+    public static String getUUID(){
+        return UUID.randomUUID().toString();
+    }
 
     public static String sha256(final String digest){
         return Hashing.sha256()

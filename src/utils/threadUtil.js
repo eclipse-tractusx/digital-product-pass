@@ -30,6 +30,9 @@ export default {
       }, ms);
     });
   },
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  },
   async execWithTimeout(promise, timeout, defaultValue=null){
     return Promise.race([promise, this.timeout(timeout, defaultValue)]);
   }

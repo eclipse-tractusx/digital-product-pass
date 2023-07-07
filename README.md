@@ -22,11 +22,23 @@
 
 <h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
-## What is digital product passport application?
+[![Contributors][contributors-shield]][contributors-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Apache 2.0 License][license-shield]][license-url]
+[![Latest Release][release-shield]][release-url]
+
+## Description
 
 The digital product passport  application provides a consumer user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
 In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
+
+### Software Version
+#### Helm Chart Version
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.0.0">1.0.0</a></pre>
+#### Application Version
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.0.0-alpha">v1.0.0-alpha</a></pre>
+
 
 ## Application Preview
 
@@ -55,6 +67,9 @@ To get started you can have a look into our documentation:
 | [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                                  |
 | [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
 | [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
+| [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                                          |
+
+
 
 ### Prerequisites:
 
@@ -165,3 +180,22 @@ As with all Docker images, these likely also contain other software which may be
 (such as Bash, etc. from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
 As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
+
+[contributors-url]: https://github.com/eclipse-tractusx/digital-product-pass/graphs/contributors
+
+[stars-shield]: https://img.shields.io/github/stars/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
+
+[stars-url]: https://github.com/eclipse-tractusx/digital-product-pass/stargazers
+
+[license-shield]: https://img.shields.io/github/license/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
+
+[license-url]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE
+
+[release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
+
+[release-url]: https://github.com/eclipse-tractusx/digital-product-pass/releases

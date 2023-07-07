@@ -42,15 +42,16 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsUser: 0
-        fsGroup: 0
+        runAsUser: 10000
+        fsGroup: 3000
       containers:
         - name: {{ .Values.backend.name }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          securityContext: 
-            runAsUser: 0
-            runAsGroup: 0
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 10000
+            runAsGroup: 3000
           env:          
             - name: "client.id"
               valueFrom:
@@ -81,7 +82,6 @@ spec:
             - name: pvc-backend
               mountPath: /app/log
               subPath: log
-
           ports:
             - containerPort: 8888
               name: http

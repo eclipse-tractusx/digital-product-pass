@@ -71,6 +71,13 @@ To get started you can have a look into our documentation:
 
 
 
+## Base Images
+| Language | Container Base Image |
+| :------- | :------------------- |
+| Java / JVM based   | [Eclipse Temurin](https://hub.docker.com/_/eclipse-temurin) |
+| JS frontends       | [Node.JS](https://hub.docker.com/_/node)  <br/> [Nginx](https://hub.docker.com/r/nginxinc/nginx-unprivileged) |
+      
+
 ### Prerequisites:
 
 - Git

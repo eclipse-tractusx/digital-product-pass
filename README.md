@@ -34,10 +34,11 @@ The digital product passport  application provides a consumer user interface to 
 In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
 
 ### Software Version
-```shell
-Latest Helm version is v3.12.0
-Latest Application version is v1.0.0-alpha
-```
+#### Helm Chart Version
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.0.0">1.0.0</a></pre>
+#### Application Version
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.0.0-alpha">v1.0.0-alpha</a></pre>
+
 
 ## Application Preview
 

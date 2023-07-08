@@ -32,9 +32,58 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix="configuration.discovery")
 public class DiscoveryConfig {
     String endpoint;
-    String bpnKey;
+    BPNConfig bpn;
+    EDCConfig edc;
 
-    String edcKey;
+    public BPNConfig getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(BPNConfig bpn) {
+        this.bpn = bpn;
+    }
+
+    public EDCConfig getEdc() {
+        return edc;
+    }
+
+    public void setEdc(EDCConfig edc) {
+        this.edc = edc;
+    }
+
+
+    public static class BPNConfig{
+        String key;
+        String searchPath;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getSearchPath() {
+            return searchPath;
+        }
+
+        public void setSearchPath(String searchPath) {
+            this.searchPath = searchPath;
+        }
+    }
+
+    public static class EDCConfig{
+        String key;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+    }
 
     public String getEndpoint() {
         return endpoint;
@@ -44,19 +93,4 @@ public class DiscoveryConfig {
         this.endpoint = endpoint;
     }
 
-    public String getBpnKey() {
-        return bpnKey;
-    }
-
-    public void setBpnKey(String bpnKey) {
-        this.bpnKey = bpnKey;
-    }
-
-    public String getEdcKey() {
-        return edcKey;
-    }
-
-    public void setEdcKey(String edcKey) {
-        this.edcKey = edcKey;
-    }
 }

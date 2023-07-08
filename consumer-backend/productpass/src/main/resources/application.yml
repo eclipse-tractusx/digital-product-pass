@@ -22,7 +22,7 @@
 
 
 spring:
-  name: 'Catena-X Product Passport Consumer Backend'
+  name: 'Catena-X Digital Product Passport Backend'
   main:
     allow-bean-definition-overriding: true
   devtools:
@@ -59,8 +59,12 @@ configuration:
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
-    bpnKey: "manufacturerPartId"
-    edcKey: "bpn"
+    bpn:
+      key: "manufacturerPartId"
+      searchPath: "/api/administration/connectors/bpnDiscovery/search"
+    edc:
+      key: "bpn"
+
 
   process:
     store: true

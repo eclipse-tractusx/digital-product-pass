@@ -31,6 +31,7 @@ import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.models.catenax.BPNDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
@@ -85,10 +86,10 @@ public class CatenaXService extends BaseService {
         if (this.discoveryEndpoint.isEmpty()) {
             missingVariables.add("discovery.endpoint");
         }
-        if (this.discoveryConfig.getEdcKey().isEmpty()) {
+        if (this.discoveryConfig.getBpn().getKey().isEmpty()) {
             missingVariables.add("discovery.edcKey");
         }
-        if (this.discoveryConfig.getBpnKey().isEmpty()) {
+        if (this.discoveryConfig.getBpn().getKey().isEmpty()) {
             missingVariables.add("discovery.bpnKey");
         }
         return missingVariables;
@@ -97,7 +98,7 @@ public class CatenaXService extends BaseService {
     public void init(Environment env){
         this.discoveryEndpoint = this.discoveryConfig.getEndpoint();
         this.mandatoryDiscoveryKeys = List.of(
-                discoveryConfig.getBpnKey(), discoveryConfig.getEdcKey()
+                this.discoveryConfig.getBpn().getKey(), this.discoveryConfig.getEdc().getKey()
         );
     }
     @Autowired
@@ -118,6 +119,7 @@ public class CatenaXService extends BaseService {
     public Discovery start(){
         try {
             Discovery discovery = this.getDiscoveryEndpoints();
+            LogUtil.printMessage(jsonUtil.toJson(discovery, true));
             Boolean rs = this.updateDiscovery(discovery);
             if (!rs) {
                 throw new ServiceException(this.getClass().getName(), "Something went wrong when updating the discovery endpoints");
@@ -138,15 +140,15 @@ public class CatenaXService extends BaseService {
             }
             List<Discovery.Endpoint> endpoints = discovery.getEndpoints();
 
-            Discovery.Endpoint bpnEndpoint = endpoints.stream().filter(endpoint -> endpoint.getType().equals(this.discoveryConfig.getBpnKey())).findAny().orElse(null);
+            Discovery.Endpoint bpnEndpoint = endpoints.stream().filter(endpoint -> endpoint.getType().equals(this.discoveryConfig.getBpn().getKey())).findAny().orElse(null);
             if(bpnEndpoint == null){
                 throw new ServiceException(this.getClass().getName() + "." + "updateDiscovery",
-                        "The bpn endpoint ["+this.discoveryConfig.getBpnKey()+"] is not available in the discovery endpoint ["+this.discoveryEndpoint +"]");
+                        "The bpn endpoint ["+this.discoveryConfig.getBpn().getKey()+"] is not available in the discovery endpoint ["+this.discoveryEndpoint +"]");
             }
-            Discovery.Endpoint edcEndpoint = endpoints.stream().filter(endpoint -> endpoint.getType().equals(this.discoveryConfig.getEdcKey())).findAny().orElse(null);
+            Discovery.Endpoint edcEndpoint = endpoints.stream().filter(endpoint -> endpoint.getType().equals(this.discoveryConfig.getEdc().getKey())).findAny().orElse(null);
             if(edcEndpoint == null){
                 throw new ServiceException(this.getClass().getName() + "." + "updateDiscovery",
-                        "The bpn endpoint ["+this.discoveryConfig.getEdcKey()+"] is not available in the discovery endpoint ["+this.discoveryEndpoint +"]");
+                        "The bpn endpoint ["+this.discoveryConfig.getEdc().getKey()+"] is not available in the discovery endpoint ["+this.discoveryEndpoint +"]");
             }
             return this.updateDiscoveryFile(bpnEndpoint, edcEndpoint);
         }catch(Exception e){
@@ -196,6 +198,44 @@ public class CatenaXService extends BaseService {
             ResponseEntity<?> response = httpUtil.doPost(this.discoveryEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Discovery) jsonUtil.bindJsonNode(result, Discovery.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
+                    e,
+                    "It was not possible to retrieve the discovery finder!");
+        }
+    }
+
+    public BPNDiscovery getBpnDiscovery(String key){
+        try {
+            this.checkEmptyVariables();
+            String bpnEndpoint = null;
+            try {
+                bpnEndpoint = (String) this.vaultService.getLocalSecret("discovery.bpn");
+            }catch (Exception e) {
+                throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", e, "It was not possible to retrieve the bpn discovery endpoint from the vault");
+            }
+            if(bpnEndpoint == null){
+                throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", "The bpn discovery endpoint is empty!");
+            }
+
+            String searchEndpoint = bpnEndpoint + this.discoveryConfig.getBpn().getSearchPath();
+
+
+            // Set request body
+            Object body = Map.of(
+                    "searchFilter",List.of(
+                            Map.of(
+                                "type", this.discoveryConfig.getEdc().getKey(), "keys", List.of(key)
+                            )
+                    )
+            );
+
+            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+            headers.add("Content-Type", "application/json");
+
+            ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+            JsonNode result = (JsonNode) response.getBody();
+            return (BPNDiscovery) jsonUtil.bindJsonNode(result, BPNDiscovery.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
                     e,

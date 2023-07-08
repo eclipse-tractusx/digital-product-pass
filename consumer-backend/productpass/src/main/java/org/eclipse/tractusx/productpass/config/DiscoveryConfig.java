@@ -32,6 +32,9 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix="configuration.discovery")
 public class DiscoveryConfig {
     String endpoint;
+    String bpnKey;
+
+    String edcKey;
 
     public String getEndpoint() {
         return endpoint;
@@ -39,5 +42,21 @@ public class DiscoveryConfig {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public String getBpnKey() {
+        return bpnKey;
+    }
+
+    public void setBpnKey(String bpnKey) {
+        this.bpnKey = bpnKey;
+    }
+
+    public String getEdcKey() {
+        return edcKey;
+    }
+
+    public void setEdcKey(String edcKey) {
+        this.edcKey = edcKey;
     }
 }

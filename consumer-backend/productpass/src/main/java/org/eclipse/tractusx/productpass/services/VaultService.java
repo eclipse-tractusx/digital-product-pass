@@ -31,6 +31,7 @@ import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 import utils.*;
 import utils.exceptions.UtilException;
 
@@ -61,7 +62,41 @@ public class VaultService extends BaseService {
         this.createLocalVaultFile(true);
         this.checkEmptyVariables();
     }
-
+    public Boolean setLocalSecret(String localSecretPath, Object value) {
+        try {
+            Object response = null;
+            String filePath = this.createLocalVaultFile(true);
+            Map<String, Object> content = yamlUtil.readFile(filePath);
+            try {
+                response = (Object) jsonUtil.setValue(content,localSecretPath, value,".",null);
+            }catch (Exception e){
+                LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was an error while setting the secret ["+localSecretPath+"] in file!");
+                return false;
+            }
+            if(response == null){
+                LogUtil.printError("["+this.getClass().getName()+"."+"getLocalSecret] " + "Secret ["+localSecretPath+"] failed to be set in the file");
+                return false;
+            }
+            return this.saveVault(filePath, response);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret",
+                    e,
+                    "It was not possible to get secret from file.");
+        }
+    }
+    public Boolean saveVault(String filePath, Object response){
+        try {
+            String vaultYAML = yamlUtil.dumpYml(response, this.vaultConfig.getIndent(), this.vaultConfig.getPrettyPrint());
+            if(fileUtil.toFile(filePath, vaultYAML, false).isEmpty()){
+                return false;
+            };
+            return true;
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"saveVault",
+                    e,
+                    "It was not possible to save the vault");
+        }
+    }
 
     public Object getLocalSecret(String localSecretPath) {
         try {
@@ -72,11 +107,9 @@ public class VaultService extends BaseService {
                 secret = (String) jsonUtil.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
                 LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was an error while searching the secret ["+localSecretPath+"] in file!");
-                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", e, "There was an error while searching the secret ["+localSecretPath+"] in file!");
             }
             if(secret == null){
                 LogUtil.printError("["+this.getClass().getName()+"."+"getLocalSecret] " + "Secret ["+localSecretPath+"] not found in file!");
-                //throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret", "Secret ["+localSecretPath+"] not found in file!");
             }
             return secret;
         }catch (Exception e){
@@ -136,8 +169,7 @@ public class VaultService extends BaseService {
 
 
             if(update){
-                String vaultYAML = yamlUtil.dumpYml(vaultFileContent, this.vaultConfig.getIndent(), this.vaultConfig.getPrettyPrint());
-                fileUtil.toFile(filePath, vaultYAML, false); // Create YAML token file
+                this.saveVault(filePath, vaultFileContent);
             }
 
             return filePath;

@@ -42,25 +42,25 @@ configuration:
   keycloak:
     realm: CX-Central
     resource: Cl13-CX-Battery
-    tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-    userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
+    tokenUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+    userInfoUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
   edc:
-    endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
+    endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
-    receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
+    receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
 
   dtr:
     central: false
-    centralUrl: 'https://semantics.dev.demo.catena-x.net'
+    centralUrl: 'https://semantics.int.demo.catena-x.net'
 
   discovery:
-    endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
-    bpnKey: "bpn"
-    edcKey: "manufacturerPartId"
+    endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+    bpnKey: "manufacturerPartId"
+    edcKey: "bpn"
 
   process:
     store: true

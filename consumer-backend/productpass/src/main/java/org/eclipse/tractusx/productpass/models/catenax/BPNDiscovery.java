@@ -39,6 +39,9 @@ public class BPNDiscovery {
         this.bpns = bpns;
     }
 
+    public BPNDiscovery() {
+    }
+
     public List<BPN> getBpns() {
         return bpns;
     }
@@ -62,6 +65,9 @@ public class BPNDiscovery {
             this.key = key;
             this.value = value;
             this.resourceId = resourceId;
+        }
+
+        public BPN() {
         }
 
         public String getType() {

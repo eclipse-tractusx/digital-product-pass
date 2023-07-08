@@ -76,6 +76,7 @@ public class AppListener {
         LogUtil.printMessage("Creating log file...");
         if(!dtrConfig.getCentral()) {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
+            LogUtil.printMessage(jsonUtil.toJson(catenaXService.getBpnDiscovery("XYZ78901"),true));
         }
        }
 

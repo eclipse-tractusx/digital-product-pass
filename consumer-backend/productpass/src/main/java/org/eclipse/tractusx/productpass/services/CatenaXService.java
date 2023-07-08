@@ -119,7 +119,6 @@ public class CatenaXService extends BaseService {
     public Discovery start(){
         try {
             Discovery discovery = this.getDiscoveryEndpoints();
-            LogUtil.printMessage(jsonUtil.toJson(discovery, true));
             Boolean rs = this.updateDiscovery(discovery);
             if (!rs) {
                 throw new ServiceException(this.getClass().getName(), "Something went wrong when updating the discovery endpoints");
@@ -225,7 +224,7 @@ public class CatenaXService extends BaseService {
             Object body = Map.of(
                     "searchFilter",List.of(
                             Map.of(
-                                "type", this.discoveryConfig.getEdc().getKey(), "keys", List.of(key)
+                                "type", this.discoveryConfig.getBpn().getKey(), "keys", List.of(key)
                             )
                     )
             );

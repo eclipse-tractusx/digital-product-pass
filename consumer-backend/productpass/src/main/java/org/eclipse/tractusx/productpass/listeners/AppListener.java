@@ -26,6 +26,8 @@ package org.eclipse.tractusx.productpass.listeners;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.catenax.Discovery;
+import org.eclipse.tractusx.productpass.services.CatenaXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -40,6 +42,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import utils.HttpUtil;
+import utils.JsonUtil;
 import utils.LogUtil;
 
 @Component
@@ -49,7 +52,10 @@ import utils.LogUtil;
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
-
+    @Autowired
+    JsonUtil jsonUtil;
+    @Autowired
+    CatenaXService catenaXService;
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
         String serverStartUpMessage = "\n\n" +
@@ -64,6 +70,8 @@ public class AppListener {
         LogUtil.printMessage(serverStartUpMessage);
         LogUtil.printMessage("[ LOGGING STARTED ] <-----------------------------------------");
         LogUtil.printMessage("Creating log file...");
+        Discovery discovery = catenaXService.getDiscoveryEndpoints();
+        LogUtil.printMessage(jsonUtil.toJson(discovery, true));
         // Store the process manager in memory
        }
 

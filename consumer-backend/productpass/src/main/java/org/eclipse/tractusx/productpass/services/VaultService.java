@@ -88,7 +88,15 @@ public class VaultService extends BaseService {
     public String createLocalVaultFile(Boolean searchSystemVariables){
         try {
             String dataDir = fileUtil.createDataDir("VaultConfig");
-            String filePath = Path.of(dataDir, this.vaultConfig.getFile()).toAbsolutePath().toString();
+            String filePath = null;
+            try {
+                filePath = Path.of(dataDir, this.vaultConfig.getFile()).toAbsolutePath().toString();
+            }catch (Exception e){
+                throw new ServiceException(this.getClass().getName(), e, "It was not possible to create filepath");
+            }
+            if(filePath == null){
+                throw new ServiceException(this.getClass().getName(), "It was not possible to create filepath response is null");
+            }
             if(!fileUtil.pathExists(filePath)){
                 LogUtil.printWarning("No vault token file found, creating yaml file in ["+filePath+"]");
                 fileUtil.createFile(filePath); // Create YAML token file

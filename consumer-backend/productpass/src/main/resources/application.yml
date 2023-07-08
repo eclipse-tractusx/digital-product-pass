@@ -53,14 +53,20 @@ configuration:
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
 
+  dtr:
+    central: false
+    centralUrl: 'https://semantics.dev.demo.catena-x.net'
+
+  discovery:
+    endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+    bpnKey: "bpn"
+    edcKey: "manufacturerPartId"
+
   process:
     store: true
     dir: 'process'
     indent: true
     signKey: 'c55e3f35200f6afedbce37cefdaf40eadd15c92814edfdbc4d6ab0eacdcdd56dbcd5a2a34ca4b675084d33f9f479d7d79347795148aaf4443e1b47ab96b27e72'
-
-  endpoints:
-    registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
   passport:
     dataTransfer:

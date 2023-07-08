@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.services;
 
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
@@ -47,31 +48,41 @@ import java.util.Map;
 public class AasService extends BaseService {
 
     public String registryUrl;
+    public Boolean central;
 
     private final HttpUtil httpUtil;
 
     private final JsonUtil jsonUtil;
 
+    private final DtrConfig dtrConfig;
     private final AuthenticationService authService;
 
     @Autowired
-    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
+    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
+        this.dtrConfig = dtrConfig;
         this.init(env);
         this.checkEmptyVariables();
     }
 
     public void init(Environment env){
-        this.registryUrl = env.getProperty("configuration.endpoints.registryUrl", String.class, "");
+        this.registryUrl = dtrConfig.getCentralUrl();
+        this.central = dtrConfig.getCentral();
     }
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
 
-        if (this.registryUrl.isEmpty()) {
-            missingVariables.add("registryUrl");
+        if (this.central == null) {
+            missingVariables.add("dtr.central");
+        }else{
+            if(this.central) {
+                if (this.registryUrl.isEmpty()) {
+                    missingVariables.add("dtr.centralUrl");
+                }
+            }
         }
         return missingVariables;
     }

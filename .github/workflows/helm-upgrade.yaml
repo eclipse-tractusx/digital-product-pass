@@ -23,8 +23,9 @@
 name: Upgrade Charts
 
 on:
-  push:
-    branches: [ "main", "develop", "feature/cmp-701/add-helm-upgrade-workflow" ]
+  pull_request:
+    paths:
+      - 'charts/digital-product-pass/**'
   workflow_dispatch:
     inputs:
       branch:
@@ -34,8 +35,9 @@ on:
         type: string
 
 jobs:
-  lint-test:
+  upgrade:
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

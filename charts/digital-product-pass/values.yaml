@@ -33,7 +33,6 @@ frontend:
   image:
     repository: docker.io/tractusx/digital-product-pass-frontend
     pullPolicy: Always
-  
   imagePullSecrets: []
 
   service:
@@ -56,24 +55,23 @@ frontend:
   # Product Passport UI Configuration
   productpass:
     backend_url: "materialpass.dev.demo.catena-x.net"
-    idp_url: "centralidp.dev.demo.catena-x.net/auth/" # Default URL
+    idp_url: "centralidp.dev.demo.catena-x.net/auth/"    # Default URL
     passport:
-      version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
+      version: "v3.0.1"    ## Mandatory Field, passport version must be available (Semantic Structure)
     api:
-      max_retries: 20 # Max Retries for getting status
-      timeout: 60000 # 45 seconds in milliseconds
-      delay: 1000 ## Delay from getting status
+      max_retries: 20    # Max Retries for getting status
+      timeout: 60000    # 45 seconds in milliseconds
+      delay: 1000    ## Delay from getting status
     keycloak:
       clientId: 'Cl13-CX-Battery'
       realm: 'CX-Central'
       onLoad: 'login-required'
 
 backend:
-  name: "dpp-backend" 
+  name: "dpp-backend"
   image:
     repository: docker.io/tractusx/digital-product-pass-backend
     pullPolicy: Always
-
   imagePullSecrets: []
 
   service:
@@ -152,7 +150,7 @@ backend:
             - "client.id"
             - "client.secret"
             - "edc.apiKey"
-          - "edc.participantId"
+            - "edc.participantId"
 
       server:
         error:

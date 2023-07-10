@@ -53,6 +53,9 @@ configuration:
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
 
+  security:
+    preChecks: true
+
   process:
     store: true
     dir: 'process'

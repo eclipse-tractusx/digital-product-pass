@@ -58,10 +58,10 @@ jobs:
       - name: Run helm install
         # Install latest released digital-product-pass version
         run: |
-          helm install dpp tractusx-dev/digital-product-pass
+          helm install dpp tractusx-dev/digital-product-pass -n product-material-pass --create-namespace
 
       - name: Run helm upgrade
         # Upgrade the installed dpp version with the locally available charts
         run: |
           helm dependency update charts/digital-product-pass
-          helm upgrade dpp charts/digital-product-pass
+          helm upgrade dpp charts/digital-product-pass -n product-material-pass

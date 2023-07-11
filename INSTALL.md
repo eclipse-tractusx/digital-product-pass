@@ -98,11 +98,12 @@ Substitute the `<version>` variable with the current version of the Digital Prod
 Once the application is running a tmp file will be created in the following directory: `data/VaultConfig/vault.token.yml`
 
 ```yml
-token: <Add Vault token here> 
 client:
   id: <Add the Keycloak client.id here>
   secret: <Add the Keycloak client.secret here>
-apiKey: <Add the EDC api key here>
+edc: 
+  apiKey: <Add the Keycloak edc.apiKey here>
+  participantId: <Add the Keycloak edc.participantId here>
 ```
 
 ## How to start the application locally using Spring Boot?

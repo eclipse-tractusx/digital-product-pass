@@ -49,7 +49,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0-rc4"
+      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
@@ -317,7 +317,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0-rc4"
+      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false

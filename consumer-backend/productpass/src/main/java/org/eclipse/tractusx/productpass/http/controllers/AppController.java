@@ -34,6 +34,7 @@ import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
@@ -94,7 +95,6 @@ public class AppController {
     }
 
     public  DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
-        LogUtil.printMessage(this.jsonUtil.toJson(body, true));
         DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if(endpointData == null){
             throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
@@ -105,7 +105,8 @@ public class AppController {
         if(endpointData.getAuthCode().isEmpty()){
             throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
         }
-        if(endpointData.getOfferId().isEmpty()){
+        Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+        if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
             throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
         }
         return endpointData;

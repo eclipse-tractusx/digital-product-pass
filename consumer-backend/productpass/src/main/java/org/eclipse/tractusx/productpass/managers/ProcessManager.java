@@ -32,6 +32,7 @@ import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
@@ -465,14 +466,18 @@ public class ProcessManager {
     }
     public String savePassport(String processId, DataPlaneEndpoint endpointData, Passport passport) {
         try {
+            // Retrieve the configuration
             Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
 
             Object passportContent = passport;
             Status status = getStatus(processId);
             if(encrypt) {
-                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, endpointData.getOfferId())); // Encrypt the data with the token
+                // Get token content
+                Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, (String) token.getPayload().get("cid"))); // Encrypt the data with the token
             }
+            // Save payload
             return this.saveProcessPayload(
                     processId,
                     passportContent,

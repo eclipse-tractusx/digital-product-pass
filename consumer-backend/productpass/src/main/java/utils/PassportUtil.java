@@ -26,6 +26,7 @@
 package utils;
 
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -41,11 +42,14 @@ public class PassportUtil {
     private final FileUtil fileUtil;
     private final String transferDir;
 
+    private final HttpUtil httpUtil;
+
     @Autowired
-    public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil, Environment env) {
+    public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil,HttpUtil httpUtil, Environment env) {
         this.transferDir = env.getProperty("passport.dataTransfer.dir", String.class, "data/transfer");
         this.jsonUtil = jsonUtil;
         this.fileUtil = fileUtil;
+        this.httpUtil = httpUtil;
     }
     public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
@@ -62,7 +66,8 @@ public class PassportUtil {
             if(!encrypted) {
                 return jsonUtil.toJsonFile(filePath, passport, prettyPrint); // Store the plain JSON
             }else{
-                return fileUtil.toFile(filePath, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), endpointData.getOfferId()+endpointData.getId()), false); // Store Encrypted
+                Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+                return fileUtil.toFile(filePath, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), token.getPayload().get("cid")+endpointData.getId()), false); // Store Encrypted
             }
         }catch (Exception e){
             throw new UtilException(PassportUtil.class, e, "Something went wrong while saving the passport for transfer ["+endpointData.getId()+"]");

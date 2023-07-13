@@ -40,11 +40,15 @@ public class DataPlaneEndpoint {
     @JsonProperty("authCode")
     String authCode;
 
-    public DataPlaneEndpoint(String id, String endpoint, String authKey, String authCode) {
+    @JsonProperty("properties")
+    Properties properties;
+
+    public DataPlaneEndpoint(String id, String endpoint, String authKey, String authCode, Properties properties) {
         this.id = id;
         this.endpoint = endpoint;
         this.authKey = authKey;
         this.authCode = authCode;
+        this.properties = properties;
     }
 
     public DataPlaneEndpoint() {
@@ -81,4 +85,28 @@ public class DataPlaneEndpoint {
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
     }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
+    public void setOfferId(String offerId) {
+        this.properties.offerId = offerId;
+    }
+
+    public String getOfferId() {
+        return this.properties.offerId;
+    }
+
+    static class Properties {
+        @JsonProperty("https://w3id.org/edc/v0.0.1/ns/cid")
+        String offerId;
+
+    }
+
+
 }

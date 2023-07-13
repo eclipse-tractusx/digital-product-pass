@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -36,6 +37,7 @@ import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +60,8 @@ public class AppController {
 
     @Autowired
     Environment env;
-
+    @Autowired
+    JsonUtil jsonUtil;
     @Autowired
     PassportUtil passportUtil;
 
@@ -91,6 +94,7 @@ public class AppController {
     }
 
     public  DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
+        LogUtil.printMessage(this.jsonUtil.toJson(body, true));
         DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if(endpointData == null){
             throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
@@ -119,6 +123,8 @@ public class AppController {
             if(endpointData == null){
                 return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
             }
+
+
 
             if(!processManager.checkProcess(processId)){
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);

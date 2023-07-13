@@ -38,6 +38,9 @@ public class TransferRequest {
     String assetId;
     @JsonProperty("connectorAddress")
     String connectorAddress;
+
+    @JsonProperty("connectorId")
+    String connectorId;
     @JsonProperty("contractId")
     String contractId;
     @JsonProperty("dataDestination")
@@ -51,19 +54,21 @@ public class TransferRequest {
     @JsonProperty("transferType")
     TransferType transferType;
 
-    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
+
+    public TransferRequest() {
+    }
+
+    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
         this.context = context;
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
         this.privateProperties = privateProperties;
         this.protocol = protocol;
         this.transferType = transferType;
-    }
-
-    public TransferRequest() {
     }
 
     public JsonNode getContext() {
@@ -139,6 +144,14 @@ public class TransferRequest {
         this.transferType = transferType;
     }
 
+    public String getConnectorId() {
+        return connectorId;
+    }
+
+    public void setConnectorId(String connectorId) {
+        this.connectorId = connectorId;
+    }
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class TransferType{
         @JsonProperty("contentType")
@@ -164,14 +177,14 @@ public class TransferRequest {
     }
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class DataDestination {
-        @JsonProperty("properties")
-        Properties properties;
+        @JsonProperty("type")
+        String properties;
 
-        public Properties getProperties() {
+        public String getProperties() {
             return properties;
         }
 
-        public void setProperties(Properties properties) {
+        public void setProperties(String properties) {
             this.properties = properties;
         }
     }

@@ -203,8 +203,9 @@ public class DataTransferService extends BaseService {
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);
 
+
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
-                dataDestination.setProperties("HttpProxy");
+                dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);

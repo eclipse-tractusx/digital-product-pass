@@ -178,14 +178,15 @@ public class TransferRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class DataDestination {
         @JsonProperty("type")
-        String properties;
+        String type;
 
-        public String getProperties() {
-            return properties;
+
+        public String getType() {
+            return type;
         }
 
-        public void setProperties(String properties) {
-            this.properties = properties;
+        public void setType(String type) {
+            this.type = type;
         }
     }
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -40,6 +40,7 @@ import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
+import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -422,6 +423,15 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer request!");
         }
     }
+    public String getContractId(DataPlaneEndpoint endpointData){
+
+        if(endpointData.getProperties() == null) {
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            return (String) token.getPayload().get("cid");
+        }
+
+        return endpointData.getOfferId();
+    }
     public PassportV3 loadPassport(String processId){
         try {
             String path = this.getProcessFilePath(processId, this.passportFileName);
@@ -473,9 +483,12 @@ public class ProcessManager {
             Object passportContent = passport;
             Status status = getStatus(processId);
             if(encrypt) {
-                // Get token content
-                Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, (String) token.getPayload().get("cid"))); // Encrypt the data with the token
+                // Get token content or the contractID from properties
+                String contractId = this.getContractId(endpointData);
+                if(contractId == null){
+                    throw new ManagerException(this.getClass().getName(), "The Contract Id is null! It was not possible to save the passport!");
+                }
+                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, contractId)); // Encrypt the data with the token
             }
             // Save payload
             return this.saveProcessPayload(

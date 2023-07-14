@@ -105,10 +105,17 @@ public class AppController {
         if(endpointData.getAuthCode().isEmpty()){
             throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
         }
-        Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-        if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
-            throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+        if(endpointData.getProperties() == null){
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
+                throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+            }
+        }else{
+            if(endpointData.getOfferId().isEmpty()){
+                throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+            }
         }
+
         return endpointData;
     }
 
@@ -124,8 +131,6 @@ public class AppController {
             if(endpointData == null){
                 return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
             }
-
-
 
             if(!processManager.checkProcess(processId)){
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);

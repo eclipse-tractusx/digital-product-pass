@@ -77,8 +77,8 @@ spec:
             - name: backend-config
               mountPath: /app/config
             - name: pvc-backend
-              mountPath: /app/data
-              subPath: data
+              mountPath: /app/data/process
+              subPath: process
             - name: pvc-backend
               mountPath: /app/log
               subPath: log

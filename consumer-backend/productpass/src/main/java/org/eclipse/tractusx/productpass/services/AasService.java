@@ -307,7 +307,6 @@ public class AasService extends BaseService {
         }
     }
 
-
     public class DigitalTwinRegistryQuery implements Runnable{
         private SubModel subModel;
         private DigitalTwin digitalTwin;

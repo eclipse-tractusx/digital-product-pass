@@ -29,13 +29,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +58,8 @@ public class AppController {
     HttpUtil httpUtil;
     @Autowired
     EdcUtil edcUtil;
-
+    @Autowired
+    JsonUtil jsonUtil;
     @Autowired
     Environment env;
 
@@ -90,6 +94,29 @@ public class AppController {
         return response;
     }
 
+    @RequestMapping(value = "/endpoint/{processId}/{serializedId}", method = RequestMethod.POST)
+    public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String serializedId){
+        try{
+            DataPlaneEndpoint endpointData = null;
+            try {
+                LogUtil.printMessage(jsonUtil.toJson(body, true));
+                endpointData = this.getEndpointData(body);
+            }catch (Exception e){
+                return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);
+            }
+            if(endpointData == null){
+                return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
+            }
+
+            if(!processManager.checkProcess(processId)){
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
+            }
+        }catch(Exception e) {
+            LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
+            return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);
+        }
+        return httpUtil.buildResponse(httpUtil.getResponse("ok"), httpResponse);
+    }
     public  DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
         DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if(endpointData == null){

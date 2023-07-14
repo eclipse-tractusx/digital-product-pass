@@ -27,7 +27,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
+import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.services.CatenaXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -45,6 +47,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.LogUtil;
+
+import java.util.List;
 
 @Component
 @Configuration
@@ -76,7 +80,9 @@ public class AppListener {
         LogUtil.printMessage("Creating log file...");
         if(!dtrConfig.getCentral()) {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
-            LogUtil.printMessage(jsonUtil.toJson(catenaXService.getBpnDiscovery("XYZ78901"),true));
+            BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901");
+            List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
+            LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
         }
        }
 

@@ -27,30 +27,21 @@ package org.eclipse.tractusx.productpass.services;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.catenax.BPNDiscovery;
+import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.http.requests.Search;
-import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
-import org.eclipse.tractusx.productpass.models.negotiation.CatalogRequest;
+import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -204,10 +195,39 @@ public class CatenaXService extends BaseService {
         }
     }
 
-    public BPNDiscovery getBpnDiscovery(String key){
+    public List<EdcDiscoveryEndpoint> getEdcDiscovery(List<String> bpns){
+        try {
+            this.checkEmptyVariables();
+            String edcEndpoint = null;
+            // Check if the variable edc endpoint is correct
+            try {
+                edcEndpoint = (String) this.vaultService.getLocalSecret("discovery.edc");
+            }catch (Exception e) {
+                throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", e, "It was not possible to retrieve the edc discovery endpoint from the vault");
+            }
+            if(edcEndpoint == null){
+                throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", "The edc discovery endpoint is empty!");
+            }
+
+            // Add the technical token
+            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+            headers.add("Content-Type", "application/json");
+
+            ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false);
+            JsonNode result = (JsonNode) response.getBody();
+            return (List<EdcDiscoveryEndpoint>) jsonUtil.bindJsonNode(result, List.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getEdcDiscovery",
+                    e,
+                    "It was not possible to get the edc endpoints from the EDC Discovery Service");
+        }
+    }
+
+    public BpnDiscovery getBpnDiscovery(String key){
         try {
             this.checkEmptyVariables();
             String bpnEndpoint = null;
+            // Check if the variable edc endpoint is correct
             try {
                 bpnEndpoint = (String) this.vaultService.getLocalSecret("discovery.bpn");
             }catch (Exception e) {
@@ -234,11 +254,11 @@ public class CatenaXService extends BaseService {
 
             ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
-            return (BPNDiscovery) jsonUtil.bindJsonNode(result, BPNDiscovery.class);
+            return (BpnDiscovery) jsonUtil.bindJsonNode(result, BpnDiscovery.class);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
+            throw new ServiceException(this.getClass().getName() + "." + "getBpnDiscovery",
                     e,
-                    "It was not possible to retrieve the discovery finder!");
+                    "It was not possible to retrieve the bpn at the BPN discovery service");
         }
     }
 

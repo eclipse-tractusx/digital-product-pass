@@ -29,28 +29,36 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BPNDiscovery {
+public class BpnDiscovery {
     @JsonProperty("bpns")
-    List<BPNDiscovery.BPN> bpns;
+    List<BpnEndpoint> bpns;
 
-    public BPNDiscovery(List<BPN> bpns) {
+    public BpnDiscovery(List<BpnEndpoint> bpns) {
         this.bpns = bpns;
     }
 
-    public BPNDiscovery() {
+    public BpnDiscovery() {
     }
 
-    public List<BPN> getBpns() {
+    public List<BpnEndpoint> getBpns() {
         return bpns;
     }
 
-    public void setBpns(List<BPN> bpns) {
+    public List<String> getBpnNumbers(){
+        return bpns.stream().map(
+                BpnEndpoint::getValue
+        ).collect(Collectors.toList());
+    }
+
+
+    public void setBpns(List<BpnEndpoint> bpns) {
         this.bpns = bpns;
     }
 
-    public static class BPN{
+    public static class BpnEndpoint {
         @JsonProperty("type")
         String type;
         @JsonProperty("key")
@@ -60,14 +68,14 @@ public class BPNDiscovery {
         @JsonProperty("resourceId")
         String resourceId;
 
-        public BPN(String type, String key, String value, String resourceId) {
+        public BpnEndpoint(String type, String key, String value, String resourceId) {
             this.type = type;
             this.key = key;
             this.value = value;
             this.resourceId = resourceId;
         }
 
-        public BPN() {
+        public BpnEndpoint() {
         }
 
         public String getType() {

@@ -46,7 +46,6 @@ public class Transfer extends DidDocument{
     @JsonProperty("edc:dataDestination")
     DataDestination dataDestination;
 
-
     @JsonProperty("edc:dataRequest")
     DataRequest dataRequest;
 
@@ -170,11 +169,14 @@ public class Transfer extends DidDocument{
     public void setErrorDetail(String errorDetail) {
         this.errorDetail = errorDetail;
     }
-
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class DataRequest extends DidDocument{
         @JsonProperty("edc:assetId")
         String assetId;
+
+        @JsonProperty("edc:connectorId")
+        String connectorId;
+
         @JsonProperty("edc:contractId")
         String contractId;
 
@@ -193,8 +195,16 @@ public class Transfer extends DidDocument{
         public void setContractId(String contractId) {
             this.contractId = contractId;
         }
-    }
 
+        public String getConnectorId() {
+            return connectorId;
+        }
+
+        public void setConnectorId(String connectorId) {
+            this.connectorId = connectorId;
+        }
+    }
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class DataDestination {
         @JsonProperty("edc:type")
         String type;

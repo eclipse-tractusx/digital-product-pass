@@ -425,7 +425,7 @@ public class ProcessManager {
     }
     public String getContractId(DataPlaneEndpoint endpointData){
 
-        if(endpointData.getProperties() == null) {
+        if(!endpointData.offerIdExists()) {
             Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
             return (String) token.getPayload().get("cid");
         }

@@ -105,7 +105,7 @@ public class AppController {
         if(endpointData.getAuthCode().isEmpty()){
             throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
         }
-        if(endpointData.getProperties() == null){
+        if(!endpointData.offerIdExists()){
             Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
             if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
                 throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");

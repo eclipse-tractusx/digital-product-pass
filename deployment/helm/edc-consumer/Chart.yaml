@@ -30,8 +30,6 @@ appVersion: "0.4.1"
 home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 sources:
   - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
-urls:
-  - https://github.com/eclipse-tractusx/tractusx-edc/releases/download/tractusx-connector-0.4.1/tractusx-connector-0.4.1.tgz
 dependencies:
   - name: tractusx-connector
     version: 0.4.1

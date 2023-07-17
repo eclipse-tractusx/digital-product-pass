@@ -39,6 +39,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +103,9 @@ public class AasService extends BaseService {
         }
     }
 
-    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position){
+    public DigitalTwin searchDigitalTwin(String registryUrl, String assetType, String assetId, Integer position){
         try {
-            ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId);
+            ArrayList<String> digitalTwinIds = this.queryDigitalTwin(registryUrl, assetType, assetId);
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin for the selected asset type and the the selected assetId");
@@ -116,7 +117,7 @@ public class AasService extends BaseService {
 
 
             String digitalTwinId = digitalTwinIds.get(position);
-            DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId);
+            DigitalTwin digitalTwin = this.getDigitalTwin(registryUrl, digitalTwinId);
             if (digitalTwin == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
@@ -143,9 +144,9 @@ public class AasService extends BaseService {
                     "It was not possible to search submodel!");
         }
     }
-    public SubModel searchSubModel(DigitalTwin digitalTwin, Integer position){
+    public SubModel searchSubModel(String registryUrl, DigitalTwin digitalTwin, Integer position){
         try {
-            SubModel subModel = this.getSubModel(digitalTwin, position);
+            SubModel subModel = this.getSubModel(registryUrl, digitalTwin, position);
             if(subModel == null){
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModel",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
@@ -160,10 +161,10 @@ public class AasService extends BaseService {
     }
 
 
-    public DigitalTwin getDigitalTwin(String digitalTwinId) {
+    public DigitalTwin getDigitalTwin(String registryUrl, String digitalTwinId) {
             try {
                 String path = "/registry/registry/shell-descriptors";
-                String url = this.registryUrl + path + "/" + digitalTwinId;
+                String url =this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
                 Map<String, Object> params = httpUtil.getParams();
                 JwtToken token = authService.getToken();
                 HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
@@ -194,11 +195,11 @@ public class AasService extends BaseService {
             }
     }
 
-    public SubModel getSubModel(DigitalTwin digitalTwin, Integer position) {
+    public SubModel getSubModel(String registryUrl, DigitalTwin digitalTwin, Integer position) {
         try {
             String path = "/registry/registry/shell-descriptors";
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
-            String url = this.registryUrl + path + "/" + digitalTwin.getIdentification() + "/submodel-descriptors/" + subModel.getIdentification();
+            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + "/submodel-descriptors/" + subModel.getIdentification();
             Map<String, Object> params = httpUtil.getParams();
             JwtToken token = authService.getToken();
             HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
@@ -235,10 +236,10 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
-    public SubModel getSubModel(String digitalTwinId, String subModelId) {
+    public SubModel getSubModel(String registryUrl, String digitalTwinId, String subModelId) {
         try {
             String path = "/registry/registry/shell-descriptors";
-            String url = this.registryUrl + path + "/" + digitalTwinId + "/submodel-descriptors/" + subModelId;
+            String url = this.getRegistryUrl(registryUrl)  + path + "/" + digitalTwinId + "/submodel-descriptors/" + subModelId;
             Map<String, Object> params = httpUtil.getParams();
             JwtToken token = authService.getToken();
             HttpHeaders headers = httpUtil.getHeadersWithToken(token.getAccessToken());
@@ -251,10 +252,15 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
-    public ArrayList<String> queryDigitalTwin(String assetType,String assetId) {
+
+    public String getRegistryUrl(String registerUrl){
+        return (!this.central)?registerUrl:this.registryUrl;
+    }
+
+    public ArrayList<String> queryDigitalTwin(String registryUrl, String assetType,String assetId) {
         try {
             String path = "/registry/lookup/shells";
-            String url = this.registryUrl + path;
+            String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             Map<String, ?> assetIds = Map.of(
                     "key", assetType,
@@ -295,7 +301,7 @@ public class AasService extends BaseService {
 
         @Override
         public void run() {
-            this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex);
+            this.digitalTwin = searchDigitalTwin(null, this.idType, this.assetId, this.dtIndex);
             this.subModel = searchSubModelById(this.digitalTwin, this.idShort);
         }
 
@@ -319,12 +325,13 @@ public class AasService extends BaseService {
             this.assetId = assetId;
             this.idType = idType;
             this.dtIndex = dtIndex;
+
         }
 
         @Override
         public void run() {
-            this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex);
-            this.subModel = searchSubModel(this.digitalTwin, this.dtIndex);
+            this.digitalTwin = searchDigitalTwin(null, this.idType, this.assetId, this.dtIndex);
+            this.subModel = searchSubModel(null, this.digitalTwin, this.dtIndex);
         }
 
         public SubModel getSubModel() {

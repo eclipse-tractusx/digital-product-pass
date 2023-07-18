@@ -35,7 +35,7 @@ on:
       node_image:
         description: 'kindest/node image for k8s kind cluster'
         # k8s version from 3.1 release as default
-        default: 'kindest/node:v1.24.6'
+        default: 'kindest/node:v1.27.3'
         required: false
         type: string
       upgrade_from:
@@ -63,7 +63,7 @@ jobs:
           # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
           version: v0.19.0
           # default value for event_name != workflow_dispatch
-          node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.24.6' }}
+          node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
 
       - name: Build image for frontend
         id: build-frontend

@@ -98,7 +98,7 @@ backend:
       # -- BPN Number
       participantId: "<Add participant id here>"
 
-  # -- specific backend configuration and spring boot config
+  # -- specific backend and spring boot configurations
   application:
     yml: |-
       # -- spring boot configuration

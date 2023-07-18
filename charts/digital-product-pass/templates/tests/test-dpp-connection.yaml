@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dpp-test-connection
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: frontend
+      image: busybox
+      command: ['wget']
+      args: ['{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport']
+    - name: backend
+      image: busybox
+      command: ['wget']
+      args: ['{{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health']
+  restartPolicy: Never
+  

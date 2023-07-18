@@ -57,7 +57,7 @@ frontend:
       version: "v3.0.1"    ## Mandatory Field, passport version must be available (Semantic Structure)
     api:
       # -- max retries for getting status
-      max_retries: 20
+      max_retries: 30
       # -- default timeout  - 45 seconds in milliseconds
       timeout: 60000
       # -- delay from getting status
@@ -86,19 +86,22 @@ backend:
   ingress:
     enabled: false
 
+  # -- in this section we configure the values that are inserted as secrets in the backend
   avp:
     helm:
-      # -- registry specific credentials 
+      # -- technical user keycloak central id credentials 
+      # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
       clientId: "<Add client id here>"
       clientSecret: "<Add client secret here>"
-      # -- API Key from EDC
+      # -- the secret for assesing the edc management API
       xApiKey: "<Add API key here>"
       # -- BPN Number
       participantId: "<Add participant id here>"
 
-  # -- backend sepcific configuration
+  # -- specific backend configuration and spring boot config
   application:
     yml: |-
+      # -- spring boot configuration
       spring:
         name: "Catena-X Product Passport Consumer Backend"
         main:
@@ -108,66 +111,104 @@ backend:
         jackson:
           serialization:
             indent_output: true
-
+            
+      # -- overide and configure the log levels from spring boot
       logging:
         level:
+          # -- general logging level
           root: INFO
+          # -- logging for the util components
           utils: INFO
 
+      # --  backend apis configuration  
       configuration:
-        maxRetries: 5
+        # -- max retries for the backend services
+        maxRetries: 5 
 
+        # -- keycloak configuration for the authentication service
         keycloak:
+          # -- keycloak realm
           realm: <test-realm>
+          # -- keycloak resouce
           resource: <test-resource>
+          # -- url for the token api endpoint 
           tokenUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/token"
+          # -- url for the user info endpoint 
           userInfoUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/userinfo"
 
+        # -- configuration for the edc service
         edc:
+          # -- the edc consumer endpoint url
           endpoint: "https://<digital-product-pass-url>/consumer"
+          # -- edc api paths
           management: "/management/v2"
           catalog: "/catalog/request"
           negotiation: "/contractnegotiations"
           transfer: "/transferprocesses"
+          # -- backend api that receives the edc information (consumer backend)
           receiverEndpoint: "https://<digital-product-pass-url>/endpoint"
 
+        # -- batch process configurations
         process:
-          store: true
+          # -- directory for storing the contract negotiation files
           dir: "process"
+          # -- indent the process negotiation files
           indent: true
+          # -- unique sha512 hash key used for the passport encryption 
           signKey: ""
 
+        # -- endpoints urls
         endpoints:
+          # -- central digital twin registry url
           registryUrl: "https://<digital-twin-registry-url>"
 
+        # -- passport data transfer configuration
         passport:
+          # -- configure the data transfer
           dataTransfer:
+            # -- encrypt the passport when he arrives from the edc data plane
             encrypt: true
+            # -- the indent from the passport
             indent: true
+            # -- directory to store the passport when is not linked to a process
             dir: "data/transfer"
+          # -- passport versions allowed
           versions:
             - "v3.0.1"
-        
+
+        # -- configuration of the backend local vault
         vault:
+          # -- local vault type
           type: "local"
+          # -- name of the vault file
           file: "vault.token.yml"
+          # -- path to store the vault file in the data dir
           pathSep: "."
+          # -- indent the vault file
           prettyPrint: true
+          # -- indent level of the vault file
           indent: 2
+          # -- default value added to the secrets if they dont exist
           defaultValue: "<Add secret value here>"
+          # -- vault file structure
           attributes:
             - "client.id"
             - "client.secret"
             - "edc.apiKey"
             - "edc.participantId"
 
+      # -- server configuration
       server:
+        # -- configuration of backend errors
         error:
           include-message: ALWAYS
           include-binding-errors: ALWAYS
           include-stacktrace: ON_PARAM
           include-exception: false
+
+        # -- listening port for the backend
         port: 8888
+        # -- maximum allowed connections
         tomcat:
           max-connections: 10000
 

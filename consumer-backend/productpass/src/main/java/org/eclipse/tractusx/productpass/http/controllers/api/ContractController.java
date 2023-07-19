@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
@@ -40,6 +41,7 @@ import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.eclipse.tractusx.productpass.models.http.requests.DiscoverySearch;
 import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
@@ -70,6 +72,7 @@ public class ContractController {
     private @Autowired AasService aasService;
     private @Autowired AuthenticationService authService;
     private @Autowired PassportConfig passportConfig;
+    private @Autowired DiscoveryConfig discoveryConfig;
     private @Autowired Environment env;
     @Autowired
     ProcessManager processManager;
@@ -77,6 +80,19 @@ public class ContractController {
     @Autowired
     HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
+
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @Operation(summary = "Creates a process and checks for the viability of the data retrieval")
+    public Response create(@Valid @RequestBody DiscoverySearch search){
+        Response response = httpUtil.getInternalError();
+        if (!authService.isAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        search.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
+        return httpUtil.buildResponse(response, httpResponse);
+    }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @Operation(summary = "Searches for a passport with the following id", responses = {
@@ -110,7 +126,6 @@ public class ContractController {
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(searchBody);
             Long dtRequestTime = DateTimeUtil.getTimestamp();
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
-
             // Wait for digital twin query
             digitalTwinRegistryThread.join();
             DigitalTwin digitalTwin;

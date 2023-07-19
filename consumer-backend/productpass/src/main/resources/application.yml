@@ -56,6 +56,7 @@ configuration:
   dtr:
     central: false
     centralUrl: 'https://semantics.int.demo.catena-x.net'
+    assetType: 'data.core.digitalTwinRegistry'
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"

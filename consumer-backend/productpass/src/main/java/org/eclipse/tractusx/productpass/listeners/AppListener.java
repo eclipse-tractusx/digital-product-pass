@@ -83,6 +83,7 @@ public class AppListener {
             BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901");
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
+
         }
        }
 

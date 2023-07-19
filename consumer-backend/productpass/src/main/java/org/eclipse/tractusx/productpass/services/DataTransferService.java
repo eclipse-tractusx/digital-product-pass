@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
@@ -71,12 +72,15 @@ public class DataTransferService extends BaseService {
     public Environment env;
 
     public ProcessManager processManager;
+    public DtrConfig dtrConfig;
+
 
     @Autowired
-    public DataTransferService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager) throws ServiceInitializationException {
+    public DataTransferService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
         this.processManager = processManager;
+        this.dtrConfig = dtrConfig;
         this.env = env;
         this.init(vaultService, env);
         this.checkEmptyVariables(List.of("apiKey")); // Add API Key as optional for initialization
@@ -451,6 +455,37 @@ public class DataTransferService extends BaseService {
                     "https://w3id.org/edc/v0.0.1/ns/id",
                     "=",
                     assetId
+            ); // Filter by asset id
+            querySpec.setFilterExpression(List.of(filterExpression));
+            Object body = new CatalogRequest(
+                    jsonUtil.newJsonNode(),
+                    providerUrl,
+                    querySpec
+            );
+
+            HttpHeaders headers = httpUtil.getHeaders();
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", this.apiKey);
+            ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+            JsonNode result = (JsonNode) response.getBody();
+            return (Catalog) jsonUtil.bindJsonNode(result, Catalog.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getContractOfferCatalog",
+                    e,
+                    "It was not possible to retrieve the catalog!");
+        }
+    }
+    public Catalog searchDigitalTwinCatalog(String providerUrl) {
+        try {
+            this.checkEmptyVariables();
+
+            String url = CatenaXUtil.buildManagementEndpoint(env, this.catalogPath);
+            // Simple catalog request query with no limitation.
+            CatalogRequest.QuerySpec querySpec = new CatalogRequest.QuerySpec();
+            CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
+                    "https://w3id.org/edc/v0.0.1/ns/type",
+                    "=",
+                    this.dtrConfig.getAssetType()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(

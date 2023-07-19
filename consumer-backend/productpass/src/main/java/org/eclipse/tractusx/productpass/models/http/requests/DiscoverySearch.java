@@ -23,50 +23,44 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.productpass.config;
+package org.eclipse.tractusx.productpass.models.http.requests;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
-@Configuration
-@ConfigurationProperties(prefix="configuration.dtr")
-public class DtrConfig {
-    Boolean central;
-    String centralUrl;
+public class DiscoverySearch {
+    @NotNull(message = "Id needs to be defined!")
+    @JsonProperty("id")
+    String id;
 
-    String assetType;
+    @JsonProperty("type")
+    String type;
 
-    public DtrConfig(Boolean central, String centralUrl, String assetType) {
-        this.central = central;
-        this.centralUrl = centralUrl;
-        this.assetType = assetType;
+    public DiscoverySearch(String id, String type) {
+        this.id = id;
+        this.type = type;
     }
 
-    public DtrConfig() {
+    public DiscoverySearch(String id) {
+        this.id = id;
     }
 
-
-    public Boolean getCentral() {
-        return central;
+    public DiscoverySearch() {
     }
 
-    public void setCentral(Boolean central) {
-        this.central = central;
+    public String getId() {
+        return id;
     }
 
-    public String getCentralUrl() {
-        return centralUrl;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setCentralUrl(String centralUrl) {
-        this.centralUrl = centralUrl;
+    public String getType() {
+        return type;
     }
 
-    public String getAssetType() {
-        return assetType;
-    }
-
-    public void setAssetType(String assetType) {
-        this.assetType = assetType;
+    public void setType(String type) {
+        this.type = type;
     }
 }

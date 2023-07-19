@@ -49,6 +49,7 @@ public final class FileUtil {
         {
             throw new UtilException(FileUtil.class, ioe, "It was not possible to create file ["+filePath+"]");
         }
+
         return filePath;
     }
     public File newFile(String filePath){
@@ -109,7 +110,10 @@ public final class FileUtil {
         String workDir = this.getWorkdirPath();
         return Paths.get(workDir ,"data").toAbsolutePath().toString();
     }
-
+    public String getTmpDir(){
+        String workDir = this.getWorkdirPath();
+        return Paths.get(workDir ,"tmp").toAbsolutePath().toString();
+    }
     public String createDataDir(String name){
         String workDir = this.getWorkdirPath();
         String path = Paths.get(workDir ,"data" , name).toAbsolutePath().toString();
@@ -121,7 +125,7 @@ public final class FileUtil {
         return this.createDir(path);
     }
 
-    public  String getTmpDir(String dirName){
+    public  String createTempDir(String dirName){
         try {
             return Files.createTempDirectory(dirName).toFile().getAbsolutePath();
         } catch (IOException e) {

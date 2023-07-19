@@ -25,7 +25,7 @@ frontend:
     enabled: true
     #className: ""
     annotations:
-      kubernetes.io/ingress.class: nginx
+      ingressClassName: nginx
       # kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
@@ -58,8 +58,7 @@ backend:
     enabled: true
     # className: "nginx"
     annotations:
-      kubernetes.io/ingress.class: nginx
-      #kubernetes.io/ingress.class: nginx
+      ingressClassName: nginx
       # kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
@@ -79,12 +78,12 @@ backend:
       clientId: <path:material-pass/data/beta/aasregistry#client.id>
       clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
       xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+      participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
 
   application:
     yml: |-
       spring:
-        application:
-          name: 'Catena-X Product Passport Consumer Backend'
+        name: 'Catena-X Product Passport Consumer Backend'
         main:
           allow-bean-definition-overriding: true
         devtools:
@@ -92,6 +91,12 @@ backend:
         jackson:
           serialization:
             indent_output: true
+
+      logging:
+        level:
+          root: INFO
+          utils: INFO
+
       configuration:
         maxRetries: 5
 
@@ -101,9 +106,21 @@ backend:
           tokenUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
           userInfoUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
+        edc:
+          endpoint: 'https://materialpass.beta.demo.catena-x.net/consumer'
+          management: '/management/v2'
+          catalog: '/catalog/request'
+          negotiation: '/contractnegotiations'
+          transfer: '/transferprocesses'
+          receiverEndpoint: 'https://materialpass.beta.demo.catena-x.net/endpoint'
+
+        process:
+          store: true
+          dir: 'process'
+          indent: true
+          signKey: '<path:material-pass/data/beta/backend/#signKey>'
+
         endpoints:
-          providerUrl: 'https://materialpass.beta.demo.catena-x.net/BPNL000000000000'
-          serverUrl: 'https://materialpass.beta.demo.catena-x.net'
           registryUrl: 'https://semantics.beta.demo.catena-x.net'
 
         passport:
@@ -122,10 +139,11 @@ backend:
           indent: 2
           defaultValue: '<Add secret value here>'
           attributes:
-            - "token"
             - "client.id"
             - "client.secret"
-            - "apiKey"
+            - "edc.apiKey"
+            - "edc.participantId"
+
       server:
         error:
           include-message: ALWAYS
@@ -135,4 +153,3 @@ backend:
         port: 8888
         tomcat:
           max-connections: 10000
-

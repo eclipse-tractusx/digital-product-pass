@@ -23,6 +23,63 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+  
+
+## [pre-released] - [1.0.0-alpha] - 2023-07-03
+## [1.0.0] - xxxx-xx-xx
+
+## Deleted
+- Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
+- Removed inrelevant infrastructure files 
+- Remove not necesarry logs that affected the performance
+  
+## Added
+- Added new `/endpoint` api to store the payload incomming from the EDC data plane
+- Added the encryption and decryption in AES from passport payload.
+- Added AES unit tests
+- Added the DataPlane service in the backend to comunicate with the data plane.
+- Added process manager to manage the asyncronous processes executing in parallel.
+- Added process dataModel in session.
+- Added new passport util. 
+- Added new models to negotiate  and transfer with the new EDC `v0.4.1`
+- Added new utils methods like to delete files.
+- Added contract controller apis
+   - Added contract search  `/api/contract/search`
+   - Added contract decline `/api/contract/decline`
+   - Added contract sign `/api/contract/sign`
+   - Added contract cancel `/api/contract/cancel`
+   - Added contract status `/api/contract/status`
+- Added new Backend configuration
+- Integrated the EDC Data Plane retrieval logic
+- Added `.tractusx` metafile
+- Align chart version with app version.
+- Added file system logging of the negotiation and transfer.
+- Added new contract attributes from response.
+- Optimized the retrieval time to ~4 seconds.
+- Refactored git workflows to add the dpp frontend and backend container images onto Docker Hub registry in order to have public access to the images.
+- Added docker.io in digital-product-pass helm chart.
+- Commit ID and Repo URL added in frontend image
+- Frontend component to display legal information
+- Added components to display more contract information.
+- Fixed bug related to backend get status, where it looped over the status received.
+
+## Updated
+- Updated charts configurations related to the backend.
+- Updated the EDC test charts to remote the cx-backend-service configurations
+- Updated payloads
+- Update the backend chart configuration
+- Refactor secrets structure
+- Updated postman collection
+- Updated veracode workflow
+- Updated the backend service in the frontend to call the async backend apis.
+- Updated footer of the application to add the legal information dialog. 
+- Updated the Mock payloads in the frontend component.
+- Updated pom.xml file adding a resource tag to include files into /META-INF folder inside JAR.
+  
+## Security Improvements
+- Added logic to create and authenticate with  unique session tokens the sign and other methods.
+- Added Encryption of passport payload when coming from Data Plane endpoint, until it is retrieved to the  user which is authenticated and is using the unique  session token as decryption key.
+- Added unique signKey to backend, which is used to the unique session key.
 
 ## [released]
 ## [0.9.0] - 2023-06-20
@@ -41,23 +98,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Security Issues
 - Upgraded Spring Boot version to  `v0.3.1`
 
-
-## [in  preparation]
-## [0.9.0] - xxxx-xx-xx
-
-## Deleted
-
-- Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
-
-## Added
-- Added new `/endpoint` api to store the payload incomming from the EDC data plane
-- Added the encryption and decryption in AES from passport payload.
-- Added AES unit tests
-- Added the DataPlane service in the backend to comunicate with the data plane.
-
-## Updated
-- Updated charts configurations related to the backend.
-- Updated the EDC test charts to remote the cx-backend-service configurations
 
 ## [released]
 ## [0.8.1] - 2023-06-09

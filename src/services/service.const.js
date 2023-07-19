@@ -39,7 +39,8 @@ let delay = 'APP_API_DELAY';
 let clientId = "KEYCLOAK_CLIENTID";
 let realm = "KEYCLOAK_REALM";
 let onLoad = "KEYCLOAK_ONLOAD";
-
+let commitId = "REPO_COMMIT_ID";
+let repoEndpoint = "REPO_ENDPOINT_URL";
 
 // Default values if the value is not specified
 serverUrl = (serverUrl != null) ? serverUrl : "https://materialpass.int.demo.catena-x.net"
@@ -51,8 +52,8 @@ onLoad = (serverUrl != null) ? onLoad : "login-required"
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
-delay = numberUtil.parseInt(delay, 2000);
-retries = numberUtil.parseInt(retries, 5);
+delay = numberUtil.parseInt(delay, 1000);
+retries = numberUtil.parseInt(retries, 20);
 
 // Define constants
 const SERVER_URL = serverUrl;
@@ -64,6 +65,8 @@ const API_DELAY = delay;
 const CLIENT_ID = clientId;
 const REALM = realm;
 const ONLOAD = onLoad;
+const COMMIT_ID = commitId;
+const REPO_ENDPOINT = repoEndpoint;
 
 // Initialize configuration objects
 let INIT_OPTIONS = {
@@ -82,4 +85,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES };
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT };

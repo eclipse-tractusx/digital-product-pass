@@ -23,7 +23,7 @@
 <h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
 
-<h2><strong>Version</strong>: <span style="color: lightblue">0.7.0-SNAPSHOT</span><h2>
+<h2><strong>Version</strong>: <span style="color: cyan">1.0.0-alpha-SNAPSHOT</span><h2>
 
 <br>
 
@@ -205,92 +205,8 @@ Once you configured the application use the follow the [TL;DR](#tldr) below to `
 
 # TL;DR 
 
-## Pre-requisites
-
-You must have [Helm](https://helm.sh/),  [Minikube](https://minikube.sigs.k8s.io/docs/start/) and [Maven](https://maven.apache.org/) to follow this steps.
-
-
 ## Install
-
-To install the application using the configured helm charts use the following command from the project root directory:
-
-```bash
-helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml -f charts/digital-product-pass/values-int.yaml 
-``` 
-
-> **NOTE**: This command will deploy the complete application.
-
-## Expose the ports
-
-Once the application is running, in order for you to access it, we need to expose the ports. Following this commands we will be able to access it.
-
-### Get pod name
-Search for the application name:
-
-```bash
-kubectl get pods -n product-material-pass --no-headers |  awk '{if ($1 ~ "consumer-backend-") print $1}'
-```
-**Example**:
-![img4.png](docs/media/img4.png)
-
-
-Copy the pod name with the prefix `consumer-backend`
-
-### Port forward
-
-Paste the pod name after the `port-forward` parameter. 
-```bash
-kubectl -port-forward consumer-backend-67c4c9678-nqg7p 8888:8888 -n product-material-pass
-```
-
-> **NOTE**: The default port set is `8888` however it can be changed in the configuration.
-
-### Check if the application is running
-
-Go to the following url to check the health status:
-```
-localhost:8888/health
-```
-
-# Frequently asked questions
-
-## How to install the application and run it locally?
-
-Use the following commands to install/compile the application:
-
-### Install
-```bash 
-mvn clean install test
-```
-
-### Run the JAR file
-
-Substitute the `<version>` variable with the current version of the Digital Product Pass Backend and run the jar:
-
-```bash
-
-./target/productpass-<version>-SNAPSHOT.jar
-
-```
-### Configure the secrets
-
-Once the application is running a tmp file will be created in the following directory: `data/VaultConfig/vault.token.yml`
-
-```yml
-token: <Add Vault token here> 
-client:
-  id: <Add the Keycloak client.id here>
-  secret: <Add the Keycloak client.secret here>
-apiKey: <Add the EDC api key here>
-```
-
-## How to start the application locally using Spring Boot?
-
-Use the following command using [maven](https://maven.apache.org/) to start the application
-
-```bash 
-mvn clean spring-boot:run
-```
+[Backend Installation](../../INSTALL.m)
 
 
 # License

@@ -37,8 +37,7 @@
           </v-card-actions>
         </v-card-title>
         <v-divider></v-divider>
-
-        <v-card-text>
+        <v-card-text class="dialog-text">
           <slot name="text">
             <h2>404</h2>
             <p>No description</p>

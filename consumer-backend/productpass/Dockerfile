@@ -23,8 +23,9 @@
 
 FROM eclipse-temurin:19-alpine
 
-RUN addgroup -g 10001 appgroup \
-	&& adduser -u 10000 -g 10001 -h /home/appuser -D appuser
+RUN addgroup -g 3000 appgroup \
+	&& adduser -u 10000 -g 3000 -h /home/appuser -D appuser
+    
 WORKDIR /app
 
 VOLUME data log
@@ -38,9 +39,9 @@ COPY ./target/productpass*.jar productpass.jar
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R appuser:appuser /app && chmod -R 755 /app
+RUN chown -R 10000:3000 /app && chmod -R 775 /app/
 
-USER appuser
+USER 10000:3000
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "./productpass.jar"]

@@ -98,6 +98,20 @@ public class VaultService extends BaseService {
         }
     }
 
+
+    public Boolean secretExists(String localSecretPath){
+        try {
+            String filePath = this.createLocalVaultFile(true);
+            Map<String, Object> content = yamlUtil.readFile(filePath);
+            return jsonUtil.checkJsonKeys(content, List.of(localSecretPath), ".", false);
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getLocalSecret",
+                    e,
+                    "It was not possible to get secret from file.");
+        }
+    }
+
+
     public Object getLocalSecret(String localSecretPath) {
         try {
             String secret = null;

@@ -145,6 +145,51 @@ public final class JsonUtil {
         }
     }
 
+    public Boolean keyExists(Object sourceObj,String key){
+        try {
+            if(sourceObj == null){
+                //Uncomment for debug logTools.printError("[DEBUG] Object == null!");
+                return false;
+            }
+            if(key == null || key.isEmpty()){
+                //Uncomment for debug logTools.printError("[DEBUG] keyPath empty or pathSep empty!");
+                return false;
+            }
+            Map<String, Object> tmpValue;
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                tmpValue = mapper.convertValue(sourceObj, new TypeReference<Map<String, Object>>() {});
+                return tmpValue.containsKey(key);
+            }catch (Exception e) {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, e,  "It was not possible to check if the json key exists!");
+        }
+    }
+
+    public Boolean keyExistsDeep(Object sourceObj, String key, String pathSep, Boolean allowEmpty){
+        try {
+            if(sourceObj == null){
+                //Uncomment for debug logTools.printError("[DEBUG] Object == null!");
+                return false;
+            }
+            if(key == null || key.isEmpty() || pathSep.equals("")){
+                //Uncomment for debug logTools.printError("[DEBUG] keyPath empty or pathSep empty!");
+                return false;
+            }
+            Object trigger = null;
+
+            trigger = this.getValue(sourceObj, key, pathSep, null);
+            if(trigger == null){
+                return false;
+            }
+            return allowEmpty || !trigger.equals("");
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, e,  "It was not possible to check for json keys!");
+        }
+    }
+
     public Boolean checkJsonKeys(Object sourceObj, List<String> keyPaths, String pathSep, Boolean allowEmpty){
         try {
             if(sourceObj == null){

@@ -37,6 +37,7 @@ import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
@@ -48,10 +49,7 @@ import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.productpass.services.AasService;
-import org.eclipse.tractusx.productpass.services.AuthenticationService;
-import org.eclipse.tractusx.productpass.services.DataTransferService;
-import org.eclipse.tractusx.productpass.services.VaultService;
+import org.eclipse.tractusx.productpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +75,10 @@ public class ContractController {
     @Autowired
     ProcessManager processManager;
     private @Autowired ProcessConfig processConfig;
+
+    @Autowired
+    CatenaXService catenaXService;
+
     @Autowired
     HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
@@ -84,13 +86,24 @@ public class ContractController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @Operation(summary = "Creates a process and checks for the viability of the data retrieval")
-    public Response create(@Valid @RequestBody DiscoverySearch search){
+    public Response create(@Valid @RequestBody DiscoverySearch searchBody){
         Response response = httpUtil.getInternalError();
         if (!authService.isAuthenticated(httpRequest)) {
             response = httpUtil.getNotAuthorizedResponse();
             return httpUtil.buildResponse(response, httpResponse);
         }
-        search.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
+        searchBody.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
+        List<String> mandatoryParams = List.of("id");
+        if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
+            response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+
+        BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
+
+
+
         return httpUtil.buildResponse(response, httpResponse);
     }
 

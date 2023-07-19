@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.listeners;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -59,6 +60,9 @@ public class AppListener {
     BuildProperties buildProperties;
     @Autowired
     JsonUtil jsonUtil;
+
+    @Autowired
+    DiscoveryConfig discoveryConfig;
     @Autowired
     CatenaXService catenaXService;
 
@@ -80,7 +84,7 @@ public class AppListener {
         LogUtil.printMessage("Creating log file...");
         if(!dtrConfig.getCentral()) {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
-            BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901");
+            BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901", this.discoveryConfig.getBpn().getKey());
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
 

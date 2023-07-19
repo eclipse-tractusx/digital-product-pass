@@ -184,7 +184,6 @@ public class HttpUtil {
 
             String header = CrypUtil.fromBase64Url(chunks[0]);
             String payload = CrypUtil.fromBase64Url(chunks[1]);
-            LogUtil.printMessage("token header: " + header + " payload: " + payload);
             jwt.setHeader((Map<String, Object>) jsonUtil.parseJson(header));
             jwt.setPayload((Map<String, Object>) jsonUtil.parseJson(payload));
             return jwt;

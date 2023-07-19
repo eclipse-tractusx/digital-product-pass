@@ -46,5 +46,17 @@ public class EdcUtil {
         }
     }
 
+    // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
+    public Boolean isEdc5(String contractId){
+        try {
+            String[] parts = contractId.split(String.format("\\%s",":"));
+            if(parts.length != 3){
+                throw new UtilException(EdcUtil.class, "It was not possible to check if EDC is v0.5.0, Invalid Contract Id");
+            }
+            return CrypUtil.isBase64(parts[1]); // If the contractId is base64 encoded
+        }catch (Exception e){
+            throw new UtilException(EdcUtil.class, e, "It was not possible check if is the EDC v0.5.0");
+        }
+    }
 
 }

@@ -43,7 +43,7 @@ tractusx-connector:
 
     
   participant:
-    id: &bpnNumber "<path:material-pass/data/dev/edc/participant#bpnNumber>"
+    id: "<path:material-pass/data/dev/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -53,7 +53,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.4.1"
+      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
@@ -137,6 +137,19 @@ tractusx-connector:
     businessPartnerValidation:
       log:
         agreementValidation: true
+          # SSI configuration
+    ssi:
+      miw:
+        url: "<path:material-pass/data/dev/edc/ssi#miwUrl>"
+        authorityId: "<path:material-pass/data/dev/edc/ssi#authorityId>"
+      oauth:
+        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "<path:material-pass/data/dev/edc/ssi#clientId>"
+          secretAlias: "dev-client-secret"
+      endpoint:
+        audience: https://materialpass.dev.demo.catena-x.net/consumer
+        
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
       type: ClusterIP
@@ -308,7 +321,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.4.1"
+      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
@@ -536,26 +549,23 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey: daps-key-dev
       transferProxyTokenSignerPublicKey: daps-crt-dev
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: daps-key-dev
-      dapsPublicKey: daps-crt-dev
-
-  daps:
-    fullnameOverride: "daps"
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: <path:material-pass/data/dev/edc/oauth#client.id>
-    paths:
-      jwks: /.well-known/jwks.json
-      token: /token
-    connectors:
-      - id: <path:material-pass/data/dev/edc/oauth#client.id>
-        name: edcconector
-        attributes:
-          referringConnector: "https://materialpass.dev.demo.catena-x.net/consumer/<path:material-pass/data/dev/edc/participant#bpnNumber>"
-        certificate: <path:material-pass/data/daps-crt-dev#content>
-
 
   backendService:
     httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
+
+  networkPolicy:
+    # -- If `true` network policy will be created to restrict access to control- and dataplane
+    enabled: false
+    # -- Configuration of the controlplane component
+    controlplane:
+      # -- Specify from rule network policy for cp (defaults to all namespaces)
+      from:
+      - namespaceSelector: {}
+    # -- Configuration of the dataplane component
+    dataplane:
+      # -- Specify from rule network policy for dp (defaults to all namespaces)
+      from:
+      - namespaceSelector: {}
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -567,10 +577,11 @@ tractusx-connector:
     name: ""
     # -- Existing image pull secret bound to the service account to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
     imagePullSecrets: []
-    
-  idsdaps:
-    connectors:
-      - certificate: <path:material-pass/data/daps-crt-dev#content>
+
+  # -- Configurations for Helm tests
+  tests:
+    # -- Configure the hook-delete-policy for Helm tests
+    hookDeletePolicy: before-hook-creation,hook-succeeded
 
 postgresql:
   jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
@@ -583,5 +594,5 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#password>
+    username: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#password>

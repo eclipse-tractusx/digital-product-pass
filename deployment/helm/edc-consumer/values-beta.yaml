@@ -33,7 +33,7 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: &bpnNumber "<path:material-pass/data/beta/edc/participant#bpnNumber>"
+    id: "<path:material-pass/data/beta/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -78,6 +78,18 @@ tractusx-connector:
         path: /consumer/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
+
+    ssi:
+      miw:
+        url: "<path:material-pass/data/beta/edc/ssi#miwUrl>"
+        authorityId: "<path:material-pass/data/beta/edc/ssi#authorityId>"
+      oauth:
+        tokenurl: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "<path:material-pass/data/beta/edc/ssi#clientId>"
+          secretAlias: "beta-client-secret"
+      endpoint:
+        audience: https://materialpass.beta.demo.catena-x.net/consumer
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -174,31 +186,10 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey: ids-daps_key
       transferProxyTokenSignerPublicKey: ids-daps_crt
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: ids-daps_key
-      dapsPublicKey: ids-daps_crt
-
-  daps:
-    fullnameOverride: "daps"
-    url: "https://daps.beta.demo.catena-x.net"
-    clientId: <path:material-pass/data/beta/edc/oauth#client.id>
-    paths:
-      jwks: /.well-known/jwks.json
-      token: /token
-    connectors:
-      - id: <path:material-pass/data/beta/edc/oauth#client.id>
-        name: edcconector
-        attributes:
-          referringConnector: "https://materialpass.beta.demo.catena-x.net/consumer/<path:material-pass/data/beta/edc/participant#bpnNumber>"
-        # Must be the same certificate that is stores in section 'sokrates-vault'
-        certificate: <path:material-pass/data/ids-daps_crt#content>
 
   backendService:
      httpProxyTokenReceiverUrl: "https://materialpass.beta.demo.catena-x.net/endpoint"
     
-  idsdaps:
-    connectors:
-      - certificate: <path:material-pass/data/ids-daps_crt#content>
-
 postgresql:
   auth:
     username: <path:material-pass/data/beta/edc/database#user>

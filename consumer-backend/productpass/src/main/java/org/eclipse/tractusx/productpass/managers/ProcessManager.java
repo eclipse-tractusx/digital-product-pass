@@ -32,6 +32,7 @@ import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
@@ -39,6 +40,7 @@ import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
+import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -421,6 +423,15 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer request!");
         }
     }
+    public String getContractId(DataPlaneEndpoint endpointData){
+
+        if(!endpointData.offerIdExists()) {
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            return (String) token.getPayload().get("cid");
+        }
+
+        return endpointData.getOfferId();
+    }
     public PassportV3 loadPassport(String processId){
         try {
             String path = this.getProcessFilePath(processId, this.passportFileName);
@@ -465,14 +476,21 @@ public class ProcessManager {
     }
     public String savePassport(String processId, DataPlaneEndpoint endpointData, Passport passport) {
         try {
+            // Retrieve the configuration
             Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
 
             Object passportContent = passport;
             Status status = getStatus(processId);
             if(encrypt) {
-                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, endpointData.getOfferId())); // Encrypt the data with the token
+                // Get token content or the contractID from properties
+                String contractId = this.getContractId(endpointData);
+                if(contractId == null){
+                    throw new ManagerException(this.getClass().getName(), "The Contract Id is null! It was not possible to save the passport!");
+                }
+                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, contractId)); // Encrypt the data with the token
             }
+            // Save payload
             return this.saveProcessPayload(
                     processId,
                     passportContent,

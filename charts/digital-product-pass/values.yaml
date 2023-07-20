@@ -26,7 +26,7 @@
 
 name: "digital-product-pass"
 replicaCount: 1
-namespace: product-material-pass
+namespace: ""
 
 frontend:
   name: "dpp-frontend"

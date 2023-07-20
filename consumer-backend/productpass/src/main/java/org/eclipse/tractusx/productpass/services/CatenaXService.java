@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.managers.ProcessDtrDataModel;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
@@ -53,7 +54,8 @@ public class CatenaXService extends BaseService {
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
     private final VaultService vaultService;
-
+    private final ProcessDtrDataModel processDtrDataModel;
+    private final DataTransferService dataTransferService;
 
     private final AuthenticationService authService;
 
@@ -93,13 +95,15 @@ public class CatenaXService extends BaseService {
         );
     }
     @Autowired
-    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, AuthenticationService authService, DiscoveryConfig discoveryConfig) throws ServiceInitializationException {
+    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessDtrDataModel dtrDataModel, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
         this.vaultService = vaultService;
+        this.processDtrDataModel = dtrDataModel;
         this.authService = authService;
         this.discoveryConfig = discoveryConfig;
+        this.dataTransferService = dataTransferService;
         this.init(env);
         this.checkEmptyVariables();
     }
@@ -248,17 +252,17 @@ public class CatenaXService extends BaseService {
         }
     }
 
-    public List<EdcDiscoveryEndpoint> getEdcDiscovery(List<String> bpns){
+    public List<EdcDiscoveryEndpoint> getEdcDiscovery(List<String> bpns) {
         try {
             this.checkEmptyVariables();
             String edcEndpoint = null;
             // Check if the variable edc endpoint is correct
             try {
                 edcEndpoint = (String) this.vaultService.getLocalSecret("discovery.edc");
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", e, "It was not possible to retrieve the edc discovery endpoint from the vault");
             }
-            if(edcEndpoint == null){
+            if (edcEndpoint == null) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", "The edc discovery endpoint is empty!");
             }
 
@@ -319,6 +323,19 @@ public class CatenaXService extends BaseService {
             throw new ServiceException(this.getClass().getName() + "." + "getBpnDiscovery",
                     e,
                     "It was not possible to retrieve the bpn at the BPN discovery service");
+        }
+    }
+
+    public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints) {
+        try {
+            while (processDtrDataModel.getState() != ProcessDtrDataModel.State.Finished) {
+                processDtrDataModel.startProcess(edcEndpoints);
+            }
+            processDtrDataModel.saveDtrDataModel();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",
+                    e,
+                    "It was not possible to search the DTRs.");
         }
     }
 

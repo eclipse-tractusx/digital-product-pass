@@ -726,9 +726,6 @@ public class DataTransferService extends BaseService {
                     LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                     start = Instant.now();
                 }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
-                }
             }
             return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
         } catch (Exception e) {
@@ -782,9 +779,6 @@ public class DataTransferService extends BaseService {
                 if (dataModel.getState(processId).equals("TERMINATED")) {
                     LogUtil.printStatus("[" + id + "] The transfer was cancelled");
                     return null;
-                }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
                 }
             }
             return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);

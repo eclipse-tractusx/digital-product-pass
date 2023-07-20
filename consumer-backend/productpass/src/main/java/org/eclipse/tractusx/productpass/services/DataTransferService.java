@@ -601,7 +601,7 @@ public class DataTransferService extends BaseService {
                     return null;
                 }
                 if(sw){
-                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
                 }
             }
             return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
@@ -654,7 +654,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
                 if(sw){
-                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
                 }
             }
             return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
@@ -727,7 +727,7 @@ public class DataTransferService extends BaseService {
                     start = Instant.now();
                 }
                 if(sw){
-                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
                 }
             }
             return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
@@ -784,7 +784,7 @@ public class DataTransferService extends BaseService {
                     return null;
                 }
                 if(sw){
-                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
                 }
             }
             return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);

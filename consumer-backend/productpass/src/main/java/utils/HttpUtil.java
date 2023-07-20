@@ -23,6 +23,7 @@
 
 package utils;
 
+import org.apache.juli.logging.Log;
 import org.checkerframework.checker.units.qual.C;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
@@ -71,13 +72,17 @@ public class HttpUtil {
     private  final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
 
-    public  Object getSessionValue(HttpServletRequest httpRequest, String key) {
+    public Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);
     }
 
     public  void setSessionValue(HttpServletRequest httpRequest, String key, Object value) {
         httpRequest.getSession().setAttribute(key, value);
     }
+    public String getSessionId(HttpServletRequest httpRequest) {
+        return httpRequest.getSession().getId();
+    }
+
 
     public  Boolean isInSession(HttpServletRequest httpRequest, String key) {
         try {
@@ -99,6 +104,9 @@ public class HttpUtil {
 
     public  String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
+    }
+    public  String getResponseHttpInfo(Response response) {
+        return "[HTTP Response] " + response.status + " " + response.statusText+ ": " + response.getMessage();
     }
 
     public  String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
@@ -176,7 +184,6 @@ public class HttpUtil {
 
             String header = CrypUtil.fromBase64Url(chunks[0]);
             String payload = CrypUtil.fromBase64Url(chunks[1]);
-            LogUtil.printMessage("token header: " + header + " payload: " + payload);
             jwt.setHeader((Map<String, Object>) jsonUtil.parseJson(header));
             jwt.setPayload((Map<String, Object>) jsonUtil.parseJson(payload));
             return jwt;
@@ -234,6 +241,9 @@ public class HttpUtil {
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
         servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        if(response.getStatus() != 200){
+            LogUtil.printHTTPErrorMessage(this.getResponseHttpInfo(response));
+        }
         return response;
     }
     public  Response getResponse() {
@@ -257,17 +267,71 @@ public class HttpUtil {
                 data
         );
     }
-
-    public  Response getForbiddenResponse() {
+    public  Response getBadRequest() {
         return new Response(
-                "Forbidden",
-                403
+                null,
+                400,
+                "Bad Request"
+        );
+    }
+    public  Response getBadRequest(String message) {
+        return new Response(
+                message,
+                400,
+                "Bad Request"
+        );
+    }
+    public  Response getNotFound() {
+        return new Response(
+                null,
+                404,
+                "Not Found"
+        );
+    }
+
+    public  Response getNotFound(String message) {
+        return new Response(
+                message,
+                404,
+                "Not Found"
+        );
+    }
+
+
+    public  Response getInternalError() {
+        return new Response(
+                null,
+                500,
+                "Internal Server Error"
+        );
+    }
+
+    public  Response getInternalError(String message) {
+        return new Response(
+                message,
+                500,
+                "Internal Server Error"
+        );
+    }
+    public Response getForbiddenResponse(String message) {
+        return new Response(
+                message,
+                403,
+                "Forbidden"
+        );
+    }
+    public Response getForbiddenResponse() {
+        return new Response(
+                null,
+                403,
+                "Forbidden"
         );
     }
     public  Response getNotAuthorizedResponse() {
         return new Response(
-                "Not Authorized",
-                401
+                null,
+                401,
+                "Not Authorized"
         );
     }
     public  void redirect(HttpServletResponse httpResponse, String url) {

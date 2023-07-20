@@ -25,8 +25,10 @@
 
 package org.eclipse.tractusx.productpass.models.edc;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataPlaneEndpoint {
     @JsonProperty("id")
     String id;
@@ -102,6 +104,16 @@ public class DataPlaneEndpoint {
         return this.properties.offerId;
     }
 
+    public Boolean offerIdExists(){
+        try {
+            return this.properties != null && this.properties.offerId != null;
+        }catch (Exception e){
+            // Do nothing because is non-existent the offer id
+        }
+        return false;
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class Properties {
         @JsonProperty("https://w3id.org/edc/v0.0.1/ns/cid")
         String offerId;

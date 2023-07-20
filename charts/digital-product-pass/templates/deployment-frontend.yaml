@@ -41,12 +41,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        runAsUser: 10000
+        fsGroup: 3000
       containers:
         - name: {{ .Values.frontend.name }}
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           securityContext: 
-            allowPrivilegeEscalation: false 
+            allowPrivilegeEscalation: false
+            runAsUser: 10000
+            runAsGroup: 3000
           env:          
             - name: "VUE_APP_CLIENT_ID"
               valueFrom:

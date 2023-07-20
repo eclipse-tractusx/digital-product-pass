@@ -23,6 +23,58 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**xxxx xx xxxx (Version 1.0.0)** - **July 03 2023 (Pre-release 1.0.0-alpha)**
+*xx.xx.xxxx*
+
+### Added
+
+#### Added legal notice in frontend UI
+Now the user is able to see the legal notice inclusing the license, the notice and the Commit Id from the source repository.
+
+#### Added legal files into the backend compiled JAR
+When the images are generated, and the backend is compiled the LICENSE, NOTICE and DEPENCENCIES_BACKEND are moved inside the JAR file,
+into the META-INF folder.
+
+#### Added Official Container Images to Docker Hub
+Now the container images are available publicly on the Docker Hub Registry Platform through automated workflows.
+They are released in the following URLs:
+  - https://hub.docker.com/r/tractusx/digital-product-pass-frontend
+  - https://hub.docker.com/r/tractusx/digital-product-pass-backend
+
+
+#### Integration from frontend and new asynchronous backend
+The frontend is now making the negotiation with the backend component in a asynchronous way.
+
+#### Made backend asynchronous.
+By creating a asynchronous backend we are improving the control that the user  has over the contract negotiation.
+Now the user can decline, cancel and sign the contract requests and visualize the status of the negotiation.
+Now the backend  is also negotiating faster with the EDC `v0.4.1` so that is quicker and optimized
+
+#### Added file system negotiation logs.
+Each process stores in the container file system (non persistent) the contract negotiation files as well the information for the transfer process.
+
+### Security Improvements
+
+#### Added a new layer of security in the contract negotiation
+Allow only the user to sign, decline or cancel the contract negotiation by using a session token generated uniquely in the backend and asigned to the user.
+That means that only the user can access its own data. And the backend will make sure that everything is correct otherwise no action is taken.
+
+#### Added cryptography to the passport transfer process
+As defined in the documentation of the EDC the passport must be store in the backend until the user  requests for its retrieval.
+We are now encrypting the passport  when it arrives from the EDC consumer data plane and we alse asure that the user  will be the only  one  that  can decrypt it. Once the user requests the  passport it is destroyed and no longer available.
+
+
+### Updated
+
+#### Updated EDC Provider and Consumer Versions to `v0.4.1`
+Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
+
+
+## Removed cx-backend-service support
+The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
+The API that should be used is `/endpoint`
+
+
 **June 20 2023 (Version 0.9.0)**
 *20.06.2023*
 
@@ -40,15 +92,6 @@ Now is more intuitive to navigate through the welcome screen and access the sear
 ### Security Issue
 #### The Spring Boot version was upgraded to `v0.3.1`
 To fix the security issues raised in veracode we needed to increase a version from Spring Boot.
-
-
-
-**xxxx xx xxxx (Version 0.9.0)**  
-*xx.xx.xxxx*
-
-## Removed cx-backend-service support
-The backend application fully substituted the cx-backend-service by unwrapping the token and storing the information encrypted (an improvement in comparation with the cx-backend-service)
-The API that should be used is `/endpoint`
 
 **June 09 2023 (Version 0.8.1)**  
 *09.06.2023*

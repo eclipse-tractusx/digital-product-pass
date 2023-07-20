@@ -52,6 +52,7 @@ configuration:
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
+    delay:  200 # -- Delay in milliseconds in between async requests [<= 500]
 
   security:
     check:

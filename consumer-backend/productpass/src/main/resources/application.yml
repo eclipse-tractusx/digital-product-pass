@@ -22,7 +22,7 @@
 
 
 spring:
-  name: 'Catena-X Digital Product Passport Backend'
+  name: 'Catena-X Product Passport Consumer Backend'
   main:
     allow-bean-definition-overriding: true
   devtools:
@@ -52,6 +52,12 @@ configuration:
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
+
+  security:
+    check:
+      enabled: true
+      bpn: true
+      edc: true
 
   dtr:
     central: false

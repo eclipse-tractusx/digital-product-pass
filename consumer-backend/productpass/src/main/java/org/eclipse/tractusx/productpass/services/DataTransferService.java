@@ -123,7 +123,18 @@ public class DataTransferService extends BaseService {
 
         return missingVariables;
     }
-
+    public String checkEdcConsumerConnection() throws ControllerException {
+        try {
+            String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
+            Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
+            if (catalog == null || catalog.getParticipantId().isEmpty()) {
+                throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", "The catalog response is null or the participant id is not set!");
+            }
+            return catalog.getParticipantId();
+        }catch (Exception e) {
+            throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+        }
+    }
     public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
@@ -207,8 +218,9 @@ public class DataTransferService extends BaseService {
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);
 
+
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
-                dataDestination.setProperties(new Properties("HttpProxy"));
+                dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
@@ -216,6 +228,7 @@ public class DataTransferService extends BaseService {
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                         dataset.getAssetId(),
                         status.getEndpoint(),
+                        bpnNumber,
                         negotiation.getContractAgreementId(),
                         dataDestination,
                         false,
@@ -462,7 +475,6 @@ public class DataTransferService extends BaseService {
                     providerUrl,
                     querySpec
             );
-
             HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);

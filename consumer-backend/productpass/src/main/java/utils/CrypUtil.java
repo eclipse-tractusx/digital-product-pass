@@ -39,7 +39,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
@@ -67,6 +66,10 @@ public final class CrypUtil {
     }
     public static String fromBase64Url(String base64){
         return new String(Base64.getUrlDecoder().decode(base64));
+    }
+
+    public static Boolean isBase64(String str){
+        return org.apache.commons.net.util.Base64.isArrayByteBase64(str.getBytes()); // Check if string is Base64 encoded
     }
 
     public static String getUUID(){

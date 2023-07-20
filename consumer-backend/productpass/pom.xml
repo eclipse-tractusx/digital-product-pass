@@ -33,7 +33,7 @@
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
     <artifactId>productpass</artifactId>
-    <version>1.0.0-alpha-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Catena-X Digital Product Passport Backend</name>
     <description>Product Passport Consumer Backend System for Product Passport Consumer Frontend Application
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>32.0.0-jre</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -167,6 +167,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

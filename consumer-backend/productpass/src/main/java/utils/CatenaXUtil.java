@@ -36,8 +36,8 @@ import java.util.regex.Pattern;
 
 public final class CatenaXUtil {
 
-    private final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
-    private final static String edcDataEndpoint = "/api/v1/dsp";
+    public final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
+    public final static String edcDataEndpoint = "/api/v1/dsp";
 
     public static Boolean containsBPN(String str) {
         return str.matches(".*" + bpnNumberPattern + ".*");

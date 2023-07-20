@@ -35,6 +35,7 @@ import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
@@ -62,7 +63,8 @@ public class AppController {
     JsonUtil jsonUtil;
     @Autowired
     Environment env;
-
+    @Autowired
+    JsonUtil jsonUtil;
     @Autowired
     PassportUtil passportUtil;
 
@@ -128,9 +130,17 @@ public class AppController {
         if(endpointData.getAuthCode().isEmpty()){
             throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
         }
-        if(endpointData.getOfferId().isEmpty()){
-            throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+        if(!endpointData.offerIdExists()){
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
+                throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+            }
+        }else{
+            if(endpointData.getOfferId().isEmpty()){
+                throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+            }
         }
+
         return endpointData;
     }
 

@@ -288,7 +288,6 @@ public class CatenaXService extends BaseService {
                 }
             }
 
-
             try {
                 bpnEndpoint = (String) this.vaultService.getLocalSecret("discovery."+type);
             }catch (Exception e) {

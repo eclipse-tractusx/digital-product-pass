@@ -64,8 +64,6 @@ public class AppController {
     @Autowired
     Environment env;
     @Autowired
-    JsonUtil jsonUtil;
-    @Autowired
     PassportUtil passportUtil;
 
     @Autowired

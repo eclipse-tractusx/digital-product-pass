@@ -176,5 +176,3 @@ public class AppListener {
 
         // Store the process manager in memory
     }
-
-}

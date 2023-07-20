@@ -46,4 +46,17 @@ public final class ThreadUtil {
 
         return thread;
     }
+
+    public static void sleep(Integer milliseconds)
+    {
+        try
+        {
+            Thread.sleep(milliseconds);
+        }
+        catch(Exception e)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }

@@ -255,15 +255,10 @@ public class AasService extends BaseService {
     public HttpHeaders getTokenHeader(DataPlaneEndpoint edr){
         try {
             // If the dtr is central we just need the token
-            if(this.central) {
+            if(this.central || edr == null) {
                 // In case it fails we should throw get the token
                 JwtToken token = authService.getToken();
                 return this.httpUtil.getHeadersWithToken(token.getAccessToken());
-            }
-            // If EDR is empty we throw a exception
-            if(edr == null){
-                throw new ServiceException(this.getClass().getName() + "." + "getTokenHeader",
-                        "EDR is null, no token credentials is found!");
             }
 
             // Get the normal headers based on the EDR

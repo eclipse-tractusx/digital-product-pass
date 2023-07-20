@@ -588,6 +588,9 @@ public class DataTransferService extends BaseService {
                     LogUtil.printStatus("[" + id + "] The negotiation was cancelled");
                     return null;
                 }
+                if(sw){
+                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                }
             }
             return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
         } catch (Exception e) {
@@ -596,7 +599,59 @@ public class DataTransferService extends BaseService {
                     "It was not possible to see the contract negotiation!");
         }
     }
+    public Negotiation seeNegotiation(String id) {
+        try {
+            this.checkEmptyVariables();
 
+            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
+            // Get variables from configuration
+            String url = endpoint + "/" + id;
+            HttpHeaders headers = httpUtil.getHeaders();
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", this.apiKey);
+            Map<String, Object> params = httpUtil.getParams();
+            JsonNode body = null;
+            String actualState = "";
+            boolean sw = true;
+            Instant start = Instant.now();
+            Instant end = start;
+            LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
+            while (sw) {
+                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
+                body = (JsonNode) response.getBody();
+                if (body == null) {
+                    sw = false;
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
+                            "No response received from url [" + url + "]!");
+                }
+                if (!body.has("edc:state") || body.get("edc:state") == null) {
+                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
+                            "It was not possible to do contract negotiations!");
+                }
+                String state = body.get("edc:state").asText();
+                if (state.equals("CONFIRMED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
+                    sw = false;
+                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
+                }
+                if (!state.equals(actualState)) {
+                    actualState = state; // Update current state
+                    end = Instant.now();
+                    Duration timeElapsed = Duration.between(start, end);
+                    LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                    start = Instant.now();
+                }
+                if(sw){
+                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                }
+            }
+            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
+                    e,
+                    "It was not possible to see the contract negotiation!");
+        }
+    }
 
     public IdResponse initiateTransfer(TransferRequest transferRequest) {
         try {
@@ -617,6 +672,60 @@ public class DataTransferService extends BaseService {
                     "It was not possible to initiate transfer process!");
         }
     }
+
+
+    public Transfer seeTransfer(String id) {
+        try {
+            this.checkEmptyVariables();
+            HttpHeaders headers = httpUtil.getHeaders();
+            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
+            String path = endpoint + "/" + id;
+            headers.add("Content-Type", "application/json");
+            headers.add("X-Api-Key", this.apiKey);
+            Map<String, Object> params = httpUtil.getParams();
+            JsonNode body = null;
+            String actualState = "";
+            boolean sw = true;
+            Instant start = Instant.now();
+            Instant end = start;
+            LogUtil.printDebug("[" + id + "] ===== [STARTING CONTRACT TRANSFER] ===========================================");
+            while (sw) {
+                ResponseEntity<?> response = httpUtil.doGet(path, JsonNode.class, headers, params, false, false);
+                body = (JsonNode) response.getBody();
+                if (body == null) {
+                    sw = false;
+                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
+                            "No response received from url [" + path + "]!");
+                }
+                if (!body.has("edc:state") || body.get("edc:state") == null) {
+                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT TRANSFER]===========================================");
+                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
+                            "It was not possible to do the transfer process!");
+                }
+                String state = body.get("edc:state").asText();
+                if (state.equals("COMPLETED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("VERIFIED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
+                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT TRANSFER] [" + id + "]===========================================");
+                    sw = false;
+                }
+                if (!state.equals(actualState)) {
+                    actualState = state; // Update current state
+                    end = Instant.now();
+                    Duration timeElapsed = Duration.between(start, end);
+                    LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                    start = Instant.now();
+                }
+                if(sw){
+                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
+                }
+            }
+            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
+                    e,
+                    "It was not possible to transfer the contract! " + id);
+        }
+    }
+
 
     public Transfer seeTransfer(String id, String processId, ProcessDataModel dataModel) {
         try {
@@ -661,6 +770,9 @@ public class DataTransferService extends BaseService {
                 if (dataModel.getState(processId).equals("TERMINATED")) {
                     LogUtil.printStatus("[" + id + "] The transfer was cancelled");
                     return null;
+                }
+                if(sw){
+                    ThreadUtil.sleep(500); // Wait half a second to not overflow the edc
                 }
             }
             return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);

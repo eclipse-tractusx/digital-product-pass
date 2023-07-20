@@ -125,7 +125,6 @@ public class ContractController {
                 List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             }
             String edcEndpoint = "https://materialpass.int.demo.catena-x.net/consumer";
-
             Catalog catalog = dataService.searchDigitalTwinCatalog(CatenaXUtil.buildDataEndpoint(edcEndpoint));
             LogUtil.printMessage("Catalog: "+ jsonUtil.toJson(catalog, true));
             if (catalog == null) {
@@ -192,14 +191,12 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-
             List<String> versions = passportConfig.getVersions();
             // Initialize variables
             // Check if version is available
             if (!versions.contains(searchBody.getVersion())) {
                 return httpUtil.buildResponse(httpUtil.getForbiddenResponse("This passport version is not available at the moment!"), httpResponse);
             }
-
             // Start Digital Twin Query
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(searchBody);
             Long dtRequestTime = DateTimeUtil.getTimestamp();

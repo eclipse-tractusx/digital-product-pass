@@ -17,7 +17,7 @@
                 "@type": "Contraint",
                 "odrl:leftOperand": "BusinessPartnerNumber",
                 "odrl:operator": "EQ",
-                "odrl:rightOperand": "BPNL0000000010AC"
+                "odrl:rightOperand": "<some-bpn>"
               }
             ]
           }

@@ -36,8 +36,10 @@ import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.managers.DtrDataModelManager;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
@@ -60,6 +62,7 @@ import utils.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/contract")
@@ -77,6 +80,8 @@ public class ContractController {
     private @Autowired Environment env;
     @Autowired
     ProcessManager processManager;
+    @Autowired
+    DtrDataModelManager dtrDataModelManager;
     private @Autowired ProcessConfig processConfig;
 
     @Autowired
@@ -118,11 +123,15 @@ public class ContractController {
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
+            List<String> bpnList = bpnDiscovery.getBpnNumbers();
+            Process process = processManager.createProcess(httpRequest, bpnList);
+            ConcurrentHashMap<String, List<Dtr>> dataModel = this.dtrDataModelManager.loadDataModel();
+            LogUtil.printMessage(dataModel.toString());
 
-            Boolean cashed = false;
-            if (!cashed) {
-                // Get endpoints .. and save it
+            // This checks if the bns are in the dataModel, if one of them is not in the data model then we need to check for them
+            if(jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false)){
                 List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
+                catenaXService.searchDTRs(edcEndpoints);
             }
             String edcEndpoint = "https://materialpass.int.demo.catena-x.net/consumer";
             Catalog catalog = dataService.searchDigitalTwinCatalog(CatenaXUtil.buildDataEndpoint(edcEndpoint));
@@ -143,7 +152,6 @@ public class ContractController {
             Dataset dataset = null;
             if (catalog.getContractOffers() instanceof LinkedHashMap) {
                 dataset = (Dataset) jsonUtil.bindObject(offers, Dataset.class);
-                Process process = processManager.createProcess(httpRequest, edcEndpoint);
                 response.data = Map.of(
                         "contract", dataset,
                         "processId", process.id
@@ -158,7 +166,6 @@ public class ContractController {
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            Process process = processManager.createProcess(httpRequest, edcEndpoint);
             response.data = Map.of(
                     "contractOffers", contractOffers,
                     "processId", process.id

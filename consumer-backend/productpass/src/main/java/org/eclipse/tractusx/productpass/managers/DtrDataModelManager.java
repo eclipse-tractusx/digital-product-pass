@@ -1,10 +1,33 @@
+/*********************************************************************************
+ *
+ * Catena-X - Product Passport Consumer Backend
+ *
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
 package org.eclipse.tractusx.productpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
+import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
@@ -12,17 +35,12 @@ import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.productpass.models.negotiation.Offer;
-import org.eclipse.tractusx.productpass.services.CatenaXService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import utils.*;
 
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class ProcessDtrDataModel {
+public class DtrDataModelManager {
     private DataTransferService dataTransferService;
     private FileUtil fileUtil;
     private JsonUtil jsonUtil;
@@ -57,17 +75,28 @@ public class ProcessDtrDataModel {
         Finished
     }
     @Autowired
-    public ProcessDtrDataModel(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService)  {
+    public DtrDataModelManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService)  {
         this.dtrDataModel = new ConcurrentHashMap<>();
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.state = State.Stopped;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
-        this.dtrDataModelFilePath = fileUtil.createFile(Path.of(fileUtil.createTmpDir("DtrDataModel"), this.fileName).toAbsolutePath().toString());
+        this.dtrDataModelFilePath = this.createDataModelFile();
     }
 
-    public ProcessDtrDataModel startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
+    public String createDataModelFile(){
+        return fileUtil.createFile(this.getDataModelPath());
+    }
+
+    public String getDataModelPath(){
+        return Path.of(this.getDataModelDir(), this.fileName).toAbsolutePath().toString();
+    }
+    public String getDataModelDir() {
+        return fileUtil.createTmpDir("DtrDataModel");
+    }
+
+    public DtrDataModelManager startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
         this.state = State.Running;
         if (edcEndpoints == null) {
             return null;
@@ -168,7 +197,7 @@ public class ProcessDtrDataModel {
         return null;
     }
 
-    public ProcessDtrDataModel addConnectionToBpnEntry (String bpn, Dtr dtr) {
+    public DtrDataModelManager addConnectionToBpnEntry (String bpn, Dtr dtr) {
         if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank()) ) {
             if (this.dtrDataModel.contains(bpn)) {
                 if (!this.dtrDataModel.get(bpn).contains(dtr))
@@ -192,6 +221,14 @@ public class ProcessDtrDataModel {
         return this;
     }*/
 
+    public ConcurrentHashMap<String, List<Dtr>> loadDataModel() {
+        try {
+            String path = this.getDataModelPath();
+            return (ConcurrentHashMap<String, List<Dtr>>) jsonUtil.fromJsonFileToObject(path, ConcurrentHashMap.class);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the DTR data model");
+        }
+    }
     public ConcurrentHashMap<String, List<Dtr>> getDtrDataModel() {
         return dtrDataModel;
     }

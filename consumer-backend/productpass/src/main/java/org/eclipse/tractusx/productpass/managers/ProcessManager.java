@@ -51,6 +51,7 @@ import utils.*;
 import javax.xml.crypto.Data;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -196,6 +197,17 @@ public class ProcessManager {
         return process;
     }
 
+    public Process createProcess(HttpServletRequest httpRequest, List<String> bpns) {
+        Long createdTime = DateTimeUtil.getTimestamp();
+        Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
+        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
+        this.setProcess(httpRequest, process); // Add process to session storage
+        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        this.setBpns(process.id, bpns);
+        return process;
+    }
+
+
     public String newStatusFile(String processId, String connectorAddress, Long created){
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
@@ -225,6 +237,23 @@ public class ProcessManager {
             return (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to get the status file");
+        }
+    }
+
+    public String setBpns(String processId, List<String> bpns) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setBpns(bpns);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
 
@@ -260,7 +289,15 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+    public String setBpnFound(HttpServletRequest httpRequest, String processId, List<String> bpnList) {
 
+        this.setProcessState(httpRequest, processId, "CREATED");
+
+        return this.setStatus(processId, "bpn-found", new History(
+                processId,
+                "CREATED"
+        ));
+    }
 
     public String setDecline(HttpServletRequest httpRequest, String processId) {
 

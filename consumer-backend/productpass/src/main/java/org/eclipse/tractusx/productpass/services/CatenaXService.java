@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.ProcessDtrDataModel;
+import org.eclipse.tractusx.productpass.managers.DtrDataModelManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
@@ -54,7 +54,7 @@ public class CatenaXService extends BaseService {
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
     private final VaultService vaultService;
-    private final ProcessDtrDataModel processDtrDataModel;
+    private final DtrDataModelManager processDtrDataModel;
     private final DataTransferService dataTransferService;
 
     private final AuthenticationService authService;
@@ -95,7 +95,7 @@ public class CatenaXService extends BaseService {
         );
     }
     @Autowired
-    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessDtrDataModel processDtrDataModel, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
+    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrDataModelManager processDtrDataModel, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
@@ -328,9 +328,7 @@ public class CatenaXService extends BaseService {
 
     public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints) {
         try {
-            while (processDtrDataModel.getState() != ProcessDtrDataModel.State.Finished) {
-                processDtrDataModel.startProcess(edcEndpoints);
-            }
+            processDtrDataModel.startProcess(edcEndpoints);
             LogUtil.printMessage(jsonUtil.toJson(processDtrDataModel.getDtrDataModel(),true));
             processDtrDataModel.saveDtrDataModel();
         } catch (Exception e) {

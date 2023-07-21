@@ -99,7 +99,6 @@ public class AppController {
         try{
             DataPlaneEndpoint endpointData = null;
             try {
-                LogUtil.printMessage(jsonUtil.toJson(body, true));
                 endpointData = this.getEndpointData(body);
             }catch (Exception e){
                 return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);
@@ -111,6 +110,10 @@ public class AppController {
             if(!processManager.checkProcess(processId)){
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
+
+
+            processManager.getStatus(processId);
+
         }catch(Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
             return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);

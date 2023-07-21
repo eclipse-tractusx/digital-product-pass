@@ -62,8 +62,13 @@ configuration:
 
   dtr:
     central: false
-    centralUrl: 'https://semantics.int.demo.catena-x.net'
-    assetType: 'digital-twin-registry'
+    centralUrl: 'https://semantics.int.demo.catena-x.net/registry/'
+    assetId: 'digital-twin-registry'
+    decentralApis:
+      prefix: "/api/v3.0"
+      search: "/lookup/shells/query"
+      digitalTwin: "/shell-descriptors"
+      subModel: "/submodel-descriptors"
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"

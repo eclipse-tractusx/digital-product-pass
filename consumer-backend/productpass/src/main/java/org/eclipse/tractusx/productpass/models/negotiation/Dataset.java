@@ -37,14 +37,26 @@ public class Dataset extends DidDocument{
 
     @JsonProperty("edc:description")
     String assetDescription;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    @JsonProperty("edc:contenttype")
+    String contentType;
     @JsonProperty("edc:id")
     String assetId;
 
-    public Dataset(String id, String type, Set policy, List<Distribution> distributions, String assetDescription, String assetId) {
+    public Dataset(String id, String type, Set policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
         super(id, type);
         this.policy = policy;
         this.distributions = distributions;
         this.assetDescription = assetDescription;
+        this.contentType = contentType;
         this.assetId = assetId;
     }
 

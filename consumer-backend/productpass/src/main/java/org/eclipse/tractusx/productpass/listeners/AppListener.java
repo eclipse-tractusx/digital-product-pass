@@ -171,7 +171,6 @@ public class AppListener {
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
             catenaXService.searchDTRs(edcEndpoints);
-
         }
        }
 

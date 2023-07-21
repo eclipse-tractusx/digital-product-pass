@@ -95,12 +95,12 @@ public class CatenaXService extends BaseService {
         );
     }
     @Autowired
-    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessDtrDataModel dtrDataModel, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
+    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessDtrDataModel processDtrDataModel, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
         this.vaultService = vaultService;
-        this.processDtrDataModel = dtrDataModel;
+        this.processDtrDataModel = processDtrDataModel;
         this.authService = authService;
         this.discoveryConfig = discoveryConfig;
         this.dataTransferService = dataTransferService;
@@ -331,6 +331,7 @@ public class CatenaXService extends BaseService {
             while (processDtrDataModel.getState() != ProcessDtrDataModel.State.Finished) {
                 processDtrDataModel.startProcess(edcEndpoints);
             }
+            LogUtil.printMessage(jsonUtil.toJson(processDtrDataModel.getDtrDataModel(),true));
             processDtrDataModel.saveDtrDataModel();
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",

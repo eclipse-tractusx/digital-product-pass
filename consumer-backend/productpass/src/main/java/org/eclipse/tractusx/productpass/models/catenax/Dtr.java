@@ -6,32 +6,43 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dtr {
-    @JsonProperty("bpn")
-    private String bpn;
+    @JsonProperty("contractId")
+    private String contractId;
     @JsonProperty("connectorEndpoint")
-    private List<String> connectorEndpoint;
+    private String connectorEndpoint;
+    @JsonProperty("assetType")
+    private String assetType;
 
-    public Dtr(String bpn, List<String> connectorEndpoint) {
-        this.bpn = bpn;
+    public Dtr(String contractId, String connectorEndpoint, String assetType) {
+        this.contractId = contractId;
         this.connectorEndpoint = connectorEndpoint;
+        this.assetType = assetType;
     }
 
     public Dtr() {
     }
 
-    public String getBpn() {
-        return bpn;
+    public String getContractId() {
+        return contractId;
     }
 
-    public void setBpn(String bpn) {
-        this.bpn = bpn;
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 
-    public List<String> getConnectorEndpoint() {
+    public String getConnectorEndpoint() {
         return connectorEndpoint;
     }
 
-    public void setConnectorEndpoint(List<String> connectorEndpoint) {
+    public void setConnectorEndpoint(String connectorEndpoint) {
         this.connectorEndpoint = connectorEndpoint;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 }

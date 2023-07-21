@@ -487,7 +487,7 @@ public class DataTransferService extends BaseService {
                     "It was not possible to retrieve the catalog!");
         }
     }
-    public Catalog searchDigitalTwinCatalog(String providerUrl) {
+    public Catalog searchDigitalTwinCatalog(String providerUrl) throws ServiceException {
         try {
             this.checkEmptyVariables();
 
@@ -502,7 +502,7 @@ public class DataTransferService extends BaseService {
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
                     jsonUtil.newJsonNode(),
-                    providerUrl,
+                    CatenaXUtil.buildDataEndpoint(providerUrl),
                     querySpec
             );
 
@@ -510,6 +510,9 @@ public class DataTransferService extends BaseService {
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+            if(response == null){
+                return null;
+            }
             JsonNode result = (JsonNode) response.getBody();
             return (Catalog) jsonUtil.bindJsonNode(result, Catalog.class);
         } catch (Exception e) {

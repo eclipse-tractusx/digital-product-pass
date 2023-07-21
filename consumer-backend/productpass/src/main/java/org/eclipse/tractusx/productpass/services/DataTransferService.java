@@ -172,7 +172,24 @@ public class DataTransferService extends BaseService {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
-
+    public NegotiationRequest buildRequest(Dataset dataset, Status status) {
+        Offer contractOffer = this.buildOffer(dataset);
+        return new NegotiationRequest(
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                status.getEndpoint(),
+                bpnNumber,
+                contractOffer
+        );
+    }
+    public Offer buildOffer(Dataset dataset) {
+        Set policyCopy = (Set) jsonUtil.bindObject(dataset.getPolicy(), Set.class);
+        policyCopy.setId(null);
+        return new Offer(
+                dataset.getPolicy().getId(),
+                dataset.getAssetId(),
+                policyCopy
+        );
+    }
     public class NegotiateContract implements Runnable {
         private NegotiationRequest negotiationRequest;
         private ProcessDataModel dataModel;
@@ -196,22 +213,12 @@ public class DataTransferService extends BaseService {
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
-            this.negotiationRequest = this.buildRequest(dataset, status);
-        }
-
-        public NegotiationRequest buildRequest(Dataset dataset, Status status) {
-            Offer contractOffer = this.buildOffer(dataset);
-            return new NegotiationRequest(
-                    jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
-                    status.getEndpoint(),
-                    bpnNumber,
-                    contractOffer
-            );
+            this.negotiationRequest = buildRequest(dataset, status);
         }
 
         public TransferRequest buildTransferRequest(Dataset dataset, Status status, Negotiation negotiation) {
             try {
-                Offer contractOffer = this.buildOffer(dataset);
+                Offer contractOffer = buildOffer(dataset);
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
@@ -362,15 +369,7 @@ public class DataTransferService extends BaseService {
             this.dataset = dataset;
         }
 
-        public Offer buildOffer(Dataset dataset) {
-            Set policyCopy = (Set) jsonUtil.bindObject(dataset.getPolicy(), Set.class);
-            policyCopy.setId(null);
-            return new Offer(
-                    dataset.getPolicy().getId(),
-                    dataset.getAssetId(),
-                    policyCopy
-            );
-        }
+
 
         public Negotiation getNegotiation() {
             return negotiation;

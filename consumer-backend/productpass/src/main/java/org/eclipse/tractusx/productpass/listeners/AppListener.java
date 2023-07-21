@@ -170,7 +170,7 @@ public class AppListener {
             BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901", this.discoveryConfig.getBpn().getKey());
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
-            //catenaXService.searchDTRs(edcEndpoints);
+            catenaXService.searchDTRs(edcEndpoints);
 
         }
        }

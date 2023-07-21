@@ -1,13 +1,18 @@
 package org.eclipse.tractusx.productpass.managers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import utils.FileUtil;
-import org.eclipse.tractusx.productpass.services.DataTransferService;
 import utils.JsonUtil;
+import utils.LogUtil;
 import utils.ThreadUtil;
 
 import java.nio.file.Path;
@@ -15,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Component
 public class ProcessDtrDataModel {
@@ -27,7 +31,6 @@ public class ProcessDtrDataModel {
 
     private final long searchTimeoutMillis = 1000;
     private final String fileName = "dtrDataModel.json";
-    private final String tmpFolderName = "tmp";
     private String dtrDataModelFilePath;
 
     public State getState() {
@@ -52,17 +55,21 @@ public class ProcessDtrDataModel {
         this.state = State.Stopped;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
-        this.dtrDataModelFilePath = fileUtil.createFile(Path.of(fileUtil.createTempDir(tmpFolderName), fileName).toAbsolutePath().toString());
+        this.dtrDataModelFilePath = fileUtil.createFile(Path.of(fileUtil.createTmpDir("DtrDataModel"), this.fileName).toAbsolutePath().toString());
     }
 
     public ProcessDtrDataModel startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
         this.state = State.Running;
+        List<EdcDiscoveryEndpoint> edcEndpointsToSearch = new ObjectMapper().convertValue(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+        if (edcEndpoints == null) {
+            return null;
+        }
         //Iterate the edcEndpoints
-        edcEndpoints.parallelStream().forEach(edcEndPoint -> {
+        edcEndpointsToSearch.parallelStream().forEach(edcEndPoint -> {
             //Iterate the connectionsURLs for each BPN
             edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> {
                 //Search Digital Twin Catalog for each connectionURL with a timeout time
-                Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(connectionUrl, dataTransferService));
+                Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(connectionUrl, dataTransferService), "ProcessDtrDataModel");
                 try {
                     asyncThread.join(searchTimeoutMillis);
                 } catch (InterruptedException e) {
@@ -76,7 +83,7 @@ public class ProcessDtrDataModel {
                 Object contractOffers = catalog.getContractOffers();
                 //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
                 if (contractOffers == null) {
-                   return;
+                    return;
                 }
                 if (contractOffers instanceof LinkedHashMap) {
                     Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
@@ -97,9 +104,14 @@ public class ProcessDtrDataModel {
     }
 
     private Runnable searchDigitalTwinCatalogExecutor (String connectionUrl, DataTransferService dataTransferService) {
-        Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl);
-        if (catalog != null) {
-            catalogsCache.put(connectionUrl, catalog);
+        try {
+            Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl);
+            if (catalog != null) {
+                catalogsCache.put(connectionUrl, catalog);
+            }
+        } catch (Exception e) {
+            LogUtil.printWarning("Could not find the catalog for the URL: " + connectionUrl);
+            return null;
         }
         return null;
     }
@@ -116,7 +128,7 @@ public class ProcessDtrDataModel {
         return this;
     }
 
-    public ProcessDtrDataModel addConnectionsToBpnEntry (String bpn, List<String> connectionEdcEndpoints) {
+    /*public ProcessDtrDataModel addConnectionsToBpnEntry (String bpn, List<String> connectionEdcEndpoints) {
         if (!(bpn.isEmpty() || bpn.isBlank()) || checkConnectionEdcEndpoints(connectionEdcEndpoints) ) {
             if (this.dtrDataModel.contains(bpn)) {
                 this.dtrDataModel.get(bpn).addAll(connectionEdcEndpoints);
@@ -126,7 +138,7 @@ public class ProcessDtrDataModel {
             }
         }
         return this;
-    }
+    }*/
 
     public ConcurrentHashMap<String, List<String>> getDtrDataModel() {
         return dtrDataModel;
@@ -148,7 +160,8 @@ public class ProcessDtrDataModel {
 
     //TODO: create the method to save the DTR data model as json.
     public boolean saveDtrDataModel() {
-        String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
-        return filePath != null;
+        LogUtil.printMessage("DtrDataModelFilePath: " + this.dtrDataModelFilePath);
+       String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
+       return filePath != null;
     }
 }

@@ -28,20 +28,76 @@ package org.eclipse.tractusx.productpass.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Map;
+
 @Configuration
 @ConfigurationProperties(prefix="configuration.dtr")
 public class DtrConfig {
     Boolean central;
     String centralUrl;
+    DecentralApis decentralApis;
 
-    String assetType;
+    String assetId;
 
-    public DtrConfig(Boolean central, String centralUrl, String assetType) {
+    public DecentralApis getDecentralApis() {
+        return decentralApis;
+    }
+    public void setDecentralApis(DecentralApis decentralApis) {
+        this.decentralApis = decentralApis;
+    }
+    public DtrConfig(Boolean central) {
         this.central = central;
-        this.centralUrl = centralUrl;
-        this.assetType = assetType;
     }
 
+
+    public static class DecentralApis{
+        String prefix;
+        String search;
+        String digitalTwin;
+        String subModel;
+
+        public DecentralApis(String prefix, String search, String digitalTwin, String subModel) {
+            this.prefix = prefix;
+            this.search = search;
+            this.digitalTwin = digitalTwin;
+            this.subModel = subModel;
+        }
+
+        public DecentralApis() {
+        }
+
+        public String getPrefix() {
+            return prefix;
+        }
+
+        public void setPrefix(String prefix) {
+            this.prefix = prefix;
+        }
+
+        public String getSearch() {
+            return search;
+        }
+
+        public void setSearch(String search) {
+            this.search = search;
+        }
+
+        public String getDigitalTwin() {
+            return digitalTwin;
+        }
+
+        public void setDigitalTwin(String digitalTwin) {
+            this.digitalTwin = digitalTwin;
+        }
+
+        public String getSubModel() {
+            return subModel;
+        }
+
+        public void setSubModel(String subModel) {
+            this.subModel = subModel;
+        }
+    }
     public DtrConfig() {
     }
 
@@ -62,11 +118,11 @@ public class DtrConfig {
         this.centralUrl = centralUrl;
     }
 
-    public String getAssetType() {
-        return assetType;
+    public String getAssetId() {
+        return assetId;
     }
 
-    public void setAssetType(String assetType) {
-        this.assetType = assetType;
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
     }
 }

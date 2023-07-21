@@ -496,7 +496,7 @@ public class DataTransferService extends BaseService {
             CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
                     "https://w3id.org/edc/v0.0.1/ns/id",
                     "=",
-                    this.dtrConfig.getAssetType()
+                    this.dtrConfig.getAssetId()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -386,6 +387,15 @@ public final class JsonUtil {
             return this.bindJsonNode(mapper.valueToTree(json), bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+
+    public Object bindReferenceType (Object json, TypeReference<?> reference) {
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            return mapper.convertValue(json, reference);
+        }  catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to get reference type -> [" + e.getMessage() + "]");
         }
     }
 }

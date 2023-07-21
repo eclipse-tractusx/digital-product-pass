@@ -23,8 +23,10 @@
 
 package org.eclipse.tractusx.productpass.listeners;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.Application;
+import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.http.controllers.api.ContractController;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
@@ -169,8 +171,17 @@ public class AppListener {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
             BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901", this.discoveryConfig.getBpn().getKey());
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
-            LogUtil.printMessage(jsonUtil.toJson(edcEndpoints,true));
-            catenaXService.searchDTRs(edcEndpoints);
+            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
+            try {
+                edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+            } catch (Exception e) {
+                throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
+            }
+            edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
+                endpoint.getConnectorEndpoint().add("https://materialpass.int.demo.catena-x.net/BPNL000000000000");
+            });
+            LogUtil.printMessage(jsonUtil.toJson(edcEndpointBinded,true));
+            catenaXService.searchDTRs(edcEndpointBinded);
 
         }
        }

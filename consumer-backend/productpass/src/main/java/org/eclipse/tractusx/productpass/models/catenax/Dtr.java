@@ -8,15 +8,15 @@ import java.util.List;
 public class Dtr {
     @JsonProperty("contractId")
     private String contractId;
-    @JsonProperty("connectorEndpoint")
-    private String connectorEndpoint;
-    @JsonProperty("assetType")
-    private String assetType;
+    @JsonProperty("endpoint")
+    private String endpoint;
+    @JsonProperty("assetId")
+    private String assetId;
 
-    public Dtr(String contractId, String connectorEndpoint, String assetType) {
+    public Dtr(String contractId, String endpoint, String assetId) {
         this.contractId = contractId;
-        this.connectorEndpoint = connectorEndpoint;
-        this.assetType = assetType;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
     }
 
     public Dtr() {
@@ -30,19 +30,19 @@ public class Dtr {
         this.contractId = contractId;
     }
 
-    public String getConnectorEndpoint() {
-        return connectorEndpoint;
+    public String getEndpoint() {
+        return endpoint;
     }
 
-    public void setConnectorEndpoint(String connectorEndpoint) {
-        this.connectorEndpoint = connectorEndpoint;
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 
-    public String getAssetType() {
-        return assetType;
+    public String getAssetId() {
+        return assetId;
     }
 
-    public void setAssetType(String assetType) {
-        this.assetType = assetType;
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
     }
 }

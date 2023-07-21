@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,10 +33,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.managers.DtrDataModelManager;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
@@ -77,6 +81,7 @@ public class ContractController {
     private @Autowired AuthenticationService authService;
     private @Autowired PassportConfig passportConfig;
     private @Autowired DiscoveryConfig discoveryConfig;
+    private @Autowired DtrConfig dtrConfig;
     private @Autowired Environment env;
     @Autowired
     ProcessManager processManager;
@@ -125,49 +130,32 @@ public class ContractController {
             }
             List<String> bpnList = bpnDiscovery.getBpnNumbers();
             Process process = processManager.createProcess(httpRequest, bpnList);
-            ConcurrentHashMap<String, List<Dtr>> dataModel = this.dtrDataModelManager.loadDataModel();
-            LogUtil.printMessage(dataModel.toString());
 
+            ConcurrentHashMap<String, List<Dtr>> dataModel  = null;
+            try {
+                dataModel = this.dtrDataModelManager.loadDataModel();
+            }catch (Exception e){
+                LogUtil.printWarning("Failed to load data model from disk!");
+            }
+            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
             // This checks if the bns are in the dataModel, if one of them is not in the data model then we need to check for them
-            if(jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false)){
+            if((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false)){
                 List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
-                catenaXService.searchDTRs(edcEndpoints);
+                try {
+                    edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+                } catch (Exception e) {
+                    throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
+                }
+                if(!this.dtrConfig.getInternalDtr().isEmpty()) {
+                    edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
+                        endpoint.getConnectorEndpoint().add(this.dtrConfig.getInternalDtr());
+                    });
+                }
+                dataModel = catenaXService.searchDTRs(edcEndpoints);
             }
-            String edcEndpoint = "https://materialpass.int.demo.catena-x.net/consumer";
-            Catalog catalog = dataService.searchDigitalTwinCatalog(CatenaXUtil.buildDataEndpoint(edcEndpoint));
-            LogUtil.printMessage("Catalog: "+ jsonUtil.toJson(catalog, true));
-            if (catalog == null) {
-                response.message = "Failed to find digital twin registry!";
-                response.status = 404;
-                response.statusText = "Not Found";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Object offers = catalog.getContractOffers();
-            if (offers == null) {
-                response.message = "Failed to find contract offers for the digital twin registry!";
-                response.status = 404;
-                response.statusText = "Not Found";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Dataset dataset = null;
-            if (catalog.getContractOffers() instanceof LinkedHashMap) {
-                dataset = (Dataset) jsonUtil.bindObject(offers, Dataset.class);
-                response.data = Map.of(
-                        "contract", dataset,
-                        "processId", process.id
-                );
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            List<Dataset> contractOffers = (List<Dataset>) jsonUtil.bindObject(offers, List.class);
-            if (contractOffers.size() == 0) {
-                response.message = "Failed to find any contract offer for the digital twin registry!";
-                response.status = 404;
-                response.statusText = "Not Found";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
+            response = httpUtil.getResponse();
             response.data = Map.of(
-                    "contractOffers", contractOffers,
+                    "dataModel", dataModel,
                     "processId", process.id
             );
             return httpUtil.buildResponse(response, httpResponse);

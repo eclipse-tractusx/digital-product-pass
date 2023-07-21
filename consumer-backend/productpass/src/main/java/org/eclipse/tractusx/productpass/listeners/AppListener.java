@@ -169,6 +169,7 @@ public class AppListener {
         LogUtil.printMessage("Creating log file...");
         if(!dtrConfig.getCentral()) {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
+            /*
             BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901", this.discoveryConfig.getBpn().getKey());
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
@@ -181,8 +182,7 @@ public class AppListener {
                 endpoint.getConnectorEndpoint().add("https://materialpass.int.demo.catena-x.net/BPNL000000000000");
             });
             LogUtil.printMessage(jsonUtil.toJson(edcEndpointBinded,true));
-            catenaXService.searchDTRs(edcEndpointBinded);
-
+            catenaXService.searchDTRs(edcEndpointBinded);*/
         }
        }
 

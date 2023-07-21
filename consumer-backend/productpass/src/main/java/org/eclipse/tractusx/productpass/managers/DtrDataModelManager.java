@@ -96,7 +96,7 @@ public class DtrDataModelManager {
         return fileUtil.createTmpDir("DtrDataModel");
     }
 
-    public DtrDataModelManager startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
+    public Runnable startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
         this.state = State.Running;
         if (edcEndpoints == null) {
             return null;
@@ -170,11 +170,11 @@ public class DtrDataModelManager {
                 });
             });
         this.state = State.Finished;
-        return this;
         } catch (Exception e) {
             this.state = State.Error;
             throw new DataModelException(this.getClass().getName(), e, "Was not possible to process the DTRs");
         }
+        return null;
     }
 
     private Runnable searchDigitalTwinCatalogExecutor (String connectionUrl) {

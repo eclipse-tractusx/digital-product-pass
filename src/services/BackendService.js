@@ -25,17 +25,87 @@ import jsonUtil from "@/utils/jsonUtil.js";
 import threadUtil from "../utils/threadUtil";
 export default class BackendService {
 
+  splitIds(id, sep = ":") {
+    let ids = id.split(sep);
+    // Check if id is not empty
+    if (ids == null || ids.length == 0) {
+      throw new Error('The Id must not be empty!');
+    }
+    // Check if the syntax is correct and it contains tree parts
+    if (ids.length != 3) {
+      throw new Error('The Id must have 3 elements!');
+    }
+
+    // Check if the first part contains the catena-x prefix
+    if (ids[0].toUpperCase() !== "CX") {
+      throw new Error('Invalid Id prefix!');
+    }
+    
+    if(ids[1]== undefined || ids[1]== null || ids[1] === "" || ids[2]== undefined ||ids[2]== null || ids[2] === ""){
+      throw new Error('One of the Ids is empty!');
+    }
+
+    // Build and separate the different ids
+    return {
+      "prefix": ids[0],
+      "discoveryId": ids[1],
+      "serializedId": ids[2]
+    }
+  }
+
   async getPassport(version, id, authentication) {
+    let processResponse = null;
+    // Try to get the negotiation contract
+    let ids = null;
+    try {
+      ids = this.splitIds(id);
+    } catch (e) {
+      return this.getErrorMessage(
+        e.message,
+        500,
+        "Internal Server Error"
+      )
+    }
+    if (ids == null) {
+      return this.getErrorMessage(
+        "Failed to parse the search id!",
+        500,
+        "Internal Server Error"
+      )
+    }
+    try {
+      processResponse = await this.createProcess(ids["discoveryId"], authentication);
+    } catch (e) {
+      return processResponse;
+    }
+
+    // Check if the process is successful or if the data is not retrieved
+    if (!processResponse || (jsonUtil.exists("status", processResponse) && processResponse["status"] != 200) || !jsonUtil.exists("data", processResponse)) {
+      return processResponse;
+    }
+
+    let processId = jsonUtil.get("data.processId", processResponse, ".", null);
+
+    // Check if the process id is not empty
+    if (processId == null || processId === "") {
+      return this.getErrorMessage(
+        "The contract request was not valid, no process id exists",
+        500,
+        "Internal Server Error"
+      )
+
+    }
+
     let negotiationResponse = null;
 
 
     // Try to get the negotiation contract
     try {
-      negotiationResponse = await this.searchContract(id, version, authentication);
+      negotiationResponse = await this.searchContract(ids["serializedId"], version, processId, authentication);
     } catch (e) {
       return negotiationResponse;
     }
-  
+
 
     // Check if the negotiation status is successful or if the data is not retrieved
     if (!negotiationResponse || (jsonUtil.exists("status", negotiationResponse) && negotiationResponse["status"] != 200) || !jsonUtil.exists("data", negotiationResponse)) {
@@ -49,10 +119,9 @@ export default class BackendService {
 
     let token = jsonUtil.get("token", negotiation, ".", null);
     let contractId = jsonUtil.get("contract.@id", negotiation, ".", null);
-    let processId = jsonUtil.get("id", negotiation, ".", null);
 
     // If is not existing we return an error imitating the response
-    if (!token || !contractId || !processId) {
+    if (!token || !contractId) {
       return this.getErrorMessage(
         "The contract request was not valid",
         500,
@@ -116,7 +185,7 @@ export default class BackendService {
     }
   }
   getHeadersCredentials(authentication) {
-    let params = this.getHeaders(authentication); 
+    let params = this.getHeaders(authentication);
     params["withCredentials"] = true;
     return params;
 
@@ -138,10 +207,11 @@ export default class BackendService {
     }
   }
 
-  getSearchBody(id, version) {
+  getSearchBody(id, version, processId) {
     return {
       "id": id,
-      "version": version
+      "version": version,
+      "processId": processId
     }
   }
   async getStatus(processId, authentication) {
@@ -200,10 +270,32 @@ export default class BackendService {
         });
     });
   }
-  async searchContract(id, version, authentication) {
+  async searchContract(id, version, processId, authentication) {
     return new Promise(resolve => {
-      let body = this.getSearchBody(id, version);
+      let body = this.getSearchBody(id, version, processId);
       axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => {
+          if (e.response.data) {
+            resolve(e.response.data);
+          } else if (e.request) {
+            resolve(e.request);
+          } else {
+            resolve(e.message)
+          }
+
+        });
+    });
+  }
+  async createProcess(discoveryId, authentication, type = "manufacturerPartId") {
+    return new Promise(resolve => {
+      let body = {
+        "id": discoveryId,
+        "type": type
+      }
+      axios.post(`${BACKEND_URL}/api/contract/create`, body, this.getHeaders(authentication))
         .then((response) => {
           resolve(response.data);
         })

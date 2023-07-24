@@ -41,6 +41,7 @@ import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.managers.DtrDataModelManager;
+import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
@@ -48,6 +49,7 @@ import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
+import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.DiscoverySearch;
 import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
@@ -63,6 +65,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +183,7 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            List<String> mandatoryParams = List.of("id", "version");
+            List<String> mandatoryParams = List.of("id", "version", "processId");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
                 return httpUtil.buildResponse(response, httpResponse);
@@ -192,62 +195,66 @@ public class ContractController {
             if (!versions.contains(searchBody.getVersion())) {
                 return httpUtil.buildResponse(httpUtil.getForbiddenResponse("This passport version is not available at the moment!"), httpResponse);
             }
-            // Start Digital Twin Query
-            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DigitalTwinRegistryQueryById(searchBody);
-            Long dtRequestTime = DateTimeUtil.getTimestamp();
-            Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
-            // Wait for digital twin query
-            digitalTwinRegistryThread.join();
-            DigitalTwin digitalTwin;
-            SubModel subModel;
-            String connectorId;
-            String connectorAddress;
+
+
+            // Check for processId
+            String processId = searchBody.getProcessId();
+            if (!processManager.checkProcess(httpRequest, processId)) {
+                response = httpUtil.getBadRequest("The process id does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+
+            Process process = processManager.getProcess(httpRequest, processId);
+            if (process == null) {
+                response = httpUtil.getBadRequest("The process id does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            Status status = processManager.getStatus(processId);
+            if (status == null) {
+                response = httpUtil.getBadRequest("Not status is available!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            ConcurrentHashMap<String, List<Dtr>> dataModel  = null;
             try {
-                digitalTwin = digitalTwinRegistry.getDigitalTwin();
-                subModel = digitalTwinRegistry.getSubModel();
-                connectorId = subModel.getIdShort();
-                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("EDC")).findFirst().orElse(null);
-                if (endpoint == null) {
-                    throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
+                dataModel = this.dtrDataModelManager.loadDataModel();
+            }catch (Exception e){
+                LogUtil.printWarning("Failed to load data model from disk!");
+            }
+
+            ProcessDataModel processDataModel = processManager.loadDataModel(httpRequest);
+            DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = null;
+            HashMap<String, Object> bpnNumberTreads = new HashMap<String, Object>();
+            for(String bpn: status.getBpns()){
+                if(!jsonUtil.keyExists(dataModel, bpn)){
+                    LogUtil.printWarning("No Digital Twin found for BPN ["+bpn+"]!");
+                    continue;
                 }
-                connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
-            } catch (Exception e) {
-                response.message = "Failed to get the submodel from the digital twin registry!";
-                response.status = 404;
-                response.statusText = "Not Found";
-                return httpUtil.buildResponse(response, httpResponse);
+                HashMap<String, Thread> executingThreads = new HashMap<String, Thread>();
+                List<Dtr> dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
+                for(Dtr dtr: dtrs){
+                    dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
+                            processDataModel,
+                            processId,
+                            status,
+                            searchBody.getId(),
+                            bpn,
+                            dtr
+                    );
+                    executingThreads.put(dtr.getEndpoint(), ThreadUtil.runThread(dtrTransfer));
+                }
+                bpnNumberTreads.put(bpn, executingThreads);
             }
-            if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
-                response.message = "Failed to get connectorId and connectorAddress!";
-                response.status = 400;
-                response.statusText = "Bad Request";
-                response.data = subModel;
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-
-            try {
-                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
-            } catch (Exception e) {
-                response.message = "Failed to build endpoint url to [" + connectorAddress + "]!";
-                response.status = 422;
-                response.statusText = "Unprocessable Content";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            if (connectorAddress.isEmpty()) {
-                response.message = "Failed to parse endpoint [" + connectorAddress + "]!";
-                response.status = 422;
-                response.statusText = "Unprocessable Content";
-                response.data = subModel;
+            if(bpnNumberTreads.size() == 0){
+                response = httpUtil.getBadRequest("No Digital Twin Registry found!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-
-            Process process = processManager.createProcess(httpRequest, connectorAddress);
-
-            processManager.saveDigitalTwin(process.id, digitalTwin, dtRequestTime);
-            LogUtil.printDebug("[PROCESS " + process.id + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());
+            //// TODO: get asset id from process history
+            String assetId = null;
+            String connectorAddress = null;
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
@@ -281,14 +288,9 @@ public class ContractController {
             );
 
             if (processConfig.getStore()) {
-                processManager.saveDataset(process.id, dataset, startedTime);
+                processManager.saveDataset(process.id, dataset, startedTime, false);
             }
 
-            return httpUtil.buildResponse(response, httpResponse);
-        } catch (InterruptedException e) {
-            // Restore interrupted state...
-            Thread.currentThread().interrupt();
-            response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             assert response != null;

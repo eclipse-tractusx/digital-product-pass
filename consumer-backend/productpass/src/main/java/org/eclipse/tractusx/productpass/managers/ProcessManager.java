@@ -397,17 +397,17 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "Failed to save payload!");
         }
     }
-    public String saveNegotiation(String processId, Negotiation negotiation) {
+    public String saveNegotiation(String processId, Negotiation negotiation, Boolean dtr) {
         try {
-
-            String path = this.getProcessFilePath(processId, this.negotiationFileName);
+            String fileName = !dtr?this.negotiationFileName:"digital-twin-registry/"+this.negotiationFileName;
+            String path = this.getProcessFilePath(processId,fileName);
             Map<String, Object> negotiationPayload = (Map<String, Object>) jsonUtil.fromJsonFileToObject(path, Map.class);
             negotiationPayload.put("get", Map.of("response", negotiation));
 
             return this.saveProcessPayload(
                     processId,
                     negotiationPayload,
-                    this.negotiationFileName,
+                    fileName,
                     negotiation.getContractAgreementId(),
                     "ACCEPTED",
                     "negotiation-accepted");
@@ -415,17 +415,17 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation!");
         }
     }
-    public String saveTransfer(String processId, Transfer transfer) {
+    public String saveTransfer(String processId, Transfer transfer, Boolean dtr) {
         try {
-
-            String path = this.getProcessFilePath(processId, this.transferFileName);
+            String fileName = !dtr?this.transferFileName:"digital-twin-registry/"+this.transferFileName;
+            String path = this.getProcessFilePath(processId, fileName);
             Map<String, Object> transferPayload = (Map<String, Object>) jsonUtil.fromJsonFileToObject(path, Map.class);
             transferPayload.put("get", Map.of( "response", transfer));
 
             return this.saveProcessPayload(
                     processId,
                     transferPayload,
-                    this.transferFileName,
+                    fileName,
                     transfer.getId(),
                     "COMPLETED",
                     "transfer-completed");
@@ -433,29 +433,29 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer!");
         }
     }
-    public String saveNegotiationRequest(String processId, NegotiationRequest negotiationRequest, IdResponse negotiationResponse) {
+    public String saveNegotiationRequest(String processId, NegotiationRequest negotiationRequest, IdResponse negotiationResponse, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     Map.of("init",Map.of("request", negotiationRequest, "response", negotiationResponse)),
-                    this.negotiationFileName,
+                    !dtr?this.negotiationFileName:"digital-twin-registry/"+this.negotiationFileName,
                     negotiationResponse.getId(),
-                    "NEGOTIATING",
-                    "negotiation-request");
+                    !dtr?"NEGOTIATING":"NEGOTIATING-DTR",
+                    !dtr?"negotiation-request":"dtr-negotiation-request");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation request!");
         }
     }
 
-    public String saveTransferRequest(String processId, TransferRequest transferRequest, IdResponse transferResponse) {
+    public String saveTransferRequest(String processId, TransferRequest transferRequest, IdResponse transferResponse, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     Map.of("init",Map.of("request", transferRequest, "response", transferResponse)),
-                    this.transferFileName,
+                    !dtr?this.transferFileName:"digital-twin-registry/"+this.transferFileName,
                      transferResponse.getId(),
-                    "TRANSFERRING",
-                    "transfer-request");
+                    !dtr?"TRANSFERRING":"TRANSFERRING-DTR",
+                    !dtr?"transfer-request":"dtr-transfer-request");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer request!");
         }
@@ -555,12 +555,12 @@ public class ProcessManager {
         }
     }
 
-    public String saveDataset(String processId, Dataset dataset, Long startedTime) {
+    public String saveDataset(String processId, Dataset dataset, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     dataset,
-                    this.datasetFileName,
+                    !dtr?this.datasetFileName:"digital-twin-registry/"+this.datasetFileName,
                     startedTime,
                     dataset.getId(),
                     "AVAILABLE",

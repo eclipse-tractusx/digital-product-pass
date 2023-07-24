@@ -24,12 +24,15 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.math.Stats;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
+import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
@@ -50,6 +53,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class DataTransferService extends BaseService {
@@ -252,14 +256,14 @@ public class DataTransferService extends BaseService {
         public void run() {
             // NEGOTIATIONGIH PROCESS
             try {
-                processManager.saveNegotiationRequest(processId, negotiationRequest, new IdResponse(processId, null));
+                processManager.saveNegotiationRequest(processId, negotiationRequest, new IdResponse(processId, null), false);
                 this.negotiationResponse = this.requestNegotiation(this.negotiationRequest);
-                processManager.saveNegotiationRequest(processId, negotiationRequest, negotiationResponse);
+                processManager.saveNegotiationRequest(processId, negotiationRequest, negotiationResponse, false);
                 this.negotiation = this.getNegotiationData(negotiationResponse);
                 if (this.negotiation == null) {
                     return;
                 }
-                processManager.saveNegotiation(this.processId, this.negotiation);
+                processManager.saveNegotiation(this.processId, this.negotiation, false);
                 String state = this.negotiation.getState();
                 if (!(state.equals("CONFIRMED") || state.equals("FINALIZED"))) {
                     throw new ServiceException(this.getClass().getName(), "Contract Negotiation Process Failed [" + this.negotiation.getId() + "]");
@@ -283,14 +287,14 @@ public class DataTransferService extends BaseService {
             // TRANSFER PROCESS
             try {
                 this.transferRequest = buildTransferRequest(this.dataset, this.status, this.negotiation);
-                processManager.saveTransferRequest(this.processId, transferRequest, new IdResponse(processId, null));
+                processManager.saveTransferRequest(this.processId, transferRequest, new IdResponse(processId, null), false);
                 this.tranferResponse = this.requestTransfer(transferRequest);
-                processManager.saveTransferRequest(this.processId, transferRequest, this.tranferResponse);
+                processManager.saveTransferRequest(this.processId, transferRequest, this.tranferResponse, false);
                 this.transfer = this.getTransferData(this.tranferResponse);
                 if (this.transfer == null) {
                     return;
                 }
-                processManager.saveTransfer(this.processId, transfer);
+                processManager.saveTransfer(this.processId, transfer, false);
                 if (!transfer.getState().equals("COMPLETED")) {
                     throw new ServiceException(this.getClass().getName(), "Transfer Process Failed [" + this.tranferResponse.getId() + "]");
                 }
@@ -820,6 +824,115 @@ public class DataTransferService extends BaseService {
      */
     public static String generateTransferId(Negotiation negotiation, String connectorId, String connectorAddress) {
         return CrypUtil.sha256(DateTimeUtil.getDateTimeFormatted("yyyyMMddHHmmssSSS") + negotiation.getId() + connectorId + connectorAddress);
+    }
+
+    public class DigitalTwinRegistryTransfer implements Runnable{
+
+        ProcessDataModel dataModel;
+        Dtr dtr;
+
+        String bpn;
+
+        TransferRequest dtrRequest;
+
+        String processId;
+
+        String serializedId;
+
+        Status status;
+
+        Transfer transfer;
+
+        IdResponse transferResponse;
+
+        public DigitalTwinRegistryTransfer(ProcessDataModel dataModel, String processId, Status status, String serializedId,  String bpn, Dtr dtr) {
+            this.dataModel = dataModel;
+            this.bpn = bpn;
+            this.dtr = dtr;
+            this.processId = processId;
+            this.status = status;
+            this.serializedId = serializedId;
+        }
+        @Override
+        public void run() {
+            try {
+                this.dtrRequest = this.buildTransferRequest(this.serializedId, this.processId,this.dtr);
+                processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
+                this.transferResponse = this.requestTransfer(dtrRequest);
+                processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
+                this.transfer = this.getTransferData(this.transferResponse);
+                if (this.transfer == null) {
+                    return;
+                }
+                processManager.saveTransfer(this.processId, transfer, true);
+                if (!transfer.getState().equals("DTR-COMPLETED")) {
+                    throw new ServiceException(this.getClass().getName(), "Digital Twin Registry Transfer Process Failed [" + this.transferResponse.getId() + "]");
+                }
+            } catch (Exception e) {
+                processManager.setStatus(processId, "dtr-transfer-failed", new History(
+                        processId,
+                        "FAILED"
+                ));
+
+                throw new ServiceException(this.getClass().getName(), e, "Failed to do the contract transfer for Digital Twin Registry");
+            }
+            this.dataModel.setState(processId, "DTR-COMPLETED");
+        }
+        public TransferRequest buildTransferRequest(String serializedId, String processId, Dtr dtr) {
+            try {
+                // Build transfer request to make the Digital Twin Query
+                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId + "/" + serializedId; // Send process Id to identification the session.
+                TransferRequest.TransferType transferType = new TransferRequest.TransferType();
+
+                transferType.setContentType("application/octet-stream");
+                transferType.setIsFinite(true);
+                TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
+                dataDestination.setType("HttpProxy");
+
+                TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
+                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
+                return new TransferRequest(
+                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                        dtr.getAssetId(),
+                        CatenaXUtil.buildDataEndpoint(dtr.getEndpoint()),
+                        bpnNumber,
+                        dtr.getContractId(),
+                        dataDestination,
+                        false,
+                        privateProperties,
+                        "dataspace-protocol-http",
+                        transferType
+                );
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");
+            }
+        }
+        public IdResponse requestTransfer(TransferRequest transferRequest) {
+            IdResponse transferResponse = null;
+            try {
+                transferResponse = initiateTransfer(transferRequest);
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName(), e, "Failed to start the transfer for contract  [" + transferRequest.getContractId() + "]");
+            }
+            if (transferResponse.getId() == null) {
+                throw new ServiceException(this.getClass().getName(), "The ID from the transfer is null for contract  [" + transferRequest.getContractId() + "]");
+            }
+            LogUtil.printStatus("[PROCESS " + this.processId + "] Transfer Requested [" + transferResponse.getId() + "] for Digital Twin");
+            return transferResponse;
+        }
+
+        public Transfer getTransferData(IdResponse transferData) {
+            /*[8]=========================================*/
+            // Check for transfer updates and the status
+            Transfer transfer = null;
+            try {
+                transfer = seeTransfer(transferData.getId());
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName(), e, "Failed to get the negotiation [" + transferData.getId() + "]");
+            }
+            return transfer;
+        }
+
     }
 
 }

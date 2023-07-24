@@ -34,10 +34,15 @@ import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
+import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.eclipse.tractusx.productpass.models.http.requests.Search;
+import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
+import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
 import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,17 +70,19 @@ public class AppController {
     Environment env;
     @Autowired
     PassportUtil passportUtil;
-
+    @Autowired
+    AasService aasService;
     @Autowired
     DataPlaneService dataPlaneService;
 
     @Autowired
     ProcessManager processManager;
     private @Autowired ProcessConfig processConfig;
+
     @GetMapping("/")
     @Hidden                     // hides this endpoint from api documentation - swagger-ui
-    public Response index(){
-        httpUtil.redirect(httpResponse,"/passport");
+    public Response index() {
+        httpUtil.redirect(httpResponse, "/passport");
         return httpUtil.getResponse("Redirect to UI");
     }
 
@@ -85,7 +92,7 @@ public class AppController {
             @ApiResponse(description = "Gets the application health", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
-    public Response health(){
+    public Response health() {
         Response response = httpUtil.getResponse(
                 "RUNNING",
                 200
@@ -94,51 +101,103 @@ public class AppController {
         return response;
     }
 
-    @RequestMapping(value = "/endpoint/{processId}/{serializedId}", method = RequestMethod.POST)
-    public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String serializedId){
-        try{
+    @RequestMapping(value = "/endpoint/{processId}/{version}/{serializedId}", method = RequestMethod.POST)
+    public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String version, @PathVariable String serializedId, @RequestParam String registryUrl, @RequestParam(defaultValue = "partInstanceId") String idType, @RequestParam(defaultValue = "0") Integer dtIndex, @RequestParam(defaultValue = "batteryPass") String idShort) {
+        try {
             DataPlaneEndpoint endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
-            }catch (Exception e){
+            } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);
             }
-            if(endpointData == null){
+            if (endpointData == null) {
                 return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
             }
 
-            if(!processManager.checkProcess(processId)){
+            if (!processManager.checkProcess(processId)) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
 
-            processManager.getStatus(processId);
+            // Start Digital Twin Query
+            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
+                    new Search(
+                            processId,
+                            serializedId,
+                            version,
+                            idType,
+                            dtIndex,
+                            idShort
+                    ),
+                    registryUrl,
+                    endpointData
+            );
+            Long dtRequestTime = DateTimeUtil.getTimestamp();
+            Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
+            // Wait for digital twin query
+            digitalTwinRegistryThread.join();
+            DigitalTwin digitalTwin = null;
+            SubModel subModel = null;
+            String connectorId = null;
+            String connectorAddress = null;
+            try {
+                digitalTwin = digitalTwinRegistry.getDigitalTwin();
+                subModel = digitalTwinRegistry.getSubModel();
+                connectorId = subModel.getIdShort();
+                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("EDC")).findFirst().orElse(null);
+                if (endpoint == null) {
+                    throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
+                }
+                connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
+            } catch (Exception e) {
+                LogUtil.printException(e,"Failed to get the submodel from the digital twin registry!");
+            }
+            if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
+                LogUtil.printError("Failed to get connectorId and connectorAddress!");
+            }
+            try {
+                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
+            } catch (Exception e) {
+                LogUtil.printException(e,"Failed to build endpoint url to [" + connectorAddress + "]!");
+            }
+            if (connectorAddress.isEmpty()) {
+                LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "]!");
+            }
 
-        }catch(Exception e) {
+            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());
+            processManager.setStatus(processId, "digital-twin-found", new History(
+                    assetId,
+                    "READY"
+            ));
+
+        } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
             return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);
         }
         return httpUtil.buildResponse(httpUtil.getResponse("ok"), httpResponse);
     }
-    public  DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
+
+    public DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
         DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
-        if(endpointData == null){
-            throw new ControllerException(this.getClass().getName(),"The endpoint data request is empty!");
+        if (endpointData == null) {
+            throw new ControllerException(this.getClass().getName(), "The endpoint data request is empty!");
         }
-        if(endpointData.getEndpoint().isEmpty()){
-            throw new ControllerException(this.getClass().getName(),"The data plane endpoint address is empty!");
+        if (endpointData.getEndpoint().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "The data plane endpoint address is empty!");
         }
-        if(endpointData.getAuthCode().isEmpty()){
-            throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+        if (endpointData.getAuthCode().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
         }
-        if(!endpointData.offerIdExists()){
+        if (!endpointData.offerIdExists()) {
             Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-            if(!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")){
-                throw new ControllerException(this.getClass().getName(),"The Offer Id is empty!");
+            if (!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")) {
+                throw new ControllerException(this.getClass().getName(), "The Offer Id is empty!");
             }
-        }else{
-            if(endpointData.getOfferId().isEmpty()){
-                throw new ControllerException(this.getClass().getName(),"The authorization code is empty!");
+        } else {
+            if (endpointData.getOfferId().isEmpty()) {
+                throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
             }
         }
 
@@ -146,36 +205,35 @@ public class AppController {
     }
 
     @RequestMapping(value = "/endpoint/{processId}", method = RequestMethod.POST)
-    public Response endpoint(@RequestBody Object body, @PathVariable String processId){
-        try{
+    public Response endpoint(@RequestBody Object body, @PathVariable String processId) {
+        try {
             DataPlaneEndpoint endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
-            }catch (Exception e){
+            } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);
             }
-            if(endpointData == null){
+            if (endpointData == null) {
                 return httpUtil.buildResponse(httpUtil.getBadRequest("Failed to get data plane endpoint data"), httpResponse);
             }
 
-            if(!processManager.checkProcess(processId)){
+            if (!processManager.checkProcess(processId)) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
             Passport passport = dataPlaneService.getPassport(endpointData);
-            if(passport == null){
+            if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }
             String passportPath = processManager.savePassport(processId, endpointData, passport);
 
-            LogUtil.printMessage("[EDC] Passport Transfer Data ["+endpointData.getId()+"] Saved Successfully in ["+passportPath+"]!");
-        }catch(Exception e) {
+            LogUtil.printMessage("[EDC] Passport Transfer Data [" + endpointData.getId() + "] Saved Successfully in [" + passportPath + "]!");
+        } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
             return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);
         }
         return httpUtil.buildResponse(httpUtil.getResponse("ok"), httpResponse);
     }
-
 
 
 }

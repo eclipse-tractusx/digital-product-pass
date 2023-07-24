@@ -32,11 +32,13 @@ spec:
   containers:
     - name: frontend
       image: alpine
-      command: ['wget']
-      args: ['{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport']
-    # - name: backend
-    #   image: alpine
-    #   command: ['/bin/sh','-c']
-    #   args: ["apk add curl; curl '{{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health'"]
+      command: ["/bin/sh","-c"]
+      #command: ['wget']
+      #args: ["wget -q --spider {{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport; while [ $? -ne 0 ]; do wget -q --spider {{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport; if [ $? -eq 0 ]; then echo $?; echo 'frontend works'; break; else echo $?; echo 'frontend does not works'; fi; done"]
+      args: ["wget '{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport'"]
+    - name: backend
+      image: alpine
+      command: ["/bin/sh","-c"]
+      args: ["wget -q --spider {{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health; while [ $? -ne 0 ]; do wget -q --spider {{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health; if [ $? -eq 0 ]; then echo $?; echo 'Backend health check: true'; fi; done"]
   restartPolicy: Never
   

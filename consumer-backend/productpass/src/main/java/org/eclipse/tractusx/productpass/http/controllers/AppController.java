@@ -164,6 +164,8 @@ public class AppController {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "]!");
             }
 
+            LogUtil.printMessage(jsonUtil.toJson(digitalTwin, true));
+            LogUtil.printMessage(jsonUtil.toJson(subModel, true));
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());

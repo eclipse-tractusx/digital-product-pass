@@ -33,6 +33,7 @@ import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
@@ -837,7 +838,7 @@ public class DataTransferService extends BaseService {
 
         String processId;
 
-        String serializedId;
+        Search search;
 
         Status status;
 
@@ -845,18 +846,18 @@ public class DataTransferService extends BaseService {
 
         IdResponse transferResponse;
 
-        public DigitalTwinRegistryTransfer(ProcessDataModel dataModel, String processId, Status status, String serializedId,  String bpn, Dtr dtr) {
+        public DigitalTwinRegistryTransfer(ProcessDataModel dataModel, String processId, Status status, Search search, String bpn, Dtr dtr) {
             this.dataModel = dataModel;
             this.bpn = bpn;
             this.dtr = dtr;
             this.processId = processId;
             this.status = status;
-            this.serializedId = serializedId;
+            this.search = search;
         }
         @Override
         public void run() {
             try {
-                this.dtrRequest = this.buildTransferRequest(this.serializedId, this.processId,this.dtr);
+                this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.search);
                 processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
                 this.transferResponse = this.requestTransfer(dtrRequest);
                 processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
@@ -878,11 +879,22 @@ public class DataTransferService extends BaseService {
             }
             this.dataModel.setState(processId, "DTR-COMPLETED");
         }
-        public TransferRequest buildTransferRequest(String serializedId, String processId, Dtr dtr) {
+        public TransferRequest buildTransferRequest(String processId, Dtr dtr, Search search) {
             try {
                 // Build transfer request to make the Digital Twin Query
-                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId + "/" + serializedId; // Send process Id to identification the session.
+                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + search.getVersion() + "/" + search.getId();// Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
+
+                String params = httpUtil.mapToParams(Map.of(
+                        "registerUrl", dtr.getEndpoint(),
+                        "idType", search.getIdType(),
+                        "dtIndex", search.getDtIndex(),
+                        "idShort", search.getIdShort()
+                ), true);
+
+                LogUtil.printMessage("PARAMS: "+params);
+
+                receiverEndpoint+=params;
 
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);

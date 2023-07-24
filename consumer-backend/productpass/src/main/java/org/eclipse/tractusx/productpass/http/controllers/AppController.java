@@ -150,7 +150,7 @@ public class AppController {
                 }
                 connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
             } catch (Exception e) {
-                LogUtil.printException(e,"Failed to get the submodel from the digital twin registry!");
+                LogUtil.printException(e, "Failed to get the submodel from the digital twin registry!");
             }
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
                 LogUtil.printError("Failed to get connectorId and connectorAddress!");
@@ -158,7 +158,7 @@ public class AppController {
             try {
                 connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
             } catch (Exception e) {
-                LogUtil.printException(e,"Failed to build endpoint url to [" + connectorAddress + "]!");
+                LogUtil.printException(e, "Failed to build endpoint url to [" + connectorAddress + "]!");
             }
             if (connectorAddress.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "]!");

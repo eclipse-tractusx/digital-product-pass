@@ -239,7 +239,7 @@ public class ContractController {
                             processDataModel,
                             processId,
                             status,
-                            searchBody.getId(),
+                            searchBody,
                             bpn,
                             dtr
                     );

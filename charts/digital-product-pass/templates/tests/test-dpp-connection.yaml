@@ -31,12 +31,12 @@ metadata:
 spec:
   containers:
     - name: frontend
-      image: busybox
+      image: alpine
       command: ['wget']
       args: ['{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport']
-    - name: backend
-      image: busybox
-      command: ['wget']
-      args: ['{{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health']
+    # - name: backend
+    #   image: alpine
+    #   command: ['/bin/sh','-c']
+    #   args: ["apk add curl; curl '{{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health'"]
   restartPolicy: Never
   

@@ -882,17 +882,14 @@ public class DataTransferService extends BaseService {
         public TransferRequest buildTransferRequest(String processId, Dtr dtr, Search search) {
             try {
                 // Build transfer request to make the Digital Twin Query
-                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + search.getVersion() + "/" + search.getId();// Send process Id to identification the session.
+                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + search.getVersion() + "/" + search.getId() + "?idType="+search.getIdType();// Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
                 String params = httpUtil.mapToParams(Map.of(
                         "registerUrl", dtr.getEndpoint(),
-                        "idType", search.getIdType(),
                         "dtIndex", search.getDtIndex(),
                         "idShort", search.getIdShort()
                 ), true);
-
-                LogUtil.printMessage("PARAMS: "+params);
 
                 receiverEndpoint+=params;
 

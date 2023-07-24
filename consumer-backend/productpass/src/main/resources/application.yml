@@ -70,6 +70,7 @@ configuration:
       search: "/lookup/shells/query"
       digitalTwin: "/shell-descriptors"
       subModel: "/submodel-descriptors"
+    transferTimeout: 10000
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"

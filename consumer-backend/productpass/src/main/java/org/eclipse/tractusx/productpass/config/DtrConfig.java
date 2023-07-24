@@ -37,7 +37,7 @@ public class DtrConfig {
     String centralUrl;
     String internalDtr;
     DecentralApis decentralApis;
-
+    Long transferTimeout;
     String assetId;
 
     public DecentralApis getDecentralApis() {
@@ -56,6 +56,14 @@ public class DtrConfig {
 
     public void setInternalDtr(String internalDtr) {
         this.internalDtr = internalDtr;
+    }
+
+    public Long getTransferTimeout() {
+        return transferTimeout;
+    }
+
+    public void setTransferTimeout(Long transferTimeout) {
+        this.transferTimeout = transferTimeout;
     }
 
 

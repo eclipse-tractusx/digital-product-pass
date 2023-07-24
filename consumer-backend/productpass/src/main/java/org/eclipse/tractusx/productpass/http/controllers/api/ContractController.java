@@ -61,6 +61,7 @@ import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.productpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.bootstrap.TextEncryptorConfigBootstrapper;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.*;
@@ -226,13 +227,12 @@ public class ContractController {
 
             ProcessDataModel processDataModel = processManager.loadDataModel(httpRequest);
             DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = null;
-            HashMap<String, Object> bpnNumberTreads = new HashMap<String, Object>();
+            List<Thread> executingThreads = (List<Thread>) jsonUtil.bindReferenceType(dataModel.get(List.of()), new TypeReference<List<Thread>>() {});
             for(String bpn: status.getBpns()){
                 if(!jsonUtil.keyExists(dataModel, bpn)){
                     LogUtil.printWarning("No Digital Twin found for BPN ["+bpn+"]!");
                     continue;
                 }
-                HashMap<String, Thread> executingThreads = new HashMap<String, Thread>();
                 List<Dtr> dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
                 for(Dtr dtr: dtrs){
                     dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
@@ -243,18 +243,30 @@ public class ContractController {
                             bpn,
                             dtr
                     );
-                    executingThreads.put(dtr.getEndpoint(), ThreadUtil.runThread(dtrTransfer));
+                    executingThreads.add(ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint()));
                 }
-                bpnNumberTreads.put(bpn, executingThreads);
             }
-            if(bpnNumberTreads.size() == 0){
+            if(executingThreads.size() == 0){
                 response = httpUtil.getBadRequest("No Digital Twin Registry found!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            //// TODO: get asset id from process history
-            String assetId = null;
-            String connectorAddress = null;
+            executingThreads.parallelStream().forEach(executingThread ->{
+                try {
+                    executingThread.join(this.dtrConfig.getTransferTimeout());
+                }catch (Exception e){
+                    LogUtil.printWarning("Failed to get transfer for thread ["+executingThread.getName()+"]");
+                }
+            });
+
+            status = processManager.getStatus(processId);
+            if(!status.historyExists("digital-twin-found")){
+                response = httpUtil.getBadRequest("No Digital Twin or SubModel was found for the serialized asset!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            String assetId = status.getHistory("digital-twin-found").getId();
+            String connectorAddress = status.getEndpoint();
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers

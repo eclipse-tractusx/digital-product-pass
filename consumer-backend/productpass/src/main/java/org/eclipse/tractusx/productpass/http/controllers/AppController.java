@@ -118,7 +118,6 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-
             // Start Digital Twin Query
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
                     new Search(
@@ -163,7 +162,7 @@ public class AppController {
             if (connectorAddress.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "]!");
             }
-
+            processManager.setEndpoint(processId, connectorAddress);
             LogUtil.printMessage(jsonUtil.toJson(digitalTwin, true));
             LogUtil.printMessage(jsonUtil.toJson(subModel, true));
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);

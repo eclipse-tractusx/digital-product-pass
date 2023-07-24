@@ -460,6 +460,23 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer request!");
         }
     }
+
+    public String setEndpoint(String processId, String endpoint){
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setEndpoint(endpoint);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
     public String getContractId(DataPlaneEndpoint endpointData){
 
         if(!endpointData.offerIdExists()) {

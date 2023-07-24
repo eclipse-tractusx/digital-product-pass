@@ -42,6 +42,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
+import java.time.Duration;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -328,18 +331,18 @@ public class CatenaXService extends BaseService {
 
     public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints) {
         try {
-            while (processDtrDataModel.getState() != ProcessDtrDataModel.State.Finished) {
-                processDtrDataModel.startProcess(edcEndpoints);
-            }
-            LogUtil.printMessage(jsonUtil.toJson(processDtrDataModel.getDtrDataModel(),true));
-            processDtrDataModel.saveDtrDataModel();
+            Thread thread = ThreadUtil.runThread(processDtrDataModel.startProcess(edcEndpoints), "ProcessDtrDataModel");
+            /*if (!thread.join(Duration.ofSeconds(100))) {
+                LogUtil.printMessage("ProcessDtrDataModel thread state: " + thread.getState());
+            }*/
+            thread.join();
+            processDtrDataModel.getDtrDataModel();
+            LogUtil.printMessage("Found these DTRs:\n " + jsonUtil.toJson(processDtrDataModel.getDtrDataModel(),true));
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",
                     e,
                     "It was not possible to search the DTRs.");
         }
     }
-
-
 
 }

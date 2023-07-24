@@ -182,7 +182,6 @@ public class AppListener {
             });
             LogUtil.printMessage(jsonUtil.toJson(edcEndpointBinded,true));
             catenaXService.searchDTRs(edcEndpointBinded);
-
         }
        }
 

@@ -33,6 +33,7 @@ import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
@@ -62,6 +63,7 @@ import utils.JsonUtil;
 import utils.LogUtil;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Configuration
@@ -169,6 +171,7 @@ public class AppListener {
         LogUtil.printMessage("Creating log file...");
         if(!dtrConfig.getCentral()) {
             catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
+
             BpnDiscovery bpnDiscovery = catenaXService.getBpnDiscovery("XYZ78901", this.discoveryConfig.getBpn().getKey());
             List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
@@ -181,7 +184,8 @@ public class AppListener {
                 endpoint.getConnectorEndpoint().add("https://materialpass.int.demo.catena-x.net/BPNL000000000000");
             });
             LogUtil.printMessage(jsonUtil.toJson(edcEndpointBinded,true));
-            catenaXService.searchDTRs(edcEndpointBinded);
+            ConcurrentHashMap<String, List<Dtr>> dtrList = catenaXService.searchDTRs(edcEndpointBinded);
+
         }
        }
 

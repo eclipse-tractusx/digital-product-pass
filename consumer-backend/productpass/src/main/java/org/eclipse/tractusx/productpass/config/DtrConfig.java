@@ -35,6 +35,7 @@ import java.util.Map;
 public class DtrConfig {
     Boolean central;
     String centralUrl;
+    String internalDtr;
     DecentralApis decentralApis;
 
     String assetId;
@@ -47,6 +48,14 @@ public class DtrConfig {
     }
     public DtrConfig(Boolean central) {
         this.central = central;
+    }
+
+    public String getInternalDtr() {
+        return internalDtr;
+    }
+
+    public void setInternalDtr(String internalDtr) {
+        this.internalDtr = internalDtr;
     }
 
 

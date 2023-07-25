@@ -30,48 +30,47 @@ User friendly relase notes without especific technical details.
 
 #### Added EDC v0.5.0 version support
 
-There is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
+As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
 
 #### Added Decentralized Digital Twin Registry integration
 
-TO be added
+The backend component is upgraded to call the decentral Digital Twin Regitry using Asset Administration Shell (AAS) `v3.0` API syntax. Also, integrated the usage of the Discovery Finder service to retrieve the endpoints from the EDC Discovery and the BPN Discovery services.
 
-#### Added notice for docker images
+#### Added search parameter
+
+The search Id is now based on 3 parts separated by colon `CX:<manufacturerPartId>:<serializedId>` and followed by the `CX` prefix. The purpose is to search the asset through these parameters using a decentral registry approach. The manufacturer part Id and serialized Id are also validated.
+
+#### Added persistent storage
+
+The data preservation layer is implemented to ensure that the contract details are stored in logs in order to be complaint with Data Sovereignty requirements.
+
+#### Added TRG requirements
+
+The following TRG requirements are added:
+
+##### TRG-4.06 Added notice for docker images
 
 The released container images need to be annotated to provide good quality images. This has to be defined in a dedicated Notice for docker image section and on the respective image page on DockerHub.
 
-#### Added resource management
+##### TRG-5.04 Added resource management
 
-There needs to be the resource management configuration added along with the application settings. This enables the ability to better utilize CPU and memory consumption as best practices and to match minimum requirements when running an application.
+There needs to be the resource management configuration added along with the application settings. This enables the ability to utilize the CPU and memory consumption as best practices and to match minimum requirements when running an application.
 
-#### Added instructions to install the application
+##### TRG-1.02 Added instructions to install the application
 
-There is getting started guide INTALL.md added to the documentation to setup the application from scratch.
-
-#### Added data persistent storage
-
-The data preservation layer is implemented to store contract details in order to complaint with the Data Sovereignty requirements.
-
-#### Added the mechanism to split the Id into 3 parts and check the validity of the Id used
-
-to be added
-
+There is getting started guide `INSTALL.md` included to the documentation to setup the application from the scratch.
 
 ### Updated
 
 #### Updated the EDC v0.5.0 configuration
 
-The Self-Sovereign Identity (SSI) and related settings need to be configured to use the latest EDC version `v0.5.0` in helm.
-
-#### Updated the EDC helm charts to match the necessary configuration for the new EDC v0.5.0
-
-To be added
+The Self-Sovereign Identity (SSI) are configured to use the latest EDC version `v0.5.0` in helm configuration.
 
 ### Security Improvements
 
 #### Added user and file permissions
 
-Added user and file permissions in the container file system so to run as a non-root user to improve the security and to prevent from granting unnecessary access to the user.
+The user and file permissions are added in the container file system to run as a non-root user for the better security and to restrict the user from unnecessary access.
 
 #### Validate the application against the foreign BPN number
 

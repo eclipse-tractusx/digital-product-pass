@@ -33,6 +33,7 @@ import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
@@ -41,6 +42,8 @@ import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
+import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
+import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
@@ -101,8 +104,8 @@ public class AppController {
         return response;
     }
 
-    @RequestMapping(value = "/endpoint/{processId}/{version}/{serializedId}", method = RequestMethod.POST)
-    public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String version, @PathVariable String serializedId, @RequestParam String registryUrl, @RequestParam(defaultValue = "partInstanceId") String idType, @RequestParam(defaultValue = "0") Integer dtIndex, @RequestParam(defaultValue = "batteryPass") String idShort) {
+    @RequestMapping(value = "/endpoint/{processId}/{endpointId}", method = RequestMethod.POST)
+    public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String endpointId) {
         try {
             DataPlaneEndpoint endpointData = null;
             try {
@@ -118,17 +121,24 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+
+            SearchStatus searchStatus = processManager.getSearchStatus(processId);
+            Search search = searchStatus.getSearch();
+            if(search == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No search performed"), httpResponse);
+            }
+            Dtr dtr = searchStatus.getDtr(endpointId);
+            if(dtr == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No dtr available for this endpointId"), httpResponse);
+            }
             // Start Digital Twin Query
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
-                    new Search(
-                            processId,
-                            serializedId,
-                            version,
-                            idType,
-                            dtIndex,
-                            idShort
-                    ),
-                    registryUrl,
+                    search,
+                    dtr,
                     endpointData
             );
             Long dtRequestTime = DateTimeUtil.getTimestamp();

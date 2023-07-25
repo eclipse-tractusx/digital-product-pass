@@ -36,6 +36,8 @@ public class DtrConfig {
     Boolean central;
     String centralUrl;
     String internalDtr;
+
+    Boolean temporaryStorage;
     DecentralApis decentralApis;
     Long transferTimeout;
     String assetId;
@@ -64,6 +66,14 @@ public class DtrConfig {
 
     public void setTransferTimeout(Long transferTimeout) {
         this.transferTimeout = transferTimeout;
+    }
+
+    public Boolean getTemporaryStorage() {
+        return temporaryStorage;
+    }
+
+    public void setTemporaryStorage(Boolean temporaryStorage) {
+        this.temporaryStorage = temporaryStorage;
     }
 
 

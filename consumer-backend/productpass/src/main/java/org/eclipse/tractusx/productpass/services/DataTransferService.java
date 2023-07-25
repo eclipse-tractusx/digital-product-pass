@@ -829,14 +829,13 @@ public class DataTransferService extends BaseService {
 
     public class DigitalTwinRegistryTransfer implements Runnable{
 
-        ProcessDataModel dataModel;
         Dtr dtr;
-
-        String bpn;
 
         TransferRequest dtrRequest;
 
         String processId;
+
+        String endpointId;
 
         Search search;
 
@@ -846,10 +845,9 @@ public class DataTransferService extends BaseService {
 
         IdResponse transferResponse;
 
-        public DigitalTwinRegistryTransfer(ProcessDataModel dataModel, String processId, Status status, Search search, String bpn, Dtr dtr) {
-            this.dataModel = dataModel;
-            this.bpn = bpn;
+        public DigitalTwinRegistryTransfer(String processId, String endpointId, Status status, Search search, Dtr dtr) {
             this.dtr = dtr;
+            this.endpointId = endpointId;
             this.processId = processId;
             this.status = status;
             this.search = search;
@@ -857,7 +855,7 @@ public class DataTransferService extends BaseService {
         @Override
         public void run() {
             try {
-                this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.search);
+                this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.endpointId);
                 processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
                 this.transferResponse = this.requestTransfer(dtrRequest);
                 processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
@@ -866,9 +864,6 @@ public class DataTransferService extends BaseService {
                     return;
                 }
                 processManager.saveTransfer(this.processId, transfer, true);
-                if (!transfer.getState().equals("DTR-COMPLETED")) {
-                    throw new ServiceException(this.getClass().getName(), "Digital Twin Registry Transfer Process Failed [" + this.transferResponse.getId() + "]");
-                }
             } catch (Exception e) {
                 processManager.setStatus(processId, "dtr-transfer-failed", new History(
                         processId,
@@ -877,21 +872,12 @@ public class DataTransferService extends BaseService {
 
                 throw new ServiceException(this.getClass().getName(), e, "Failed to do the contract transfer for Digital Twin Registry");
             }
-            this.dataModel.setState(processId, "DTR-COMPLETED");
         }
-        public TransferRequest buildTransferRequest(String processId, Dtr dtr, Search search) {
+        public TransferRequest buildTransferRequest(String processId, Dtr dtr, String endpointId) {
             try {
                 // Build transfer request to make the Digital Twin Query
-                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + search.getVersion() + "/" + search.getId() + "?idType="+search.getIdType();// Send process Id to identification the session.
+                String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + this.endpointId;
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
-
-                String params = httpUtil.mapToParams(Map.of(
-                        "registerUrl", dtr.getEndpoint(),
-                        "dtIndex", search.getDtIndex(),
-                        "idShort", search.getIdShort()
-                ), true);
-
-                receiverEndpoint+=params;
 
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);

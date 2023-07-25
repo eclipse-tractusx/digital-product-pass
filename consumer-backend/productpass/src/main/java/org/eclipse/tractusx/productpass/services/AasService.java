@@ -23,13 +23,24 @@
 
 package org.eclipse.tractusx.productpass.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
+import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
+import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
+import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
+import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
+import org.eclipse.tractusx.productpass.models.manager.Status;
+import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.negotiation.Transfer;
 import org.eclipse.tractusx.productpass.models.negotiation.TransferRequest;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
@@ -42,9 +53,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.LogUtil;
+import utils.*;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
@@ -66,13 +75,20 @@ public class AasService extends BaseService {
     private final AuthenticationService authService;
 
     Map<String, Object> apis;
+    private DtrSearchManager dtrSearchManager;
+    private ProcessManager processManager;
+
+    private DataTransferService dataService;
 
     @Autowired
-    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig) throws ServiceInitializationException {
+    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig, DtrSearchManager dtrSearchManager, ProcessManager processManager, DataTransferService dataService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
         this.dtrConfig = dtrConfig;
+        this.dtrSearchManager = dtrSearchManager;
+        this.processManager = processManager;
+        this.dataService = dataService;
         this.init(env);
         this.checkEmptyVariables();
     }
@@ -317,6 +333,97 @@ public class AasService extends BaseService {
         return this.registryUrl;
     }
 
+
+    public AssetSearch centralDtrSearch(String processId, Search searchBody){
+        try {
+            // Start Digital Twin Query
+            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = this.new DigitalTwinRegistryQueryById(searchBody);
+            Long dtRequestTime = DateTimeUtil.getTimestamp();
+            Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
+
+            // Wait for digital twin query
+            digitalTwinRegistryThread.join();
+            DigitalTwin digitalTwin;
+            SubModel subModel;
+            String connectorId;
+            String connectorAddress;
+            try {
+                digitalTwin = digitalTwinRegistry.getDigitalTwin();
+                subModel = digitalTwinRegistry.getSubModel();
+                connectorId = subModel.getIdShort();
+                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("EDC")).findFirst().orElse(null);
+                if (endpoint == null) {
+                    throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
+                }
+                connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
+            } catch (Exception e) {
+                return null;
+            }
+            if (connectorId.isEmpty() || connectorAddress.isEmpty()) {
+                return null;
+            }
+
+
+            try {
+                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
+            } catch (Exception e) {
+                return null;
+            }
+            if (connectorAddress.isEmpty()) {
+                return null;
+            }
+            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());
+            return new AssetSearch(assetId, connectorAddress);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "centralDtrSearch",
+                    e,
+                    "It was not possible to search and find digital twin");
+        }
+    }
+    public AssetSearch decentralDtrSearch(String processId, Search searchBody){
+        try {
+            Status status = this.processManager.getStatus(processId);
+            SearchStatus searchStatus = this.processManager.setSearch(processId, searchBody);
+            DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = null;
+            List<Thread> executingThreads = (List<Thread>) jsonUtil.bindReferenceType(List.of(), new TypeReference<List<Thread>>() {
+            });
+            for (String endpointId : searchStatus.getDtrs().keySet()) {
+                Dtr dtr = searchStatus.getDtr(endpointId);
+                dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
+                        processId,
+                        endpointId,
+                        status,
+                        searchBody,
+                        dtr
+                );
+                executingThreads.add(ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint()));
+            }
+            if (executingThreads.size() == 0) {
+                return null;
+            }
+
+            executingThreads.parallelStream().forEach(executingThread -> {
+                try {
+                    executingThread.join(this.dtrConfig.getTransferTimeout());
+                } catch (Exception e) {
+                    LogUtil.printWarning("Failed to get transfer for thread [" + executingThread.getName() + "]");
+                }
+            });
+
+            status = processManager.getStatus(processId);
+            if (!status.historyExists("digital-twin-found")) {
+                return null;
+            }
+            return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "decentralDtrSearch",
+                    e,
+                    "It was not possible to search and find digital twin");
+        }
+    }
+
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint("search", true);
@@ -366,27 +473,26 @@ public class AasService extends BaseService {
 
     public class DecentralDigitalTwinRegistryQueryById extends DigitalTwinRegistryQueryById {
 
-        private String registryUrl;
+        private Dtr dtr;
         private DataPlaneEndpoint edr;
 
-        public DecentralDigitalTwinRegistryQueryById(Search search, String registryUrl, DataPlaneEndpoint edr) {
+        public DecentralDigitalTwinRegistryQueryById(Search search, Dtr dtr, DataPlaneEndpoint edr) {
             super(search);
-            this.registryUrl = registryUrl;
+            this.dtr = dtr;
             this.edr = edr;
         }
 
         @Override
         public void run() {
-            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(), this.getRegistryUrl(), this.getEdr()));
+            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(), this.getDtr().getEndpoint(), this.getEdr()));
             this.setSubModel(searchSubModelById(this.getDigitalTwin(), this.getIdShort()));
         }
-
-        public String getRegistryUrl() {
-            return registryUrl;
+        public Dtr getDtr() {
+            return dtr;
         }
 
-        public void setRegistryUrl(String registryUrl) {
-            this.registryUrl = registryUrl;
+        public void setDtr(Dtr dtr) {
+            this.dtr = dtr;
         }
 
         public DataPlaneEndpoint getEdr() {

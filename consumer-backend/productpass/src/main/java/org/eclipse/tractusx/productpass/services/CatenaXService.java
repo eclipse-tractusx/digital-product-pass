@@ -28,12 +28,12 @@ package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.DtrDataModelManager;
+import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +43,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
-import java.time.Duration;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class CatenaXService extends BaseService {
@@ -60,12 +55,14 @@ public class CatenaXService extends BaseService {
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
     private final VaultService vaultService;
-    private final DtrDataModelManager dtrDataModelManager;
+    private final DtrSearchManager dtrSearchManager;
     private final DataTransferService dataTransferService;
 
     private final AuthenticationService authService;
 
     private final DiscoveryConfig discoveryConfig;
+
+    private DtrConfig dtrConfig;
     private String discoveryEndpoint;
 
     private List<String> defaultDiscoveryKeys;
@@ -101,12 +98,13 @@ public class CatenaXService extends BaseService {
         );
     }
     @Autowired
-    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrDataModelManager dtrDataModelManager, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService) throws ServiceInitializationException {
+    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrSearchManager dtrSearchManager, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
+        this.dtrConfig = dtrConfig;
         this.vaultService = vaultService;
-        this.dtrDataModelManager = dtrDataModelManager;
+        this.dtrSearchManager = dtrSearchManager;
         this.authService = authService;
         this.discoveryConfig = discoveryConfig;
         this.dataTransferService = dataTransferService;
@@ -332,15 +330,10 @@ public class CatenaXService extends BaseService {
         }
     }
 
-    public ConcurrentHashMap<String, List<Dtr>> searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints) {
+    public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
         try {
-            Thread thread = ThreadUtil.runThread(dtrDataModelManager.startProcess(edcEndpoints), "ProcessDtrDataModel");
-            /*if (!thread.join(Duration.ofSeconds(100))) {
-                LogUtil.printMessage("ProcessDtrDataModel thread state: " + thread.getState());
-            }*/
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpoints, processId), "ProcessDtrDataModel");
             thread.join();
-            LogUtil.printMessage("Found these DTRs:\n " + jsonUtil.toJson(dtrDataModelManager.getDtrDataModel(),true));
-            return dtrDataModelManager.getDtrDataModel();
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",
                     e,

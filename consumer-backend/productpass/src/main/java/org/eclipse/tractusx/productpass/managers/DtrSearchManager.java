@@ -26,6 +26,7 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
@@ -44,15 +45,17 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class DtrDataModelManager {
+public class DtrSearchManager {
     private DataTransferService dataTransferService;
     private FileUtil fileUtil;
     private JsonUtil jsonUtil;
+
+    private ProcessManager processManager;
+    private DtrConfig dtrConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds = 10;
@@ -77,9 +80,11 @@ public class DtrDataModelManager {
         Finished
     }
     @Autowired
-    public DtrDataModelManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService)  {
+    public DtrSearchManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager)  {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
+        this.processManager = processManager;
+        this.dtrConfig = dtrConfig;
         this.state = State.Stopped;
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
@@ -87,12 +92,12 @@ public class DtrDataModelManager {
         this.dtrDataModel =  this.loadDtrDataModel();
     }
 
-    public Runnable startProcess (List<EdcDiscoveryEndpoint> edcEndpoints) {
+    public Runnable startProcess (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
         return new Runnable() {
             @Override
             public void run() {
                 state = State.Running;
-                if (edcEndpoints == null) {
+                if (edcEndpoints == null || processId == null) {
                     return;
                 }
                 List<EdcDiscoveryEndpoint> edcEndpointsToSearch = null;
@@ -130,7 +135,7 @@ public class DtrDataModelManager {
                             if (contractOffers instanceof LinkedHashMap) {
                                 Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
                                 if (dataset != null) {
-                                    Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl), "CreateAndSaveDtr");
+                                    Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
                                     try {
                                         if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
                                             singleOfferThread.interrupt();
@@ -148,7 +153,7 @@ public class DtrDataModelManager {
                                 return;
                             }
                             contractOfferList.parallelStream().forEach(dataset -> {
-                                Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl), "CreateAndSaveDtr");
+                                Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
                                 try {
                                     if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
                                         multipleOffersThread.interrupt();
@@ -198,7 +203,7 @@ public class DtrDataModelManager {
         };
     }
 
-    public DtrDataModelManager addConnectionToBpnEntry (String bpn, Dtr dtr) {
+    public DtrSearchManager addConnectionToBpnEntry (String bpn, Dtr dtr) {
         if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank()) ) {
             if (this.dtrDataModel.contains(bpn)) {
                 if (!this.dtrDataModel.get(bpn).contains(dtr))
@@ -248,7 +253,7 @@ public class DtrDataModelManager {
         return count.get() == connectionsSize;
     }
 
-    private Runnable createAndSaveDtr (Dataset dataset, String bpn, String connectionUrl) {
+    private Runnable createAndSaveDtr (Dataset dataset, String bpn, String connectionUrl, String processId) {
         return new Runnable() {
             @Override
             public void run() {
@@ -263,8 +268,14 @@ public class DtrDataModelManager {
                         LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
-                    addConnectionToBpnEntry(bpn, new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId()));
-                    saveDtrDataModel();
+                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId());
+                    if(dtrConfig.getTemporaryStorage()) {
+                        addConnectionToBpnEntry(bpn, dtr);
+                        saveDtrDataModel();
+                    }
+
+                    processManager.addSearchStatusDtr(processId, dtr);
+
                 } catch (Exception e) {
                     LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
                 }

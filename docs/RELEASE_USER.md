@@ -23,8 +23,62 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
-**xxxx xx xxxx (Version 1.0.0)** - **July 03 2023 (Pre-release 1.0.0-alpha)**
-*xx.xx.xxxx*
+**June 25 2023 (Version 1.0.0)**
+*25.07.2023*
+
+### Added
+
+#### Added EDC v0.5.0 version support
+
+There is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
+
+#### Added Decentralized Digital Twin Registry integration
+
+TO be added
+
+#### Added notice for docker images
+
+The released container images need to be annotated to provide good quality images. This has to be defined in a dedicated Notice for docker image section and on the respective image page on DockerHub.
+
+#### Added resource management
+
+There needs to be the resource management configuration added along with the application settings. This enables the ability to better utilize CPU and memory consumption as best practices and to match minimum requirements when running an application.
+
+#### Added instructions to install the application
+
+There is getting started guide INTALL.md added to the documentation to setup the application from scratch.
+
+#### Added data persistent storage
+
+The data preservation layer is implemented to store contract details in order to complaint with the Data Sovereignty requirements.
+
+#### Added the mechanism to split the Id into 3 parts and check the validity of the Id used
+
+to be added
+
+
+### Updated
+
+#### Updated the EDC v0.5.0 configuration
+
+The Self-Sovereign Identity (SSI) and related settings need to be configured to use the latest EDC version `v0.5.0` in helm.
+
+#### Updated the EDC helm charts to match the necessary configuration for the new EDC v0.5.0
+
+To be added
+
+### Security Improvements
+
+#### Added user and file permissions
+
+Added user and file permissions in the container file system so to run as a non-root user to improve the security and to prevent from granting unnecessary access to the user.
+
+#### Validate the application against the foreign BPN number
+
+The user authentication is checked against the specified BPN number, EDC consumer, the backend application in order to restrict access the application for security purposes.
+
+**July 03 2023 (Pre-release 1.0.0-alpha)**
+*03.07.2023*
 
 ### Added
 

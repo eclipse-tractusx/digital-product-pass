@@ -221,7 +221,6 @@ public class AasService extends BaseService {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
             String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
-            LogUtil.printMessage(url);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
@@ -257,6 +256,7 @@ public class AasService extends BaseService {
             String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + this.getPathEndpoint(registryUrl,"subModel", false) + "/" + subModel.getIdentification();
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
+            LogUtil.printMessage(jsonUtil.toJson(headers, true));
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
             return (SubModel) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), SubModel.class);
@@ -318,7 +318,7 @@ public class AasService extends BaseService {
 
             // Get the normal headers based on the EDR
             HttpHeaders headers = this.httpUtil.getHeaders();
-            headers.add(edr.getAuthKey(), edr.getAuthKey());
+            headers.add(edr.getAuthKey(), ""+edr.getAuthCode());
             return headers;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTokenHeader",
@@ -430,11 +430,12 @@ public class AasService extends BaseService {
             String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             ResponseEntity<?> response = null;
+            LogUtil.printMessage(jsonUtil.toJson(edr, true));
             if (!this.central && registryUrl != null && edr != null) {
                 // Set request body as post if the central query is disabled
                 Object body = Map.of(
                         "query", Map.of(
-                                "assetsIds", List.of(
+                                "assetIds", List.of(
                                         Map.of(
                                                 "name", assetType,
                                                 "value", assetId
@@ -442,9 +443,10 @@ public class AasService extends BaseService {
                                 )
                         )
                 );
+                LogUtil.printMessage(jsonUtil.toJson(body, true));
                 HttpHeaders headers = this.getTokenHeader(edr);
-                headers.add("Content-Type", "application/json");
-                response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+                LogUtil.printMessage(headers.toString());
+                response = httpUtil.doPost(url, ArrayList.class, headers, httpUtil.getParams(), body, false, false);
             } else {
                 // Query as GET if the central query is enabled
                 Map<String, ?> assetIds = Map.of(
@@ -472,26 +474,17 @@ public class AasService extends BaseService {
 
     public class DecentralDigitalTwinRegistryQueryById extends DigitalTwinRegistryQueryById {
 
-        private Dtr dtr;
         private DataPlaneEndpoint edr;
 
-        public DecentralDigitalTwinRegistryQueryById(Search search, Dtr dtr, DataPlaneEndpoint edr) {
+        public DecentralDigitalTwinRegistryQueryById(Search search, DataPlaneEndpoint edr) {
             super(search);
-            this.dtr = dtr;
             this.edr = edr;
         }
 
         @Override
         public void run() {
-            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(), this.getDtr().getEndpoint(), this.getEdr()));
+            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
             this.setSubModel(searchSubModelById(this.getDigitalTwin(), this.getIdShort()));
-        }
-        public Dtr getDtr() {
-            return dtr;
-        }
-
-        public void setDtr(Dtr dtr) {
-            this.dtr = dtr;
         }
 
         public DataPlaneEndpoint getEdr() {

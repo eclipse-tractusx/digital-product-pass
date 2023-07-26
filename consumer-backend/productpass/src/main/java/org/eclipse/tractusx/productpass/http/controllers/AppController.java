@@ -138,7 +138,6 @@ public class AppController {
             // Start Digital Twin Query
             AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
                     search,
-                    dtr,
                     endpointData
             );
             Long dtRequestTime = DateTimeUtil.getTimestamp();

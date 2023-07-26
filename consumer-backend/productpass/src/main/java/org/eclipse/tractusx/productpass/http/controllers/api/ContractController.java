@@ -152,14 +152,34 @@ public class ContractController {
                 try {
                     edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
                 } catch (Exception e) {
-                    throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
+                    throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                 }
                 if(!this.dtrConfig.getInternalDtr().isEmpty()) {
                     edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
                         endpoint.getConnectorEndpoint().add(this.dtrConfig.getInternalDtr());
                     });
                 }
-                catenaXService.searchDTRs(edcEndpoints, processId);
+
+                catenaXService.searchDTRs(edcEndpointBinded, processId);
+            }else{
+
+                // Take the results from cache
+                for(String bpn: bpnList){
+                    List<Dtr> dtrs = null;
+                    try {
+                        dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
+                    } catch (Exception e) {
+                        throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
+                    }
+                    if(dtrs.isEmpty()){
+                        response.message = "Failed to get the bpns from the datamodel";
+                        return httpUtil.buildResponse(response, httpResponse);
+                    }
+                    // Interate over every DTR and add it to the file
+                    for(Dtr dtr: dtrs){
+                        processManager.addSearchStatusDtr(processId, dtr);
+                    }
+                }
             }
             response = httpUtil.getResponse();
             response.data = Map.of(
@@ -219,10 +239,10 @@ public class ContractController {
                     response = httpUtil.getBadRequest("No digital twins are available for this process!");
                     return httpUtil.buildResponse(response, httpResponse);
                 }
-                process = processManager.createProcess(httpRequest);
+                process = processManager.createProcess(processId, httpRequest);
                 Status status = processManager.getStatus(processId);
                 if (status == null) {
-                    response = httpUtil.getBadRequest("Not status is available!");
+                    response = httpUtil.getBadRequest("The status is not available!");
                     return httpUtil.buildResponse(response, httpResponse);
                 }
                 assetSearch = aasService.decentralDtrSearch(process.id, searchBody);

@@ -196,6 +196,7 @@ public class ProcessManager {
     public Process createProcess(HttpServletRequest httpRequest) {
         return this.createProcess(httpRequest, "");
     }
+
     public Process createProcess(HttpServletRequest httpRequest, String connectorAddress) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
@@ -246,7 +247,14 @@ public class ProcessManager {
     }
 
 
-
+    public Process createProcess(String processId, HttpServletRequest httpRequest) {
+        Long createdTime = DateTimeUtil.getTimestamp();
+        Process process = new Process(processId, "CREATED", createdTime);
+        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
+        this.setProcess(httpRequest, process); // Add process to session storage
+        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        return process;
+    }
     public Process createProcess(HttpServletRequest httpRequest, String processId, List<String> bpns) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(processId, "CREATED", createdTime);

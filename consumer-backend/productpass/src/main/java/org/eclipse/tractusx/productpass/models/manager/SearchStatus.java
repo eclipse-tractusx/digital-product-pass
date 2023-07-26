@@ -75,6 +75,7 @@ public class SearchStatus {
         return this.dtrs.get(id);
     }
     public SearchStatus() {
+        this.dtrs = Map.of();
         Long timestamp = DateTimeUtil.getTimestamp();
         this.updated = this.created = timestamp;
     }

@@ -139,6 +139,10 @@ public final class JsonUtil {
     }
     public Object fromJsonFileToObject(String path, Class<?> bindClass){
         try {
+            if(!fileUtil.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+                return null;
+            }
             String fileContent = fileUtil.readFile(path);
             return this.parseJson(fileContent, bindClass);
         } catch (Exception e) {

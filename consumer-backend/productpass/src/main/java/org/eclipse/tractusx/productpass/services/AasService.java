@@ -26,6 +26,7 @@ package org.eclipse.tractusx.productpass.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -174,8 +175,8 @@ public class AasService extends BaseService {
     }
 
 
-    public String getPathEndpoint(String key, Boolean prefix) {
-        if (this.central) {
+    public String getPathEndpoint(String registryUrl, String key, Boolean prefix) {
+        if (this.central || registryUrl == null || registryUrl.isEmpty()) {
             return (String) jsonUtil.getValue(this.apis, "central." + key, ".", null);
         }
         String path = (String) jsonUtil.getValue(this.apis, "decentral." + key, ".", null);
@@ -218,8 +219,9 @@ public class AasService extends BaseService {
 
     public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint("digitalTwin", true);
+            String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
             String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
+            LogUtil.printMessage(url);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
@@ -250,9 +252,9 @@ public class AasService extends BaseService {
 
     public SubModel getSubModel(DigitalTwin digitalTwin, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint("digitalTwin", true);
+            String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
-            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + this.getPathEndpoint("subModel", false) + "/" + subModel.getIdentification();
+            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + this.getPathEndpoint(registryUrl,"subModel", false) + "/" + subModel.getIdentification();
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
@@ -291,8 +293,8 @@ public class AasService extends BaseService {
 
     public SubModel getSubModel(String digitalTwinId, String subModelId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint("digitalTwin", true);
-            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId + this.getPathEndpoint("subModel", false) + subModelId;
+            String path = this.getPathEndpoint(registryUrl,"digitalTwin", true);
+            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId + this.getPathEndpoint(registryUrl,"subModel", false) + subModelId;
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
@@ -324,9 +326,9 @@ public class AasService extends BaseService {
         }
     }
 
-    public String getRegistryUrl(String registerUrl) {
+    public String getRegistryUrl(String url) {
         try {
-            return (!this.central && !registerUrl.isEmpty()) ? registerUrl : this.registryUrl;
+            return (url == null || this.central || url.isEmpty()) ? this.registryUrl : url;
         } catch (Exception e) {
             // Do nothing
         }
@@ -386,12 +388,10 @@ public class AasService extends BaseService {
         try {
             Status status = this.processManager.getStatus(processId);
             SearchStatus searchStatus = this.processManager.setSearch(processId, searchBody);
-            DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = null;
-            List<Thread> executingThreads = (List<Thread>) jsonUtil.bindReferenceType(List.of(), new TypeReference<List<Thread>>() {
-            });
+            List<Thread> executingThreads = List.of();
             for (String endpointId : searchStatus.getDtrs().keySet()) {
                 Dtr dtr = searchStatus.getDtr(endpointId);
-                dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
+                DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
                         processId,
                         endpointId,
                         status,
@@ -426,11 +426,11 @@ public class AasService extends BaseService {
 
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint("search", true);
+            String path = this.getPathEndpoint(registryUrl, "search", true);
             String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             ResponseEntity<?> response = null;
-            if (!this.central) {
+            if (!this.central && registryUrl != null && edr != null) {
                 // Set request body as post if the central query is disabled
                 Object body = Map.of(
                         "query", Map.of(
@@ -444,7 +444,7 @@ public class AasService extends BaseService {
                 );
                 HttpHeaders headers = this.getTokenHeader(edr);
                 headers.add("Content-Type", "application/json");
-                response = httpUtil.doPost(registryUrl, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+                response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             } else {
                 // Query as GET if the central query is enabled
                 Map<String, ?> assetIds = Map.of(
@@ -453,8 +453,7 @@ public class AasService extends BaseService {
                 );
 
                 String jsonString = jsonUtil.toJson(assetIds, false);
-                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
-                ;
+                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());;
                 params.put("assetIds", jsonString);
                 response = httpUtil.doGet(url, ArrayList.class, headers, params, true, false);
             }

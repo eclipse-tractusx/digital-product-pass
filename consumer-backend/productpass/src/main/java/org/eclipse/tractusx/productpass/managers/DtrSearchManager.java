@@ -45,6 +45,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -79,8 +80,9 @@ public class DtrSearchManager {
         Error,
         Finished
     }
+
     @Autowired
-    public DtrSearchManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager)  {
+    public DtrSearchManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.processManager = processManager;
@@ -89,10 +91,10 @@ public class DtrSearchManager {
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
         this.dtrDataModelFilePath = this.createDataModelFile();
-        this.dtrDataModel =  this.loadDtrDataModel();
+        this.dtrDataModel = this.loadDtrDataModel();
     }
 
-    public Runnable startProcess (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
+    public Runnable startProcess(List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
         return new Runnable() {
             @Override
             public void run() {
@@ -102,7 +104,8 @@ public class DtrSearchManager {
                 }
                 List<EdcDiscoveryEndpoint> edcEndpointsToSearch = null;
                 try {
-                    edcEndpointsToSearch = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+                    edcEndpointsToSearch = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {
+                    });
                 } catch (Exception e) {
                     throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
                 }
@@ -174,18 +177,34 @@ public class DtrSearchManager {
         };
     }
 
-    public String createDataModelFile(){
-        return fileUtil.createFile(this.getDataModelPath());
+    public String createDataModelFile() {
+        Map<String, Object> dataModel = Map.of();
+        // If path exists try to
+        if(this.dtrConfig.getTemporaryStorage() && this.fileUtil.pathExists(this.getDataModelPath())) {
+            try {
+                // Try to load the data model if it exists
+                dataModel = (Map<String, Object>) jsonUtil.fromJsonFileToObject(this.getDataModelPath(), Map.class);
+            } catch (Exception e) {
+                LogUtil.printWarning("It was not possible to load data model content.");
+                dataModel = Map.of();
+            }
+            if (dataModel != null) {
+                return this.getDataModelPath(); // There is no need to create the dataModelFile
+            }
+        }
+        LogUtil.printMessage("Created DTR DataModel file at [" + this.getDataModelPath()+"]");
+        return jsonUtil.toJsonFile(this.getDataModelPath(), dataModel, true);
     }
 
-    public String getDataModelPath(){
+    public String getDataModelPath() {
         return Path.of(this.getDataModelDir(), this.fileName).toAbsolutePath().toString();
     }
+
     public String getDataModelDir() {
-        return fileUtil.createTmpDir("DtrDataModel");
+        return fileUtil.getTmpDir();
     }
 
-    private Runnable searchDigitalTwinCatalogExecutor (String connectionUrl) {
+    private Runnable searchDigitalTwinCatalogExecutor(String connectionUrl) {
         return new Runnable() {
             @Override
             public void run() {
@@ -203,8 +222,8 @@ public class DtrSearchManager {
         };
     }
 
-    public DtrSearchManager addConnectionToBpnEntry (String bpn, Dtr dtr) {
-        if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank()) ) {
+    public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
+        if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.contains(bpn)) {
                 if (!this.dtrDataModel.get(bpn).contains(dtr))
                     this.dtrDataModel.get(bpn).add(dtr);
@@ -230,16 +249,20 @@ public class DtrSearchManager {
     public ConcurrentHashMap<String, List<Dtr>> loadDataModel() {
         try {
             String path = this.getDataModelPath();
+            if(fileUtil.pathExists(path)) {
+                this.createDataModelFile();
+            }
             return (ConcurrentHashMap<String, List<Dtr>>) jsonUtil.fromJsonFileToObject(path, ConcurrentHashMap.class);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the DTR data model");
         }
     }
+
     public ConcurrentHashMap<String, List<Dtr>> getDtrDataModel() {
         return dtrDataModel;
     }
 
-    private boolean checkConnectionEdcEndpoints (List<String> connectionEdcEndpoints) {
+    private boolean checkConnectionEdcEndpoints(List<String> connectionEdcEndpoints) {
         AtomicInteger count = new AtomicInteger(0);
         int connectionsSize = connectionEdcEndpoints.size();
         connectionEdcEndpoints.parallelStream().forEach(connection -> {
@@ -253,7 +276,7 @@ public class DtrSearchManager {
         return count.get() == connectionsSize;
     }
 
-    private Runnable createAndSaveDtr (Dataset dataset, String bpn, String connectionUrl, String processId) {
+    private Runnable createAndSaveDtr(Dataset dataset, String bpn, String connectionUrl, String processId) {
         return new Runnable() {
             @Override
             public void run() {
@@ -269,7 +292,7 @@ public class DtrSearchManager {
                         return;
                     }
                     Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId());
-                    if(dtrConfig.getTemporaryStorage()) {
+                    if (dtrConfig.getTemporaryStorage()) {
                         addConnectionToBpnEntry(bpn, dtr);
                         saveDtrDataModel();
                     }
@@ -285,13 +308,19 @@ public class DtrSearchManager {
     }
 
     public boolean saveDtrDataModel() {
-       String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
-       LogUtil.printMessage("[DTR DataModel] Saved [" + this.dtrDataModel.size() + "] assets in DTR data model." );
-       return filePath != null;
+        if(fileUtil.pathExists(this.dtrDataModelFilePath)) {
+            this.createDataModelFile();
+        }
+        String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
+        LogUtil.printMessage("[DTR DataModel] Saved [" + this.dtrDataModel.size() + "] assets in DTR data model.");
+        return filePath != null;
     }
 
     private ConcurrentHashMap<String, List<Dtr>> loadDtrDataModel() {
         try {
+            if(fileUtil.pathExists(this.dtrDataModelFilePath)) {
+                this.createDataModelFile();
+            }
             ConcurrentHashMap<String, List<Dtr>> result = (ConcurrentHashMap<String, List<Dtr>>) jsonUtil.fromJsonFileToObject(this.dtrDataModelFilePath, ConcurrentHashMap.class);
             if (result == null) {
                 return new ConcurrentHashMap<String, List<Dtr>>();

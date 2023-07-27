@@ -134,7 +134,7 @@ jobs:
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
-          helm install digital-product-pass tractusx/digital-product-pass --version ${{ github.event.inputs.upgrade_from || '1.0.0' }} -n product-material-pass --create-namespace
+          helm install digital-product-pass tractusx/digital-product-pass --version ${{ github.event.inputs.upgrade_from || '0.3.6' }} -n product-material-pass --create-namespace
           helm dependency update charts/digital-product-pass -n product-material-pass
           helm upgrade digital-product-pass charts/digital-product-pass -n product-material-pass
         if: steps.list-changed.outputs.changed == 'true'

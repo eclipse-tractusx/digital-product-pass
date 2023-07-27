@@ -465,7 +465,6 @@ public class AasService extends BaseService {
         try {
             Status status = this.processManager.getStatus(processId);
             SearchStatus searchStatus = this.processManager.setSearch(processId, searchBody);
-            List<Thread> executingThreads = List.of();
             for (String endpointId : searchStatus.getDtrs().keySet()) {
                 Dtr dtr = searchStatus.getDtr(endpointId);
                 DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
@@ -475,21 +474,11 @@ public class AasService extends BaseService {
                         searchBody,
                         dtr
                 );
-                executingThreads.add(ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint()));
+                Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
+                thread.join(this.dtrConfig.getTransferTimeout());
             }
-            if (executingThreads.size() == 0) {
-                return null;
-            }
-
-            executingThreads.parallelStream().forEach(executingThread -> {
-                try {
-                    executingThread.join(this.dtrConfig.getTransferTimeout());
-                } catch (Exception e) {
-                    LogUtil.printWarning("Failed to get transfer for thread [" + executingThread.getName() + "]");
-                }
-            });
-
-            status = processManager.getStatus(processId);
+            // TODO: Wait until transfer is finished and retrieve digital twin ids
+            ThreadUtil.sleep(5000); // Wait until is stored
             if (!status.historyExists("digital-twin-found")) {
                 return null;
             }
@@ -507,7 +496,6 @@ public class AasService extends BaseService {
             String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             ResponseEntity<?> response = null;
-            LogUtil.printMessage(jsonUtil.toJson(edr, true));
             if (!this.central && registryUrl != null && edr != null) {
                 // Set request body as post if the central query is disabled
                 Object body = Map.of(
@@ -520,9 +508,7 @@ public class AasService extends BaseService {
                                 )
                         )
                 );
-                LogUtil.printMessage(jsonUtil.toJson(body, true));
                 HttpHeaders headers = this.getTokenHeader(edr);
-                LogUtil.printMessage(headers.toString());
                 response = httpUtil.doPost(url, ArrayList.class, headers, httpUtil.getParams(), body, false, false);
             } else {
                 // Query as GET if the central query is enabled

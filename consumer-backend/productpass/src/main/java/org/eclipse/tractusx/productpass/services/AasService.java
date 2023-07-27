@@ -229,7 +229,7 @@ public class AasService extends BaseService {
     }
     public JsonNode searchSubModel3ById(JsonNode digitalTwin, String idShort) {
         try {
-            JsonNode subModel = this.getSubModel3ById(digitalTwin, idShort);
+            JsonNode subModel = jsonUtil.toJsonNode(jsonUtil.toJson(this.getSubModel3ById(digitalTwin, idShort), true));
             if (subModel == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
@@ -324,21 +324,21 @@ public class AasService extends BaseService {
         }
     }
 
-    public JsonNode getSubModel3ById(JsonNode digitalTwin, String idShort) {
+    public Object getSubModel3ById(JsonNode digitalTwin, String idShort) {
         try {
-            ArrayList<JsonNode> subModels = (ArrayList<JsonNode>)jsonUtil.getValue(digitalTwin, "submodelDescriptors", ".", null);
+            ArrayList<Object> subModels = (ArrayList<Object>)jsonUtil.getValue(digitalTwin, "submodelDescriptors", ".", null);
             if (subModels==null || subModels.size() < 1) {
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
                         "No subModel found in digitalTwin!");
             }
 
 
             // Search for first subModel with matching idShort, if it fails gives null
-            JsonNode subModel = subModels.stream().filter(s -> jsonUtil.getValue(s, "idShort","",null).toString().equalsIgnoreCase(idShort)).findFirst().orElse(null);
+            Object subModel = subModels.stream().filter(s -> jsonUtil.getValue(s, "idShort","",null).toString().equalsIgnoreCase(idShort)).findFirst().orElse(null);
 
             if (subModel == null) {
                 // If the subModel idShort does not exist
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
                         "SubModel for idShort not found!");
             }
             // Return subModel if found

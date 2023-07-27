@@ -481,14 +481,14 @@ public class AasService extends BaseService {
                 return null;
             }
 
-            executingThreads.parallelStream().forEach(executingThread -> {
+            for (Thread thr : executingThreads) {
                 try {
-                    executingThread.join(this.dtrConfig.getTransferTimeout());
+                    thr.join(this.dtrConfig.getTransferTimeout());
                 } catch (Exception e) {
-                    LogUtil.printWarning("Failed to get transfer for thread [" + executingThread.getName() + "]");
+                    LogUtil.printWarning("Failed to get transfer for thread [" + thr.getName() + "]");
                 }
-            });
-
+            }
+            ThreadUtil.sleep(1000); // Wait until is stored
             status = processManager.getStatus(processId);
             if (!status.historyExists("digital-twin-found")) {
                 return null;

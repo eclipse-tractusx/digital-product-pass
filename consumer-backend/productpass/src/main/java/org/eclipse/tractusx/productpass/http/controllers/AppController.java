@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.juli.logging.Log;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -56,6 +58,8 @@ import utils.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 @RestController
 @Tag(name = "Public Controller")
 public class AppController {
@@ -80,6 +84,9 @@ public class AppController {
 
     @Autowired
     ProcessManager processManager;
+
+    @Autowired
+    DtrConfig dtrConfig;
     private @Autowired ProcessConfig processConfig;
 
     @GetMapping("/")
@@ -136,7 +143,7 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No dtr available for this endpointId"), httpResponse);
             }
             // Start Digital Twin Query
-            AasService.DigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
+            AasService.DecentralDigitalTwinRegistryQueryById digitalTwinRegistry = aasService.new DecentralDigitalTwinRegistryQueryById(
                     search,
                     endpointData
             );
@@ -144,19 +151,30 @@ public class AppController {
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
             // Wait for digital twin query
             digitalTwinRegistryThread.join();
-            DigitalTwin digitalTwin = null;
-            SubModel subModel = null;
+            JsonNode digitalTwin = null;
+            JsonNode subModel = null;
             String connectorId = null;
             String connectorAddress = null;
+            String digitalTwinId = null;
+            String subModelId = null;
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
-                connectorId = subModel.getIdShort();
-                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("EDC")).findFirst().orElse(null);
+                digitalTwinId = (String) jsonUtil.getValue(digitalTwin, "id", "", null);
+                if (digitalTwinId.isEmpty()) {
+                    throw new ControllerException(this.getClass().getName(), "No Digital Twin Id found!");
+                }
+                subModelId = (String) jsonUtil.getValue(subModel, "id", "", null);
+                if (subModelId.isEmpty()) {
+                    throw new ControllerException(this.getClass().getName(), "No Sub Model Id found!");
+                }
+                connectorId = (String) jsonUtil.getValue(subModel, "idShort", "", null);
+                List<JsonNode> endpoints = (List<JsonNode>) jsonUtil.getValue(subModel, "idShort", "", null);
+                JsonNode endpoint = endpoints.stream().filter(obj ->  jsonUtil.getValue(obj, "interface", ".", null).toString().equals((this.dtrConfig.getCentral())?"EDC":"SUBMODEL-1.0RC02")).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }
-                connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
+                connectorAddress = (String) jsonUtil.getValue(endpoint, "protocolInformation.href", "", null);
             } catch (Exception e) {
                 LogUtil.printException(e, "Failed to get the submodel from the digital twin registry!");
             }
@@ -174,9 +192,9 @@ public class AppController {
             processManager.setEndpoint(processId, connectorAddress);
             LogUtil.printMessage(jsonUtil.toJson(digitalTwin, true));
             LogUtil.printMessage(jsonUtil.toJson(subModel, true));
-            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
-            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());
+            processManager.saveDigitalTwin(processId, digitalTwinId, digitalTwin, dtRequestTime);
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwinId + "] and Submodel [" + subModelId + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            String assetId = String.join("-", digitalTwinId, subModelId);
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,
                     "READY"

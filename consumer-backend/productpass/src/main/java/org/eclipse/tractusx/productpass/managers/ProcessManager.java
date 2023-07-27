@@ -652,6 +652,23 @@ public class ProcessManager {
         }
     }
 
+    public String saveDigitalTwin(String processId, String identification, Object digitalTwin, Long startedTime) {
+        try {
+            return this.saveProcessPayload(
+                    processId,
+                    digitalTwin,
+                    this.digitalTwinFileName,
+                    startedTime,
+                    identification,
+                    "READY",
+                    "digital-twin-request");
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the digitalTwin!");
+        }
+    }
+
+
+
     public String saveDataset(String processId, Dataset dataset, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(

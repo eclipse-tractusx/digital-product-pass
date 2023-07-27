@@ -91,21 +91,21 @@ backend:
         jackson:
           serialization:
             indent_output: true
-
+      
       logging:
         level:
           root: INFO
           utils: INFO
-
+      
       configuration:
         maxRetries: 5
-
+      
         keycloak:
           realm: CX-Central
           resource: Cl13-CX-Battery
           tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
           userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
-
+      
         edc:
           endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
           management: '/management/v2'
@@ -113,16 +113,42 @@ backend:
           negotiation: '/contractnegotiations'
           transfer: '/transferprocesses'
           receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
-
+          delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+      
+        security:
+          check:
+            enabled: true
+            bpn: false
+            edc: true
+      
+        dtr:
+          central: false
+          centralUrl: 'https://semantics.dev.demo.catena-x.net/registry'
+          assetId: 'digital-twin-registry'
+          internalDtr: "https://materialpass.dev.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
+          decentralApis:
+            prefix: "/api/v3.0"
+            search: "/lookup/shells/query"
+            digitalTwin: "/shell-descriptors"
+            subModel: "/submodel-descriptors"
+          transferTimeout: 10000
+          temporaryStorage: true
+      
+        discovery:
+          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+          bpn:
+            key: "manufacturerPartId"
+            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+          edc:
+            key: "bpn"
+      
+      
         process:
           store: true
           dir: 'process'
           indent: true
           signKey: '<path:material-pass/data/dev/backend/#signKey>'
-
-        endpoints:
-          registryUrl: 'https://semantics.dev.demo.catena-x.net'
-
+      
         passport:
           dataTransfer:
             encrypt: true
@@ -130,7 +156,7 @@ backend:
             dir: "data/transfer"
           versions:
             - 'v3.0.1'
-
+      
         vault:
           type: 'local'
           file: 'vault.token.yml'
@@ -143,7 +169,7 @@ backend:
             - "client.secret"
             - "edc.apiKey"
             - "edc.participantId"
-
+      
       server:
         error:
           include-message: ALWAYS

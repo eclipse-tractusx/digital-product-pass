@@ -251,8 +251,6 @@ public class ContractController {
                 assetSearch = aasService.centralDtrSearch(process.id, searchBody);
             }
 
-            LogUtil.printMessage(jsonUtil.toJson(assetSearch, true));
-
 
             if(assetSearch == null){
                 response = httpUtil.getBadRequest("No digital twin was found!");

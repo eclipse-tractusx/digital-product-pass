@@ -508,7 +508,7 @@ public class ProcessManager {
                     transferPayload,
                     fileName,
                     transfer.getId(),
-                    "COMPLETED",
+                    !dtr?"COMPLETED":"FOUND-DTR",
                     "transfer-completed");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer!");

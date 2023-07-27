@@ -30,6 +30,7 @@ import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
@@ -652,14 +653,14 @@ public class ProcessManager {
         }
     }
 
-    public String saveDigitalTwin(String processId, String identification, Object digitalTwin, Long startedTime) {
+    public String saveDigitalTwin3(String processId, DigitalTwin3 digitalTwin, Long startedTime) {
         try {
             return this.saveProcessPayload(
                     processId,
                     digitalTwin,
                     this.digitalTwinFileName,
                     startedTime,
-                    identification,
+                    digitalTwin.getIdentification(),
                     "READY",
                     "digital-twin-request");
         } catch (Exception e) {

@@ -35,7 +35,7 @@ import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
-import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
+import org.eclipse.tractusx.productpass.models.dtregistry.*;
 import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
@@ -45,9 +45,7 @@ import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.negotiation.Transfer;
 import org.eclipse.tractusx.productpass.models.negotiation.TransferRequest;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -147,7 +145,7 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
-    public JsonNode searchDigitalTwin3(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin3 searchDigitalTwin3(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
@@ -161,7 +159,7 @@ public class AasService extends BaseService {
 
 
             String digitalTwinId = digitalTwinIds.get(position);
-            JsonNode digitalTwin = this.getDigitalTwin3(digitalTwinId, registryUrl, edr);
+            DigitalTwin3 digitalTwin = this.getDigitalTwin3(digitalTwinId, registryUrl, edr);
             if (digitalTwin == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
@@ -212,7 +210,20 @@ public class AasService extends BaseService {
         }
         return jsonUtil.getValue(this.apis, "decentral.prefix", ".", null) + path;
     }
-
+    public SubModel3 searchSubModel3ById(DigitalTwin3 digitalTwin, String idShort) {
+        try {
+            SubModel3 subModel = this.getSubModel3ById(digitalTwin, idShort);
+            if (subModel == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3ById",
+                        "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
+            }
+            return subModel;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3ById",
+                    e,
+                    "It was not possible to search submodel!");
+        }
+    }
     public SubModel searchSubModelById(DigitalTwin digitalTwin, String idShort) {
         try {
             SubModel subModel = this.getSubModelById(digitalTwin, idShort);
@@ -227,21 +238,6 @@ public class AasService extends BaseService {
                     "It was not possible to search submodel!");
         }
     }
-    public JsonNode searchSubModel3ById(JsonNode digitalTwin, String idShort) {
-        try {
-            JsonNode subModel = jsonUtil.toJsonNode(jsonUtil.toJson(this.getSubModel3ById(digitalTwin, idShort), true));
-            if (subModel == null) {
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
-                        "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
-            }
-            return subModel;
-        } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "searchSubModelById",
-                    e,
-                    "It was not possible to search submodel!");
-        }
-    }
-
 
     public SubModel searchSubModel(DigitalTwin digitalTwin, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
@@ -258,7 +254,7 @@ public class AasService extends BaseService {
         }
     }
 
-    public JsonNode getDigitalTwin3(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin3 getDigitalTwin3(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
             String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
@@ -266,7 +262,7 @@ public class AasService extends BaseService {
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
-            return jsonUtil.toJsonNode(responseBody);
+            return (DigitalTwin3) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), DigitalTwin3.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getDigitalTwin",
                     e,
@@ -324,17 +320,15 @@ public class AasService extends BaseService {
         }
     }
 
-    public Object getSubModel3ById(JsonNode digitalTwin, String idShort) {
+    public SubModel3 getSubModel3ById(DigitalTwin3 digitalTwin, String idShort) {
         try {
-            ArrayList<Object> subModels = (ArrayList<Object>)jsonUtil.getValue(digitalTwin, "submodelDescriptors", ".", null);
-            if (subModels==null || subModels.size() < 1) {
+            ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
+            if (subModels.size() < 1) {
                 throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
                         "No subModel found in digitalTwin!");
             }
-
-
             // Search for first subModel with matching idShort, if it fails gives null
-            Object subModel = subModels.stream().filter(s -> jsonUtil.getValue(s, "idShort","",null).toString().equalsIgnoreCase(idShort)).findFirst().orElse(null);
+            SubModel3 subModel = subModels.stream().filter(s -> s.getIdShort().equalsIgnoreCase(idShort)).findFirst().orElse(null);
 
             if (subModel == null) {
                 // If the subModel idShort does not exist
@@ -344,12 +338,11 @@ public class AasService extends BaseService {
             // Return subModel if found
             return subModel;
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
                     e,
                     "It was not possible to get subModel!");
         }
     }
-
 
     public SubModel getSubModelById(DigitalTwin digitalTwin, String idShort) {
         try {
@@ -559,8 +552,8 @@ public class AasService extends BaseService {
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         private DataPlaneEndpoint edr;
-        private JsonNode subModel;
-        private JsonNode digitalTwin;
+        private SubModel3 subModel;
+        private DigitalTwin3 digitalTwin;
 
         private final String assetId;
         private final String idType;
@@ -591,19 +584,19 @@ public class AasService extends BaseService {
             this.edr = edr;
         }
 
-        public JsonNode getSubModel() {
+        public SubModel3 getSubModel() {
             return subModel;
         }
 
-        public void setSubModel(JsonNode subModel) {
+        public void setSubModel(SubModel3 subModel) {
             this.subModel = subModel;
         }
 
-        public JsonNode getDigitalTwin() {
+        public DigitalTwin3 getDigitalTwin() {
             return digitalTwin;
         }
 
-        public void setDigitalTwin(JsonNode digitalTwin) {
+        public void setDigitalTwin(DigitalTwin3 digitalTwin) {
             this.digitalTwin = digitalTwin;
         }
 

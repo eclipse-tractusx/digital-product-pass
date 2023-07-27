@@ -29,7 +29,7 @@ name: "Publish Digital Product Pass Backend Docker Images"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/cmp-655/decentral-dtr" ]
 
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'

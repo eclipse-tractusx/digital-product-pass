@@ -33,10 +33,10 @@ spec:
     - name: frontend
       image: busybox
       command: ['wget']
-      args: ['{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}/passport']
+      args: ['{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}', '-O', '/dev/null']
     - name: backend
       image: busybox
-      command: ['wget']
-      args: ['{{ .Values.backend.name }}:{{ .Values.backend.service.port }}/health']
+      command: ['/bin/sh','-c']
+      args: ["i=0; wget '{{ .Values.backend.name }}:{{ .Values.backend.service.port }}'/health -O /dev/null; while [ $i -ne 5 ]; do wget '{{ .Values.backend.name }}:{{ .Values.backend.service.port }}'/health -O /dev/null; sleep 6; i=$(($i+1)); done"]
   restartPolicy: Never
   

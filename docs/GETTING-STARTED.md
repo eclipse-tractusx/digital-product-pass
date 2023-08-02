@@ -87,20 +87,11 @@ cd ../deployment/helm/local/scripts
 
 
 * __CatenaX-Registry__
-    * Description: This component is centrally managed by CatenaX, data consumer used it to request contract offer catalogs, offered by data provider.
+    * Description: The following components are centrally managed by CatenaX:
+      * Discovery Finder
+      * BPN Discovery
+      * EDC Discovery
 
-    * Optional: 
-    One can also host its own registry locally using its docker image: [ghcr.io/catenax-ng/catenax-at-home/registry](https://github.com/catenax-ng/catenax-at-home/blob/main/getting-started-guide/docker-compose.yml#L89)
-```bash 
-# optional: Pull docker image
-docker pull ghcr.io/catenax-ng/catenax-at-home/registry:0.0.1;
-
-# optional Run docker container
-docker run -d -p 4243:4243 -p 5013:8090 --env SPRING_PROFILES_ACTIVE=local --env IDP_ISSUER_URI="" --env SPRING_DATASOURCE_URL="jdbc:h2:mem:semanticsdb;CASE_INSENSITIVE_IDENTIFIERS=TRUE" --name cx-registry ghcr.io/catenax-ng/catenax-at-home/registry:0.0.1
-
-# optional: stop and remove cx-registry container
-docker stop cx-registry; docker rm cx-registry
-```
 * __EDC-Consumer__
     * Description: This component consists of different services which are described in
       the [Connector Setup 3](https://github.com/catenax-ng/product-edc/tree/develop/docs#connector-setup).

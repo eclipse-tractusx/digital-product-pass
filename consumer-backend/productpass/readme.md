@@ -108,13 +108,18 @@ default index = 0
 
 ### Passport API
 
-Get a passport from a Catena-X Provider by using its AssetId, this will start a negotiation with the provider and retrieve passport
+Get a passport from a Catena-X Provider by using its processId, contractId and a token, this retrieves product passport after a successful negotiation.
 
 ```bash
-\api\passport\<version>\<assetId>?idType=<...>&index=<...>
-__________
-default idType = "Battery_ID_DMC_Code"
-default index = 0
+\api\passport #Get the health status of the server
+```
+###### Request body
+```json
+{
+    "processId": "string",
+    "contractId": "string",
+    "token": "string"
+}
 ```
 
 #### Versions Available
@@ -133,9 +138,70 @@ passport:
 
 ### Contract API
 
-Get a contract from the catalog searching by assetId
 ```bash
-\api\contracts\<assetId>
+\api\contract\create #Creates a process and checks for the viability of the data retrieval
+```
+###### Request body
+```json
+{
+    "id": "string",
+    "type": "string"
+}
+```
+
+```bash
+\api\contract\search #Searches for a passport with the following id
+```
+###### Request body
+```json
+{
+    "processId": "string",
+    "id": "string",
+    "version": "string",
+    "idType": "string",
+    "dtIndex": 0,
+    "idShort": "string"
+}
+```
+
+```bash
+\api\contract\sign #Sign contract retrieved from provider and start negotiation
+```
+###### Request body
+```json
+{
+    "processId": "string",
+    "contractId": "string",
+    "token": "string"
+}
+```
+
+```bash
+\api\contract\decline #Decline passport negotiation
+```
+###### Request body
+```json
+{
+    "processId": "string",
+    "contractId": "string",
+    "token": "string"
+}
+```
+
+```bash
+\api\contract\cancel #Cancel the negotiation
+```
+###### Request body
+```json
+{
+    "processId": "string",
+    "contractId": "string",
+    "token": "string"
+}
+```
+
+```bash
+\api\contract\status\<processId> #Get status from process
 ```
 
 ## Public APIs
@@ -144,13 +210,29 @@ Public APIs don't require authentication
 ```bash
 \health #Get the health status of the server
 ```
+###### Response
 ```json
 {
     "message": "RUNNING",
     "status": 200,
     "data": "24/11/2022 17:48:18.487"
 }
+```
 
+```bash
+\endpoint\<processId> 
+```
+###### Request body
+```json
+{}
+```
+
+```bash
+\endpoint\<processId>\<endpointId>
+```
+###### Request body
+```json
+{}
 ```
 
 ## OSS License Check
@@ -206,8 +288,7 @@ Once you configured the application use the follow the [TL;DR](#tldr) below to `
 # TL;DR 
 
 ## Install
-[Backend Installation](../../INSTALL.m)
-
+[Backend Installation](../../INSTALL.md)
 
 # License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)

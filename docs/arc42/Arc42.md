@@ -149,12 +149,29 @@ The interaction between the Product Passport Application previous the "BatteryPa
 ![Application State Design](./GraphicApplicationStateDiagram.jpg)
 
 ##### Technical Integration Design
+Complete technical interaction overview between frontend and backend
 
 ![Technical Integration Design](./GraphicTechnicalIntegrationDesign.jpg)
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html
-)
+#### API Interaction with Catena-X Services
 
+##### Create API Process
+
+![Create API Process](./CreateAPIProcess.jpg)
+
+##### Create API Flow
+
+![Create API Flow](./CreateProcessFlow.jpg)
+
+##### Search API Process
+
+![Search API Process](./SearchAPIProcess.jpg)
+
+##### Sign API Process
+
+![Sign API Process](./SignAPIProcess.jpg)
+
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 ### Business Context
 
@@ -221,7 +238,7 @@ At the moment, the Product Passport Application is hosted in three different env
 
 #### Documentation links
 
-* [ARC42 Documentation](#)
+* [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
 * [Administration Guide](../admin%20guide/Admin_Guide.md)
 * [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
@@ -430,11 +447,7 @@ The passport view was designed following using Catena-X accordion guidelines.
 
 ## Quality Requirements
 
-As the Product Passport product is part of the Catena-X Network we are required to follow the quality requirements set by the Governance and Architecture Teams.  
-
-The description of this quality gates can be found in the following documentation:
-
-**Delivery Date:** 03.03.2023
+As the Product Passport product is part of the Catena-X Network we are required to follow the quality requirements set by the Governance and Architecture Teams.
 
 ### Quality Scenarios
 

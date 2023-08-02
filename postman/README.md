@@ -24,19 +24,21 @@
 
 This technical guide depicts the digital product pass end-to-end API calls through the postman REST client.
 
-### Components in Digital Product Pass collection:
+### Components in Digital Product Pass:
 - Provider
+  - Registry
+- Discovery Finder
+- BPN Discovery
+- EDC Discovery
 - Consumer
-    - CX Registry
     - Data transfer
 - Backend
-    - Auth
 
 
 ### Steps to  Proceed
 - Setup up [Postman client](https://www.postman.com/downloads)
 
-- Import a [Digital Product Pass collection](./v3.0.1/Digital-Product-Pass-v1.0.0.postman_collection.json)
+- Import the [Digital Product Pass](./v3.0.1/Digital-Product-Pass-v1.0.0.postman_collection.json)
 
 - Configure the ***providerBpn***, ***APIKey***, ***clientId*** and ***clientSecret*** environment variables from the variables tab inside root directory.
 

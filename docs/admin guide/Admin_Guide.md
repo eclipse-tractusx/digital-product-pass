@@ -129,7 +129,7 @@ The configurations of log levels and other variables can be set in the following
 
 | Name                              | Location | Link                                                                                                                                                                                                                                         |
 |-----------------------------------| -------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/consumer-backend/productpass/src/main/resources/application.yaml](https://github.com/eclipse-tractusx/digital-product-pass/consumer-backend/productpass/src/main/resources/application.yaml) |
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
 
 ### Spring Boot Configuration
 

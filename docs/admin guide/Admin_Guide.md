@@ -59,11 +59,12 @@ Here you will find all the guides related with the configuration of the Product 
 
 ## Getting Started Guide
 
-To start the configuration of the Product Passport Application please follow this getting started guide:
+To start the configuration of the Product Passport Application please follow this getting started guide for configuring a local stand-alone enviroment (for all components) and install guide to install the application with frontend and backend:
 
-| Name | Location | Link |
-| ---- | -------- | ---- |
+| Name                  | Location | Link                                                                                                                                                                                     |
+|-----------------------| -------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md) |  
+| Install Guide         | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/INSTALL.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/INSTALL.md)                           |  
 
 ## Deployment Configuration
 
@@ -126,9 +127,9 @@ All the information about the backend services is described in this documentatio
 ### Backend Application Configuration
 The configurations of log levels and other variables can be set in the following file:
 
-| Name                              | Location | Link |
-|-----------------------------------| -------- | ---- |
-| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/consumer-backend/productpass/src/main/resources/config) |
+| Name                              | Location | Link                                                                                                                                                                                                                                         |
+|-----------------------------------| -------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/consumer-backend/productpass/src/main/resources/application.yaml](https://github.com/eclipse-tractusx/digital-product-pass/consumer-backend/productpass/src/main/resources/application.yaml) |
 
 ### Spring Boot Configuration
 
@@ -178,13 +179,13 @@ When configuring your EDC Provider you need to take info consideration the follo
 
 **All variables are written in the following notation: ***{{ VARIABLE_NAME }}*****
 
-All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/catenax-ng/product-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
+All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/eclipse-tractusx/tractusx-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
 
 ### Asset Configuration
 
 When configurating you EDC provider you will be able to set some assets which reference to a certain endpoint.
 
-> **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the [Digital Twin Registry](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html).*
+> **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the Digital Twin Registry.*
 
 #### **Variables:**
 

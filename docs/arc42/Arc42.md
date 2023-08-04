@@ -218,8 +218,8 @@ At the moment, the Product Passport Application is hosted in three different env
 ##### Containers
 
 * EDC-Consumer Connector
-* Consumer-UI
-* Consumer-Backend
+* DPP-Frontend
+* DPP-Backend
 * PostgreSQL
 
 #### CI/CD
@@ -431,11 +431,11 @@ It was used a basic table, the logo, the footer and the avatar from Catena-X des
 
 ![Catena-X Avatar](./GraphicAvatar.png)
 
-### QR Code and Searching View
+### Searching View
 
-The QR Code view was also design following the Catena-X buttons and search style guides
+The Search view was also design following the Catena-X buttons and search style guides
 
-![QR Code and Search View](./GraphicQRCodeView.png)
+![QR Code and Search View](./GraphicSearchView.png)
 
 ### Battery Passport View
 

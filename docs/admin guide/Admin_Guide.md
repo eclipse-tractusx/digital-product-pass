@@ -189,13 +189,14 @@ When configurating you EDC provider you will be able to set some assets which re
 
 #### **Variables:**
 
-| Name | Description | Example Value |
-| ---- | -------- | ---- |
-| AssetId | Combination of Digital Twin and Sub Model UUIDs | 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a |
-| Description | Simple description of the asset | Battery Passport Test Data |
-| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://materialpass.int.demo.catena-x.net/provider_backend/data](https://materialpass.int.demo.catena-x.net/provider_backend/data) |
-| DigitalTwinId | Id from the Digital Twin	 | 32aa72de-297a-4405-9148-13e12744028a  |
-| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | 699f1245-f57e-4d6b-acdb-ab763665554a |
+| Name                    | Description                                                                                                                      | Example Value                                                                                                                                                                                                                                                                                                                                                                                                              |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AssetId                 | Combination of Digital Twin and Sub Model UUIDs                                                                                  | **Example value for asset**: 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a <br/>**Example value for registry**: digital-twin-registry                                                                                                                                                                                                                                                          |
+| AssetType               | The type of the Asset                                                                                                            | **Example value for asset**: Asset <br/>**Example value for registry**: data.core.digitalTwinRegistry                                                                                                                                                                                                                                                                                                                          |
+| Description             | Simple description of the asset                                                                                                  | Battery Passport Test Data                                                                                                                                                                                                                                                                                                                                                                                                 |
+| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry](https://materialpass.int.demo.catena-x.net/semantics/registry) |
+| DigitalTwinId           | Id from the Digital Twin	                                                                                                        | 32aa72de-297a-4405-9148-13e12744028a                                                                                                                                                                                                                                                                                                                                                                                       |
+| DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | 699f1245-f57e-4d6b-acdb-ab763665554a                                                                                                                                                                                                                                                                                                                                                                                       |
 
 
 #### **Format and Fields:**
@@ -204,16 +205,21 @@ When configurating you EDC provider you will be able to set some assets which re
 {
     "@context": {},
     "asset": {
-        "@type": "Asset",
+        "@type": "{{AssetType}}",
         "@id": "{{AssetId}}", 
         "properties": {
             "description": "{{Description}}"
+            "contenttype": "application/json"
         }
     },
     "dataAddress": {
         "@type": "DataAddress",
         "type": "HttpData",
-        "baseUrl": "{{DataProviderEndpointUrl}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}"
+        "proxyPath": "true",
+        "proxyBody": "true",
+        "proxyMethod": "true",
+        "proxyQueryParams": "true",
+        "baseUrl": "{{DataProviderEndpointUrl}}"
     }
 }
 ```
@@ -257,21 +263,21 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
     "policy": {
 		"@type": "Policy",
 		"odrl:permission" : [{
-      "odrl:action": "{{PermissionActionType}}",
-      "odrl:constraint": {
-        "odrl:constraint": {
-          "@type": "LogicalConstradev",
-          "odrl:or": [
-            {
-              "@type": "Contraint",
-              "odrl:leftOperand": "BusinessPartnerNumber",
-              "odrl:operator": "EQ",
-              "odrl:rightOperand": "<some-bpn>"
+          "odrl:action": "{{PermissionActionType}}",
+          "odrl:constraint": {
+            "odrl:constraint": {
+              "@type": "LogicalConstradev",
+              "odrl:or": [
+                {
+                  "@type": "Contraint",
+                  "odrl:leftOperand": "BusinessPartnerNumber",
+                  "odrl:operator": "EQ",
+                  "odrl:rightOperand": "<some-bpn>"
+                }
+              ]
             }
-          ]
-        }
-      }
-    }]
+          }
+        }]
     }
 }
 ```
@@ -285,12 +291,12 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 #### **Variables:**
 
-| Name | Description | Example Value |
-| ---- | -------- | ---- |
-| ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df |
-| AssetId | Combination of Digital Twin and Sub Model UUIDs | 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a |
-| AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
-| ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
+| Name | Description | Example Value                                                                                                                                 |
+| ---- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------|
+| ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df                                                                                                          |
+| AssetId | Combination of Digital Twin and Sub Model UUIDs | **Example value for asset**: 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a <br/> **Example value for registry**: digital-twin-registry |
+| AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
+| ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
 
 
 #### **Format and Fields:**
@@ -362,9 +368,11 @@ Once you finish the configuration, to make the endpoint public configure in the 
                     "protocolInformation": {
                         "href": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",
                         "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
-                        "endpointProtocolVersion": [ "1.1" ],
-                        "subprotocol": "IDS",
-                        "subprotocolBody": ""
+                        "endpointProtocolVersion": [ 
+                            "1.1" 
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id={{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",dspEndpoint={{EDCProviderUrl}}/{{BPN}}"
                     }
                 }
             ],

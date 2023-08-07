@@ -40,6 +40,11 @@ This technical guide depicts the digital product pass end-to-end API calls throu
 
 - Import the [Digital Product Pass](./v3.0.1/Digital-Product-Pass-collection.json)
 
-- Configure the ***providerBpn***, ***APIKey***, ***clientId*** and ***clientSecret*** environment variables from the variables tab inside root directory.
+- Configure the following environment variables from the variables tab inside root directory.
+
+- ***APIKey***
+- ***clientId***
+- ***clientSecret***
+- ***bpnNumber***
 
 For more technical documentation, please refer to the [catenax-at-home-getting-started-guide](https://catenax-ng.github.io/docs/guides/catenax-at-home)

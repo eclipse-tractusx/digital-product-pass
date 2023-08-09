@@ -36,6 +36,8 @@ public class DigitalTwin3 {
     @JsonProperty("idShort")
     String idShort;
 
+    @JsonProperty("globalAssetId")
+    String globalAssetId;
     @JsonProperty("displayName")
     Object displayName;
 
@@ -61,6 +63,16 @@ public class DigitalTwin3 {
     public DigitalTwin3(ArrayList<JsonNode> description, String idShort, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
+        this.displayName = displayName;
+        this.identification = identification;
+        this.specificAssetIds = specificAssetIds;
+        this.submodelDescriptors = submodelDescriptors;
+    }
+
+    public DigitalTwin3(ArrayList<JsonNode> description, String idShort, String globalAssetId, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
+        this.description = description;
+        this.idShort = idShort;
+        this.globalAssetId = globalAssetId;
         this.displayName = displayName;
         this.identification = identification;
         this.specificAssetIds = specificAssetIds;
@@ -114,6 +126,14 @@ public class DigitalTwin3 {
 
     public void setDisplayName(Object displayName) {
         this.displayName = displayName;
+    }
+
+    public String getGlobalAssetId() {
+        return globalAssetId;
+    }
+
+    public void setGlobalAssetId(String globalAssetId) {
+        this.globalAssetId = globalAssetId;
     }
 }
 

@@ -35,6 +35,10 @@ public class DigitalTwin3 {
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
     String idShort;
+
+    @JsonProperty("displayName")
+    Object displayName;
+
     @JsonProperty("id")
     String identification;
     @JsonProperty("specificAssetIds")
@@ -46,9 +50,18 @@ public class DigitalTwin3 {
     public DigitalTwin3() {
     }
 
-    public DigitalTwin3(ArrayList<JsonNode> description,  String idShort, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
+    public DigitalTwin3(ArrayList<JsonNode> description, String idShort, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
+        this.identification = identification;
+        this.specificAssetIds = specificAssetIds;
+        this.submodelDescriptors = submodelDescriptors;
+    }
+
+    public DigitalTwin3(ArrayList<JsonNode> description, String idShort, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
+        this.description = description;
+        this.idShort = idShort;
+        this.displayName = displayName;
         this.identification = identification;
         this.specificAssetIds = specificAssetIds;
         this.submodelDescriptors = submodelDescriptors;
@@ -93,6 +106,14 @@ public class DigitalTwin3 {
 
     public void setSubmodelDescriptors(ArrayList<SubModel3> submodelDescriptors) {
         this.submodelDescriptors = submodelDescriptors;
+    }
+
+    public Object getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(Object displayName) {
+        this.displayName = displayName;
     }
 }
 

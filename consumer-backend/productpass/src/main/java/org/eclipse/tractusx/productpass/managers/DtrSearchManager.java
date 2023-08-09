@@ -254,7 +254,7 @@ public class DtrSearchManager {
             }
             return (ConcurrentHashMap<String, List<Dtr>>) jsonUtil.fromJsonFileToObject(path, ConcurrentHashMap.class);
         } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the DTR data model");
+            throw new ManagerException(this.getClass().getName() + ".loadDataModel", e, "It was not possible to load the DTR data model");
         }
     }
 
@@ -280,8 +280,8 @@ public class DtrSearchManager {
         return new Runnable() {
             @Override
             public void run() {
-                Offer offer = dataTransferService.buildOffer(dataset);
                 try {
+                    Offer offer = dataTransferService.buildOffer(dataset, 0);
                     IdResponse negotiationResponse = dataTransferService.doContractNegotiations(offer, CatenaXUtil.buildDataEndpoint(connectionUrl));
                     if (negotiationResponse == null) {
                         return;
@@ -300,7 +300,7 @@ public class DtrSearchManager {
                     processManager.addSearchStatusDtr(processId, dtr);
 
                 } catch (Exception e) {
-                    LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr",e,"Was not possible to do ContractNegotiation for URL: " + connectionUrl);
                 }
             }
         };

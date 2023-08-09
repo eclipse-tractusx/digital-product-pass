@@ -31,7 +31,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dataset extends DidDocument{
     @JsonProperty("odrl:hasPolicy")
-    Set policy;
+    Object policy;
     @JsonProperty("dcat:distribution")
     List<Distribution> distributions;
 
@@ -51,7 +51,7 @@ public class Dataset extends DidDocument{
     @JsonProperty("edc:id")
     String assetId;
 
-    public Dataset(String id, String type, Set policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
         super(id, type);
         this.policy = policy;
         this.distributions = distributions;
@@ -68,11 +68,11 @@ public class Dataset extends DidDocument{
     }
 
 
-    public Set getPolicy() {
+    public Object getPolicy() {
         return policy;
     }
 
-    public void setPolicy(Set policy) {
+    public void setPolicy(Object policy) {
         this.policy = policy;
     }
 

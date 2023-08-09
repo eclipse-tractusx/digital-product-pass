@@ -63,6 +63,9 @@ public class EndPoint3 {
         @JsonProperty("subprotocolBody")
         String subprotocolBody;
 
+        @JsonProperty("subprotocolBodyEncoding")
+        String subprotocolBodyEncoding;
+
         @JsonProperty("endpointProtocolVersion")
         List<String> endpointProtocolVersion;
 
@@ -80,6 +83,15 @@ public class EndPoint3 {
             this.endpointProtocol = endpointProtocol;
             this.subprotocol = subprotocol;
             this.subprotocolBody = subprotocolBody;
+            this.endpointProtocolVersion = endpointProtocolVersion;
+        }
+
+        public ProtocolInformation3(String endpointAddress, String endpointProtocol, String subprotocol, String subprotocolBody, String subprotocolBodyEncoding, List<String> endpointProtocolVersion) {
+            this.endpointAddress = endpointAddress;
+            this.endpointProtocol = endpointProtocol;
+            this.subprotocol = subprotocol;
+            this.subprotocolBody = subprotocolBody;
+            this.subprotocolBodyEncoding = subprotocolBodyEncoding;
             this.endpointProtocolVersion = endpointProtocolVersion;
         }
 
@@ -121,6 +133,14 @@ public class EndPoint3 {
 
         public void setSubprotocolBody(String subprotocolBody) {
             this.subprotocolBody = subprotocolBody;
+        }
+
+        public String getSubprotocolBodyEncoding() {
+            return subprotocolBodyEncoding;
+        }
+
+        public void setSubprotocolBodyEncoding(String subprotocolBodyEncoding) {
+            this.subprotocolBodyEncoding = subprotocolBodyEncoding;
         }
     }
 }

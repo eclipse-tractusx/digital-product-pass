@@ -70,7 +70,8 @@ configuration:
       search: "/lookup/shells/query"
       digitalTwin: "/shell-descriptors"
       subModel: "/submodel-descriptors"
-    transferTimeout: 10000
+    transferTimeout: 10  #  Seconds to wait
+    digitalTwinTimeout: 20  #  Seconds to wait
     temporaryStorage: true
 
   discovery:

@@ -56,6 +56,7 @@ import org.springframework.stereotype.Service;
 import utils.*;
 
 import javax.xml.crypto.Data;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -459,20 +460,60 @@ public class AasService extends BaseService {
                         dtr
                 );
                 Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
-                thread.join(this.dtrConfig.getTransferTimeout());
+                thread.join(Duration.ofSeconds(this.dtrConfig.getTransferTimeout()));
             }
             // TODO: Wait until transfer is finished and retrieve digital twin ids
-            ThreadUtil.sleep(5000); // Wait until is stored
-            if (!status.historyExists("digital-twin-found")) {
+            Thread blockThread = ThreadUtil.runThread(new DigitalTwinTimeout(this.processManager, processId));
+            try {
+                if(!blockThread.join(Duration.ofSeconds(this.dtrConfig.getDigitalTwinTimeout()))){
+                    LogUtil.printError("Timeout reached while waiting for receiving digital twin!");
+                    return null;
+                };
+            } catch (InterruptedException e) {
                 return null;
             }
-            return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+            status = this.processManager.getStatus(processId);
+            if(status.historyExists("digital-twin-found")){
+                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+            };
+            return null;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "decentralDtrSearch",
                     e,
                     "It was not possible to search and find digital twin");
         }
     }
+
+    public class DigitalTwinTimeout implements Runnable {
+        private ProcessManager processManager;
+
+        private String processId;
+
+        public DigitalTwinTimeout(ProcessManager processManager, String processId) {
+            this.processManager = processManager;
+            this.processId = processId;
+        }
+
+
+        @Override
+        public void run() {
+            this.waitForDigitalTwin();
+        }
+        public void waitForDigitalTwin(){
+            Status status = this.getStatus();
+            while(!status.historyExists("digital-twin-found")){
+                status = this.getStatus();
+                if(status.getStatus().equals("FAILED")){
+                    break;
+                }
+            }
+        }
+        public Status getStatus(){
+            return this.processManager.getStatus(this.processId);
+        }
+    }
+
+
 
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {

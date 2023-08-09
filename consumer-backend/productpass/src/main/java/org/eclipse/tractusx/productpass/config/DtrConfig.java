@@ -40,6 +40,8 @@ public class DtrConfig {
     Boolean temporaryStorage;
     DecentralApis decentralApis;
     Long transferTimeout;
+
+    Long digitalTwinTimeout;
     String assetId;
 
     public DecentralApis getDecentralApis() {
@@ -74,6 +76,14 @@ public class DtrConfig {
 
     public void setTemporaryStorage(Boolean temporaryStorage) {
         this.temporaryStorage = temporaryStorage;
+    }
+
+    public Long getDigitalTwinTimeout() {
+        return digitalTwinTimeout;
+    }
+
+    public void setDigitalTwinTimeout(Long digitalTwinTimeout) {
+        this.digitalTwinTimeout = digitalTwinTimeout;
     }
 
 

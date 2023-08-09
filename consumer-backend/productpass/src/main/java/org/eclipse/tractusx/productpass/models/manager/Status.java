@@ -51,8 +51,8 @@ public class Status {
     @JsonProperty("endpoint")
     public String endpoint;
 
-    @JsonProperty("bpns")
-    public List<String> bpns;
+    @JsonProperty("bpn")
+    public String bpn;
 
     @JsonProperty("history")
     public Map<String, History> history;
@@ -127,32 +127,32 @@ public class Status {
         this.history = Map.of(historyId, history);
     }
 
-    public Status(String id, String status, Long created, Long modified, String endpoint, List<String> bpns, Map<String, History> history) {
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, Map<String, History> history) {
         this.id = id;
         this.status = status;
         this.created = created;
         this.modified = modified;
         this.endpoint = endpoint;
-        this.bpns = bpns;
+        this.bpn = bpn;
         this.history = history;
     }
 
-    public Status(String id, String status, Long created, Long modified, String endpoint, List<String> bpns) {
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn) {
         this.id = id;
         this.status = status;
         this.created = created;
         this.modified = modified;
         this.endpoint = endpoint;
-        this.bpns = bpns;
+        this.bpn = bpn;
         this.history = new HashMap<String, History>();
     }
-    public Status(String id, String status, Long created, Long modified, String endpoint, List<String> bpns, String historyId, History history) {
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
         this.id = id;
         this.status = status;
         this.created = created;
         this.modified = modified;
         this.endpoint = endpoint;
-        this.bpns = bpns;
+        this.bpn = bpn;
         this.history = Map.of(historyId, history);
     }
     public String getId() {
@@ -223,12 +223,12 @@ public class Status {
         this.endpoint = endpoint;
     }
 
-    public List<String> getBpns() {
-        return bpns;
+    public String getBpn() {
+        return this.bpn;
     }
 
-    public void setBpns(List<String> bpns) {
-        this.bpns = bpns;
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
     }
 }
 

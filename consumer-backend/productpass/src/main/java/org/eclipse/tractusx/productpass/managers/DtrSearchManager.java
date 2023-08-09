@@ -285,7 +285,7 @@ public class DtrSearchManager {
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiations(offer, CatenaXUtil.buildDataEndpoint(connectionUrl));
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiations(offer, bpn,  CatenaXUtil.buildDataEndpoint(connectionUrl));
                     if (negotiationResponse == null) {
                         return;
                     }
@@ -294,7 +294,7 @@ public class DtrSearchManager {
                         LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
-                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId());
+                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn);
                     if (dtrConfig.getTemporaryStorage()) {
                         addConnectionToBpnEntry(bpn, dtr);
                         saveDtrDataModel();

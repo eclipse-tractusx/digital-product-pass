@@ -39,10 +39,14 @@ public class Dtr {
     @JsonProperty("assetId")
     private String assetId;
 
-    public Dtr(String contractId, String endpoint, String assetId) {
+    @JsonProperty("bpn")
+    private String bpn;
+
+    public Dtr(String contractId, String endpoint, String assetId, String bpn) {
         this.contractId = contractId;
         this.endpoint = endpoint;
         this.assetId = assetId;
+        this.bpn = bpn;
     }
 
     public Dtr() {
@@ -70,5 +74,13 @@ public class Dtr {
 
     public void setAssetId(String assetId) {
         this.assetId = assetId;
+    }
+
+    public String getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
     }
 }

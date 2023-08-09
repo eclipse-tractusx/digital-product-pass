@@ -178,12 +178,12 @@ public class DataTransferService extends BaseService {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
-    public NegotiationRequest buildRequest(Dataset dataset, Status status) {
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn) {
         Offer contractOffer = this.buildOffer(dataset, 0);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
-                bpnNumber,
+                bpn,
                 contractOffer
         );
     }
@@ -220,17 +220,20 @@ public class DataTransferService extends BaseService {
         private Integer transferAttempts;
         private Status status;
 
+        private String bpn;
+
         private String processId;
 
-        public NegotiateContract(ProcessDataModel dataModel, String processId, Dataset dataset, Status status) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
-            this.negotiationRequest = buildRequest(dataset, status);
+            this.bpn = bpn;
+            this.negotiationRequest = buildRequest(dataset, status, bpn);
         }
 
-        public TransferRequest buildTransferRequest(Dataset dataset, Status status, Negotiation negotiation) {
+        public TransferRequest buildTransferRequest(Dataset dataset, Status status, Negotiation negotiation, String bpn) {
             try {
                 Offer contractOffer = buildOffer(dataset, 0);
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
@@ -249,7 +252,7 @@ public class DataTransferService extends BaseService {
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                         dataset.getAssetId(),
                         status.getEndpoint(),
-                        bpnNumber,
+                        bpn,
                         negotiation.getContractAgreementId(),
                         dataDestination,
                         false,
@@ -296,7 +299,7 @@ public class DataTransferService extends BaseService {
             LogUtil.printStatus("[PROCESS " + this.processId + "] Negotiation Finished with status [" + negotiation.getState() + "]!");
             // TRANSFER PROCESS
             try {
-                this.transferRequest = buildTransferRequest(this.dataset, this.status, this.negotiation);
+                this.transferRequest = buildTransferRequest(this.dataset, this.status, this.negotiation, this.bpn);
                 processManager.saveTransferRequest(this.processId, transferRequest, new IdResponse(processId, null), false);
                 this.tranferResponse = this.requestTransfer(transferRequest);
                 processManager.saveTransferRequest(this.processId, transferRequest, this.tranferResponse, false);
@@ -553,13 +556,13 @@ public class DataTransferService extends BaseService {
         }
     }
 
-    public IdResponse doContractNegotiations(Offer contractOffer, String providerUrl) {
+    public IdResponse doContractNegotiations(Offer contractOffer, String bpn,  String providerUrl) {
         try {
             this.checkEmptyVariables();
             NegotiationRequest body = new NegotiationRequest(
                     jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                     providerUrl,
-                    this.bpnNumber,
+                    bpn,
                     contractOffer
             );
             return this.doContractNegotiation(body);

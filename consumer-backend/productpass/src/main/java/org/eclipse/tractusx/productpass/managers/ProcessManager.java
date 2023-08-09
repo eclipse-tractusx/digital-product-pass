@@ -256,26 +256,15 @@ public class ProcessManager {
         this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
         return process;
     }
-    public Process createProcess(HttpServletRequest httpRequest, String processId, List<String> bpns) {
+    public Process createProcess(HttpServletRequest httpRequest, String processId, String bpn) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(processId, "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
         this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
-        this.setBpns(process.id, bpns);
+        this.setBpn(process.id, bpn);
         return process;
     }
-
-    public Process createProcess(HttpServletRequest httpRequest, List<String> bpns) {
-        Long createdTime = DateTimeUtil.getTimestamp();
-        Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
-        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
-        this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
-        this.setBpns(process.id, bpns);
-        return process;
-    }
-
 
     public String newStatusFile(String processId, String connectorAddress, Long created){
         try {
@@ -312,7 +301,7 @@ public class ProcessManager {
         }
     }
 
-    public String setBpns(String processId, List<String> bpns) {
+    public String setBpn(String processId, String bpn) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             Status statusFile = null;
@@ -321,7 +310,7 @@ public class ProcessManager {
             }
 
             statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
-            statusFile.setBpns(bpns);
+            statusFile.setBpn(bpn);
             statusFile.setModified(DateTimeUtil.getTimestamp());
             return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {

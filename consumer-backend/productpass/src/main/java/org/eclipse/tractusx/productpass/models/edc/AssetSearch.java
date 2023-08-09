@@ -60,4 +60,5 @@ public class AssetSearch {
     public void setConnectorAddress(String connectorAddress) {
         this.connectorAddress = connectorAddress;
     }
+
 }

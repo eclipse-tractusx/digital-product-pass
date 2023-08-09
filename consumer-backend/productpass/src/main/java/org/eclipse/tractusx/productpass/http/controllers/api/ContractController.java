@@ -270,8 +270,6 @@ public class ContractController {
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();
-            processManager.setEndpoint(process.id, connectorAddress);
-
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
@@ -528,10 +526,12 @@ public class ContractController {
             }
             LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] signed! Starting negotiation...");
 
+
             DataTransferService.NegotiateContract contractNegotiation = dataService
                     .new NegotiateContract(
                     processManager.loadDataModel(httpRequest),
                     processId,
+                    status.getBpn(),
                     dataset,
                     processManager.getStatus(processId)
             );

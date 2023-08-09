@@ -57,7 +57,7 @@ configuration:
   security:
     check:
       enabled: true
-      bpn: false
+      bpn: true
       edc: true
 
   dtr:

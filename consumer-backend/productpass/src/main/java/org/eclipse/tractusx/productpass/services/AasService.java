@@ -257,7 +257,7 @@ public class AasService extends BaseService {
     public DigitalTwin3 getDigitalTwin3(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
-            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
+            String url = this.getRegistryUrl(registryUrl) + path + "/" + CrypUtil.toBase64Url(digitalTwinId);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
@@ -363,22 +363,6 @@ public class AasService extends BaseService {
             return subModel;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getSubModelByIdShort",
-                    e,
-                    "It was not possible to get subModel!");
-        }
-    }
-
-    public SubModel getSubModel(String digitalTwinId, String subModelId, String registryUrl, DataPlaneEndpoint edr) {
-        try {
-            String path = this.getPathEndpoint(registryUrl,"digitalTwin", true);
-            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId + this.getPathEndpoint(registryUrl,"subModel", false) + subModelId;
-            Map<String, Object> params = httpUtil.getParams();
-            HttpHeaders headers = this.getTokenHeader(edr);
-            ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
-            String responseBody = (String) response.getBody();
-            return (SubModel) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), SubModel.class);
-        } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getSubModel",
                     e,
                     "It was not possible to get subModel!");
         }

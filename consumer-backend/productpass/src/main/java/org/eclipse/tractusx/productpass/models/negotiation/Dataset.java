@@ -50,6 +50,10 @@ public class Dataset extends DidDocument{
     String contentType;
     @JsonProperty("edc:id")
     String assetId;
+    @JsonProperty("edc:name")
+    String assetName;
+    @JsonProperty("edc:type")
+    String assetType;
 
     public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
         super(id, type);
@@ -58,6 +62,26 @@ public class Dataset extends DidDocument{
         this.assetDescription = assetDescription;
         this.contentType = contentType;
         this.assetId = assetId;
+    }
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetDescription = assetDescription;
+        this.contentType = contentType;
+        this.assetId = assetId;
+        this.assetName = assetName;
+    }
+
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName, String assetType) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetDescription = assetDescription;
+        this.contentType = contentType;
+        this.assetId = assetId;
+        this.assetName = assetName;
+        this.assetType = assetType;
     }
 
     public Dataset(String id, String type) {
@@ -98,5 +122,21 @@ public class Dataset extends DidDocument{
 
     public void setAssetId(String assetId) {
         this.assetId = assetId;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
+
+    public String getAssetName() {
+        return assetName;
+    }
+
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
     }
 }

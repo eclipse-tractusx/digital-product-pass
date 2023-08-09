@@ -75,8 +75,8 @@ backend:
 
   avp:
     helm:
-      clientId: <path:material-pass/data/int/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
+      clientId: <path:material-pass/data/int/backend#clientId>
+      clientSecret: <path:material-pass/data/int/backend#clientSecret>
       xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
       participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
 
@@ -127,11 +127,14 @@ backend:
           assetId: 'digital-twin-registry'
           internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           decentralApis:
-            prefix: "/api/v3.0"
             search: "/lookup/shells/query"
             digitalTwin: "/shell-descriptors"
             subModel: "/submodel-descriptors"
-          transferTimeout: 10000
+          timeouts:
+            search: 10
+            negotiation: 40
+            transfer: 10
+            digitalTwin: 20
           temporaryStorage: true
       
         discovery:

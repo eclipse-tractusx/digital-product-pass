@@ -102,8 +102,7 @@ public class AasService extends BaseService {
             decentralApis = Map.of(
                     "search", "/lookup/shells/query",
                     "digitalTwin", "/shell-descriptors",
-                    "subModel", "/submodel-descriptors",
-                    "prefix", "/api/v3.0"
+                    "subModel", "/submodel-descriptors"
             );
         }
         this.apis = Map.of(
@@ -201,15 +200,12 @@ public class AasService extends BaseService {
     }
 
 
-    public String getPathEndpoint(String registryUrl, String key, Boolean prefix) {
+    public String getPathEndpoint(String registryUrl, String key) {
         if (this.central || registryUrl == null || registryUrl.isEmpty()) {
             return (String) jsonUtil.getValue(this.apis, "central." + key, ".", null);
         }
         String path = (String) jsonUtil.getValue(this.apis, "decentral." + key, ".", null);
-        if (!prefix) {
-            return path;
-        }
-        return jsonUtil.getValue(this.apis, "decentral.prefix", ".", null) + path;
+        return path;
     }
     public SubModel3 searchSubModel3ById(DigitalTwin3 digitalTwin, String idShort) {
         try {
@@ -257,7 +253,7 @@ public class AasService extends BaseService {
 
     public DigitalTwin3 getDigitalTwin3(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
+            String path = this.getPathEndpoint(registryUrl, "digitalTwin");
             String url = this.getRegistryUrl(registryUrl) + path + "/" + CrypUtil.toBase64Url(digitalTwinId);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
@@ -273,7 +269,7 @@ public class AasService extends BaseService {
     }
     public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
+            String path = this.getPathEndpoint(registryUrl, "digitalTwin");
             String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwinId;
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
@@ -305,9 +301,9 @@ public class AasService extends BaseService {
 
     public SubModel getSubModel(DigitalTwin digitalTwin, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "digitalTwin", true);
+            String path = this.getPathEndpoint(registryUrl, "digitalTwin");
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
-            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + this.getPathEndpoint(registryUrl,"subModel", false) + "/" + subModel.getIdentification();
+            String url = this.getRegistryUrl(registryUrl) + path + "/" + digitalTwin.getIdentification() + this.getPathEndpoint(registryUrl,"subModel") + "/" + subModel.getIdentification();
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
             LogUtil.printMessage(jsonUtil.toJson(headers, true));
@@ -517,7 +513,7 @@ public class AasService extends BaseService {
 
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "search", true);
+            String path = this.getPathEndpoint(registryUrl, "search");
             String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             ResponseEntity<?> response = null;

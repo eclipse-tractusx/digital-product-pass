@@ -66,7 +66,6 @@ configuration:
     assetId: 'digital-twin-registry'
     internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
     decentralApis:
-      prefix: "/api/v3.0"
       search: "/lookup/shells/query"
       digitalTwin: "/shell-descriptors"
       subModel: "/submodel-descriptors"

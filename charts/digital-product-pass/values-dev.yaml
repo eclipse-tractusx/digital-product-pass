@@ -75,8 +75,8 @@ backend:
 
   avp:
     helm:
-      clientId: <path:material-pass/data/dev/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/dev/aasregistry#client.secret>
+      clientId: <path:material-pass/data/dev/backend#clientId>
+      clientSecret: <path:material-pass/data/dev/backend#clientSecret>
       xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
       participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
 

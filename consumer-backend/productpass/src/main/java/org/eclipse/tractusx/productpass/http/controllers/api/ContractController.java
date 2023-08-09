@@ -184,10 +184,10 @@ public class ContractController {
 
             SearchStatus status = processManager.getSearchStatus(processId);
             if(status == null){
-                return httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries");
+                return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries"), httpResponse);
             }
             if(status.getDtrs().isEmpty()){
-                return httpUtil.getNotFound("No decentral digital twin registry was found");
+                return httpUtil.buildResponse(httpUtil.getNotFound("No decentral digital twin registry was found"), httpResponse);
             }
             response = httpUtil.getResponse();
             response.data = Map.of(

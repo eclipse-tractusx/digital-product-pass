@@ -886,13 +886,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors",
+									"raw": "{{registryUrl}}/shell-descriptors",
 									"host": [
 										"{{registryUrl}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors"
 									]
 								}
@@ -1676,13 +1674,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors"
 									]
 								}
@@ -1729,13 +1725,11 @@
 									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"<value>\"\r\n      }\r\n    ]\r\n  }\r\n}"
 								},
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/lookup/shells/query",
+									"raw": "{{dataplanePublicEndpoint}}/lookup/shells/query",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"lookup",
 										"shells",
 										"query"
@@ -1770,13 +1764,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors/{{encodedTwinId}}",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors",
 										"{{encodedTwinId}}"
 									]
@@ -1812,13 +1804,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors/{{encodedTwinId}}/submodel-descriptors/{{encodedSubmodelId}}",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}/submodel-descriptors/{{encodedSubmodelId}}",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors",
 										"{{encodedTwinId}}",
 										"submodel-descriptors",
@@ -2893,12 +2883,12 @@
 		},
 		{
 			"key": "bpnNumber",
-			"value": "",
+			"value": "<some-bpn>",
 			"type": "string"
 		},
 		{
 			"key": "registryUrl",
-			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry",
+			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0",
 			"type": "default"
 		},
 		{
@@ -2936,7 +2926,7 @@
 		},
 		{
 			"key": "manufacturerPartId",
-			"value": "",
+			"value": "XYZ78901",
 			"type": "default"
 		},
 		{

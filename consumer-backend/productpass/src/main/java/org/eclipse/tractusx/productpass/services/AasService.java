@@ -460,12 +460,12 @@ public class AasService extends BaseService {
                         dtr
                 );
                 Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
-                thread.join(Duration.ofSeconds(this.dtrConfig.getTransferTimeout()));
+                thread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getTransfer()));
             }
             // TODO: Wait until transfer is finished and retrieve digital twin ids
             Thread blockThread = ThreadUtil.runThread(new DigitalTwinTimeout(this.processManager, processId));
             try {
-                if(!blockThread.join(Duration.ofSeconds(this.dtrConfig.getDigitalTwinTimeout()))){
+                if(!blockThread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getDigitalTwin()))){
                     LogUtil.printError("Timeout reached while waiting for receiving digital twin!");
                     return null;
                 };

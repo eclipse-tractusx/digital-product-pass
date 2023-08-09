@@ -181,6 +181,14 @@ public class ContractController {
                     }
                 }
             }
+
+            SearchStatus status = processManager.getSearchStatus(processId);
+            if(status == null){
+                return httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries");
+            }
+            if(status.getDtrs().isEmpty()){
+                return httpUtil.getNotFound("No decentral digital twin registry was found");
+            }
             response = httpUtil.getResponse();
             response.data = Map.of(
                     "processId", processId
@@ -189,7 +197,9 @@ public class ContractController {
 
         } catch (Exception e) {
             assert response != null;
-            return httpUtil.buildResponse(httpUtil.getInternalError(e.getMessage()), httpResponse);
+            response.message = "It was not possible to create the process and search for the decentral digital twin registries";
+            LogUtil.printException(e, response.message);
+            return httpUtil.buildResponse(response, httpResponse);
         }
     }
 
@@ -301,7 +311,8 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             assert response != null;
-            response.message = e.getMessage();
+            response.message = "It was not possible to search for the serialized id";
+            LogUtil.printException(e, response.message);
             return httpUtil.buildResponse(response, httpResponse);
         }
     }

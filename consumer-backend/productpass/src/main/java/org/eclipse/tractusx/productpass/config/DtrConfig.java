@@ -28,6 +28,7 @@ package org.eclipse.tractusx.productpass.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.sql.Time;
 import java.util.Map;
 
 @Configuration
@@ -37,11 +38,10 @@ public class DtrConfig {
     String centralUrl;
     String internalDtr;
 
+    Timeouts timeouts;
+
     Boolean temporaryStorage;
     DecentralApis decentralApis;
-    Long transferTimeout;
-
-    Long digitalTwinTimeout;
     String assetId;
 
     public DecentralApis getDecentralApis() {
@@ -62,13 +62,6 @@ public class DtrConfig {
         this.internalDtr = internalDtr;
     }
 
-    public Long getTransferTimeout() {
-        return transferTimeout;
-    }
-
-    public void setTransferTimeout(Long transferTimeout) {
-        this.transferTimeout = transferTimeout;
-    }
 
     public Boolean getTemporaryStorage() {
         return temporaryStorage;
@@ -78,14 +71,52 @@ public class DtrConfig {
         this.temporaryStorage = temporaryStorage;
     }
 
-    public Long getDigitalTwinTimeout() {
-        return digitalTwinTimeout;
+    public Timeouts getTimeouts() {
+        return timeouts;
     }
 
-    public void setDigitalTwinTimeout(Long digitalTwinTimeout) {
-        this.digitalTwinTimeout = digitalTwinTimeout;
+    public void setTimeouts(Timeouts timeouts) {
+        this.timeouts = timeouts;
     }
 
+    public static class Timeouts{
+        Integer search;
+        Integer negotiation;
+        Integer transfer;
+        Integer digitalTwin;
+
+        public Integer getSearch() {
+            return search;
+        }
+
+        public void setSearch(Integer search) {
+            this.search = search;
+        }
+
+        public Integer getNegotiation() {
+            return negotiation;
+        }
+
+        public void setNegotiation(Integer negotiation) {
+            this.negotiation = negotiation;
+        }
+
+        public Integer getTransfer() {
+            return transfer;
+        }
+
+        public void setTransfer(Integer transfer) {
+            this.transfer = transfer;
+        }
+
+        public Integer getDigitalTwin() {
+            return digitalTwin;
+        }
+
+        public void setDigitalTwin(Integer digitalTwin) {
+            this.digitalTwin = digitalTwin;
+        }
+    }
 
     public static class DecentralApis{
         String prefix;

@@ -59,8 +59,8 @@ public class DtrSearchManager {
     private DtrConfig dtrConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
-    private final long searchTimeoutSeconds = 10;
-    private final long negotiationTimeoutSeconds = 20;
+    private final long searchTimeoutSeconds;
+    private final long negotiationTimeoutSeconds;
     private final String fileName = "dtrDataModel.json";
     private String dtrDataModelFilePath;
 
@@ -92,6 +92,9 @@ public class DtrSearchManager {
         this.jsonUtil = jsonUtil;
         this.dtrDataModelFilePath = this.createDataModelFile();
         this.dtrDataModel = this.loadDtrDataModel();
+        this.searchTimeoutSeconds = this.dtrConfig.getTimeouts().getSearch();
+        this.negotiationTimeoutSeconds = this.dtrConfig.getTimeouts().getNegotiation();
+
     }
 
     public Runnable startProcess(List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {

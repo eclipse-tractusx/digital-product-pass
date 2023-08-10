@@ -18,7 +18,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"IMR18650V1\"\r\n      }\r\n    ]\r\n  }\r\n}",
+									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"<value>\"\r\n      }\r\n    ]\r\n  }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -202,9 +202,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/assets",
+									"raw": "{{providerUrl}}/management/v2/assets",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -242,9 +242,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/assets/request",
+									"raw": "{{providerUrl}}/management/v2/assets/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -303,9 +303,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/policydefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -344,9 +344,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/policydefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -405,9 +405,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/contractdefinitions",
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -445,9 +445,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/contractdefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -468,14 +468,7 @@
 							"name": "1. Create sample data",
 							"request": {
 								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrRHdFTm5KUTktajBiUFpfSnZwYnVKODFfTlYxMDJpMEJhYWJvcUVwSmhJIn0.eyJleHAiOjE2NzQ0ODg0MDUsImlhdCI6MTY3NDQ4ODEwNSwianRpIjoiYTU2YjQyMDctOTQwNi00ZjNjLWIzMjgtMDFhMThhOTJkOGVmIiwiaXNzIjoiaHR0cHM6Ly9jZW50cmFsaWRwLmRldi5kZW1vLmNhdGVuYS14Lm5ldC9hdXRoL3JlYWxtcy9DWC1DZW50cmFsIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCIsIkNsNi1DWC1EQVBTIiwiQ2w0LUNYLURpZ2l0YWxUd2luIiwiYWNjb3VudCIsIkNsMy1DWC1TZW1hbnRpYyIsIkNsMi1DWC1Qb3J0YWwiXSwic3ViIjoiNDMxYmQzOWQtZjA0ZC00Yjk5LWExY2UtZGM5NzJiN2Y2MWIyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2EtY2w2LWN4LTI5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJodHRwczovL21hdGVyaWFscGFzcy5kZXYuZGVtby5jYXRlbmEteC5uZXQiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1jYXRlbmEteCByZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJtYW5hZ2UtdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJBcHAgVGVjaCBVc2VyIiwiQ29ubmVjdG9yIFVzZXIiXX0sIkNsNi1DWC1EQVBTIjp7InJvbGVzIjpbImNyZWF0ZV9kYXBzX2NsaWVudCJdfSwiQ2w0LUNYLURpZ2l0YWxUd2luIjp7InJvbGVzIjpbImFkZF9kaWdpdGFsX3R3aW4iLCJ2aWV3X2RpZ2l0YWxfdHdpbiIsImRlbGV0ZV9kaWdpdGFsX3R3aW4iLCJ1cGRhdGVfZGlnaXRhbF90d2luIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX0sIkNsMy1DWC1TZW1hbnRpYyI6eyJyb2xlcyI6WyJ2aWV3X3NlbWFudGljX21vZGVsIl19LCJDbDItQ1gtUG9ydGFsIjp7InJvbGVzIjpbInZpZXdfY29ubmVjdG9ycyJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJicG4iOiJCUE5MMDAwMDAwMDAwMDAwIiwiY2xpZW50SG9zdCI6IjEwLjI0MC4wLjYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoic2EtY2w2LWN4LTI5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNhLWNsNi1jeC0yOSIsImNsaWVudEFkZHJlc3MiOiIxMC4yNDAuMC42In0.iaiR2Ylq95zWZhOuQxM0UMjn5SKssgyanmD4rMotJFEHoQGGlpA7nPoj7-2aw7wWyKSKKk6y_AEDyDlz_Fu_VghCi5JNDZawr7jGSKi755697DMGphBUck9BoYsC1ZCr4xB0bGmxzEwoHhs-6zj_GSrUNz_yeI5BuYnrPleQPyLHOi4q5Op52xpyzTHL_aHdnobDwuCNeasRHy3wTpe6b3qgIocWm9fsCDqNC-pU2tkrAv1pvVpsyvt5Pa0wP23zNiKqgFuQ45EKjVbcaAh97fOJlwB8aesH-ILnTu6-eH9p6hs89jeKZP_7HxSeXvUwlHBSQGGkpovBvhGzjBkHsQ",
-											"type": "string"
-										}
-									]
+									"type": "noauth"
 								},
 								"method": "POST",
 								"header": [
@@ -587,9 +580,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/assets",
+									"raw": "{{providerUrl}}/management/v2/assets",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -627,9 +620,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/assets/request",
+									"raw": "{{providerUrl}}/management/v2/assets/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -688,9 +681,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/policydefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -729,9 +722,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/policydefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -790,9 +783,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/contractdefinitions",
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -830,9 +823,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{providerEDC}}/management/v2/contractdefinitions/request",
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions/request",
 									"host": [
-										"{{providerEDC}}"
+										"{{providerUrl}}"
 									],
 									"path": [
 										"management",
@@ -847,16 +840,6 @@
 						{
 							"name": "5. Register Digital Twin to registry",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrRHdFTm5KUTktajBiUFpfSnZwYnVKODFfTlYxMDJpMEJhYWJvcUVwSmhJIn0.eyJleHAiOjE2NzQ0ODg0MDUsImlhdCI6MTY3NDQ4ODEwNSwianRpIjoiYTU2YjQyMDctOTQwNi00ZjNjLWIzMjgtMDFhMThhOTJkOGVmIiwiaXNzIjoiaHR0cHM6Ly9jZW50cmFsaWRwLmRldi5kZW1vLmNhdGVuYS14Lm5ldC9hdXRoL3JlYWxtcy9DWC1DZW50cmFsIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCIsIkNsNi1DWC1EQVBTIiwiQ2w0LUNYLURpZ2l0YWxUd2luIiwiYWNjb3VudCIsIkNsMy1DWC1TZW1hbnRpYyIsIkNsMi1DWC1Qb3J0YWwiXSwic3ViIjoiNDMxYmQzOWQtZjA0ZC00Yjk5LWExY2UtZGM5NzJiN2Y2MWIyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2EtY2w2LWN4LTI5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJodHRwczovL21hdGVyaWFscGFzcy5kZXYuZGVtby5jYXRlbmEteC5uZXQiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1jYXRlbmEteCByZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJtYW5hZ2UtdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJBcHAgVGVjaCBVc2VyIiwiQ29ubmVjdG9yIFVzZXIiXX0sIkNsNi1DWC1EQVBTIjp7InJvbGVzIjpbImNyZWF0ZV9kYXBzX2NsaWVudCJdfSwiQ2w0LUNYLURpZ2l0YWxUd2luIjp7InJvbGVzIjpbImFkZF9kaWdpdGFsX3R3aW4iLCJ2aWV3X2RpZ2l0YWxfdHdpbiIsImRlbGV0ZV9kaWdpdGFsX3R3aW4iLCJ1cGRhdGVfZGlnaXRhbF90d2luIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX0sIkNsMy1DWC1TZW1hbnRpYyI6eyJyb2xlcyI6WyJ2aWV3X3NlbWFudGljX21vZGVsIl19LCJDbDItQ1gtUG9ydGFsIjp7InJvbGVzIjpbInZpZXdfY29ubmVjdG9ycyJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJicG4iOiJCUE5MMDAwMDAwMDAwMDAwIiwiY2xpZW50SG9zdCI6IjEwLjI0MC4wLjYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoic2EtY2w2LWN4LTI5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNhLWNsNi1jeC0yOSIsImNsaWVudEFkZHJlc3MiOiIxMC4yNDAuMC42In0.iaiR2Ylq95zWZhOuQxM0UMjn5SKssgyanmD4rMotJFEHoQGGlpA7nPoj7-2aw7wWyKSKKk6y_AEDyDlz_Fu_VghCi5JNDZawr7jGSKi755697DMGphBUck9BoYsC1ZCr4xB0bGmxzEwoHhs-6zj_GSrUNz_yeI5BuYnrPleQPyLHOi4q5Op52xpyzTHL_aHdnobDwuCNeasRHy3wTpe6b3qgIocWm9fsCDqNC-pU2tkrAv1pvVpsyvt5Pa0wP23zNiKqgFuQ45EKjVbcaAh97fOJlwB8aesH-ILnTu6-eH9p6hs89jeKZP_7HxSeXvUwlHBSQGGkpovBvhGzjBkHsQ",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [
 									{
@@ -875,14 +858,17 @@
 									}
 								},
 								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors",
+									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors/365e6fbe-bb34-11ec-8422-0242ac120002/submodel-descriptors/61125dc3-5e6f-4f4b-838d-447432b97918",
 									"host": [
 										"{{registryUrl}}"
 									],
 									"path": [
 										"api",
 										"v3.0",
-										"shell-descriptors"
+										"shell-descriptors",
+										"365e6fbe-bb34-11ec-8422-0242ac120002",
+										"submodel-descriptors",
+										"61125dc3-5e6f-4f4b-838d-447432b97918"
 									]
 								}
 							},
@@ -900,13 +886,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors",
+									"raw": "{{registryUrl}}/shell-descriptors",
 									"host": [
 										"{{registryUrl}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors"
 									]
 								}
@@ -1159,14 +1143,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://portal-backend.int.demo.catena-x.net/api/administration/connectors/discovery",
-							"protocol": "https",
+							"raw": "{{portalUrl}}/api/administration/connectors/discovery",
 							"host": [
-								"portal-backend",
-								"int",
-								"demo",
-								"catena-x",
-								"net"
+								"{{portalUrl}}"
 							],
 							"path": [
 								"api",
@@ -1194,7 +1173,15 @@
 									"script": {
 										"exec": [
 											"const jsonResponse = pm.response.json();\r",
-											"pm.collectionVariables.set(\"offerId\", jsonResponse[\"dcat:dataset\"][\"odrl:hasPolicy\"][0][\"@id\"]);"
+											"pm.collectionVariables.set(\"offerId\", jsonResponse[\"dcat:dataset\"][\"odrl:hasPolicy\"][\"@id\"]);\r",
+											"\r",
+											"// encode digital twin and submodel Ids to base 64\r",
+											"pm.collectionVariables.set(\"encodedTwinId\", btoa(pm.collectionVariables.get(\"digitalTwinId\")));\r",
+											"pm.collectionVariables.set(\"encodedSubmodelId\", btoa(pm.collectionVariables.get(\"digitalTwinSubmodelId\")));\r",
+											"\r",
+											"//decode\r",
+											"// var decodedString = atob(encodedString);\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1687,13 +1674,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors"
 									]
 								}
@@ -1737,16 +1722,14 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"IMR18650V1\"\r\n      }\r\n    ]\r\n  }\r\n}"
+									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"<value>\"\r\n      }\r\n    ]\r\n  }\r\n}"
 								},
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/lookup/shells/query",
+									"raw": "{{dataplanePublicEndpoint}}/lookup/shells/query",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"lookup",
 										"shells",
 										"query"
@@ -1757,6 +1740,17 @@
 						},
 						{
 							"name": "6. /registry/shell-descriptors/{id} - Get Digital Twin By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -1770,15 +1764,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors/MzY1ZTZmYmUtYmIzNC0xMWVjLTg0MjItMDI0MmFjMTIwMDAy",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors",
-										"MzY1ZTZmYmUtYmIzNC0xMWVjLTg0MjItMDI0MmFjMTIwMDAy"
+										"{{encodedTwinId}}"
 									]
 								}
 							},
@@ -1812,17 +1804,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors/MzY1ZTZmYmUtYmIzNC0xMWVjLTg0MjItMDI0MmFjMTIwMDAy/submodel-descriptors/NjExMjVkYzMtNWU2Zi00ZjRiLTgzOGQtNDQ3NDMyYjk3OTE4",
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}/submodel-descriptors/{{encodedSubmodelId}}",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
 										"shell-descriptors",
-										"MzY1ZTZmYmUtYmIzNC0xMWVjLTg0MjItMDI0MmFjMTIwMDAy",
+										"{{encodedTwinId}}",
 										"submodel-descriptors",
-										"NjExMjVkYzMtNWU2Zi00ZjRiLTgzOGQtNDQ3NDMyYjk3OTE4"
+										"{{encodedSubmodelId}}"
 									],
 									"query": [
 										{
@@ -2248,7 +2238,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{consumerUrl}}/management/edrs?assetId={{digitalTwinId}}-{{digitalTwinSubmodelId}}",
+									"raw": "{{consumerUrl}}/management/edrs?assetId={{assetId}}",
 									"host": [
 										"{{consumerUrl}}"
 									],
@@ -2259,7 +2249,7 @@
 									"query": [
 										{
 											"key": "assetId",
-											"value": "{{digitalTwinId}}-{{digitalTwinSubmodelId}}"
+											"value": "{{assetId}}"
 										}
 									]
 								}
@@ -2341,14 +2331,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{dataplanePublicEndpoint}}/api/v3.0/shell-descriptors",
+									"raw": "{{dataplanePublicEndpoint}}",
 									"host": [
 										"{{dataplanePublicEndpoint}}"
-									],
-									"path": [
-										"api",
-										"v3.0",
-										"shell-descriptors"
 									]
 								}
 							},
@@ -2898,12 +2883,12 @@
 		},
 		{
 			"key": "bpnNumber",
-			"value": "",
+			"value": "<some-bpn>",
 			"type": "string"
 		},
 		{
 			"key": "registryUrl",
-			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry",
+			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0",
 			"type": "default"
 		},
 		{
@@ -2961,6 +2946,16 @@
 		},
 		{
 			"key": "dataplanePublicEndpoint",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "encodedTwinId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "encodedSubmodelId",
 			"value": "",
 			"type": "default"
 		}

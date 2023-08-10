@@ -30,64 +30,55 @@ Latest Revision Mar. 30, 2023
 
 ## Table of Contents
  
-1. [Table of Contents](#table-of-contents)
-2. [Introduction and Goals](#introduction-and-goals)    
-    2.1 [Requirements Overview](#requirements-overview)  
-    2.2 [Quality Goals](#quality-goals)
-
-3. [Architecture Constraints](#architecture-constraints)
-
-4. [System Scope and Context](#system-scope-and-context)  
-    4.1 [Detailed Explanation from Product Passport Application](#detailed-explanation-from-product-passport-application)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1 [Product Passport Component](#product-passport-component)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1.1 [Application State Diagram](#application-state-diagram)  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1.2. [Technical Integration Design](#technical-integration-design)    
-    4.2. [Business Context](#business-context)  
-    4.3 [Technical Context](#technical-context)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.1 [Runtime Environments](#runtime-environments)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2 [Container Ecosystem](#container-ecosystem)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2.1 [Kubernetes Container Platform (Gardener)](#kubernetes-container-platform-gardener)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2.2 [Containers](#containers)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.3 [CI/CD](#cicd)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.4 [Documentation Links](#documentation-links)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.5 [Catena-X Shared Services](#catena-x-shared-services)
-
-5. [Solution Strategy](#solution-strategy)  
-    5.1 [Architecture Diagram](#architecture-diagram)  
-    5.2 [Technology & Architecture Detail](#technology--architecture-detail)    
-&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1 [Frontend (User Interface - Client Side)](#frontend-user-interface---client-side)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.1 [Vue.js 3](#vuejs-3)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.1.1 [Vuetify](#vuetify)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.2 [Frontend Component Description](#component-description)  
-&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2 [Backend (Server Side)](#backend-server-side)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.1. [Java 19](#java-19)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.1.1 [Spring Boot](#spring-boot)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.2 [Backend Component Description](#component-description-1)  
-
-    5.3 [Infrastructure](#infrastructure)     
-&nbsp;&nbsp;&nbsp;&nbsp; 5.3.1 [Kubernetes and Helm Charts](#kubernetes-and-helm-charts)  
-    5.4 [Security Solution Strategy](#security-solution-strategy)   
-
-6. [Building Block View](#building-block-view)  
-    6.1 [Blackbox Overall System](#blackbox-overall-system)  
-    6.2 [Whitebox Overall System](#whitebox-overall-system)
-7. [Runtime View](#runtime-view)  
-
-8. [Deployment View](#deployment-view)    
-
-9. [Cross-Cutting Concepts](#cross-cutting-concepts)   
-
-10. [Design Decisions](#design-decisions)   
-    10.1  [History View (Landing Page)](#history-view-landing-page)  
-    10.2  [QR Code and Searching View](#qr-code-and-searching-view)   
-    10.3  [Battery Passport View](#battery-passport-view)  
-    
-11. [Quality Requirements](#quality-requirements)   
-    11.1 [Qualtiy Scenarios](#quality-scenarios)  
-
-12. [Risks and Technical Debts](#risks-and-technical-debts)  
-
-13. [Glossary](#glossary)
+- [(CEC) ARC42 - Product Passport Consumer Application Documentation](#cec-arc42---product-passport-consumer-application-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction and Goals](#introduction-and-goals)
+    - [Requirements Overview](#requirements-overview)
+    - [Quality Goals](#quality-goals)
+  - [Architecture Constraints](#architecture-constraints)
+  - [System Scope and Context](#system-scope-and-context)
+    - [Application State Diagram](#application-state-diagram)
+    - [Technical Integration Design](#technical-integration-design)
+    - [API Interaction with Catena-X Services](#api-interaction-with-catena-x-services)
+        - [Create API Process](#create-api-process)
+        - [Search API Process](#search-api-process)
+        - [Sign API Process](#sign-api-process)
+    - [Business Context](#business-context)
+    - [Technical Context](#technical-context)
+      - [Runtime Environments](#runtime-environments)
+      - [Container Ecosystem](#container-ecosystem)
+        - [Kubernetes Container platform (gardener)](#kubernetes-container-platform-gardener)
+        - [Containers](#containers)
+      - [CI/CD](#cicd)
+      - [Documentation links](#documentation-links)
+      - [Catena-X Shared Services](#catena-x-shared-services)
+  - [Solution Strategy](#solution-strategy)
+    - [Architecture Diagram](#architecture-diagram)
+  - [Technology \& Architecture Detail](#technology--architecture-detail)
+    - [Frontend (User Interface - Client Side)](#frontend-user-interface---client-side)
+      - [Vue.js 3](#vuejs-3)
+        - [Vuetify](#vuetify)
+      - [Component Description](#component-description)
+      - [Backend (Server Side)](#backend-server-side)
+        - [Java 19](#java-19)
+          - [Spring Boot](#spring-boot)
+      - [Component Description](#component-description-1)
+    - [Infrastructure](#infrastructure)
+      - [Kubernetes and Helm Charts](#kubernetes-and-helm-charts)
+    - [Security Solution Strategy](#security-solution-strategy)
+  - [Building Block View](#building-block-view)
+    - [Blackbox Overall System](#blackbox-overall-system)
+    - [Whitebox Overall System](#whitebox-overall-system)
+  - [Runtime View](#runtime-view)
+  - [Deployment View](#deployment-view)
+  - [Cross-cutting Concepts](#cross-cutting-concepts)
+  - [Design Decisions](#design-decisions)
+    - [Searching View](#searching-view)
+    - [Battery Passport View](#battery-passport-view)
+  - [Quality Requirements](#quality-requirements)
+    - [Quality Scenarios](#quality-scenarios)
+  - [Risks and Technical Debts](#risks-and-technical-debts)
+  - [Glossary](#glossary)
 
 ## Introduction and Goals
 
@@ -136,32 +127,28 @@ The Product Passport Application is a Catena-X terms a "blue" application. This 
 
 ![System Scope and Context](./GraphicSystemScopeandContext.jpg)
 
-### Detailed Explanation from Product Passport Application
+### Application State Diagram
 
-The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
-
-![Detailed Explanation Product Passport App](./GraphicDetailedDPPApp.jpg)
-
-#### Product Passport Component
-
-##### Application State Diagram
+This is the state diagram that describes the flow between the frontend and backend components of the application.
 
 ![Application State Design](./GraphicApplicationStateDiagram.jpg)
 
-##### Technical Integration Design
+### Technical Integration Design
+
 Complete technical interaction overview between frontend and backend
+
+The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
+
+Here is a resume of the frontend and the backend communication.
 
 ![Technical Integration Design](./GraphicTechnicalIntegrationDesign.jpg)
 
-#### API Interaction with Catena-X Services
+### API Interaction with Catena-X Services
 
 ##### Create API Process
 
 ![Create API Process](./CreateAPIProcess.jpg)
 
-##### Create API Flow
-
-![Create API Flow](./CreateProcessFlow.jpg)
 
 ##### Search API Process
 

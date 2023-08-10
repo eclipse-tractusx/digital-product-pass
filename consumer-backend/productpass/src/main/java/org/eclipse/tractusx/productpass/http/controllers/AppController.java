@@ -57,6 +57,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Tag(name = "Public Controller")
@@ -152,6 +153,7 @@ public class AppController {
             DigitalTwin3 digitalTwin = null;
             SubModel3 subModel = null;
             String connectorId = null;
+            String assetId = null;
             String connectorAddress = null;
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
@@ -161,7 +163,9 @@ public class AppController {
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }
-                connectorAddress = endpoint.getProtocolInformation().getEndpointAddress();
+                Map<String, String> subProtocolBody = endpoint.getProtocolInformation().getParsedSubprotocolBody();
+                connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
+                assetId = subProtocolBody.get("id"); // Get Asset Id
             } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
@@ -169,20 +173,18 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("ConnectorId and Connector Address may be empty"), httpResponse);
             }
 
-
             try {
                 connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
             } catch (Exception e) {
                 return null;
             }
-            if (connectorAddress.isEmpty()) {
-                LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "]!");
+            if (connectorAddress.isEmpty() || assetId.isEmpty()) {
+                LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId, dtr.getBpn());
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            String assetId = String.join("-", digitalTwin.getIdentification(), subModel.getIdentification());
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,
                     "READY"

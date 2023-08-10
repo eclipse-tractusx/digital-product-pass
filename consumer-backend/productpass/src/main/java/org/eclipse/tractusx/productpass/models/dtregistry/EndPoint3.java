@@ -25,8 +25,11 @@ package org.eclipse.tractusx.productpass.models.dtregistry;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Splitter;
+import utils.LogUtil;
 
 import java.util.List;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EndPoint3 {
@@ -66,6 +69,9 @@ public class EndPoint3 {
         @JsonProperty("subprotocolBodyEncoding")
         String subprotocolBodyEncoding;
 
+        @JsonProperty("securityAttributes")
+        Object securityAttributes;
+
         @JsonProperty("endpointProtocolVersion")
         List<String> endpointProtocolVersion;
 
@@ -92,6 +98,16 @@ public class EndPoint3 {
             this.subprotocol = subprotocol;
             this.subprotocolBody = subprotocolBody;
             this.subprotocolBodyEncoding = subprotocolBodyEncoding;
+            this.endpointProtocolVersion = endpointProtocolVersion;
+        }
+
+        public ProtocolInformation3(String endpointAddress, String endpointProtocol, String subprotocol, String subprotocolBody, String subprotocolBodyEncoding, Object securityAttributes, List<String> endpointProtocolVersion) {
+            this.endpointAddress = endpointAddress;
+            this.endpointProtocol = endpointProtocol;
+            this.subprotocol = subprotocol;
+            this.subprotocolBody = subprotocolBody;
+            this.subprotocolBodyEncoding = subprotocolBodyEncoding;
+            this.securityAttributes = securityAttributes;
             this.endpointProtocolVersion = endpointProtocolVersion;
         }
 
@@ -131,6 +147,15 @@ public class EndPoint3 {
             return subprotocolBody;
         }
 
+        public Map<String, String> getParsedSubprotocolBody() {
+            try {
+                return Splitter.on(';').withKeyValueSeparator('=').split(this.subprotocolBody);
+            }catch (Exception e){
+                LogUtil.printException(e, "Error when parsing the subprotocol body params!");
+                return null;
+            }
+        }
+
         public void setSubprotocolBody(String subprotocolBody) {
             this.subprotocolBody = subprotocolBody;
         }
@@ -141,6 +166,14 @@ public class EndPoint3 {
 
         public void setSubprotocolBodyEncoding(String subprotocolBodyEncoding) {
             this.subprotocolBodyEncoding = subprotocolBodyEncoding;
+        }
+
+        public Object getSecurityAttributes() {
+            return securityAttributes;
+        }
+
+        public void setSecurityAttributes(Object securityAttributes) {
+            this.securityAttributes = securityAttributes;
         }
     }
 }

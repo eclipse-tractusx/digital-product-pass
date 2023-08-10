@@ -411,7 +411,7 @@ public class AasService extends BaseService {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
-                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("EDC")).findFirst().orElse(null);
+                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }

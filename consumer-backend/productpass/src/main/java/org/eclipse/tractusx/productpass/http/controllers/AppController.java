@@ -157,7 +157,7 @@ public class AppController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 connectorId = subModel.getIdShort();
-                EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals("SUBMODEL-1.0RC02")).findFirst().orElse(null);
+                EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }

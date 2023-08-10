@@ -44,6 +44,8 @@ public class DtrConfig {
     DecentralApis decentralApis;
     String assetId;
 
+    String endpointInterface;
+
     public DecentralApis getDecentralApis() {
         return decentralApis;
     }
@@ -77,6 +79,14 @@ public class DtrConfig {
 
     public void setTimeouts(Timeouts timeouts) {
         this.timeouts = timeouts;
+    }
+
+    public String getEndpointInterface() {
+        return endpointInterface;
+    }
+
+    public void setEndpointInterface(String endpointInterface) {
+        this.endpointInterface = endpointInterface;
     }
 
     public static class Timeouts{

@@ -22,20 +22,29 @@
 
 ## Getting Started Guide
 
-This technical guide depicts the battery pass end-to-end API calls through the postman REST client.
+This technical guide depicts the digital product pass end-to-end API calls through the postman REST client.
 
-### Components in BatteryPass collection:
+### Components in Digital Product Pass:
 - Provider
+  - Registry
+- Discovery Finder
+- BPN Discovery
+- EDC Discovery
 - Consumer
-    - CX Registry
     - Data transfer
+- Backend
 
 
 ### Steps to  Proceed
 - Setup up [Postman client](https://www.postman.com/downloads)
 
-- Import a [Battery Pass collection](./v3.0.1/Battery-Pass_INT.postman_collection.json)
+- Import the [Digital Product Pass](./v3.0.1/Digital-Product-Pass-collection.json)
 
-- Configure the ***clientId*** and ***clientSecret*** environment variables from the variables tab inside root directory.
+- Configure the following environment variables from the variables tab inside root directory.
+
+- ***APIKey***
+- ***clientId***
+- ***clientSecret***
+- ***bpnNumber***
 
 For more technical documentation, please refer to the [catenax-at-home-getting-started-guide](https://catenax-ng.github.io/docs/guides/catenax-at-home)

@@ -9,7 +9,7 @@
 			"name": "0. Provider",
 			"item": [
 				{
-					"name": "Registry",
+					"name": "Registry APIs",
 					"item": [
 						{
 							"name": "1. /lookup/shells - Query Digital Twin",
@@ -18,7 +18,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"IMR18650V1\"\r\n      }\r\n    ]\r\n  }\r\n}",
+									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"<value>\"\r\n      }\r\n    ]\r\n  }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -153,460 +153,751 @@
 					]
 				},
 				{
-					"name": "1. Create sample data",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/octet-stream",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"electrochemicalProperties\" : {\r\n        \"ratedCapacity\" : 94,\r\n        \"batteryEnergy\" : {\r\n          \"energyRoundtripEfficiencyChange\" : 48.2,\r\n          \"maximumAllowedBatteryEnergy\" : 85000,\r\n          \"energyRoundtripEfficiency\" : 25\r\n        },\r\n        \"ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy\" : 0.588,\r\n        \"batteryVoltage\" : {\r\n          \"nominalVoltage\" : 3.7,\r\n          \"maxVoltage\" : 4.2,\r\n          \"minVoltage\" : 2.5\r\n        },\r\n        \"internalResistance\" : {\r\n          \"cellinternalResistance\" : 0.36,\r\n          \"packinternalResistanceIncrease\" : 1,\r\n          \"packinternalResistance\" : 100\r\n        },\r\n        \"capacityThresholdExhaustion\" : 23,\r\n        \"batteryPower\" : {\r\n          \"powerFade\" : 23,\r\n          \"originalPowerCapability\" : -1.7976931348623157E308,\r\n          \"originalPowerCapabilityLimits\" : -1.7976931348623157E308,\r\n          \"maximumAllowedBatteryPower\" : -1.7976931348623157E308,\r\n          \"powerCapabilityAt20Charge\" : -1.7976931348623157E308,\r\n          \"powerCapabilityAt80Charge\" : -1.7976931348623157E308\r\n        },\r\n        \"capacityFade\" : 1.55\r\n      },\r\n      \"document\" : {\r\n        \"responsibleSourcing\" : [ {\r\n          \"title\" : \"2021 Responsible Sourcing document\",\r\n          \"fileLocation\" : null\r\n        } ],\r\n        \"packagingInstructions\" : [ {\r\n          \"title\" : \"Packing Instruction v.2.0\",\r\n          \"fileLocation\" : null\r\n        } ],\r\n        \"transportationInstructions\" : [ {\r\n          \"title\" : \"Transport manual\",\r\n          \"fileLocation\" : null\r\n        } ],\r\n        \"vehicleDismantlingProcedure\" : [ {\r\n          \"title\" : \"Car dismantling manual\",\r\n          \"fileLocation\" : \"http://www.ietf.org/rfc/rfc2396.txt\"\r\n        } ],\r\n        \"testReportsResults\" : [ {\r\n          \"title\" : \"Battery Test Reports\",\r\n          \"fileLocation\" : \"http://www.Batterytestreports.de\"\r\n        } ],\r\n        \"batteryDismantlingProcedure\" : [ {\r\n          \"title\" : \"Dismantling Manual\",\r\n          \"fileLocation\" : \"http://www.dissmantlingmanual.org\"\r\n        } ],\r\n        \"safetyMeasures\" : [ {\r\n          \"title\" : \"Safety Instruction\",\r\n          \"fileLocation\" : \"http://www.safetyinstructions.txt\"\r\n        } ],\r\n        \"declarationOfConformity\" : [ {\r\n          \"title\" : \"Declaration of Conformity No. 3\",\r\n          \"fileLocation\" : null\r\n        } ]\r\n      },\r\n      \"datePlacedOnMarket\" : \"27.04.2022\",\r\n      \"cellChemistry\" : {\r\n        \"electrolyteComposition\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"dimethyl carbonate (DCM)\"\r\n        } ],\r\n        \"anodeCompositionOther\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Carboxymethyl cellulose\"\r\n        } ],\r\n        \"recyclateContentActiveMaterials\" : [ {\r\n          \"materialPercentageMassFraction\" : 6,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Ni/2021/PlantE\"\r\n        }, {\r\n          \"materialPercentageMassFraction\" : 4,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Li/2021/PlantE\"\r\n        }, {\r\n          \"materialPercentageMassFraction\" : 0,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Pb(battery model does not contain Pb)\"\r\n        }, {\r\n          \"materialPercentageMassFraction\" : 0,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Co(battery model does not contain Pb)\"\r\n        } ],\r\n        \"anodeActiveMaterials\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Graphite\"\r\n        } ],\r\n        \"cathodeActiveMaterials\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"LiMn2O4 Lithium Manganese Oxide\"\r\n        } ],\r\n        \"cathodeCompositionOther\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"binder:PVDF\"\r\n        } ]\r\n      },\r\n      \"physicalDimensions\" : {\r\n        \"length\" : 2000,\r\n        \"width\" : 1000,\r\n        \"weight\" : 3500,\r\n        \"diameter\" : null,\r\n        \"height\" : 200\r\n      },\r\n      \"temperatureRangeIdleState\" : {\r\n        \"temperatureRangeIdleStateUpperLimit\" : 50,\r\n        \"temperatureRangeIdleStateLowerLimit\" : -20\r\n      },\r\n      \"batteryCycleLife\" : {\r\n        \"cycleLifeTestCRate\" : 2,\r\n        \"cycleLifeTestDepthOfDischarge\" : 1.8,\r\n        \"expectedLifetime\" : 2500\r\n      },\r\n      \"manufacturer\" : {\r\n        \"name\" : \"CompanyE\",\r\n        \"contact\" : {\r\n          \"faxNumber\" : \"+49 89 0987654324\",\r\n          \"website\" : \"https://www.CompanyE.com\",\r\n          \"phoneNumber\" : \"+49 89 1234567893\",\r\n          \"email\" : \"companyE@company.com\"\r\n        },\r\n        \"address\" : {\r\n          \"locality\" : {\r\n            \"value\" : \"CityE\",\r\n            \"technicalKey\" : \"BLOCK\"\r\n          },\r\n          \"country\" : {\r\n            \"shortName\" : \"Germany\"\r\n          },\r\n          \"postCode\" : {\r\n            \"value\" : \"65-250E\",\r\n            \"technicalKey\" : \"CEDEX\"\r\n          },\r\n          \"thoroughfare\" : {\r\n            \"value\" : \"StreetE\",\r\n            \"number\" : \"1\",\r\n            \"technicalKey\" : \"STREET\"\r\n          },\r\n          \"premise\" : {\r\n            \"value\" : null,\r\n            \"technicalKey\" : \"BUILDING\"\r\n          },\r\n          \"postalDeliveryPoint\" : {\r\n            \"value\" : null,\r\n            \"technicalKey\" : \"intERURBAN_DELIVERY_POint\"\r\n          }\r\n        }\r\n      },\r\n      \"warrantyPeriod\" : \"96\",\r\n      \"composition\" : {\r\n        \"compositionOfBattery\" : [ {\r\n          \"materialPercentageMassFraction\" : null,\r\n          \"materialWeight\" : null,\r\n          \"materialName\" : \"Separator: PE\"\r\n        } ],\r\n        \"criticalRawMaterials\" : \"Lithium, Natural graphite\",\r\n        \"components\" : {\r\n          \"componentsPartNumber\" : \"Voltage cables\",\r\n          \"componentsSupplier\" : [ {\r\n            \"componentsSupplierName\" : \"AB Corporation\",\r\n            \"address\" : {\r\n              \"locality\" : {\r\n                \"value\" : \"CityF\",\r\n                \"technicalKey\" : \"BLOCK\"\r\n              },\r\n              \"country\" : {\r\n                \"shortName\" : \"Germany\"\r\n              },\r\n              \"postCode\" : {\r\n                \"value\" : \"65-250F\",\r\n                \"technicalKey\" : \"CEDEX\"\r\n              },\r\n              \"thoroughfare\" : {\r\n                \"value\" : \"StreetF\",\r\n                \"number\" : \"1\",\r\n                \"technicalKey\" : \"STREET\"\r\n              },\r\n              \"premise\" : {\r\n                \"value\" : \"PlantF\",\r\n                \"technicalKey\" : \"BUILDING\"\r\n              },\r\n              \"postalDeliveryPoint\" : {\r\n                \"value\" : null,\r\n                \"technicalKey\" : \"INTERURBAN_DELIVERY_POINT\"\r\n              }\r\n            },\r\n            \"contact\" : {\r\n              \"faxNumber\" : \"+49 89 0987654324\",\r\n              \"website\" : \"https://www.companyF.com\",\r\n              \"phoneNumber\" : \"+49 89 1234567893\",\r\n              \"email\" : \"companyF@companyF.com\"\r\n            }\r\n          } ]\r\n        }\r\n      },\r\n      \"manufacturing\" : {\r\n        \"dateOfManufacturing\" : \"2022-01-24\",\r\n        \"address\" : {\r\n          \"locality\" : {\r\n            \"value\" : \"CityE\",\r\n            \"technicalKey\" : \"BLOCK\"\r\n          },\r\n          \"country\" : {\r\n            \"shortName\" : \"Germany\"\r\n          },\r\n          \"postCode\" : {\r\n            \"value\" : \"65-250E\",\r\n            \"technicalKey\" : \"CEDEX\"\r\n          },\r\n          \"thoroughfare\" : {\r\n            \"value\" : \"StreetE\",\r\n            \"number\" : \"1\",\r\n            \"technicalKey\" : \"STREET\"\r\n          },\r\n          \"premise\" : {\r\n            \"value\" : \"PlantE\",\r\n            \"technicalKey\" : \"BUILDING\"\r\n          },\r\n          \"postalDeliveryPoint\" : {\r\n            \"value\" : \"GateE\",\r\n            \"technicalKey\" : \"INTERURBAN_DELIVERY_POINT\"\r\n          }\r\n        }\r\n      },\r\n      \"batteryIdentification\" : {\r\n        \"batteryType\" : \"Lithium-Manganese-Oxide (LMO)\",\r\n        \"batteryIDDMCCode\" : \"IMR18650V1\",\r\n        \"batteryModel\" : \"Pi4 Orionis\"\r\n      },\r\n      \"stateOfBattery\" : {\r\n        \"stateOfHealth\" : 20,\r\n        \"statusBattery\" : \"first life\",\r\n        \"stateOfCharge\" : 50\r\n      },\r\n      \"cO2FootprintTotal\" : 210\r\n    }\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "0.1. Register DTR - asset",
+					"item": [
+						{
+							"name": "Register DTR",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							}
-						},
-						"url": {
-							"raw": "{{Server}}/provider_backend/data/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
-							"host": [
-								"{{Server}}"
 							],
-							"path": [
-								"provider_backend",
-								"data",
-								"365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "1.1 Get sample data",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {},\r\n    \"asset\": {\r\n        \"@type\": \"data.core.digitalTwinRegistry\",\r\n        \"@id\": \"digital-twin-registry\", \r\n        \"properties\": {\r\n            \"description\": \"Battery Passport test registry\",\r\n            \"contenttype\": \"application/json\" \r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"@type\": \"DataAddress\",\r\n        \"type\": \"HttpData\",\r\n        \"proxyPath\": \"true\",\r\n        \"proxyBody\": \"true\",\r\n        \"proxyMethod\": \"true\",\r\n        \"proxyQueryParams\": \"true\",\r\n        \"baseUrl\": \"{{registryUrl}}\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/assets",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"assets"
+									]
+								}
 							},
-							{
-								"key": "Accept",
-								"value": "application/octet-stream",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{Server}}/provider_backend/data/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"provider_backend",
-								"data",
-								"365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Register assets",
-					"event": [
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
+							"name": "Get DTR",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/assets/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"assets",
+										"request"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"@context\": {},\r\n    \"asset\": {\r\n        \"@type\": \"data.core.digitalTwinRegistry\",\r\n        \"@id\": \"digital-twin-registry\", \r\n        \"properties\": {\r\n            \"description\": \"Battery Passport test data\",\r\n            \"contenttype\": \"application/json\" \r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"@type\": \"DataAddress\",\r\n        \"type\": \"HttpData\",\r\n        \"proxyPath\": \"true\",\r\n        \"proxyBody\": \"true\",\r\n        \"proxyMethod\": \"true\",\r\n        \"proxyQueryParams\": \"true\",\r\n        \"baseUrl\": \"https://materialpass.int.demo.catena-x.net/semantics/registry\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/assets",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"assets"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2.1 Get assets",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/assets/request",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"assets",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Register policy",
-					"event": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
+							"name": "Register DTR policy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/leftOperand\"\r\n    },\r\n    \"@type\": \"PolicyDefinitionRequestDto\",\r\n    \"@id\": \"{{registryPolicyId}}\",\r\n    \"policy\": {\r\n\t\t\"@type\": \"Policy\",\r\n\t\t\"odrl:permission\" : [{\r\n      \"odrl:action\": \"USE\",\r\n      \"odrl:constraint\": {\r\n        \"odrl:constraint\": {\r\n          \"@type\": \"LogicalConstradev\",\r\n          \"odrl:or\": [\r\n            {\r\n              \"@type\": \"Contraint\",\r\n              \"odrl:leftOperand\": \"BusinessPartnerNumber\",\r\n              \"odrl:operator\": \"EQ\",\r\n              \"odrl:rightOperand\": \"{{BPNNumber}}\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"policydefinitions",
+										"request"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/leftOperand\"\r\n    },\r\n    \"@type\": \"PolicyDefinitionRequestDto\",\r\n    \"@id\": \"4b480f48-79a0-4851-a56c-6ef71e19ebb3\",\r\n    \"policy\": {\r\n\t\t\"@type\": \"Policy\",\r\n\t\t\"odrl:permission\" : [{\r\n      \"odrl:action\": \"USE\",\r\n      \"odrl:constraint\": {\r\n        \"odrl:constraint\": {\r\n          \"@type\": \"LogicalConstradev\",\r\n          \"odrl:or\": [\r\n            {\r\n              \"@type\": \"Contraint\",\r\n              \"odrl:leftOperand\": \"BusinessPartnerNumber\",\r\n              \"odrl:operator\": \"EQ\",\r\n              \"odrl:rightOperand\": \"{{BPNNumber}}\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }]\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/policydefinitions/request",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"policydefinitions",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3.1 Get policy",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/policydefinitions/request",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"policydefinitions",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Register contract definitions",
-					"event": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
+							"name": "Get DTR policy",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"policydefinitions",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register DTR contract definitions",
+							"event": [
 								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"@context\": {},\r\n    \"@id\": \"10\",\r\n    \"@type\": \"ContractDefinition\",\r\n    \"accessPolicyId\": \"4b480f48-79a0-4851-a56c-6ef71e19ebb3\",\r\n    \"contractPolicyId\": \"4b480f48-79a0-4851-a56c-6ef71e19ebb3\",\r\n    \"assetsSelector\" : {\r\n        \"@type\" : \"CriterionDto\",\r\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n        \"operator\": \"=\",\r\n        \"operandRight\": \"digital-twin-registry\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/contractdefinitions",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"contractdefinitions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4.1 Get contract definitions",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{APIKey}}",
-									"type": "string"
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {},\r\n    \"@id\": \"{{registryContractDefinitionId}}\",\r\n    \"@type\": \"ContractDefinition\",\r\n    \"accessPolicyId\": \"{{registryPolicyId}}\",\r\n    \"contractPolicyId\": \"{{registryPolicyId}}\",\r\n    \"assetsSelector\" : {\r\n        \"@type\" : \"CriterionDto\",\r\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n        \"operator\": \"=\",\r\n        \"operandRight\": \"digital-twin-registry\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "key",
-									"value": "X-Api-Key",
-									"type": "string"
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractdefinitions"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{Server}}/BPNL000000000000/management/v2/contractdefinitions/request",
-							"host": [
-								"{{Server}}"
-							],
-							"path": [
-								"BPNL000000000000",
-								"management",
-								"v2",
-								"contractdefinitions",
-								"request"
-							]
+						{
+							"name": "Get DTR contract definitions",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractdefinitions",
+										"request"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "5. Register Digital Twin to registry",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "0.2. Register asset",
+					"item": [
+						{
+							"name": "1. Create sample data",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"electrochemicalProperties\": {\r\n        \"ratedCapacity\": 210,\r\n        \"batteryEnergy\": {\r\n            \"energyRoundtripEfficiencyChange\": 67,\r\n            \"maximumAllowedBatteryEnergy\": 90000,\r\n            \"energyRoundtripEfficiency\": 56\r\n        },\r\n        \"ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy\": 0.611,\r\n        \"batteryVoltage\": {\r\n            \"nominalVoltage\": 4.3,\r\n            \"maxVoltage\": 6,\r\n            \"minVoltage\": 2.04\r\n        },\r\n        \"internalResistance\": {\r\n            \"cellInternalResistance\": 45,\r\n            \"packInternalResistance\": 67,\r\n            \"packInternalResistanceIncrease\": 23\r\n        },\r\n        \"capacityThresholdExhaustion\": 23,\r\n        \"batteryPower\": {\r\n            \"originalPowerCapability\": -1.7976931348623157e+308,\r\n            \"powerFade\": 23,\r\n            \"originalPowerCapabilityLimits\": -1.7976931348623157e+308,\r\n            \"maximumAllowedBatteryPower\": -1.7976931348623157e+308,\r\n            \"powerCapabilityAt20Charge\": -1.7976931348623157e+308,\r\n            \"powerCapabilityAt80Charge\": -1.7976931348623157e+308\r\n        },\r\n        \"capacityFade\": 34\r\n    },\r\n    \"document\": {\r\n        \"responsibleSourcing\": [\r\n            {\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\",\r\n                \"title\": \"LlN\"\r\n            }\r\n        ],\r\n        \"packagingInstructions\": [\r\n            {\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\",\r\n                \"title\": \"eOMtThyhVNLWUZNRcBaQKxI\"\r\n            }\r\n        ],\r\n        \"transportationInstructions\": [\r\n            {\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\",\r\n                \"title\": \"yedUsFwdkelQbxeTeQOvaScfqIOOmaa\"\r\n            }\r\n        ],\r\n        \"vehicleDismantlingProcedure\": [\r\n            {\r\n                \"fileLocation\": \"http://www.ietf.org/rfc/rfc2396.txt\",\r\n                \"title\": \"JxkyvRnL\"\r\n            }\r\n        ],\r\n        \"testReportsResults\": [\r\n            {\r\n                \"fileLocation\": \"telnet://192.0.2.16:80/\",\r\n                \"title\": \"UMaAIKKIkknjWEXJUfPxxQHeWKEJ\"\r\n            }\r\n        ],\r\n        \"batteryDismantlingProcedure\": [\r\n            {\r\n                \"fileLocation\": \"http://www.wikipedia.org\",\r\n                \"title\": \"RYtGKbgicZaHCBRQDSx\"\r\n            }\r\n        ],\r\n        \"safetyMeasures\": [\r\n            {\r\n                \"fileLocation\": \"ftp://ftp.is.co.za/rfc/rfc1808.txt\",\r\n                \"title\": \"VLhpfQGTMDYpsBZxvfBoeygjb\"\r\n            }\r\n        ],\r\n        \"declarationOfConformity\": [\r\n            {\r\n                \"fileLocation\": \"http://www.wikipedia.org\",\r\n                \"title\": \"dpHYZGhtgdntugzvvKAXLhM\"\r\n            }\r\n        ]\r\n    },\r\n    \"datePlacedOnMarket\": \"2023-03-14T17:10:25.344+01:00\",\r\n    \"cellChemistry\": {\r\n        \"anodeCompositionOther\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"anodeActiveMaterials\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"cathodeCompositionOther\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"electrolyteComposition\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"recyclateContentActiveMaterials\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"cathodeActiveMaterials\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ]\r\n    },\r\n    \"physicalDimensions\": {\r\n        \"diameter\": 3,\r\n        \"length\": 20000,\r\n        \"width\": 1000,\r\n        \"weight\": 1007,\r\n        \"height\": 1\r\n    },\r\n    \"temperatureRangeIdleState\": {\r\n        \"temperatureRangeIdleStateUpperLimit\": 67,\r\n        \"temperatureRangeIdleStateLowerLimit\": 67\r\n    },\r\n    \"batteryCycleLife\": {\r\n        \"cycleLifeTestCRate\": 45,\r\n        \"expectedLifetime\": 456,\r\n        \"cycleLifeTestDepthOfDischarge\": 23\r\n    },\r\n    \"manufacturer\": {\r\n        \"address\": {\r\n            \"country\": {\r\n                \"shortName\": \"XB-1M\"\r\n            },\r\n            \"premise\": {\r\n                \"technicalKey\": \"BUILDING\",\r\n                \"value\": \"Werk 1\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\",\r\n                \"value\": \"Tor 1\"\r\n            },\r\n            \"locality\": {\r\n                \"technicalKey\": \"BLOCK\",\r\n                \"value\": \"Mannheim\"\r\n            },\r\n            \"postCode\": {\r\n                \"technicalKey\": \"CEDEX\",\r\n                \"value\": \"68161\\\\\\\\\\\\\\\\12\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"number\": \"45\",\r\n                \"technicalKey\": \"STREET\",\r\n                \"value\": \"BernstraÃe\"\r\n            }\r\n        },\r\n        \"contact\": {\r\n            \"website\": \"https://www.samsung.com\",\r\n            \"phoneNumber\": \"+49 89 1234567890\",\r\n            \"faxNumber\": \"+49 89 0987654321\",\r\n            \"email\": \"test.mail@example.com\"\r\n        },\r\n        \"name\": \"Company A\"\r\n    },\r\n    \"warrantyPeriod\": 60,\r\n    \"composition\": {\r\n        \"components\": {\r\n            \"componentsSupplier\": [\r\n                {\r\n                    \"componentsSupplierName\": \"XY Corporation\",\r\n                    \"address\": {\r\n                        \"country\": {\r\n                            \"shortName\": \"\"\r\n                        },\r\n                        \"premise\": {\r\n                            \"technicalKey\": \"BUILDING\",\r\n                            \"value\": \"Werk 1\"\r\n                        },\r\n                        \"postalDeliveryPoint\": {\r\n                            \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\",\r\n                            \"value\": \"Tor 1\"\r\n                        },\r\n                        \"locality\": {\r\n                            \"technicalKey\": \"BLOCK\",\r\n                            \"value\": \"Mannheim\"\r\n                        },\r\n                        \"postCode\": {\r\n                            \"technicalKey\": \"CEDEX\",\r\n                            \"value\": \"68161\\\\\\\\\\\\\\\\12\"\r\n                        },\r\n                        \"thoroughfare\": {\r\n                            \"number\": \"45\",\r\n                            \"technicalKey\": \"STREET\",\r\n                            \"value\": \"BernstraÃe\"\r\n                        }\r\n                    },\r\n                    \"contact\": {\r\n                        \"website\": \"https://www.samsung.com\",\r\n                        \"phoneNumber\": \"+49 89 1234567890\",\r\n                        \"faxNumber\": \"+49 89 0987654321\",\r\n                        \"email\": \"test.mail@example.com\"\r\n                    }\r\n                }\r\n            ],\r\n            \"componentsPartNumber\": [\r\n                \"Case xxxxxxx/xx; Controller xxxxxxx/xx\"\r\n            ]\r\n        },\r\n        \"compositionOfBattery\": [\r\n            {\r\n                \"materialName\": \"Graphite\",\r\n                \"materialWeight\": 2.5,\r\n                \"materialPercentageMassFraction\": 19\r\n            }\r\n        ],\r\n        \"criticalRawMaterials\": \"gNfZBdyFGRajVfJNonEnOinZj\"\r\n    },\r\n    \"manufacturing\": {\r\n        \"address\": {\r\n            \"country\": {\r\n                \"shortName\": \"RG-8\"\r\n            },\r\n            \"premise\": {\r\n                \"technicalKey\": \"BUILDING\",\r\n                \"value\": \"Werk 1\"\r\n            },\r\n            \"postalDeliveryPoint\": {\r\n                \"technicalKey\": \"INTERURBAN_DELIVERY_POINT\",\r\n                \"value\": \"Tor 1\"\r\n            },\r\n            \"locality\": {\r\n                \"technicalKey\": \"BLOCK\",\r\n                \"value\": \"Mannheim\"\r\n            },\r\n            \"postCode\": {\r\n                \"technicalKey\": \"CEDEX\",\r\n                \"value\": \"68161\\\\\\\\\\\\\\\\12\"\r\n            },\r\n            \"thoroughfare\": {\r\n                \"number\": \"45\",\r\n                \"technicalKey\": \"STREET\",\r\n                \"value\": \"BernstraÃe\"\r\n            }\r\n        },\r\n        \"dateOfManufacturing\": \"2023-03-07\"\r\n    },\r\n    \"batteryIdentification\": {\r\n        \"batteryIDDMCCode\": \"X123456789012X12345678901234567\",\r\n        \"batteryModel\": \"LFP, Natrium, Li-Ion, NMC, NCA, Solid-State\",\r\n        \"batteryType\": \"LFP, Natrium, Li-Ion, NMC, NCA, Solid-State\"\r\n    },\r\n    \"stateOfBattery\": {\r\n        \"stateOfCharge\": 23,\r\n        \"stateOfHealth\": 12,\r\n        \"statusBattery\": \"first life/ waste/ repaired/ repurposed/ recycled\"\r\n    },\r\n    \"cO2FootprintTotal\": 124\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{submodelServer}}/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
+									"host": [
+										"{{submodelServer}}"
+									],
+									"path": [
+										"{{digitalTwinId}}-{{digitalTwinSubmodelId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.1 Get sample data",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/octet-stream",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{submodelServer}}/{{digitalTwinId}}-{{digitalTwinSubmodelId}}",
+									"host": [
+										"{{submodelServer}}"
+									],
+									"path": [
+										"{{digitalTwinId}}-{{digitalTwinSubmodelId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Register assets",
+							"event": [
 								{
-									"key": "token",
-									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrRHdFTm5KUTktajBiUFpfSnZwYnVKODFfTlYxMDJpMEJhYWJvcUVwSmhJIn0.eyJleHAiOjE2NzQ0ODg0MDUsImlhdCI6MTY3NDQ4ODEwNSwianRpIjoiYTU2YjQyMDctOTQwNi00ZjNjLWIzMjgtMDFhMThhOTJkOGVmIiwiaXNzIjoiaHR0cHM6Ly9jZW50cmFsaWRwLmRldi5kZW1vLmNhdGVuYS14Lm5ldC9hdXRoL3JlYWxtcy9DWC1DZW50cmFsIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCIsIkNsNi1DWC1EQVBTIiwiQ2w0LUNYLURpZ2l0YWxUd2luIiwiYWNjb3VudCIsIkNsMy1DWC1TZW1hbnRpYyIsIkNsMi1DWC1Qb3J0YWwiXSwic3ViIjoiNDMxYmQzOWQtZjA0ZC00Yjk5LWExY2UtZGM5NzJiN2Y2MWIyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2EtY2w2LWN4LTI5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJodHRwczovL21hdGVyaWFscGFzcy5kZXYuZGVtby5jYXRlbmEteC5uZXQiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1jYXRlbmEteCByZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJtYW5hZ2UtdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJ0ZWNobmljYWxfcm9sZXNfbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJBcHAgVGVjaCBVc2VyIiwiQ29ubmVjdG9yIFVzZXIiXX0sIkNsNi1DWC1EQVBTIjp7InJvbGVzIjpbImNyZWF0ZV9kYXBzX2NsaWVudCJdfSwiQ2w0LUNYLURpZ2l0YWxUd2luIjp7InJvbGVzIjpbImFkZF9kaWdpdGFsX3R3aW4iLCJ2aWV3X2RpZ2l0YWxfdHdpbiIsImRlbGV0ZV9kaWdpdGFsX3R3aW4iLCJ1cGRhdGVfZGlnaXRhbF90d2luIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX0sIkNsMy1DWC1TZW1hbnRpYyI6eyJyb2xlcyI6WyJ2aWV3X3NlbWFudGljX21vZGVsIl19LCJDbDItQ1gtUG9ydGFsIjp7InJvbGVzIjpbInZpZXdfY29ubmVjdG9ycyJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJicG4iOiJCUE5MMDAwMDAwMDAwMDAwIiwiY2xpZW50SG9zdCI6IjEwLjI0MC4wLjYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoic2EtY2w2LWN4LTI5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNhLWNsNi1jeC0yOSIsImNsaWVudEFkZHJlc3MiOiIxMC4yNDAuMC42In0.iaiR2Ylq95zWZhOuQxM0UMjn5SKssgyanmD4rMotJFEHoQGGlpA7nPoj7-2aw7wWyKSKKk6y_AEDyDlz_Fu_VghCi5JNDZawr7jGSKi755697DMGphBUck9BoYsC1ZCr4xB0bGmxzEwoHhs-6zj_GSrUNz_yeI5BuYnrPleQPyLHOi4q5Op52xpyzTHL_aHdnobDwuCNeasRHy3wTpe6b3qgIocWm9fsCDqNC-pU2tkrAv1pvVpsyvt5Pa0wP23zNiKqgFuQ45EKjVbcaAh97fOJlwB8aesH-ILnTu6-eH9p6hs89jeKZP_7HxSeXvUwlHBSQGGkpovBvhGzjBkHsQ",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"Battery Passport DT\"\r\n        }\r\n    ],\r\n    \"idShort\": \"Battery_IMR18650V1\",\r\n    \"id\": \"365e6fbe-bb34-11ec-8422-0242ac120002\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"name\": \"partInstanceId\",\r\n            \"value\": \"IMR18650V1\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL-1.0RC02\",\r\n                    \"protocolInformation\": {\r\n                        \"href\": \"https://materialpass.int.demo.catena-x.net/BPNL000000000000/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": [ \"1.1\" ],\r\n                        \"subprotocol\": \"IDS\",\r\n                        \"subprotocolBody\": \"TBD\"\r\n                    }\r\n                }\r\n            ],\r\n            \"idShort\": \"batteryPass\",\r\n            \"id\": \"61125dc3-5e6f-4f4b-838d-447432b97918\",\r\n            \"semanticId\": {\r\n                \"type\": \"ExternalReference\",\r\n                \"keys\": [\r\n                    {\r\n                        \"type\": \"Submodel\",\r\n                        \"value\": \"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass\"\r\n                    }\r\n                ]\r\n            },\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {},\r\n    \"asset\": {\r\n        \"@type\": \"Asset\",\r\n        \"@id\": \"{{digitalTwinId}}-{{digitalTwinSubmodelId}}\", \r\n        \"properties\": {\r\n            \"description\": \"Battery Passport test data\"\r\n        }\r\n    },\r\n    \"dataAddress\": {\r\n        \"@type\": \"DataAddress\",\r\n        \"type\": \"HttpData\",\r\n        \"baseUrl\": \"{{submodelServer}}/{{digitalTwinId}}-{{digitalTwinSubmodelId}}\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/assets",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"assets"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{registryUrl}}/api/v3.0/shell-descriptors",
-							"host": [
-								"{{registryUrl}}"
+						{
+							"name": "2.1 Get assets",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/assets/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"assets",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Register policy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"path": [
-								"api",
-								"v3.0",
-								"shell-descriptors"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5.1 Get Digital Twin by Id from registry",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{registryUrl}}/api/v3.0/shell-descriptors",
-							"host": [
-								"{{registryUrl}}"
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/leftOperand\"\r\n    },\r\n    \"@type\": \"PolicyDefinitionRequestDto\",\r\n    \"@id\": \"{{policyId}}\",\r\n    \"policy\": {\r\n\t\t\"@type\": \"Policy\",\r\n\t\t\"odrl:permission\" : [{\r\n      \"odrl:action\": \"USE\",\r\n      \"odrl:constraint\": {\r\n        \"odrl:constraint\": {\r\n          \"@type\": \"LogicalConstradev\",\r\n          \"odrl:or\": [\r\n            {\r\n              \"@type\": \"Contraint\",\r\n              \"odrl:leftOperand\": \"BusinessPartnerNumber\",\r\n              \"odrl:operator\": \"EQ\",\r\n              \"odrl:rightOperand\": \"{{BPNNumber}}\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"policydefinitions",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1 Get policy",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/policydefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"policydefinitions",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Register contract definitions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"path": [
-								"api",
-								"v3.0",
-								"shell-descriptors"
-							]
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {},\r\n    \"@id\": \"{{contractDefinitionId}}\",\r\n    \"@type\": \"ContractDefinition\",\r\n    \"accessPolicyId\": \"{{policyId}}\",\r\n    \"contractPolicyId\": \"{{policyId}}\",\r\n    \"assetsSelector\" : {\r\n        \"@type\" : \"CriterionDto\",\r\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n        \"operator\": \"=\",\r\n        \"operandRight\": \"{{assetId}}\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractdefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.1 Get contract definitions",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{providerUrl}}/management/v2/contractdefinitions/request",
+									"host": [
+										"{{providerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractdefinitions",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. Register Digital Twin to registry",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": [\r\n        {\r\n            \"language\": \"en\",\r\n            \"text\": \"Battery Passport DT\"\r\n        }\r\n    ],\r\n    \"idShort\": \"Battery_IMR18650V1\",\r\n    \"id\": \"{{digitalTwinId}}\",\r\n    \"specificAssetIds\": [\r\n        {\r\n            \"name\": \"partInstanceId\",\r\n            \"value\": \"IMR18650V1\"\r\n        }\r\n    ],\r\n    \"submodelDescriptors\": [\r\n        {\r\n            \"endpoints\": [\r\n                {\r\n                    \"interface\": \"SUBMODEL-1.0RC02\",\r\n                    \"protocolInformation\": {\r\n                        \"href\": \"{{providerUrl}}/{{digitalTwinId}}-{{digitalTwinSubmodelId}}\",\r\n                        \"endpointProtocol\": \"IDS/ECLIPSE DATASPACE CONNECTOR\",\r\n                        \"endpointProtocolVersion\": [ \r\n                            \"1.1\" \r\n                        ],\r\n                        \"subprotocol\": \"IDS\",\r\n                        \"subprotocolBody\": \"TBD\"\r\n                    }\r\n                }\r\n            ],\r\n            \"idShort\": \"batteryPass\",\r\n            \"id\": \"{{digitalTwinSubmodelId}}\",\r\n            \"semanticId\": {\r\n                \"type\": \"ExternalReference\",\r\n                \"keys\": [\r\n                    {\r\n                        \"type\": \"Submodel\",\r\n                        \"value\": \"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass\"\r\n                    }\r\n                ]\r\n            },\r\n            \"description\": [\r\n                {\r\n                    \"language\": \"en\",\r\n                    \"text\": \"Battery Passport Submodel\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors/365e6fbe-bb34-11ec-8422-0242ac120002/submodel-descriptors/61125dc3-5e6f-4f4b-838d-447432b97918",
+									"host": [
+										"{{registryUrl}}"
+									],
+									"path": [
+										"api",
+										"v3.0",
+										"shell-descriptors",
+										"365e6fbe-bb34-11ec-8422-0242ac120002",
+										"submodel-descriptors",
+										"61125dc3-5e6f-4f4b-838d-447432b97918"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5.1 Get Digital Twin by Id from registry",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{registryUrl}}/shell-descriptors",
+									"host": [
+										"{{registryUrl}}"
+									],
+									"path": [
+										"shell-descriptors"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -777,7 +1068,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"searchFilter\": [\r\n    {\r\n      \"type\": \"manufacturerPartId\",\r\n      \"keys\": [\r\n        \"XYZ78901\"\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"searchFilter\": [\r\n    {\r\n      \"type\": \"manufacturerPartId\",\r\n      \"keys\": [\r\n        \"{{manufacturerPartId}}\"\r\n      ]\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -816,7 +1107,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{semanticUrl}}/bpndiscovery/api/administration/connectors/bpnDiscovery/99888095-b1ab-4c96-946c-28da0bda08bb",
+							"raw": "{{semanticUrl}}/bpndiscovery/api/administration/connectors/bpnDiscovery/{{resourceId}}",
 							"host": [
 								"{{semanticUrl}}"
 							],
@@ -826,7 +1117,7 @@
 								"administration",
 								"connectors",
 								"bpnDiscovery",
-								"99888095-b1ab-4c96-946c-28da0bda08bb"
+								"{{resourceId}}"
 							]
 						}
 					},
@@ -844,7 +1135,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    \"BPNL00000000CBA5\"\r\n]",
+							"raw": "[\r\n    \"{{bpnNumber}}\"\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -872,10 +1163,30 @@
 			"name": "4. Consumer",
 			"item": [
 				{
-					"name": "Data transfer",
+					"name": "Search for Registry",
 					"item": [
 						{
 							"name": "1. Get contract offer catalog",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.collectionVariables.set(\"offerId\", jsonResponse[\"dcat:dataset\"][\"odrl:hasPolicy\"][\"@id\"]);\r",
+											"\r",
+											"// encode digital twin and submodel Ids to base 64\r",
+											"pm.collectionVariables.set(\"encodedTwinId\", btoa(pm.collectionVariables.get(\"digitalTwinId\")));\r",
+											"pm.collectionVariables.set(\"encodedSubmodelId\", btoa(pm.collectionVariables.get(\"digitalTwinSubmodelId\")));\r",
+											"\r",
+											"//decode\r",
+											"// var decodedString = atob(encodedString);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"protocolProfileBehavior": {
 								"disabledSystemHeaders": {}
 							},
@@ -905,15 +1216,14 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n    \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"digital-twin-registry\"\r\n            }\r\n        ]\r\n    }\r\n}"
+									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"digital-twin-registry\"\r\n            }\r\n        ]\r\n    }\r\n}"
 								},
 								"url": {
-									"raw": "{{Server}}/consumer/management/v2/catalog/request",
+									"raw": "{{consumerUrl}}/management/v2/catalog/request",
 									"host": [
-										"{{Server}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"consumer",
 										"management",
 										"v2",
 										"catalog",
@@ -931,7 +1241,7 @@
 									"script": {
 										"exec": [
 											"const jsonResponse = pm.response.json();\r",
-											"pm.collectionVariables.set(\"negotiationId\", jsonResponse.id);"
+											"pm.collectionVariables.set(\"negotiationId\", jsonResponse[\"@id\"]);"
 										],
 										"type": "text/javascript"
 									}
@@ -972,7 +1282,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"NegotiationInitiateRequestDto\",\r\n\t\"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{providerBpn}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"MTA=:ZGlnaXRhbC10d2luLXJlZ2lzdHJ5:YmY1NDQ2MjUtYTFiOC00NjFkLTljMGItMTVjNjIzYzBhMjBj\",\r\n\t\t\"assetId\": \"digital-twin-registry\",\r\n\t\t\"policy\": {\r\n\t\t\t\"@type\": \"odrl:Set\",\r\n\t\t\t\"odrl:permission\": [],\r\n\t\t\t\"odrl:prohibition\": [],\r\n\t\t\t\"odrl:obligation\": [],\r\n\t\t\t\"odrl:target\": \"digital-twin-registry\"\r\n\t\t}\r\n\t}\r\n}",
+									"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"NegotiationInitiateRequestDto\",\r\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{bpnNumber}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"{{offerId}}\",\r\n\t\t\"assetId\": \"digital-twin-registry\",\r\n\t\t\"policy\": {\r\n\t\t\t\"@type\": \"odrl:Set\",\r\n\t\t\t\"odrl:permission\": [],\r\n\t\t\t\"odrl:prohibition\": [],\r\n\t\t\t\"odrl:obligation\": [],\r\n\t\t\t\"odrl:target\": \"digital-twin-registry\"\r\n\t\t}\r\n\t}\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -980,12 +1290,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{Server}}/BPNL000000000000/management/v2/contractnegotiations",
+									"raw": "{{consumerUrl}}/management/v2/contractnegotiations",
 									"host": [
-										"{{Server}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"BPNL000000000000",
 										"management",
 										"v2",
 										"contractnegotiations"
@@ -1002,7 +1311,7 @@
 									"script": {
 										"exec": [
 											"const jsonResponse = pm.response.json();\r",
-											"pm.collectionVariables.set(\"contractAgreementId\", jsonResponse.contractAgreementId);"
+											"pm.collectionVariables.set(\"contractAgreementId\", jsonResponse[\"edc:contractAgreementId\"]);"
 										],
 										"type": "text/javascript"
 									}
@@ -1054,16 +1363,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{Server}}/consumer/management/v2/contractnegotiations/bc54dd48-66d6-4f6a-b3cb-e714717c519b",
+									"raw": "{{consumerUrl}}/management/v2/contractnegotiations/{{negotiationId}}",
 									"host": [
-										"{{Server}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"consumer",
 										"management",
 										"v2",
 										"contractnegotiations",
-										"bc54dd48-66d6-4f6a-b3cb-e714717c519b"
+										"{{negotiationId}}"
 									]
 								}
 							},
@@ -1077,7 +1385,7 @@
 									"script": {
 										"exec": [
 											"const jsonResponse = pm.response.json();\r",
-											"pm.collectionVariables.set(\"transferId\", jsonResponse.id);"
+											"pm.collectionVariables.set(\"transferId\", jsonResponse[\"@id\"]);"
 										],
 										"type": "text/javascript"
 									}
@@ -1103,7 +1411,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n    },\r\n    \"assetId\": \"digital-twin-registry\",\r\n    \"connectorAddress\": \"https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n    \"contractId\": \"MTA=:ZGlnaXRhbC10d2luLXJlZ2lzdHJ5:ZWVlNjE5MDMtNjRlMC00NmYwLTk5NzQtODFiYmQ4N2VmZGE2\",\r\n    \"connectorId\": \"{{providerBpn}}\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    },\r\n    \"managedResources\": false,\r\n    \"privateProperties\": {\r\n        \"receiverHttpEndpoint\": \"https://materialpass.dev.demo.catena-x.net/endpoint/ebc08cdc-fc22-41e8-9394-81142de0b35a/IMR18650V1\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    }\r\n}",
+									"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n    },\r\n    \"assetId\": \"digital-twin-registry\",\r\n    \"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"contractId\": \"{{contractAgreementId}}\",\r\n    \"connectorId\": \"{{bpnNumber}}\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    },\r\n    \"managedResources\": false,\r\n    \"privateProperties\": {\r\n        \"receiverHttpEndpoint\": \"{{providerUrl}}/endpoint/ebc08cdc-fc22-41e8-9394-81142de0b35a/digital-twin-registry\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1111,12 +1419,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{Server}}/consumer/management/v2/transferprocesses",
+									"raw": "{{consumerUrl}}/management/v2/transferprocesses",
 									"host": [
-										"{{Server}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"consumer",
 										"management",
 										"v2",
 										"transferprocesses"
@@ -1157,126 +1464,58 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{Server}}/consumer/management/v2/transferprocesses/e07a5340-4e00-4374-a639-3ca88549dbf0",
+									"raw": "{{consumerUrl}}/management/v2/transferprocesses/{{transferId}}",
 									"host": [
-										"{{Server}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"consumer",
 										"management",
 										"v2",
 										"transferprocesses",
-										"e07a5340-4e00-4374-a639-3ca88549dbf0"
+										"{{transferId}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "4. Get Endpoint Data Reference",
+							"name": "4. Initiate EDR Negotation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body matches string\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.collectionVariables.set(\"edrNegotiationId\", jsonData[\"@id\"]);",
+											"",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
-									"type": "oauth2",
-									"oauth2": [
+									"type": "apikey",
+									"apikey": [
 										{
-											"key": "clientSecret",
-											"value": "",
+											"key": "value",
+											"value": "{{APIKey}}",
 											"type": "string"
 										},
 										{
-											"key": "clientId",
-											"value": "",
-											"type": "string"
-										},
-										{
-											"key": "grant_type",
-											"value": "authorization_code",
-											"type": "string"
-										},
-										{
-											"key": "headerPrefix",
-											"value": "",
-											"type": "string"
-										},
-										{
-											"key": "accessTokenUrl",
-											"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
-											"type": "string"
-										},
-										{
-											"key": "redirect_uri",
-											"value": "https://materialpass.dev.demo.catena-x.net",
-											"type": "string"
-										},
-										{
-											"key": "scope",
-											"value": "openid profile email",
-											"type": "string"
-										},
-										{
-											"key": "useBrowser",
-											"value": false,
-											"type": "boolean"
-										},
-										{
-											"key": "authUrl",
-											"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth",
-											"type": "string"
-										},
-										{
-											"key": "challengeAlgorithm",
-											"value": "S256",
-											"type": "string"
-										},
-										{
-											"key": "password",
-											"value": "changeme",
-											"type": "string"
-										},
-										{
-											"key": "username",
-											"value": "company 2 user",
-											"type": "string"
-										},
-										{
-											"key": "addTokenTo",
-											"value": "header",
+											"key": "key",
+											"value": "X-Api-Key",
 											"type": "string"
 										}
 									]
 								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/api/v3.0/shell-descriptors",
-									"protocol": "https",
-									"host": [
-										"materialpass",
-										"int",
-										"demo",
-										"catena-x",
-										"net"
-									],
-									"path": [
-										"BPNL000000000000",
-										"api",
-										"public",
-										"api",
-										"v3.0",
-										"shell-descriptors"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "5. /lookup/shells - Query Digital Twin",
-							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"IMR18650V1\"\r\n      }\r\n    ]\r\n  }\r\n}",
+									"raw": "{\n\t\"@context\": {\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n\t},\n\t\"@type\": \"NegotiationInitiateRequestDto\",\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\n\t\"protocol\": \"dataspace-protocol-http\",\n\t\"connectorId\": \"{{bpnNumber}}\",\n\t\"providerId\": \"{{bpnNumber}}\",\n\t\"offer\": {\n\t\t\"offerId\": \"{{offerId}}\",\n\t\t\"assetId\": \"digital-twin-registry\",\n\t\t\"policy\": {\n\t\t\t\"@type\": \"odrl:Set\",\n\t\t\t\"odrl:permission\": [],\n\t\t\t\"odrl:prohibition\": [],\n\t\t\t\"odrl:obligation\": [],\n\t\t\t\"odrl:target\": \"digital-twin-registry\"\n\t\t}\n\t}\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1284,47 +1523,52 @@
 									}
 								},
 								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/lookup/shells/query",
+									"raw": "{{consumerUrl}}/management/edrs",
 									"host": [
-										"{{registryUrl}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
-										"lookup",
-										"shells",
-										"query"
+										"management",
+										"edrs"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "6. /registry/shell-descriptors/{id} - Get Digital Twin By Id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors/365e6fbe-bb34-11ec-8422-0242ac120002",
-									"host": [
-										"{{registryUrl}}"
-									],
-									"path": [
-										"api",
-										"v3.0",
-										"shell-descriptors",
-										"365e6fbe-bb34-11ec-8422-0242ac120002"
-									]
+							"name": "4.1. Query EDRs Cached",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"transferProcessId\", jsonData.at(-1)[\"edc:transferProcessId\"]);",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							},
-							"response": []
-						},
-						{
-							"name": "7. Get specific submodel descriptor",
+							],
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -1337,17 +1581,238 @@
 									}
 								},
 								"url": {
-									"raw": "{{registryUrl}}/api/v3.0/shell-descriptors/365e6fbe-bb34-11ec-8422-0242ac120002/submodel-descriptors/61125dc3-5e6f-4f4b-838d-447432b97918",
+									"raw": "{{consumerUrl}}/management/edrs?assetId=digital-twin-registry",
 									"host": [
-										"{{registryUrl}}"
+										"{{consumerUrl}}"
 									],
 									"path": [
-										"api",
-										"v3.0",
+										"management",
+										"edrs"
+									],
+									"query": [
+										{
+											"key": "assetId",
+											"value": "digital-twin-registry"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.2. Get EDR by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"authCode\", jsonData[\"edc:authCode\"]);",
+											"pm.collectionVariables.set(\"dataplanePublicEndpoint\", jsonData[\"edc:endpoint\"]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/edrs/{{transferProcessId}}",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"edrs",
+										"{{transferProcessId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.3. Get Endpoint Data Reference",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authCode}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors",
+									"host": [
+										"{{dataplanePublicEndpoint}}"
+									],
+									"path": [
+										"shell-descriptors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. /lookup/shells - Query Digital Twin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authCode}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": {\r\n    \"assetIds\": [\r\n      {\r\n        \"name\": \"partInstanceId\",\r\n        \"value\": \"<value>\"\r\n      }\r\n    ]\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "{{dataplanePublicEndpoint}}/lookup/shells/query",
+									"host": [
+										"{{dataplanePublicEndpoint}}"
+									],
+									"path": [
+										"lookup",
+										"shells",
+										"query"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6. /registry/shell-descriptors/{id} - Get Digital Twin By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authCode}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}",
+									"host": [
+										"{{dataplanePublicEndpoint}}"
+									],
+									"path": [
 										"shell-descriptors",
-										"365e6fbe-bb34-11ec-8422-0242ac120002",
+										"{{encodedTwinId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "7. Get specific submodel descriptor",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+										"key": "Authorization",
+										"value": "{{authCode}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{dataplanePublicEndpoint}}/shell-descriptors/{{encodedTwinId}}/submodel-descriptors/{{encodedSubmodelId}}",
+									"host": [
+										"{{dataplanePublicEndpoint}}"
+									],
+									"path": [
+										"shell-descriptors",
+										"{{encodedTwinId}}",
 										"submodel-descriptors",
-										"61125dc3-5e6f-4f4b-838d-447432b97918"
+										"{{encodedSubmodelId}}"
 									],
 									"query": [
 										{
@@ -1361,12 +1826,555 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Search for Asset",
+					"item": [
+						{
+							"name": "Get contract offer catalog - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.collectionVariables.set(\"offerId\", jsonResponse[\"dcat:dataset\"][\"odrl:hasPolicy\"][\"@id\"]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"{{assetId}}\"\r\n            }\r\n        ]\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/v2/catalog/request",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"catalog",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Negotiate Contract - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.collectionVariables.set(\"negotiationId\", jsonResponse[\"@id\"]);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"NegotiationInitiateRequestDto\",\r\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{bpnNumber}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"{{offerId}}\",\r\n\t\t\"assetId\": \"{{assetId}}\",\r\n\t\t\"policy\": {\r\n\t\t\t\"@type\": \"odrl:Set\",\r\n\t\t\t\"odrl:permission\": [],\r\n\t\t\t\"odrl:prohibition\": [],\r\n\t\t\t\"odrl:obligation\": [],\r\n\t\t\t\"odrl:target\": \"{{assetId}}\"\r\n\t\t}\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/v2/contractnegotiations",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractnegotiations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Negotiation status - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.collectionVariables.set(\"contractAgreementId\", jsonResponse[\"edc:contractAgreementId\"]);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/v2/contractnegotiations/{{negotiationId}}",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"contractnegotiations",
+										"{{negotiationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transfer data - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonResponse = pm.response.json();\r",
+											"pm.collectionVariables.set(\"transferId\", jsonResponse[\"@id\"]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": {\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n    },\r\n    \"assetId\": \"{{assetId}}\",\r\n    \"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"contractId\": \"{{contractAgreementId}}\",\r\n    \"connectorId\": \"{{bpnNumber}}\",\r\n    \"dataDestination\": {\r\n        \"type\": \"HttpProxy\"\r\n    },\r\n    \"managedResources\": false,\r\n    \"privateProperties\": {\r\n        \"receiverHttpEndpoint\": \"{{providerUrl}}/endpoint/ebc08cdc-fc22-41e8-9394-81142de0b35a/{{assetId}}\"\r\n    },\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/v2/transferprocesses",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"transferprocesses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get data transfer status - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{consumerUrl}}/management/v2/transferprocesses/{{transferId}}",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"v2",
+										"transferprocesses",
+										"{{transferId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Initiate EDR Negotation - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body matches string\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.collectionVariables.set(\"edrNegotiationId\", jsonData[\"@id\"]);",
+											"",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"@context\": {\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n\t},\n\t\"@type\": \"NegotiationInitiateRequestDto\",\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\n\t\"protocol\": \"dataspace-protocol-http\",\n\t\"connectorId\": \"{{bpnNumber}}\",\n\t\"providerId\": \"{{bpnNumber}}\",\n\t\"offer\": {\n\t\t\"offerId\": \"{{offerId}}\",\n\t\t\"assetId\": \"{{assetId}}\",\n\t\t\"policy\": {\n\t\t\t\"@type\": \"odrl:Set\",\n\t\t\t\"odrl:permission\": [],\n\t\t\t\"odrl:prohibition\": [],\n\t\t\t\"odrl:obligation\": [],\n\t\t\t\"odrl:target\": \"{{assetId}}\"\n\t\t}\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/edrs",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"edrs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Query EDRs Cached - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"transferProcessId\", jsonData.at(-1)[\"edc:transferProcessId\"]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/edrs?assetId={{assetId}}",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"edrs"
+									],
+									"query": [
+										{
+											"key": "assetId",
+											"value": "{{assetId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get EDR by ID - asset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"authCode\", jsonData[\"edc:authCode\"]);",
+											"pm.collectionVariables.set(\"dataplanePublicEndpoint\", jsonData[\"edc:endpoint\"]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{APIKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{consumerUrl}}/management/edrs/{{transferProcessId}}",
+									"host": [
+										"{{consumerUrl}}"
+									],
+									"path": [
+										"management",
+										"edrs",
+										"{{transferProcessId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Endpoint Data Reference - asset",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authCode}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{dataplanePublicEndpoint}}",
+									"host": [
+										"{{dataplanePublicEndpoint}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
 		{
 			"name": "Backend",
 			"item": [
+				{
+					"name": "0. Create Process",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\": \"{{manufacturerPartId}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8888/api/contract/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"contract",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "1. Search Contract",
 					"event": [
@@ -1388,7 +2396,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"IMR18650V1\",\r\n    \"version\": \"v3.0.1\"\r\n}",
+							"raw": "{\r\n    \"id\": \"IMR18650V1\",\r\n    \"version\": \"v3.0.1\",\r\n    \"processId\": \"{{processid}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1396,10 +2404,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{Server}}/api/contract/search",
+							"raw": "localhost:8888/api/contract/search",
 							"host": [
-								"{{Server}}"
+								"localhost"
 							],
+							"port": "8888",
 							"path": [
 								"api",
 								"contract",
@@ -1416,7 +2425,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"processId\": \"{{processid}}\",\r\n    \"contractId\": \"{{contractid}}\",\r\n    \"token\": \"{{token}}\"\r\n}",
+							"raw": "{\r\n    \"processId\": \"{{processid}}\",\r\n    \"contractId\": \"digital-twin-registry\",\r\n    \"token\": \"{{token}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1424,14 +2433,43 @@
 							}
 						},
 						"url": {
-							"raw": "{{Server}}/api/contract/sign",
+							"raw": "localhost:8888/api/contract/sign",
 							"host": [
-								"{{Server}}"
+								"localhost"
 							],
+							"port": "8888",
 							"path": [
 								"api",
 								"contract",
 								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "endpoint/processId/{endpoint}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": \"\",\r\n        \"authKey\": \"Authorization\",\r\n        \"authCode\": \"\",\r\n        \"endpoint\": \"\",\r\n        \"properties\": {\r\n            \"https://w3id.org/edc/v0.0.1/ns/cid\": \"\"\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Server}}/endpoint/b5e28fb1-0b2f-4458-80a2-19ecdc8f65f6/3a0b8fbb94798375598a8fef54f885dc",
+							"host": [
+								"{{Server}}"
+							],
+							"path": [
+								"endpoint",
+								"b5e28fb1-0b2f-4458-80a2-19ecdc8f65f6",
+								"3a0b8fbb94798375598a8fef54f885dc"
 							]
 						}
 					},
@@ -1499,15 +2537,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Server}}/api/contract/status/{{processid}}",
+							"raw": "localhost:8888/api/contract/status/b5e28fb1-0b2f-4458-80a2-19ecdc8f65f6",
 							"host": [
-								"{{Server}}"
+								"localhost"
 							],
+							"port": "8888",
 							"path": [
 								"api",
 								"contract",
 								"status",
-								"{{processid}}"
+								"b5e28fb1-0b2f-4458-80a2-19ecdc8f65f6"
 							]
 						}
 					},
@@ -1520,7 +2559,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"processId\": \"{{processid}}\",\r\n    \"contractId\": \"{{contractid}}\",\r\n    \"token\": \"{{token}}\"\r\n}",
+							"raw": "{\r\n    \"processId\": \"{{processid}}\",\r\n    \"contractId\": \"digital-twin-registry\",\r\n    \"token\": \"{{token}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1528,13 +2567,85 @@
 							}
 						},
 						"url": {
-							"raw": "{{Server}}/api/passport",
+							"raw": "localhost:8888/api/passport",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"passport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Negotiate Contract Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();\r",
+									"pm.collectionVariables.set(\"negotiationId\", jsonResponse.id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{APIKey}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"NegotiationInitiateRequestDto\",\r\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{bpnNumber}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"{{offerId}}\",\r\n\t\t\"assetId\": \"digital-twin-registry\",\r\n\t\t\"policy\": {\r\n\t\t\t\"@type\": \"odrl:Set\",\r\n\t\t\t\"odrl:permission\": [],\r\n\t\t\t\"odrl:prohibition\": [],\r\n\t\t\t\"odrl:obligation\": [],\r\n\t\t\t\"odrl:target\": \"digital-twin-registry\"\r\n\t\t}\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Server}}/consumer/management/v2/contractnegotiations",
 							"host": [
 								"{{Server}}"
 							],
 							"path": [
-								"api",
-								"passport"
+								"consumer",
+								"management",
+								"v2",
+								"contractnegotiations"
 							]
 						}
 					},
@@ -1676,22 +2787,17 @@
 	"variable": [
 		{
 			"key": "digitalTwinId",
-			"value": "urn:uuid:1e4b62e8-dc0d-4327-9ece-fd333cea06d8",
+			"value": "365e6fbe-bb34-11ec-8422-0242ac120002",
 			"type": "default"
 		},
 		{
 			"key": "digitalTwinSubmodelId",
-			"value": "urn:uuid:61125dc3-5e6f-4f4b-838d-447432b97918",
+			"value": "61125dc3-5e6f-4f4b-838d-447432b97918",
 			"type": "default"
 		},
 		{
 			"key": "edcPolicyId",
 			"value": "609e305c-2fbf-4257-8e1d-7fedc27df987",
-			"type": "default"
-		},
-		{
-			"key": "providerBpn",
-			"value": "some-bpn",
 			"type": "default"
 		},
 		{
@@ -1731,17 +2837,27 @@
 		},
 		{
 			"key": "assetId",
-			"value": "",
+			"value": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
 			"type": "default"
 		},
 		{
 			"key": "policyId",
-			"value": "",
+			"value": "4b480f48-79a0-4851-a56c-6ef71e19ebb3",
+			"type": "default"
+		},
+		{
+			"key": "registryPolicyId",
+			"value": "4b480f48-79a0-4851-a56c-6ef71e19ebc4",
 			"type": "default"
 		},
 		{
 			"key": "contractDefinitionId",
-			"value": "",
+			"value": "11",
+			"type": "default"
+		},
+		{
+			"key": "registryContractDefinitionId",
+			"value": "10",
 			"type": "default"
 		},
 		{
@@ -1761,18 +2877,28 @@
 			"value": "https://materialpass.int.demo.catena-x.net"
 		},
 		{
+			"key": "submodelServer",
+			"value": "https://materialpass.int.demo.catena-x.net/provider_backend/data",
+			"type": "default"
+		},
+		{
 			"key": "bpnNumber",
-			"value": "",
+			"value": "<some-bpn>",
 			"type": "string"
 		},
 		{
 			"key": "registryUrl",
-			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry",
+			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0",
 			"type": "default"
 		},
 		{
 			"key": "providerUrl",
-			"value": "https://materialpass.int.demo.catena-x.net",
+			"value": "https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+			"type": "default"
+		},
+		{
+			"key": "consumerUrl",
+			"value": "https://materialpass.int.demo.catena-x.net/consumer",
 			"type": "default"
 		},
 		{
@@ -1786,9 +2912,52 @@
 			"type": "default"
 		},
 		{
+			"key": "processid",
+			"value": ""
+		},
+		{
+			"key": "contractid",
+			"value": ""
+		},
+		{
+			"key": "resourceId",
 			"value": "",
-			"type": "default",
-			"disabled": true
+			"type": "default"
+		},
+		{
+			"key": "manufacturerPartId",
+			"value": "XYZ78901",
+			"type": "default"
+		},
+		{
+			"key": "offerId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "edrNegotiationId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "authCode",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "dataplanePublicEndpoint",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "encodedTwinId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "encodedSubmodelId",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

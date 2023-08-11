@@ -249,7 +249,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 | PolicyId | UUID that identifies the policy in the EDC Connector | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
 | PermissionType | DID Permission Type | PolicyDefinitionRequestDto |
 | PermissionActionType | Defines the action allowed when the permission is assigned to an asset. In case of the usage policy the value "USE" is necessary | "USE" |
-
+| BPN                  | Consumer's Business Partner Number                                                                                               | BPNL000000000000 |
 
 #### **Format and Fields:**
 
@@ -272,7 +272,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
                   "@type": "Contraint",
                   "odrl:leftOperand": "BusinessPartnerNumber",
                   "odrl:operator": "EQ",
-                  "odrl:rightOperand": "<some-bpn>"
+                  "odrl:rightOperand": "{{BPN}}"
                 }
               ]
             }
@@ -364,15 +364,16 @@ Once you finish the configuration, to make the endpoint public configure in the 
         {
             "endpoints": [
                 {
-                    "interface": "SUBMODEL-1.0RC02",
+                    "interface": "SUBMODEL-3.0",
                     "protocolInformation": {
-                        "href": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",
-                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
+                        "href": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel",
+                        "endpointProtocol": "HTTP",
                         "endpointProtocolVersion": [ 
                             "1.1" 
                         ],
                         "subprotocol": "DSP",
-                        "subprotocolBody": "id={{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",dspEndpoint={{EDCProviderUrl}}/{{BPN}}"
+                        "subprotocolBody": "id={{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",dspEndpoint={{EDCProviderUrl}}/{{BPN}}",
+                        "subprotocolBodyEncoding": "plain"
                     }
                 }
             ],

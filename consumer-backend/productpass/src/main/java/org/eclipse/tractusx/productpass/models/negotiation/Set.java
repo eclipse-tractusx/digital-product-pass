@@ -32,15 +32,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Set extends DidDocument{
     @JsonProperty("odrl:permission")
-    List<Constraint> permissions;
+    Object permissions;
     @JsonProperty("odrl:prohibition")
-    List<Constraint> prohibitions;
+    Object prohibitions;
     @JsonProperty("odrl:obligation")
-    List<Constraint> obligations;
+    Object obligations;
     @JsonProperty("odrl:target")
     String target;
 
-    public Set(String id, String type, List<Constraint> permissions, List<Constraint> prohibitions, List<Constraint> obligations, String target) {
+    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations, String target) {
         super(id, type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
@@ -48,7 +48,7 @@ public class Set extends DidDocument{
         this.target = target;
     }
 
-    public Set(List<Constraint> permissions, List<Constraint> prohibitions, List<Constraint> obligations, String target) {
+    public Set(Object permissions, Object prohibitions, Object obligations, String target) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
@@ -71,27 +71,27 @@ public class Set extends DidDocument{
         this.target = target;
     }
 
-    public List<Constraint> getPermissions() {
+    public Object getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<Constraint> permissions) {
+    public void setPermissions(Object permissions) {
         this.permissions = permissions;
     }
 
-    public List<Constraint> getProhibitions() {
+    public Object getProhibitions() {
         return prohibitions;
     }
 
-    public void setProhibitions(List<Constraint> prohibitions) {
+    public void setProhibitions(Object prohibitions) {
         this.prohibitions = prohibitions;
     }
 
-    public List<Constraint> getObligations() {
+    public Object getObligations() {
         return obligations;
     }
 
-    public void setObligations(List<Constraint> obligations) {
+    public void setObligations(Object obligations) {
         this.obligations = obligations;
     }
 

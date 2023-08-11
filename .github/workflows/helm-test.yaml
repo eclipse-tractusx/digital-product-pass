@@ -122,6 +122,7 @@ jobs:
       
       - name: Run chart-testing (install)
         run: |
+          cp deployment/helm/local/storage/pv-data.yaml charts/digital-product-pass/templates/pv-data.yaml
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
           ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=frontend.image.tag=${{ env.TAG }} --set=frontend.image.repository=${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}} --set=backend.image.tag=${{ env.TAG }} --set=backend.image.repository=${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}"

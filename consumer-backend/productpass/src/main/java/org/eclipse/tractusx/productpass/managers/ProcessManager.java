@@ -206,6 +206,19 @@ public class ProcessManager {
         this.newStatusFile(process.id, connectorAddress, createdTime); // Set the status from the process in file system logs.
         return process;
     }
+
+    public Boolean deleteSearchDir(String processId){
+        try {
+            String path = this.getTmpProcessDir(processId, false);
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Temporary process file does not exists for id ["+processId+"]!");
+            }
+            fileUtil.deleteDir(path);
+            return true;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search in search status file");
+        }
+    }
     public SearchStatus setSearch(String processId, Search search) {
         try {
             String path = this.getTmpProcessFilePath(processId, this.searchFileName);

@@ -33,6 +33,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 @Service
 public final class FileUtil {
@@ -155,6 +157,28 @@ public final class FileUtil {
 
     }
 
+    public void deleteDir(String path){
+        try {
+            Path dir = Path.of(path);
+            if(!this.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+            }
+            try(Stream<Path> paths =  Files.walk(dir)){
+                paths.sorted(Comparator.reverseOrder())
+                .forEach(filePath -> {
+                    try {
+                        Files.delete(filePath);
+                    } catch (IOException e) {
+                        LogUtil.printError("It was not possible to delete the file [" + filePath + "] in dir [" + path + "]");
+                    }
+                });
+            }catch (Exception e) {
+                throw new UtilException(FileUtil.class, "It was not possible to delete dir [" + path + "] because the stream closed!");
+            }
+        } catch (Exception e) {
+            throw new UtilException(FileUtil.class, "It was not possible to delete dir [" + path + "]");
+        }
+    }
 
     public Boolean deleteFile(String path){
         try {

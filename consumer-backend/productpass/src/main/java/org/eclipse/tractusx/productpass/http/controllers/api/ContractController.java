@@ -306,6 +306,13 @@ public class ContractController {
                 processManager.saveDataset(process.id, dataset, startedTime, false);
             }
 
+            // After the search is performed the search dir is deleted
+            if(!processManager.deleteSearchDir(process.id)){
+                LogUtil.printError("It was not possible to delete the search.json file for the process");
+            }else{
+                LogUtil.printDebug("[PROCESS " + process.id + "] The tmp search directory was deleted successfully!");
+            }
+
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             assert response != null;

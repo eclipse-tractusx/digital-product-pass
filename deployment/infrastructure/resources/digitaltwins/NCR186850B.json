@@ -17,13 +17,16 @@
         {
             "endpoints": [
                 {
-                    "interface": "SUBMODEL-1.0RC02",
+                    "interface": "SUBMODEL-3.0",
                     "protocolInformation": {
-                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
-                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
-                        "endpointProtocolVersion": [ "1.1" ],
-                        "subprotocol": "IDS",
-                        "subprotocolBody": "TBD"
+                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23/submodel",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [
+                          "1.1"
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id=1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
+                        "subprotocolBodyEncoding": "plain"
                     }
                 }
             ],

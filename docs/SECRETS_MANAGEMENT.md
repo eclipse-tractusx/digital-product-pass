@@ -38,6 +38,10 @@ To access a material pass vault space, a vault token is required
 - **int/** (directory used for integration environment)
 - **dev/** (directory used for development purposes)
 - **beta/** (directory used for beta environment)
+- **int-client-secret**
+- **dev-client-secret**
+- **beta-client-secret**
+- **edc-encryption-key**
 
 To put a secret from vault, a special pattern is followed in helm values files:
 

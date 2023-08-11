@@ -41,6 +41,7 @@ REGISTRY_CLIENT_SECRET=$(vault kv get -field=client.secret material-pass/dev/aas
 EDC_API_AUTH_KEY=$(vault kv get -field=api.key material-pass/dev/edc/oauth)
 POSTGRES_DB_USER=$(vault kv get -field=user material-pass/dev/edc/database)
 POSTGRES_DB_PASSWORD=$(vault kv get -field=password material-pass/dev/edc/database)
+PARTICIPANT_ID=$(vault kv get -field=api.key material-pass/dev/edc/participant)
 
 VAULT_HASHICORP_URL=$(vault kv get -field=vault.hashicorp.url material-pass/dev/edc/vault)
 VAULT_HASHICORP_SECRET_PATH=$(vault kv get -field=vault.hashicorp.api.secret.path material-pass/dev/edc/vault)
@@ -52,10 +53,11 @@ EDC_OAUTH_CLIENT_ID=$(vault kv get -field=client.id material-pass/dev/edc/oauth)
 
 echo "Replace actual values with placholders in consumer-ui values-dev file..."
 echo
-sed -i "s|${REGISTRY_CLIENT_ID}|<path:material-pass/data/dev/aasregistry#client.id>|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|${REGISTRY_CLIENT_SECRET}|<path:material-pass/data/dev/aasregistry#client.secret>|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|${EDC_API_AUTH_KEY}|<path:material-pass/data/dev/edc/oauth#api.key>|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|tag: <LATEST_IMAGE_TAG_FROM_GIT_COMMIT_SHA>|tag: placeholder|g" ./../../consumer-ui/values-dev.yaml;
+sed -i "s|${REGISTRY_CLIENT_ID}|<path:material-pass/data/dev/aasregistry#client.id>|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|${REGISTRY_CLIENT_SECRET}|<path:material-pass/data/dev/aasregistry#client.secret>|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|${EDC_API_AUTH_KEY}|<path:material-pass/data/dev/edc/oauth#api.key>|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|${PARTICIPANT_ID}|<path:material-pass/data/dev/edc/participant#bpnNumber>|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+# sed -i "s|tag: <LATEST_IMAGE_TAG_FROM_GIT_COMMIT_SHA>|tag: placeholder|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
 
 ### CONSUMER CONNECTOR
 

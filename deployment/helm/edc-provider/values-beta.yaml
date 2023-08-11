@@ -28,7 +28,7 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: &bpnNumber "<path:material-pass/data/beta/edc/participant#bpnNumber>"
+    id: "<path:material-pass/data/beta/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -73,6 +73,18 @@ tractusx-connector:
         path: /BPNL000000000000/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
+    
+    ssi:
+      miw:
+        url: "<path:material-pass/data/beta/edc/ssi#miwUrl>"
+        authorityId: "<path:material-pass/data/beta/edc/ssi#authorityId>"
+      oauth:
+        tokenurl: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "<path:material-pass/data/beta/edc/ssi#clientId>"
+          secretAlias: "beta-client-secret"
+      endpoint:
+        audience: https://materialpass.beta.demo.catena-x.net/BPNL000000000000
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -80,8 +92,7 @@ tractusx-connector:
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
         hostname: "materialpass.beta.demo.catena-x.net"
-        # -- Additional ingress annotations to add
-        # -- Additional ingress annotations to add
+       # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
         endpoints:
@@ -131,7 +142,7 @@ tractusx-connector:
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
         hostname: "materialpass.beta.demo.catena-x.net"
         # -- Additional ingress annotations to add
-                # -- Additional ingress annotations to add
+               # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
         endpoints:
@@ -150,7 +161,6 @@ tractusx-connector:
           issuer: ""
           # -- If preset enables certificate generation via cert-manager cluster-wide issuer
           clusterIssuer: ""
-       
   postgresql:
     username: <path:material-pass/data/beta/edc/database#user>
     password: <path:material-pass/data/beta/edc/database#user>
@@ -161,7 +171,7 @@ tractusx-connector:
   vault:
     fullnameOverride: "vault"
     hashicorp:
-      url: <path:material-pass/data/beta/edc/vault#vault.hashicorp.url>
+      url: <path:material-pass/data/int/beta/vault#vault.hashicorp.url>
       token: <path:material-pass/data/beta/edc/vault#vault.hashicorp.token>
       paths:
         secret: <path:material-pass/data/beta/edc/vault#vault.hashicorp.api.secret.path>
@@ -170,25 +180,10 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey: ids-daps_key
       transferProxyTokenSignerPublicKey: ids-daps_crt
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: ids-daps_key
-      dapsPublicKey: ids-daps_crt
-
-  daps:
-    url: "https://daps.beta.demo.catena-x.net"
-    clientId: <path:material-pass/data/beta/edc/oauth#client.id>
-    connectors:
-      - id: <path:material-pass/data/beta/edc/oauth#client.id>
-        name: edcconector
-        attributes:
-          referringConnector: "https://materialpass.beta.demo.catena-x.net/consumer/<path:material-pass/data/beta/edc/participant#bpnNumber>"
-        certificate: <path:material-pass/data/ids-daps_crt#content>
 
   backendService:
     httpProxyTokenReceiverUrl: "https://materialpass.beta.demo.catena-x.net/endpoint"
     
-  idsdaps:
-    connectors:
-      - certificate: <path:material-pass/data/ids-daps_crt#content>
 
 postgresql:
   auth:

@@ -214,8 +214,9 @@ public class DataTransferService extends BaseService {
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);
 
+
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
-                dataDestination.setProperties(new Properties("HttpProxy"));
+                dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
@@ -223,6 +224,7 @@ public class DataTransferService extends BaseService {
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                         dataset.getAssetId(),
                         status.getEndpoint(),
+                        bpnNumber,
                         negotiation.getContractAgreementId(),
                         dataDestination,
                         false,

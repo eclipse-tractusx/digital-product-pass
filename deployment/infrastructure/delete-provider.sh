@@ -55,29 +55,29 @@ ASSET_ID_4=${DIGITAL_TWIN_4}-${DIGITAL_TWIN_SUBMODEL_ID_4}
 
 echo '**************************Asset 1 **********************'
 echo
-# Create Submodel data
-echo "Create sample data for asset 1..."
+# Delete Submodel data
+echo "Delete sample data for asset 1..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_1}
 echo
 
-# Create a contract definition
-echo "Create contract definition for asset 1..."
+# Delete a contract definition
+echo "Delete contract definition for asset 1..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/1
 echo
 
-# Create a asset
-echo "Create asset 1..."
+# Delete a asset
+echo "Delete asset 1..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_1}
 echo
 
-# Create a general policy
-echo "Create policy for asset 1..."
+# Delete a general policy
+echo "Delete policy for asset 1..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/ad8d2c57-cf32-409c-96a8-be59675b6ae5
 echo
 
-# Create a digital twin and register inside CX registry
+# Delete a digital twin and register from CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
-echo "Create a DT for asset 1 and register it devo CX registry..."
+echo "Delete a DT for asset 1 and register it devo CX registry..."
 
 curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL/${DIGITAL_TWIN_1}
 echo
@@ -89,30 +89,30 @@ echo '**************************Asset 2 **********************'
 
 echo 
 
-# Create a contract definition
-echo "Create contract definition for asset 2..."
+# Delete a contract definition
+echo "Delete contract definition for asset 2..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/2
 echo
 
 
-# Create Submodel data
-echo "Create sample data for asset 2..."
+# Delete Submodel data
+echo "Delete sample data for asset 2..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_2}
 echo
 
-# Create a asset
-echo "Create asset 2..."
+# Delete a asset
+echo "Delete asset 2..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_2}
 echo
 
-# Create a general policy
-echo "Create policy for asset 2..."
+# Delete a general policy
+echo "Delete policy for asset 2..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/f873e234-112c-4598-893b-eda0671b7402
 echo
 
-# Create a digital twin and register inside CX registry
+# Delete a digital twin and register from CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
-echo "Create a DT for asset 2 and register it devo CX registry..."
+echo "Delete a DT for asset 2 and register it devo CX registry..."
 
 curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" $REGISTRY_URL/${DIGITAL_TWIN_2}
 echo
@@ -121,63 +121,63 @@ echo
 
 
 echo '**************************Asset 3 **********************'
-# Create Submodel data
-echo "Create sample data for asset 3..."
+# Delete Submodel data
+echo "Delete sample data for asset 3..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_3}
 echo
 
 
-# Create a contract definition
-echo "Create contract definition for asset 3..."
+# Delete a contract definition
+echo "Delete contract definition for asset 3..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/3
 echo
 
-# Create a asset
-echo "Create asset 1..."
+# Delete a asset
+echo "Delete asset 3..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_3}
 echo
 
-# Create a general policy
-echo "Create policy for asset 3..."
+# Delete a general policy
+echo "Delete policy for asset 3..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/4b480f48-79a0-4851-a56c-6ef71e19ebb3
 echo
 
 
-# Create a digital twin and register inside CX registry
+# Delete a digital twin and register from CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
-echo "Create a DT for asset 3 and register it devo CX registry..."
+echo "Delete a DT for asset 3 and register it devo CX registry..."
 
 curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" $REGISTRY_URL/${DIGITAL_TWIN_3}
 echo
 
 
 echo '**************************Asset 4 **********************'
-# Create Submodel data
-echo "Create sample data for asset 4..."
+# Delete Submodel data
+echo "Delete sample data for asset 4..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/Y792927456954B81677903848654570.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_4}
 echo
 
 
-# Create a contract definition
-echo "Create contract definition for asset 4..."
+# Delete a contract definition
+echo "Delete contract definition for asset 4..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/131
 echo
 
-# Create a asset
-echo "Create asset 4..."
+# Delete a asset
+echo "Delete asset 4..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_4}
 echo
 
-# Create a general policy
-echo "Create policy for asset 4..."
+# Delete a general policy
+echo "Delete policy for asset 4..."
 curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/0a216bb0-934d-4c93-8e92-ca3b4f862e33
 echo
 
 
 
-# Create a digital twin and register inside CX registry
+# Delete a digital twin and register from CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
-echo "Create a DT for asset 4 and register it devo CX registry..."
+echo "Delete a DT for asset 4 and register it devo CX registry..."
 
 curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/Y792927456954B81677903848654570.json" $REGISTRY_URL/${DIGITAL_TWIN_4}
 echo

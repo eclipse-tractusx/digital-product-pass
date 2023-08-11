@@ -127,7 +127,7 @@ curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/
 echo
 
 # Create a asset
-echo "Create asset 1..."
+echo "Create asset 3..."
 curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
 echo
 

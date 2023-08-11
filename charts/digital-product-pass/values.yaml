@@ -111,56 +111,72 @@ backend:
         jackson:
           serialization:
             indent_output: true
-
-      # -- overide and configure the log levels from spring boot
       logging:
         level:
           # -- general logging level
           root: INFO
           # -- logging for the util components
           utils: INFO
-
-      # --  backend apis configuration
+      
       configuration:
         # -- max retries for the backend services
         maxRetries: 5
-
-        # -- keycloak configuration for the authentication service
+      
         keycloak:
-          # -- keycloak realm
-          realm: <test-realm>
-          # -- keycloak resouce
-          resource: <test-resource>
-          # -- url for the token api endpoint
-          tokenUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/token"
-          # -- url for the user info endpoint
-          userInfoUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/userinfo"
-
-        # -- configuration for the edc service
+          realm: CX-Central
+          resource: Cl13-CX-Battery
+          tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+          userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
+      
         edc:
-          # -- the edc consumer endpoint url
-          endpoint: "https://<digital-product-pass-url>/consumer"
-          # -- edc api paths
-          management: "/management/v2"
-          catalog: "/catalog/request"
-          negotiation: "/contractnegotiations"
-          transfer: "/transferprocesses"
-          # -- backend api that receives the edc information (consumer backend)
-          receiverEndpoint: "https://<digital-product-pass-url>/endpoint"
-
-        # -- batch process configurations
+          endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
+          management: '/management/v2'
+          catalog: '/catalog/request'
+          negotiation: '/contractnegotiations'
+          transfer: '/transferprocesses'
+          receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
+          delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+      
+        security:
+          check:
+            enabled: true
+            bpn: true
+            edc: true
+      
+        dtr:
+          central: false
+          # -- central digital twin registry url
+          centralUrl: 'https://<digital-twin-registry-url>'
+          assetId: 'digital-twin-registry'
+          endpointInterface: 'SUBMODEL-3.0'
+          internalDtr: "" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
+          decentralApis:
+            search: "/lookup/shells/query"
+            digitalTwin: "/shell-descriptors"
+            subModel: "/submodel-descriptors"
+          timeouts:
+            search: 10
+            negotiation: 40
+            transfer: 10
+            digitalTwin: 20
+          temporaryStorage: true
+        
+        discovery:
+          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+          bpn:
+            key: "manufacturerPartId"
+            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+          edc:
+            key: "bpn"
+      
         process:
           # -- directory for storing the contract negotiation files
           dir: "process"
           # -- indent the process negotiation files
           indent: true
+      
           # -- unique sha512 hash key used for the passport encryption
           signKey: ""
-
-        # -- endpoints urls
-        endpoints:
-          # -- central digital twin registry url
-          registryUrl: "https://<digital-twin-registry-url>"
 
         # -- passport data transfer configuration
         passport:
@@ -174,30 +190,8 @@ backend:
             dir: "data/transfer"
           # -- passport versions allowed
           versions:
-            - "v3.0.1"
-
-        # -- configuration of the backend local vault
-        vault:
-          # -- local vault type
-          type: "local"
-          # -- name of the vault file
-          file: "vault.token.yml"
-          # -- path to store the vault file in the data dir
-          pathSep: "."
-          # -- indent the vault file
-          prettyPrint: true
-          # -- indent level of the vault file
-          indent: 2
-          # -- default value added to the secrets if they dont exist
-          defaultValue: "<Add secret value here>"
-          # -- vault file structure
-          attributes:
-            - "client.id"
-            - "client.secret"
-            - "edc.apiKey"
-            - "edc.participantId"
-
-      # -- server configuration
+            - 'v3.0.1'
+            
       server:
         # -- configuration of backend errors
         error:

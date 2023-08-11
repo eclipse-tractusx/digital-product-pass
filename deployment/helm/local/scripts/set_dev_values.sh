@@ -41,6 +41,7 @@ REGISTRY_CLIENT_SECRET=$(vault kv get -field=client.secret material-pass/dev/aas
 EDC_API_AUTH_KEY=$(vault kv get -field=api.key material-pass/dev/edc/oauth)
 POSTGRES_DB_USER=$(vault kv get -field=user material-pass/dev/edc/database)
 POSTGRES_DB_PASSWORD=$(vault kv get -field=password material-pass/dev/edc/database)
+PARTICIPANT_ID=$(vault kv get -field=api.key material-pass/dev/edc/participant)
 
 VAULT_HASHICORP_URL=$(vault kv get -field=vault.hashicorp.url material-pass/dev/edc/vault)
 VAULT_HASHICORP_SECRET_PATH=$(vault kv get -field=vault.hashicorp.api.secret.path material-pass/dev/edc/vault)
@@ -48,14 +49,15 @@ VAULT_HASHICORP_TOKEN=$(vault kv get -field=vault.hashicorp.token material-pass/
 
 EDC_OAUTH_CLIENT_ID=$(vault kv get -field=client.id material-pass/dev/edc/oauth)
 
-### CONSUMER FRONTEND APP
+### DIGITAL PRODUCT PASS APP
 
 echo "Replace client credentials with actual values in consumer-ui values-dev file..."
 echo
-sed -i "s|<path:material-pass/data/dev/aasregistry#client.id>|${REGISTRY_CLIENT_ID}|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|<path:material-pass/data/dev/aasregistry#client.secret>|${REGISTRY_CLIENT_SECRET}|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|<path:material-pass/data/dev/edc/oauth#api.key>|${EDC_API_AUTH_KEY}|g" ./../../consumer-ui/values-dev.yaml;
-sed -i "s|tag: placeholder|tag: <LATEST_IMAGE_TAG_FROM_GIT_COMMIT_SHA>|g" ./../../consumer-ui/values-dev.yaml;
+sed -i "s|<path:material-pass/data/dev/aasregistry#client.id>|${REGISTRY_CLIENT_ID}|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|<path:material-pass/data/dev/aasregistry#client.secret>|${REGISTRY_CLIENT_SECRET}|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|<path:material-pass/data/dev/edc/oauth#api.key>|${EDC_API_AUTH_KEY}|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+sed -i "s|<path:material-pass/data/dev/edc/participant#bpnNumber>|${PARTICIPANT_ID}|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
+# sed -i "s|tag: placeholder|tag: <LATEST_IMAGE_TAG_FROM_GIT_COMMIT_SHA>|g" ./../../../../charts/digital-product-pass/values-dev.yaml;
 
 
 ### CONSUMER CONNECTOR

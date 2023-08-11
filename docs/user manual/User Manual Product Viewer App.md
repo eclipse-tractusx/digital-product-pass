@@ -35,7 +35,12 @@ The [Main Menu](#main-menu) provides two methods for searching for Product Passp
 1. manually entering a product ID or
 2. scanning the product's QR code.
 
-Both options can be found in the center of the [Main Menu's](#main-menu) screen (1). Whenever you access the [Main Menu](#main-menu), the manual product ID search will be displayed by default (1a). By clicking on the switch above the manual search bar (1b), you activate the QR code scanner and the application will access your devices camera, which you can then capture the QR code with.
+Both options can be found in the center of the [Main Menu's](#main-menu) screen (1). Whenever you access the [Main Menu](#main-menu), the manual product ID search will be displayed by default (1a). The search text contains the pattern separated by the colon(:) `CX:<manufacturerPartId>:<serializedId>` where CX is a prefix, `<manufacturerPartId>` is the part Id of the manufacturer, and `<serializedId>` is the Id of the battery Example: `CX:XYZ78901:X123456789012X12345678901234566`. If the search format is not followed, an error would be displayed.
+
+ By clicking on the switch the back arrow button (1b), you activate the QR code scanner and the application will access your devices camera, which you can then capture the QR code with.
+
+
+![Scan Passport](./scan-passport.png)  
 </br></br>  
 
 ### Settings and Profile Information

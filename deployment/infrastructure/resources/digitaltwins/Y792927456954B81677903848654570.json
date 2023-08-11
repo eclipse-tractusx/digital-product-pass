@@ -1,41 +1,50 @@
 {
-    "description": [],
-    "globalAssetId": {
-        "value": [
-            "1f0ef836-40b7-4f31-a9bd-cb6a8960779e"
-        ]
-    },
+    "description": [
+        {
+            "language": "en",
+            "text": "Battery Passport shell descriptor"
+        }
+    ],
     "idShort": "Battery_Y792927456954B81677903848654570",
-    "identification": "1f0ef836-40b7-4f31-a9bd-cb6a8960779e",
+    "id": "1f0ef836-40b7-4f31-a9bd-cb6a8960779e",
     "specificAssetIds": [
         {
-            "key": "partInstanceId",
+            "name": "partInstanceId",
             "value": "Y792927456954B81677903848654570"
         }
     ],
     "submodelDescriptors": [
         {
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL-3.0",
+                    "protocolInformation": {
+                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/1f0ef836-40b7-4f31-a9bd-cb6a8960779e-26bf39c5-68a5-43a1-8db7-d33e116a6f61/submodel",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [
+                          "1.1"
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id=1f0ef836-40b7-4f31-a9bd-cb6a8960779e-26bf39c5-68a5-43a1-8db7-d33e116a6f61;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
+                        "subprotocolBodyEncoding": "plain"
+                    }
+                }
+            ],
+            "idShort": "batteryPass",
+            "id": "26bf39c5-68a5-43a1-8db7-d33e116a6f61",
+            "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+                    }
+                ]
+            },
             "description": [
                 {
                     "language": "en",
                     "text": "Battery Passport Submodel"
-                }
-            ],
-            "idShort": "batteryPass",
-            "identification": "26bf39c5-68a5-43a1-8db7-d33e116a6f61",
-            "semanticId": {
-                "value": [
-                    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-                ]
-            },
-            "endpoints": [
-                {
-                    "interface": "EDC",
-                    "protocolInformation": {
-                        "endpointAddress": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/1f0ef836-40b7-4f31-a9bd-cb6a8960779e-26bf39c5-68a5-43a1-8db7-d33e116a6f61/submodel?content=value&extent=WithBLOBValue",
-                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
-                        "endpointProtocolVersion": "0.0.1-SNAPSHOT"
-                    }
                 }
             ]
         }

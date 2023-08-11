@@ -1,0 +1,26 @@
+{
+    "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/leftOperand"
+    },
+    "@type": "PolicyDefinitionRequestDto",
+    "@id": "4b480f48-79a0-4851-a56c-6ef71e19ebc4",
+    "policy": {
+		"@type": "Policy",
+		"odrl:permission" : [{
+      "odrl:action": "USE",
+      "odrl:constraint": {
+        "odrl:constraint": {
+          "@type": "LogicalConstradev",
+          "odrl:or": [
+            {
+              "@type": "Contraint",
+              "odrl:leftOperand": "BusinessPartnerNumber",
+              "odrl:operator": "EQ",
+              "odrl:rightOperand": "<some-bpn>"
+            }
+          ]
+        }
+      }
+    }]
+    }
+}

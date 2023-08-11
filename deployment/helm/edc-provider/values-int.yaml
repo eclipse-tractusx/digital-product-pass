@@ -28,7 +28,7 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: &bpnNumber "<path:material-pass/data/int/edc/participant#bpnNumber>"
+    id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
 
   controlplane:
     enabled: true
@@ -73,6 +73,18 @@ tractusx-connector:
         path: /BPNL000000000000/observability
         # -- allow or disallow insecure access, i.e. access without authentication
         insecure: true
+    
+    ssi:
+      miw:
+        url: "<path:material-pass/data/int/edc/ssi#miwUrl>"
+        authorityId: "<path:material-pass/data/int/edc/ssi#authorityId>"
+      oauth:
+        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          id: "<path:material-pass/data/int/edc/ssi#clientId>"
+          secretAlias: "int-client-secret"
+      endpoint:
+        audience: https://materialpass.int.demo.catena-x.net/BPNL000000000000
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -168,25 +180,10 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey: ids-daps_key
       transferProxyTokenSignerPublicKey: ids-daps_crt
       transferProxyTokenEncryptionAesKey: edc-encryption-key
-      dapsPrivateKey: ids-daps_key
-      dapsPublicKey: ids-daps_crt
-
-  daps:
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: <path:material-pass/data/int/edc/oauth#client.id>
-    connectors:
-      - id: <path:material-pass/data/int/edc/oauth#client.id>
-        name: edcconector
-        attributes:
-          referringConnector: "https://materialpass.int.demo.catena-x.net/consumer/<path:material-pass/data/int/edc/participant#bpnNumber>"
-        certificate: <path:material-pass/data/ids-daps_crt#content>
 
   backendService:
     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
     
-  idsdaps:
-    connectors:
-      - certificate: <path:material-pass/data/ids-daps_crt#content>
 
 postgresql:
   auth:

@@ -25,7 +25,10 @@
 
 package utils;
 
+import org.eclipse.tractusx.productpass.exceptions.ManagerException;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -41,11 +44,14 @@ public class PassportUtil {
     private final FileUtil fileUtil;
     private final String transferDir;
 
+    private final ProcessManager processManager;
+
     @Autowired
-    public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil, Environment env) {
+    public PassportUtil(JsonUtil jsonUtil, FileUtil fileUtil,ProcessManager processManager, Environment env) {
         this.transferDir = env.getProperty("passport.dataTransfer.dir", String.class, "data/transfer");
         this.jsonUtil = jsonUtil;
         this.fileUtil = fileUtil;
+        this.processManager = processManager;
     }
     public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
@@ -62,7 +68,12 @@ public class PassportUtil {
             if(!encrypted) {
                 return jsonUtil.toJsonFile(filePath, passport, prettyPrint); // Store the plain JSON
             }else{
-                return fileUtil.toFile(filePath, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), endpointData.getOfferId()+endpointData.getId()), false); // Store Encrypted
+                // Get token content or the contractID from properties
+                String contractId = processManager.getContractId(endpointData);
+                if(contractId == null){
+                    throw new UtilException(PassportUtil.class, "The Contract Id is null! It was not possible to save the passport!");
+                }
+                return fileUtil.toFile(filePath, CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), contractId+endpointData.getId()), false); // Store Encrypted
             }
         }catch (Exception e){
             throw new UtilException(PassportUtil.class, e, "Something went wrong while saving the passport for transfer ["+endpointData.getId()+"]");

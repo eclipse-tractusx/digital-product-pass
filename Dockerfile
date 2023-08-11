@@ -68,7 +68,7 @@ RUN chown 10000:3000 /entrypoint.sh && chmod -R 775 /entrypoint.sh
 # Install bash for env variables inject script
 RUN apk update && apk add --no-cache bash
 # Make nginx owner of /usr/share/nginx/html/ and change to nginx user
-RUN chown -R 10000:3000 /usr/share/nginx/html/
+RUN chown -R 10000:3000 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
 
 USER 10000:3000
 

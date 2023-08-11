@@ -32,10 +32,12 @@ spec:
   selector:
     matchLabels:
       {{- include "chart.selectorLabels" . | nindent 6 }}
+      component: backend
   template:
     metadata:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
+        component: backend
     spec:
       {{- with .Values.backend.imagePullSecrets }}
       imagePullSecrets:

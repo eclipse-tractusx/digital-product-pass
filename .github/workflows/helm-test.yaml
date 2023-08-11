@@ -23,8 +23,7 @@
 name: Lint and Test Charts
 
 on:
-  push:
-    branches: [ "main", "develop" ]
+  pull_request:
   workflow_dispatch:
     inputs:
       branch:
@@ -47,6 +46,10 @@ on:
 
 env:
   JAVA_VERSION: 19
+  REGISTRY: kind-registry:5000
+  TAG: testing
+  FRONTEND_IMAGE: digital-product-pass-frontend
+  BACKEND_IMAGE: digital-product-pass-backend
 
 jobs:
   lint-test:
@@ -71,7 +74,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: kind-registry:5000/digital-product-pass-frontend:testing
+          tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}}:${{ env.TAG }}
       
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -91,7 +94,7 @@ jobs:
         with:
           context: consumer-backend/productpass
           push: true
-          tags: kind-registry:5000/digital-product-pass-backend:testing
+          tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}:${{ env.TAG }}
 
       - name: Set up Helm
         uses: azure/setup-helm@v3
@@ -120,8 +123,8 @@ jobs:
       - name: Run chart-testing (install)
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
-          ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=frontend.image.tag=testing --set=frontend.image.repository=kind-registry:5000/digital-product-pass-frontend --set=backend.image.tag=testing --set=backend.image.repository=kind-registry:5000/digital-product-pass-backend -n product-material-pass --create-namespace"
+          helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+          ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=frontend.image.tag=${{ env.TAG }} --set=frontend.image.repository=${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}} --set=backend.image.tag=${{ env.TAG }} --set=backend.image.repository=${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}"
         if: steps.list-changed.outputs.changed == 'true'
 
         # Upgrade the released chart version with the locally available chart
@@ -129,8 +132,8 @@ jobs:
       - name: Run helm upgrade
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
-          helm install digital-product-pass tractusx-edc/digital-product-pass --version ${{ github.event.inputs.upgrade_from || 'testing' }}
-          helm dependency update charts/digital-product-pass
-          helm upgrade digital-product-pass charts/digital-product-pass
+          helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+          helm install digital-product-pass tractusx/digital-product-pass --version ${{ github.event.inputs.upgrade_from || 'testing' }} -n product-material-pass --create-namespace
+          helm dependency update charts/digital-product-pass -n product-material-pass
+          helm upgrade digital-product-pass charts/digital-product-pass -n product-material-pass
         if: steps.list-changed.outputs.changed == 'true'

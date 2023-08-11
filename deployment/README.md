@@ -34,18 +34,18 @@ This document describes the battery pass application deployment steps in hotel b
 - [edc-provider](./helm/edc-provider)
 
 - [digital-product-pass](../charts/digital-product-pass)
-    - Consumer-UI
-    - Consumer-Backend
+    - dpp-frontend
+    - dpp-backend
 
 #### Sign in via the GitHub account
 
-After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the material pass team. The new app should be created inside this space.
+After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the digital product pass team. The new app should be created inside this space.
 
 #### Creating New Application
 
 Create new app from the top-left corner button.
 Fill out the following required fields.
-- **Application Name:** <APP_NAME> (e.g., materialpass-edc, digital-product-pass)
+- **Application Name:** <APP_NAME> (e.g., edc-consumer, digital-product-pass)
 - **Project:** project-material-pass
 - **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
@@ -54,38 +54,39 @@ Fill out the following required fields.
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args
     - Set following helm args with the corresponding application:
-        - digital-product-pass: set ENV as ***helm_args = -f values.yaml -f values-int.yaml'***
-        - edc-consumer: set ENV as ***helm_args = -f values-int.yaml'***
-        - edc-provider: set ENV as ***helm_args = -f values-int.yaml'***
+        - digital-product-pass: set ENV as ***helm_args = -f values.yaml'***
+        - edc-consumer: set ENV as ***helm_args = -f values.yaml'***
+        - edc-provider: set ENV as ***helm_args = -f values.yaml'***
 
 Click on 'Create' button
 
-![Create New App](./images/create-app-with-vault-plugin.png)
+![Create New App](./images/create-app.png)
+![Select Valut Plugin](./images/create-app-with-plugin.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
 ![Sync App](./images/sync-app.png)
 
-![Sync App](./images/pod-sync.png)
+![Sync App](./images/sync-pod.png)
 
-- Navigate inside the individual pods
-
-![Consumer frontend and backend pods](./images/pods.png)
+![Consumer frontend and backend pods](./images/running-pods.png)
 - Go to the individual logs tab
 
-![Consumer frontend logs](./images/consumer-frontend-logs.png)
+Frontend logs:
+![Consumer frontend logs](./images/frontend-logs.png)
 
-![Consumer backend logs](./images/consumer-backend-logs.png)
+Backend logs:
+![Consumer backend logs](./images/backend-logs.png)
 
 If everything works fine then the application is deployed...
 
 #### Digital-Product-Pass:
 
-##### Consumer-UI:
+##### Consumer-Frontend:
 
-The consumer frontend app for the material passport that interacts with the end-user. The steps above will be followed to deploy the consumer frontend component.
+The dpp frontend is a consumer user interface application for the digital product passports that interacts with the end-user and displays passports. The steps above will be followed to deploy the consumer frontend component.
 
-In the end, the frontend should be accessible at https://materialpass.int.demo.catena-x.net. You would be navigated to the CatenaX central IDP and can see the keycloak login page after company selection.
+In the end, the frontend should be accessible at https://materialpass.int.demo.catena-x.net. You would be redirected to the CatenaX central IDP and can see the login page after company selection.
 
 ##### Login credentails:
 - **Company Selection:** CX-Test-Access
@@ -98,17 +99,21 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 ![Login Page](./images/login.png)
 
+![QR Code Scanner](./images/dashboard.png)
+
 ![QR Code Scanner](./images/scan-passport.png)
 
-![Battery Passport - General Information](./images/battery-pass-general-information.png)
+![Battery Passport - General Information](./images/general-information.png)
 
-![Battery Passport Electrochemical properties](./images/battery-pass-electrochemical-properties.png)
+![Battery Passport Electrochemical properties](./images/electrochemical-properties.png)
 
 ##### Consumer-Backend:
 
-The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in consumer-frontend component.
+The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in frontend component.
 
 [Open API documentation in Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+
+![Swagger UI](./images/swagger.png)
 
 <br />
 

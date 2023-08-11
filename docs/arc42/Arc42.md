@@ -39,10 +39,17 @@ Latest Revision Mar. 30, 2023
   - [System Scope and Context](#system-scope-and-context)
     - [Application State Diagram](#application-state-diagram)
     - [Technical Integration Design](#technical-integration-design)
-    - [API Interaction with Catena-X Services](#api-interaction-with-catena-x-services)
-        - [Create API Process](#create-api-process)
-        - [Search API Process](#search-api-process)
-        - [Sign API Process](#sign-api-process)
+      - [Start Up Services Calls](#start-up-services-calls)
+      - [Create API Diagram](#create-api-diagram)
+        - [Create Flow Diagram](#create-flow-diagram)
+      - [Search API Diagram](#search-api-diagram)
+        - [Search API Flow](#search-api-flow)
+      - [Sign API + Decline API + Cancel API + Passport API + Status API Diagram](#sign-api--decline-api--cancel-api--passport-api--status-api-diagram)
+        - [Sign Flow](#sign-flow)
+        - [Decline API Flow](#decline-api-flow)
+        - [Cancel API Flow](#cancel-api-flow)
+        - [Status API Flow](#status-api-flow)
+        - [Passport API Flow](#passport-api-flow)
     - [Business Context](#business-context)
     - [Technical Context](#technical-context)
       - [Runtime Environments](#runtime-environments)
@@ -123,15 +130,15 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 
 ## System Scope and Context
 
-The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the Digital Twin Registry, IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
+The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
-![System Scope and Context](./GraphicSystemScopeandContext.jpg)
+![System Scope and Context](./ContextDiagram.jpeg)
 
 ### Application State Diagram
 
 This is the state diagram that describes the flow between the frontend and backend components of the application.
 
-![Application State Design](./GraphicApplicationStateDiagram.jpg)
+![Application State Design](./StateDiagram.jpeg)
 
 ### Technical Integration Design
 
@@ -141,24 +148,104 @@ The interaction between the Product Passport Application previous the "BatteryPa
 
 Here is a resume of the frontend and the backend communication.
 
-![Technical Integration Design](./GraphicTechnicalIntegrationDesign.jpg)
 
-### API Interaction with Catena-X Services
-
-##### Create API Process
-
-![Create API Process](./CreateAPIProcess.jpg)
+![Technical Integration Resume](./TechnicalIntegrationResume.jpeg)
 
 
-##### Search API Process
+The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
 
-![Search API Process](./SearchAPIProcess.jpg)
+#### Start Up Services Calls
 
-##### Sign API Process
+During the start up from the backend 3 checks are performed.
 
-![Sign API Process](./SignAPIProcess.jpg)
+  1. Check the connection to the `EDC Consumer`
+  2. Check if the BPN Number from the `Backend` and the `EDC Consumer` are the same
+  3. Check if the BPN Number from the `Technical User` is the same as the `Backend` and the `EDC Consumer`
+   
+> *NOTE*: This checks can be disabled at the `configuration.security.checks` properties in the helm charts 
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+
+If the `configuration.dtr.central` is disabled the backend will also make a call to the `Discovery Finder` service to find the `BPN Discovey` and `EDC Discovey` services.
+
+#### Create API Diagram
+The `/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.
+
+If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
+
+
+![CreateDiagram](./CreateAPI.jpeg)
+
+Here is possible to see the complete flow of the create api.
+##### Create Flow Diagram
+
+
+![CreateFlow](./CreateProcessFlow.jpeg)
+
+
+#### Search API Diagram
+
+At the `/search` API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found.
+
+A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract.
+
+![Search API](./SearchAPI.jpeg)
+
+##### Search API Flow
+Here we can see the search flow more in detail:
+
+![Search API Flow](./SearchFlow.jpeg)
+
+
+
+#### Sign API + Decline API + Cancel API + Passport API + Status API Diagram
+
+Once the user has the contract he can call the `/sign` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the framecontracts contained in the contract policy.
+
+The other option rather than `/sign` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
+
+After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/passport`.
+
+The API `/passport` will descrypt the passport file that is encrypted usint the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested.
+
+
+> *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
+
+![Sign API](./SignAPI.jpeg)
+
+##### Sign Flow 
+
+Here is described in detail how the sign flow works:
+
+![Sign API Flow](./SignFlow.jpeg)
+
+
+##### Decline API Flow
+
+Here is how the flow of decline works:
+
+![Decline API Flow](./DeclineFlow.jpeg)
+
+##### Cancel API Flow
+
+Here is how the flow of cancel works:
+
+![Cancel API Flow](./CancelFlow.jpeg)
+
+##### Status API Flow
+
+The get status API just gives the status for a existing process:
+
+![Status API Flow](./GetStatus.jpeg)
+
+
+##### Passport API Flow
+
+This API is responsible for retrieving the passport json and some metadata from the contract exchange.
+
+![Passport API Flow](./PassportRetrievalFlow.jpeg)
+
+
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/inde x.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 ### Business Context
 

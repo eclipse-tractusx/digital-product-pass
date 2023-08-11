@@ -26,7 +26,7 @@
 
 name: "digital-product-pass"
 replicaCount: 1
-namespace: product-material-pass
+namespace: ""
 
 frontend:
   name: "dpp-frontend"
@@ -62,7 +62,7 @@ frontend:
       timeout: 60000
       # -- delay from getting status
       delay: 1000
-    # -- keycloak specific configuration for frontend authentication 
+    # -- keycloak specific configuration for frontend authentication
     keycloak:
       clientId: ""
       realm: ""
@@ -89,7 +89,7 @@ backend:
   # -- in this section we configure the values that are inserted as secrets in the backend
   avp:
     helm:
-      # -- technical user keycloak central id credentials 
+      # -- technical user keycloak central id credentials
       # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
       clientId: "<Add client id here>"
       clientSecret: "<Add client secret here>"
@@ -111,7 +111,7 @@ backend:
         jackson:
           serialization:
             indent_output: true
-            
+
       # -- overide and configure the log levels from spring boot
       logging:
         level:
@@ -120,10 +120,10 @@ backend:
           # -- logging for the util components
           utils: INFO
 
-      # --  backend apis configuration  
+      # --  backend apis configuration
       configuration:
         # -- max retries for the backend services
-        maxRetries: 5 
+        maxRetries: 5
 
         # -- keycloak configuration for the authentication service
         keycloak:
@@ -131,9 +131,9 @@ backend:
           realm: <test-realm>
           # -- keycloak resouce
           resource: <test-resource>
-          # -- url for the token api endpoint 
+          # -- url for the token api endpoint
           tokenUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/token"
-          # -- url for the user info endpoint 
+          # -- url for the user info endpoint
           userInfoUri: "https://<test-keycloak-url>/auth/realms/<test-realm>/protocol/openid-connect/userinfo"
 
         # -- configuration for the edc service
@@ -154,7 +154,7 @@ backend:
           dir: "process"
           # -- indent the process negotiation files
           indent: true
-          # -- unique sha512 hash key used for the passport encryption 
+          # -- unique sha512 hash key used for the passport encryption
           signKey: ""
 
         # -- endpoints urls

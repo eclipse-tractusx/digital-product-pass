@@ -24,12 +24,11 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [released] - [1.0.0-rc1] - 2023-07-25
+## [released] - [1.0.0-rc1] - 2023-08-11
 
 # What is new?
   
 ## Added
-
 - Added new structure to communicate with:
     - EDC discovery
     - Discovery Finder
@@ -47,7 +46,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
     - Added backend compatibility with `EDC v0.4.1`
 - Added persistent storage to store contract negotiation details for the data sovereignty
 - Added the mechanism to split the Id into 3 parts `CX:<manufacturerPartId>:<serializedId>` and check the validity of the Id used
-- Added support for the following TRG requirements:
+- Added support for the following Contribution guidelines (TRG) requirements:
     - **TRG-1.02:** Added instructions to the install.md to set up and install the application
     - **TRG-4.02:** Added base images information to the main README.md file
     - **TRG-4.03:** Added user and file permissions to run as a non root user
@@ -75,10 +74,20 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated .helmignore to ignore environment-specific values files
 - Updated Chart.yaml by adding new variables home and sources
 - Updated the `Backend.js` service to call the `/create` backend api, with the `manufacturerPartId`,  before the actual search
+- Updated DPP documentation to align with current implemention:
+    - GETTING-STARTED.md
+    - SECRETS_MANAGEMENT.md
+    - Arc42.md
+    - Admin_Guide.md
+    - deployment/readme
+    - Fix navigation links in root readme
+    - User Manual Product Viewer App.md
+    - Consumer-backend readme
 
 ## Issues Fixed
 - Fixed pom.xml resources and logging configurations to resolve the security vulnerability
 - Fixed indentation issue in a helm default values.yaml
+
 
 
 
@@ -118,6 +127,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Frontend component to display legal information
 - Added components to display more contract information.
 - Fixed bug related to backend get status, where it looped over the status received.
+- Added the AUTHORS.md
+
 
 ## Updated
 - Updated charts configurations related to the backend.

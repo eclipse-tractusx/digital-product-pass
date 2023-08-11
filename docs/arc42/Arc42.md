@@ -20,17 +20,17 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# (CEC) ARC42 - Product Passport Consumer Application Documentation
+# (CEC) ARC42 - Digital Product Pass Application Documentation
 
 ![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
 
-Version: v2.2 <br>
-Latest Revision Mar. 30, 2023
+Version: v3.0 <br>
+Latest Revision: Aug. 11, 2023
 
 
 ## Table of Contents
  
-- [(CEC) ARC42 - Product Passport Consumer Application Documentation](#cec-arc42---product-passport-consumer-application-documentation)
+- [(CEC) ARC42 - Digital Product Pass Application Documentation](#cec-arc42---digital-product-pass-application-documentation)
   - [Table of Contents](#table-of-contents)
   - [Introduction and Goals](#introduction-and-goals)
     - [Requirements Overview](#requirements-overview)
@@ -89,19 +89,19 @@ Latest Revision Mar. 30, 2023
 
 ## Introduction and Goals
 
-Within the Catena-X Network, Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
+Within the Catena-X Network, Digital Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
 
-This passports can be used for different products like **Batteries**, **Gearboxes**, etc. At the moment the only product implemented are **batteries**, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that is in development at the moment.
+This passports can be used for different products like **Batteries**, **Gearboxes**, etc. At the moment the only product implemented are **batteries**, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that will come in future versions.
 
-The product passport consumer app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
+The digital product pass app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
 
-This application is developed by the **Product Passport Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
+This application is developed by the **Digital Product Pass Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
 
 ### Requirements Overview
 
 The product passport consumer app is an web-based application developed in Vue.js, making it accessible using **standard browsers** (Chrome, Edge, Firefox, etc) for any user in the Catena-X Network.
 
-It displays a specific passport for each product, in the Catena-X network hosted in a backend system. Using the Catena-X data exchange standards to request and receive data from the network it leverages the users and roles provided by Catena-X by using the required shared components (IAM, EDC, DAPS, DT-Registry)
+It displays a specific passport for each product, in the Catena-X network hosted in a backend system. Using the Catena-X data exchange standards to request and receive data from the network it leverages the users and roles provided by Catena-X by using the required shared components (IAM, EDC, SSI, EDC Discovery, Discovery Finder and BPN Discovery) as well as the new Decentral DT-Registry.
 
 The product passport consumer app UI follows the Catena-X CI layout, keeping things simple for the user while still providing the necessary information.
 
@@ -322,10 +322,6 @@ At the moment, the Product Passport Application is hosted in three different env
 
 * IAM with Keycloak managed by Catena-X:
   * [https://centralidp.int.demo.catena-x.net/auth/](https://centralidp.int.demo.catena-x.net/auth/)
-* DT-Registry with AAS-shell:
-  * [https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html)
-* DAPS registry: consumer endpoint registered:
-  * [https://daps1.int.demo.catena-x.net/](https://daps1.int.demo.catena-x.net/)
 * HashiCorp Vault to Store Secrets (https-certificate to access the connectors, *DB-credentials for our postgres db and Keycloak instances*):
   * [https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/](https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/)
 

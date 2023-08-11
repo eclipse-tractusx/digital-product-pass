@@ -20,7 +20,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# Battery Passport Guide
+# Digital Product Passport Guide
 
 > [CatenaX Introduction](https://catena-x.net/en/angebote/edc-die-zentrale-komponente-fuer-die)
 
@@ -28,7 +28,7 @@
 
 ```          
                     |----Consumer-Frontend----|       |---Consumer-Backend---|       |--------EDC-Consumer--------|  
-        Consumer    |     DPP Viewer App      | <---> |     DPP Backend      | <---> | Controlplane <-> Dataplane |             
+        Consumer    |     DPP frontend        | <---> |     DPP Backend      | <---> | Controlplane <-> Dataplane |             
                     |-------------------------|       |----------------------|       |----------------------------|
 
 
@@ -47,7 +47,7 @@ The `EDC-Provider` holds data that is managed via an __Data Management API__ and
 data offer, the `EDC-Consumer` needs to __negotiate a contract for the data transfer__. The `CatenaX-Services` gives the
 platform for the services to basically find each other (provides the meta-data).
 
-The consumer frontend `DPP Viewer App` provides a User Interface to request battery/product passports through edc connectors and the
+The consumer frontend `DPP frontend` provides a User Interface to request battery/product passports through edc connectors and the
 final __representation of the data__.
 
 ### Application Installation

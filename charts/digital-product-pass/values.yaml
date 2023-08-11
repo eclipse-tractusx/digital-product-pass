@@ -137,7 +137,8 @@ backend:
           transfer: '/transferprocesses'
           receiverEndpoint: 'https://<backend.url>/endpoint'
           delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-      
+        
+        # -- security configuration
         security:
           check:
             enabled: true

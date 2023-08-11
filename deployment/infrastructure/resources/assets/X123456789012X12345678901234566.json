@@ -10,6 +10,6 @@
     "dataAddress": {
         "@type": "DataAddress",
         "type": "HttpData",
-        "baseUrl": "https://materialpass.dev.demo.catena-x.net/provider_backend/data/32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a"
+        "baseUrl": "https://materialpass.int.demo.catena-x.net/provider_backend/data/32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a"
     }
 }

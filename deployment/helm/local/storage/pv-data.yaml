@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# This file is used to provision the local storage in helm test workflow.
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:

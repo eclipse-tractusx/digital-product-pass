@@ -81,7 +81,11 @@ public final class CrypUtil {
                 .hashString(digest, StandardCharsets.UTF_8)
                 .toString();
     }
-
+    public static String md5(final String digest){
+        return Hashing.md5()
+                .hashString(digest, StandardCharsets.UTF_8)
+                .toString();
+    }
     public static byte[] sha1Bytes(final String digest){
         try {
             return MessageDigest.getInstance("SHA-1").digest(digest.getBytes("UTF-8"));

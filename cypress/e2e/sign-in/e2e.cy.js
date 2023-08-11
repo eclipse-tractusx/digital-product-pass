@@ -23,19 +23,16 @@
 /* eslint-disable no-undef */
 describe("e2e test", () => {
     before(() => {
-        cy.visit("http://localhost:8080");
+        cy.visit("https://materialpass.beta.demo.catena-x.net/");
+        cy.get(".search").type("CX-test"); // typing company name
+        cy.get(".CX_Test_Access").click(); // btn click
     });
     it("Sign in and battery select", () => {
-        cy.origin("https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/", () => {
-            cy.get('.CX_Test_Access').click(); // btn click
 
-        });
-        cy.origin("https://sharedidp.dev.demo.catena-x.net/auth/", () => {
-            cy.get('#username').type("company 2 user"); // typing username
-            cy.get('#password').type("changeme"); // typing password
-            cy.get('#kc-login').click(); // btn click
-        })
-        cy.get('#input-7').type("NCR186850B"); // typing username
+        cy.get('#username').type("company 2 user"); // typing username
+        cy.get('#password').type("changeme"); // typing password
+        cy.get('#kc-login').click(); // btn click
+        cy.get('#input-4').type("NCR186850B"); // typing battery ID
         cy.get('#search-btn').click(); // btn click
         cy.wait(30000); // timeout for loading
         cy.get('[data-cy="battery-id"]'); // 1. General information first field check

@@ -46,7 +46,7 @@ let repoEndpoint = "REPO_ENDPOINT_URL";
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
 passVer = (passVer != null && passVer !== "") ? passVer : "v3.0.1"
-clientId = (clientId != null && client !== "") ? clientId : "Cl13-CX-Battery"
+clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "") ? realm : "CX-Central"
 onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 

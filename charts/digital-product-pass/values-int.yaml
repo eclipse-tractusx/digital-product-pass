@@ -47,11 +47,13 @@ frontend:
       clientId: <path:material-pass/data/int/aasregistry#client.id>
       clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
       xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-
-  # Product Passport UI Configuration
   productpass:
     backend_url: "materialpass.int.demo.catena-x.net"
     idp_url: "centralidp.int.demo.catena-x.net/auth/"
+    keycloak:
+      clientId: "Cl13-CX-Battery"
+      realm: "CX-Central"
+      onLoad: "login-required"
 
 backend:
   ingress:

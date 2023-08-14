@@ -37,7 +37,7 @@ In particular, the appliction is used to access the battery passport data provid
 #### Helm Chart Version
 <pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.0.0">1.0.0</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.0.0-alpha">v1.0.0-alpha</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.0.0">v1.0.0</a></pre>
 
 
 ## Application Preview

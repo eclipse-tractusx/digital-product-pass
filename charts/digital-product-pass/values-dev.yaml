@@ -52,6 +52,10 @@ frontend:
   productpass:
     backend_url: "materialpass.dev.demo.catena-x.net"
     idp_url: "centralidp.dev.demo.catena-x.net/auth/"
+    keycloak:
+      clientId: "Cl13-CX-Battery"
+      realm: "CX-Central"
+      onLoad: "login-required"
     
 backend:
   ingress:

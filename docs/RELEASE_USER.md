@@ -23,8 +23,8 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
-**June 25 2023 (Version 1.0.0)**
-*25.07.2023*
+**August 15 2023 (Version 1.0.0)**
+*15.08.2023*
 
 ### Added
 
@@ -46,7 +46,7 @@ The data preservation layer is implemented to ensure that the contract details a
 
 #### Added TRG requirements
 
-The following TRG requirements are added:
+The main following TRG requirements that were added were:
 
 ##### TRG-4.06 Added notice for docker images
 
@@ -66,6 +66,10 @@ There is getting started guide `INSTALL.md` included to the documentation to set
 
 The Self-Sovereign Identity (SSI) are configured to use the latest EDC version `v0.5.0` in helm configuration.
 
+#### Updated documentation and prepared for release
+
+Updated all the documentation in `docs` folder to match the latest version of the code.
+
 ### Security Improvements
 
 #### Added user and file permissions
@@ -75,6 +79,7 @@ The user and file permissions are added in the container file system to run as a
 #### Validate the application against the foreign BPN number
 
 The user authentication is checked against the specified BPN number, EDC consumer, the backend application in order to restrict access the application for security purposes.
+
 
 **July 03 2023 (Pre-release 1.0.0-alpha)**
 *03.07.2023*

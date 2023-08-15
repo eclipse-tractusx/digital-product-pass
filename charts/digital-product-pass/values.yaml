@@ -68,6 +68,8 @@ frontend:
       realm: ""
       onLoad: "login-required"
 
+
+# -- Backend configuration
 backend:
   name: "dpp-backend"
   image:
@@ -117,18 +119,16 @@ backend:
           root: INFO
           # -- logging for the util components
           utils: INFO
-      
       configuration:
         # -- max retries for the backend services
         maxRetries: 5
-        
-        
+        # -- keycloak configuration
         keycloak:
           realm: CX-Central
           resource: Cl13-CX-Battery
           tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'
           userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'
-      
+        # -- edc consumer connection configuration
         edc:
           endpoint: 'https://<edc.consumer.url>'
           management: '/management/v2'
@@ -137,14 +137,12 @@ backend:
           transfer: '/transferprocesses'
           receiverEndpoint: 'https://<backend.url>/endpoint'
           delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-        
         # -- security configuration
         security:
           check:
             enabled: true
             bpn: true
             edc: true
-        
         # -- digital twin registry configuration
         dtr:
           central: false
@@ -170,7 +168,6 @@ backend:
             digitalTwin: 20
           # -- temporary storage of dDTRs for optimization
           temporaryStorage: true
-        
         # -- discovery configuration
         discovery:
           # -- discovery finder configuration
@@ -182,16 +179,14 @@ backend:
           # -- edc discovery configuration
           edc:
             key: "bpn"
-      
+        # -- process configuration
         process:
           # -- directory for storing the contract negotiation files
           dir: "process"
           # -- indent the process negotiation files
           indent: true
-      
           # -- unique sha512 hash key used for the passport encryption
           signKey: ""
-
         # -- passport data transfer configuration
         passport:
           # -- configure the data transfer
@@ -205,7 +200,7 @@ backend:
           # -- passport versions allowed
           versions:
             - 'v3.0.1'
-            
+      # -- configuration of the spring boot server
       server:
         # -- configuration of backend errors
         error:
@@ -213,7 +208,6 @@ backend:
           include-binding-errors: ALWAYS
           include-stacktrace: ON_PARAM
           include-exception: false
-
         # -- listening port for the backend
         port: 8888
         # -- maximum allowed connections

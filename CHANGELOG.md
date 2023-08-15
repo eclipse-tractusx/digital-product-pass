@@ -25,15 +25,8 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [released] - [1.0.0-rc2] - 2023-08-14
-
-## Updated
-- Updated frontend helm charts templates for fixing severe merge configuration bug
-
-## Security Issues
-- Updated the sprint boot version from `3.1.0` to `3.1.2` to fix a high security vulnerability
-
-## [released] - [1.0.0-rc1] - 2023-08-11
+## [released]
+## [1.0.0] - 15-08-2023
 
 # What is new?
   
@@ -68,6 +61,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
     - **TRG-5.11:** Added helm-upgrade workflow to achieve pre-release upgradeability of the helm charts
 
 ## Updated
+- Updated frontend helm charts templates for fixing severe merge configuration bug
 - Updated the models to match the new Digital Twin Registry exchange
 - Optimized the processing time by adding temporary configurable processing storage
 - Updated README.md file of the digital product pass components
@@ -98,9 +92,12 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Fixed indentation issue in a helm default values.yaml
 
 
+## Security Issues
+- Updated the sprint boot version from `3.1.0` to `3.1.2` to fix a high security vulnerability
 
 
-## [pre-released] - [1.0.0-alpha] - 2023-07-03
+## [pre-released]
+## [1.0.0-alpha] - 2023-07-03
 
 ## Deleted
 - Deleted the cx-backend-service from the EDC Consumer and Provider deployments 

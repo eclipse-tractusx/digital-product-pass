@@ -1,72 +1,46 @@
-<!--
-  Catena-X - Product Passport Consumer Application
- 
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
--->
-
 # digital-product-pass
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0-alpha](https://img.shields.io/badge/AppVersion-1.0.0--alpha-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
-A Helm chart for Kubernetes
+A Helm chart for Tractus-X Digital Product Pass Kubernetes
+
+**Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass>
+
+## Source Code
+
+* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass>
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| backend.application.yml | string | `"spring:\n  name: 'Catena-X Product Passport Consumer Backend'\n  main:\n    allow-bean-definition-overriding: true\n  devtools:\n    add-properties: false\n  jackson:\n    serialization:\n      indent_output: true\n\nlogging:\n  level:\n    root: INFO\n    utils: INFO\n\nconfiguration:\n  maxRetries: 5\n\n  keycloak:\n    realm: CX-Central\n    resource: Cl13-CX-Battery\n    tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'\n    userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'\n\n  edc:\n    endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'\n    management: '/management/v2'\n    catalog: '/catalog/request'\n    negotiation: '/contractnegotiations'\n    transfer: '/transferprocesses'\n    receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'\n\n  process:\n    store: true\n    dir: 'process'\n    indent: true\n    signKey: ''\n\n  endpoints:\n    registryUrl: 'https://semantics.dev.demo.catena-x.net'\n\n  passport:\n    dataTransfer:\n      encrypt: true\n      indent: true\n      dir: \"data/transfer\"\n    versions:\n      - 'v3.0.1'\n\n  vault:\n    type: 'local'\n    file: 'vault.token.yml'\n    pathSep: \".\"\n    prettyPrint: true\n    indent: 2\n    defaultValue: '<Add secret value here>'\n    attributes:\n      - \"client.id\"\n      - \"client.secret\"\n      - \"edc.apiKey\"\n    - \"edc.participantId\"\n\nserver:\n  error:\n    include-message: ALWAYS\n    include-binding-errors: ALWAYS\n    include-stacktrace: ON_PARAM\n    include-exception: false\n  port: 8888\n  tomcat:\n    max-connections: 10000"` |  |
-| backend.avp.helm.clientId | string | `"Add your secret here"` |  |
-| backend.avp.helm.clientSecret | string | `"Add your secret here"` |  |
-| backend.avp.helm.participantId | string | `"Add your secret here"` |  |
-| backend.avp.helm.xApiKey | string | `"Add your secret here"` |  |
-| backend.image.pullPolicy | string | `"Always"` |  |
-| backend.image.repository | string | `"docker.io/tractusx/digital-product-pass-backend"` |  |
-| backend.imagePullSecrets | list | `[]` |  |
-| backend.ingress.enabled | bool | `false` |  |
-| backend.name | string | `"dpp-backend"` |  |
-| backend.service.port | int | `8888` |  |
-| backend.service.type | string | `"ClusterIP"` |  |
-| frontend.avp.helm.clientId | string | `"Add your secret here"` |  |
-| frontend.avp.helm.clientSecret | string | `"Add your secret here"` |  |
-| frontend.avp.helm.xApiKey | string | `"Add your secret here"` |  |
+| backend | object | `{"application":{"yml":"# -- spring boot configuration\nspring:\n  name: \"Catena-X Product Passport Consumer Backend\"\n  main:\n    allow-bean-definition-overriding: true\n  devtools:\n    add-properties: false\n  jackson:\n    serialization:\n      indent_output: true\nlogging:\n  level:\n    # -- general logging level\n    root: INFO\n    # -- logging for the util components\n    utils: INFO\nconfiguration:\n  # -- max retries for the backend services\n  maxRetries: 5\n  # -- keycloak configuration\n  keycloak:\n    realm: CX-Central\n    resource: Cl13-CX-Battery\n    tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'\n    userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'\n  # -- edc consumer connection configuration\n  edc:\n    endpoint: 'https://<edc.consumer.url>'\n    management: '/management/v2'\n    catalog: '/catalog/request'\n    negotiation: '/contractnegotiations'\n    transfer: '/transferprocesses'\n    receiverEndpoint: 'https://<backend.url>/endpoint'\n    delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]\n  # -- security configuration\n  security:\n    check:\n      enabled: false\n      bpn: false\n      edc: false\n  # -- digital twin registry configuration\n  dtr:\n    central: false\n    # -- central digital twin registry url\n    centralUrl: 'https://<digital-twin-registry-url>'\n    # -- asset id to search for the registry in the edc\n    assetId: 'digital-twin-registry'\n    # -- submodel endpoint interface to search\n    endpointInterface: 'SUBMODEL-3.0'\n    # -- dsp endpoint key inside submodel body\n    dspEndpointKey: 'dspEndpoint'\n    internalDtr: \"\" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs\n    # -- decentral digital twin apis\n    decentralApis:\n      search: \"/lookup/shells/query\"\n      digitalTwin: \"/shell-descriptors\"\n      subModel: \"/submodel-descriptors\"\n    # -- timeouts for the digital twin registry async negotiation\n    timeouts:\n      search: 10\n      negotiation: 40\n      transfer: 10\n      digitalTwin: 20\n    # -- temporary storage of dDTRs for optimization\n    temporaryStorage: true\n  # -- discovery configuration\n  discovery:\n    # -- discovery finder configuration\n    endpoint: \"https://<discovery.finder.url>/discoveryfinder/api/administration/connectors/discovery/search\"\n    # -- bpn discovery configuration\n    bpn:\n      key: \"manufacturerPartId\"\n      searchPath: \"/api/administration/connectors/bpnDiscovery/search\"\n    # -- edc discovery configuration\n    edc:\n      key: \"bpn\"\n  # -- process configuration\n  process:\n    # -- directory for storing the contract negotiation files\n    dir: \"process\"\n    # -- indent the process negotiation files\n    indent: true\n    # -- unique sha512 hash key used for the passport encryption\n    signKey: \"\"\n  # -- passport data transfer configuration\n  passport:\n    # -- configure the data transfer\n    dataTransfer:\n      # -- encrypt the passport when he arrives from the edc data plane\n      encrypt: true\n      # -- the indent from the passport\n      indent: true\n      # -- directory to store the passport when is not linked to a process\n      dir: \"data/transfer\"\n    # -- passport versions allowed\n    versions:\n      - 'v3.0.1'\n# -- configuration of the spring boot server\nserver:\n  # -- configuration of backend errors\n  error:\n    include-message: ALWAYS\n    include-binding-errors: ALWAYS\n    include-stacktrace: ON_PARAM\n    include-exception: false\n  # -- listening port for the backend\n  port: 8888\n  # -- maximum allowed connections\n  tomcat:\n    max-connections: 10000"},"avp":{"helm":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}},"image":{"pullPolicy":"Always","repository":"docker.io/tractusx/digital-product-pass-backend"},"imagePullSecrets":[],"ingress":{"enabled":false},"name":"dpp-backend","service":{"port":8888,"type":"ClusterIP"}}` | Backend configuration |
+| backend.application | object | `{"yml":"# -- spring boot configuration\nspring:\n  name: \"Catena-X Product Passport Consumer Backend\"\n  main:\n    allow-bean-definition-overriding: true\n  devtools:\n    add-properties: false\n  jackson:\n    serialization:\n      indent_output: true\nlogging:\n  level:\n    # -- general logging level\n    root: INFO\n    # -- logging for the util components\n    utils: INFO\nconfiguration:\n  # -- max retries for the backend services\n  maxRetries: 5\n  # -- keycloak configuration\n  keycloak:\n    realm: CX-Central\n    resource: Cl13-CX-Battery\n    tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'\n    userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'\n  # -- edc consumer connection configuration\n  edc:\n    endpoint: 'https://<edc.consumer.url>'\n    management: '/management/v2'\n    catalog: '/catalog/request'\n    negotiation: '/contractnegotiations'\n    transfer: '/transferprocesses'\n    receiverEndpoint: 'https://<backend.url>/endpoint'\n    delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]\n  # -- security configuration\n  security:\n    check:\n      enabled: false\n      bpn: false\n      edc: false\n  # -- digital twin registry configuration\n  dtr:\n    central: false\n    # -- central digital twin registry url\n    centralUrl: 'https://<digital-twin-registry-url>'\n    # -- asset id to search for the registry in the edc\n    assetId: 'digital-twin-registry'\n    # -- submodel endpoint interface to search\n    endpointInterface: 'SUBMODEL-3.0'\n    # -- dsp endpoint key inside submodel body\n    dspEndpointKey: 'dspEndpoint'\n    internalDtr: \"\" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs\n    # -- decentral digital twin apis\n    decentralApis:\n      search: \"/lookup/shells/query\"\n      digitalTwin: \"/shell-descriptors\"\n      subModel: \"/submodel-descriptors\"\n    # -- timeouts for the digital twin registry async negotiation\n    timeouts:\n      search: 10\n      negotiation: 40\n      transfer: 10\n      digitalTwin: 20\n    # -- temporary storage of dDTRs for optimization\n    temporaryStorage: true\n  # -- discovery configuration\n  discovery:\n    # -- discovery finder configuration\n    endpoint: \"https://<discovery.finder.url>/discoveryfinder/api/administration/connectors/discovery/search\"\n    # -- bpn discovery configuration\n    bpn:\n      key: \"manufacturerPartId\"\n      searchPath: \"/api/administration/connectors/bpnDiscovery/search\"\n    # -- edc discovery configuration\n    edc:\n      key: \"bpn\"\n  # -- process configuration\n  process:\n    # -- directory for storing the contract negotiation files\n    dir: \"process\"\n    # -- indent the process negotiation files\n    indent: true\n    # -- unique sha512 hash key used for the passport encryption\n    signKey: \"\"\n  # -- passport data transfer configuration\n  passport:\n    # -- configure the data transfer\n    dataTransfer:\n      # -- encrypt the passport when he arrives from the edc data plane\n      encrypt: true\n      # -- the indent from the passport\n      indent: true\n      # -- directory to store the passport when is not linked to a process\n      dir: \"data/transfer\"\n    # -- passport versions allowed\n    versions:\n      - 'v3.0.1'\n# -- configuration of the spring boot server\nserver:\n  # -- configuration of backend errors\n  error:\n    include-message: ALWAYS\n    include-binding-errors: ALWAYS\n    include-stacktrace: ON_PARAM\n    include-exception: false\n  # -- listening port for the backend\n  port: 8888\n  # -- maximum allowed connections\n  tomcat:\n    max-connections: 10000"}` | specific backend and spring boot configurations |
+| backend.avp | object | `{"helm":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}}` | in this section we configure the values that are inserted as secrets in the backend |
+| backend.avp.helm.clientId | string | `"<Add client id here>"` | note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery |
+| backend.avp.helm.participantId | string | `"<Add participant id here>"` | BPN Number |
+| backend.avp.helm.xApiKey | string | `"<Add API key here>"` | the secret for assesing the edc management API |
+| backend.imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
+| backend.ingress | object | `{"enabled":false}` | ingress declaration to expose the dpp-backend service |
+| backend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
 | frontend.image.pullPolicy | string | `"Always"` |  |
 | frontend.image.repository | string | `"docker.io/tractusx/digital-product-pass-frontend"` |  |
-| frontend.imagePullSecrets | list | `[]` |  |
-| frontend.ingress.enabled | bool | `false` |  |
-| frontend.ingress.hosts[0].host | string | `"materialpass.dev.demo.catena-x.net"` |  |
-| frontend.ingress.hosts[0].paths[0].path | string | `"/passport(/|$)(.*)"` |  |
-| frontend.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| frontend.imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
+| frontend.ingress | object | `{"enabled":false,"hosts":[]}` | ingress declaration to expose the dpp-frontend service |
 | frontend.name | string | `"dpp-frontend"` |  |
-| frontend.productpass.api.delay | int | `1000` |  |
-| frontend.productpass.api.max_retries | int | `20` |  |
-| frontend.productpass.api.timeout | int | `60000` |  |
-| frontend.productpass.backend_url | string | `"materialpass.dev.demo.catena-x.net"` |  |
-| frontend.productpass.idp_url | string | `"centralidp.dev.demo.catena-x.net/auth/"` |  |
-| frontend.productpass.keycloak.clientId | string | `"Cl13-CX-Battery"` |  |
-| frontend.productpass.keycloak.onLoad | string | `"login-required"` |  |
-| frontend.productpass.keycloak.realm | string | `"CX-Central"` |  |
-| frontend.productpass.passport.version | string | `"v3.0.1"` |  |
+| frontend.productpass | object | `{"api":{"delay":1000,"max_retries":30,"timeout":60000},"backend_url":"","idp_url":"","keycloak":{"clientId":"","onLoad":"login-required","realm":""},"passport":{"version":"v3.0.1"}}` | product passport UI configuration |
+| frontend.productpass.api.delay | int | `1000` | delay from getting status |
+| frontend.productpass.api.max_retries | int | `30` | max retries for getting status |
+| frontend.productpass.api.timeout | int | `60000` | default timeout  - 45 seconds in milliseconds |
+| frontend.productpass.backend_url | string | `""` | url of the digital product pass backend service |
+| frontend.productpass.idp_url | string | `""` | url of the identity provider service |
+| frontend.productpass.keycloak | object | `{"clientId":"","onLoad":"login-required","realm":""}` | keycloak specific configuration for frontend authentication |
+| frontend.productpass.passport | object | `{"version":"v3.0.1"}` | required: digital product passport version number - default value: v3.0.1 |
 | frontend.service.port | int | `8080` |  |
-| frontend.service.type | string | `"ClusterIP"` |  |
+| frontend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
 | name | string | `"digital-product-pass"` |  |
-| namespace | string | `"product-material-pass"` |  |
+| namespace | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"500m"` |  |

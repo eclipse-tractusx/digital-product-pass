@@ -111,6 +111,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/endpoint/{processId}/{endpointId}", method = RequestMethod.POST)
+    @Operation(summary = "Receives the EDR for the EDC Consumer and queries for the dDTR")
     public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String endpointId) {
         try {
             DataPlaneEndpoint endpointData = null;
@@ -223,6 +224,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/endpoint/{processId}", method = RequestMethod.POST)
+    @Operation(summary = "Receives the EDR from the EDC Consumer and get the passport json")
     public Response endpoint(@RequestBody Object body, @PathVariable String processId) {
         try {
             DataPlaneEndpoint endpointData = null;

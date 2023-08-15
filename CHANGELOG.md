@@ -25,6 +25,8 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+
+
 ## [released]
 ## [1.0.0] - 15-08-2023
 
@@ -95,6 +97,15 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Security Issues
 - Updated the sprint boot version from `3.1.0` to `3.1.2` to fix a high security vulnerability
 
+## [released]
+## [1.0.0-rc3] - 15-08-2023
+
+# What is new?
+
+## Added
+- Set security checks in values file as disabled by default
+- Updated helm docs in charts folder
+- Added comments for documentation in swagger
 
 ## [pre-released]
 ## [1.0.0-alpha] - 2023-07-03

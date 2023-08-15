@@ -140,9 +140,9 @@ backend:
         # -- security configuration
         security:
           check:
-            enabled: true
-            bpn: true
-            edc: true
+            enabled: false
+            bpn: false
+            edc: false
         # -- digital twin registry configuration
         dtr:
           central: false

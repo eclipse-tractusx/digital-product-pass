@@ -97,6 +97,16 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Security Issues
 - Updated the sprint boot version from `3.1.0` to `3.1.2` to fix a high security vulnerability
 
+
+## [released]
+## [1.0.0-rc4] - 16-08-2023
+
+# What is new?
+
+## Updated
+
+- Changed exception from Discovery Service startup to a Critical Error message
+
 ## [released]
 ## [1.0.0-rc3] - 15-08-2023
 

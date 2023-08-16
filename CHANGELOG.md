@@ -28,7 +28,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 
 ## [released]
-## [1.0.0] - 15-08-2023
+## [1.0.0] - 16-08-2023
 
 # What is new?
   

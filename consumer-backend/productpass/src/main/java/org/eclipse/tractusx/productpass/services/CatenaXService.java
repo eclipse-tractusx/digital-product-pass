@@ -122,13 +122,14 @@ public class CatenaXService extends BaseService {
             Discovery discovery = this.getDiscoveryEndpoints();
             Boolean rs = this.updateDefaultDiscovery(discovery);
             if (!rs) {
-                LogUtil.printError("["this.getClass().getName() + "." + "start] Something went wrong when updating the discovery endpoints");
+                LogUtil.printError("["+this.getClass().getName() + "." + "start] Something went wrong when updating the discovery endpoints");
             }
             LogUtil.printMessage("[Catena-X Service] Retrieved and Stored the EDC & BPN Discovery endpoints!");
             return discovery;
         }catch(Exception e){
-            LogUtil.printError("["this.getClass().getName() + "." + "start] It was not possible to get the discovery endpoints");
+            LogUtil.printError("["+this.getClass().getName() + "." + "start] It was not possible to get the discovery endpoints");
         }
+        return null;
     }
     public Discovery addEndpoint(String key){
         try {

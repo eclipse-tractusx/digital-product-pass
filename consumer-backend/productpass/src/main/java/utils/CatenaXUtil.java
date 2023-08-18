@@ -36,53 +36,60 @@ import java.util.regex.Pattern;
 
 public final class CatenaXUtil {
 
-    private final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
-    private final static String edcDataEndpoint = "/api/v1/dsp";
+    public final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
+    public final static String edcDataEndpoint = "/api/v1/dsp";
 
-    public static Boolean containsBPN(String str){
-        return str.matches(".*"+bpnNumberPattern+".*");
+    public static Boolean containsBPN(String str) {
+        return str.matches(".*" + bpnNumberPattern + ".*");
     }
-    public static Boolean containsEdcEndpoint(String str){
-        return str.matches(".*"+edcDataEndpoint);
+
+    public static Boolean containsEdcEndpoint(String str) {
+        return str.matches(".*" + edcDataEndpoint);
     }
-    public static String getBPN(String str){
+
+
+    public static String buildDataEndpoint(String endpoint) {
+        return endpoint + edcDataEndpoint;
+    }
+
+    public static String getBPN(String str) {
         Pattern pattern = Pattern.compile(bpnNumberPattern);
         Matcher matcher = pattern.matcher(str);
-        if(!matcher.find())
-        {
+        if (!matcher.find()) {
             return null;
 
         }
         return matcher.group();
     }
-    public static String buildManagementEndpoint(Environment env, String path){
+
+    public static String buildManagementEndpoint(Environment env, String path) {
         try {
-        String edcEndpoint = env.getProperty("configuration.edc.endpoint");
-        String managementEndpoint = env.getProperty("configuration.edc.management");
-        if(edcEndpoint == null || managementEndpoint == null){
-            throw new UtilException(CatenaXUtil.class,"[ERROR] EDC endpoint is null or Management endpoint is null");
-        }
-        return edcEndpoint + managementEndpoint + path;
-        }catch (Exception e){
-            throw new UtilException(CatenaXUtil.class,e, "[ERROR] Invalid edc endpoint or management endpoint");
+            String edcEndpoint = env.getProperty("configuration.edc.endpoint");
+            String managementEndpoint = env.getProperty("configuration.edc.management");
+            if (edcEndpoint == null || managementEndpoint == null) {
+                throw new UtilException(CatenaXUtil.class, "[ERROR] EDC endpoint is null or Management endpoint is null");
+            }
+            return edcEndpoint + managementEndpoint + path;
+        } catch (Exception e) {
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] Invalid edc endpoint or management endpoint");
         }
     }
 
-    public static String buildEndpoint(String endpoint){
+    public static String buildEndpoint(String endpoint) {
         try {
             if (CatenaXUtil.containsEdcEndpoint(endpoint)) {
                 return endpoint;
             }
             String cleanUrl = HttpUtil.cleanUrl(endpoint);
             // Build Url
-            if (CatenaXUtil.containsBPN(endpoint)){
+            if (CatenaXUtil.containsBPN(endpoint)) {
                 String BPN = CatenaXUtil.getBPN(endpoint);
-                return String.format("%s/"+BPN+edcDataEndpoint,cleanUrl);
-            }else{
-                return String.format("%s"+edcDataEndpoint,cleanUrl);
+                return String.format("%s/" + BPN + edcDataEndpoint, cleanUrl);
+            } else {
+                return String.format("%s" + edcDataEndpoint, cleanUrl);
             }
-        }catch (Exception e){
-            throw new UtilException(CatenaXUtil.class,e,"[ERROR] Invalid url ["+endpoint+"] given!");
+        } catch (Exception e) {
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] Invalid url [" + endpoint + "] given!");
         }
 
     }

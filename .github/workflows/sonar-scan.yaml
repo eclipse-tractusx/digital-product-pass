@@ -33,7 +33,27 @@ env:
   JAVA_VERSION: 17
 
 jobs:
+  check-secrets-sonar-cloud:
+    runs-on: ubuntu-latest
+    outputs:
+      secrets-available: ${{ steps.secrets-exists.outputs.available }}
+    steps:
+      - name: Check for Secrets availability
+        id: secrets-exists
+        shell: bash
+        ## Check if the secrets are available in the environment
+        ## Check if the secrets are available in the environment
+        run: |
+          if [ "${{ secrets.GITHUB_TOKEN }}" != '' ] && [ "${{ secrets.SONAR_TOKEN }}" != '' ]; then 
+            echo "available=true" >> $GITHUB_OUTPUT;
+            echo "Secrets are available at this environment!"
+          else
+            echo "available=false" >> $GITHUB_OUTPUT;
+            echo "No secrets are available at this environment!"
+          fi
   sonarCloud:
+    needs: [ check-secrets-sonar-cloud ]
+    if: needs.check-secrets-sonar-cloud.outputs.secrets-available == 'true' ## Require that the secrets are available
     name: sonarCloud
     runs-on: ubuntu-latest
 

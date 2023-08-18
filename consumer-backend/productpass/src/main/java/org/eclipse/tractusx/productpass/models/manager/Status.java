@@ -51,6 +51,9 @@ public class Status {
     @JsonProperty("endpoint")
     public String endpoint;
 
+    @JsonProperty("bpn")
+    public String bpn;
+
     @JsonProperty("history")
     public Map<String, History> history;
 
@@ -124,6 +127,34 @@ public class Status {
         this.history = Map.of(historyId, history);
     }
 
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, Map<String, History> history) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.history = history;
+    }
+
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.history = new HashMap<String, History>();
+    }
+    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.history = Map.of(historyId, history);
+    }
     public String getId() {
         return id;
     }
@@ -190,6 +221,14 @@ public class Status {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public String getBpn() {
+        return this.bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
     }
 }
 

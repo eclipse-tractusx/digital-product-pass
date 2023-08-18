@@ -26,15 +26,18 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
+import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
+import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
@@ -42,13 +45,10 @@ import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import utils.*;
 
-import javax.xml.crypto.Data;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -69,7 +69,7 @@ public class ProcessManager {
 
     private final String digitalTwinFileName = "digitalTwin";
     private final String passportFileName = "passport";
-
+    private final String searchFileName = "search";
 
     @Autowired
     public ProcessManager(HttpUtil httpUtil, JsonUtil jsonUtil, FileUtil fileUtil, ProcessConfig processConfig) {
@@ -110,6 +110,7 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to get process [" + processId + "]");
         }
     }
+
 
     public String generateStatusToken(Status status, String contractId) {
         return CrypUtil.sha256("signToken=[" + status.getCreated() + "|" + status.id + "|" + contractId + "|" + processConfig.getSignToken() + "]"); // Add extra level of security, that just the user that has this token can sign
@@ -185,12 +186,96 @@ public class ProcessManager {
         }
     }
 
+    private String getTmpProcessDir(String processId, Boolean absolute) {
+        String tmpDir = fileUtil.getTmpDir();
+        if (absolute) {
+            return Path.of(tmpDir, processConfig.getDir(), processId).toAbsolutePath().toString();
+        } else {
+            return Path.of(tmpDir, processConfig.getDir(), processId).toString();
+        }
+    }
+    public Process createProcess(HttpServletRequest httpRequest) {
+        return this.createProcess(httpRequest, "");
+    }
+
     public Process createProcess(HttpServletRequest httpRequest, String connectorAddress) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
         this.newStatusFile(process.id, connectorAddress, createdTime); // Set the status from the process in file system logs.
+        return process;
+    }
+
+    public Boolean deleteSearchDir(String processId){
+        try {
+            String path = this.getTmpProcessDir(processId, false);
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Temporary process file does not exists for id ["+processId+"]!");
+            }
+            fileUtil.deleteDir(path);
+            return true;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search in search status file");
+        }
+    }
+    public SearchStatus setSearch(String processId, Search search) {
+        try {
+            String path = this.getTmpProcessFilePath(processId, this.searchFileName);
+            SearchStatus searchStatus = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Temporary process file does not exists for id ["+processId+"]!");
+            }
+            searchStatus = (SearchStatus) jsonUtil.fromJsonFileToObject(path, SearchStatus.class);
+            searchStatus.setSearch(search);
+            jsonUtil.toJsonFile(path, searchStatus, processConfig.getIndent()); // Store the plain JSON
+            return searchStatus;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search in search status file");
+        }
+    }
+    public String addSearchStatusDtr(String processId, Dtr dtr) {
+        try {
+            String path = this.getTmpProcessFilePath(processId, this.searchFileName);
+            SearchStatus searchStatus = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Temporary process file does not exists for id ["+processId+"]!");
+            }
+            searchStatus = (SearchStatus) jsonUtil.fromJsonFileToObject(path, SearchStatus.class);
+            searchStatus.addDtr(dtr);
+            return jsonUtil.toJsonFile(path, searchStatus, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search status file");
+        }
+    }
+    public String initProcess() {
+        try {
+            String processId = CrypUtil.getUUID();
+            SearchStatus searchProcess = new SearchStatus();
+            String searchFilePath = this.getTmpProcessFilePath(processId, this.searchFileName);
+            jsonUtil.toJsonFile(searchFilePath, searchProcess, processConfig.getIndent()); // Store the plain JSON
+            return processId;
+        }catch (Exception e){
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create tmp process file!");
+        }
+    }
+
+
+    public Process createProcess(String processId, HttpServletRequest httpRequest) {
+        Long createdTime = DateTimeUtil.getTimestamp();
+        Process process = new Process(processId, "CREATED", createdTime);
+        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
+        this.setProcess(httpRequest, process); // Add process to session storage
+        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        return process;
+    }
+    public Process createProcess(HttpServletRequest httpRequest, String processId, String bpn) {
+        Long createdTime = DateTimeUtil.getTimestamp();
+        Process process = new Process(processId, "CREATED", createdTime);
+        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
+        this.setProcess(httpRequest, process); // Add process to session storage
+        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        this.setBpn(process.id, bpn);
         return process;
     }
 
@@ -211,7 +296,10 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create the status file");
         }
     }
-
+    public String getTmpProcessFilePath(String processId, String filename) {
+        String processDir = this.getTmpProcessDir(processId, false);
+        return Path.of(processDir, filename + ".json").toAbsolutePath().toString();
+    }
     public String getProcessFilePath(String processId, String filename) {
         String processDir = this.getProcessDir(processId, false);
         return Path.of(processDir, filename + ".json").toAbsolutePath().toString();
@@ -223,6 +311,23 @@ public class ProcessManager {
             return (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to get the status file");
+        }
+    }
+
+    public String setBpn(String processId, String bpn) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setBpn(bpn);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
 
@@ -258,7 +363,15 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+    public String setBpnFound(HttpServletRequest httpRequest, String processId, List<String> bpnList) {
 
+        this.setProcessState(httpRequest, processId, "CREATED");
+
+        return this.setStatus(processId, "bpn-found", new History(
+                processId,
+                "CREATED"
+        ));
+    }
 
     public String setDecline(HttpServletRequest httpRequest, String processId) {
 
@@ -306,6 +419,15 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
         }
     }
+    public SearchStatus getSearchStatus(String processId) {
+        try {
+            String path = this.getTmpProcessFilePath(processId, this.searchFileName);
+            return (SearchStatus) jsonUtil.fromJsonFileToObject(path, SearchStatus.class);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the search status for process id [" + processId + "]");
+        }
+    }
+
 
     public Map<String, Object> loadNegotiation(String processId) {
         try {
@@ -358,17 +480,17 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "Failed to save payload!");
         }
     }
-    public String saveNegotiation(String processId, Negotiation negotiation) {
+    public String saveNegotiation(String processId, Negotiation negotiation, Boolean dtr) {
         try {
-
-            String path = this.getProcessFilePath(processId, this.negotiationFileName);
+            String fileName = !dtr?this.negotiationFileName:"digital-twin-registry/"+this.negotiationFileName;
+            String path = this.getProcessFilePath(processId,fileName);
             Map<String, Object> negotiationPayload = (Map<String, Object>) jsonUtil.fromJsonFileToObject(path, Map.class);
             negotiationPayload.put("get", Map.of("response", negotiation));
 
             return this.saveProcessPayload(
                     processId,
                     negotiationPayload,
-                    this.negotiationFileName,
+                    fileName,
                     negotiation.getContractAgreementId(),
                     "ACCEPTED",
                     "negotiation-accepted");
@@ -376,50 +498,76 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation!");
         }
     }
-    public String saveTransfer(String processId, Transfer transfer) {
+    public String saveTransfer(String processId, Transfer transfer, Boolean dtr) {
         try {
-
-            String path = this.getProcessFilePath(processId, this.transferFileName);
+            String fileName = !dtr?this.transferFileName:"digital-twin-registry/"+this.transferFileName;
+            String path = this.getProcessFilePath(processId, fileName);
             Map<String, Object> transferPayload = (Map<String, Object>) jsonUtil.fromJsonFileToObject(path, Map.class);
             transferPayload.put("get", Map.of( "response", transfer));
 
             return this.saveProcessPayload(
                     processId,
                     transferPayload,
-                    this.transferFileName,
+                    fileName,
                     transfer.getId(),
-                    "COMPLETED",
+                    !dtr?"COMPLETED":"FOUND-DTR",
                     "transfer-completed");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer!");
         }
     }
-    public String saveNegotiationRequest(String processId, NegotiationRequest negotiationRequest, IdResponse negotiationResponse) {
+    public String saveNegotiationRequest(String processId, NegotiationRequest negotiationRequest, IdResponse negotiationResponse, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     Map.of("init",Map.of("request", negotiationRequest, "response", negotiationResponse)),
-                    this.negotiationFileName,
+                    !dtr?this.negotiationFileName:"digital-twin-registry/"+this.negotiationFileName,
                     negotiationResponse.getId(),
-                    "NEGOTIATING",
-                    "negotiation-request");
+                    !dtr?"NEGOTIATING":"NEGOTIATING-DTR",
+                    !dtr?"negotiation-request":"dtr-negotiation-request");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation request!");
         }
     }
 
-    public String saveTransferRequest(String processId, TransferRequest transferRequest, IdResponse transferResponse) {
+    public String saveTransferRequest(String processId, TransferRequest transferRequest, IdResponse transferResponse, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     Map.of("init",Map.of("request", transferRequest, "response", transferResponse)),
-                    this.transferFileName,
+                    !dtr?this.transferFileName:"digital-twin-registry/"+this.transferFileName,
                      transferResponse.getId(),
-                    "TRANSFERRING",
-                    "transfer-request");
+                    !dtr?"TRANSFERRING":"TRANSFERRING-DTR",
+                    !dtr?"transfer-request":"dtr-transfer-request");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer request!");
         }
+    }
+
+    public String setEndpoint(String processId, String endpoint){
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setEndpoint(endpoint);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
+    public String getContractId(DataPlaneEndpoint endpointData){
+
+        if(!endpointData.offerIdExists()) {
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            return (String) token.getPayload().get("cid");
+        }
+
+        return endpointData.getOfferId();
     }
     public PassportV3 loadPassport(String processId){
         try {
@@ -465,14 +613,21 @@ public class ProcessManager {
     }
     public String savePassport(String processId, DataPlaneEndpoint endpointData, Passport passport) {
         try {
+            // Retrieve the configuration
             Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
 
             Object passportContent = passport;
             Status status = getStatus(processId);
             if(encrypt) {
-                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, endpointData.getOfferId())); // Encrypt the data with the token
+                // Get token content or the contractID from properties
+                String contractId = this.getContractId(endpointData);
+                if(contractId == null){
+                    throw new ManagerException(this.getClass().getName(), "The Contract Id is null! It was not possible to save the passport!");
+                }
+                passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, contractId)); // Encrypt the data with the token
             }
+            // Save payload
             return this.saveProcessPayload(
                     processId,
                     passportContent,
@@ -500,12 +655,29 @@ public class ProcessManager {
         }
     }
 
-    public String saveDataset(String processId, Dataset dataset, Long startedTime) {
+    public String saveDigitalTwin3(String processId, DigitalTwin3 digitalTwin, Long startedTime) {
+        try {
+            return this.saveProcessPayload(
+                    processId,
+                    digitalTwin,
+                    this.digitalTwinFileName,
+                    startedTime,
+                    digitalTwin.getIdentification(),
+                    "READY",
+                    "digital-twin-request");
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the digitalTwin!");
+        }
+    }
+
+
+
+    public String saveDataset(String processId, Dataset dataset, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     dataset,
-                    this.datasetFileName,
+                    !dtr?this.datasetFileName:"digital-twin-registry/"+this.datasetFileName,
                     startedTime,
                     dataset.getId(),
                     "AVAILABLE",

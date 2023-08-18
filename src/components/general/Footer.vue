@@ -162,9 +162,9 @@ export default {
   computed: {
     tagRepoUrl() {
       if (VERSION == null || VERSION === "" || VERSION === "VERSION") {
-        return this.repoUrl;
+        return REPO_ENDPOINT;
       }
-      return this.repoUrl + "/releases/tag/v" + VERSION;
+      return REPO_ENDPOINT + "/releases/tag/v" + VERSION;
     },
   },
   setup() {

@@ -45,5 +45,5 @@ This is the documentation for Battery Passport App E2E Cypress test.
 
 ## Steps tested
 
-![test](./test2.png)  
+![test](./test.png)  
 </br></br>

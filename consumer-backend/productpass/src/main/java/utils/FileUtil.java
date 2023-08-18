@@ -33,6 +33,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 @Service
 public final class FileUtil {
@@ -49,6 +51,7 @@ public final class FileUtil {
         {
             throw new UtilException(FileUtil.class, ioe, "It was not possible to create file ["+filePath+"]");
         }
+
         return filePath;
     }
     public File newFile(String filePath){
@@ -67,6 +70,7 @@ public final class FileUtil {
         try {
             File myObj = new File(filePath);
             myObj.getParentFile().mkdirs();
+            myObj.createNewFile();
             return myObj.getPath();
         } catch (Exception e) {
             throw new UtilException(FileUtil.class,"It was not possible to create new file at ["+filePath+"], " + e.getMessage()) ;
@@ -109,7 +113,10 @@ public final class FileUtil {
         String workDir = this.getWorkdirPath();
         return Paths.get(workDir ,"data").toAbsolutePath().toString();
     }
-
+    public String getTmpDir(){
+        String workDir = this.getWorkdirPath();
+        return Paths.get(workDir ,"tmp").toAbsolutePath().toString();
+    }
     public String createDataDir(String name){
         String workDir = this.getWorkdirPath();
         String path = Paths.get(workDir ,"data" , name).toAbsolutePath().toString();
@@ -121,7 +128,7 @@ public final class FileUtil {
         return this.createDir(path);
     }
 
-    public  String getTmpDir(String dirName){
+    public  String createTempDir(String dirName){
         try {
             return Files.createTempDirectory(dirName).toFile().getAbsolutePath();
         } catch (IOException e) {
@@ -150,6 +157,28 @@ public final class FileUtil {
 
     }
 
+    public void deleteDir(String path){
+        try {
+            Path dir = Path.of(path);
+            if(!this.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+            }
+            try(Stream<Path> paths =  Files.walk(dir)){
+                paths.sorted(Comparator.reverseOrder())
+                .forEach(filePath -> {
+                    try {
+                        Files.delete(filePath);
+                    } catch (IOException e) {
+                        LogUtil.printError("It was not possible to delete the file [" + filePath + "] in dir [" + path + "]");
+                    }
+                });
+            }catch (Exception e) {
+                throw new UtilException(FileUtil.class, "It was not possible to delete dir [" + path + "] because the stream closed!");
+            }
+        } catch (Exception e) {
+            throw new UtilException(FileUtil.class, "It was not possible to delete dir [" + path + "]");
+        }
+    }
 
     public Boolean deleteFile(String path){
         try {

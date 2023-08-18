@@ -43,12 +43,12 @@ let commitId = "REPO_COMMIT_ID";
 let repoEndpoint = "REPO_ENDPOINT_URL";
 
 // Default values if the value is not specified
-serverUrl = (serverUrl != null) ? serverUrl : "https://materialpass.int.demo.catena-x.net"
-backendUrl = (backendUrl != null) ? backendUrl : serverUrl
-passVer = (passVer != null) ? passVer : "v3.0.1"
-clientId = (clientId != null) ? clientId : "Cl13-CX-Battery"
-realm = (realm != null) ? realm : "CX-Central"
-onLoad = (serverUrl != null) ? onLoad : "login-required"
+serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
+backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
+passVer = (passVer != null && passVer !== "") ? passVer : "v3.0.1"
+clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
+realm = (realm != null && realm !== "") ? realm : "CX-Central"
+onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);

@@ -26,75 +26,86 @@
 
 name: "digital-product-pass"
 replicaCount: 1
-namespace: product-material-pass
+namespace: ""
 
 frontend:
   name: "dpp-frontend"
   image:
     repository: docker.io/tractusx/digital-product-pass-frontend
     pullPolicy: Always
-  
+  # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
 
   service:
+    # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
     type: ClusterIP
     port: 8080
 
+  # -- ingress declaration to expose the dpp-frontend service
   ingress:
     enabled: false
-    hosts:
-      - host: materialpass.dev.demo.catena-x.net    # Default URL
-        paths:
-          - path: /passport(/|$)(.*)
-            pathType: Prefix
+    hosts: []
 
-  avp:
-    helm:
-      clientId: "Add your secret here"
-      clientSecret: "Add your secret here"
-      xApiKey: "Add your secret here"
-
-  # Product Passport UI Configuration
+  # -- product passport UI configuration
   productpass:
-    backend_url: "materialpass.dev.demo.catena-x.net"
-    idp_url: "centralidp.dev.demo.catena-x.net/auth/" # Default URL
+    # -- url of the digital product pass backend service
+    backend_url: ""
+    # -- url of the identity provider service
+    idp_url: ""
+    # -- required: digital product passport version number - default value: v3.0.1
     passport:
-      version: "v3.0.1" ## Mandatory Field, passport version must be available (Semantic Structure)
+      version: "v3.0.1"    ## Mandatory Field, passport version must be available (Semantic Structure)
     api:
-      max_retries: 20 # Max Retries for getting status
-      timeout: 60000 # 45 seconds in milliseconds
-      delay: 1000 ## Delay from getting status
+      # -- max retries for getting status
+      max_retries: 30
+      # -- default timeout  - 45 seconds in milliseconds
+      timeout: 60000
+      # -- delay from getting status
+      delay: 1000
+    # -- keycloak specific configuration for frontend authentication
     keycloak:
-      clientId: 'Cl13-CX-Battery'
-      realm: 'CX-Central'
-      onLoad: 'login-required'
+      clientId: ""
+      realm: ""
+      onLoad: "login-required"
 
+
+# -- Backend configuration
 backend:
-  name: "dpp-backend" 
+  name: "dpp-backend"
   image:
     repository: docker.io/tractusx/digital-product-pass-backend
     pullPolicy: Always
-
+  # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
 
   service:
+  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
     type: ClusterIP
     port: 8888
 
+
+  # -- ingress declaration to expose the dpp-backend service
   ingress:
     enabled: false
 
+  # -- in this section we configure the values that are inserted as secrets in the backend
   avp:
     helm:
-      clientId: "Add your secret here"
-      clientSecret: "Add your secret here"
-      xApiKey: "Add your secret here"
-      participantId: "Add your secret here"
+      # -- technical user keycloak central id credentials
+      # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+      clientId: "<Add client id here>"
+      clientSecret: "<Add client secret here>"
+      # -- the secret for assesing the edc management API
+      xApiKey: "<Add API key here>"
+      # -- BPN Number
+      participantId: "<Add participant id here>"
 
+  # -- specific backend and spring boot configurations
   application:
     yml: |-
+      # -- spring boot configuration
       spring:
-        name: 'Catena-X Product Passport Consumer Backend'
+        name: "Catena-X Product Passport Consumer Backend"
         main:
           allow-bean-definition-overriding: true
         devtools:
@@ -102,85 +113,122 @@ backend:
         jackson:
           serialization:
             indent_output: true
-
       logging:
         level:
+          # -- general logging level
           root: INFO
+          # -- logging for the util components
           utils: INFO
-
       configuration:
+        # -- max retries for the backend services
         maxRetries: 5
-
+        # -- keycloak configuration
         keycloak:
           realm: CX-Central
           resource: Cl13-CX-Battery
-          tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-          userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
-
+          tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'
+          userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'
+        # -- edc consumer connection configuration
         edc:
-          endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
+          endpoint: 'https://<edc.consumer.url>'
           management: '/management/v2'
           catalog: '/catalog/request'
           negotiation: '/contractnegotiations'
           transfer: '/transferprocesses'
-          receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
-
+          receiverEndpoint: 'https://<backend.url>/endpoint'
+          delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+        # -- security configuration
+        security:
+          check:
+            enabled: false
+            bpn: false
+            edc: false
+        # -- digital twin registry configuration
+        dtr:
+          central: false
+          # -- central digital twin registry url
+          centralUrl: 'https://<digital-twin-registry-url>'
+          # -- asset id to search for the registry in the edc
+          assetId: 'digital-twin-registry'
+          # -- submodel endpoint interface to search
+          endpointInterface: 'SUBMODEL-3.0'
+          # -- dsp endpoint key inside submodel body
+          dspEndpointKey: 'dspEndpoint'
+          internalDtr: "" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
+          # -- decentral digital twin apis
+          decentralApis:
+            search: "/lookup/shells/query"
+            digitalTwin: "/shell-descriptors"
+            subModel: "/submodel-descriptors"
+          # -- timeouts for the digital twin registry async negotiation
+          timeouts:
+            search: 10
+            negotiation: 40
+            transfer: 10
+            digitalTwin: 20
+          # -- temporary storage of dDTRs for optimization
+          temporaryStorage: true
+        # -- discovery configuration
+        discovery:
+          # -- discovery finder configuration
+          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/administration/connectors/discovery/search"
+          # -- bpn discovery configuration
+          bpn:
+            key: "manufacturerPartId"
+            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+          # -- edc discovery configuration
+          edc:
+            key: "bpn"
+        # -- process configuration
         process:
-          store: true
-          dir: 'process'
+          # -- directory for storing the contract negotiation files
+          dir: "process"
+          # -- indent the process negotiation files
           indent: true
-          signKey: ''
-
-        endpoints:
-          registryUrl: 'https://semantics.dev.demo.catena-x.net'
-
+          # -- unique sha512 hash key used for the passport encryption
+          signKey: ""
+        # -- passport data transfer configuration
         passport:
+          # -- configure the data transfer
           dataTransfer:
+            # -- encrypt the passport when he arrives from the edc data plane
             encrypt: true
+            # -- the indent from the passport
             indent: true
+            # -- directory to store the passport when is not linked to a process
             dir: "data/transfer"
+          # -- passport versions allowed
           versions:
             - 'v3.0.1'
-
-        vault:
-          type: 'local'
-          file: 'vault.token.yml'
-          pathSep: "."
-          prettyPrint: true
-          indent: 2
-          defaultValue: '<Add secret value here>'
-          attributes:
-            - "client.id"
-            - "client.secret"
-            - "edc.apiKey"
-          - "edc.participantId"
-
+      # -- configuration of the spring boot server
       server:
+        # -- configuration of backend errors
         error:
           include-message: ALWAYS
           include-binding-errors: ALWAYS
           include-stacktrace: ON_PARAM
           include-exception: false
+        # -- listening port for the backend
         port: 8888
+        # -- maximum allowed connections
         tomcat:
           max-connections: 10000
 
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
 
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
+# [node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain pods to nodes
 nodeSelector: {}
 
+# [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes
 tolerations: []
 
+# [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on
 affinity: {}

@@ -418,7 +418,7 @@ npm/npmjs/@jridgewell/gen-mapping/0.3.2, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.14, MIT, approved, clearlydefined
-npm/npmjs/@jridgewell/trace-mapping/0.3.17, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/trace-mapping/0.3.17, MIT, approved, #9904
 npm/npmjs/@mdi/font/5.9.55, Apache-2.0, approved, clearlydefined
 npm/npmjs/@nicolo-ribaudo/eslint-scope-5-internals/5.1.1-v1, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined

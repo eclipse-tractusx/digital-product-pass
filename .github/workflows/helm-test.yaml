@@ -1,0 +1,131 @@
+#################################################################################
+# Catena-X - Product Passport Consumer Application
+#
+# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+name: Lint and Test Charts
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to use"
+        required: true
+        default: 'main'
+        type: string
+      node_image:
+        description: 'kindest/node image for k8s kind cluster'
+        # k8s version from 3.1 release as default
+        default: 'kindest/node:v1.27.3'
+        required: false
+        type: string
+      upgrade_from:
+        description: 'chart version to upgrade from'
+        # chart version from 3.1 release as default
+        default: 'testing'
+        required: false
+        type: string
+
+env:
+  JAVA_VERSION: 19
+  REGISTRY: kind-registry:5000
+  TAG: testing
+  FRONTEND_IMAGE: digital-product-pass-frontend
+  BACKEND_IMAGE: digital-product-pass-backend
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Kubernetes KinD Cluster
+        uses: container-tools/kind-action@v1
+        with:
+          # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
+          version: v0.19.0
+          # default value for event_name != workflow_dispatch
+          node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+
+      - name: Build image for frontend
+        id: build-frontend
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}}:${{ env.TAG }}
+      
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+      
+      # Build Java code with Maven
+      - name:  Build dpp backend with maven
+        run: |
+          cd consumer-backend/productpass
+          mvn -B clean install
+
+      - name: Build image for backend
+        id: build-backend
+        uses: docker/build-push-action@v3
+        with:
+          context: consumer-backend/productpass
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}:${{ env.TAG }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.9.3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.3.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run chart-testing (lint)
+        run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
+      
+      - name: Run chart-testing (install)
+        run: |
+          cp deployment/helm/local/storage/pv-data.yaml charts/digital-product-pass/templates/pv-data.yaml
+          rm charts/digital-product-pass/templates/pvc-data.yaml
+          cp deployment/helm/local/storage/pvc-data.yaml charts/digital-product-pass/templates/pvc-data.yaml
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+          ct install --charts charts/digital-product-pass --helm-extra-set-args "--set=frontend.image.tag=${{ env.TAG }} --set=frontend.image.repository=${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}} --set=backend.image.tag=${{ env.TAG }} --set=backend.image.repository=${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}"
+        if: steps.list-changed.outputs.changed == 'true'

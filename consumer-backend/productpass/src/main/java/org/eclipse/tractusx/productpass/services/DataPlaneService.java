@@ -77,7 +77,6 @@ public class DataPlaneService extends BaseService {
         }
     }
 
-
     @Override
     public List<String> getEmptyVariables() {
         return new ArrayList<>();

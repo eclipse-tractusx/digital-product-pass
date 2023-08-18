@@ -32,21 +32,28 @@ spec:
   selector:
     matchLabels:
       {{- include "chart.selectorLabels" . | nindent 6 }}
+      component: backend
   template:
     metadata:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
+        component: backend
     spec:
       {{- with .Values.backend.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        runAsUser: 10000
+        fsGroup: 3000
       containers:
         - name: {{ .Values.backend.name }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          securityContext: 
-            allowPrivilegeEscalation: false 
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 10000
+            runAsGroup: 3000
           env:          
             - name: "client.id"
               valueFrom:
@@ -68,11 +75,15 @@ spec:
                 secretKeyRef:
                   key:  participantId
                   name: avp-consumer-backend-edc-oauth
-
-
           volumeMounts:
             - name: backend-config
               mountPath: /app/config
+            - name: pvc-backend
+              mountPath: /app/data
+              subPath: data
+            - name: pvc-backend
+              mountPath: /app/log
+              subPath: log
           ports:
             - containerPort: 8888
               name: http
@@ -95,4 +106,8 @@ spec:
         - name: backend-config
           configMap:
             name: backend-config
+        - name: pvc-backend
+          persistentVolumeClaim:
+            claimName: pvc-data
+
 

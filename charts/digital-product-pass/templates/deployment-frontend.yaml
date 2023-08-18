@@ -32,38 +32,29 @@ spec:
   selector:
     matchLabels:
       {{- include "chart.selectorLabels" . | nindent 6 }}
+      component: frontend
   template:
     metadata:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
+        component: frontend
     spec:
       {{- with .Values.frontend.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        runAsUser: 10000
+        fsGroup: 3000
       containers:
         - name: {{ .Values.frontend.name }}
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           securityContext: 
-            allowPrivilegeEscalation: false 
+            allowPrivilegeEscalation: false
+            runAsUser: 10000
+            runAsGroup: 3000
           env:          
-            - name: "VUE_APP_CLIENT_ID"
-              valueFrom:
-                secretKeyRef:
-                  key:  clientId
-                  name: avp-consumer-ui-cx-registry-auth
-            - name: "VUE_APP_CLIENT_SECRET"
-              valueFrom:
-                secretKeyRef:
-                  key:  clientSecret
-                  name: avp-consumer-ui-cx-registry-auth
-            - name: "X_API_KEY"
-              valueFrom:
-                secretKeyRef:
-                  key:  xApiKey
-                  name: avp-consumer-ui-edc-oauth
-                  
             {{- with (first .Values.frontend.ingress.hosts) }}
             - name: "SERVER_URL"
               value: "https://{{ .host }}"

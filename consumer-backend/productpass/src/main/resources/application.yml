@@ -42,25 +42,56 @@ configuration:
   keycloak:
     realm: CX-Central
     resource: Cl13-CX-Battery
-    tokenUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-    userInfoUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
+    tokenUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+    userInfoUri: 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
 
   edc:
-    endpoint: 'https://materialpass.dev.demo.catena-x.net/consumer'
+    endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
-    receiverEndpoint: 'https://materialpass.dev.demo.catena-x.net/endpoint'
+    receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
+    delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+
+  security:
+    check:
+      enabled: true
+      bpn: true
+      edc: true
+
+  dtr:
+    central: false
+    centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
+    assetId: 'digital-twin-registry'
+    endpointInterface: 'SUBMODEL-3.0'
+    dspEndpointKey: 'dspEndpoint'
+    internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
+    decentralApis:
+      search: "/lookup/shells/query"
+      digitalTwin: "/shell-descriptors"
+      subModel: "/submodel-descriptors"
+    timeouts:
+      search: 10
+      negotiation: 40
+      transfer: 10
+      digitalTwin: 20
+    temporaryStorage: true
+
+  discovery:
+    endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+    bpn:
+      key: "manufacturerPartId"
+      searchPath: "/api/administration/connectors/bpnDiscovery/search"
+    edc:
+      key: "bpn"
+
 
   process:
     store: true
     dir: 'process'
     indent: true
     signKey: 'c55e3f35200f6afedbce37cefdaf40eadd15c92814edfdbc4d6ab0eacdcdd56dbcd5a2a34ca4b675084d33f9f479d7d79347795148aaf4443e1b47ab96b27e72'
-
-  endpoints:
-    registryUrl: 'https://semantics.dev.demo.catena-x.net'
 
   passport:
     dataTransfer:

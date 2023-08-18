@@ -22,8 +22,10 @@
 ---
 apiVersion: v2
 name: digital-product-pass
-description: A Helm chart for Kubernetes
-
+description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -45,4 +47,4 @@ version: 1.0.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "1.0.0-alpha"
+appVersion: "1.0.0"

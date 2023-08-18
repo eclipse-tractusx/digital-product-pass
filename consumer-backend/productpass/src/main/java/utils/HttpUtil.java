@@ -184,7 +184,6 @@ public class HttpUtil {
 
             String header = CrypUtil.fromBase64Url(chunks[0]);
             String payload = CrypUtil.fromBase64Url(chunks[1]);
-            LogUtil.printMessage("token header: " + header + " payload: " + payload);
             jwt.setHeader((Map<String, Object>) jsonUtil.parseJson(header));
             jwt.setPayload((Map<String, Object>) jsonUtil.parseJson(payload));
             return jwt;
@@ -354,7 +353,7 @@ public class HttpUtil {
     /**************************************************
      * Generic Request Methods ************************
      **************************************************/
-    public  ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
+    public ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
         URI finalUri = this.buildUri(url, params, encode);
         LogUtil.printDebug("["+ HttpUtil.class+"]: Calling URL->["+finalUri+"] with method->["+method.name()+"]");

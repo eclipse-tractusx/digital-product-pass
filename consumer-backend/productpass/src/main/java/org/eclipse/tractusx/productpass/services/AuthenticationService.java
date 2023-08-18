@@ -29,6 +29,7 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -126,6 +127,18 @@ public class AuthenticationService extends BaseService {
         if(token == null){
             return false;
         }
+        /*
+        Jwt jwtToken = httpUtil.parseToken(token);
+        // If the end user has no bpn available block
+        if(jwtToken.getPayload().containsKey("bpn")){
+            return false;
+        }
+
+        if(jwtToken.getPayload().get("bpn") != vaultService.getLocalSecret("edc.participantId")){
+            return false;
+        }
+        */
+
         UserInfo userInfo = null;
         try {
             userInfo = this.getUserInfo(token);

@@ -23,8 +23,66 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
-**xxxx xx xxxx (Version 1.0.0)** - **July 03 2023 (Pre-release 1.0.0-alpha)**
-*xx.xx.xxxx*
+**August 15 2023 (Version 1.0.0)**
+*15.08.2023*
+
+### Added
+
+#### Added EDC v0.5.0 version support
+
+As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
+
+#### Added Decentralized Digital Twin Registry integration
+
+The backend component is upgraded to call the decentral Digital Twin Regitry using Asset Administration Shell (AAS) `v3.0` API syntax. Also, integrated the usage of the Discovery Finder service to retrieve the endpoints from the EDC Discovery and the BPN Discovery services.
+
+#### Added search parameter
+
+The search Id is now based on 3 parts separated by colon `CX:<manufacturerPartId>:<serializedId>` and followed by the `CX` prefix. The purpose is to search the asset through these parameters using a decentral registry approach. The manufacturer part Id and serialized Id are also validated.
+
+#### Added persistent storage
+
+The data preservation layer is implemented to ensure that the contract details are stored in logs in order to be complaint with Data Sovereignty requirements.
+
+#### Added TRG requirements
+
+The main following TRG requirements that were added were:
+
+##### TRG-4.06 Added notice for docker images
+
+The released container images need to be annotated to provide good quality images. This has to be defined in a dedicated Notice for docker image section and on the respective image page on DockerHub.
+
+##### TRG-5.04 Added resource management
+
+There needs to be the resource management configuration added along with the application settings. This enables the ability to utilize the CPU and memory consumption as best practices and to match minimum requirements when running an application.
+
+##### TRG-1.02 Added instructions to install the application
+
+There is getting started guide `INSTALL.md` included to the documentation to setup the application from the scratch.
+
+### Updated
+
+#### Updated the EDC v0.5.0 configuration
+
+The Self-Sovereign Identity (SSI) are configured to use the latest EDC version `v0.5.0` in helm configuration.
+
+#### Updated documentation and prepared for release
+
+Updated all the documentation in `docs` folder to match the latest version of the code.
+
+### Security Improvements
+
+#### Added user and file permissions
+
+The user and file permissions are added in the container file system to run as a non-root user for the better security and to restrict the user from unnecessary access.
+
+#### Validate the application against the foreign BPN number
+
+The user authentication is checked against the specified BPN number, EDC consumer, the backend application in order to restrict access the application for security purposes.
+
+
+**July 03 2023 (Pre-release 1.0.0-alpha)**
+*03.07.2023*
 
 ### Added
 

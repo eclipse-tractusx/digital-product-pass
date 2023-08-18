@@ -28,6 +28,8 @@ WORKDIR /app
 # Copy the package.json and install dependencies
 COPY package*.json ./
 
+RUN npm install -g npm
+
 #RUN npm install
 RUN npm install --legacy-peer-deps
 
@@ -45,25 +47,30 @@ ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'
 ENV REPO_COMMIT_ID=${REPO_COMMIT_ID}
 ENV REPO_ENDPOINT_URL=${REPO_ENDPOINT_URL}
 
-COPY ./entrypoint.sh /entrypoint.sh
+USER root
 
-HEALTHCHECK NONE
+RUN addgroup -g 3000 appgroup \
+	&& adduser -u 10000 -g 3000 -h /home/appuser -D appuser
+
+COPY ./entrypoint.sh /entrypoint.sh
 
 WORKDIR /app
 
 COPY ./.nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-USER root
+HEALTHCHECK NONE
 
-RUN chmod +x /entrypoint.sh
-
+# add permissions for a user
+RUN chown -R 10000:3000 /app && chmod -R 775 /app/
+RUN chown 10000:3000 /entrypoint.sh && chmod -R 775 /entrypoint.sh
 
 # Install bash for env variables inject script
 RUN apk update && apk add --no-cache bash
 # Make nginx owner of /usr/share/nginx/html/ and change to nginx user
-RUN chown -R 1001:1001 /usr/share/nginx/html/
-USER 1001
+RUN chown -R 10000:3000 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
+
+USER 10000:3000
 
 EXPOSE 8080
 

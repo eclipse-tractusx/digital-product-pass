@@ -131,7 +131,9 @@ jobs:
           mvn -B clean install
 
       - name: Build backend image from Dockerfile
-        run: docker build -t ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.BACKEND_IMAGE_NAME }}:latest -f ./consumer-backend/productpass/Dockerfile .
+        run: |
+          cd consumer-backend/productpass
+          docker build -t ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.BACKEND_IMAGE_NAME }}:latest .
 
       - name: Run Trivy vulnerability scanner
         if: always()

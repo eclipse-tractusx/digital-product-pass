@@ -48,6 +48,7 @@ Latest Revision Mar 30, 2023
     10.3 [Policies Configuration](#policies-configuration)    
     10.4 [Contract Definition Configuration](#contract-definition-configuration)        
     10.5 [Digital Twin Registration](#digital-twin-registration)
+11. [NOTICE](#notice)
 
 ## Introduction
 

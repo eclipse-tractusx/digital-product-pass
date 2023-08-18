@@ -45,6 +45,7 @@ Welcome to the documentation section, below you will find all the necesary docs 
 - [API Documentation](#api-documentation)
   - [Postman Collection](#postman-collection)
   - [Swagger Documetation](#swagger-documetation)
+- [NOTICE](#notice)
 <!-- TOC -->
 
 

@@ -86,6 +86,7 @@ Latest Revision: Aug. 11, 2023
     - [Quality Scenarios](#quality-scenarios)
   - [Risks and Technical Debts](#risks-and-technical-debts)
   - [Glossary](#glossary)
+  - [NOTICE](#notice)
 
 ## Introduction and Goals
 
@@ -548,3 +549,13 @@ An user needs to be able to understand easily the application interface, in orde
 | Git | Is a distributed version control system: tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. |
 | DevOps | Is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. |
 | Repository | Is a database of digital content with an associated set of data management, search and access methods allowing application-independent access to the content, rather like a digital library, but with the ability to store and modify content in addition to searching and retrieving. |
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

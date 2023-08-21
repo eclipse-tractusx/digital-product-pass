@@ -29,7 +29,7 @@ name: "Trivy"
 
 on:
   push:
-    branches: [ "main", "hotfix/v1.0.0-rc4" ]
+    branches: [ "main" ]
   schedule:
     - cron: "0 0 * * *"
 

@@ -282,3 +282,13 @@ For a fast and efficient overview, a table containing the technical product info
 #### Additional insights
 
 A deep dive on the application's operation and functionalities can be found in the [End User Manual](docs\user%20manual\User%20Manual%20Product%20Viewer%20App.md).
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

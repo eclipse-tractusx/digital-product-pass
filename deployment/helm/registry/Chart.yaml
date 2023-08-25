@@ -27,11 +27,8 @@ version: 0.3.20
 appVersion: 0.3.13-M1
 
 dependencies:
-  - repository: https://charts.bitnami.com/bitnami
-    name: postgresql
-    version: 12.1.7
-    condition: enablePostgres
-  - repository: https://charts.bitnami.com/bitnami
-    name: keycloak
-    version: 13.3.0
-    condition: enableKeycloak
+  - name: registry
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    alias: provider-dtr
+    version: 0.3.20
+    condition: enabled

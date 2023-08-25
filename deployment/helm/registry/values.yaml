@@ -19,105 +19,49 @@
 ###############################################################
 
 
-# enables the default postgres database
-enablePostgres: true
-# enables the default keycloak identity provider
-# relies on a postgres instance
-enableKeycloak: false
-
-registry:
-  image:
-    registry: docker.io
-    repository: tractusx/sldt-digital-twin-registry
-    # This version property overwrites the default image version.
-    # The default image version is the appVersion of the Chart.yaml.
-    version: ""
-  replicaCount: 1
-  imagePullPolicy: IfNotPresent
-  containerPort: 4243
-  host: materialpass.dev.demo.catena-x.net
-  ## If 'authentication' is set to false, no OAuth authentication is enforced
-  authentication: false
-  # Issuer url for the dtr (resource server),
-  # make sure that the url points to an externally resolvable hostname.
-  # If no value is committed, and the integrated Keycloak is enabled,
-  # the K8s internal service name is used, which is a problem, when
-  # validating the issuer claim in an access token
-  idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
-  idpClientId: Cl13-CX-Battery
-  tenantId: default-tenant
-  service:
-    port: 8080
-    type: ClusterIP
-  dataSource:
-    driverClassName: org.postgresql.Driver
-    sqlInitPlatform: pg
-    ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
-    ## In that case the postgresql auth parameters are used.
-    url: jdbc:postgresql://registry:5432
-    user: <path:material-pass/data/dev/aasregistry/database.user>
-    password: <path:material-pass/data/dev/aasregistry/database.password>
-  ingress:
-    enabled: true
-    tls: true
-    urlPrefix: /semantics/registry
-    className: nginx
-    annotations:
-      # Add annotations for the ingress, e.g.:
-      cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
-      nginx.ingress.kubernetes.io/use-regex: "true"
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
-  resources:
-    limits:
-      memory: "1024Mi"
-    requests:
-      memory: "512Mi"
-
-postgresql:
-  primary:
-    persistence:
+provider-dtr:
+  registry:
+    host: materialpass.int.demo.catena-x.net
+    ## If 'authentication' is set to false, no OAuth authentication is enforced
+    authentication: false
+    # Issuer url for the dtr (resource server),
+    # make sure that the url points to an externally resolvable hostname.
+    # If no value is committed, and the integrated Keycloak is enabled,
+    # the K8s internal service name is used, which is a problem, when
+    # validating the issuer claim in an access token
+    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
+    idpClientId: Cl13-CX-Battery
+    tenantId: default-tenant
+    dataSource:
+      driverClassName: org.postgresql.Driver
+      sqlInitPlatform: pg
+      ## The url, user, and password parameter will be ignored if 'enablePostgres' is set to true.
+      ## In that case the postgresql auth parameters are used.
+      url: jdbc:postgresql://registry:5432
+      user: <path:material-pass/data/dev/aasregistry/database.user>
+      password: <path:material-pass/data/dev/aasregistry/database.password>
+    ingress:
       enabled: true
-      size: 50Gi
-  service:
-    ports:
-      postgresql: 5432
-  auth:
-    username: <path:material-pass/data/dev/aasregistry/database.user>
-    password: <path:material-pass/data/dev/aasregistry/database.password>
-    database: default-database
+      tls: true
+      urlPrefix: /semantics/registry
+      className: nginx
+      annotations:
+        # Add annotations for the ingress, e.g.:
+        cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
 
-keycloak:
+    # enables the default postgres database
+    enablePostgres: true
+    # enables the default keycloak identity provider
+    # relies on a postgres instance
+    enableKeycloak: false
+
   postgresql:
-    enabled: false
-  externalDatabase:
-    # host: registry-postgresql
-    # port: 5432
-    # user: default-user
-    # password: ""
-    # database: default-database
-    existingSecret: keycloak-database-credentials
-  auth:
-    adminUser: admin
-    adminPassword: ""
-  service:
-    type: ClusterIP
-  extraVolumes:
-    - name: init-script-vol
-      configMap:
-        name: init-script-vol
-  # Mounting a keycloak realm configuration file
-  fullnameOverride: registry-keycloak
-  extraVolumeMounts:
-    - mountPath: /opt/keycloak/data/import/default-realm-import.json
-      subPath: default-realm-import.json
-      name: init-script-vol
-  # Using a pre-configured Keycloak with a default realm,
-  # containing a test client and user with the necessary roles to
-  # authorize requests to the digital twin registry.
-  # Make sure to remove the '--hostname' property when deploying
-  # in a non-test scanrio
-  command: ["/bin/sh", "-c"]
-  args: ["kc.sh import --file /opt/keycloak/data/import/default-realm-import.json; kc.sh start-dev --hostname=registry-keycloak --hostname-strict=false --proxy=edge"]
+    auth:
+      username: <path:material-pass/data/dev/aasregistry/database.user>
+      password: <path:material-pass/data/dev/aasregistry/database.password>
+      database: default-database

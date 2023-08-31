@@ -100,7 +100,7 @@ public class AasService extends BaseService {
         Object decentralApis = dtrConfig.getDecentralApis();
         if (decentralApis == null) { // If the configuration is null use the default variables
             decentralApis = Map.of(
-                    "search", "/lookup/shells/query",
+                    "search", "/lookup/shells",
                     "digitalTwin", "/shell-descriptors",
                     "subModel", "/submodel-descriptors"
             );
@@ -519,22 +519,21 @@ public class AasService extends BaseService {
             ResponseEntity<?> response = null;
             if (!this.central && registryUrl != null && edr != null) {
                 // Set request body as post if the central query is disabled
-                Object body = Map.of(
-                        "query", Map.of(
-                                "assetIds", List.of(
-                                        Map.of(
-                                                "name", assetType,
-                                                "value", assetId
-                                        )
-                                )
-                        )
+                // Query as GET if the central query is enabled
+                Map<String, ?> assetIds = Map.of(
+                        "name", assetType,
+                        "value", assetId
                 );
+
+                String jsonString = jsonUtil.toJson(assetIds, false);
                 HttpHeaders headers = this.getTokenHeader(edr);
-                response = httpUtil.doPost(url, ArrayList.class, headers, httpUtil.getParams(), body, false, false);
+                params.put("assetIds", jsonString);
+                response = httpUtil.doGet(url, ArrayList.class, headers, params, true, false);
+
             } else {
                 // Query as GET if the central query is enabled
                 Map<String, ?> assetIds = Map.of(
-                        "key", assetType,
+                        "name", assetType,
                         "value", assetId
                 );
 

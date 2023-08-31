@@ -10,20 +10,39 @@
     "specificAssetIds": [
         {
             "name": "partInstanceId",
-            "value": "IMR18650V1"
+            "value": "IMR18650V1",
+            "externalSubjectId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "<some-bpn>"
+                    }
+                ]
+            }
         }
     ],
     "submodelDescriptors": [
         {
             "endpoints": [
                 {
-                    "interface": "SUBMODEL-1.0RC02",
+                    "interface": "SUBMODEL-3.0",
                     "protocolInformation": {
-                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
-                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
-                        "endpointProtocolVersion": [ "1.1" ],
-                        "subprotocol": "IDS",
-                        "subprotocolBody": "TBD"
+                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918/submodel",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [
+                          "1.1"
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id=365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
+                        "subprotocolBodyEncoding": "plain",
+                        "securityAttributes": [
+                          {
+                            "type": "NONE",
+                            "key": "NONE",
+                            "value": "NONE"
+                          }
+                        ]
                     }
                 }
             ],

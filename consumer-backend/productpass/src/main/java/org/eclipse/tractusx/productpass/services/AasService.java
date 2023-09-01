@@ -527,8 +527,14 @@ public class AasService extends BaseService {
 
                 String jsonString = jsonUtil.toJson(assetIds, false);
                 HttpHeaders headers = this.getTokenHeader(edr);
+                headers.remove("Content-Type");         //  This should be fixed by the dtr team to allow content-type as application/json
                 params.put("assetIds", jsonString);
-                response = httpUtil.doGet(url, ArrayList.class, headers, params, true, false);
+                response = httpUtil.doGet(url, Map.class, headers, params, true, false);
+                if(response == null){
+                    return null;
+                }
+                Map<String,Object> responseBody = (Map<String,Object>) response.getBody();
+                return (ArrayList<String>) responseBody.get("result");
 
             } else {
                 // Query as GET if the central query is enabled
@@ -538,16 +544,15 @@ public class AasService extends BaseService {
                 );
 
                 String jsonString = jsonUtil.toJson(assetIds, false);
-                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());;
+                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
                 params.put("assetIds", jsonString);
                 response = httpUtil.doGet(url, ArrayList.class, headers, params, true, false);
+                if(response == null){
+                    return null;
+                }
+                ArrayList<String> responseBody = (ArrayList<String>) response.getBody();
+                return responseBody;
             }
-            if(response == null){
-                return null;
-            }
-            ArrayList<String> responseBody = (ArrayList<String>) response.getBody();
-            return responseBody;
-
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "queryDigitalTwin",
                     e,

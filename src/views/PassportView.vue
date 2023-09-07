@@ -20,66 +20,64 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-
 <template>
-  <v-container v-if="loading">
-    <div class="loading-container">
-      <Spinner class="spinner-container" />
-    </div>
-  </v-container>
-  <v-container v-else-if="error" class="h-100 w-100">
-    <div class="loading-container d-flex align-items-center w-100 h-100">
-      <ErrorComponent
-        :title="errorObj.status + ' ' + errorObj.statusText"
-        :subTitle="errorObj.title"
-        :description="errorObj.description"
-        reloadLabel="Return"
-        reloadIcon="mdi-arrow-left"
-      />
-    </div>
-  </v-container>
-  <div v-else>
+  <div>
     <HeaderComponent>
-      <span class="header-title">Battery passport</span>
+      <span class="header-title">Digital Product Passport</span>
     </HeaderComponent>
-    <PassportHeader :data="data.passport" type="BatteryID" />
-    <div class="pass-container">
-      <CardsComponent :data="data" />
-    </div>
+    <v-container v-if="loading">
+      <LoadingComponent :id="id" />
+    </v-container>
+    <v-container v-else-if="error" class="h-100 w-100">
+      <div class="loading-container d-flex align-items-center w-100 h-100">
+        <ErrorComponent
+          :title="errorObj.status + ' ' + errorObj.statusText"
+          :subTitle="errorObj.title"
+          :description="errorObj.description"
+          reloadLabel="Return"
+          reloadIcon="mdi-arrow-left"
+        />
+      </div>
+    </v-container>
+    <div v-else>
+      <PassportHeader :data="data.passport" type="BatteryID" />
+      <div class="pass-container">
+        <CardsComponent :data="data" />
+      </div>
 
-    <div class="pass-container footer-spacer">
-      <v-card>
-        <v-tabs v-model="tab" center-active show-arrows class="menu">
-          <v-tab
-            v-for="(section, index) in componentsNames"
-            :key="index"
-            :value="section.component"
-          >
-            <v-icon start md :icon="section.icon"> </v-icon>
-            {{ section.label }}</v-tab
-          >
-        </v-tabs>
-        <v-card-text>
-          <v-window v-model="tab">
-            <v-window-item
+      <div class="pass-container footer-spacer">
+        <v-card>
+          <v-tabs v-model="tab" center-active show-arrows class="menu">
+            <v-tab
               v-for="(section, index) in componentsNames"
               :key="index"
               :value="section.component"
             >
-              <component :is="section.component" :data="data" />
-            </v-window-item>
-          </v-window>
-        </v-card-text>
-      </v-card>
+              <v-icon start md :icon="section.icon"> </v-icon>
+              {{ section.label }}</v-tab
+            >
+          </v-tabs>
+          <v-card-text>
+            <v-window v-model="tab">
+              <v-window-item
+                v-for="(section, index) in componentsNames"
+                :key="index"
+                :value="section.component"
+              >
+                <component :is="section.component" :data="data" />
+              </v-window-item>
+            </v-window>
+          </v-card-text>
+        </v-card>
+      </div>
+      <FooterComponent />
     </div>
-    <FooterComponent />
   </div>
 </template>
 
-
-
 <script>
 // @ is an alias to /src
+
 import GeneralInformation from "@/components/passport/sections/GeneralInformation.vue";
 import CellChemistry from "@/components/passport/sections/CellChemistry.vue";
 import ElectrochemicalProperties from "@/components/passport/sections/ElectrochemicalProperties.vue";
@@ -87,7 +85,7 @@ import BatteryComposition from "@/components/passport/sections/BatteryCompositio
 import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
-import Spinner from "@/components/general/Spinner.vue";
+import LoadingComponent from "../components/general/LoadingComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import CardsComponent from "@/components/passport/Cards.vue";
@@ -115,7 +113,7 @@ export default {
     Documents,
     ContractInformation,
     FooterComponent,
-    Spinner,
+    LoadingComponent,
     Alert,
     ErrorComponent,
   },
@@ -148,7 +146,6 @@ export default {
           icon: "mdi-microscope",
           component: "ElectrochemicalProperties",
         },
-
         {
           label: "Additional information",
           icon: "mdi-text-box-multiple-outline",
@@ -176,6 +173,7 @@ export default {
       version: PASSPORT_VERSION,
     };
   },
+
   async created() {
     let result = null;
     try {
@@ -225,7 +223,11 @@ export default {
         let backendService = new BackendService();
         // Get access token from IDP
         // Get the passport for the selected version
-        response = await backendService.getPassport(this.version, id, this.auth);
+        response = await backendService.getPassport(
+          this.version,
+          id,
+          this.auth
+        );
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -278,3 +280,4 @@ export default {
   },
 };
 </script>
+

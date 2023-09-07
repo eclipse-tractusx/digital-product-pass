@@ -32,7 +32,11 @@ export default createStore({
         clientId: '',
         clientSecret: '',
         sessionId: '',
-        statusData: null,
+        statusData: {
+            "data": {
+                "history": null
+            }
+        },
         processId: null,
         searchContractId: null,
     },

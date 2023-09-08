@@ -26,6 +26,7 @@ package org.eclipse.tractusx.productpass.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.type.LogicalType;
 import com.google.common.math.Stats;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -868,10 +869,13 @@ public class DataTransferService extends BaseService {
         public void run() {
             try {
                 this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.endpointId);
+                LogUtil.printWarning("DTR REQUEST:\n" + jsonUtil.toJson(this.dtrRequest, true));
                 processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
                 this.transferResponse = this.requestTransfer(dtrRequest);
+
                 processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
                 this.transfer = this.getTransferData(this.transferResponse);
+                LogUtil.printWarning("TRANSFER:\n" + jsonUtil.toJson(this.transfer, true));
                 if (this.transfer == null) {
                     return;
                 }

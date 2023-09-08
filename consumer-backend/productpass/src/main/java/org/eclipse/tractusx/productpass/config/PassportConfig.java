@@ -32,15 +32,77 @@ import java.util.List;
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
 
-    private List<String> versions;
+    private BatteryPass batteryPass;
+    private DigitalProductPass digitalProductPass;
 
-
-    public List<String> getVersions() {
-        return this.versions;
+    public BatteryPass getBatteryPass() {
+        return batteryPass;
     }
 
-    public void setVersions(List<String> versions) {
-        this.versions = versions;
+    public void setBatteryPass(BatteryPass batteryPass) {
+        this.batteryPass = batteryPass;
+    }
+
+    public DigitalProductPass getDigitalProductPass() {
+        return digitalProductPass;
+    }
+
+    public void setDigitalProductPass(DigitalProductPass digitalProductPass) {
+        this.digitalProductPass = digitalProductPass;
+    }
+
+
+    public static class BatteryPass extends DigitalProductPass {
+    }
+
+    public static class DigitalProductPass {
+        private List<String> versions;
+        private String semanticId;
+        private String aspectId;
+        private String fullSemanticId;
+
+        public DigitalProductPass(List<String> versions, String semanticId, String aspectId) {
+            this.versions = versions;
+            this.semanticId = semanticId;
+            this.aspectId = aspectId;
+        }
+
+        public DigitalProductPass() {
+        }
+
+        public List<String> getVersions() {
+            return this.versions;
+        }
+
+        public void setVersions(List<String> versions) {
+            this.versions = versions;
+        }
+
+        public String getSemanticId() {
+            return semanticId;
+        }
+
+        public void setSemanticId(String semanticId) {
+            this.semanticId = semanticId;
+        }
+
+        public String getAspectId() {
+            return aspectId;
+        }
+
+        public void setAspectId(String aspectId) {
+            this.aspectId = aspectId;
+        }
+
+        public String getFullSemanticId(String version) {
+            if (this.fullSemanticId == null) {
+                this.fullSemanticId = semanticId + ":" + versions.stream().filter(v -> v.equalsIgnoreCase(version)).findFirst().get() + "#" + aspectId;
+            }
+            return fullSemanticId;
+        }
+        private void setFullSemanticId(String semanticId, List<String> versions, String aspectId) {
+
+        }
     }
 
 }

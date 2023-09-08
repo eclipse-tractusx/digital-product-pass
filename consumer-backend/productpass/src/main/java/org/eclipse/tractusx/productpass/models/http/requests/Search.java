@@ -48,20 +48,32 @@ public class Search {
     String idType = "partInstanceId";
     @JsonProperty(value = "dtIndex", defaultValue = "0")
     Integer dtIndex = 0;
-    @JsonProperty(value = "idShort", defaultValue = "batteryPass")
-    String idShort = "batteryPass";
+    @JsonProperty(value = "idShort", defaultValue = "digitalProductPass")
+    String idShort = "digitalProductPass";
+
+    public String getSemanticId() {
+        return semanticId;
+    }
+
+    public void setSemanticId(String semanticId) {
+        this.semanticId = semanticId;
+    }
+
+    @JsonProperty(value = "semanticId")
+    String semanticId;
 
 
     public Search() {
     }
 
-    public Search(String processId, String id, String version, String idType, Integer dtIndex, String idShort) {
+    public Search(String processId, String id, String version, String idType, Integer dtIndex, String idShort, String semanticId) {
         this.processId = processId;
         this.id = id;
         this.version = version;
         this.idType = idType;
         this.dtIndex = dtIndex;
         this.idShort = idShort;
+        this.semanticId = semanticId;
     }
 
     public String getProcessId() {

@@ -44,6 +44,7 @@ import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
+import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
@@ -171,8 +172,13 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
+            Passport passport;
+            if (process.getIsDigitalProductPass()) {
+                passport = processManager.loadDigitalProductPassport(processId);
+            } else {
+                passport = processManager.loadPassport(processId);
+            }
 
-            PassportV3 passport = processManager.loadPassport(processId);
 
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");

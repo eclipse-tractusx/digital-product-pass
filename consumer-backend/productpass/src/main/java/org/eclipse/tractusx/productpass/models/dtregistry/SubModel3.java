@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SubModel3 {
     @JsonProperty("description")
@@ -36,12 +37,12 @@ public class SubModel3 {
     @JsonProperty("id")
     String identification;
     @JsonProperty("semanticId")
-    JsonNode semanticId;
+    SemanticId semanticId;
 
     @JsonProperty("endpoints")
     ArrayList<EndPoint3> endpoints;
 
-    public SubModel3(ArrayList<JsonNode> description, String idShort, String identification, JsonNode semanticId, ArrayList<EndPoint3> endpoints) {
+    public SubModel3(ArrayList<JsonNode> description, String idShort, String identification, SemanticId semanticId, ArrayList<EndPoint3> endpoints) {
         this.description = description;
         this.idShort = idShort;
         this.identification = identification;
@@ -76,11 +77,11 @@ public class SubModel3 {
         this.identification = identification;
     }
 
-    public JsonNode getSemanticId() {
+    public SemanticId getSemanticId() {
         return semanticId;
     }
 
-    public void setSemanticId(JsonNode semanticId) {
+    public void setSemanticId(SemanticId semanticId) {
         this.semanticId = semanticId;
     }
 
@@ -90,5 +91,36 @@ public class SubModel3 {
 
     public void setEndpoints(ArrayList<EndPoint3> endpoints) {
         this.endpoints = endpoints;
+    }
+
+    public static class SemanticId {
+        @JsonProperty("type")
+        String type;
+        @JsonProperty("idShort")
+        Map<String, String> keys;
+
+        public SemanticId(String type, Map<String, String> keys) {
+            this.type = type;
+            this.keys = keys;
+        }
+
+        public SemanticId() {
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Map<String, String> getKeys() {
+            return keys;
+        }
+
+        public void setKeys(Map<String, String> keys) {
+            this.keys = keys;
+        }
     }
 }

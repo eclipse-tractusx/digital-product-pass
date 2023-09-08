@@ -26,6 +26,8 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
+import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
@@ -219,6 +221,7 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search in search status file");
         }
     }
+
     public SearchStatus setSearch(String processId, Search search) {
         try {
             String path = this.getTmpProcessFilePath(processId, this.searchFileName);
@@ -611,6 +614,50 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the passport!");
         }
     }
+
+    public DigitalProductPassport loadDigitalProductPassport(String processId){
+        try {
+            String path = this.getProcessFilePath(processId, this.passportFileName);
+            History history = new History(
+                    processId,
+                    "RETRIEVED"
+            );
+            if(!fileUtil.pathExists(path)){
+                throw new ManagerException(this.getClass().getName(), "Digital Product Passport file ["+path+"] not found!");
+            }
+            DigitalProductPassport passport = null;
+            Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
+            if(encrypt){
+                Status status = this.getStatus(processId);
+                History negotiationHistory = status.getHistory("negotiation-accepted");
+                String decryptedPassportJson = CrypUtil.decryptAes(fileUtil.readFile(path), this.generateStatusToken(status, negotiationHistory.getId()));
+                // Delete passport file
+
+                passport =  (DigitalProductPassport) jsonUtil.loadJson(decryptedPassportJson, DigitalProductPassport.class);
+            }else{
+                passport =  (DigitalProductPassport) jsonUtil.fromJsonFileToObject(path, DigitalProductPassport.class);
+            }
+
+            if(passport == null){
+                throw new ManagerException(this.getClass().getName(), "Failed to load the passport");
+            }
+            Boolean deleteResponse = fileUtil.deleteFile(path);
+
+            if(deleteResponse==null){
+                LogUtil.printStatus("[PROCESS " + processId +"] Digital Product file not found, failed to delete!");
+            } else if (deleteResponse) {
+                LogUtil.printStatus("[PROCESS " + processId +"] Digital Product file deleted successfully!");
+            } else{
+                LogUtil.printStatus("[PROCESS " + processId +"] Failed to delete digital product passport file!");
+            }
+
+            this.setStatus(processId,"passport-retrieved", history);
+            return passport;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the digital product passport!");
+        }
+    }
+
     public String savePassport(String processId, DataPlaneEndpoint endpointData, Passport passport) {
         try {
             // Retrieve the configuration
@@ -623,7 +670,7 @@ public class ProcessManager {
                 // Get token content or the contractID from properties
                 String contractId = this.getContractId(endpointData);
                 if(contractId == null){
-                    throw new ManagerException(this.getClass().getName(), "The Contract Id is null! It was not possible to save the passport!");
+                    throw new ManagerException(this.getClass().getName(), "The Contract Id is null! It was not possible to save the digital product passport!");
                 }
                 passportContent = CrypUtil.encryptAes(jsonUtil.toJson(passport, prettyPrint), this.generateStatusToken(status, contractId)); // Encrypt the data with the token
             }
@@ -636,7 +683,7 @@ public class ProcessManager {
                     "RECEIVED",
                     "passport-received");
         } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the passport!");
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the digital product passport!");
         }
     }
 

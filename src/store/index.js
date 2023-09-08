@@ -34,7 +34,7 @@ export default createStore({
         sessionId: '',
         statusData: {
             "data": {
-                "history": null
+                "history": {}
             }
         },
         processId: null,

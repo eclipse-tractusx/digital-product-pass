@@ -70,8 +70,8 @@
           </v-card-text>
         </v-card>
       </div>
-      <FooterComponent />
     </div>
+    <FooterComponent />
   </div>
 </template>
 

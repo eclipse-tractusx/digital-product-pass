@@ -30,12 +30,21 @@
   .title {
     font-size: 24px;
   }
+  .timeline-container {
+    width: 60vw;
+    padding: 0 75px;
+    .text-caption-container {
+      width: 25vw;
+      line-break: anywhere;
+    }
+  }
   .dpp-id-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 54px;
+    margin-bottom: 34px;
     width: 60vw;
+
     .dpp-id {
       font-size: 20px;
       font-weight: bold;
@@ -90,17 +99,36 @@
 
 @media (max-width: 628px) {
   .loading-container {
+    width: 90vw;
+
+    .timeline-container {
+      padding: 0px;
+      width: 100vw;
+      .text-caption-container {
+        width: 50vw;
+        line-break: anywhere;
+      }
+    }
     .title {
       font-size: 16px;
     }
     .dpp-id-container {
       width: 100vw;
+      text-align: center;
 
       .dpp-id {
         font-size: 14px;
         font-weight: bold;
         line-height: 56px;
       }
+    }
+  }
+}
+
+@media (max-width: 300px) {
+  .loading-container {
+    .dpp-id-container {
+      margin-top: 50px;
     }
   }
 }

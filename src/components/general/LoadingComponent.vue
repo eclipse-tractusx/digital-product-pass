@@ -50,200 +50,94 @@
       side="end"
       align="start"
       truncate-line="both"
+      class="timeline-container"
       style="height: auto; min-width: 60vw"
     >
       <!-- Registry Search step -->
-      <v-timeline-item
-        :icon="processId ? 'mdi-check' : null"
-        :dot-color="[processId ? 'green' : 'grey']"
-        :size="processId ? 'large' : 'small'"
-        :class="{ completed: processId }"
-      >
-        <div class="d-flex">
-          <div>
-            <strong>
-              <div class="title" :class="{ 'completed-step': processId }">
-                {{ this.stepsNames.registrySearch.stepTitle }}
-              </div></strong
-            >
-            <div class="text-caption">
-              <p>
-                {{
-                  processId
-                    ? this.stepsNames.registrySearch.successStepSubtitle
-                    : this.stepsNames.registrySearch.initialStepSubtitle
-                }}
-              </p>
-              <p>{{ processId ? "Created Process Id: " + processId : "" }}</p>
-            </div>
-          </div>
-        </div>
-      </v-timeline-item>
+
+      <StepperItem
+        :condition="processId"
+        :stepTitle="this.stepsNames.registrySearch.stepTitle"
+        :successStepSubTitle="
+          this.stepsNames.registrySearch.successStepSubtitle
+        "
+        :initialStepSubTitle="
+          this.stepsNames.registrySearch.initialStepSubtitle
+        "
+        displayId
+        :idLabel="'Created Process Id: ' + processId"
+      />
       <!-- Contract Search step -->
-      <v-timeline-item
-        :icon="searchContractId ? 'mdi-check' : null"
-        :dot-color="[searchContractId ? 'green' : 'grey']"
-        :size="searchContractId ? 'large' : 'small'"
-        :class="{ completed: searchContractId }"
-      >
-        <div class="d-flex">
-          <div>
-            <strong>
-              <div
-                class="title"
-                :class="{
-                  'completed-step': searchContractId,
-                }"
-              >
-                {{ this.stepsNames.contractSearch.stepTitle }}
-              </div></strong
-            >
-            <div class="text-caption">
-              <p>
-                {{
-                  searchContractId
-                    ? this.stepsNames.contractSearch.successStepSubtitle
-                    : this.stepsNames.contractSearch.initialStepSubtitle
-                }}
-              </p>
-              <p>
-                {{ searchContractId ? "Contract Id: " + searchContractId : "" }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </v-timeline-item>
+      <StepperItem
+        :condition="searchContractId"
+        :stepTitle="this.stepsNames.contractSearch.stepTitle"
+        :successStepSubTitle="
+          this.stepsNames.contractSearch.successStepSubtitle
+        "
+        :initialStepSubTitle="
+          this.stepsNames.contractSearch.initialStepSubtitle
+        "
+        displayId
+        :idLabel="'Contract Id: ' + searchContractId"
+      />
       <!-- Contract Negotiation step -->
-      <v-timeline-item
-        :icon="
-          statusData.data.history['negotiation-accepted'] ? 'mdi-check' : null
+      <StepperItem
+        :condition="statusData.data.history['negotiation-accepted']"
+        :stepTitle="this.stepsNames.contractNegotiation.stepTitle"
+        :successStepSubTitle="
+          this.stepsNames.contractNegotiation.successStepSubtitle
         "
-        :dot-color="[
-          statusData.data.history['negotiation-accepted'] ? 'green' : 'grey',
-        ]"
-        :size="
-          statusData.data.history['negotiation-accepted'] ? 'large' : 'small'
+        :initialStepSubTitle="
+          this.stepsNames.contractNegotiation.initialStepSubtitle
         "
-        :class="{
-          completed: statusData.data.history['negotiation-accepted'],
-        }"
-      >
-        <div class="d-flex">
-          <div>
-            <strong>
-              <div
-                class="title"
-                :class="{
-                  'completed-step':
-                    statusData.data.history['negotiation-accepted'],
-                }"
-              >
-                {{ this.stepsNames.contractNegotiation.stepTitle }}
-              </div></strong
-            >
-            <div class="text-caption">
-              <p>
-                {{
-                  statusData.data.history["negotiation-accepted"]
-                    ? this.stepsNames.contractNegotiation.successStepSubtitle +
-                      statusData.data.history["negotiation-accepted"].status
-                    : this.stepsNames.contractNegotiation.initialStepSubtitle
-                }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </v-timeline-item>
+        displayId
+        :idLabel="
+          statusData.data.history['negotiation-accepted']
+            ? statusData.data.history['negotiation-accepted'].status
+            : ''
+        "
+      />
       <!-- Contract Transfer step -->
-      <v-timeline-item
-        :icon="statusData.data.history['transfer-request'] ? 'mdi-check' : null"
-        :dot-color="[
-          statusData.data.history['transfer-request'] ? 'green' : 'grey',
-        ]"
-        :size="statusData.data.history['transfer-request'] ? 'large' : 'small'"
-        :class="{
-          completed: statusData.data.history['transfer-request'],
-        }"
-      >
-        <div class="d-flex">
-          <div>
-            <strong>
-              <div
-                class="title"
-                :class="{
-                  'completed-step': statusData.data.history['transfer-request'],
-                }"
-              >
-                {{ this.stepsNames.contractTransfer.stepTitle }}
-              </div></strong
-            >
-            <div class="text-caption">
-              <p class="step-subtitle">
-                {{
-                  statusData.data.history["transfer-request"]
-                    ? this.stepsNames.contractTransfer.successStepSubtitle
-                    : this.stepsNames.contractTransfer.initialStepSubtitle
-                }}
-              </p>
-              <p>
-                {{
-                  statusData.data.history["transfer-request"]
-                    ? "Transfer Id: " +
-                      statusData.data.history["transfer-request"].id
-                    : ""
-                }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </v-timeline-item>
-      <!-- Passport Retrieval step -->
-      <v-timeline-item
-        :icon="
-          statusData.data.history['passport-received'] ? 'mdi-check' : null
+      <StepperItem
+        :condition="statusData.data.history['transfer-request']"
+        :stepTitle="this.stepsNames.contractTransfer.stepTitle"
+        :successStepSubTitle="
+          this.stepsNames.contractTransfer.successStepSubtitle
         "
-        :dot-color="[
-          statusData.data.history['passport-received'] ? 'green' : 'grey',
-        ]"
-        :size="statusData.data.history['passport-received'] ? 'large' : 'small'"
-        :class="{
-          completed: statusData.data.history['passport-received'],
-        }"
-      >
-        <div class="d-flex">
-          <div>
-            <strong>
-              <div
-                class="title"
-                :class="{
-                  'completed-step':
-                    statusData.data.history['passport-received'],
-                }"
-              >
-                {{ this.stepsNames.passportRetrieval.stepTitle }}
-              </div></strong
-            >
-            <div class="text-caption">
-              <p>
-                {{
-                  statusData.data.history["passport-received"]
-                    ? this.stepsNames.passportRetrieval.successStepSubtitle
-                    : this.stepsNames.passportRetrieval.initialStepSubtitle
-                }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </v-timeline-item>
+        :initialStepSubTitle="
+          this.stepsNames.contractTransfer.initialStepSubtitle
+        "
+        displayId
+        :idLabel="
+          statusData.data.history['transfer-request']
+            ? 'Transfer Id: ' + statusData.data.history['transfer-request'].id
+            : ''
+        "
+      />
+      <!-- Passport Retrieval step -->
+      <StepperItem
+        :condition="statusData.data.history['passport-received']"
+        :stepTitle="this.stepsNames.passportRetrieval.stepTitle"
+        :successStepSubTitle="
+          this.stepsNames.passportRetrieval.successStepSubtitle
+        "
+        :initialStepSubTitle="
+          this.stepsNames.passportRetrieval.initialStepSubtitle
+        "
+      />
     </v-timeline>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import StepperItem from "./StepperItem.vue";
 
 export default {
   name: "LoadingComponent",
+  components: {
+    StepperItem,
+  },
   data() {
     return {
       initialProgressValue: 10,

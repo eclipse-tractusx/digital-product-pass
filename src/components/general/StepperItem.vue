@@ -30,7 +30,7 @@
     <div class="timeline-item">
       <div>
         <strong>
-          <div class="title" :class="{ 'completed-step': condition }">
+          <div class="step-title" :class="{ 'completed-step': condition }">
             {{ stepTitle }}
           </div></strong
         >

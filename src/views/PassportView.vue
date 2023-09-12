@@ -29,7 +29,7 @@
       <LoadingComponent :id="id" />
     </v-container>
     <v-container v-else-if="error" class="h-100 w-100">
-      <div class="loading-container d-flex align-items-center w-100 h-100">
+      <div class="d-flex align-items-center w-100 h-100">
         <ErrorComponent
           :title="errorObj.status + ' ' + errorObj.statusText"
           :subTitle="errorObj.title"
@@ -70,8 +70,8 @@
           </v-card-text>
         </v-card>
       </div>
+      <FooterComponent />
     </div>
-    <FooterComponent />
   </div>
 </template>
 

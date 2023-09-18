@@ -23,24 +23,28 @@
 
 package utils;
 
-import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.netty.handler.codec.serialization.ObjectEncoder;
-import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import utils.exceptions.UtilException;
 
-import java.io.File;
 import java.util.*;
 
 
+/**
+ * This class consists exclusively of methods to operate on JSON type files.
+ *
+ * <p> The methods defined here are intended to load, save, parse and manipulate JSON files or objects.
+ *
+ */
 @Component
 public final class JsonUtil {
 
@@ -57,6 +61,20 @@ public final class JsonUtil {
                         data)
         );
     }
+
+    /**
+     * Loads the JSON file from the given file path and maps it to an object.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     * @param   classType
+     *          the class type to map the json structure from the file to an object.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public Object loadJson(String jsonString, Class<?> classType){
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -66,6 +84,17 @@ public final class JsonUtil {
         }
     }
 
+    /**
+     * Loads the JSON file from the given file path as a String.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     *
+     * @return  a {@code String} object with the json file data.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public String escapeJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -77,6 +106,17 @@ public final class JsonUtil {
         }
     }
 
+    /**
+     * Parses the JSON file from the given file path as an Object.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     *
+     * @return  a {@code Object} object with the json file data.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public Object parseJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -85,6 +125,20 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
+
+    /**
+     * Parses the JSON file from the given file path and maps it to the specified Class type.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     * @param   bindClass
+     *          the class type to map the json structure from the file to an object.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public Object parseJson(String jsonString, Class<?> bindClass){
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -93,13 +147,32 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to parse JSON! -> [" + e.getMessage() + "]");
         }
     }
+
+    @SuppressWarnings("Unused")
     public ObjectNode newJson(){
         return JsonNodeFactory.instance.objectNode();
     }
+
+    /**
+     * Creates an object of JsonNode type.
+     * <p>
+     *
+     * @return  a {@code JsonNode} object.
+     *
+     */
     public JsonNode newJsonNode(){
         return JsonNodeFactory.instance.objectNode();
     }
 
+    /**
+     * Checks if the given JSON file path is actually a JSON file by checking the components tree.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     *
+     * @return  true if the file is a JSON file and false otherwise or if some exception is thrown.
+     *
+     */
     public Boolean isJson(String jsonString){
         try {
             ObjectMapper mapper = new ObjectMapper()
@@ -110,6 +183,20 @@ public final class JsonUtil {
         }
         return true;
     }
+
+    /**
+     * Parses the given object into a JSON type structure with or without a pretty print.
+     * <p>
+     * @param   json
+     *          the object data to save into a JSON file.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact structure in the JSON file.
+     *
+     * @return  a {@code String} object representing the given object data with a JSON type structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public String toJson(Object json, Boolean prettyPrint){
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -122,6 +209,22 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
         }
     }
+
+    /**
+     * Parses the given object into a JSON file with or without a pretty print.
+     * <p>
+     * @param   path
+     *          the path representation to the target JSON file as a String.
+     * @param   json
+     *          the object data to save into a JSON file.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact structure in the JSON file.
+     *
+     * @return  a {@code String} object representing the path to the JSON file.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public String toJsonFile(String path, Object json, Boolean prettyPrint){
         try {
             return fileUtil.toFile(path, this.toJson(json, prettyPrint), false);
@@ -129,6 +232,19 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
+
+    /**
+     * Parses the given JSON file path to an Object.
+     * <p>
+     * @param   path
+     *          the path representation to the target JSON file as a String.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
+    @SuppressWarnings("Unused")
     public Object fromJsonFile(String path){
         try {
             String fileContent = fileUtil.readFile(path);
@@ -137,6 +253,20 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
+
+    /**
+     * Parses the given JSON file path to an object of the specified Class type.
+     * <p>
+     * @param   path
+     *          the path representation to the target JSON file as a String.
+     * @param   bindClass
+     *          the class type to map the json structure from the file to an object.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public Object fromJsonFileToObject(String path, Class<?> bindClass){
         try {
             if(!fileUtil.pathExists(path)) {
@@ -150,6 +280,19 @@ public final class JsonUtil {
         }
     }
 
+    /**
+     * Parses the given JSON file path to an object of the specified Class type.
+     * <p>
+     * @param   path
+     *          the path representation to the target JSON file as a String.
+     * @param   bindClass
+     *          the class type to map the json structure from the file to an object.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
     public Boolean keyExists(Object sourceObj,String key){
         try {
             if(sourceObj == null){

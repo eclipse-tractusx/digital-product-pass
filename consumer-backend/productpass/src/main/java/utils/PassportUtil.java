@@ -25,19 +25,22 @@
 
 package utils;
 
-import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
-import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
-import java.io.File;
 import java.nio.file.Path;
 
+/**
+ * This class consists exclusively of methods to operate on Passports.
+ *
+ * <p> The methods defined here are intended to read, save and parse Passport's type objects.
+ *
+ */
 @Component
 public class PassportUtil {
     private final JsonUtil jsonUtil;
@@ -53,6 +56,25 @@ public class PassportUtil {
         this.fileUtil = fileUtil;
         this.processManager = processManager;
     }
+
+    /**
+     * Saves the target {@code Passport} object to a JSON file.
+     * <p>
+     * @param   passport
+     *          the passport object to save.
+     * @param   endpointData
+     *          the data plane object containing information related to the endpoint from where the specified passport was retrieved.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact print of the passport into the JSON file.
+     * @param   encrypted
+     *          boolean to specify if the passport is to be saved with encryption.
+     *
+     * @return  a {@code String} object representing the target JSON file path.
+     *
+     * @throws  UtilException
+     *          if unable to save the Passport to a JSON file.
+     */
+    @SuppressWarnings("Unused")
     public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
             fileUtil.createDir(this.transferDir);
@@ -63,6 +85,25 @@ public class PassportUtil {
         }
     }
 
+    /**
+     * Saves the target {@code Passport} object to a JSON file specified by a {@code String} filePath.
+     * <p>
+     * @param   passport
+     *          the passport object to save.
+     * @param   endpointData
+     *          the data plane object containing information related to the endpoint from where the specified passport was retrieved.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact print of the passport into the JSON file.
+     * @param   encrypted
+     *          boolean to specify if the passport is to be saved with encryption.
+     * @param   filePath
+     *          the path representation to the target JSON file as a String.
+     *
+     * @return  a {@code String} object representing the target JSON file path.
+     *
+     * @throws  UtilException
+     *          if unable to save the Passport to a JSON file.
+     */
     public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted, String filePath){
         try {
             if(!encrypted) {

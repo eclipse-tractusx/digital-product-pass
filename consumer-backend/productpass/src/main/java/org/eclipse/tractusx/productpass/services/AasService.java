@@ -230,10 +230,10 @@ public class AasService extends BaseService {
 
     public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin, String semanticId) {
         try {
-            SubModel3 subModel = this.getSubModel3ById(digitalTwin, semanticId);
+            SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin, semanticId);
             LogUtil.printWarning("SUBMODEL3:\n" + jsonUtil.toJson(subModel, true));
             if (subModel == null) {
-                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3ById",
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3BySemanticId",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
             }
             return subModel;

@@ -72,10 +72,10 @@ configuration:
       digitalTwin: "/shell-descriptors"
       subModel: "/submodel-descriptors"
     timeouts:
-      search: 100
-      negotiation: 100
-      transfer: 100
-      digitalTwin: 120
+      search: 10
+      negotiation: 40
+      transfer: 10
+      digitalTwin: 20
     temporaryStorage: true
 
   discovery:

@@ -65,6 +65,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class AasService extends BaseService {
 
+    private final String submodelTypeKey = "Submodel";
     public String registryUrl;
     public Boolean central;
 
@@ -147,7 +148,13 @@ public class AasService extends BaseService {
     }
     public DigitalTwin3 searchDigitalTwin3(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
+            LogUtil.printWarning("ASSET TYPE: " + assetType);
+            LogUtil.printWarning("ASSET ID: " + assetId);
+            LogUtil.printWarning("POSITION: " + position);
+            LogUtil.printWarning("REGISTRY URL: " + registryUrl);
+            LogUtil.printWarning("DATA PLANE END POINT\n" + jsonUtil.toJson(edr, true));
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
+            LogUtil.printWarning("DIGITAL TWINS ARRAY SIZE: " + digitalTwinIds.size());
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin for the selected asset type and the the selected assetId");
@@ -160,6 +167,7 @@ public class AasService extends BaseService {
 
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin3 digitalTwin = this.getDigitalTwin3(digitalTwinId, registryUrl, edr);
+            LogUtil.printWarning("DIGITAL TWIN:\n" + jsonUtil.toJson(digitalTwin, true));
             if (digitalTwin == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
@@ -174,11 +182,6 @@ public class AasService extends BaseService {
 
     public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            LogUtil.printWarning("ASSET TYPE: " + assetType);
-            LogUtil.printWarning("ASSET ID: " + assetId);
-            LogUtil.printWarning("POSITION: " + position);
-            LogUtil.printWarning("REGISTRY URL: " + registryUrl);
-            LogUtil.printWarning("DATA PLANE END POINT\n" + jsonUtil.toJson(edr, true));
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
@@ -192,7 +195,6 @@ public class AasService extends BaseService {
 
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin digitalTwin = this.getDigitalTwin(digitalTwinId, registryUrl, edr);
-            LogUtil.printWarning("DIGITAL TWIN:\n" + jsonUtil.toJson(digitalTwin, true));
             if (digitalTwin == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
@@ -368,15 +370,15 @@ public class AasService extends BaseService {
         try {
             ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
             if (subModels.size() < 1) {
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                         "No subModel found in digitalTwin!");
             }
             // Search for first subModel with matching idShort, if it fails gives null
-            SubModel3 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().get("Submodel").equalsIgnoreCase(semanticId)).findFirst().orElse(null);
+            SubModel3 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().containsKey(submodelTypeKey) ? s.getSemanticId().getKeys().get(submodelTypeKey).equalsIgnoreCase(semanticId) : false).findFirst().orElse(null);
 
             if (subModel == null) {
                 // If the subModel idShort does not exist
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                         "SubModel for SemanticId not found!");
             }
             // Return subModel if found
@@ -505,15 +507,22 @@ public class AasService extends BaseService {
                         searchBody,
                         dtr
                 );
-                LogUtil.printWarning("Decentral DTRTransfer:\n" + jsonUtil.toJson(dtrTransfer, true));
                 Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
                 thread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getTransfer()));
+                LogUtil.printWarning("Decentral DTRTransfer:\n");
+                LogUtil.printWarning("STATUS\n" + jsonUtil.toJson(dtrTransfer.status, true));
+                LogUtil.printWarning("TRANSFER\n" + jsonUtil.toJson(dtrTransfer.transfer, true));
+                LogUtil.printWarning("DTR\n" + jsonUtil.toJson(dtrTransfer.dtr, true));
+                LogUtil.printWarning("ENDPOINT\n" + jsonUtil.toJson(dtrTransfer.endpointId, true));
+                LogUtil.printWarning("TRANSFER RESPONSE\n" + jsonUtil.toJson(dtrTransfer.transferResponse, true));
+
             }
             // TODO: Wait until transfer is finished and retrieve digital twin ids
             Thread blockThread = ThreadUtil.runThread(new DigitalTwinTimeout(this.processManager, processId));
             try {
                 if(!blockThread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getDigitalTwin()))){
                     LogUtil.printError("Timeout reached while waiting for receiving digital twin!");
+                    LogUtil.printWarning("STATUS\n" + jsonUtil.toJson(this.processManager.getStatus(processId), true));
                     return null;
                 };
             } catch (InterruptedException e) {
@@ -610,6 +619,7 @@ public class AasService extends BaseService {
 
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
+        private final String dppIdShort = "digitalProductPass";
         private DataPlaneEndpoint edr;
         private SubModel3 subModel;
         private DigitalTwin3 digitalTwin;
@@ -634,8 +644,10 @@ public class AasService extends BaseService {
         @Override
         public void run() {
             this.setDigitalTwin(searchDigitalTwin3(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            if (this.getIdShort().equalsIgnoreCase("digitalProductPass")) {
-                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), this.getSemanticId()));
+            if (this.getIdShort().equalsIgnoreCase(dppIdShort)) {
+                SubModel3 submodelTest = searchSubModel3BySemanticId(this.getDigitalTwin(), this.getIdShort());
+                LogUtil.printWarning("SUBMODEL BY SEMANTIC ID:\n" + jsonUtil.toJson(submodelTest, true));
+                this.setSubModel(searchSubModel3ById(this.getDigitalTwin(), this.getIdShort()));
             } else {
                 this.setSubModel(searchSubModel3ById(this.getDigitalTwin(), this.getIdShort()));
             }

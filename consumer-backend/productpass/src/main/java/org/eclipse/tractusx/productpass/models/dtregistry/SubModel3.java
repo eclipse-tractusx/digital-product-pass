@@ -96,7 +96,7 @@ public class SubModel3 {
     public static class SemanticId {
         @JsonProperty("type")
         String type;
-        @JsonProperty("idShort")
+        @JsonProperty("keys")
         Map<String, String> keys;
 
         public SemanticId(String type, Map<String, String> keys) {

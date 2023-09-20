@@ -35,7 +35,6 @@
     justify-content: center;
   }
 
-
   .left-container-text {
     padding: 45px 60px 45px 60px;
     margin-bottom: 18px;
@@ -201,6 +200,16 @@
       background-position: center;
     }
   }
+  .tree-row-item {
+    border-radius: 10px;
+    width: 400px;
+    background-color: #f4fbfd;
+    &::before {
+      content: "\F11EC"; // Unicode code for "mdi-plus-box-outline"
+      font-family: "Material Design Icons";
+      margin-right: 8px; // Adjust spacing between the icon and text
+    }
+  }
 }
 
 @media (max-width: 1290px) {
@@ -364,7 +373,7 @@
     .form .v-field__input {
       font-size: 12px;
     }
-    
+
     .qr-container {
       margin-bottom: 70px;
     }

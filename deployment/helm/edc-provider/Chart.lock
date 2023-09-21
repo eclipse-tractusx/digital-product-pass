@@ -1,9 +1,0 @@
-dependencies:
-- name: tractusx-connector
-  repository: https://eclipse-tractusx.github.io/charts/dev
-  version: 0.4.1
-- name: postgresql
-  repository: https://charts.bitnami.com/bitnami
-  version: 12.1.6
-digest: sha256:1f8d151c629ba0831a0b2ba66cee4ec3fdc0279767fe9af9718b9c4532dd7f2e
-generated: "2023-06-28T20:07:25.3716922+02:00"

@@ -562,7 +562,6 @@ tractusx-connector:
     
 
 postgresql:
-
   jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
   fullnameOverride: "postgresqlprovider"
   primary:
@@ -575,3 +574,4 @@ postgresql:
     database: "edc"
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
+

@@ -39,8 +39,8 @@ DIGITAL_TWIN_SUBMODEL_ID_3='61125dc3-5e6f-4f4b-838d-447432b97918'
 DIGITAL_TWIN_4='1f0ef836-40b7-4f31-a9bd-cb6a8960779e'
 DIGITAL_TWIN_SUBMODEL_ID_4='26bf39c5-68a5-43a1-8db7-d33e116a6f61'
 
-SERVER_URL='<Introduce your provider EDC url here>'
-REGISTRY_URL='<Introduce the digital twin registry url here>'
+SERVER_URL='<data-provider-url>'
+REGISTRY_URL='<registry-url>/api/v3.0/shell-descriptors'
 
 
 # put access token without 'Bearer ' prefix
@@ -58,29 +58,29 @@ echo '**************************Asset 1 **********************'
 echo
 # Create Submodel data
 echo "Create sample data for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_1}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_1}
 echo
 
 # Create a asset
 echo "Create asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create policy for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create contract definition for asset 1..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
 echo
 
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 1 and register it devo CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL
 echo
 echo
 
@@ -91,22 +91,22 @@ echo '**************************Asset 2 **********************'
 echo 
 # Create Submodel data
 echo "Create sample data for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_2}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_2}
 echo
 
 # Create a asset
 echo "Create asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create policy for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create contract definition for asset 2..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
 echo
 
 
@@ -114,7 +114,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 2 and register it devo CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" $REGISTRY_URL
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/NCR186850B.json" $REGISTRY_URL
 echo
 echo
 
@@ -123,51 +123,51 @@ echo
 echo '**************************Asset 3 **********************'
 # Create Submodel data
 echo "Create sample data for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_3}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_3}
 echo
 
 # Create a asset
 echo "Create asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create policy for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create contract definition for asset 3..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
 echo
 
 # Create a digital twin and register inside CX registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 3 and register it devo CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" $REGISTRY_URL
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/IMR18650V1.json" $REGISTRY_URL
 echo
 
 
 echo '**************************Asset 4 **********************'
 # Create Submodel data
 echo "Create sample data for asset 4..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/payloads/Y792927456954B81677903848654570.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_4}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/Y792927456954B81677903848654570.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_4}
 echo
 
 # Create a asset
 echo "Create asset 4..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/assets/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create policy for asset 4..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create contract definition for asset 4..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions
 echo
 
 
@@ -175,7 +175,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 4 and register it devo CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/Y792927456954B81677903848654570.json" $REGISTRY_URL
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/Y792927456954B81677903848654570.json" $REGISTRY_URL
 echo
 
 echo 'Provider setup completed...'

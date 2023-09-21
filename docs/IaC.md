@@ -65,3 +65,13 @@ It performs code analysis in the pipeline, show results and feedback once pipeli
 It builds, package up the code and upload results to the [veracode platform](https://analysiscenter.veracode.com). It is one of the important jobs, and must be aligned to the quality gate requirements. 
 
 Please see more details about Veracode tool integration [here](https://catenax-ng.github.io/docs/security/how-to-integrate-veracode).
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

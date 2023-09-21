@@ -23,17 +23,26 @@
 
 package org.eclipse.tractusx.productpass.listeners;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.Application;
+import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.http.controllers.api.ContractController;
+import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
+import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.eclipse.tractusx.productpass.services.VaultService;
+import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
+import org.eclipse.tractusx.productpass.models.catenax.Discovery;
+import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
+import org.eclipse.tractusx.productpass.services.CatenaXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -50,7 +59,11 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import utils.HttpUtil;
+import utils.JsonUtil;
 import utils.LogUtil;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Configuration
@@ -59,7 +72,16 @@ import utils.LogUtil;
 public class AppListener {
     @Autowired
     BuildProperties buildProperties;
+    @Autowired
+    JsonUtil jsonUtil;
 
+    @Autowired
+    DiscoveryConfig discoveryConfig;
+    @Autowired
+    CatenaXService catenaXService;
+
+    @Autowired
+    DtrConfig dtrConfig;
     @Autowired
     AuthenticationService authService;
     @Autowired
@@ -147,8 +169,23 @@ public class AppListener {
         LogUtil.printMessage(serverStartUpMessage);
         LogUtil.printMessage("========= [ LOGGING STARTED ] ================================");
         LogUtil.printMessage("Creating log file...");
+        if(!dtrConfig.getCentral()) {
+            Discovery discovery = catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
+            if (discovery == null) {
+                LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +
+                        "\nIt was not possible to start the application correctly..." +
+                        "\nPlease configure the Discovery Service Endpoint property:" +
+                        "\n\t- [application.configuration.discovery.endpoint]" +
+                        "\nMake sure that the Technical User Credentials are correctly configured:" +
+                        "\n\t- [avp.helm.clientId]" +
+                        "\n\t- [avp.helm.clientSecret]" +
+                        "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
+                        "\n\t- [application.configuration.keycloak.tokenUri]" +
+                        "\n*****************************************************************************************\n"
+                );
+            }
+        }
+       }
 
         // Store the process manager in memory
     }
-
-}

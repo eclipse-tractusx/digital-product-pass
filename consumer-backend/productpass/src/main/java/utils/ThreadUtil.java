@@ -23,8 +23,9 @@
 
 package utils;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public final class ThreadUtil {
     private ThreadUtil() {
@@ -33,6 +34,19 @@ public final class ThreadUtil {
     public static void runTask(Runnable runnable){
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(runnable);
+    }
+    public static void runTask(Callable<Void> task,String name){
+        List<Callable<Void>> taskList = new ArrayList<Callable<Void>>();
+        taskList.add(task);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try
+        {
+            executor.invokeAll(taskList);
+        }
+        catch (InterruptedException ie)
+        {
+            //do something if you care about interruption;
+        }
     }
     public static Thread runThread(Runnable runnable,String name){
         Thread thread = new Thread(runnable, name);
@@ -46,4 +60,17 @@ public final class ThreadUtil {
 
         return thread;
     }
+
+    public static void sleep(Integer milliseconds)
+    {
+        try
+        {
+            Thread.sleep(milliseconds);
+        }
+        catch(Exception e)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }

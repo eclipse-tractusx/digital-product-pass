@@ -36,8 +36,10 @@ Latest Revision Mar 30, 2023
 5. [Local Keycloak Configuration](#local-keycloak-configuration)
 6. [Helm Charts Configuration](#helm-charts-configuration)
 7. [Consumer Backend Configuration](#consumer-backend-configuration)  
-    7.1  [Backend Application Configuration](#backend-application-configuration-spring-boot)  
-    7.2  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
+    7.1  [Backend Application Configuration](#backend-application-configuration)  
+    7.2  [Spring Boot Configuration](#spring-boot-configuration)
+
+    7.3  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
 8. [Postman Collection](#postman-collection)
 9. [Secrets Management](#secrets-management)
 10. [EDC Provider Configuration](#edc-provider-configuration)  
@@ -46,6 +48,8 @@ Latest Revision Mar 30, 2023
     10.3 [Policies Configuration](#policies-configuration)    
     10.4 [Contract Definition Configuration](#contract-definition-configuration)        
     10.5 [Digital Twin Registration](#digital-twin-registration)
+11. [NOTICE](#notice)
+
 ## Introduction
 
 This guide contains all the available information for an administrator to configure, operate and deploy the Product Passport Application.  
@@ -56,11 +60,12 @@ Here you will find all the guides related with the configuration of the Product 
 
 ## Getting Started Guide
 
-To start the configuration of the Product Passport Application please follow this getting started guide:
+To start the configuration of the Product Passport Application please follow this getting started guide for configuring a local stand-alone enviroment (for all components) and install guide to install the application with frontend and backend:
 
-| Name | Location | Link |
-| ---- | -------- | ---- |
+| Name                  | Location | Link                                                                                                                                                                                     |
+|-----------------------| -------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs/GETTING-STARTED.md) |  
+| Install Guide         | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/INSTALL.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/INSTALL.md)                           |  
 
 ## Deployment Configuration
 
@@ -120,14 +125,20 @@ All the information about the backend services is described in this documentatio
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md) |
 | Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
+### Backend Application Configuration
+The configurations of log levels and other variables can be set in the following file:
 
-### Backend Application Configuration (Spring Boot)
+| Name                              | Location | Link                                                                                                                                                                                                                                         |
+|-----------------------------------| -------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+
+### Spring Boot Configuration
 
 The Consumer Backend is running over a Spring Boot server, therefore a application configuration file was created to set up mandatory parameters like the Keycloak host, and the security constrains for accessing each API and Services:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
 
 All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
 
@@ -169,39 +180,47 @@ When configuring your EDC Provider you need to take info consideration the follo
 
 **All variables are written in the following notation: ***{{ VARIABLE_NAME }}*****
 
-All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/catenax-ng/product-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
+All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/eclipse-tractusx/tractusx-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
 
 ### Asset Configuration
 
 When configurating you EDC provider you will be able to set some assets which reference to a certain endpoint.
 
-> **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the [Digital Twin Registry](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html).*
+> **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the Digital Twin Registry.*
 
 #### **Variables:**
 
-| Name | Description | Example Value |
-| ---- | -------- | ---- |
-| AssetId | Combination of Digital Twin and Sub Model UUIDs | urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
-| Description | Simple description of the asset | Battery Passport Test Data |
-| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://materialpass.int.demo.catena-x.net/provider_backend/data](https://materialpass.int.demo.catena-x.net/provider_backend/data) |
-| DigitalTwinId | Id from the Digital Twin	 | urn:uuid:32aa72de-297a-4405-9148-13e12744028a  |
-| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+| Name                    | Description                                                                                                                      | Example Value                                                                                                                                                                                                                                                                                                                                                                                                              |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AssetId                 | Combination of Digital Twin and Sub Model UUIDs                                                                                  | **Example value for asset**: 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a <br/>**Example value for registry**: digital-twin-registry                                                                                                                                                                                                                                                          |
+| AssetType               | The type of the Asset                                                                                                            | **Example value for asset**: Asset <br/>**Example value for registry**: data.core.digitalTwinRegistry                                                                                                                                                                                                                                                                                                                          |
+| Description             | Simple description of the asset                                                                                                  | Battery Passport Test Data                                                                                                                                                                                                                                                                                                                                                                                                 |
+| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry](https://materialpass.int.demo.catena-x.net/semantics/registry) |
+| DigitalTwinId           | Id from the Digital Twin	                                                                                                        | 32aa72de-297a-4405-9148-13e12744028a                                                                                                                                                                                                                                                                                                                                                                                       |
+| DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | 699f1245-f57e-4d6b-acdb-ab763665554a                                                                                                                                                                                                                                                                                                                                                                                       |
 
 
 #### **Format and Fields:**
+
 ```
 {
+    "@context": {},
     "asset": {
+        "@type": "{{AssetType}}",
+        "@id": "{{AssetId}}", 
         "properties": {
-            "asset:prop:id": "{{AssetId}}",
-            "asset:prop:description": "{{Description}}"
+            "description": "{{Description}}"
+            "contenttype": "application/json"
         }
     },
     "dataAddress": {
-        "properties": {
-            "type": "HttpData",
-            "baseUrl": "{{DataProviderEndpointUrl}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}"
-        }
+        "@type": "DataAddress",
+        "type": "HttpData",
+        "proxyPath": "true",
+        "proxyBody": "true",
+        "proxyMethod": "true",
+        "proxyQueryParams": "true",
+        "baseUrl": "{{DataProviderEndpointUrl}}"
     }
 }
 ```
@@ -229,27 +248,37 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 | Name | Description | Example Value |
 | ---- | -------- | ---- |
 | PolicyId | UUID that identifies the policy in the EDC Connector | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
-| PermissionType | DID Permission Type | dataspaceconnector:permission |
+| PermissionType | DID Permission Type | PolicyDefinitionRequestDto |
 | PermissionActionType | Defines the action allowed when the permission is assigned to an asset. In case of the usage policy the value "USE" is necessary | "USE" |
-
+| BPN                  | Consumer's Business Partner Number                                                                                               | BPNL000000000000 |
 
 #### **Format and Fields:**
 
 ```
 {
-    "id": "{{PolicyId}}",
+    "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/leftOperand"
+    },
+    "@type": "{{PermissionType}}",
+    "@id": "{{PolicyId}}",
     "policy": {
-        "prohibitions": [],
-        "obligations": [],
-        "permissions": [
-            {
-                "edctype": "{{PermissionType}}",
-                "action": {
-                    "type": "{{PermissionActionType}}"
-                },
-                "constraints": []
+		"@type": "Policy",
+		"odrl:permission" : [{
+          "odrl:action": "{{PermissionActionType}}",
+          "odrl:constraint": {
+            "odrl:constraint": {
+              "@type": "LogicalConstradev",
+              "odrl:or": [
+                {
+                  "@type": "Contraint",
+                  "odrl:leftOperand": "BusinessPartnerNumber",
+                  "odrl:operator": "EQ",
+                  "odrl:rightOperand": "{{BPN}}"
+                }
+              ]
             }
-        ]
+          }
+        }]
     }
 }
 ```
@@ -263,12 +292,12 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 #### **Variables:**
 
-| Name | Description | Example Value |
-| ---- | -------- | ---- |
-| ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df |
-| AssetId | Combination of Digital Twin and Sub Model UUIDs | urn:uuid:32aa72de-297a-4405-9148-13e12744028a-urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
-| AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
-| ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5 |
+| Name | Description | Example Value                                                                                                                                 |
+| ---- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------|
+| ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df                                                                                                          |
+| AssetId | Combination of Digital Twin and Sub Model UUIDs | **Example value for asset**: 32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a <br/> **Example value for registry**: digital-twin-registry |
+| AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
+| ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
 
 
 #### **Format and Fields:**
@@ -277,16 +306,17 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 ```
 {
-    "id": "{{ContractDefinitionId}}",
-    "criteria": [
-        {
-            "operandLeft": "asset:prop:id",
-            "operator": "=",
-            "operandRight": "{{AssetId}}"
-        }
-    ],
+    "@context": {},
+    "@id": "{{ContractDefinitionId}}",
+    "@type": "ContractDefinition",
     "accessPolicyId": "{{AccessPolicyId}}",
-    "contractPolicyId": "{{ContractPolicyId}}"
+    "contractPolicyId": "{{ContractPolicyId}}",
+    "assetsSelector" : {
+        "@type" : "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{AssetId}}"
+    }
 }
 ```
 
@@ -302,8 +332,8 @@ Once you finish the configuration, to make the endpoint public configure in the 
 
 | Name | Description | Example Value |
 | ---- | -------- | ---- |
-| DigitalTwinId | Manually generated DID that contains a UUID | urn:uuid:32aa72de-297a-4405-9148-13e12744028a |
-| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:699f1245-f57e-4d6b-acdb-ab763665554a |
+| DigitalTwinId | Manually generated DID that contains a UUID | 32aa72de-297a-4405-9148-13e12744028a |
+| DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | 699f1245-f57e-4d6b-acdb-ab763665554a |
 | PartInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
 | EDCProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) |
 | BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
@@ -317,43 +347,52 @@ Once you finish the configuration, to make the endpoint public configure in the 
 
 ```
 {
-    "description": [],
-    "globalAssetId": {
-        "value": [
-            "{{DigitalTwinId}}"
-        ]
-    },
+    "description": [
+        {
+            "language": "en",
+            "text": "Battery Passport shell descriptor"
+        }
+    ],
     "idShort": "Battery_{{PartInstanceId}}",
-    "identification": "{{DigitalTwinId}}",
+    "id": "{{DigitalTwinId}}",
     "specificAssetIds": [
         {
-            "key": "partInstanceId",
+            "name": "partInstanceId",
             "value": "{{PartInstanceId}}"
         }
     ],
     "submodelDescriptors": [
         {
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL-3.0",
+                    "protocolInformation": {
+                        "href": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [ 
+                            "1.1" 
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id={{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",dspEndpoint={{EDCProviderUrl}}/{{BPN}}",
+                        "subprotocolBodyEncoding": "plain"
+                    }
+                }
+            ],
+            "idShort": "{{SubmodelIdShort}}",
+            "id": "{{DigitalTwinSubmodelId}}",
+            "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "{{BammModelVersionId}}"
+                    }
+                ]
+            },
             "description": [
                 {
                     "language": "en",
                     "text": "Battery Passport Submodel"
-                }
-            ],
-            "idShort": "{{SubmodelIdShort}}",
-            "identification": "{{DigitalTwinSubmodelId}}",
-            "semanticId": {
-                "value": [
-                    "{{BammModelVersionId}}"
-                ]
-            },
-            "endpoints": [
-                {
-                    "interface": "EDC",
-                    "protocolInformation": {
-                        "endpointAddress": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel?content=value&extent=WithBLOBValue",
-                        "endpointProtocol": "IDS/ECLIPSE DATASPACE CONNECTOR",
-                        "endpointProtocolVersion": "0.0.1-SNAPSHOT"
-                    }
                 }
             ]
         }
@@ -366,4 +405,13 @@ Once you finish the configuration, to make the endpoint public configure in the 
 > **_NOTE:_** 
 *The BPN number is not required for the configuration of the endpoint, just **make sure that the host is pointing to the EDC Provider**.*
 
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass
 

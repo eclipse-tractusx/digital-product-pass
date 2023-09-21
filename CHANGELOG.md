@@ -23,10 +23,110 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-  
 
-## [pre-released] - [1.0.0-alpha] - 2023-07-03
-## [1.0.0] - xxxx-xx-xx
+## [released]
+## [1.0.1] - 31-08-2023
+
+## Updated
+- Fixed model parsing from payloads incoming from the `Digital Twin Registry` due to their latest hotfix.
+  - Ignored extra attributes not relevant for the Digital Product Pass application.
+  
+- Added footer License notes in the all the documents inside `/docs` to comply with the TRGs.
+
+- Updated the Trivy workflow to fix a bug related with the configuration
+
+## [released]
+## [1.0.0] - 16-08-2023
+
+# What is new?
+  
+## Added
+- Added new structure to communicate with:
+    - EDC discovery
+    - Discovery Finder
+    - BPN Discovery
+    - New digital twin registry decentralized version
+    - Integration of AAS 3.0 APIs
+- Added new `/create` API to start a new process
+- Added BPN number checks on startup to verify
+    - Added a check if the EDC Consumer Connector is accesible
+    - Added a check if the EDC Connector BPN is the same as the Backend BPN
+    - Added a check if the technical user configured is valid
+    - Added a check if the technical user configured has the same BPN number as the EDC consumer
+- Added EDC `v0.5.0` support
+    - Added new models related with the `EDC v0.5.0` upgrade
+    - Added backend compatibility with `EDC v0.4.1`
+- Added persistent storage to store contract negotiation details for the data sovereignty
+- Added the mechanism to split the Id into 3 parts `CX:<manufacturerPartId>:<serializedId>` and check the validity of the Id used
+- Added support for the following Contribution guidelines (TRG) requirements:
+    - **TRG-1.02:** Added instructions to the install.md to set up and install the application
+    - **TRG-4.02:** Added base images information to the main README.md file
+    - **TRG-4.03:** Added user and file permissions to run as a non root user
+    - **TRG-4.06:** Added contents for notice for docker images
+    - **TRG-5.01:** Added helm chart requirements, remove hostnames from the ingress and environment-specific values
+    - **TRG-5.04:** Added resource management settings to limit CPU and memory utilization
+    - **TRG-5.08:** Added comments in the helm values.yaml file
+    - **TRG-5.09:** Added helm-test workflow to verify that a released helm chart works as expected
+    - **TRG-5.10:** Added support of various Kubernetes versions particularly `v1.27`, `v1.26`, `v1.25` and `v1.24` for helm tests
+    - **TRG-5.11:** Added helm-upgrade workflow to achieve pre-release upgradeability of the helm charts
+
+## Updated
+- Updated frontend helm charts templates for fixing severe merge configuration bug
+- Updated the models to match the new Digital Twin Registry exchange
+- Optimized the processing time by adding temporary configurable processing storage
+- Updated README.md file of the digital product pass components
+- Updated pom.xml resources configuration
+- Updated ingress annotation to support various Kubernetes versions for helm tests
+- Updated the EDC `v0.5.0` configuration
+    - Updated SSI configuration in the EDC helm charts
+    - Updated Passport storage and how the contract Id key is obtained from the EDR.
+    - Updated transfer models
+    - Updated helm chart configuration to match the EDC version `v0.5.0`
+- Updated the DPP postman collection to test the registry APIs in decentralized fashion
+- Updated CONTRIBUTING.md readme file
+- Updated .helmignore to ignore environment-specific values files
+- Updated Chart.yaml by adding new variables home and sources
+- Updated the `Backend.js` service to call the `/create` backend api, with the `manufacturerPartId`,  before the actual search
+- Updated DPP documentation to align with current implemention:
+    - GETTING-STARTED.md
+    - SECRETS_MANAGEMENT.md
+    - Arc42.md
+    - Admin_Guide.md
+    - deployment/readme
+    - Fix navigation links in root readme
+    - User Manual Product Viewer App.md
+    - Consumer-backend readme
+
+## Issues Fixed
+- Fixed pom.xml resources and logging configurations to resolve the security vulnerability
+- Fixed indentation issue in a helm default values.yaml
+
+
+## Security Issues
+- Updated the sprint boot version from `3.1.0` to `3.1.2` to fix a high security vulnerability
+
+
+## [released]
+## [1.0.0-rc4] - 16-08-2023
+
+# What is new?
+
+## Updated
+
+- Changed exception from Discovery Service startup to a Critical Error message
+
+## [released]
+## [1.0.0-rc3] - 15-08-2023
+
+# What is new?
+
+## Added
+- Set security checks in values file as disabled by default
+- Updated helm docs in charts folder
+- Added comments for documentation in swagger
+
+## [pre-released]
+## [1.0.0-alpha] - 2023-07-03
 
 ## Deleted
 - Deleted the cx-backend-service from the EDC Consumer and Provider deployments 
@@ -62,6 +162,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Frontend component to display legal information
 - Added components to display more contract information.
 - Fixed bug related to backend get status, where it looped over the status received.
+- Added the AUTHORS.md
+
 
 ## Updated
 - Updated charts configurations related to the backend.

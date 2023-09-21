@@ -36,4 +36,5 @@ spec:
       name: http
   selector:
     {{- include "chart.selectorLabels" . | nindent 4 }}
+    component: frontend
 

@@ -127,6 +127,18 @@ public class AuthenticationService extends BaseService {
         if(token == null){
             return false;
         }
+        /*
+        Jwt jwtToken = httpUtil.parseToken(token);
+        // If the end user has no bpn available block
+        if(jwtToken.getPayload().containsKey("bpn")){
+            return false;
+        }
+
+        if(jwtToken.getPayload().get("bpn") != vaultService.getLocalSecret("edc.participantId")){
+            return false;
+        }
+        */
+
         UserInfo userInfo = null;
         try {
             userInfo = this.getUserInfo(token);

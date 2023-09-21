@@ -39,9 +39,8 @@ DIGITAL_TWIN_SUBMODEL_ID_3='61125dc3-5e6f-4f4b-838d-447432b97918'
 DIGITAL_TWIN_4='1f0ef836-40b7-4f31-a9bd-cb6a8960779e'
 DIGITAL_TWIN_SUBMODEL_ID_4='26bf39c5-68a5-43a1-8db7-d33e116a6f61'
 
-SERVER_URL='<Introduce your provider EDC url here>'
-REGISTRY_URL='<Introduce the digital twin registry url here>'
-
+SERVER_URL='<data-provider-url>'
+REGISTRY_URL='<registry-url/api/v3.0/shell-descriptors>'
 
 # put access token without 'Bearer ' prefix
 BEARER_TOKEN=''

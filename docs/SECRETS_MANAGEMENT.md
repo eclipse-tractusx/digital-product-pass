@@ -38,6 +38,10 @@ To access a material pass vault space, a vault token is required
 - **int/** (directory used for integration environment)
 - **dev/** (directory used for development purposes)
 - **beta/** (directory used for beta environment)
+- **int-client-secret**
+- **dev-client-secret**
+- **beta-client-secret**
+- **edc-encryption-key**
 
 To put a secret from vault, a special pattern is followed in helm values files:
 
@@ -110,3 +114,13 @@ The git hooks for this repository are set up in [yaml file](../pre-commit-config
 
 
 Setting up Git Guradian for the project [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

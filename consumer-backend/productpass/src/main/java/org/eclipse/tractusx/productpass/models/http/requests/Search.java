@@ -31,6 +31,11 @@ import jakarta.validation.constraints.NotNull;
 
 public class Search {
 
+
+    @NotNull(message = "Process Id")
+    @JsonProperty("processId")
+    String processId;
+
     @NotNull(message = "Id needs to be defined!")
     @JsonProperty("id")
     String id;
@@ -46,17 +51,26 @@ public class Search {
     @JsonProperty(value = "idShort", defaultValue = "batteryPass")
     String idShort = "batteryPass";
 
-    public Search(String id, String version, String idType, Integer dtIndex, String idShort) {
+
+    public Search() {
+    }
+
+    public Search(String processId, String id, String version, String idType, Integer dtIndex, String idShort) {
+        this.processId = processId;
         this.id = id;
         this.version = version;
         this.idType = idType;
         this.dtIndex = dtIndex;
         this.idShort = idShort;
     }
-    public Search() {
+
+    public String getProcessId() {
+        return processId;
     }
 
-
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
     public String getId() {
         return id;
     }

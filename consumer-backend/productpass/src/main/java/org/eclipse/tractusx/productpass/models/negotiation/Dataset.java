@@ -23,29 +23,67 @@
 
 package org.eclipse.tractusx.productpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dataset extends DidDocument{
     @JsonProperty("odrl:hasPolicy")
-    Set policy;
+    Object policy;
     @JsonProperty("dcat:distribution")
     List<Distribution> distributions;
 
     @JsonProperty("edc:description")
     String assetDescription;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    @JsonProperty("edc:contenttype")
+    String contentType;
     @JsonProperty("edc:id")
     String assetId;
+    @JsonProperty("edc:name")
+    String assetName;
+    @JsonProperty("edc:type")
+    String assetType;
 
-    public Dataset(String id, String type, Set policy, List<Distribution> distributions, String assetDescription, String assetId) {
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
         super(id, type);
         this.policy = policy;
         this.distributions = distributions;
         this.assetDescription = assetDescription;
+        this.contentType = contentType;
         this.assetId = assetId;
+    }
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetDescription = assetDescription;
+        this.contentType = contentType;
+        this.assetId = assetId;
+        this.assetName = assetName;
+    }
+
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName, String assetType) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetDescription = assetDescription;
+        this.contentType = contentType;
+        this.assetId = assetId;
+        this.assetName = assetName;
+        this.assetType = assetType;
     }
 
     public Dataset(String id, String type) {
@@ -56,11 +94,11 @@ public class Dataset extends DidDocument{
     }
 
 
-    public Set getPolicy() {
+    public Object getPolicy() {
         return policy;
     }
 
-    public void setPolicy(Set policy) {
+    public void setPolicy(Object policy) {
         this.policy = policy;
     }
 
@@ -86,5 +124,21 @@ public class Dataset extends DidDocument{
 
     public void setAssetId(String assetId) {
         this.assetId = assetId;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
+
+    public String getAssetName() {
+        return assetName;
+    }
+
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
     }
 }

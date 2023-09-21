@@ -16,6 +16,6 @@
         "proxyBody": "true",
         "proxyMethod": "true",
         "proxyQueryParams": "true",
-        "baseUrl": "https://materialpass.int.demo.catena-x.net/semantics/registry"
+        "baseUrl": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0"
     }
 }

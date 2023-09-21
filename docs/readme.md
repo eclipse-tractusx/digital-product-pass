@@ -45,6 +45,7 @@ Welcome to the documentation section, below you will find all the necesary docs 
 - [API Documentation](#api-documentation)
   - [Postman Collection](#postman-collection)
   - [Swagger Documetation](#swagger-documetation)
+- [NOTICE](#notice)
 <!-- TOC -->
 
 
@@ -198,3 +199,13 @@ You can also deploy the application using the [deployment guidelines](./GETTING-
 </pre>
 
 > **Note**: The port can vary if you change the port at the configuration.
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

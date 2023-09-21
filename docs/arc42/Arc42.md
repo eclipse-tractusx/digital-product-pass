@@ -20,90 +20,89 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# (CEC) ARC42 - Product Passport Consumer Application Documentation
+# (CEC) ARC42 - Digital Product Pass Application Documentation
 
 ![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
 
-Version: v2.2 <br>
-Latest Revision Mar. 30, 2023
+Version: v3.0 <br>
+Latest Revision: Aug. 11, 2023
 
 
 ## Table of Contents
  
-1. [Table of Contents](#table-of-contents)
-2. [Introduction and Goals](#introduction-and-goals)    
-    2.1 [Requirements Overview](#requirements-overview)  
-    2.2 [Quality Goals](#quality-goals)
-
-3. [Architecture Constraints](#architecture-constraints)
-
-4. [System Scope and Context](#system-scope-and-context)  
-    4.1 [Detailed Explanation from Product Passport Application](#detailed-explanation-from-product-passport-application)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1 [Product Passport Component](#product-passport-component)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1.1 [Application State Diagram](#application-state-diagram)  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.1.1.2. [Technical Integration Design](#technical-integration-design)    
-    4.2. [Business Context](#business-context)  
-    4.3 [Technical Context](#technical-context)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.1 [Runtime Environments](#runtime-environments)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2 [Container Ecosystem](#container-ecosystem)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2.1 [Kubernetes Container Platform (Gardener)](#kubernetes-container-platform-gardener)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2.2 [Containers](#containers)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.3 [CI/CD](#cicd)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.4 [Documentation Links](#documentation-links)  
-&nbsp;&nbsp;&nbsp;&nbsp; 4.3.5 [Catena-X Shared Services](#catena-x-shared-services)
-
-5. [Solution Strategy](#solution-strategy)  
-    5.1 [Architecture Diagram](#architecture-diagram)  
-    5.2 [Technology & Architecture Detail](#technology--architecture-detail)    
-&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1 [Frontend (User Interface - Client Side)](#frontend-user-interface---client-side)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.1 [Vue.js 3](#vuejs-3)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.1.1 [Vuetify](#vuetify)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1.2 [Frontend Component Description](#component-description)  
-&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2 [Backend (Server Side)](#backend-server-side)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.1. [Java 19](#java-19)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.1.1 [Spring Boot](#spring-boot)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2.2 [Backend Component Description](#component-description-1)  
-
-    5.3 [Infrastructure](#infrastructure)     
-&nbsp;&nbsp;&nbsp;&nbsp; 5.3.1 [Kubernetes and Helm Charts](#kubernetes-and-helm-charts)  
-    5.4 [Security Solution Strategy](#security-solution-strategy)   
-
-6. [Building Block View](#building-block-view)  
-    6.1 [Blackbox Overall System](#blackbox-overall-system)  
-    6.2 [Whitebox Overall System](#whitebox-overall-system)
-7. [Runtime View](#runtime-view)  
-
-8. [Deployment View](#deployment-view)    
-
-9. [Cross-Cutting Concepts](#cross-cutting-concepts)   
-
-10. [Design Decisions](#design-decisions)   
-    10.1  [History View (Landing Page)](#history-view-landing-page)  
-    10.2  [QR Code and Searching View](#qr-code-and-searching-view)   
-    10.3  [Battery Passport View](#battery-passport-view)  
-    
-11. [Quality Requirements](#quality-requirements)   
-    11.1 [Qualtiy Scenarios](#quality-scenarios)  
-
-12. [Risks and Technical Debts](#risks-and-technical-debts)  
-
-13. [Glossary](#glossary)
+- [(CEC) ARC42 - Digital Product Pass Application Documentation](#cec-arc42---digital-product-pass-application-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction and Goals](#introduction-and-goals)
+    - [Requirements Overview](#requirements-overview)
+    - [Quality Goals](#quality-goals)
+  - [Architecture Constraints](#architecture-constraints)
+  - [System Scope and Context](#system-scope-and-context)
+    - [Application State Diagram](#application-state-diagram)
+    - [Technical Integration Design](#technical-integration-design)
+      - [Start Up Services Calls](#start-up-services-calls)
+      - [Create API Diagram](#create-api-diagram)
+        - [Create Flow Diagram](#create-flow-diagram)
+      - [Search API Diagram](#search-api-diagram)
+        - [Search API Flow](#search-api-flow)
+      - [Sign API + Decline API + Cancel API + Passport API + Status API Diagram](#sign-api--decline-api--cancel-api--passport-api--status-api-diagram)
+        - [Sign Flow](#sign-flow)
+        - [Decline API Flow](#decline-api-flow)
+        - [Cancel API Flow](#cancel-api-flow)
+        - [Status API Flow](#status-api-flow)
+        - [Passport API Flow](#passport-api-flow)
+    - [Business Context](#business-context)
+    - [Technical Context](#technical-context)
+      - [Runtime Environments](#runtime-environments)
+      - [Container Ecosystem](#container-ecosystem)
+        - [Kubernetes Container platform (gardener)](#kubernetes-container-platform-gardener)
+        - [Containers](#containers)
+      - [CI/CD](#cicd)
+      - [Documentation links](#documentation-links)
+      - [Catena-X Shared Services](#catena-x-shared-services)
+  - [Solution Strategy](#solution-strategy)
+    - [Architecture Diagram](#architecture-diagram)
+  - [Technology \& Architecture Detail](#technology--architecture-detail)
+    - [Frontend (User Interface - Client Side)](#frontend-user-interface---client-side)
+      - [Vue.js 3](#vuejs-3)
+        - [Vuetify](#vuetify)
+      - [Component Description](#component-description)
+      - [Backend (Server Side)](#backend-server-side)
+        - [Java 19](#java-19)
+          - [Spring Boot](#spring-boot)
+      - [Component Description](#component-description-1)
+    - [Infrastructure](#infrastructure)
+      - [Kubernetes and Helm Charts](#kubernetes-and-helm-charts)
+    - [Security Solution Strategy](#security-solution-strategy)
+  - [Building Block View](#building-block-view)
+    - [Blackbox Overall System](#blackbox-overall-system)
+    - [Whitebox Overall System](#whitebox-overall-system)
+  - [Runtime View](#runtime-view)
+  - [Deployment View](#deployment-view)
+  - [Cross-cutting Concepts](#cross-cutting-concepts)
+  - [Design Decisions](#design-decisions)
+    - [Searching View](#searching-view)
+    - [Battery Passport View](#battery-passport-view)
+  - [Quality Requirements](#quality-requirements)
+    - [Quality Scenarios](#quality-scenarios)
+  - [Risks and Technical Debts](#risks-and-technical-debts)
+  - [Glossary](#glossary)
+  - [NOTICE](#notice)
 
 ## Introduction and Goals
 
-Within the Catena-X Network, Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
+Within the Catena-X Network, Digital Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
 
-This passports can be used for different products like **Batteries**, **Gearboxes**, etc. At the moment the only product implemented are **batteries**, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that is in development at the moment.
+This passports can be used for different products like **Batteries**, **Gearboxes**, etc. At the moment the only product implemented are **batteries**, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that will come in future versions.
 
-The product passport consumer app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
+The digital product pass app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
 
-This application is developed by the **Product Passport Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
+This application is developed by the **Digital Product Pass Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
 
 ### Requirements Overview
 
 The product passport consumer app is an web-based application developed in Vue.js, making it accessible using **standard browsers** (Chrome, Edge, Firefox, etc) for any user in the Catena-X Network.
 
-It displays a specific passport for each product, in the Catena-X network hosted in a backend system. Using the Catena-X data exchange standards to request and receive data from the network it leverages the users and roles provided by Catena-X by using the required shared components (IAM, EDC, DAPS, DT-Registry)
+It displays a specific passport for each product, in the Catena-X network hosted in a backend system. Using the Catena-X data exchange standards to request and receive data from the network it leverages the users and roles provided by Catena-X by using the required shared components (IAM, EDC, SSI, EDC Discovery, Discovery Finder and BPN Discovery) as well as the new Decentral DT-Registry.
 
 The product passport consumer app UI follows the Catena-X CI layout, keeping things simple for the user while still providing the necessary information.
 
@@ -132,29 +131,122 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 
 ## System Scope and Context
 
-The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the Digital Twin Registry, IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
+The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
-![System Scope and Context](./GraphicSystemScopeandContext.jpg)
+![System Scope and Context](./ContextDiagram.jpeg)
 
-### Detailed Explanation from Product Passport Application
+### Application State Diagram
+
+This is the state diagram that describes the flow between the frontend and backend components of the application.
+
+![Application State Design](./StateDiagram.jpeg)
+
+### Technical Integration Design
+
+Complete technical interaction overview between frontend and backend
 
 The interaction between the Product Passport Application previous the "BatteryPass" Application, the EDC Connectors, the Digital Twin registry and other services is detailed in the following page:
 
-![Detailed Explanation Product Passport App](./GraphicDetailedDPPApp.jpg)
+Here is a resume of the frontend and the backend communication.
 
-#### Product Passport Component
 
-##### Application State Diagram
+![Technical Integration Resume](./TechnicalIntegrationResume.jpeg)
 
-![Application State Design](./GraphicApplicationStateDiagram.jpg)
 
-##### Technical Integration Design
+The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
 
-![Technical Integration Design](./GraphicTechnicalIntegrationDesign.jpg)
+#### Start Up Services Calls
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html
-)
+During the start up from the backend 3 checks are performed.
 
+  1. Check the connection to the `EDC Consumer`
+  2. Check if the BPN Number from the `Backend` and the `EDC Consumer` are the same
+  3. Check if the BPN Number from the `Technical User` is the same as the `Backend` and the `EDC Consumer`
+   
+> *NOTE*: This checks can be disabled at the `configuration.security.checks` properties in the helm charts 
+
+
+If the `configuration.dtr.central` is disabled the backend will also make a call to the `Discovery Finder` service to find the `BPN Discovey` and `EDC Discovey` services.
+
+#### Create API Diagram
+The `/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.
+
+If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
+
+
+![CreateDiagram](./CreateAPI.jpeg)
+
+Here is possible to see the complete flow of the create api.
+##### Create Flow Diagram
+
+
+![CreateFlow](./CreateProcessFlow.jpeg)
+
+
+#### Search API Diagram
+
+At the `/search` API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found.
+
+A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract.
+
+![Search API](./SearchAPI.jpeg)
+
+##### Search API Flow
+Here we can see the search flow more in detail:
+
+![Search API Flow](./SearchFlow.jpeg)
+
+
+
+#### Sign API + Decline API + Cancel API + Passport API + Status API Diagram
+
+Once the user has the contract he can call the `/sign` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the framecontracts contained in the contract policy.
+
+The other option rather than `/sign` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
+
+After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/passport`.
+
+The API `/passport` will descrypt the passport file that is encrypted usint the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested.
+
+
+> *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
+
+![Sign API](./SignAPI.jpeg)
+
+##### Sign Flow 
+
+Here is described in detail how the sign flow works:
+
+![Sign API Flow](./SignFlow.jpeg)
+
+
+##### Decline API Flow
+
+Here is how the flow of decline works:
+
+![Decline API Flow](./DeclineFlow.jpeg)
+
+##### Cancel API Flow
+
+Here is how the flow of cancel works:
+
+![Cancel API Flow](./CancelFlow.jpeg)
+
+##### Status API Flow
+
+The get status API just gives the status for a existing process:
+
+![Status API Flow](./GetStatus.jpeg)
+
+
+##### Passport API Flow
+
+This API is responsible for retrieving the passport json and some metadata from the contract exchange.
+
+![Passport API Flow](./PassportRetrievalFlow.jpeg)
+
+
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/inde x.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 ### Business Context
 
@@ -201,8 +293,8 @@ At the moment, the Product Passport Application is hosted in three different env
 ##### Containers
 
 * EDC-Consumer Connector
-* Consumer-UI
-* Consumer-Backend
+* DPP-Frontend
+* DPP-Backend
 * PostgreSQL
 
 #### CI/CD
@@ -221,7 +313,7 @@ At the moment, the Product Passport Application is hosted in three different env
 
 #### Documentation links
 
-* [ARC42 Documentation](#)
+* [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
 * [Administration Guide](../admin%20guide/Admin_Guide.md)
 * [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
@@ -231,10 +323,6 @@ At the moment, the Product Passport Application is hosted in three different env
 
 * IAM with Keycloak managed by Catena-X:
   * [https://centralidp.int.demo.catena-x.net/auth/](https://centralidp.int.demo.catena-x.net/auth/)
-* DT-Registry with AAS-shell:
-  * [https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html](https://semantics.int.demo.catena-x.net/registry/swagger-ui/index.html)
-* DAPS registry: consumer endpoint registered:
-  * [https://daps1.int.demo.catena-x.net/](https://daps1.int.demo.catena-x.net/)
 * HashiCorp Vault to Store Secrets (https-certificate to access the connectors, *DB-credentials for our postgres db and Keycloak instances*):
   * [https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/](https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/)
 
@@ -414,11 +502,11 @@ It was used a basic table, the logo, the footer and the avatar from Catena-X des
 
 ![Catena-X Avatar](./GraphicAvatar.png)
 
-### QR Code and Searching View
+### Searching View
 
-The QR Code view was also design following the Catena-X buttons and search style guides
+The Search view was also design following the Catena-X buttons and search style guides
 
-![QR Code and Search View](./GraphicQRCodeView.png)
+![QR Code and Search View](./GraphicSearchView.png)
 
 ### Battery Passport View
 
@@ -430,11 +518,7 @@ The passport view was designed following using Catena-X accordion guidelines.
 
 ## Quality Requirements
 
-As the Product Passport product is part of the Catena-X Network we are required to follow the quality requirements set by the Governance and Architecture Teams.  
-
-The description of this quality gates can be found in the following documentation:
-
-**Delivery Date:** 03.03.2023
+As the Product Passport product is part of the Catena-X Network we are required to follow the quality requirements set by the Governance and Architecture Teams.
 
 ### Quality Scenarios
 
@@ -465,3 +549,13 @@ An user needs to be able to understand easily the application interface, in orde
 | Git | Is a distributed version control system: tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. |
 | DevOps | Is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. |
 | Repository | Is a database of digital content with an associated set of data management, search and access methods allowing application-independent access to the content, rather like a digital library, but with the ability to store and modify content in addition to searching and retrieving. |
+
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

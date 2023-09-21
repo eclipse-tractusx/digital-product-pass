@@ -20,27 +20,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
+kind: PersistentVolumeClaim
 apiVersion: v1
-kind: Secret
 metadata:
-  name: avp-consumer-ui-cx-registry-auth
+  name: pvc-data
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  clientId: {{ .Values.frontend.avp.helm.clientId }}
-  clientSecret: {{ .Values.frontend.avp.helm.clientSecret }}
----
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: avp-consumer-ui-edc-oauth
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  xApiKey: {{ .Values.frontend.avp.helm.xApiKey }}
-
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

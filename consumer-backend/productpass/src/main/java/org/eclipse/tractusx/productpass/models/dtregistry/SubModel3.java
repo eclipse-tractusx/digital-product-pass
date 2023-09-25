@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubModel3 {
@@ -38,6 +37,10 @@ public class SubModel3 {
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
     String idShort;
+
+    @JsonProperty("supplementalSemanticId")
+    Object supplementalSemanticId;
+
     @JsonProperty("id")
     String identification;
     @JsonProperty("semanticId")
@@ -55,6 +58,15 @@ public class SubModel3 {
     }
 
     public SubModel3() {
+    }
+
+    public SubModel3(ArrayList<JsonNode> description, String idShort, Object supplementalSemanticId, String identification, JsonNode semanticId, ArrayList<EndPoint3> endpoints) {
+        this.description = description;
+        this.idShort = idShort;
+        this.supplementalSemanticId = supplementalSemanticId;
+        this.identification = identification;
+        this.semanticId = semanticId;
+        this.endpoints = endpoints;
     }
 
     public ArrayList<JsonNode> getDescription() {
@@ -95,5 +107,13 @@ public class SubModel3 {
 
     public void setEndpoints(ArrayList<EndPoint3> endpoints) {
         this.endpoints = endpoints;
+    }
+
+    public Object getSupplementalSemanticId() {
+        return supplementalSemanticId;
+    }
+
+    public void setSupplementalSemanticId(Object supplementalSemanticId) {
+        this.supplementalSemanticId = supplementalSemanticId;
     }
 }

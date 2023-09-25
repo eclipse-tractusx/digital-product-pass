@@ -48,15 +48,15 @@
     <v-btn
       id="search-btn"
       rounded="pill"
+      append-icon="mdi-arrow-right"
       color="#0F71CB"
-      size="small"
-      class="submit-btn"
+      size="x-large"
+      class="submit-btn text-none"
       @click="onClick"
       type="submit"
       :disabled="!isContent"
     >
       Search
-      <v-icon class="icon" start md icon="mdi-arrow-right"></v-icon>
     </v-btn>
   </v-form>
 </template>

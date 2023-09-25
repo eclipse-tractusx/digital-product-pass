@@ -54,14 +54,6 @@
           icon="mdi-arrow-right"
         ></v-icon>
 
-        <v-icon
-          @click="hideWelcome"
-          size="large"
-          :class="{ hidden: isHidden }"
-          class="arrow-icon"
-          icon="mdi-arrow-left"
-        ></v-icon>
-
         <v-container class="search-page">
           <div v-if="error" class="qr-container">
             <div class="text-container">
@@ -95,8 +87,7 @@
                 <SearchInput class="search-input" />
                 <v-icon
                   class="qrScanner-btn"
-                  :class="{ hidden: !isHidden }"
-                  @click="openQRScanner"
+                  @click="hideWelcome"
                   start
                   md
                   icon="mdi-qrcode-scan"

@@ -24,8 +24,16 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [released]
+## [1.0.1] - 31-08-2023
 
+## Updated
+- Fixed model parsing from payloads incoming from the `Digital Twin Registry` due to their latest hotfix.
+  - Ignored extra attributes not relevant for the Digital Product Pass application.
+  
+- Added footer License notes in the all the documents inside `/docs` to comply with the TRGs.
 
+- Updated the Trivy workflow to fix a bug related with the configuration
 
 ## [released]
 ## [1.0.0] - 16-08-2023

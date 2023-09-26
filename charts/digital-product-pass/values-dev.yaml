@@ -122,7 +122,7 @@ backend:
         security:
           check:
             enabled: true
-            bpn: true
+            bpn: false
             edc: true
       
         dtr:

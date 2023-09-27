@@ -68,7 +68,7 @@ configuration:
     dspEndpointKey: 'dspEndpoint'
     internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
     decentralApis:
-      search: "/lookup/shells/query"
+      search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
       subModel: "/submodel-descriptors"
     timeouts:

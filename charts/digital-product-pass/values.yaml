@@ -157,7 +157,7 @@ backend:
           internalDtr: "" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           # -- decentral digital twin apis
           decentralApis:
-            search: "/lookup/shells/query"
+            search: "/lookup/shells"
             digitalTwin: "/shell-descriptors"
             subModel: "/submodel-descriptors"
           # -- timeouts for the digital twin registry async negotiation

@@ -1,0 +1,20 @@
+{
+    "@context": {
+      "dct": "https://purl.org/dc/terms/",
+      "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc": "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat": "https://www.w3.org/ns/dcat/",
+      "odrl": "http://www.w3.org/ns/odrl/2/",
+      "dspace": "https://w3id.org/dspace/v0.8/"
+    },
+    "@id": "6289e746-0390-4a4a-8cd3-3c10fb701bd7",
+    "@type": "ContractDefinition",
+    "accessPolicyId": "e3ffbbcb-1e6c-406c-91e8-cf0bf191b807",
+    "contractPolicyId": "e3ffbbcb-1e6c-406c-91e8-cf0bf191b807",
+    "assetsSelector" : {
+        "@type" : "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195"
+    }
+}

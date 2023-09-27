@@ -19,30 +19,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
----
+
 apiVersion: v2
-name: tractusx-connector
-description: |
-  A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc consumer for the DPP applicatiton.
+name: irs
+description: A Helm chart for Kubernetes
 type: application
-version: 0.3.3
-appVersion: "0.5.0"
-home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
-sources:
-  - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
-urls:
-  - https://github.com/eclipse-tractusx/tractusx-edc/releases/download/tractusx-connector-0.5.0/tractusx-connector-0.5.0.tgz
+version: 0.1.0
+appVersion: "3.4.0"
 dependencies:
-  - name: tractusx-connector
-    version: "0.5.0"
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: enabled
-  - name: postgresql
-    alias: postgresql
-    version: 12.1.6
-    repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 6.6.0
     condition: irs-helm.enabled
+  - name: tractusx-connector
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.5.0
+  - condition: postgresql.enabled
+    alias: edc-postgresql
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.1.6

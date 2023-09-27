@@ -20,15 +20,80 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-### The fully configuration is available in https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
-
-
-
+### The fully configuration is available in https://github.com/eclipse-tractusx/item-relationship-service/tree/main/charts/irs-helm
 
 ---
-# Default values for eclipse-dataspace-connector.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+
+irs-helm:
+  enabled: true
+  bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
+
+  nameOverride: "dpp-irs"
+  fullnameOverride: "dpp-irs"
+
+  # namespace: product-material-pass
+
+  irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
+
+  ingress:
+    enabled: true
+    annotations:
+      ingressClassName: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
+    hosts:
+      - host: "materialpass-irs.int.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - "materialpass-irs.int.demo.catena-x.net"
+        secretName: tls-secret
+
+  digitalTwinRegistry:
+    type: decentral
+    url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
+    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+  semanticshub:
+    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
+  bpdm:
+    url: https://partners-pool.int.demo.catena-x.net
+    bpnEndpoint: >-
+      {{- if .Values.bpdm.url }}
+      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
+      {{- end }}
+
+  minioUser: <path:material-pass/data/int/irs/minio#user>
+  minioPassword: <path:material-pass/data/int/irs/minio#password>
+  minioUrl: "http://{{ .Release.Name }}-minio:9000"
+
+  keycloak:
+    oauth2:
+      clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
+      clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+  # portal:
+  #   oauth2:
+  #     clientId:  # <portal-client-id>
+  #     clientSecret:  # <portal-client-secret>
+
+  edc:
+    controlplane:
+      endpoint:
+        data: https://materialpass-irs.int.demo.catena-x.net/consumer/management
+      apikey:
+        secret: <path:material-pass/data/int/edc/oauth#api.key>
+
+  minio:
+    nameOverride: "dpp-irs-minio"
+    fullnameOverride: "dpp-irs-minio"
+    serviceAccount:
+      create: false
+    rootUser: <path:material-pass/data/int/irs/minio#user>
+    rootPassword: <path:material-pass/data/int/irs/minio#password>
 
 tractusx-connector:
   enabled: true
@@ -89,14 +154,14 @@ tractusx-connector:
           id: "<path:material-pass/data/int/edc/ssi#clientId>"
           secretAlias: "int-client-secret"
       endpoint:
-        audience: https://materialpass.int.demo.catena-x.net/consumer
+        audience: https://materialpass-irs.int.demo.catena-x.net/consumer
 
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "materialpass-irs.int.demo.catena-x.net"
        # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -146,7 +211,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "materialpass-irs.int.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -183,77 +248,10 @@ tractusx-connector:
       transferProxyTokenSignerPublicKey: ids-daps_crt
       transferProxyTokenEncryptionAesKey: edc-encryption-key
 
-  backendService:
-     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
+  # backendService:
+  #    httpProxyTokenReceiverUrl: "https://materialpass-irs.int.demo.catena-x.net/endpoint"
 
 postgresql:
   auth:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>
-
-irs-helm:
-  enabled: true
-  bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
-
-  nameOverride: "dpp-irs"
-  fullnameOverride: "dpp-irs"
-
-  # namespace: product-material-pass
-
-  irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
-
-  ingress:
-    enabled: true
-    annotations:
-      ingressClassName: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
-    hosts:
-      - host: "materialpass-irs.int.demo.catena-x.net"
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - "materialpass-irs.int.demo.catena-x.net"
-        secretName: tls-secret
-
-  digitalTwinRegistry:
-    type: decentral
-    url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
-  semanticshub:
-    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
-  bpdm:
-    url: https://partners-pool.int.demo.catena-x.net
-    bpnEndpoint: >-
-      {{- if .Values.bpdm.url }}
-      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
-      {{- end }}
-
-  minioUser: <path:material-pass/data/int/irs/minio#user>
-  minioPassword: <path:material-pass/data/int/irs/minio#password>
-  minioUrl: "http://{{ .Release.Name }}-minio:9000"
-
-  keycloak:
-    oauth2:
-      clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
-      clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-
-  edc:
-    controlplane:
-      endpoint:
-        data: https://materialpass.int.demo.catena-x.net/consumer/management
-      apikey:
-        secret: <path:material-pass/data/int/edc/oauth#api.key>
-
-  minio:
-    nameOverride: "dpp-irs-minio"
-    fullnameOverride: "dpp-irs-minio"
-    serviceAccount:
-      create: false
-    rootUser: <path:material-pass/data/int/irs/minio#user>
-    rootPassword: <path:material-pass/data/int/irs/minio#password>

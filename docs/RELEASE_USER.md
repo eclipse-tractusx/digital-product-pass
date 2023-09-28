@@ -23,6 +23,16 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**August 31 2023 (Version 1.0.1)**
+*31.08.2023*
+
+### Updated
+
+#### Fixed the parsing of new attributes by ignoring any extra attributes incoming from the DTR.
+Due to the latest hotfix released `v0.3.15-M1` of the `Digital Twin Registry`, was necesarry
+to implement a hotfix that ignored all the extra attributes incoming from the DTR that were not relevant
+to the Digital Product Pass Application core functionality.
+
 **August 15 2023 (Version 1.0.0)**
 *15.08.2023*
 

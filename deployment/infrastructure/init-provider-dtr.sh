@@ -41,7 +41,6 @@ DIGITAL_TWIN_SUBMODEL_ID_4='26bf39c5-68a5-43a1-8db7-d33e116a6f61'
 SERVER_URL='<data-provider-url>'
 REGISTRY_URL='<registry-url/api/v3.0/shell-descriptors>'
 
-
 # put access token without 'Bearer ' prefix
 BEARER_TOKEN=''
 

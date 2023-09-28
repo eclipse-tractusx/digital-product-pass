@@ -62,6 +62,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -120,22 +121,25 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            BpnDiscovery bpnDiscovery = null;
+            List<BpnDiscovery> bpnDiscoveries = null;
             try {
-                bpnDiscovery = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
+                bpnDiscoveries = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
             } catch (Exception e) {
                 response.message = "Failed to get the bpn number from the discovery service";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            if (bpnDiscovery == null) {
+            if (bpnDiscoveries == null) {
                 response.message = "Failed to get the bpn number from the discovery service, discovery response is null";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            List<String> bpnList = bpnDiscovery.getBpnNumbers();
+            List<String> bpnList = new ArrayList<>();
+            for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
+                bpnList.addAll(bpnDiscovery.getBpnNumbers());
+            }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
@@ -148,7 +152,7 @@ public class ContractController {
             }
             // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
             if(!dtrConfig.getTemporaryStorage() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
-                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
+                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnList);
                 try {
                     edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
                 } catch (Exception e) {

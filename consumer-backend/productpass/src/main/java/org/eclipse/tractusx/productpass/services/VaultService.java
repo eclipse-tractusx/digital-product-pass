@@ -114,11 +114,11 @@ public class VaultService extends BaseService {
 
     public Object getLocalSecret(String localSecretPath) {
         try {
-            String secret = null;
+            Object secret = null;
             String filePath = this.createLocalVaultFile(true);
             Map<String, Object> content = yamlUtil.readFile(filePath);
             try {
-                secret = (String) jsonUtil.getValue(content,localSecretPath, ".",null);
+                secret =  jsonUtil.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
                 LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was an error while searching the secret ["+localSecretPath+"] in file!");
             }

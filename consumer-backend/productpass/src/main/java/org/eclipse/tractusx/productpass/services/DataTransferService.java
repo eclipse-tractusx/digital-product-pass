@@ -24,9 +24,6 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.type.LogicalType;
-import com.google.common.math.Stats;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -34,14 +31,12 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
-import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.negotiation.Properties;
 import org.eclipse.tractusx.productpass.models.negotiation.Set;
+import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +46,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
-import javax.xml.crypto.Data;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class consists exclusively of methods to operate on executing the Data Transfer operation.
+ *
+ * <p> The methods and inner classes defined here are intended to do every needed operation in order to be able to Transfer the Passport Data of a given request.
+ *
+ */
 @Service
 public class DataTransferService extends BaseService {
 
@@ -103,6 +101,13 @@ public class DataTransferService extends BaseService {
         this.transferPath = env.getProperty("configuration.edc.transfer", "");
     }
 
+    /**
+     * Creates a List of missing variables needed to proceed with the request.
+     * <p>
+     *
+     * @return an {@code Arraylist} with the environment variables missing in the configuration for the request.
+     *
+     */
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
@@ -130,6 +135,16 @@ public class DataTransferService extends BaseService {
 
         return missingVariables;
     }
+
+    /**
+     * Checks the EDC consumer connection by trying to establish a connection and retrieve an empty catalog.
+     * <p>
+     *
+     * @return a {@code String} participantId of the retrieved catalog.
+     *
+     * @throws  ControllerException
+     *           if unable to check the EDC consumer connection.
+     */
     public String checkEdcConsumerConnection() throws ControllerException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
@@ -138,10 +153,24 @@ public class DataTransferService extends BaseService {
                 throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", "The catalog response is null or the participant id is not set!");
             }
             return catalog.getParticipantId();
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
         }
     }
+
+    /**
+     * Gets the Contract Offer from the given AssetId in the given provider URL.
+     * <p>
+     * @param   assetId
+     *          the {@code String} assetId to lookup for.
+     * @param   providerUrl
+     *          the {@code String} provider URL of the asset.
+     *
+     * @return  a {@code Dataset} object with the contract offer information.
+     *
+     * @throws  ControllerException
+     *           if unable to get the contract offer for the assetId.
+     */
     public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
@@ -179,6 +208,20 @@ public class DataTransferService extends BaseService {
             throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
+
+    /**
+     * Builds a negotiation request with the given data.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the contract offer.
+     * @param   status
+     *          the {@code Status} status of the process.
+     * @param   bpn
+     *          the {@code String} BPN number from BNP discovery for the request.
+     *
+     * @return  a {@code NegotiationRequest} object with the given data.
+     *
+     */
     public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn) {
         Offer contractOffer = this.buildOffer(dataset, 0);
         return new NegotiationRequest(
@@ -188,6 +231,18 @@ public class DataTransferService extends BaseService {
                 contractOffer
         );
     }
+
+    /**
+     * Builds a negotiation request with the given data.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the offer.
+     * @param   defaultIndex
+     *          the {@code Integer} default index for the policy.
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
     public Offer buildOffer(Dataset dataset, Integer defaultIndex) {
         Object rawPolicy = dataset.getPolicy();
         Set policy = null;
@@ -205,6 +260,13 @@ public class DataTransferService extends BaseService {
                 policyCopy
         );
     }
+
+    /**
+     * This inner class consists exclusively of methods to operate on executing the Contract Negotiation  .
+     *
+     * <p> The methods defined here are intended to do every needed operation in order to be able to Negotiate the Contract.
+     *
+     */
     public class NegotiateContract implements Runnable {
         private NegotiationRequest negotiationRequest;
         private ProcessDataModel dataModel;
@@ -234,9 +296,25 @@ public class DataTransferService extends BaseService {
             this.negotiationRequest = buildRequest(dataset, status, bpn);
         }
 
+        /**
+         * Builds a transfer request with the given data.
+         * <p>
+         * @param   dataset
+         *          the {@code Dataset} data for the contract offer.
+         * @param   status
+         *          the {@code Status} object of the process.
+         * @param   negotiation
+         *          the {@code Negotiation} object for the request.
+         * @param   bpn
+         *          the {@code String} BPN number from BNP discovery for the request.
+         *
+         * @return  a {@code TransferRequest} object with the given data.
+         *
+         * @throws  ServiceException
+         *           if unable to build the transfer request.
+         */
         public TransferRequest buildTransferRequest(Dataset dataset, Status status, Negotiation negotiation, String bpn) {
             try {
-                Offer contractOffer = buildOffer(dataset, 0);
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
@@ -266,9 +344,18 @@ public class DataTransferService extends BaseService {
             }
         }
 
+        /**
+         * This method is exclusively for the Negotiation Process.
+         *
+         * <p> It's a Thread level method from Runnable interface and does the Negotiation Request, gets the Negotiation Response and saves in the Process.
+         * Also builds Transfer Request, and gets the data from the Transfer Response and save it in the Process.
+         *
+         * @throws  ServiceException
+         *           if unable to do the negotiation and/or transferring the data.
+         */
         @Override
         public void run() {
-            // NEGOTIATIONGIH PROCESS
+            // NEGOTIATION PROCESS
             try {
                 processManager.saveNegotiationRequest(processId, negotiationRequest, new IdResponse(processId, null), false);
                 this.negotiationResponse = this.requestNegotiation(this.negotiationRequest);
@@ -324,6 +411,17 @@ public class DataTransferService extends BaseService {
             LogUtil.printStatus("[PROCESS " + this.processId + "] Negotiation and Transfer Completed!");
         }
 
+        /**
+         * Gets the Negotiation data from the Negotiation Response.
+         * <p>
+         * @param   negotiationResponse
+         *          the {@code IdResponse} object with negotiation response.
+         *
+         * @return  a {@code Negotiation} object with the negotiation data.
+         *
+         * @throws  ServiceException
+         *           if unable to get negotiation data.
+         */
         public Negotiation getNegotiationData(IdResponse negotiationResponse) {
             Negotiation negotiation = null;
             try {
@@ -334,6 +432,17 @@ public class DataTransferService extends BaseService {
             return negotiation;
         }
 
+        /**
+         * Starts the negotiation by requesting it.
+         * <p>
+         * @param   negotiationRequest
+         *          the {@code NegotiationRequest} object with negotiation request data.
+         *
+         * @return  a {@code IdResponse} object with the negotiation response.
+         *
+         * @throws  ServiceException
+         *           if unable to request the negotiation.
+         */
         public IdResponse requestNegotiation(NegotiationRequest negotiationRequest) {
             IdResponse negotiationResponse = null;
             try {
@@ -349,6 +458,17 @@ public class DataTransferService extends BaseService {
             return negotiationResponse;
         }
 
+        /**
+         * Starts the transfer by requesting it.
+         * <p>
+         * @param   transferRequest
+         *          the {@code TransferRequest} object with transfer request data.
+         *
+         * @return  a {@code IdResponse} object with the transfer response.
+         *
+         * @throws  ServiceException
+         *           if unable to request the transfer.
+         */
         public IdResponse requestTransfer(TransferRequest transferRequest) {
             IdResponse transferResponse = null;
             try {
@@ -363,6 +483,17 @@ public class DataTransferService extends BaseService {
             return transferResponse;
         }
 
+        /**
+         * Gets the Transfer data from the response.
+         * <p>
+         * @param   transferData
+         *          the {@code TransferRequest} object with transfer request data.
+         *
+         * @return  a {@code IdResponse} object with the transfer response.
+         *
+         * @throws  ServiceException
+         *           if unable to request the transfer.
+         */
         public Transfer getTransferData(IdResponse transferData) {
             /*[8]=========================================*/
             // Check for transfer updates and the status

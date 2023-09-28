@@ -60,6 +60,9 @@ configuration:
       bpn: true
       edc: true
 
+  irs:
+    endpoint: "https://materialpass-irs.int.demo.catena-x.net"
+
   dtr:
     central: false
     centralUrl: 'https://semantics.int.demo.catena-x.net/registry'

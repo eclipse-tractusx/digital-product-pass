@@ -57,7 +57,7 @@ public class IrsController {
     private @Autowired IrsConfig irsConfig;
     private @Autowired IrsService irsService;
 
-    @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
+    @RequestMapping(value = "/endpoint", method = RequestMethod.GET)
     @Operation(summary = "Listening endpoint for IRS ready requests")
     public Response endpoint(@RequestBody Object body) {
         Response response = httpUtil.getInternalError();

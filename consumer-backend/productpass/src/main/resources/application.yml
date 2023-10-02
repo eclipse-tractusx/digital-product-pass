@@ -62,6 +62,8 @@ configuration:
 
   irs:
     endpoint: "https://materialpass-irs.int.demo.catena-x.net"
+    paths:
+      job: "/irs/jobs"
 
   dtr:
     central: false

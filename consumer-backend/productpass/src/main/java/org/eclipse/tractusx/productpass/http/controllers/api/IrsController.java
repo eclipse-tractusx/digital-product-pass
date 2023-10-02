@@ -35,12 +35,10 @@ import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.IrsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 @RestController
 @RequestMapping("/api/irs")
@@ -59,24 +57,20 @@ public class IrsController {
     private @Autowired IrsConfig irsConfig;
     private @Autowired IrsService irsService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    @Operation(summary = "Search for tree of ids in IRS")
-    public Response search() {
+    @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
+    @Operation(summary = "Listening endpoint for IRS ready requests")
+    public Response endpoint(@RequestBody Object body) {
         Response response = httpUtil.getInternalError();
-        // Check for authentication
-        if (!authService.isAuthenticated(httpRequest)) {
-            response = httpUtil.getNotAuthorizedResponse();
-            return httpUtil.buildResponse(response, httpResponse);
-        }
+        LogUtil.printMessage(jsonUtil.toJson(body, true));
         try {
             response = httpUtil.getResponse("IRS is not available at the moment!");
-            response.data = irsService.searchComponents(null);
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
+
 
 
 }

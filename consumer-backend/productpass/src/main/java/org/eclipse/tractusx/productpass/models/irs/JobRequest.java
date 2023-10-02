@@ -56,6 +56,9 @@ public class JobRequest {
     @JsonProperty("direction")
     String direction;
 
+    @JsonProperty("callbackUrl")
+    String callbackUrl;
+
     @JsonProperty("depth")
     Integer depth;
 
@@ -77,6 +80,16 @@ public class JobRequest {
     }
 
     public JobRequest() {
+    }
+
+    public JobRequest(ArrayList<String> aspects, String bomLifecycle, Boolean lookupBPNs, Boolean collectAspects, String direction, Integer depth, Boolean integrityCheck) {
+        this.aspects = aspects;
+        this.bomLifecycle = bomLifecycle;
+        this.lookupBPNs = lookupBPNs;
+        this.collectAspects = collectAspects;
+        this.direction = direction;
+        this.depth = depth;
+        this.integrityCheck = integrityCheck;
     }
 
     public ArrayList<String> getAspects() {

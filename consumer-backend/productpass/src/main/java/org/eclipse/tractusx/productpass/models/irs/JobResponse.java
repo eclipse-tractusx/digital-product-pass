@@ -1,0 +1,111 @@
+/*********************************************************************************
+ *
+ * Catena-X - Product Passport Consumer Backend
+ *
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ *
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+package org.eclipse.tractusx.productpass.models.irs;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
+
+import java.util.ArrayList;
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class JobResponse {
+
+    @JsonProperty("job")
+    Job job;
+    @JsonProperty("relationships")
+    ArrayList<Relationship> relationships;
+    @JsonProperty("shells")
+    ArrayList<DigitalTwin3> shells;
+    @JsonProperty("tombstones")
+    Object tombstones;
+    @JsonProperty("submodels")
+    ArrayList<JsonNode> submodels;
+    @JsonProperty("bpns")
+    ArrayList<String> bpns;
+
+    public JobResponse(Job job, ArrayList<Relationship> relationships, ArrayList<DigitalTwin3> shells, Object tombstones, ArrayList<JsonNode> submodels, ArrayList<String> bpns) {
+        this.job = job;
+        this.relationships = relationships;
+        this.shells = shells;
+        this.tombstones = tombstones;
+        this.submodels = submodels;
+        this.bpns = bpns;
+    }
+
+    public JobResponse() {
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public ArrayList<Relationship> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(ArrayList<Relationship> relationships) {
+        this.relationships = relationships;
+    }
+
+    public ArrayList<DigitalTwin3> getShells() {
+        return shells;
+    }
+
+    public void setShells(ArrayList<DigitalTwin3> shells) {
+        this.shells = shells;
+    }
+
+    public Object getTombstones() {
+        return tombstones;
+    }
+
+    public void setTombstones(Object tombstones) {
+        this.tombstones = tombstones;
+    }
+
+    public ArrayList<JsonNode> getSubmodels() {
+        return submodels;
+    }
+
+    public void setSubmodels(ArrayList<JsonNode> submodels) {
+        this.submodels = submodels;
+    }
+
+    public ArrayList<String> getBpns() {
+        return bpns;
+    }
+
+    public void setBpns(ArrayList<String> bpns) {
+        this.bpns = bpns;
+    }
+}

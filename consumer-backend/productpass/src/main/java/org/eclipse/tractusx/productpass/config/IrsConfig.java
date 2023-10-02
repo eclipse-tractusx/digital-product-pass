@@ -33,11 +33,15 @@ import org.springframework.context.annotation.Configuration;
 public class IrsConfig {
     String endpoint;
 
-    public IrsConfig(String endpoint) {
-        this.endpoint = endpoint;
-    }
+    Paths paths;
+
 
     public IrsConfig() {
+    }
+
+    public IrsConfig(String endpoint, Paths paths) {
+        this.endpoint = endpoint;
+        this.paths = paths;
     }
 
     public String getEndpoint() {
@@ -47,4 +51,32 @@ public class IrsConfig {
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
+
+    public Paths getPaths() {
+        return paths;
+    }
+
+    public void setPaths(Paths paths) {
+        this.paths = paths;
+    }
+
+    public static class Paths{
+        String job;
+
+        public Paths(String job) {
+            this.job = job;
+        }
+
+        public Paths() {
+        }
+
+        public String getJob() {
+            return job;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+    }
+
 }

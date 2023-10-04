@@ -92,6 +92,18 @@ public class JobRequest {
         this.integrityCheck = integrityCheck;
     }
 
+    public JobRequest(ArrayList<String> aspects, String bomLifecycle, Boolean lookupBPNs, Boolean collectAspects, String direction, Integer depth, Boolean integrityCheck, Key key,  String callbackUrl) {
+        this.aspects = aspects;
+        this.bomLifecycle = bomLifecycle;
+        this.lookupBPNs = lookupBPNs;
+        this.collectAspects = collectAspects;
+        this.direction = direction;
+        this.callbackUrl = callbackUrl;
+        this.depth = depth;
+        this.integrityCheck = integrityCheck;
+        this.key = key;
+    }
+
     public ArrayList<String> getAspects() {
         return aspects;
     }
@@ -158,6 +170,14 @@ public class JobRequest {
 
     public void setKey(String globalAssetId, String bpn) {
         this.key = new Key(globalAssetId, bpn);
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

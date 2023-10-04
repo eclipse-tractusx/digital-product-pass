@@ -56,7 +56,7 @@ configuration:
 
   security:
     check:
-      enabled: true
+      enabled: false
       bpn: true
       edc: true
 
@@ -64,6 +64,9 @@ configuration:
     endpoint: "https://materialpass-irs.int.demo.catena-x.net"
     paths:
       job: "/irs/jobs"
+    tree:
+      fileName: "treeDataModel"
+      indent: true
 
   dtr:
     central: false

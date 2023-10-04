@@ -28,8 +28,10 @@ import org.checkerframework.checker.units.qual.K;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.irs.Job;
 import org.eclipse.tractusx.productpass.models.irs.JobRequest;
@@ -51,7 +53,6 @@ import java.util.Map;
  *
  * <p> It contains all the methods and properties to communicate with the IRS Service.
  * Its is called by the IRS Controller and can be used by managers to update information.
- *
  */
 @Service
 public class IrsService extends BaseService {
@@ -65,29 +66,32 @@ public class IrsService extends BaseService {
 
     AuthenticationService authService;
     IrsConfig irsConfig;
+    TreeManager treeManager;
     VaultService vaultService;
+
     @Autowired
-    public IrsService(Environment env, IrsConfig irsConfig, HttpUtil httpUtil,VaultService vaultService, JsonUtil jsonUtil,AuthenticationService authService) throws ServiceInitializationException {
+    public IrsService(Environment env, IrsConfig irsConfig, TreeManager treeManager, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
         this.irsConfig = irsConfig;
+        this.treeManager = treeManager;
         this.vaultService = vaultService;
         this.init(env);
     }
 
-    public Object startJob(String globalAssetId) throws ServiceException{
+    public Object startJob(String globalAssetId) throws ServiceException {
         try {
             // In case the BPN is not known use the backend BPN.
             return this.startJob(globalAssetId, (String) this.vaultService.getLocalSecret("edc.bpn"));
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"startJob",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "startJob",
                     e,
                     "It was not possible to start a IRS job! Because of invalid BPN configuration!");
         }
     }
 
-    public Map<String, String> startJob(String globalAssetId, String bpn){
+    public Map<String, String> startJob(String globalAssetId, String bpn) {
         try {
             this.checkEmptyVariables();
             String url = this.irsEndpoint + "/" + this.irsJobPath;
@@ -108,10 +112,20 @@ public class IrsService extends BaseService {
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Map<String, String>) jsonUtil.bindJsonNode(result, Map.class);
-        }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"startJob",
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "startJob",
                     e,
                     "It was not possible to start a IRS job!");
+        }
+    }
+
+    public String getChildren(String processId, DigitalTwin3 digitalTwin, String bpn) {
+        try {
+            Map<String, String> irsResponse = this.startJob(digitalTwin.getGlobalAssetId(), bpn);
+            this.treeManager.newTreeFile(processId, digitalTwin);
+            return irsResponse.get("id");
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getChildren", e, "It was not possible to get the children for the digital twin [" + digitalTwin.getIdentification() + "]");
         }
     }
 
@@ -143,7 +157,7 @@ public class IrsService extends BaseService {
         return missingVariables;
     }
 
-    public void init(Environment env){
+    public void init(Environment env) {
         this.irsEndpoint = this.irsConfig.getEndpoint();
         this.irsJobPath = this.irsConfig.getPaths().getJob();
     }

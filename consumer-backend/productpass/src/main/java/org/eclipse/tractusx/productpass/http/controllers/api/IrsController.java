@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.IrsService;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.*;
 import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.LogUtil;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/irs")
@@ -55,15 +58,52 @@ public class IrsController {
     private @Autowired JsonUtil jsonUtil;
 
     private @Autowired IrsConfig irsConfig;
+
     private @Autowired IrsService irsService;
 
-    @RequestMapping(value = "/endpoint", method = RequestMethod.GET)
-    @Operation(summary = "Listening endpoint for IRS ready requests")
-    public Response endpoint(@RequestBody Object body) {
+    @RequestMapping(value = "/{processId}/ready", method = RequestMethod.GET)
+    @Operation(summary = "Endpoint called by the IRS to set status completed")
+    public Response endpoint( @PathVariable String processId) {
         Response response = httpUtil.getInternalError();
-        LogUtil.printMessage(jsonUtil.toJson(body, true));
+        LogUtil.printMessage(jsonUtil.toJson(httpRequest, true));
         try {
             response = httpUtil.getResponse("IRS is not available at the moment!");
+            return httpUtil.buildResponse(response, httpResponse);
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+    }
+
+    @RequestMapping(value = "/{processId}/tree", method = RequestMethod.GET)
+    @Operation(summary = "Api called by the frontend to obtain the tree of components")
+    public Response tree( @PathVariable String processId) {
+        Response response = httpUtil.getInternalError();
+        if (!authService.isAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        try {
+            response = httpUtil.getResponse("IRS is not available at the moment!");
+            return httpUtil.buildResponse(response, httpResponse);
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+    }
+
+    @RequestMapping(value = "/{processId}/tree/create", method = RequestMethod.POST)
+    @Operation(summary = "Api called by the frontend to obtain the tree of components")
+    public Response create(@PathVariable String processId, @RequestBody String body) {
+        Response response = httpUtil.getInternalError();
+        if (!authService.isAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        String jobId = this.irsService.getChildren(processId,(DigitalTwin3) jsonUtil.loadJson(body, DigitalTwin3.class), "BPNL00000000CBA5");
+        try {
+            response = httpUtil.getResponse("IRS Job created!");
+            response.data = Map.of("jobId",jobId);
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();

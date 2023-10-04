@@ -47,6 +47,7 @@ import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
+import org.eclipse.tractusx.productpass.services.IrsService;
 import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -78,6 +79,9 @@ public class AppController {
     PassportUtil passportUtil;
     @Autowired
     AasService aasService;
+
+    @Autowired
+    IrsService irsService;
     @Autowired
     DataPlaneService dataPlaneService;
 
@@ -182,9 +186,11 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
+            String bpn =  dtr.getBpn();
             processManager.setEndpoint(processId, connectorAddress);
-            processManager.setBpn(processId, dtr.getBpn());
+            processManager.setBpn(processId,bpn);
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
+            irsService.getChildren(processId, digitalTwin, bpn);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,

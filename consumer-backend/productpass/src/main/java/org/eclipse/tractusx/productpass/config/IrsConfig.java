@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.productpass.config;
 
+import com.sun.source.tree.Tree;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,16 +34,20 @@ import org.springframework.context.annotation.Configuration;
 public class IrsConfig {
     String endpoint;
 
+    TreeConfig tree;
+
     Paths paths;
 
 
     public IrsConfig() {
     }
 
-    public IrsConfig(String endpoint, Paths paths) {
+    public IrsConfig(String endpoint, TreeConfig tree, Paths paths) {
         this.endpoint = endpoint;
+        this.tree = tree;
         this.paths = paths;
     }
+
 
     public String getEndpoint() {
         return endpoint;
@@ -58,6 +63,49 @@ public class IrsConfig {
 
     public void setPaths(Paths paths) {
         this.paths = paths;
+    }
+
+    public TreeConfig getTree() {
+        return tree;
+    }
+
+    public void setTree(TreeConfig tree) {
+        this.tree = tree;
+    }
+
+
+    public static class TreeConfig{
+        String fileName;
+
+        Boolean indent;
+
+        public TreeConfig(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public TreeConfig(String fileName, Boolean indent) {
+            this.fileName = fileName;
+            this.indent = indent;
+        }
+
+        public TreeConfig() {
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public Boolean getIndent() {
+            return indent;
+        }
+
+        public void setIndent(Boolean indent) {
+            this.indent = indent;
+        }
     }
 
     public static class Paths{

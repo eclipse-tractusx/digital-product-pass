@@ -38,6 +38,67 @@ export default createStore({
                 }
             }
         },
+        irsData: {
+            "id": "CX:XYZ78901:IMR18650V1",
+            "label": "EV Baterry",
+            "nodes": [
+                {
+                    "id": "CX:XYZ78901:IMR18650V1",
+                    "label": "Modules",
+                    "link": "https://github.com/",
+                    "nodes": [
+                        {
+                            "id": "CX:XYZ78901:IMR18650V1",
+                            "label": "Cell 01",
+                            "link": "https://github.com/",
+                            "nodes": [
+                                {
+                                    "id": "CX:XYZ78901:IMR18650V1",
+                                    "label": "Anode",
+                                    "nodes": [
+                                        {
+                                            "id": "CX:XYZ78901:IMR18650V1",
+                                            "label": "Graphite"
+                                        },
+                                        {
+                                            "id": "CX:XYZ78901:IMR18650V1",
+                                            "label": "Lithium"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "CX:XYZ78901:IMR18650V1",
+                                    "label": "Cathode",
+                                    "nodes": [
+                                        {
+                                            "id": "CX:XYZ78901:IMR18650V1",
+                                            "label": "Cobalt"
+                                        },
+                                        {
+                                            "id": "CX:XYZ78901:IMR18650V1",
+                                            "label": "Mangan"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "CX:XYZ78901:IMR18650V1",
+                            "label": "Cell 02"
+                        },
+                        {
+                            "id": "CX:XYZ78901:IMR18650V1",
+                            "label": "Cell 03"
+                        }
+                    ]
+                },
+                {
+                    "id": "CX:XYZ78901:IMR18650V1",
+                    "label": "Cabels",
+                    "link": "https://github.com/"
+                }
+            ]
+        },
         processId: null,
         searchContractId: null,
     },
@@ -73,6 +134,9 @@ export default createStore({
         },
         setStatusData(state, data) {
             state.statusData = data;
+        },
+        setIrsData(state, data) {
+            state.irsData = data;
         },
         setSearchContractId(state, contractId) {
             state.searchContractId = contractId;

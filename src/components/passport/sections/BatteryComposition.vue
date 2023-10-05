@@ -23,57 +23,22 @@
 <template v-if="propsData">
   <div class="section">
     <v-container class="ma-0">
-      <v-row class="section">
-        <v-col
-          sm="12"
-          md="12"
-          class="pa-0 ma-0"
-          style="display: flex; margin-bottom: 12px"
-        >
-          <AttributeField
-            data-cy="composition"
-            icon="mdi-newspaper-variant-outline"
-            :attributes-list="propsData.compositionOfBattery"
-            label="Main Battery Composites"
-            style="background: #f9f9f9; min-width: 300px"
-          />
-          <Field
-            icon="mdi-select-all"
-            label="Critical raw materials"
-            :value="propsData.criticalRawMaterials"
-            style="min-width: 300px"
-          />
-        </v-col>
-      </v-row>
+      <RecursiveTree :treeData="irsData" />
     </v-container>
   </div>
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
-import Field from "../Field.vue";
+import RecursiveTree from "../../general/RecursiveTree.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "BatteryComposition",
   components: {
-    AttributeField,
-    Field,
+    RecursiveTree,
   },
-  props: {
-    sectionTitle: {
-      type: String,
-      default: "",
-    },
-    data: {
-      type: Object,
-      default: Object,
-    },
-  },
-  data() {
-    return {
-      toggle: false,
-      propsData: this.$props.data.passport.composition,
-    };
+  computed: {
+    ...mapState(["irsData"]),
   },
 };
 </script>

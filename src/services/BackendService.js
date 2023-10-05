@@ -240,6 +240,26 @@ export default class BackendService {
                 });
         });
     }
+    async getIRSdata() {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}`)
+                .then((response) => {
+                    // Setting the data to the Store state
+                    store.commit('setIrsData', response.data);
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+
+                });
+        });
+    }
     async retrievePassport(negotiation, authentication) {
         return new Promise(resolve => {
             let body = this.getRequestBody(negotiation);

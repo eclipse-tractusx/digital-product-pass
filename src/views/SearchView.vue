@@ -25,7 +25,7 @@
   <div class="home-page-container">
     <div class="left-container" :class="{ hidden: isHidden }">
       <div class="left-container-text">
-        <!-- <h2>Catena-X Battery Passport</h2>
+        <h2>Catena-X Battery Passport</h2>
         <p>
           The term "Battery Passport" refers to a digital document that contains
           essential information about a battery, specifically in the context of
@@ -34,16 +34,7 @@
           health status, and lifecycle data. The purpose of a Battery Passport
           is to facilitate proper maintenance, servicing, and recycling of the
           battery, while also enabling traceability and compliance.
-        </p> -->
-        <Tree
-          :nodes="data"
-          :search-text="searchText"
-          :use-icon="false"
-          show-child-count
-          @nodeExpanded="onNodeExpanded"
-          @update:nodes="onUpdate"
-          @nodeClick="onNodeClick"
-        />
+        </p>
       </div>
       <div class="img-container">
         <img :src="BatteryScanning" class="image" alt="Battery scanning" />
@@ -61,14 +52,6 @@
           :class="{ hidden: !isHidden }"
           class="arrow-icon"
           icon="mdi-arrow-right"
-        ></v-icon>
-
-        <v-icon
-          @click="hideWelcome"
-          size="large"
-          :class="{ hidden: isHidden }"
-          class="arrow-icon"
-          icon="mdi-arrow-left"
         ></v-icon>
 
         <v-container class="search-page">
@@ -104,8 +87,7 @@
                 <SearchInput class="search-input" />
                 <v-icon
                   class="qrScanner-btn"
-                  :class="{ hidden: !isHidden }"
-                  @click="openQRScanner"
+                  @click="hideWelcome"
                   start
                   md
                   icon="mdi-qrcode-scan"
@@ -135,16 +117,11 @@ import BatteryScanning from "../media/battery-img.jpeg";
 import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
 
-import Tree from "vue3-tree";
-import "vue3-tree/dist/style.css";
-import { ref } from "vue";
-
 export default {
   name: "QRScannerView",
   components: {
     QrcodeStream,
     SearchInput,
-    Tree,
   },
   data() {
     return {
@@ -156,44 +133,7 @@ export default {
   },
   setup() {
     SearchInput;
-    const data = ref([
-      {
-        id: 1,
-        label: "Animal",
-        nodes: [
-          {
-            id: 2,
-            label: "Dog",
-          },
-          {
-            id: 3,
-            label: "Cat",
-            nodes: [
-              {
-                id: 4,
-                label: "Egyptian Mau Cat",
-              },
-              {
-                id: 5,
-                label: "Japanese Bobtail Cat",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 6,
-        label: "People",
-      },
-    ]);
-    const onNodeExpanded = (node, state) => {
-      console.log("state: ", state);
-      console.log("node: ", node);
-    };
     return {
-      data,
-      onNodeExpanded,
-
       BatteryScanning,
       LogotypeDPP,
       CatenaLogo,
@@ -254,6 +194,3 @@ export default {
   },
 };
 </script>
-
-<style >
-</style>

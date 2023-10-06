@@ -172,13 +172,7 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            Passport passport;
-            if (process.getIsDigitalProductPass()) {
-                passport = processManager.loadDigitalProductPassport(processId);
-            } else {
-                passport = processManager.loadPassport(processId);
-            }
-
+            Passport passport = processManager.loadDigitalProductPassport(processId);
 
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");

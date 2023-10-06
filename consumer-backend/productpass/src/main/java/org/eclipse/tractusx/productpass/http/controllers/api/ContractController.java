@@ -229,16 +229,13 @@ public class ContractController {
             }
 
             List<String> versions;
-            boolean isDigitalProductPass;
             if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
                 versions = passportConfig.getDigitalProductPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
                 LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-                isDigitalProductPass = true;
             } else {
                 versions = passportConfig.getBatteryPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
-                isDigitalProductPass = false;
             }
 
             // Initialize variables
@@ -266,7 +263,6 @@ public class ContractController {
                     return httpUtil.buildResponse(response, httpResponse);
                 }
                 process = processManager.createProcess(processId, httpRequest);
-                process.setIsDigitalProductPass(isDigitalProductPass);
                 Status status = processManager.getStatus(processId);
                 if (status == null) {
                     response = httpUtil.getBadRequest("The status is not available!");

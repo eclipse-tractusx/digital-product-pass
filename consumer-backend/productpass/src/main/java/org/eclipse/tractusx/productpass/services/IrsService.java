@@ -66,7 +66,7 @@ public class IrsService extends BaseService {
 
     String irsEndpoint;
     String irsJobPath;
-
+    String callbackUrl;
     AuthenticationService authService;
     IrsConfig irsConfig;
     ProcessManager processManager;
@@ -105,7 +105,7 @@ public class IrsService extends BaseService {
             String url = this.irsEndpoint + "/" + this.irsJobPath;
             // Build the Job request for the IRS
 
-            String backendUrl = InetAddress.getLocalHost().getCanonicalHostName() + "/api/irs/" + processId;
+            String backendUrl = this.callbackUrl +"/" + processId;
             Map<String, String> params = Map.of(
                     "id", globalAssetId,
                     "state", "COMPLETED"
@@ -180,5 +180,6 @@ public class IrsService extends BaseService {
     public void init(Environment env) {
         this.irsEndpoint = this.irsConfig.getEndpoint();
         this.irsJobPath = this.irsConfig.getPaths().getJob();
+        this.callbackUrl = this.irsConfig.getCallbackUrl();
     }
 }

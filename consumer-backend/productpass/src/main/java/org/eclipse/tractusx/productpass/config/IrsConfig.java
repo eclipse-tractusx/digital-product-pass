@@ -38,6 +38,8 @@ public class IrsConfig {
 
     Paths paths;
 
+    String callbackUrl;
+
 
     public IrsConfig() {
     }
@@ -46,6 +48,13 @@ public class IrsConfig {
         this.endpoint = endpoint;
         this.tree = tree;
         this.paths = paths;
+    }
+
+    public IrsConfig(String endpoint, TreeConfig tree, Paths paths, String callbackUrl) {
+        this.endpoint = endpoint;
+        this.tree = tree;
+        this.paths = paths;
+        this.callbackUrl = callbackUrl;
     }
 
 
@@ -71,6 +80,14 @@ public class IrsConfig {
 
     public void setTree(TreeConfig tree) {
         this.tree = tree;
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 
 

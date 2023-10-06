@@ -136,6 +136,6 @@ public class Process {
     }
 
     public void setIsDigitalProductPass(boolean isDigitalProductPass) {
-        isDigitalProductPass = isDigitalProductPass;
+        this.isDigitalProductPass = isDigitalProductPass;
     }
 }

@@ -147,7 +147,7 @@ public class SubModel3 {
          **/
         @JsonIgnoreProperties(ignoreUnknown = true)
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        public class Key {
+        static public class Key {
 
             /** ATTRIBUTES **/
             @JsonProperty("type")
@@ -157,6 +157,11 @@ public class SubModel3 {
 
             /** CONSTRUCTOR(S) **/
             public Key() {}
+
+            public Key(String type, String value) {
+                this.type = type;
+                this.value = value;
+            }
 
             /** GETTERS AND SETTERS **/
             public String getType() { return type; }

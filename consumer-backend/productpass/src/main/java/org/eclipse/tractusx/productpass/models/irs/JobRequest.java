@@ -91,7 +91,16 @@ public class JobRequest {
         this.depth = depth;
         this.integrityCheck = integrityCheck;
     }
-
+    public JobRequest(ArrayList<String> aspects, String bomLifecycle, Boolean lookupBPNs, Boolean collectAspects, String direction, Integer depth, Boolean integrityCheck, String callbackUrl) {
+        this.aspects = aspects;
+        this.bomLifecycle = bomLifecycle;
+        this.lookupBPNs = lookupBPNs;
+        this.collectAspects = collectAspects;
+        this.direction = direction;
+        this.callbackUrl = callbackUrl;
+        this.depth = depth;
+        this.integrityCheck = integrityCheck;
+    }
     public JobRequest(ArrayList<String> aspects, String bomLifecycle, Boolean lookupBPNs, Boolean collectAspects, String direction, Integer depth, Boolean integrityCheck, Key key,  String callbackUrl) {
         this.aspects = aspects;
         this.bomLifecycle = bomLifecycle;

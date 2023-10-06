@@ -128,6 +128,7 @@ public class HttpUtil {
         }
         return token;
     }
+    /*
     public  String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
@@ -142,8 +143,9 @@ public class HttpUtil {
             finalUrl.append("?").append(entry.getKey()).append("=").append(value);
         }
         return finalUrl.toString();
-    }
-    public  String mapToParams(Map<String, ?> params, Boolean encode){
+    }*/
+
+    public String mapToParams(Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder();
         for(Map.Entry<String, ?> entry : params.entrySet()){
 
@@ -348,6 +350,14 @@ public class HttpUtil {
             builder.queryParam(entry.getKey(), entry.getValue());
         }
         return builder.build(encoded).toUri();
+    }
+
+    public  String buildUrl(String url, Map<String, ?> params, Boolean encoded){
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
+        return builder.build(encoded).toUriString();
     }
 
     /**************************************************

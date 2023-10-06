@@ -47,6 +47,8 @@ public class Status {
     @JsonProperty("modified")
     public Long modified;
 
+    @JsonProperty("jobs")
+    public Map<String, String> jobs;
 
     @JsonProperty("endpoint")
     public String endpoint;
@@ -155,6 +157,18 @@ public class Status {
         this.bpn = bpn;
         this.history = Map.of(historyId, history);
     }
+
+    public Status(String id, String status, Long created, Long modified, Map<String, String> jobs, String endpoint, String bpn, Map<String, History> history) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.jobs = jobs;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.history = history;
+    }
+
     public String getId() {
         return id;
     }
@@ -229,6 +243,21 @@ public class Status {
 
     public void setBpn(String bpn) {
         this.bpn = bpn;
+    }
+
+    public Map<String, String> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Map<String, String> jobs) {
+        this.jobs = jobs;
+    }
+
+    public void addJobId(String globalAssetId, String jobId){
+        this.jobs.put(globalAssetId, jobId);
+    }
+    public String getJobId(String globalAssetId){
+        return this.jobs.get(globalAssetId);
     }
 }
 

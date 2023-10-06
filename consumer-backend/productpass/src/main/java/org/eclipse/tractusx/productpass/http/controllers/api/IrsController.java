@@ -61,12 +61,14 @@ public class IrsController {
 
     private @Autowired IrsService irsService;
 
-    @RequestMapping(value = "/{processId}/ready", method = RequestMethod.GET)
+    @RequestMapping(value = "/{processId}", method = RequestMethod.GET)
     @Operation(summary = "Endpoint called by the IRS to set status completed")
-    public Response endpoint( @PathVariable String processId) {
+    public Response endpoint(@PathVariable String processId, @RequestParam String id, @RequestParam String state) {
         Response response = httpUtil.getInternalError();
         LogUtil.printMessage(jsonUtil.toJson(httpRequest, true));
         try {
+            LogUtil.printMessage("["+processId+"] Requesting Job ["+id+"] after state ["+state+"]");
+            LogUtil.printMessage(jsonUtil.toJson(this.irsService.getJob(id), true));
             response = httpUtil.getResponse("IRS is not available at the moment!");
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
@@ -102,6 +104,7 @@ public class IrsController {
         }
         String jobId = this.irsService.getChildren(processId,(DigitalTwin3) jsonUtil.loadJson(body, DigitalTwin3.class), "BPNL00000000CBA5");
         try {
+
             response = httpUtil.getResponse("IRS Job created!");
             response.data = Map.of("jobId",jobId);
             return httpUtil.buildResponse(response, httpResponse);

@@ -248,6 +248,7 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the search status file");
         }
     }
+
     public String initProcess() {
         try {
             String processId = CrypUtil.getUUID();
@@ -330,7 +331,37 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+    public String getJobId(String processId, String globalAssetId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
 
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            return statusFile.getJobId(globalAssetId);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
+    public String setJobId(String processId, String globalAssetId, String jobId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.addJobId(globalAssetId, jobId);
+            statusFile.setHistory(jobId, new History(jobId, "DRILLDOWN-STARTED"));
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
     public String setStatus(String processId, String historyId, History history) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);

@@ -67,6 +67,7 @@ configuration:
     tree:
       fileName: "treeDataModel"
       indent: true
+    callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
     central: false

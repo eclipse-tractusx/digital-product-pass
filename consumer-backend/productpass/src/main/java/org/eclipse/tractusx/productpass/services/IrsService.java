@@ -28,6 +28,7 @@ import org.checkerframework.checker.units.qual.K;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
@@ -43,7 +44,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,12 +69,14 @@ public class IrsService extends BaseService {
 
     AuthenticationService authService;
     IrsConfig irsConfig;
+    ProcessManager processManager;
     TreeManager treeManager;
     VaultService vaultService;
 
     @Autowired
-    public IrsService(Environment env, IrsConfig irsConfig, TreeManager treeManager, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
+    public IrsService(Environment env, ProcessManager processManager, IrsConfig irsConfig, TreeManager treeManager, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
+        this.processManager = processManager;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
         this.irsConfig = irsConfig;
@@ -80,10 +85,13 @@ public class IrsService extends BaseService {
         this.init(env);
     }
 
-    public Object startJob(String globalAssetId) throws ServiceException {
+    public IrsService() {
+    }
+
+    public Object startJob(String processId, String globalAssetId) throws ServiceException {
         try {
             // In case the BPN is not known use the backend BPN.
-            return this.startJob(globalAssetId, (String) this.vaultService.getLocalSecret("edc.bpn"));
+            return this.startJob(processId, globalAssetId, (String) this.vaultService.getLocalSecret("edc.bpn"));
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "startJob",
                     e,
@@ -91,11 +99,19 @@ public class IrsService extends BaseService {
         }
     }
 
-    public Map<String, String> startJob(String globalAssetId, String bpn) {
+    public Map<String, String> startJob(String processId, String globalAssetId, String bpn) {
         try {
             this.checkEmptyVariables();
             String url = this.irsEndpoint + "/" + this.irsJobPath;
             // Build the Job request for the IRS
+
+            String backendUrl = InetAddress.getLocalHost().getCanonicalHostName() + "/api/irs/" + processId;
+            Map<String, String> params = Map.of(
+                    "id", globalAssetId,
+                    "state", "COMPLETED"
+            );
+            String callbackUrl = httpUtil.buildUrl(backendUrl, params, false);
+            LogUtil.printMessage("Backend CallBack Url: "+callbackUrl);
             JobRequest body = new JobRequest(
                     new ArrayList<>(),
                     "asBuilt",
@@ -103,7 +119,8 @@ public class IrsService extends BaseService {
                     false,
                     "downward",
                     1,
-                    false
+                    false,
+                    callbackUrl
             );
             body.setKey(globalAssetId, bpn);
             HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
@@ -121,9 +138,12 @@ public class IrsService extends BaseService {
 
     public String getChildren(String processId, DigitalTwin3 digitalTwin, String bpn) {
         try {
-            Map<String, String> irsResponse = this.startJob(digitalTwin.getGlobalAssetId(), bpn);
+            String globalAssetId = digitalTwin.getGlobalAssetId();
+            Map<String, String> irsResponse = this.startJob(processId,globalAssetId, bpn);
             this.treeManager.newTreeFile(processId, digitalTwin);
-            return irsResponse.get("id");
+            String jobId = irsResponse.get("id");
+            this.processManager.setJobId(processId,globalAssetId,jobId);
+            return jobId;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getChildren", e, "It was not possible to get the children for the digital twin [" + digitalTwin.getIdentification() + "]");
         }

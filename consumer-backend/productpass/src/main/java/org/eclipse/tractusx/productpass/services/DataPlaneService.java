@@ -28,6 +28,7 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
@@ -69,7 +70,7 @@ public class DataPlaneService extends BaseService {
     }
     public Passport getPassport(DataPlaneEndpoint endpointData) {
         try {
-            return (PassportV3) jsonUtil.bindObject(this.getTransferData(endpointData), PassportV3.class);
+            return (DigitalProductPassport) jsonUtil.bindObject(this.getTransferData(endpointData), DigitalProductPassport.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

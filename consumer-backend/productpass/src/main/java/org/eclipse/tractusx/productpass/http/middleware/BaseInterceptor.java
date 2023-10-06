@@ -39,6 +39,8 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     @Autowired
     HttpUtil httpUtil;
+
+    @SuppressWarnings("Unused")
     @Override
     public boolean preHandle(
             HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
@@ -48,6 +50,8 @@ public class BaseInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+
+    @SuppressWarnings("Unused")
     @Override
     public void postHandle(
 
@@ -56,7 +60,7 @@ public class BaseInterceptor implements HandlerInterceptor {
         //[NOTE]: Post Handle not implemented!
     }
 
-
+    @SuppressWarnings("Unused")
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
                                 Object handler, Exception exception) throws Exception{

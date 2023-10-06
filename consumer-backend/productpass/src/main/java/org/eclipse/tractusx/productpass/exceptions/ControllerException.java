@@ -23,18 +23,41 @@
 
 package org.eclipse.tractusx.productpass.exceptions;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import utils.LogUtil;
 
+/**
+ * This class consists exclusively to define methods to handle and log exceptions caused in the Controller classes.
+ **/
 public class ControllerException extends Exception{
-        public ControllerException(String controllerName, String errorMessage) {
-            super("["+controllerName+"] " + errorMessage);
-            LogUtil.printException(this, "["+controllerName+"] " + errorMessage);
-        }
-        public ControllerException(String controllerName, Exception e, String errorMessage) {
-            super("["+controllerName+"] " + errorMessage+", "+e.getMessage());
-            LogUtil.printException(this, "["+controllerName+"] " + errorMessage);
-        }
+
+    /**
+     * Logs the given controller name and error message.
+     * <p>
+     * @param   controllerName
+     *          the {@code String} controller name (e.g: the class name where the exception occurred).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public ControllerException(String controllerName, String errorMessage) {
+        super("["+controllerName+"] " + errorMessage);
+        LogUtil.printException(this, "["+controllerName+"] " + errorMessage);
+    }
+
+    /**
+     * Logs the given controller name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   controllerName
+     *          the {@code String} controller name (e.g: the class name where the exception occurred).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public ControllerException(String controllerName, Exception e, String errorMessage) {
+        super("["+controllerName+"] " + errorMessage+", "+e.getMessage());
+        LogUtil.printException(this, "["+controllerName+"] " + errorMessage);
+    }
 
 }

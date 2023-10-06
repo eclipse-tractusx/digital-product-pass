@@ -31,25 +31,29 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes related to the designed model of the Submodel's improved version.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubModel3 {
+
+    /** ATTRIBUTES **/
     @JsonProperty("description")
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
     String idShort;
-
     @JsonProperty("supplementalSemanticId")
     Object supplementalSemanticId;
-
     @JsonProperty("id")
     String identification;
     @JsonProperty("semanticId")
     SemanticId semanticId;
-
     @JsonProperty("endpoints")
     ArrayList<EndPoint3> endpoints;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public SubModel3(ArrayList<JsonNode> description, String idShort, String identification, SemanticId semanticId, ArrayList<EndPoint3> endpoints) {
         this.description = description;
         this.idShort = idShort;
@@ -57,10 +61,10 @@ public class SubModel3 {
         this.semanticId = semanticId;
         this.endpoints = endpoints;
     }
-
+    @SuppressWarnings("Unused")
     public SubModel3() {
     }
-
+    @SuppressWarnings("Unused")
     public SubModel3(ArrayList<JsonNode> description, String idShort, Object supplementalSemanticId, String identification, SemanticId semanticId, ArrayList<EndPoint3> endpoints) {
         this.description = description;
         this.idShort = idShort;
@@ -70,81 +74,82 @@ public class SubModel3 {
         this.endpoints = endpoints;
     }
 
+    /** GETTERS AND SETTERS **/
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
-
     public void setDescription(ArrayList<JsonNode> description) {
         this.description = description;
     }
-
     public String getIdShort() {
         return idShort;
     }
-
     public void setIdShort(String idShort) {
         this.idShort = idShort;
     }
-
     public String getIdentification() {
         return identification;
     }
-
+    @SuppressWarnings("Unused")
     public void setIdentification(String identification) {
         this.identification = identification;
     }
-
     public SemanticId getSemanticId() {
         return semanticId;
     }
-
     public void setSemanticId(SemanticId semanticId) {
         this.semanticId = semanticId;
     }
-
     public ArrayList<EndPoint3> getEndpoints() {
         return endpoints;
     }
-
     public void setEndpoints(ArrayList<EndPoint3> endpoints) {
         this.endpoints = endpoints;
     }
+    @SuppressWarnings("Unused")
+    public Object getSupplementalSemanticId() {
+        return supplementalSemanticId;
+    }
+    @SuppressWarnings("Unused")
+    public void setSupplementalSemanticId(Object supplementalSemanticId) {
+        this.supplementalSemanticId = supplementalSemanticId;
+    }
 
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Submodel's SemanticId.
+     **/
     public static class SemanticId {
+
+        /** ATTRIBUTES **/
         @JsonProperty("type")
         String type;
         @JsonProperty("keys")
         Map<String, String> keys;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public SemanticId(String type, Map<String, String> keys) {
             this.type = type;
             this.keys = keys;
         }
-
+        @SuppressWarnings("Unused")
         public SemanticId() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getType() {
             return type;
         }
-
         public void setType(String type) {
             this.type = type;
         }
-
         public Map<String, String> getKeys() {
             return keys;
         }
-
+        @SuppressWarnings("Unused")
         public void setKeys(Map<String, String> keys) {
             this.keys = keys;
         }
-    }
-    public Object getSupplementalSemanticId() {
-        return supplementalSemanticId;
-    }
-
-    public void setSupplementalSemanticId(Object supplementalSemanticId) {
-        this.supplementalSemanticId = supplementalSemanticId;
     }
 }

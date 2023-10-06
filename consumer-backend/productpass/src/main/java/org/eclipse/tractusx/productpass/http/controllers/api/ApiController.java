@@ -30,21 +30,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.bouncycastle.pqc.crypto.lms.LMOtsParameters;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
-import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
-import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
+import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.models.passports.PassportV3;
@@ -53,23 +49,27 @@ import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.*;
-import utils.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import utils.HttpUtil;
+import utils.JsonUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * This class consists exclusively to define the HTTP methods needed for the API controller.
+ **/
 @RestController
 @RequestMapping("/api")
 @Tag(name = "API Controller")
 @SecurityRequirement(name = "BearerAuthentication")
 public class ApiController {
+
+    /** ATTRIBUTES **/
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
@@ -79,8 +79,9 @@ public class ApiController {
     private @Autowired PassportConfig passportConfig;
     private @Autowired HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
-
     private @Autowired ProcessManager processManager;
+
+    /** METHODS **/
 
     @RequestMapping(value = "/api/*", method = RequestMethod.GET)
     @Hidden
@@ -90,6 +91,15 @@ public class ApiController {
         return httpUtil.getResponse("Redirect to UI");
     }
 
+    /**
+     * HTTP POST method to retrieve the Passport.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with status.
+     *
+     */
     @RequestMapping(value = "/passport", method = {RequestMethod.POST})
     @Operation(summary = "Returns versioned product passport by id", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",

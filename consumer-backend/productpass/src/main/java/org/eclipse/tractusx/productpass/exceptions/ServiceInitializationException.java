@@ -23,19 +23,41 @@
 
 package org.eclipse.tractusx.productpass.exceptions;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import utils.LogUtil;
 
+/**
+ * This class consists exclusively to define methods to handle and log exceptions caused in the Service Initialization classes.
+ **/
 public class ServiceInitializationException extends Exception{
 
-        public ServiceInitializationException(String serviceName, String errorMessage) {
-            super("["+serviceName+"] " + errorMessage);
-            LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
-        }
-        public ServiceInitializationException(String serviceName, Exception e, String errorMessage) {
-            super("["+serviceName+"] " + errorMessage+", "+e.getMessage());
-            LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
-        }
+    /**
+     * Logs the given service name and error message.
+     * <p>
+     * @param   serviceName
+     *          the {@code String} service name (e.g: the class name where the exception occurred).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public ServiceInitializationException(String serviceName, String errorMessage) {
+        super("["+serviceName+"] " + errorMessage);
+        LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
+    }
+    /**
+     * Logs the given service name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   serviceName
+     *          the {@code String} service name (e.g: the class name where the exception occurred).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    @SuppressWarnings("Unused")
+    public ServiceInitializationException(String serviceName, Exception e, String errorMessage) {
+        super("["+serviceName+"] " + errorMessage+", "+e.getMessage());
+        LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
+    }
 
 }

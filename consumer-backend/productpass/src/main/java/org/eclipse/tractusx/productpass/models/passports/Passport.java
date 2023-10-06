@@ -25,6 +25,10 @@ package org.eclipse.tractusx.productpass.models.passports;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * This class consists exclusively to define attributes and methods that are common to the passports used in the Application.
+ * Also used to perform polymorphism in the Application with all the passports that extends it.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Passport {
  // Here will be included then next release Generic Passport Structure

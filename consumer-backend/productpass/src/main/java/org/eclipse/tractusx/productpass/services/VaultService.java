@@ -30,7 +30,6 @@ import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.*;
-import utils.exceptions.UtilException;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -47,14 +46,13 @@ import java.util.Map;
 @Service
 public class VaultService extends BaseService {
 
+    /** ATTRIBUTES **/
     private final FileUtil fileUtil;
-
     private final JsonUtil jsonUtil;
-
     private final YamlUtil yamlUtil;
-
     private final VaultConfig vaultConfig;
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public VaultService(VaultConfig vaultConfig, FileUtil fileUtil, JsonUtil jsonUtil, YamlUtil yamlUtil) throws ServiceInitializationException {
         this.fileUtil = fileUtil;
@@ -64,6 +62,8 @@ public class VaultService extends BaseService {
         this.createLocalVaultFile(true);
         this.checkEmptyVariables();
     }
+
+    /** METHODS **/
 
     /**
      * Sets a new value to an existent parameter in the Vault.
@@ -134,7 +134,7 @@ public class VaultService extends BaseService {
      * @param   localSecretPath
      *          the path to the Vault's secret parameter.
      *
-     * @return  true if the secret existsin the vault, false otherwise.
+     * @return  true if the secret exists in the vault, false otherwise.
      *
      * @throws  ServiceException
      *           if unable to get the secret.

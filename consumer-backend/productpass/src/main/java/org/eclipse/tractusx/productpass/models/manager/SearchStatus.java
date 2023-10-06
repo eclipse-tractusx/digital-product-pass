@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import utils.CrypUtil;
@@ -34,45 +35,33 @@ import utils.DateTimeUtil;
 
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes and methods related to the DTR's search status.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchStatus {
+
     @JsonProperty("search")
     public Search search;
-
     @JsonProperty("dtrs")
     public Map<String, Dtr> dtrs;
-
     @JsonProperty("created")
     public Long created;
-
     @JsonProperty("updated")
     public Long updated;
 
+    /** CONSTRUCTOR(S) **/
     public SearchStatus(Search search, Map<String, Dtr> dtrs, Long created, Long updated) {
         this.search = search;
         this.dtrs = dtrs;
         this.created = created;
         this.updated = updated;
     }
-
     public SearchStatus(Search search, Map<String, Dtr> dtrs){
         this.search = search;
         this.dtrs = dtrs;
         Long timestamp = DateTimeUtil.getTimestamp();
         this.updated = this.created = timestamp;
-    }
-
-
-    public void addDtr(Dtr dtr) {
-        this.updated = DateTimeUtil.getTimestamp();
-        this.dtrs.put(
-                CrypUtil.md5(dtr.getEndpoint()), // Use MD5 to identify the endpoint
-                dtr
-        );
-    }
-
-    public Dtr getDtr(String id) {
-        return this.dtrs.get(id);
     }
     public SearchStatus() {
         this.dtrs = Map.of();
@@ -80,35 +69,57 @@ public class SearchStatus {
         this.updated = this.created = timestamp;
     }
 
+    /** GETTERS AND SETTERS **/
     public Search getSearch() {
         return search;
     }
-
     public void setSearch(Search search) {
         this.search = search;
     }
-
     public Map<String, Dtr> getDtrs() {
         return dtrs;
     }
-
     public void setDtrs(Map<String, Dtr> dtrs) {
         this.dtrs = dtrs;
     }
-
     public Long getCreated() {
         return created;
     }
-
     public void setCreated(Long created) {
         this.created = created;
     }
-
     public Long getUpdated() {
         return updated;
     }
-
     public void setUpdated(Long updated) {
         this.updated = updated;
+    }
+
+    /** METHODS **/
+    /**
+     * Gets the DTR with the given id from the DTR map object.
+     * <p>
+     * @param   id
+     *          the {@code String} identification of the DTR.
+     *
+     * @return a {@code Dtr} object with the given id, if exists.
+     *
+     */
+    public Dtr getDtr(String id) {
+        return this.dtrs.get(id);
+    }
+    /**
+     * Gets a new DTR into the DTR map object.
+     * <p>
+     * @param   dtr
+     *          the {@code Dtr} object to add.
+     *
+     */
+    public void addDtr(Dtr dtr) {
+        this.updated = DateTimeUtil.getTimestamp();
+        this.dtrs.put(
+                CrypUtil.md5(dtr.getEndpoint()), // Use MD5 to identify the endpoint
+                dtr
+        );
     }
 }

@@ -34,7 +34,6 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,37 +46,91 @@ import utils.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class consists exclusively of methods to operate on executing Catena-X related operations.
+ *
+ * <p> The methods defined here are intended to do every needed operations related to Catena-X service in order to run the application.
+ * Like BPN and EDC discovery operations.
+ *
+ */
 @Service
 public class CatenaXService extends BaseService {
 
+    /** ATTRIBUTES **/
     private final HttpUtil httpUtil;
-
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
     private final VaultService vaultService;
     private final DtrSearchManager dtrSearchManager;
     private final DataTransferService dataTransferService;
-
     private final AuthenticationService authService;
-
     private final DiscoveryConfig discoveryConfig;
-
     private DtrConfig dtrConfig;
     private String discoveryEndpoint;
-
     private List<String> defaultDiscoveryKeys;
+
+    /** CONSTRUCTOR(S) **/
+    @Autowired
+    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrSearchManager dtrSearchManager, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService, DtrConfig dtrConfig) throws ServiceInitializationException {
+        this.httpUtil = httpUtil;
+        this.fileUtil = fileUtil;
+        this.jsonUtil = jsonUtil;
+        this.dtrConfig = dtrConfig;
+        this.vaultService = vaultService;
+        this.dtrSearchManager = dtrSearchManager;
+        this.authService = authService;
+        this.discoveryConfig = discoveryConfig;
+        this.dataTransferService = dataTransferService;
+        this.init(env);
+        this.checkEmptyVariables();
+    }
+
+    /** METHODS **/
+
+    /**
+     * Initiates the main needed variables for Catena-X Service by loading from the application's configuration file.
+     **/
+    public void init(Environment env){
+        this.discoveryEndpoint = this.discoveryConfig.getEndpoint();
+        this.defaultDiscoveryKeys = List.of(
+                this.discoveryConfig.getBpn().getKey(), this.discoveryConfig.getEdc().getKey()
+        );
+    }
+
+    /**
+     * Checks if the empty variables are well configured.
+     * <p>
+     *
+     * @throws  ServiceInitializationException
+     *           if unable to check initialize the service.
+     */
     @Override
     public void checkEmptyVariables() throws ServiceInitializationException {
         super.checkEmptyVariables();
     }
 
+    /**
+     * Checks if the empty variables are well configured.
+     * <p>
+     * @param   initializationOptionalVariables
+     *          the {@code List} list of the initialization optional variables.
+     *
+     * @throws  ServiceInitializationException
+     *           if unable to check initialize the service.
+     */
     @Override
     public void checkEmptyVariables(List<String> initializationOptionalVariables) throws ServiceInitializationException {
         super.checkEmptyVariables(initializationOptionalVariables);
     }
 
+    /**
+     * Creates a List of missing variables needed to proceed with the authentication.
+     * <p>
+     *
+     * @return an {@code Arraylist} with the environment variables missing in the configuration for the Catena-x service.
+     *
+     */
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
@@ -93,30 +146,24 @@ public class CatenaXService extends BaseService {
         return missingVariables;
     }
 
-    public void init(Environment env){
-        this.discoveryEndpoint = this.discoveryConfig.getEndpoint();
-        this.defaultDiscoveryKeys = List.of(
-                this.discoveryConfig.getBpn().getKey(), this.discoveryConfig.getEdc().getKey()
-        );
-    }
-    @Autowired
-    public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrSearchManager dtrSearchManager, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService, DtrConfig dtrConfig) throws ServiceInitializationException {
-        this.httpUtil = httpUtil;
-        this.fileUtil = fileUtil;
-        this.jsonUtil = jsonUtil;
-        this.dtrConfig = dtrConfig;
-        this.vaultService = vaultService;
-        this.dtrSearchManager = dtrSearchManager;
-        this.authService = authService;
-        this.discoveryConfig = discoveryConfig;
-        this.dataTransferService = dataTransferService;
-        this.init(env);
-        this.checkEmptyVariables();
-    }
+    /**
+     * Gets the default discovery endpoints.
+     * <p>
+     *
+     * @return a {@code Discovery} object with discovery endpoints list.
+     *
+     */
     public Discovery getDiscoveryEndpoints() {
         return this.getDiscoveryEndpoints(this.defaultDiscoveryKeys); // Get default discovery endpoints
     }
 
+    /**
+     * Initiates the default endpoints discovery.
+     * <p>
+     *
+     * @return a {@code Discovery} object with discovery endpoints list, if exists.
+     *
+     */
     public Discovery start(){
         try {
             Discovery discovery = this.getDiscoveryEndpoints();
@@ -131,6 +178,18 @@ public class CatenaXService extends BaseService {
         }
         return null;
     }
+
+    /**
+     * Adds a new entry to the discovery endpoints list for a given key.
+     * <p>
+     * @param   key
+     *          the {@code String} key parameter to search the discovery endpoint.
+     *
+     * @return a {@code Discovery} object with discovery endpoints list updated.
+     *
+     * @throws  ServiceException
+     *           if unable to get the discovery endpoint for the given key.
+     */
     public Discovery addEndpoint(String key){
         try {
             Discovery discovery = this.getDiscoveryEndpoint(key);
@@ -147,8 +206,19 @@ public class CatenaXService extends BaseService {
         }
     }
 
-
-
+    /**
+     * Gets the discovery endpoint from the {@code Discovery} object for a given key.
+     * <p>
+     * @param   discovery
+     *          the {@code Discovery} object containing the list of discovery endpoints.
+     * @param   key
+     *          the {@code String} key parameter to search the discovery endpoint.
+     *
+     * @return a {@code Discovery.Endpoint} object with the endpoint data found.
+     *
+     * @throws  ServiceException
+     *           if unable to get the endpoint for the given key.
+     */
     public Discovery.Endpoint getDiscoveryEndpoint(Discovery discovery, String key) {
         List<Discovery.Endpoint> endpoints = discovery.getEndpoints();
         Discovery.Endpoint responseEndpoint = endpoints.stream().filter(endpoint -> endpoint.getType().equals(key)).findAny().orElse(null);
@@ -159,6 +229,20 @@ public class CatenaXService extends BaseService {
         return responseEndpoint;
     }
 
+    /**
+     * Updates the discovery endpoint from the {@code Discovery} object with a given key.
+     * <p>
+     * @param   discovery
+     *          the {@code Discovery} object containing the list of discovery endpoints.
+     * @param   key
+     *          the {@code String} key parameter to update in the discovery endpoint.
+     *
+     * @return a {@code Discovery.Endpoint} object with the endpoint data found.
+     *
+     * @throws  ServiceException
+     *           if unable to get the endpoint for the given key.
+     */
+    @SuppressWarnings("Unused")
     public Boolean updateDiscovery(Discovery discovery, String key){
         try{
             if(discovery.getEndpoints().isEmpty()){
@@ -174,6 +258,17 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Updates the given {@code Discovery} object with default discovery endpoints.
+     * <p>
+     * @param   discovery
+     *          the {@code Discovery} object containing the list of discovery endpoints.
+     *
+     * @return true if the discovery was updated, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to update the discovery endpoints.
+     */
     public Boolean updateDefaultDiscovery(Discovery discovery){
         try{
             if(discovery.getEndpoints().isEmpty()){
@@ -190,6 +285,19 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Creates or Updates the endpoint with the given key in the vault, if exists.
+     * <p>
+     * @param   endpoint
+     *          the {@code Discovery.Endpoint} object to update.
+     * @param   key
+     *          the {@code String} key parameter to update.
+     *
+     * @return true if the endpoint is successfully created/update, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to update the discovery endpoint.
+     */
     public Boolean updateEndpointFile(Discovery.Endpoint endpoint, String key){
         try {
             String address = endpoint.getEndpointAddress();
@@ -208,6 +316,19 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Creates or Updates BPN and EDC endpoints in the Vault.
+     * <p>
+     * @param   bpnEndpoint
+     *          the {@code Discovery.Endpoint} object related to BPN.
+     * @param   edcEndpoint
+     *          the {@code Discovery.Endpoint} object related to EDC.
+     *
+     * @return true if both endpoints are successfully created/update, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to create/update the BPN and EDC endpoints.
+     */
     public Boolean updateDefaultDiscoveryFile(Discovery.Endpoint bpnEndpoint, Discovery.Endpoint edcEndpoint){
         try {
             Boolean bpnResponse = this.updateEndpointFile(bpnEndpoint, this.discoveryConfig.getBpn().getKey());
@@ -226,6 +347,17 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Gets the Discovery endpoint for the given key, if exists.
+     * <p>
+     * @param   key
+     *          the {@code String} key parameter to search.
+     *
+     * @return a {@code Discovery} object found.
+     *
+     * @throws  ServiceException
+     *           if unable to find the discovery endpoint.
+     */
     public Discovery getDiscoveryEndpoint(String key) {
         try {
             return this.getDiscoveryEndpoints(List.of(key));
@@ -236,6 +368,17 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Gets the Discovery endpoint for a given endpoints list.
+     * <p>
+     * @param   endpoints
+     *          the {@code List<String>} of endpoints to search.
+     *
+     * @return a {@code Discovery} object found containing the given endpoints.
+     *
+     * @throws  ServiceException
+     *           if unable to find the discovery endpoint.
+     */
     public Discovery getDiscoveryEndpoints(List<String> endpoints) {
         try {
             this.checkEmptyVariables();
@@ -257,6 +400,17 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Gets the EDC Discovery endpoints for a given BPNs list.
+     * <p>
+     * @param   bpns
+     *          the {@code List<String>} of BPNs list to search.
+     *
+     * @return a {@code List<EdcDiscoveryEndpoint>} object with the EDC discovery endpoints found.
+     *
+     * @throws  ServiceException
+     *           if unable to get the EDC discovery endpoints.
+     */
     public List<EdcDiscoveryEndpoint> getEdcDiscovery(List<String> bpns) {
         try {
             this.checkEmptyVariables();
@@ -285,6 +439,19 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Gets the BPN discovery endpoint for a given id and id's type.
+     * <p>
+     * @param   id
+     *          the {@code String} id to look up for the BPN.
+     * @param   type
+     *          the {@code String} type of the id.
+     *
+     * @return a {@code BpnDiscovery} object found with the BPN discovery endpoint data.
+     *
+     * @throws  ServiceException
+     *           if unable to get the BPN discovery endpoint.
+     */
     public BpnDiscovery getBpnDiscovery(String id, String type){
         try {
             this.checkEmptyVariables();
@@ -331,6 +498,19 @@ public class CatenaXService extends BaseService {
         }
     }
 
+    /**
+     * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
+     * <p>
+     * @param   edcEndpoints
+     *          the {@code List<String>} of EDC endpoints to search.
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return a {@code BpnDiscovery} object found with the BPN discovery endpoint data.
+     *
+     * @throws  ServiceException
+     *           if unable to get the BPN discovery endpoint.
+     */
     public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
         try {
             Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpoints, processId), "ProcessDtrDataModel");

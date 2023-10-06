@@ -30,36 +30,38 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 
+/**
+ * This class consists exclusively to define attributes related to the designed model of the Digital Twin's improved version.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DigitalTwin3 {
+
+    /** ATTRIBUTES **/
     @JsonProperty("description")
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
     String idShort;
-
     @JsonProperty("assetKind")
     String assetKind;
-
     @JsonProperty("assetType")
     String assetType;
-
     @JsonProperty("globalAssetId")
     String globalAssetId;
     @JsonProperty("displayName")
     Object displayName;
-
     @JsonProperty("id")
     String identification;
     @JsonProperty("specificAssetIds")
     ArrayList<JsonNode> specificAssetIds;
-
     @JsonProperty("submodelDescriptors")
     ArrayList<SubModel3> submodelDescriptors;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public DigitalTwin3() {
     }
-
+    @SuppressWarnings("Unused")
     public DigitalTwin3(ArrayList<JsonNode> description, String idShort, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
@@ -67,7 +69,7 @@ public class DigitalTwin3 {
         this.specificAssetIds = specificAssetIds;
         this.submodelDescriptors = submodelDescriptors;
     }
-
+    @SuppressWarnings("Unused")
     public DigitalTwin3(ArrayList<JsonNode> description, String idShort, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
@@ -76,7 +78,7 @@ public class DigitalTwin3 {
         this.specificAssetIds = specificAssetIds;
         this.submodelDescriptors = submodelDescriptors;
     }
-
+    @SuppressWarnings("Unused")
     public DigitalTwin3(ArrayList<JsonNode> description, String idShort, String globalAssetId, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
@@ -86,7 +88,7 @@ public class DigitalTwin3 {
         this.specificAssetIds = specificAssetIds;
         this.submodelDescriptors = submodelDescriptors;
     }
-
+    @SuppressWarnings("Unused")
     public DigitalTwin3(ArrayList<JsonNode> description, String idShort, String assetKind, String assetType, String globalAssetId, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel3> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
@@ -99,75 +101,70 @@ public class DigitalTwin3 {
         this.submodelDescriptors = submodelDescriptors;
     }
 
-
+    /** GETTERS AND SETTERS **/
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
-
     public void setDescription(ArrayList<JsonNode> description) {
         this.description = description;
     }
-
     public String getIdShort() {
         return idShort;
     }
-
     public void setIdShort(String idShort) {
         this.idShort = idShort;
     }
-
     public String getIdentification() {
         return identification;
     }
-
+    @SuppressWarnings("Unused")
     public void setIdentification(String identification) {
         this.identification = identification;
     }
-
+    @SuppressWarnings("Unused")
     public ArrayList<JsonNode> getSpecificAssetIds() {
         return specificAssetIds;
     }
-
+    @SuppressWarnings("Unused")
     public void setSpecificAssetIds(ArrayList<JsonNode> specificAssetIds) {
         this.specificAssetIds = specificAssetIds;
     }
-
     public ArrayList<SubModel3> getSubmodelDescriptors() {
         return submodelDescriptors;
     }
-
+    @SuppressWarnings("Unused")
     public void setSubmodelDescriptors(ArrayList<SubModel3> submodelDescriptors) {
         this.submodelDescriptors = submodelDescriptors;
     }
-
+    @SuppressWarnings("Unused")
     public Object getDisplayName() {
         return displayName;
     }
-
+    @SuppressWarnings("Unused")
     public void setDisplayName(Object displayName) {
         this.displayName = displayName;
     }
-
+    @SuppressWarnings("Unused")
     public String getGlobalAssetId() {
         return globalAssetId;
     }
-
+    @SuppressWarnings("Unused")
     public void setGlobalAssetId(String globalAssetId) {
         this.globalAssetId = globalAssetId;
     }
-
+    @SuppressWarnings("Unused")
     public String getAssetKind() {
         return assetKind;
     }
-
+    @SuppressWarnings("Unused")
     public void setAssetKind(String assetKind) {
         this.assetKind = assetKind;
     }
-
+    @SuppressWarnings("Unused")
     public String getAssetType() {
         return assetType;
     }
-
+    @SuppressWarnings("Unused")
     public void setAssetType(String assetType) {
         this.assetType = assetType;
     }

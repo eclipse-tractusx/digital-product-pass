@@ -29,7 +29,6 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
-import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -38,7 +37,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
-import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +44,17 @@ import java.util.Map;
 
 @Service
 public class AuthenticationService extends BaseService {
+
+    /** ATTRIBUTES **/
     private final VaultService vaultService;
     private final Environment env;
-
     private final HttpUtil httpUtil;
-
     private final JsonUtil jsonUtil;
-
     public String tokenUri;
     public String clientId;
     public String clientSecret;
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public AuthenticationService(VaultService vaultService, Environment env, HttpUtil httpUtil, JsonUtil jsonUtil) throws ServiceInitializationException {
         this.vaultService = vaultService;
@@ -66,25 +64,25 @@ public class AuthenticationService extends BaseService {
         this.init(env);
         this.checkEmptyVariables(List.of("clientId", "clientSecret"));
     }
+
+    /** METHODS **/
+
+    /**
+     * Initiates the main needed variables for Authetication Service by loading from the environment variables.
+     **/
     public void init(Environment env) {
         this.tokenUri = env.getProperty("configuration.keycloak.tokenUri", String.class,  "");
     }
 
-    @Override
-    public List<String> getEmptyVariables() {
-        List<String> missingVariables = new ArrayList<>();
-        if (this.tokenUri.isEmpty()) {
-            missingVariables.add("tokenUri");
-        }
-        if (clientId == null || clientId.isEmpty()) {
-            missingVariables.add("clientId");
-        }
-        if (clientSecret == null || clientSecret.isEmpty()) {
-            missingVariables.add("clientSecret");
-        }
-        return missingVariables;
-    }
-
+    /**
+     * Gets the authentication token for the technical user.
+     * <p>
+     *
+     * @return  a {@code JwtToken} object with all token's authentication parameters.
+     *
+     * @throws  ServiceException
+     *           if unable to retrieve the token.
+     */
     public JwtToken getToken(){
         try{
             this.clientId = (String) vaultService.getLocalSecret("client.id");
@@ -113,6 +111,16 @@ public class AuthenticationService extends BaseService {
         }
     }
 
+    /**
+     * Checks if the user is authenticated.
+     * <p>
+     * @param   jwtToken
+     *          the {@code JwtToken} object regarding the authentication token.
+     *
+     * @return  true if the user is authenticated, false otherwise.
+     *
+     */
+    @SuppressWarnings("Unused")
     public Boolean isAuthenticated(String jwtToken){
         UserInfo userInfo = null;
         try {
@@ -122,6 +130,16 @@ public class AuthenticationService extends BaseService {
         }
         return userInfo != null;
     }
+
+    /**
+     * Checks if the user is authenticated.
+     * <p>
+     * @param   httpRequest
+     *          the {@code HttpServletRequest} object representing the HTTP request.
+     *
+     * @return  true if the user is authenticated, false otherwise.
+     *
+     */
     public Boolean isAuthenticated(HttpServletRequest httpRequest){
         String token = httpUtil.getAuthorizationToken(httpRequest);
         if(token == null){
@@ -148,6 +166,17 @@ public class AuthenticationService extends BaseService {
         return userInfo != null;
     }
 
+    /**
+     * Gets the user's information from the given token.
+     * <p>
+     * @param   jwtToken
+     *          the {@code String} authentication token.
+     *
+     * @return  a {@code UserInfo} object with the user's information.
+     *
+     * @throws  ServiceException
+     *           if unable to retrieve the user's information.
+     */
     public UserInfo getUserInfo(String jwtToken){
         try{
             HttpHeaders headers = httpUtil.getHeadersWithToken(jwtToken);
@@ -164,6 +193,25 @@ public class AuthenticationService extends BaseService {
         }
     }
 
-
-
+    /**
+     * Creates a List of missing variables needed to proceed with the authentication.
+     * <p>
+     *
+     * @return an {@code Arraylist} with the environment variables missing in the configuration for the authentication.
+     *
+     */
+    @Override
+    public List<String> getEmptyVariables() {
+        List<String> missingVariables = new ArrayList<>();
+        if (this.tokenUri.isEmpty()) {
+            missingVariables.add("tokenUri");
+        }
+        if (clientId == null || clientId.isEmpty()) {
+            missingVariables.add("clientId");
+        }
+        if (clientSecret == null || clientSecret.isEmpty()) {
+            missingVariables.add("clientSecret");
+        }
+        return missingVariables;
+    }
 }

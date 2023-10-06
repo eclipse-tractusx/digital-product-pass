@@ -373,11 +373,11 @@ public class AasService extends BaseService {
                 throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                         "No subModel found in digitalTwin!");
             }
-            // Search for first subModel with matching idShort, if it fails gives null
-            SubModel3 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().containsKey(submodelTypeKey) ? s.getSemanticId().getKeys().get(submodelTypeKey).equalsIgnoreCase(semanticId) : false).findFirst().orElse(null);
+            // Search for first subModel with matching semanticId, if it fails gives null
+        SubModel3 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(submodelTypeKey) && k.getValue().equalsIgnoreCase(semanticId)) != null).findFirst().orElse(null);
 
             if (subModel == null) {
-                // If the subModel idShort does not exist
+                // If the subModel semanticId does not exist
                 throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                         "SubModel for SemanticId not found!");
             }

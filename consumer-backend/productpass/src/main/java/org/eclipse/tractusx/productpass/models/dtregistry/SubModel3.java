@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -110,13 +109,15 @@ public class SubModel3 {
         this.endpoints = endpoints;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SemanticId {
         @JsonProperty("type")
         String type;
         @JsonProperty("keys")
-        Map<String, String> keys;
+        ArrayList<Key> keys;
 
-        public SemanticId(String type, Map<String, String> keys) {
+        public SemanticId(String type, ArrayList<Key> keys) {
             this.type = type;
             this.keys = keys;
         }
@@ -132,12 +133,36 @@ public class SubModel3 {
             this.type = type;
         }
 
-        public Map<String, String> getKeys() {
+        public ArrayList<Key> getKeys() {
             return keys;
         }
 
-        public void setKeys(Map<String, String> keys) {
+        public void setKeys(ArrayList<Key> keys) {
             this.keys = keys;
+        }
+
+        /** INNER CLASSES **/
+        /**
+         * This class consists exclusively to define attributes related to the SemanticId's keys property.
+         **/
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        public class Key {
+
+            /** ATTRIBUTES **/
+            @JsonProperty("type")
+            String type;
+            @JsonProperty("value")
+            String value;
+
+            /** CONSTRUCTOR(S) **/
+            public Key() {}
+
+            /** GETTERS AND SETTERS **/
+            public String getType() { return type; }
+            public void setType(String type) { this.type = type; }
+            public String getValue() { return value; }
+            public void setValue(String value) { this.value = value; }
         }
     }
     public Object getSupplementalSemanticId() {

@@ -254,6 +254,9 @@ public class Status {
     }
 
     public void addJobId(String globalAssetId, String jobId){
+        if(this.jobs == null){
+            this.jobs = Map.of();
+        }
         this.jobs.put(globalAssetId, jobId);
     }
     public String getJobId(String globalAssetId){

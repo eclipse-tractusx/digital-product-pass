@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -358,7 +359,18 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }
     }
-
+    public String translatePathSep(String path, String pathSep, String newPathSep){
+        try{
+            String newPath = StringUtil.deepCopy(path); // Deep copy string
+            if(newPath.startsWith(pathSep)){ // If the path starts with the pathSep remove it so the search can be efficient
+                newPath = newPath.substring(1);
+            }
+            String[] parts = newPath.split(String.format("\\%s",pathSep)); // Split the path in order to get the parts
+            return String.join(String.format("\\%s",newPathSep), parts); // Join the path with the children
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, e, "It was not possible to translate te pathSep");
+        }
+    }
 
     public Map<?,?> toMap(Object obj){
         ObjectMapper mapper = new ObjectMapper();

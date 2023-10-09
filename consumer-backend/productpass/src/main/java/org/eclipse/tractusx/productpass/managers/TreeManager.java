@@ -28,14 +28,17 @@ package org.eclipse.tractusx.productpass.managers;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
+import org.eclipse.tractusx.productpass.models.irs.Job;
+import org.eclipse.tractusx.productpass.models.irs.JobResponse;
+import org.eclipse.tractusx.productpass.models.irs.Relationship;
 import org.eclipse.tractusx.productpass.models.manager.Node;
 import org.eclipse.tractusx.productpass.models.manager.Status;
+import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import utils.DateTimeUtil;
-import utils.FileUtil;
-import utils.JsonUtil;
+import utils.*;
 
+import java.util.List;
 import java.util.Map;
 @Component
 public class TreeManager {
@@ -46,6 +49,7 @@ public class TreeManager {
 
     private IrsConfig irsConfig;
 
+    private final String PATH_SEP = "/";
     @Autowired
     public TreeManager(FileUtil fileUtil, JsonUtil jsonUtil, ProcessManager processManager, IrsConfig irsConfig) {
         this.fileUtil = fileUtil;
@@ -54,27 +58,116 @@ public class TreeManager {
         this.irsConfig = irsConfig;
     }
 
-    public String newTreeFile(String processId, DigitalTwin3 digitalTwin){
+    public String getTreeFilePath(String processId){
+        return processManager.getProcessFilePath(processId, this.irsConfig.getTree().getFileName());
+    }
+    public Boolean treeExists(String processId){
+        String path = this.getTreeFilePath(processId);
+        return fileUtil.pathExists(path);
+    }
+    public String createTreeFile(String processId){
         try {
-            String path = processManager.getProcessFilePath(processId, this.irsConfig.getTree().getFileName());
-            TreeDataModel treeDataModel = new TreeDataModel(
-                    Map.of(
-                            digitalTwin.getIdentification(),
-                            new Node(
-                                    digitalTwin
-                            )
-                    )
-            );
-            return jsonUtil.toJsonFile(
-                    path,
-                    treeDataModel.dataModel,
-                    this.irsConfig.getTree().getIndent()
-            ); // Store the plain JSON
+            return this.saveTree(processId, Map.of()); // Save the tree
         } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create the tree data model file");
+            throw new ManagerException(this.getClass().getName()+".newTree()", e, "It was not possible to create the tree data model file");
+        }
+    }
+    public static String generateSearchId(String processId, String globalAssetId) {
+        return CrypUtil.md5(DateTimeUtil.getDateTimeFormatted("yyyyMMddHHmmssSSS") + processId + globalAssetId);
+    }
+    public Map<String, Node> loadTree(String processId){
+        try {
+            String path = this.getTreeFilePath(processId); // Get filepath from tree
+            if(!fileUtil.pathExists(path)){
+                this.createTreeFile(processId); // Create empty tree
+                return Map.of();
+            }
+            return (Map<String, Node>) jsonUtil.fromJsonFileToObject(path, Map.class); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".loadTree()", e, "It was not possible to load the tree");
         }
     }
 
+    public String updateNode(String processId, String path, JobResponse job) {
+        try {
+            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Node node = this.getNodeByPath(treeDataModel, path); // Get parent node
+            node.setJob(job); // Set the job in the node
+            List<Relationship> relationships = job.getRelationships();
+            LogUtil.printMessage(jsonUtil.toJson(relationships, true));
+            treeDataModel = this.setNodeByPath(treeDataModel, path, node); // Save the parent node in the tree
+            return this.saveTree(processId, treeDataModel);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName() + ".setChild()", e, "It was not possible to get the node from the tree");
+        }
+    }
+
+    public String saveTree(String processId, Map<String, Node> treeDataModel){
+        try {
+            String path = this.getTreeFilePath(processId); // Get filepath from tree
+            return jsonUtil.toJsonFile(
+                    path,
+                    treeDataModel,
+                    this.irsConfig.getTree().getIndent()
+            ); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".saveTree()", e, "It was not possible to save the tree data model file");
+        }
+    }
+    public Node getNodeByPath(Map<String, Node> treeDataModel, String path){
+        try {
+            String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
+            return (Node) this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".getNodeByPath()", e, "It was not possible to get the node from the tree");
+        }
+    }
+    public Node getNodeByPath(String processId, String path){
+        try {
+            Map<String, Node> treeDataModel = this.loadTree(processId);
+            String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
+            return (Node) this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".getNodeByPath()", e, "It was not possible to get the node from the tree");
+        }
+    }
+    public Map<String, Node> setNodeByPath(Map<String, Node> treeDataModel, String path, Node node){
+        try {
+            String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
+            treeDataModel = (Map<String, Node>) this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
+            if(treeDataModel == null){ // Check if the response was successful
+                throw new ManagerException(this.getClass().getName()+".setNodeByPath()", "It was not possible to set the node in path because the return was null");
+            }
+            return treeDataModel;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".setNodeByPath()", e, "It was not possible to get the node from the tree");
+        }
+    }
+    public Object setNodeByPath(String processId, String path, Node node){
+        try {
+            Map<String, Node> treeDataModel = this.loadTree(processId);
+            String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
+            treeDataModel = (Map<String, Node>) this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
+            if(treeDataModel == null){ // Check if the response was successful
+                throw new ManagerException(this.getClass().getName()+".setNodeByPath()", "It was not possible to set the node in path because the return was null");
+            }
+            return this.saveTree(processId, treeDataModel);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".setNodeByPath()", e, "It was not possible to get the node from the tree");
+        }
+    }
+
+    public Object setChild(String processId, String parentPath, Node childNode){
+        try {
+            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Node parentNode = this.getNodeByPath(treeDataModel, parentPath); // Get parent node
+            parentNode.setChild(childNode); // Add the child to the parent node
+            treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parentNode); // Save the parent node in the tree
+            return this.saveTree(processId, treeDataModel);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".setChild()", e, "It was not possible to get the node from the tree");
+        }
+    }
 
 
 

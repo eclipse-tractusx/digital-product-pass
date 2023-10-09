@@ -31,8 +31,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.eclipse.tractusx.productpass.models.irs.Job;
+import org.eclipse.tractusx.productpass.models.irs.JobHistory;
+import org.eclipse.tractusx.productpass.models.irs.JobResponse;
+import org.eclipse.tractusx.productpass.models.manager.Node;
+import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.IrsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +67,34 @@ public class IrsController {
     private @Autowired IrsConfig irsConfig;
 
     private @Autowired IrsService irsService;
+    private @Autowired TreeManager treeManager;
+    private @Autowired ProcessManager processManager;
 
-    @RequestMapping(value = "/{processId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{processId}/{searchId}", method = RequestMethod.GET)
     @Operation(summary = "Endpoint called by the IRS to set status completed")
-    public Response endpoint(@PathVariable String processId, @RequestParam String id, @RequestParam String state) {
+    public Response endpoint(@PathVariable String processId,@PathVariable String searchId, @RequestParam String id, @RequestParam String state) {
         Response response = httpUtil.getInternalError();
         LogUtil.printMessage(jsonUtil.toJson(httpRequest, true));
         try {
+            if (!processManager.checkProcess(processId)) {
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
+            }
+
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+
+            if(!status.getJobs().containsKey(searchId)){
+                return httpUtil.buildResponse(httpUtil.getNotFound("The search id is invalid!"), httpResponse);
+            }
+
+            JobHistory jobHistory = status.getJobId(searchId);
+
             LogUtil.printMessage("["+processId+"] Requesting Job ["+id+"] after state ["+state+"]");
-            LogUtil.printMessage(jsonUtil.toJson(this.irsService.getJob(id), true));
+            JobResponse irsJob = this.irsService.getJob(id);
+            LogUtil.printMessage(jsonUtil.toJson(irsJob, true));
+            this.treeManager.updateNode(processId, jobHistory.getPath(), irsJob);
             response = httpUtil.getResponse("IRS is not available at the moment!");
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
@@ -94,25 +120,6 @@ public class IrsController {
         }
     }
 
-    @RequestMapping(value = "/{processId}/tree/create", method = RequestMethod.POST)
-    @Operation(summary = "Api called by the frontend to obtain the tree of components")
-    public Response create(@PathVariable String processId, @RequestBody String body) {
-        Response response = httpUtil.getInternalError();
-        if (!authService.isAuthenticated(httpRequest)) {
-            response = httpUtil.getNotAuthorizedResponse();
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-        String jobId = this.irsService.getChildren(processId,(DigitalTwin3) jsonUtil.loadJson(body, DigitalTwin3.class), "BPNL00000000CBA5");
-        try {
-
-            response = httpUtil.getResponse("IRS Job created!");
-            response.data = Map.of("jobId",jobId);
-            return httpUtil.buildResponse(response, httpResponse);
-        } catch (Exception e) {
-            response.message = e.getMessage();
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-    }
 
 
 

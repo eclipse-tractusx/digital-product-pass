@@ -35,6 +35,7 @@ import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
+import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
@@ -288,9 +289,13 @@ public class ProcessManager {
                     new Status(
                         processId,
                         "CREATED",
-                        connectorAddress,
                         created,
-                        DateTimeUtil.getTimestamp()
+                        DateTimeUtil.getTimestamp(),
+                        Map.of(),
+                        connectorAddress,
+                        "",
+                        "",
+                        Map.of()
                     ),
                     processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {
@@ -331,7 +336,23 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
-    public String getJobId(String processId, String globalAssetId) {
+    public String setTreeState(String processId, String state) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setTreeState(state);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
+    public JobHistory getJobHistoryById(String processId, String globalAssetId) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             Status statusFile = null;
@@ -345,7 +366,7 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
-    public String setJobId(String processId, String globalAssetId, String jobId) {
+    public String addJobHistory(String processId, String searchId, JobHistory jobHistory) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             Status statusFile = null;
@@ -354,8 +375,8 @@ public class ProcessManager {
             }
 
             statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
-            statusFile.addJobId(globalAssetId, jobId);
-            statusFile.setHistory(jobId, new History(jobId, "DRILLDOWN-STARTED"));
+            statusFile.addJobHistory(searchId, jobHistory);
+            statusFile.setHistory(searchId, new History(searchId, searchId+"-DRILLDOWN-STARTED"));
             statusFile.setModified(DateTimeUtil.getTimestamp());
             return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {

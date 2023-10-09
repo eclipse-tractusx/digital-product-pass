@@ -35,6 +35,7 @@ import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.*;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
@@ -42,6 +43,7 @@ import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
+import org.eclipse.tractusx.productpass.models.manager.Node;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
@@ -82,6 +84,9 @@ public class AppController {
 
     @Autowired
     IrsService irsService;
+
+    @Autowired
+    TreeManager treeManager;
     @Autowired
     DataPlaneService dataPlaneService;
 
@@ -190,7 +195,15 @@ public class AppController {
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId,bpn);
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
-            irsService.getChildren(processId, digitalTwin, bpn);
+
+            // Update tree
+            String globalAssetId = digitalTwin.getGlobalAssetId();
+            String actualPath = status.getTreeState() + "/" + globalAssetId;
+            processManager.setTreeState(processId, actualPath);
+            this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin));
+
+            // Get children from the node
+            this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,

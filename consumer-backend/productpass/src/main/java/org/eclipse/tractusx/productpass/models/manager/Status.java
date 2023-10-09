@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
@@ -48,13 +49,15 @@ public class Status {
     public Long modified;
 
     @JsonProperty("jobs")
-    public Map<String, String> jobs;
+    public Map<String, JobHistory> jobs;
 
     @JsonProperty("endpoint")
     public String endpoint;
 
     @JsonProperty("bpn")
     public String bpn;
+    @JsonProperty("treeState")
+    public String treeState;
 
     @JsonProperty("history")
     public Map<String, History> history;
@@ -158,7 +161,7 @@ public class Status {
         this.history = Map.of(historyId, history);
     }
 
-    public Status(String id, String status, Long created, Long modified, Map<String, String> jobs, String endpoint, String bpn, Map<String, History> history) {
+    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, Map<String, History> history) {
         this.id = id;
         this.status = status;
         this.created = created;
@@ -166,6 +169,18 @@ public class Status {
         this.jobs = jobs;
         this.endpoint = endpoint;
         this.bpn = bpn;
+        this.history = history;
+    }
+
+    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, String treeState, Map<String, History> history) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.jobs = jobs;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.treeState = treeState;
         this.history = history;
     }
 
@@ -245,22 +260,30 @@ public class Status {
         this.bpn = bpn;
     }
 
-    public Map<String, String> getJobs() {
+    public Map<String, JobHistory> getJobs() {
         return jobs;
     }
 
-    public void setJobs(Map<String, String> jobs) {
+    public void setJobs(Map<String, JobHistory> jobs) {
         this.jobs = jobs;
     }
 
-    public void addJobId(String globalAssetId, String jobId){
+    public void addJobHistory(String searchId, JobHistory jobHistory){
         if(this.jobs == null){
             this.jobs = Map.of();
         }
-        this.jobs.put(globalAssetId, jobId);
+        this.jobs.put(searchId, jobHistory);
     }
-    public String getJobId(String globalAssetId){
-        return this.jobs.get(globalAssetId);
+    public JobHistory getJobId(String searchId){
+        return this.jobs.get(searchId);
+    }
+
+    public String getTreeState() {
+        return treeState;
+    }
+
+    public void setTreeState(String treeState) {
+        this.treeState = treeState;
     }
 }
 

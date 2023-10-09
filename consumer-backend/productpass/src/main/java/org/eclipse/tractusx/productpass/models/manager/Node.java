@@ -28,8 +28,8 @@ package org.eclipse.tractusx.productpass.models.manager;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.productpass.managers.TreeDataModel;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
+import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 
 import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -46,6 +46,10 @@ public class Node {
     String path;
     @JsonProperty("digitalTwin")
     DigitalTwin3 digitalTwin;
+
+    @JsonProperty("job")
+    JobResponse job;
+
     @JsonProperty("children")
     Map<String, Node> children;
 
@@ -83,6 +87,16 @@ public class Node {
         this.setup(digitalTwin);
         this.setPath("", digitalTwin.getIdentification());
         this.children = Map.of();
+    }
+
+    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin3 digitalTwin, JobResponse job, Map<String, Node> children) {
+        this.id = id;
+        this.globalAssetId = globalAssetId;
+        this.idShort = idShort;
+        this.path = path;
+        this.digitalTwin = digitalTwin;
+        this.job = job;
+        this.children = children;
     }
 
     public void setup(DigitalTwin3 digitalTwin){
@@ -151,5 +165,25 @@ public class Node {
 
     public void setChildren(Map<String, Node> children) {
         this.children = children;
+    }
+    public void setChild(Node childNode){
+        this.children.put(childNode.getId(), childNode);
+    }
+
+    public Node getChild(String childId){
+        return this.children.get(childId);
+    }
+
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public JobResponse getJob() {
+        return job;
+    }
+
+    public void setJob(JobResponse job) {
+        this.job = job;
     }
 }

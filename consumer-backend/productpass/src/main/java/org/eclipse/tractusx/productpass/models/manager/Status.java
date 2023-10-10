@@ -58,6 +58,9 @@ public class Status {
     @JsonProperty("history")
     public Map<String, History> history;
 
+    @JsonProperty("semanticId")
+    public String semanticId;
+
 
     public Status(String id, String status, Long created, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
@@ -231,6 +234,14 @@ public class Status {
 
     public void setBpn(String bpn) {
         this.bpn = bpn;
+    }
+
+    public String getSemanticId() {
+        return semanticId;
+    }
+
+    public void setSemanticId(String semanticId) {
+        this.semanticId = semanticId;
     }
 }
 

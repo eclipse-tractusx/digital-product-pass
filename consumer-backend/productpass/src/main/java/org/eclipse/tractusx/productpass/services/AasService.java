@@ -153,7 +153,6 @@ public class AasService extends BaseService {
     public DigitalTwin3 searchDigitalTwin3(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
-            LogUtil.printWarning("DIGITAL TWINS ARRAY SIZE: " + digitalTwinIds.size());
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin for the selected asset type and the the selected assetId");
@@ -163,10 +162,8 @@ public class AasService extends BaseService {
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
 
-
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin3 digitalTwin = this.getDigitalTwin3(digitalTwinId, registryUrl, edr);
-            LogUtil.printWarning("DIGITAL TWIN:\n" + jsonUtil.toJson(digitalTwin, true));
             if (digitalTwin == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
@@ -232,7 +229,6 @@ public class AasService extends BaseService {
     public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin) {
         try {
             SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin);
-            LogUtil.printWarning("SUBMODEL3:\n" + jsonUtil.toJson(subModel, true));
             if (subModel == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3BySemanticId",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
@@ -502,8 +498,6 @@ public class AasService extends BaseService {
             SearchStatus searchStatus = this.processManager.setSearch(processId, searchBody);
             for (String endpointId : searchStatus.getDtrs().keySet()) {
                 Dtr dtr = searchStatus.getDtr(endpointId);
-                LogUtil.printWarning("EndpointId: " + endpointId);
-                LogUtil.printWarning("Decentral DTR:\n" + jsonUtil.toJson(dtr, true));
                 DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
                         processId,
                         endpointId,

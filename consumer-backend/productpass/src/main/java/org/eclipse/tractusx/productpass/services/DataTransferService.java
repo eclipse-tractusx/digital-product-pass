@@ -869,13 +869,10 @@ public class DataTransferService extends BaseService {
         public void run() {
             try {
                 this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.endpointId);
-                LogUtil.printWarning("DTR REQUEST:\n" + jsonUtil.toJson(this.dtrRequest, true));
                 processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
                 this.transferResponse = this.requestTransfer(dtrRequest);
-
                 processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
                 this.transfer = this.getTransferData(this.transferResponse);
-                LogUtil.printWarning("TRANSFER:\n" + jsonUtil.toJson(this.transfer, true));
                 if (this.transfer == null) {
                     return;
                 }

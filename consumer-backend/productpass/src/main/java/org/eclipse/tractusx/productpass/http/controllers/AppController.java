@@ -159,6 +159,7 @@ public class AppController {
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
+                //status.setSemanticId(String.valueOf(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel")).findFirst().orElse(null)));
                 connectorId = subModel.getIdShort();
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {

@@ -98,16 +98,9 @@ configuration:
       encrypt: true
       indent: true
       dir: "data/transfer"
-    digitalProductPass:
-      versions:
-        - '1.0.0'
-      semanticId: "urn:bamm:io.catenax.generic.digital_product_passport"
-      aspectId: "DigitalProductPassport"
-    batteryPass:
-      versions:
-        - '3.0.1'
-      semanticId: "urn:bamm:io.catenax.battery.battery_pass"
-      aspectId: "BatteryPass"
+    aspects:
+      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
 
   vault:
     type: 'local'

@@ -222,27 +222,21 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            List<String> mandatoryParams = List.of("id", "version");
+            List<String> mandatoryParams = List.of("id");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
             List<String> versions;
-            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
+            /*if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
                 versions = passportConfig.getDigitalProductPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
                 LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
             } else {
                 versions = passportConfig.getBatteryPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
-            }
-
-            // Initialize variables
-            // Check if version is available
-            if (!versions.contains(searchBody.getVersion())) {
-                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("This passport version is not available at the moment!"), httpResponse);
-            }
+            }*/
 
             Process process = null;
             AssetSearch assetSearch = null;

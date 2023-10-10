@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
@@ -56,6 +57,7 @@ public class Status {
 
     @JsonProperty("history")
     public Map<String, History> history;
+
 
     public Status(String id, String status, Long created, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;

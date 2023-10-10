@@ -173,7 +173,6 @@ public class ApiController {
             }
 
             Passport passport = processManager.loadDigitalProductPassport(processId);
-
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);

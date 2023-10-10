@@ -164,9 +164,6 @@ public class AppController {
                 semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
                 LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
-                LogUtil.printMessage("Submodel:\n" + jsonUtil.toJson(subModel, true));
-                LogUtil.printMessage("SemanticId:\n" + semanticId);
-                LogUtil.printMessage("ConnectorId:\n" + connectorId);
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");

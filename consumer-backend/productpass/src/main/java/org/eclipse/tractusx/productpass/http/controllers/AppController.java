@@ -22,7 +22,6 @@
  ********************************************************************************/
 
 package org.eclipse.tractusx.productpass.http.controllers;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;

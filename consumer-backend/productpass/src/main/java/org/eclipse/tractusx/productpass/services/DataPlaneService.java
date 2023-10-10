@@ -69,7 +69,6 @@ public class DataPlaneService extends BaseService {
         try {
             String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
             String packagePath = this.getClass().getPackageName().replace("services", "models.passports");
-            LogUtil.printMessage("aspect name: "+aspectName + " packagePath: "+ packagePath);
             Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
             return (Passport) jsonUtil.bindObject(this.getTransferData(endpointData), passportClass);
         }catch (Exception e){

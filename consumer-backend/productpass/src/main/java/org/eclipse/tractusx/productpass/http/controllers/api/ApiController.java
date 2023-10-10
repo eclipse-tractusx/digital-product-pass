@@ -162,8 +162,9 @@ public class ApiController {
                 response = httpUtil.getNotFound("The passport was already retrieved and is no longer available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+            String semanticId = status.getSemanticId();
 
-            Passport passport = processManager.loadDigitalProductPassport(processId);
+            Passport passport = processManager.loadPassport(semanticId, processId);
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);

@@ -589,7 +589,7 @@ public class ProcessManager {
 
         return endpointData.getOfferId();
     }
-    public BatteryPass loadPassport(String processId){
+    public Passport loadPassport(String semanticId, String processId){
         try {
             String path = this.getProcessFilePath(processId, this.passportFileName);
             History history = new History(
@@ -599,7 +599,10 @@ public class ProcessManager {
             if(!fileUtil.pathExists(path)){
                 throw new ManagerException(this.getClass().getName(), "Passport file ["+path+"] not found!");
             }
-            BatteryPass passport = null;
+            Passport passport = null;
+            String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
+            String packagePath = this.getClass().getPackageName().replace("http.controllers.api", "models.passports");
+            Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
             if(encrypt){
                 Status status = this.getStatus(processId);
@@ -607,9 +610,9 @@ public class ProcessManager {
                 String decryptedPassportJson = CrypUtil.decryptAes(fileUtil.readFile(path), this.generateStatusToken(status, negotiationHistory.getId()));
                 // Delete passport file
 
-                passport =  (BatteryPass) jsonUtil.loadJson(decryptedPassportJson, BatteryPass.class);
+                passport =  (Passport) jsonUtil.loadJson(decryptedPassportJson, passportClass);
             }else{
-                passport =  (BatteryPass) jsonUtil.fromJsonFileToObject(path, BatteryPass.class);
+                passport =  (Passport) jsonUtil.fromJsonFileToObject(path, passportClass);
             }
 
             if(passport == null){

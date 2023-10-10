@@ -161,9 +161,12 @@ public class AppController {
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
-                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel")).findFirst().orElse(null)).getValue();
+                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
                 LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
+                LogUtil.printMessage("Submodel:\n" + jsonUtil.toJson(subModel, true));
+                LogUtil.printMessage("SemanticId:\n" + semanticId);
+                LogUtil.printMessage("ConnectorId:\n" + connectorId);
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
@@ -172,10 +175,6 @@ public class AppController {
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
             } catch (Exception e) {
-                LogUtil.printException(e, "AppController Error");
-                LogUtil.printMessage("Submodel:\n" + jsonUtil.toJson(subModel, true));
-                LogUtil.printMessage("SemanticId:\n" + semanticId);
-                LogUtil.printMessage("ConnectorId:\n" + connectorId);
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {

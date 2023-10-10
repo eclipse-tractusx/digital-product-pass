@@ -44,5 +44,5 @@ dependencies:
     condition: postgresql.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 6.6.0
+    version: 6.7.0
     condition: irs-helm.enabled

@@ -172,6 +172,10 @@ public class AppController {
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
             } catch (Exception e) {
+                LogUtil.printException(e, "AppController Error");
+                LogUtil.printMessage("Submodel:\n" + jsonUtil.toJson(subModel, true));
+                LogUtil.printMessage("SemanticId:\n" + semanticId);
+                LogUtil.printMessage("ConnectorId:\n" + connectorId);
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
             if (connectorId.isEmpty() || connectorAddress.isEmpty()) {

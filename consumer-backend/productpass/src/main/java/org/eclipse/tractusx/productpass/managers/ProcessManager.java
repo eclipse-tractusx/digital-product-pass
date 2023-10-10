@@ -601,7 +601,7 @@ public class ProcessManager {
             }
             Passport passport = null;
             String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
-            String packagePath = this.getClass().getPackageName().replace("http.controllers.api", "models.passports");
+            String packagePath = this.getClass().getPackageName().replace("managers", "models.passports");
             Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
             if(encrypt){

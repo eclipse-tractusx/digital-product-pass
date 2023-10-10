@@ -30,43 +30,51 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes and methods related to discovering the needed Endpoints.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Discovery {
 
+    /** ATTRIBUTES **/
     @JsonProperty("endpoints")
     List<Endpoint> endpoints;
 
+    /** CONSTRUCTOR(S) **/
     public Discovery() {
     }
-
     public Discovery(List<Endpoint> endpoints) {
         this.endpoints = endpoints;
     }
 
+    /** GETTERS AND SETTERS **/
     public List<Endpoint> getEndpoints() {
         return endpoints;
     }
-
     public void setEndpoints(List<Endpoint> endpoints) {
         this.endpoints = endpoints;
     }
 
-    public static class Endpoint{
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define attributes and methods related to the Endpoints information.
+     **/
+    public static class Endpoint {
+
+        /** ATTRIBUTES **/
         @JsonProperty("type")
         String type;
-
         @JsonProperty("description")
         String description;
-
         @JsonProperty("endpointAddress")
         String endpointAddress;
-
         @JsonProperty("documentation")
         String documentation;
-
         @JsonProperty("resourceId")
         String resourceId;
 
+        /** CONSTRUCTOR(S) **/
         public Endpoint(String type, String description, String endpointAddress, String documentation, String resourceId) {
             this.type = type;
             this.description = description;
@@ -74,46 +82,42 @@ public class Discovery {
             this.documentation = documentation;
             this.resourceId = resourceId;
         }
-
         public Endpoint() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getType() {
             return type;
         }
-
         public void setType(String type) {
             this.type = type;
         }
-
         public String getDescription() {
             return description;
         }
-
         public void setDescription(String description) {
             this.description = description;
         }
-
         public String getEndpointAddress() {
             return endpointAddress;
         }
-
+        @SuppressWarnings("Unused")
         public void setEndpointAddress(String endpointAddress) {
             this.endpointAddress = endpointAddress;
         }
-
+        @SuppressWarnings("Unused")
         public String getDocumentation() {
             return documentation;
         }
-
+        @SuppressWarnings("Unused")
         public void setDocumentation(String documentation) {
             this.documentation = documentation;
         }
-
+        @SuppressWarnings("Unused")
         public String getResourceId() {
             return resourceId;
         }
-
+        @SuppressWarnings("Unused")
         public void setResourceId(String resourceId) {
             this.resourceId = resourceId;
         }

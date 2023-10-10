@@ -30,24 +30,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes related to the JSON Web Token (JWT) for authentication purposes.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Jwt {
+
+    /** ATTRIBUTES **/
     @JsonProperty("header")
     Map<String, Object> header;
     @JsonProperty("payload") Map<String, Object> payload;
 
+    /** GETTERS AND SETTERS **/
     public Map<String, Object> getHeader() {
         return header;
     }
-
     public void setHeader(Map<String, Object> header) {
         this.header = header;
     }
-
     public Map<String, Object> getPayload() {
         return payload;
     }
-
     public void setPayload(Map<String, Object> payload) {
         this.payload = payload;
     }

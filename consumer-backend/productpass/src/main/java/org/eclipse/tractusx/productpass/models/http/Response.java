@@ -27,19 +27,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
+
+/**
+ * This class consists exclusively to define attributes related to any kind of HTTP response of the HTTP requests made by the Application.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
+    /** ATTRIBUTES **/
     @JsonProperty("message")
     public String message = null;
     @JsonProperty("status")
     public Integer status = 200;
     @JsonProperty("statusText")
     public String statusText = null;
-
     @JsonProperty("data")
     public Object data = null;
 
+    /** CONSTRUCTOR(S) **/
     public Response(String message, Integer status, String statusText) {
         this.message = message;
         this.status = status;
@@ -62,7 +67,6 @@ public class Response {
     }
     public Response() {
     }
-
     public Response mapError(Map<String, Object> errorAttributes) {
         this.message = errorAttributes.getOrDefault("message", "An error occurred in the server").toString();
         this.status = (Integer) errorAttributes.getOrDefault("status", 500);
@@ -70,38 +74,33 @@ public class Response {
         return this;
     }
 
+    /** GETTERS AND SETTERS **/
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
-
     public Integer getStatus() {
         return status;
     }
-
     public void setStatus(Integer status) {
         this.status = status;
     }
-
+    @SuppressWarnings("Unused")
     public String getStatusText() {
         return statusText;
     }
-
+    @SuppressWarnings("Unused")
     public void setStatusText(String statusText) {
         this.statusText = statusText;
     }
-
     public String errorString(){
         return "["+this.statusText+"]: "+this.message;
     }
-
     public Object getData() {
         return data;
     }
-
     public void setData(Object data) {
         this.data = data;
     }

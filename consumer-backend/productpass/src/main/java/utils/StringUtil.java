@@ -23,6 +23,7 @@
 
 package utils;
 
+@SuppressWarnings("Unused")
 public final class StringUtil {
     private StringUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");

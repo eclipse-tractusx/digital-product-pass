@@ -33,15 +33,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.checkerframework.checker.units.qual.A;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
@@ -49,8 +46,8 @@ import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.DiscoverySearch;
-import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
+import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
@@ -60,17 +57,25 @@ import org.eclipse.tractusx.productpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
-import utils.*;
+import utils.DateTimeUtil;
+import utils.HttpUtil;
+import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class consists exclusively to define the HTTP methods needed for the Contract negotiation.
+ **/
 @RestController
 @RequestMapping("/api/contract")
 @Tag(name = "Contract Controller")
 @SecurityRequirement(name = "BearerAuthentication")
 public class ContractController {
+
+    /** ATTRIBUTES **/
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
@@ -86,15 +91,23 @@ public class ContractController {
     @Autowired
     DtrSearchManager dtrSearchManager;
     private @Autowired ProcessConfig processConfig;
-
     @Autowired
     CatenaXService catenaXService;
-
     @Autowired
     HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
 
+    /** METHODS **/
 
+    /**
+     * HTTP POST method to create a new Process.
+     * <p>
+     * @param   searchBody
+     *          the {@code DiscoverySearch} body from the HTTP request with the partInstanceId.
+     *
+     * @return this {@code Response} HTTP response with the processId of the new Process created.
+     *
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @Operation(summary = "Creates a process and checks for the viability of the data retrieval")
     public Response create(@Valid @RequestBody DiscoverySearch searchBody) {
@@ -203,7 +216,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to search the passport of an asset.
+     * <p>
+     * @param   searchBody
+     *          the {@code DiscoverySearch} body from the HTTP request with the partInstanceId, passport version and the processId.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @Operation(summary = "Searches for a passport with the following id", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
@@ -224,7 +245,19 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            List<String> versions = passportConfig.getVersions();
+            List<String> versions;
+            boolean isDigitalProductPass;
+            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
+                versions = passportConfig.getDigitalProductPass().getVersions();
+                searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
+                LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
+                isDigitalProductPass = true;
+            } else {
+                versions = passportConfig.getBatteryPass().getVersions();
+                searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
+                isDigitalProductPass = false;
+            }
+
             // Initialize variables
             // Check if version is available
             if (!versions.contains(searchBody.getVersion())) {
@@ -250,6 +283,7 @@ public class ContractController {
                     return httpUtil.buildResponse(response, httpResponse);
                 }
                 process = processManager.createProcess(processId, httpRequest);
+                process.setIsDigitalProductPass(isDigitalProductPass);
                 Status status = processManager.getStatus(processId);
                 if (status == null) {
                     response = httpUtil.getBadRequest("The status is not available!");
@@ -322,6 +356,15 @@ public class ContractController {
         }
     }
 
+    /**
+     * HTTP GET method to get the Process status for the given processId.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/status/{processId}", method = RequestMethod.GET)
     @Operation(summary = "Get status from process")
     public Response status(@PathVariable String processId) {
@@ -349,7 +392,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to cancel a Process.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
     @Operation(summary = "Cancel the negotiation")
     public Response cancel(@Valid @RequestBody TokenRequest tokenRequestBody) {
@@ -446,6 +497,15 @@ public class ContractController {
     }
 
 
+    /**
+     * HTTP POST method to sign a Contract retrieved from provider and start the negotiation.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/sign", method = RequestMethod.POST)
     @Operation(summary = "Sign contract retrieved from provider and start negotiation")
     public Response sign(@Valid @RequestBody TokenRequest tokenRequestBody) {
@@ -555,7 +615,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to decline a Passport negotiation.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/decline", method = RequestMethod.POST)
     @Operation(summary = "Decline passport negotiation")
     public Response decline(@Valid @RequestBody TokenRequest tokenRequestBody) {

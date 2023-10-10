@@ -29,8 +29,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes related to the Transfer's data.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Transfer extends DidDocument{
+public class Transfer extends DidDocument {
+
+    /** ATTRIBUTES **/
     @JsonProperty("edc:state")
     String state;
     @JsonProperty("edc:stateTimestamp")
@@ -39,22 +44,18 @@ public class Transfer extends DidDocument{
     String errorDetail;
     @JsonProperty("edc:type")
     String edcType;
-
     @JsonProperty("edc:callbackAddresses")
     List<JsonNode> callbackAddresses;
-
     @JsonProperty("edc:dataDestination")
     DataDestination dataDestination;
-
     @JsonProperty("edc:dataRequest")
     DataRequest dataRequest;
-
     @JsonProperty("edc:receiverHttpEndpoint")
     String receiverHttpEndpoint;
-
     @JsonProperty("@context")
     JsonNode context;
 
+    /** CONSTRUCTOR(S) **/
     public Transfer(String id, String type, String state, Long stateTimestamp, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
         super(id, type);
         this.state = state;
@@ -66,7 +67,6 @@ public class Transfer extends DidDocument{
         this.receiverHttpEndpoint = receiverHttpEndpoint;
         this.context = context;
     }
-
     public Transfer(String state, Long stateTimestamp, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
         this.state = state;
         this.stateTimestamp = stateTimestamp;
@@ -77,14 +77,11 @@ public class Transfer extends DidDocument{
         this.receiverHttpEndpoint = receiverHttpEndpoint;
         this.context = context;
     }
-
     public Transfer(String id, String type) {
         super(id, type);
     }
-
     public Transfer() {
     }
-
     public Transfer(String id, String type, String state, Long stateTimestamp, String errorDetail, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
         super(id, type);
         this.state = state;
@@ -98,124 +95,99 @@ public class Transfer extends DidDocument{
         this.context = context;
     }
 
+    /** GETTERS AND SETTERS **/
     public String getState() {
         return state;
     }
-
     public void setState(String state) {
         this.state = state;
     }
-
     public Long getStateTimestamp() {
         return stateTimestamp;
     }
-
     public void setStateTimestamp(Long stateTimestamp) {
         this.stateTimestamp = stateTimestamp;
     }
-
+    @SuppressWarnings("Unused")
     public String getEdcType() {
         return edcType;
     }
-
+    @SuppressWarnings("Unused")
     public void setEdcType(String edcType) {
         this.edcType = edcType;
     }
-
     public List<JsonNode> getCallbackAddresses() {
         return callbackAddresses;
     }
-
     public void setCallbackAddresses(List<JsonNode> callbackAddresses) {
         this.callbackAddresses = callbackAddresses;
     }
-
     public DataDestination getDataDestination() {
         return dataDestination;
     }
-
     public void setDataDestination(DataDestination dataDestination) {
         this.dataDestination = dataDestination;
     }
-
     public DataRequest getDataRequest() {
         return dataRequest;
     }
-
     public void setDataRequest(DataRequest dataRequest) {
         this.dataRequest = dataRequest;
     }
-
     public String getReceiverHttpEndpoint() {
         return receiverHttpEndpoint;
     }
-
     public void setReceiverHttpEndpoint(String receiverHttpEndpoint) {
         this.receiverHttpEndpoint = receiverHttpEndpoint;
     }
-
     public JsonNode getContext() {
         return context;
     }
-
     public void setContext(JsonNode context) {
         this.context = context;
     }
-
     public String getErrorDetail() {
         return errorDetail;
     }
-
     public void setErrorDetail(String errorDetail) {
         this.errorDetail = errorDetail;
     }
+
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Transfer's data request property.
+     **/
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class DataRequest extends DidDocument{
+    static class DataRequest extends DidDocument {
+
+        /** ATTRIBUTES **/
         @JsonProperty("edc:assetId")
         String assetId;
-
         @JsonProperty("edc:connectorId")
         String connectorId;
-
         @JsonProperty("edc:contractId")
         String contractId;
 
+        /** GETTERS AND SETTERS **/
         public String getAssetId() {
             return assetId;
         }
-
         public void setAssetId(String assetId) {
             this.assetId = assetId;
         }
-
         public String getContractId() {
             return contractId;
         }
-
         public void setContractId(String contractId) {
             this.contractId = contractId;
         }
-
         public String getConnectorId() {
             return connectorId;
         }
-
         public void setConnectorId(String connectorId) {
             this.connectorId = connectorId;
         }
     }
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class DataDestination {
-        @JsonProperty("edc:type")
-        String type;
 
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
 }
 

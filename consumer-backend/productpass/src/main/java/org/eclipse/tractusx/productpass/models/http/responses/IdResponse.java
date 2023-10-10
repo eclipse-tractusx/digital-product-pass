@@ -30,45 +30,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.models.negotiation.DidDocument;
 
+/**
+ * This class consists exclusively to define attributes related to the response of the requests made by the Application.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IdResponse extends DidDocument {
 
+    /** ATTRIBUTES **/
     @JsonProperty("edc:createdAt")
     public Long createdAt;
     @JsonProperty("@context")
     JsonNode context;
 
-
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public IdResponse(String id, String type, Long createdAt, JsonNode context) {
         super(id, type);
         this.createdAt = createdAt;
         this.context = context;
     }
-
+    @SuppressWarnings("Unused")
     public IdResponse(Long createdAt, JsonNode context) {
         this.createdAt = createdAt;
         this.context = context;
     }
-
+    @SuppressWarnings("Unused")
     public IdResponse() {
     }
 
+    /** GETTERS AND SETTERS **/
     public IdResponse(String id, String type) {
         super(id, type);
     }
-
     public Long getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
-
     public JsonNode getContext() {
         return context;
     }
-
     public void setContext(JsonNode context) {
         this.context = context;
     }

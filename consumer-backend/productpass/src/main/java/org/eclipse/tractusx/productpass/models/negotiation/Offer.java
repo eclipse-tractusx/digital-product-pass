@@ -28,48 +28,46 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes related to the Offer's data.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
 
+    /** ATTRIBUTES **/
     @JsonProperty("offerId")
     String offerId;
-
     @JsonProperty("assetId")
     String assetId;
-
     @JsonProperty("policy")
     Set policy;
 
-
+    /** CONSTRUCTOR(S) **/
     public Offer(String offerId, String assetId, Set policy) {
         this.offerId = offerId;
         this.assetId = assetId;
         this.policy = policy;
     }
-
     public Offer() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getOfferId() {
         return offerId;
     }
-
+    @SuppressWarnings("Unused")
     public void setOfferId(String offerId) {
         this.offerId = offerId;
     }
-
     public String getAssetId() {
         return assetId;
     }
-
     public void setAssetId(String assetId) {
         this.assetId = assetId;
     }
-
     public Set getPolicy() {
         return policy;
     }
-
     public void setPolicy(Set policy) {
         this.policy = policy;
     }

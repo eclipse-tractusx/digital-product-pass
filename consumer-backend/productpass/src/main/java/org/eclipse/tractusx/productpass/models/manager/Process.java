@@ -29,24 +29,28 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import utils.DateTimeUtil;
 
+
+/**
+ * This class consists exclusively to define attributes related to the Processes.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Process {
 
+    /** ATTRIBUTES **/
     @JsonProperty("id")
     public String id;
-
     @JsonProperty("state")
     public String state;
-
     @JsonProperty("created")
     public Long created;
-
     @JsonProperty("updated")
     public Long updated;
-
     @JsonProperty("thread")
     public Thread thread;
+    @JsonProperty("isDigitalProductPass")
+    private boolean isDigitalProductPass;
 
+    /** CONSTRUCTOR(S) **/
     public Process(String id, String state, Thread thread) {
         this.id = id;
         this.state = state;
@@ -54,7 +58,6 @@ public class Process {
         this.updated = DateTimeUtil.getTimestamp();
         this.thread = thread;
     }
-
     public Process() {
     }
     public Process(String id, String state, Long created, Long updated) {
@@ -69,14 +72,12 @@ public class Process {
         this.created = created;
         this.updated = DateTimeUtil.getTimestamp();
     }
-
     public Process(String id, String state) {
         this.id = id;
         this.state = state;
         this.created = DateTimeUtil.getTimestamp();
         this.updated = DateTimeUtil.getTimestamp();
     }
-
     public Process(String id, String state, Long created, Long updated, Thread thread) {
         this.id = id;
         this.state = state;
@@ -85,47 +86,42 @@ public class Process {
         this.thread = thread;
     }
 
-
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getState() {
         return state;
     }
-
     public void setState(String state) {
         this.state = state;
         this.updated = DateTimeUtil.getTimestamp();
     }
-
     public Thread getThread() {
         return thread;
     }
-
     public void setThread(Thread thread) {
         this.thread = thread;
     }
-
-
-
     public Long getUpdated() {
         return updated;
     }
-
     public void setUpdated(Long updated) {
         this.updated = updated;
     }
-
     public Long getCreated() {
         return created;
     }
-
     public void setCreated(Long created) {
         this.created = created;
+    }
+    public boolean getIsDigitalProductPass() {
+        return isDigitalProductPass;
+    }
+    public void setIsDigitalProductPass(boolean isDigitalProductPass) {
+        this.isDigitalProductPass = isDigitalProductPass;
     }
 }

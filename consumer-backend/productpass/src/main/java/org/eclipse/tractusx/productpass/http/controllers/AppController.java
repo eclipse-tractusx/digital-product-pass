@@ -58,6 +58,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @Tag(name = "Public Controller")
@@ -156,10 +157,13 @@ public class AppController {
             String connectorId = null;
             String assetId = null;
             String connectorAddress = null;
+            String semanticId = null;
+
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
-                //status.setSemanticId(String.valueOf(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel")).findFirst().orElse(null)));
+                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel")).findFirst().orElse(null)).getValue();
+                LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
@@ -185,6 +189,7 @@ public class AppController {
             }
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId, dtr.getBpn());
+            processManager.setSemanticId(processId, semanticId);
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
@@ -242,7 +247,9 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            Passport passport = dataPlaneService.getPassport(endpointData);
+            Status status = processManager.getStatus(processId);
+            String semanticId = status.getSemanticId();
+            Passport passport = dataPlaneService.getPassport(semanticId, endpointData);
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

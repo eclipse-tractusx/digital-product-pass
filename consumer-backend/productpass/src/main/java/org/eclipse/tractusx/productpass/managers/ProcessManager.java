@@ -26,7 +26,6 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
@@ -43,7 +42,7 @@ import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
+import org.eclipse.tractusx.productpass.models.passports.BatteryPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -335,6 +334,23 @@ public class ProcessManager {
         }
     }
 
+    public String setSemanticId(String processId, String semanticId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setSemanticId(semanticId);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to set the semanticId!");
+        }
+    }
+
     public String setStatus(String processId, String historyId, History history) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
@@ -573,7 +589,7 @@ public class ProcessManager {
 
         return endpointData.getOfferId();
     }
-    public PassportV3 loadPassport(String processId){
+    public BatteryPass loadPassport(String processId){
         try {
             String path = this.getProcessFilePath(processId, this.passportFileName);
             History history = new History(
@@ -583,7 +599,7 @@ public class ProcessManager {
             if(!fileUtil.pathExists(path)){
                 throw new ManagerException(this.getClass().getName(), "Passport file ["+path+"] not found!");
             }
-            PassportV3 passport = null;
+            BatteryPass passport = null;
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
             if(encrypt){
                 Status status = this.getStatus(processId);
@@ -591,9 +607,9 @@ public class ProcessManager {
                 String decryptedPassportJson = CrypUtil.decryptAes(fileUtil.readFile(path), this.generateStatusToken(status, negotiationHistory.getId()));
                 // Delete passport file
 
-                passport =  (PassportV3) jsonUtil.loadJson(decryptedPassportJson, PassportV3.class);
+                passport =  (BatteryPass) jsonUtil.loadJson(decryptedPassportJson, BatteryPass.class);
             }else{
-                passport =  (PassportV3) jsonUtil.fromJsonFileToObject(path, PassportV3.class);
+                passport =  (BatteryPass) jsonUtil.fromJsonFileToObject(path, BatteryPass.class);
             }
 
             if(passport == null){

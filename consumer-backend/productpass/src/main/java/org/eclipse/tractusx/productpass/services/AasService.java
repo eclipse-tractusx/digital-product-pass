@@ -373,19 +373,14 @@ public class AasService extends BaseService {
             for (String semanticId: passportConfig.getAspects()) {
                 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(submodelTypeKey) && k.getValue().equalsIgnoreCase(semanticId)) != null).findFirst().orElse(null);
                 if (subModel != null) {
-                    break;
+                    return subModel; // Return subModel if found
                 }
             }
-
-            if (subModel == null) {
-                // If the subModel semanticId does not exist
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
-                        "SubModel for SemanticId not found!");
-            }
-            // Return subModel if found
-            return subModel;
+            // If the subModel semanticId does not exist
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    "SubModel for SemanticId not found!");
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                     e,
                     "It was not possible to get subModel!");
         }

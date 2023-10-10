@@ -24,9 +24,6 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.type.LogicalType;
-import com.google.common.math.Stats;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -34,15 +31,13 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
-import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.negotiation.Properties;
 import org.eclipse.tractusx.productpass.models.negotiation.Set;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
+import org.eclipse.tractusx.productpass.models.passports.BatteryPass;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -51,12 +46,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
-import javax.xml.crypto.Data;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class DataTransferService extends BaseService {
@@ -810,7 +802,7 @@ public class DataTransferService extends BaseService {
     }
 
 
-    public PassportV3 getPassportV3(String transferProcessId, String endpoint) {
+    public BatteryPass getPassportV3(String transferProcessId, String endpoint) {
         try {
             this.checkEmptyVariables();
             Map<String, Object> params = httpUtil.getParams();
@@ -825,7 +817,7 @@ public class DataTransferService extends BaseService {
                 throw new ServiceException(this.getClass().getName() + ".getPassportV3", "It was not possible to get passport with id " + transferProcessId);
             }
             String responseBody = (String) response.getBody();
-            return (PassportV3) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), PassportV3.class);
+            return (BatteryPass) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), BatteryPass.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getPassportV3",
                     e,

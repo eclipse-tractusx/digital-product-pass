@@ -23,21 +23,18 @@
 
 package org.eclipse.tractusx.productpass.services;
 
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.passports.DigitalProductPassport;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import utils.HttpUtil;
-import utils.JsonUtil;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +65,13 @@ public class DataPlaneService extends BaseService {
                     "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
         }
     }
-    public Passport getPassport(DataPlaneEndpoint endpointData) {
+    public Passport getPassport(String semanticId, DataPlaneEndpoint endpointData) {
         try {
-            return (DigitalProductPassport) jsonUtil.bindObject(this.getTransferData(endpointData), DigitalProductPassport.class);
+            String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
+            String packagePath = this.getClass().getPackageName().replace("services", "models.passports");
+            LogUtil.printMessage("aspect name: "+aspectName + " packagePath: "+ packagePath);
+            Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
+            return (Passport) jsonUtil.bindObject(this.getTransferData(endpointData), passportClass);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

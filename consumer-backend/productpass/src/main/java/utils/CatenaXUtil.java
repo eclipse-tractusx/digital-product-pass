@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +51,14 @@ public final class CatenaXUtil {
 
     public static String buildDataEndpoint(String endpoint) {
         return endpoint + edcDataEndpoint;
+    }
+
+    public static String getAspectNameFromSemanticId(String semanticId){
+        try {
+            return semanticId.split(String.format("\\%s","#"))[1];
+        }catch(Exception e){
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] It was not possible to ge the semantic aspect!");
+        }
     }
 
     public static String getBPN(String str) {

@@ -23,6 +23,8 @@
 
 package utils;
 
+import utils.exceptions.UtilException;
+
 public final class ReflectionUtil {
     private ReflectionUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
@@ -32,5 +34,16 @@ public final class ReflectionUtil {
     }
     public static Boolean classIsTest(Class classObj){
         return ReflectionUtil.getCurrentClassName(classObj).contains("test");
+    }
+    public static Class<?> instanceClass(String packagePath, String className){
+        try {
+            String classPath = packagePath + "." + className;
+            LogUtil.printMessage("class path: " + classPath);
+            return Class.forName(classPath);
+        }catch (ClassNotFoundException e){
+            throw new UtilException(ReflectionUtil.class, e, "It was not possible to instance class, class ["+packagePath+"."+className+"] not found!");
+        }catch (Exception e){
+            throw new UtilException(ReflectionUtil.class, e, "It was not possible to instance class!");
+        }
     }
 }

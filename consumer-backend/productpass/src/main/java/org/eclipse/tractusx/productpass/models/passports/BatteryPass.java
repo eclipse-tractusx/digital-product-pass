@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 /*
  *  =======[DESCRIPTION]=========================================================
- *   Passport Semantic BAMM Version @v3.0.1
+ *   Battery Pass Semantic BAMM Version @v3.0.1
  *   Aspect model URN: urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass
  *   https://portal.int.demo.catena-x.net/semantichub/urn%3Abamm%3Aio.catenax.battery.battery_pass%3A3.0.1%23BatteryPass
  *   Flexible Structure (Abstraction from main attributes using JsonNodes)
@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PassportV3 extends Passport{
+public class BatteryPass extends Passport{
 
     @JsonProperty("electrochemicalProperties")
     JsonNode electrochemicalProperties;

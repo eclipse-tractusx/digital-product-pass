@@ -27,28 +27,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * This class consists exclusively to define attributes related to the Negotiation requests.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NegotiationRequest {
 
+    /** ATTRIBUTES **/
     @JsonProperty("@context")
     JsonNode context;
-
     @JsonProperty("@type")
     String type;
     @JsonProperty("connectorAddress")
     String connectorAddress;
     @JsonProperty("protocol")
     String protocol;
-
     @JsonProperty("connectorId")
     String connectorId;
-
     @JsonProperty("providerId")
     String providerId;
-
     @JsonProperty("offer")
     Offer offer;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public NegotiationRequest(JsonNode context, String connectorAddress, String protocol, String connectorId, String providerId, Offer offer) {
         this.context = context;
         this.type = "NegotiationInitiateRequestDto";
@@ -58,6 +60,7 @@ public class NegotiationRequest {
         this.providerId = providerId;
         this.offer = offer;
     }
+    @SuppressWarnings("Unused")
     public NegotiationRequest(JsonNode context, String connectorAddress, String connectorId, String providerId, Offer offer) {
         this.context = context;
         this.type = "NegotiationInitiateRequestDto";
@@ -75,6 +78,7 @@ public class NegotiationRequest {
         this.connectorId = connectorId;
         this.offer = offer;
     }
+    @SuppressWarnings("Unused")
     public NegotiationRequest(JsonNode context, String type, String connectorAddress, String protocol, String connectorId, String providerId, Offer offer) {
         this.context = context;
         this.type = type;
@@ -84,63 +88,53 @@ public class NegotiationRequest {
         this.providerId = providerId;
         this.offer = offer;
     }
-
-
+    @SuppressWarnings("Unused")
     public NegotiationRequest() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getConnectorId() {
         return connectorId;
     }
-
     public void setConnectorId(String connectorId) {
         this.connectorId = connectorId;
     }
-
     public String getConnectorAddress() {
         return connectorAddress;
     }
-
     public void setConnectorAddress(String connectorAddress) {
         this.connectorAddress = connectorAddress;
     }
-
     public Offer getOffer() {
         return offer;
     }
-
+    @SuppressWarnings("Unused")
     public void setOffer(Offer offer) {
         this.offer = offer;
     }
-
     public JsonNode getContext() {
         return context;
     }
-
     public void setContext(JsonNode context) {
         this.context = context;
     }
-
     public String getProtocol() {
         return protocol;
     }
-
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
-
+    @SuppressWarnings("Unused")
     public String getProviderId() {
         return providerId;
     }
-
+    @SuppressWarnings("Unused")
     public void setProviderId(String providerId) {
         this.providerId = providerId;
     }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }

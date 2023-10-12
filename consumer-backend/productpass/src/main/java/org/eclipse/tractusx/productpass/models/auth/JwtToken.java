@@ -26,33 +26,33 @@ package org.eclipse.tractusx.productpass.models.auth;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * This class consists exclusively to define attributes and methods related to the JSON Web Token (JWT) token used
+ * for authentication in the Application.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtToken {
 
+    /** ATTRIBUTES **/
     @JsonProperty("access_token")
     String accessToken;
-
     @JsonProperty("refresh_token")
     String refreshToken;
     @JsonProperty("expires_in")
     Integer expiresIn;
-
     @JsonProperty("refresh_expires_in")
     Integer refreshExpiresIn;
-
     @JsonProperty("token_type")
     String tokenType;
-
     @JsonProperty("id_token")
     String idToken;
-
     @JsonProperty("not-before-policy")
     String notBeforePolicy;
-
     @JsonProperty("scope")
     String scope;
 
-
+    /** CONSTRUCTOR(S) **/
     public JwtToken(){
 
     }
@@ -61,66 +61,67 @@ public class JwtToken {
         this.refreshToken = refreshToken;
     }
 
+    /** GETTERS AND SETTERS **/
     public String getAccessToken() {
         return accessToken;
     }
-
+    @SuppressWarnings("Unused")
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
+    @SuppressWarnings("Unused")
     public String getRefreshToken() {
         return refreshToken;
     }
-
+    @SuppressWarnings("Unused")
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
-
+    @SuppressWarnings("Unused")
     public Integer getExpiresIn() {
         return expiresIn;
     }
-
+    @SuppressWarnings("Unused")
     public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
     }
-
+    @SuppressWarnings("Unused")
     public Integer getRefreshExpiresIn() {
         return refreshExpiresIn;
     }
-
+    @SuppressWarnings("Unused")
     public void setRefreshExpiresIn(Integer refreshExpiresIn) {
         this.refreshExpiresIn = refreshExpiresIn;
     }
-
+    @SuppressWarnings("Unused")
     public String getTokenType() {
         return tokenType;
     }
-
+    @SuppressWarnings("Unused")
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
-
+    @SuppressWarnings("Unused")
     public String getIdToken() {
         return idToken;
     }
-
+    @SuppressWarnings("Unused")
     public void setIdToken(String idToken) {
         this.idToken = idToken;
     }
-
+    @SuppressWarnings("Unused")
     public String getNotBeforePolicy() {
         return notBeforePolicy;
     }
-
+    @SuppressWarnings("Unused")
     public void setNotBeforePolicy(String notBeforePolicy) {
         this.notBeforePolicy = notBeforePolicy;
     }
-
+    @SuppressWarnings("Unused")
     public String getScope() {
         return scope;
     }
-
+    @SuppressWarnings("Unused")
     public void setScope(String scope) {
         this.scope = scope;
     }

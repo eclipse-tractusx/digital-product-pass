@@ -23,19 +23,45 @@
 
 package org.eclipse.tractusx.productpass.exceptions;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import utils.LogUtil;
 
-public class ConfigException extends RuntimeException{
 
-        public ConfigException(String configuration, String errorMessage) {
-            super("["+configuration+"] " + errorMessage);
-            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
-        }
-        public ConfigException(String configuration, Exception e, String errorMessage) {
-            super("["+configuration+"] " + errorMessage+", "+e.getMessage());
-            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
-        }
+/**
+ * This class consists exclusively to define methods to handle and log exceptions caused in the Configuration classes.
+ **/
+@SuppressWarnings("Unused")
+public class ConfigException extends RuntimeException {
+
+    /**
+     * Logs the given configuration name and error message.
+     * <p>
+     * @param   configurationName
+     *          the {@code String} configurationName name (e.g: the class name where the exception occurred).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    @SuppressWarnings("Unused")
+    public ConfigException(String configurationName, String errorMessage) {
+        super("["+configurationName+"] " + errorMessage);
+        LogUtil.printException(this, "["+configurationName+"] " + errorMessage);
+    }
+
+    /**
+     * Logs the given configuration name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   configurationName
+     *          the {@code String} configuration name (e.g: the class name where the exception occurred).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    @SuppressWarnings("Unused")
+    public ConfigException(String configurationName, Exception e, String errorMessage) {
+        super("["+configurationName+"] " + errorMessage+", "+e.getMessage());
+        LogUtil.printException(this, "["+configurationName+"] " + errorMessage);
+    }
 
 }

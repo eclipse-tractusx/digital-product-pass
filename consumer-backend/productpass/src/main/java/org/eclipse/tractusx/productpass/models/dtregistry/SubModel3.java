@@ -29,10 +29,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes related to the designed model of the Submodel's improved version.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubModel3 {
+
+    /** ATTRIBUTES **/
     @JsonProperty("description")
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
@@ -49,6 +56,8 @@ public class SubModel3 {
     @JsonProperty("endpoints")
     ArrayList<EndPoint3> endpoints;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public SubModel3(ArrayList<JsonNode> description, String idShort, String identification, SemanticId semanticId, ArrayList<EndPoint3> endpoints) {
         this.description = description;
         this.idShort = idShort;
@@ -56,10 +65,10 @@ public class SubModel3 {
         this.semanticId = semanticId;
         this.endpoints = endpoints;
     }
-
+    @SuppressWarnings("Unused")
     public SubModel3() {
     }
-
+    @SuppressWarnings("Unused")
     public SubModel3(ArrayList<JsonNode> description, String idShort, Object supplementalSemanticId, String identification, SemanticId semanticId, ArrayList<EndPoint3> endpoints) {
         this.description = description;
         this.idShort = idShort;
@@ -69,6 +78,7 @@ public class SubModel3 {
         this.endpoints = endpoints;
     }
 
+    /** GETTERS AND SETTERS **/
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
@@ -88,7 +98,7 @@ public class SubModel3 {
     public String getIdentification() {
         return identification;
     }
-
+    @SuppressWarnings("Unused")
     public void setIdentification(String identification) {
         this.identification = identification;
     }
@@ -108,23 +118,38 @@ public class SubModel3 {
     public void setEndpoints(ArrayList<EndPoint3> endpoints) {
         this.endpoints = endpoints;
     }
+    @SuppressWarnings("Unused")
+    public Object getSupplementalSemanticId() {
+        return supplementalSemanticId;
+    }
+    @SuppressWarnings("Unused")
+    public void setSupplementalSemanticId(Object supplementalSemanticId) {
+        this.supplementalSemanticId = supplementalSemanticId;
+    }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Submodel's SemanticId.
+     **/
     public static class SemanticId {
+
+        /** ATTRIBUTES **/
         @JsonProperty("type")
         String type;
         @JsonProperty("keys")
         ArrayList<Key> keys;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public SemanticId(String type, ArrayList<Key> keys) {
             this.type = type;
             this.keys = keys;
         }
-
+        @SuppressWarnings("Unused")
         public SemanticId() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getType() {
             return type;
         }
@@ -136,7 +161,7 @@ public class SubModel3 {
         public ArrayList<Key> getKeys() {
             return keys;
         }
-
+        @SuppressWarnings("Unused")
         public void setKeys(ArrayList<Key> keys) {
             this.keys = keys;
         }
@@ -169,12 +194,5 @@ public class SubModel3 {
             public String getValue() { return value; }
             public void setValue(String value) { this.value = value; }
         }
-    }
-    public Object getSupplementalSemanticId() {
-        return supplementalSemanticId;
-    }
-
-    public void setSupplementalSemanticId(Object supplementalSemanticId) {
-        this.supplementalSemanticId = supplementalSemanticId;
     }
 }

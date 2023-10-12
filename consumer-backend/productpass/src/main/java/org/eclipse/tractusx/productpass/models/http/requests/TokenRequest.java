@@ -28,11 +28,17 @@ package org.eclipse.tractusx.productpass.models.http.requests;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
+
+/**
+ * This class consists exclusively to define attributes related to the many endpoint request like "/sign", "/passport", etc.
+ * It's the mandatory body parameter for the HTTP requests.
+ **/
 public class TokenRequest {
+
+    /** ATTRIBUTES **/
     @NotNull(message = "Process id needs to be defined!")
     @JsonProperty("processId")
     String processId;
-
     @NotNull(message = "ContractId needs to be defined!")
     @JsonProperty("contractId")
     String contractId;
@@ -40,36 +46,34 @@ public class TokenRequest {
     @JsonProperty("token")
     String token;
 
-
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public TokenRequest(String processId, String contractId, String token) {
         this.processId = processId;
         this.contractId = contractId;
         this.token = token;
     }
 
+
+    /** GETTERS AND SETTERS **/
     public String getToken() {
         return token;
     }
-
     public void setToken(String token) {
         this.token = token;
     }
-
+    @SuppressWarnings("Unused")
     public TokenRequest() {
     }
-
     public String getProcessId() {
         return processId;
     }
-
     public void setProcessId(String processId) {
         this.processId = processId;
     }
-
     public String getContractId() {
         return contractId;
     }
-
     public void setContractId(String contractId) {
         this.contractId = contractId;
     }

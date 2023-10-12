@@ -34,8 +34,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes and methods related to the Process' status.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Status {
+
+    /** ATTRIBUTES **/
     @JsonProperty("id")
     public String id;
 
@@ -58,10 +63,12 @@ public class Status {
     @JsonProperty("history")
     public Map<String, History> history;
 
+    /** CONSTRUCTOR(S) **/
     @JsonProperty("semanticId")
     public String semanticId;
 
 
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -70,7 +77,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -79,7 +86,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified,  String endpoint, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -88,6 +95,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = Map.of(historyId, history);
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long modified,  String endpoint, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -96,7 +104,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = Map.of(historyId, history);
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status,  String endpoint, Long modified) {
         this.id = id;
         this.status = status;
@@ -114,9 +122,10 @@ public class Status {
         this.endpoint = endpoint;
         this.history = new HashMap<String, History>();
     }
+    @SuppressWarnings("Unused")
     public Status() {
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified) {
         this.id = id;
         this.status = status;
@@ -124,6 +133,7 @@ public class Status {
         this.modified = modified;
         this.history = new HashMap<String, History>();
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -131,7 +141,7 @@ public class Status {
         this.modified = modified;
         this.history = Map.of(historyId, history);
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -141,7 +151,7 @@ public class Status {
         this.bpn = bpn;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn) {
         this.id = id;
         this.status = status;
@@ -151,6 +161,7 @@ public class Status {
         this.bpn = bpn;
         this.history = new HashMap<String, History>();
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -160,6 +171,8 @@ public class Status {
         this.bpn = bpn;
         this.history = Map.of(historyId, history);
     }
+
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
@@ -206,9 +219,11 @@ public class Status {
     public void setHistory(String name, History history) {
         this.history.put(name, history);
     }
+    @SuppressWarnings("Unused")
     public void deleteHistory() {
         this.history = new HashMap<>();
     }
+    @SuppressWarnings("Unused")
     public Boolean removeHistory(String name) {
         if(!this.history.containsKey(name)){
             return false;

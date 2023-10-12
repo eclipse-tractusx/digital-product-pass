@@ -23,18 +23,14 @@
 
 package org.eclipse.tractusx.productpass.services;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.servlet.http.HttpServletRequest;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.*;
 import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
@@ -42,49 +38,45 @@ import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.manager.Process;
-import org.eclipse.tractusx.productpass.models.negotiation.Transfer;
-import org.eclipse.tractusx.productpass.models.negotiation.TransferRequest;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.*;
 
-import javax.xml.crypto.Data;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class consists exclusively of methods to operate on getting Digital Twins and Submodels.
+ *
+ * <p> The methods defined here are intended to do every needed operations to be able to get Digital Twins and the Submodels.
+ *
+ */
 @Service
 public class AasService extends BaseService {
 
     private final String submodelTypeKey = "Submodel";
+    /** ATTRIBUTES **/
     public String registryUrl;
+
     public Boolean central;
-
     private final HttpUtil httpUtil;
-
     private final JsonUtil jsonUtil;
-
     private final DtrConfig dtrConfig;
     private final AuthenticationService authService;
-
     Map<String, Object> apis;
     private DtrSearchManager dtrSearchManager;
     private ProcessManager processManager;
-
     private DataTransferService dataService;
 
     private PassportConfig passportConfig;
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig, DtrSearchManager dtrSearchManager, ProcessManager processManager, DataTransferService dataService, PassportConfig passportConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
@@ -99,6 +91,11 @@ public class AasService extends BaseService {
         this.passportConfig = passportConfig;
     }
 
+    /** METHODS **/
+
+    /**
+     * Initiates the main needed variables for the AasService by loading from the application's configuration file.
+     **/
     public void init(Environment env) {
         this.registryUrl = dtrConfig.getCentralUrl();
         this.central = dtrConfig.getCentral();
@@ -120,6 +117,13 @@ public class AasService extends BaseService {
         );
     }
 
+    /**
+     * Creates a List of missing variables needed to this service.
+     * <p>
+     *
+     * @return an {@code Arraylist} with the environment variables missing in the service's configuration.
+     *
+     */
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
@@ -136,6 +140,20 @@ public class AasService extends BaseService {
         return missingVariables;
     }
 
+    /**
+     * Searches a {@code Submodel} from a Digital Twin by a given position index.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   position
+     *          the {@code Integer} position index of the intended submodel.
+     *
+     * @return a {@code Submodel} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a submodel for the specified position index.
+     */
+    @SuppressWarnings("Unused")
     public SubModel searchSubModelInDigitalTwinByIndex(DigitalTwin digitalTwin, Integer position) {
         try {
             SubModel subModel = this.getSubModelFromDigitalTwin(digitalTwin, position);
@@ -150,6 +168,26 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
+
+    /**
+     * Searches a {@code DigitalTwin3} from a given position index containing the specified parameters.
+     * <p>
+     * @param   assetType
+     *          the {@code String} type of the asset.
+     * @param   assetId
+     *          the {@code String} identification of the asset.
+     * @param   position
+     *          the {@code Integer} position index of the intended digital twin.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code DigitalTwin3} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code DigitalTwin3} for the specified position index.
+     */
     public DigitalTwin3 searchDigitalTwin3(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
@@ -176,6 +214,25 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Searches a {@code DigitalTwin} from a given position index containing the specified parameters.
+     * <p>
+     * @param   assetType
+     *          the {@code String} type of the asset.
+     * @param   assetId
+     *          the {@code String} identification of the asset.
+     * @param   position
+     *          the {@code Integer} position index of the intended digital twin.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code DigitalTwin} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code DigitalTwin} for the specified position index.
+     */
     public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
@@ -203,7 +260,17 @@ public class AasService extends BaseService {
         }
     }
 
-
+    /**
+     * Builds the endpoint for a given registry URL and context key.
+     * <p>
+     * @param   registryUrl
+     *          the {@code String} registry URL of the intended endpoint.
+     * @param   key
+     *          the {@code String} key with the intended URLs context (e.g: "digitaltwin", "search", "submodel", etc).
+     *
+     * @return a {@code String} object with the built endpoint.
+     *
+     */
     public String getPathEndpoint(String registryUrl, String key) {
         if (this.central || registryUrl == null || registryUrl.isEmpty()) {
             return (String) jsonUtil.getValue(this.apis, "central." + key, ".", null);
@@ -211,6 +278,20 @@ public class AasService extends BaseService {
         String path = (String) jsonUtil.getValue(this.apis, "decentral." + key, ".", null);
         return path;
     }
+
+    /**
+     * Searches a {@code Submodel3} from a Digital Twin by a given short identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     * @param   idShort
+     *          the {@code String} short id of the intended submodel.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given id.
+     */
     public SubModel3 searchSubModel3ById(DigitalTwin3 digitalTwin, String idShort) {
         try {
             SubModel3 subModel = this.getSubModel3ById(digitalTwin, idShort);
@@ -226,6 +307,44 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Searches a {@code Submodel3} from a Digital Twin by a given semantic identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     * @param   semanticId
+     *          the {@code String} semantic id of the intended submodel.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
+    public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin, String semanticId) {
+        try {
+            SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin, semanticId);
+            if (subModel == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3BySemanticId",
+                        "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
+            }
+            return subModel;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3ById",
+                    e,
+                    "It was not possible to search submodel!");
+        }
+    }
+    /**
+     * Searches a {@code Submodel3} from a Digital Twin by the configured semanticIds
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
     public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin) {
         try {
             SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin);
@@ -241,6 +360,19 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Searches a {@code Submodel} from a Digital Twin by a given short identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   idShort
+     *          the {@code String} short id of the intended submodel.
+     *
+     * @return a {@code Submodel} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel} for the given id.
+     */
     public SubModel searchSubModelById(DigitalTwin digitalTwin, String idShort) {
         try {
             SubModel subModel = this.getSubModelById(digitalTwin, idShort);
@@ -256,6 +388,23 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Searches a {@code Submodel} from a Digital Twin from a given position index containing the specified parameters.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   position
+     *          the {@code Integer} position index of the intended submodel.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code Submodel} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code Submodel} for the specified position index.
+     */
     public SubModel searchSubModel(DigitalTwin digitalTwin, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             SubModel subModel = this.getSubModel(digitalTwin, position, registryUrl, edr);
@@ -271,6 +420,21 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Gets the {@code DigitalTwin3} of a given id.
+     * <p>
+     * @param   digitalTwinId
+     *          the {@code String} identification of the digital twin.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code DigitalTwin3} object with the given id, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code DigitalTwin3} for the specified id.
+     */
     public DigitalTwin3 getDigitalTwin3(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin");
@@ -287,6 +451,22 @@ public class AasService extends BaseService {
         }
 
     }
+
+    /**
+     * Gets the {@code DigitalTwin} of a given id.
+     * <p>
+     * @param   digitalTwinId
+     *          the {@code String} identification of the digital twin.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code DigitalTwin} object with the given id, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code DigitalTwin} for the specified id.
+     */
     public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin");
@@ -304,6 +484,20 @@ public class AasService extends BaseService {
 
     }
 
+
+    /**
+     * Gets the {@code Submodel} from a Digital Twin from a given position index.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   position
+     *          the {@code Integer} position index of the intended submodel.
+     *
+     * @return a {@code Submodel} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code Submodel} for the specified position index.
+     */
     public SubModel getSubModelFromDigitalTwin(DigitalTwin digitalTwin, Integer position) {
         try {
             ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
@@ -319,6 +513,23 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Gets the {@code Submodel} from a Digital Twin from a given position index containing the specified parameters.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   position
+     *          the {@code Integer} position index of the intended submodel.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code Submodel} object from the position index, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a {@code Submodel} for the specified position index.
+     */
     public SubModel getSubModel(DigitalTwin digitalTwin, Integer position, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "digitalTwin");
@@ -337,6 +548,19 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Gets the {@code Submodel3} from a Digital Twin by a given short identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     * @param   idShort
+     *          the {@code String} short id of the intended submodel.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given id.
+     */
     public SubModel3 getSubModel3ById(DigitalTwin3 digitalTwin, String idShort) {
         try {
             ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
@@ -360,6 +584,18 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
+
+    /**
+     * Gets the {@code Submodel3} from a Digital Twin by the configured semantic aspects
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
 
     public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin) {
         try {
@@ -385,7 +621,55 @@ public class AasService extends BaseService {
                     "It was not possible to get subModel!");
         }
     }
+    /**
+     * Gets the {@code Submodel3} from a Digital Twin by a given semantic identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     * @param   semanticId
+     *          the {@code String} semantic id of the intended submodel.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
+    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin, String semanticId) {
+        try {
+            ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
+            if (subModels.size() < 1) {
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                        "No subModel found in digitalTwin!");
+            }
+            SubModel3 subModel = null;
+            // Search for first subModel with matching semanticId, if it fails gives null
+            subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(submodelTypeKey) && k.getValue().equalsIgnoreCase(semanticId)) != null).findFirst().orElse(null);
+            if (subModel != null) {
+                return subModel; // Return subModel if found
+            }
+            // If the subModel semanticId does not exist
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    "SubModel for SemanticId not found!");
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    e,
+                    "It was not possible to get subModel!");
+        }
+    }
 
+    /**
+     * Gets the {@code Submodel} from a Digital Twin by a given short identification.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} object with its submodels.
+     * @param   idShort
+     *          the {@code String} short id of the intended submodel.
+     *
+     * @return a {@code Submodel} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel} for the given id.
+     */
     public SubModel getSubModelById(DigitalTwin digitalTwin, String idShort) {
         try {
             ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
@@ -410,6 +694,17 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Builds an HTTP header with the authentication key and code from the EDR's token.
+     * <p>
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane information.
+     *
+     * @return an {@code HTTPHeaders} object set with authentication key and code.
+     *
+     * @throws  ServiceException
+     *           if unable to retrieve the token headers.
+     */
     public HttpHeaders getTokenHeader(DataPlaneEndpoint edr) {
         try {
             // If the dtr is central we just need the token
@@ -429,16 +724,32 @@ public class AasService extends BaseService {
         }
     }
 
+    /**
+     * Gets the registry URL.
+     * <p>
+     * @param   url
+     *          the {@code String} URL for the registry.
+     *
+     * @return a {@code String} object with the registry URL.
+     *
+     */
     public String getRegistryUrl(String url) {
-        try {
             return (url == null || this.central || url.isEmpty()) ? this.registryUrl : url;
-        } catch (Exception e) {
-            // Do nothing
-        }
-        return this.registryUrl;
     }
 
-
+    /**
+     * Searches for centralized Digital Twin Registries.
+     * <p>
+     * @param   processId
+     *          the {@code String} identification of the process.
+     * @param   searchBody
+     *          the {@code Search} object with the Request Body of the HTTP request.
+     *
+     * @return an {@code AssetSearch} object with the connector address and the asset id of the DTR.
+     *
+     * @throws  ServiceException
+     *           if unable to search and/or find the DTR.
+     */
     public AssetSearch centralDtrSearch(String processId, Search searchBody){
         try {
             // Start Digital Twin Query
@@ -487,6 +798,20 @@ public class AasService extends BaseService {
                     "It was not possible to search and find digital twin");
         }
     }
+
+    /**
+     * Searches for decentralized Digital Twin Registries.
+     * <p>
+     * @param   processId
+     *          the {@code String} identification of the process.
+     * @param   searchBody
+     *          the {@code Search} object with the Request Body of the HTTP request.
+     *
+     * @return an {@code AssetSearch} object with the connector address and the asset id of the DTR.
+     *
+     * @throws  ServiceException
+     *           if unable to search and/or find the DTR.
+     */
     public AssetSearch decentralDtrSearch(String processId, Search searchBody){
         try {
             Status status = this.processManager.getStatus(processId);
@@ -525,37 +850,23 @@ public class AasService extends BaseService {
         }
     }
 
-    public class DigitalTwinTimeout implements Runnable {
-        private ProcessManager processManager;
-
-        private String processId;
-
-        public DigitalTwinTimeout(ProcessManager processManager, String processId) {
-            this.processManager = processManager;
-            this.processId = processId;
-        }
-
-
-        @Override
-        public void run() {
-            this.waitForDigitalTwin();
-        }
-        public void waitForDigitalTwin(){
-            Status status = this.getStatus();
-            while(!status.historyExists("digital-twin-found")){
-                status = this.getStatus();
-                if(status.getStatus().equals("FAILED")){
-                    break;
-                }
-            }
-        }
-        public Status getStatus(){
-            return this.processManager.getStatus(this.processId);
-        }
-    }
-
-
-
+    /**
+     * Gets the Digital Twin's ids list for a given asset type and id.
+     * <p>
+     * @param   assetType
+     *          the {@code String} type of the asset.
+     * @param   assetId
+     *          the {@code String} identification of the asset.
+     * @param   registryUrl
+     *          the {@code String} registry URL of the Digital Twin.
+     * @param   edr
+     *          the {@code DataPlaneEndpoint} object with the data plane needed parameters.
+     *
+     * @return a {@code ArrayList<String>} object list with the digital twin ids found.
+     *
+     * @throws  ServiceException
+     *           if unable to find any digital twin.
+     */
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {
             String path = this.getPathEndpoint(registryUrl, "search");
@@ -605,21 +916,66 @@ public class AasService extends BaseService {
         }
     }
 
+    /** INNER CLASSES **/
+
+    public class DigitalTwinTimeout implements Runnable {
+
+        /** ATTRIBUTES **/
+        private ProcessManager processManager;
+        private String processId;
+
+        /** CONSTRUCTOR(S) **/
+        public DigitalTwinTimeout(ProcessManager processManager, String processId) {
+            this.processManager = processManager;
+            this.processId = processId;
+        }
+
+        /** METHODS **/
+
+        /**
+         * This method is exclusively for the waiting for the response of a Digital Twin request.
+         *
+         * <p> It's a Thread level method from Runnable interface used to wait for the response of a Digital Twin request by the timeout period defined
+         * in the calling thread join method. This timeout is configured on the application's configuration variables.
+         *
+         */
+        @Override
+        public void run() {
+            this.waitForDigitalTwin();
+        }
+
+        /**
+         * Method used to wait for the digital twin for a timeout period defined in a thread join.
+         **/
+        public void waitForDigitalTwin(){
+            Status status = this.getStatus();
+            while(!status.historyExists("digital-twin-found")){
+                status = this.getStatus();
+                if(status.getStatus().equals("FAILED")){
+                    break;
+                }
+            }
+        }
+
+        public Status getStatus(){
+            return this.processManager.getStatus(this.processId);
+        }
+    }
+
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
+        /** ATTRIBUTES **/
         private final String dppIdShort = "digitalProductPass";
         private DataPlaneEndpoint edr;
         private SubModel3 subModel;
         private DigitalTwin3 digitalTwin;
-
         private final String assetId;
         private final String idType;
-
         private final Integer dtIndex;
-
         private final String idShort;
         private final String semanticId;
 
+        /** CONSTRUCTOR(S) **/
         public DecentralDigitalTwinRegistryQueryById(Search search, DataPlaneEndpoint edr) {
             this.assetId = search.getId();
             this.idType = search.getIdType();
@@ -628,71 +984,71 @@ public class AasService extends BaseService {
             this.edr = edr;
             this.semanticId = search.getSemanticId();
         }
-
+        /**
+         * This method is exclusively to search for a digital twin and the submodel.
+         *
+         * <p> It's a Thread level method from Runnable interface and does the {@code DigitalTwin3} and {@code Submodel3} search, setting the results
+         * to this class object.
+         * <p> The submodel search it's done by the idShort or semanticId parameters depending on if the semantic Id is available or not, respectively.
+         *
+         */
         @Override
         public void run() {
             this.setDigitalTwin(searchDigitalTwin3(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin()));
+            if(semanticId.isEmpty()){
+                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin()));
+            }else {
+                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), semanticId));
+            }
         }
+        /** GETTERS AND SETTERS **/
         public DataPlaneEndpoint getEdr() {
             return edr;
         }
-
         public void setEdr(DataPlaneEndpoint edr) {
             this.edr = edr;
         }
-
         public SubModel3 getSubModel() {
             return subModel;
         }
-
         public void setSubModel(SubModel3 subModel) {
             this.subModel = subModel;
         }
-
         public DigitalTwin3 getDigitalTwin() {
             return digitalTwin;
         }
-
         public void setDigitalTwin(DigitalTwin3 digitalTwin) {
             this.digitalTwin = digitalTwin;
         }
-
         public String getAssetId() {
             return assetId;
         }
-
         public String getIdType() {
             return idType;
         }
-
         public Integer getDtIndex() {
             return dtIndex;
         }
-
         public String getIdShort() {
             return idShort;
         }
-
         public String getSemanticId() { return semanticId; }
+
+        /** METHODS **/
+
     }
 
-
-
-
-
     public class DigitalTwinRegistryQueryById implements Runnable {
+
+        /** ATTRIBUTES **/
         private SubModel subModel;
         private DigitalTwin digitalTwin;
-
         private final String assetId;
         private final String idType;
-
         private final Integer dtIndex;
-
-
         private final String idShort;
 
+        /** CONSTRUCTOR(S) **/
         public DigitalTwinRegistryQueryById(Search search) {
             this.assetId = search.getId();
             this.idType = search.getIdType();
@@ -700,72 +1056,92 @@ public class AasService extends BaseService {
             this.idShort = search.getIdShort();
         }
 
+        /** GETTERS AND SETTERS **/
+        public SubModel getSubModel() {
+            return this.subModel;
+        }
+        public DigitalTwin getDigitalTwin() {
+            return this.digitalTwin;
+        }
+        public void setSubModel(SubModel subModel) {
+            this.subModel = subModel;
+        }
+        public void setDigitalTwin(DigitalTwin digitalTwin) {
+            this.digitalTwin = digitalTwin;
+        }
+        public String getAssetId() {
+            return assetId;
+        }
+        public String getIdType() {
+            return idType;
+        }
+        public Integer getDtIndex() {
+            return dtIndex;
+        }
+        public String getIdShort() {
+            return idShort;
+        }
+
+        /** METHODS **/
+
+        /**
+         * This method is exclusively to search for a digital twin and the submodel.
+         *
+         * <p> It's a Thread level method from Runnable interface and does the {@code DigitalTwin} and {@code Submodel} search, setting the results
+         * to this class object.
+         * <p> The submodel search it's done by the idShort.
+         *
+         */
         @Override
         public void run() {
             this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex, null, null);
             this.subModel = searchSubModelById(this.digitalTwin, this.idShort);
         }
 
-        public SubModel getSubModel() {
-            return this.subModel;
-        }
-
-        public DigitalTwin getDigitalTwin() {
-            return this.digitalTwin;
-        }
-
-        public void setSubModel(SubModel subModel) {
-            this.subModel = subModel;
-        }
-
-        public void setDigitalTwin(DigitalTwin digitalTwin) {
-            this.digitalTwin = digitalTwin;
-        }
-
-        public String getAssetId() {
-            return assetId;
-        }
-
-        public String getIdType() {
-            return idType;
-        }
-
-        public Integer getDtIndex() {
-            return dtIndex;
-        }
-
-        public String getIdShort() {
-            return idShort;
-        }
     }
 
+    @SuppressWarnings("Unused")
     public class DigitalTwinRegistryQuery implements Runnable {
+
+        /** ATTRIBUTES **/
         private SubModel subModel;
         private DigitalTwin digitalTwin;
         private final String assetId;
         private final String idType;
-
         private final Integer dtIndex;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public DigitalTwinRegistryQuery(String assetId, String idType, Integer dtIndex) {
             this.assetId = assetId;
             this.idType = idType;
             this.dtIndex = dtIndex;
-
         }
 
+        /** GETTERS AND SETTERS **/
+        @SuppressWarnings("Unused")
+        public SubModel getSubModel() {
+            return this.subModel;
+        }
+        @SuppressWarnings("Unused")
+        public DigitalTwin getDigitalTwin() {
+            return this.digitalTwin;
+        }
+
+        /** METHODS **/
+
+        /**
+         * This method is exclusively to search for a digital twin and the submodel.
+         *
+         * <p> It's a Thread level method from Runnable interface and does the {@code DigitalTwin} and {@code Submodel} search, setting the results
+         * to this class object.
+         * <p> The submodel search it's done by index position.
+         *
+         */
         @Override
         public void run() {
             this.digitalTwin = searchDigitalTwin(this.idType, this.assetId, this.dtIndex, null, null);
             this.subModel = searchSubModel(this.digitalTwin, this.dtIndex, null, null);
-        }
-
-        public SubModel getSubModel() {
-            return this.subModel;
-        }
-
-        public DigitalTwin getDigitalTwin() {
-            return this.digitalTwin;
         }
 
     }

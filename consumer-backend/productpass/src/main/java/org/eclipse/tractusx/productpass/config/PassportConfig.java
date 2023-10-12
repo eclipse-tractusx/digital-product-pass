@@ -28,6 +28,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Passport configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {

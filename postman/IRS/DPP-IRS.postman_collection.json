@@ -1,0 +1,372 @@
+{
+	"info": {
+		"_postman_id": "8fbfb90f-ff83-4343-a917-e65bb2ee468c",
+		"name": "DPP-IRS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Policy Store",
+			"item": [
+				{
+					"name": "Get all Policies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IrsServer}}/irs/policies",
+							"host": [
+								"{{IrsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"policyId\": \"R2_Traceability\",\r\n\t\"validUntil\": \"2026-08-01T00:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IrsServer}}/irs/policies",
+							"host": [
+								"{{IrsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Policy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IrsServer}}/irs/policies/{{policyId}}",
+							"host": [
+								"{{IrsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies",
+								"{{policyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Digital Twin Registry",
+			"item": [
+				{
+					"name": "Get shell descriptors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{registryUrl}}/shell-descriptors",
+							"host": [
+								"{{registryUrl}}"
+							],
+							"path": [
+								"shell-descriptors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get shell by Id Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{registryUrl}}/shell-descriptors/{{digitalTwinId}}",
+							"host": [
+								"{{registryUrl}}"
+							],
+							"path": [
+								"shell-descriptors",
+								"{{digitalTwinId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shell",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{registryUrl}}/shell-descriptors/{{digitalTwinId}}",
+							"host": [
+								"{{registryUrl}}"
+							],
+							"path": [
+								"shell-descriptors",
+								"{{digitalTwinId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "IRS",
+			"item": [
+				{
+					"name": "1. Register Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();\r",
+									"pm.collectionVariables.set(\"jobId\", jsonResponse.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"aspects\": [\r\n    \"BatteryPass\"\r\n  ],\r\n  \"bomLifecycle\": \"asBuilt\",\r\n  \"callbackUrl\": \"https://hostname.com/callback?id={id}&state={state}\",\r\n  \"collectAspects\": true,\r\n  \"depth\": 100,\r\n  \"direction\": \"downward\",\r\n  \"key\": {\r\n    \"bpn\": \"<some-bpn>\",\r\n    \"globalAssetId\": \"urn:uuid:1b17682e-5e2a-4913-aa1b-7d59a072a3cb\"\r\n  },\r\n  \"lookupBPNs\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get specific Job",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs/{{jobId}}",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs",
+								"{{jobId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Jobs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs?page=0&size=20",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all available Aspect models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/aspectmodels",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"aspectmodels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "openid profile email",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{clientSecret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{clientId}}",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "company 2 user",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://materialpass.int.demo.catena-x.net",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "changeme",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "digitalTwinId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "clientId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "clientSecret",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "irsServer",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "jobId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "registryUrl",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "IrsServer",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "policyId",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

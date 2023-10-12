@@ -1,0 +1,15 @@
+{
+    "catenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+    "childItems": [
+        {
+            "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+            "quantity": {
+                "quantityNumber": 5.0,
+                "measurementUnit": "piece"
+            },
+            "businessPartner": "BPNL00000000CBA5",
+            "createdOn": "2023-01-09T17:26:54.709Z",
+            "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+        }
+    ]
+}

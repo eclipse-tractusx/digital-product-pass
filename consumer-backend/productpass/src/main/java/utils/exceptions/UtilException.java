@@ -23,10 +23,38 @@
 
 package utils.exceptions;
 
+/**
+ * This Exception class consists exclusively to treat Runtime Exceptions thrown in the Utils class.
+ *
+ * <p> The methods defined here are intended to gather information like the Class that thrown the exception, the message error and the exception for logging.
+ *
+ */
 public class UtilException extends RuntimeException  {
+
+    /**
+     * Logs the given util class name and error message.
+     * <p>
+     * @param   tool
+     *          the {@code Class} util class (e.g: JsonUtil, LogUtil, CatenaXUtil, etc.).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
     public UtilException(Class tool, String errorMessage) {
         super("["+tool.getName()+"] " + errorMessage);
     }
+
+    /**
+     * Logs the given util class name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   tool
+     *          the {@code Class} util class (e.g: JsonUtil, LogUtil, CatenaXUtil, etc.).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
     public UtilException(Class tool, Exception e, String errorMessage) {
         super("["+tool.getName()+"] " + errorMessage+", "+e.getMessage());
     }

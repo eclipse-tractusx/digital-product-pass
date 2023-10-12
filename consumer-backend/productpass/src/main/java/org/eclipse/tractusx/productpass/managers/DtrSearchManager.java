@@ -29,12 +29,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
-import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
 import org.eclipse.tractusx.productpass.models.negotiation.Offer;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +50,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class consists exclusively of methods to operate on executing the DTR search.
+ *
+ * <p> The methods defined here are intended to do every needed operations in order to be able to get and save the DTRs.
+ *
+ */
 @Component
 public class DtrSearchManager {
+
+    /** ATTRIBUTES **/
     private DataTransferService dataTransferService;
     private FileUtil fileUtil;
     private JsonUtil jsonUtil;
-
     private ProcessManager processManager;
     private DtrConfig dtrConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
@@ -63,17 +71,7 @@ public class DtrSearchManager {
     private final long negotiationTimeoutSeconds;
     private final String fileName = "dtrDataModel.json";
     private String dtrDataModelFilePath;
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
     private State state;
-
     public enum State {
         Stopped,
         Running,
@@ -81,6 +79,7 @@ public class DtrSearchManager {
         Finished
     }
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public DtrSearchManager(FileUtil fileUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
@@ -97,6 +96,33 @@ public class DtrSearchManager {
 
     }
 
+    /** GETTERS AND SETTERS **/
+    public State getState() {
+        return state;
+    }
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    /** METHODS **/
+
+    /**
+     * It's a Thread level method that implements the Runnable interface and starts the process of searching the DTRs with
+     * the given EDC endpoint for a given processId.
+     * <p>
+     * @param   edcEndpoints
+     *          the {@code List<String>} of EDC endpoints to search.
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return a {@code Runnable} object to be used by a calling thread.
+     *
+     * @throws DataModelException
+     *           if unable to get and process the DTRs.
+     * @throws RuntimeException
+     *           if there's an unexpected thread interruption.
+     *
+     */
     public Runnable startProcess(List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
         return new Runnable() {
             @Override
@@ -180,6 +206,13 @@ public class DtrSearchManager {
         };
     }
 
+    /**
+     * Creates the DTR Data Model file where the DTRs are stored.
+     * <p>
+     *
+     * @return a {@code String} path to the file created.
+     *
+     */
     public String createDataModelFile() {
         Map<String, Object> dataModel = Map.of();
         // If path exists try to
@@ -199,14 +232,36 @@ public class DtrSearchManager {
         return jsonUtil.toJsonFile(this.getDataModelPath(), dataModel, true);
     }
 
+    /**
+     * Gets the path to the DTR Data Model file.
+     * <p>
+     *
+     * @return a {@code String} path to the DTR Data Model file.
+     *
+     */
     public String getDataModelPath() {
         return Path.of(this.getDataModelDir(), this.fileName).toAbsolutePath().toString();
     }
 
+    /**
+     * Gets the path to the DTR Data Model directory.
+     * <p>
+     *
+     * @return a {@code String} path to the DTR Data Model directory.
+     *
+     */
     public String getDataModelDir() {
         return fileUtil.getTmpDir();
     }
 
+    /**
+     * It's a Thread level method that implements the Runnable interface and searches for the Digital Twin Catalog for
+     * a given URL connection. It doesn't return the Catalogs found, it fills the catalogs cache of this class object.
+     * <p>
+     * @param   connectionUrl
+     *          the {@code String} URL connection of the Digital Twin.
+     *
+     */
     private Runnable searchDigitalTwinCatalogExecutor(String connectionUrl) {
         return new Runnable() {
             @Override
@@ -225,6 +280,17 @@ public class DtrSearchManager {
         };
     }
 
+    /**
+     * Adds the found DTR to the DTR Data Model map object at the given BPN number entry.
+     * <p>
+     * @param   bpn
+     *          the {@code String} bpn number.
+     * @param   dtr
+     *          the {@code DTR} object to add.
+     *
+     * @return this {@code DtrSearchManager} object.
+     *
+     */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
         if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.contains(bpn)) {
@@ -237,18 +303,13 @@ public class DtrSearchManager {
         return this;
     }
 
-    /*public ProcessDtrDataModel addConnectionsToBpnEntry (String bpn, List<String> connectionEdcEndpoints) {
-        if (!(bpn.isEmpty() || bpn.isBlank()) || checkConnectionEdcEndpoints(connectionEdcEndpoints) ) {
-            if (this.dtrDataModel.contains(bpn)) {
-                this.dtrDataModel.get(bpn).addAll(connectionEdcEndpoints);
-                this.dtrDataModel.get(bpn).stream().distinct().collect(Collectors.toList());
-            } else {
-                this.dtrDataModel.put(bpn, connectionEdcEndpoints);
-            }
-        }
-        return this;
-    }*/
-
+    /**
+     * Loads the thread safe DTR Data Model from the storage file.
+     * <p>
+     *
+     * @return the {@code CocurrentHashMap<String, List<Dtr>>} object with the DTR Data Model values.
+     *
+     */
     public ConcurrentHashMap<String, List<Dtr>> loadDataModel() {
         try {
             String path = this.getDataModelPath();
@@ -261,10 +322,18 @@ public class DtrSearchManager {
         }
     }
 
+    /**
+     * Gets the thread safe DTR Data Model cached in this class object.
+     * <p>
+     *
+     * @return the {@code CocurrentHashMap<String, List<Dtr>>} object with the DTR Data Model values.
+     *
+     */
     public ConcurrentHashMap<String, List<Dtr>> getDtrDataModel() {
         return dtrDataModel;
     }
 
+    @SuppressWarnings("Unused")
     private boolean checkConnectionEdcEndpoints(List<String> connectionEdcEndpoints) {
         AtomicInteger count = new AtomicInteger(0);
         int connectionsSize = connectionEdcEndpoints.size();
@@ -279,13 +348,32 @@ public class DtrSearchManager {
         return count.get() == connectionsSize;
     }
 
+    /**
+     * It's a Thread level method that implements the Runnable interface. It creates the DTR and saves it in the DTR Data Model
+     * for a given BPN number and an URL connection into a process with the given process id.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the contract offer.
+     * @param   bpn
+     *          the {@code String} bpn number.
+     * @param   connectionUrl
+     *          the {@code String} URL connection of the Digital Twin.
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return a {@code Runnable} object to be used by a calling thread.
+     *
+     * @throws ManagerException
+     *           if unable to do the contract negotiation for the DTR.
+     *
+     */
     private Runnable createAndSaveDtr(Dataset dataset, String bpn, String connectionUrl, String processId) {
         return new Runnable() {
             @Override
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiations(offer, bpn,  CatenaXUtil.buildDataEndpoint(connectionUrl));
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,  CatenaXUtil.buildDataEndpoint(connectionUrl));
                     if (negotiationResponse == null) {
                         return;
                     }
@@ -310,6 +398,13 @@ public class DtrSearchManager {
 
     }
 
+    /**
+     * Saves the cached DTR Data Model of this class object to the storage file.
+     * <p>
+     *
+     * @return true if the cached DTR Data Model was successfully saved, false otherwise.
+     *
+     */
     public boolean saveDtrDataModel() {
         if(fileUtil.pathExists(this.dtrDataModelFilePath)) {
             this.createDataModelFile();
@@ -319,6 +414,13 @@ public class DtrSearchManager {
         return filePath != null;
     }
 
+    /**
+     * Loads the thread safe DTR Data Model from the storage file.
+     * <p>
+     *
+     * @return the {@code CocurrentHashMap<String, List<Dtr>>} object with the DTR Data Model values.
+     *
+     */
     private ConcurrentHashMap<String, List<Dtr>> loadDtrDataModel() {
         try {
             if(fileUtil.pathExists(this.dtrDataModelFilePath)) {

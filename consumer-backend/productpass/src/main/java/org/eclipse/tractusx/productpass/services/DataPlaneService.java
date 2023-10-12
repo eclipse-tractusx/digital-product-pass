@@ -27,14 +27,12 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import utils.HttpUtil;
-import utils.JsonUtil;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,9 +96,12 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public Passport getPassport(DataPlaneEndpoint endpointData) {
+    public Passport getPassport(String semanticId, DataPlaneEndpoint endpointData) {
         try {
-            return (PassportV3) jsonUtil.bindObject(this.getTransferData(endpointData), PassportV3.class);
+            String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
+            String packagePath = this.getClass().getPackageName().replace("services", "models.passports");
+            Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
+            return (Passport) jsonUtil.bindObject(this.getTransferData(endpointData), passportClass);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

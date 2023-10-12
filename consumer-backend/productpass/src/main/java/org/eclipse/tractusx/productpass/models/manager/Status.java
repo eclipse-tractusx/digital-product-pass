@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
@@ -42,20 +43,31 @@ public class Status {
     /** ATTRIBUTES **/
     @JsonProperty("id")
     public String id;
+
     @JsonProperty("status")
     public String status;
+
     @JsonProperty("created")
     public Long created;
+
     @JsonProperty("modified")
     public Long modified;
+
+
     @JsonProperty("endpoint")
     public String endpoint;
+
     @JsonProperty("bpn")
     public String bpn;
+
     @JsonProperty("history")
     public Map<String, History> history;
 
     /** CONSTRUCTOR(S) **/
+    @JsonProperty("semanticId")
+    public String semanticId;
+
+
     @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
@@ -101,6 +113,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = new HashMap<String, History>();
     }
+
     public Status(String id, String status, String endpoint, Long created, Long modified) {
         this.id = id;
         this.status = status;
@@ -163,36 +176,46 @@ public class Status {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
+
     public Long getCreated() {
         return created;
     }
+
     public void setCreated(Long created) {
         this.created = created;
     }
+
     public Long getModified() {
         return modified;
     }
+
     public void setModified(Long modified) {
         this.modified = modified;
     }
+
     public Map<String,History> getHistory() {
         return history;
     }
     public Boolean historyExists(String name) {
         return this.history.containsKey(name);
     }
+
     public void setHistory(Map<String,History> history) {
         this.history = history;
     }
+
     public void setHistory(String name, History history) {
         this.history.put(name, history);
     }
@@ -211,17 +234,29 @@ public class Status {
     public History getHistory(String name) {
         return this.history.getOrDefault(name, null);
     }
+
     public String getEndpoint() {
         return endpoint;
     }
+
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
+
     public String getBpn() {
         return this.bpn;
     }
+
     public void setBpn(String bpn) {
         this.bpn = bpn;
+    }
+
+    public String getSemanticId() {
+        return semanticId;
+    }
+
+    public void setSemanticId(String semanticId) {
+        this.semanticId = semanticId;
     }
 }
 

@@ -30,6 +30,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Also used to perform polymorphism in the Application with all the passports that extends it.
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Passport {
+public class Passport extends Object{
  // Here will be included then next release Generic Passport Structure
 }

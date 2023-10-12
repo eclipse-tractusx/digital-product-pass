@@ -43,7 +43,6 @@ import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -107,7 +106,7 @@ public class ApiController {
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportResponse.class))),
             @ApiResponse(description = "Content of Passport Field in Data Field", useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PassportV3.class)))
+                    schema = @Schema(implementation = Passport.class)))
     })
     public Response getPassport(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Response response = httpUtil.getInternalError();
@@ -181,15 +180,8 @@ public class ApiController {
                 response = httpUtil.getNotFound("The passport was already retrieved and is no longer available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
-            Passport passport;
-            if (process.getIsDigitalProductPass()) {
-                passport = processManager.loadDigitalProductPassport(processId);
-            } else {
-                passport = processManager.loadPassport(processId);
-            }
-
-
+            String semanticId = status.getSemanticId();
+            Passport passport = processManager.loadPassport(processId);
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);
@@ -204,7 +196,8 @@ public class ApiController {
                             "negotiation", negotiation,
                             "transfer", transfer
                     ),
-                    "passport", passport
+                    "data", passport,
+                    "aspect", semanticId
             );
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

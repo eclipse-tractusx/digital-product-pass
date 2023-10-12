@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,12 +44,15 @@ public class SubModel3 {
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
     String idShort;
+
     @JsonProperty("supplementalSemanticId")
     Object supplementalSemanticId;
+
     @JsonProperty("id")
     String identification;
     @JsonProperty("semanticId")
     SemanticId semanticId;
+
     @JsonProperty("endpoints")
     ArrayList<EndPoint3> endpoints;
 
@@ -78,15 +82,19 @@ public class SubModel3 {
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
+
     public void setDescription(ArrayList<JsonNode> description) {
         this.description = description;
     }
+
     public String getIdShort() {
         return idShort;
     }
+
     public void setIdShort(String idShort) {
         this.idShort = idShort;
     }
+
     public String getIdentification() {
         return identification;
     }
@@ -94,15 +102,19 @@ public class SubModel3 {
     public void setIdentification(String identification) {
         this.identification = identification;
     }
+
     public SemanticId getSemanticId() {
         return semanticId;
     }
+
     public void setSemanticId(SemanticId semanticId) {
         this.semanticId = semanticId;
     }
+
     public ArrayList<EndPoint3> getEndpoints() {
         return endpoints;
     }
+
     public void setEndpoints(ArrayList<EndPoint3> endpoints) {
         this.endpoints = endpoints;
     }
@@ -125,11 +137,11 @@ public class SubModel3 {
         @JsonProperty("type")
         String type;
         @JsonProperty("keys")
-        Map<String, String> keys;
+        ArrayList<Key> keys;
 
         /** CONSTRUCTOR(S) **/
         @SuppressWarnings("Unused")
-        public SemanticId(String type, Map<String, String> keys) {
+        public SemanticId(String type, ArrayList<Key> keys) {
             this.type = type;
             this.keys = keys;
         }
@@ -141,15 +153,46 @@ public class SubModel3 {
         public String getType() {
             return type;
         }
+
         public void setType(String type) {
             this.type = type;
         }
-        public Map<String, String> getKeys() {
+
+        public ArrayList<Key> getKeys() {
             return keys;
         }
         @SuppressWarnings("Unused")
-        public void setKeys(Map<String, String> keys) {
+        public void setKeys(ArrayList<Key> keys) {
             this.keys = keys;
+        }
+
+        /** INNER CLASSES **/
+        /**
+         * This class consists exclusively to define attributes related to the SemanticId's keys property.
+         **/
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        static public class Key {
+
+            /** ATTRIBUTES **/
+            @JsonProperty("type")
+            String type;
+            @JsonProperty("value")
+            String value;
+
+            /** CONSTRUCTOR(S) **/
+            public Key() {}
+
+            public Key(String type, String value) {
+                this.type = type;
+                this.value = value;
+            }
+
+            /** GETTERS AND SETTERS **/
+            public String getType() { return type; }
+            public void setType(String type) { this.type = type; }
+            public String getValue() { return value; }
+            public void setValue(String value) { this.value = value; }
         }
     }
 }

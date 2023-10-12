@@ -35,9 +35,9 @@ import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.negotiation.Set;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
+import org.eclipse.tractusx.productpass.models.negotiation.Set;
+import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -724,7 +724,7 @@ public class DataTransferService extends BaseService {
      *           if unable to get the passport.
      */
     @SuppressWarnings("Unused")
-    public PassportV3 getPassportV3(String transferProcessId, String endpoint) {
+    public Passport getPassport(String transferProcessId, String endpoint) {
         try {
             this.checkEmptyVariables();
             Map<String, Object> params = httpUtil.getParams();
@@ -736,14 +736,14 @@ public class DataTransferService extends BaseService {
             try {
                 response = httpUtil.doGet(endpoint, String.class, headers, params, false, false);
             } catch (Exception e) {
-                throw new ServiceException(this.getClass().getName() + ".getPassportV3", "It was not possible to get passport with id " + transferProcessId);
+                throw new ServiceException(this.getClass().getName() + ".getPassport", "It was not possible to get passport with id " + transferProcessId);
             }
             String responseBody = (String) response.getBody();
-            return (PassportV3) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), PassportV3.class);
+            return (Passport) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), Passport.class);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getPassportV3",
+            throw new ServiceException(this.getClass().getName() + "." + "getPassport",
                     e,
-                    "It was not possible to retrieve the getPassport V1 for transferProcessId [" + transferProcessId + "]!");
+                    "It was not possible to retrieve the getPassport for transferProcessId [" + transferProcessId + "]!");
         }
     }
 
@@ -1164,13 +1164,10 @@ public class DataTransferService extends BaseService {
         public void run() {
             try {
                 this.dtrRequest = this.buildTransferRequest(this.processId,this.dtr, this.endpointId);
-                LogUtil.printWarning("DTR REQUEST:\n" + jsonUtil.toJson(this.dtrRequest, true));
                 processManager.saveTransferRequest(this.processId, dtrRequest, new IdResponse(processId, null), true);
                 this.transferResponse = this.requestTransfer(dtrRequest);
-
                 processManager.saveTransferRequest(this.processId, dtrRequest, this.transferResponse, true);
                 this.transfer = this.getTransferData(this.transferResponse);
-                LogUtil.printWarning("TRANSFER:\n" + jsonUtil.toJson(this.transfer, true));
                 if (this.transfer == null) {
                     return;
                 }

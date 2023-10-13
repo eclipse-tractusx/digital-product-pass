@@ -25,8 +25,11 @@
 
 package org.eclipse.tractusx.productpass.managers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
+import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.irs.Job;
@@ -40,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Component
@@ -90,8 +94,9 @@ public class TreeManager {
         }
     }
 
-    public DigitalTwin3 searchDigitalTwin(JobResponse jobResponse, String digitalTwinId){
-        return jobResponse.getShells().stream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin3());
+    public DigitalTwin3 searchDigitalTwin(List<DigitalTwin3> digitalTwinList, String digitalTwinId){
+        // Use a parallel search to make the search faster
+        return digitalTwinList.parallelStream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin3());
     }
 
     public String populateTree(Map<String, Node> treeDataModel, String processId, JobHistory jobHistory, JobResponse job){
@@ -100,10 +105,17 @@ public class TreeManager {
             String parentPath = jobHistory.getPath();
             Node parent = this.getNodeByPath(treeDataModel, parentPath);
             // All the relationships will be of depth one, so we just need to add them in the parent
+            List<DigitalTwin3> digitalTwinList = null;
+            try {
+                digitalTwinList = (List<DigitalTwin3>) jsonUtil.bindReferenceType(job.getShells(), new TypeReference<List<DigitalTwin3>>() {});
+            } catch (Exception e) {
+                throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Digital Twin!");
+            }
+
             for(Relationship relationship : relationships){
                 String childId = relationship.getLinkedItem().getChildCatenaXId();
                 // Search for the Digital Twin from the child or a new instance
-                DigitalTwin3 childDigitalTwin = this.searchDigitalTwin(job, childId);
+                DigitalTwin3 childDigitalTwin = this.searchDigitalTwin(digitalTwinList, childId);
                 if(childDigitalTwin.getGlobalAssetId().isEmpty()){
                     childDigitalTwin.setGlobalAssetId(childId);
                 }

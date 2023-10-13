@@ -114,13 +114,6 @@ public class ContractController {
     public Response create(@Valid @RequestBody DiscoverySearch searchBody) {
         Response response = httpUtil.getInternalError();
         try {
-            // In case the configuration is setting the search as central
-            if(dtrConfig.getCentral()){
-                response.message = "The decentral Digital Twin Registry is not enabled!";
-                response.status = 403;
-                response.statusText = "Bad Request";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
             if (!authService.isAuthenticated(httpRequest)) {
                 response = httpUtil.getNotAuthorizedResponse();
                 return httpUtil.buildResponse(response, httpResponse);
@@ -249,8 +242,8 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            List<String> versions;
-            /*if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
+            /*List<String> versions;
+            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
                 versions = passportConfig.getDigitalProductPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
                 LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
@@ -261,34 +254,34 @@ public class ContractController {
 
             Process process = null;
             AssetSearch assetSearch = null;
-            if(!dtrConfig.getCentral() && searchBody.getProcessId() != null) {
-                // Check for processId
-                String processId = searchBody.getProcessId();
-                if(processId.isEmpty()){
-                    response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                SearchStatus searchStatus = processManager.getSearchStatus(processId);
-                if (searchStatus == null) {
-                    response = httpUtil.getBadRequest("The searchStatus id does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                if(searchStatus.getDtrs().keySet().size() == 0){
-                    response = httpUtil.getBadRequest("No digital twins are available for this process!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                process = processManager.createProcess(processId, httpRequest);
-                Status status = processManager.getStatus(processId);
-                if (status == null) {
-                    response = httpUtil.getBadRequest("The status is not available!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
-            }else {
-                process = processManager.createProcess(httpRequest);
-                assetSearch = aasService.centralDtrSearch(process.id, searchBody);
+
+            // Check for processId
+            if(searchBody.getProcessId() == null){
+                response = httpUtil.getBadRequest("No processId was found on the request body!");
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
+            String processId = searchBody.getProcessId();
+            if(processId.isEmpty()){
+                response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            SearchStatus searchStatus = processManager.getSearchStatus(processId);
+            if (searchStatus == null) {
+                response = httpUtil.getBadRequest("The searchStatus id does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            if(searchStatus.getDtrs().keySet().size() == 0){
+                response = httpUtil.getBadRequest("No digital twins are available for this process!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            process = processManager.createProcess(processId, httpRequest);
+            Status status = processManager.getStatus(processId);
+            if (status == null) {
+                response = httpUtil.getBadRequest("The status is not available!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
 
             if(assetSearch == null){
                 response = httpUtil.getBadRequest("No digital twin was found!");

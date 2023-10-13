@@ -39,8 +39,6 @@ import java.util.Map;
 public class DtrConfig {
 
     /** ATTRIBUTES **/
-    Boolean central;
-    String centralUrl;
     String internalDtr;
     Timeouts timeouts;
     Boolean temporaryStorage;
@@ -59,9 +57,6 @@ public class DtrConfig {
     }
     public void setDecentralApis(DecentralApis decentralApis) {
         this.decentralApis = decentralApis;
-    }
-    public DtrConfig(Boolean central) {
-        this.central = central;
     }
     public String getInternalDtr() {
         return internalDtr;
@@ -92,19 +87,6 @@ public class DtrConfig {
     }
     public void setDspEndpointKey(String dspEndpointKey) {
         this.dspEndpointKey = dspEndpointKey;
-    }
-    public Boolean getCentral() {
-        return central;
-    }
-    public void setCentral(Boolean central) {
-        this.central = central;
-    }
-    public String getCentralUrl() {
-        return centralUrl;
-    }
-    @SuppressWarnings("Unused")
-    public void setCentralUrl(String centralUrl) {
-        this.centralUrl = centralUrl;
     }
     public String getAssetId() {
         return assetId;

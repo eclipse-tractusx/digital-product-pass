@@ -61,8 +61,6 @@ configuration:
       edc: true
 
   dtr:
-    central: false
-    centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
     assetId: 'digital-twin-registry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'

@@ -22,7 +22,6 @@
  ********************************************************************************/
 
 package org.eclipse.tractusx.productpass.http.controllers;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,13 +34,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.exceptions.DataModelException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
-import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint3;
-import org.eclipse.tractusx.productpass.models.dtregistry.SubModel3;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
+import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
@@ -176,8 +173,8 @@ public class AppController {
             Thread digitalTwinRegistryThread = ThreadUtil.runThread(digitalTwinRegistry);
             // Wait for digital twin query
             digitalTwinRegistryThread.join();
-            DigitalTwin3 digitalTwin = null;
-            SubModel3 subModel = null;
+            DigitalTwin digitalTwin = null;
+            SubModel subModel = null;
             String connectorId = null;
             String assetId = null;
             String connectorAddress = null;
@@ -189,7 +186,7 @@ public class AppController {
                 semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
                 LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
-                EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
+                EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }
@@ -214,7 +211,7 @@ public class AppController {
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId, dtr.getBpn());
             processManager.setSemanticId(processId, semanticId);
-            processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
+            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,

@@ -94,7 +94,7 @@ public class IrsController {
             LogUtil.printMessage("["+processId+"] Requesting Job ["+id+"] after state ["+state+"]");
             JobResponse irsJob = this.irsService.getJob(id);
             LogUtil.printMessage(jsonUtil.toJson(irsJob, true));
-            this.treeManager.updateNode(processId, jobHistory.getPath(), irsJob);
+            this.treeManager.populateTree(processId, jobHistory, irsJob);
             response = httpUtil.getResponse("IRS is not available at the moment!");
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

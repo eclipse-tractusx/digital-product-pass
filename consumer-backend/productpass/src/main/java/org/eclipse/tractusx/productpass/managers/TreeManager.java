@@ -27,8 +27,10 @@ package org.eclipse.tractusx.productpass.managers;
 
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.irs.Job;
+import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 import org.eclipse.tractusx.productpass.models.irs.Relationship;
 import org.eclipse.tractusx.productpass.models.manager.Node;
@@ -88,15 +90,39 @@ public class TreeManager {
         }
     }
 
-    public String updateNode(String processId, String path, JobResponse job) {
+    public DigitalTwin3 searchDigitalTwin(JobResponse jobResponse, String digitalTwinId){
+        return jobResponse.getShells().stream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin3());
+    }
+
+    public String populateTree(Map<String, Node> treeDataModel, String processId, JobHistory jobHistory, JobResponse job){
+        try {
+            List<Relationship> relationships = job.getRelationships();
+            String parentPath = jobHistory.getPath();
+            Node parent = this.getNodeByPath(treeDataModel, parentPath);
+            // All the relationships will be of depth one, so we just need to add them in the parent
+            for(Relationship relationship : relationships){
+                String childId = relationship.getLinkedItem().getChildCatenaXId();
+                // Search for the Digital Twin from the child or a new instance
+                DigitalTwin3 childDigitalTwin = this.searchDigitalTwin(job, childId);
+                if(childDigitalTwin.getGlobalAssetId().isEmpty()){
+                    childDigitalTwin.setGlobalAssetId(childId);
+                }
+                // Create child with the digital twin
+                Node child = new Node(childDigitalTwin);
+                // Add child to the parent
+                parent.setChild(child);
+            }
+            // Set node and save the tree
+            treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parent); // Save the parent node in the tree
+            return this.saveTree(processId, treeDataModel);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName() + ".setChild()", e, "It was not possible to get the node from the tree");
+        }
+    }
+    public String populateTree(String processId, JobHistory jobHistory, JobResponse job){
         try {
             Map<String, Node> treeDataModel = this.loadTree(processId);
-            Node node = this.getNodeByPath(treeDataModel, path); // Get parent node
-            node.setJob(job); // Set the job in the node
-            List<Relationship> relationships = job.getRelationships();
-            LogUtil.printMessage(jsonUtil.toJson(relationships, true));
-            treeDataModel = this.setNodeByPath(treeDataModel, path, node); // Save the parent node in the tree
-            return this.saveTree(processId, treeDataModel);
+            return this.populateTree(treeDataModel,processId, jobHistory, job);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName() + ".setChild()", e, "It was not possible to get the node from the tree");
         }

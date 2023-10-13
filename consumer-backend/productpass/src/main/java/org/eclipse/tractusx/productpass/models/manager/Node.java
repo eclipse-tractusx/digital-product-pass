@@ -167,7 +167,7 @@ public class Node {
         this.children = children;
     }
     public void setChild(Node childNode){
-        this.children.put(childNode.getId(), childNode);
+        this.children.put(childNode.getGlobalAssetId(), childNode);
     }
 
     public Node getChild(String childId){

@@ -943,7 +943,7 @@ public class DataTransferService extends BaseService {
                 transferType.setIsFinite(true);
 
 
-                DataDestination dataDestination = new DataDestination();
+                TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
@@ -1205,7 +1205,7 @@ public class DataTransferService extends BaseService {
 
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);
-                DataDestination dataDestination = new DataDestination();
+                TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();

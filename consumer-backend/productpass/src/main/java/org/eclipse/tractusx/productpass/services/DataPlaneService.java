@@ -96,12 +96,9 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public Passport getPassport(String semanticId, DataPlaneEndpoint endpointData) {
+    public Passport getPassport(DataPlaneEndpoint endpointData) {
         try {
-            String aspectName = CatenaXUtil.getAspectNameFromSemanticId(semanticId); // Get aspect name from semantic Id
-            String packagePath = this.getClass().getPackageName().replace("services", "models.passports");
-            Class<?> passportClass = ReflectionUtil.instanceClass(packagePath, aspectName);
-            return (Passport) jsonUtil.bindObject(this.getTransferData(endpointData), passportClass);
+            return (Passport) jsonUtil.bindObject(this.getTransferData(endpointData), Passport.class);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

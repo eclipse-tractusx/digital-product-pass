@@ -187,7 +187,6 @@ public class AppController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
-                LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
@@ -292,9 +291,7 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            Status status = processManager.getStatus(processId);
-            String semanticId = status.getSemanticId();
-            Passport passport = dataPlaneService.getPassport(semanticId, endpointData);
+            Passport passport = dataPlaneService.getPassport(endpointData);
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

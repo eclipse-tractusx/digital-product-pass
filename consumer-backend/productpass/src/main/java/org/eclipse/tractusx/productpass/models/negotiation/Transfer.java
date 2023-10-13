@@ -188,6 +188,18 @@ public class Transfer extends DidDocument {
             this.connectorId = connectorId;
         }
     }
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    static class DataDestination {
+        @JsonProperty("edc:type")
+        String type;
 
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
 }
 

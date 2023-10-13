@@ -564,6 +564,25 @@ public final class JsonUtil {
     }
 
     /**
+     * Parses the JSON string object to a JsonNode object.
+     * <p>
+     * @param   json
+     *          the json object as a Object
+     *
+     * @return  a {@code JsonObject} object parsed with the json data.
+     *
+     * @throws  UtilException
+     *          if unable to parse the json string.
+     */
+    public JsonNode toJsonNode(Object json){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.convertValue(json,JsonNode.class);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    /**
      * Parses the JSON Map object to a JsonNode object.
      * <p>
      * @param   json

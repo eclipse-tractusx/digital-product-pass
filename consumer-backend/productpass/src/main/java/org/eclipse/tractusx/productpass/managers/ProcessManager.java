@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.productpass.managers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
@@ -39,7 +40,6 @@ import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -1202,7 +1202,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to load the passport.
      */
-    public Passport loadPassport(String processId){
+    public JsonNode loadPassport(String processId){
         try {
             String path = this.getProcessFilePath(processId, this.passportFileName);
             History history = new History(
@@ -1212,7 +1212,7 @@ public class ProcessManager {
             if(!fileUtil.pathExists(path)){
                 throw new ManagerException(this.getClass().getName(), "Passport file ["+path+"] not found!");
             }
-            Passport passport = null;
+            JsonNode passport = null;
             Boolean encrypt = env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true);
             if(encrypt){
                 Status status = this.getStatus(processId);
@@ -1220,9 +1220,9 @@ public class ProcessManager {
                 String decryptedPassportJson = CrypUtil.decryptAes(fileUtil.readFile(path), this.generateStatusToken(status, negotiationHistory.getId()));
                 // Delete passport file
 
-                passport =  (Passport) jsonUtil.loadJson(decryptedPassportJson, Passport.class);
+                passport =  (JsonNode) jsonUtil.loadJson(decryptedPassportJson, JsonNode.class);
             }else{
-                passport =  (Passport) jsonUtil.fromJsonFileToObject(path, Passport.class);
+                passport =  (JsonNode) jsonUtil.fromJsonFileToObject(path, JsonNode.class);
             }
 
             if(passport == null){
@@ -1261,7 +1261,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the passport.
      */
-    public String savePassport(String processId, DataPlaneEndpoint endpointData, Passport passport) {
+    public String savePassport(String processId, DataPlaneEndpoint endpointData, JsonNode passport) {
         try {
             // Retrieve the configuration
             Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);

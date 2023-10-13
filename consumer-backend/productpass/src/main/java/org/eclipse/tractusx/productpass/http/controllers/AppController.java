@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,7 +47,6 @@ import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,7 +184,6 @@ public class AppController {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
                 semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
-                LogUtil.printMessage("SemanticId "+ semanticId);
                 connectorId = subModel.getIdShort();
                 EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
@@ -289,9 +288,7 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            Status status = processManager.getStatus(processId);
-            String semanticId = status.getSemanticId();
-            Passport passport = dataPlaneService.getPassport(semanticId, endpointData);
+            JsonNode passport = dataPlaneService.getPassport(endpointData);
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

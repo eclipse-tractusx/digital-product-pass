@@ -122,9 +122,11 @@ public class Status {
         this.endpoint = endpoint;
         this.history = new HashMap<String, History>();
     }
-    @SuppressWarnings("Unused")
-    public Status() {
+
+    public Status(Map<String, History> history) {
+        this.history = history;
     }
+
     @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified) {
         this.id = id;
@@ -170,6 +172,9 @@ public class Status {
         this.endpoint = endpoint;
         this.bpn = bpn;
         this.history = Map.of(historyId, history);
+    }
+
+    public Status() {
     }
 
     /** GETTERS AND SETTERS **/

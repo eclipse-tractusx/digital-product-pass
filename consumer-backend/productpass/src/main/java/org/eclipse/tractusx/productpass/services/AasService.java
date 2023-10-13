@@ -167,15 +167,13 @@ public class AasService extends BaseService {
     /**
      * Builds the endpoint for a given registry URL and context key.
      * <p>
-     * @param   registryUrl
-     *          the {@code String} registry URL of the intended endpoint.
      * @param   key
      *          the {@code String} key with the intended URLs context (e.g: "digitaltwin", "search", "submodel", etc).
      *
      * @return a {@code String} object with the built endpoint.
      *
      */
-    public String getPathEndpoint(String registryUrl, String key) {
+    public String getPathEndpoint(String key) {
         String path = (String) jsonUtil.getValue(this.apis, "decentral." + key, ".", null);
         return path;
     }
@@ -250,7 +248,7 @@ public class AasService extends BaseService {
      */
     public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "digitalTwin");
+            String path = this.getPathEndpoint("digitalTwin");
             String url = this.getRegistryUrl(registryUrl) + path + "/" + CrypUtil.toBase64Url(digitalTwinId);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = this.getTokenHeader(edr);
@@ -449,7 +447,7 @@ public class AasService extends BaseService {
      */
     public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
         try {
-            String path = this.getPathEndpoint(registryUrl, "search");
+            String path = this.getPathEndpoint("search");
             String url = this.getRegistryUrl(registryUrl) + path;
             Map<String, Object> params = httpUtil.getParams();
             ResponseEntity<?> response = null;
@@ -531,17 +529,27 @@ public class AasService extends BaseService {
             Status status = this.getStatus();
             while(!status.historyExists("digital-twin-found")){
                 status = this.getStatus();
-                if(status.getStatus().equals("FAILED")){
+                if (status.getStatus().equals("FAILED")) {
                     break;
                 }
             }
         }
 
+        /**
+         * Method used to get the status information from the current executing process.
+         *
+         * @return a {@code Status} object with process's status information.
+         *
+         **/
         public Status getStatus(){
-            return this.processManager.getStatus(this.processId);
+            try {
+                return this.processManager.getStatus(this.processId);
+            } catch (Exception e) {
+                LogUtil.printWarning("["+this.getClass().getName()+".getStatus()] Status file for process ["+ this.processId + "] is not available!");
+                return new Status(Map.of());
+            }
         }
     }
-
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         /** ATTRIBUTES **/

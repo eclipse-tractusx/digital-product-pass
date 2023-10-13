@@ -25,9 +25,9 @@
 
 package utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -75,7 +75,7 @@ public class PassportUtil {
      *          if unable to save the Passport to a JSON file.
      */
     @SuppressWarnings("Unused")
-    public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
+    public String savePassport(JsonNode passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
             fileUtil.createDir(this.transferDir);
             String path = Path.of(this.transferDir, endpointData.getId() + ".json").toAbsolutePath().toString();
@@ -104,7 +104,7 @@ public class PassportUtil {
      * @throws  UtilException
      *          if unable to save the Passport to a JSON file.
      */
-    public String savePassport(Passport passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted, String filePath){
+    public String savePassport(JsonNode passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted, String filePath){
         try {
             if(!encrypted) {
                 return jsonUtil.toJsonFile(filePath, passport, prettyPrint); // Store the plain JSON

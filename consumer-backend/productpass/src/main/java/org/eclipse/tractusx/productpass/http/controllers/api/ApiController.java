@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,7 +42,6 @@ import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
@@ -105,8 +105,6 @@ public class ApiController {
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportResponse.class))),
-            @ApiResponse(description = "Content of Passport Field in Data Field", useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Passport.class)))
     })
     public Response getPassport(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Response response = httpUtil.getInternalError();
@@ -181,7 +179,7 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String semanticId = status.getSemanticId();
-            Passport passport = processManager.loadPassport(processId);
+            JsonNode passport = processManager.loadPassport(processId);
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);

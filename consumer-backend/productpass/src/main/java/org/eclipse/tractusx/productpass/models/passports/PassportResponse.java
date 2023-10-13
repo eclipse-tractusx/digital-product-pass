@@ -36,10 +36,10 @@ public class PassportResponse {
     @JsonProperty("metadata")
     Map<String, Object> metadata;
     @JsonProperty("passport")
-    Passport passport;
+    JsonNode passport;
 
     @SuppressWarnings("Unused")
-    public PassportResponse(Map<String, Object> metadata, Passport passport) {
+    public PassportResponse(Map<String, Object> metadata, JsonNode passport) {
         this.metadata = metadata;
         this.passport = passport;
     }

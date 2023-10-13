@@ -56,7 +56,6 @@ public final class ReflectionUtil {
     public static Class<?> instanceClass(String packagePath, String className){
         try {
             String classPath = packagePath + "." + className;
-            LogUtil.printMessage("class path: " + classPath);
             return Class.forName(classPath);
         }catch (ClassNotFoundException e){
             throw new UtilException(ReflectionUtil.class, e, "It was not possible to instance class, class ["+packagePath+"."+className+"] not found!");

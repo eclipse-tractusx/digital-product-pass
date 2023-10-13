@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.services;
 
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
@@ -951,17 +952,21 @@ public class AasService extends BaseService {
             Status status = this.getStatus();
             while(!status.historyExists("digital-twin-found")){
                 status = this.getStatus();
-                if(status.getStatus().equals("FAILED")){
+                if (status.getStatus().equals("FAILED")) {
                     break;
                 }
             }
         }
 
         public Status getStatus(){
-            return this.processManager.getStatus(this.processId);
+            try {
+                return this.processManager.getStatus(this.processId);
+            }catch (Exception e){
+                LogUtil.printWarning("["+this.getClass().getName()+".getStatus()] Status file for process ["+ this.processId + "] is not available!");
+                return new Status(Map.of());
+            }
         }
     }
-
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         /** ATTRIBUTES **/
@@ -995,10 +1000,10 @@ public class AasService extends BaseService {
         @Override
         public void run() {
             this.setDigitalTwin(searchDigitalTwin3(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            if(semanticId.isEmpty()){
+            if(this.semanticId == null || this.semanticId.isEmpty()){
                 this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin()));
             }else {
-                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), semanticId));
+                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), this.semanticId));
             }
         }
         /** GETTERS AND SETTERS **/

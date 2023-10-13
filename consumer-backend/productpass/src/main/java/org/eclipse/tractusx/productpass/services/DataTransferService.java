@@ -37,7 +37,6 @@ import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.*;
 import org.eclipse.tractusx.productpass.models.negotiation.Set;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -724,7 +723,7 @@ public class DataTransferService extends BaseService {
      *           if unable to get the passport.
      */
     @SuppressWarnings("Unused")
-    public Passport getPassport(String transferProcessId, String endpoint) {
+    public JsonNode getPassport(String transferProcessId, String endpoint) {
         try {
             this.checkEmptyVariables();
             Map<String, Object> params = httpUtil.getParams();
@@ -739,7 +738,7 @@ public class DataTransferService extends BaseService {
                 throw new ServiceException(this.getClass().getName() + ".getPassport", "It was not possible to get passport with id " + transferProcessId);
             }
             String responseBody = (String) response.getBody();
-            return (Passport) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), Passport.class);
+            return (JsonNode) jsonUtil.toJsonNode(responseBody);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getPassport",
                     e,
@@ -943,7 +942,7 @@ public class DataTransferService extends BaseService {
                 transferType.setIsFinite(true);
 
 
-                DataDestination dataDestination = new DataDestination();
+                TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
@@ -1205,7 +1204,7 @@ public class DataTransferService extends BaseService {
 
                 transferType.setContentType("application/octet-stream");
                 transferType.setIsFinite(true);
-                DataDestination dataDestination = new DataDestination();
+                TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();

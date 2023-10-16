@@ -463,7 +463,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("passport-received") || status.historyExists("passport-retrieved")) {
+            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("data-received") || status.historyExists("data-retrieved")) {
                 response = httpUtil.getForbiddenResponse("This negotiation can not be canceled! It was already transferred!");
                 return httpUtil.buildResponse(response, httpResponse);
             }

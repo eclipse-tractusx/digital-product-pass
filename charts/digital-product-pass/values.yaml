@@ -149,7 +149,7 @@ backend:
           # -- central digital twin registry url
           centralUrl: 'https://<digital-twin-registry-url>'
           # -- asset id to search for the registry in the edc
-          assetId: 'digital-twin-registry'
+          assetId: 'registry-asset'
           # -- submodel endpoint interface to search
           endpointInterface: 'SUBMODEL-3.0'
           # -- dsp endpoint key inside submodel body

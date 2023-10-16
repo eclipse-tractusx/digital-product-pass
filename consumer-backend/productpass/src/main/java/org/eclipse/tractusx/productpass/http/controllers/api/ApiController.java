@@ -194,8 +194,8 @@ public class ApiController {
                             "negotiation", negotiation,
                             "transfer", transfer
                     ),
-                    "data", passport,
-                    "aspect", semanticId
+                    "aspect", passport,
+                    "semanticId", semanticId
             );
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

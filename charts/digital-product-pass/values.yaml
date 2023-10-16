@@ -171,11 +171,11 @@ backend:
         # -- discovery configuration
         discovery:
           # -- discovery finder configuration
-          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/administration/connectors/discovery/search"
+          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
           # -- bpn discovery configuration
           bpn:
             key: "manufacturerPartId"
-            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
           # -- edc discovery configuration
           edc:
             key: "bpn"

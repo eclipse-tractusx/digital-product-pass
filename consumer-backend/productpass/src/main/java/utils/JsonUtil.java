@@ -40,6 +40,7 @@ import utils.exceptions.UtilException;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -414,4 +415,14 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to get reference type -> [" + e.getMessage() + "]");
         }
     }
+
+
+    public List<?> mapToList(Map<String, ?> map){
+        try{
+            return Arrays.asList(map.values().toArray());
+        }  catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was possible to the map to a list");
+        }
+    }
+
 }

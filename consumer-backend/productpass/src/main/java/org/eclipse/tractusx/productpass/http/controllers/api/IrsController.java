@@ -103,6 +103,24 @@ public class IrsController {
         }
     }
 
+    @RequestMapping(value = "/{processId}/components", method = RequestMethod.GET)
+    @Operation(summary = "Api called by the frontend to obtain the tree of components")
+    public Response components( @PathVariable String processId) {
+        Response response = httpUtil.getInternalError();
+        if (!authService.isAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        try {
+            response = httpUtil.getResponse();
+            response.data = this.treeManager.getTreeComponents(processId); // Loads the tree components with a easy structure for frontend component
+            return httpUtil.buildResponse(response, httpResponse);
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+    }
+
     @RequestMapping(value = "/{processId}/tree", method = RequestMethod.GET)
     @Operation(summary = "Api called by the frontend to obtain the tree of components")
     public Response tree( @PathVariable String processId) {
@@ -113,14 +131,13 @@ public class IrsController {
         }
         try {
             response = httpUtil.getResponse();
-            response.data = this.treeManager.loadTree(processId); // Loads the tree for the process
+            response.data = this.treeManager.getTree(processId); // Loads the tree components with a easy structure for frontend component
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
-
 
 
 

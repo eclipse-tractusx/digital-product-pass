@@ -37,6 +37,7 @@ import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 import org.eclipse.tractusx.productpass.models.irs.Relationship;
 import org.eclipse.tractusx.productpass.models.manager.Node;
+import org.eclipse.tractusx.productpass.models.manager.NodeComponent;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Negotiation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class TreeManager {
     public static String generateSearchId(String processId, String globalAssetId) {
         return CrypUtil.md5(DateTimeUtil.getDateTimeFormatted("yyyyMMddHHmmssSSS") + processId + globalAssetId);
     }
-    public Map<String, Node> loadTree(String processId){
+    public Map<String, Node> getTree(String processId){
         try {
             String path = this.getTreeFilePath(processId); // Get filepath from tree
             if(!fileUtil.pathExists(path)){
@@ -90,7 +91,43 @@ public class TreeManager {
             }
             return (Map<String, Node>) jsonUtil.fromJsonFileToObject(path, Map.class); // Store the plain JSON
         } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName()+".loadTree()", e, "It was not possible to load the tree");
+            throw new ManagerException(this.getClass().getName()+".getTree()", e, "It was not possible to load the tree");
+        }
+    }
+
+
+    public List<NodeComponent> parseChildren(Map<String, Node> children){
+        List<NodeComponent> components = new ArrayList<>(); // Create a component list
+        if(children == null || children.size() == 0){
+            return components; // Stop condition. Empty list when no children are available
+        }
+        List<Node> rawChildren = (List<Node>) jsonUtil.mapToList(children); // Pass the current node to list
+        rawChildren.forEach(
+                k -> {
+                    List<NodeComponent> parsedChildren = this.parseChildren(k.getChildren()); // Parse the children below
+                    NodeComponent childComponent = new NodeComponent(k,parsedChildren); // Add the existing children to a node component
+                    components.add(childComponent); // Add to the list of components
+                }
+        );
+        return components; // Return the components
+    }
+
+
+    public List<NodeComponent> recursiveParseChildren(Map<String, Node> currentNodes){
+        try {
+            return this.parseChildren(currentNodes);
+        }catch (Exception e) {
+                throw new ManagerException(this.getClass().getName()+".recursiveParseChildren()", e, "It was not possible to parse tree of nodes");
+            }
+
+    }
+
+    public List<NodeComponent> getTreeComponents(String processId){
+        try {
+            Map<String, Node> treeDataModel = this.getTree(processId); // Get filepath from tree
+            return this.recursiveParseChildren(treeDataModel);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName()+".getTreeComponents()", e, "It was not possible to get the tree components!");
         }
     }
 
@@ -133,7 +170,7 @@ public class TreeManager {
     }
     public String populateTree(String processId, JobHistory jobHistory, JobResponse job){
         try {
-            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Map<String, Node> treeDataModel = this.getTree(processId);
             return this.populateTree(treeDataModel,processId, jobHistory, job);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName() + ".setChild()", e, "It was not possible to get the node from the tree");
@@ -162,7 +199,7 @@ public class TreeManager {
     }
     public Node getNodeByPath(String processId, String path){
         try {
-            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Map<String, Node> treeDataModel = this.getTree(processId);
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
             return (Node) this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node
         } catch (Exception e) {
@@ -183,7 +220,7 @@ public class TreeManager {
     }
     public Object setNodeByPath(String processId, String path, Node node){
         try {
-            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Map<String, Node> treeDataModel = this.getTree(processId);
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
             treeDataModel = (Map<String, Node>) this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
             if(treeDataModel == null){ // Check if the response was successful
@@ -197,7 +234,7 @@ public class TreeManager {
 
     public Object setChild(String processId, String parentPath, Node childNode){
         try {
-            Map<String, Node> treeDataModel = this.loadTree(processId);
+            Map<String, Node> treeDataModel = this.getTree(processId);
             Node parentNode = this.getNodeByPath(treeDataModel, parentPath); // Get parent node
             parentNode.setChild(childNode); // Add the child to the parent node
             treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parentNode); // Save the parent node in the tree

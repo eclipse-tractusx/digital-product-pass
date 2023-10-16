@@ -43,7 +43,7 @@ public class DtrConfig {
     Timeouts timeouts;
     Boolean temporaryStorage;
     DecentralApis decentralApis;
-    String assetId;
+    String assetType;
     String endpointInterface;
     String dspEndpointKey;
 
@@ -88,11 +88,11 @@ public class DtrConfig {
     public void setDspEndpointKey(String dspEndpointKey) {
         this.dspEndpointKey = dspEndpointKey;
     }
-    public String getAssetId() {
-        return assetId;
+    public String getAssetType() {
+        return assetType;
     }
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 
     /** INNER CLASSES **/

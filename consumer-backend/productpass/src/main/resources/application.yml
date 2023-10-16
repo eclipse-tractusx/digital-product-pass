@@ -61,7 +61,7 @@ configuration:
       edc: true
 
   dtr:
-    assetId: 'digital-twin-registry'
+    assetType: 'data.core.digitalTwinRegistry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
@@ -80,7 +80,7 @@ configuration:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
     bpn:
       key: "manufacturerPartId"
-      searchPath: "/api/administration/connectors/bpnDiscovery/search"
+      searchPath: "/api/administration/v1.0/connectors/bpnDiscovery/search"
     edc:
       key: "bpn"
 

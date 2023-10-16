@@ -37,7 +37,7 @@
           (statusData.data.history['transfer-request']
             ? this.stepsNames.contractTransfer.progressValue
             : 0) +
-          (statusData.data.history['passport-received']
+          (statusData.data.history['data-received']
             ? this.stepsNames.passportRetrieval.progressValue
             : 0)
         "
@@ -116,7 +116,7 @@
       />
       <!-- Passport Retrieval step -->
       <StepperItem
-        :condition="statusData.data.history['passport-received']"
+        :condition="statusData.data.history['data-received']"
         :stepTitle="this.stepsNames.passportRetrieval.stepTitle"
         :successStepSubTitle="
           this.stepsNames.passportRetrieval.successStepSubtitle

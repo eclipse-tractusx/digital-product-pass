@@ -169,13 +169,13 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (!status.historyExists("passport-received")) {
-                response = httpUtil.getNotFound("The passport is not available!");
+            if (!status.historyExists("data-received")) {
+                response = httpUtil.getNotFound("The data is not available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.historyExists("passport-retrieved")) {
-                response = httpUtil.getNotFound("The passport was already retrieved and is no longer available!");
+            if (status.historyExists("data-retrieved")) {
+                response = httpUtil.getNotFound("The data was already retrieved and is no longer available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String semanticId = status.getSemanticId();

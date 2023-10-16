@@ -112,7 +112,8 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            response = httpUtil.getResponse("IRS is not available at the moment!");
+            response = httpUtil.getResponse();
+            response.data = this.treeManager.loadTree(processId); // Loads the tree for the process
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();

@@ -963,7 +963,7 @@ public class ProcessManager {
             this.setStatus(processId, eventKey, history);
             String path = this.getProcessFilePath(processId, fileName);
             String returnPath = "";
-            if(eventKey.equals("passport-received") && encrypt) {
+            if(eventKey.equals("data-received") && encrypt) {
                 returnPath = fileUtil.toFile(path, payload.toString(), false);
             }else {
                 returnPath = jsonUtil.toJsonFile(path, payload, processConfig.getIndent());
@@ -1238,7 +1238,7 @@ public class ProcessManager {
                 LogUtil.printStatus("[PROCESS " + processId +"] Failed to delete passport file!");
             }
 
-            this.setStatus(processId,"passport-retrieved", history);
+            this.setStatus(processId,"data-retrieved", history);
             return passport;
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the passport!");
@@ -1284,7 +1284,7 @@ public class ProcessManager {
                     this.passportFileName,
                     endpointData.getId(),
                     "RECEIVED",
-                    "passport-received");
+                    "data-received");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the digital product passport!");
         }

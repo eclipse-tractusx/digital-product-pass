@@ -61,7 +61,10 @@ import java.util.Map;
 public class AasService extends BaseService {
 
     /** ATTRIBUTES **/
-    private final String submodelTypeKey = "Submodel";
+    public String registryUrl;
+
+    public Boolean central;
+    public String semanticIdTypeKey;
     private final HttpUtil httpUtil;
     private final JsonUtil jsonUtil;
     private final DtrConfig dtrConfig;
@@ -72,6 +75,7 @@ public class AasService extends BaseService {
     private DataTransferService dataService;
 
     private PassportConfig passportConfig;
+
 
     /** CONSTRUCTOR(S) **/
     @Autowired
@@ -102,6 +106,7 @@ public class AasService extends BaseService {
                     "subModel", "/submodel-descriptors"
             );
         }
+        this.semanticIdTypeKey = dtrConfig.getSemanticIdTypeKey();
         this.apis = Map.of(
                 "decentral", decentralApis
         );
@@ -285,7 +290,9 @@ public class AasService extends BaseService {
             SubModel subModel = null;
             // Search for first subModel with matching semanticId, if it fails gives null
             for (String semanticId: passportConfig.getAspects()) {
-                subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(submodelTypeKey) && k.getValue().equalsIgnoreCase(semanticId)) != null).findFirst().orElse(null);
+                subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().anyMatch(
+                        k -> (k.getType().equalsIgnoreCase(this.semanticIdTypeKey) && k.getValue().equalsIgnoreCase(semanticId))
+                )).findFirst().orElse(null);
                 if (subModel != null) {
                     return subModel; // Return subModel if found
                 }
@@ -303,8 +310,8 @@ public class AasService extends BaseService {
      * Gets the {@code Submodel} from a Digital Twin by a given semantic identification.
      * <p>
      * @param   digitalTwin
-     *          the {@code DigitalTwin} object with its submodels.
-     * @param   semanticId
+     *          the {@code DigitalTwin3} object with its submodels.
+     * @param   aspectSemanticId
      *          the {@code String} semantic id of the intended submodel.
      *
      * @return a {@code Submodel} object with the submodel found, if exists.
@@ -312,7 +319,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a the {@code Submodel} for the given semantic id.
      */
-    public SubModel getSubModelBySemanticId(DigitalTwin digitalTwin, String semanticId) {
+    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin, String aspectSemanticId) {
         try {
             ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
             if (subModels.size() < 1) {
@@ -321,7 +328,10 @@ public class AasService extends BaseService {
             }
             SubModel subModel = null;
             // Search for first subModel with matching semanticId, if it fails gives null
-            subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(submodelTypeKey) && k.getValue().equalsIgnoreCase(semanticId)) != null).findFirst().orElse(null);
+            subModel = subModels.stream().filter(
+                    s -> s.getSemanticId().getKeys().stream().anyMatch(
+                            k -> (k.getType().equalsIgnoreCase(this.semanticIdTypeKey) && k.getValue().equalsIgnoreCase(aspectSemanticId))
+                    )).findFirst().orElse(null);
             if (subModel != null) {
                 return subModel; // Return subModel if found
             }

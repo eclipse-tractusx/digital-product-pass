@@ -99,14 +99,14 @@ public class ApiController {
      * @return this {@code Response} HTTP response with status.
      *
      */
-    @RequestMapping(value = "/passport", method = {RequestMethod.POST})
-    @Operation(summary = "Returns versioned product passport by id", responses = {
+    @RequestMapping(value = "/data", method = {RequestMethod.POST})
+    @Operation(summary = "Returns the data negotiated and transferred", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportResponse.class))),
     })
-    public Response getPassport(@Valid @RequestBody TokenRequest tokenRequestBody) {
+    public Response getData(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Response response = httpUtil.getInternalError();
 
         // Check for authentication
@@ -169,13 +169,13 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (!status.historyExists("passport-received")) {
-                response = httpUtil.getNotFound("The passport is not available!");
+            if (!status.historyExists("data-received")) {
+                response = httpUtil.getNotFound("The data is not available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.historyExists("passport-retrieved")) {
-                response = httpUtil.getNotFound("The passport was already retrieved and is no longer available!");
+            if (status.historyExists("data-retrieved")) {
+                response = httpUtil.getNotFound("The data was already retrieved and is no longer available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String semanticId = status.getSemanticId();
@@ -194,8 +194,8 @@ public class ApiController {
                             "negotiation", negotiation,
                             "transfer", transfer
                     ),
-                    "data", passport,
-                    "aspect", semanticId
+                    "aspect", passport,
+                    "semanticId", semanticId
             );
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

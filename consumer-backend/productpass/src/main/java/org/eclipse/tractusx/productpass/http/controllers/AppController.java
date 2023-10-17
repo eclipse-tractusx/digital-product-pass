@@ -183,7 +183,7 @@ public class AppController {
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
-                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase("Submodel") || k.getType().equalsIgnoreCase("GlobalReference")).findFirst().orElse(null)).getValue();
+                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(this.dtrConfig.getSemanticIdTypeKey())).findFirst().orElse(null)).getValue();
                 connectorId = subModel.getIdShort();
                 EndPoint endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {

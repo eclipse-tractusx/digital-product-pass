@@ -805,7 +805,39 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to set the semanticId!");
         }
     }
+    /**
+     * Sets the semantic id in the status file
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   semanticId
+     *          the {@code String}  semantic ID in the status file
+     *
+     * @return  a {@code String} file path of the process status file.
+     *
+     * @throws ManagerException
+     *           if unable to update the status file.
+     */
+    public String saveTransferInfo(String processId, String connectorAddress, String semanticId, String dataPlaneUrl, String bpn, Boolean childrenCondition) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
 
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setSemanticId(semanticId);
+            statusFile.setEndpoint(connectorAddress);
+            statusFile.setDataPlaneUrl(dataPlaneUrl);
+            statusFile.setBpn(bpn);
+            statusFile.setChildren(childrenCondition);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to set the semanticId!");
+        }
+    }
     /**
      * Sets the history of the process's status containing the given processId.
      * <p>

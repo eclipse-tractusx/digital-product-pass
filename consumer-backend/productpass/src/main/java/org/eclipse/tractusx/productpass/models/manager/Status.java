@@ -59,6 +59,9 @@ public class Status {
     @JsonProperty("endpoint")
     public String endpoint;
 
+    @JsonProperty("dataPlaneUrl")
+    public String dataPlaneUrl;
+
     @JsonProperty("bpn")
     public String bpn;
 
@@ -222,6 +225,21 @@ public class Status {
     public Status() {
     }
 
+    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String dataPlaneUrl, String bpn, Boolean children, String treeState, Map<String, History> history, String semanticId) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.jobs = jobs;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+        this.semanticId = semanticId;
+    }
+
     public String getId() {
         return id;
     }
@@ -340,6 +358,14 @@ public class Status {
 
     public void setSemanticId(String semanticId) {
         this.semanticId = semanticId;
+    }
+
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
     }
 }
 

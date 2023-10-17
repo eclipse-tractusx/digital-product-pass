@@ -91,11 +91,10 @@ public class IrsController {
 
             JobHistory jobHistory = status.getJobId(searchId);
 
-            LogUtil.printMessage("["+processId+"] Requesting Job ["+id+"] after state ["+state+"]");
-            JobResponse irsJob = this.irsService.getJob(id);
-            LogUtil.printMessage(jsonUtil.toJson(irsJob, true));
+            LogUtil.printMessage("["+processId+"] Job callback received with state ["+ state+"]. Requesting Job ["+jobHistory.getJobId()+"]!");
+            JobResponse irsJob = this.irsService.getJob(jobHistory.getJobId());
             this.treeManager.populateTree(processId, jobHistory, irsJob);
-            response = httpUtil.getResponse("IRS is not available at the moment!");
+            response = httpUtil.getResponse("OK");
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();

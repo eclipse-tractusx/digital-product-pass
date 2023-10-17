@@ -191,7 +191,7 @@ public class AppController {
             String assetId = null;
             String connectorAddress = null;
             String semanticId = null;
-
+            String dataPlaneUrl = null;
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
@@ -204,6 +204,7 @@ public class AppController {
                 Map<String, String> subProtocolBody = endpoint.getProtocolInformation().parseSubProtocolBody();
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
+                dataPlaneUrl = endpoint.getProtocolInformation().getEndpointAddress(); // Get the HREF endpoint
             } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
@@ -221,10 +222,8 @@ public class AppController {
             }
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
-            processManager.setEndpoint(processId, connectorAddress);
-            processManager.setBpn(processId,bpn);
+            processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
-            processManager.setChildrenCondition(processId, childrenCondition);
 
             // IRS FUNCTIONALITY START
             if(this.irsConfig.getEnabled() && search.getChildren()) {
@@ -315,7 +314,13 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            JsonNode passport = dataPlaneService.getPassport(endpointData);
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+
+
+            JsonNode passport = dataPlaneService.getPassportFromEndpoint(endpointData, status.getDataPlaneUrl());
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

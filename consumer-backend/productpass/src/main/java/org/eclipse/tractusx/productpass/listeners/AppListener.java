@@ -152,23 +152,21 @@ public class AppListener {
         LogUtil.printMessage(serverStartUpMessage);
         LogUtil.printMessage("========= [ LOGGING STARTED ] ================================");
         LogUtil.printMessage("Creating log file...");
-        if(!dtrConfig.getCentral()) {
-            Discovery discovery = catenaXService.start(); // Start the CatenaX service if the central attribute is set to false (we need the bpnDiscovery and edcDiscovery addresses)
-            if (discovery == null) {
-                LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +
-                        "\nIt was not possible to start the application correctly..." +
-                        "\nPlease configure the Discovery Service Endpoint property:" +
-                        "\n\t- [application.configuration.discovery.endpoint]" +
-                        "\nMake sure that the Technical User Credentials are correctly configured:" +
-                        "\n\t- [avp.helm.clientId]" +
-                        "\n\t- [avp.helm.clientSecret]" +
-                        "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
-                        "\n\t- [application.configuration.keycloak.tokenUri]" +
-                        "\n*****************************************************************************************\n"
-                );
-            }
+        Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and edcDiscovery addresses)
+        if (discovery == null) {
+            LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +
+                    "\nIt was not possible to start the application correctly..." +
+                    "\nPlease configure the Discovery Service Endpoint property:" +
+                    "\n\t- [application.configuration.discovery.endpoint]" +
+                    "\nMake sure that the Technical User Credentials are correctly configured:" +
+                    "\n\t- [avp.helm.clientId]" +
+                    "\n\t- [avp.helm.clientSecret]" +
+                    "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
+                    "\n\t- [application.configuration.keycloak.tokenUri]" +
+                    "\n*****************************************************************************************\n"
+            );
         }
-       }
 
+       }
         // Store the process manager in memory
     }

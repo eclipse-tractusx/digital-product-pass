@@ -39,13 +39,11 @@ import java.util.Map;
 public class DtrConfig {
 
     /** ATTRIBUTES **/
-    Boolean central;
-    String centralUrl;
     String internalDtr;
     Timeouts timeouts;
     Boolean temporaryStorage;
     DecentralApis decentralApis;
-    String assetId;
+    String assetType;
     String endpointInterface;
     String dspEndpointKey;
 
@@ -73,9 +71,6 @@ public class DtrConfig {
     }
     public void setDecentralApis(DecentralApis decentralApis) {
         this.decentralApis = decentralApis;
-    }
-    public DtrConfig(Boolean central) {
-        this.central = central;
     }
     public String getInternalDtr() {
         return internalDtr;
@@ -107,24 +102,11 @@ public class DtrConfig {
     public void setDspEndpointKey(String dspEndpointKey) {
         this.dspEndpointKey = dspEndpointKey;
     }
-    public Boolean getCentral() {
-        return central;
+    public String getAssetType() {
+        return assetType;
     }
-    public void setCentral(Boolean central) {
-        this.central = central;
-    }
-    public String getCentralUrl() {
-        return centralUrl;
-    }
-    @SuppressWarnings("Unused")
-    public void setCentralUrl(String centralUrl) {
-        this.centralUrl = centralUrl;
-    }
-    public String getAssetId() {
-        return assetId;
-    }
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 
     public String getSemanticIdTypeKey() {

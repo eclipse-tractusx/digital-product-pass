@@ -148,8 +148,8 @@ backend:
           central: false
           # -- central digital twin registry url
           centralUrl: 'https://<digital-twin-registry-url>'
-          # -- asset id to search for the registry in the edc
-          assetId: 'registry-asset'
+          # -- asset type to search for the registry in the edc
+          assetType: 'data.core.digitalTwinRegistry'
           # -- submodel endpoint interface to search
           endpointInterface: 'SUBMODEL-3.0'
           # -- dsp endpoint key inside submodel body

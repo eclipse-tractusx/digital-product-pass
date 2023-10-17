@@ -73,9 +73,8 @@ public class IrsController {
 
     @RequestMapping(value = "/{processId}/{searchId}", method = RequestMethod.GET)
     @Operation(summary = "Endpoint called by the IRS to set status completed")
-    public Response endpoint(@PathVariable String processId,@PathVariable String searchId, @RequestParam String id, @RequestParam String state) {
+    public Response endpoint(@PathVariable String processId, @PathVariable String searchId, @RequestParam String id, @RequestParam String state) {
         Response response = httpUtil.getInternalError();
-        LogUtil.printMessage(jsonUtil.toJson(httpRequest, true));
         try {
             if (!processManager.checkProcess(processId)) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
@@ -106,7 +105,7 @@ public class IrsController {
 
     @RequestMapping(value = "/{processId}/components", method = RequestMethod.GET)
     @Operation(summary = "Api called by the frontend to obtain the tree of components")
-    public Response components( @PathVariable String processId) {
+    public Response components(@PathVariable String processId) {
         Response response = httpUtil.getInternalError();
         if (!authService.isAuthenticated(httpRequest)) {
             response = httpUtil.getNotAuthorizedResponse();

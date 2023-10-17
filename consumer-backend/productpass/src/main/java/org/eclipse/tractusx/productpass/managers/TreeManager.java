@@ -100,7 +100,16 @@ public class TreeManager {
         if(children == null || children.size() == 0){
             return components; // Stop condition. Empty list when no children are available
         }
-        List<Node> rawChildren = (List<Node>) jsonUtil.mapToList(children); // Pass the current node to list
+        List<Node> rawChildren = null;
+        try {
+            rawChildren = (List<Node>) jsonUtil.bindReferenceType(jsonUtil.mapToList(children), new TypeReference<List<Node>>() {});
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Node!");
+        }
+        if(rawChildren == null){
+            LogUtil.printWarning(this.getClass().getName() + ".parseChildren() It was not possible to parse children as a list of Nodes");
+            return components;
+        }
         rawChildren.forEach(
                 k -> {
                     List<NodeComponent> parsedChildren = this.parseChildren(k.getChildren()); // Parse the children below

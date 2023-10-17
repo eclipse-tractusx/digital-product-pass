@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.logging.Log;
 import org.checkerframework.checker.units.qual.K;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -113,7 +114,6 @@ public class IrsService extends BaseService {
                     "state", "COMPLETED"
             );
             String callbackUrl = httpUtil.buildUrl(backendUrl, params, false);
-            LogUtil.printMessage("Backend CallBack Url: "+callbackUrl);
             JobRequest body = new JobRequest(
                     new ArrayList<>(),
                     "asBuilt",
@@ -144,6 +144,7 @@ public class IrsService extends BaseService {
             Long created = DateTimeUtil.getTimestamp();
             Map<String, String> irsResponse = this.startJob(processId, globalAssetId, searchId, bpn);
             String jobId = irsResponse.get("id");
+            LogUtil.printMessage("[PROCESS "+ processId + "] Job with id [" + jobId + "] created in the IRS for the globalAssetId [" + globalAssetId+"]");
             this.processManager.addJobHistory(
                     processId,
                     searchId,

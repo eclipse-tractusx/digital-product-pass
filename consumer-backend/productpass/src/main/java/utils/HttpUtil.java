@@ -23,8 +23,8 @@
 
 package utils;
 
-import org.apache.juli.logging.Log;
-import org.checkerframework.checker.units.qual.C;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -46,14 +45,15 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+/**
+ * This class consists exclusively of methods to operate on the HTTP protocol.
+ *
+ * <p> The methods defined here are intended to get, set, parse and manipulate HTTP requests and responses.
+ *
+ */
 @Component
 public class HttpUtil {
 
@@ -72,18 +72,63 @@ public class HttpUtil {
     private  final String POST_ERROR_MESSAGE = "It was not possible to do POST request to ";
 
 
+    /**
+     * Gets a session value of an HTTP Request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   key
+     *          the session's key to lookup for.
+     *
+     * @return  a {@code Object} object with the value of the given key.
+     *
+     */
     public Object getSessionValue(HttpServletRequest httpRequest, String key) {
         return httpRequest.getSession().getAttribute(key);
     }
 
+    /**
+     * Sets a session value on an HTTP Request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   key
+     *          the session's key to lookup for.
+     * @param   value
+     *          the object value to update.
+     *
+     * @return  a {@code Object} object with the value of the given key.
+     *
+     */
     public  void setSessionValue(HttpServletRequest httpRequest, String key, Object value) {
         httpRequest.getSession().setAttribute(key, value);
     }
+
+    /**
+     * Gets the session Id of an HTTP Request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     *
+     * @return  a {@code String} object with the value of the session Id.
+     *
+     */
     public String getSessionId(HttpServletRequest httpRequest) {
         return httpRequest.getSession().getId();
     }
 
-
+    /**
+     * Checks if a session key exists on the HTTP Request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   key
+     *          the session's key to lookup for.
+     *
+     * @return  true if the key exists, false otherwise.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  Boolean isInSession(HttpServletRequest httpRequest, String key) {
         try {
             Object value = httpRequest.getSession().getAttribute(key);
@@ -102,13 +147,47 @@ public class HttpUtil {
      * @param httpRequest + Extra details
      **************************************************/
 
+    /**
+     * Gets HTTP information like the protocol, method and the request URI used in the given HTTP Request and concatenates with the given HTTP response status
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   status
+     *          the HTTP response status.
+     *
+     * @return  a {@code String} object with the HTTP information from the given HTTP Request concatenated with the given HTTP response status.
+     *
+     */
     public  String getHttpInfo(HttpServletRequest httpRequest, Integer status) {
         return "[" + httpRequest.getProtocol() + " " + httpRequest.getMethod() + "] " + status + ": " + httpRequest.getRequestURI();
     }
+
+    /**
+     * Gets HTTP information like the status, statusText and the message related with the given HTTP response.
+     * <p>
+     * @param   response
+     *          the HTTP response.
+     *
+     * @return  a {@code String} object with the HTTP information from the given HTTP Request concatenated with the given HTTP response status.
+     *
+     */
     public  String getResponseHttpInfo(Response response) {
         return "[HTTP Response] " + response.status + " " + response.statusText+ ": " + response.getMessage();
     }
 
+    /**
+     * Gets the parameter from the HTTP request or a defaultValue if otherwise.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   param
+     *          parameter to look up for in the given HTTP request.
+     * @param   defaultPattern
+     *          default value to return if the parameter doesn't exist.
+     *
+     * @return  a {@code String} with the value of the parameter, if found or the defaultPattern otherwise.
+     *
+     */
     public  String getParamOrDefault(HttpServletRequest httpRequest, String param, String defaultPattern) {
         String requestParam = httpRequest.getParameter(param);
         if (requestParam == null) {
@@ -117,6 +196,15 @@ public class HttpUtil {
         return requestParam;
     }
 
+    /**
+     * Gets the authorization token for the given HTTP request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     *
+     * @return  a {@code String} with the value of the token to be able to communicate.
+     *
+     */
     public  String getAuthorizationToken(HttpServletRequest httpRequest){
         final String authorizationHeaderValue = httpRequest.getHeader("Authorization");
         String token = null;
@@ -128,7 +216,20 @@ public class HttpUtil {
         }
         return token;
     }
-    /*
+    /**
+     * Builds the URL with the key/value pair within the given parameters map with or without enconding.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  a {@code String} with the build URL.
+     *
+     
+    @SuppressWarnings("Unused")
     public  String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
@@ -143,9 +244,20 @@ public class HttpUtil {
             finalUrl.append("?").append(entry.getKey()).append("=").append(value);
         }
         return finalUrl.toString();
-    }*/
-
-    public String mapToParams(Map<String, ?> params, Boolean encode){
+    }
+    */
+    /**
+     * Parses the Map of parameters to a String as URL parameters structure.
+     * <p>
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  a {@code String} with all parameters as URL parameters structure.
+     *
+     */
+    public  String mapToParams(Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder();
         for(Map.Entry<String, ?> entry : params.entrySet()){
 
@@ -158,6 +270,16 @@ public class HttpUtil {
         return finalUrl.toString();
     }
 
+    /**
+     * Encodes the value of each parameter in the given Map.
+     * <p>
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     *
+     * @return  a {@code Map} with the value of each parameter encoded.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  Map<String, ?> encodeParams(Map<String, ?> params){
         Map<String, Object> encodedParams = new HashMap<>();
         for(Map.Entry<String, ?> entry : params.entrySet()){
@@ -168,6 +290,17 @@ public class HttpUtil {
         return encodedParams;
     }
 
+    /**
+     * Gets the current Host for the given HTTP request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     *
+     * @return  a {@code String} with the URL of the current Host.
+     *
+     * @throws  UtilException
+     *          if unable to get the host URL.
+     */
     public  String getCurrentHost(HttpServletRequest httpRequest){
         try {
             return ServletUriComponentsBuilder.fromRequestUri(httpRequest)
@@ -179,6 +312,17 @@ public class HttpUtil {
         }
     }
 
+    /**
+     * Parses the given token as a {@code Jwt} object.
+     * <p>
+     * @param   token
+     *          the {@code String} token.
+     *
+     * @return  a {@code Jwt} object parsed with the values from the token.
+     *
+     * @throws  UtilException
+     *          if unable to parse the token.
+     */
     public Jwt parseToken(String token){
         try {
             String[] chunks = token.split("\\.");
@@ -194,6 +338,19 @@ public class HttpUtil {
         }
 
     }
+
+    /**
+     * Gets the URL from the given HTTP request.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     *
+     * @return  a {@code String} with the request's URL.
+     *
+     * @throws  UtilException
+     *          if unable to get the URL.
+     */
+    @SuppressWarnings("Unused")
     public  String getCurrentUrl(HttpServletRequest httpRequest){
         try {
             return httpRequest.getRequestURL().toString();
@@ -202,20 +359,73 @@ public class HttpUtil {
         }
     }
 
+    /**
+     * Gets the Host from the given URL.
+     * <p>
+     * @param   url
+     *          the {@code String} URL.
+     *
+     * @return  a {@code String} with the Host name of the URL.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  String getHost(String url) throws MalformedURLException {
         return new URL(url).getHost();
     }
+
+    /**
+     * Gets the Protocol from the given URL.
+     * <p>
+     * @param   url
+     *          the {@code String} URL.
+     *
+     * @return  a {@code String} with the Protocol name of the URL.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  String getProtocol(String url) throws MalformedURLException {
         return new URL(url).getProtocol();
     }
+
+    /**
+     * Gets the Port from the given URL.
+     * <p>
+     * @param   url
+     *          the {@code String} URL.
+     *
+     * @return  a {@code Integer} with the Port number of the URL.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  Integer getPort(String url) throws MalformedURLException {
         int port = new URL(url).getPort();
         return (port!=-1)?port:null;
     }
+
+    /**
+     * Gets the Authority part from the given URL.
+     * <p>
+     * @param   url
+     *          the {@code String} URL.
+     *
+     * @return  a {@code String} with the Authority part of the URL.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  String getAuthority(String url) throws MalformedURLException {
         return new URL(url).getAuthority();
     }
 
+    /**
+     * Parses the given URL to a key/value pair Map with the protocol, host, port and authorirty part information.
+     * <p>
+     * @param   strUrl
+     *          the {@code String} URL.
+     *
+     * @return  a {@code Map} object with the main URL parameters.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  HashMap<String, Object> splitUrl(String strUrl) throws MalformedURLException{
         HashMap<String, Object> retObj = new HashMap<>();
         URL url = new URL(strUrl);
@@ -226,6 +436,16 @@ public class HttpUtil {
         retObj.put("authority", url.getAuthority());
         return retObj;
     }
+
+    /**
+     * Parses the given {@code String} URL into a String format with protocol and authority information
+     * <p>
+     * @param   strUrl
+     *          the {@code String} URL.
+     *
+     * @return  a {@code String} object with format result.
+     *
+     */
     public static String cleanUrl(String strUrl) throws MalformedURLException{
         URL url = new URL(strUrl);
         String protocol = url.getProtocol();
@@ -239,6 +459,17 @@ public class HttpUtil {
      **************************************************/
 
 
+    /**
+     * Builds an {@code HttpServletResponse} object with the given response message.
+     * <p>
+     * @param   response
+     *          the response message.
+     * @param   servletResponse
+     *          the HTTP response.
+     *
+     * @return  the {@code Response} given object after setting some parameters of HTTP response.
+     *
+     */
     public  Response buildResponse(Response response, HttpServletResponse servletResponse){
         servletResponse.setStatus(response.getStatus());
         servletResponse.setHeader("Access-Control-Allow-Origin", "*");
@@ -248,6 +479,7 @@ public class HttpUtil {
         }
         return response;
     }
+
     public  Response getResponse() {
         return new Response(
                 null,
@@ -269,6 +501,8 @@ public class HttpUtil {
                 data
         );
     }
+
+    @SuppressWarnings("Unused")
     public  Response getBadRequest() {
         return new Response(
                 null,
@@ -283,6 +517,7 @@ public class HttpUtil {
                 "Bad Request"
         );
     }
+    @SuppressWarnings("Unused")
     public  Response getNotFound() {
         return new Response(
                 null,
@@ -308,6 +543,7 @@ public class HttpUtil {
         );
     }
 
+    @SuppressWarnings("Unused")
     public  Response getInternalError(String message) {
         return new Response(
                 message,
@@ -336,6 +572,7 @@ public class HttpUtil {
                 "Not Authorized"
         );
     }
+
     public  void redirect(HttpServletResponse httpResponse, String url) {
         try {
             httpResponse.sendRedirect(url);
@@ -344,6 +581,19 @@ public class HttpUtil {
         }
     }
 
+    /**
+     * Builds an {@code URI} object with the given URL and parameters.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encoded
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the built {@code URI} object set with the given URL and parameters with or without enconding.
+     *
+     */
     public  URI buildUri(String url, Map<String, ?> params, Boolean encoded){
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
@@ -351,8 +601,19 @@ public class HttpUtil {
         }
         return builder.build(encoded).toUri();
     }
-
-    public  String buildUrl(String url, Map<String, ?> params, Boolean encoded){
+    /**
+     * Builds the URL with the key/value pair within the given parameters map with or without enconding.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  a {@code String} with the build URL.
+     */
+    public String buildUrl(String url, Map<String, ?> params, Boolean encoded){
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
         for(Map.Entry<String, ?> entry : params.entrySet()){
             builder.queryParam(entry.getKey(), entry.getValue());
@@ -363,6 +624,29 @@ public class HttpUtil {
     /**************************************************
      * Generic Request Methods ************************
      **************************************************/
+
+
+    /**
+     * Builds and make an HTTP request with the given parameters.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   method
+     *          the HTTP method (e.g: GET, POST, etc.)
+     * @param   payload
+     *          the payload for the request as an {@code HttpEntity}.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the request.
+     *
+     */
     public ResponseEntity<?> doRequest(String url, Class<?> responseType, HttpMethod method, HttpEntity payload, Map<String, ?> params, Boolean retry, Boolean encode) {
         RestTemplate restTemplate = new RestTemplate();
         URI finalUri = this.buildUri(url, params, encode);
@@ -390,14 +674,30 @@ public class HttpUtil {
         return response;
     }
 
-    /// ============================================================
-    /// REQUEST Methods --------------------------------------------
-    /// ============================================================
+    /**
+        ============================================================
+        REQUEST Methods --------------------------------------------
+        ============================================================
+     **/
 
-
-
-    /*
-     * GET With PARAMS + HEADERS
+    /**
+     * Builds and make an HTTP GET request with headers and parameters, without body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
     public ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
@@ -408,9 +708,24 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * GET With HEADERS
+    /**
+     * Builds and make an HTTP GET request with headers, without parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
+    @SuppressWarnings("Unused")
     public ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
@@ -420,9 +735,29 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * GET With PARAMS + HEADERS + BODY
+
+    /**
+     * Builds and make an HTTP GET request with headers, parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doGet(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
@@ -432,9 +767,24 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * GET With PARAMS
+    /**
+     * Builds and make an HTTP GET request with parameters, without headers and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
@@ -444,9 +794,26 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * GET With BODY + PARAMS
+    /**
+     * Builds and make an HTTP GET request with parameters and body, without headers.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, this.getHeaders());
@@ -455,9 +822,21 @@ public class HttpUtil {
             throw new UtilException(HttpUtil.class, e, GET_ERROR_MESSAGE + url);
         }
     }
-    /*
-     * GET Without anything
+
+    /**
+     * Builds and make an empty HTTP GET request without headers, parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     *
+     * @return  the {@code ResponseEntity} with the result of the GET request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doGet(String url,  Class<?> responseType, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
@@ -468,8 +847,24 @@ public class HttpUtil {
     }
 
 
-    /*
-     * POST With PARAMS + HEADERS
+    /**
+     * Builds and make an HTTP POST request with headers and parameters, without body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
      */
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
@@ -480,8 +875,26 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * POST With PARAMS + HEADERS + BODY
+    /**
+     * Builds and make an HTTP POST request with headers, parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
      */
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode) {
         try {
@@ -492,9 +905,24 @@ public class HttpUtil {
         }
     }
 
-    /*
-     * POST With PARAMS
+    /**
+     * Builds and make an HTTP POST request with parameters, without headers and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
@@ -504,9 +932,26 @@ public class HttpUtil {
         }
     }
 
-    /*
-    * POST With BODY + PARAMS
-    */
+    /**
+     * Builds and make an HTTP POST request with parameters and body, without headers.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
+     */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Map<String, ?> params,Object body, Boolean retry, Boolean encode) {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, this.getHeaders());
@@ -515,9 +960,23 @@ public class HttpUtil {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
     }
-    /*
-     * POST With HEADERS
+
+    /**
+     * Builds and make an HTTP POST request with headers, without parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
@@ -526,9 +985,21 @@ public class HttpUtil {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
     }
-    /*
-     * POST Without anything
+
+    /**
+     * Builds and make an empty HTTP POST request without headers, parameters and body.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
      */
+    @SuppressWarnings("Unused")
     public  ResponseEntity<?> doPost(String url,  Class<?> responseType, Boolean retry) {
         try {
             HttpEntity<Void> requestEntity = new HttpEntity<>(this.getHeaders());
@@ -537,6 +1008,7 @@ public class HttpUtil {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }
     }
+
     public  HttpHeaders getHeaders() {
         return new HttpHeaders();
     }

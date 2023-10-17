@@ -24,22 +24,21 @@
 package utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import utils.exceptions.UtilException;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * This class consists exclusively of methods to operate on YAML type files.
+ *
+ * <p> The methods defined here are intended to read, parse and dump YAML files.
+ *
+ */
 @Component
 public final class YamlUtil {
     private final FileUtil fileUtil;
@@ -48,6 +47,17 @@ public final class YamlUtil {
         this.fileUtil = fileUtil;
     }
 
+    /**
+     * Reads the target YAML file defined by the filePath.
+     * <p>
+     * @param   filePath
+     *          the path to the target YAML file as a String.
+     *
+     * @return  a {@code Map<String, Object>} object representing the target YAML file.
+     *
+     * @throws  UtilException
+     *          if unable to read the YAML file.
+     */
     public Map<String, Object> readFile(String filePath) {
         try {
             InputStream inputStream = new FileInputStream(fileUtil.newFile(filePath));
@@ -58,6 +68,17 @@ public final class YamlUtil {
         }
     }
 
+    /**
+     * Parses the target YAML file defined by the fileContent.
+     * <p>
+     * @param   fileContent
+     *          the path representation to the target YAML file as a String.
+     *
+     * @return  a {@code Map<String, Object>} object representing the target parsed YAML file.
+     *
+     * @throws  UtilException
+     *          if unable to read the YAML file.
+     */
     public Map<String, Object> parseYml(String fileContent) {
         try {
             Yaml yaml = new Yaml();
@@ -67,6 +88,18 @@ public final class YamlUtil {
         }
     }
 
+    /**
+     * Parses the target YAML file defined by the fileContent.
+     * <p>
+     * @param   fileContent
+     *          the path representation to the target YAML file as an InputStream.
+     *
+     * @return  a {@code Map<String, Object>} object representing the target parsed YAML file.
+     *
+     * @throws  UtilException
+     *          if unable to read the YAML file.
+     */
+    @SuppressWarnings("Unused")
     public Map<String, Object> parseYmlStream(InputStream fileContent) {
         try {
             Yaml yaml = new Yaml();
@@ -76,6 +109,21 @@ public final class YamlUtil {
         }
     }
 
+    /**
+     * Dumps the data defined by the {@code Map<String, Object>} map into a YAML File.
+     * <p>
+     * @param   map
+     *          the {@code Map<String, Object} object representing the data to dump into a YAML file.
+     * @param   indent
+     *          the indent level for the YAML file, integer between 1 and 10.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact dump
+     *
+     * @return  a {@code String} object representing the target parsed YAML file.
+     *
+     * @throws  UtilException
+     *          if unable to dump the YAML file.
+     */
     public String dumpYml(Map<String, Object> map, Integer indent, Boolean prettyPrint) {
         try {
             DumperOptions options = new DumperOptions();
@@ -88,6 +136,22 @@ public final class YamlUtil {
             throw new UtilException(YamlUtil.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
+
+    /**
+     * Dumps the data defined by the {@code Object} map into a YAML File.
+     * <p>
+     * @param   obj
+     *          the {@code Object} object representing the data to dump into a YAML file.
+     * @param   indent
+     *          the indent level for the YAML file, integer between 1 and 10.
+     * @param   prettyPrint
+     *          boolean to specify a pretty or compact dump
+     *
+     * @return  a {@code String} object representing the target parsed YAML file.
+     *
+     * @throws  UtilException
+     *          if unable to dump the YAML file.
+     */
     public String dumpYml(Object obj, Integer indent, Boolean prettyPrint) {
         try {
             DumperOptions options = new DumperOptions();
@@ -100,6 +164,8 @@ public final class YamlUtil {
             throw new UtilException(YamlUtil.class, "It was not possible to dump map into yaml " + e.getMessage());
         }
     }
+
+    @SuppressWarnings("Unfinished")
     public Map<String, Object> getValue(String key) {
         try {
             return null;

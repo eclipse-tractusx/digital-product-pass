@@ -33,24 +33,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes related to the Catalog's data.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Catalog extends DidDocument {
 
+    /** ATTRIBUTES **/
     @JsonProperty("dcat:dataset")
     Object contractOffers;
-
     @JsonProperty("dcat:service")
     DataService service;
-
     @JsonProperty("edc:participantId")
     String participantId;
-
     @JsonProperty("@context")
     JsonNode context;
-
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();
 
+    /** CONSTRUCTOR(S) **/
     public Catalog(String id, String type, Object contractOffers, DataService service, String participantId, JsonNode context) {
         super(id, type);
         this.contractOffers = contractOffers;
@@ -58,52 +59,43 @@ public class Catalog extends DidDocument {
         this.participantId = participantId;
         this.context = context;
     }
-
     public Catalog(String id, String type) {
         super(id, type);
     }
-
     public Catalog() {
     }
 
-
+    /** GETTERS AND SETTERS **/
     public Object getContractOffers() {
         return contractOffers;
     }
-
+    @SuppressWarnings("Unused")
     public void setContractOffer(Object contractOffers) {
         this.contractOffers = contractOffers;
     }
-
+    @SuppressWarnings("Unused")
     public Map<String, Integer> getContractOffersMap() {
         return contractOffersMap;
     }
-
+    @SuppressWarnings("Unused")
     public void setContractOffersMap(Map<String, Integer> contractOffersMap) {
         this.contractOffersMap = contractOffersMap;
     }
-
-
     public DataService getService() {
         return service;
     }
-
     public void setService(DataService service) {
         this.service = service;
     }
-
     public String getParticipantId() {
         return participantId;
     }
-
     public void setParticipantId(String participantId) {
         this.participantId = participantId;
     }
-
     public JsonNode getContext() {
         return context;
     }
-
     public void setContext(JsonNode context) {
         this.context = context;
     }

@@ -25,15 +25,39 @@ package org.eclipse.tractusx.productpass.exceptions;
 
 import utils.LogUtil;
 
+/**
+ * This class consists exclusively to define methods to handle and log exceptions caused in the Manager classes.
+ **/
 public class ManagerException extends RuntimeException{
 
-        public ManagerException(String serviceName, String errorMessage) {
-            super("["+serviceName+"] " + errorMessage);
-            LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
-        }
-        public ManagerException(String serviceName, Exception e, String errorMessage) {
-            super("["+serviceName+"] " + errorMessage+", "+e.getMessage());
-            LogUtil.printException(this, "["+serviceName+"] " + errorMessage);
-        }
+    /**
+     * Logs the given manager name and error message.
+     * <p>
+     * @param   managerName
+     *          the {@code String} manager name (e.g: the class name where the exception occurred).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public ManagerException(String managerName, String errorMessage) {
+        super("["+managerName+"] " + errorMessage);
+        LogUtil.printException(this, "["+managerName+"] " + errorMessage);
+    }
+
+    /**
+     * Logs the given manager name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   managerName
+     *          the {@code String} manager name (e.g: the class name where the exception occurred).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public ManagerException(String managerName, Exception e, String errorMessage) {
+        super("["+managerName+"] " + errorMessage+", "+e.getMessage());
+        LogUtil.printException(this, "["+managerName+"] " + errorMessage);
+    }
 
 }

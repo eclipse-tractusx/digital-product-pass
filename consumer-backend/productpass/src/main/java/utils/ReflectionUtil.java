@@ -23,14 +23,44 @@
 
 package utils;
 
+import utils.exceptions.UtilException;
+
+/**
+ * This class consists exclusively of methods to operate at runtime execution (Reflection).
+ *
+ * <p> The methods defined here are intended to inspect, retrieve or manipulate other code in the same system at the runtime.
+ *
+ */
 public final class ReflectionUtil {
     private ReflectionUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
     }
+
+    /**
+     * Gets the simple class name of a given {@code Class} object.
+     * <p>
+     * @param   classObj
+     *          the Class object to retrieve the name.
+     *
+     * @return  a {@code String} object representing the name of the Class.
+     *
+     * @throws UtilException
+     *          if unable to read the YAML file.
+     */
     public static String getCurrentClassName(Class classObj){
         return classObj.getSimpleName();
     }
     public static Boolean classIsTest(Class classObj){
         return ReflectionUtil.getCurrentClassName(classObj).contains("test");
+    }
+    public static Class<?> instanceClass(String packagePath, String className){
+        try {
+            String classPath = packagePath + "." + className;
+            return Class.forName(classPath);
+        }catch (ClassNotFoundException e){
+            throw new UtilException(ReflectionUtil.class, e, "It was not possible to instance class, class ["+packagePath+"."+className+"] not found!");
+        }catch (Exception e){
+            throw new UtilException(ReflectionUtil.class, e, "It was not possible to instance class!");
+        }
     }
 }

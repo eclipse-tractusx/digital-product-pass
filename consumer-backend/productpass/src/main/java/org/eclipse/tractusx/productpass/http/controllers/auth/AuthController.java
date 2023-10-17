@@ -30,26 +30,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.eclipse.tractusx.productpass.models.auth.Credential;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
 import org.eclipse.tractusx.productpass.models.http.Response;
-import org.eclipse.tractusx.productpass.models.auth.UserCredential;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
-import utils.JsonUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import utils.LogUtil;
-
-import java.util.HashMap;
-import java.util.Set;
-
+/**
+ * This class consists exclusively to define the HTTP methods for authentication purposes.
+ **/
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "Auth Controller")
@@ -57,13 +53,11 @@ import java.util.Set;
 public class AuthController {
     // [Logic Methods] -------------
     // ---------------------------------------------------
+    /** ATTRIBUTES **/
     @Autowired
     private Environment env;
-    
     @Autowired
-
     HttpUtil httpUtil;
-    
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     final static String clientIdPath = "keycloak.resource";
@@ -72,12 +66,22 @@ public class AuthController {
     // [API Services]  ----------------------------------------------------------------
     /*
      */
+
+    /** METHODS **/
     @RequestMapping(method = RequestMethod.GET)
     @Hidden
     public Response index() throws Exception{
         httpUtil.redirect(httpResponse,"/passport");
         return httpUtil.getResponse("Redirect to Login");
     }
+
+    /**
+     * The HTTP GET method to request the logout.
+     * <p>
+     *
+     * @return  a {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @Hidden
     public Response logout() throws Exception{
@@ -87,6 +91,14 @@ public class AuthController {
         response.message = "Logged out successfully!";
         return response;
     }
+
+    /**
+     * The HTTP GET method to request the login.
+     * <p>
+     *
+     * @return  a {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @Hidden
     public Response login() throws Exception{
@@ -95,6 +107,13 @@ public class AuthController {
         return response;
     }
 
+    /**
+     * The HTTP GET method to check if the user is authenticated.
+     * <p>
+     *
+     * @return  a {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     @Operation(summary = "Checks the user logged in status", responses = {
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
@@ -105,7 +124,13 @@ public class AuthController {
         return httpUtil.getResponse(check ? "User Authenticated":"User not Authenticated", check);
     }
 
-
+    /**
+     * The HTTP GET method to request the authentication token.
+     * <p>
+     *
+     * @return  a {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     @Operation(summary = "Returns access token", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
@@ -123,6 +148,14 @@ public class AuthController {
         response.data = authService.getToken();
         return response;
     }
+
+    /**
+     * The HTTP POST method to request the user's information related to the authentication token..
+     * <p>
+     *
+     * @return  a {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/userInfo", method = RequestMethod.POST)
     @Operation(security = {@SecurityRequirement(name = "Bearer Authorization")},
             summary = "Returns user info related to JWT Token", responses = {

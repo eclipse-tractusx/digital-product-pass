@@ -25,16 +25,35 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+/**
+ * This class consists exclusively of methods to operate on a Thread level.
+ *
+ * <p> The methods defined here are intended ease the use of Threads.
+ *
+ */
 public final class ThreadUtil {
     private ThreadUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
     }
+
+    /**
+     * Runs a Task represented by the {@code Runnable} runnable.
+     * <p>
+     * @param   runnable
+     *          the Runnable task that does not return a result.
+     */
+    @SuppressWarnings("Unused")
     public static void runTask(Runnable runnable){
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(runnable);
     }
+
+    @SuppressWarnings("Unfinished")
     public static void runTask(Callable<Void> task,String name){
         List<Callable<Void>> taskList = new ArrayList<Callable<Void>>();
         taskList.add(task);
@@ -48,12 +67,34 @@ public final class ThreadUtil {
             //do something if you care about interruption;
         }
     }
+
+    /**
+     * Creates and starts a Thread defined by a {@code Runnable} task and a {@code String} name.
+     * <p>
+     * @param   runnable
+     *          the Runnable task that does not return a result.
+     * @param   name
+     *          the name given to this new thread.
+     *
+     * @return  a {@code Thread} thread initialized to perform the intended task with the given name.
+     *
+     */
     public static Thread runThread(Runnable runnable,String name){
         Thread thread = new Thread(runnable, name);
         thread.start();
 
         return thread;
     }
+
+    /**
+     * Creates and starts a nameless Thread defined by a {@code Runnable} task.
+     * <p>
+     * @param   runnable
+     *          the Runnable task that does not return a result.
+     *
+     * @return  a {@code Thread} thread initialized to perform the intended task.
+     *
+     */
     public static Thread runThread(Runnable runnable){
         Thread thread = new Thread(runnable);
         thread.start();
@@ -61,6 +102,14 @@ public final class ThreadUtil {
         return thread;
     }
 
+    /**
+     * Puts the scheduled thread in the runtime that this method is called to sleep for a given time.
+     * <p>
+     * Note: In case of an exception, the thread put to sleep is interrupted.
+     * <p>
+     * @param   milliseconds
+     *          the length of time to sleep in milliseconds.
+     */
     public static void sleep(Integer milliseconds)
     {
         try

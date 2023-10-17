@@ -158,8 +158,8 @@ backend:
           central: false
           # -- central digital twin registry url
           centralUrl: 'https://<digital-twin-registry-url>'
-          # -- asset id to search for the registry in the edc
-          assetId: 'digital-twin-registry'
+          # -- asset type to search for the registry in the edc
+          assetType: 'data.core.digitalTwinRegistry'
           # -- submodel endpoint interface to search
           endpointInterface: 'SUBMODEL-3.0'
           # -- dsp endpoint key inside submodel body
@@ -181,11 +181,11 @@ backend:
         # -- discovery configuration
         discovery:
           # -- discovery finder configuration
-          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/administration/connectors/discovery/search"
+          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
           # -- bpn discovery configuration
           bpn:
             key: "manufacturerPartId"
-            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
           # -- edc discovery configuration
           edc:
             key: "bpn"

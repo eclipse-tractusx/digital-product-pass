@@ -23,14 +23,19 @@
 
 package org.eclipse.tractusx.productpass.models.auth;
 
+/**
+ * This class consists exclusively to define attributes and methods related to the JSON Web Token (JWT) token used
+ * for authentication in the Application.
+ **/
 public class UserCredential {
 
+    /** ATTRIBUTES **/
     private String username;
     private String password;
     private String credentialId;
-
     private JwtToken jwt = null;
 
+    /** CONSTRUCTOR(S) **/
     public UserCredential(){
 
     }
@@ -39,57 +44,62 @@ public class UserCredential {
         this.password = password;
         this.credentialId = credentialId;
     }
-
+    @SuppressWarnings("Unused")
     public UserCredential(String username, String password, String credentialId, JwtToken jwt) {
         this.username = username;
         this.password = password;
         this.credentialId = credentialId;
         this.jwt = jwt;
     }
-
+    @SuppressWarnings("Unused")
     public UserCredential(JwtToken jwt){
         this.jwt = jwt;
     }
 
+    /** GETTERS AND SETTERS **/
     public JwtToken getJwt() {
         return jwt;
     }
-
     public void setJwt(JwtToken jwt) {
         this.jwt = jwt;
     }
+    @SuppressWarnings("Unused")
     public void setJwtToken(String accessToken, String refreshToken){
         this.jwt = new JwtToken(accessToken, refreshToken);
     }
-    public void cleanJwtToken(){
-        this.jwt = new JwtToken();
-    }
-    public void deleteJwt(){
-        this.jwt = null;
-    }
-
+    @SuppressWarnings("Unused")
     public String getUsername() {
         return username;
     }
-
+    @SuppressWarnings("Unused")
     public void setUsername(String username) {
         this.username = username;
     }
-
+    @SuppressWarnings("Unused")
     public String getPassword() {
         return password;
     }
-
+    @SuppressWarnings("Unused")
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @SuppressWarnings("Unused")
     public String getCredentialId() {
         return credentialId;
     }
-
+    @SuppressWarnings("Unused")
     public void setCredentialId(String credentialId) {
         this.credentialId = credentialId;
+    }
+
+    /** METHODS **/
+    @SuppressWarnings("Unused")
+    public void cleanJwtToken(){
+        this.jwt = new JwtToken();
+    }
+    @SuppressWarnings("Unused")
+    public void deleteJwt(){
+        this.jwt = null;
     }
 
 }

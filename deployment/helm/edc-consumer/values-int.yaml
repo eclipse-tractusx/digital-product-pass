@@ -195,10 +195,6 @@ irs-helm:
   enabled: true
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
-  nameOverride: "dpp-irs"
-  fullnameOverride: "dpp-irs"
-
-  # namespace: product-material-pass
 
   irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
 
@@ -251,8 +247,6 @@ irs-helm:
         secret: <path:material-pass/data/int/edc/oauth#api.key>
 
   minio:
-    nameOverride: "dpp-irs-minio"
-    fullnameOverride: "dpp-irs-minio"
     serviceAccount:
       create: false
     rootUser: <path:material-pass/data/int/irs/minio#user>

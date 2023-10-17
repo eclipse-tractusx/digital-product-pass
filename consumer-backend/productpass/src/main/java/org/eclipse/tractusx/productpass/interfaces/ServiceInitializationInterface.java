@@ -24,10 +24,12 @@
 package org.eclipse.tractusx.productpass.interfaces;
 
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.springframework.core.env.Environment;
 
 import java.util.List;
 
+/**
+ * This interface consists exclusively to define the needed common methods to a Service class.
+ **/
 @org.springframework.stereotype.Service
 public interface ServiceInitializationInterface {
     List<String> getEmptyVariables(); // Return the name of the variables that are not initialized

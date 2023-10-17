@@ -30,6 +30,10 @@ import org.springframework.core.env.Environment;
 
 import java.util.List;
 
+/**
+ * This abstract class consists exclusively to define methods that are common to a Service class in the Application.
+ * Implements the ServiceInitializationInterface and all Service classes extends this class.
+ **/
 public abstract class BaseService implements ServiceInitializationInterface {
 
     public void checkEmptyVariables() throws ServiceInitializationException {

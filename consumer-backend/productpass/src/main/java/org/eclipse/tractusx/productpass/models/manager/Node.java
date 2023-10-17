@@ -28,7 +28,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 
 import java.util.Map;
@@ -45,7 +45,7 @@ public class Node {
     @JsonProperty("path")
     String path;
     @JsonProperty("digitalTwin")
-    DigitalTwin3 digitalTwin;
+    DigitalTwin digitalTwin;
 
     @JsonProperty("job")
     JobResponse job;
@@ -54,42 +54,42 @@ public class Node {
     Map<String, Node> children;
 
 
-    public Node(Node parent, DigitalTwin3 digitalTwin, Map<String, Node> children){
+    public Node(Node parent, DigitalTwin digitalTwin, Map<String, Node> children){
         this.setup(digitalTwin);
         this.setPath(parent, digitalTwin.getIdentification());
         this.children = children;
     }
 
-    public Node(String parentPath, DigitalTwin3 digitalTwin, Map<String, Node> children){
+    public Node(String parentPath, DigitalTwin digitalTwin, Map<String, Node> children){
         this.setup(digitalTwin);
         this.setPath(parentPath, digitalTwin.getIdentification());
         this.children = children;
     }
 
-    public Node(DigitalTwin3 digitalTwin, Map<String, Node> children){
+    public Node(DigitalTwin digitalTwin, Map<String, Node> children){
         this.setup(digitalTwin);
         this.setPath("", digitalTwin.getIdentification());
         this.children = children;
     }
-    public Node(Node parent, DigitalTwin3 digitalTwin){
+    public Node(Node parent, DigitalTwin digitalTwin){
         this.setup(digitalTwin);
         this.setPath(parent, digitalTwin.getIdentification());
         this.children = Map.of();
     }
 
-    public Node(String parentPath, DigitalTwin3 digitalTwin){
+    public Node(String parentPath, DigitalTwin digitalTwin){
         this.setup(digitalTwin);
         this.setPath(parentPath, digitalTwin.getIdentification());
         this.children = Map.of();
     }
 
-    public Node(DigitalTwin3 digitalTwin){
+    public Node(DigitalTwin digitalTwin){
         this.setup(digitalTwin);
         this.setPath("", digitalTwin.getIdentification());
         this.children = Map.of();
     }
 
-    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin3 digitalTwin, JobResponse job, Map<String, Node> children) {
+    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin digitalTwin, JobResponse job, Map<String, Node> children) {
         this.id = id;
         this.globalAssetId = globalAssetId;
         this.idShort = idShort;
@@ -99,13 +99,13 @@ public class Node {
         this.children = children;
     }
 
-    public void setup(DigitalTwin3 digitalTwin){
+    public void setup(DigitalTwin digitalTwin){
         this.id = digitalTwin.getIdentification();
         this.globalAssetId = digitalTwin.getGlobalAssetId();
         this.idShort = digitalTwin.getIdShort();
         this.digitalTwin = digitalTwin;
     }
-    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin3 digitalTwin, Map<String, Node> children) {
+    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin digitalTwin, Map<String, Node> children) {
         this.id = id;
         this.globalAssetId = globalAssetId;
         this.idShort = idShort;
@@ -151,11 +151,11 @@ public class Node {
         this.path = parentPath+"/"+id;
     }
 
-    public DigitalTwin3 getDigitalTwin() {
+    public DigitalTwin getDigitalTwin() {
         return digitalTwin;
     }
 
-    public void setDigitalTwin(DigitalTwin3 digitalTwin) {
+    public void setDigitalTwin(DigitalTwin digitalTwin) {
         this.digitalTwin = digitalTwin;
     }
 

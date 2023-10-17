@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 
 import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,7 +41,7 @@ public class JobResponse {
     @JsonProperty("relationships")
     ArrayList<Relationship> relationships;
     @JsonProperty("shells")
-    ArrayList<DigitalTwin3> shells;
+    ArrayList<DigitalTwin> shells;
     @JsonProperty("tombstones")
     Object tombstones;
     @JsonProperty("submodels")
@@ -49,7 +49,7 @@ public class JobResponse {
     @JsonProperty("bpns")
     ArrayList<String> bpns;
 
-    public JobResponse(Job job, ArrayList<Relationship> relationships, ArrayList<DigitalTwin3> shells, Object tombstones, ArrayList<JsonNode> submodels, ArrayList<String> bpns) {
+    public JobResponse(Job job, ArrayList<Relationship> relationships, ArrayList<DigitalTwin> shells, Object tombstones, ArrayList<JsonNode> submodels, ArrayList<String> bpns) {
         this.job = job;
         this.relationships = relationships;
         this.shells = shells;
@@ -77,11 +77,11 @@ public class JobResponse {
         this.relationships = relationships;
     }
 
-    public ArrayList<DigitalTwin3> getShells() {
+    public ArrayList<DigitalTwin> getShells() {
         return shells;
     }
 
-    public void setShells(ArrayList<DigitalTwin3> shells) {
+    public void setShells(ArrayList<DigitalTwin> shells) {
         this.shells = shells;
     }
 

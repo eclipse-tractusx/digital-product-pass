@@ -52,14 +52,13 @@ public class DtrConfig {
     public DtrConfig() {
     }
 
-    public DtrConfig(Boolean central, String centralUrl, String internalDtr, Timeouts timeouts, Boolean temporaryStorage, DecentralApis decentralApis, String assetId, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
-        this.central = central;
-        this.centralUrl = centralUrl;
+
+    public DtrConfig(String internalDtr, Timeouts timeouts, Boolean temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
         this.internalDtr = internalDtr;
         this.timeouts = timeouts;
         this.temporaryStorage = temporaryStorage;
         this.decentralApis = decentralApis;
-        this.assetId = assetId;
+        this.assetType = assetType;
         this.endpointInterface = endpointInterface;
         this.dspEndpointKey = dspEndpointKey;
         this.semanticIdTypeKey = semanticIdTypeKey;

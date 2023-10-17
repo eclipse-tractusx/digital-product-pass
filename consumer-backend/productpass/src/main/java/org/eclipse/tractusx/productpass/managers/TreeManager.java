@@ -31,7 +31,6 @@ import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.irs.Job;
 import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
@@ -131,9 +130,9 @@ public class TreeManager {
         }
     }
 
-    public DigitalTwin3 searchDigitalTwin(List<DigitalTwin3> digitalTwinList, String digitalTwinId){
+    public DigitalTwin searchDigitalTwin(List<DigitalTwin> digitalTwinList, String digitalTwinId){
         // Use a parallel search to make the search faster
-        return digitalTwinList.parallelStream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin3());
+        return digitalTwinList.parallelStream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin());
     }
 
     public String populateTree(Map<String, Node> treeDataModel, String processId, JobHistory jobHistory, JobResponse job){
@@ -142,9 +141,9 @@ public class TreeManager {
             String parentPath = jobHistory.getPath();
             Node parent = this.getNodeByPath(treeDataModel, parentPath);
             // All the relationships will be of depth one, so we just need to add them in the parent
-            List<DigitalTwin3> digitalTwinList = null;
+            List<DigitalTwin> digitalTwinList = null;
             try {
-                digitalTwinList = (List<DigitalTwin3>) jsonUtil.bindReferenceType(job.getShells(), new TypeReference<List<DigitalTwin3>>() {});
+                digitalTwinList = (List<DigitalTwin>) jsonUtil.bindReferenceType(job.getShells(), new TypeReference<List<DigitalTwin>>() {});
             } catch (Exception e) {
                 throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Digital Twin!");
             }
@@ -152,7 +151,7 @@ public class TreeManager {
             for(Relationship relationship : relationships){
                 String childId = relationship.getLinkedItem().getChildCatenaXId();
                 // Search for the Digital Twin from the child or a new instance
-                DigitalTwin3 childDigitalTwin = this.searchDigitalTwin(digitalTwinList, childId);
+                DigitalTwin childDigitalTwin = this.searchDigitalTwin(digitalTwinList, childId);
                 if(childDigitalTwin.getGlobalAssetId().isEmpty()){
                     childDigitalTwin.setGlobalAssetId(childId);
                 }

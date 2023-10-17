@@ -96,7 +96,7 @@ public class AppController {
     @Autowired
     DataPlaneService dataPlaneService;
     @Autowired
-    ProcessManager processManager;n
+    ProcessManager processManager;
     @Autowired
     IrsConfig irsConfig;
     @Autowired
@@ -223,7 +223,7 @@ public class AppController {
             Boolean childrenCondition = search.getChildren();
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId,bpn);
-            processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
+            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
             processManager.setChildrenCondition(processId, childrenCondition);
 
             // IRS FUNCTIONALITY START

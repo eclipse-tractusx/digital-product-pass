@@ -332,6 +332,7 @@ public class Status {
 
     public void setChildren(Boolean children) {
         this.children = children;
+    }
 
     public String getSemanticId() {
         return semanticId;

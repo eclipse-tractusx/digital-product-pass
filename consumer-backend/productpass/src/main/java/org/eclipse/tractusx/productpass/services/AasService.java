@@ -310,7 +310,7 @@ public class AasService extends BaseService {
      * Gets the {@code Submodel} from a Digital Twin by a given semantic identification.
      * <p>
      * @param   digitalTwin
-     *          the {@code DigitalTwin3} object with its submodels.
+     *          the {@code DigitalTwin} object with its submodels.
      * @param   aspectSemanticId
      *          the {@code String} semantic id of the intended submodel.
      *
@@ -319,7 +319,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a the {@code Submodel} for the given semantic id.
      */
-    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin, String aspectSemanticId) {
+    public SubModel getSubModelBySemanticId(DigitalTwin digitalTwin, String aspectSemanticId) {
         try {
             ArrayList<SubModel> subModels = digitalTwin.getSubmodelDescriptors();
             if (subModels.size() < 1) {

@@ -124,6 +124,16 @@ backend:
             enabled: true
             bpn: true
             edc: true
+        
+        irs:
+          enabled: true
+          endpoint: "https://materialpass-irs.beta.demo.catena-x.net"
+          paths:
+            job: "/irs/jobs"
+          tree:
+            fileName: "treeDataModel"
+            indent: true
+          callbackUrl: "https://materialpass.beta.demo.catena-x.net/api/irs"
       
         dtr:
           central: false

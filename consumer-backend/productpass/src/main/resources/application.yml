@@ -61,6 +61,7 @@ configuration:
       edc: true
 
   irs:
+    enabled: true
     endpoint: "https://materialpass-irs.int.demo.catena-x.net"
     paths:
       job: "/irs/jobs"

@@ -35,10 +35,12 @@ import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.http.Response;
+import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.irs.Job;
 import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 import org.eclipse.tractusx.productpass.models.manager.Node;
+import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.IrsService;
@@ -112,6 +114,21 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
+            if (!processManager.checkProcess(processId)) {
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
+            }
+
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+            if(!this.irsConfig.getEnabled()){
+                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("The children drill down functionality is not available!"), httpResponse);
+            }
+            if(!status.getChildren()){
+                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("The children drill down functionality is not available for this process!"), httpResponse);
+            }
+
             response = httpUtil.getResponse();
             response.data = this.treeManager.getTreeComponents(processId); // Loads the tree components with a easy structure for frontend component
             return httpUtil.buildResponse(response, httpResponse);
@@ -130,6 +147,20 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
+            if (!processManager.checkProcess(processId)) {
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
+            }
+
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+            if(!this.irsConfig.getEnabled()){
+                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("The children drill down functionality is not available!"), httpResponse);
+            }
+            if(!status.getChildren()){
+                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("The children drill down functionality is not available for this process!"), httpResponse);
+            }
             response = httpUtil.getResponse();
             response.data = this.treeManager.getTree(processId); // Loads the tree components with a easy structure for frontend component
             return httpUtil.buildResponse(response, httpResponse);

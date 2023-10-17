@@ -56,6 +56,10 @@ public class Status {
 
     @JsonProperty("bpn")
     public String bpn;
+
+    @JsonProperty("children")
+    public Boolean children;
+
     @JsonProperty("treeState")
     public String treeState;
 
@@ -184,6 +188,19 @@ public class Status {
         this.history = history;
     }
 
+    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, Boolean children, String treeState, Map<String, History> history) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.jobs = jobs;
+        this.endpoint = endpoint;
+        this.bpn = bpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+    }
+
     public String getId() {
         return id;
     }
@@ -284,6 +301,14 @@ public class Status {
 
     public void setTreeState(String treeState) {
         this.treeState = treeState;
+    }
+
+    public Boolean getChildren() {
+        return children;
+    }
+
+    public void setChildren(Boolean children) {
+        this.children = children;
     }
 }
 

@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -92,7 +93,8 @@ public class AppController {
 
     @Autowired
     ProcessManager processManager;
-
+    @Autowired
+    IrsConfig irsConfig;
     @Autowired
     DtrConfig dtrConfig;
     private @Autowired ProcessConfig processConfig;
@@ -192,18 +194,23 @@ public class AppController {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
             String bpn =  dtr.getBpn();
+            Boolean childrenCondition = search.getChildren();
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId,bpn);
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
+            processManager.setChildrenCondition(processId, childrenCondition);
 
-            // Update tree
-            String globalAssetId = digitalTwin.getGlobalAssetId();
-            String actualPath = status.getTreeState() + "/" + globalAssetId;
-            processManager.setTreeState(processId, actualPath);
-            this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin));
+            // IRS FUNCTIONALITY START
+            if(this.irsConfig.getEnabled() && search.getChildren()) {
+                // Update tree
+                String globalAssetId = digitalTwin.getGlobalAssetId();
+                String actualPath = status.getTreeState() + "/" + globalAssetId;
+                processManager.setTreeState(processId, actualPath);
+                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin));
 
-            // Get children from the node
-            this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
+                // Get children from the node
+                this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
+            }
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,

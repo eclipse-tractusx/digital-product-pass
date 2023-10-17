@@ -32,6 +32,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix="configuration.irs")
 public class IrsConfig {
+
+    public IrsConfig(Boolean enabled, String endpoint, TreeConfig tree, Paths paths, String callbackUrl) {
+        this.enabled = enabled;
+        this.endpoint = endpoint;
+        this.tree = tree;
+        this.paths = paths;
+        this.callbackUrl = callbackUrl;
+    }
+
+    Boolean enabled;
     String endpoint;
 
     TreeConfig tree;
@@ -88,6 +98,14 @@ public class IrsConfig {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
 

@@ -336,6 +336,23 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+    public String setChildrenCondition(String processId, Boolean childrenCondition) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setChildren(childrenCondition);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
+
     public String setTreeState(String processId, String state) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);

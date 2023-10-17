@@ -201,7 +201,7 @@ public class AppController {
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }
-                Map<String, String> subProtocolBody = endpoint.getProtocolInformation().getParsedSubprotocolBody();
+                Map<String, String> subProtocolBody = endpoint.getProtocolInformation().parseSubProtocolBody();
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
             } catch (Exception e) {

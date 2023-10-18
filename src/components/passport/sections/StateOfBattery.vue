@@ -115,11 +115,6 @@ export default {
     };
   },
   props: {
-    sectionTitle: {
-      type: String,
-      required: false,
-      default: "",
-    },
     data: {
       type: Object,
       default: Object,
@@ -128,7 +123,6 @@ export default {
 
   data() {
     return {
-      toggle: false,
       propsData: this.$props.data.passport,
     };
   },

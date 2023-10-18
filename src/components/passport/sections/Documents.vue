@@ -87,11 +87,6 @@ export default {
     DocumentField,
   },
   props: {
-    sectionTitle: {
-      type: String,
-      required: false,
-      default: "",
-    },
     data: {
       type: Object,
       required: false,
@@ -101,7 +96,6 @@ export default {
 
   data() {
     return {
-      toggle: false,
       propsData: this.$props.data.passport.document,
     };
   },

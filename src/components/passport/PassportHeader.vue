@@ -48,21 +48,14 @@
 export default {
   name: "PassportHeader",
   props: {
-    data: {
+    id: {
       type: String,
       default: null,
     },
     type: {
       type: String,
-      default: "BatteryID",
+      default: "Passport Id",
     },
-  },
-  data() {
-    return {
-      id: this.$props.data.batteryIdentification
-        ? this.$props.data.batteryIdentification.batteryIDDMCCode
-        : "-",
-    };
   },
 };
 </script>

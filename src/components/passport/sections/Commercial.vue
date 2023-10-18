@@ -20,28 +20,20 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template v-if="propsData">
+<template>
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col
-          sm="12"
-          md="12"
-          class="pa-0 ma-0"
-          style="display: flex; margin-bottom: 12px"
-        >
-          <AttributeField
-            data-cy="composition"
-            icon="mdi-newspaper-variant-outline"
-            :attributes-list="propsData.compositionOfBattery"
-            label="Main Battery Composites"
-            style="background: #f9f9f9; min-width: 300px"
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <Field
+            icon="mdi-image-size-select-small"
+            label="Place on the market"
+            :value="propsData.placedOnMarket"
           />
           <Field
-            icon="mdi-select-all"
-            label="Critical raw materials"
-            :value="propsData.criticalRawMaterials"
-            style="min-width: 300px"
+            icon="mdi-arrow-down-circle-outline"
+            label="Warranty"
+            :value="propsData.warranty"
           />
         </v-col>
       </v-row>
@@ -50,13 +42,11 @@
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
 import Field from "../Field.vue";
 
 export default {
-  name: "BatteryComposition",
+  name: "CommercialComponent",
   components: {
-    AttributeField,
     Field,
   },
   props: {
@@ -67,7 +57,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.composition,
+      propsData: this.$props.data.passport.commercial,
     };
   },
 };

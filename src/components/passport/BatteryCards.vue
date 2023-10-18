@@ -74,12 +74,12 @@
               <BarChart :currentValue="currentValue" :maxValue="maxValue" />
             </div>
             <div v-else>
+              <div class="card-second-label">
+                {{ card.secondLabel }}
+              </div>
               <div class="card-second-value">
                 {{ card.secondValue ? card.secondValue : "-" }}
                 {{ card.secondValueUnits }}
-              </div>
-              <div class="card-second-label">
-                {{ card.secondLabel }}
               </div>
             </div>
           </div>
@@ -101,12 +101,12 @@
 </template>
 
 <script>
-import ElementChart from "../passport/ElementChart.vue";
-import BarChart from "../passport/BarChart.vue";
+import ElementChart from "./ElementChart.vue";
+import BarChart from "./BarChart.vue";
 import DialogComponent from "../general/Dialog.vue";
 
 export default {
-  name: "CardsComponent",
+  name: "BatteryCards",
   components: {
     ElementChart,
     BarChart,

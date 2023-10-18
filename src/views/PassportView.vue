@@ -23,7 +23,25 @@
 <template>
   <div>
     <HeaderComponent>
-      <span class="header-title">Digital Product Passport</span>
+      <template
+        v-if="
+          data.data.semanticId ===
+          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+        "
+      >
+        <span class="header-title">Battery Product Passport</span>
+      </template>
+      <template
+        v-else-if="
+          data.data.semanticId ===
+          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+        "
+      >
+        <span class="header-title">Transmission Product Passport</span>
+      </template>
+      <template v-else>
+        <span class="header-title">Digital Product Passport</span>
+      </template>
     </HeaderComponent>
     <v-container v-if="loading">
       <LoadingComponent :id="id" />
@@ -40,35 +58,85 @@
       </div>
     </v-container>
     <div v-else>
-      <PassportHeader :data="data.passport" type="BatteryID" />
+      <template
+        v-if="
+          data.data.semanticId ===
+          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+        "
+      >
+        <PassportHeader
+          :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+          type="Battery ID"
+        />
+      </template>
+      <template
+        v-else-if="
+          data.data.semanticId ===
+          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+        "
+      >
+        <PassportHeader
+          :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+          type="Transmission ID"
+        />
+      </template>
+      <template v-else>
+        <PassportHeader
+          :id="data.data.passport.identification.gtin"
+          type="Passport ID"
+        />
+      </template>
       <div class="pass-container">
-        <CardsComponent :data="data" />
+        <template
+          v-if="
+            data.data.semanticId ===
+            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          "
+        >
+          <BatteryCards :data="data.data" />
+        </template>
+        <template
+          v-else-if="
+            data.data.semanticId ===
+            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          "
+        >
+          <BatteryCards :data="data.data" />
+        </template>
+        <template v-else>
+          <GeneralCards :data="data.data" />
+        </template>
       </div>
 
       <div class="pass-container footer-spacer">
-        <v-card>
-          <v-tabs v-model="tab" center-active show-arrows class="menu">
-            <v-tab
-              v-for="(section, index) in componentsNames"
-              :key="index"
-              :value="section.component"
-            >
-              <v-icon start md :icon="section.icon"> </v-icon>
-              {{ section.label }}</v-tab
-            >
-          </v-tabs>
-          <v-card-text>
-            <v-window v-model="tab">
-              <v-window-item
-                v-for="(section, index) in componentsNames"
-                :key="index"
-                :value="section.component"
-              >
-                <component :is="section.component" :data="data" />
-              </v-window-item>
-            </v-window>
-          </v-card-text>
-        </v-card>
+        <template
+          v-if="
+            data.data.semanticId ===
+            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          "
+        >
+          <TabsComponent
+            :componentsNames="batteryComponentsNames"
+            :componentsData="data.data"
+          />
+        </template>
+        <template
+          v-else-if="
+            data.data.semanticId ===
+            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          "
+        >
+          <TabsComponent
+            :componentsNames="batteryComponentsNames"
+            :componentsData="data.data"
+          />
+        </template>
+        <template v-else>
+          <TabsComponent
+            :componentsNames="generalComponentsNames"
+            :componentsData="data.data"
+          />
+        </template>
       </div>
       <FooterComponent />
     </div>
@@ -78,18 +146,12 @@
 <script>
 // @ is an alias to /src
 
-import GeneralInformation from "@/components/passport/sections/GeneralInformation.vue";
-import CellChemistry from "@/components/passport/sections/CellChemistry.vue";
-import ElectrochemicalProperties from "@/components/passport/sections/ElectrochemicalProperties.vue";
-import BatteryComposition from "@/components/passport/sections/BatteryComposition.vue";
-import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
-import Documents from "@/components/passport/sections/Documents.vue";
-import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import LoadingComponent from "../components/general/LoadingComponent.vue";
+import TabsComponent from "../components/general/TabsComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
-import CardsComponent from "@/components/passport/Cards.vue";
-import Alert from "@/components/general/Alert.vue";
+import BatteryCards from "@/components/passport/BatteryCards.vue";
+import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
@@ -103,24 +165,74 @@ export default {
   name: "PassportView",
   components: {
     HeaderComponent,
-    GeneralInformation,
-    PassportHeader,
-    CardsComponent,
-    CellChemistry,
-    StateOfBattery,
-    ElectrochemicalProperties,
-    BatteryComposition,
-    Documents,
-    ContractInformation,
     FooterComponent,
+    PassportHeader,
+    BatteryCards,
     LoadingComponent,
-    Alert,
     ErrorComponent,
+    TabsComponent,
+    GeneralCards,
   },
   data() {
     return {
-      tab: null,
-      componentsNames: [
+      generalComponentsNames: [
+        {
+          label: "Serialization",
+          icon: "mdi-information-outline",
+          component: "Serialization",
+        },
+        {
+          label: "Typology",
+          icon: "mdi-information-outline",
+          component: "Typology",
+        },
+        {
+          label: "Metadata",
+          icon: "mdi-information-outline",
+          component: "MetadataComponent",
+        },
+        {
+          label: "Characteristics",
+          icon: "mdi-information-outline",
+          component: "Characteristics",
+        },
+        {
+          label: "Commercial",
+          icon: "mdi-information-outline",
+          component: "Commercial",
+        },
+        {
+          label: "Identification",
+          icon: "mdi-information-outline",
+          component: "Identification",
+        },
+        {
+          label: "Sources",
+          icon: "mdi-information-outline",
+          component: "Sources",
+        },
+        {
+          label: "Handling",
+          icon: "mdi-information-outline",
+          component: "Handling",
+        },
+        {
+          label: "Additional data",
+          icon: "mdi-information-outline",
+          component: "AdditionalData",
+        },
+        {
+          label: "Sustainability",
+          icon: "mdi-information-outline",
+          component: "Sustainability",
+        },
+        {
+          label: "Operation",
+          icon: "mdi-information-outline",
+          component: "Operation",
+        },
+      ],
+      batteryComponentsNames: [
         {
           label: "General Information",
           icon: "mdi-information-outline",

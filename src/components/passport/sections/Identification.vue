@@ -20,30 +20,33 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template v-if="propsData">
+<template>
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col
-          sm="12"
-          md="12"
-          class="pa-0 ma-0"
-          style="display: flex; margin-bottom: 12px"
-        >
-          <AttributeField
-            data-cy="composition"
-            icon="mdi-newspaper-variant-outline"
-            :attributes-list="propsData.compositionOfBattery"
-            label="Main Battery Composites"
-            style="background: #f9f9f9; min-width: 300px"
-          />
-          <Field
-            icon="mdi-select-all"
-            label="Critical raw materials"
-            :value="propsData.criticalRawMaterials"
-            style="min-width: 300px"
-          />
-        </v-col>
+        <template v-if="propsData.localIdentifiers">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
+            <AttributeField
+              icon="mdi-newspaper-variant-outline"
+              :attributes-list="propsData.localIdentifiers"
+              label="Part instance Id"
+            />
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Gtin"
+              :value="propsData.gtin"
+            />
+          </v-col>
+        </template>
+        <template v-if="propsData.additionalCode">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
+            <AttributeField
+              icon="mdi-newspaper-variant-outline"
+              :attributes-list="propsData.additionalCode"
+              label="TARIC"
+            />
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </div>
@@ -54,10 +57,10 @@ import AttributeField from "../AttributeField.vue";
 import Field from "../Field.vue";
 
 export default {
-  name: "BatteryComposition",
+  name: "IdentificationComponent",
   components: {
-    AttributeField,
     Field,
+    AttributeField,
   },
   props: {
     data: {
@@ -67,7 +70,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.composition,
+      propsData: this.$props.data.passport.identification,
     };
   },
 };

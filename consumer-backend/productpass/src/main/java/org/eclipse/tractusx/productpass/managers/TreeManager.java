@@ -200,7 +200,17 @@ public class TreeManager {
     public Node getNodeByPath(Map<String, Node> treeDataModel, String path){
         try {
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
-            return (Node) this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node
+            Object rawNode = this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node;
+            Node node = null;
+            try {
+                node = (Node) jsonUtil.bindReferenceType(rawNode, new TypeReference<Node>() {});
+            } catch (Exception e) {
+                throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Node!");
+            }
+            if(node == null){ // Check if the response was successful
+                throw new ManagerException(this.getClass().getName()+".getNodeByPath()", "It was not possible to set the node in path because the return was null");
+            }
+            return node;
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName()+".getNodeByPath()", e, "It was not possible to get the node from the tree");
         }
@@ -209,7 +219,17 @@ public class TreeManager {
         try {
             Map<String, Node> treeDataModel = this.getTree(processId);
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
-            return (Node) this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node
+            Object rawNode = this.jsonUtil.getValue(treeDataModel, translatedPath, ".", null); // Get the node;
+            Node node = null;
+            try {
+                node = (Node) jsonUtil.bindReferenceType(rawNode, new TypeReference<Node>() {});
+            } catch (Exception e) {
+                throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Node!");
+            }
+            if(node == null){ // Check if the response was successful
+                throw new ManagerException(this.getClass().getName()+".getNodeByPath()", "It was not possible to set the node in path because the return was null");
+            }
+            return node;
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName()+".getNodeByPath()", e, "It was not possible to get the node from the tree");
         }
@@ -217,7 +237,12 @@ public class TreeManager {
     public Map<String, Node> setNodeByPath(Map<String, Node> treeDataModel, String path, Node node){
         try {
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
-            treeDataModel = (Map<String, Node>) this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
+            Object rawDataModel =  this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
+            try {
+                treeDataModel = (Map<String, Node>) jsonUtil.bindReferenceType(rawDataModel, new TypeReference<Map<String, Node>>() {});
+            } catch (Exception e) {
+                throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Node!");
+            }
             if(treeDataModel == null){ // Check if the response was successful
                 throw new ManagerException(this.getClass().getName()+".setNodeByPath()", "It was not possible to set the node in path because the return was null");
             }
@@ -230,9 +255,11 @@ public class TreeManager {
         try {
             Map<String, Node> treeDataModel = this.getTree(processId);
             String translatedPath = jsonUtil.translatePathSep(path, PATH_SEP, ".children."); // Join the path with the children
-            treeDataModel = (Map<String, Node>) this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
-            if(treeDataModel == null){ // Check if the response was successful
-                throw new ManagerException(this.getClass().getName()+".setNodeByPath()", "It was not possible to set the node in path because the return was null");
+            Object rawDataModel =  this.jsonUtil.setValue(treeDataModel, translatedPath, node, ".", null); // Set the node
+            try {
+                treeDataModel = (Map<String, Node>) jsonUtil.bindReferenceType(rawDataModel, new TypeReference<Map<String, Node>>() {});
+            } catch (Exception e) {
+                throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Tree Data Model!");
             }
             return this.saveTree(processId, treeDataModel);
         } catch (Exception e) {

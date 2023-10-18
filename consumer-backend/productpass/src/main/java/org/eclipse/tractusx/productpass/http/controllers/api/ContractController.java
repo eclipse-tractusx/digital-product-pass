@@ -38,6 +38,7 @@ import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
@@ -299,7 +300,7 @@ public class ContractController {
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
-            } catch (ControllerException e) {
+            } catch (ServiceException e) {
                 response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";

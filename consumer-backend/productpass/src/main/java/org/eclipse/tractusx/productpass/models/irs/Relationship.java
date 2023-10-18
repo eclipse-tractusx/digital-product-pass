@@ -28,19 +28,24 @@ package org.eclipse.tractusx.productpass.models.irs;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * This class consists exclusively to define attributes related to the Relationships from the Job Response from the IRS.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Relationship {
-    @JsonProperty("catenaXId")
-    String catenaXId;
-    @JsonProperty("linkedItem")
-    Item linkedItem;
-    @JsonProperty("aspectType")
-    String aspectType;
-    @JsonProperty("bpn")
-    String bpn;
 
+    /** ATTRIBUTES **/
+    @JsonProperty("catenaXId")
+    public String catenaXId;
+    @JsonProperty("linkedItem")
+    public Item linkedItem;
+    @JsonProperty("aspectType")
+    public String aspectType;
+    @JsonProperty("bpn")
+    public String bpn;
+
+    /** CONSTRUCTOR(S) **/
     public Relationship() {
     }
 
@@ -51,6 +56,7 @@ public class Relationship {
         this.bpn = bpn;
     }
 
+    /** GETTERS AND SETTERS **/
     public String getCatenaXId() {
         return catenaXId;
     }

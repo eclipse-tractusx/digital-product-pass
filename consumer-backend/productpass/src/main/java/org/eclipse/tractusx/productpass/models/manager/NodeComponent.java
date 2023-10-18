@@ -30,20 +30,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
-
+/**
+ * This class consists exclusively to define attributes related to the Node Component.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NodeComponent {
 
+    /** ATTRIBUTES **/
     @JsonProperty("id")
-    String id;
+    public String id;
     @JsonProperty("name")
-    String name;
+    public String name;
     @JsonProperty("path")
-    String path;
+    public String path;
     @JsonProperty("children")
-    List<NodeComponent> children;
+    public List<NodeComponent> children;
 
+    /** CONSTRUCTOR(S) **/
     public NodeComponent() {
     }
     public NodeComponent(Node node, List<NodeComponent> children) {
@@ -66,34 +70,28 @@ public class NodeComponent {
         this.children = children;
     }
 
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getPath() {
         return path;
     }
-
     public void setPath(String path) {
         this.path = path;
     }
-
     public List<NodeComponent> getChildren() {
         return children;
     }
-
     public void setChildren(List<NodeComponent> children) {
         this.children = children;
     }

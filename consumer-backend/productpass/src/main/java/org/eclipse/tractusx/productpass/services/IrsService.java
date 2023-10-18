@@ -24,17 +24,11 @@
 package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.commons.logging.Log;
-import org.checkerframework.checker.units.qual.K;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.managers.TreeManager;
-import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
-import org.eclipse.tractusx.productpass.models.irs.Job;
 import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import org.eclipse.tractusx.productpass.models.irs.JobRequest;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
@@ -49,7 +43,6 @@ import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.LogUtil;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +56,7 @@ import java.util.Map;
 @Service
 public class IrsService extends BaseService {
 
+    /** ATTRIBUTES **/
     HttpUtil httpUtil;
 
     JsonUtil jsonUtil;
@@ -76,6 +70,7 @@ public class IrsService extends BaseService {
     TreeManager treeManager;
     VaultService vaultService;
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public IrsService(Environment env, ProcessManager processManager, IrsConfig irsConfig, TreeManager treeManager, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
@@ -91,7 +86,53 @@ public class IrsService extends BaseService {
     public IrsService() {
     }
 
-    public Object startJob(String processId, String globalAssetId, String searchId) throws ServiceException {
+    /** METHODS **/
+
+    /**
+     * Initiates the main needed variables for Data Transfer Service by loading from the environment variables and Vault.
+     **/
+    public void init(Environment env) {
+        this.irsEndpoint = this.irsConfig.getEndpoint();
+        this.irsJobPath = this.irsConfig.getPaths().getJob();
+        this.callbackUrl = this.irsConfig.getCallbackUrl();
+    }
+    /**
+     * Creates a List of missing variables needed to proceed with the request.
+     * <p>
+     *
+     * @return an {@code Arraylist} with the environment variables missing in the configuration for the request.
+     *
+     */
+    @Override
+    public List<String> getEmptyVariables() {
+        List<String> missingVariables = new ArrayList<>();
+        if (this.irsEndpoint.isEmpty()) {
+            missingVariables.add("irs.endpoint");
+        }
+        if (this.irsJobPath.isEmpty()) {
+            missingVariables.add("irs.paths.job");
+        }
+        if (this.callbackUrl.isEmpty()) {
+            missingVariables.add("irs.callbackUrl");
+        }
+        return missingVariables;
+    }
+    /**
+     * Starts a Job in the IRS for a specific globalAssetId with the backend BPN
+     * <p>
+     * @param   processId
+     *          the {@code String} process id of the job
+     * @param   globalAssetId
+     *          the {@code String} global asset id from the digital twin
+     * @param   searchId
+     *          the {@code String} search id provided by the backend to identify the job
+     *
+     * @return  a {@code Map<String, String>} map object with the irs first response
+     *
+     * @throws ServiceException
+     *           if unable to start the IRS job
+     */
+    public Map<String, String> startJob(String processId, String globalAssetId, String searchId) throws ServiceException {
         try {
             // In case the BPN is not known use the backend BPN.
             return this.startJob(processId, globalAssetId, searchId, (String) this.vaultService.getLocalSecret("edc.bpn"));
@@ -101,7 +142,23 @@ public class IrsService extends BaseService {
                     "It was not possible to start a IRS job! Because of invalid BPN configuration!");
         }
     }
-
+    /**
+     * Starts a Job in the IRS for a specific globalAssetId with the param BPN
+     * <p>
+     * @param   processId
+     *          the {@code String} process id of the job
+     * @param   globalAssetId
+     *          the {@code String} global asset id from the digital twin
+     * @param   searchId
+     *          the {@code String} search id provided by the backend to identify the job
+     * @param   bpn
+     *          the {@code String} bpn number from the provider to search
+     *
+     * @return  a {@code Map<String, String>} map object with the irs first response
+     *
+     * @throws ServiceException
+     *           if unable to start the IRS job
+     */
     public Map<String, String> startJob(String processId, String globalAssetId,  String searchId, String bpn) {
         try {
             this.checkEmptyVariables();
@@ -137,7 +194,23 @@ public class IrsService extends BaseService {
                     "It was not possible to start a IRS job!");
         }
     }
-
+    /**
+     * Gets the children from a specific node in the tree
+     * <p>
+     * @param   processId
+     *          the {@code String} process id of the job
+     * @param   path
+     *          the {@code String} path of the current node in the tree
+     * @param   globalAssetId
+     *          the {@code String} global asset id from the digital twin
+     * @param   bpn
+     *          the {@code String} bpn number from the provider to search
+     *
+     * @return  a {@code String} of the Job Id created to get the children asynchronously
+     *
+     * @throws ServiceException
+     *           if unable go request the children
+     */
     public String getChildren(String processId, String path, String globalAssetId, String bpn) {
         try {
             String searchId = TreeManager.generateSearchId(processId, globalAssetId);
@@ -160,7 +233,17 @@ public class IrsService extends BaseService {
             throw new ServiceException(this.getClass().getName() + "." + "getChildren", e, "It was not possible to get the children for the digital twin");
         }
     }
-
+    /**
+     * Retrieves a Job from the IRS by id
+     * <p>
+     * @param   jobId
+     *          the {@code String} id from the job to retrieve
+     *
+     * @return  a {@code JobResponse} object which contains the job information
+     *
+     * @throws  ServiceException
+     *           if unable to retrieve the job
+     */
     public JobResponse getJob(String jobId) {
         try {
             String url = this.irsEndpoint + "/" + this.irsJobPath + "/" + jobId;
@@ -177,21 +260,5 @@ public class IrsService extends BaseService {
 
     }
 
-    @Override
-    public List<String> getEmptyVariables() {
-        List<String> missingVariables = new ArrayList<>();
-        if (this.irsEndpoint.isEmpty()) {
-            missingVariables.add("irs.endpoint");
-        }
-        if (this.irsJobPath.isEmpty()) {
-            missingVariables.add("irs.paths.job");
-        }
-        return missingVariables;
-    }
 
-    public void init(Environment env) {
-        this.irsEndpoint = this.irsConfig.getEndpoint();
-        this.irsJobPath = this.irsConfig.getPaths().getJob();
-        this.callbackUrl = this.irsConfig.getCallbackUrl();
-    }
 }

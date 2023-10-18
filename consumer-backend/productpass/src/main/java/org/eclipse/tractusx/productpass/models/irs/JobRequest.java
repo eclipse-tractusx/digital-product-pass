@@ -41,33 +41,34 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobRequest {
-
+    /** ATTRIBUTES **/
     @JsonProperty("aspects")
-    ArrayList<String> aspects;
+    public ArrayList<String> aspects;
 
     @JsonProperty("bomLifecycle")
-    String bomLifecycle;
+    public String bomLifecycle;
     @JsonProperty("lookupBPNs")
-    Boolean lookupBPNs;
+    public Boolean lookupBPNs;
 
     @JsonProperty("collectAspects")
-    Boolean collectAspects;
+    public Boolean collectAspects;
 
     @JsonProperty("direction")
-    String direction;
+    public String direction;
 
     @JsonProperty("callbackUrl")
-    String callbackUrl;
+    public String callbackUrl;
 
     @JsonProperty("depth")
-    Integer depth;
+    public Integer depth;
 
     @JsonProperty("integrityCheck")
-    Boolean integrityCheck;
+    public Boolean integrityCheck;
 
     @JsonProperty("key")
-    Key key;
+    public Key key;
 
+    /** CONSTRUCTOR(S) **/
     public JobRequest(ArrayList<String> aspects, String bomLifecycle, Boolean lookupBPNs, Boolean collectAspects, String direction, Integer depth, Boolean integrityCheck, Key key) {
         this.aspects = aspects;
         this.bomLifecycle = bomLifecycle;
@@ -113,6 +114,7 @@ public class JobRequest {
         this.key = key;
     }
 
+    /** GETTERS AND SETTERS **/
     public ArrayList<String> getAspects() {
         return aspects;
     }

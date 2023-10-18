@@ -32,28 +32,30 @@ import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 
 import java.util.Map;
+/**
+ * This class consists exclusively to define attributes related to the Node.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Node {
 
+    /** ATTRIBUTES **/
     @JsonProperty("id")
-    String id;
+    public String id;
     @JsonProperty("globalAssetId")
-    String globalAssetId;
+    public String globalAssetId;
     @JsonProperty("idShort")
-    String idShort;
+    public String idShort;
     @JsonProperty("path")
-    String path;
+    public String path;
     @JsonProperty("digitalTwin")
-    DigitalTwin digitalTwin;
-
+    public DigitalTwin digitalTwin;
     @JsonProperty("job")
-    JobResponse job;
-
+    public JobResponse job;
     @JsonProperty("children")
-    Map<String, Node> children;
+    public Map<String, Node> children;
 
-
+    /** CONSTRUCTOR(S) **/
     public Node(Node parent, DigitalTwin digitalTwin, Map<String, Node> children){
         this.setup(digitalTwin);
         this.setPath(parent, digitalTwin.getIdentification());
@@ -99,12 +101,6 @@ public class Node {
         this.children = children;
     }
 
-    public void setup(DigitalTwin digitalTwin){
-        this.id = digitalTwin.getIdentification();
-        this.globalAssetId = digitalTwin.getGlobalAssetId();
-        this.idShort = digitalTwin.getIdShort();
-        this.digitalTwin = digitalTwin;
-    }
     public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin digitalTwin, Map<String, Node> children) {
         this.id = id;
         this.globalAssetId = globalAssetId;
@@ -115,6 +111,15 @@ public class Node {
     }
 
     public Node() {
+    }
+
+    /** GETTERS AND SETTERS **/
+
+    public void setup(DigitalTwin digitalTwin){
+        this.id = digitalTwin.getIdentification();
+        this.globalAssetId = digitalTwin.getGlobalAssetId();
+        this.idShort = digitalTwin.getIdShort();
+        this.digitalTwin = digitalTwin;
     }
 
     public String getId() {

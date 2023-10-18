@@ -29,18 +29,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JobHistory {
 
+    /** ATTRIBUTES **/
     @JsonProperty("jobId")
-    String jobId;
-
+    public String jobId;
     @JsonProperty("globalAssetId")
-    String globalAssetId;
+    public String globalAssetId;
     @JsonProperty("path")
-    String path;
+    public String path;
     @JsonProperty("created")
-    Long created;
+    public Long created;
 
 
-
+    /** CONSTRUCTOR(S) **/
     public JobHistory() {
     }
 
@@ -50,7 +50,7 @@ public class JobHistory {
         this.path = path;
         this.created = created;
     }
-
+    /** GETTERS AND SETTERS **/
     public String getJobId() {
         return jobId;
     }

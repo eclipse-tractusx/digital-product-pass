@@ -30,43 +30,48 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
-
+/**
+ * This class consists exclusively to define attributes related to the Job.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Job {
+
+    /** ATTRIBUTES **/
     @JsonProperty("id")
-    String id;
+    public String id;
 
     @JsonProperty("globalAssetId")
-    String globalAssetId;
+    public String globalAssetId;
 
     @JsonProperty("state")
-    String state;
+    public String state;
 
     @JsonProperty("exception")
-    Object exception;
+    public Object exception;
 
     @JsonProperty("createdOn")
-    String createdOn;
+    public String createdOn;
 
     @JsonProperty("startedOn")
-    String startedOn;
+    public String startedOn;
 
     @JsonProperty("lastModifiedOn")
-    String lastModifiedOn;
+    public String lastModifiedOn;
 
     @JsonProperty("completedOn")
-    String completedOn;
+    public String completedOn;
 
     @JsonProperty("owner")
-    String owner;
+    public String owner;
 
     @JsonProperty("summary")
-    Object summary;
+    public Object summary;
 
     @JsonProperty("parameter")
-    JobRequest parameter;
+    public JobRequest parameter;
 
+    /** CONSTRUCTOR(S) **/
     public Job() {
     }
 
@@ -83,6 +88,8 @@ public class Job {
         this.summary = summary;
         this.parameter = parameter;
     }
+
+    /** GETTERS AND SETTERS **/
 
     public String getId() {
         return id;

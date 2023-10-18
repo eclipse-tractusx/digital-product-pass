@@ -32,23 +32,29 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 
 import java.util.ArrayList;
+
+/**
+ * This class consists exclusively to define attributes related to the Job Response coming from the IRS.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobResponse {
 
+    /** ATTRIBUTES **/
     @JsonProperty("job")
-    Job job;
+    public Job job;
     @JsonProperty("relationships")
-    ArrayList<Relationship> relationships;
+    public ArrayList<Relationship> relationships;
     @JsonProperty("shells")
-    ArrayList<DigitalTwin> shells;
+    public ArrayList<DigitalTwin> shells;
     @JsonProperty("tombstones")
-    Object tombstones;
+    public Object tombstones;
     @JsonProperty("submodels")
-    ArrayList<JsonNode> submodels;
+    public ArrayList<JsonNode> submodels;
     @JsonProperty("bpns")
-    ArrayList<String> bpns;
+    public ArrayList<String> bpns;
 
+    /** CONSTRUCTOR(S) **/
     public JobResponse(Job job, ArrayList<Relationship> relationships, ArrayList<DigitalTwin> shells, Object tombstones, ArrayList<JsonNode> submodels, ArrayList<String> bpns) {
         this.job = job;
         this.relationships = relationships;
@@ -61,6 +67,7 @@ public class JobResponse {
     public JobResponse() {
     }
 
+    /** GETTERS AND SETTERS **/
     public Job getJob() {
         return job;
     }

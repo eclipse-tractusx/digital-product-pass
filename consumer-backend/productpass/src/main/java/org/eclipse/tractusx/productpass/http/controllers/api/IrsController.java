@@ -50,13 +50,16 @@ import utils.JsonUtil;
 import utils.LogUtil;
 
 import java.util.Map;
-
+/**
+ * This class consists exclusively to define the HTTP methods needed for the IRS component.
+ **/
 @RestController
 @RequestMapping("/api/irs")
 @Tag(name = "IRS Controller")
 @SecurityRequirement(name = "BearerAuthentication")
 public class IrsController {
 
+    /** ATTRIBUTES **/
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
 
@@ -71,6 +74,23 @@ public class IrsController {
     private @Autowired TreeManager treeManager;
     private @Autowired ProcessManager processManager;
 
+    /** METHODS **/
+
+    /**
+     * HTTP GET method which receives and handles the call back from the IRS
+     * <p>
+     * @param   processId
+     *          the {@code String} process id contained in the path of the url
+     * @param   searchId
+     *          the {@code String} unique hash which identifies the callback search
+     * @param   id
+     *          the {@code String} id from the globalAssetId given by the IRS
+     * @param   state
+     *          the {@code String} state of the IRS callback event
+     *
+     * @return this {@code Response} HTTP response with an OK message and 200 status code
+     *
+     */
     @RequestMapping(value = "/{processId}/{searchId}", method = RequestMethod.GET)
     @Operation(summary = "Endpoint called by the IRS to set status completed")
     public Response endpoint(@PathVariable String processId, @PathVariable String searchId, @RequestParam String id, @RequestParam String state) {
@@ -101,7 +121,15 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
-
+    /**
+     * HTTP GET method which returns the current component tree in a simplified structure
+     * <p>
+     * @param   processId
+     *          the {@code String} process id contained in the path of the url
+     *
+     * @return this {@code Response} HTTP response with the current component tree of the process
+     *
+     */
     @RequestMapping(value = "/{processId}/components", method = RequestMethod.GET)
     @Operation(summary = "Api called by the frontend to obtain the tree of components")
     public Response components(@PathVariable String processId) {
@@ -134,7 +162,15 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
-
+    /**
+     * HTTP GET method which returns the current tree of digital twins which are found in this process
+     * <p>
+     * @param   processId
+     *          the {@code String} process id contained in the path of the url
+     *
+     * @return this {@code Response} HTTP response with the current complete tree data model of the process id
+     *
+     */
     @RequestMapping(value = "/{processId}/tree", method = RequestMethod.GET)
     @Operation(summary = "Api called by the frontend to obtain the tree of components")
     public Response tree( @PathVariable String processId) {

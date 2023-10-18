@@ -29,10 +29,21 @@ import com.sun.source.tree.Tree;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the IRS configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.irs")
 public class IrsConfig {
 
+    /** ATTRIBUTES **/
+    Boolean enabled;
+    String endpoint;
+    TreeConfig tree;
+    Paths paths;
+    String callbackUrl;
+
+    /** CONSTRUCTOR(S) **/
     public IrsConfig(Boolean enabled, String endpoint, TreeConfig tree, Paths paths, String callbackUrl) {
         this.enabled = enabled;
         this.endpoint = endpoint;
@@ -40,17 +51,6 @@ public class IrsConfig {
         this.paths = paths;
         this.callbackUrl = callbackUrl;
     }
-
-    Boolean enabled;
-    String endpoint;
-
-    TreeConfig tree;
-
-    Paths paths;
-
-    String callbackUrl;
-
-
     public IrsConfig() {
     }
 
@@ -67,6 +67,7 @@ public class IrsConfig {
         this.callbackUrl = callbackUrl;
     }
 
+    /** GETTERS AND SETTERS **/
 
     public String getEndpoint() {
         return endpoint;
@@ -108,11 +109,18 @@ public class IrsConfig {
         this.enabled = enabled;
     }
 
+    /** INNER CLASSES **/
 
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the IRS Tree configurations.
+     **/
     public static class TreeConfig{
+
+        /** ATTRIBUTES **/
         String fileName;
 
         Boolean indent;
+
 
         public TreeConfig(String fileName) {
             this.fileName = fileName;
@@ -126,6 +134,7 @@ public class IrsConfig {
         public TreeConfig() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getFileName() {
             return fileName;
         }
@@ -143,6 +152,10 @@ public class IrsConfig {
         }
     }
 
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the job path configuration.
+     **/
     public static class Paths{
         String job;
 

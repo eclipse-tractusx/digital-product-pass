@@ -49,7 +49,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory("/passport"),
+    history: createWebHistory("/data"),
     routes: routes,
     linkActiveClass: "active",
 });

@@ -20,22 +20,20 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-### The fully configuration is available in https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
-
-
-
+### The fully configuration is available in https://github.com/eclipse-tractusx/item-relationship-service/tree/main/charts/irs-helm
 
 ---
-# Default values for eclipse-dataspace-connector.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+
+irs-helm:
+  enabled: true
+
 tractusx-connector:
   enabled: true
   install:
     daps: false
     postgresql: false
     vault: false
-  fullnameOverride: "dpp-edc-consumer"
+  fullnameOverride: "irs-edc-consumer"
   nameOverride: ""
   # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
@@ -143,7 +141,7 @@ tractusx-connector:
         url: "<path:material-pass/data/dev/edc/ssi#miwUrl>"
         authorityId: "<path:material-pass/data/dev/edc/ssi#authorityId>"
       oauth:
-        tokenurl: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
         client:
           id: "<path:material-pass/data/dev/edc/ssi#clientId>"
           secretAlias: "dev-client-secret"
@@ -215,7 +213,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: "materialpass-irs.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -445,7 +443,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: "materialpass-irs.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -596,6 +594,3 @@ postgresql:
     database: "edc"
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
-
-irs-helm:
-  enabled: true

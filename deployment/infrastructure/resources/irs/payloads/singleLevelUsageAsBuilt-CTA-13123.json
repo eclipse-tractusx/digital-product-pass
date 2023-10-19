@@ -1,0 +1,14 @@
+{
+  "parentParts": [
+    {
+      "parentCatenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+      "quantity": {
+        "quantityNumber": 10.0,
+        "measurementUnit": "piece"
+      },
+      "createdOn": "2023-01-09T17:26:54.709Z",
+      "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+    }
+  ],
+  "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1"
+}

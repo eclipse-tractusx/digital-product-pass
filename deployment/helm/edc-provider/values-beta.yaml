@@ -163,10 +163,10 @@ tractusx-connector:
           clusterIssuer: ""
   postgresql:
     username: <path:material-pass/data/beta/edc/database#user>
-    password: <path:material-pass/data/beta/edc/database#user>
+    password: <path:material-pass/data/beta/edc/database#password>
     auth:
       username: <path:material-pass/data/beta/edc/database#user>
-      password: <path:material-pass/data/beta/edc/database#user>
+      password: <path:material-pass/data/beta/edc/database#password>
 
   vault:
     fullnameOverride: "vault"

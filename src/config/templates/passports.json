@@ -1,130 +1,130 @@
 {
     "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport": {
         "serialization": {
-          "manufacturingInformation": {
-            "date": null,
-            "country": null
-          },
-          "registration": {
-            "customerPartId": null,
-            "manufacturerPartId": null
-          },
-          "quantity": {
-            "value": null,
-            "unit": null
-          }
+            "manufacturingInformation": {
+                "date": null,
+                "country": null
+            },
+            "registration": {
+                "customerPartId": null,
+                "manufacturerPartId": null
+            },
+            "quantity": {
+                "value": null,
+                "unit": null
+            }
         },
         "typology": {
-          "name": null,
-          "description": null,
-          "class": {
-            "definition": null,
-            "code": null
-          },
-          "nameAtManufacturer": null,
-          "nameAtCustomer": null
+            "name": null,
+            "description": null,
+            "class": {
+                "definition": null,
+                "code": null
+            },
+            "nameAtManufacturer": null,
+            "nameAtCustomer": null
         },
         "metadata": {
-          "issueDate": null,
-          "version": null,
-          "validityDate": null,
-          "economicOperator": {
-            "eori": null,
-            "id": null
-          },
-          "status": null
+            "issueDate": null,
+            "version": null,
+            "validityDate": null,
+            "economicOperator": {
+                "eori": null,
+                "id": null
+            },
+            "status": null
         },
         "characteristics": {
-          "physicalDimensionsProperty": {
-            "width": null,
-            "length": null,
-            "weight": null,
-            "height": null
-          },
-          "energyCapacity": {
-            "value": null,
-            "unit": null
-          },
-          "voltage": {
-            "value": null,
-            "unit": null
-          }
+            "physicalDimensionsProperty": {
+                "width": null,
+                "length": null,
+                "weight": null,
+                "height": null
+            },
+            "energyCapacity": {
+                "value": null,
+                "unit": null
+            },
+            "voltage": {
+                "value": null,
+                "unit": null
+            }
         },
         "commercial": {
-          "placedOnMarket": null,
-          "warranty": null
+            "placedOnMarket": null,
+            "warranty": null
         },
         "identification": {
-          "localIdentifiers": [
-            {
-              "value": null,
-              "key": null
-            }
-          ],
-          "gtin": null,
-          "additionalCode": [
-            {
-              "name": null,
-              "value": null
-            }
-          ]
+            "localIdentifiers": [
+                {
+                    "value": null,
+                    "key": null
+                }
+            ],
+            "gtin": null,
+            "additionalCode": [
+                {
+                    "name": null,
+                    "value": null
+                }
+            ]
         },
         "sources": {
-          "mandatory": {
-            "safetyInformation": {
-              "header": null,
-              "category": null,
-              "type": null,
-              "content": null
+            "mandatory": {
+                "safetyInformation": {
+                    "header": null,
+                    "category": null,
+                    "type": null,
+                    "content": null
+                },
+                "environmentalImpact": {
+                    "header": null,
+                    "category": null,
+                    "type": null,
+                    "content": null
+                }
             },
-            "environmentalImpact": {
-              "header": null,
-              "category": null,
-              "type": null,
-              "content": null
-            }
-          },
-          "optional": [
-            {
-              "name": null,
-              "document": {
-                "header": null,
-                "category": null,
-                "type": null,
-                "content": null
-              }
-            }
-          ]
+            "optional": [
+                {
+                    "name": null,
+                    "document": {
+                        "header": null,
+                        "category": null,
+                        "type": null,
+                        "content": null
+                    }
+                }
+            ]
         },
         "sustainability": {
-          "state": null,
-          "material": [
-            {
-              "name": null,
-              "recycled": false,
-              "renewable": false,
-              "percentage": null
+            "state": null,
+            "material": [
+                {
+                    "name": null,
+                    "recycled": false,
+                    "renewable": false,
+                    "percentage": null
+                }
+            ],
+            "critical": null,
+            "carbonFootprint": {
+                "carbonContentTotal": null,
+                "crossSectoralStandard": null,
+                "productOrSectorSpecificRules": [
+                    {
+                        "ruleName": null
+                    }
+                ]
             }
-          ],
-          "critical": null,
-          "carbonFootprint": {
-            "carbonContentTotal": null,
-            "crossSectoralStandard": null,
-            "productOrSectorSpecificRules": [
-              {
-                "ruleName": null
-              }
-            ]
-          }
         },
         "operation": {
-          "importer": null,
-          "manufacturer": {
-            "manufacturerId": null,
-            "facilityId": null
-          }
+            "importer": null,
+            "manufacturer": {
+                "manufacturerId": null,
+                "facilityId": null
+            }
         }
-      },
+    },
     "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass": {
         "electrochemicalProperties": {
             "ratedCapacity": null,

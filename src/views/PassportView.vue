@@ -314,6 +314,7 @@ export default {
         this.statusText = "Request Timeout";
       }
       this.data = result;
+      console.log(this.data);
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {

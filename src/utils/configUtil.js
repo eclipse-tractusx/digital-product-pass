@@ -48,7 +48,7 @@ export default {
         return tmpPropsData;
     }*/
     normalizePassport(responsePassport=null, responseMetadata=null, semanticId="urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"){
-        let passport = jsonUtil.get(semanticId, passports); //Get the passport by semanticId
+        let passport = passports[semanticId]; //Get the passport by semanticId
         let response = {
             "metadata": metadata,
             "aspect": passport

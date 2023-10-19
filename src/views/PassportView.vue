@@ -85,7 +85,13 @@
       </template>
       <template v-else>
         <PassportHeader
-          :id="data.aspect.identification.gtin"
+          :id="
+            data.aspect &&
+            data.aspect.identification &&
+            data.aspect.identification.gtin
+              ? data.aspect.identification.gtin
+              : '-'
+          "
           type="Passport ID"
         />
       </template>

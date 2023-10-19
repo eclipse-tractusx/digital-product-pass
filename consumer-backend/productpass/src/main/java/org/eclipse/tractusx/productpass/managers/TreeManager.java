@@ -282,7 +282,7 @@ public class TreeManager {
                 // Create child with the digital twin
                 Node child = new Node(parentPath, childDigitalTwin);
                 // Add child to the parent
-                parent.setChild(child);
+                parent.setChild(child, childId);
             }
             // Set node and save the tree
             treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parent); // Save the parent node in the tree
@@ -479,11 +479,11 @@ public class TreeManager {
      * @throws ManagerException
      *           if unable to save in the data model and in the parent the child node
      */
-    public String setChild(String processId, String parentPath, Node childNode){
+    public String setChild(String processId, String parentPath, Node childNode, String globalAssetId){
         try {
             Map<String, Node> treeDataModel = this.getTree(processId);
             Node parentNode = this.getNodeByPath(treeDataModel, parentPath); // Get parent node
-            parentNode.setChild(childNode); // Add the child to the parent node
+            parentNode.setChild(childNode, globalAssetId); // Add the child to the parent node
             treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parentNode); // Save the parent node in the tree
             return this.saveTree(processId, treeDataModel);
         } catch (Exception e) {

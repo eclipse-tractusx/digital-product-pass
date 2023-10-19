@@ -171,8 +171,8 @@ public class Node {
     public void setChildren(Map<String, Node> children) {
         this.children = children;
     }
-    public void setChild(Node childNode){
-        this.children.put(childNode.getGlobalAssetId(), childNode);
+    public void setChild(Node childNode, String globalAssetId){
+        this.children.put(globalAssetId, childNode);
     }
 
     public Node getChild(String childId){

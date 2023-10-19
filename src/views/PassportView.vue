@@ -23,9 +23,12 @@
 <template>
   <div>
     <HeaderComponent>
+      <template v-if="!data">
+        <span class="header-title">Digital Product Passport</span>
+      </template>
       <template
-        v-if="
-          data.data.semanticId ===
+        v-else-if="
+          data.semanticId ===
           'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
         "
       >
@@ -33,7 +36,7 @@
       </template>
       <template
         v-else-if="
-          data.data.semanticId ===
+          data.semanticId ===
           'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
         "
       >
@@ -60,81 +63,81 @@
     <div v-else>
       <template
         v-if="
-          data.data.semanticId ===
+          data.semanticId ===
           'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
         "
       >
         <PassportHeader
-          :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+          :id="data.passport.batteryIdentification.batteryIDDMCCode"
           type="Battery ID"
         />
       </template>
       <template
         v-else-if="
-          data.data.semanticId ===
+          data.semanticId ===
           'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
         "
       >
         <PassportHeader
-          :id="data.data.passport.batteryIdentification.batteryIDDMCCode"
+          :id="data.passport.batteryIdentification.batteryIDDMCCode"
           type="Transmission ID"
         />
       </template>
       <template v-else>
         <PassportHeader
-          :id="data.data.passport.identification.gtin"
+          :id="data.passport.identification.gtin"
           type="Passport ID"
         />
       </template>
       <div class="pass-container">
         <template
           v-if="
-            data.data.semanticId ===
+            data.semanticId ===
             'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
           "
         >
-          <BatteryCards :data="data.data" />
+          <BatteryCards :data="data" />
         </template>
         <template
           v-else-if="
-            data.data.semanticId ===
+            data.semanticId ===
             'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
           "
         >
-          <BatteryCards :data="data.data" />
+          <BatteryCards :data="data" />
         </template>
         <template v-else>
-          <GeneralCards :data="data.data" />
+          <GeneralCards :data="data" />
         </template>
       </div>
 
       <div class="pass-container footer-spacer">
         <template
           v-if="
-            data.data.semanticId ===
+            data.semanticId ===
             'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
           "
         >
           <TabsComponent
             :componentsNames="batteryComponentsNames"
-            :componentsData="data.data"
+            :componentsData="data"
           />
         </template>
         <template
           v-else-if="
-            data.data.semanticId ===
+            data.semanticId ===
             'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
           "
         >
           <TabsComponent
             :componentsNames="batteryComponentsNames"
-            :componentsData="data.data"
+            :componentsData="data"
           />
         </template>
         <template v-else>
           <TabsComponent
             :componentsNames="generalComponentsNames"
-            :componentsData="data.data"
+            :componentsData="data"
           />
         </template>
       </div>

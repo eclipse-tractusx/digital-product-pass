@@ -48,8 +48,6 @@ public class Search {
     String idType = "partInstanceId";
     @JsonProperty(value = "dtIndex", defaultValue = "0")
     Integer dtIndex = 0;
-    @JsonProperty(value = "idShort", defaultValue = "digitalProductPass")
-    String idShort = "digitalProductPass";
     @JsonProperty(value = "semanticId")
     String semanticId;
 
@@ -58,13 +56,12 @@ public class Search {
     public Search() {
     }
     @SuppressWarnings("Unused")
-    public Search(String processId, String id, String version, String idType, Integer dtIndex, String idShort, String semanticId) {
+    public Search(String processId, String id, String version, String idType, Integer dtIndex, String semanticId) {
         this.processId = processId;
         this.id = id;
         this.version = version;
         this.idType = idType;
         this.dtIndex = dtIndex;
-        this.idShort = idShort;
         this.semanticId = semanticId;
     }
 
@@ -98,12 +95,6 @@ public class Search {
     }
     public void setDtIndex(Integer dtIndex) {
         this.dtIndex = dtIndex;
-    }
-    public String getIdShort() {
-        return idShort;
-    }
-    public void setIdShort(String idShort) {
-        this.idShort = idShort;
     }
     public String getVersion() {
         return version;

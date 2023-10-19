@@ -31,7 +31,6 @@ import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
 import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
@@ -1307,36 +1306,6 @@ public class ProcessManager {
      *           if unable to save the {@code DigitalTwin}.
      */
     public String saveDigitalTwin(String processId, DigitalTwin digitalTwin, Long startedTime) {
-        try {
-            return this.saveProcessPayload(
-                    processId,
-                    digitalTwin,
-                    this.digitalTwinFileName,
-                    startedTime,
-                    digitalTwin.getIdentification(),
-                    "READY",
-                    "digital-twin-request");
-        } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the digitalTwin!");
-        }
-    }
-
-    /**
-     * Saves the given {@code DigitalTwin3} object in the Process with the given processId with the given timestamp.
-     * <p>
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     * @param   digitalTwin
-     *          the {@code DigitalTwin3} object to save.
-     * @param   startedTime
-     *          the {@code Long} timestamp when the process's event started.
-     *
-     * @return  a {@code String} file path of the file where data was stored.
-     *
-     * @throws ManagerException
-     *           if unable to save the {@code DigitalTwin3}.
-     */
-    public String saveDigitalTwin3(String processId, DigitalTwin3 digitalTwin, Long startedTime) {
         try {
             return this.saveProcessPayload(
                     processId,

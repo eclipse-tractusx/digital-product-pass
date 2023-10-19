@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "baseUrl": "/data",
+    "baseUrl": "/passport",
     "moduleResolution": "node",
     "paths": {
       "@/*": ["src/*"]
@@ -10,4 +10,3 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   }
 }
-

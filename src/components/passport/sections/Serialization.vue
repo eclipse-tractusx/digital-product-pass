@@ -75,7 +75,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.serialization,
+      propsData: this.$props.data.aspect.serialization,
     };
   },
 };

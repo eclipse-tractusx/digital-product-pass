@@ -98,22 +98,22 @@ export default {
           label: "Product name",
           secondLabel: "Product type",
           icon: "mdi-pound",
-          value: this.$props.data.passport.typology
-            ? this.$props.data.passport.typology.name
+          value: this.$props.data.aspect.typology
+            ? this.$props.data.aspect.typology.name
             : "-",
-          secondValue: this.$props.data.passport.typology.nameAtCustomer,
+          secondValue: this.$props.data.aspect.typology.nameAtCustomer,
         },
         {
           title: "MANUFACTURING",
           label: "Manufacturer Id",
           secondLabel: "Date of Manufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
-          value: this.$props.data.passport.operation.manufacturer
-            ? this.$props.data.passport.operation.manufacturer.manufacturerId
+          value: this.$props.data.aspect.operation.manufacturer
+            ? this.$props.data.aspect.operation.manufacturer.manufacturerId
             : "-",
-          secondValue: this.$props.data.passport.serialization
+          secondValue: this.$props.data.aspect.serialization
             .manufacturingInformation
-            ? this.$props.data.passport.serialization.manufacturingInformation
+            ? this.$props.data.aspect.serialization.manufacturingInformation
                 .date
             : "-",
           description: {
@@ -122,15 +122,15 @@ export default {
           },
         },
         {
-          title: "PASSPORT VERSION",
+          title: "aspect VERSION",
           label: "Current version",
           secondLabel: "Issued",
-          icon: "mdi-passport",
-          value: this.$props.data.passport.metadata.version,
-          secondValue: this.$props.data.passport.metadata.issueDate,
+          icon: "mdi-aspect",
+          value: this.$props.data.aspect.metadata.version,
+          secondValue: this.$props.data.aspect.metadata.issueDate,
           description: {
-            title: "Passport version",
-            value: "Description of the Passport version",
+            title: "aspect version",
+            value: "Description of the aspect version",
           },
         },
         {
@@ -138,13 +138,13 @@ export default {
           label: "Total CO2 footprint",
           secondLabel: "Warranty period",
           icon: "mdi-leaf",
-          value: this.$props.data.passport.sustainability.carbonFootprint
-            ? this.$props.data.passport.sustainability.carbonFootprint
+          value: this.$props.data.aspect.sustainability.carbonFootprint
+            ? this.$props.data.aspect.sustainability.carbonFootprint
                 .carbonContentTotal
             : "-",
           valueUnits: "t CO2 Total",
-          secondValue: this.$props.data.passport.commercial.warranty,
-          secondValueUnits: this.$props.data.passport.commercial.warranty
+          secondValue: this.$props.data.aspect.commercial.warranty,
+          secondValueUnits: this.$props.data.aspect.commercial.warranty
             ? "months"
             : "",
           description: {

@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.metadata,
+      propsData: this.$props.data.aspect.metadata,
     };
   },
 };

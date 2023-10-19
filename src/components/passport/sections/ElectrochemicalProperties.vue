@@ -183,7 +183,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.electrochemicalProperties,
+      propsData: this.$props.data.aspect.electrochemicalProperties,
     };
   },
 };

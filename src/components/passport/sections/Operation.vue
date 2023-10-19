@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.operation,
+      propsData: this.$props.data.aspect.operation,
     };
   },
 };

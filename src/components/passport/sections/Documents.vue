@@ -96,7 +96,7 @@ export default {
 
   data() {
     return {
-      propsData: this.$props.data.passport.document,
+      propsData: this.$props.data.aspect.document,
     };
   },
 };

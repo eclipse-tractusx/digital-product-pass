@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.additionalData,
+      propsData: this.$props.data.aspect.additionalData,
     };
   },
 };

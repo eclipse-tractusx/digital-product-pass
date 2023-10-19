@@ -70,7 +70,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.identification,
+      propsData: this.$props.data.aspect.identification,
     };
   },
 };

@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.composition,
+      propsData: this.$props.data.aspect.composition,
     };
   },
 };

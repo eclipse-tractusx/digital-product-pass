@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.sustainability,
+      propsData: this.$props.data.aspect.sustainability,
     };
   },
 };

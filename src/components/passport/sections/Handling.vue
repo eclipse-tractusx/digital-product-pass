@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.handling,
+      propsData: this.$props.data.aspect.handling,
     };
   },
 };

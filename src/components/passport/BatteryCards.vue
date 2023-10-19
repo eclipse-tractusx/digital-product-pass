@@ -121,20 +121,19 @@ export default {
   data() {
     return {
       currentValue:
-        this.$props.data.passport.batteryCycleLife
-          .cycleLifeTestDepthOfDischarge,
-      maxValue: this.$props.data.passport.batteryCycleLife.expectedLifetime,
+        this.$props.data.aspect.batteryCycleLife.cycleLifeTestDepthOfDischarge,
+      maxValue: this.$props.data.aspect.batteryCycleLife.expectedLifetime,
       cards: [
         {
           title: "GENERAL",
           label: "Type",
           secondLabel: "Model",
           icon: "mdi-pound",
-          value: this.$props.data.passport.batteryIdentification
-            ? this.$props.data.passport.batteryIdentification.batteryType
+          value: this.$props.data.aspect.batteryIdentification
+            ? this.$props.data.aspect.batteryIdentification.batteryType
             : "-",
-          secondValue: this.$props.data.passport.batteryIdentification
-            ? this.$props.data.passport.batteryIdentification.batteryModel
+          secondValue: this.$props.data.aspect.batteryIdentification
+            ? this.$props.data.aspect.batteryIdentification.batteryModel
             : "-",
         },
         {
@@ -143,12 +142,12 @@ export default {
           secondLabel: "Original Power",
           icon: "mdi-chart-timeline-variant-shimmer",
           value:
-            this.$props.data.passport.electrochemicalProperties.ratedCapacity,
+            this.$props.data.aspect.electrochemicalProperties.ratedCapacity,
           valueUnits: "kWh",
           secondValueUnits: "kW",
-          secondValue: this.$props.data.passport.electrochemicalProperties
+          secondValue: this.$props.data.aspect.electrochemicalProperties
             .batteryPower
-            ? this.$props.data.passport.electrochemicalProperties.batteryPower
+            ? this.$props.data.aspect.electrochemicalProperties.batteryPower
                 .originalPowerCapability
             : "-",
           description: {
@@ -161,12 +160,12 @@ export default {
           label: "State of Health (SoH)",
           secondLabel: "Charging Cycles",
           icon: "mdi-battery-plus",
-          value: this.$props.data.passport.stateOfBattery
-            ? this.$props.data.passport.stateOfBattery.stateOfHealth
+          value: this.$props.data.aspect.stateOfBattery
+            ? this.$props.data.aspect.stateOfBattery.stateOfHealth
             : "-",
           valueUnits: "%",
-          secondValue: this.$props.data.passport.batteryIdentification
-            ? this.$props.data.passport.batteryIdentification.batteryModel
+          secondValue: this.$props.data.aspect.batteryIdentification
+            ? this.$props.data.aspect.batteryIdentification.batteryModel
             : "-",
           description: {
             title: "Health",
@@ -207,7 +206,7 @@ export default {
               materialWeight: 2.5,
             },
           ],
-          secondValue: this.$props.data.passport.cO2FootprintTotal,
+          secondValue: this.$props.data.aspect.cO2FootprintTotal,
           description: {
             title: "Sustainability",
             value: "Description of the Sustainability",

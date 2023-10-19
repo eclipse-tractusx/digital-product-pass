@@ -72,7 +72,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.passport.characteristics,
+      propsData: this.$props.data.aspect.characteristics,
     };
   },
 };

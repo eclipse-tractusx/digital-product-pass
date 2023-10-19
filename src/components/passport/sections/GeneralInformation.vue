@@ -196,7 +196,7 @@ export default {
   data() {
     return {
       descriptions: descriptions,
-      propsData: this.$props.data.passport,
+      propsData: this.$props.data.aspect,
     };
   },
 };

@@ -93,7 +93,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.typology,
+      propsData: this.$props.data.aspect["typology"],
     };
   },
 };

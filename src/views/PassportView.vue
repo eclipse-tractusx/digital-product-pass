@@ -323,14 +323,17 @@ export default {
         this.data["status"] == 200 &&
         jsonUtil.exists("data", this.data) &&
         jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("aspect", this.data["data"])
+        jsonUtil.exists("aspect", this.data["data"]) && 
+        jsonUtil.exists("semanticId", this.data["data"])
       ) {
         this.data = configUtil.normalizePassport(
           jsonUtil.get("data.aspect", this.data),
-          jsonUtil.get("data.metadata", this.data)
+          jsonUtil.get("data.metadata", this.data),
+          jsonUtil.get("data.semanticId", this.data)
         );
         this.error = false;
       }
+      console.log(this.data);
       // Stop loading
       this.loading = false;
     }

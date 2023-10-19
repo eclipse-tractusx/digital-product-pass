@@ -25,6 +25,20 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.1.0] - 19-10-2023
+
+## Added
+- Added loading screen functionality in the frontend
+- Create IRS component configuration for the integration with the backend application in next versions
+- Created IRS postman collection for testing the APIs.
+- Added the QR code scanning button in the main search view (welcome screen)
+- Added support for the new dDTR lookup shells version which is (AAS 3.0) compliant.
+
+## Updated
+- Updated the digital twin test payloads to match AAS 3.0 payloads which should be used for version `>v1.0.0` of the DPP
+- Updated the main readme fixing notable mistakes.
+
+## [released]
 ## [1.0.1] - 31-08-2023
 
 ## Updated

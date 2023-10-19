@@ -31,11 +31,13 @@
               :attributes-list="propsData.localIdentifiers"
               label="Part instance Id"
             />
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Gtin"
-              :value="propsData.gtin"
-            />
+            <template v-if="propsData.gtin">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                label="Gtin"
+                :value="propsData.gtin"
+              />
+            </template>
           </v-col>
         </template>
         <template v-if="propsData.additionalCode">

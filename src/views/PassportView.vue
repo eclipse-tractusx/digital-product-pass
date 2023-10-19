@@ -68,7 +68,7 @@
         "
       >
         <PassportHeader
-          :id="data.passport.batteryIdentification.batteryIDDMCCode"
+          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
           type="Battery ID"
         />
       </template>
@@ -79,13 +79,13 @@
         "
       >
         <PassportHeader
-          :id="data.passport.batteryIdentification.batteryIDDMCCode"
+          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
           type="Transmission ID"
         />
       </template>
       <template v-else>
         <PassportHeader
-          :id="data.passport.identification.gtin"
+          :id="data.aspect.identification.gtin"
           type="Passport ID"
         />
       </template>
@@ -292,7 +292,7 @@ export default {
   async created() {
     let result = null;
     try {
-      // Setup passport promise
+      // Setup aspect promise
       let passportPromise = this.getPassport(this.id);
       // Execute promisse with a Timeout
       result = await threadUtil.execWithTimeout(
@@ -317,10 +317,10 @@ export default {
         this.data["status"] == 200 &&
         jsonUtil.exists("data", this.data) &&
         jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("passport", this.data["data"])
+        jsonUtil.exists("aspect", this.data["data"])
       ) {
         this.data = configUtil.normalizePassport(
-          jsonUtil.get("data.passport", this.data),
+          jsonUtil.get("data.aspect", this.data),
           jsonUtil.get("data.metadata", this.data)
         );
         this.error = false;
@@ -337,7 +337,7 @@ export default {
         // Init backendService
         let backendService = new BackendService();
         // Get access token from IDP
-        // Get the passport for the selected version
+        // Get the aspect for the selected version
         response = await backendService.getPassport(
           this.version,
           id,

@@ -87,7 +87,9 @@ configuration:
       negotiation: 40
       transfer: 10
       digitalTwin: 20
-    temporaryStorage: true
+    temporaryStorage:
+      enabled: true
+      lifetime: 12 # -- Hours
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"

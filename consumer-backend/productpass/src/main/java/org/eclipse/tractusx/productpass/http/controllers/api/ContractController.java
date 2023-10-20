@@ -149,8 +149,7 @@ public class ContractController {
             }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
-            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
-            if(dtrConfig.getTemporaryStorage()) {
+            if(dtrConfig.getTemporaryStorage().getEnabled()) {
                 try {
                     dataModel = this.dtrSearchManager.loadDataModel();
                 } catch (Exception e) {
@@ -158,22 +157,10 @@ public class ContractController {
                 }
             }
             // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
-            if(!dtrConfig.getTemporaryStorage() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
-                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnList);
-                try {
-                    edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
-                } catch (Exception e) {
-                    throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
-                }
-                if(!this.dtrConfig.getInternalDtr().isEmpty()) {
-                    edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
-                        endpoint.getConnectorEndpoint().add(this.dtrConfig.getInternalDtr());
-                    });
-                }
-
-                catenaXService.searchDTRs(edcEndpointBinded, processId);
+            if(!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
+                catenaXService.searchDTRs(bpnList, processId);
             }else{
-
+                boolean requestDtrs = false;
                 // Take the results from cache
                 for(String bpn: bpnList){
                     List<Dtr> dtrs = null;
@@ -182,13 +169,28 @@ public class ContractController {
                     } catch (Exception e) {
                         throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                     }
+
                     if(dtrs.isEmpty()){
                         response.message = "Failed to get the bpns from the datamodel";
                         return httpUtil.buildResponse(response, httpResponse);
                     }
-                    // Interate over every DTR and add it to the file
+                    Long currentTimestamp = DateTimeUtil.getTimestamp();
+
+                    // Iterate over every DTR and add it to the file
                     for(Dtr dtr: dtrs){
+
+                        Long validUntil  = dtr.getValidUntil();
+                        if(validUntil == null || validUntil > currentTimestamp){
+                            requestDtrs = true; // If the cache invalidation time has come request Dtrs
+                            break;
+                        }
+
                         processManager.addSearchStatusDtr(processId, dtr);
+                    }
+                    if(requestDtrs){
+                        dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
+                        catenaXService.searchDTRs(bpnList, processId); // Start again the search
+                        break;
                     }
                 }
             }

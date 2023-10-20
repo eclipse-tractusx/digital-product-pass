@@ -180,7 +180,7 @@ public class ContractController {
                     for(Dtr dtr: dtrs){
 
                         Long validUntil  = dtr.getValidUntil();
-                        if(validUntil == null || validUntil > currentTimestamp){
+                        if(validUntil == null || validUntil < currentTimestamp){
                             requestDtrs = true; // If the cache invalidation time has come request Dtrs
                             break;
                         }

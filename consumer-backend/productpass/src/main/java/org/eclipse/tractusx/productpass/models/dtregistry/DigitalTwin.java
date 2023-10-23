@@ -117,11 +117,6 @@ public class DigitalTwin {
             return name;
         }
 
-        public String parseLowerCaseName() {
-            return name.toLowerCase();
-        }
-
-
         public void setName(String name) {
             this.name = name;
         }
@@ -160,7 +155,7 @@ public class DigitalTwin {
 
     public Map<String, String> mapSpecificAssetIds() {
         return this.getSpecificAssetIds().stream().collect(
-                Collectors.toMap(SpecificAssetId::parseLowerCaseName, SpecificAssetId::getValue)
+                Collectors.toMap(SpecificAssetId::getName, SpecificAssetId::getValue)
         );
     }
 

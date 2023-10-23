@@ -32,6 +32,7 @@ import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
 import utils.CatenaXUtil;
 
+import java.util.List;
 import java.util.Map;
 /**
  * This class consists exclusively to define attributes related to the Node.
@@ -59,57 +60,42 @@ public class Node {
     public Map<String, Node> children;
 
     /** CONSTRUCTOR(S) **/
-    public Node(Node parent, DigitalTwin digitalTwin, Map<String, Node> children){
-        this.setup(digitalTwin);
-        this.setPath(parent, digitalTwin.getIdentification());
+    public Node(Node parent, DigitalTwin digitalTwin, Map<String, Node> children, String searchIdSchema){
+        this.setup(digitalTwin, searchIdSchema);
+        this.setPath(parent, digitalTwin.getGlobalAssetId());
         this.children = children;
     }
 
-    public Node(String parentPath, DigitalTwin digitalTwin, Map<String, Node> children){
-        this.setup(digitalTwin);
-        this.setPath(parentPath, digitalTwin.getIdentification());
+    public Node(String parentPath, DigitalTwin digitalTwin, Map<String, Node> children, String searchIdSchema){
+        this.setup(digitalTwin, searchIdSchema);
+        this.setPath(parentPath, digitalTwin.getGlobalAssetId());
         this.children = children;
     }
 
-    public Node(DigitalTwin digitalTwin, Map<String, Node> children){
-        this.setup(digitalTwin);
-        this.setPath("", digitalTwin.getIdentification());
-        this.children = children;
-    }
-    public Node(Node parent, DigitalTwin digitalTwin){
-        this.setup(digitalTwin);
-        this.setPath(parent, digitalTwin.getIdentification());
+    public Node(Node parent, DigitalTwin digitalTwin, String searchIdSchema){
+        this.setup(digitalTwin, searchIdSchema);
+        this.setPath(parent, digitalTwin.getGlobalAssetId());
         this.children = Map.of();
     }
 
-    public Node(String parentPath, DigitalTwin digitalTwin){
-        this.setup(digitalTwin);
-        this.setPath(parentPath, digitalTwin.getIdentification());
+    public Node(String parentPath, DigitalTwin digitalTwin, String searchIdSchema){
+        this.setup(digitalTwin,searchIdSchema);
+        this.setPath(parentPath, digitalTwin.getGlobalAssetId());
         this.children = Map.of();
     }
 
-    public Node(DigitalTwin digitalTwin){
-        this.setup(digitalTwin);
-        this.setPath("", digitalTwin.getIdentification());
+    public Node(DigitalTwin digitalTwin, String searchIdSchema){
+        this.setup(digitalTwin, searchIdSchema);
+        this.setPath("", digitalTwin.getGlobalAssetId());
         this.children = Map.of();
     }
 
-    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin digitalTwin, JobResponse job, Map<String, Node> children) {
-        this.id = id;
-        this.globalAssetId = globalAssetId;
-        this.idShort = idShort;
-        this.path = path;
-        this.digitalTwin = digitalTwin;
-        this.job = job;
-        this.children = children;
-    }
-
-    public Node(String id, String globalAssetId, String idShort, String path, DigitalTwin digitalTwin, Map<String, Node> children) {
-        this.id = id;
-        this.globalAssetId = globalAssetId;
-        this.idShort = idShort;
-        this.path = path;
-        this.digitalTwin = digitalTwin;
+    public Node(DigitalTwin digitalTwin, Map<String, Node> children, String searchIdSchema) {
+        this.id= digitalTwin.getIdentification();
+        this.globalAssetId = digitalTwin.getGlobalAssetId();
+        this.idShort = digitalTwin.getIdShort();
+        this.setSearchId(digitalTwin, searchIdSchema);
+        this.setDigitalTwin(digitalTwin);
         this.children = children;
     }
 
@@ -127,13 +113,14 @@ public class Node {
         this.children = children;
     }
 
+
     /** GETTERS AND SETTERS **/
 
-    public void setup(DigitalTwin digitalTwin){
+    public void setup(DigitalTwin digitalTwin,String searchIdSchema){
         this.id = digitalTwin.getIdentification();
         this.globalAssetId = digitalTwin.getGlobalAssetId();
         this.idShort = digitalTwin.getIdShort();
-        this.setSearchId(digitalTwin);
+        this.setSearchId(digitalTwin, searchIdSchema);
         this.digitalTwin = digitalTwin;
 
     }
@@ -216,7 +203,7 @@ public class Node {
         this.searchId = searchId;
     }
 
-    public void setSearchId(DigitalTwin digitalTwin) {
-        this.searchId = CatenaXUtil.buildDppSearchId(digitalTwin, null);
+    public void setSearchId(DigitalTwin digitalTwin, String idSchema) {
+        this.searchId = CatenaXUtil.buildDppSearchId(digitalTwin, idSchema);
     }
 }

@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
@@ -59,16 +60,18 @@ public class TreeManager {
     private FileUtil fileUtil;
     private JsonUtil jsonUtil;
     private ProcessManager processManager;
+    private PassportConfig passportConfig;
     private IrsConfig irsConfig;
     private final String PATH_SEP = "/";
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public TreeManager(FileUtil fileUtil, JsonUtil jsonUtil, ProcessManager processManager, IrsConfig irsConfig) {
+    public TreeManager(FileUtil fileUtil, JsonUtil jsonUtil, ProcessManager processManager, IrsConfig irsConfig, PassportConfig passportConfig) {
         this.fileUtil = fileUtil;
         this.jsonUtil = jsonUtil;
         this.processManager = processManager;
         this.irsConfig = irsConfig;
+        this.passportConfig = passportConfig;
     }
 
     /** METHODS **/
@@ -280,7 +283,7 @@ public class TreeManager {
                     childDigitalTwin.setGlobalAssetId(childId);
                 }
                 // Create child with the digital twin
-                Node child = new Node(parentPath, childDigitalTwin);
+                Node child = new Node(parentPath, childDigitalTwin, this.passportConfig.getSearchIdSchema());
                 // Add child to the parent
                 parent.setChild(child, childId);
             }

@@ -34,6 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -101,6 +102,10 @@ public class AppController {
     IrsConfig irsConfig;
     @Autowired
     DtrConfig dtrConfig;
+
+    @Autowired
+    PassportConfig passportConfig;
+
     @SuppressWarnings("Unused")
     private @Autowired ProcessConfig processConfig;
 
@@ -231,7 +236,7 @@ public class AppController {
                 String globalAssetId = digitalTwin.getGlobalAssetId();
                 String actualPath = status.getTreeState() + "/" + globalAssetId;
                 processManager.setTreeState(processId, actualPath);
-                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin));
+                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin, this.passportConfig.getSearchIdSchema()));
 
                 // Get children from the node
                 this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);

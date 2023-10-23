@@ -22,6 +22,23 @@
                     }
                 ]
             }
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "BPNL00000000CBA5",
+          "externalSubjectId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000000CBA5"
+                  },
+                  {
+                      "type": "GlobalReference",
+                      "value": "PUBLIC_READABLE"
+                  }
+              ]
+          }
         }
     ],
     "submodelDescriptors": [
@@ -54,7 +71,7 @@
                 "type": "ExternalReference",
                 "keys": [
                     {
-                        "type": "GlobalReference",
+                        "type": "Submodel",
                         "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
                     }
                 ]
@@ -96,7 +113,7 @@
                 "type": "ExternalReference",
                 "keys": [
                     {
-                        "type": "GlobalReference",
+                        "type": "Submodel",
                         "value": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
                     }
                 ]
@@ -138,7 +155,7 @@
                 "type": "ExternalReference",
                 "keys": [
                     {
-                        "type": "GlobalReference",
+                        "type": "Submodel",
                         "value": "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt"
                     }
                 ]
@@ -150,6 +167,43 @@
                 }
             ],
             "displayName": []
-        }
+        },
+        {
+          "endpoints": [
+              {
+                  "interface": "SUBMODEL-3.0",
+                  "protocolInformation": {
+                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:d32d3ada-b013-4f4a-b64a-0df8fd11e6ba",
+                      "endpointProtocol": "HTTP",
+                      "endpointProtocolVersion": [
+                          "1.1"
+                      ],
+                      "subprotocol": "DSP",
+                      "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                      "subprotocolBodyEncoding": "plain",
+                      "securityAttributes": [
+                          {
+                              "type": "NONE",
+                              "key": "NONE",
+                              "value": "NONE"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "idShort": "SerialPart",
+          "id": "urn:uuid:d32d3ada-b013-4f4a-b64a-0df8fd11e6ba",
+          "semanticId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "Submodel",
+                      "value": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+                  }
+              ]
+          },
+          "description": [],
+          "displayName": []
+      }
     ]
 }

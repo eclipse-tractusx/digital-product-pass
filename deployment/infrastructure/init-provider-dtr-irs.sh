@@ -105,20 +105,20 @@ echo
 
 
 
-echo '**************************Battery Pack**********************'
+echo '**************************Battery Module**********************'
 
 echo 
 # Create Submodel data
-echo "Create Battery pack sample data..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/EVPACK-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_1}
+echo "Create Battery module sample data..."
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_1}
 echo
 
-echo "Create Battery pack BomAsBuilt sample data..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelUsageAsBuilt-EVPACK-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_2}
+echo "Create Battery module BomAsBuilt sample data..."
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelUsageAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_2}
 echo
 
-echo "Create Battery pack BomAsUsage sample data..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelBomAsBuilt-EVPACK-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
+echo "Create Battery module BomAsUsage sample data..."
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloadssingleLevelBomAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
 echo
 
 
@@ -126,7 +126,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Create a DT for asset 3 and register it devo CX registry..."
 
-curl -X POST -s -H 'Content-Type: application/json' --data "@resources/irs/digitaltwins/DT-EVPACK-TRJ712+BOMAsBuilt.json" $REGISTRY_URL
+curl -X POST -s -H 'Content-Type: application/json' --data "@resources/irs/digitaltwins/DT-EVMODULE-TRJ712+BOMAsBuilt.json" $REGISTRY_URL
 echo
 echo
 

@@ -42,6 +42,8 @@ public class NodeComponent {
     public String id;
     @JsonProperty("name")
     public String name;
+    @JsonProperty("searchId")
+    public String searchId;
     @JsonProperty("path")
     public String path;
     @JsonProperty("children")
@@ -53,12 +55,14 @@ public class NodeComponent {
     public NodeComponent(Node node, List<NodeComponent> children) {
         this.id = node.globalAssetId;
         this.path = node.path;
+        this.searchId = node.searchId;
         this.name = node.idShort;
         this.children = children;
     }
     public NodeComponent(Node node) {
         this.id = node.globalAssetId;
         this.path = node.path;
+        this.searchId = node.searchId;
         this.name = node.idShort;
         this.children = List.of();
     }
@@ -94,5 +98,13 @@ public class NodeComponent {
     }
     public void setChildren(List<NodeComponent> children) {
         this.children = children;
+    }
+
+    public String getSearchId() {
+        return searchId;
+    }
+
+    public void setSearchId(String searchId) {
+        this.searchId = searchId;
     }
 }

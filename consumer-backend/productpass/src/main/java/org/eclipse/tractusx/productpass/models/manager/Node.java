@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.irs.JobResponse;
+import utils.CatenaXUtil;
 
 import java.util.Map;
 /**
@@ -46,6 +47,8 @@ public class Node {
     public String globalAssetId;
     @JsonProperty("idShort")
     public String idShort;
+    @JsonProperty("searchId")
+    public String searchId;
     @JsonProperty("path")
     public String path;
     @JsonProperty("digitalTwin")
@@ -113,13 +116,26 @@ public class Node {
     public Node() {
     }
 
+    public Node(String id, String globalAssetId, String idShort, String searchId, String path, DigitalTwin digitalTwin, JobResponse job, Map<String, Node> children) {
+        this.id = id;
+        this.globalAssetId = globalAssetId;
+        this.idShort = idShort;
+        this.searchId = searchId;
+        this.path = path;
+        this.digitalTwin = digitalTwin;
+        this.job = job;
+        this.children = children;
+    }
+
     /** GETTERS AND SETTERS **/
 
     public void setup(DigitalTwin digitalTwin){
         this.id = digitalTwin.getIdentification();
         this.globalAssetId = digitalTwin.getGlobalAssetId();
         this.idShort = digitalTwin.getIdShort();
+        this.setSearchId(digitalTwin);
         this.digitalTwin = digitalTwin;
+
     }
 
     public String getId() {
@@ -190,5 +206,17 @@ public class Node {
 
     public void setJob(JobResponse job) {
         this.job = job;
+    }
+
+    public String getSearchId() {
+        return searchId;
+    }
+
+    public void setSearchId(String searchId) {
+        this.searchId = searchId;
+    }
+
+    public void setSearchId(DigitalTwin digitalTwin) {
+        this.searchId = CatenaXUtil.buildDppSearchId(digitalTwin, null);
     }
 }

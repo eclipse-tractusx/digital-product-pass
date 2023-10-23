@@ -1,127 +1,48 @@
 {
-    "description": [
-        {
-            "language": "en",
-            "text": "Battery Digital Twin"
-        }
-    ],
-    "displayName": [],
-    "globalAssetId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
-    "idShort": "Battery_BAT-XYZ789",
-    "id": "urn:uuid:3d050cd8-cdc7-4d65-9f37-70a65d5f53f5",
-    "specificAssetIds": [
-        {
-            "name": "partInstanceId",
-            "value": "BAT-XYZ789",
-            "externalSubjectId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "GlobalReference",
-                        "value": "BPNL00000000CBA5"
-                    }
-                ]
-            }
-        },
-        {
-            "name": "manufacturerPartId",
-            "value": "BPNL00000000CBA5",
-            "externalSubjectId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "GlobalReference",
-                        "value": "BPNL00000000CBA5"
-                    },
-                    {
-                        "type": "GlobalReference",
-                        "value": "PUBLIC_READABLE"
-                    }
-                ]
-            }
-        }
-    ],
-    "submodelDescriptors": [
-        {
-            "endpoints": [
-                {
-                    "interface": "SUBMODEL-3.0",
-                    "protocolInformation": {
-                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
-                        "endpointProtocol": "HTTP",
-                        "endpointProtocolVersion": [
-                            "1.1"
-                        ],
-                        "subprotocol": "DSP",
-                        "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
-                        "subprotocolBodyEncoding": "plain",
-                        "securityAttributes": [
-                            {
-                                "type": "NONE",
-                                "key": "NONE",
-                                "value": "NONE"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "idShort": "digitalProductPass",
-            "id": "urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
-            "semanticId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "Submodel",
-                        "value": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-                    }
-                ]
-            },
-            "description": [
-                {
-                    "language": "en",
-                    "text": "Digital Product Passport Submodel"
-                }
-            ],
-            "displayName": []
-        },
-        {
-            "endpoints": [
-              {
-                  "interface": "SUBMODEL-3.0",
-                  "protocolInformation": {
-                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:09d5d8a9-9073-47b6-93c6-80caff176dca",
-                      "endpointProtocol": "HTTP",
-                      "endpointProtocolVersion": [
-                          "1.1"
-                      ],
-                      "subprotocol": "DSP",
-                      "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
-                      "subprotocolBodyEncoding": "plain",
-                      "securityAttributes": [
-                          {
-                              "type": "NONE",
-                              "key": "NONE",
-                              "value": "NONE"
-                          }
-                      ]
-                  }
-              }
-          ],
-          "idShort": "singleLevelBomAsBuilt",
-          "id": "urn:uuid:09d5d8a9-9073-47b6-93c6-80caff176dca",
-          "semanticId": {
+  "description": [
+      {
+          "language": "en",
+          "text": "Battery Digital Twin"
+      }
+  ],
+  "displayName": [],
+  "globalAssetId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+  "idShort": "Battery_BAT-XYZ789",
+  "id": "urn:uuid:3d050cd8-cdc7-4d65-9f37-70a65d5f53f5",
+  "specificAssetIds": [
+      {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "externalSubjectId": {
               "type": "ExternalReference",
               "keys": [
                   {
-                      "type": "Submodel",
-                      "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+                      "type": "GlobalReference",
+                      "value": "BPNL00000000CBA5"
+                  },
+                  {
+                      "type": "GlobalReference",
+                      "value": "PUBLIC_READABLE"
                   }
               ]
-          },
-          "description": [],
-          "displayName": []
-        },
-        {
+          }
+      },
+      {
+          "name": "partInstanceId",
+          "value": "BAT-XYZ789",
+          "externalSubjectId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000000CBA5"
+                  }
+              ]
+          }
+      }
+  ],
+  "submodelDescriptors": [
+      {
           "endpoints": [
               {
                   "interface": "SUBMODEL-3.0",
@@ -157,6 +78,85 @@
           },
           "description": [],
           "displayName": []
+      },
+      {
+          "endpoints": [
+              {
+                  "interface": "SUBMODEL-3.0",
+                  "protocolInformation": {
+                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:09d5d8a9-9073-47b6-93c6-80caff176dca",
+                      "endpointProtocol": "HTTP",
+                      "endpointProtocolVersion": [
+                          "1.1"
+                      ],
+                      "subprotocol": "DSP",
+                      "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                      "subprotocolBodyEncoding": "plain",
+                      "securityAttributes": [
+                          {
+                              "type": "NONE",
+                              "key": "NONE",
+                              "value": "NONE"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "idShort": "singleLevelBomAsBuilt",
+          "id": "urn:uuid:09d5d8a9-9073-47b6-93c6-80caff176dca",
+          "semanticId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "Submodel",
+                      "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+                  }
+              ]
+          },
+          "description": [],
+          "displayName": []
+      },
+      {
+          "endpoints": [
+              {
+                  "interface": "SUBMODEL-3.0",
+                  "protocolInformation": {
+                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+                      "endpointProtocol": "HTTP",
+                      "endpointProtocolVersion": [
+                          "1.1"
+                      ],
+                      "subprotocol": "DSP",
+                      "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                      "subprotocolBodyEncoding": "plain",
+                      "securityAttributes": [
+                          {
+                              "type": "NONE",
+                              "key": "NONE",
+                              "value": "NONE"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "idShort": "digitalProductPass",
+          "id": "urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+          "semanticId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "Submodel",
+                      "value": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+                  }
+              ]
+          },
+          "description": [
+              {
+                  "language": "en",
+                  "text": "Digital Product Passport Submodel"
+              }
+          ],
+          "displayName": []
       }
-    ]
+  ]
 }

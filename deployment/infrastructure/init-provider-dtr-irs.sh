@@ -118,7 +118,7 @@ curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/paylo
 echo
 
 echo "Create Battery module BomAsUsage sample data..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloadssingleLevelBomAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelBomAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
 echo
 
 
@@ -143,7 +143,7 @@ curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/paylo
 echo
 
 echo "Create Battery Cell BomAsUsage sample data..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelUsageAsBuilt-CTA-13123.json"   $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
+curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelUsageAsBuilt-CTA-13123.json"   $SUBMODEL_SERVER/provider_backend/data/${DT3_SUBMODEL_ID_3}
 echo
 
 # Create a digital twin and register inside CX registry

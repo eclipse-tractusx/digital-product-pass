@@ -100,6 +100,10 @@ public class DigitalTwin {
             this.value = value;
             this.externalSubjectId = externalSubjectId;
         }
+
+        public SpecificAssetId() {
+        }
+
         /** GETTERS AND SETTERS **/
         public List<Object> getSupplementalSemanticIds() {
             return supplementalSemanticIds;

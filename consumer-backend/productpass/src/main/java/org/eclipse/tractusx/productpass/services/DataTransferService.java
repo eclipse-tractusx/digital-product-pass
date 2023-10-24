@@ -324,9 +324,9 @@ public class DataTransferService extends BaseService {
             // Simple catalog request query with no limitation.
             CatalogRequest.QuerySpec querySpec = new CatalogRequest.QuerySpec();
             CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
-                    "https://w3id.org/edc/v0.0.1/ns/id",
+                    "https://w3id.org/edc/v0.0.1/ns/type",
                     "=",
-                    this.dtrConfig.getAssetId()
+                    this.dtrConfig.getAssetType()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(

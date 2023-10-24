@@ -385,7 +385,7 @@ public class ProcessManager {
         Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id, connectorAddress, createdTime); // Set the status from the process in file system logs.
+        this.newStatusFile(process.id, connectorAddress, createdTime, true); // Set the status from the process in file system logs.
         return process;
     }
 
@@ -509,10 +509,32 @@ public class ProcessManager {
         Process process = new Process(processId, "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        this.newStatusFile(process.id,"", createdTime, true); // Set the status from the process in file system logs.
         return process;
     }
-
+    /**
+     * Creates a new Process with the given processId into the given HTTP session.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   childrenCondition
+     *          the {@code Boolean} condition which enables if the search will request the irs for children
+     * @param   httpRequest
+     *          the HTTP request.
+     *
+     * @return  a {@code Process} object created.
+     *
+     * @throws ManagerException
+     *           if unable to create the process.
+     */
+    public Process createProcess(String processId,Boolean childrenCondition, HttpServletRequest httpRequest) {
+        Long createdTime = DateTimeUtil.getTimestamp();
+        Process process = new Process(processId, "CREATED", createdTime);
+        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
+        this.setProcess(httpRequest, process); // Add process to session storage
+        this.newStatusFile(process.id,"", createdTime, childrenCondition); // Set the status from the process in file system logs.
+        return process;
+    }
     /**
      * Creates a new Process with the given processId into the given HTTP session,
      * setting the process with the given BPN number.
@@ -535,7 +557,7 @@ public class ProcessManager {
         Process process = new Process(processId, "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
+        this.newStatusFile(process.id,"", createdTime, true); // Set the status from the process in file system logs.
         this.setBpn(process.id, bpn);
         return process;
     }
@@ -549,6 +571,8 @@ public class ProcessManager {
      *          the {@code String} URL address the of the connector.
      * @param   created
      *          the {@code Long} timestamp of the creation.
+     * @param   childrenCondition
+     *          the {@code Boolean} condition which enables if the search will request the irs for children
      *
      * @return  a {@code String} file path of the created file.
      *
@@ -556,7 +580,7 @@ public class ProcessManager {
      *           if unable to create the status file.
      */
 
-    public String newStatusFile(String processId, String connectorAddress, Long created){
+    public String newStatusFile(String processId, String connectorAddress, Long created, Boolean childrenCondition){
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             return jsonUtil.toJsonFile(
@@ -566,11 +590,13 @@ public class ProcessManager {
                         "CREATED",
                         created,
                         DateTimeUtil.getTimestamp(),
-                        Map.of(),
+                        new JobHistory(),
                         connectorAddress,
                         "",
                         "",
-                        Map.of()
+                            childrenCondition,
+                        "",
+                        Map.of(), ""
                     ),
                     processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {
@@ -717,40 +743,12 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
-   /**
-     * Gets the job history for an globalAssetId
-     * <p>
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     * @param   globalAssetId
-     *          the {@code String} global asset id from the history 
-     *
-     * @return  a {@code JobHistory} history from the job search in the IRS
-     *
-     * @throws ManagerException
-     *           if unable to update the status file.
-     */
-    public JobHistory getJobHistoryById(String processId, String globalAssetId) {
-        try {
-            String path = this.getProcessFilePath(processId, this.metaFileName);
-            Status statusFile = null;
-            if (!fileUtil.pathExists(path)) {
-                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
-            }
 
-            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
-            return statusFile.getJobId(globalAssetId);
-        } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
-        }
-    }
     /**
      * Adds the job history in the status file 
      * <p>
      * @param   processId
      *          the {@code String} id of the application's process.
-     * @param   searchId
-     *          the {@code String} search id for the irs job
      * @param   jobHistory
      *          the {@code JobHistory} job history from the irs 
      *
@@ -759,7 +757,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to update the status file.
      */
-    public String addJobHistory(String processId, String searchId, JobHistory jobHistory) {
+    public String setJobHistory(String processId, JobHistory jobHistory) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             Status statusFile = null;
@@ -768,8 +766,42 @@ public class ProcessManager {
             }
 
             statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
-            statusFile.addJobHistory(searchId, jobHistory);
-            statusFile.setHistory(searchId, new History(searchId, searchId+"-DRILLDOWN-STARTED"));
+            statusFile.setJob(jobHistory);
+            String searchId = jobHistory.searchId;
+            statusFile.setHistory(jobHistory.searchId, new History(searchId, searchId+"-DRILLDOWN-STARTED"));
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
+    /**
+     * Adds the job history in the status file
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   children
+     *          the {@code Integer} number of children found
+     *
+     * @return  a {@code String} file path of the process status file.
+     *
+     * @throws ManagerException
+     *           if unable to update the status file.
+     */
+    public String setJobChildrenFound(String processId, Integer children) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            JobHistory jobHistory = statusFile.getJob();
+            jobHistory.setChildren(children);
+            statusFile.setJob(jobHistory);
+            String searchId = jobHistory.searchId;
+            statusFile.setHistory(searchId, new History(searchId, searchId+"-DRILLDOWN-COMPLETED"));
             statusFile.setModified(DateTimeUtil.getTimestamp());
             return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {

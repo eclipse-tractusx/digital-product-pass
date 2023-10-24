@@ -53,8 +53,8 @@ public class Status {
     @JsonProperty("modified")
     public Long modified;
 
-    @JsonProperty("jobs")
-    public Map<String, JobHistory> jobs;
+    @JsonProperty("job")
+    public JobHistory job;
 
     @JsonProperty("endpoint")
     public String endpoint;
@@ -174,63 +174,18 @@ public class Status {
         this.bpn = bpn;
         this.history = new HashMap<String, History>();
     }
-    @SuppressWarnings("Unused")
-    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
-        this.id = id;
-        this.status = status;
-        this.created = created;
-        this.modified = modified;
-        this.endpoint = endpoint;
-        this.bpn = bpn;
-        this.history = Map.of(historyId, history);
-    }
 
 
-    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, Map<String, History> history) {
-        this.id = id;
-        this.status = status;
-        this.created = created;
-        this.modified = modified;
-        this.jobs = jobs;
-        this.endpoint = endpoint;
-        this.bpn = bpn;
-        this.history = history;
-    }
-
-    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, String treeState, Map<String, History> history) {
-        this.id = id;
-        this.status = status;
-        this.created = created;
-        this.modified = modified;
-        this.jobs = jobs;
-        this.endpoint = endpoint;
-        this.bpn = bpn;
-        this.treeState = treeState;
-        this.history = history;
-    }
-
-    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String bpn, Boolean children, String treeState, Map<String, History> history) {
-        this.id = id;
-        this.status = status;
-        this.created = created;
-        this.modified = modified;
-        this.jobs = jobs;
-        this.endpoint = endpoint;
-        this.bpn = bpn;
-        this.children = children;
-        this.treeState = treeState;
-        this.history = history;
-    }
 
     public Status() {
     }
 
-    public Status(String id, String status, Long created, Long modified, Map<String, JobHistory> jobs, String endpoint, String dataPlaneUrl, String bpn, Boolean children, String treeState, Map<String, History> history, String semanticId) {
+    public Status(String id, String status, Long created, Long modified, JobHistory job, String endpoint, String dataPlaneUrl, String bpn, Boolean children, String treeState, Map<String, History> history, String semanticId) {
         this.id = id;
         this.status = status;
         this.created = created;
         this.modified = modified;
-        this.jobs = jobs;
+        this.job = job;
         this.endpoint = endpoint;
         this.dataPlaneUrl = dataPlaneUrl;
         this.bpn = bpn;
@@ -239,6 +194,8 @@ public class Status {
         this.history = history;
         this.semanticId = semanticId;
     }
+
+
 
     public String getId() {
         return id;
@@ -318,23 +275,6 @@ public class Status {
         this.bpn = bpn;
     }
 
-    public Map<String, JobHistory> getJobs() {
-        return jobs;
-    }
-
-    public void setJobs(Map<String, JobHistory> jobs) {
-        this.jobs = jobs;
-    }
-
-    public void addJobHistory(String searchId, JobHistory jobHistory){
-        if(this.jobs == null){
-            this.jobs = Map.of();
-        }
-        this.jobs.put(searchId, jobHistory);
-    }
-    public JobHistory getJobId(String searchId){
-        return this.jobs.get(searchId);
-    }
 
     public String getTreeState() {
         return treeState;
@@ -366,6 +306,14 @@ public class Status {
 
     public void setDataPlaneUrl(String dataPlaneUrl) {
         this.dataPlaneUrl = dataPlaneUrl;
+    }
+
+    public JobHistory getJob() {
+        return job;
+    }
+
+    public void setJob(JobHistory job) {
+        this.job = job;
     }
 }
 

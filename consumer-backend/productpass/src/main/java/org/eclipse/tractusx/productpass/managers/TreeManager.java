@@ -274,7 +274,13 @@ public class TreeManager {
             } catch (Exception e) {
                 throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Digital Twin!");
             }
-
+            int childrenFound = relationships.size();
+            this.processManager.setJobChildrenFound(processId, childrenFound);
+            if(childrenFound == 0){
+                parent.setChildren(null); // If there is no children return null;
+                treeDataModel = this.setNodeByPath(treeDataModel, parentPath, parent); // Save the parent node in the tree
+                return this.saveTree(processId, treeDataModel);
+            }
             for(Relationship relationship : relationships){
                 String childId = relationship.getLinkedItem().getChildCatenaXId();
                 // Search for the Digital Twin from the child or a new instance

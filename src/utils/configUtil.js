@@ -51,7 +51,8 @@ export default {
         let passport = passports[semanticId]; //Get the passport by semanticId
         let response = {
             "metadata": metadata,
-            "aspect": passport
+            "aspect": passport,
+            "semanticId": semanticId
         }
         if(responsePassport){
             response["aspect"] = jsonUtil.extendDeep(passport, responsePassport);

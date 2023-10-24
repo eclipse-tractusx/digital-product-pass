@@ -4,7 +4,8 @@
         "@type": "data.core.digitalTwinRegistry",
         "@id": "digital-twin-registry", 
         "properties": {
-            "description": "Battery Passport test data",
+            "type": "data.core.digitalTwinRegistry",
+            "description": "Digital Twin Registry for DPP",
             "contenttype": "application/json" 
         }
     },

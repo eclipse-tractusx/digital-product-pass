@@ -1,0 +1,120 @@
+{
+    "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+    "serialization": {
+        "manufacturingInformation": {
+            "date": "2023-08-30T14:30:00",
+            "country": "GER"
+        },
+        "registration": {
+            "customerPartId": "PACK-78901",
+            "manufacturerPartId": "BP-GER-45678"
+        },
+        "quantity": {
+            "value": 100.0,
+            "unit": "unit:piece"
+        }
+    },
+    "typology": {
+        "name": "High-Capacity Battery Pack",
+        "description": "Large battery pack for electric vehicles",
+        "class": {
+            "definition": "Battery Pack",
+            "code": "33-06-01-03"
+        },
+        "nameAtManufacturer": "EVPack 45678",
+        "nameAtCustomer": "High-Capacity Power Source"
+    },
+    "metadata": {
+        "issueDate": "2023-08-30",
+        "version": "1.0.0",
+        "validityDate": "2023-08-30",
+        "economicOperator": {
+            "eori": "DE987654321000",
+            "id": "BPNL000000000000"
+        },
+        "status": "Approved"
+    },
+    "characteristics": {
+        "physicalDimensionsProperty": {
+            "width": 800.0,
+            "length": 1000.0,
+            "weight": 700.5,
+            "height": 200.0
+        },
+        "energyCapacity": {
+            "value": 300.0,
+            "unit": "unit:kWh"
+        },
+        "voltage": {
+            "value": 800.0,
+            "unit": "unit:V"
+        }
+    },
+    "identification": {
+        "localIdentifiers": [
+            {
+                "value": "EVPACK-TRJ712",
+                "key": "PartInstanceID"
+            }
+        ],
+        "gtin": "12345678901234",
+        "additionalCode": [
+            {
+                "name": "TARIC",
+                "value": "8507 80 00 00"
+            }
+        ]
+    },
+    "sources": {
+        "mandatory": {
+            "safetyInformation": {
+                "header": "Safety Datasheet for Battery Pack",
+                "category": "Safety",
+                "type": "link",
+                "content": "www.example.com/pack_safety_datasheet.pdf"
+            }
+        },
+        "optional": [
+            {
+                "name": "userManual",
+                "document": {
+                    "header": "User Manual for Battery Pack",
+                    "category": "User Manual",
+                    "type": "link",
+                    "content": "www.example.com/pack_user_manual.pdf"
+                }
+            }
+        ]
+    },
+    "sustainability": {
+        "state": "first life",
+        "material": [
+            {
+                "name": "Lithium-Nickel-Cobalt-Manganese-Oxide",
+                "recycled": false,
+                "renewable": false,
+                "percentage": 35.0
+            }
+        ],
+        "critical": [
+            "Lithium",
+            "Cobalt"
+        ],
+        "carbonFootprint": {
+            "carbonContentTotal": 1.2,
+            "crossSectoralStandard": "ISO 14040",
+            "productOrSectorSpecificRules": [
+                {
+                    "ruleName": "ISO 14067"
+                }
+            ]
+        }
+    },
+    "operation": {
+        "importer": "BPN1234567890ZZ",
+        "manufacturer": {
+            "manufacturerId": "BPN1234567890ZZ",
+            "facilityId": "BPN1234567890ZZ"
+        }
+    }
+}

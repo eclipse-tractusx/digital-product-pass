@@ -5,12 +5,21 @@
             "text": "Battery Passport shell descriptor"
         }
     ],
-    "idShort": "Battery_Y792927456954B81677903848654570",
-    "id": "1f0ef836-40b7-4f31-a9bd-cb6a8960779e",
+    "idShort": "Battery_X123456789012X12345678901234566",
+    "id": "32aa72de-297a-4405-9148-13e12744028a",
     "specificAssetIds": [
         {
             "name": "partInstanceId",
-            "value": "Y792927456954B81677903848654570"
+            "value": "X123456789012X12345678901234566",
+            "externalSubjectId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "<some-bpn>"
+                    }
+                ]
+            }
         }
     ],
     "submodelDescriptors": [
@@ -19,19 +28,26 @@
                 {
                     "interface": "SUBMODEL-3.0",
                     "protocolInformation": {
-                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/1f0ef836-40b7-4f31-a9bd-cb6a8960779e-26bf39c5-68a5-43a1-8db7-d33e116a6f61/submodel",
+                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a/submodel",
                         "endpointProtocol": "HTTP",
                         "endpointProtocolVersion": [
                           "1.1"
                         ],
                         "subprotocol": "DSP",
-                        "subprotocolBody": "id=1f0ef836-40b7-4f31-a9bd-cb6a8960779e-26bf39c5-68a5-43a1-8db7-d33e116a6f61;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
-                        "subprotocolBodyEncoding": "plain"
+                        "subprotocolBody": "id=32aa72de-297a-4405-9148-13e12744028a-699f1245-f57e-4d6b-acdb-ab763665554a;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
+                        "subprotocolBodyEncoding": "plain",
+                        "securityAttributes": [
+                          {
+                            "type": "NONE",
+                            "key": "NONE",
+                            "value": "NONE"
+                          }
+                        ]
                     }
                 }
             ],
             "idShort": "batteryPass",
-            "id": "26bf39c5-68a5-43a1-8db7-d33e116a6f61",
+            "id": "699f1245-f57e-4d6b-acdb-ab763665554a",
             "semanticId": {
                 "type": "ExternalReference",
                 "keys": [

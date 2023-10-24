@@ -263,7 +263,7 @@ export default class BackendService {
     async retrievePassport(negotiation, authentication) {
         return new Promise(resolve => {
             let body = this.getRequestBody(negotiation);
-            axios.post(`${BACKEND_URL}/api/passport`, body, this.getHeadersCredentials(authentication))
+            axios.post(`${BACKEND_URL}/api/data`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);
                 })

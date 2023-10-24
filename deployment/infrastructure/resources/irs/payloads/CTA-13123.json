@@ -1,0 +1,117 @@
+{
+  "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1",
+  "serialization": {
+    "manufacturingInformation": {
+      "date": "2023-08-30T11:45:00",
+      "country": "JPN"
+    },
+    "registration": {
+      "customerPartId": "CELL-45678",
+      "manufacturerPartId": "BC-JPN-12345"
+    },
+    "quantity": {
+      "value": 1000.0,
+      "unit": "unit:piece"
+    }
+  },
+  "typology": {
+    "name": "Lithium-Ion Battery Cell",
+    "description": "High-capacity lithium-ion battery cell",
+    "class": {
+      "definition": "Battery Cell",
+      "code": "33-06-01-02"
+    },
+    "nameAtManufacturer": "Li-Ion Cell 12345",
+    "nameAtCustomer": "High-Capacity Battery Cell"
+  },
+  "metadata": {
+    "issueDate": "2023-08-30",
+    "version": "1.1.0",
+    "validityDate": "2023-08-30",
+    "economicOperator": {
+      "eori": "JP123456789000",
+      "id": "BPN1234567890ZZ"
+    },
+    "status": "Approved"
+  },
+  "characteristics": {
+    "physicalDimensionsProperty": {
+      "width": 30.0,
+      "length": 60.0,
+      "weight": 50.2,
+      "height": 10.0
+    },
+    "energyCapacity": {
+      "value": 2.5,
+      "unit": "unit:Ah"
+    },
+    "voltage": {
+      "value": 3.7,
+      "unit": "unit:V"
+    }
+  },
+  "identification": {
+    "localIdentifiers": [
+      {
+        "value": "CTA-13123",
+        "key": "PartInstanceID"
+      }
+    ],
+    "gtin": "12345678901234",
+    "additionalCode": [
+      {
+        "name": "TARIC",
+        "value": "8507 60 00 00"
+      }
+    ]
+  },
+  "sources": {
+    "mandatory": {
+      "safetyInformation": {
+        "header": "Safety Datasheet for Lithium-Ion Battery Cell",
+        "category": "Safety",
+        "type": "link",
+        "content": "www.example.com/cell_safety_datasheet.pdf"
+      }
+    },
+    "optional": [
+      {
+        "name": "userManual",
+        "document": {
+          "header": "User Manual for Battery Cell",
+          "category": "User Manual",
+          "type": "link",
+          "content": "www.example.com/cell_user_manual.pdf"
+        }
+      }
+    ]
+  },
+  "sustainability": {
+    "state": "first life",
+    "material": [
+      {
+        "name": "Lithium-Cobalt Oxide",
+        "recycled": false,
+        "renewable": false,
+        "percentage": 40.0
+      }
+    ],
+    "critical": ["Lithium", "Cobalt"],
+    "carbonFootprint": {
+      "carbonContentTotal": 0.8,
+      "crossSectoralStandard": "ISO 14044",
+      "productOrSectorSpecificRules": [
+        {
+          "ruleName": "ISO 14067"
+        }
+      ]
+    }
+  },
+  "operation": {
+    "importer": "BPN1234567890ZZ",
+    "manufacturer": {
+      "manufacturerId": "BPN1234567890ZZ",
+      "facilityId": "BPN1234567890ZZ"
+    }
+  }
+}

@@ -83,7 +83,7 @@
       position: absolute;
       right: 7px;
       top: 7px;
-      color: #0f71cb;
+      color: #939393;
     }
 
     .card-icon-green {
@@ -105,14 +105,14 @@
     .card-second-value {
       font-size: 18px;
       font-weight: 500;
-      padding-top: 12px;
+      padding-top: 2px;
       word-wrap: break-word;
     }
 
     .card-second-label {
       font-size: 12px;
       font-weight: 500;
-      padding-top: 1px;
+      padding-top: 12px;
     }
 
     .card-info-icon {
@@ -122,7 +122,7 @@
       color: #0f71cb;
     }
 
-    .card-info-icon:hover{
+    .card-info-icon:hover {
       color: $catena-x-dark-blue;
       cursor: pointer;
     }

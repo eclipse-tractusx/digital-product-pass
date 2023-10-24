@@ -32,24 +32,35 @@ public class JobHistory {
     /** ATTRIBUTES **/
     @JsonProperty("jobId")
     public String jobId;
+    @JsonProperty("searchId")
+    public String searchId;
+
     @JsonProperty("globalAssetId")
     public String globalAssetId;
     @JsonProperty("path")
     public String path;
     @JsonProperty("created")
     public Long created;
-
+    @JsonProperty("updated")
+    public Long updated;
+    @JsonProperty("children")
+    public Integer children;
 
     /** CONSTRUCTOR(S) **/
     public JobHistory() {
     }
 
-    public JobHistory(String jobId, String globalAssetId, String path, Long created) {
+    public JobHistory(String jobId, String searchId, String globalAssetId, String path, Long created, Long updated, Integer children) {
         this.jobId = jobId;
+        this.searchId = searchId;
         this.globalAssetId = globalAssetId;
         this.path = path;
         this.created = created;
+        this.updated = updated;
+        this.children = children;
     }
+
+
     /** GETTERS AND SETTERS **/
     public String getJobId() {
         return jobId;
@@ -58,6 +69,7 @@ public class JobHistory {
     public void setJobId(String jobId) {
         this.jobId = jobId;
     }
+
 
     public String getGlobalAssetId() {
         return globalAssetId;
@@ -82,5 +94,30 @@ public class JobHistory {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Long getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Long updated) {
+        this.updated = updated;
+    }
+
+
+    public String getSearchId() {
+        return searchId;
+    }
+
+    public void setSearchId(String searchId) {
+        this.searchId = searchId;
+    }
+
+    public Integer getChildren() {
+        return children;
+    }
+
+    public void setChildren(Integer children) {
+        this.children = children;
     }
 }

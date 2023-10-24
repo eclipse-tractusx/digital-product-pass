@@ -276,7 +276,12 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No digital twins are available for this process!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            process = processManager.createProcess(processId, httpRequest);
+            Boolean childrenCondition = searchBody.getChildren();
+            if(childrenCondition != null){
+                process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
+            }else {
+                process = processManager.createProcess(processId, httpRequest);
+            }
             Status status = processManager.getStatus(processId);
             if (status == null) {
                 response = httpUtil.getBadRequest("The status is not available!");
@@ -288,7 +293,6 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No digital twin was found!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();

@@ -105,11 +105,11 @@ public class IrsController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
             }
 
-            if(!status.getJobs().containsKey(searchId)){
-                return httpUtil.buildResponse(httpUtil.getNotFound("The search id is invalid!"), httpResponse);
+            if(!status.getJob().getSearchId().equals(searchId)){
+                return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
             }
 
-            JobHistory jobHistory = status.getJobId(searchId);
+            JobHistory jobHistory = status.getJob();
 
             LogUtil.printMessage("["+processId+"] Job callback received with state ["+ state+"]. Requesting Job ["+jobHistory.getJobId()+"]!");
             JobResponse irsJob = this.irsService.getJob(jobHistory.getJobId());
@@ -203,6 +203,71 @@ public class IrsController {
         }
     }
 
+    /**
+     * HTTP GET method which returns the current tree of digital twins which are found in this process
+     * <p>
+     * @param   processId
+     *          the {@code String} process id contained in the path of the url
+     *
+     * @return this {@code Response} HTTP response with the current complete tree data model of the process id
+     *
+     */
+    @RequestMapping(value = "/{processId}/state", method = RequestMethod.GET)
+    @Operation(summary = "Api called by the frontend to check if the process is finished")
+    public Response state( @PathVariable String processId) {
+        Response response = httpUtil.getInternalError();
+        if (!authService.isAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        try {
+            if (!processManager.checkProcess(processId)) {
+                return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
+            }
 
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+            if(!this.irsConfig.getEnabled()){
+                response = httpUtil.getResponse("The children drill down functionality is not available!");
+                response.status = 503;
+                response.statusText = "Service Unavailable";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            if(!status.getChildren()){
+                response = httpUtil.getResponse("The children drill down functionality is not available for this process!");
+                response.status = 503;
+                response.statusText = "Service Unavailable";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            response = httpUtil.getResponse();
+            Integer jobStatus = status.getJob().getChildren();
+
+            switch (jobStatus){
+                case -1:
+                    response.status = 100;
+                    response.statusText = "Continue";
+                    response.message = "Still searching for the children!";
+                    break;
+
+                case 0:
+                    response.status = 404;
+                    response.statusText = "Not Found";
+                    response.message = "No children is available";
+                    break;
+
+                default:
+                    response.status = 200;
+                    response.statusText = "Success";
+                    response.message = "Children available!";
+
+            }
+            return httpUtil.buildResponse(response, httpResponse);
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+    }
 
 }

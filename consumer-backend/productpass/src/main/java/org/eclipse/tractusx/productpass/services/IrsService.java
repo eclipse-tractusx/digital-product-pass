@@ -218,14 +218,16 @@ public class IrsService extends BaseService {
             Map<String, String> irsResponse = this.startJob(processId, globalAssetId, searchId, bpn);
             String jobId = irsResponse.get("id");
             LogUtil.printMessage("[PROCESS "+ processId + "] Job with id [" + jobId + "] created in the IRS for the globalAssetId [" + globalAssetId+"]");
-            this.processManager.addJobHistory(
+            this.processManager.setJobHistory(
                     processId,
-                    searchId,
                     new JobHistory(
                         jobId,
+                        searchId,
                         globalAssetId,
                         path,
-                        created
+                        created,
+                        created,
+                    0
                     )
             );
             return jobId;

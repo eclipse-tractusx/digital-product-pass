@@ -188,15 +188,21 @@ public class Transfer extends DidDocument {
             this.connectorId = connectorId;
         }
     }
+
+    /**
+     * This class consists exclusively to define attributes related to the Transfer's data destination attribute.
+     **/
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class DataDestination {
+    public static class DataDestination {
+
+        /** ATTRIBUTES **/
         @JsonProperty("edc:type")
         String type;
 
+        /** GETTERS AND SETTERS **/
         public String getType() {
             return type;
         }
-
         public void setType(String type) {
             this.type = type;
         }

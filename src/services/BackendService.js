@@ -240,12 +240,11 @@ export default class BackendService {
                 });
         });
     }
-    async getIRSdata() {
+
+    async getIrsState(processId, authentication) {
         return new Promise(resolve => {
-            axios.get(`${BACKEND_URL}`)
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
                 .then((response) => {
-                    // Setting the data to the Store state
-                    store.commit('setIrsData', response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {
@@ -256,7 +255,23 @@ export default class BackendService {
                     } else {
                         resolve(e.message)
                     }
-
+                });
+        });
+    }
+    async getIrsdata(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
                 });
         });
     }

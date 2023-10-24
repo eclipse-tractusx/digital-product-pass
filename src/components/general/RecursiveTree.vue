@@ -73,10 +73,10 @@
               </a>
             </div>
           </div>
-          <template v-if="treeData.nodes && treeData.open">
+          <template v-if="treeData.children && treeData.open">
             <li
               transition="fade-transition"
-              v-for="childTreeData in treeData.nodes"
+              v-for="childTreeData in treeData.children"
               :key="childTreeData.id"
             >
               <recursive-tree :treeData="childTreeData" />
@@ -101,7 +101,7 @@ export default {
 
   methods: {
     toggle() {
-      if (this.treeData.nodes && this.treeData.nodes.length > 0) {
+      if (this.treeData.children && this.treeData.children.length > 0) {
         this.treeData.open = !this.treeData.open;
       }
     },

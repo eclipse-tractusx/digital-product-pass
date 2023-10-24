@@ -38,69 +38,26 @@ export default createStore({
                 }
             }
         },
-        irsData: {
-            "id": "CX:XYZ78901:IMR18650V1",
-            "label": "EV Baterry",
-            "nodes": [
-                {
-                    "id": "CX:XYZ78901:IMR18650V1",
-                    "label": "Modules",
-                    "link": "https://github.com/",
-                    "nodes": [
-                        {
-                            "id": "CX:XYZ78901:IMR18650V1",
-                            "label": "Cell 01",
-                            "link": "https://github.com/",
-                            "nodes": [
-                                {
-                                    "id": "CX:XYZ78901:IMR18650V1",
-                                    "label": "Anode",
-                                    "nodes": [
-                                        {
-                                            "id": "CX:XYZ78901:IMR18650V1",
-                                            "label": "Graphite"
-                                        },
-                                        {
-                                            "id": "CX:XYZ78901:IMR18650V1",
-                                            "label": "Lithium"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": "CX:XYZ78901:IMR18650V1",
-                                    "label": "Cathode",
-                                    "nodes": [
-                                        {
-                                            "id": "CX:XYZ78901:IMR18650V1",
-                                            "label": "Cobalt"
-                                        },
-                                        {
-                                            "id": "CX:XYZ78901:IMR18650V1",
-                                            "label": "Mangan"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "id": "CX:XYZ78901:IMR18650V1",
-                            "label": "Cell 02"
-                        },
-                        {
-                            "id": "CX:XYZ78901:IMR18650V1",
-                            "label": "Cell 03"
-                        }
-                    ]
-                },
-                {
-                    "id": "CX:XYZ78901:IMR18650V1",
-                    "label": "Cabels",
-                    "link": "https://github.com/"
-                }
-            ]
-        },
+        irsData: [
+            {
+                "id": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+                "name": "Battery_BAT-XYZ789",
+                "searchId": "CX:XYZ78901:BAT-XYZ789",
+                "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+                "children": [
+                    {
+                        "id": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                        "name": "BatteryModule_EVMODULE-TRJ712",
+                        "searchId": "CX:XYZ78901:EVMODULE-TRJ712",
+                        "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d/urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                        "children": []
+                    }
+                ]
+            }
+        ],
         processId: null,
         searchContractId: null,
+        irsState: false
     },
     getters: {
         getClientId(state) {
@@ -111,6 +68,15 @@ export default createStore({
         },
         getSessionId(state) {
             return state.sessionId;
+        },
+        getProcessId(state) {
+            return state.processId;
+        },
+        getIrsData(state) {
+            return state.irsData;
+        },
+        getIrsState(state) {
+            return state.irsState;
         },
     },
     mutations: {
@@ -137,6 +103,9 @@ export default createStore({
         },
         setIrsData(state, data) {
             state.irsData = data;
+        },
+        setIrsState(state, irsState) {
+            state.irsState = irsState;
         },
         setSearchContractId(state, contractId) {
             state.searchContractId = contractId;

@@ -23,76 +23,72 @@
 
   <template >
   <div v-if="treeData" class="recursive-tree">
+    <!-- eslint-disable-next-line vue/require-v-for-key -->
     <ul>
-      <li>
-        <template v-if="typeof treeData == 'object'">
-          <div class="tile-container" @click="toggle">
-            <v-icon
-              class="icon-bg"
-              :class="{
-                'mdi-plus':
-                  treeData.children &&
-                  treeData.children.length > 0 &&
-                  !treeData.open,
-                'mdi-minus':
-                  !treeData.children ||
-                  treeData.open ||
-                  treeData.children.length == 0,
-                'blue-bg': !treeData.open,
-                'gray-bg':
-                  !treeData.children ||
-                  treeData.open ||
-                  treeData.children.length == 0,
-              }"
+      <!-- eslint-disable-next-line vue/no-v-for-template-key  -->
+
+      <li v-for="(treeChild, index) in treeData" :key="index">
+        <div class="tile-container" @click="toggle">
+          <v-icon
+            class="icon-bg"
+            :class="{
+              'mdi-plus':
+                treeChild.children &&
+                treeChild.children.length > 0 &&
+                !treeChild.open,
+              'mdi-minus':
+                !treeChild.children ||
+                treeChild.open ||
+                treeChild.children.length == 0,
+              'blue-bg': !treeChild.open,
+              'gray-bg':
+                !treeChild.children ||
+                treeChild.open ||
+                treeChild.children.length == 0,
+            }"
+          >
+            [{{
+              treeChild.children && treeChild.children.length > 0
+                ? treeChild.open
+                  ? "mdi-minus"
+                  : "mdi-plus"
+                : "mdi-minus"
+            }}]
+          </v-icon>
+          <div
+            v-if="treeChild != null"
+            class="tile"
+            :class="{
+              'linked-tile': treeChild.link,
+              'not-available': !treeChild.id,
+            }"
+          >
+            <span class="label">
+              {{ treeChild.name }}
+            </span>
+            <span
+              class="counter"
+              v-if="treeChild.children && treeChild.children.length > 0"
             >
-              [{{
-                treeData.children && treeData.children.length > 0
-                  ? treeData.open
-                    ? "mdi-minus"
-                    : "mdi-plus"
-                  : "mdi-minus"
-              }}]
-            </v-icon>
-            <div
-              v-if="treeData != null"
-              class="tile"
-              :class="{
-                'linked-tile': treeData.link,
-                'not-available': !treeData.id,
-              }"
+              {{ treeChild.children.length }}
+            </span>
+            <p class="tile-id">
+              {{ treeChild.id ? treeChild.id : "Not available" }}
+            </p>
+            <a
+              v-if="'/' + treeChild.searchId !== this.$route.path"
+              @click="getLink(treeChild.searchId)"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <span class="label">
-                {{ treeData.name }}
-              </span>
-              <span
-                class="counter"
-                v-if="treeData.children && treeData.children.length > 0"
-              >
-                {{ treeData.children.length }}
-              </span>
-              <p class="tile-id">
-                {{ treeData.id ? treeData.id : "Not available" }}
-              </p>
-              <a
-                :href="treeData.link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <v-icon v-if="treeData.link" class="external-link">{{
-                  "mdi-open-in-new"
-                }}</v-icon>
-              </a>
-            </div>
+              <v-icon v-if="treeChild.searchId" class="external-link">{{
+                "mdi-open-in-new"
+              }}</v-icon>
+            </a>
           </div>
-          <template v-if="treeData.children && treeData.open">
-            <li
-              transition="fade-transition"
-              v-for="childTreeData in treeData.children"
-              :key="childTreeData.id"
-            >
-              <recursive-tree :treeData="childTreeData" />
-            </li>
-          </template>
+        </div>
+        <template v-if="treeChild.children && treeChild.open">
+          <recursive-tree :treeData="treeChild.children" />
         </template>
       </li>
     </ul>
@@ -125,10 +121,19 @@ export default {
 
   methods: {
     toggle() {
-      if (this.treeData.children && this.treeData.children.length > 0) {
-        this.treeData.open = !this.treeData.open;
-      }
+      this.treeData.forEach((element) => {
+        if (element.children && element.children.length > 0) {
+          element.open = !element.open;
+        }
+      });
+    },
+    getLink(searchId) {
+      this.$router.push({
+        path: `/${searchId}`,
+      });
     },
   },
 };
 </script>
+
+

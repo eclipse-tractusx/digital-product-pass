@@ -799,6 +799,7 @@ public class ProcessManager {
             statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
             JobHistory jobHistory = statusFile.getJob();
             jobHistory.setChildren(children);
+            jobHistory.setUpdated(DateTimeUtil.getTimestamp());
             statusFile.setJob(jobHistory);
             String searchId = jobHistory.searchId;
             statusFile.setHistory(searchId, new History(searchId, searchId+"-DRILLDOWN-COMPLETED"));

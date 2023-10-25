@@ -66,7 +66,7 @@ export default {
   methods: {
     async invokeIrsData() {
       try {
-        const response = await this.backendService.getIrsData(
+        let response = await this.backendService.getIrsData(
           this.processId,
           this.auth
         );

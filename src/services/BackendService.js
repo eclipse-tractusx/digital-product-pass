@@ -245,7 +245,7 @@ export default class BackendService {
         return new Promise(resolve => {
             axios.get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
                 .then((response) => {
-                    resolve(response.data);
+                    resolve(response);
                 })
                 .catch((e) => {
                     if (e.response.data) {
@@ -258,7 +258,7 @@ export default class BackendService {
                 });
         });
     }
-    async getIrsdata(processId, authentication) {
+    async getIrsData(processId, authentication) {
         return new Promise(resolve => {
             axios.get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
                 .then((response) => {

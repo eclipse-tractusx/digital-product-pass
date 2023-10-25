@@ -20,23 +20,33 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template>
-  <div class="recursive-tree">
+
+  <template >
+  <div v-if="treeData" class="recursive-tree">
     <ul>
       <li>
-        <template v-if="typeof treeData === 'object'">
+        <template v-if="typeof treeData == 'object'">
           <div class="tile-container" @click="toggle">
             <v-icon
               class="icon-bg"
               :class="{
-                'mdi-plus': treeData.nodes && !treeData.open,
-                'mdi-minus': !treeData.nodes || treeData.open,
+                'mdi-plus':
+                  treeData.children &&
+                  treeData.children.length > 0 &&
+                  !treeData.open,
+                'mdi-minus':
+                  !treeData.children ||
+                  treeData.open ||
+                  treeData.children.length == 0,
                 'blue-bg': !treeData.open,
-                'gray-bg': !treeData.nodes || treeData.open,
+                'gray-bg':
+                  !treeData.children ||
+                  treeData.open ||
+                  treeData.children.length == 0,
               }"
             >
               [{{
-                treeData.nodes && treeData.nodes.length > 0
+                treeData.children && treeData.children.length > 0
                   ? treeData.open
                     ? "mdi-minus"
                     : "mdi-plus"
@@ -44,6 +54,7 @@
               }}]
             </v-icon>
             <div
+              v-if="treeData != null"
               class="tile"
               :class="{
                 'linked-tile': treeData.link,
@@ -51,13 +62,13 @@
               }"
             >
               <span class="label">
-                {{ treeData.label }}
+                {{ treeData.name }}
               </span>
               <span
                 class="counter"
-                v-if="treeData.nodes && treeData.nodes.length > 0"
+                v-if="treeData.children && treeData.children.length > 0"
               >
-                {{ treeData.nodes.length }}
+                {{ treeData.children.length }}
               </span>
               <p class="tile-id">
                 {{ treeData.id ? treeData.id : "Not available" }}
@@ -86,7 +97,20 @@
       </li>
     </ul>
   </div>
+  <div v-else>
+    <div class="recursive-tree">
+      <div class="tile-container">
+        <v-icon class="icon-bg mdi-minus gray-bg"> [{{ "mdi-minus" }}] </v-icon>
+        <div class="tile not-available">
+          <p class="tile-id">Not available</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+ 
+
 
 <script>
 export default {

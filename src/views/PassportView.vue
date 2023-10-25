@@ -116,7 +116,6 @@
           <GeneralCards :data="data" />
         </template>
       </div>
-
       <div class="pass-container footer-spacer">
         <template
           v-if="
@@ -253,7 +252,7 @@ export default {
           component: "StateOfBattery",
         },
         {
-          label: "Composition",
+          label: "Components",
           icon: "mdi-battery-unknown",
           component: "BatteryComposition",
         },
@@ -327,7 +326,7 @@ export default {
         this.data["status"] == 200 &&
         jsonUtil.exists("data", this.data) &&
         jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("aspect", this.data["data"]) && 
+        jsonUtil.exists("aspect", this.data["data"]) &&
         jsonUtil.exists("semanticId", this.data["data"])
       ) {
         this.data = configUtil.normalizePassport(
@@ -337,9 +336,15 @@ export default {
         );
         this.error = false;
         this.processId = this.$store.getters.getProcessId; // Get process id from the store
-        this.irsData = this.backendService.getIrsData(this.processId, this.auth); // Return the IRS data
-        this.$store.commit('setIrsData', this.irsData); // Save IRS Data
-        this.$store.commit('setIrsState', this.backendService.getIrsState(this.processId, this.auth))
+        this.irsData = this.backendService.getIrsData(
+          this.processId,
+          this.auth
+        ); // Return the IRS data
+        this.$store.commit("setIrsData", this.irsData); // Save IRS Data
+        this.$store.commit(
+          "setIrsState",
+          this.backendService.getIrsState(this.processId, this.auth)
+        );
       }
       // Stop loading
       this.loading = false;
@@ -353,7 +358,7 @@ export default {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await  this.backendService.getPassport(
+        response = await this.backendService.getPassport(
           this.version,
           id,
           this.auth

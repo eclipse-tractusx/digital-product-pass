@@ -23,6 +23,9 @@
 <template v-if="propsData">
   <div class="section">
     <v-container class="ma-0">
+      <template v-if="loading">
+        <v-col> Loading... </v-col>
+      </template>
       <RecursiveTree :treeData="irsData" />
     </v-container>
   </div>
@@ -31,14 +34,73 @@
 <script>
 import RecursiveTree from "../../general/RecursiveTree.vue";
 import { mapState } from "vuex";
+import BackendService from "../../../services/BackendService";
+import { inject } from "vue";
+import store from "../../../store/index";
+import {
+  IRS_DELAY,
+  IRS_MAX_WAITING_TIME,
+} from "../../../services/service.const";
 
 export default {
   name: "BatteryComposition",
   components: {
     RecursiveTree,
   },
+  data() {
+    return {
+      auth: inject("authentication"),
+      loading: true,
+      backendService: null,
+      error: null,
+    };
+  },
   computed: {
-    ...mapState(["irsData"]),
+    ...mapState(["irsData", "processId"]),
+  },
+  async created() {
+    this.backendService = new BackendService();
+    this.invokeIrsData();
+    this.invokeIrsState();
+  },
+  methods: {
+    async invokeIrsData() {
+      try {
+        const response = await this.backendService.getIrsData(
+          this.processId,
+          this.auth
+        );
+        store.commit("setIrsData", response);
+      } catch (error) {
+        console.error("API call failed:", error);
+      }
+    },
+    async invokeIrsState() {
+      try {
+        const response = await this.backendService.getIrsState(
+          this.processId,
+          this.auth
+        );
+        if (response.status == 204) {
+          setTimeout(() => (this.invokeIrsState(), IRS_DELAY));
+          console.log("polling");
+          return;
+        }
+        this.loading = false;
+        if (response.status == 200) {
+          this.invokeIrsData();
+        } else if (response.status === 404) {
+          // no children
+        } else {
+          this.error = 500;
+        }
+      } catch (error) {
+        console.error("API call failed:", error);
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+</style>

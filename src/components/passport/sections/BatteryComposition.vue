@@ -32,15 +32,15 @@
 </template>
 
 <script>
-import RecursiveTree from "../../general/RecursiveTree.vue";
+import RecursiveTree from "@/components/general/RecursiveTree.vue";
 import { mapState } from "vuex";
-import BackendService from "../../../services/BackendService";
+import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import store from "../../../store/index";
+import store from "@/store/index";
+import threadUtil from "@/utils/threadUtil";
 import {
   IRS_DELAY,
-  IRS_MAX_WAITING_TIME,
-} from "../../../services/service.const";
+  IRS_MAX_WAITING_TIME } from "@/services/service.const";
 
 export default {
   name: "BatteryComposition",
@@ -77,14 +77,24 @@ export default {
     },
     async invokeIrsState() {
       try {
-        const response = await this.backendService.getIrsState(
+        let response = await this.backendService.getIrsState(
           this.processId,
           this.auth
         );
-        if (response.status == 204) {
-          setTimeout(() => (this.invokeIrsState(), IRS_DELAY));
-          console.log("polling");
-          return;
+        const created = new Date();
+        let currentTime = new Date();
+        let timediff = Math.floor(((currentTime.getTime() - created.getTime())/1000)/60);
+        while((response.status == 204) && (timediff < IRS_MAX_WAITING_TIME)) {
+          await threadUtil.sleep(IRS_DELAY);
+          response = await this.backendService.getIrsState(
+            this.processId,
+            this.auth
+          );
+          if(response.status != 204){
+            break;
+          }
+          currentTime = new Date();
+          timediff =  Math.floor(((currentTime.getTime() - created.getTime())/1000)/60);
         }
         this.loading = false;
         if (response.status == 200) {

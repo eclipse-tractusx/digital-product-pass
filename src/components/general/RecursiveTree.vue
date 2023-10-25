@@ -29,7 +29,11 @@
 
       <li v-for="(treeChild, index) in treeData" :key="index">
         <div class="tile-container" @click="toggle">
+          <v-icon v-if="loading" class="loading">
+            {{ "mdi-loading" }}
+          </v-icon>
           <v-icon
+            v-else
             class="icon-bg"
             :class="{
               'mdi-plus':
@@ -112,6 +116,7 @@
 export default {
   name: "RecursiveTree",
   props: {
+    loading: { type: Boolean, default: true },
     treeData: {
       open: Boolean,
       type: [Object, Array],

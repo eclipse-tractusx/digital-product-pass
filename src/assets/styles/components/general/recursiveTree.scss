@@ -32,7 +32,14 @@
   .tile-container {
     display: flex;
     align-items: center;
-
+    .loading {
+      animation: rotate 3s infinite;
+    }
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
     .tile {
       position: relative;
       background-color: #f9f9f9;

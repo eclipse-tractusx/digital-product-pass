@@ -1,7 +1,7 @@
 {
   "metadata": {},
   "semanticId": "general",
-  "passport": {
+  "aspect": {
     "serialization": {
       "manufacturingInformation": {
         "date": "2022-02-04T14:48:54",

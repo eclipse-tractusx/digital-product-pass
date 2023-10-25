@@ -24,9 +24,9 @@
   <div class="section">
     <v-container class="ma-0">
       <template v-if="loading">
-        <v-col> Loading... </v-col>
+        <v-col> Search for component started, this may take a while... </v-col>
       </template>
-      <RecursiveTree :treeData="irsData" />
+      <RecursiveTree :treeData="irsData.data" :loading="loading" />
     </v-container>
   </div>
 </template>
@@ -38,9 +38,7 @@ import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 import store from "@/store/index";
 import threadUtil from "@/utils/threadUtil";
-import {
-  IRS_DELAY,
-  IRS_MAX_WAITING_TIME } from "@/services/service.const";
+import { IRS_DELAY, IRS_MAX_WAITING_TIME } from "@/services/service.const";
 
 export default {
   name: "BatteryComposition",
@@ -83,18 +81,22 @@ export default {
         );
         const created = new Date();
         let currentTime = new Date();
-        let timediff = Math.floor(((currentTime.getTime() - created.getTime())/1000)/60);
-        while((response.status == 204) && (timediff < IRS_MAX_WAITING_TIME)) {
+        let timediff = Math.floor(
+          (currentTime.getTime() - created.getTime()) / 1000 / 60
+        );
+        while (response.status == 204 && timediff < IRS_MAX_WAITING_TIME) {
           await threadUtil.sleep(IRS_DELAY);
           response = await this.backendService.getIrsState(
             this.processId,
             this.auth
           );
-          if(response.status != 204){
+          if (response.status != 204) {
             break;
           }
           currentTime = new Date();
-          timediff =  Math.floor(((currentTime.getTime() - created.getTime())/1000)/60);
+          timediff = Math.floor(
+            (currentTime.getTime() - created.getTime()) / 1000 / 60
+          );
         }
         this.loading = false;
         if (response.status == 200) {

@@ -200,6 +200,11 @@ export default {
           component: "MetadataComponent",
         },
         {
+          label: "Components",
+          icon: "mdi-battery-unknown",
+          component: "BatteryComposition",
+        },
+        {
           label: "Characteristics",
           icon: "mdi-information-outline",
           component: "Characteristics",

@@ -143,6 +143,16 @@ backend:
             enabled: false
             bpn: false
             edc: false
+        # -- irs configuration 
+        irs:
+          enabled: true # -- Enable search for children in the requests
+          endpoint: "https://<irs-server-url>" # -- IRS endpoint
+          paths:
+            job: "/irs/jobs" # -- API path for calling in the IRS endpoints and staring/getting jobs
+          tree:
+            fileName: "treeDataModel" # -- Tree dataModel filename created in the processId directory
+            indent: true # -- Indent tree file
+          callbackUrl: "https://<backend-url>/api/irs" # -- Backend call back base url for the irs controller
         # -- digital twin registry configuration
         dtr:
           central: false

@@ -29,7 +29,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
@@ -216,7 +215,7 @@ public class DtrSearchManager {
     public String createDataModelFile() {
         Map<String, Object> dataModel = Map.of();
         // If path exists try to
-        if(this.dtrConfig.getTemporaryStorage() && this.fileUtil.pathExists(this.getDataModelPath())) {
+        if(this.dtrConfig.getTemporaryStorage().getEnabled() && this.fileUtil.pathExists(this.getDataModelPath())) {
             try {
                 // Try to load the data model if it exists
                 dataModel = (Map<String, Object>) jsonUtil.fromJsonFileToObject(this.getDataModelPath(), Map.class);
@@ -382,8 +381,8 @@ public class DtrSearchManager {
                         LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
-                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn);
-                    if (dtrConfig.getTemporaryStorage()) {
+                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));
+                    if (dtrConfig.getTemporaryStorage().getEnabled()) {
                         addConnectionToBpnEntry(bpn, dtr);
                         saveDtrDataModel();
                     }
@@ -412,6 +411,37 @@ public class DtrSearchManager {
         String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
         LogUtil.printMessage("[DTR DataModel] Saved [" + this.dtrDataModel.size() + "] assets in DTR data model.");
         return filePath != null;
+    }
+
+    /**
+     * Saves the cached DTR Data Model of this class object to the storage file.
+     * <p>
+     *
+     * @return true if the cached DTR Data Model was successfully saved, false otherwise.
+     *
+     */
+    public boolean saveDtrDataModel(ConcurrentHashMap<String, List<Dtr>> dataModel) {
+        if(fileUtil.pathExists(this.dtrDataModelFilePath)) {
+            this.createDataModelFile();
+        }
+        String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, dataModel, true);
+        return filePath != null;
+    }
+    /**
+     * Saves the cached DTR Data Model of this class object to the storage file.
+     * <p>
+     */
+    public void deleteBpns(ConcurrentHashMap<String, List<Dtr>> dataModel, List<String> bpnList) {
+        try {
+            boolean deleted = dataModel.keySet().removeAll(bpnList); // Remove keys from the local storage data model
+            this.dtrDataModel.keySet().removeAll(bpnList); // Remove keys from the memory data model
+            if(deleted){
+                LogUtil.printMessage("[DTR DataModel Cache Cleaning] Deleted [" + bpnList.size() + "] bpn numbers from the DTR.");
+                saveDtrDataModel(dataModel);
+            }
+        }catch(Exception e){
+            throw new ManagerException(this.getClass().getName() + ".deleteBpns",e,"It was not possible to delete bpns from the DTR data model");
+        }
     }
 
     /**

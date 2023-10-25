@@ -27,7 +27,7 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.eclipse.tractusx.productpass.models.irs.JobHistory;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
@@ -53,12 +53,23 @@ public class Status {
     @JsonProperty("modified")
     public Long modified;
 
+    @JsonProperty("job")
+    public JobHistory job;
 
     @JsonProperty("endpoint")
     public String endpoint;
 
+    @JsonProperty("dataPlaneUrl")
+    public String dataPlaneUrl;
+
     @JsonProperty("bpn")
     public String bpn;
+
+    @JsonProperty("children")
+    public Boolean children;
+
+    @JsonProperty("treeState")
+    public String treeState;
 
     @JsonProperty("history")
     public Map<String, History> history;
@@ -163,21 +174,29 @@ public class Status {
         this.bpn = bpn;
         this.history = new HashMap<String, History>();
     }
-    @SuppressWarnings("Unused")
-    public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
-        this.id = id;
-        this.status = status;
-        this.created = created;
-        this.modified = modified;
-        this.endpoint = endpoint;
-        this.bpn = bpn;
-        this.history = Map.of(historyId, history);
-    }
+
+
 
     public Status() {
     }
 
-    /** GETTERS AND SETTERS **/
+    public Status(String id, String status, Long created, Long modified, JobHistory job, String endpoint, String dataPlaneUrl, String bpn, Boolean children, String treeState, Map<String, History> history, String semanticId) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.job = job;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+        this.semanticId = semanticId;
+    }
+
+
+
     public String getId() {
         return id;
     }
@@ -256,12 +275,45 @@ public class Status {
         this.bpn = bpn;
     }
 
+
+    public String getTreeState() {
+        return treeState;
+    }
+
+    public void setTreeState(String treeState) {
+        this.treeState = treeState;
+    }
+
+    public Boolean getChildren() {
+        return children;
+    }
+
+    public void setChildren(Boolean children) {
+        this.children = children;
+    }
+
     public String getSemanticId() {
         return semanticId;
     }
 
     public void setSemanticId(String semanticId) {
         this.semanticId = semanticId;
+    }
+
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
+    }
+
+    public JobHistory getJob() {
+        return job;
+    }
+
+    public void setJob(JobHistory job) {
+        this.job = job;
     }
 }
 

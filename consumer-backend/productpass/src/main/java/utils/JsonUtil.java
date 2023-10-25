@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -602,6 +603,35 @@ public final class JsonUtil {
         }
     }
 
+      /**
+     * Parses the JSON object to a Map type object.
+     * <p>
+     * @param   path
+     *          the {@code String} that contains the old path
+     * @param   pathSep
+     *          the {@code String} separator of the path
+     * @param   newPathSep
+     *          the {@code String} separator of the new path to be translated
+     *
+     * @return  a {@code JsonObject} object parsed with the json data.
+     *
+     * @throws  UtilException
+     *          if unable to parse the json object.
+     */
+    public String translatePathSep(String path, String pathSep, String newPathSep){
+        try{
+            String newPath = StringUtil.deepCopy(path); // Deep copy string
+            if(newPath.startsWith(pathSep)){ // If the path starts with the pathSep remove it so the search can be efficient
+                newPath = newPath.substring(1);
+            }
+            String[] parts = newPath.split(String.format("\\%s",pathSep)); // Split the path in order to get the parts
+            return String.join(String.format("\\%s",newPathSep), parts); // Join the path with the children
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, e, "It was not possible to translate te pathSep");
+        }
+    }
+
+
     /**
      * Parses the JSON object to a Map type object.
      * <p>
@@ -710,4 +740,14 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to get reference type -> [" + e.getMessage() + "]");
         }
     }
+
+
+    public List<?> mapToList(Map<String, ?> map){
+        try{
+            return Arrays.asList(map.values().toArray());
+        }  catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was possible to the map to a list");
+        }
+    }
+
 }

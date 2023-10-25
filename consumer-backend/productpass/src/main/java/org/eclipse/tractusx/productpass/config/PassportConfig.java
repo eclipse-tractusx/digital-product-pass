@@ -34,6 +34,7 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
+    private String searchIdSchema;
 
     private List<String> aspects;
 
@@ -41,6 +42,11 @@ public class PassportConfig {
     }
 
     public PassportConfig(List<String> aspects) {
+        this.aspects = aspects;
+    }
+
+    public PassportConfig(String searchIdSchema, List<String> aspects) {
+        this.searchIdSchema = searchIdSchema;
         this.aspects = aspects;
     }
 
@@ -52,4 +58,11 @@ public class PassportConfig {
     }
 
 
+    public String getSearchIdSchema() {
+        return searchIdSchema;
+    }
+
+    public void setSearchIdSchema(String searchIdSchema) {
+        this.searchIdSchema = searchIdSchema;
+    }
 }

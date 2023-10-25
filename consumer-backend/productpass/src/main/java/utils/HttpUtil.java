@@ -216,7 +216,6 @@ public class HttpUtil {
         }
         return token;
     }
-
     /**
      * Builds the URL with the key/value pair within the given parameters map with or without enconding.
      * <p>
@@ -229,7 +228,7 @@ public class HttpUtil {
      *
      * @return  a {@code String} with the build URL.
      *
-     */
+     
     @SuppressWarnings("Unused")
     public  String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
@@ -246,7 +245,7 @@ public class HttpUtil {
         }
         return finalUrl.toString();
     }
-
+    */
     /**
      * Parses the Map of parameters to a String as URL parameters structure.
      * <p>
@@ -601,6 +600,25 @@ public class HttpUtil {
             builder.queryParam(entry.getKey(), entry.getValue());
         }
         return builder.build(encoded).toUri();
+    }
+    /**
+     * Builds the URL with the key/value pair within the given parameters map with or without enconding.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  a {@code String} with the build URL.
+     */
+    public String buildUrl(String url, Map<String, ?> params, Boolean encoded){
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
+        return builder.build(encoded).toUriString();
     }
 
     /**************************************************

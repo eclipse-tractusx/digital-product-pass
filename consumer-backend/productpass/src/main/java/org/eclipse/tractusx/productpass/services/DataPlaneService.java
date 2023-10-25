@@ -84,6 +84,30 @@ public class DataPlaneService extends BaseService {
                     "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
         }
     }
+    /**
+     * Gets the Transfer data from the given data plane endpoint.
+     * <p>
+     * @param   endpointData
+     *          the {@code DataPlaneEndpoint} object with data plane endpoint data.
+     *
+     * @return  a {@code Object} object with the body of the response.
+     *
+     * @throws  ServiceException
+     *           if unable to get the transfer data.
+     */
+    public Object getTransferDataFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+        try {
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers =  new HttpHeaders();
+            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
+            ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, Object.class, headers, params, true, true);
+            return response.getBody();
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
+                    e,
+                    "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
+        }
+    }
 
     /**
      * Parses the Transfer Data to a Passport from the given data plane endpoint.
@@ -99,6 +123,28 @@ public class DataPlaneService extends BaseService {
     public JsonNode getPassport(DataPlaneEndpoint endpointData) {
         try {
             return jsonUtil.toJsonNode(this.getTransferData(endpointData));
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName()+"."+"getPassport",
+                    e,
+                    "It was not possible to get and parse passport for transfer ["+endpointData.getId()+"]");
+        }
+    }
+    /**
+     * Parses the Transfer Data to a Passport from the given data plane endpoint string.
+     * <p>
+     * @param   endpointData
+     *          the {@code DataPlaneEndpoint} object with data plane endpoint data.
+     * @param   dataPlaneEndpoint
+     *          the {@code String} is the data plane endpoint url
+     *
+     * @return  a {@code Passport} object parsed with transfer data.
+     *
+     * @throws  ServiceException
+     *           if unable to parse the data to the passport.
+     */
+    public JsonNode getPassportFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+        try {
+            return jsonUtil.toJsonNode(this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint));
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

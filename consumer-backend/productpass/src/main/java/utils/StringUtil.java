@@ -31,5 +31,7 @@ public final class StringUtil {
     public static Boolean isEmpty(String s) {
         return s == null || s.length() == 0;
     }
+
+    public static String deepCopy(String s){ return String.valueOf(s);}
 }
 

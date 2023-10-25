@@ -56,7 +56,7 @@ onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 timeout = numberUtil.parseInt(timeout, 60000);
 delay = numberUtil.parseInt(delay, 1000);
 retries = numberUtil.parseInt(retries, 20);
-irsDelay = numberUtil.parseInt(irsDelay, 25000);
+irsDelay = numberUtil.parseInt(irsDelay, 30000);
 irsMaxWaitingTime = numberUtil.parseInt(irsMaxWaitingTime, 10);
 
 // Define constants

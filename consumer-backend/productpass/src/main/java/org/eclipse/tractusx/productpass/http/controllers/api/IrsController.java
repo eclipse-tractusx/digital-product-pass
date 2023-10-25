@@ -242,26 +242,25 @@ public class IrsController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             response = httpUtil.getResponse();
-            Integer jobStatus = status.getJob().getChildren();
+            Integer children = status.getJob().getChildren();
 
-            switch (jobStatus){
+            switch (children){
                 case -1:
                     response.status = 100;
                     response.statusText = "Continue";
-                    response.message = "Still searching for the children!";
+                    response.message = "Searching for the children";
                     break;
 
                 case 0:
                     response.status = 404;
                     response.statusText = "Not Found";
-                    response.message = "No children is available";
+                    response.message = "No children available";
                     break;
 
                 default:
                     response.status = 200;
-                    response.statusText = "Success";
-                    response.message = "[" + jobStatus + "] Children Available!";
-                    response.data = Map.of("children", jobStatus);
+                    response.message = "[" + children + "] children found";
+                    response.data = status.getJob();
 
             }
             return httpUtil.buildResponse(response, httpResponse);

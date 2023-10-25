@@ -24,7 +24,9 @@
   <div class="section">
     <v-container class="ma-0">
       <template v-if="loading">
-        <v-col> Search for component started, this may take a while... </v-col>
+        <v-col>
+          The search for child components started, this may take a while...
+        </v-col>
       </template>
       <RecursiveTree :treeData="irsData.data" :loading="loading" />
     </v-container>

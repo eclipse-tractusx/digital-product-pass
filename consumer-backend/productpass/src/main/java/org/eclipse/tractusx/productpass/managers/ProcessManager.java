@@ -647,7 +647,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to get the status file.
      */
-    public Status getStatus(String processId) {
+     synchronized public Status getStatus(String processId) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             return (Status) jsonUtil.fromJsonFileToObject(path, Status.class);

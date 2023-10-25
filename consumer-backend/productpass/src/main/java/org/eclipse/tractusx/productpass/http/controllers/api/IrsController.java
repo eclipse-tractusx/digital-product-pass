@@ -246,8 +246,8 @@ public class IrsController {
 
             switch (children){
                 case -1:
-                    response.status = 100;
-                    response.statusText = "Continue";
+                    response.status = 204;
+                    response.statusText = "No Content";
                     response.message = "Searching for the children";
                     break;
 

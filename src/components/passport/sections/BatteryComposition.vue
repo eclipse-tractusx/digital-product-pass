@@ -98,6 +98,7 @@ export default {
           (currentTime.getTime() - created.getTime()) / 1000 / 60
         );
         this.status = response.status;
+        this.infoBar = true;
         while (response.status == 204 && timediff < IRS_MAX_WAITING_TIME) {
           await threadUtil.sleep(IRS_DELAY);
           response = await this.backendService.getIrsState(
@@ -116,12 +117,11 @@ export default {
         this.loading = false;
         if (response.status == 200) {
           this.invokeIrsData();
+          this.infoBar = false;
         } else if (response.status === 404) {
-          this.infoBar = true;
           this.infoBarMessage = "No child components found";
           this.infoColor = "#FFA000";
         } else {
-          this.infoBar = true;
           this.infoBarMessage =
             "Something went wrong while searching for child components";
           this.infoColor = "#d32f2f";

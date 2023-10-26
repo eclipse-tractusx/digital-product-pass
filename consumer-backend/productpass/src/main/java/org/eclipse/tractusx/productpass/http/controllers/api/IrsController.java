@@ -116,15 +116,16 @@ public class IrsController {
                     return httpUtil.buildResponse(httpUtil.getNotFound(), httpResponse);
                 }
             }
-            if(!jobHistory.getSearchId().equals(searchId)){
-                LogUtil.printWarning("["+processId+"] The search id was not found in the job history! Retrying...");
-                status = processManager.getStatus(processId);
-                jobHistory = status.getJob();
-                if(!jobHistory.getSearchId().equals(searchId)) {
-                    LogUtil.printError("["+processId+"] The search id was not found in the job history again!");
-                    this.processManager.setJobChildrenFound(processId, -2);
-                    return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
-                }
+            String jobSearchId = jobHistory.getSearchId();
+            if(jobSearchId == null){
+                LogUtil.printError("["+processId+"] The search id was null! Not able to find the job!");
+                this.processManager.setJobChildrenFound(processId, -2);
+                return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
+            }
+            if(!jobSearchId.equals(searchId)){
+                LogUtil.printError("["+processId+"] The search id was not found in the job history again!");
+                this.processManager.setJobChildrenFound(processId, -2);
+                return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
             }
             LogUtil.printMessage("["+processId+"] Job callback received with state ["+ state+"]. Requesting Job ["+jobHistory.getJobId()+"]!");
             JobResponse irsJob = this.irsService.getJob(jobHistory.getJobId());
@@ -133,6 +134,7 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
+            this.processManager.setJobChildrenFound(processId, -2);
             return httpUtil.buildResponse(response, httpResponse);
         }
     }

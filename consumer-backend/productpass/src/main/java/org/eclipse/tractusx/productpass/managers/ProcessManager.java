@@ -760,17 +760,12 @@ public class ProcessManager {
     public String setJobHistory(String processId, JobHistory jobHistory) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
-            Status statusFile = null;
             if (!fileUtil.pathExists(path)) {
                 throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
             }
 
-            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
-            statusFile.setJob(jobHistory);
-            String searchId = jobHistory.searchId;
-            statusFile.setHistory(jobHistory.searchId, new History(searchId, searchId+"-DRILLDOWN-STARTED"));
-            statusFile.setModified(DateTimeUtil.getTimestamp());
-            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+            jsonUtil.setFileValue(path, "job", ".", jobHistory, true);
+            return jsonUtil.setFileValue(path, "modified", ".", DateTimeUtil.getTimestamp(), true);
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }

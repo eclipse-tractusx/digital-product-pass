@@ -226,8 +226,11 @@ public final class JsonUtil {
      * @throws  UtilException
      *          if unable to load the JSON file.
      */
-    public String toJsonFile(String path, Object json, Boolean prettyPrint){
+    synchronized public String toJsonFile(String path, Object json, Boolean prettyPrint){
         try {
+            if(this.fileUtil.pathExists(path)){
+                String fileContent = fileUtil.readFile(path);
+            }
             return fileUtil.toFile(path, this.toJson(json, prettyPrint), false);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
@@ -246,7 +249,7 @@ public final class JsonUtil {
      *          if unable to load the JSON file.
      */
     @SuppressWarnings("Unused")
-    public Object fromJsonFile(String path){
+    synchronized public Object fromJsonFile(String path){
         try {
             String fileContent = fileUtil.readFile(path);
             return this.parseJson(fileContent);
@@ -268,7 +271,7 @@ public final class JsonUtil {
      * @throws  UtilException
      *          if unable to load the JSON file.
      */
-    public Object fromJsonFileToObject(String path, Class<?> bindClass){
+    synchronized public Object fromJsonFileToObject(String path, Class<?> bindClass){
         try {
             if(!fileUtil.pathExists(path)) {
                 LogUtil.printError("The file does not exists in [" + path + "]!");
@@ -278,6 +281,74 @@ public final class JsonUtil {
             return this.parseJson(fileContent, bindClass);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+        }
+    }
+
+    /**
+     * Gets a specific value from a JSON file
+     * <p>
+     * @param   path
+     *          the {@code String}  path representation to the target JSON file as a String.
+     * @param   keyPath
+     *          a {@code String} load specific attribute path
+     * @param   pathSep
+     *          the {@code String} path separator used
+     * @param   defaultValue
+     *          the {@code Object} default value returned when the {@code keyPath} is not existing
+     * @return  a {@code Object} of the intended path or a default values object
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
+    synchronized public Object getFileValue(String path, String keyPath, String pathSep, Object defaultValue){
+        try {
+            if(!fileUtil.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+                return null;
+            }
+            String fileContent = fileUtil.readFile(path);
+            Object json = this.parseJson(fileContent, Object.class);
+            return this.getValue(json, keyPath, pathSep, defaultValue);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to get JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+        }
+    }
+
+    /**
+     * Sets a value in a JSON file
+     * <p>
+     * @param   path
+     *          the {@code String}  path representation to the target JSON file as a String.
+     * @param   keyPath
+     *          a {@code String} load specific attribute path
+     * @param   keyValue
+     *          the {@code Object} to be stored in the key path
+     * @param   pathSep
+     *          the {@code String} path separator used
+     * @param   prettyPrint
+     *          the {@code Boolean} pretty printing condition
+     *
+     * @return  a {@code Object} of the intended path or a default values object
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
+    synchronized public String setFileValue(String path, String keyPath, String pathSep, Object keyValue, Boolean prettyPrint){
+        try {
+            if(!fileUtil.pathExists(path)) {
+                LogUtil.printError("The file does not exists in [" + path + "]!");
+                return null;
+            }
+            String fileContent = fileUtil.readFile(path);
+            Object rawJson = this.parseJson(fileContent, Object.class);
+            Object parseJson = this.setValue(rawJson, keyPath, keyValue, pathSep, null);
+            if(parseJson == null){
+                LogUtil.printError("It was not possible to save the value ["+keyPath+"] in the JSON file!");
+                return null;
+            }
+            return this.toJsonFile(path, parseJson, prettyPrint);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to get JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
 

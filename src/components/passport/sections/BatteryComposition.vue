@@ -23,12 +23,17 @@
 <template v-if="propsData">
   <div class="section">
     <v-container class="ma-0">
-      <template v-if="loading">
-        <v-col>
-          The search for child components started, this may take a while...
-        </v-col>
+      <template v-if="loading || infoBar">
+        <div class="info-bar" :style="`background-color: ${infoColor}`">
+          {{ infoBarMessage }}
+        </div>
       </template>
-      <RecursiveTree :treeData="irsData.data" :loading="loading" />
+      <RecursiveTree
+        :treeData="irsData.data"
+        :loading="loading"
+        :status="status"
+        :infoColor="infoColor"
+      />
     </v-container>
   </div>
 </template>
@@ -50,9 +55,13 @@ export default {
   data() {
     return {
       auth: inject("authentication"),
-      loading: true,
+      loading: false,
+      infoBar: false,
+      infoBarMessage:
+        "The search for child components started, this may take a while...",
+      infoColor: "#0F71CB",
       backendService: null,
-      error: null,
+      status: 204,
     };
   },
   computed: {
@@ -70,6 +79,7 @@ export default {
           this.processId,
           this.auth
         );
+
         store.commit("setIrsData", response);
       } catch (error) {
         console.error("API call failed:", error);
@@ -81,17 +91,20 @@ export default {
           this.processId,
           this.auth
         );
+
         const created = new Date();
         let currentTime = new Date();
         let timediff = Math.floor(
           (currentTime.getTime() - created.getTime()) / 1000 / 60
         );
+        this.status = response.status;
         while (response.status == 204 && timediff < IRS_MAX_WAITING_TIME) {
           await threadUtil.sleep(IRS_DELAY);
           response = await this.backendService.getIrsState(
             this.processId,
             this.auth
           );
+          this.status = response.status;
           if (response.status != 204) {
             break;
           }
@@ -104,9 +117,14 @@ export default {
         if (response.status == 200) {
           this.invokeIrsData();
         } else if (response.status === 404) {
-          // no children
+          this.infoBar = true;
+          this.infoBarMessage = "No child components found";
+          this.infoColor = "#FFA000";
         } else {
-          this.error = 500;
+          this.infoBar = true;
+          this.infoBarMessage =
+            "Something went wrong while searching for child components";
+          this.infoColor = "#d32f2f";
         }
       } catch (error) {
         console.error("API call failed:", error);
@@ -116,5 +134,3 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>

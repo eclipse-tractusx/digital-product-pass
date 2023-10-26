@@ -26,39 +26,59 @@
     <!-- eslint-disable-next-line vue/require-v-for-key -->
     <ul>
       <!-- eslint-disable-next-line vue/no-v-for-template-key  -->
-
       <li v-for="(treeChild, index) in treeData" :key="index">
         <div class="tile-container" @click="toggle">
-          <v-icon v-if="loading" class="loading">
-            {{ "mdi-loading" }}
-          </v-icon>
-          <v-icon
-            v-else
-            class="icon-bg"
-            :class="{
-              'mdi-plus':
-                treeChild.children &&
-                treeChild.children.length > 0 &&
-                !treeChild.open,
-              'mdi-minus':
-                !treeChild.children ||
-                treeChild.open ||
-                treeChild.children.length == 0,
-              'blue-bg': !treeChild.open,
-              'gray-bg':
-                !treeChild.children ||
-                treeChild.open ||
-                treeChild.children.length == 0,
-            }"
+          <template
+            v-if="treeChild.children.length > 0 || loading || status != 200"
           >
-            [{{
-              treeChild.children && treeChild.children.length > 0
-                ? treeChild.open
-                  ? "mdi-minus"
-                  : "mdi-plus"
-                : "mdi-minus"
-            }}]
-          </v-icon>
+            <v-icon v-if="status == 204" class="loading">
+              {{ "mdi-loading" }}
+            </v-icon>
+            <v-icon
+              class="icon-bg"
+              :style="`background-color: ${infoColor}`"
+              v-else-if="status == 404"
+            >
+              {{ "mdi-exclamation-thick" }}
+            </v-icon>
+            <v-icon
+              v-else-if="status == 200"
+              class="icon-bg"
+              :class="{
+                'mdi-plus':
+                  treeChild.children &&
+                  treeChild.children.length > 0 &&
+                  !treeChild.open,
+                'mdi-minus':
+                  !treeChild.children ||
+                  treeChild.open ||
+                  treeChild.children.length == 0,
+                'blue-bg': !treeChild.open,
+                'gray-bg':
+                  !treeChild.children ||
+                  treeChild.open ||
+                  treeChild.children.length == 0,
+              }"
+            >
+              [{{
+                treeChild.children && treeChild.children.length > 0
+                  ? treeChild.open
+                    ? "mdi-minus"
+                    : "mdi-plus"
+                  : "mdi-minus"
+              }}]
+            </v-icon>
+            <v-icon
+              class="icon-bg"
+              :style="`background-color: ${infoColor}`"
+              v-else
+            >
+              {{ "mdi-close-octagon-outline" }}
+            </v-icon>
+          </template>
+          <template v-else>
+            <v-icon></v-icon>
+          </template>
           <div
             v-if="treeChild != null"
             class="tile"
@@ -109,14 +129,13 @@
   </div>
 </template>
 
- 
-
-
 <script>
 export default {
   name: "RecursiveTree",
   props: {
-    loading: { type: Boolean, default: true },
+    loading: { type: Boolean, default: false },
+    status: { type: Number, default: 200 },
+    infoColor: { type: String, default: "" },
     treeData: {
       open: Boolean,
       type: [Object, Array],
@@ -133,9 +152,10 @@ export default {
       });
     },
     getLink(searchId) {
-      this.$router.push({
+      const routeData = this.$router.resolve({
         path: `/${searchId}`,
       });
+      window.open(routeData.href, "_blank");
     },
   },
 };

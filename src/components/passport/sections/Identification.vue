@@ -45,11 +45,14 @@
             />
           </template>
           <template v-if="propsData.additionalCode">
-            <AttributeField
-              icon="mdi-newspaper-variant-outline"
-              :attributes-list="propsData.additionalCode"
-              label="TARIC"
-            />
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template v-for="attr in propsData.additionalCode" :key="attr">
+              <Field
+                icon="mdi-newspaper-variant-outline"
+                :value="attr.value"
+                :label="attr.name"
+              />
+            </template>
           </template>
         </v-col>
       </v-row>

@@ -24,45 +24,49 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.localIdentifiers">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <AttributeField
-              icon="mdi-newspaper-variant-outline"
-              :attributes-list="propsData.localIdentifiers"
-              label="Part instance Id"
-            />
-            <template v-if="propsData.gtin">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.localIdentifiers">
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template v-for="attr in propsData.localIdentifiers" :key="attr">
               <Field
-                icon="mdi-arrow-down-circle-outline"
-                label="Gtin"
-                :value="propsData.gtin"
+                icon="mdi-newspaper-variant-outline"
+                :value="attr.value"
+                :label="attr.key"
               />
             </template>
-          </v-col>
-        </template>
-        <template v-if="propsData.additionalCode">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <AttributeField
-              icon="mdi-newspaper-variant-outline"
-              :attributes-list="propsData.additionalCode"
-              label="TARIC"
+          </template>
+        </v-col>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.gtin">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Gtin"
+              :value="propsData.gtin"
             />
-          </v-col>
-        </template>
+          </template>
+          <template v-if="propsData.additionalCode">
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template v-for="attr in propsData.additionalCode" :key="attr">
+              <Field
+                icon="mdi-newspaper-variant-outline"
+                :value="attr.value"
+                :label="attr.name"
+              />
+            </template>
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
 import Field from "../Field.vue";
 
 export default {
   name: "IdentificationComponent",
   components: {
     Field,
-    AttributeField,
   },
   props: {
     data: {

@@ -54,6 +54,17 @@
             />
           </v-col>
         </template>
+        <template v-if="propsData.quantity">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
+            <div class="element-chart-label"></div>
+            <Field
+              icon="mdi-lightning-bolt-outline"
+              label="Quantity"
+              :value="propsData.quantity.value"
+              :unit="propsData.quantity.unit"
+            />
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </div>

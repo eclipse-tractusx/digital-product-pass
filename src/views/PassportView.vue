@@ -84,16 +84,7 @@
         />
       </template>
       <template v-else>
-        <PassportHeader
-          :id="
-            data.aspect &&
-            data.aspect.identification &&
-            data.aspect.identification.gtin
-              ? data.aspect.identification.gtin
-              : '-'
-          "
-          type="Passport ID"
-        />
+        <PassportHeader :id="id ? id : '-'" type="ID" />
       </template>
       <div class="pass-container">
         <template
@@ -141,7 +132,7 @@
         </template>
         <template v-else>
           <TabsComponent
-            :componentsNames="generalComponentsNames"
+            :componentsNames="filteredComponentsNames"
             :componentsData="data"
           />
         </template>
@@ -166,6 +157,7 @@ import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
+import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 
@@ -183,68 +175,6 @@ export default {
   },
   data() {
     return {
-      generalComponentsNames: [
-        {
-          label: "Serialization",
-          icon: "mdi-information-outline",
-          component: "Serialization",
-        },
-        {
-          label: "Typology",
-          icon: "mdi-information-outline",
-          component: "Typology",
-        },
-        {
-          label: "Metadata",
-          icon: "mdi-information-outline",
-          component: "MetadataComponent",
-        },
-        {
-          label: "Components",
-          icon: "mdi-battery-unknown",
-          component: "BatteryComposition",
-        },
-        {
-          label: "Characteristics",
-          icon: "mdi-information-outline",
-          component: "Characteristics",
-        },
-        {
-          label: "Commercial",
-          icon: "mdi-information-outline",
-          component: "Commercial",
-        },
-        {
-          label: "Identification",
-          icon: "mdi-information-outline",
-          component: "Identification",
-        },
-        {
-          label: "Sources",
-          icon: "mdi-information-outline",
-          component: "Sources",
-        },
-        {
-          label: "Handling",
-          icon: "mdi-information-outline",
-          component: "Handling",
-        },
-        {
-          label: "Additional data",
-          icon: "mdi-information-outline",
-          component: "AdditionalData",
-        },
-        {
-          label: "Sustainability",
-          icon: "mdi-information-outline",
-          component: "Sustainability",
-        },
-        {
-          label: "Operation",
-          icon: "mdi-information-outline",
-          component: "Operation",
-        },
-      ],
       batteryComponentsNames: [
         {
           label: "General Information",
@@ -305,6 +235,24 @@ export default {
       },
       version: PASSPORT_VERSION,
     };
+  },
+
+  computed: {
+    filteredComponentsNames() {
+      let dataKeys = Object.keys(this.data.aspect);
+      // Check if data exists and is not empty
+      if (this.data.aspect && dataKeys.length > 0) {
+        dataKeys.splice(3, 0, "components");
+        // Generate component names dynamically from the JSON keys
+        return dataKeys.map((key) => ({
+          label: key[0].toUpperCase() + key.slice(1),
+          icon: passportUtil.iconFinder(key),
+          component: key,
+        }));
+      } else {
+        return [];
+      }
+    },
   },
 
   async created() {

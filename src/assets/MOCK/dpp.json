@@ -47,6 +47,14 @@
       "lifespan": {
         "value": 36,
         "unit": "unit:day"
+      },
+      "energyCapacity": {
+        "value": 85.0,
+        "unit": "unit:kWh"
+      },
+      "voltage": {
+        "value": 400.0,
+        "unit": "unit:V"
       }
     },
     "commercial": {
@@ -55,6 +63,10 @@
     },
     "identification": {
       "localIdentifiers": [
+        {
+          "value": "SN12345678",
+          "key": "PartInstanceID"
+        },
         {
           "value": "SN12345678",
           "key": "PartInstanceID"
@@ -72,13 +84,13 @@
       "mandatory": {
         "safetyTransportation": {
           "header": "Sustainability Document Material XY",
-          "category": "Safety",
+          "category": "Handling",
           "type": "link",
           "content": "www.alink.pdf"
         },
         "substanceOfConcernDisassembly": {
           "header": "Sustainability Document Material XY",
-          "category": "Safety",
+          "category": "Health",
           "type": "link",
           "content": "www.alink.pdf"
         },
@@ -111,41 +123,10 @@
           "name": "other",
           "document": {
             "header": "Sustainability Document Material XY",
-            "category": "Safety",
+            "category": "wrong",
             "type": "link",
             "content": "www.alink.pdf"
           }
-        }
-      ]
-    },
-    "handling": {
-      "maintenanceHistory": [
-        {
-          "date": "2000-01-01",
-          "description": "Check tire pressure and rotate tires",
-          "title": "Check-up",
-          "activity": "Inspection"
-        }
-      ],
-      "reusablePackaging": true,
-      "spareParts": [
-        {
-          "name": "Aluminum Housing",
-          "partId": "Aluminum Housing 952/C",
-          "producerId": "BPNL1234567890ZZ"
-        }
-      ],
-      "substanceOfConcern": [
-        {
-          "name": "Lead",
-          "location": "Housing",
-          "unit": "unit:partPerMillion",
-          "concentration": {
-            "left": [
-              3.592682E37
-            ]
-          },
-          "id": "RC0402"
         }
       ]
     },

@@ -56,8 +56,9 @@ import Documents from "@/components/passport/sections/Documents.vue";
 import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import Serialization from "../passport/sections/Serialization.vue";
 import Typology from "../passport/sections/Typology.vue";
-import MetadataComponent from "../passport/sections/Metadata.vue";
+import Metadata from "../passport/sections/Metadata.vue";
 import Characteristics from "../passport/sections/Characteristics.vue";
+import Components from "../passport/sections/Components.vue";
 import Commercial from "../passport/sections/Commercial.vue";
 import Identification from "../passport/sections/Identification.vue";
 import Sources from "../passport/sections/Sources.vue";
@@ -78,7 +79,9 @@ export default {
     ContractInformation,
     Serialization,
     Typology,
-    MetadataComponent,
+    Components,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Metadata,
     Characteristics,
     Commercial,
     Identification,

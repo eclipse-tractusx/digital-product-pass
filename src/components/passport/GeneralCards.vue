@@ -101,7 +101,9 @@ export default {
           value: this.$props.data.aspect.typology
             ? this.$props.data.aspect.typology.name
             : "-",
-          secondValue: this.$props.data.aspect.typology.nameAtCustomer,
+          secondValue: this.$props.data.aspect.typology
+            ? this.$props.data.aspect.typology.nameAtCustomer
+            : "-",
         },
         {
           title: "MANUFACTURING",
@@ -122,7 +124,7 @@ export default {
           },
         },
         {
-          title: "aspect VERSION",
+          title: "ASPECT VERSION",
           label: "Current version",
           secondLabel: "Issued",
           icon: "mdi-aspect",

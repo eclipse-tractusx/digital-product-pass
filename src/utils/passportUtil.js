@@ -41,6 +41,31 @@ export default {
 
         // If no match is found, return the default icon
         return "mdi-information-outline";
+    },
+    groupSources(sources) {
+        try {
+
+            let mappedSources = {};
+            for (let parentKey in sources) {
+                let parentSources = sources[parentKey];
+                for (let key in parentSources) {
+                    let doc = parentSources[key];
+                    if(parentKey === "optional"){
+                        doc = doc["document"];
+                    }
+                    let category = doc["category"];
+                    if (!Object.prototype.hasOwnProperty.call(mappedSources, category)) {
+                        mappedSources[category] = [];
+                    }
+
+                    mappedSources[category].push(doc);
+                }
+            }
+            return mappedSources;
+        } catch (e) {
+            console.error.log(e); // Print error message
+            return {};
+        }
     }
 };
 

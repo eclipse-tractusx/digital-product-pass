@@ -50,7 +50,7 @@ export default {
                 let parentSources = sources[parentKey];
                 for (let key in parentSources) {
                     let doc = parentSources[key];
-                    if(parentKey === "optional"){
+                    if (parentKey === "optional") {
                         doc = doc["document"];
                     }
                     let category = doc["category"];
@@ -64,7 +64,7 @@ export default {
             return mappedSources;
         } catch (e) {
             console.error.log(e); // Print error message
-            return [];
+            return {};
         }
     }
 };

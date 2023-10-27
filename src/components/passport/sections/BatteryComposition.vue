@@ -23,114 +23,52 @@
 <template v-if="propsData">
   <div class="section">
     <v-container class="ma-0">
-      <template v-if="loading || infoBar">
-        <div class="info-bar" :style="`background-color: ${infoColor}`">
-          {{ infoBarMessage }}
-        </div>
-      </template>
-      <RecursiveTree
-        :treeData="irsData.data"
-        :loading="loading"
-        :status="status"
-        :infoColor="infoColor"
-      />
+      <v-row class="section">
+        <v-col
+          sm="12"
+          md="12"
+          class="pa-0 ma-0"
+          style="display: flex; margin-bottom: 12px"
+        >
+          <AttributeField
+            data-cy="composition"
+            icon="mdi-newspaper-variant-outline"
+            :attributes-list="propsData.compositionOfBattery"
+            label="Main Battery Composites"
+            style="background: #f9f9f9; min-width: 300px"
+          />
+          <Field
+            icon="mdi-select-all"
+            label="Critical raw materials"
+            :value="propsData.criticalRawMaterials"
+            style="min-width: 300px"
+          />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import RecursiveTree from "@/components/general/RecursiveTree.vue";
-import { mapState } from "vuex";
-import BackendService from "@/services/BackendService";
-import { inject } from "vue";
-import store from "@/store/index";
-import threadUtil from "@/utils/threadUtil";
-import { IRS_DELAY, IRS_MAX_WAITING_TIME } from "@/services/service.const";
+import AttributeField from "../AttributeField.vue";
+import Field from "../Field.vue";
 
 export default {
   name: "BatteryComposition",
   components: {
-    RecursiveTree,
+    AttributeField,
+    Field,
+  },
+  props: {
+    data: {
+      type: Object,
+      default: Object,
+    },
   },
   data() {
     return {
-      auth: inject("authentication"),
-      loading: false,
-      infoBar: false,
-      infoBarMessage:
-        "The search for child components started, this may take a while...",
-      infoColor: "#0F71CB",
-      backendService: null,
-      status: 204,
+      propsData: this.$props.data.aspect.composition,
     };
-  },
-  computed: {
-    ...mapState(["irsData", "processId"]),
-  },
-  async created() {
-    this.backendService = new BackendService();
-    this.invokeIrsData();
-    this.invokeIrsState();
-  },
-  methods: {
-    async invokeIrsData() {
-      try {
-        let response = await this.backendService.getIrsData(
-          this.processId,
-          this.auth
-        );
-
-        store.commit("setIrsData", response);
-      } catch (error) {
-        console.error("API call failed:", error);
-      }
-    },
-    async invokeIrsState() {
-      try {
-        let response = await this.backendService.getIrsState(
-          this.processId,
-          this.auth
-        );
-
-        const created = new Date();
-        let currentTime = new Date();
-        let timediff = Math.floor(
-          (currentTime.getTime() - created.getTime()) / 1000 / 60
-        );
-        this.status = response.status;
-        this.infoBar = true;
-        while (response.status == 204 && timediff < IRS_MAX_WAITING_TIME) {
-          await threadUtil.sleep(IRS_DELAY);
-          response = await this.backendService.getIrsState(
-            this.processId,
-            this.auth
-          );
-          this.status = response.status;
-          if (response.status != 204) {
-            break;
-          }
-          currentTime = new Date();
-          timediff = Math.floor(
-            (currentTime.getTime() - created.getTime()) / 1000 / 60
-          );
-        }
-        this.loading = false;
-        if (response.status == 200) {
-          this.invokeIrsData();
-          this.infoBar = false;
-        } else if (response.status === 404) {
-          this.infoBarMessage = "No child components found";
-          this.infoColor = "#FFA000";
-        } else {
-          this.infoBarMessage =
-            "Something went wrong while searching for child components";
-          this.infoColor = "#d32f2f";
-        }
-      } catch (error) {
-        console.error("API call failed:", error);
-      }
-    },
   },
 };
 </script>
-

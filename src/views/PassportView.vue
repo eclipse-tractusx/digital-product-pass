@@ -259,6 +259,11 @@ export default {
         {
           label: "Components",
           icon: "mdi-battery-unknown",
+          component: "Components",
+        },
+        {
+          label: "Battery composition",
+          icon: "mdi-battery-unknown",
           component: "BatteryComposition",
         },
         {

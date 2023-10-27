@@ -84,13 +84,13 @@
       "mandatory": {
         "safetyTransportation": {
           "header": "Sustainability Document Material XY",
-          "category": "Safety",
+          "category": "Handling",
           "type": "link",
           "content": "www.alink.pdf"
         },
         "substanceOfConcernDisassembly": {
           "header": "Sustainability Document Material XY",
-          "category": "Safety",
+          "category": "Health",
           "type": "link",
           "content": "www.alink.pdf"
         },
@@ -123,7 +123,7 @@
           "name": "other",
           "document": {
             "header": "Sustainability Document Material XY",
-            "category": "Safety",
+            "category": "wrong",
             "type": "link",
             "content": "www.alink.pdf"
           }

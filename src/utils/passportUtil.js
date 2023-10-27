@@ -53,6 +53,18 @@ export default {
                     if (parentKey === "optional") {
                         doc = doc["document"];
                     }
+                    if (doc instanceof Array) {
+                        for (let docKey in doc) {
+                            let subDoc = doc[docKey]["document"];
+                            let category = subDoc["category"];
+                            if (!Object.prototype.hasOwnProperty.call(mappedSources, category)) {
+                                mappedSources[category] = [];
+                            }
+                            mappedSources[category].push(subDoc);
+                        }
+                        continue;
+                    }
+
                     let category = doc["category"];
                     if (!Object.prototype.hasOwnProperty.call(mappedSources, category)) {
                         mappedSources[category] = [];

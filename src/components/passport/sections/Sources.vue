@@ -25,42 +25,27 @@
     <v-container class="ma-0">
       <v-row class="section">
         <template v-if="propsData.mandatory">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Mandatory</div>
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Safety transportation"
-              :value="propsData.mandatory.safetyTransportation.header"
-              :link="propsData.mandatory.safetyTransportation.content"
-            />
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Substance of concern disassembly"
-              :value="propsData.mandatory.substanceOfConcernDisassembly.header"
-              :link="propsData.mandatory.substanceOfConcernDisassembly.content"
-            />
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Safety transportation"
-              :value="propsData.mandatory.safetyTransportation.header"
-              :link="propsData.mandatory.safetyTransportation.content"
-            />
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Substance of concern instruction"
-              :value="propsData.mandatory.substanceOfConcernInstruction.header"
-              :link="propsData.mandatory.substanceOfConcernInstruction.content"
-            />
-          </v-col>
-        </template>
-        <template v-if="propsData.mandatory.declarationOfConformity">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Other</div>
-            <AttributeField
-              icon="mdi-image-size-select-small"
-              label="Declaration of conformity"
-              :attributes-list="propsData.mandatory.declarationOfConformity"
-            />
+          <v-col
+            v-for="(attr, key) in mappedSources"
+            :key="key"
+            sm="12"
+            md="3"
+            class="pa-0 ma-0"
+          >
+            <div class="element-chart-label">{{ key }}</div>
+            <div
+              v-for="(doc, index) in attr"
+              :key="index"
+              class="element-chart-label"
+            >
+              <Field
+                :key="index"
+                icon="mdi-image-size-select-small"
+                :label="doc.header"
+                :value="doc.content"
+                :link="doc.content"
+              />
+            </div>
           </v-col>
         </template>
       </v-row>
@@ -70,13 +55,12 @@
 
 <script>
 import Field from "../Field.vue";
-import AttributeField from "../AttributeField.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "SourcesComponent",
   components: {
     Field,
-    AttributeField,
   },
   props: {
     data: {
@@ -87,7 +71,11 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.sources,
+      mappedSources: null,
     };
+  },
+  created() {
+    this.mappedSources = passportUtil.groupSources(this.propsData);
   },
 };
 </script>

@@ -27,7 +27,9 @@
     </a>
     <v-icon v-else start md :icon="icon" class="icon"> </v-icon>
     <span class="field-label">{{ label }}</span>
-    <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
+    <span v-if="value" class="field-value"
+      >{{ value }} {{ callUnitRemover(unit) }}</span
+    >
     <span v-else-if="length"></span>
     <span v-else-if="tempRangeMin" class="field-value">
       {{ tempRangeMin }} {{ tempUnit }} to {{ tempRangeMax }}
@@ -80,8 +82,15 @@
 </template>
 
 <script>
+import passportUtil from "@/utils/passportUtil.js";
+
 export default {
   name: "FieldComponent",
+  methods: {
+    callUnitRemover(unit) {
+      return passportUtil.unitRemover(unit);
+    },
+  },
   props: {
     icon: { type: [String, Number], default: "mdi-information-outline" },
     label: { type: [String, Number], default: "" },

@@ -84,7 +84,7 @@
         />
       </template>
       <template v-else>
-        <PassportHeader :id="id ? id : '-'" type="Passport ID" />
+        <PassportHeader :id="id ? id : '-'" type="ID" />
       </template>
       <div class="pass-container">
         <template
@@ -158,9 +158,9 @@ import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
+import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import iconFinder from "../utils/iconFinder";
 
 export default {
   name: "PassportView",
@@ -239,7 +239,7 @@ export default {
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
           label: key[0].toUpperCase() + key.slice(1),
-          icon: iconFinder(key),
+          icon: passportUtil.iconFinder(key),
           component: key,
         }));
       } else {

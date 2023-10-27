@@ -59,7 +59,7 @@
             <div class="element-chart-label"></div>
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Customer part Id"
+              label="Quantity"
               :value="propsData.quantity.value"
               :unit="propsData.quantity.unit"
             />

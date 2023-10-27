@@ -19,23 +19,28 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import iconMappings from "@/config/templates/iconMappings.json";
 
-import iconMappings from "../config/templates/iconMappings.json"
-
-export default function iconFinder(property) {
-    // Define a mapping of prefixes to icons
-    const prefixToIcon = iconMappings
-    // Split the camel-cased key into separate words and lowercase them
-    const words = property
-        .split(/(?=[A-Z])/)
-        .map((word) => word.toLowerCase());
-    // Check each word against the prefixToIcon mapping and take the first
-    for (const word of words) {
-        if (prefixToIcon[word]) {
-            return prefixToIcon[word];
+export default {
+    unitRemover(unit) {
+        return unit.replace("unit:", "");
+    },
+    iconFinder(property) {
+        // Define a mapping of prefixes to icons
+        const prefixToIcon = iconMappings;
+        // Split the camel-cased key into separate words and lowercase them
+        const words = property
+            .split(/(?=[A-Z])/)
+            .map((word) => word.toLowerCase());
+        // Check each word against the prefixToIcon mapping and take the first
+        for (const word of words) {
+            if (prefixToIcon[word]) {
+                return prefixToIcon[word];
+            }
         }
-    }
 
-    // If no match is found, return the default icon
-    return "mdi-information-outline";
-}
+        // If no match is found, return the default icon
+        return "mdi-information-outline";
+    }
+};
+

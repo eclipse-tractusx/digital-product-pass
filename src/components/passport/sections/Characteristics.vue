@@ -51,6 +51,24 @@
             />
           </v-col>
         </template>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.energyCapacity">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Energy capacity"
+              :value="propsData.energyCapacity.value"
+              :unit="propsData.energyCapacity.unit"
+            />
+          </template>
+          <template v-if="propsData.voltage">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Voltage"
+              :value="propsData.voltage.value"
+              :unit="propsData.voltage.unit"
+            />
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>

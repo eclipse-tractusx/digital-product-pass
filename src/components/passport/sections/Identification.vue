@@ -24,31 +24,34 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.localIdentifiers">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <AttributeField
-              icon="mdi-newspaper-variant-outline"
-              :attributes-list="propsData.localIdentifiers"
-              label="Part instance Id"
-            />
-            <template v-if="propsData.gtin">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.localIdentifiers">
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template v-for="attr in propsData.localIdentifiers" :key="attr">
               <Field
-                icon="mdi-arrow-down-circle-outline"
-                label="Gtin"
-                :value="propsData.gtin"
+                icon="mdi-newspaper-variant-outline"
+                :value="attr.value"
+                :label="attr.key"
               />
             </template>
-          </v-col>
-        </template>
-        <template v-if="propsData.additionalCode">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+          </template>
+        </v-col>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.gtin">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Gtin"
+              :value="propsData.gtin"
+            />
+          </template>
+          <template v-if="propsData.additionalCode">
             <AttributeField
               icon="mdi-newspaper-variant-outline"
               :attributes-list="propsData.additionalCode"
               label="TARIC"
             />
-          </v-col>
-        </template>
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>

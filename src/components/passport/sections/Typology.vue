@@ -36,13 +36,7 @@
               {{ propsData.description }}
             </template>
           </DialogComponent>
-          <Field
-            icon="mdi-arrow-down-circle-outline"
-            label="Description"
-            :value="propsData.description"
-          />
         </v-col>
-
         <template v-if="propsData.class">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
@@ -57,7 +51,6 @@
             />
           </v-col>
         </template>
-
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             icon="mdi-lightning-bolt-outline"

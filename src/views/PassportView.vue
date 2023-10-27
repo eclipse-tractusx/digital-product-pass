@@ -84,16 +84,7 @@
         />
       </template>
       <template v-else>
-        <PassportHeader
-          :id="
-            data.aspect &&
-            data.aspect.identification &&
-            data.aspect.identification.gtin
-              ? data.aspect.identification.gtin
-              : '-'
-          "
-          type="Passport ID"
-        />
+        <PassportHeader :id="id ? id : '-'" type="Passport ID" />
       </template>
       <div class="pass-container">
         <template
@@ -142,7 +133,7 @@
         </template>
         <template v-else>
           <TabsComponent
-            :componentsNames="generalComponentsNames"
+            :componentsNames="filteredComponentsNames"
             :componentsData="data"
           />
         </template>
@@ -169,6 +160,7 @@ import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import iconFinder from "../utils/iconFinder";
 
 export default {
   name: "PassportView",
@@ -184,63 +176,6 @@ export default {
   },
   data() {
     return {
-      generalComponentsNames: [
-        {
-          label: "Serialization",
-          icon: "mdi-information-outline",
-          component: "Serialization",
-        },
-        {
-          label: "Typology",
-          icon: "mdi-information-outline",
-          component: "Typology",
-        },
-        {
-          label: "Metadata",
-          icon: "mdi-information-outline",
-          component: "MetadataComponent",
-        },
-        {
-          label: "Characteristics",
-          icon: "mdi-information-outline",
-          component: "Characteristics",
-        },
-        {
-          label: "Commercial",
-          icon: "mdi-information-outline",
-          component: "Commercial",
-        },
-        {
-          label: "Identification",
-          icon: "mdi-information-outline",
-          component: "Identification",
-        },
-        {
-          label: "Sources",
-          icon: "mdi-information-outline",
-          component: "Sources",
-        },
-        {
-          label: "Handling",
-          icon: "mdi-information-outline",
-          component: "Handling",
-        },
-        {
-          label: "Additional data",
-          icon: "mdi-information-outline",
-          component: "AdditionalData",
-        },
-        {
-          label: "Sustainability",
-          icon: "mdi-information-outline",
-          component: "Sustainability",
-        },
-        {
-          label: "Operation",
-          icon: "mdi-information-outline",
-          component: "Operation",
-        },
-      ],
       batteryComponentsNames: [
         {
           label: "General Information",
@@ -295,6 +230,24 @@ export default {
     };
   },
 
+  computed: {
+    filteredComponentsNames() {
+      let dataKeys = Object.keys(this.data.aspect);
+      // Check if data exists and is not empty
+      if (this.data.aspect && dataKeys.length > 0) {
+        dataKeys.splice(3, 0, "components");
+        // Generate component names dynamically from the JSON keys
+        return dataKeys.map((key) => ({
+          label: key[0].toUpperCase() + key.slice(1),
+          icon: iconFinder(key),
+          component: key,
+        }));
+      } else {
+        return [];
+      }
+    },
+  },
+
   async created() {
     let result = null;
     try {
@@ -324,7 +277,7 @@ export default {
         this.data["status"] == 200 &&
         jsonUtil.exists("data", this.data) &&
         jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("aspect", this.data["data"]) && 
+        jsonUtil.exists("aspect", this.data["data"]) &&
         jsonUtil.exists("semanticId", this.data["data"])
       ) {
         this.data = configUtil.normalizePassport(

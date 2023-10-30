@@ -225,6 +225,11 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            processManager.setStatus(processId, "digital-twin-found", new History(
+                    assetId,
+                    "READY"
+            ));
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
             processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
@@ -242,11 +247,6 @@ public class AppController {
                 this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
             }
 
-            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            processManager.setStatus(processId, "digital-twin-found", new History(
-                    assetId,
-                    "READY"
-            ));
 
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");

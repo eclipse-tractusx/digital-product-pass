@@ -141,60 +141,7 @@ public class DtrSearchManager {
                     //Iterate the edcEndpoints
                     edcEndpointsToSearch.parallelStream().forEach(edcEndPoint -> {
                         //Iterate the connectionsURLs for each BPN
-                        edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> {
-                            //Search Digital Twin Catalog for each connectionURL with a timeout time
-                            Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(connectionUrl), "ProcessDtrDataModel");
-                            try {
-                                if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
-                                    asyncThread.interrupt();
-                                    LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                    return;
-                                }
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                            //Get catalog for a specific connectionURL (if exists) in the catalogCache data structure
-                            Catalog catalog = catalogsCache.get(connectionUrl);
-                            if (catalog == null) {
-                                return;
-                            }
-                            Object contractOffers = catalog.getContractOffers();
-                            //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
-                            if (contractOffers == null) {
-                                return;
-                            }
-                            if (contractOffers instanceof LinkedHashMap) {
-                                Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
-                                if (dataset != null) {
-                                    Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
-                                    try {
-                                        if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
-                                            singleOfferThread.interrupt();
-                                            LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                            return;
-                                        }
-                                    } catch (InterruptedException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                                return;
-                            }
-                            List<Dataset> contractOfferList = (List<Dataset>) jsonUtil.bindObject(contractOffers, List.class);
-                            if (contractOfferList.isEmpty()) {
-                                return;
-                            }
-                            contractOfferList.parallelStream().forEach(dataset -> {
-                                Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
-                                try {
-                                    if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
-                                        multipleOffersThread.interrupt();
-                                        LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                    }
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-                        });
+                        edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> searchEndpoint(processId, edcEndPoint.getBpn(),connectionUrl));
                     });
                     state = State.Finished;
                 } catch (Exception e) {
@@ -203,6 +150,107 @@ public class DtrSearchManager {
                 }
             }
         };
+    }
+
+    /**
+     * It's a Thread level method that implements the Runnable interface and starts the process of searching known DTRs with
+     * the given EDC endpoint for a given processId.
+     * <p>
+     * @param   dtrs
+     *          the {@code List<Dtr>} of digital twin registries known
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return a {@code Runnable} object to be used by a calling thread.
+     *
+     * @throws DataModelException
+     *           if unable to get and process the DTRs.
+     * @throws RuntimeException
+     *           if there's an unexpected thread interruption.
+     *
+     */
+    public Runnable updateProcess(List<Dtr> dtrs, String processId) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                state = State.Running;
+                if (dtrs == null || processId == null) {
+                    return;
+                }
+                List<Dtr> dtrEndpoints = null;
+                try {
+                    dtrEndpoints = (List<Dtr>) jsonUtil.bindReferenceType(dtrs, new TypeReference<List<EdcDiscoveryEndpoint>>() {
+                    });
+                } catch (Exception e) {
+                    throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
+                }
+                try {
+                    //Iterate the edcEndpoints
+                    dtrEndpoints.parallelStream().forEach(dtr -> {
+                        //Iterate the known DTRs
+                        searchEndpoint(processId, dtr.getBpn(), dtr.getEndpoint());
+                    });
+                    state = State.Finished;
+                } catch (Exception e) {
+                    state = State.Error;
+                    throw new DataModelException(this.getClass().getName(), e, "It was not possible to process the DTRs");
+                }
+            }
+        };
+    }
+    public void searchEndpoint(String processId, String bpn, String endpoint){
+        //Search Digital Twin Catalog for each connectionURL with a timeout time
+        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "ProcessDtrDataModel");
+        try {
+            if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
+                asyncThread.interrupt();
+                LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                return;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Get catalog for a specific connectionURL (if exists) in the catalogCache data structure
+        Catalog catalog = catalogsCache.get(endpoint);
+        if (catalog == null) {
+            return;
+        }
+        Object contractOffers = catalog.getContractOffers();
+        //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
+        if (contractOffers == null) {
+            return;
+        }
+        if (contractOffers instanceof LinkedHashMap) {
+            Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
+            if (dataset != null) {
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+                try {
+                    if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                        singleOfferThread.interrupt();
+                        LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return;
+        }
+        List<Dataset> contractOfferList = (List<Dataset>) jsonUtil.bindObject(contractOffers, List.class);
+        if (contractOfferList.isEmpty()) {
+            return;
+        }
+        contractOfferList.parallelStream().forEach(dataset -> {
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+            try {
+                if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                    multipleOffersThread.interrupt();
+                    LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**

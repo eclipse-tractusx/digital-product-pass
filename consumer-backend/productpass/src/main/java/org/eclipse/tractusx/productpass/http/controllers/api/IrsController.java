@@ -102,15 +102,31 @@ public class IrsController {
 
             Status status = processManager.getStatus(processId);
             if(status == null){
+                this.processManager.setJobChildrenFound(processId, -2);
                 return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
             }
-
-            if(!status.getJob().getSearchId().equals(searchId)){
+            JobHistory jobHistory = status.getJob();
+            if(jobHistory == null){
+                LogUtil.printWarning("["+processId+"] Job not found! Retrying...");
+                status = processManager.getStatus(processId);
+                jobHistory = status.getJob();
+                if(jobHistory == null) {
+                    LogUtil.printError("["+processId+"] Job not found again!");
+                    this.processManager.setJobChildrenFound(processId, -2);
+                    return httpUtil.buildResponse(httpUtil.getNotFound(), httpResponse);
+                }
+            }
+            String jobSearchId = jobHistory.getSearchId();
+            if(jobSearchId == null){
+                LogUtil.printError("["+processId+"] The search id was null! Not able to find the job!");
+                this.processManager.setJobChildrenFound(processId, -2);
                 return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
             }
-
-            JobHistory jobHistory = status.getJob();
-
+            if(!jobSearchId.equals(searchId)){
+                LogUtil.printError("["+processId+"] The search id was not found in the job history again!");
+                this.processManager.setJobChildrenFound(processId, -2);
+                return httpUtil.buildResponse(httpUtil.getNotAuthorizedResponse(), httpResponse);
+            }
             LogUtil.printMessage("["+processId+"] Job callback received with state ["+ state+"]. Requesting Job ["+jobHistory.getJobId()+"]!");
             JobResponse irsJob = this.irsService.getJob(jobHistory.getJobId());
             this.treeManager.populateTree(processId, jobHistory, irsJob);
@@ -118,6 +134,7 @@ public class IrsController {
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             response.message = e.getMessage();
+            this.processManager.setJobChildrenFound(processId, -2);
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
@@ -245,6 +262,13 @@ public class IrsController {
             Integer children = status.getJob().getChildren();
 
             switch (children){
+
+                case -2:
+                    response.status = 400;
+                    response.statusText = "Bad Request";
+                    response.message = "Something went wrong while searching for the children";
+                    break;
+
                 case -1:
                     response.status = 204;
                     response.statusText = "No Content";

@@ -643,4 +643,25 @@ public class CatenaXService extends BaseService {
                     "It was not possible to search the DTRs.");
         }
     }
+    /**
+     * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
+     * <p>
+     * @param   dtrList
+     *          the {@code List<String>} list of bpns to search
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @throws  ServiceException
+     *           if unable to get the BPN discovery endpoint.
+     */
+    public void updateKnownDtrs (List<Dtr> dtrList, String processId) {
+        try {
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.updateProcess(dtrList, processId), "ProcessDtrDataModel-Update");
+            thread.join();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "updateKnownDTRs",
+                    e,
+                    "It was not possible to update the DTRs.");
+        }
+    }
 }

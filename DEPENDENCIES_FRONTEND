@@ -35,7 +35,7 @@ npm/npmjs/-/browserslist/4.21.4, MIT, approved, #7034
 npm/npmjs/-/buffer-crc32/0.2.13, MIT, approved, clearlydefined
 npm/npmjs/-/buffer/5.7.1, MIT, approved, clearlydefined
 npm/npmjs/-/cachedir/2.3.0, MIT, approved, clearlydefined
-npm/npmjs/-/call-bind/1.0.2, MIT, approved, clearlydefined
+npm/npmjs/-/call-bind/1.0.2, MIT, approved, #11092
 npm/npmjs/-/callforth/0.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/callsites/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/caniuse-lite/1.0.30001449, CC-BY-4.0, approved, #1196

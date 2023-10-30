@@ -210,7 +210,7 @@ export default {
         {
           label: "Data exchange information",
           icon: "mdi-file-swap-outline",
-          component: "ContractInformation",
+          component: "Exchange",
         },
       ],
       auth: inject("authentication"),
@@ -234,7 +234,7 @@ export default {
       let dataKeys = Object.keys(this.data.aspect);
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
-        dataKeys.splice(3, 0, "components");
+        dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
           label: key[0].toUpperCase() + key.slice(1),

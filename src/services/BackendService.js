@@ -172,17 +172,54 @@ export default class BackendService {
             await threadUtil.sleep(waitingTime);
             retries++;
         }
-
-        if (status === "COMPLETED" || status === "RECEIVED") {
+        if(status === "COMPLETED"){
             return await this.retrievePassport(negotiation, authentication);
         }
 
-        return this.getErrorMessage(
-            "Failed to retrieve passport!",
-            500,
-            "Internal Server Error"
-        )
+        if (status !== "RECEIVED") {
+            return this.getErrorMessage(
+                "Failed to retrieve passport!",
+                500,
+                "Internal Server Error"
+            )
+        }
+        // Get status again
+        statusResponse = await this.getStatus(processId, authentication)
+        status = jsonUtil.get("data.status", statusResponse);
+        // If status is completed retrieve passport
+        if(status === "COMPLETED"){
+            return await this.retrievePassport(negotiation, authentication);
+        }
+        
+        // Check the history
+        let history = jsonUtil.get("data.history", statusResponse);
+        retries = 0;
+        // Until the transfer is completed or the status is failed
+        while(retries < maxRetries){
+            // Wait
+            await threadUtil.sleep(waitingTime);
+            // Refresh the values
+            statusResponse = await this.getStatus(processId, authentication);
+            status = jsonUtil.get("data.status", statusResponse);
+            history = jsonUtil.get("data.history", statusResponse);
+            if(jsonUtil.exists("transfer-completed", history) || status === "FAILED"){
+                break;
+            }
+            retries++;
+        }
+        
+        // If the status is failed...
+        if (status === "FAILED") {
+            return this.getErrorMessage(
+                "Failed to retrieve passport!",
+                500,
+                "Internal Server Error"
+            )
+        }
+        // If is not failed return the passport
+        return await this.retrievePassport(negotiation, authentication);
     }
+    
     getErrorMessage(message, status, statusText) {
         return {
             "message": message,

@@ -1010,8 +1010,8 @@ public class ProcessManager {
                     negotiationPayload,
                     fileName,
                     negotiation.getContractAgreementId(),
-                    "ACCEPTED",
-                    "negotiation-accepted");
+                    !dtr?"ACCEPTED":"DTR-ACCEPTED",
+                    !dtr?"negotiation-accepted":"dtr-negotiation-accepted");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation!");
         }
@@ -1046,7 +1046,7 @@ public class ProcessManager {
                     fileName,
                     transfer.getId(),
                     !dtr?"COMPLETED":"FOUND-DTR",
-                    "transfer-completed");
+                    !dtr?"transfer-completed":"dtr-transfer-completed");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer!");
         }

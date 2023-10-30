@@ -27,6 +27,7 @@ package org.eclipse.tractusx.productpass.services;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
@@ -34,6 +35,7 @@ import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationExceptio
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
+import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,8 @@ import utils.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 /**
  * This class consists exclusively of methods to operate on executing Catena-X related operations.
  *
@@ -57,19 +60,22 @@ import java.util.Map;
 @Service
 public class CatenaXService extends BaseService {
 
-    /** ATTRIBUTES **/
     private final HttpUtil httpUtil;
+
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
     private final VaultService vaultService;
     private final DtrSearchManager dtrSearchManager;
     private final DataTransferService dataTransferService;
+
     private final AuthenticationService authService;
+
     private final DiscoveryConfig discoveryConfig;
+
     private DtrConfig dtrConfig;
     private String discoveryEndpoint;
-    private List<String> defaultDiscoveryKeys;
 
+    private List<String> defaultDiscoveryKeys;
     /** CONSTRUCTOR(S) **/
     @Autowired
     public CatenaXService(Environment env, FileUtil fileUtil, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, DtrSearchManager dtrSearchManager, AuthenticationService authService, DiscoveryConfig discoveryConfig, DataTransferService dataTransferService, DtrConfig dtrConfig) throws ServiceInitializationException {
@@ -85,45 +91,18 @@ public class CatenaXService extends BaseService {
         this.init(env);
         this.checkEmptyVariables();
     }
-
     /** METHODS **/
 
     /**
      * Initiates the main needed variables for Catena-X Service by loading from the application's configuration file.
      **/
+
     public void init(Environment env){
         this.discoveryEndpoint = this.discoveryConfig.getEndpoint();
         this.defaultDiscoveryKeys = List.of(
                 this.discoveryConfig.getBpn().getKey(), this.discoveryConfig.getEdc().getKey()
         );
     }
-
-    /**
-     * Checks if the empty variables are well configured.
-     * <p>
-     *
-     * @throws  ServiceInitializationException
-     *           if unable to check initialize the service.
-     */
-    @Override
-    public void checkEmptyVariables() throws ServiceInitializationException {
-        super.checkEmptyVariables();
-    }
-
-    /**
-     * Checks if the empty variables are well configured.
-     * <p>
-     * @param   initializationOptionalVariables
-     *          the {@code List} list of the initialization optional variables.
-     *
-     * @throws  ServiceInitializationException
-     *           if unable to check initialize the service.
-     */
-    @Override
-    public void checkEmptyVariables(List<String> initializationOptionalVariables) throws ServiceInitializationException {
-        super.checkEmptyVariables(initializationOptionalVariables);
-    }
-
     /**
      * Creates a List of missing variables needed to proceed with the authentication.
      * <p>
@@ -147,6 +126,30 @@ public class CatenaXService extends BaseService {
     }
 
     /**
+     * Checks if the empty variables are well configured.
+     * <p>
+     *
+     * @throws  ServiceInitializationException
+     *           if unable to check initialize the service.
+     */
+    @Override
+    public void checkEmptyVariables() throws ServiceInitializationException {
+        super.checkEmptyVariables();
+    }
+    /**
+     * Checks if the empty variables are well configured.
+     * <p>
+     * @param   initializationOptionalVariables
+     *          the {@code List} list of the initialization optional variables.
+     *
+     * @throws  ServiceInitializationException
+     *           if unable to check initialize the service.
+     */
+    @Override
+    public void checkEmptyVariables(List<String> initializationOptionalVariables) throws ServiceInitializationException {
+        super.checkEmptyVariables(initializationOptionalVariables);
+    }
+    /**
      * Gets the default discovery endpoints.
      * <p>
      *
@@ -156,7 +159,6 @@ public class CatenaXService extends BaseService {
     public Discovery getDiscoveryEndpoints() {
         return this.getDiscoveryEndpoints(this.defaultDiscoveryKeys); // Get default discovery endpoints
     }
-
     /**
      * Initiates the default endpoints discovery.
      * <p>
@@ -178,7 +180,6 @@ public class CatenaXService extends BaseService {
         }
         return null;
     }
-
     /**
      * Adds a new entry to the discovery endpoints list for a given key.
      * <p>
@@ -205,6 +206,28 @@ public class CatenaXService extends BaseService {
                     "It was not possible to get the discovery endpoints");
         }
     }
+    /**
+     * Gets the discovery endpoints from the {@code Discovery} object for a given key.
+     * <p>
+     * @param   discovery
+     *          the {@code Discovery} object containing the list of discovery endpoints.
+     * @param   key
+     *          the {@code String} key parameter to search the discovery endpoint.
+     *
+     * @return a {@code List<Discovery.Endpoint>} object with the endpoint data found.
+     *
+     * @throws  ServiceException
+     *           if unable to get the endpoint for the given key.
+     */
+    public List<Discovery.Endpoint> getDiscoveryEndpoints(Discovery discovery, String key) {
+        List<Discovery.Endpoint> endpoints = discovery.getEndpoints();
+        List<Discovery.Endpoint> filteredEndpoints = endpoints.stream().filter(endpoint -> endpoint.getType().equals(key)).toList();
+        if(filteredEndpoints.isEmpty()){
+            throw new ServiceException(this.getClass().getName() + "." + "updateDiscovery",
+                    "The endpoint ["+key+"] is not available in the discovery endpoint ["+this.discoveryEndpoint +"]");
+        }
+        return filteredEndpoints;
+    }
 
     /**
      * Gets the discovery endpoint from the {@code Discovery} object for a given key.
@@ -228,7 +251,6 @@ public class CatenaXService extends BaseService {
         }
         return responseEndpoint;
     }
-
     /**
      * Updates the discovery endpoint from the {@code Discovery} object with a given key.
      * <p>
@@ -242,7 +264,6 @@ public class CatenaXService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the endpoint for the given key.
      */
-    @SuppressWarnings("Unused")
     public Boolean updateDiscovery(Discovery discovery, String key){
         try{
             if(discovery.getEndpoints().isEmpty()){
@@ -257,7 +278,6 @@ public class CatenaXService extends BaseService {
                     "Failed to update the discovery endpoints");
         }
     }
-
     /**
      * Updates the given {@code Discovery} object with default discovery endpoints.
      * <p>
@@ -275,16 +295,42 @@ public class CatenaXService extends BaseService {
                 return false;
             }
             // Get discovery endpoints by key
-            Discovery.Endpoint bpnEndpoint = this.getDiscoveryEndpoint(discovery, this.discoveryConfig.getBpn().getKey());
-            Discovery.Endpoint edcEndpoint = this.getDiscoveryEndpoint(discovery, this.discoveryConfig.getEdc().getKey());
-            return this.updateDefaultDiscoveryFile(bpnEndpoint, edcEndpoint); // Create default discovery file
+            List<Discovery.Endpoint> bpnEndpoints = this.getDiscoveryEndpoints(discovery, this.discoveryConfig.getBpn().getKey());
+            List<Discovery.Endpoint> edcEndpoints = this.getDiscoveryEndpoints(discovery, this.discoveryConfig.getEdc().getKey());
+            return this.updateDefaultDiscoveryFile(bpnEndpoints, edcEndpoints); // Create default discovery file
         }catch(Exception e){
             throw new ServiceException(this.getClass().getName() + "." + "updateDiscovery",
                     e,
                     "Failed to update the discovery endpoints");
         }
     }
-
+    /**
+     * Creates or Updates the endpoints with the given key in the vault, if exists.
+     * <p>
+     * @param   endpoints
+     *          the {@code List<Discovery.Endpoint>} object to update.
+     * @param   key
+     *          the {@code String} key parameter to update.
+     *
+     * @return true if the endpoint is successfully created/update, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to update the discovery endpoint.
+     */
+    public Boolean updateEndpointFile(List<Discovery.Endpoint> endpoints, String key){
+        try {
+            boolean returnState;
+            for(Discovery.Endpoint endpoint: endpoints) {
+                returnState = this.updateEndpointFile(endpoint, key);
+                if(!returnState){
+                    return false;
+                }
+            }
+            return true;
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to create/update discovery endpoints for key [" + key + "]");
+        }
+    }
     /**
      * Creates or Updates the endpoint with the given key in the vault, if exists.
      * <p>
@@ -305,17 +351,53 @@ public class CatenaXService extends BaseService {
                 LogUtil.printError("The endpoint for key ["+key+"] address is not defined!");
                 return false;
             }
-
-            if(!this.vaultService.setLocalSecret("discovery."+key, address)){
-                LogUtil.printError("Failed to create/update discovery key ["+key+"] endpoint!");
-                return false;
-            };
+            List<String> endpoints = new ArrayList<String>();
+            if(this.vaultService.secretExists("discovery."+key)){
+                endpoints = (List<String>) this.vaultService.getLocalSecret("discovery."+key);
+            }
+            if(!endpoints.contains(address)){
+                endpoints.add(address);
+                if(!this.vaultService.setLocalSecret("discovery."+key, endpoints)){
+                    LogUtil.printError("Failed to create/update discovery key ["+key+"] endpoint!");
+                    return false;
+                };
+            }
             return true;
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName(), e, "It was not possible to create/update discovery endpoints for key [" + key + "]");
         }
     }
 
+    /**
+     * Creates or Updates BPN and EDC endpoints in the Vault.
+     * <p>
+     * @param   bpnEndpoints
+     *          the {@code List<Discovery.Endpoint>} object related to BPN.
+     * @param   edcEndpoints
+     *          the {@code List<Discovery.Endpoint>} object related to EDC.
+     *
+     * @return true if both endpoints are successfully created/update, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to create/update the BPN and EDC endpoints.
+     */
+    public Boolean updateDefaultDiscoveryFile(List<Discovery.Endpoint> bpnEndpoints, List<Discovery.Endpoint> edcEndpoints){
+        try {
+            Boolean bpnResponse = this.updateEndpointFile(bpnEndpoints, this.discoveryConfig.getBpn().getKey());
+            Boolean edcResponse = this.updateEndpointFile(edcEndpoints, "edc");
+            if(!bpnResponse){
+                LogUtil.printError("Something went wrong when getting the bpn endpoint");
+                return false;
+            }
+            if(!edcResponse){
+                LogUtil.printError("Something went wrong when getting the edc endpoint");
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to create/update main discovery endpoints");
+        }
+    }
     /**
      * Creates or Updates BPN and EDC endpoints in the Vault.
      * <p>
@@ -346,7 +428,6 @@ public class CatenaXService extends BaseService {
             throw new ServiceException(this.getClass().getName(), e, "It was not possible to create/update main discovery endpoints");
         }
     }
-
     /**
      * Gets the Discovery endpoint for the given key, if exists.
      * <p>
@@ -367,7 +448,6 @@ public class CatenaXService extends BaseService {
                     "It was not possible to retrieve the discovery finder!");
         }
     }
-
     /**
      * Gets the Discovery endpoint for a given endpoints list.
      * <p>
@@ -399,7 +479,6 @@ public class CatenaXService extends BaseService {
                     "It was not possible to retrieve the discovery finder!");
         }
     }
-
     /**
      * Gets the EDC Discovery endpoints for a given BPNs list.
      * <p>
@@ -414,31 +493,46 @@ public class CatenaXService extends BaseService {
     public List<EdcDiscoveryEndpoint> getEdcDiscovery(List<String> bpns) {
         try {
             this.checkEmptyVariables();
-            String edcEndpoint = null;
+            List<String> edcEndpoints = null;
             // Check if the variable edc endpoint is correct
             try {
-                edcEndpoint = (String) this.vaultService.getLocalSecret("discovery.edc");
+                edcEndpoints = (List<String>) this.vaultService.getLocalSecret("discovery.edc");
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", e, "It was not possible to retrieve the edc discovery endpoint from the vault");
             }
-            if (edcEndpoint == null) {
+            if (edcEndpoints == null) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", "The edc discovery endpoint is empty!");
             }
+            List<EdcDiscoveryEndpoint> edcDiscoveryResponses = new ArrayList<>();
+            for(String edcEndpoint : edcEndpoints) {
 
-            // Add the technical token
-            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
-            headers.add("Content-Type", "application/json");
+                // Add the technical token
+                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+                headers.add("Content-Type", "application/json");
+                try{
+                    ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false);
+                    JsonNode result = (JsonNode) response.getBody();
+                    List<EdcDiscoveryEndpoint> edcDiscoveryResponse = (List<EdcDiscoveryEndpoint>) jsonUtil.bindJsonNode(result, List.class);
+                    if(edcDiscoveryResponse.isEmpty()) {
+                        LogUtil.printWarning("List of EDCs not found in EDC Discovery Url: ["+edcEndpoint+"]");
+                        continue;
+                    }
+                    edcDiscoveryResponses.addAll(edcDiscoveryResponse);
+                }catch (Exception e){
+                    LogUtil.printException(e, "It was not possible to get the edc endpoints from the EDC Discovery Service endpoint: ["+edcEndpoint+"]");
+                }
 
-            ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false);
-            JsonNode result = (JsonNode) response.getBody();
-            return (List<EdcDiscoveryEndpoint>) jsonUtil.bindJsonNode(result, List.class);
+            }
+            if(edcDiscoveryResponses.isEmpty()){
+                return null;
+            }
+            return edcDiscoveryResponses;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getEdcDiscovery",
                     e,
                     "It was not possible to get the edc endpoints from the EDC Discovery Service");
         }
     }
-
     /**
      * Gets the BPN discovery endpoint for a given id and id's type.
      * <p>
@@ -452,10 +546,9 @@ public class CatenaXService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the BPN discovery endpoint.
      */
-    public BpnDiscovery getBpnDiscovery(String id, String type){
+    public List<BpnDiscovery> getBpnDiscovery(String id, String type){
         try {
             this.checkEmptyVariables();
-            String bpnEndpoint = null;
             // Check if the discovery type id exists in the endpoint from the edc discovery
             if(!this.vaultService.secretExists("discovery."+type)){
                 Discovery discovery = this.addEndpoint(type);
@@ -463,41 +556,55 @@ public class CatenaXService extends BaseService {
                     throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", "The discovery finder service failed");
                 }
             }
-
+            List<String> bpnEndpoints = new ArrayList<>();
             try {
-                bpnEndpoint = (String) this.vaultService.getLocalSecret("discovery."+type);
+                bpnEndpoints = (List<String>) this.vaultService.getLocalSecret("discovery."+type);
             }catch (Exception e) {
                 throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", e, "It was not possible to retrieve the bpn discovery endpoint from the vault");
             }
-            if(bpnEndpoint == null){
+            if(bpnEndpoints == null){
                 throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", "The bpn discovery endpoint is empty!");
             }
+            List<BpnDiscovery> bpnDiscoveryResponse = new ArrayList<>();
+            for(String bpnEndpoint : bpnEndpoints) {
 
-            String searchEndpoint = bpnEndpoint + this.discoveryConfig.getBpn().getSearchPath();
+                String searchEndpoint = bpnEndpoint + this.discoveryConfig.getBpn().getSearchPath();
 
 
-            // Set request body
-            Object body = Map.of(
-                    "searchFilter",List.of(
-                            Map.of(
-                                "type", type, "keys", List.of(id)
-                            )
-                    )
-            );
+                // Set request body
+                Object body = Map.of(
+                        "searchFilter", List.of(
+                                Map.of(
+                                        "type", type, "keys", List.of(id)
+                                )
+                        )
+                );
 
-            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
-            headers.add("Content-Type", "application/json");
-
-            ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
-            JsonNode result = (JsonNode) response.getBody();
-            return (BpnDiscovery) jsonUtil.bindJsonNode(result, BpnDiscovery.class);
+                HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+                headers.add("Content-Type", "application/json");
+                try{
+                    ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+                    JsonNode result = (JsonNode) response.getBody();
+                    BpnDiscovery bpnDiscovery = (BpnDiscovery) jsonUtil.bindJsonNode(result, BpnDiscovery.class);
+                    if(bpnDiscovery == null){
+                        LogUtil.printWarning("Response from search endpoint: [" + searchEndpoint + "]");
+                        continue;
+                    }
+                    bpnDiscoveryResponse.add(bpnDiscovery);
+                }catch (Exception e){
+                    LogUtil.printException(e, "BPN Number not found for ["+searchEndpoint+"] and keyType ["+type+"]!");
+                }
+            }
+            if(bpnDiscoveryResponse.isEmpty()){
+                return null;
+            }
+            return bpnDiscoveryResponse;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getBpnDiscovery",
                     e,
                     "It was not possible to retrieve the bpn at the BPN discovery service");
         }
     }
-
     /**
      * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
      * <p>

@@ -23,7 +23,9 @@
 
 package org.eclipse.tractusx.productpass.services;
 
+import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
@@ -63,6 +65,8 @@ public class AasService extends BaseService {
     public String registryUrl;
 
     public Boolean central;
+    public String semanticIdTypeKey;
+
     private final HttpUtil httpUtil;
     private final JsonUtil jsonUtil;
     private final DtrConfig dtrConfig;
@@ -72,9 +76,12 @@ public class AasService extends BaseService {
     private ProcessManager processManager;
     private DataTransferService dataService;
 
+    private PassportConfig passportConfig;
+
+
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig, DtrSearchManager dtrSearchManager, ProcessManager processManager, DataTransferService dataService) throws ServiceInitializationException {
+    public AasService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, AuthenticationService authService, DtrConfig dtrConfig, DtrSearchManager dtrSearchManager, ProcessManager processManager, DataTransferService dataService, PassportConfig passportConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
@@ -84,6 +91,7 @@ public class AasService extends BaseService {
         this.dataService = dataService;
         this.init(env);
         this.checkEmptyVariables();
+        this.passportConfig = passportConfig;
     }
 
     /** METHODS **/
@@ -102,6 +110,7 @@ public class AasService extends BaseService {
                     "subModel", "/submodel-descriptors"
             );
         }
+        this.semanticIdTypeKey = dtrConfig.getSemanticIdTypeKey();
         this.apis = Map.of(
                 "central", Map.of(
                         "search", "/lookup/shells",
@@ -194,7 +203,6 @@ public class AasService extends BaseService {
                 throw new ServiceException(this.getClass().getName() + "." + "searchDigitalTwin",
                         "It was not possible to get digital twin in the selected position for the selected asset type and the the selected assetId");
             }
-
 
             String digitalTwinId = digitalTwinIds.get(position);
             DigitalTwin3 digitalTwin = this.getDigitalTwin3(digitalTwinId, registryUrl, edr);
@@ -319,7 +327,31 @@ public class AasService extends BaseService {
     public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin, String semanticId) {
         try {
             SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin, semanticId);
-            LogUtil.printWarning("SUBMODEL3:\n" + jsonUtil.toJson(subModel, true));
+            if (subModel == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3BySemanticId",
+                        "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
+            }
+            return subModel;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3ById",
+                    e,
+                    "It was not possible to search submodel!");
+        }
+    }
+    /**
+     * Searches a {@code Submodel3} from a Digital Twin by the configured semanticIds
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
+    public SubModel3 searchSubModel3BySemanticId(DigitalTwin3 digitalTwin) {
+        try {
+            SubModel3 subModel = this.getSubModel3BySemanticId(digitalTwin);
             if (subModel == null) {
                 throw new ServiceException(this.getClass().getName() + "." + "searchSubModel3BySemanticId",
                         "It was not possible to get submodel in the selected position for the selected asset type and the the selected assetId");
@@ -558,11 +590,49 @@ public class AasService extends BaseService {
     }
 
     /**
+     * Gets the {@code Submodel3} from a Digital Twin by the configured semantic aspects
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin3} object with its submodels.
+     *
+     * @return a {@code Submodel3} object with the submodel found, if exists.
+     *
+     * @throws  ServiceException
+     *           if unable to find a the {@code Submodel3} for the given semantic id.
+     */
+
+    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin) {
+        try {
+            ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
+            if (subModels.size() < 1) {
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                        "No subModel found in digitalTwin!");
+            }
+            SubModel3 subModel = null;
+            // Search for first subModel with matching semanticId, if it fails gives null
+            for (String semanticId: passportConfig.getAspects()) {
+                subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().stream().anyMatch(
+                        k -> (k.getType().equalsIgnoreCase(this.semanticIdTypeKey) && k.getValue().equalsIgnoreCase(semanticId))
+                )).findFirst().orElse(null);
+                if (subModel != null) {
+                    return subModel; // Return subModel if found
+                }
+            }
+            // If the subModel semanticId does not exist
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    "SubModel for SemanticId not found!");
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    e,
+                    "It was not possible to get subModel!");
+        }
+    }
+    /**
      * Gets the {@code Submodel3} from a Digital Twin by a given semantic identification.
      * <p>
      * @param   digitalTwin
      *          the {@code DigitalTwin3} object with its submodels.
-     * @param   semanticId
+     * @param   aspectSemanticId
      *          the {@code String} semantic id of the intended submodel.
      *
      * @return a {@code Submodel3} object with the submodel found, if exists.
@@ -570,25 +640,27 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a the {@code Submodel3} for the given semantic id.
      */
-    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin, String semanticId) {
+    public SubModel3 getSubModel3BySemanticId(DigitalTwin3 digitalTwin, String aspectSemanticId) {
         try {
             ArrayList<SubModel3> subModels = digitalTwin.getSubmodelDescriptors();
             if (subModels.size() < 1) {
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
+                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                         "No subModel found in digitalTwin!");
             }
-            // Search for first subModel with matching idShort, if it fails gives null
-            SubModel3 subModel = subModels.stream().filter(s -> s.getSemanticId().getKeys().get("Submodel").equalsIgnoreCase(semanticId)).findFirst().orElse(null);
-
-            if (subModel == null) {
-                // If the subModel idShort does not exist
-                throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
-                        "SubModel for SemanticId not found!");
+            SubModel3 subModel = null;
+            // Search for first subModel with matching semanticId, if it fails gives null
+            subModel = subModels.stream().filter(
+                    s -> s.getSemanticId().getKeys().stream().anyMatch(
+                            k -> (k.getType().equalsIgnoreCase(this.semanticIdTypeKey) && k.getValue().equalsIgnoreCase(aspectSemanticId))
+                    )).findFirst().orElse(null);
+            if (subModel != null) {
+                return subModel; // Return subModel if found
             }
-            // Return subModel if found
-            return subModel;
+            // If the subModel semanticId does not exist
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
+                    "SubModel for SemanticId not found!");
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3ById",
+            throw new ServiceException(this.getClass().getName() + "." + "getSubModel3BySemanticId",
                     e,
                     "It was not possible to get subModel!");
         }
@@ -753,11 +825,8 @@ public class AasService extends BaseService {
         try {
             Status status = this.processManager.getStatus(processId);
             SearchStatus searchStatus = this.processManager.setSearch(processId, searchBody);
-            LogUtil.printWarning("Decentral SearchStatus:\n" + jsonUtil.toJson(searchStatus, true));
             for (String endpointId : searchStatus.getDtrs().keySet()) {
                 Dtr dtr = searchStatus.getDtr(endpointId);
-                LogUtil.printWarning("EndpointId: " + endpointId);
-                LogUtil.printWarning("Decentral DTR:\n" + jsonUtil.toJson(dtr, true));
                 DataTransferService.DigitalTwinRegistryTransfer dtrTransfer = dataService.new DigitalTwinRegistryTransfer(
                         processId,
                         endpointId,
@@ -765,7 +834,6 @@ public class AasService extends BaseService {
                         searchBody,
                         dtr
                 );
-                LogUtil.printWarning("Decentral DTRTransfer:\n" + jsonUtil.toJson(dtrTransfer, true));
                 Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
                 thread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getTransfer()));
             }
@@ -780,7 +848,6 @@ public class AasService extends BaseService {
                 return null;
             }
             status = this.processManager.getStatus(processId);
-            LogUtil.printWarning("STATUS:\n" + jsonUtil.toJson(status, true));
             if(status.historyExists("digital-twin-found")){
                 return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
             };
@@ -893,20 +960,25 @@ public class AasService extends BaseService {
             Status status = this.getStatus();
             while(!status.historyExists("digital-twin-found")){
                 status = this.getStatus();
-                if(status.getStatus().equals("FAILED")){
+                if (status.getStatus().equals("FAILED")) {
                     break;
                 }
             }
         }
 
         public Status getStatus(){
-            return this.processManager.getStatus(this.processId);
+            try {
+                return this.processManager.getStatus(this.processId);
+            }catch (Exception e){
+                LogUtil.printWarning("["+this.getClass().getName()+".getStatus()] Status file for process ["+ this.processId + "] is not available!");
+                return new Status(Map.of());
+            }
         }
     }
-
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         /** ATTRIBUTES **/
+        private final String dppIdShort = "digitalProductPass";
         private DataPlaneEndpoint edr;
         private SubModel3 subModel;
         private DigitalTwin3 digitalTwin;
@@ -925,7 +997,23 @@ public class AasService extends BaseService {
             this.edr = edr;
             this.semanticId = search.getSemanticId();
         }
-
+        /**
+         * This method is exclusively to search for a digital twin and the submodel.
+         *
+         * <p> It's a Thread level method from Runnable interface and does the {@code DigitalTwin3} and {@code Submodel3} search, setting the results
+         * to this class object.
+         * <p> The submodel search it's done by the idShort or semanticId parameters depending on if the semantic Id is available or not, respectively.
+         *
+         */
+        @Override
+        public void run() {
+            this.setDigitalTwin(searchDigitalTwin3(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
+            if(this.semanticId == null || this.semanticId.isEmpty()){
+                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin()));
+            }else {
+                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), this.semanticId));
+            }
+        }
         /** GETTERS AND SETTERS **/
         public DataPlaneEndpoint getEdr() {
             return edr;
@@ -961,24 +1049,6 @@ public class AasService extends BaseService {
 
         /** METHODS **/
 
-        /**
-         * This method is exclusively to search for a digital twin and the submodel.
-         *
-         * <p> It's a Thread level method from Runnable interface and does the {@code DigitalTwin3} and {@code Submodel3} search, setting the results
-         * to this class object.
-         * <p> The submodel search it's done by the idShort or semanticId parameters depending on if it's a BatteryPass or DigitalProductPass search, respectively.
-         *
-         */
-        @Override
-        public void run() {
-            this.setDigitalTwin(searchDigitalTwin3(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            if (this.getIdShort().equalsIgnoreCase("digitalProductPass")) {
-                this.setSubModel(searchSubModel3BySemanticId(this.getDigitalTwin(), this.getSemanticId()));
-            } else {
-                this.setSubModel(searchSubModel3ById(this.getDigitalTwin(), this.getIdShort()));
-            }
-
-        }
     }
 
     public class DigitalTwinRegistryQueryById implements Runnable {

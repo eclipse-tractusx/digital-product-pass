@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,9 +42,7 @@ import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.models.passports.PassportResponse;
-import org.eclipse.tractusx.productpass.models.passports.PassportV3;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.AuthenticationService;
 import org.eclipse.tractusx.productpass.services.DataTransferService;
@@ -100,16 +99,14 @@ public class ApiController {
      * @return this {@code Response} HTTP response with status.
      *
      */
-    @RequestMapping(value = "/passport", method = {RequestMethod.POST})
-    @Operation(summary = "Returns versioned product passport by id", responses = {
+    @RequestMapping(value = "/data", method = {RequestMethod.POST})
+    @Operation(summary = "Returns the data negotiated and transferred", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PassportResponse.class))),
-            @ApiResponse(description = "Content of Passport Field in Data Field", useReturnTypeSchema = true, content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PassportV3.class)))
     })
-    public Response getPassport(@Valid @RequestBody TokenRequest tokenRequestBody) {
+    public Response getData(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Response response = httpUtil.getInternalError();
 
         // Check for authentication
@@ -172,24 +169,17 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (!status.historyExists("passport-received")) {
-                response = httpUtil.getNotFound("The passport is not available!");
+            if (!status.historyExists("data-received")) {
+                response = httpUtil.getNotFound("The data is not available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.historyExists("passport-retrieved")) {
-                response = httpUtil.getNotFound("The passport was already retrieved and is no longer available!");
+            if (status.historyExists("data-retrieved")) {
+                response = httpUtil.getNotFound("The data was already retrieved and is no longer available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
-            Passport passport;
-            if (process.getIsDigitalProductPass()) {
-                passport = processManager.loadDigitalProductPassport(processId);
-            } else {
-                passport = processManager.loadPassport(processId);
-            }
-
-
+            String semanticId = status.getSemanticId();
+            JsonNode passport = processManager.loadPassport(processId);
             if (passport == null) {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);
@@ -204,7 +194,8 @@ public class ApiController {
                             "negotiation", negotiation,
                             "transfer", transfer
                     ),
-                    "passport", passport
+                    "aspect", passport,
+                    "semanticId", semanticId
             );
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

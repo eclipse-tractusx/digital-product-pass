@@ -62,6 +62,7 @@ import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -133,22 +134,25 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            BpnDiscovery bpnDiscovery = null;
+            List<BpnDiscovery> bpnDiscoveries = null;
             try {
-                bpnDiscovery = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
+                bpnDiscoveries = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
             } catch (Exception e) {
                 response.message = "Failed to get the bpn number from the discovery service";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            if (bpnDiscovery == null) {
+            if (bpnDiscoveries == null) {
                 response.message = "Failed to get the bpn number from the discovery service, discovery response is null";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            List<String> bpnList = bpnDiscovery.getBpnNumbers();
+            List<String> bpnList = new ArrayList<>();
+            for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
+                bpnList.addAll(bpnDiscovery.getBpnNumbers());
+            }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
@@ -161,7 +165,7 @@ public class ContractController {
             }
             // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
             if(!dtrConfig.getTemporaryStorage() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
-                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
+                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnList);
                 try {
                     edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
                 } catch (Exception e) {
@@ -239,30 +243,21 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            List<String> mandatoryParams = List.of("id", "version");
+            List<String> mandatoryParams = List.of("id");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
             List<String> versions;
-            boolean isDigitalProductPass;
-            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
+            /*if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
                 versions = passportConfig.getDigitalProductPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
                 LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-                isDigitalProductPass = true;
             } else {
                 versions = passportConfig.getBatteryPass().getVersions();
                 searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
-                isDigitalProductPass = false;
-            }
-
-            // Initialize variables
-            // Check if version is available
-            if (!versions.contains(searchBody.getVersion())) {
-                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("This passport version is not available at the moment!"), httpResponse);
-            }
+            }*/
 
             Process process = null;
             AssetSearch assetSearch = null;
@@ -283,7 +278,6 @@ public class ContractController {
                     return httpUtil.buildResponse(response, httpResponse);
                 }
                 process = processManager.createProcess(processId, httpRequest);
-                process.setIsDigitalProductPass(isDigitalProductPass);
                 Status status = processManager.getStatus(processId);
                 if (status == null) {
                     response = httpUtil.getBadRequest("The status is not available!");
@@ -469,7 +463,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("passport-received") || status.historyExists("passport-retrieved")) {
+            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("data-received") || status.historyExists("data-retrieved")) {
                 response = httpUtil.getForbiddenResponse("This negotiation can not be canceled! It was already transferred!");
                 return httpUtil.buildResponse(response, httpResponse);
             }

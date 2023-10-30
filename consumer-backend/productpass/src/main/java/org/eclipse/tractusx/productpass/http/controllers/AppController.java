@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.http.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,8 +35,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.exceptions.DataModelException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin3;
@@ -48,7 +47,6 @@ import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.passports.Passport;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +55,7 @@ import org.springframework.web.bind.annotation.*;
 import utils.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This class consists exclusively to define the HTTP methods of the Application's controller.
@@ -179,9 +178,12 @@ public class AppController {
             String connectorId = null;
             String assetId = null;
             String connectorAddress = null;
+            String semanticId = null;
+
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
+                semanticId = Objects.requireNonNull(subModel.getSemanticId().getKeys().stream().filter(k -> k.getType().equalsIgnoreCase(this.dtrConfig.getSemanticIdTypeKey())).findFirst().orElse(null)).getValue();
                 connectorId = subModel.getIdShort();
                 EndPoint3 endpoint = subModel.getEndpoints().stream().filter(obj -> obj.getInterfaceName().equals(dtrConfig.getEndpointInterface())).findFirst().orElse(null);
                 if (endpoint == null) {
@@ -207,6 +209,7 @@ public class AppController {
             }
             processManager.setEndpoint(processId, connectorAddress);
             processManager.setBpn(processId, dtr.getBpn());
+            processManager.setSemanticId(processId, semanticId);
             processManager.saveDigitalTwin3(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
@@ -285,7 +288,7 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            Passport passport = dataPlaneService.getPassport(endpointData);
+            JsonNode passport = dataPlaneService.getPassport(endpointData);
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

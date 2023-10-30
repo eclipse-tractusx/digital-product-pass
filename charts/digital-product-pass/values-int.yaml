@@ -126,7 +126,7 @@ backend:
         dtr:
           central: false
           centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
-          assetId: 'digital-twin-registry'
+          assetId: 'registry-asset'
           dspEndpointKey: 'dspEndpoint'
           endpointInterface: 'SUBMODEL-3.0'
           internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
@@ -142,10 +142,10 @@ backend:
           temporaryStorage: true
       
         discovery:
-          endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+          endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
           bpn:
             key: "manufacturerPartId"
-            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
           edc:
             key: "bpn"
       

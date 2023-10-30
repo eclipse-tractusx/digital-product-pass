@@ -47,8 +47,6 @@ public class Process {
     public Long updated;
     @JsonProperty("thread")
     public Thread thread;
-    @JsonProperty("isDigitalProductPass")
-    private boolean isDigitalProductPass;
 
     /** CONSTRUCTOR(S) **/
     public Process(String id, String state, Thread thread) {
@@ -118,10 +116,5 @@ public class Process {
     public void setCreated(Long created) {
         this.created = created;
     }
-    public boolean getIsDigitalProductPass() {
-        return isDigitalProductPass;
-    }
-    public void setIsDigitalProductPass(boolean isDigitalProductPass) {
-        this.isDigitalProductPass = isDigitalProductPass;
-    }
+
 }

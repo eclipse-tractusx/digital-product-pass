@@ -152,4 +152,18 @@ public class TransferRequest {
             this.receiverHttpEndpoint = receiverHttpEndpoint;
         }
     }
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class DataDestination {
+        @JsonProperty("type")
+        String type;
+
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
 }

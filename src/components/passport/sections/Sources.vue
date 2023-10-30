@@ -20,43 +20,46 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<template v-if="propsData">
+<template>
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col
-          sm="12"
-          md="12"
-          class="pa-0 ma-0"
-          style="display: flex; margin-bottom: 12px"
-        >
-          <AttributeField
-            data-cy="composition"
-            icon="mdi-newspaper-variant-outline"
-            :attributes-list="propsData.compositionOfBattery"
-            label="Main Battery Composites"
-            style="background: #f9f9f9; min-width: 300px"
-          />
-          <Field
-            icon="mdi-select-all"
-            label="Critical raw materials"
-            :value="propsData.criticalRawMaterials"
-            style="min-width: 300px"
-          />
-        </v-col>
+        <template v-if="propsData.mandatory">
+          <v-col
+            v-for="(attr, key) in mappedSources"
+            :key="key"
+            sm="12"
+            md="3"
+            class="pa-0 ma-0"
+          >
+            <div class="element-chart-label">{{ key }}</div>
+            <div
+              v-for="(doc, index) in attr"
+              :key="index"
+              class="element-chart-label"
+            >
+              <Field
+                :key="index"
+                icon="mdi-image-size-select-small"
+                :label="doc.header"
+                :value="doc.content"
+                :link="doc.content"
+              />
+            </div>
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
-  name: "BatteryComposition",
+  name: "SourcesComponent",
   components: {
-    AttributeField,
     Field,
   },
   props: {
@@ -67,8 +70,12 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.composition,
+      propsData: this.$props.data.aspect.sources,
+      mappedSources: null,
     };
+  },
+  created() {
+    this.mappedSources = passportUtil.groupSources(this.propsData);
   },
 };
 </script>

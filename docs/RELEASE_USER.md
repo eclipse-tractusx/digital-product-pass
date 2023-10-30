@@ -23,6 +23,23 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+
+**October 19 2023 (Version 1.1.0)**
+*19.10.2023*
+
+### Added
+#### Added user friendly loading screen
+Now the frontend will be able to visualize the loading process done in the backend.
+Making more transparent what is going on in the passport search.
+
+#### QR Code scanner button moved to Welcome Screen search
+The quick search for passports using the QR Code was facilitated by including a new QR button
+where the search bar in the welcome screen is displayed.
+
+#### Support new dDTR version `v0.3.15-M1` with AAS 3.0
+Now we are able to query the Decentral Digital Twin Registry component by using the
+`/lookup/shells` API which was once deprecated and now is again in place because of the AAS 3.0 standard.
+
 **August 31 2023 (Version 1.0.1)**
 *31.08.2023*
 

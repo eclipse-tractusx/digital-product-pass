@@ -23,7 +23,28 @@
 <template>
   <div>
     <HeaderComponent>
-      <span class="header-title">Digital Product Passport</span>
+      <template v-if="!data">
+        <span class="header-title">Digital Product Passport</span>
+      </template>
+      <template
+        v-else-if="
+          data.semanticId ===
+          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+        "
+      >
+        <span class="header-title">Battery Product Passport</span>
+      </template>
+      <template
+        v-else-if="
+          data.semanticId ===
+          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+        "
+      >
+        <span class="header-title">Transmission Product Passport</span>
+      </template>
+      <template v-else>
+        <span class="header-title">Digital Product Passport</span>
+      </template>
     </HeaderComponent>
     <v-container v-if="loading">
       <LoadingComponent :id="id" />
@@ -40,35 +61,82 @@
       </div>
     </v-container>
     <div v-else>
-      <PassportHeader :data="data.passport" type="BatteryID" />
+      <template
+        v-if="
+          data.semanticId ===
+          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+        "
+      >
+        <PassportHeader
+          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
+          type="Battery ID"
+        />
+      </template>
+      <template
+        v-else-if="
+          data.semanticId ===
+          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+        "
+      >
+        <PassportHeader
+          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
+          type="Transmission ID"
+        />
+      </template>
+      <template v-else>
+        <PassportHeader :id="id ? id : '-'" type="ID" />
+      </template>
       <div class="pass-container">
-        <CardsComponent :data="data" />
+        <template
+          v-if="
+            data.semanticId ===
+            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          "
+        >
+          <BatteryCards :data="data" />
+        </template>
+        <template
+          v-else-if="
+            data.semanticId ===
+            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          "
+        >
+          <BatteryCards :data="data" />
+        </template>
+        <template v-else>
+          <GeneralCards :data="data" />
+        </template>
       </div>
 
       <div class="pass-container footer-spacer">
-        <v-card>
-          <v-tabs v-model="tab" center-active show-arrows class="menu">
-            <v-tab
-              v-for="(section, index) in componentsNames"
-              :key="index"
-              :value="section.component"
-            >
-              <v-icon start md :icon="section.icon"> </v-icon>
-              {{ section.label }}</v-tab
-            >
-          </v-tabs>
-          <v-card-text>
-            <v-window v-model="tab">
-              <v-window-item
-                v-for="(section, index) in componentsNames"
-                :key="index"
-                :value="section.component"
-              >
-                <component :is="section.component" :data="data" />
-              </v-window-item>
-            </v-window>
-          </v-card-text>
-        </v-card>
+        <template
+          v-if="
+            data.semanticId ===
+            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          "
+        >
+          <TabsComponent
+            :componentsNames="batteryComponentsNames"
+            :componentsData="data"
+          />
+        </template>
+        <template
+          v-else-if="
+            data.semanticId ===
+            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          "
+        >
+          <TabsComponent
+            :componentsNames="batteryComponentsNames"
+            :componentsData="data"
+          />
+        </template>
+        <template v-else>
+          <TabsComponent
+            :componentsNames="filteredComponentsNames"
+            :componentsData="data"
+          />
+        </template>
       </div>
       <FooterComponent />
     </div>
@@ -78,24 +146,19 @@
 <script>
 // @ is an alias to /src
 
-import GeneralInformation from "@/components/passport/sections/GeneralInformation.vue";
-import CellChemistry from "@/components/passport/sections/CellChemistry.vue";
-import ElectrochemicalProperties from "@/components/passport/sections/ElectrochemicalProperties.vue";
-import BatteryComposition from "@/components/passport/sections/BatteryComposition.vue";
-import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
-import Documents from "@/components/passport/sections/Documents.vue";
-import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
 import LoadingComponent from "../components/general/LoadingComponent.vue";
+import TabsComponent from "../components/general/TabsComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
-import CardsComponent from "@/components/passport/Cards.vue";
-import Alert from "@/components/general/Alert.vue";
+import BatteryCards from "@/components/passport/BatteryCards.vue";
+import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
+import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
 
@@ -103,24 +166,17 @@ export default {
   name: "PassportView",
   components: {
     HeaderComponent,
-    GeneralInformation,
-    PassportHeader,
-    CardsComponent,
-    CellChemistry,
-    StateOfBattery,
-    ElectrochemicalProperties,
-    BatteryComposition,
-    Documents,
-    ContractInformation,
     FooterComponent,
+    PassportHeader,
+    BatteryCards,
     LoadingComponent,
-    Alert,
     ErrorComponent,
+    TabsComponent,
+    GeneralCards,
   },
   data() {
     return {
-      tab: null,
-      componentsNames: [
+      batteryComponentsNames: [
         {
           label: "General Information",
           icon: "mdi-information-outline",
@@ -174,10 +230,28 @@ export default {
     };
   },
 
+  computed: {
+    filteredComponentsNames() {
+      let dataKeys = Object.keys(this.data.aspect);
+      // Check if data exists and is not empty
+      if (this.data.aspect && dataKeys.length > 0) {
+        dataKeys.splice(3, 0, "components");
+        // Generate component names dynamically from the JSON keys
+        return dataKeys.map((key) => ({
+          label: key[0].toUpperCase() + key.slice(1),
+          icon: passportUtil.iconFinder(key),
+          component: key,
+        }));
+      } else {
+        return [];
+      }
+    },
+  },
+
   async created() {
     let result = null;
     try {
-      // Setup passport promise
+      // Setup aspect promise
       let passportPromise = this.getPassport(this.id);
       // Execute promisse with a Timeout
       result = await threadUtil.execWithTimeout(
@@ -193,6 +267,7 @@ export default {
         this.statusText = "Request Timeout";
       }
       this.data = result;
+      console.log(this.data);
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {
@@ -202,14 +277,17 @@ export default {
         this.data["status"] == 200 &&
         jsonUtil.exists("data", this.data) &&
         jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("passport", this.data["data"])
+        jsonUtil.exists("aspect", this.data["data"]) &&
+        jsonUtil.exists("semanticId", this.data["data"])
       ) {
         this.data = configUtil.normalizePassport(
-          jsonUtil.get("data.passport", this.data),
-          jsonUtil.get("data.metadata", this.data)
+          jsonUtil.get("data.aspect", this.data),
+          jsonUtil.get("data.metadata", this.data),
+          jsonUtil.get("data.semanticId", this.data)
         );
         this.error = false;
       }
+      console.log(this.data);
       // Stop loading
       this.loading = false;
     }
@@ -222,7 +300,7 @@ export default {
         // Init backendService
         let backendService = new BackendService();
         // Get access token from IDP
-        // Get the passport for the selected version
+        // Get the aspect for the selected version
         response = await backendService.getPassport(
           this.version,
           id,

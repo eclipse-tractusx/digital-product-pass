@@ -25,7 +25,7 @@
     <v-container class="ma-0">
       <v-row class="section">
         <template v-if="propsData.contract">
-          <v-col sm="12" md="2" class="pa-0 ma-0">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
             <div class="element-chart-label">Contract</div>
             <Field
               icon="mdi-file-swap-outline"
@@ -81,9 +81,9 @@
             />
           </v-col>
         </template>
-        
+
         <template v-if="propsData.negotiation">
-          <v-col sm="12" md="2" class="pa-0 ma-0">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
             <div class="element-chart-label">Negotiation</div>
             <Field
               icon="mdi-file-swap-outline"
@@ -113,12 +113,16 @@
             <Field
               icon="mdi-file-swap-outline"
               label="EDC counter party address"
-              :value="propsData.negotiation.get.response['edc:counterPartyAddress']"
+              :value="
+                propsData.negotiation.get.response['edc:counterPartyAddress']
+              "
             />
             <Field
               icon="mdi-file-swap-outline"
               label="EDC contract agreement ID"
-              :value="propsData.negotiation.get.response['edc:contractAgreementId']"
+              :value="
+                propsData.negotiation.get.response['edc:contractAgreementId']
+              "
             />
             <DialogComponent class="field-dialog">
               <Field
@@ -185,7 +189,7 @@
           </v-col>
         </template>
         <template v-if="propsData.transfer">
-          <v-col sm="12" md="2" class="pa-0 ma-0">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
             <div class="element-chart-label">Transfer</div>
 
             <Field
@@ -206,7 +210,11 @@
             <Field
               icon="mdi-file-swap-outline"
               label="EDC timestamp"
-              :value="formattedDate(propsData.transfer.get.response['edc:stateTimestamp'])"
+              :value="
+                formattedDate(
+                  propsData.transfer.get.response['edc:stateTimestamp']
+                )
+              "
             />
             <Field
               icon="mdi-file-swap-outline"
@@ -223,7 +231,9 @@
                 info
                 icon="mdi-file-swap-outline"
                 label="EDC data request ID"
-                :value="propsData.transfer.get.response['edc:dataRequest']['@id']"
+                :value="
+                  propsData.transfer.get.response['edc:dataRequest']['@id']
+                "
               />
               <template v-slot:title>
                 <h3>EDC data request</h3>
@@ -237,7 +247,9 @@
             <Field
               icon="mdi-file-swap-outline"
               label="EDC receiver http endpoint"
-              :value="propsData.transfer.get.response['edc:receiverHttpEndpoint']"
+              :value="
+                propsData.transfer.get.response['edc:receiverHttpEndpoint']
+              "
             />
           </v-col>
         </template>
@@ -262,13 +274,16 @@
             <Field
               icon="mdi-file-swap-outline"
               label="Data destination"
-              :value="propsData.transfer.init.request.dataDestination.properties.type"
+              :value="
+                propsData.transfer.init.request.dataDestination.properties.type
+              "
             />
             <Field
               icon="mdi-file-swap-outline"
               label="Reciver http endpoint"
               :value="
-                propsData.transfer.init.request.privateProperties.receiverHttpEndpoint
+                propsData.transfer.init.request.privateProperties
+                  .receiverHttpEndpoint
               "
             />
             <Field
@@ -301,11 +316,6 @@ export default {
     RecursiveComponent,
   },
   props: {
-    sectionTitle: {
-      type: String,
-      required: false,
-      default: "",
-    },
     data: {
       type: Object,
       default: Object,
@@ -313,7 +323,6 @@ export default {
   },
   data() {
     return {
-      toggle: false,
       propsData: this.$props.data.metadata,
       exampleTimestamp: 1666358400,
     };

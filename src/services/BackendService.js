@@ -54,7 +54,7 @@ export default class BackendService {
         }
     }
 
-    async getPassport(version, id, authentication) {
+    async getPassport(id, authentication) {
         let processResponse = null;
         // Try to get the negotiation contract
         let ids = null;
@@ -105,7 +105,7 @@ export default class BackendService {
 
         // Try to get the negotiation contract
         try {
-            negotiationResponse = await this.searchContract(ids["serializedId"], version, processId, authentication);
+            negotiationResponse = await this.searchContract(ids["serializedId"], processId, authentication);
         } catch (e) {
             return negotiationResponse;
         }
@@ -213,10 +213,9 @@ export default class BackendService {
         }
     }
 
-    getSearchBody(id, version, processId) {
+    getSearchBody(id, processId) {
         return {
             "id": id,
-            "version": version,
             "processId": processId
         }
     }
@@ -278,9 +277,9 @@ export default class BackendService {
                 });
         });
     }
-    async searchContract(id, version, processId, authentication) {
+    async searchContract(id, processId, authentication) {
         return new Promise(resolve => {
-            let body = this.getSearchBody(id, version, processId);
+            let body = this.getSearchBody(id, processId);
             axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
                 .then((response) => {
                     resolve(response.data);

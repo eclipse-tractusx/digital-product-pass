@@ -32,16 +32,17 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added comments at every methods explaining what its done, each parameter, what it returns and if it throws exceptions
 - Added SupressionWarnings("Unused") annotation in every Class and/or method that is unused, to decide if it is to delete or let it be for future use
 - Added New class for the new model of Digital Product Passport
-- Added to retrieve any type of passport aspect from a submodel endpoint (searching by semanticId)
+- Added to retrieve any type of bamm aspect from a submodel endpoint (searching by the semanticId included in the digital twin)
 - Added new structure to parse the passport payload and display it dynamically
 - Added new components to display the passport
 - Added visualization of the "Digital Product Pass" aspect in the frontend
+- Added a second check for "transfer-completed" in history when passport status is checked in the frontend
 
 ### Updated
 - The Submodels are search by their SemanticId instead of idShort parameter
 - Updated DTR search as type instead of ID
 - Updated the Apis that communicate with the backend
-
+- Updated DTR configuration to support the new DTR API `v1.0`
 
 ### Deleted
 - Removed the passport's version requirement
@@ -49,10 +50,12 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Deleted configuration variables related with central search from application.yaml
 - Deleted old version of DigitalTwin, Submodel and Endpoint, no longer used and renamed the most recent versions.
 - Deleted all code related to the central search.
+- Removed the central `Digital Twin Registry` support
 
 
 ### Issues Fixed
 - Fixed a bug related to the discovery service when more than one search endpoint would be available
+- Fixed bug related to the passport search and the transfer data not being available sometimes
 
 
 ## [released]

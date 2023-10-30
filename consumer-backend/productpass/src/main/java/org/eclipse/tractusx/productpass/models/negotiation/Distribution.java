@@ -28,65 +28,73 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This class consists exclusively to define attributes related to the Dataset's distributions property.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Distribution {
+
+    /** ATTRIBUTES **/
     @JsonProperty("@type")
     String type;
-
     @JsonProperty("dct:format")
     Format format;
-
     @JsonProperty("dcat:accessService")
     String accessService;
 
+    /** CONSTRUCTOR(S) **/
     public Distribution(String type, Format format, String accessService) {
         this.type = type;
         this.format = format;
         this.accessService = accessService;
     }
-
     public Distribution() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
-
     public Format getFormat() {
         return format;
     }
-
     public void setFormat(Format format) {
         this.format = format;
     }
-
+    @SuppressWarnings("Unused")
     public String getAccessService() {
         return accessService;
     }
-
+    @SuppressWarnings("Unused")
     public void setAccessService(String accessService) {
         this.accessService = accessService;
     }
 
-    static class Format{
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Distribution's format property.
+     **/
+    static class Format {
+        /** ATTRIBUTES **/
         @JsonProperty("@id")
         String id;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public Format(String id) {
             this.id = id;
         }
-
+        @SuppressWarnings("Unused")
         public Format() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getId() {
             return id;
         }
-
         public void setId(String id) {
             this.id = id;
         }

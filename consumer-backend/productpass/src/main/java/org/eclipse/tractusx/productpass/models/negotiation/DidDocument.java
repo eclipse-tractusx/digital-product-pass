@@ -28,33 +28,37 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This class consists exclusively to define attributes that are common between the needed data objects for the Application.
+ * For example for Catalog, Dataset, Negotiation, etc. that extends this class.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DidDocument {
+
+    /** ATTRIBUTES **/
     @JsonProperty("@id")
     String id;
     @JsonProperty("@type")
     String type;
 
+    /** CONSTRUCTOR(S) **/
     public DidDocument(String id, String type) {
         this.id = id;
         this.type = type;
     }
-
     public DidDocument() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }

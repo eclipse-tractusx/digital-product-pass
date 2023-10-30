@@ -29,25 +29,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes related to the Contract Offer's information data set.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Dataset extends DidDocument{
+public class Dataset extends DidDocument {
+
+    /** ATTRIBUTES **/
     @JsonProperty("odrl:hasPolicy")
     Object policy;
     @JsonProperty("dcat:distribution")
     List<Distribution> distributions;
-
     @JsonProperty("edc:description")
     String assetDescription;
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
     @JsonProperty("edc:contenttype")
     String contentType;
     @JsonProperty("edc:id")
@@ -57,6 +52,7 @@ public class Dataset extends DidDocument{
     @JsonProperty("edc:type")
     String assetType;
 
+    /** CONSTRUCTOR(S) **/
     public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
         super(id, type);
         this.policy = policy;
@@ -74,7 +70,6 @@ public class Dataset extends DidDocument{
         this.assetId = assetId;
         this.assetName = assetName;
     }
-
     public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName, String assetType) {
         super(id, type);
         this.policy = policy;
@@ -85,59 +80,60 @@ public class Dataset extends DidDocument{
         this.assetName = assetName;
         this.assetType = assetType;
     }
-
     public Dataset(String id, String type) {
         super(id, type);
     }
-
     public Dataset() {
     }
 
-
+    /** GETTERS AND SETTERS **/
+    public String getContentType() {
+        return contentType;
+    }
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
     public Object getPolicy() {
         return policy;
     }
-
     public void setPolicy(Object policy) {
         this.policy = policy;
     }
-
+    @SuppressWarnings("Unused")
     public List<Distribution> getDistributions() {
         return distributions;
     }
-
+    @SuppressWarnings("Unused")
     public void setDistributions(List<Distribution> distributions) {
         this.distributions = distributions;
     }
-
+    @SuppressWarnings("Unused")
     public String getAssetDescription() {
         return assetDescription;
     }
-
+    @SuppressWarnings("Unused")
     public void setAssetDescription(String assetDescription) {
         this.assetDescription = assetDescription;
     }
-
     public String getAssetId() {
         return assetId;
     }
-
     public void setAssetId(String assetId) {
         this.assetId = assetId;
     }
-
+    @SuppressWarnings("Unused")
     public String getAssetType() {
         return assetType;
     }
-
+    @SuppressWarnings("Unused")
     public void setAssetType(String assetType) {
         this.assetType = assetType;
     }
-
+    @SuppressWarnings("Unused")
     public String getAssetName() {
         return assetName;
     }
-
+    @SuppressWarnings("Unused")
     public void setAssetName(String assetName) {
         this.assetName = assetName;
     }

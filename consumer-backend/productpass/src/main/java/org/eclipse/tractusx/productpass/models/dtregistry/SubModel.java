@@ -28,7 +28,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 
+/**
+ * This class consists exclusively to define attributes related to the designed model of the Submodel's first version.
+ **/
 public class SubModel {
+
+    /** ATTRIBUTES **/
     @JsonProperty("description")
     ArrayList<JsonNode> description;
     @JsonProperty("idShort")
@@ -37,10 +42,11 @@ public class SubModel {
     String identification;
     @JsonProperty("semanticId")
     JsonNode semanticId;
-
     @JsonProperty("endpoints")
     ArrayList<EndPoint> endpoints;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public SubModel(ArrayList<JsonNode> description, String idShort, String identification, JsonNode semanticId, ArrayList<EndPoint> endpoints) {
         this.description = description;
         this.idShort = idShort;
@@ -48,46 +54,39 @@ public class SubModel {
         this.semanticId = semanticId;
         this.endpoints = endpoints;
     }
-
+    @SuppressWarnings("Unused")
     public SubModel() {
     }
 
+    /** GETTERS AND SETTERS **/
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
-
     public void setDescription(ArrayList<JsonNode> description) {
         this.description = description;
     }
-
     public String getIdShort() {
         return idShort;
     }
-
     public void setIdShort(String idShort) {
         this.idShort = idShort;
     }
-
     public String getIdentification() {
         return identification;
     }
-
+    @SuppressWarnings("Unused")
     public void setIdentification(String identification) {
         this.identification = identification;
     }
-
     public JsonNode getSemanticId() {
         return semanticId;
     }
-
     public void setSemanticId(JsonNode semanticId) {
         this.semanticId = semanticId;
     }
-
     public ArrayList<EndPoint> getEndpoints() {
         return endpoints;
     }
-
     public void setEndpoints(ArrayList<EndPoint> endpoints) {
         this.endpoints = endpoints;
     }

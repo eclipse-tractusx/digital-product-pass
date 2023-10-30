@@ -28,19 +28,101 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Passport configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
 
-    private List<String> versions;
+    /** ATTRIBUTES **/
+    private BatteryPass batteryPass;
+    private DigitalProductPass digitalProductPass;
 
-
-    public List<String> getVersions() {
-        return this.versions;
+    /** GETTERS AND SETTERS **/
+    public BatteryPass getBatteryPass() {
+        return batteryPass;
+    }
+    public void setBatteryPass(BatteryPass batteryPass) {
+        this.batteryPass = batteryPass;
+    }
+    public DigitalProductPass getDigitalProductPass() {
+        return digitalProductPass;
+    }
+    public void setDigitalProductPass(DigitalProductPass digitalProductPass) {
+        this.digitalProductPass = digitalProductPass;
     }
 
-    public void setVersions(List<String> versions) {
-        this.versions = versions;
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the BatterPass configuration.
+     **/
+    public static class BatteryPass extends DigitalProductPass {
+    }
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the DigitalProductPass configuration.
+     **/
+    public static class DigitalProductPass {
+
+        /** ATTRIBUTES **/
+        private List<String> versions;
+        private String semanticId;
+        private String aspectId;
+        private String fullSemanticId;
+
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
+        public DigitalProductPass(List<String> versions, String semanticId, String aspectId) {
+            this.versions = versions;
+            this.semanticId = semanticId;
+            this.aspectId = aspectId;
+        }
+
+        public DigitalProductPass() {
+        }
+
+        /** GETTERS AND SETTERS **/
+        public List<String> getVersions() {
+            return this.versions;
+        }
+        public void setVersions(List<String> versions) {
+            this.versions = versions;
+        }
+        public String getSemanticId() {
+            return semanticId;
+        }
+        public void setSemanticId(String semanticId) {
+            this.semanticId = semanticId;
+        }
+        @SuppressWarnings("Unused")
+        public String getAspectId() {
+            return aspectId;
+        }
+        @SuppressWarnings("Unused")
+        public void setAspectId(String aspectId) {
+            this.aspectId = aspectId;
+        }
+
+        /** METHODS **/
+
+        /**
+         * Builds the semanticId to search the submodel inside the Digital twin.
+         * It concatenates the semanticId, the passport version and the aspectId.
+         * <p>
+         * @param   version
+         *          the {@code String} intended passport's version .
+         *
+         * @return this {@code String} with the built semanticId.
+         *
+         */
+        public String getFullSemanticId(String version) {
+            if (this.fullSemanticId == null) {
+                this.fullSemanticId = semanticId + ":" + versions.stream().filter(v -> v.equalsIgnoreCase(version)).findFirst().get() + "#" + aspectId;
+            }
+            return fullSemanticId;
+        }
     }
 
 }

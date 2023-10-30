@@ -30,16 +30,15 @@ import utils.HttpUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+@SuppressWarnings("Unused")
 @Component
 public class Credential {
 
     @Autowired
     HttpUtil httpUtil;
-
     private String session_code;
     private String execution;
     private String client_id;
-
     private String client_secret;
     private String tab_id;
     private UserCredential userCredential;

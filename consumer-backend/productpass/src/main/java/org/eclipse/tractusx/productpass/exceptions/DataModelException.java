@@ -25,15 +25,40 @@ package org.eclipse.tractusx.productpass.exceptions;
 
 import utils.LogUtil;
 
+
+/**
+ * This class consists exclusively to define methods to handle and log exceptions caused in the Data Model classes.
+ **/
 public class DataModelException extends RuntimeException{
 
-        public DataModelException(String configuration, String errorMessage) {
-            super("["+configuration+"] " + errorMessage);
-            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
-        }
-        public DataModelException(String configuration, Exception e, String errorMessage) {
-            super("["+configuration+"] " + errorMessage+", "+e.getMessage());
-            LogUtil.printException(this, "["+configuration+"] " + errorMessage);
-        }
+    /**
+     * Logs the given data model name and error message.
+     * <p>
+     * @param   dataModelName
+     *          the {@code String} data model name (e.g: the class name where the exception occurred).
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public DataModelException(String dataModelName, String errorMessage) {
+        super("["+dataModelName+"] " + errorMessage);
+        LogUtil.printException(this, "["+dataModelName+"] " + errorMessage);
+    }
+
+    /**
+     * Logs the given data model name, the {@code Exception} object and the error message.
+     * <p>
+     * @param   dataModelName
+     *          the {@code String} data model name (e.g: the class name where the exception occurred).
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   errorMessage
+     *          the {@code String} error message.
+     *
+     */
+    public DataModelException(String dataModelName, Exception e, String errorMessage) {
+        super("["+dataModelName+"] " + errorMessage+", "+e.getMessage());
+        LogUtil.printException(this, "["+dataModelName+"] " + errorMessage);
+    }
 
 }

@@ -28,69 +28,81 @@ package org.eclipse.tractusx.productpass.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Discovery configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.discovery")
 public class DiscoveryConfig {
+
+    /** ATTRIBUTES **/
     String endpoint;
     BPNConfig bpn;
     EDCConfig edc;
 
+    /** GETTERS AND SETTERS **/
     public BPNConfig getBpn() {
         return bpn;
     }
-
     public void setBpn(BPNConfig bpn) {
         this.bpn = bpn;
     }
-
     public EDCConfig getEdc() {
         return edc;
     }
-
     public void setEdc(EDCConfig edc) {
         this.edc = edc;
     }
+    public String getEndpoint() {
+        return endpoint;
+    }
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
 
 
-    public static class BPNConfig{
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the BPN configuration.
+     **/
+    public static class BPNConfig {
+
+        /** ATTRIBUTES **/
         String key;
         String searchPath;
 
+        /** GETTERS AND SETTERS **/
         public String getKey() {
             return key;
         }
-
         public void setKey(String key) {
             this.key = key;
         }
-
         public String getSearchPath() {
             return searchPath;
         }
-
+        @SuppressWarnings("Unused")
         public void setSearchPath(String searchPath) {
             this.searchPath = searchPath;
         }
     }
 
-    public static class EDCConfig{
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the EDC configuration.
+     **/
+    public static class EDCConfig {
+
+        /** ATTRIBUTES **/
         String key;
 
+        /** GETTERS AND SETTERS **/
         public String getKey() {
             return key;
         }
-
         public void setKey(String key) {
             this.key = key;
         }
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
     }
 
 }

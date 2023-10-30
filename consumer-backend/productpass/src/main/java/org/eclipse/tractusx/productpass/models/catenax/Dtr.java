@@ -30,57 +30,42 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+
+/**
+ * This class consists exclusively to define attributes and methods related to the Digital Twin Registry (DTR).
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dtr {
+
+    /** ATTRIBUTES **/
     @JsonProperty("contractId")
     private String contractId;
     @JsonProperty("endpoint")
     private String endpoint;
     @JsonProperty("assetId")
     private String assetId;
-
     @JsonProperty("bpn")
     private String bpn;
 
+    /** CONSTRUCTOR(S) **/
     public Dtr(String contractId, String endpoint, String assetId, String bpn) {
         this.contractId = contractId;
         this.endpoint = endpoint;
         this.assetId = assetId;
         this.bpn = bpn;
     }
-
     public Dtr() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getContractId() {
         return contractId;
     }
-
-    public void setContractId(String contractId) {
-        this.contractId = contractId;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    public String getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
-    }
-
-    public String getBpn() {
-        return bpn;
-    }
-
-    public void setBpn(String bpn) {
-        this.bpn = bpn;
-    }
+    public void setContractId(String contractId) { this.contractId = contractId; }
+    public String getEndpoint() { return endpoint; }
+    public void setEndpoint(String endpoint) { this.endpoint = endpoint; }
+    public String getAssetId() { return assetId; }
+    public void setAssetId(String assetId) { this.assetId = assetId; }
+    public String getBpn() { return bpn; }
+    public void setBpn(String bpn) { this.bpn = bpn; }
 }

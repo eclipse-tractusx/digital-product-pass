@@ -26,68 +26,77 @@ package org.eclipse.tractusx.productpass.models.dtregistry;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This class consists exclusively to define attributes related to the designed model of the Endpoint's first version.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EndPoint {
+
+    /** ATTRIBUTES **/
     @JsonProperty("interface")
     String interfaceName;
-
     ProtocolInformation protocolInformation = new ProtocolInformation();
 
+    /** GETTERS AND SETTERS **/
     public String getInterfaceName() {
         return interfaceName;
     }
-
+    @SuppressWarnings("Unused")
     public void setInterfaceName(String interfaceName) {
         this.interfaceName = interfaceName;
     }
-
     public ProtocolInformation getProtocolInformation() {
         return protocolInformation;
     }
-
+    @SuppressWarnings("Unused")
     public void setProtocolInformation(String endpointAddress, String endpointProtocol, String endpointProtocolVersion) {
         this.protocolInformation = new ProtocolInformation(endpointAddress, endpointProtocol, endpointProtocolVersion);
     }
 
-    public static class ProtocolInformation{
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the needed protocol information for the first version.
+     **/
+    public static class ProtocolInformation {
+
+        /** ATTRIBUTES **/
         @JsonProperty("endpointAddress")
         String endpointAddress;
-
         @JsonProperty("endpointProtocol")
         String endpointProtocol;
-
         @JsonProperty("endpointProtocolVersion")
         String endpointProtocolVersion;
 
+        /** CONSTRUCTOR(S) **/
         public ProtocolInformation(String endpointAddress, String endpointProtocol, String endpointProtocolVersion) {
             this.endpointAddress = endpointAddress;
             this.endpointProtocol = endpointProtocol;
             this.endpointProtocolVersion = endpointProtocolVersion;
         }
-
         public ProtocolInformation() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getEndpointAddress() {
             return endpointAddress;
         }
-
+        @SuppressWarnings("Unused")
         public void setEndpointAddress(String endpointAddress) {
             this.endpointAddress = endpointAddress;
         }
-
+        @SuppressWarnings("Unused")
         public String getEndpointProtocol() {
             return endpointProtocol;
         }
-
+        @SuppressWarnings("Unused")
         public void setEndpointProtocol(String endpointProtocol) {
             this.endpointProtocol = endpointProtocol;
         }
-
+        @SuppressWarnings("Unused")
         public String getEndpointProtocolVersion() {
             return endpointProtocolVersion;
         }
-
+        @SuppressWarnings("Unused")
         public void setEndpointProtocolVersion(String endpointProtocolVersion) {
             this.endpointProtocolVersion = endpointProtocolVersion;
         }

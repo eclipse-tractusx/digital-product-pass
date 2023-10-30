@@ -365,7 +365,7 @@ public class ProcessManager {
      *
      */
     public Process createProcess(HttpServletRequest httpRequest) {
-        return this.createProcess(httpRequest, "");
+        return this.createProcess(httpRequest, "", "");
     }
 
     /**
@@ -379,12 +379,12 @@ public class ProcessManager {
      * @return  a {@code Process} object representing the created process.
      *
      */
-    public Process createProcess(HttpServletRequest httpRequest, String connectorAddress) {
+    public Process createProcess(HttpServletRequest httpRequest, String connectorAddress, String dataPlaneUrl) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id, connectorAddress, createdTime); // Set the status from the process in file system logs.
+        this.newStatusFile(process.id, connectorAddress, dataPlaneUrl, createdTime); // Set the status from the process in file system logs.
         return process;
     }
 
@@ -508,34 +508,7 @@ public class ProcessManager {
         Process process = new Process(processId, "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
         this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
-        return process;
-    }
-
-    /**
-     * Creates a new Process with the given processId into the given HTTP session,
-     * setting the process with the given BPN number.
-     * <p>
-     * @param   httpRequest
-     *          the HTTP request.
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     * @param   bpn
-     *          the {@code String} BPN number.
-     *
-     * @return  a {@code Process} object created.
-     *
-     * @throws ManagerException
-     *           if unable to create the process.
-     */
-    @SuppressWarnings("Unused")
-    public Process createProcess(HttpServletRequest httpRequest, String processId, String bpn) {
-        Long createdTime = DateTimeUtil.getTimestamp();
-        Process process = new Process(processId, "CREATED", createdTime);
-        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
-        this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime); // Set the status from the process in file system logs.
-        this.setBpn(process.id, bpn);
+        this.newStatusFile(process.id,"", "", createdTime); // Set the status from the process in file system logs.
         return process;
     }
 
@@ -555,7 +528,7 @@ public class ProcessManager {
      *           if unable to create the status file.
      */
 
-    public String newStatusFile(String processId, String connectorAddress, Long created){
+    public String newStatusFile(String processId, String connectorAddress, String dataPlaneAddress, Long created){
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             return jsonUtil.toJsonFile(
@@ -564,6 +537,7 @@ public class ProcessManager {
                         processId,
                         "CREATED",
                         connectorAddress,
+                        dataPlaneAddress,
                         created,
                         DateTimeUtil.getTimestamp()
                     ),
@@ -1036,8 +1010,8 @@ public class ProcessManager {
                     negotiationPayload,
                     fileName,
                     negotiation.getContractAgreementId(),
-                    "ACCEPTED",
-                    "negotiation-accepted");
+                    !dtr?"ACCEPTED":"DTR-ACCEPTED",
+                    !dtr?"negotiation-accepted":"dtr-negotiation-accepted");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the negotiation!");
         }
@@ -1072,7 +1046,7 @@ public class ProcessManager {
                     fileName,
                     transfer.getId(),
                     !dtr?"COMPLETED":"FOUND-DTR",
-                    "transfer-completed");
+                    !dtr?"transfer-completed":"dtr-transfer-completed");
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the transfer!");
         }
@@ -1155,7 +1129,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the endpoint.
      */
-    public String setEndpoint(String processId, String endpoint){
+    public String setEndpoint(String processId, String endpoint, String dataPlaneUrl){
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
             Status statusFile = null;
@@ -1165,6 +1139,7 @@ public class ProcessManager {
 
             statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
             statusFile.setEndpoint(endpoint);
+            statusFile.setDataPlaneUrl(dataPlaneUrl);
             statusFile.setModified(DateTimeUtil.getTimestamp());
             return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
         } catch (Exception e) {

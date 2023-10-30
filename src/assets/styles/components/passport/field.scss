@@ -34,6 +34,11 @@
   margin: 6px;
   padding: 7px 7px 10px 7px;
 
+  .link {
+    color: $catena-x-blue;
+    cursor: pointer;
+  }
+
   .field-label {
     font-size: 12px;
     font-weight: 500;

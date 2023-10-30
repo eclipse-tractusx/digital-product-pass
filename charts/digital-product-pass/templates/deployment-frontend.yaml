@@ -75,9 +75,6 @@ spec:
             - name: "IDP_URL"
               value: "https://{{ .Values.frontend.productpass.idp_url }}"
 
-            - name: "PASSPORT_VERSION"
-              value: "{{ .Values.frontend.productpass.passport.version }}"
-
             - name: "API_TIMEOUT"
               value: "{{ .Values.frontend.productpass.api.timeout }}"
             

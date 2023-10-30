@@ -61,9 +61,9 @@ configuration:
       edc: true
 
   dtr:
+    assetType: 'data.core.digitalTwinRegistry'
     central: false
     centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
-    assetId: 'registry-asset'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs

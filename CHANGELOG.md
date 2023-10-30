@@ -57,6 +57,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Fixed a bug related to the discovery service when more than one search endpoint would be available
 - Fixed bug related to the passport search and the transfer data not being available sometimes
 
+## Security Fixes: 
+- Fixed vulnerabilities related to `crypto-js`, `semver`, `netty-codec`
 
 ## [released]
 ## [1.1.0] - 19-10-2023

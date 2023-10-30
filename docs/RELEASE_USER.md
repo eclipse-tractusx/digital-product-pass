@@ -24,6 +24,20 @@
 User friendly relase notes without especific technical details.
 
 
+**October 30 2023 (Version 1.2.0)**
+*30.10.2023*
+
+### Added
+#### Availability of the DPP aspect model
+There is now a possibility to retrieve any type of passport aspect from a submodel endpoint searched by the semanticId of the aspect.
+
+#### Visualization of the "Digital Product Passport" aspect in the frontend
+It is now possible to visualize the digital product passports aspect model in the DPP frontend component.
+
+### Updated
+#### Updated Decentral lookup for the Digital Twin Registry
+The decentral lookup is changed from searching by registry type e.g., data.core.digitalTwinRegistry instead of the registry id/name.
+
 **October 19 2023 (Version 1.1.0)**
 *19.10.2023*
 

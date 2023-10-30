@@ -31,7 +31,7 @@ User friendly relase notes without especific technical details.
 #### Availability of the DPP aspect model
 There is now a possibility to retrieve any type of passport aspect from a submodel endpoint searched by the semanticId of the aspect.
 
-### Visualization of the "Digital Product Passport" aspect in the frontend
+#### Visualization of the "Digital Product Passport" aspect in the frontend
 It is now possible to visualize the digital product passports aspect model in the DPP frontend component.
 
 ### Updated

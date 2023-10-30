@@ -37,13 +37,13 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added new components to display the passport
 - Added visualization of the "Digital Product Pass" aspect in the frontend
 
-## Updated
+### Updated
 - The Submodels are search by their SemanticId instead of idShort parameter
 - Updated DTR search as type instead of ID
 - Updated the Apis that communicate with the backend
 
 
-# Deleted
+### Deleted
 - Removed the passport's version requirement
 - Removed version from the Search Api call
 - Deleted configuration variables related with central search from application.yaml
@@ -51,7 +51,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Deleted all code related to the central search.
 
 
-# Issues Fixed
+### Issues Fixed
 - Fixed a bug related to the discovery service when more than one search endpoint would be available
 
 

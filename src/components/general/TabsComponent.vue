@@ -53,7 +53,7 @@ import ElectrochemicalProperties from "../passport/sections/ElectrochemicalPrope
 import BatteryComposition from "@/components/passport/sections/BatteryComposition.vue";
 import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
-import ContractInformation from "@/components/passport/sections/ContractInformation.vue";
+import Exchange from "@/components/passport/sections/Exchange.vue";
 import Serialization from "../passport/sections/Serialization.vue";
 import Typology from "../passport/sections/Typology.vue";
 import Metadata from "../passport/sections/Metadata.vue";
@@ -76,7 +76,7 @@ export default {
     BatteryComposition,
     StateOfBattery,
     Documents,
-    ContractInformation,
+    Exchange,
     Serialization,
     Typology,
     Components,

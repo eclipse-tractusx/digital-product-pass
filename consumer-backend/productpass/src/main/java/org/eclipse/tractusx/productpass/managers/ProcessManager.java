@@ -535,32 +535,6 @@ public class ProcessManager {
         this.newStatusFile(process.id,"", createdTime, childrenCondition); // Set the status from the process in file system logs.
         return process;
     }
-    /**
-     * Creates a new Process with the given processId into the given HTTP session,
-     * setting the process with the given BPN number.
-     * <p>
-     * @param   httpRequest
-     *          the HTTP request.
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     * @param   bpn
-     *          the {@code String} BPN number.
-     *
-     * @return  a {@code Process} object created.
-     *
-     * @throws ManagerException
-     *           if unable to create the process.
-     */
-    @SuppressWarnings("Unused")
-    public Process createProcess(HttpServletRequest httpRequest, String processId, String bpn) {
-        Long createdTime = DateTimeUtil.getTimestamp();
-        Process process = new Process(processId, "CREATED", createdTime);
-        LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");
-        this.setProcess(httpRequest, process); // Add process to session storage
-        this.newStatusFile(process.id,"", createdTime, true); // Set the status from the process in file system logs.
-        this.setBpn(process.id, bpn);
-        return process;
-    }
 
     /**
      * Creates a new Status file for the given processId, setting it with the given connector address and timestamp.

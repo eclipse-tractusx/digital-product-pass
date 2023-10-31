@@ -114,7 +114,7 @@ maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.1.
 maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.1.5, Apache-2.0, approved, #9345
 maven/mavencentral/org.springframework.security/spring-security-rsa/1.0.11.RELEASE, Apache-2.0, approved, CQ20647
 maven/mavencentral/org.springframework.security/spring-security-web/6.1.5, Apache-2.0, approved, #9800
-maven/mavencentral/org.springframework.session/spring-session-core/3.1.3, , restricted, clearlydefined
+maven/mavencentral/org.springframework.session/spring-session-core/3.1.3, Apache-2.0, approved, #11345
 maven/mavencentral/org.springframework.session/spring-session-jdbc/3.1.3, Apache-2.0, approved, #9104
 maven/mavencentral/org.springframework/spring-aop/6.0.13, Apache-2.0, approved, #5940
 maven/mavencentral/org.springframework/spring-beans/6.0.13, Apache-2.0, approved, #5937

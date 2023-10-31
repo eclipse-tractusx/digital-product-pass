@@ -52,9 +52,7 @@ frontend:
     backend_url: ""
     # -- url of the identity provider service
     idp_url: ""
-    # -- required: digital product passport version number - default value: v3.0.1
-    passport:
-      version: "v3.0.1"    ## Mandatory Field, passport version must be available (Semantic Structure)
+    # -- api timeouts
     api:
       # -- max retries for getting status
       max_retries: 30
@@ -67,7 +65,6 @@ frontend:
       clientId: ""
       realm: ""
       onLoad: "login-required"
-
 
 # -- Backend configuration
 backend:
@@ -207,9 +204,10 @@ backend:
             indent: true
             # -- directory to store the passport when is not linked to a process
             dir: "data/transfer"
-          # -- passport versions allowed
-          versions:
-            - 'v3.0.1'
+          # -- passport versions and aspects allowed
+          aspects:
+            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       # -- configuration of the spring boot server
       server:
         # -- configuration of backend errors

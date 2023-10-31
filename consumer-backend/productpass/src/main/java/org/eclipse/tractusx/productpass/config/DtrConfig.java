@@ -52,7 +52,6 @@ public class DtrConfig {
     public DtrConfig() {
     }
 
-
     public DtrConfig(String internalDtr, Timeouts timeouts, Boolean temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
         this.internalDtr = internalDtr;
         this.timeouts = timeouts;
@@ -63,6 +62,7 @@ public class DtrConfig {
         this.dspEndpointKey = dspEndpointKey;
         this.semanticIdTypeKey = semanticIdTypeKey;
     }
+
 
     /** GETTERS AND SETTERS **/
     public DecentralApis getDecentralApis() {

@@ -35,9 +35,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.0.1">1.0.1</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.2.1">1.2.1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.0.1">v1.0.1</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.2.1">v1.2.1</a></pre>
 
 
 ## Application Preview
@@ -46,29 +46,29 @@ Here is a preview from the DPP App UI, where we visualize a test battery passpor
 
 ![General Info View](./docs/arc42/GraphicBatteryPassportViewGeneralInfo.png)
 
-> **Note**: For more information check the [documentation section](./docs/)
+> **Note**: For more information check the [documentation section](./docs/README.md)
 
 ## Getting Started
 
 To get started you can have a look into our documentation:
 
-| Name                                                                      | Description                                                                                                                                                        |
-| ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Arc42](./docs/arc42/Arc42.md)                                             | Arc42 of Digital Product Pass                                                                                                                                      |
-| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                          |
-| [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         |
-| [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
-| [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                                |
-| [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                               |
-| [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Battery Pass Allpication infrastructure, installation guide, technical usage guide                                                                                 |
-| [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
-| [Release Guidelines](./docs/RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                                                                                                                    |
-| [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
-| [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                            |
-| [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                                  |
-| [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
-| [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                          |
-| [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                                          |
+| Name                                                                      | Description                                                                                                                                                 |
+| ----------------------------------------------------------------          |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
+| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
+| [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
+| [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
+| [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
+| [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
+| [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
+| [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
+| [Release Guidelines](./docs/RELEASE.md)                                     | Digital Product Pass App Release Guide                                                                                                             |
+| [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
+| [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                     |
+| [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                          |
+| [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
+| [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                   |
+| [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                       |
 
 
 
@@ -80,7 +80,7 @@ To get started you can have a look into our documentation:
       
 
 ## Installation
-[INSTALL](./INSTALL.md)
+For installing the Digital Product Pass application please consult our [Intallation Guide](./INSTALL.md).
 
 ## License
 

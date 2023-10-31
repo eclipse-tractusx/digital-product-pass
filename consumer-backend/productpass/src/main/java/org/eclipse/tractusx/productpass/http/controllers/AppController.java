@@ -179,7 +179,7 @@ public class AppController {
             String assetId = null;
             String connectorAddress = null;
             String semanticId = null;
-
+            String dataPlaneUrl = null;
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
@@ -192,6 +192,7 @@ public class AppController {
                 Map<String, String> subProtocolBody = endpoint.getProtocolInformation().getParsedSubprotocolBody();
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
+                dataPlaneUrl = endpoint.getProtocolInformation().getEndpointAddress(); // Get the HREF endpoint
             } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
@@ -207,7 +208,7 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
-            processManager.setEndpoint(processId, connectorAddress);
+            processManager.setEndpoint(processId, connectorAddress, dataPlaneUrl);
             processManager.setBpn(processId, dtr.getBpn());
             processManager.setSemanticId(processId, semanticId);
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
@@ -288,7 +289,13 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            JsonNode passport = dataPlaneService.getPassport(endpointData);
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+
+
+            JsonNode passport = dataPlaneService.getPassportFromEndpoint(endpointData, status.getDataPlaneUrl());
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

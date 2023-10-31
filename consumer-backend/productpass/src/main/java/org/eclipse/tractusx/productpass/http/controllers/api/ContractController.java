@@ -136,7 +136,7 @@ public class ContractController {
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            if (bpnDiscoveries == null) {
+            if (bpnDiscoveries == null || bpnDiscoveries.size() == 0) {
                 response.message = "Failed to get the bpn number from the discovery service, discovery response is null";
                 response.status = 404;
                 response.statusText = "Not Found";

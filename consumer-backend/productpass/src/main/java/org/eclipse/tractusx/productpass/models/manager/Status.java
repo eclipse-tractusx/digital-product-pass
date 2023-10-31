@@ -57,6 +57,9 @@ public class Status {
     @JsonProperty("endpoint")
     public String endpoint;
 
+    @JsonProperty("dataPlaneUrl")
+    public String dataPlaneUrl;
+
     @JsonProperty("bpn")
     public String bpn;
 
@@ -123,6 +126,18 @@ public class Status {
         this.history = new HashMap<String, History>();
     }
 
+
+    public Status(String id, String status, String endpoint, String dataPlaneUrl, Long created, Long modified) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.history = new HashMap<String, History>();
+    }
+
+
     public Status(Map<String, History> history) {
         this.history = history;
     }
@@ -175,6 +190,18 @@ public class Status {
     }
 
     public Status() {
+    }
+
+    public Status(String id, String status, Long created, Long modified, String endpoint, String dataPlaneUrl, String bpn, Map<String, History> history, String semanticId) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.history = history;
+        this.semanticId = semanticId;
     }
 
     /** GETTERS AND SETTERS **/
@@ -235,6 +262,13 @@ public class Status {
         }
         this.history.remove(name);
         return true;
+    }
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
     }
     public History getHistory(String name) {
         return this.history.getOrDefault(name, null);

@@ -19,5 +19,6 @@
   "cell": "mdi-table-split-cell",
   "electrochemical": "mdi-electron-framework",
   "data": "mdi-data-matrix",
-  "chemistry": "mdi-react"
+  "chemistry": "mdi-react",
+  "exchange": "mdi-file-swap-outline"
 }

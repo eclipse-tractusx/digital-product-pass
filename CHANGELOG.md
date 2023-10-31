@@ -25,6 +25,53 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.2.1] - 31-10-2023
+
+## Deleted
+- Removed cypress from `package.json` dependencies
+- Removed unused devDependencies of `@babel`
+
+## Security Issues 
+- Fixed vulnerabilities related to `crypto-js`, `semver`, `netty-codec`.
+  - Updated `Spring Boot` to version `v3.1.5`
+  - Updated `crypto-js` to version `v4.2.0`
+  - Overrided `semver` to versions over `^v7.5.3`
+
+
+## [released]
+## [1.2.0] - 30-10-2023
+
+## Added
+- Added comments at every classes explaining their purpose
+- Added comments at every methods explaining what its done, each parameter, what it returns and if it throws exceptions
+- Added SupressionWarnings("Unused") annotation in every Class and/or method that is unused, to decide if it is to delete or let it be for future use
+- Added New class for the new model of Digital Product Passport
+- Added to retrieve any type of bamm aspect from a submodel endpoint (searching by the semanticId included in the digital twin)
+- Added new structure to parse the passport payload and display it dynamically
+- Added new components to display the passport
+- Added visualization of the "Digital Product Pass" aspect in the frontend
+- Added a second check for "transfer-completed" in history when passport status is checked in the frontend
+
+### Updated
+- The Aspect Submodels are searching in the Digital Twin by their `semanticId` instead of `idShort` parameter
+- Updated DTR search as type instead of ID
+- Updated the Apis that communicate with the backend
+- Updated DTR configuration to support the new DTR API `v1.0`
+
+### Deleted
+- Removed the passport's version requirement
+- Removed version from the Search Api call
+- Deleted configuration variables related with central search from application.yaml
+- Deleted old version of DigitalTwin, Submodel and Endpoint, no longer used and renamed the most recent versions.
+- Deleted all code related to the central search.
+- Removed the central `Digital Twin Registry` support
+
+
+### Issues Fixed
+- Fixed a bug related to the discovery service when more than one search endpoint would be available
+- Fixed bug related to the passport search and the transfer data not being available sometimes
+
+## [released]
 ## [1.1.0] - 19-10-2023
 
 ## Added

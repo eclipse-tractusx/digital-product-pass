@@ -57,8 +57,8 @@ frontend:
     api:
       # -- max retries for getting status
       max_retries: 30
-      # -- default timeout  - 45 seconds in milliseconds
-      timeout: 60000
+      # -- default timeout  - 90 seconds in milliseconds
+      timeout: 90000
       # -- delay from getting status
       delay: 1000
     # -- keycloak specific configuration for frontend authentication

@@ -134,6 +134,18 @@ public class Status {
         this.history = new HashMap<String, History>();
     }
 
+
+    public Status(String id, String status, String endpoint, String dataPlaneUrl, Long created, Long modified) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.history = new HashMap<String, History>();
+    }
+
+
     public Status(Map<String, History> history) {
         this.history = history;
     }
@@ -196,7 +208,6 @@ public class Status {
     }
 
 
-
     public String getId() {
         return id;
     }
@@ -254,6 +265,13 @@ public class Status {
         }
         this.history.remove(name);
         return true;
+    }
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
     }
     public History getHistory(String name) {
         return this.history.getOrDefault(name, null);

@@ -318,14 +318,6 @@ public class Status {
         this.semanticId = semanticId;
     }
 
-    public String getDataPlaneUrl() {
-        return dataPlaneUrl;
-    }
-
-    public void setDataPlaneUrl(String dataPlaneUrl) {
-        this.dataPlaneUrl = dataPlaneUrl;
-    }
-
     public JobHistory getJob() {
         return job;
     }

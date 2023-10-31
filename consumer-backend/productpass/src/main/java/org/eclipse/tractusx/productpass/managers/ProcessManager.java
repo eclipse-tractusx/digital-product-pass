@@ -356,18 +356,6 @@ public class ProcessManager {
         }
     }
 
-    /**
-     * Creates a new process in the given HTTP session.
-     * <p>
-     * @param   httpRequest
-     *          the HTTP request.
-     *
-     * @return  a {@code Process} object representing the created process.
-     *
-     */
-    public Process createProcess(HttpServletRequest httpRequest) {
-        return this.createProcess(httpRequest, "", "");
-    }
 
     /**
      * Creates a new process in the given HTTP session and set its status in the file system logs.
@@ -380,7 +368,7 @@ public class ProcessManager {
      * @return  a {@code Process} object representing the created process.
      *
      */
-    public Process createProcess(HttpServletRequest httpRequest, String connectorAddress, String dataPlaneUrl) {
+    public Process createProcess(HttpServletRequest httpRequest, String connectorAddress) {
         Long createdTime = DateTimeUtil.getTimestamp();
         Process process = new Process(CrypUtil.getUUID(), "CREATED", createdTime);
         LogUtil.printMessage("Process Created [" + process.id + "], waiting for user to sign or decline...");

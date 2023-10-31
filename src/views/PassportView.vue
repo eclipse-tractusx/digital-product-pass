@@ -316,7 +316,7 @@ export default {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await backendService.getPassport(
+        response = await this.backendService.getPassport(
           id,
           this.auth
         );

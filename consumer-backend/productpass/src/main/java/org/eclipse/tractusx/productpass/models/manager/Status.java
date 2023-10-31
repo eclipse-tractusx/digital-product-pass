@@ -27,14 +27,20 @@ package org.eclipse.tractusx.productpass.models.manager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define attributes and methods related to the Process' status.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Status {
+
+    /** ATTRIBUTES **/
     @JsonProperty("id")
     public String id;
 
@@ -51,12 +57,21 @@ public class Status {
     @JsonProperty("endpoint")
     public String endpoint;
 
+    @JsonProperty("dataPlaneUrl")
+    public String dataPlaneUrl;
+
     @JsonProperty("bpn")
     public String bpn;
 
     @JsonProperty("history")
     public Map<String, History> history;
 
+    /** CONSTRUCTOR(S) **/
+    @JsonProperty("semanticId")
+    public String semanticId;
+
+
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -65,7 +80,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long modified, String endpoint, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -74,7 +89,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified,  String endpoint, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -83,6 +98,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = Map.of(historyId, history);
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long modified,  String endpoint, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -91,7 +107,7 @@ public class Status {
         this.endpoint = endpoint;
         this.history = Map.of(historyId, history);
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status,  String endpoint, Long modified) {
         this.id = id;
         this.status = status;
@@ -109,9 +125,24 @@ public class Status {
         this.endpoint = endpoint;
         this.history = new HashMap<String, History>();
     }
-    public Status() {
+
+
+    public Status(String id, String status, String endpoint, String dataPlaneUrl, Long created, Long modified) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.history = new HashMap<String, History>();
     }
 
+
+    public Status(Map<String, History> history) {
+        this.history = history;
+    }
+
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified) {
         this.id = id;
         this.status = status;
@@ -119,6 +150,7 @@ public class Status {
         this.modified = modified;
         this.history = new HashMap<String, History>();
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -126,7 +158,7 @@ public class Status {
         this.modified = modified;
         this.history = Map.of(historyId, history);
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, Map<String, History> history) {
         this.id = id;
         this.status = status;
@@ -136,7 +168,7 @@ public class Status {
         this.bpn = bpn;
         this.history = history;
     }
-
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn) {
         this.id = id;
         this.status = status;
@@ -146,6 +178,7 @@ public class Status {
         this.bpn = bpn;
         this.history = new HashMap<String, History>();
     }
+    @SuppressWarnings("Unused")
     public Status(String id, String status, Long created, Long modified, String endpoint, String bpn, String historyId, History history) {
         this.id = id;
         this.status = status;
@@ -155,6 +188,23 @@ public class Status {
         this.bpn = bpn;
         this.history = Map.of(historyId, history);
     }
+
+    public Status() {
+    }
+
+    public Status(String id, String status, Long created, Long modified, String endpoint, String dataPlaneUrl, String bpn, Map<String, History> history, String semanticId) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.history = history;
+        this.semanticId = semanticId;
+    }
+
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
@@ -201,15 +251,24 @@ public class Status {
     public void setHistory(String name, History history) {
         this.history.put(name, history);
     }
+    @SuppressWarnings("Unused")
     public void deleteHistory() {
         this.history = new HashMap<>();
     }
+    @SuppressWarnings("Unused")
     public Boolean removeHistory(String name) {
         if(!this.history.containsKey(name)){
             return false;
         }
         this.history.remove(name);
         return true;
+    }
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
     }
     public History getHistory(String name) {
         return this.history.getOrDefault(name, null);
@@ -229,6 +288,14 @@ public class Status {
 
     public void setBpn(String bpn) {
         this.bpn = bpn;
+    }
+
+    public String getSemanticId() {
+        return semanticId;
+    }
+
+    public void setSemanticId(String semanticId) {
+        this.semanticId = semanticId;
     }
 }
 

@@ -29,6 +29,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Application configuration.
+ **/
+
+@SuppressWarnings("Unused")
 @Configuration
 public class AppConfig {
     @Bean

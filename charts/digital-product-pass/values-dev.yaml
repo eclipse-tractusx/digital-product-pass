@@ -128,7 +128,7 @@ backend:
         dtr:
           central: false
           centralUrl: 'https://semantics.dev.demo.catena-x.net/registry'
-          assetId: 'digital-twin-registry'
+          assetType: 'data.core.digitalTwinRegistry'
           dspEndpointKey: 'dspEndpoint'
           endpointInterface: 'SUBMODEL-3.0'
           internalDtr: "https://materialpass.dev.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
@@ -144,10 +144,10 @@ backend:
           temporaryStorage: true
       
         discovery:
-          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
           bpn:
             key: "manufacturerPartId"
-            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
           edc:
             key: "bpn"
       
@@ -163,8 +163,9 @@ backend:
             encrypt: true
             indent: true
             dir: "data/transfer"
-          versions:
-            - 'v3.0.1'
+          aspects: 
+            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       
         vault:
           type: 'local'

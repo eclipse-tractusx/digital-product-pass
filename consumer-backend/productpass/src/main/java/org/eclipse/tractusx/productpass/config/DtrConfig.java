@@ -31,117 +31,145 @@ import org.springframework.context.annotation.Configuration;
 import java.sql.Time;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Digital Twin Registry (DTR) configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.dtr")
 public class DtrConfig {
-    Boolean central;
-    String centralUrl;
+
+    /** ATTRIBUTES **/
     String internalDtr;
-
     Timeouts timeouts;
-
     Boolean temporaryStorage;
     DecentralApis decentralApis;
-    String assetId;
-
+    String assetType;
     String endpointInterface;
     String dspEndpointKey;
+
+    String semanticIdTypeKey;
+    /** CONSTRUCTOR(S) **/
+    public DtrConfig() {
+    }
+
+    public DtrConfig(String internalDtr, Timeouts timeouts, Boolean temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
+        this.internalDtr = internalDtr;
+        this.timeouts = timeouts;
+        this.temporaryStorage = temporaryStorage;
+        this.decentralApis = decentralApis;
+        this.assetType = assetType;
+        this.endpointInterface = endpointInterface;
+        this.dspEndpointKey = dspEndpointKey;
+        this.semanticIdTypeKey = semanticIdTypeKey;
+    }
+
+
+    /** GETTERS AND SETTERS **/
     public DecentralApis getDecentralApis() {
         return decentralApis;
     }
     public void setDecentralApis(DecentralApis decentralApis) {
         this.decentralApis = decentralApis;
     }
-    public DtrConfig(Boolean central) {
-        this.central = central;
-    }
-
     public String getInternalDtr() {
         return internalDtr;
     }
-
     public void setInternalDtr(String internalDtr) {
         this.internalDtr = internalDtr;
     }
-
-
     public Boolean getTemporaryStorage() {
         return temporaryStorage;
     }
-
     public void setTemporaryStorage(Boolean temporaryStorage) {
         this.temporaryStorage = temporaryStorage;
     }
-
     public Timeouts getTimeouts() {
         return timeouts;
     }
-
     public void setTimeouts(Timeouts timeouts) {
         this.timeouts = timeouts;
     }
-
     public String getEndpointInterface() {
         return endpointInterface;
     }
-
     public void setEndpointInterface(String endpointInterface) {
         this.endpointInterface = endpointInterface;
     }
-
     public String getDspEndpointKey() {
         return dspEndpointKey;
     }
-
     public void setDspEndpointKey(String dspEndpointKey) {
         this.dspEndpointKey = dspEndpointKey;
     }
+    public String getAssetType() {
+        return assetType;
+    }
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
 
+    public String getSemanticIdTypeKey() {
+        return semanticIdTypeKey;
+    }
+
+    public void setSemanticIdTypeKey(String semanticIdTypeKey) {
+        this.semanticIdTypeKey = semanticIdTypeKey;
+    }
+
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the DTR's timeouts configuration.
+     **/
     public static class Timeouts{
+
+        /** ATTRIBUTES **/
         Integer search;
         Integer negotiation;
         Integer transfer;
         Integer digitalTwin;
 
+        /** GETTERS AND SETTERS **/
         public Integer getSearch() {
             return search;
         }
-
         public void setSearch(Integer search) {
             this.search = search;
         }
-
         public Integer getNegotiation() {
             return negotiation;
         }
-
         public void setNegotiation(Integer negotiation) {
             this.negotiation = negotiation;
         }
-
         public Integer getTransfer() {
             return transfer;
         }
-
         public void setTransfer(Integer transfer) {
             this.transfer = transfer;
         }
-
         public Integer getDigitalTwin() {
             return digitalTwin;
         }
-
+        @SuppressWarnings("Unused")
         public void setDigitalTwin(Integer digitalTwin) {
             this.digitalTwin = digitalTwin;
         }
     }
 
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the decentralize APIs configuration.
+     **/
     public static class DecentralApis{
+
+        /** ATTRIBUTES **/
         String prefix;
         String search;
         String digitalTwin;
         String subModel;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public DecentralApis(String prefix, String search, String digitalTwin, String subModel) {
             this.prefix = prefix;
             this.search = search;
@@ -149,66 +177,39 @@ public class DtrConfig {
             this.subModel = subModel;
         }
 
+        @SuppressWarnings("Unused")
         public DecentralApis() {
         }
 
+        /** GETTERS AND SETTERS **/
         public String getPrefix() {
             return prefix;
         }
-
+        @SuppressWarnings("Unused")
         public void setPrefix(String prefix) {
             this.prefix = prefix;
         }
-
         public String getSearch() {
             return search;
         }
-
         public void setSearch(String search) {
             this.search = search;
         }
-
+        @SuppressWarnings("Unused")
         public String getDigitalTwin() {
             return digitalTwin;
         }
-
+        @SuppressWarnings("Unused")
         public void setDigitalTwin(String digitalTwin) {
             this.digitalTwin = digitalTwin;
         }
-
+        @SuppressWarnings("Unused")
         public String getSubModel() {
             return subModel;
         }
-
+        @SuppressWarnings("Unused")
         public void setSubModel(String subModel) {
             this.subModel = subModel;
         }
-    }
-    public DtrConfig() {
-    }
-
-
-    public Boolean getCentral() {
-        return central;
-    }
-
-    public void setCentral(Boolean central) {
-        this.central = central;
-    }
-
-    public String getCentralUrl() {
-        return centralUrl;
-    }
-
-    public void setCentralUrl(String centralUrl) {
-        this.centralUrl = centralUrl;
-    }
-
-    public String getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
     }
 }

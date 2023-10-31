@@ -33,15 +33,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.checkerframework.checker.units.qual.A;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
-import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.productpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
@@ -49,8 +46,8 @@ import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.DiscoverySearch;
-import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
+import org.eclipse.tractusx.productpass.models.http.requests.TokenRequest;
 import org.eclipse.tractusx.productpass.models.manager.History;
 import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
@@ -60,17 +57,26 @@ import org.eclipse.tractusx.productpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
-import utils.*;
+import utils.DateTimeUtil;
+import utils.HttpUtil;
+import utils.JsonUtil;
+import utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class consists exclusively to define the HTTP methods needed for the Contract negotiation.
+ **/
 @RestController
 @RequestMapping("/api/contract")
 @Tag(name = "Contract Controller")
 @SecurityRequirement(name = "BearerAuthentication")
 public class ContractController {
+
+    /** ATTRIBUTES **/
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
@@ -86,27 +92,28 @@ public class ContractController {
     @Autowired
     DtrSearchManager dtrSearchManager;
     private @Autowired ProcessConfig processConfig;
-
     @Autowired
     CatenaXService catenaXService;
-
     @Autowired
     HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
 
+    /** METHODS **/
 
+    /**
+     * HTTP POST method to create a new Process.
+     * <p>
+     * @param   searchBody
+     *          the {@code DiscoverySearch} body from the HTTP request with the partInstanceId.
+     *
+     * @return this {@code Response} HTTP response with the processId of the new Process created.
+     *
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @Operation(summary = "Creates a process and checks for the viability of the data retrieval")
     public Response create(@Valid @RequestBody DiscoverySearch searchBody) {
         Response response = httpUtil.getInternalError();
         try {
-            // In case the configuration is setting the search as central
-            if(dtrConfig.getCentral()){
-                response.message = "The decentral Digital Twin Registry is not enabled!";
-                response.status = 403;
-                response.statusText = "Bad Request";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
             if (!authService.isAuthenticated(httpRequest)) {
                 response = httpUtil.getNotAuthorizedResponse();
                 return httpUtil.buildResponse(response, httpResponse);
@@ -120,22 +127,25 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            BpnDiscovery bpnDiscovery = null;
+            List<BpnDiscovery> bpnDiscoveries = null;
             try {
-                bpnDiscovery = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
+                bpnDiscoveries = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
             } catch (Exception e) {
                 response.message = "Failed to get the bpn number from the discovery service";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            if (bpnDiscovery == null) {
+            if (bpnDiscoveries == null || bpnDiscoveries.size() == 0) {
                 response.message = "Failed to get the bpn number from the discovery service, discovery response is null";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            List<String> bpnList = bpnDiscovery.getBpnNumbers();
+            List<String> bpnList = new ArrayList<>();
+            for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
+                bpnList.addAll(bpnDiscovery.getBpnNumbers());
+            }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
@@ -148,7 +158,7 @@ public class ContractController {
             }
             // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
             if(!dtrConfig.getTemporaryStorage() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
-                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnDiscovery.getBpnNumbers());
+                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnList);
                 try {
                     edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
                 } catch (Exception e) {
@@ -203,7 +213,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to search the passport of an asset.
+     * <p>
+     * @param   searchBody
+     *          the {@code DiscoverySearch} body from the HTTP request with the partInstanceId, passport version and the processId.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @Operation(summary = "Searches for a passport with the following id", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
@@ -218,49 +236,52 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            List<String> mandatoryParams = List.of("id", "version");
+            List<String> mandatoryParams = List.of("id");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            List<String> versions = passportConfig.getVersions();
-            // Initialize variables
-            // Check if version is available
-            if (!versions.contains(searchBody.getVersion())) {
-                return httpUtil.buildResponse(httpUtil.getForbiddenResponse("This passport version is not available at the moment!"), httpResponse);
-            }
+            /*List<String> versions;
+            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
+                versions = passportConfig.getDigitalProductPass().getVersions();
+                searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
+                LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
+            } else {
+                versions = passportConfig.getBatteryPass().getVersions();
+                searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
+            }*/
 
             Process process = null;
             AssetSearch assetSearch = null;
-            if(!dtrConfig.getCentral() && searchBody.getProcessId() != null) {
-                // Check for processId
-                String processId = searchBody.getProcessId();
-                if(processId.isEmpty()){
-                    response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                SearchStatus searchStatus = processManager.getSearchStatus(processId);
-                if (searchStatus == null) {
-                    response = httpUtil.getBadRequest("The searchStatus id does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                if(searchStatus.getDtrs().keySet().size() == 0){
-                    response = httpUtil.getBadRequest("No digital twins are available for this process!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                process = processManager.createProcess(processId, httpRequest);
-                Status status = processManager.getStatus(processId);
-                if (status == null) {
-                    response = httpUtil.getBadRequest("The status is not available!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
-            }else {
-                process = processManager.createProcess(httpRequest);
-                assetSearch = aasService.centralDtrSearch(process.id, searchBody);
+
+            // Check for processId
+            if(searchBody.getProcessId() == null){
+                response = httpUtil.getBadRequest("No processId was found on the request body!");
+                return httpUtil.buildResponse(response, httpResponse);
             }
 
+            String processId = searchBody.getProcessId();
+            if(processId.isEmpty()){
+                response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            SearchStatus searchStatus = processManager.getSearchStatus(processId);
+            if (searchStatus == null) {
+                response = httpUtil.getBadRequest("The searchStatus id does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            if(searchStatus.getDtrs().keySet().size() == 0){
+                response = httpUtil.getBadRequest("No digital twins are available for this process!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            process = processManager.createProcess(processId, httpRequest);
+            Status status = processManager.getStatus(processId);
+            if (status == null) {
+                response = httpUtil.getBadRequest("The status is not available!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
 
             if(assetSearch == null){
                 response = httpUtil.getBadRequest("No digital twin was found!");
@@ -322,6 +343,15 @@ public class ContractController {
         }
     }
 
+    /**
+     * HTTP GET method to get the Process status for the given processId.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/status/{processId}", method = RequestMethod.GET)
     @Operation(summary = "Get status from process")
     public Response status(@PathVariable String processId) {
@@ -349,7 +379,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to cancel a Process.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
     @Operation(summary = "Cancel the negotiation")
     public Response cancel(@Valid @RequestBody TokenRequest tokenRequestBody) {
@@ -418,7 +456,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("passport-received") || status.historyExists("passport-retrieved")) {
+            if (status.getStatus().equals("COMPLETED") || status.getStatus().equals("RETRIEVED") || status.historyExists("transfer-request") || status.historyExists("transfer-completed") || status.historyExists("data-received") || status.historyExists("data-retrieved")) {
                 response = httpUtil.getForbiddenResponse("This negotiation can not be canceled! It was already transferred!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
@@ -446,6 +484,15 @@ public class ContractController {
     }
 
 
+    /**
+     * HTTP POST method to sign a Contract retrieved from provider and start the negotiation.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/sign", method = RequestMethod.POST)
     @Operation(summary = "Sign contract retrieved from provider and start negotiation")
     public Response sign(@Valid @RequestBody TokenRequest tokenRequestBody) {
@@ -555,7 +602,15 @@ public class ContractController {
         }
     }
 
-
+    /**
+     * HTTP POST method to decline a Passport negotiation.
+     * <p>
+     * @param   tokenRequestBody
+     *          the {@code TokenRequest} object with the processId, contractId and the authentication token.
+     *
+     * @return this {@code Response} HTTP response with the status.
+     *
+     */
     @RequestMapping(value = "/decline", method = RequestMethod.POST)
     @Operation(summary = "Decline passport negotiation")
     public Response decline(@Valid @RequestBody TokenRequest tokenRequestBody) {

@@ -28,34 +28,37 @@ package org.eclipse.tractusx.productpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This class consists exclusively to define attributes related to the Catalog's Data service property.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataService extends DidDocument {
+
+    /** ATTRIBUTES **/
     @JsonProperty("dct:terms")
     String terms;
     @JsonProperty("dct:endpointUrl")
     String endpoint;
 
+    /** CONSTRUCTOR(S) **/
     public DataService(String id, String type, String terms, String endpoint) {
         super(id, type);
         this.terms = terms;
         this.endpoint = endpoint;
     }
-
     public DataService() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getTerms() {
         return terms;
     }
-
     public void setTerms(String terms) {
         this.terms = terms;
     }
-
     public String getEndpoint() {
         return endpoint;
     }
-
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }

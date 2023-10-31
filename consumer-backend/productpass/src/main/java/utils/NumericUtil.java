@@ -23,6 +23,7 @@
 
 package utils;
 
+@SuppressWarnings("Unused")
 public final class NumericUtil {
     /**
      * Static Tools to parse numbers if is possible

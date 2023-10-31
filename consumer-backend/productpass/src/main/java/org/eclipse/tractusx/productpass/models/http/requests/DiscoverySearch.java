@@ -28,38 +28,44 @@ package org.eclipse.tractusx.productpass.models.http.requests;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * This class consists exclusively to define attributes related to the "/create" endpoint request and therefor to the Discovery search request.
+ *  It's the mandatory body parameter for the HTTP request.
+ *
+ **/
 public class DiscoverySearch {
+
+    /** ATTRIBUTES **/
     @NotNull(message = "Id needs to be defined!")
     @JsonProperty("id")
     String id;
-
     @JsonProperty("type")
     String type;
 
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
     public DiscoverySearch(String id, String type) {
         this.id = id;
         this.type = type;
     }
-
+    @SuppressWarnings("Unused")
     public DiscoverySearch(String id) {
         this.id = id;
     }
-
+    @SuppressWarnings("Unused")
     public DiscoverySearch() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }

@@ -30,6 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
+/**
+ * This class consists exclusively of methods to operate on Eclipse Dataspace Connector (EDC) data.
+ *
+ * <p> The methods defined here are intended to check or manipulate EDC's related data.
+ *
+ */
 @Component
 public class EdcUtil {
 
@@ -38,6 +44,18 @@ public class EdcUtil {
     public EdcUtil(JsonUtil jsonUtil) {
         this.jsonUtil = jsonUtil;
     }
+
+    /**
+     * Parses the data from HTTP request {@code Object} body to a {@code DataPLaneEndpoint} object data.
+     * <p>
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     *
+     * @return  a {@code DataPlaneEndpoint} object with the parsed date retrieved from the body.
+     *
+     * @throws  UtilException
+     *          if unable to parse to the data.
+     */
     public DataPlaneEndpoint parseDataPlaneEndpoint(Object body){
         try {
             return (DataPlaneEndpoint) this.jsonUtil.bindObject(body, DataPlaneEndpoint.class);
@@ -47,6 +65,18 @@ public class EdcUtil {
     }
 
     // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
+    /**
+     * Checks if the EDC is version v0.5.0 basing on the contractId format.
+     * <p>
+     * @param   contractId
+     *          the contractId of the Digital Twin Registry (DTR) as a String.
+     *
+     * @return  true if the EDC's version is v0.5.0, false otherwise.
+     *
+     * @throws  UtilException
+     *          if unable to check the EDC's version.
+     */
+    @SuppressWarnings("Unused")
     public Boolean isEdc5(String contractId){
         try {
             String[] parts = contractId.split(String.format("\\%s",":"));

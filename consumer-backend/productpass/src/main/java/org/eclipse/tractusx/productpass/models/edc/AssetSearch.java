@@ -27,36 +27,38 @@ package org.eclipse.tractusx.productpass.models.edc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * This class consists exclusively to define attributes related to the Asset search.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AssetSearch {
 
+    /** ATTRIBUTES **/
     @JsonProperty("assetId")
     String assetId;
-
     @JsonProperty("connectorAddress")
     String connectorAddress;
 
+    /** CONSTRUCTOR(S) **/
     public AssetSearch(String assetId, String connectorAddress) {
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
     }
-
+    @SuppressWarnings("Unused")
     public AssetSearch() {
     }
 
-
+    /** GETTERS AND SETTERS **/
     public String getAssetId() {
         return assetId;
     }
-
     public void setAssetId(String assetId) {
         this.assetId = assetId;
     }
-
     public String getConnectorAddress() {
         return connectorAddress;
     }
-
     public void setConnectorAddress(String connectorAddress) {
         this.connectorAddress = connectorAddress;
     }

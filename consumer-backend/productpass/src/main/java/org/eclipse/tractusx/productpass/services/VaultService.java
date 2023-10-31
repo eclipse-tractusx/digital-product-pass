@@ -23,17 +23,13 @@
 
 package org.eclipse.tractusx.productpass.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.productpass.config.VaultConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.ObjectError;
 import utils.*;
-import utils.exceptions.UtilException;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -41,18 +37,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class consists exclusively of methods to operate on Vault storage system.
+ *
+ * <p> The methods defined here are intended to set, save, check, read or create Vault's variables.
+ *
+ */
 @Service
 public class VaultService extends BaseService {
 
-
+    /** ATTRIBUTES **/
     private final FileUtil fileUtil;
-
     private final JsonUtil jsonUtil;
-
     private final YamlUtil yamlUtil;
-
     private final VaultConfig vaultConfig;
 
+    /** CONSTRUCTOR(S) **/
     @Autowired
     public VaultService(VaultConfig vaultConfig, FileUtil fileUtil, JsonUtil jsonUtil, YamlUtil yamlUtil) throws ServiceInitializationException {
         this.fileUtil = fileUtil;
@@ -62,6 +62,22 @@ public class VaultService extends BaseService {
         this.createLocalVaultFile(true);
         this.checkEmptyVariables();
     }
+
+    /** METHODS **/
+
+    /**
+     * Sets a new value to an existent parameter in the Vault.
+     * <p>
+     * @param   localSecretPath
+     *          the path to the Vault's secret parameter.
+     * @param   value
+     *          the {@code Object} value to set.
+     *
+     * @return  true if the value was successfully update, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to get the secret.
+     */
     public Boolean setLocalSecret(String localSecretPath, Object value) {
         try {
             Object response = null;
@@ -84,6 +100,20 @@ public class VaultService extends BaseService {
                     "It was not possible to get secret from file.");
         }
     }
+
+    /**
+     * Saves a given data into the Vault.
+     * <p>
+     * @param   filePath
+     *          the path to the Vault's file.
+     * @param   response
+     *          the {@code Object} data to save.
+     *
+     * @return  true if the data was successfully saved, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to save the data into the vault.
+     */
     public Boolean saveVault(String filePath, Object response){
         try {
             String vaultYAML = yamlUtil.dumpYml(response, this.vaultConfig.getIndent(), this.vaultConfig.getPrettyPrint());
@@ -98,7 +128,17 @@ public class VaultService extends BaseService {
         }
     }
 
-
+    /**
+     * Checks if a secret parameter exists in the Vault.
+     * <p>
+     * @param   localSecretPath
+     *          the path to the Vault's secret parameter.
+     *
+     * @return  true if the secret exists in the vault, false otherwise.
+     *
+     * @throws  ServiceException
+     *           if unable to get the secret.
+     */
     public Boolean secretExists(String localSecretPath){
         try {
             String filePath = this.createLocalVaultFile(true);
@@ -111,14 +151,24 @@ public class VaultService extends BaseService {
         }
     }
 
-
+    /**
+     * Gets the value of a secret parameter from the Vault.
+     * <p>
+     * @param   localSecretPath
+     *          the path to the Vault's secret parameter.
+     *
+     * @return  the {@code Object} value of the given secret parameter.
+     *
+     * @throws  ServiceException
+     *           if unable to get the secret's value.
+     */
     public Object getLocalSecret(String localSecretPath) {
         try {
-            String secret = null;
+            Object secret = null;
             String filePath = this.createLocalVaultFile(true);
             Map<String, Object> content = yamlUtil.readFile(filePath);
             try {
-                secret = (String) jsonUtil.getValue(content,localSecretPath, ".",null);
+                secret =  jsonUtil.getValue(content,localSecretPath, ".",null);
             }catch (Exception e){
                 LogUtil.printException(e, "["+this.getClass().getName()+"."+"getLocalSecret] " + "There was an error while searching the secret ["+localSecretPath+"] in file!");
             }
@@ -132,6 +182,18 @@ public class VaultService extends BaseService {
                     "It was not possible to get secret from file.");
         }
     }
+
+    /**
+     * Creates a new File in the Vault.
+     * <p>
+     * @param   searchSystemVariables
+     *          {@code Boolean} to specify if it's to use the default values configured in Vault environment variables.
+     *
+     * @return  the {@code String} path of the new file created.
+     *
+     * @throws  ServiceException
+     *           if unable create the new file.
+     */
     public String createLocalVaultFile(Boolean searchSystemVariables){
         try {
             String dataDir = fileUtil.createDataDir("VaultConfig");
@@ -194,6 +256,13 @@ public class VaultService extends BaseService {
         }
     }
 
+    /**
+     * Creates an empty variables List.
+     * <p>
+     *
+     * @return an empty {@code Arraylist}.
+     *
+     */
     @Override
     public List<String> getEmptyVariables() {
         return new ArrayList<>();

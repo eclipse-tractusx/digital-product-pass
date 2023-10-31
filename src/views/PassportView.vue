@@ -153,7 +153,7 @@ import BatteryCards from "@/components/passport/BatteryCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
-import { API_TIMEOUT, PASSPORT_VERSION } from "@/services/service.const";
+import { API_TIMEOUT } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
@@ -232,8 +232,7 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
-      },
-      version: PASSPORT_VERSION,
+      }
     };
   },
 
@@ -317,8 +316,7 @@ export default {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await this.backendService.getPassport(
-          this.version,
+        response = await backendService.getPassport(
           id,
           this.auth
         );

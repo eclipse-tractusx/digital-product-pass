@@ -25,6 +25,20 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.2.1] - 31-10-2023
+
+## Deleted
+- Removed cypress from `package.json` dependencies
+- Removed unused devDependencies of `@babel`
+
+## Security Issues 
+- Fixed vulnerabilities related to `crypto-js`, `semver`, `netty-codec`.
+  - Updated `Spring Boot` to version `v3.1.5`
+  - Updated `crypto-js` to version `v4.2.0`
+  - Overrided `semver` to versions over `^v7.5.3`
+
+
+## [released]
 ## [1.2.0] - 30-10-2023
 
 ## Added
@@ -39,7 +53,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added a second check for "transfer-completed" in history when passport status is checked in the frontend
 
 ### Updated
-- The Submodels are search by their SemanticId instead of idShort parameter
+- The Aspect Submodels are searching in the Digital Twin by their `semanticId` instead of `idShort` parameter
 - Updated DTR search as type instead of ID
 - Updated the Apis that communicate with the backend
 - Updated DTR configuration to support the new DTR API `v1.0`
@@ -56,9 +70,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Issues Fixed
 - Fixed a bug related to the discovery service when more than one search endpoint would be available
 - Fixed bug related to the passport search and the transfer data not being available sometimes
-
-## Security Fixes: 
-- Fixed vulnerabilities related to `crypto-js`, `semver`, `netty-codec`
 
 ## [released]
 ## [1.1.0] - 19-10-2023

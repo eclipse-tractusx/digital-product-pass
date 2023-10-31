@@ -1,6 +1,6 @@
 {
-  "name": "productpass-consumer-ui",
-  "version": "1.2.0",
+  "name": "digital-product-pass-frontend",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "serve": "vite --host localhost",

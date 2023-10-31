@@ -52,6 +52,7 @@ frontend:
     backend_url: ""
     # -- url of the identity provider service
     idp_url: ""
+
     # -- api timeouts
     api:
       # -- max retries for getting status
@@ -61,6 +62,14 @@ frontend:
       # -- delay from getting status
       delay: 1000
     # -- keycloak specific configuration for frontend authentication
+    
+    # -- irs api timeouts
+    irs:
+      # -- request timeout delay 
+      requestDelay: 30000
+      # -- maximum waiting time to get the irs job status
+      maxWaitingTime: 30
+
     keycloak:
       clientId: ""
       realm: ""
@@ -86,16 +95,15 @@ backend:
     enabled: false
 
   # -- in this section we configure the values that are inserted as secrets in the backend
-  avp:
-    helm:
-      # -- technical user keycloak central id credentials
-      # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
-      clientId: "<Add client id here>"
-      clientSecret: "<Add client secret here>"
-      # -- the secret for assesing the edc management API
-      xApiKey: "<Add API key here>"
-      # -- BPN Number
-      participantId: "<Add participant id here>"
+  edc:
+    # -- technical user keycloak central id credentials
+    # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
+    # -- the secret for assesing the edc management API
+    xApiKey: "<Add API key here>"
+    # -- BPN Number
+    participantId: "<Add participant id here>"
 
   # -- specific backend and spring boot configurations
   application:

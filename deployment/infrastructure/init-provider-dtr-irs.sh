@@ -113,11 +113,11 @@ echo "Create Battery module sample data..."
 curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_1}
 echo
 
-echo "Create Battery module BomAsBuilt sample data..."
+echo "Create Battery module BomAsUsage sample data..."
 curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelUsageAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_2}
 echo
 
-echo "Create Battery module BomAsUsage sample data..."
+echo "Create Battery module BomAsBuilt sample data..."
 curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/payloads/singleLevelBomAsBuilt-EVMODULE-TRJ712.json"  $SUBMODEL_SERVER/provider_backend/data/${DT2_SUBMODEL_ID_3}
 echo
 

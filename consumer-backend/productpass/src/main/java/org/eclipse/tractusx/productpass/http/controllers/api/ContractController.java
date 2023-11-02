@@ -148,6 +148,12 @@ public class ContractController {
             for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
                 bpnList.addAll(bpnDiscovery.getBpnNumbers());
             }
+            if(bpnList.size() == 0){
+                response.message = "The asset was not found in the BPN Discovery!";
+                response.status = 404;
+                response.statusText = "Not Found";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
             if(dtrConfig.getTemporaryStorage().getEnabled()) {

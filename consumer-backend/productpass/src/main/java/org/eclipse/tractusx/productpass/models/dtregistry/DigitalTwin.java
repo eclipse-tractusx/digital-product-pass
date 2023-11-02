@@ -100,7 +100,7 @@ public class DigitalTwin {
             this.value = value;
             this.externalSubjectId = externalSubjectId;
         }
-
+      
         public SpecificAssetId() {
         }
 

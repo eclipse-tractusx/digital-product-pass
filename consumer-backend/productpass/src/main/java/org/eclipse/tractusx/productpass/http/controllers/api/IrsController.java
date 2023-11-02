@@ -285,7 +285,6 @@ public class IrsController {
                     response.status = 200;
                     response.message = "[" + children + "] children found";
                     response.data = status.getJob();
-
             }
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {

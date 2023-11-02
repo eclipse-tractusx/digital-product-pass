@@ -1170,6 +1170,13 @@ public class DataTransferService extends BaseService {
                 if (this.transfer == null) {
                     return;
                 }
+                if(this.transfer.getState().equals("TERMINATED")){
+                    processManager.setStatus(processId, "dtr-"+this.endpointId+"-transfer-incomplete", new History(
+                            endpointId,
+                            "INCOMPLETE"
+                    ));
+                }
+
                 processManager.saveTransfer(this.processId, transfer, true);
             } catch (Exception e) {
                 processManager.setStatus(processId, "dtr-transfer-failed", new History(

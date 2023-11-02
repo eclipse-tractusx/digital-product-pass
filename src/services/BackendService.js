@@ -176,14 +176,6 @@ export default class BackendService {
         if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
-
-        if (status !== "RECEIVED") {
-            return this.getErrorMessage(
-                "Failed to retrieve passport!",
-                500,
-                "Internal Server Error"
-            )
-        }
         // Get status again
         statusResponse = await this.getStatus(processId, authentication)
         status = jsonUtil.get("data.status", statusResponse);

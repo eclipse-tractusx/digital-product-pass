@@ -340,7 +340,7 @@ public class DtrSearchManager {
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
         if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
-            if (this.dtrDataModel.contains(bpn)) {
+            if (this.dtrDataModel.containsKey(bpn)) {
                 if (!this.dtrDataModel.get(bpn).contains(dtr))
                     this.dtrDataModel.get(bpn).add(dtr);
             } else {

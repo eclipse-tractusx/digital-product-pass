@@ -176,24 +176,14 @@ export default class BackendService {
         if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
-
-        if (status !== "RECEIVED") {
-            return this.getErrorMessage(
-                "Failed to retrieve passport!",
-                500,
-                "Internal Server Error"
-            )
-        }
         // Get status again
         statusResponse = await this.getStatus(processId, authentication)
         status = jsonUtil.get("data.status", statusResponse);
-                
-        // Check the history
         history = jsonUtil.get("data.history", statusResponse);
-        // If status is completed retrieve passport
         if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
+
         retries = 0;
         // Until the transfer is completed or the status is failed
         while(retries < maxRetries){
@@ -274,6 +264,41 @@ export default class BackendService {
                         resolve(e.message)
                     }
 
+                });
+        });
+    }
+
+    async getIrsState(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+                });
+        });
+    }
+    async getIrsData(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
                 });
         });
     }

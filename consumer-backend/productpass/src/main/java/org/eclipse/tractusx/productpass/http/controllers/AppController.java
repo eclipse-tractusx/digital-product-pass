@@ -33,9 +33,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
+import org.eclipse.tractusx.productpass.managers.TreeManager;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.productpass.models.dtregistry.EndPoint;
@@ -45,10 +48,12 @@ import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.eclipse.tractusx.productpass.models.http.requests.Search;
 import org.eclipse.tractusx.productpass.models.manager.History;
+import org.eclipse.tractusx.productpass.models.manager.Node;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.services.AasService;
 import org.eclipse.tractusx.productpass.services.DataPlaneService;
+import org.eclipse.tractusx.productpass.services.IrsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -83,12 +88,24 @@ public class AppController {
     PassportUtil passportUtil;
     @Autowired
     AasService aasService;
+
+    @Autowired
+    IrsService irsService;
+
+    @Autowired
+    TreeManager treeManager;
     @Autowired
     DataPlaneService dataPlaneService;
     @Autowired
     ProcessManager processManager;
     @Autowired
+    IrsConfig irsConfig;
+    @Autowired
     DtrConfig dtrConfig;
+
+    @Autowired
+    PassportConfig passportConfig;
+
     @SuppressWarnings("Unused")
     private @Autowired ProcessConfig processConfig;
 
@@ -179,7 +196,7 @@ public class AppController {
             String assetId = null;
             String connectorAddress = null;
             String semanticId = null;
-
+            String dataPlaneUrl = null;
             try {
                 digitalTwin = digitalTwinRegistry.getDigitalTwin();
                 subModel = digitalTwinRegistry.getSubModel();
@@ -189,9 +206,10 @@ public class AppController {
                 if (endpoint == null) {
                     throw new ControllerException(this.getClass().getName(), "No EDC endpoint found in DTR SubModel!");
                 }
-                Map<String, String> subProtocolBody = endpoint.getProtocolInformation().getParsedSubprotocolBody();
+                Map<String, String> subProtocolBody = endpoint.getProtocolInformation().parseSubProtocolBody();
                 connectorAddress = subProtocolBody.get(dtrConfig.getDspEndpointKey()); // Get DSP endpoint address
                 assetId = subProtocolBody.get("id"); // Get Asset Id
+                dataPlaneUrl = endpoint.getProtocolInformation().getEndpointAddress(); // Get the HREF endpoint
             } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No endpoint address found"), httpResponse);
             }
@@ -207,15 +225,28 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
-            processManager.setEndpoint(processId, connectorAddress);
-            processManager.setBpn(processId, dtr.getBpn());
-            processManager.setSemanticId(processId, semanticId);
-            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
             LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
             processManager.setStatus(processId, "digital-twin-found", new History(
                     assetId,
                     "READY"
             ));
+            String bpn =  dtr.getBpn();
+            Boolean childrenCondition = search.getChildren();
+            processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
+            processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
+
+            // IRS FUNCTIONALITY START
+            if(this.irsConfig.getEnabled() && search.getChildren()) {
+                // Update tree
+                String globalAssetId = digitalTwin.getGlobalAssetId();
+                String actualPath = status.getTreeState() + "/" + globalAssetId;
+                processManager.setTreeState(processId, actualPath);
+                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin, this.passportConfig.getSearchIdSchema()));
+
+                // Get children from the node
+                this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
+            }
+
 
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
@@ -288,7 +319,13 @@ public class AppController {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Process not found!"), httpResponse);
             }
 
-            JsonNode passport = dataPlaneService.getPassport(endpointData);
+            Status status = processManager.getStatus(processId);
+            if(status == null){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
+            }
+
+
+            JsonNode passport = dataPlaneService.getPassportFromEndpoint(endpointData, status.getDataPlaneUrl());
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }

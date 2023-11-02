@@ -21,7 +21,7 @@
  */
 
 import jsonUtil from "@/utils/jsonUtil.js";
-import passport from "@/config/templates/passport.json";
+import passports from "@/config/templates/passports.json";
 import metadata from "@/config/templates/metadata.json";
 
 export default {
@@ -47,13 +47,15 @@ export default {
         if (Object.keys(tmpPropsData).length < 0) return null;
         return tmpPropsData;
     }*/
-    normalizePassport(responsePassport=null, responseMetadata=null){
+    normalizePassport(responsePassport=null, responseMetadata=null, semanticId="urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"){
+        let passport = passports[semanticId]; //Get the passport by semanticId
         let response = {
             "metadata": metadata,
-            "passport": passport
+            "aspect": passport,
+            "semanticId": semanticId
         }
         if(responsePassport){
-            response["passport"] = jsonUtil.extendDeep(passport, responsePassport);
+            response["aspect"] = jsonUtil.extendDeep(passport, responsePassport);
         }
         if(responseMetadata){
             response["metadata"] = jsonUtil.extendDeep(metadata, responseMetadata);

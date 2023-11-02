@@ -42,11 +42,10 @@ frontend:
         hosts:
           - materialpass.beta.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/beta/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+  edc:
+    clientId: <path:material-pass/data/beta/aasregistry#client.id>
+    clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
 
   # Product Passport UI Configuration
   productpass:
@@ -56,6 +55,8 @@ frontend:
       clientId: "Cl13-CX-Battery"
       realm: "CX-Central"
       onLoad: "login-required"
+    irsDelay: ""
+    irsMaxWaitingTime: ""
 
 backend:
   ingress:
@@ -124,6 +125,16 @@ backend:
             enabled: true
             bpn: true
             edc: true
+        
+        irs:
+          enabled: true
+          endpoint: "https://materialpass-irs.beta.demo.catena-x.net"
+          paths:
+            job: "/irs/jobs"
+          tree:
+            fileName: "treeDataModel"
+            indent: true
+          callbackUrl: "https://materialpass.beta.demo.catena-x.net/api/irs"
       
         dtr:
           central: false
@@ -163,8 +174,9 @@ backend:
             encrypt: true
             indent: true
             dir: "data/transfer"
-          versions:
-            - 'v3.0.1'
+          aspects: 
+            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       
         vault:
           type: 'local'

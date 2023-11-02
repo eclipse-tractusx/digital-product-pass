@@ -1,26 +1,28 @@
 {
     "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/leftOperand"
+        "odrl": "http://www.w3.org/ns/odrl/2/"
     },
     "@type": "PolicyDefinitionRequestDto",
-    "@id": "e3ffbbcb-1e6c-406c-91e8-cf0bf191b807",
+    "@id": "id-3.0-trace",
     "policy": {
-		"@type": "Policy",
-		"odrl:permission" : [{
-      "odrl:action": "USE",
-      "odrl:constraint": {
-        "odrl:constraint": {
-          "@type": "LogicalConstraint",
-          "odrl:or": [
+        "@type": "Policy",
+        "odrl:permission": [
             {
-              "@type": "Contraint",
-              "odrl:leftOperand": "BusinessPartnerNumber",
-              "odrl:operator": "EQ",
-              "odrl:rightOperand": "BPNL00000000CBA5"
+                "odrl:action": "USE",
+                "odrl:constraint": {
+                    "@type": "AtomicConstraint",
+                    "odrl:or": [
+                        {
+                            "@type": "Constraint",
+                            "odrl:leftOperand": "PURPOSE",
+                            "odrl:operator": {
+                                "@id": "odrl:eq"
+                            },
+                            "odrl:rightOperand": "ID 3.0 Trace"
+                        }
+                    ]
+                }
             }
-          ]
-        }
-      }
-    }]
+        ]
     }
 }

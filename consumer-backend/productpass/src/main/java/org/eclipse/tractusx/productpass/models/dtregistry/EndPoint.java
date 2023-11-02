@@ -65,6 +65,8 @@ public class EndPoint {
     /**
      * This class consists exclusively to define attributes related to the needed protocol information for the improved version.
      **/
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class ProtocolInformation3 {
 
         /** ATTRIBUTES **/
@@ -156,7 +158,7 @@ public class EndPoint {
         public String getSubprotocolBody() {
             return subprotocolBody;
         }
-        public Map<String, String> getParsedSubprotocolBody() {
+        public Map<String, String> parseSubProtocolBody() {
             try {
                 return Splitter.on(';').withKeyValueSeparator('=').split(this.subprotocolBody);
             }catch (Exception e){

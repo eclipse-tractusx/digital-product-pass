@@ -23,6 +23,31 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**October 31 2023 (Version 1.2.1)**
+*31.10.2023*
+
+### Security Issues
+#### Fix the security issues related to 3 library dependencies
+The spring boot version was updated to `3.1.5` to fix the vulnerabilities with the `netty-codec-http2` library.
+In addition two frontend libraries were updated, the `semver` library was overrided for the latest version and the cypress reference was removed from the dependency list
+because of problems with the IP checks: https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/11346, which required IP Team Review.
+The `crypto-js` library was also updated to the latest available version.
+
+
+
+**October 30 2023 (Version 1.2.0)**
+*30.10.2023*
+
+### Added
+#### Availability of the DPP aspect model
+There is now a possibility to retrieve any type of passport aspect from a submodel endpoint searched by the semanticId of the aspect.
+
+#### Visualization of the "Digital Product Passport" aspect in the frontend
+It is now possible to visualize the digital product passports aspect model in the DPP frontend component.
+
+### Updated
+#### Updated Decentral lookup for the Digital Twin Registry
+The decentral lookup is changed from searching by registry type e.g., data.core.digitalTwinRegistry instead of the registry id/name.
 
 **October 19 2023 (Version 1.1.0)**
 *19.10.2023*

@@ -253,11 +253,11 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.nameOverride | string | `""` |  |
 | tractusx-connector.participant.id | string | `"<path:material-pass/data/dev/edc/participant#bpnNumber>"` |  |
 | tractusx-connector.postgresql.auth.database | string | `"edc"` |  |
-| tractusx-connector.postgresql.auth.password | string | `"<path:material-pass/data/dev/edc/database#user>"` |  |
+| tractusx-connector.postgresql.auth.password | string | `"<path:material-pass/data/dev/edc/database#password>"` |  |
 | tractusx-connector.postgresql.auth.username | string | `"<path:material-pass/data/dev/edc/database#user>"` |  |
 | tractusx-connector.postgresql.fullnameOverride | string | `"postgresql"` |  |
 | tractusx-connector.postgresql.jdbcUrl | string | `"jdbc:postgresql://postgresql:5432/edc"` |  |
-| tractusx-connector.postgresql.password | string | `"<path:material-pass/data/dev/edc/database#user>"` |  |
+| tractusx-connector.postgresql.password | string | `"<path:material-pass/data/dev/edc/database#password>"` |  |
 | tractusx-connector.postgresql.username | string | `"<path:material-pass/data/dev/edc/database#user>"` |  |
 | tractusx-connector.serviceAccount.annotations | object | `{}` |  |
 | tractusx-connector.serviceAccount.create | bool | `true` |  |

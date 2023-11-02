@@ -32,9 +32,10 @@ const IDP_URL = "IDENTITY_PROVIDER_URL";
 // Get urls that can be empty
 let serverUrl = "HOST_URL";
 let backendUrl = "DATA_URL";
-let passVer = 'PASS_VERSION';
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
+let irsDelay = 'APP_IRS_DELAY';
+let irsMaxWaitingTime = 'APP_IRS_WAITING_TIME'; 
 let delay = 'APP_API_DELAY';
 let clientId = "KEYCLOAK_CLIENTID";
 let realm = "KEYCLOAK_REALM";
@@ -45,7 +46,6 @@ let repoEndpoint = "REPO_ENDPOINT_URL";
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
-passVer = (passVer != null && passVer !== "") ? passVer : "v3.0.1"
 clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "") ? realm : "CX-Central"
 onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
@@ -54,13 +54,16 @@ onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 timeout = numberUtil.parseInt(timeout, 60000);
 delay = numberUtil.parseInt(delay, 1000);
 retries = numberUtil.parseInt(retries, 20);
+irsDelay = numberUtil.parseInt(irsDelay, 30000);
+irsMaxWaitingTime = numberUtil.parseInt(irsMaxWaitingTime, 30);
 
 // Define constants
 const SERVER_URL = serverUrl;
 const BACKEND_URL = backendUrl;
-const PASSPORT_VERSION = passVer;
 const API_MAX_RETRIES = retries;
 const API_TIMEOUT = timeout;
+const IRS_DELAY = irsDelay;
+const IRS_MAX_WAITING_TIME = irsMaxWaitingTime;
 const API_DELAY = delay;
 const CLIENT_ID = clientId;
 const REALM = realm;
@@ -85,4 +88,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, PASSPORT_VERSION, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT };
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME };

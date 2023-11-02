@@ -145,7 +145,7 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to check the EDC consumer connection.
      */
-    public String checkEdcConsumerConnection() throws ControllerException {
+    public String checkEdcConsumerConnection() throws ServiceException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
             Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
@@ -154,7 +154,7 @@ public class DataTransferService extends BaseService {
             }
             return catalog.getParticipantId();
         } catch (Exception e) {
-            throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+            throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
         }
     }
 
@@ -171,7 +171,7 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to get the contract offer for the assetId.
      */
-    public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ControllerException {
+    public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
@@ -205,7 +205,7 @@ public class DataTransferService extends BaseService {
             Integer index = contractOffersMap.get(assetId);
             return contractOffers.get(index);
         } catch (Exception e) {
-            throw new ControllerException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offer for assetId [" + assetId + "]");
         }
     }
 
@@ -1170,6 +1170,13 @@ public class DataTransferService extends BaseService {
                 if (this.transfer == null) {
                     return;
                 }
+                if(this.transfer.getState().equals("TERMINATED")){
+                    processManager.setStatus(processId, "dtr-"+this.endpointId+"-transfer-incomplete", new History(
+                            endpointId,
+                            "INCOMPLETE"
+                    ));
+                }
+
                 processManager.saveTransfer(this.processId, transfer, true);
             } catch (Exception e) {
                 processManager.setStatus(processId, "dtr-transfer-failed", new History(

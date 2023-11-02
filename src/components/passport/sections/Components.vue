@@ -69,6 +69,7 @@ export default {
   },
   async created() {
     this.backendService = new BackendService();
+    this.loading = true;
     this.invokeIrsData();
     this.invokeIrsState();
   },

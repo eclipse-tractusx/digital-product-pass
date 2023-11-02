@@ -71,7 +71,7 @@ public class AasService extends BaseService {
     private final AuthenticationService authService;
     Map<String, Object> apis;
     private DtrSearchManager dtrSearchManager;
-    private ProcessManager processManager;
+    private final ProcessManager processManager;
     private DataTransferService dataService;
 
     private PassportConfig passportConfig;
@@ -416,7 +416,6 @@ public class AasService extends BaseService {
                 Thread thread =  ThreadUtil.runThread(dtrTransfer, dtr.getEndpoint());
                 thread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getTransfer()));
             }
-            // TODO: Wait until transfer is finished and retrieve digital twin ids
             Thread blockThread = ThreadUtil.runThread(new DigitalTwinTimeout(this.processManager, processId));
             try {
                 if(!blockThread.join(Duration.ofSeconds(this.dtrConfig.getTimeouts().getDigitalTwin()))){
@@ -427,9 +426,9 @@ public class AasService extends BaseService {
                 return null;
             }
             status = this.processManager.getStatus(processId);
-            if(status.historyExists("digital-twin-found")){
+            if (status.historyExists("digital-twin-found")) {
                 return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
-            };
+            }
             return null;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "decentralDtrSearch",
@@ -622,7 +621,7 @@ public class AasService extends BaseService {
         @Override
         public void run() {
             this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            if(this.semanticId == null || semanticId.isEmpty()){
+            if(this.semanticId == null || this.semanticId.isEmpty()){
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin()));
             }else {
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin(), semanticId));

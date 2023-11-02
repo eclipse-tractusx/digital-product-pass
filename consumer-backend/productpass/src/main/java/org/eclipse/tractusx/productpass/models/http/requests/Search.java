@@ -48,6 +48,12 @@ public class Search {
     String idType = "partInstanceId";
     @JsonProperty(value = "dtIndex", defaultValue = "0")
     Integer dtIndex = 0;
+
+    @JsonProperty(value = "children", defaultValue = "true")
+    Boolean children = true;
+
+    @JsonProperty(value = "idShort", defaultValue = "batteryPass")
+    String idShort = "batteryPass";
     @JsonProperty(value = "semanticId")
     String semanticId;
 
@@ -65,6 +71,16 @@ public class Search {
         this.semanticId = semanticId;
     }
 
+    public Search(String processId, String id, String version, String idType, Integer dtIndex, Boolean children, String idShort, String semanticId) {
+        this.processId = processId;
+        this.id = id;
+        this.version = version;
+        this.idType = idType;
+        this.dtIndex = dtIndex;
+        this.children = children;
+        this.idShort = idShort;
+        this.semanticId = semanticId;
+    }
     /** GETTERS AND SETTERS **/
     public String getSemanticId() {
         return semanticId;
@@ -101,5 +117,13 @@ public class Search {
     }
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Boolean getChildren() {
+        return children;
+    }
+
+    public void setChildren(Boolean children) {
+        this.children = children;
     }
 }

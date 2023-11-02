@@ -126,6 +126,16 @@ backend:
             bpn: false
             edc: true
       
+        irs:
+          enabled: true
+          endpoint: "https://materialpass-irs.dev.demo.catena-x.net"
+          paths:
+            job: "/irs/jobs"
+          tree:
+            fileName: "treeDataModel"
+            indent: true
+          callbackUrl: "https://materialpass.dev.demo.catena-x.net/api/irs"
+        
         dtr:
           central: false
           centralUrl: 'https://semantics.dev.demo.catena-x.net/registry'

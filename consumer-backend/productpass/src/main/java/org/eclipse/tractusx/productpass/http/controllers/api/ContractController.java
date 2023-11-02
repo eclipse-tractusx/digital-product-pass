@@ -38,6 +38,7 @@ import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
@@ -275,7 +276,12 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No digital twins are available for this process!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            process = processManager.createProcess(processId, httpRequest);
+            Boolean childrenCondition = searchBody.getChildren();
+            if(childrenCondition != null){
+                process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
+            }else {
+                process = processManager.createProcess(processId, httpRequest);
+            }
             Status status = processManager.getStatus(processId);
             if (status == null) {
                 response = httpUtil.getBadRequest("The status is not available!");
@@ -287,7 +293,6 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No digital twin was found!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();
@@ -299,7 +304,7 @@ public class ContractController {
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
-            } catch (ControllerException e) {
+            } catch (ServiceException e) {
                 response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";

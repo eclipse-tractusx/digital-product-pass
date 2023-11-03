@@ -56,9 +56,19 @@ configuration:
 
   security:
     check:
-      enabled: true
+      enabled: false
       bpn: true
       edc: true
+
+  irs:
+    enabled: true
+    endpoint: "https://materialpass-irs.int.demo.catena-x.net"
+    paths:
+      job: "/irs/jobs"
+    tree:
+      fileName: "treeDataModel"
+      indent: true
+    callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
     assetType: 'data.core.digitalTwinRegistry'

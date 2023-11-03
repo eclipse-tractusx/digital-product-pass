@@ -622,7 +622,7 @@ public class AasService extends BaseService {
         @Override
         public void run() {
             this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
-            if(this.semanticId == null || semanticId.isEmpty()){
+            if(this.semanticId == null || this.semanticId.isEmpty()){
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin()));
             }else {
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin(), semanticId));

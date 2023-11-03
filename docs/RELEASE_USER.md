@@ -23,6 +23,17 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**November 03 2023 (Version 1.3.0)**
+*03.11.2023*
+
+### Added
+#### Added drill down functionality with `IRS` for the Digital Product Pass Aspect
+Now the application is able to drill down into its components one level down.
+The backend application is communicating with the IRS and managing the job.
+Once the IRS completes its job the backend is able to parse it and inform the frontend that the job has completed.
+
+
+
 **October 31 2023 (Version 1.2.1)**
 *31.10.2023*
 

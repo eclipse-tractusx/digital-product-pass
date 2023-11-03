@@ -23,10 +23,12 @@
 
 package utils;
 
+import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
 import org.springframework.core.env.Environment;
 import utils.exceptions.UtilException;
 
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,6 +43,8 @@ public final class CatenaXUtil {
 
     public final static String bpnNumberPattern = "BPN[LSA][A-Z0-9]{12}";
     public final static String edcDataEndpoint = "/api/v1/dsp";
+
+    public final static String catenaXPrefix = "CX";
 
     /**
      * Checks if the given String contains a BPN number pattern in it.
@@ -83,9 +87,9 @@ public final class CatenaXUtil {
     }
 
     /**
-     * Gets the BPN number from a given String, if exists.
+     * Gets an aspect name from the semantic id
      * <p>
-     * @param   str
+     * @param   semanticId
      *          the {@code String} object to get BPN number from.
      *
      * @return  the {@code String} BPN number found in the given String or null if it doesn't exist.
@@ -99,6 +103,39 @@ public final class CatenaXUtil {
         }
     }
 
+    /**
+     * Build the search id from a digital twin.
+     * <p>
+     * @param   digitalTwin
+     *          the {@code DigitalTwin} digital twin to build the dpp search id
+     *
+     * @return  the {@code String} BPN number found in the given String or null if it doesn't exist.
+     *
+     */
+    public static String buildDppSearchId(DigitalTwin digitalTwin, String defaultValue){
+        try {
+            Map<String, String> mappedSpecificAssetIds = digitalTwin.mapSpecificAssetIds();
+            // all the mapped values are in lowercase to avoid case sensitivity
+            String partInstanceId = mappedSpecificAssetIds.get("partinstanceid");
+            String manufacturerPartId = mappedSpecificAssetIds.get("manufacturerpartid");
+            if(partInstanceId == null || manufacturerPartId == null){
+                return defaultValue; // Return default value
+            }
+            return String.join(":", catenaXPrefix, manufacturerPartId, partInstanceId);
+        }catch(Exception e){
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] It was not possible to build the dpp search id");
+        }
+    }
+
+    /**
+     * Gets the BPN number from a given String, if exists.
+     * <p>
+     * @param   str
+     *          the {@code String} object to get BPN number from.
+     *
+     * @return  the {@code String} BPN number found in the given String or null if it doesn't exist.
+     *
+     */
     public static String getBPN(String str) {
         Pattern pattern = Pattern.compile(bpnNumberPattern);
         Matcher matcher = pattern.matcher(str);

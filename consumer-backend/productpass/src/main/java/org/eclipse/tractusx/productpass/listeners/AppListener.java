@@ -139,19 +139,24 @@ public class AppListener {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
-        LogUtil.printMessage("========= [ APPLICATION STARTED ] =================================");
+        String ascii = "\n" +
+                "    ____  _       _ __        __   ____                 __           __     ____                     \n" +
+                "   / __ \\(_)___ _(_) /_____ _/ /  / __ \\_________  ____/ /_  _______/ /_   / __ \\____ ___________    \n" +
+                "  / / / / / __ `/ / __/ __ `/ /  / /_/ / ___/ __ \\/ __  / / / / ___/ __/  / /_/ / __ `/ ___/ ___/    \n" +
+                " / /_/ / / /_/ / / /_/ /_/ / /  / ____/ /  / /_/ / /_/ / /_/ / /__/ /_   / ____/ /_/ (__  |__  )     \n" +
+                "/_____/_/\\__, /_/\\__/\\__,_/_/  /_/   /_/   \\____/\\__,_/\\__,_/\\___/\\__/  /_/    \\__,_/____/____/      \n" +
+                "        /____/                                                                                       \n" +
+                "                                                                                \\\\/ersion: v" + buildProperties.getVersion() + "\n\n";
+        System.out.print(ascii);
         String serverStartUpMessage = "\n\n" +
-                "************************************************\n" +
-                buildProperties.getName() + "\n" +
-                "Copyright (c) 2022, 2023: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
-                "Copyright (c) 2022, 2023: Contributors to the CatenaX (ng) GitHub Organisation.\n" +
-                "Version: " + buildProperties.getVersion() + "\n\n" +
-                "\n\n-------------> [ SERVER STARTED ] <-------------\n" +
-                "Listening to requests...\n\n";
-
-        LogUtil.printMessage(serverStartUpMessage);
-        LogUtil.printMessage("========= [ LOGGING STARTED ] ================================");
-        LogUtil.printMessage("Creating log file...");
+                "**********************************************************************\n\n" +
+                " "+buildProperties.getName() + "\n" +
+                " Copyright (c) 2022, 2023: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
+                " Copyright (c) 2022, 2023: Contributors to the Eclipse Foundation.\n\n" +
+                "**********************************************************************\n\n";
+        System.out.print(serverStartUpMessage);
+        System.out.print("\n========= [ APPLICATION STARTED ] =================================\n"+
+                "Listening to requests...\n\n");
         Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and edcDiscovery addresses)
         if (discovery == null) {
             LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +

@@ -48,6 +48,7 @@ public class JobHistory {
 
     /** CONSTRUCTOR(S) **/
     public JobHistory() {
+        this.children = -1;
     }
 
     public JobHistory(String jobId, String searchId, String globalAssetId, String path, Long created, Long updated, Integer children) {

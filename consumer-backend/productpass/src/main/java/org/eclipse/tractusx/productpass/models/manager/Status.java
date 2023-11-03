@@ -266,13 +266,6 @@ public class Status {
         this.history.remove(name);
         return true;
     }
-    public String getDataPlaneUrl() {
-        return dataPlaneUrl;
-    }
-
-    public void setDataPlaneUrl(String dataPlaneUrl) {
-        this.dataPlaneUrl = dataPlaneUrl;
-    }
     public History getHistory(String name) {
         return this.history.getOrDefault(name, null);
     }
@@ -316,6 +309,14 @@ public class Status {
 
     public void setSemanticId(String semanticId) {
         this.semanticId = semanticId;
+    }
+
+    public String getDataPlaneUrl() {
+        return dataPlaneUrl;
+    }
+
+    public void setDataPlaneUrl(String dataPlaneUrl) {
+        this.dataPlaneUrl = dataPlaneUrl;
     }
 
     public JobHistory getJob() {

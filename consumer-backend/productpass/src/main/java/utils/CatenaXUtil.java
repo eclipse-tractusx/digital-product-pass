@@ -28,6 +28,8 @@ import org.springframework.core.env.Environment;
 import utils.exceptions.UtilException;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -112,16 +114,15 @@ public final class CatenaXUtil {
      * @return  the {@code String} BPN number found in the given String or null if it doesn't exist.
      *
      */
-    public static String buildDppSearchId(DigitalTwin digitalTwin, String defaultValue){
+    public static String buildDppSearchId(DigitalTwin digitalTwin, String schema){
         try {
             Map<String, String> mappedSpecificAssetIds = digitalTwin.mapSpecificAssetIds();
             // all the mapped values are in lowercase to avoid case sensitivity
-            String partInstanceId = mappedSpecificAssetIds.get("partinstanceid");
-            String manufacturerPartId = mappedSpecificAssetIds.get("manufacturerpartid");
-            if(partInstanceId == null || manufacturerPartId == null){
-                return defaultValue; // Return default value
+            for (String id: mappedSpecificAssetIds.keySet()){
+                String value = mappedSpecificAssetIds.get(id);
+                schema = schema.replaceAll(String.format("\\%s","<"+id+">"), value);
             }
-            return String.join(":", catenaXPrefix, manufacturerPartId, partInstanceId);
+            return schema;
         }catch(Exception e){
             throw new UtilException(CatenaXUtil.class, e, "[ERROR] It was not possible to build the dpp search id");
         }

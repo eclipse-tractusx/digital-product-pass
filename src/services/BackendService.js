@@ -172,7 +172,8 @@ export default class BackendService {
             await threadUtil.sleep(waitingTime);
             retries++;
         }
-        if(status === "COMPLETED"){
+        let history = jsonUtil.get("data.history", statusResponse);
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
 
@@ -186,13 +187,13 @@ export default class BackendService {
         // Get status again
         statusResponse = await this.getStatus(processId, authentication)
         status = jsonUtil.get("data.status", statusResponse);
+                
+        // Check the history
+        history = jsonUtil.get("data.history", statusResponse);
         // If status is completed retrieve passport
-        if(status === "COMPLETED"){
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
-        
-        // Check the history
-        let history = jsonUtil.get("data.history", statusResponse);
         retries = 0;
         // Until the transfer is completed or the status is failed
         while(retries < maxRetries){
@@ -202,7 +203,7 @@ export default class BackendService {
             statusResponse = await this.getStatus(processId, authentication);
             status = jsonUtil.get("data.status", statusResponse);
             history = jsonUtil.get("data.history", statusResponse);
-            if(jsonUtil.exists("transfer-completed", history) || status === "FAILED"){
+            if((jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) || status === "FAILED"){
                 break;
             }
             retries++;

@@ -34,6 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.IrsConfig;
+import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
@@ -101,6 +102,10 @@ public class AppController {
     IrsConfig irsConfig;
     @Autowired
     DtrConfig dtrConfig;
+
+    @Autowired
+    PassportConfig passportConfig;
+
     @SuppressWarnings("Unused")
     private @Autowired ProcessConfig processConfig;
 
@@ -220,6 +225,11 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            processManager.setStatus(processId, "digital-twin-found", new History(
+                    assetId,
+                    "READY"
+            ));
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
             processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
@@ -231,17 +241,12 @@ public class AppController {
                 String globalAssetId = digitalTwin.getGlobalAssetId();
                 String actualPath = status.getTreeState() + "/" + globalAssetId;
                 processManager.setTreeState(processId, actualPath);
-                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin));
+                this.treeManager.setNodeByPath(processId, actualPath, new Node(digitalTwin, this.passportConfig.getSearchIdSchema()));
 
                 // Get children from the node
                 this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
             }
 
-            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            processManager.setStatus(processId, "digital-twin-found", new History(
-                    assetId,
-                    "READY"
-            ));
 
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");

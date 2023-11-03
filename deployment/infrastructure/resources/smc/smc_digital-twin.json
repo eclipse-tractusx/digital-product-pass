@@ -1,0 +1,128 @@
+{
+  "description": [
+      {
+          "language": "en",
+          "text": "Secondary Material Content"
+      }
+  ],
+  "displayName": [],
+  "globalAssetId": "urn:uuid:54850364-0837-41df-b839-0a06f48595de",
+  "idShort": "SMC_KLZ-90-8564-96",
+  "id": "urn:uuid:479ceed8-0eef-4c28-a74f-4eac9e01335b",
+  "specificAssetIds": [
+      {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "externalSubjectId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000000CBA5"
+                  },
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000003AYRE"
+                  },
+                  {
+                      "type": "GlobalReference",
+                      "value": "PUBLIC_READABLE"
+                  }
+              ]
+          }
+      },
+      {
+          "name": "orderNumber",
+          "value": "KLZ-90-8564-96",
+          "externalSubjectId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000000CBA5"
+                  },
+                  {
+                      "type": "GlobalReference",
+                      "value": "BPNL00000003AYRE"
+                  }
+              ]
+          }
+      }
+  ],
+  "submodelDescriptors": [
+      {
+          "endpoints": [
+              {
+                  "interface": "SUBMODEL-3.0",
+                  "protocolInformation": {
+                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:d1707d00-d714-40a6-8229-11b14086029f",
+                      "endpointProtocol": "HTTP",
+                      "endpointProtocolVersion": [
+                          "1.1"
+                      ],
+                      "subprotocol": "DSP",
+                      "subprotocolBody": "id=urn:uuid:d0724e94-6fa5-4551-9e07-abba7a1ecd8b;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                      "subprotocolBodyEncoding": "plain",
+                      "securityAttributes": [
+                          {
+                              "type": "NONE",
+                              "key": "NONE",
+                              "value": "NONE"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "idShort": "SerialPart",
+          "id": "urn:uuid:d1707d00-d714-40a6-8229-11b14086029f",
+          "semanticId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "Submodel",
+                      "value": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+                  }
+              ]
+          },
+          "description": [],
+          "displayName": []
+      },
+      {
+          "endpoints": [
+              {
+                  "interface": "SUBMODEL-3.0",
+                  "protocolInformation": {
+                      "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:88d6d37e-4bac-4770-8583-f9a50a8b4a87",
+                      "endpointProtocol": "HTTP",
+                      "endpointProtocolVersion": [
+                          "1.1"
+                      ],
+                      "subprotocol": "DSP",
+                      "subprotocolBody": "id=urn:uuid:d0724e94-6fa5-4551-9e07-abba7a1ecd8b;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                      "subprotocolBodyEncoding": "plain",
+                      "securityAttributes": [
+                          {
+                              "type": "NONE",
+                              "key": "NONE",
+                              "value": "NONE"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "idShort": "secondaryMaterialContent",
+          "id": "urn:uuid:88d6d37e-4bac-4770-8583-f9a50a8b4a87",
+          "semanticId": {
+              "type": "ExternalReference",
+              "keys": [
+                  {
+                      "type": "Submodel",
+                      "value": "urn:samm:io.catenax.secondary_material_content:1.0.0#SecondaryMaterialContent"
+                  }
+              ]
+          },
+          "description": [],
+          "displayName": []
+      }
+  ]
+}

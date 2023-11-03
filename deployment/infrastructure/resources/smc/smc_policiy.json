@@ -1,0 +1,28 @@
+{
+    "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@type": "PolicyDefinitionRequestDto",
+    "@id": "urn:uuid:577766e7-c54e-485f-9371-b31f0f6d68cf",
+    "policy": {
+        "@type": "Policy",
+        "odrl:permission": [
+            {
+                "odrl:action": "USE",
+                "odrl:constraint": {
+                    "@type": "AtomicConstraint",
+                    "odrl:or": [
+                        {
+                            "@type": "Constraint",
+                            "odrl:leftOperand": "PURPOSE",
+                            "odrl:operator": {
+                                "@id": "odrl:eq"
+                            },
+                            "odrl:rightOperand": "ID 3.0 Trace"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

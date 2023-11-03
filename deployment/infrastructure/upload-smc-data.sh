@@ -44,17 +44,17 @@ echo
 
 # Create a asset
 echo "Create DTR asset..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/assets/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/assets/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create DTR policy..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/contractpolicies/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/contractpolicies/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create DTR contract definition..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/irs/contractdefinitions/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/contractdefinitions/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/contractdefinitions
 echo
 echo
 
@@ -63,17 +63,17 @@ echo
 
 # Create a asset
 echo "Create SMC EDC asset..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/smc/smc_asset.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/assets
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/smc_asset.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/assets
 echo
 
 # Create a general policy
 echo "Create SMC EDC policy..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/smc/smc_policiy.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/policydefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/smc_policiy.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/policydefinitions
 echo
 
 # Create a contract definition
 echo "Create SMC EDC contract definition..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/smc/smc_contract-definition.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/contractdefinitions
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/smc_contract-definition.json" --header 'X-Api-Key: '${API_KEY} ${SUBMODEL_SERVER}/management/v2/contractdefinitions
 echo
 echo
 
@@ -83,17 +83,17 @@ echo
 
 # Create Submodel data
 echo "Create sample data for SMC KLZ-90-8564-96..."
-curl -X POST -H 'Content-Type: application/json' -s --data "@resources/smc/smc_manual_payload.json"  ${SUBMODEL_SERVER}/${DT_SUBMODEL_ID_1}
+curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/smc/smc_manual_payload.json"  ${SUBMODEL_SERVER}/${DT_SUBMODEL_ID_1}
 echo
 
 echo "Create BomAsBuilt sample data of SMC serialized part..."
-curl -X POST -s -H 'Content-Type: application/json' --data "@resources/smc/smc_payload_partAsPlanned.json"  ${SUBMODEL_SERVER}/${DT_SUBMODEL_ID_2}
+curl -X POST -s -H 'Content-Type: application/json' --data "@testing/testdata/smc/smc_payload_partAsPlanned.json"  ${SUBMODEL_SERVER}/${DT_SUBMODEL_ID_2}
 echo
 
 # Create a digital twin
 echo "Create a Digital Twin of SMC KLZ-90-8564-96..."
 
-curl -X POST -s -H 'Content-Type: application/json' --data "@resources/smc/smc_digital-twin.json"  ${REGISTRY_URL}
+curl -X POST -s -H 'Content-Type: application/json' --data "@testing/testdata/smc/smc_digital-twin.json"  ${REGISTRY_URL}
 echo
 echo
 

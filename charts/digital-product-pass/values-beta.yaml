@@ -42,11 +42,10 @@ frontend:
         hosts:
           - materialpass.beta.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/beta/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+  edc:
+    clientId: <path:material-pass/data/beta/aasregistry#client.id>
+    clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
 
   # Product Passport UI Configuration
   productpass:
@@ -56,6 +55,8 @@ frontend:
       clientId: "Cl13-CX-Battery"
       realm: "CX-Central"
       onLoad: "login-required"
+    irsDelay: ""
+    irsMaxWaitingTime: ""
 
 backend:
   ingress:
@@ -141,7 +142,6 @@ backend:
           assetType: 'data.core.digitalTwinRegistry'
           endpointInterface: 'SUBMODEL-3.0'
           dspEndpointKey: 'dspEndpoint'
-          internalDtr: "https://materialpass.beta.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           decentralApis:
             search: "/lookup/shells/query"
             digitalTwin: "/shell-descriptors"

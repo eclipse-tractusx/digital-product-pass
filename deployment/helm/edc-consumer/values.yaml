@@ -599,3 +599,65 @@ postgresql:
 
 irs-helm:
   enabled: true
+  bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
+
+
+  irsUrl: "https://materialpass-irs.dev.demo.catena-x.net"
+
+  ingress:
+    enabled: true
+    annotations:
+      ingressClassName: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
+    hosts:
+      - host: "materialpass-irs.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - "materialpass-irs.dev.demo.catena-x.net"
+        secretName: tls-secret
+
+  digitalTwinRegistry:
+    type: decentral
+    url: https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0
+    discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+  semanticshub:
+    url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
+  bpdm:
+    url: https://partners-pool.dev.demo.catena-x.net
+    bpnEndpoint: >-
+      {{- if .Values.bpdm.url }}
+      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
+      {{- end }}
+
+  minioUser: <path:material-pass/data/dev/irs/minio#user>
+  minioPassword: <path:material-pass/data/dev/irs/minio#password>
+  minioUrl: "http://{{ .Release.Name }}-minio:9000"
+
+  keycloak:
+    oauth2:
+      clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+
+  edc:
+    catalog:
+      policies:
+        allowedNames: "DPP, ID 3.0 Trace, ID 3.1 Trace, R2_Traceability, FrameworkAgreement.traceability, Membership"
+    controlplane:
+      endpoint:
+        data: https://materialpass.dev.demo.catena-x.net/consumer/management
+      apikey:
+        secret: <path:material-pass/data/dev/edc/oauth#api.key>
+
+  minio:
+    serviceAccount:
+      create: false
+    rootUser: <path:material-pass/data/dev/irs/minio#user>
+    rootPassword: <path:material-pass/data/dev/irs/minio#password>
+

@@ -36,6 +36,9 @@ Once the IRS completes its job the backend is able to parse it and inform the fr
 Now in the frontend `components` section there will be displayed when available and after loading the
 tree of components of the searched passport. It will tell you the status if found, if failed or if not found the children components.
 
+#### Prepare Secondary Material Content (SMC) test use case
+There was added the Secondary Material Content (SMC) payload in the configuration from the edc assets to test the SMC use case.
+
 **October 31 2023 (Version 1.2.1)**
 *31.10.2023*
 

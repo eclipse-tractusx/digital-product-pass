@@ -28,6 +28,7 @@
       <!-- eslint-disable-next-line vue/no-v-for-template-key  -->
       <li v-for="(treeChild, index) in treeData" :key="index">
         <div class="tile-container" @click="toggle">
+                        {{status}}-{{loading}}-{{treeChild.children.length}}
           <template
             v-if="treeChild.children.length > 0 || loading || status != 200"
           >
@@ -69,9 +70,9 @@
               }}]
             </v-icon>
             <v-icon
+              v-else
               class="icon-bg"
               :style="`background-color: ${infoColor}`"
-              v-else
             >
               {{ "mdi-close-octagon-outline" }}
             </v-icon>

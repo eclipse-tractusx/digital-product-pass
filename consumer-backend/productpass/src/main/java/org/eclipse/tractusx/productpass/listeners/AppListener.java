@@ -131,6 +131,7 @@ public class AppListener {
             } catch (Exception e) {
                 throw new IncompatibleConfigurationException(e.getMessage());
             }
+            LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
         } catch (Exception e) {
             throw new IncompatibleConfigurationException(e.getMessage());
         }
@@ -155,7 +156,7 @@ public class AppListener {
                 " Copyright (c) 2022, 2023: Contributors to the Eclipse Foundation.\n\n" +
                 "**********************************************************************\n\n";
         System.out.print(serverStartUpMessage);
-        System.out.print("\n========= [ APPLICATION STARTED ] =================================\n"+
+        System.out.print("\n========= [ APPLICATION STARTED ] ====================================\n"+
                 "Listening to requests...\n\n");
         Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and edcDiscovery addresses)
         if (discovery == null) {

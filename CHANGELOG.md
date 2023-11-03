@@ -38,12 +38,17 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added process to refresh the cache when the transfer has failed
 - Added timestamp to every known DTR in the cache for refreshing the contract id every time it is reached.
 - Added a mechanism to parse/update file system json files by specific properties, avoiding conflicts
+- Enabled irs search in frontend
+- Added info bar in component search
+- Create visual tree of components
+- Enabled drill down in tree of components
 
 ## Issues Fixed
 - Fix IRS tree component bugs related to the Digital Twin parsing
 - Fix IRS job tracker to one single job.
 - Fix bug related to the broadcast search of digital twin registry
 - Fix minor bugs related to the digital twin search and the caching mechanism
+- Implemented check for transfer complete and passport received fixing bug related to the passport retrieval
 
 
 ## [released]

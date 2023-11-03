@@ -119,16 +119,21 @@ export default {
         if (response.status == 200) {
           this.invokeIrsData();
           this.infoBar = false;
-        } else if (response.status === 404) {
+        } else if (response.status == 404) {
           this.infoBarMessage = "No child components found";
           this.infoColor = "#FFA000";
         } else {
           this.infoBarMessage =
             "Something went wrong while searching for child components";
           this.infoColor = "#d32f2f";
+          this.status = 500;
         }
       } catch (error) {
         console.error("API call failed:", error);
+        this.infoBarMessage =
+          "Something went wrong while searching for child components";
+        this.infoColor = "#d32f2f";
+        this.status = 500;
       }
     },
   },

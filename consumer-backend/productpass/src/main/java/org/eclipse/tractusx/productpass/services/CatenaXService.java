@@ -629,11 +629,6 @@ public class CatenaXService extends BaseService {
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Could not bind the reference type!");
             }
-            if(this.dtrConfig.getInternalDtr() != null && !this.dtrConfig.getInternalDtr().isEmpty()) {
-                edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
-                    endpoint.getConnectorEndpoint().add(this.dtrConfig.getInternalDtr());
-                });
-            }
 
             Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpointBinded, processId), "ProcessDtrDataModel");
             thread.join();

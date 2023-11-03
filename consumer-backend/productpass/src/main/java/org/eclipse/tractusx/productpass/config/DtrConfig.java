@@ -39,7 +39,6 @@ import java.util.Map;
 public class DtrConfig {
 
     /** ATTRIBUTES **/
-    String internalDtr;
     Timeouts timeouts;
     TemporaryStorage temporaryStorage;
     DecentralApis decentralApis;
@@ -52,8 +51,7 @@ public class DtrConfig {
     public DtrConfig() {
     }
 
-    public DtrConfig(String internalDtr, Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
-        this.internalDtr = internalDtr;
+    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
         this.timeouts = timeouts;
         this.temporaryStorage = temporaryStorage;
         this.decentralApis = decentralApis;
@@ -70,12 +68,6 @@ public class DtrConfig {
     }
     public void setDecentralApis(DecentralApis decentralApis) {
         this.decentralApis = decentralApis;
-    }
-    public String getInternalDtr() {
-        return internalDtr;
-    }
-    public void setInternalDtr(String internalDtr) {
-        this.internalDtr = internalDtr;
     }
     public Timeouts getTimeouts() {
         return timeouts;

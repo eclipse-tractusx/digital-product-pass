@@ -24,6 +24,19 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [pre-released]
+## [v1.3.0] - 03-11-2023
+
+ 
+## Added 
+- New IRS Service which is able to communicate with the IRS component api.
+- Added condition to deactivate the IRS
+- Added tree manager to manage the tree of components used by each irs process
+- Added structure to manage the information coming from the IRS and jobs initiated
+- Enabled callback mechanism with the IRS component
+- Created `/api/irs/{processId}/tree` and  `/api/irs/{processId}/components` APIs
+
+
 ## [released]
 ## [1.2.1] - 31-10-2023
 

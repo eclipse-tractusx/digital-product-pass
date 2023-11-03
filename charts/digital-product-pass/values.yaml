@@ -61,15 +61,15 @@ frontend:
       timeout: 90000
       # -- delay from getting status
       delay: 1000
-    # -- keycloak specific configuration for frontend authentication
-    
+
     # -- irs api timeouts
     irs:
-      # -- request timeout delay 
+      # -- request timeout delay
       requestDelay: 30000
       # -- maximum waiting time to get the irs job status
       maxWaitingTime: 30
 
+    # -- keycloak specific configuration for frontend authentication
     keycloak:
       clientId: ""
       realm: ""
@@ -148,7 +148,7 @@ backend:
             enabled: false
             bpn: false
             edc: false
-        # -- irs configuration 
+        # -- irs configuration
         irs:
           enabled: true # -- Enable search for children in the requests
           endpoint: "https://<irs-server-url>" # -- IRS endpoint
@@ -169,7 +169,6 @@ backend:
           endpointInterface: 'SUBMODEL-3.0'
           # -- dsp endpoint key inside submodel body
           dspEndpointKey: 'dspEndpoint'
-          internalDtr: "" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           # -- decentral digital twin apis
           decentralApis:
             search: "/lookup/shells"

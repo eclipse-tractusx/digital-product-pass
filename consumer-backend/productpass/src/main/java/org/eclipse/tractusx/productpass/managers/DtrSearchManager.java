@@ -26,6 +26,7 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
@@ -43,6 +44,7 @@ import utils.*;
 
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,7 +143,10 @@ public class DtrSearchManager {
                     //Iterate the edcEndpoints
                     edcEndpointsToSearch.parallelStream().forEach(edcEndPoint -> {
                         //Iterate the connectionsURLs for each BPN
-                        edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> searchEndpoint(processId, edcEndPoint.getBpn(),connectionUrl));
+                        edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> {
+                            searchEndpoint(processId, edcEndPoint.getBpn(), connectionUrl);
+                        }
+                        );
                     });
                     state = State.Finished;
                 } catch (Exception e) {
@@ -339,12 +344,13 @@ public class DtrSearchManager {
      *
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
-        if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
+        if (!(bpn == null || bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.containsKey(bpn)) {
-                if (!this.dtrDataModel.get(bpn).contains(dtr))
+                if (!this.dtrDataModel.get(bpn).contains(dtr)){
                     this.dtrDataModel.get(bpn).add(dtr);
+                }
             } else {
-                this.dtrDataModel.put(bpn, List.of(dtr));
+                this.dtrDataModel.put(bpn, new ArrayList<>(){{add(dtr);}});
             }
         }
         return this;
@@ -420,13 +426,14 @@ public class DtrSearchManager {
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,  CatenaXUtil.buildDataEndpoint(connectionUrl));
+                    String builtDataEndpoint =CatenaXUtil.buildDataEndpoint(connectionUrl);
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
                     }
                     Negotiation negotiation = dataTransferService.seeNegotiation(negotiationResponse.getId());
                     if (negotiation == null) {
-                        LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                        LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
                     Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));
@@ -438,7 +445,7 @@ public class DtrSearchManager {
                     processManager.addSearchStatusDtr(processId, dtr);
 
                 } catch (Exception e) {
-                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr",e,"Was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr",e,"Failed to save the dataModel for this connection url: " + connectionUrl);
                 }
             }
         };
@@ -511,7 +518,7 @@ public class DtrSearchManager {
             LogUtil.printMessage("Loaded [" + result.size() + "] entries from DTR Data Model Json.");
             return result;
         } catch (Exception e) {
-            LogUtil.printException(e, "Was not possible to load Dtr Data Model!");
+            LogUtil.printException(e, "It was not possible to load Dtr Data Model!");
             return new ConcurrentHashMap<String, List<Dtr>>();
         }
 

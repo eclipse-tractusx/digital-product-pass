@@ -37,7 +37,6 @@ npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/crypto-js/4.2.0, MIT AND BSD-2-Clause, approved, #11347
 npm/npmjs/-/cssesc/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/csstype/2.6.21, MIT, approved, clearlydefined
-npm/npmjs/-/cypress-keycloak/1.9.0, MIT, approved, #6952
 npm/npmjs/-/de-indent/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
 npm/npmjs/-/deep-is/0.1.4, MIT, approved, #2130

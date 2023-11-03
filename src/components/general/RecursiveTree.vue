@@ -69,9 +69,9 @@
               }}]
             </v-icon>
             <v-icon
+              v-else
               class="icon-bg"
               :style="`background-color: ${infoColor}`"
-              v-else
             >
               {{ "mdi-close-octagon-outline" }}
             </v-icon>

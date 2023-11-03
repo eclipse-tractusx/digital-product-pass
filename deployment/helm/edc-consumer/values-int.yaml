@@ -240,6 +240,9 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
+    catalog:
+      policies:
+        allowedNames: "DPP, ID 3.0 Trace, ID 3.1 Trace, R2_Traceability, FrameworkAgreement.traceability, Membership"
     controlplane:
       endpoint:
         data: https://materialpass.int.demo.catena-x.net/consumer/management

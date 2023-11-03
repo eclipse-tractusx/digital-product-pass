@@ -42,6 +42,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added info bar in component search
 - Create visual tree of components
 - Enabled drill down in tree of components
+- Add IRS configuration to the helm values
 
 ## Issues Fixed
 - Fix IRS tree component bugs related to the Digital Twin parsing

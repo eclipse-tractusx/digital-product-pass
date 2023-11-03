@@ -44,6 +44,9 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Enabled drill down in tree of components
 - Add IRS configuration to the helm values
 
+## Updated
+- Update dpp/irs test data edc assets and script to register them
+
 ## Issues Fixed
 - Fix IRS tree component bugs related to the Digital Twin parsing
 - Fix IRS job tracker to one single job.

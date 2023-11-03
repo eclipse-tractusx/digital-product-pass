@@ -24,6 +24,36 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [pre-released]
+## [v1.3.0] - 03-11-2023
+
+ 
+## Added 
+- New IRS Service which is able to communicate with the IRS component api.
+- Added condition to deactivate the IRS
+- Added tree manager to manage the tree of components used by each irs process
+- Added structure to manage the information coming from the IRS and jobs initiated
+- Enabled callback mechanism with the IRS component
+- Created `/api/irs/{processId}/tree` and  `/api/irs/{processId}/components` APIs
+- Added process to refresh the cache when the transfer has failed
+- Added timestamp to every known DTR in the cache for refreshing the contract id every time it is reached.
+- Added a mechanism to parse/update file system json files by specific properties, avoiding conflicts
+- Enabled irs search in frontend
+- Added info bar in component search
+- Create visual tree of components
+- Enabled drill down in tree of components
+- Add IRS configuration to the helm values
+
+## Issues Fixed
+- Fix IRS tree component bugs related to the Digital Twin parsing
+- Fix IRS job tracker to one single job.
+- Fix bug related to the broadcast search of digital twin registry
+- Fix minor bugs related to the digital twin search and the caching mechanism
+- Fix bug related to the passport retrieval by implementing check for transfer complete
+- Fix database credentials in the edc postgres configuration
+- Fix the condition to the publish dpp backend workflow
+
+
 ## [released]
 ## [1.2.1] - 31-10-2023
 

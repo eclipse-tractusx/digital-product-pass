@@ -169,7 +169,6 @@ backend:
           endpointInterface: 'SUBMODEL-3.0'
           # -- dsp endpoint key inside submodel body
           dspEndpointKey: 'dspEndpoint'
-          internalDtr: "" # -- ff there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           # -- decentral digital twin apis
           decentralApis:
             search: "/lookup/shells"

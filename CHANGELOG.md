@@ -49,7 +49,9 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Fix IRS job tracker to one single job.
 - Fix bug related to the broadcast search of digital twin registry
 - Fix minor bugs related to the digital twin search and the caching mechanism
-- Implemented check for transfer complete and passport received fixing bug related to the passport retrieval
+- Fix bug related to the passport retrieval by implementing check for transfer complete
+- Fix database credentials in the edc postgres configuration
+- Fix the condition to the publish dpp backend workflow
 
 
 ## [released]

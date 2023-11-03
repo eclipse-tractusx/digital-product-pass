@@ -515,11 +515,11 @@ tractusx-connector:
     jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
     fullnameOverride: "postgresql"
     username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#user>
+    password: <path:material-pass/data/dev/edc/database#password>
     auth:
       database: "edc"
       username: <path:material-pass/data/dev/edc/database#user>
-      password: <path:material-pass/data/dev/edc/database#user>
+      password: <path:material-pass/data/dev/edc/database#password>
 
   vault:
     fullnameOverride: "vault"

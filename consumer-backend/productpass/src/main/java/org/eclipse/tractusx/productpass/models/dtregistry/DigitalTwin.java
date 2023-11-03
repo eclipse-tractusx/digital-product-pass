@@ -29,6 +29,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively to define attributes related to the designed model of the Digital Twin's improved version.
@@ -53,43 +56,11 @@ public class DigitalTwin {
     @JsonProperty("id")
     String identification;
     @JsonProperty("specificAssetIds")
-    ArrayList<JsonNode> specificAssetIds;
+    ArrayList<SpecificAssetId> specificAssetIds;
     @JsonProperty("submodelDescriptors")
     ArrayList<SubModel> submodelDescriptors;
 
-    /** CONSTRUCTOR(S) **/
-    @SuppressWarnings("Unused")
-    public DigitalTwin() {
-    }
-    @SuppressWarnings("Unused")
-    public DigitalTwin(ArrayList<JsonNode> description, String idShort, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel> submodelDescriptors) {
-        this.description = description;
-        this.idShort = idShort;
-        this.identification = identification;
-        this.specificAssetIds = specificAssetIds;
-        this.submodelDescriptors = submodelDescriptors;
-    }
-    @SuppressWarnings("Unused")
-    public DigitalTwin(ArrayList<JsonNode> description, String idShort, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel> submodelDescriptors) {
-        this.description = description;
-        this.idShort = idShort;
-        this.displayName = displayName;
-        this.identification = identification;
-        this.specificAssetIds = specificAssetIds;
-        this.submodelDescriptors = submodelDescriptors;
-    }
-    @SuppressWarnings("Unused")
-    public DigitalTwin(ArrayList<JsonNode> description, String idShort, String globalAssetId, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel> submodelDescriptors) {
-        this.description = description;
-        this.idShort = idShort;
-        this.globalAssetId = globalAssetId;
-        this.displayName = displayName;
-        this.identification = identification;
-        this.specificAssetIds = specificAssetIds;
-        this.submodelDescriptors = submodelDescriptors;
-    }
-    @SuppressWarnings("Unused")
-    public DigitalTwin(ArrayList<JsonNode> description, String idShort, String assetKind, String assetType, String globalAssetId, Object displayName, String identification, ArrayList<JsonNode> specificAssetIds, ArrayList<SubModel> submodelDescriptors) {
+    public DigitalTwin(ArrayList<JsonNode> description, String idShort, String assetKind, String assetType, String globalAssetId, Object displayName, String identification, ArrayList<SpecificAssetId> specificAssetIds, ArrayList<SubModel> submodelDescriptors) {
         this.description = description;
         this.idShort = idShort;
         this.assetKind = assetKind;
@@ -101,7 +72,93 @@ public class DigitalTwin {
         this.submodelDescriptors = submodelDescriptors;
     }
 
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define attributes and methods related to the digital twin specific asset ids
+     **/
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    static class SpecificAssetId{
+        /** ATTRIBUTES **/
+
+        @JsonProperty("supplementalSemanticIds")
+        List<Object> supplementalSemanticIds;
+
+        @JsonProperty("name")
+        String name;
+
+        @JsonProperty("value")
+        String value;
+
+        @JsonProperty("externalSubjectId")
+        Object externalSubjectId;
+        /** CONSTRUCTOR(S) **/
+        public SpecificAssetId(List<Object> supplementalSemanticIds, String name, String value, Object externalSubjectId) {
+            this.supplementalSemanticIds = supplementalSemanticIds;
+            this.name = name;
+            this.value = value;
+            this.externalSubjectId = externalSubjectId;
+        }
+      
+        public SpecificAssetId() {
+        }
+
+        /** GETTERS AND SETTERS **/
+        public List<Object> getSupplementalSemanticIds() {
+            return supplementalSemanticIds;
+        }
+
+        public void setSupplementalSemanticIds(List<Object> supplementalSemanticIds) {
+            this.supplementalSemanticIds = supplementalSemanticIds;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public Object getExternalSubjectId() {
+            return externalSubjectId;
+        }
+
+        public void setExternalSubjectId(Object externalSubjectId) {
+            this.externalSubjectId = externalSubjectId;
+        }
+    }
+
+    /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
+    public DigitalTwin() {
+    }
+
+
     /** GETTERS AND SETTERS **/
+    public ArrayList<SpecificAssetId> getSpecificAssetIds() {
+        return specificAssetIds;
+    }
+
+    public void setSpecificAssetIds(ArrayList<SpecificAssetId> specificAssetIds) {
+        this.specificAssetIds = specificAssetIds;
+    }
+
+    public Map<String, String> mapSpecificAssetIds() {
+        return this.getSpecificAssetIds().stream().collect(
+                Collectors.toMap(SpecificAssetId::getName, SpecificAssetId::getValue)
+        );
+    }
+
     public ArrayList<JsonNode> getDescription() {
         return description;
     }
@@ -121,14 +178,7 @@ public class DigitalTwin {
     public void setIdentification(String identification) {
         this.identification = identification;
     }
-    @SuppressWarnings("Unused")
-    public ArrayList<JsonNode> getSpecificAssetIds() {
-        return specificAssetIds;
-    }
-    @SuppressWarnings("Unused")
-    public void setSpecificAssetIds(ArrayList<JsonNode> specificAssetIds) {
-        this.specificAssetIds = specificAssetIds;
-    }
+
     public ArrayList<SubModel> getSubmodelDescriptors() {
         return submodelDescriptors;
     }

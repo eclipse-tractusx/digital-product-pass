@@ -46,15 +46,20 @@ public class Dtr {
     private String assetId;
     @JsonProperty("bpn")
     private String bpn;
+    @JsonProperty("validUntil")
+    private Long validUntil;
 
     /** CONSTRUCTOR(S) **/
-    public Dtr(String contractId, String endpoint, String assetId, String bpn) {
+
+    public Dtr() {
+    }
+
+    public Dtr(String contractId, String endpoint, String assetId, String bpn, Long validUntil) {
         this.contractId = contractId;
         this.endpoint = endpoint;
         this.assetId = assetId;
         this.bpn = bpn;
-    }
-    public Dtr() {
+        this.validUntil = validUntil;
     }
 
     /** GETTERS AND SETTERS **/
@@ -68,4 +73,12 @@ public class Dtr {
     public void setAssetId(String assetId) { this.assetId = assetId; }
     public String getBpn() { return bpn; }
     public void setBpn(String bpn) { this.bpn = bpn; }
+
+    public Long getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(Long validUntil) {
+        this.validUntil = validUntil;
+    }
 }

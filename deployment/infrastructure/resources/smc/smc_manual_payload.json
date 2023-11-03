@@ -1,0 +1,189 @@
+{
+    "orderNumber": "KLZ-90-8564-96",
+    "secondaryMaterialContent": [
+        {
+            "materialNameStandardized": {
+                "referencedStandard": "AISI",
+                "referencedStandardID": "1043",
+                "materialNameStandardizedValue": "Lithium"
+            },
+            "materialClass": "5.1",
+            "unitOfMeasure": {
+                "unitOfMeasureKey": "unit:kilogram",
+                "unitOfMeasureValue": 7.2
+            },
+            "certificate": [
+                {
+                    "certificateName": "Test-Zertifikat",
+                    "certificateLink": "telnet://192.0.2.16:80/"
+                }
+            ],
+            "bioBased": {
+                "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                },
+                "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                },
+                "bioBasedClass": "gen1"
+            },
+            "inorganic": {
+                "secondaryInorganic": {
+                    "preConsumer": {
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 10
+                        }
+                    },
+                    "postConsumer": {
+                        "chemicalRecycling": {
+                            "percentageOfMaterialWeight": 0,
+                            "isMassBalanced": false
+                        },
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 4.7
+                        },
+                        "isPreviousIndustryAutomotive": true
+                    }
+                },
+                "primaryInorganic": {
+                    "percentageOfMaterialWeight": 85.3
+                }
+            }
+        },
+        {
+            "materialNameStandardized": {
+                "referencedStandard": "AISI",
+                "referencedStandardID": "1043",
+                "materialNameStandardizedValue": "Nickel"
+            },
+            "materialClass": "5.1",
+            "unitOfMeasure": {
+                "unitOfMeasureKey": "unit:kilogram",
+                "unitOfMeasureValue": 20.2
+            },
+            "additionalInformation": "Reutilization: 5.0",
+            "bioBased": {
+                "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                },
+                "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                },
+                "bioBasedClass": "gen1"
+            },
+            "inorganic": {
+                "secondaryInorganic": {
+                    "preConsumer": {
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 2
+                        }
+                    },
+                    "postConsumer": {
+                        "chemicalRecycling": {
+                            "percentageOfMaterialWeight": 3,
+                            "isMassBalanced": true
+                        },
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 0
+                        },
+                        "isPreviousIndustryAutomotive": false
+                    }
+                },
+                "primaryInorganic": {
+                    "percentageOfMaterialWeight": 90
+                }
+            }
+        },
+        {
+            "materialNameStandardized": {
+                "referencedStandard": "AISI",
+                "referencedStandardID": "1043",
+                "materialNameStandardizedValue": "Mangan"
+            },
+            "materialClass": "5.1",
+            "unitOfMeasure": {
+                "unitOfMeasureKey": "unit:kilogram",
+                "unitOfMeasureValue": 18.9
+            },
+            "bioBased": {
+                "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                },
+                "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                },
+                "bioBasedClass": "gen1"
+            },
+            "inorganic": {
+                "secondaryInorganic": {
+                    "preConsumer": {
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 7.8
+                        }
+                    },
+                    "postConsumer": {
+                        "chemicalRecycling": {
+                            "percentageOfMaterialWeight": 0,
+                            "isMassBalanced": false
+                        },
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 2.1
+                        },
+                        "isPreviousIndustryAutomotive": true
+                    }
+                },
+                "primaryInorganic": {
+                    "percentageOfMaterialWeight": 90.1
+                }
+            }
+        },
+        {
+            "materialNameStandardized": {
+                "referencedStandard": "AISI",
+                "referencedStandardID": "1043",
+                "materialNameStandardizedValue": "Kobalt"
+            },
+            "materialClass": "5.1",
+            "unitOfMeasure": {
+                "unitOfMeasureKey": "unit:kilogram",
+                "unitOfMeasureValue": 20.3
+            },
+            "additionalInformation": "Reutilization: 20.4",
+            "bioBased": {
+                "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                },
+                "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                },
+                "bioBasedClass": "gen1"
+            },
+            "inorganic": {
+                "secondaryInorganic": {
+                    "preConsumer": {
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 1.6
+                        }
+                    },
+                    "postConsumer": {
+                        "chemicalRecycling": {
+                            "percentageOfMaterialWeight": 3.7,
+                            "isMassBalanced": true
+                        },
+                        "mechanicalRecycling": {
+                            "percentageOfMaterialWeight": 4.3
+                        },
+                        "isPreviousIndustryAutomotive": false
+                    }
+                },
+                "primaryInorganic": {
+                    "percentageOfMaterialWeight": 70
+                }
+            }
+        }
+    ]
+}

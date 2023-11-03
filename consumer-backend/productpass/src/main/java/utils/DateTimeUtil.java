@@ -25,9 +25,14 @@ package utils;
 
 import utils.exceptions.UtilException;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * This class consists exclusively of methods to operate on DateTime type instances.
@@ -93,6 +98,39 @@ public final class DateTimeUtil {
      */
     public static Long getTimestamp(){
         return new Timestamp(System.currentTimeMillis()).getTime();
+    }
+
+    /**
+     * Adds hours to a timestamp
+     * <p>
+     * @param timestamp
+     *        a {@code Long} which contains a timestamp
+     * @param hours
+     *        a {@code Integer} which contains the amount of hours to be added
+     *
+     * @return  a {@code Long} object representing the current timestamp.
+     *
+     */
+    public static Long addHoursToTimestamp(Long timestamp, Integer hours){
+        Date date = new Date(timestamp);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, hours);
+        return new Timestamp(cal.getTimeInMillis()).getTime();
+    }
+    /**
+     * Adds hours to current timestamp
+     * <p>
+     * @param hours
+     *        a {@code Integer} which contains the amount of hours to be added
+     *
+     * @return  a {@code Long} object representing the current timestamp.
+     *
+     */
+    public static Long addHoursToCurrentTimestamp(Integer hours){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, hours);
+        return new Timestamp(cal.getTimeInMillis()).getTime();
     }
 
 }

@@ -172,27 +172,18 @@ export default class BackendService {
             await threadUtil.sleep(waitingTime);
             retries++;
         }
-        if(status === "COMPLETED"){
+        let history = jsonUtil.get("data.history", statusResponse);
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
-        }
-
-        if (status !== "RECEIVED") {
-            return this.getErrorMessage(
-                "Failed to retrieve passport!",
-                500,
-                "Internal Server Error"
-            )
         }
         // Get status again
         statusResponse = await this.getStatus(processId, authentication)
         status = jsonUtil.get("data.status", statusResponse);
-        // If status is completed retrieve passport
-        if(status === "COMPLETED"){
+        history = jsonUtil.get("data.history", statusResponse);
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
-        
-        // Check the history
-        let history = jsonUtil.get("data.history", statusResponse);
+
         retries = 0;
         // Until the transfer is completed or the status is failed
         while(retries < maxRetries){
@@ -202,7 +193,7 @@ export default class BackendService {
             statusResponse = await this.getStatus(processId, authentication);
             status = jsonUtil.get("data.status", statusResponse);
             history = jsonUtil.get("data.history", statusResponse);
-            if(jsonUtil.exists("transfer-completed", history) || status === "FAILED"){
+            if((jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) || status === "FAILED"){
                 break;
             }
             retries++;
@@ -273,6 +264,41 @@ export default class BackendService {
                         resolve(e.message)
                     }
 
+                });
+        });
+    }
+
+    async getIrsState(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+                });
+        });
+    }
+    async getIrsData(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
                 });
         });
     }

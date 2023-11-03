@@ -33,11 +33,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.config.PassportConfig;
 import org.eclipse.tractusx.productpass.config.ProcessConfig;
 import org.eclipse.tractusx.productpass.exceptions.ControllerException;
+import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.productpass.managers.ProcessManager;
 import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
@@ -146,10 +148,15 @@ public class ContractController {
             for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
                 bpnList.addAll(bpnDiscovery.getBpnNumbers());
             }
+            if(bpnList.size() == 0){
+                response.message = "The asset was not found in the BPN Discovery!";
+                response.status = 404;
+                response.statusText = "Not Found";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
             String processId = processManager.initProcess();
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
-            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
-            if(dtrConfig.getTemporaryStorage()) {
+            if(dtrConfig.getTemporaryStorage().getEnabled()) {
                 try {
                     dataModel = this.dtrSearchManager.loadDataModel();
                 } catch (Exception e) {
@@ -157,22 +164,10 @@ public class ContractController {
                 }
             }
             // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
-            if(!dtrConfig.getTemporaryStorage() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
-                List<EdcDiscoveryEndpoint> edcEndpoints = catenaXService.getEdcDiscovery(bpnList);
-                try {
-                    edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
-                } catch (Exception e) {
-                    throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
-                }
-                if(!this.dtrConfig.getInternalDtr().isEmpty()) {
-                    edcEndpointBinded.stream().filter(endpoint -> endpoint.getBpn().equals(vaultService.getLocalSecret("edc.participantId"))).forEach(endpoint -> {
-                        endpoint.getConnectorEndpoint().add(this.dtrConfig.getInternalDtr());
-                    });
-                }
-
-                catenaXService.searchDTRs(edcEndpointBinded, processId);
+            if(!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
+                catenaXService.searchDTRs(bpnList, processId);
             }else{
-
+                boolean requestDtrs = false;
                 // Take the results from cache
                 for(String bpn: bpnList){
                     List<Dtr> dtrs = null;
@@ -181,13 +176,28 @@ public class ContractController {
                     } catch (Exception e) {
                         throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                     }
+
                     if(dtrs.isEmpty()){
                         response.message = "Failed to get the bpns from the datamodel";
                         return httpUtil.buildResponse(response, httpResponse);
                     }
-                    // Interate over every DTR and add it to the file
+                    Long currentTimestamp = DateTimeUtil.getTimestamp();
+
+                    // Iterate over every DTR and add it to the file
                     for(Dtr dtr: dtrs){
+
+                        Long validUntil  = dtr.getValidUntil();
+                        if(validUntil == null || validUntil < currentTimestamp){
+                            requestDtrs = true; // If the cache invalidation time has come request Dtrs
+                            break;
+                        }
+
                         processManager.addSearchStatusDtr(processId, dtr);
+                    }
+                    if(requestDtrs){
+                        dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
+                        catenaXService.searchDTRs(bpnList, processId); // Start again the search
+                        break;
                     }
                 }
             }
@@ -275,7 +285,12 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No digital twins are available for this process!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            process = processManager.createProcess(processId, httpRequest);
+            Boolean childrenCondition = searchBody.getChildren();
+            if(childrenCondition != null){
+                process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
+            }else {
+                process = processManager.createProcess(processId, httpRequest);
+            }
             Status status = processManager.getStatus(processId);
             if (status == null) {
                 response = httpUtil.getBadRequest("The status is not available!");
@@ -283,11 +298,52 @@ public class ContractController {
             }
             assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
 
-            if(assetSearch == null){
-                response = httpUtil.getBadRequest("No digital twin was found!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
 
+            if(assetSearch == null){
+                status = processManager.getStatus(processId);
+                // Here start the algorithm to refresh the dtrs in the cache if the transfer was incompleted
+                List<Dtr> dtrList = new ArrayList<Dtr>();
+                Map<String, Dtr> dtrs = searchStatus.getDtrs();
+                List<String> bpnList = new ArrayList<String>();
+                for(String dtrId: searchStatus.getDtrs().keySet()){
+                    // Check if any dtr search was incomplete
+                    if(!status.historyExists("dtr-"+dtrId+"-transfer-incomplete")) {
+                        continue;
+                    }
+                    // Add the dtr bpn to the update cache list
+                    Dtr dtr = dtrs.get(dtrId);
+                    String bpn = dtr.getBpn();
+                    if(!bpnList.contains(bpn)) {
+                        bpnList.add(dtr.getBpn()); // Add bpn to delete in the cache
+                    }
+                    dtrList.add(dtr);
+                }
+
+                // If no bpn numbers need to be updated is because there is no digital twin found
+                if(bpnList.size() == 0){
+                    response = httpUtil.getBadRequest("No digital twin was found!");
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
+
+                LogUtil.printWarning("["+dtrList.size()+"] Digital Twin Registries Contracts are invalid and need to be refreshed! For the following BPN Number(s): "+ bpnList.toString());
+                // Refresh cache or search id
+                if(dtrConfig.getTemporaryStorage().getEnabled()) {
+                    ConcurrentHashMap<String, List<Dtr>> dataModel = null;
+                    try {
+                        dataModel = this.dtrSearchManager.loadDataModel();
+                    } catch (Exception e) {
+                        LogUtil.printWarning("Failed to load data model from disk!");
+                    }
+                    dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
+                }
+                LogUtil.printMessage("Refreshing ["+bpnList.size()+"] BPN Number Endpoints...");
+                catenaXService.searchDTRs(bpnList, processId); // Start again the search for refreshing the dtrs
+                assetSearch = aasService.decentralDtrSearch(process.id, searchBody); // Start again the search
+                if(assetSearch == null) { // If again was not found then we give an error
+                    response = httpUtil.getBadRequest("No digital twin was found! Even after retrying the digital twin transfer!");
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
+            }
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();
@@ -299,7 +355,7 @@ public class ContractController {
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
-            } catch (ControllerException e) {
+            } catch (ServiceException e) {
                 response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";
@@ -308,10 +364,15 @@ public class ContractController {
 
             // Check if contract offer was not received
             if (dataset == null) {
-                response.message = "Asset Id not found in any contract!";
-                response.status = 404;
-                response.statusText = "Not Found";
-                return httpUtil.buildResponse(response, httpResponse);
+                // Retry again...
+                LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
+                dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
+                if (dataset == null) { // If the contract catalog is not reachable retry...
+                    response.message = "Asset Id not found in any contract!";
+                    response.status = 404;
+                    response.statusText = "Not Found";
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
             }
             LogUtil.printDebug("[PROCESS " + process.id + "] Contract found for asset [" + assetId + "] in EDC Endpoint [" + connectorAddress + "]");
 

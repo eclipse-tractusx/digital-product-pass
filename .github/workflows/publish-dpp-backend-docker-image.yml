@@ -139,6 +139,7 @@ jobs:
       
       # Build Java code with Maven
       - name:  Build dpp backend with maven for Docker Hub
+        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         run: |
           cd consumer-backend/productpass
           mvn -B clean install

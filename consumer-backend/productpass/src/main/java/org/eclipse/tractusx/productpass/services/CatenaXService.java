@@ -26,10 +26,12 @@
 package org.eclipse.tractusx.productpass.services;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
@@ -608,8 +610,8 @@ public class CatenaXService extends BaseService {
     /**
      * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
      * <p>
-     * @param   edcEndpoints
-     *          the {@code List<String>} of EDC endpoints to search.
+     * @param   bpnList
+     *          the {@code List<String>} list of bpns to search
      * @param   processId
      *          the {@code String} id of the application's process.
      *
@@ -618,9 +620,17 @@ public class CatenaXService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the BPN discovery endpoint.
      */
-    public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
+    public void searchDTRs (List<String> bpnList, String processId) {
         try {
-            Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpoints, processId), "ProcessDtrDataModel");
+            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
+            List<EdcDiscoveryEndpoint> edcEndpoints = this.getEdcDiscovery(bpnList);
+            try {
+                edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName(), e, "Could not bind the reference type!");
+            }
+
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpointBinded, processId), "ProcessDtrDataModel");
             thread.join();
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",
@@ -628,5 +638,25 @@ public class CatenaXService extends BaseService {
                     "It was not possible to search the DTRs.");
         }
     }
-
+    /**
+     * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
+     * <p>
+     * @param   dtrList
+     *          the {@code List<String>} list of bpns to search
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @throws  ServiceException
+     *           if unable to get the BPN discovery endpoint.
+     */
+    public void updateKnownDtrs (List<Dtr> dtrList, String processId) {
+        try {
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.updateProcess(dtrList, processId), "ProcessDtrDataModel-Update");
+            thread.join();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "updateKnownDTRs",
+                    e,
+                    "It was not possible to update the DTRs.");
+        }
+    }
 }

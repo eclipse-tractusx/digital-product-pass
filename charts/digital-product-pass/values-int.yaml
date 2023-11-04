@@ -42,11 +42,11 @@ frontend:
         hosts:
           - materialpass.int.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/int/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+  edc:
+    clientId: <path:material-pass/data/int/aasregistry#client.id>
+    clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
+    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+
   productpass:
     backend_url: "materialpass.int.demo.catena-x.net"
     idp_url: "centralidp.int.demo.catena-x.net/auth/"
@@ -54,6 +54,8 @@ frontend:
       clientId: "Cl13-CX-Battery"
       realm: "CX-Central"
       onLoad: "login-required"
+    irsDelay: ""
+    irsMaxWaitingTime: ""
 
 backend:
   ingress:
@@ -123,13 +125,22 @@ backend:
             bpn: true
             edc: true
       
+        irs:
+          enabled: true
+          endpoint: "https://materialpass-irs.int.demo.catena-x.net"
+          paths:
+            job: "/irs/jobs"
+          tree:
+            fileName: "treeDataModel"
+            indent: true
+          callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
+      
         dtr:
           central: false
           centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
           assetType: 'data.core.digitalTwinRegistry'
           dspEndpointKey: 'dspEndpoint'
           endpointInterface: 'SUBMODEL-3.0'
-          internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           decentralApis:
             search: "/lookup/shells"
             digitalTwin: "/shell-descriptors"

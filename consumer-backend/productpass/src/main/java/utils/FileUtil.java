@@ -59,7 +59,7 @@ public final class FileUtil {
      * @throws  UtilException
      *          if unable to write to the file.
      */
-    public String toFile(String filePath, String content, Boolean append) throws IOException {
+    synchronized public String toFile(String filePath, String content, Boolean append) throws IOException {
         this.createFile(filePath);
         try(
             FileWriter fw = new FileWriter(filePath,append)

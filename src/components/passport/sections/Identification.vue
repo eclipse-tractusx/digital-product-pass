@@ -75,14 +75,12 @@
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
 import Field from "../Field.vue";
 
 export default {
   name: "IdentificationComponent",
   components: {
     Field,
-    AttributeField,
   },
   props: {
     data: {

@@ -167,7 +167,12 @@ export default {
           component: "StateOfBattery",
         },
         {
-          label: "Composition",
+          label: "Components",
+          icon: "mdi-battery-unknown",
+          component: "Components",
+        },
+        {
+          label: "Battery composition",
           icon: "mdi-battery-unknown",
           component: "BatteryComposition",
         },
@@ -197,6 +202,9 @@ export default {
       loading: true,
       errors: [],
       id: this.$route.params.id,
+      irsData: [],
+      processId: null,
+      backendService: null,
       error: true,
       errorObj: {
         title: "Something went wrong while returning the passport!",
@@ -232,6 +240,7 @@ export default {
   async created() {
     let result = null;
     try {
+      this.backendService = new BackendService();
       // Setup aspect promise
       let passportPromise = this.getPassport(this.id);
       // Execute promisse with a Timeout
@@ -248,7 +257,6 @@ export default {
         this.statusText = "Request Timeout";
       }
       this.data = result;
-      console.log(this.data);
     } catch (e) {
       console.log("passportView -> " + e);
     } finally {
@@ -267,8 +275,17 @@ export default {
           jsonUtil.get("data.semanticId", this.data)
         );
         this.error = false;
+        this.processId = this.$store.getters.getProcessId; // Get process id from the store
+        this.irsData = this.backendService.getIrsData(
+          this.processId,
+          this.auth
+        ); // Return the IRS data
+        this.$store.commit("setIrsData", this.irsData); // Save IRS Data
+        this.$store.commit(
+          "setIrsState",
+          this.backendService.getIrsState(this.processId, this.auth)
+        );
       }
-      console.log(this.data);
       // Stop loading
       this.loading = false;
     }
@@ -279,10 +296,12 @@ export default {
       // Get Passport in Backend
       try {
         // Init backendService
-        let backendService = new BackendService();
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await backendService.getPassport(id, this.auth);
+        response = await this.backendService.getPassport(
+          id,
+          this.auth
+        );
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)

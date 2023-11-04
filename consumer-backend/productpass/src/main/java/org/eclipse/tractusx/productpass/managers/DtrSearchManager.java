@@ -26,10 +26,10 @@
 package org.eclipse.tractusx.productpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
 import org.eclipse.tractusx.productpass.exceptions.DataModelException;
 import org.eclipse.tractusx.productpass.exceptions.ManagerException;
-import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.models.catenax.Dtr;
 import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
@@ -44,6 +44,7 @@ import utils.*;
 
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,59 +144,9 @@ public class DtrSearchManager {
                     edcEndpointsToSearch.parallelStream().forEach(edcEndPoint -> {
                         //Iterate the connectionsURLs for each BPN
                         edcEndPoint.getConnectorEndpoint().parallelStream().forEach(connectionUrl -> {
-                            //Search Digital Twin Catalog for each connectionURL with a timeout time
-                            Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(connectionUrl), "ProcessDtrDataModel");
-                            try {
-                                if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
-                                    asyncThread.interrupt();
-                                    LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                    return;
-                                }
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                            //Get catalog for a specific connectionURL (if exists) in the catalogCache data structure
-                            Catalog catalog = catalogsCache.get(connectionUrl);
-                            if (catalog == null) {
-                                return;
-                            }
-                            Object contractOffers = catalog.getContractOffers();
-                            //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
-                            if (contractOffers == null) {
-                                return;
-                            }
-                            if (contractOffers instanceof LinkedHashMap) {
-                                Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
-                                if (dataset != null) {
-                                    Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
-                                    try {
-                                        if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
-                                            singleOfferThread.interrupt();
-                                            LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                            return;
-                                        }
-                                    } catch (InterruptedException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                                return;
-                            }
-                            List<Dataset> contractOfferList = (List<Dataset>) jsonUtil.bindObject(contractOffers, List.class);
-                            if (contractOfferList.isEmpty()) {
-                                return;
-                            }
-                            contractOfferList.parallelStream().forEach(dataset -> {
-                                Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, edcEndPoint.getBpn(), connectionUrl, processId), "CreateAndSaveDtr");
-                                try {
-                                    if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
-                                        multipleOffersThread.interrupt();
-                                        LogUtil.printWarning("Could not retrieve the Catalog due a timeout for the URL: " + connectionUrl);
-                                    }
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-                        });
+                            searchEndpoint(processId, edcEndPoint.getBpn(), connectionUrl);
+                        }
+                        );
                     });
                     state = State.Finished;
                 } catch (Exception e) {
@@ -204,6 +155,107 @@ public class DtrSearchManager {
                 }
             }
         };
+    }
+
+    /**
+     * It's a Thread level method that implements the Runnable interface and starts the process of searching known DTRs with
+     * the given EDC endpoint for a given processId.
+     * <p>
+     * @param   dtrs
+     *          the {@code List<Dtr>} of digital twin registries known
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return a {@code Runnable} object to be used by a calling thread.
+     *
+     * @throws DataModelException
+     *           if unable to get and process the DTRs.
+     * @throws RuntimeException
+     *           if there's an unexpected thread interruption.
+     *
+     */
+    public Runnable updateProcess(List<Dtr> dtrs, String processId) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                state = State.Running;
+                if (dtrs == null || processId == null) {
+                    return;
+                }
+                List<Dtr> dtrEndpoints = null;
+                try {
+                    dtrEndpoints = (List<Dtr>) jsonUtil.bindReferenceType(dtrs, new TypeReference<List<EdcDiscoveryEndpoint>>() {
+                    });
+                } catch (Exception e) {
+                    throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
+                }
+                try {
+                    //Iterate the edcEndpoints
+                    dtrEndpoints.parallelStream().forEach(dtr -> {
+                        //Iterate the known DTRs
+                        searchEndpoint(processId, dtr.getBpn(), dtr.getEndpoint());
+                    });
+                    state = State.Finished;
+                } catch (Exception e) {
+                    state = State.Error;
+                    throw new DataModelException(this.getClass().getName(), e, "It was not possible to process the DTRs");
+                }
+            }
+        };
+    }
+    public void searchEndpoint(String processId, String bpn, String endpoint){
+        //Search Digital Twin Catalog for each connectionURL with a timeout time
+        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "ProcessDtrDataModel");
+        try {
+            if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
+                asyncThread.interrupt();
+                LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                return;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Get catalog for a specific connectionURL (if exists) in the catalogCache data structure
+        Catalog catalog = catalogsCache.get(endpoint);
+        if (catalog == null) {
+            return;
+        }
+        Object contractOffers = catalog.getContractOffers();
+        //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
+        if (contractOffers == null) {
+            return;
+        }
+        if (contractOffers instanceof LinkedHashMap) {
+            Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
+            if (dataset != null) {
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+                try {
+                    if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                        singleOfferThread.interrupt();
+                        LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return;
+        }
+        List<Dataset> contractOfferList = (List<Dataset>) jsonUtil.bindObject(contractOffers, List.class);
+        if (contractOfferList.isEmpty()) {
+            return;
+        }
+        contractOfferList.parallelStream().forEach(dataset -> {
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+            try {
+                if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                    multipleOffersThread.interrupt();
+                    LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
@@ -216,7 +268,7 @@ public class DtrSearchManager {
     public String createDataModelFile() {
         Map<String, Object> dataModel = Map.of();
         // If path exists try to
-        if(this.dtrConfig.getTemporaryStorage() && this.fileUtil.pathExists(this.getDataModelPath())) {
+        if(this.dtrConfig.getTemporaryStorage().getEnabled() && this.fileUtil.pathExists(this.getDataModelPath())) {
             try {
                 // Try to load the data model if it exists
                 dataModel = (Map<String, Object>) jsonUtil.fromJsonFileToObject(this.getDataModelPath(), Map.class);
@@ -292,12 +344,13 @@ public class DtrSearchManager {
      *
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
-        if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
-            if (this.dtrDataModel.contains(bpn)) {
-                if (!this.dtrDataModel.get(bpn).contains(dtr))
+        if (!(bpn == null || bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
+            if (this.dtrDataModel.containsKey(bpn)) {
+                if (!this.dtrDataModel.get(bpn).contains(dtr)){
                     this.dtrDataModel.get(bpn).add(dtr);
+                }
             } else {
-                this.dtrDataModel.put(bpn, List.of(dtr));
+                this.dtrDataModel.put(bpn, new ArrayList<>(){{add(dtr);}});
             }
         }
         return this;
@@ -373,17 +426,18 @@ public class DtrSearchManager {
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,  CatenaXUtil.buildDataEndpoint(connectionUrl));
+                    String builtDataEndpoint =CatenaXUtil.buildDataEndpoint(connectionUrl);
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
                     }
                     Negotiation negotiation = dataTransferService.seeNegotiation(negotiationResponse.getId());
                     if (negotiation == null) {
-                        LogUtil.printWarning("Was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                        LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
-                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn);
-                    if (dtrConfig.getTemporaryStorage()) {
+                    Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));
+                    if (dtrConfig.getTemporaryStorage().getEnabled()) {
                         addConnectionToBpnEntry(bpn, dtr);
                         saveDtrDataModel();
                     }
@@ -391,7 +445,7 @@ public class DtrSearchManager {
                     processManager.addSearchStatusDtr(processId, dtr);
 
                 } catch (Exception e) {
-                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr",e,"Was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr",e,"Failed to save the dataModel for this connection url: " + connectionUrl);
                 }
             }
         };
@@ -415,6 +469,37 @@ public class DtrSearchManager {
     }
 
     /**
+     * Saves the cached DTR Data Model of this class object to the storage file.
+     * <p>
+     *
+     * @return true if the cached DTR Data Model was successfully saved, false otherwise.
+     *
+     */
+    public boolean saveDtrDataModel(ConcurrentHashMap<String, List<Dtr>> dataModel) {
+        if(fileUtil.pathExists(this.dtrDataModelFilePath)) {
+            this.createDataModelFile();
+        }
+        String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, dataModel, true);
+        return filePath != null;
+    }
+    /**
+     * Saves the cached DTR Data Model of this class object to the storage file.
+     * <p>
+     */
+    public void deleteBpns(ConcurrentHashMap<String, List<Dtr>> dataModel, List<String> bpnList) {
+        try {
+            boolean deleted = dataModel.keySet().removeAll(bpnList); // Remove keys from the local storage data model
+            this.dtrDataModel.keySet().removeAll(bpnList); // Remove keys from the memory data model
+            if(deleted){
+                LogUtil.printMessage("[DTR DataModel Cache Cleaning] Deleted [" + bpnList.size() + "] bpn numbers from the DTR.");
+                saveDtrDataModel(dataModel);
+            }
+        }catch(Exception e){
+            throw new ManagerException(this.getClass().getName() + ".deleteBpns",e,"It was not possible to delete bpns from the DTR data model");
+        }
+    }
+
+    /**
      * Loads the thread safe DTR Data Model from the storage file.
      * <p>
      *
@@ -433,7 +518,7 @@ public class DtrSearchManager {
             LogUtil.printMessage("Loaded [" + result.size() + "] entries from DTR Data Model Json.");
             return result;
         } catch (Exception e) {
-            LogUtil.printException(e, "Was not possible to load Dtr Data Model!");
+            LogUtil.printException(e, "It was not possible to load Dtr Data Model!");
             return new ConcurrentHashMap<String, List<Dtr>>();
         }
 

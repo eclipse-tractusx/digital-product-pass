@@ -56,9 +56,19 @@ configuration:
 
   security:
     check:
-      enabled: true
+      enabled: false
       bpn: true
       edc: true
+
+  irs:
+    enabled: true
+    endpoint: "https://materialpass-irs.int.demo.catena-x.net"
+    paths:
+      job: "/irs/jobs"
+    tree:
+      fileName: "treeDataModel"
+      indent: true
+    callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
     assetType: 'data.core.digitalTwinRegistry'
@@ -66,7 +76,6 @@ configuration:
     centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
-    internalDtr: "https://materialpass.int.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
     semanticIdTypeKey: 'Submodel'
     decentralApis:
       search: "/lookup/shells"
@@ -77,7 +86,9 @@ configuration:
       negotiation: 40
       transfer: 10
       digitalTwin: 20
-    temporaryStorage: true
+    temporaryStorage:
+      enabled: true
+      lifetime: 12 # -- Hours
 
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
@@ -95,6 +106,7 @@ configuration:
     signKey: 'c55e3f35200f6afedbce37cefdaf40eadd15c92814edfdbc4d6ab0eacdcdd56dbcd5a2a34ca4b675084d33f9f479d7d79347795148aaf4443e1b47ab96b27e72'
 
   passport:
+    searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
     dataTransfer:
       encrypt: true
       indent: true

@@ -172,17 +172,45 @@ export default class BackendService {
             await threadUtil.sleep(waitingTime);
             retries++;
         }
-
-        if (status === "COMPLETED" || status === "RECEIVED") {
+        let history = jsonUtil.get("data.history", statusResponse);
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
+            return await this.retrievePassport(negotiation, authentication);
+        }
+        // Get status again
+        statusResponse = await this.getStatus(processId, authentication)
+        status = jsonUtil.get("data.status", statusResponse);
+        history = jsonUtil.get("data.history", statusResponse);
+        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
             return await this.retrievePassport(negotiation, authentication);
         }
 
-        return this.getErrorMessage(
-            "Failed to retrieve passport!",
-            500,
-            "Internal Server Error"
-        )
+        retries = 0;
+        // Until the transfer is completed or the status is failed
+        while(retries < maxRetries){
+            // Wait
+            await threadUtil.sleep(waitingTime);
+            // Refresh the values
+            statusResponse = await this.getStatus(processId, authentication);
+            status = jsonUtil.get("data.status", statusResponse);
+            history = jsonUtil.get("data.history", statusResponse);
+            if((jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) || status === "FAILED"){
+                break;
+            }
+            retries++;
+        }
+        
+        // If the status is failed...
+        if (status === "FAILED") {
+            return this.getErrorMessage(
+                "Failed to retrieve passport!",
+                500,
+                "Internal Server Error"
+            )
+        }
+        // If is not failed return the passport
+        return await this.retrievePassport(negotiation, authentication);
     }
+    
     getErrorMessage(message, status, statusText) {
         return {
             "message": message,
@@ -236,6 +264,41 @@ export default class BackendService {
                         resolve(e.message)
                     }
 
+                });
+        });
+    }
+
+    async getIrsState(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+                });
+        });
+    }
+    async getIrsData(processId, authentication) {
+        return new Promise(resolve => {
+            axios.get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
                 });
         });
     }

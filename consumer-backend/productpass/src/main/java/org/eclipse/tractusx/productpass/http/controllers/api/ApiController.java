@@ -170,8 +170,11 @@ public class ApiController {
             }
 
             if (!status.historyExists("data-received")) {
-                response = httpUtil.getNotFound("The data is not available!");
-                return httpUtil.buildResponse(response, httpResponse);
+                status = processManager.getStatus(processId); // Retry to get the status before giving an error
+                if(!status.historyExists("data-received")) {
+                    response = httpUtil.getNotFound("The data is not available!");
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
             }
 
             if (status.historyExists("data-retrieved")) {

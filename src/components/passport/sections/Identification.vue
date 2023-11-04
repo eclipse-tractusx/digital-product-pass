@@ -25,6 +25,13 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.manufacturerId">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Manufacturer Id"
+              :value="propsData.manufacturerId"
+            />
+          </template>
           <template v-if="propsData.localIdentifiers">
             <!-- eslint-disable-next-line vue/no-v-for-template-key -->
             <template v-for="attr in propsData.localIdentifiers" :key="attr">
@@ -34,6 +41,13 @@
                 :label="attr.key"
               />
             </template>
+          </template>
+          <template v-if="propsData.dataMatrixCode">
+            <Field
+              icon="mdi-arrow-down-circle-outline"
+              label="Data matrix code"
+              :value="propsData.dataMatrixCode"
+            />
           </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">

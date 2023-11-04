@@ -72,17 +72,6 @@
           type="Battery ID"
         />
       </template>
-      <template
-        v-else-if="
-          data.semanticId ===
-          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
-        "
-      >
-        <PassportHeader
-          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
-          type="Transmission ID"
-        />
-      </template>
       <template v-else>
         <PassportHeader :id="id ? id : '-'" type="ID" />
       </template>
@@ -97,33 +86,21 @@
         </template>
         <template
           v-else-if="
-            data.semanticId ===
+            data.semanticId ==
             'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
           "
         >
-          <BatteryCards :data="data" />
+          <TransmissionCards :data="data" />
         </template>
         <template v-else>
           <GeneralCards :data="data" />
         </template>
       </div>
-
       <div class="pass-container footer-spacer">
         <template
           v-if="
             data.semanticId ===
             'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
-          "
-        >
-          <TabsComponent
-            :componentsNames="batteryComponentsNames"
-            :componentsData="data"
-          />
-        </template>
-        <template
-          v-else-if="
-            data.semanticId ===
-            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
           "
         >
           <TabsComponent
@@ -151,6 +128,7 @@ import TabsComponent from "../components/general/TabsComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import BatteryCards from "@/components/passport/BatteryCards.vue";
+import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
@@ -173,6 +151,7 @@ export default {
     ErrorComponent,
     TabsComponent,
     GeneralCards,
+    TransmissionCards,
   },
   data() {
     return {
@@ -225,7 +204,7 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
-      }
+      },
     };
   },
 
@@ -234,10 +213,13 @@ export default {
       let dataKeys = Object.keys(this.data.aspect);
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
+        dataKeys.splice(3, 0, "components");
         dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
-          label: key[0].toUpperCase() + key.slice(1),
+          label: passportUtil.toSentenceCase(
+            key[0].toUpperCase() + key.slice(1)
+          ),
           icon: passportUtil.iconFinder(key),
           component: key,
         }));
@@ -300,10 +282,7 @@ export default {
         let backendService = new BackendService();
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await backendService.getPassport(
-          id,
-          this.auth
-        );
+        response = await backendService.getPassport(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)

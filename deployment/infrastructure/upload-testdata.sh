@@ -21,9 +21,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-# ./upload-testdata.sh -s -edc -a -api -bpn -d
-# args: SUBMODEL_SERVER_URL, PROVIDER_CONTROLPLANE, REGISTRY_URL, API_KEY, ALLOWED_BPNS, RESOURCE_DIR
-# ./upload-testdata.sh -s https://materialpass.dev.demo.catena-x.net/provider_backend -e https://materialpass.dev.demo.catena-x.net/BPNL000000000000 -a https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0 -k password -b BPNL00000003CRHL -f @resources
+# ./upload-testdata.sh -s -e -a -k -b
 
 set -o errexit
 set -o errtrace
@@ -32,7 +30,7 @@ set -o nounset
 
 #ARGS=[]
 
-while getopts s:e:a:k:b:f flag
+while getopts s:e:a:k:b:h flag
 do
     case "${flag}" in
       s) submodel_server=${OPTARG};;
@@ -40,18 +38,23 @@ do
       a) registry=${OPTARG};;
       k) api_key=${OPTARG};;
       b) bpn=${OPTARG};;
-      #f) resource_dir=${OPTARG};;
+      h) echo "Usage: ./upload-testdata.sh <submodel_server> <edc-url> <aas-url> <api-key> <bpn>"
+          echo "-s,      Submodel server url"
+          echo "-e,      Provider edc controlplane url"
+          echo "-a,      AAS registry url"
+          echo "-k,      API Key"
+          echo "-b,      BPN number"
+         exit 1
     esac
 done
-echo "submodel_server: $submodel_server";
-echo "edc: $edc";
-echo "registry: $registry";
-echo "api_key: $api_key";
-echo "bpn: $bpn";
 
-
+echo "****************Start upload battery test data*************"
 ./upload-batterypass-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
+echo "*****************End upload battery test data**************"
+echo
+echo "****************Start upload dpp test data****************"
 ./upload-dpp-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
+echo "***************End upload dpp test data*******************"
 
 echo 'Test data upload complete...'
 echo 'Done'

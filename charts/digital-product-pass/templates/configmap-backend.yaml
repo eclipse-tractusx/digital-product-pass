@@ -26,5 +26,124 @@ metadata:
   name: backend-config
   namespace: {{ .Values.namespace }}
 data:
-  application.yml: |-
-    {{ .Values.backend.application.yml | nindent 4 }}
+  application.yaml: |-
+    # Config overriding Spring Boot configuration
+    {{- if not .Values.backend.configuration.override }}
+    spring:
+      name: "Catena-X Product Passport Consumer Backend"
+      main:
+        allow-bean-definition-overriding: true
+      devtools:
+        add-properties: false
+      jackson:
+        serialization:
+          indent_output: true
+    logging:
+      level:
+        # -- general logging level
+        root: {{ tpl (.Values.backend.logging.level.root | default "INFO") . | quote }}
+        # -- logging for the util components
+        utils: {{ tpl (.Values.backend.logging.level.utils | default "INFO") . | quote }}
+    configuration:
+      # -- max retries for the backend services
+      maxRetries: {{ .Values.backend.maxRetries }}
+      # -- keycloak configuration
+      keycloak:
+        realm: {{ .Values.backend.keycloak.realm }}
+        resource: {{ .Values.backend.keycloak.resource }}
+        tokenUri: {{ tpl (.Values.backend.keycloak.tokenUri | default "http://localhost") . | quote }}
+        userInfoUri: {{ tpl (.Values.backend.keycloak.userInfoUri | default "http://localhost") . | quote }}
+      # -- edc consumer connection configuration
+      edc:
+        endpoint: {{ .Values.backend.edc.endpoint }}
+        management: {{ .Values.backend.edc.management }}
+        catalog: {{ .Values.backend.edc.catalog }}
+        negotiation: {{ .Values.backend.edc.negotiation }}
+        transfer: {{ .Values.backend.edc.transfer }}
+        receiverEndpoint: "https://{{ .Values.backend.url }}/endpoint"
+        delay:  {{ .Values.backend.edc.delay }} # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+      # -- security configuration
+      security:
+        check:
+          enabled: {{ .Values.backend.security.check.enabled }}
+          bpn: {{ .Values.backend.security.check.bpn }}
+          edc: {{ .Values.backend.security.check.edc }}
+      # -- irs configuration
+      irs:
+        enabled: true # -- Enable search for children in the requests
+        endpoint: "https://{{ .Values.backend.irs.endpoint }}" # -- IRS endpoint
+        paths:
+          job: "/irs/jobs" # -- API path for calling in the IRS endpoints and staring/getting jobs
+        tree:
+          fileName: "treeDataModel" # -- Tree dataModel filename created in the processId directory
+          indent: true # -- Indent tree file
+        callbackUrl: "https://{{ .Values.backend.url }}/api/irs" # -- Backend call back base url for the irs controller
+      # -- digital twin registry configuration
+      dtr:
+        central: false
+        # -- central digital twin registry url
+        centralUrl: 'https://{{ .Values.backend.digitalTwinRegistry.url }}'
+        # -- asset type to search for the registry in the edc
+        assetType: 'data.core.digitalTwinRegistry'
+        # -- submodel endpoint interface to search
+        endpointInterface: 'SUBMODEL-3.0'
+        # -- dsp endpoint key inside submodel body
+        dspEndpointKey: 'dspEndpoint'
+        # -- decentral digital twin apis
+        decentralApis:
+          search: {{ .Values.backend.digitalTwinRegistry.endpoints.search }}
+          digitalTwin: {{ .Values.backend.digitalTwinRegistry.endpoints.digitalTwin }}
+          subModel: {{ .Values.backend.digitalTwinRegistry.endpoints.subModel }}
+        # -- timeouts for the digital twin registry async negotiation
+        timeouts:
+          search: {{ .Values.backend.digitalTwinRegistry.timeouts.search }}
+          negotiation: {{ .Values.backend.digitalTwinRegistry.timeouts.negotiation }}
+          transfer: {{ .Values.backend.digitalTwinRegistry.timeouts.transfer }}
+          digitalTwin: {{ .Values.backend.digitalTwinRegistry.timeouts.digitalTwin }}
+        # -- temporary storage of dDTRs for optimization
+        temporaryStorage: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.enabled }}
+      # -- discovery configuration
+      discovery:
+        # -- discovery finder configuration
+        endpoint: {{ tpl (.Values.backend.digitalTwinRegistry.discoveryFinderUrl | default "") . | quote }}
+        # -- bpn discovery configuration
+        bpn:
+          key: {{ tpl (.Values.backend.digitalTwinRegistry.bpnKey | default "manufacturerPartId") . | quote }}
+          searchPath: {{ tpl (.Values.backend.digitalTwinRegistry.bpnSearchUrl | default "") . | quote }}
+        # -- edc discovery configuration
+        edc:
+          key: {{ tpl (.Values.backend.digitalTwinRegistry.edcKey | default "bpn") . | quote }}
+      # -- process configuration
+      process:
+        # -- directory for storing the contract negotiation files
+        dir: "process"
+        # -- indent the process negotiation files
+        indent: true
+        # -- unique sha512 hash key used for the passport encryption
+        signKey: {{ tpl (.Values.backend.process.authorizationKey | default "") . | quote }}
+      # -- passport data transfer configuration
+      passport:
+        # -- configure the data transfer
+        dataTransfer:
+          # -- encrypt the passport when he arrives from the edc data plane
+          encrypt: true
+          # -- the indent from the passport
+          indent: true
+          # -- directory to store the passport when is not linked to a process
+          dir: "data/transfer"
+        # -- passport versions and aspects allowed
+        aspects: {{ .Values.backend.passport.aspects }}
+    # -- configuration of the spring boot server
+    server:
+      # -- configuration of backend errors
+      error:
+        include-message: ALWAYS
+        include-binding-errors: ALWAYS
+        include-stacktrace: ON_PARAM
+        include-exception: false
+      # -- listening port for the backend
+      port: {{ .Values.backend.serverPort }}
+      # -- maximum allowed connections
+      tomcat:
+        max-connections: 10000
+

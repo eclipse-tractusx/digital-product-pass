@@ -105,129 +105,81 @@ backend:
     # -- BPN Number
     participantId: "<Add participant id here>"
 
-  # -- specific backend and spring boot configurations
-  application:
-    yml: |-
-      # -- spring boot configuration
-      spring:
-        name: "Catena-X Product Passport Consumer Backend"
-        main:
-          allow-bean-definition-overriding: true
-        devtools:
-          add-properties: false
-        jackson:
-          serialization:
-            indent_output: true
-      logging:
-        level:
-          # -- general logging level
-          root: INFO
-          # -- logging for the util components
-          utils: INFO
-      configuration:
-        # -- max retries for the backend services
-        maxRetries: 5
-        # -- keycloak configuration
-        keycloak:
-          realm: CX-Central
-          resource: Cl13-CX-Battery
-          tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'
-          userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'
-        # -- edc consumer connection configuration
-        edc:
-          endpoint: 'https://<edc.consumer.url>'
-          management: '/management/v2'
-          catalog: '/catalog/request'
-          negotiation: '/contractnegotiations'
-          transfer: '/transferprocesses'
-          receiverEndpoint: 'https://<backend.url>/endpoint'
-          delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-        # -- security configuration
-        security:
-          check:
-            enabled: false
-            bpn: false
-            edc: false
-        # -- irs configuration
-        irs:
-          enabled: true # -- Enable search for children in the requests
-          endpoint: "https://<irs-server-url>" # -- IRS endpoint
-          paths:
-            job: "/irs/jobs" # -- API path for calling in the IRS endpoints and staring/getting jobs
-          tree:
-            fileName: "treeDataModel" # -- Tree dataModel filename created in the processId directory
-            indent: true # -- Indent tree file
-          callbackUrl: "https://<backend-url>/api/irs" # -- Backend call back base url for the irs controller
-        # -- digital twin registry configuration
-        dtr:
-          central: false
-          # -- central digital twin registry url
-          centralUrl: 'https://<digital-twin-registry-url>'
-          # -- asset type to search for the registry in the edc
-          assetType: 'data.core.digitalTwinRegistry'
-          # -- submodel endpoint interface to search
-          endpointInterface: 'SUBMODEL-3.0'
-          # -- dsp endpoint key inside submodel body
-          dspEndpointKey: 'dspEndpoint'
-          # -- decentral digital twin apis
-          decentralApis:
-            search: "/lookup/shells"
-            digitalTwin: "/shell-descriptors"
-            subModel: "/submodel-descriptors"
-          # -- timeouts for the digital twin registry async negotiation
-          timeouts:
-            search: 10
-            negotiation: 40
-            transfer: 10
-            digitalTwin: 20
-          # -- temporary storage of dDTRs for optimization
-          temporaryStorage: true
-        # -- discovery configuration
-        discovery:
-          # -- discovery finder configuration
-          endpoint: "https://<discovery.finder.url>/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
-          # -- bpn discovery configuration
-          bpn:
-            key: "manufacturerPartId"
-            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
-          # -- edc discovery configuration
-          edc:
-            key: "bpn"
-        # -- process configuration
-        process:
-          # -- directory for storing the contract negotiation files
-          dir: "process"
-          # -- indent the process negotiation files
-          indent: true
-          # -- unique sha512 hash key used for the passport encryption
-          signKey: ""
-        # -- passport data transfer configuration
-        passport:
-          # -- configure the data transfer
-          dataTransfer:
-            # -- encrypt the passport when he arrives from the edc data plane
-            encrypt: true
-            # -- the indent from the passport
-            indent: true
-            # -- directory to store the passport when is not linked to a process
-            dir: "data/transfer"
-          # -- passport versions and aspects allowed
-          aspects:
-            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-      # -- configuration of the spring boot server
-      server:
-        # -- configuration of backend errors
-        error:
-          include-message: ALWAYS
-          include-binding-errors: ALWAYS
-          include-stacktrace: ON_PARAM
-          include-exception: false
-        # -- listening port for the backend
-        port: 8888
-        # -- maximum allowed connections
-        tomcat:
-          max-connections: 10000
+
+  configuration:
+    # -- If true, the configuration provided below will completely replace the configmap.
+    # -- In this case, you need to provide all required configuration values defined by yourself.
+    # -- If false, the custom configuration will just be appended to the configmap.
+    override: false
+      # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
+    url: ""
+    logging:
+      level:
+        # -- general logging level
+        root: INFO
+        # -- logging for the util components
+        utils: INFO
+    # -- max retries for the backend services
+    maxRetries: 5
+    # -- keycloak configuration
+    keycloak:
+      realm: CX-Central
+      resource: Cl13-CX-Battery
+      tokenUri: ""
+      userInfoUri: ""
+    # -- edc consumer connection configuration
+    edc:
+      endpoint: ""
+      management: ""
+      catalog: ""
+      negotiation: ""
+      transfer: ""
+      delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    # -- security configuration
+    security:
+      check:
+        enabled: false
+        bpn: false
+        edc: false
+    # -- irs configuration
+    irs:
+      endpoint: ""
+    # -- digital twin registry configuration
+    digitalTwinRegistry:
+      # -- central digital twin registry url
+      url: ""
+      # -- decentral digital twin apis
+      endpoints:
+        search: "/lookup/shells"
+        digitalTwin: "/shell-descriptors"
+        subModel: "/submodel-descriptors"
+      # -- timeouts for the digital twin registry async negotiation
+      timeouts:
+        search: 10
+        negotiation: 40
+        transfer: 10
+        digitalTwin: 20
+      # -- temporary storage of dDTRs for optimization
+      temporaryStorage:
+        enabled: true
+      # -- discovery configuration
+      discoveryFinderUrl: ""
+      # -- bpn discovery configuration
+      bpnKey: "manufacturerPartId"
+      bpnSearchUrl: ""
+      # -- edc discovery configuration
+      edcKey: "bpn"
+    process:
+      # -- unique sha512 hash key used for the passport encryption
+      authorizationKey: ""
+    # -- passport data transfer configuration
+    passport:
+      # -- passport versions and aspects allowed
+      aspects:
+        - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+        - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+    # -- configuration of the spring boot server
+    serverPort: 8888
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits

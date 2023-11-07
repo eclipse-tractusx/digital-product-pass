@@ -85,6 +85,12 @@ Latest Revision: Nov 7, 2023
   - [Design Decisions](#design-decisions)
     - [Searching View](#searching-view)
     - [Battery Passport View](#battery-passport-view)
+    - [Digital Product Pass View](#digital-product-pass-view)
+    - [IRS Component Drill Down](#irs-component-drill-down)
+      - [Loading](#loading)
+      - [No Children Available](#no-children-available)
+      - [Tree of Components Available](#tree-of-components-available)
+      - [Error Occurred](#error-occurred)
   - [Quality Requirements](#quality-requirements)
     - [Quality Scenarios](#quality-scenarios)
   - [Risks and Technical Debts](#risks-and-technical-debts)
@@ -530,6 +536,46 @@ The passport view was designed following using Catena-X accordion guidelines.
 ![Battery Passport View - General Information](./media/GraphicBatteryPassportViewGeneralInfo.png)
 
 ![Battery Passport View - Electrochemical properties](./media/GraphicBatteryPassportView.png)
+
+### Digital Product Pass View
+
+Since the [v1.2.0](https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.2.0) release the `Digital Product Pass v1.0.0` Aspect is available to be visualized in the application. In the following example we can visualize a Battery Passport as Digital Product Pass:
+
+![Digital Product Pass - Serialization View](./media/DPPView1.jpg)
+
+![Digital Product Pass - Components View](./media/DPPView2.jpg)
+
+### IRS Component Drill Down
+
+The IRS Drill Down feature is available since the version [v1.3.0](https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.3.0) and it will display an tree of components in the frontend. 
+
+The process of requesting the child components from the IRS takes a while aprox 7 minutes so the user is constantly informed of the progress from the IRS Job.
+
+#### Loading 
+
+When the job is still running there will be displayed a spinner and a message saying that the search for components is going on.
+
+![IRS Component Loading](./media/irs/Loading.jpg)
+
+#### No Children Available
+
+When there is the case that the IRS Job returns a empty relationship array the frontend will display a No child component found warning, this means that the asset has no children available in the `Digital Twin Registries` of the BPN Number found for the current asset in the `BPN Discovery` endpoint.
+
+![IRS Component No Children Available](./media/irs/ChildNotFound.jpg)
+
+#### Tree of Components Available
+
+This is the success case, when there are components available in connection to the digital twin.
+
+In this case the user can click in the child `external link` button to open a new tab and start the search for a the Digital Product Pass
+
+![IRS Component Tree of Components](./media/irs/TreeOfComponents.jpg)
+
+#### Error Occurred
+
+In case the backend is not acesible or any other error ocurred the search for the child components will stop. This means that if the user want to search for the child components again it shall request the passport again since there was an error with this process.
+
+![IRS Component Error Occurred](./media/irs/ErrorOccured.jpg)
 
 ## Quality Requirements
 

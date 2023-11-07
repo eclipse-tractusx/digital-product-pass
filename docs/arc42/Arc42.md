@@ -22,10 +22,10 @@
 
 # (CEC) ARC42 - Digital Product Pass Application Documentation
 
-![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
+![C-X Logo](./media/CXlogo.png) ![acr24 logo](./media/arc24logo.png)  
 
-Version: v3.0 <br>
-Latest Revision: Aug. 11, 2023
+Version: v4.0 <br>
+Latest Revision: Nov 7, 2023
 
 
 ## Table of Contents
@@ -50,6 +50,9 @@ Latest Revision: Aug. 11, 2023
         - [Cancel API Flow](#cancel-api-flow)
         - [Status API Flow](#status-api-flow)
         - [Passport API Flow](#passport-api-flow)
+    - [Item Relationship Service](#item-relationship-service)
+      - [Search API Flow with IRS](#search-api-flow-with-irs)
+      - [Async Data Retrieval with IRS](#async-data-retrieval-with-irs)
     - [Business Context](#business-context)
     - [Technical Context](#technical-context)
       - [Runtime Environments](#runtime-environments)
@@ -133,13 +136,13 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 
 The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
-![System Scope and Context](./ContextDiagram.jpeg)
+![System Scope and Context](./media/ContextDiagram.jpeg)
 
 ### Application State Diagram
 
 This is the state diagram that describes the flow between the frontend and backend components of the application.
 
-![Application State Design](./StateDiagram.jpeg)
+![Application State Design](./media/StateDiagram.jpeg)
 
 ### Technical Integration Design
 
@@ -150,7 +153,7 @@ The interaction between the Product Passport Application previous the "BatteryPa
 Here is a resume of the frontend and the backend communication.
 
 
-![Technical Integration Resume](./TechnicalIntegrationResume.jpeg)
+![Technical Integration Resume](./media/TechnicalIntegrationResume.jpeg)
 
 
 The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
@@ -174,13 +177,13 @@ The `/create` api is responsible for calling the `BPN Discovery` service searchi
 If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
 
 
-![CreateDiagram](./CreateAPI.jpeg)
+![CreateDiagram](./media/CreateAPI.jpeg)
 
 Here is possible to see the complete flow of the create api.
 ##### Create Flow Diagram
 
 
-![CreateFlow](./CreateProcessFlow.jpeg)
+![CreateFlow](./media/CreateProcessFlow.jpeg)
 
 
 #### Search API Diagram
@@ -189,12 +192,12 @@ At the `/search` API the user can search for a serialized Id and get its contrac
 
 A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract.
 
-![Search API](./SearchAPI.jpeg)
+![Search API](./media/SearchApi.jpeg)
 
 ##### Search API Flow
 Here we can see the search flow more in detail:
 
-![Search API Flow](./SearchFlow.jpeg)
+![Search API Flow](./media/SearchFlow.jpeg)
 
 
 
@@ -211,42 +214,54 @@ The API `/passport` will descrypt the passport file that is encrypted usint the 
 
 > *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
 
-![Sign API](./SignAPI.jpeg)
+![Sign API](./media/SignAPI.jpeg)
 
 ##### Sign Flow 
 
 Here is described in detail how the sign flow works:
 
-![Sign API Flow](./SignFlow.jpeg)
+![Sign API Flow](./media/SignFlow.jpeg)
 
 
 ##### Decline API Flow
 
 Here is how the flow of decline works:
 
-![Decline API Flow](./DeclineFlow.jpeg)
+![Decline API Flow](./media/DeclineFlow.jpeg)
 
 ##### Cancel API Flow
 
 Here is how the flow of cancel works:
 
-![Cancel API Flow](./CancelFlow.jpeg)
+![Cancel API Flow](./media/CancelFlow.jpeg)
 
 ##### Status API Flow
 
 The get status API just gives the status for a existing process:
 
-![Status API Flow](./GetStatus.jpeg)
+![Status API Flow](./media/GetStatus.jpeg)
 
 
 ##### Passport API Flow
 
 This API is responsible for retrieving the passport json and some metadata from the contract exchange.
 
-![Passport API Flow](./PassportRetrievalFlow.jpeg)
+![Passport API Flow](./media/PassportRetrievalFlow.jpeg)
 
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/inde x.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+
+
+### Item Relationship Service
+
+#### Search API Flow with IRS
+![IRS Search Flow](./media/SearchAPIwithIRS.jpg)
+
+
+#### Async Data Retrieval with IRS
+![IRS Search Flow](./media/IRSDataSearch.jpg)
+
+
 
 ### Business Context
 
@@ -313,9 +328,9 @@ At the moment, the Product Passport Application is hosted in three different env
 
 #### Documentation links
 
-* [ARC42 Documentation](./Arc42.md)
+* [ARC42 Documentation](./media/Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
-* [Administration Guide](../admin%20guide/Admin_Guide.md)
+* [Administration Guide](../media/admin%20guide/Admin_Guide.md)
 * [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 
@@ -330,7 +345,7 @@ At the moment, the Product Passport Application is hosted in three different env
 
 ### Architecture Diagram
 
-![Architecture Diagram](./GraphicArchitectureDiagram.jpeg)
+![Architecture Diagram](./media/GraphicArchitectureDiagram.jpeg)
 
 ## Technology & Architecture Detail
 
@@ -352,13 +367,13 @@ Since we are required to follow the style guidelines from Catena-X, we selected 
 
 According to the [Vuetify documentation](https://next.vuetifyjs.com/en/introduction/why-vuetify/), every component in Vuetify is handcrafted under the guise of [Google’s Material Design](https://material.io/) specification and comes with hundreds of customization options that fit any style or design; even if it’s not Material. This gives us flexibility when choosing and personalizing the style of the application, while still maintaining the **stability, scalability and security** from the components. And when compared with other frameworks, we can see that an new patch regarding security and stability is release every week, giving us safety that the library is constantly improved and tested.
 
-![Vue Framework Comparison](./GraphicVueFrameworkComparison2022.png)
+![Vue Framework Comparison](./media/GraphicVueFrameworkComparison2022.png)
 
 Another advantage from Vuetify is its documentation. There you are allowed to understand all the components and personalize them on-flight. Example: [Vuetify Alerts](https://next.vuetifyjs.com/en/components/alerts/).
 
 Here we can see the components from the frontend of the application:
 
-![Frontend Component](./GraphicFrontendComponent.jpg)
+![Frontend Component](./media/GraphicFrontendComponent.jpg)
 
 
 #### Component Description
@@ -392,7 +407,7 @@ We selected spring boot because it allows us to:
 
 To ease the understanding and get a general technical context of the backend the following diagram was created:
 
-![Backend Component](./GraphicBackendComponent.jpg)
+![Backend Component](./media/GraphicBackendComponent.jpg)
 
 #### Component Description
 
@@ -449,11 +464,11 @@ There are different levels categorized concerning the application resources depl
 
 **Level 3:** A development level where application source code is developed and built by developers.
 
-![Building Block View](./GraphicBulidingBlockView.jpg)
+![Building Block View](./media/GraphicBulidingBlockView.jpg)
 
 ### Blackbox Overall System
 
-![Blackbox Overall System](./GraphicBlackboxOverallSys.jpg)
+![Blackbox Overall System](./media/GraphicBlackboxOverallSys.jpg)
 
 ### Whitebox Overall System
 
@@ -463,7 +478,7 @@ During the merge process, the build pipeline also known as Continuous integratio
 
 The application deployment is translated into Kubernetes resources through helm charts which are deployed in Argo CD. We take the advantage of built-in AutoSync feature of ArgoCD that does the Continuous Deployment(CD) job for us. This is done by matching the current and desired state of the application if there is a new code change or a new container image uploaded to a registry.
 
-![Whitebox Overall System](./GraphicWhiteboxOverallSys.png)
+![Whitebox Overall System](./media/GraphicWhiteboxOverallSys.png)
 
 | Name | Responsibility |
 | ---- | -------------- |
@@ -479,15 +494,15 @@ The application deployment is translated into Kubernetes resources through helm 
 * Behavioral view
 * User Experience (UX) journey
 
-![Runtime View](./GraphicRuntimeView.png)
+![Runtime View](./media/GraphicRuntimeView.png)
 
 ## Deployment View
 
-![DeploymentView](./GraphicDeploymentView.jpg)
+![DeploymentView](./media/GraphicDeploymentView.jpg)
 
 ## Cross-cutting Concepts
 
-![Cross Cutting Concepts](./GraphicCrossCuttingConcepts.jpg)
+![Cross Cutting Concepts](./media/GraphicCrossCuttingConcepts.jpg)
 
 ## Design Decisions
 
@@ -496,25 +511,25 @@ Designs are followed using the Catena-X Style Guidelines.
 
 It was used a basic table, the logo, the footer and the avatar from Catena-X design guidelines:
 
-![Implementation View - Basic Table](./GraphicBasicTable.png)
+![Implementation View - Basic Table](./media/GraphicBasicTable.png)
 
-![Catena-X Logo Style Guidelines](./GraphicLogos.png)
+![Catena-X Logo Style Guidelines](./media/GraphicLogos.png)
 
-![Catena-X Avatar](./GraphicAvatar.png)
+![Catena-X Avatar](./media/GraphicAvatar.png)
 
 ### Searching View
 
 The Search view was also design following the Catena-X buttons and search style guides
 
-![QR Code and Search View](./GraphicSearchView.png)
+![QR Code and Search View](./media/GraphicSearchView.png)
 
 ### Battery Passport View
 
 The passport view was designed following using Catena-X accordion guidelines.
 
-![Battery Passport View - General Information](./GraphicBatteryPassportViewGeneralInfo.png)
+![Battery Passport View - General Information](./media/GraphicBatteryPassportViewGeneralInfo.png)
 
-![Battery Passport View - Electrochemical properties](./GraphicBatteryPassportView.png)
+![Battery Passport View - Electrochemical properties](./media/GraphicBatteryPassportView.png)
 
 ## Quality Requirements
 

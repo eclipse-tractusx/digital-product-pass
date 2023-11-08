@@ -121,12 +121,14 @@ public final class ThreadUtil {
         }
     }
     /**
-     * Puts the scheduled thread in the runtime that this method is called to sleep for a given time.
-     * <p>
-     * Note: In case of an exception, the thread put to sleep is interrupted.
+     * Sets a timeout for a function added in a callable
      * <p>
      * @param   milliseconds
-     *          the length of time to sleep in milliseconds.
+     *          the {@code Integer} length of time of the timeout in milliseconds.
+     * @param   function
+     *          the {@code Callable<V>} function to be executed and then give the timeout if not returned before
+     * @param   timeoutResponse
+     *          the {@code <V>} timeout response to be returned when the function execution time reached the timeout
      */
     public static <V> V timeout(Integer milliseconds, Callable<V> function, V timeoutResponse)
     {

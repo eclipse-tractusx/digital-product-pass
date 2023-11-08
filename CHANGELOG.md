@@ -25,6 +25,14 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [v1.3.1] - 08-11-2023
+
+## Added
+- Added timeout for the `BPN Discovery` and `EDC Discovery`  APIs returned in the Discovery Service API.
+- Created a new `doPost` function in the `HttpUtils`that allows the usage of timeouts in API calls.
+- Create a new `timeout` function in `ThreadUtils` to be applied to the call of functions.
+
+## [released]
 ## [v1.3.0] - 03-11-2023
 
  

@@ -190,9 +190,11 @@ backend:
           bpn:
             key: "manufacturerPartId"
             searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+            timeout: 2000  # -- timeout in milliseconds for the bpn discovery APIs to respond
           # -- edc discovery configuration
           edc:
             key: "bpn"
+            timeout: 2000 # -- timeout in milliseconds for the bpn discovery APIs to respond
         # -- process configuration
         process:
           # -- directory for storing the contract negotiation files

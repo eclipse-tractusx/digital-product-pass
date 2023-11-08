@@ -251,7 +251,7 @@ create_batteryModule_payload() {
             "text": "Battery Module Digital Twin"
         }
     ],
-    "idShort": "Battery_'${PASSPORT_ID}'",
+    "idShort": "BatteryModule_'${PASSPORT_ID}'",
     "globalAssetId": "'${globalAssetIds[1]}'",
     "id": "'${AAS_ID}'",
     "specificAssetIds": [
@@ -424,7 +424,7 @@ create_batteryCell_payload() {
             "text": "Battery Cell Digital Twin"
         }
     ],
-    "idShort": "Battery_'${PASSPORT_ID}'",
+    "idShort": "BatteryCell_'${PASSPORT_ID}'",
     "globalAssetId": "'${globalAssetIds[2]}'",
     "id": "'${AAS_ID}'",
     "specificAssetIds": [

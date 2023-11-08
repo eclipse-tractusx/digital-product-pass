@@ -28,8 +28,6 @@ set -o errtrace
 set -o pipefail
 set -o nounset
 
-#ARGS=[]
-
 while getopts s:e:a:k:b:h flag
 do
     case "${flag}" in
@@ -48,13 +46,35 @@ do
     esac
 done
 
+# script parameters
+export SUBMODEL_SERVER=${submodel_server}
+export PROVIDER_EDC=${edc}
+export REGISTRY_URL=${registry}
+export API_KEY=${api_key}
+export BPN=${bpn}
+
+export REGISTRY_ASSET_ID='registry-asset'
+export MANUFACTURER_PART_ID='XYZ78901'
+
 echo "****************Start upload battery test data*************"
 ./upload-batterypass-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
 echo "*****************End upload battery test data**************"
 echo
+
 echo "****************Start upload dpp test data****************"
 ./upload-dpp-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
 echo "***************End upload dpp test data*******************"
+echo
+
+echo "****************Start upload Secondary Material Content SMC test data****************"
+./upload-smc-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
+echo "***************End upload  Secondary Material Content SMC test data*******************"
+echo
+
+echo "****************Start upload transmission pass test data****************"
+./upload-transmissionpass-data.sh ${submodel_server} ${edc} ${registry} ${api_key} ${bpn}
+echo "***************End upload transmission pass test data*******************"
+echo
 
 echo 'Test data upload complete...'
 echo 'Done'

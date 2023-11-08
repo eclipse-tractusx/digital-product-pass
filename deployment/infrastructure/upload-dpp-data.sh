@@ -27,21 +27,21 @@ set -o pipefail
 set -o nounset
 
 # script parameters
-SUBMODEL_SERVER=$1
-PROVIDER_EDC=$2
-REGISTRY_URL=$3
-API_KEY=$4
-BPN=$5
+export SUBMODEL_SERVER=$1
+export PROVIDER_EDC=$2
+export REGISTRY_URL=$3
+export API_KEY=$4
+export BPN=$5
+export REGISTRY_ASSET_ID='registry-asset'
+export MANUFACTURER_PART_ID='XYZ78901'
+export SUBMODEL_ID=''
+export PASSPORT_TYPE="dpp"
 
-# global variables
+source ./functions.sh
+
+# script global variables
 UUID=''
-ASSET_ID=''
-POLICY_ID=''
-CONTRACT_DEF_ID=''
-DT_ID=''
-SUBMODEL_ID=''
 PASSPORT_ID=''
-HTTP_RESPONSE=''
 BAT_ASPECT_ID=''
 BAT_SINGLE_LEVEL_BOM_AS_BUILT_ID=''
 BAT_MODULE_ID=''
@@ -50,11 +50,6 @@ BAT_MODULE_SINGLE_LEVEL_USAGE_AS_BUILT_ID=''
 BAT_CELL_ASPECT_ID=''
 BAT_CELL_SINGLE_LEVEL_BOM_AS_BUILT_ID=''
 BAT_CELL_SINGLE_LEVEL_USAGE_AS_BUILT_ID=''
-
-
-PREFIX='urn:uuid'
-REGISTRY_ASSET_ID='registry-asset'
-MANUFACTURER_PART_ID='XYZ78901'
 
 # declare an array variable
 declare -a passports=("BAT-XYZ789" "EVMODULE-TRJ712" "CTA-13123")
@@ -90,25 +85,6 @@ generate_submodel_id () {
   BAT_CELL_SINGLE_LEVEL_USAGE_AS_BUILT_ID=${UUID}
 }
 
-generate_UUID () {
-  local uuid=$(openssl rand -hex 16)
-  UUID=${PREFIX}:${uuid:0:8}-${uuid:8:4}-${uuid:12:4}-${uuid:16:4}-${uuid:20:12}
-}
-
-check_status_code () {
-  if [[ "$HTTP_RESPONSE" -eq 200 ]] ; then
-    echo "[$HTTP_RESPONSE] - OK"
-  elif [[ "$HTTP_RESPONSE" -eq 201 ]] ; then
-    echo "[$HTTP_RESPONSE] - Created"
-  elif [[ "$HTTP_RESPONSE" -eq 400 ]] ; then
-    echo "[$HTTP_RESPONSE] - Bad Request"
-  elif [[ "$HTTP_RESPONSE" -eq 409 ]] ; then
-    echo "[$HTTP_RESPONSE] - Conflict: the object already exists"
-  else
-    echo "[$HTTP_RESPONSE] - Internal Server Error"
-  fi
-}
-
 create_submodel_payload () {
 
   HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/dpp/${passports[0]}.json" -o /dev/null -w "%{http_code}\n" $SUBMODEL_SERVER/data/${BAT_ASPECT_ID})
@@ -131,181 +107,6 @@ create_submodel_payload () {
   check_status_code
   
   echo "[DPP] - Submodel data upload complete"
-}
-
-create_edc_asset () {
-  
-  generate_UUID
-  ASSET_ID=${UUID}
-
-  PAYLOAD='{
-    "@context": {
-      "dct": "https://purl.org/dc/terms/",
-      "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-      "edc": "https://w3id.org/edc/v0.0.1/ns/",
-      "dcat": "https://www.w3.org/ns/dcat/",
-      "odrl": "http://www.w3.org/ns/odrl/2/",
-      "dspace": "https://w3id.org/dspace/v0.8/"
-    },
-    "asset": {
-        "@type": "Asset",
-        "@id": "'${ASSET_ID}'", 
-        "properties": {
-            "description": "DPP EDC Test Asset"
-        }
-    },
-    "dataAddress": {
-        "@type": "DataAddress",
-        "type": "HttpData",
-        "proxyPath": "true",
-        "proxyBody": "true",
-        "proxyMethod": "true",
-        "proxyQueryParams": "true",
-        "baseUrl": "'${SUBMODEL_SERVER}'"
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/assets)
-  check_status_code
-  echo "[DPP] - edc asset creation complete with uuid : " ${ASSET_ID}
-}
-
-create_registry_asset () {
-  PAYLOAD='{
-    "@context": {},
-    "asset": {
-        "@type": "data.core.digitalTwinRegistry",
-        "@id": "'${REGISTRY_ASSET_ID}'", 
-        "properties": {
-            "type": "data.core.digitalTwinRegistry",
-            "description": "Digital Twin Registry for DPP",
-            "contenttype": "application/json" 
-        }
-    },
-    "dataAddress": {
-        "@type": "DataAddress",
-        "type": "HttpData",
-        "proxyPath": "true",
-        "proxyBody": "true",
-        "proxyMethod": "true",
-        "proxyQueryParams": "true",
-        "baseUrl": "'${REGISTRY_URL}'"
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/assets)
-  check_status_code
-  echo "[DPP] - registry asset creation complete with uuid : registry-asset"
-}
-
-create_default_policy () {
-  PAYLOAD='{
-    "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/leftOperand"
-    },
-    "@type": "PolicyDefinitionRequestDto",
-    "@id": "default-policy",
-    "policy": {
-		"@type": "Policy",
-		"odrl:permission" : [{
-      "odrl:action": "USE",
-      "odrl:constraint": {
-        "odrl:constraint": {
-          "@type": "LogicalConstraint",
-          "odrl:or": [
-            {
-              "@type": "Contraint",
-              "odrl:leftOperand": "BusinessPartnerNumber",
-              "odrl:operator": "EQ",
-              "odrl:rightOperand": "'${BPN}'"
-            }
-          ]
-        }
-      }
-    }]
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/policydefinitions)
-  check_status_code
-  echo "[DPP] - policy creation complete with uuid : default-policy"
-}
-
-create_policy () {
-
-  generate_UUID
-  POLICY_ID=${UUID}
-
-  PAYLOAD='{
-    "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/"
-    },
-    "@type": "PolicyDefinitionRequestDto",
-    "@id": "'${POLICY_ID}'",
-    "policy": {
-        "@type": "Policy",
-        "odrl:permission": [
-            {
-                "odrl:action": "USE",
-                "odrl:constraint": {
-                    "@type": "AtomicConstraint",
-                    "odrl:or": [
-                        {
-                            "@type": "Constraint",
-                            "odrl:leftOperand": "PURPOSE",
-                            "odrl:operator": {
-                                "@id": "odrl:eq"
-                            },
-                            "odrl:rightOperand": "ID 3.0 Trace"
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/policydefinitions)
-  check_status_code
-  echo "[DPP] - policy creation complete with uuid : ${POLICY_ID}"
-}
-
-create_default_contractdefinition () {
-  PAYLOAD='{
-    "@context": {},
-    "@id": "default-contract-definition",
-    "@type": "ContractDefinition",
-    "accessPolicyId": "default-policy",
-    "contractPolicyId": "default-policy",
-    "assetsSelector" : {
-        "@type": "CriterionDto",
-        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-        "operator": "=",
-        "operandRight": "'${REGISTRY_ASSET_ID}'"
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/contractdefinitions)
-  check_status_code
-  echo "[DPP] - Contract creation complete with uuid : default-contract-definition"
-}
-
-create_contractdefinition () {
-  # since contract id does not support urn:uuid as prefix, generate a new one with the prerfix 
-  UUID=$(openssl rand -hex 16)
-  CONTRACT_DEF_ID=${UUID:0:8}-${UUID:8:4}-${UUID:12:4}-${UUID:16:4}-${UUID:20:12}
-
-  PAYLOAD='{
-    "@context": {},
-    "@id": "'${CONTRACT_DEF_ID}'",
-    "@type": "ContractDefinition",
-    "accessPolicyId": "'${POLICY_ID}'",
-    "contractPolicyId": "'${POLICY_ID}'",
-    "assetsSelector" : {
-        "@type": "CriterionDto",
-        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-        "operator": "=",
-        "operandRight": "'${ASSET_ID}'"
-    }
-  }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/contractdefinitions)
-  check_status_code
-  echo "[DPP] - Contract creation complete with id : ${CONTRACT_DEF_ID}"
 }
 
 create_battery_payload() {

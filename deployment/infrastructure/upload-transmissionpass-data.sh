@@ -35,34 +35,25 @@ export BPN=$5
 export REGISTRY_ASSET_ID='registry-asset'
 export MANUFACTURER_PART_ID='XYZ78901'
 export SUBMODEL_ID=''
-export SERIAL_PART_ASPECT_ID=''
-export PASSPORT_TYPE="secondarymaterialcontent"
+export PASSPORT_TYPE="transmissionpass"
 
 source ./functions.sh
 
 # script global variables
 UUID=''
-MATERIAL_ID=''
+GEARBOX_ID=''
 
 
 # declare an array variable
-declare -a smc_orders=("KLZ-90-8564-96")
+declare -a gearboxes=("SNJ-4654-76")
 
 create_submodel_payload () {
 
   generate_UUID
   SUBMODEL_ID=${UUID}
-  echo "Create sample data for SMC KLZ-90-8564-96..."
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' --data "@testing/testdata/smc/smc_manual_payload.json"  ${SUBMODEL_SERVER}/data/${SUBMODEL_ID})
-  check_status_code
 
-  generate_UUID
-  SERIAL_PART_ASPECT_ID=${UUID}
-  echo "Create BomAsBuilt sample data of SMC serialized part..."
-  HTTP_RESPONSE=$(curl -X POST  -H 'Content-Type: application/json' --data "@testing/testdata/smc/smc_payload_partAsPlanned.json"  ${SUBMODEL_SERVER}/data/${SERIAL_PART_ASPECT_ID})
-  check_status_code
-
-  echo "[SecondaryMaterialContent] - Created submodel data"
+  curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/dpp/${GEARBOX_ID}_payload.json" $SUBMODEL_SERVER/data/${SUBMODEL_ID}
+  echo "[TransmissionPass] - Created submodel data with uuid: " ${SUBMODEL_ID}
 }
 
 # create edc assets, policies and contracts for the registry (DTR)
@@ -71,20 +62,22 @@ create_default_policy
 create_default_contractdefinition
 
 
-## loop through the above array
-for item in "${smc_orders[@]}"
+## now loop through the above array
+for gearbox in "${gearboxes[@]}"
 do
-  ORDER_ID=$item
+  GEARBOX_ID=$gearbox
   echo
-  echo "++++++++++++++++++ SMC Order ID: " ${ORDER_ID} "++++++++++++++++++++++"
+  echo "++++++++++++++++++ Gearbox ID: " ${GEARBOX_ID} "++++++++++++++++++++++"
   echo
   create_submodel_payload
   create_edc_asset
   create_policy
   create_contractdefinition
-  create_aas3_shell ${ORDER_ID} ${PASSPORT_TYPE}
+  create_aas3_shell ${GEARBOX_ID} ${PASSPORT_TYPE}
   echo
 done
+
+# You can access them using echo "${arr[0]}", "${arr[1]}" also
   
-echo 'Secondary Material Content SMC test data upload complete...'
+echo 'Transmission pass test data upload complete...'
 echo 'Done'

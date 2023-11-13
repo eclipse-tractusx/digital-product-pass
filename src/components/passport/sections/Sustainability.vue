@@ -26,7 +26,7 @@
       <template
         v-if="
           propsData.semanticId ==
-          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
         "
       >
         <v-row class="section">

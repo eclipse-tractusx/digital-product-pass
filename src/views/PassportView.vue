@@ -37,7 +37,7 @@
       <template
         v-else-if="
           data.semanticId ===
-          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
         "
       >
         <span class="header-title">Transmission Product Passport</span>
@@ -87,7 +87,7 @@
         <template
           v-else-if="
             data.semanticId ==
-            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+            'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
           "
         >
           <TransmissionCards :data="data" />
@@ -298,10 +298,7 @@ export default {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await this.backendService.getPassport(
-          id,
-          this.auth
-        );
+        response = await this.backendService.getPassport(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)

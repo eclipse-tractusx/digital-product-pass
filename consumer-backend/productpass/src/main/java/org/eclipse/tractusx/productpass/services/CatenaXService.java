@@ -505,6 +505,7 @@ public class CatenaXService extends BaseService {
             if (edcEndpoints == null) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", "The edc discovery endpoint is empty!");
             }
+            Integer timeout = discoveryConfig.getEdc().getTimeout();
             List<EdcDiscoveryEndpoint> edcDiscoveryResponses = new ArrayList<>();
             for(String edcEndpoint : edcEndpoints) {
 
@@ -512,7 +513,7 @@ public class CatenaXService extends BaseService {
                 HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
                 headers.add("Content-Type", "application/json");
                 try{
-                    ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false);
+                    ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false, timeout);
                     JsonNode result = (JsonNode) response.getBody();
                     List<EdcDiscoveryEndpoint> edcDiscoveryResponse = (List<EdcDiscoveryEndpoint>) jsonUtil.bindJsonNode(result, List.class);
                     if(edcDiscoveryResponse.isEmpty()) {
@@ -567,6 +568,7 @@ public class CatenaXService extends BaseService {
             if(bpnEndpoints == null){
                 throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", "The bpn discovery endpoint is empty!");
             }
+            Integer timeout = discoveryConfig.getBpn().getTimeout(); // Get timeout in configuration for the bpn discovery endpoints
             List<BpnDiscovery> bpnDiscoveryResponse = new ArrayList<>();
             for(String bpnEndpoint : bpnEndpoints) {
 
@@ -585,7 +587,7 @@ public class CatenaXService extends BaseService {
                 HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
                 headers.add("Content-Type", "application/json");
                 try{
-                    ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+                    ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false, timeout);
                     JsonNode result = (JsonNode) response.getBody();
                     BpnDiscovery bpnDiscovery = (BpnDiscovery) jsonUtil.bindJsonNode(result, BpnDiscovery.class);
                     if(bpnDiscovery == null){
@@ -595,6 +597,7 @@ public class CatenaXService extends BaseService {
                     bpnDiscoveryResponse.add(bpnDiscovery);
                 }catch (Exception e){
                     LogUtil.printException(e, "BPN Number not found for ["+searchEndpoint+"] and keyType ["+type+"]!");
+                    break;
                 }
             }
             if(bpnDiscoveryResponse.isEmpty()){

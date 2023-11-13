@@ -23,6 +23,15 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+
+**November 08 2023 (Version 1.3.1)**
+*08.11.2023*
+
+### Added
+#### Added functionality to timeout when `BPN` and `EDC` Discovery API are taking more than the configured time
+Now when the application is creating a process and searching to the BPN discovery and the EDC discovery there is a timeout which can be configured to skip the api call if the timeout expires, in this way when APIs that not exist are added to the `Discovery Service` they will be ignored redusing the waiting time for retrieving the passport.
+
+
 **November 03 2023 (Version 1.3.0)**
 *03.11.2023*
 

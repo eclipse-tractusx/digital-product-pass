@@ -133,5 +133,3 @@ backend:
     bpnSearchUrl: "/api/v1.0/administration/connectors/bpnDiscovery/search"
     edcKey: "bpn"
 
-
-  

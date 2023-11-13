@@ -69,14 +69,14 @@ backend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: materialpass.beta.demo.catena-x.net
+      - host: &hostname "materialpass.beta.demo.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: tls-secret
         hosts:
-          - materialpass.beta.demo.catena-x.net
+          - *hostname
 
   edc:
     clientId: <path:material-pass/data/beta/backend#clientId>
@@ -90,7 +90,7 @@ backend:
     transfer: "/transferprocesses"
     delay: 100
 
-  url: "materialpass.beta.demo.catena-x.net"
+  url: *hostname
   serverPort: 8888
   logging:
     level:

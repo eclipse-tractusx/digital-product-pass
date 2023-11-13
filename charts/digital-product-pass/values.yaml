@@ -104,21 +104,25 @@ backend:
     xApiKey: "<Add API key here>"
     # -- BPN Number
     participantId: "<Add participant id here>"
-
-
+    # -- edc consumer connection configuration
+    endpoint: ""
+    management: ""
+    catalog: ""
+    negotiation: ""
+    transfer: ""
+    delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+  # -- backend server url
+  url: ""
+  # -- configuration of the spring boot server
+  serverPort: 8888
+  logging:
+    level:
+      # -- general logging level
+      root: INFO
+      # -- logging for the util components
+      utils: INFO
   configuration:
-    # -- If true, the configuration provided below will completely replace the configmap.
-    # -- In this case, you need to provide all required configuration values defined by yourself.
-    # -- If false, the custom configuration will just be appended to the configmap.
-    override: false
-      # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
-    url: ""
-    logging:
-      level:
-        # -- general logging level
-        root: INFO
-        # -- logging for the util components
-        utils: INFO
+    # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
     # -- max retries for the backend services
     maxRetries: 5
     # -- keycloak configuration
@@ -127,48 +131,15 @@ backend:
       resource: Cl13-CX-Battery
       tokenUri: ""
       userInfoUri: ""
-    # -- edc consumer connection configuration
-    edc:
-      endpoint: ""
-      management: ""
-      catalog: ""
-      negotiation: ""
-      transfer: ""
-      delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
     # -- security configuration
-    security:
-      check:
-        enabled: false
-        bpn: false
-        edc: false
+    securityCheck:
+      enabled: false
+      bpn: false
+      edc: false
     # -- irs configuration
     irs:
       endpoint: ""
     # -- digital twin registry configuration
-    digitalTwinRegistry:
-      # -- central digital twin registry url
-      url: ""
-      # -- decentral digital twin apis
-      endpoints:
-        search: "/lookup/shells"
-        digitalTwin: "/shell-descriptors"
-        subModel: "/submodel-descriptors"
-      # -- timeouts for the digital twin registry async negotiation
-      timeouts:
-        search: 10
-        negotiation: 40
-        transfer: 10
-        digitalTwin: 20
-      # -- temporary storage of dDTRs for optimization
-      temporaryStorage:
-        enabled: true
-      # -- discovery configuration
-      discoveryFinderUrl: ""
-      # -- bpn discovery configuration
-      bpnKey: "manufacturerPartId"
-      bpnSearchUrl: ""
-      # -- edc discovery configuration
-      edcKey: "bpn"
     process:
       # -- unique sha512 hash key used for the passport encryption
       authorizationKey: ""
@@ -178,8 +149,30 @@ backend:
       aspects:
         - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
         - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-    # -- configuration of the spring boot server
-    serverPort: 8888
+  digitalTwinRegistry:
+    # -- central digital twin registry url
+    url: ""
+    # -- decentral digital twin apis
+    endpoints:
+      search: "/lookup/shells"
+      digitalTwin: "/shell-descriptors"
+      subModel: "/submodel-descriptors"
+    # -- timeouts for the digital twin registry async negotiation
+    timeouts:
+      search: 10
+      negotiation: 40
+      transfer: 10
+      digitalTwin: 20
+    # -- temporary storage of dDTRs for optimization
+    temporaryStorage:
+      enabled: true
+    # -- discovery configuration
+    discoveryFinderUrl: ""
+    # -- bpn discovery configuration
+    bpnKey: "manufacturerPartId"
+    bpnSearchUrl: ""
+    # -- edc discovery configuration
+    edcKey: "bpn"
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits

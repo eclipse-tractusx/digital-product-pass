@@ -78,124 +78,60 @@ backend:
         hosts:
           - materialpass.beta.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/beta/backend#clientId>
-      clientSecret: <path:material-pass/data/beta/backend#clientSecret>
-      xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
-      participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
+  edc:
+    clientId: <path:material-pass/data/beta/backend#clientId>
+    clientSecret: <path:material-pass/data/beta/backend#clientSecret>
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+    participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
+    endpoint: "https://materialpass.beta.demo.catena-x.net/consumer"
+    management: "/management/v2"
+    catalog: "/catalog/request"
+    negotiation: "/contractnegotiations"
+    transfer: "/transferprocesses"
+    delay: 100
 
-  application:
-    yml: |-
-      spring:
-        name: 'Catena-X Product Passport Consumer Backend'
-        main:
-          allow-bean-definition-overriding: true
-        devtools:
-          add-properties: false
-        jackson:
-          serialization:
-            indent_output: true
-      
-      logging:
-        level:
-          root: INFO
-          utils: INFO
-      
-      configuration:
-        maxRetries: 5
-      
-        keycloak:
-          realm: CX-Central
-          resource: Cl13-CX-Battery
-          tokenUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-          userInfoUri: 'https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo'
-      
-        edc:
-          endpoint: 'https://materialpass.beta.demo.catena-x.net/consumer'
-          management: '/management/v2'
-          catalog: '/catalog/request'
-          negotiation: '/contractnegotiations'
-          transfer: '/transferprocesses'
-          receiverEndpoint: 'https://materialpass.beta.demo.catena-x.net/endpoint'
-          delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-      
-        security:
-          check:
-            enabled: true
-            bpn: true
-            edc: true
-        
-        irs:
-          enabled: true
-          endpoint: "https://materialpass-irs.beta.demo.catena-x.net"
-          paths:
-            job: "/irs/jobs"
-          tree:
-            fileName: "treeDataModel"
-            indent: true
-          callbackUrl: "https://materialpass.beta.demo.catena-x.net/api/irs"
-      
-        dtr:
-          central: false
-          centralUrl: 'https://semantics.beta.demo.catena-x.net/registry'
-          assetType: 'data.core.digitalTwinRegistry'
-          endpointInterface: 'SUBMODEL-3.0'
-          dspEndpointKey: 'dspEndpoint'
-          decentralApis:
-            search: "/lookup/shells/query"
-            digitalTwin: "/shell-descriptors"
-            subModel: "/submodel-descriptors"
-          timeouts:
-            search: 10
-            negotiation: 40
-            transfer: 10
-            digitalTwin: 20
-          temporaryStorage: true
-      
-        discovery:
-          endpoint: "https://semantics.beta.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
-          bpn:
-            key: "manufacturerPartId"
-            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
-          edc:
-            key: "bpn"
-      
-      
-        process:
-          store: true
-          dir: 'process'
-          indent: true
-          signKey: '<path:material-pass/data/beta/backend/#signKey>'
-      
-        passport:
-          dataTransfer:
-            encrypt: true
-            indent: true
-            dir: "data/transfer"
-          aspects: 
-            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-      
-        vault:
-          type: 'local'
-          file: 'vault.token.yml'
-          pathSep: "."
-          prettyPrint: true
-          indent: 2
-          defaultValue: '<Add secret value here>'
-          attributes:
-            - "client.id"
-            - "client.secret"
-            - "edc.apiKey"
-            - "edc.participantId"
-      
-      server:
-        error:
-          include-message: ALWAYS
-          include-binding-errors: ALWAYS
-          include-stacktrace: ON_PARAM
-          include-exception: false
-        port: 8888
-        tomcat:
-          max-connections: 10000
+  url: "materialpass.beta.demo.catena-x.net"
+  serverPort: 8888
+  logging:
+    level:
+      root: INFO
+      utils: INFO
+  configuration:
+    maxRetries: 10
+    keycloak:
+      realm: CX-Central
+      resource: Cl13-CX-Battery
+      tokenUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+      userInfoUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo"
+    securityCheck:
+      enabled: true
+      bpn: true
+      edc: true
+    irs:
+      endpoint: "materialpass-irs.beta.demo.catena-x.net"
+    process:
+      authorizationKey: "<path:material-pass/data/beta/backend/#signKey>"
+    passport:
+      aspects:
+        - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+        - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+  digitalTwinRegistry:
+    url: "https://semantics.beta.demo.catena-x.net/registry"
+    endpoints:
+      search: "/lookup/shells"
+      digitalTwin: "/shell-descriptors"
+      subModel: "/submodel-descriptors"
+    timeouts:
+      search: 10
+      negotiation: 40
+      transfer: 10
+      digitalTwin: 20
+    temporaryStorage:
+      enabled: true
+    discoveryFinderUrl: "https://semantics.beta.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
+    bpnKey: "manufacturerPartId"
+    bpnSearchUrl: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+    edcKey: "bpn"
+
+
+  

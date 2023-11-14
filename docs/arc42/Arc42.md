@@ -267,8 +267,6 @@ Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/in
 #### Async Data Retrieval with IRS
 ![IRS Search Flow](./media/IRSDataSearch.jpg)
 
-
-
 ### Business Context
 
 **Contents.**  
@@ -334,9 +332,9 @@ At the moment, the Product Passport Application is hosted in three different env
 
 #### Documentation links
 
-* [ARC42 Documentation](./media/Arc42.md)
+* [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
-* [Administration Guide](../media/admin%20guide/Admin_Guide.md)
+* [Administration Guide](../admin%20guide/Admin_Guide.md)
 * [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
 
 

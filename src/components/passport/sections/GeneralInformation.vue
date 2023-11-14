@@ -31,7 +31,7 @@
             <v-col sm="12" md="3" class="pa-0 ma-0">
               <Field
                 icon="mdi-fingerprint"
-                label="additionalInformation"
+                label="Additional information"
                 :value="propsData.generalInformation.additionalInformation"
               />
             </v-col>
@@ -42,7 +42,7 @@
             <v-col sm="12" md="6" class="pa-0 ma-0">
               <Field
                 icon="mdi-ruler"
-                label="Dimensions of the battery"
+                label="Dimensions"
                 :height="
                   propsData.generalInformation.physicalDimensionsProperty.height
                 "

@@ -106,7 +106,7 @@
           <template v-if="propsData.oilCapacity">
             <Field
               :icon="callIconFinder('oilCapacity')"
-              label="oilCapacity"
+              label="Oil capacity"
               :value="propsData.oilCapacity"
             />
           </template>

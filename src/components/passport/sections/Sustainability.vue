@@ -56,101 +56,120 @@
               />
             </template>
           </v-col>
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <template
-              v-if="propsData.aspect.sustainability.substancesOfConcern"
-            >
-              <div
-                v-for="(attr, key) in propsData.aspect.sustainability
-                  .recyclateContent"
-                :key="key"
+          <template
+            v-if="
+              propsData.aspect.sustainability.substancesOfConcern ||
+              propsData.aspect.sustainability.criticalRawMaterials
+            "
+          >
+            <v-col sm="12" md="4" class="pa-0 ma-0">
+              <template
+                v-if="propsData.aspect.sustainability.substancesOfConcern"
               >
-                <Field
-                  icon="mdi-image-size-select-small"
-                  :label="key"
-                  :value="attr"
-                />
-              </div>
-            </template>
-            <template
-              v-if="propsData.aspect.sustainability.criticalRawMaterials"
-            >
-              <div
-                v-for="(attr, key) in propsData.aspect.sustainability
-                  .criticalRawMaterials"
-                :key="key"
+                <div
+                  v-for="(attr, key) in propsData.aspect.sustainability
+                    .recyclateContent"
+                  :key="key"
+                >
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    :label="key"
+                    :value="attr"
+                  />
+                </div>
+              </template>
+              <template
+                v-if="propsData.aspect.sustainability.criticalRawMaterials"
               >
-                <Field
-                  icon="mdi-image-size-select-small"
-                  label="Critical raw materials"
-                  :value="attr"
-                />
-              </div>
-            </template>
-          </v-col>
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <template
-              v-if="
-                propsData.aspect.sustainability.carbonFootprint
-                  .crossSectoralStandardsUsed
-              "
-            >
-              <div
-                v-for="(attr, key) in propsData.aspect.sustainability
-                  .carbonFootprint.crossSectoralStandardsUsed"
-                :key="key"
+                <div
+                  v-for="(attr, key) in propsData.aspect.sustainability
+                    .criticalRawMaterials"
+                  :key="key"
+                >
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    label="Critical raw materials"
+                    :value="attr"
+                  />
+                </div>
+              </template>
+            </v-col>
+          </template>
+
+          <template
+            v-if="
+              propsData.aspect.sustainability.carbonFootprint
+                .crossSectoralStandardsUsed ||
+              propsData.aspect.sustainability.carbonFootprint
+                .co2FootprintTotal ||
+              propsData.aspect.sustainability.carbonFootprint
+                .productOrSectorSpecificRules
+            "
+          >
+            <v-col sm="12" md="4" class="pa-0 ma-0">
+              <template
+                v-if="
+                  propsData.aspect.sustainability.carbonFootprint
+                    .crossSectoralStandardsUsed
+                "
               >
-                <Field
-                  icon="mdi-image-size-select-small"
-                  label="Cross sectoral standard"
-                  :value="attr.crossSectoralStandard"
-                />
-              </div>
-            </template>
-            <template
-              v-if="
-                propsData.aspect.sustainability.carbonFootprint
-                  .co2FootprintTotal
-              "
-            >
-              <Field
-                icon="mdi-image-size-select-small"
-                label="Co2 footprint total"
-                :value="
+                <div
+                  v-for="(attr, key) in propsData.aspect.sustainability
+                    .carbonFootprint.crossSectoralStandardsUsed"
+                  :key="key"
+                >
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    label="Cross sectoral standard"
+                    :value="attr.crossSectoralStandard"
+                  />
+                </div>
+              </template>
+              <template
+                v-if="
                   propsData.aspect.sustainability.carbonFootprint
                     .co2FootprintTotal
                 "
-              />
-            </template>
-            <template
-              v-if="
-                propsData.aspect.sustainability.carbonFootprint
-                  .productOrSectorSpecificRules
-              "
-            >
-              <div
-                v-for="(attr, key) in propsData.aspect.sustainability
-                  .carbonFootprint.productOrSectorSpecificRules"
-                :key="key"
               >
                 <Field
                   icon="mdi-image-size-select-small"
-                  label="Operator"
-                  :value="attr.operator"
+                  label="Co2 footprint total"
+                  :value="
+                    propsData.aspect.sustainability.carbonFootprint
+                      .co2FootprintTotal
+                  "
                 />
-                <Field
-                  icon="mdi-image-size-select-small"
-                  label="Rule names"
-                  :value="attr.ruleNames"
-                />
-                <Field
-                  icon="mdi-image-size-select-small"
-                  label="Other operator name"
-                  :value="attr.otherOperatorName"
-                />
-              </div>
-            </template>
-          </v-col>
+              </template>
+              <template
+                v-if="
+                  propsData.aspect.sustainability.carbonFootprint
+                    .productOrSectorSpecificRules
+                "
+              >
+                <div
+                  v-for="(attr, key) in propsData.aspect.sustainability
+                    .carbonFootprint.productOrSectorSpecificRules"
+                  :key="key"
+                >
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    label="Operator"
+                    :value="attr.operator"
+                  />
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    label="Rule names"
+                    :value="attr.ruleNames"
+                  />
+                  <Field
+                    icon="mdi-image-size-select-small"
+                    label="Other operator name"
+                    :value="attr.otherOperatorName"
+                  />
+                </div>
+              </template>
+            </v-col>
+          </template>
         </v-row>
       </template>
       <template v-else>

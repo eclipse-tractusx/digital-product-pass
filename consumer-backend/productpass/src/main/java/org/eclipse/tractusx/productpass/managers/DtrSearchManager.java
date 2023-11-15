@@ -426,7 +426,7 @@ public class DtrSearchManager {
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    String builtDataEndpoint =CatenaXUtil.buildDataEndpoint(connectionUrl);
+                    String builtDataEndpoint = CatenaXUtil.buildDataEndpoint(connectionUrl);
                     IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
@@ -434,6 +434,10 @@ public class DtrSearchManager {
                     Negotiation negotiation = dataTransferService.seeNegotiation(negotiationResponse.getId());
                     if (negotiation == null) {
                         LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                        return;
+                    }
+                    if(negotiation.getContractAgreementId() == null || negotiation.getContractAgreementId().isEmpty()){
+                        LogUtil.printError("It was not possible to get an Contract Agreemment Id for the URL: " + connectionUrl);
                         return;
                     }
                     Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));

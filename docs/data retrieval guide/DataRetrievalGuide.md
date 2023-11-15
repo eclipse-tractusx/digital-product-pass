@@ -16,9 +16,17 @@ Created: *25 August 2023*
     - [Available Central Services](#available-central-services)
   - [Problems Generated](#problems-generated)
   - [Data Retrieval Flow](#data-retrieval-flow)
-  - [Digital Twin Registry Search](#digital-twin-registry-search)
+    - [1. Discovery Phase](#1-discovery-phase)
+    - [2. Digital Twin Registry Search Phase](#2-digital-twin-registry-search-phase)
+    - [3. Digital Twin Search Phase](#3-digital-twin-search-phase)
+    - [4. Data Negotiation and Transfer Phase](#4-data-negotiation-and-transfer-phase)
+  - [1. Discovery Phase + 2. Digital Twin Registry Search Phase](#1-discovery-phase--2-digital-twin-registry-search-phase)
+    - [Sequence Diagram](#sequence-diagram)
+    - [Flow Diagram](#flow-diagram)
   - [Attachments](#attachments)
     - [AAS 3.0 Digital Twin Example](#aas-30-digital-twin-example)
+  - [Authors](#authors)
+  - [NOTICE](#notice)
 
 ## Introduction
 The Catena-X Network Data Retrieval process can be really complex and challanging to understand. The `Digital Product Pass` application as consumer application is designed to retrieve information from the Catena-X Network in its native way. We as team proposed a solution for retrieving information in this decentralized network in a very efficient way. This solution is implemeneted in the [`Digital Product Pass Backend`](../../consumer-backend/productpass/readme.md) and can retrieve information in aproximated `8-20s` using the algorithm and prodedures documented in the [Arc42](../arc42/Arc42.md) documentation.
@@ -72,29 +80,40 @@ Here is a diagram of the data retrival flow necessary to retrieve any data from 
 ![Data Retrieval Flow](./media/dataRetrievalFlow.jpg)
 
 
+### 1. Discovery Phase
+
 At the beginning we start calling the `Discovery Service` which is responsible for giving us the urls from the `BPN Discovery` and the `EDC Discovery` this two service give us first a `BPN or Business Partner Number` for a especific `id` and the `EDC Discovery` will give you a list of EDC registered by one company's `BPN`.
+
+### 2. Digital Twin Registry Search Phase
 
 Once we have a list of `EDCs` we need to find which of this EDCs contain the `Digital Twin Registry` component. We can filter which `EDCs` contain the `Digital Twin Registry` by simply calling for the catalog with the `type` condition of the contract that must have the `data.core.digitalTwinRegistry` standardized type. 
 
 Once we have the list of DTRs we need to negotiate each contract retrieve in the catalog so that we can have the `Contract Agreement Id` which is given by the EDC once the contact is signed and agreed. This id will be used later to request the transfer for the `EDR` token for acessing the `Digital Twin Registry` through the `EDC Provider Data Plane Proxy`. 
 
+### 3. Digital Twin Search Phase
+
 We need to search for the `Digital Twins` inside of the `Digital Twin Registries`, and once we found it we can start the negotiation for the `submodelDescriptor` we are searching for that can be for example a: `Digital Product Pass`, `Battery Pass`, `Single Level BOM as Built` or a `Transmission Pass`.
+
+### 4. Data Negotiation and Transfer Phase
 
 Once we have the submodel we are going to call the [`subprotocolBody`](#L233) url of the `endpoint interface` with name `SUBMODEL-3.0`. This will provide for us the asset id to negotiate with the EDC Provider. Once this asset is negotiated we will request for the `transfer` and `EDR` token will be sent to the backend by the EDC Provider, allowing us to query the dataplane url contained in the `href` field of the endpoint interface. And in this way we will retrive the data using the `EDC Provider Data Plane Proxy`.
 
 
-## Digital Twin Registry Search
+## 1. Discovery Phase + 2. Digital Twin Registry Search Phase
 
-The search for digital twin registries is the first step to be done when retrieving data in Catena-X.
-
+After the discovery phase, the search for digital twin registries is one of the core components to be done when retrieving data in Catena-X.
 Once the negotiation for the digital twin registries assets are done we would be able to retrieve a catalog for the user to search the serialized Id.
 
+### Sequence Diagram 
+![Digital Twin Registries Search](./media/dtrSearchSequence.jpg)
 
-If we want to implement a digital twin registry search API we need to search for:
+As we can visualize in the following example we will request the following services and retrive the contract agreement from the Digital Twin Registries in parallel.
 
-ID Name	Example	Description
-Discovery Id Type	manufacturerPartId	This id type will be used for the Discovery Service to check which is the BPN Discovery service entpoint, then we call the BPN Discovery to find the BPN for a specific id
-Discovery Id	XYZ78901	This id will be used for the BPN Discovery in order to find the BPN numbers for the id.
+### Flow Diagram
+The flow diagram below allows us to see in more detail the steps required for retrieving the contract agreement id for each of the digital twin registries assets.
+
+![Flow Digital Twin Registry Search](./media/dtrSearchFlow.jpg)
+
 
 ## Attachments
 
@@ -121,7 +140,7 @@ Discovery Id	XYZ78901	This id will be used for the BPN Discovery in order to fin
               "keys": [
                   {
                       "type": "GlobalReference",
-                      "value": "BPNL00000000CBA5"
+                      "value": "BPNL000000000000"
                   },
                   {
                       "type": "GlobalReference",
@@ -138,7 +157,7 @@ Discovery Id	XYZ78901	This id will be used for the BPN Discovery in order to fin
               "keys": [
                   {
                       "type": "GlobalReference",
-                      "value": "BPNL00000000CBA5"
+                      "value": "BPNL000000000000"
                   }
               ]
           }
@@ -265,3 +284,23 @@ Discovery Id	XYZ78901	This id will be used for the BPN Discovery in order to fin
 }
 
 ```
+
+## Authors
+Here are the main authors and reviewers of this documentation:
+
+| Name | GitHub |
+| ---- | ------ |
+| Mathias Brunkow Moser | [@matbmoser](https://github.com/matbmoser) |
+| Muhammed Saud Khan | [@saudkhan116](https://github.com/saudkhan116) |
+
+> NOTE: Find all the repo authors in the [authors.md](../../AUTHORS.md) file!
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+- SPDX-License-Identifier: Apache-2.0
+- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass
+

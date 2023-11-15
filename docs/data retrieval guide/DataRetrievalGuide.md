@@ -21,8 +21,11 @@ Created: *25 August 2023*
     - [3. Digital Twin Search Phase](#3-digital-twin-search-phase)
     - [4. Data Negotiation and Transfer Phase](#4-data-negotiation-and-transfer-phase)
   - [1. Discovery Phase + 2. Digital Twin Registry Search Phase](#1-discovery-phase--2-digital-twin-registry-search-phase)
+    - [Prerequisites](#prerequisites)
     - [Sequence Diagram](#sequence-diagram)
     - [Flow Diagram](#flow-diagram)
+  - [3. Digital Twin Search Phase + 4. Data Negotiation and Transfer Phase](#3-digital-twin-search-phase--4-data-negotiation-and-transfer-phase)
+    - [Prerequisites](#prerequisites-1)
   - [Attachments](#attachments)
     - [AAS 3.0 Digital Twin Example](#aas-30-digital-twin-example)
   - [Authors](#authors)
@@ -104,6 +107,15 @@ Once we have the submodel we are going to call the [`subprotocolBody`](#L233) ur
 After the discovery phase, the search for digital twin registries is one of the core components to be done when retrieving data in Catena-X.
 Once the negotiation for the digital twin registries assets are done we would be able to retrieve a catalog for the user to search the serialized Id.
 
+### Prerequisites
+
+The following informations are required to enable the decentralized search for digital twin registries:
+
+| Name | Example | Description |
+| ---- | ------- | ----------- |
+| Search Id Type | *manufacturerPartId* | The search id type is required first of all to know in which `BPN Discovery` services to search. It will be introduced in the `Discovery Service` and we will obtain a list of `BPN Discovery Endpoints`. After this same id will be introduce as the *`type`* attribute in each `BPN Discovery`. |
+| Search Id Value | *HV-SPORT-123* | The search id value is required for searchin in the `BPN Discovery` services. One example could be the `product type id` of a company, which is owned by an unique `BPN` reducing the complexity of the search.
+
 ### Sequence Diagram 
 ![Digital Twin Registries Search](./media/dtrSearchSequence.jpg)
 
@@ -113,6 +125,20 @@ As we can visualize in the following example we will request the following servi
 The flow diagram below allows us to see in more detail the steps required for retrieving the contract agreement id for each of the digital twin registries assets.
 
 ![Flow Digital Twin Registry Search](./media/dtrSearchFlow.jpg)
+
+
+## 3. Digital Twin Search Phase + 4. Data Negotiation and Transfer Phase
+
+The digital twin searching phase involves searching in every digital twin registry the
+
+### Prerequisites
+
+The following information is required for enabling the digital twin search, in order to start the data transfer phase:
+
+| Name | Example | Description |
+| ---- | ------- | ----------- |
+| Specific Asset Id Type | *partInstanceId* | The specific asset id type is used to search in the `digital twin registry` for an especific digital twin. It is basically the `name` of  "specificAssetId" object located at the [`digital twin`](#aas-30-digital-twin-example) `specificAssetIds` property. The `*partInstanceId*` is used as an example most of the time, since the digital twin registry implemented a hotfix that allows companies say who can access to their `partInstanceId` fields. Now allowing the *"PUBLIC_READABLE"* property.   |
+| Specific Asset Id Type | *BAT-XYZ789* | The specific asset id value is added in the `digital twin lookup` when calling the `EDC Provider Proxy`. It basically points to the value of the *`Specific Asset Id Type`* property.
 
 
 ## Attachments

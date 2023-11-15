@@ -25,6 +25,7 @@ package utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * This class consists exclusively of methods to operate on the HTTP protocol.
@@ -216,7 +218,6 @@ public class HttpUtil {
         }
         return token;
     }
-
     /**
      * Builds the URL with the key/value pair within the given parameters map with or without enconding.
      * <p>
@@ -229,7 +230,7 @@ public class HttpUtil {
      *
      * @return  a {@code String} with the build URL.
      *
-     */
+     
     @SuppressWarnings("Unused")
     public  String buildUrl(String url, Map<String, ?> params, Boolean encode){
         StringBuilder finalUrl = new StringBuilder(url);
@@ -246,7 +247,7 @@ public class HttpUtil {
         }
         return finalUrl.toString();
     }
-
+    */
     /**
      * Parses the Map of parameters to a String as URL parameters structure.
      * <p>
@@ -602,6 +603,25 @@ public class HttpUtil {
         }
         return builder.build(encoded).toUri();
     }
+    /**
+     * Builds the URL with the key/value pair within the given parameters map with or without enconding.
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     *
+     * @return  a {@code String} with the build URL.
+     */
+    public String buildUrl(String url, Map<String, ?> params, Boolean encoded){
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+        for(Map.Entry<String, ?> entry : params.entrySet()){
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
+        return builder.build(encoded).toUriString();
+    }
 
     /**************************************************
      * Generic Request Methods ************************
@@ -882,6 +902,43 @@ public class HttpUtil {
         try {
             HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
             return this.doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode);
+        } catch (Exception e) {
+            throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
+        }
+    }
+
+    /**
+     * Builds and make an HTTP POST request with headers, parameters, body and timeout
+     * <p>
+     * @param   url
+     *          the base URL.
+     * @param   responseType
+     *          the class type of the response (e.g: a String, an Object, etc.)
+     * @param   headers
+     *          the HTTP headers to configure.
+     * @param   params
+     *          the Map with key/value pair from each parameter.
+     * @param   body
+     *          the {@code Object} object representing the body for the request.
+     * @param   retry
+     *          if true it will retry to do the request a predefined couple of times.
+     * @param   encode
+     *          if true will encode the value of each parameter.
+     * @param   timeout
+     *          if true will encode the value of each parameter.
+     *
+     * @return  the {@code ResponseEntity} with the result of the POST request.
+     *
+     */
+    public  ResponseEntity<?> doPost(String url,  Class<?> responseType, HttpHeaders headers, Map<String, ?> params, Object body, Boolean retry, Boolean encode, Integer timeout) {
+        try {
+            ResponseEntity<?> response = null;
+            HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+            response =  ThreadUtil.timeout(timeout,() -> doRequest(url, responseType, HttpMethod.POST, requestEntity, params, retry, encode), null);
+            if(response == null){
+                LogUtil.printError("[TIMEOUT] Timeout reached! " +  POST_ERROR_MESSAGE + url);
+            }
+            return response;
         } catch (Exception e) {
             throw new UtilException(HttpUtil.class, e, POST_ERROR_MESSAGE + url);
         }

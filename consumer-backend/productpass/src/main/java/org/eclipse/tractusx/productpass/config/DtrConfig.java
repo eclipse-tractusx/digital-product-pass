@@ -39,9 +39,8 @@ import java.util.Map;
 public class DtrConfig {
 
     /** ATTRIBUTES **/
-    String internalDtr;
     Timeouts timeouts;
-    Boolean temporaryStorage;
+    TemporaryStorage temporaryStorage;
     DecentralApis decentralApis;
     String assetType;
     String endpointInterface;
@@ -52,8 +51,7 @@ public class DtrConfig {
     public DtrConfig() {
     }
 
-    public DtrConfig(String internalDtr, Timeouts timeouts, Boolean temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
-        this.internalDtr = internalDtr;
+    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
         this.timeouts = timeouts;
         this.temporaryStorage = temporaryStorage;
         this.decentralApis = decentralApis;
@@ -70,18 +68,6 @@ public class DtrConfig {
     }
     public void setDecentralApis(DecentralApis decentralApis) {
         this.decentralApis = decentralApis;
-    }
-    public String getInternalDtr() {
-        return internalDtr;
-    }
-    public void setInternalDtr(String internalDtr) {
-        this.internalDtr = internalDtr;
-    }
-    public Boolean getTemporaryStorage() {
-        return temporaryStorage;
-    }
-    public void setTemporaryStorage(Boolean temporaryStorage) {
-        this.temporaryStorage = temporaryStorage;
     }
     public Timeouts getTimeouts() {
         return timeouts;
@@ -116,11 +102,49 @@ public class DtrConfig {
         this.semanticIdTypeKey = semanticIdTypeKey;
     }
 
+    public TemporaryStorage getTemporaryStorage() {
+        return temporaryStorage;
+    }
+
+    public void setTemporaryStorage(TemporaryStorage temporaryStorage) {
+        this.temporaryStorage = temporaryStorage;
+    }
+
     /** INNER CLASSES **/
 
     /**
      * This class consists exclusively to define the attributes and methods needed for the DTR's timeouts configuration.
      **/
+
+    public static class TemporaryStorage{
+
+        /** ATTRIBUTES **/
+        Boolean enabled;
+
+        Integer lifetime;
+
+        public TemporaryStorage(Boolean enabled, Integer lifetime) {
+            this.enabled = enabled;
+            this.lifetime = lifetime;
+        }
+
+        /** GETTERS AND SETTERS **/
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public Integer getLifetime() {
+            return lifetime;
+        }
+
+        public void setLifetime(Integer lifetime) {
+            this.lifetime = lifetime;
+        }
+    }
     public static class Timeouts{
 
         /** ATTRIBUTES **/

@@ -72,6 +72,8 @@ public class DiscoveryConfig {
         String key;
         String searchPath;
 
+        Integer timeout;
+
         /** GETTERS AND SETTERS **/
         public String getKey() {
             return key;
@@ -86,6 +88,14 @@ public class DiscoveryConfig {
         public void setSearchPath(String searchPath) {
             this.searchPath = searchPath;
         }
+
+        public Integer getTimeout() {
+            return timeout;
+        }
+
+        public void setTimeout(Integer timeout) {
+            this.timeout = timeout;
+        }
     }
 
     /**
@@ -96,12 +106,20 @@ public class DiscoveryConfig {
         /** ATTRIBUTES **/
         String key;
 
+        Integer timeout;
         /** GETTERS AND SETTERS **/
         public String getKey() {
             return key;
         }
         public void setKey(String key) {
             this.key = key;
+        }
+        public Integer getTimeout() {
+            return timeout;
+        }
+
+        public void setTimeout(Integer timeout) {
+            this.timeout = timeout;
         }
     }
 

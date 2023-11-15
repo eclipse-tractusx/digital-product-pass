@@ -23,12 +23,11 @@
 
 package utils;
 
+import utils.exceptions.UtilException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * This class consists exclusively of methods to operate on a Thread level.
@@ -121,5 +120,35 @@ public final class ThreadUtil {
             Thread.currentThread().interrupt();
         }
     }
-
+    /**
+     * Sets a timeout for a function added in a callable
+     * <p>
+     * @param   milliseconds
+     *          the {@code Integer} length of time of the timeout in milliseconds.
+     * @param   function
+     *          the {@code Callable<V>} function to be executed and then give the timeout if not returned before
+     * @param   timeoutResponse
+     *          the {@code <V>} timeout response to be returned when the function execution time reached the timeout
+     */
+    public static <V> V timeout(Integer milliseconds, Callable<V> function, V timeoutResponse)
+    {
+        try {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<V> future = executor.submit(function);
+            boolean timeout = false;
+            V returnObject = null;
+            try {
+                returnObject = future.get(milliseconds, TimeUnit.MILLISECONDS);
+            } catch (TimeoutException e) {
+                timeout = true;
+            }
+            executor.shutdownNow();
+            if(timeout){
+                return timeoutResponse;
+            }
+            return returnObject;
+        } catch (Exception e) {
+            throw new UtilException(ThreadUtil.class, e, "Failed to execute the timeout functions!");
+        }
+    }
 }

@@ -23,7 +23,7 @@
 <h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
 
-<h2><strong>Version</strong>: <span style="color: cyan">1.0.0</span><h2>
+<h2><strong>Version</strong>: <span style="color: cyan">v1.3.1</span><h2>
 
 <br>
 
@@ -36,26 +36,22 @@
   - [API Services](#api-services)
     - [Data](#data)
     - [Passport API](#passport-api)
+          - [Request body](#request-body)
       - [Versions Available](#versions-available)
     - [Contract API](#contract-api)
+          - [Request body](#request-body-1)
+          - [Request body](#request-body-2)
+          - [Request body](#request-body-3)
+          - [Request body](#request-body-4)
+          - [Request body](#request-body-5)
   - [Public APIs](#public-apis)
+          - [Response](#response)
   - [OSS License Check](#oss-license-check)
   - [Swagger Docs](#swagger-docs)
 - [Run the application](#run-the-application)
   - [Modify the configurations in the deployment files](#modify-the-configurations-in-the-deployment-files)
 - [TL;DR](#tldr)
-  - [Pre-requisites](#pre-requisites)
   - [Install](#install)
-  - [Expose the ports](#expose-the-ports)
-    - [Get pod name](#get-pod-name)
-    - [Port forward](#port-forward)
-    - [Check if the application is running](#check-if-the-application-is-running)
-- [Frequently asked questions](#frequently-asked-questions)
-  - [How to install the application and run it locally?](#how-to-install-the-application-and-run-it-locally)
-    - [Install](#install-1)
-    - [Run the JAR file](#run-the-jar-file)
-    - [Configure the secrets](#configure-the-secrets)
-  - [How to start the application locally using Spring Boot?](#how-to-start-the-application-locally-using-spring-boot)
 - [License](#license)
 <!-- TOC -->
 

@@ -81,6 +81,12 @@ spec:
             - name: "API_MAX_RETRIES"
               value: "{{ .Values.frontend.productpass.api.max_retries }}"
 
+            - name: "IRS_DELAY"
+              value: "{{ .Values.frontend.productpass.irs.requestDelay }}"
+
+            - name: "IRS_MAX_WAITING_TIME"
+              value: "{{ .Values.frontend.productpass.irs.maxWaitingTime }}"
+
             - name: "API_DELAY"
               value: "{{ .Values.frontend.productpass.api.delay }}"
 

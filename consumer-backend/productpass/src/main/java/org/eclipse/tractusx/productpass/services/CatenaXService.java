@@ -26,10 +26,12 @@
 package org.eclipse.tractusx.productpass.services;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.exceptions.ControllerException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
@@ -503,6 +505,7 @@ public class CatenaXService extends BaseService {
             if (edcEndpoints == null) {
                 throw new ServiceException(this.getClass().getName() + ".getEdcDiscovery", "The edc discovery endpoint is empty!");
             }
+            Integer timeout = discoveryConfig.getEdc().getTimeout();
             List<EdcDiscoveryEndpoint> edcDiscoveryResponses = new ArrayList<>();
             for(String edcEndpoint : edcEndpoints) {
 
@@ -510,7 +513,7 @@ public class CatenaXService extends BaseService {
                 HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
                 headers.add("Content-Type", "application/json");
                 try{
-                    ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false);
+                    ResponseEntity<?> response = httpUtil.doPost(edcEndpoint, JsonNode.class, headers, httpUtil.getParams(), bpns, false, false, timeout);
                     JsonNode result = (JsonNode) response.getBody();
                     List<EdcDiscoveryEndpoint> edcDiscoveryResponse = (List<EdcDiscoveryEndpoint>) jsonUtil.bindJsonNode(result, List.class);
                     if(edcDiscoveryResponse.isEmpty()) {
@@ -565,6 +568,7 @@ public class CatenaXService extends BaseService {
             if(bpnEndpoints == null){
                 throw new ServiceException(this.getClass().getName() + ".getBpnDiscovery", "The bpn discovery endpoint is empty!");
             }
+            Integer timeout = discoveryConfig.getBpn().getTimeout(); // Get timeout in configuration for the bpn discovery endpoints
             List<BpnDiscovery> bpnDiscoveryResponse = new ArrayList<>();
             for(String bpnEndpoint : bpnEndpoints) {
 
@@ -583,7 +587,7 @@ public class CatenaXService extends BaseService {
                 HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
                 headers.add("Content-Type", "application/json");
                 try{
-                    ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
+                    ResponseEntity<?> response = httpUtil.doPost(searchEndpoint, JsonNode.class, headers, httpUtil.getParams(), body, false, false, timeout);
                     JsonNode result = (JsonNode) response.getBody();
                     BpnDiscovery bpnDiscovery = (BpnDiscovery) jsonUtil.bindJsonNode(result, BpnDiscovery.class);
                     if(bpnDiscovery == null){
@@ -593,6 +597,7 @@ public class CatenaXService extends BaseService {
                     bpnDiscoveryResponse.add(bpnDiscovery);
                 }catch (Exception e){
                     LogUtil.printException(e, "BPN Number not found for ["+searchEndpoint+"] and keyType ["+type+"]!");
+                    break;
                 }
             }
             if(bpnDiscoveryResponse.isEmpty()){
@@ -608,8 +613,8 @@ public class CatenaXService extends BaseService {
     /**
      * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
      * <p>
-     * @param   edcEndpoints
-     *          the {@code List<String>} of EDC endpoints to search.
+     * @param   bpnList
+     *          the {@code List<String>} list of bpns to search
      * @param   processId
      *          the {@code String} id of the application's process.
      *
@@ -618,9 +623,17 @@ public class CatenaXService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the BPN discovery endpoint.
      */
-    public void searchDTRs (List<EdcDiscoveryEndpoint> edcEndpoints, String processId) {
+    public void searchDTRs (List<String> bpnList, String processId) {
         try {
-            Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpoints, processId), "ProcessDtrDataModel");
+            List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
+            List<EdcDiscoveryEndpoint> edcEndpoints = this.getEdcDiscovery(bpnList);
+            try {
+                edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName(), e, "Could not bind the reference type!");
+            }
+
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.startProcess(edcEndpointBinded, processId), "ProcessDtrDataModel");
             thread.join();
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "searchDtrs",
@@ -628,5 +641,25 @@ public class CatenaXService extends BaseService {
                     "It was not possible to search the DTRs.");
         }
     }
-
+    /**
+     * Searches for all DTRs for a given edcEndpoints and updates the DTR data model of the given process accordingly.
+     * <p>
+     * @param   dtrList
+     *          the {@code List<String>} list of bpns to search
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @throws  ServiceException
+     *           if unable to get the BPN discovery endpoint.
+     */
+    public void updateKnownDtrs (List<Dtr> dtrList, String processId) {
+        try {
+            Thread thread = ThreadUtil.runThread(dtrSearchManager.updateProcess(dtrList, processId), "ProcessDtrDataModel-Update");
+            thread.join();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "updateKnownDTRs",
+                    e,
+                    "It was not possible to update the DTRs.");
+        }
+    }
 }

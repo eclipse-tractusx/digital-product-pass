@@ -155,6 +155,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String processId = processManager.initProcess();
+            LogUtil.printMessage("Creating process [" + processId + "] for "+searchBody.getType() + ": "+ searchBody.getId());
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
             if(dtrConfig.getTemporaryStorage().getEnabled()) {
                 try {
@@ -270,7 +271,7 @@ public class ContractController {
                 response = httpUtil.getBadRequest("No processId was found on the request body!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
+            
             String processId = searchBody.getProcessId();
             if(processId.isEmpty()){
                 response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
@@ -286,9 +287,12 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             Boolean childrenCondition = searchBody.getChildren();
+            String logPrint = "[" + processId + "] Creating search for "+searchBody.getIdType() + ": "+ searchBody.getId();
             if(childrenCondition != null){
+                LogUtil.printMessage(logPrint + " with drilldown enabled");
                 process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
             }else {
+                LogUtil.printMessage(logPrint + " with drilldown disabled");
                 process = processManager.createProcess(processId, httpRequest);
             }
             Status status = processManager.getStatus(processId);

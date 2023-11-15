@@ -47,11 +47,11 @@ Therefore some central services were created, allowing the authorized Catena-X A
 ### Available Central Services
 
 
-| Service Name | Description | 
-|------------- | ----------- |
-| Discovery Service | Responsible to give the search endpoints for a type of id |
-| BPN Discovery	| Responsible for indicating the BPNs for the IDs registered by |the providers
-| EDC Discovery	| Responsible for giving the EDC endpoints of one or more BPNs | 
+| Service Name | Description | Reference Implementation |
+|------------- | ----------- | ------------------------ |
+| Discovery Service | Responsible to give the search endpoints for a type of id | [eclipse-tractusx/sldt-discovery-finder](https://github.com/eclipse-tractusx/sldt-discovery-finder) |
+| BPN Discovery	| Responsible for indicating the BPNs for the IDs registered by the providers | [eclipse-tractusx/sldt-bpn-discovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery) |
+| EDC Discovery	| Responsible for giving the EDC endpoints of one or more BPNs | [eclipse-tractusx/portal-backend](https://github.com/eclipse-tractusx/portal-backend) - [Code Implementation](https://github.com/eclipse-tractusx/portal-backend/blob/aca855c857aed309cbca03f4f694283629197110/src/administration/Administration.Service/Controllers/ConnectorsController.cs#L178C1-L190C63) |
 
 
 The main idea was that they will be called in a sequential way when needed to find the EDC endpoints.

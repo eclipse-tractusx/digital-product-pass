@@ -69,7 +69,7 @@ public class DtrSearchManager {
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds;
-    private final long negotiationTimeoutSeconds;
+    private final long dtrRequestProcessTimeout;
     private final String fileName = "dtrDataModel.json";
     private String dtrDataModelFilePath;
     private State state;
@@ -93,8 +93,7 @@ public class DtrSearchManager {
         this.dtrDataModelFilePath = this.createDataModelFile();
         this.dtrDataModel = this.loadDtrDataModel();
         this.searchTimeoutSeconds = this.dtrConfig.getTimeouts().getSearch();
-        this.negotiationTimeoutSeconds = this.dtrConfig.getTimeouts().getNegotiation();
-
+        this.dtrRequestProcessTimeout = this.dtrConfig.getTimeouts().getDtrRequestProcess();
     }
 
     /** GETTERS AND SETTERS **/
@@ -230,7 +229,7 @@ public class DtrSearchManager {
             if (dataset != null) {
                 Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
                 try {
-                    if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                    if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                         singleOfferThread.interrupt();
                         LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
                         return;
@@ -248,7 +247,7 @@ public class DtrSearchManager {
         contractOfferList.parallelStream().forEach(dataset -> {
             Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
             try {
-                if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                if (!multipleOffersThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                     multipleOffersThread.interrupt();
                     LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
                 }
@@ -431,7 +430,9 @@ public class DtrSearchManager {
                     if (negotiationResponse == null) {
                         return;
                     }
-                    Negotiation negotiation = dataTransferService.seeNegotiation(negotiationResponse.getId());
+                    Integer millis =  dtrConfig.getTimeouts().getNegotiation() * 1000; // Set max timeout from seconds to milliseconds
+                    // If negotiation takes way too much time give timeout
+                    Negotiation negotiation = ThreadUtil.timeout(millis, ()->dataTransferService.seeNegotiation(negotiationResponse.getId()), null);
                     if (negotiation == null) {
                         LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;

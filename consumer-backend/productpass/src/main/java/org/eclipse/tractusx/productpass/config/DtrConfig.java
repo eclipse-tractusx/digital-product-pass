@@ -152,6 +152,7 @@ public class DtrConfig {
         Integer negotiation;
         Integer transfer;
         Integer digitalTwin;
+        Integer dtrRequestProcess;
 
         /** GETTERS AND SETTERS **/
         public Integer getSearch() {
@@ -178,6 +179,14 @@ public class DtrConfig {
         @SuppressWarnings("Unused")
         public void setDigitalTwin(Integer digitalTwin) {
             this.digitalTwin = digitalTwin;
+        }
+
+        public Integer getDtrRequestProcess() {
+            return dtrRequestProcess;
+        }
+
+        public void setDtrRequestProcess(Integer dtrRequestProcess) {
+            this.dtrRequestProcess = dtrRequestProcess;
         }
     }
 

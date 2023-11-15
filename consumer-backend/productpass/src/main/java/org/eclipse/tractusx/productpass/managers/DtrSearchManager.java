@@ -204,7 +204,7 @@ public class DtrSearchManager {
     }
     public void searchEndpoint(String processId, String bpn, String endpoint){
         //Search Digital Twin Catalog for each connectionURL with a timeout time
-        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "ProcessDtrDataModel");
+        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "SearchEndpoint"+processId+"-"+bpn+"-"+endpoint);
         try {
             if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
                 asyncThread.interrupt();
@@ -227,11 +227,11 @@ public class DtrSearchManager {
         if (contractOffers instanceof LinkedHashMap) {
             Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
             if (dataset != null) {
-                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                         singleOfferThread.interrupt();
-                        LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                        LogUtil.printWarning("Failed to retrieve do contract negotiations due a timeout for the URL: " + endpoint);
                         return;
                     }
                 } catch (InterruptedException e) {
@@ -245,11 +245,11 @@ public class DtrSearchManager {
             return;
         }
         contractOfferList.parallelStream().forEach(dataset -> {
-            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
             try {
                 if (!multipleOffersThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                     multipleOffersThread.interrupt();
-                    LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                    LogUtil.printWarning("Failed to retrieve the contract negotiations due a timeout for the URL: " + endpoint);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

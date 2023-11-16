@@ -78,12 +78,11 @@ backend:
         hosts:
           - materialpass.dev.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/dev/backend#clientId>
-      clientSecret: <path:material-pass/data/dev/backend#clientSecret>
-      xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
-      participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
+  edc:
+    clientId: <path:material-pass/data/dev/backend#clientId>
+    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
+    xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
+    participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber
 
   application:
     yml: |-

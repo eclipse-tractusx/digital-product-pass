@@ -21,63 +21,61 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
+# ./upload-testdata.sh -s -e -a -k -b
+
 set -o errexit
 set -o errtrace
 set -o pipefail
 set -o nounset
 
+while getopts s:e:a:k:f:h flag
+do
+    case "${flag}" in
+      s) submodel_server=${OPTARG};;
+      e) edc=${OPTARG};;
+      a) registry=${OPTARG};;
+      k) api_key=${OPTARG};;
+      f) datapath=${OPTARG};;
+      h) echo "Usage: ./upload-testdata.sh <submodel_server> <edc-url> <aas-url> <api-key> <bpn>"
+          echo "-s,      Submodel server url"
+          echo "-e,      Provider edc controlplane url"
+          echo "-a,      AAS registry url"
+          echo "-k,      API Key"
+          echo "-f,      input JSON file containing AAS shells configuration and submodel data" 
+         exit 1
+    esac
+done
+
 # script parameters
-export SUBMODEL_SERVER=$1
-export PROVIDER_EDC=$2
-export REGISTRY_URL=$3
-export API_KEY=$4
-export BPN=$5
+export SUBMODEL_SERVER=${submodel_server}
+export PROVIDER_EDC=${edc}
+export REGISTRY_URL=${registry}
+export API_KEY=${api_key}
+
 export REGISTRY_ASSET_ID='registry-asset'
-export MANUFACTURER_PART_ID='XYZ78901'
 export SUBMODEL_ID=''
-export PASSPORT_TYPE="transmissionpass"
 
 source ./functions.sh
 
-# script global variables
-UUID=''
-GEARBOX_ID=''
-
-
-# declare an array variable
-declare -a gearboxes=("SNJ-4654-76")
-
-create_submodel_payload () {
-
-  generate_UUID
-  SUBMODEL_ID=${UUID}
-
-  curl -X POST -H 'Content-Type: application/json' -s --data "@testing/testdata/dpp/${GEARBOX_ID}_payload.json" $SUBMODEL_SERVER/data/${SUBMODEL_ID}
-  echo "[TransmissionPass] - Created submodel data with uuid: " ${SUBMODEL_ID}
-}
-
+POLICY=''
 # create edc assets, policies and contracts for the registry (DTR)
+echo "Creating default edc assets for the registry asset"
 create_registry_asset
 create_default_policy
 create_default_contractdefinition
+echo
 
+POLICY=$(jq '.policies' "${datapath}")
 
-## now loop through the above array
-for gearbox in "${gearboxes[@]}"
-do
-  GEARBOX_ID=$gearbox
-  echo
-  echo "++++++++++++++++++ Gearbox ID: " ${GEARBOX_ID} "++++++++++++++++++++++"
-  echo
-  create_submodel_payload
-  create_edc_asset
-  create_policy
-  create_contractdefinition
-  create_aas3_shell ${GEARBOX_ID} ${PASSPORT_TYPE}
-  echo
-done
+# create assets for passes
+echo "Creating edc assets for the passport"
+create_edc_asset
+create_edc_policy "${POLICY}"
+create_contractdefinition
+echo
 
-# You can access them using echo "${arr[0]}", "${arr[1]}" also
-  
-echo 'Transmission pass test data upload complete...'
+jq -c '.shells[]' "${datapath}" | while read indexx; do create_aas3_shell "${indexx}"; echo "------------------------------------------------------------------------------------" ;
+ done
+
+echo 'Test data upload complete...'
 echo 'Done'

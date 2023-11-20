@@ -1,0 +1,744 @@
+{
+  "policies": {
+    "@context": {
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@type": "PolicyDefinitionRequestDto",
+    "@id": "dpp-policy-id",
+    "policy": {
+      "@type": "Policy",
+      "odrl:permission": [
+        {
+          "odrl:action": "USE",
+          "odrl:constraint": {
+            "@type": "AtomicConstraint",
+            "odrl:or": [
+              {
+                "@type": "Constraint",
+                "odrl:leftOperand": "PURPOSE",
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "DPP"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "shells": [
+    {
+      "catenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "value": "IMR1231",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "XYW1231",
+          "allowedBpns": ["bpn1", "BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "123",
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+        }
+      ],
+      "type": "Battery",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Passport shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "batterypass",
+          "data": {
+            "electrochemicalProperties": {
+              "ratedCapacity": 94,
+              "batteryEnergy": {
+                "energyRoundtripEfficiencyChange": 48.2,
+                "maximumAllowedBatteryEnergy": 85000,
+                "energyRoundtripEfficiency": 25
+              },
+              "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.588,
+              "batteryVoltage": {
+                "nominalVoltage": 3.7,
+                "maxVoltage": 4.2,
+                "minVoltage": 2.5
+              },
+              "internalResistance": {
+                "cellinternalResistance": 0.36,
+                "packinternalResistanceIncrease": 1,
+                "packinternalResistance": 100
+              },
+              "capacityThresholdExhaustion": 23,
+              "batteryPower": {
+                "powerFade": 23,
+                "originalPowerCapability": -1.7976931348623157e308,
+                "originalPowerCapabilityLimits": -1.7976931348623157e308,
+                "maximumAllowedBatteryPower": -1.7976931348623157e308,
+                "powerCapabilityAt20Charge": -1.7976931348623157e308,
+                "powerCapabilityAt80Charge": -1.7976931348623157e308
+              },
+              "capacityFade": 1.55
+            },
+            "document": {
+              "responsibleSourcing": [
+                {
+                  "title": "2021 Responsible Sourcing document",
+                  "fileLocation": null
+                }
+              ],
+              "packagingInstructions": [
+                {
+                  "title": "Packing Instruction v.2.0",
+                  "fileLocation": null
+                }
+              ],
+              "transportationInstructions": [
+                {
+                  "title": "Transport manual",
+                  "fileLocation": null
+                }
+              ],
+              "vehicleDismantlingProcedure": [
+                {
+                  "title": "Car dismantling manual",
+                  "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+                }
+              ],
+              "testReportsResults": [
+                {
+                  "title": "Battery Test Reports",
+                  "fileLocation": "http://www.Batterytestreports.de"
+                }
+              ],
+              "batteryDismantlingProcedure": [
+                {
+                  "title": "Dismantling Manual",
+                  "fileLocation": "http://www.dissmantlingmanual.org"
+                }
+              ],
+              "safetyMeasures": [
+                {
+                  "title": "Safety Instruction",
+                  "fileLocation": "http://www.safetyinstructions.txt"
+                }
+              ],
+              "declarationOfConformity": [
+                {
+                  "title": "Declaration of Conformity No. 3",
+                  "fileLocation": null
+                }
+              ]
+            },
+            "datePlacedOnMarket": "27.04.2022",
+            "cellChemistry": {
+              "electrolyteComposition": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "dimethyl carbonate (DCM)"
+                }
+              ],
+              "anodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Carboxymethyl cellulose"
+                }
+              ],
+              "recyclateContentActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": 6,
+                  "materialWeight": null,
+                  "materialName": "Ni/2021/PlantE"
+                },
+                {
+                  "materialPercentageMassFraction": 4,
+                  "materialWeight": null,
+                  "materialName": "Li/2021/PlantE"
+                },
+                {
+                  "materialPercentageMassFraction": 0,
+                  "materialWeight": null,
+                  "materialName": "Pb(battery model does not contain Pb)"
+                },
+                {
+                  "materialPercentageMassFraction": 0,
+                  "materialWeight": null,
+                  "materialName": "Co(battery model does not contain Pb)"
+                }
+              ],
+              "anodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Graphite"
+                }
+              ],
+              "cathodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "LiMn2O4 Lithium Manganese Oxide"
+                }
+              ],
+              "cathodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "binder:PVDF"
+                }
+              ]
+            },
+            "physicalDimensions": {
+              "length": 2000,
+              "width": 1000,
+              "weight": 3500,
+              "diameter": null,
+              "height": 200
+            },
+            "temperatureRangeIdleState": {
+              "temperatureRangeIdleStateUpperLimit": 50,
+              "temperatureRangeIdleStateLowerLimit": -20
+            },
+            "batteryCycleLife": {
+              "cycleLifeTestCRate": 2,
+              "cycleLifeTestDepthOfDischarge": 1.8,
+              "expectedLifetime": 2500
+            },
+            "manufacturer": {
+              "name": "CompanyE",
+              "contact": {
+                "faxNumber": "+49 89 0987654324",
+                "website": "https://www.CompanyE.com",
+                "phoneNumber": "+49 89 1234567893",
+                "email": "companyE@company.com"
+              },
+              "address": {
+                "locality": {
+                  "value": "CityE",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250E",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetE",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": null,
+                  "technicalKey": "BUILDING"
+                },
+                "postalDeliveryPoint": {
+                  "value": null,
+                  "technicalKey": "intERURBAN_DELIVERY_POint"
+                }
+              }
+            },
+            "warrantyPeriod": "96",
+            "composition": {
+              "compositionOfBattery": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Separator: PE"
+                }
+              ],
+              "criticalRawMaterials": "Lithium, Natural graphite",
+              "components": {
+                "componentsPartNumber": "Voltage cables",
+                "componentsSupplier": [
+                  {
+                    "componentsSupplierName": "AB Corporation",
+                    "address": {
+                      "locality": {
+                        "value": "CityF",
+                        "technicalKey": "BLOCK"
+                      },
+                      "country": {
+                        "shortName": "Germany"
+                      },
+                      "postCode": {
+                        "value": "65-250F",
+                        "technicalKey": "CEDEX"
+                      },
+                      "thoroughfare": {
+                        "value": "StreetF",
+                        "number": "1",
+                        "technicalKey": "STREET"
+                      },
+                      "premise": {
+                        "value": "PlantF",
+                        "technicalKey": "BUILDING"
+                      },
+                      "postalDeliveryPoint": {
+                        "value": null,
+                        "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                      }
+                    },
+                    "contact": {
+                      "faxNumber": "+49 89 0987654324",
+                      "website": "https://www.companyF.com",
+                      "phoneNumber": "+49 89 1234567893",
+                      "email": "companyF@companyF.com"
+                    }
+                  }
+                ]
+              }
+            },
+            "manufacturing": {
+              "dateOfManufacturing": "2022-01-24",
+              "address": {
+                "locality": {
+                  "value": "CityE",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250E",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetE",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "PlantE",
+                  "technicalKey": "BUILDING"
+                },
+                "postalDeliveryPoint": {
+                  "value": "GateE",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                }
+              }
+            },
+            "batteryIdentification": {
+              "batteryType": "Lithium-Manganese-Oxide (LMO)",
+              "batteryIDDMCCode": "IMR18650V1",
+              "batteryModel": "Pi4 Orionis"
+            },
+            "stateOfBattery": {
+              "stateOfHealth": 20,
+              "statusBattery": "first life",
+              "stateOfCharge": 50
+            },
+            "cO2FootprintTotal": 210
+          },
+          "description": "Battery Passport Submodel",
+          "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:95f1ddf0-f795-dc9c-6440-13af29059907",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["bpn1", "bpn2", "BPNL00000003CRHL", "BPNL00000000CBA5"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "KLZ-90-8564-96",
+          "allowedBpns": ["bpn3", "bpn4", "BPNL00000003CRHL", "BPNL00000000CBA5"]
+        }
+      ],
+      "type": "SecondaryMaterialContent",
+      "description": [
+        {
+          "language": "en",
+          "text": "Secondary Material Content shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "smc",
+          "data": {
+            "orderNumber": "KLZ-90-8564-96",
+            "secondaryMaterialContent": [
+              {
+                "materialNameStandardized": {
+                  "referencedStandard": "AISI",
+                  "referencedStandardID": "1043",
+                  "materialNameStandardizedValue": "Lithium"
+                },
+                "materialClass": "5.1",
+                "unitOfMeasure": {
+                  "unitOfMeasureKey": "unit:kilogram",
+                  "unitOfMeasureValue": 7.2
+                },
+                "certificate": [
+                  {
+                    "certificateName": "Test-Zertifikat",
+                    "certificateLink": "telnet://192.0.2.16:80/"
+                  }
+                ],
+                "bioBased": {
+                  "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                  },
+                  "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                  },
+                  "bioBasedClass": "gen1"
+                },
+                "inorganic": {
+                  "secondaryInorganic": {
+                    "preConsumer": {
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 10
+                      }
+                    },
+                    "postConsumer": {
+                      "chemicalRecycling": {
+                        "percentageOfMaterialWeight": 0,
+                        "isMassBalanced": false
+                      },
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 4.7
+                      },
+                      "isPreviousIndustryAutomotive": true
+                    }
+                  },
+                  "primaryInorganic": {
+                    "percentageOfMaterialWeight": 85.3
+                  }
+                }
+              },
+              {
+                "materialNameStandardized": {
+                  "referencedStandard": "AISI",
+                  "referencedStandardID": "1043",
+                  "materialNameStandardizedValue": "Nickel"
+                },
+                "materialClass": "5.1",
+                "unitOfMeasure": {
+                  "unitOfMeasureKey": "unit:kilogram",
+                  "unitOfMeasureValue": 20.2
+                },
+                "additionalInformation": "Reutilization: 5.0",
+                "bioBased": {
+                  "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                  },
+                  "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                  },
+                  "bioBasedClass": "gen1"
+                },
+                "inorganic": {
+                  "secondaryInorganic": {
+                    "preConsumer": {
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 2
+                      }
+                    },
+                    "postConsumer": {
+                      "chemicalRecycling": {
+                        "percentageOfMaterialWeight": 3,
+                        "isMassBalanced": true
+                      },
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 0
+                      },
+                      "isPreviousIndustryAutomotive": false
+                    }
+                  },
+                  "primaryInorganic": {
+                    "percentageOfMaterialWeight": 90
+                  }
+                }
+              },
+              {
+                "materialNameStandardized": {
+                  "referencedStandard": "AISI",
+                  "referencedStandardID": "1043",
+                  "materialNameStandardizedValue": "Mangan"
+                },
+                "materialClass": "5.1",
+                "unitOfMeasure": {
+                  "unitOfMeasureKey": "unit:kilogram",
+                  "unitOfMeasureValue": 18.9
+                },
+                "bioBased": {
+                  "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                  },
+                  "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                  },
+                  "bioBasedClass": "gen1"
+                },
+                "inorganic": {
+                  "secondaryInorganic": {
+                    "preConsumer": {
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 7.8
+                      }
+                    },
+                    "postConsumer": {
+                      "chemicalRecycling": {
+                        "percentageOfMaterialWeight": 0,
+                        "isMassBalanced": false
+                      },
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 2.1
+                      },
+                      "isPreviousIndustryAutomotive": true
+                    }
+                  },
+                  "primaryInorganic": {
+                    "percentageOfMaterialWeight": 90.1
+                  }
+                }
+              },
+              {
+                "materialNameStandardized": {
+                  "referencedStandard": "AISI",
+                  "referencedStandardID": "1043",
+                  "materialNameStandardizedValue": "Kobalt"
+                },
+                "materialClass": "5.1",
+                "unitOfMeasure": {
+                  "unitOfMeasureKey": "unit:kilogram",
+                  "unitOfMeasureValue": 20.3
+                },
+                "additionalInformation": "Reutilization: 20.4",
+                "bioBased": {
+                  "secondaryBioBased": {
+                    "percentageOfMaterialWeight": 0,
+                    "isMassBalanced": false
+                  },
+                  "primaryBioBased": {
+                    "percentageOfMaterialWeight": 0
+                  },
+                  "bioBasedClass": "gen1"
+                },
+                "inorganic": {
+                  "secondaryInorganic": {
+                    "preConsumer": {
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 1.6
+                      }
+                    },
+                    "postConsumer": {
+                      "chemicalRecycling": {
+                        "percentageOfMaterialWeight": 3.7,
+                        "isMassBalanced": true
+                      },
+                      "mechanicalRecycling": {
+                        "percentageOfMaterialWeight": 4.3
+                      },
+                      "isPreviousIndustryAutomotive": false
+                    }
+                  },
+                  "primaryInorganic": {
+                    "percentageOfMaterialWeight": 70
+                  }
+                }
+              }
+            ]
+          },
+          "description": "SMC Submodel",
+          "semanticId": "urn:samm:io.catenax.secondary_material_content:1.0.0#SecondaryMaterialContent"
+        },
+        {
+          "name": "SerialPart",
+          "data": {
+            "partTypeInformation": {
+              "classification": "product",
+              "manufacturerPartId": "677-4.456-3434-K",
+              "nameAtManufacturer": "NMC111 Cathode"
+            },
+            "validityPeriod": {
+              "validFrom": "2023-10-06T14:50:23.230+01:00",
+              "validTo": "2024-08-06T14:50:23.230+01:00"
+            },
+            "catenaXId": "urn:uuid:d1707d00-d714-40a6-8229-11b14086029f"
+          },
+          "description": "SMC SerialPart Submodel",
+          "semanticId": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:a11a37fd-6f0e-aeb0-ea06-3c62418d73a1",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "SNJ-4654-76",
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+        }
+      ],
+      "type": "Transmission",
+      "description": [
+        {
+          "language": "en",
+          "text": "Transmission Passport shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "transmissionPass",
+          "data": {
+            "productSpecificParameters": {
+              "torqueConverter": ["ABC1234567890", "XYZ9876543210"],
+              "driveType": "Combustion Engine",
+              "oilType": "ZF Lifeguard Hybrid 2",
+              "spreading": 6.79,
+              "torque": 500,
+              "power": 300,
+              "standardGearRatio": {
+                "gear": "1",
+                "ratio": 4.1567
+              },
+              "oilCapacity": 8.9,
+              "electricPerformance": ["Electric Performance Specification A", "Electric Performance Specification B"],
+              "speedResistance": {
+                "speed": 7800,
+                "gear": "1"
+              }
+            },
+            "instructions": {
+              "packagingInstructions": [
+                {
+                  "documentTitle": "Packaging Instructions",
+                  "documentLink": "https://www.example.com/packaging-instructions.pdf"
+                }
+              ],
+              "transportationInstructions": [
+                {
+                  "documentTitle": "Transportation Instructions",
+                  "documentLink": "https://www.example.com/transportation-instructions.pdf"
+                }
+              ],
+              "dismantlingProcedure": [
+                {
+                  "documentTitle": "Dismantling Procedure",
+                  "documentLink": "https://www.example.com/dismantling-procedure.pdf"
+                }
+              ],
+              "safetyMeasures": [
+                {
+                  "documentTitle": "Safety Measures",
+                  "documentLink": "https://www.example.com/safety-measures.pdf"
+                }
+              ],
+              "vehicleDismantlingProcedure": [
+                {
+                  "documentTitle": "Vehicle Dismantling Procedure",
+                  "documentLink": "https://www.example.com/vehicle-dismantling-procedure.pdf"
+                }
+              ]
+            },
+            "identification": {
+              "manufacturerId": "XYZ78901",
+              "localIdentifiers": [
+                {
+                  "value": "SNJ-4654-76",
+                  "key": "partInstanceId"
+                }
+              ],
+              "dataMatrixCode": "ABCDEF1234567890"
+            },
+            "sparePartSupplier": [
+              {
+                "supplierContact": {
+                  "faxNumber": "+49 89 0987654321",
+                  "website": "https://www.example-supplier.com",
+                  "phoneNumber": "+49 89 1234567890",
+                  "email": "supplier@example.com"
+                },
+                "supplierId": "BPNL1234567890ZZ",
+                "sparePartName": "Torque Converter"
+              }
+            ],
+            "stateOfHealth": {
+              "serviceHistory": ["2023-05-22T13:16:47.239+02:00"],
+              "expectedLifespan": 500000,
+              "remanufacturing": {
+                "remanufacturingDate": "2023-05-22T13:16:47.239+02:00",
+                "productStatusValue": "First Life"
+              }
+            },
+            "generalInformation": {
+              "additionalInformation": "This is a test product with realistic data.",
+              "physicalDimensionsProperty": {
+                "width": 1000,
+                "length": 20000.1,
+                "weight": 100.7,
+                "diameter": 0.03,
+                "height": 0.1
+              },
+              "warrantyPeriod": 60,
+              "productDescription": "Manual Transmission",
+              "productType": "8HP60MH"
+            },
+            "sustainability": {
+              "substancesOfConcern": ["Substance A", "Substance B"],
+              "responsibleSourcingDocument": [
+                {
+                  "documentTitle": "Responsible Sourcing Document",
+                  "documentLink": "https://www.example.com/responsible-sourcing.pdf"
+                }
+              ],
+              "recyclateContent": {
+                "nickel": 0.05,
+                "lithium": 0.01,
+                "cobalt": 0.02,
+                "otherSubstance": [
+                  {
+                    "substancePercentage": 0.1,
+                    "substanceName": "Lead"
+                  }
+                ]
+              },
+              "criticalRawMaterials": ["Material X", "Material Y"],
+              "carbonFootprint": {
+                "crossSectoralStandardsUsed": [
+                  {
+                    "crossSectoralStandard": "GHG Protocol Product Standard"
+                  }
+                ],
+                "co2FootprintTotal": 200,
+                "productOrSectorSpecificRules": [
+                  {
+                    "operator": "PEF",
+                    "ruleNames": "ABC 2021",
+                    "otherOperatorName": "NSF"
+                  }
+                ]
+              }
+            }
+          },
+          "description": "Transmission Passport Submodel",
+          "semanticId": "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+        }
+      ]
+    }
+  ]
+}

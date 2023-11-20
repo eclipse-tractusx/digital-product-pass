@@ -83,9 +83,9 @@
         </v-container>
       </div>
       <div class="guide">
-        📖 Want to find out more? Read our Get
+        📖 Want to find out more? Read our
         <a class="advanced-search-link" @click="openExternalLink"
-          >Started Guide</a
+          >Get Started Guide</a
         >
       </div>
     </div>

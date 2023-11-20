@@ -50,8 +50,13 @@ export default {
     onDecode(decodedString) {
       this.decodedString = decodedString;
       this.$router.push({
-        path: `/${decodedString}`,
+        path: `/${this.processDecodedString(decodedString)}`,
       });
+    },
+    processDecodedString(decodedString) {
+      const match = /CX:.*$/.exec(decodedString);
+      // This regex looks for a match "CX:" and returns it + everything to the right
+      return match ? match[0] : decodedString;
     },
   },
 };

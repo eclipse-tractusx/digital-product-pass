@@ -24,8 +24,10 @@
 
 ![C-X Logo](./media/CXlogo.png) ![acr24 logo](./media/arc24logo.png)  
 
-Version: v4.0 <br>
-Latest Revision: Nov 7, 2023
+| Version | v4.5 |
+| ------- | ---- | 
+
+Latest Revision: *Nov 20, 2023*
 
 
 ## Table of Contents
@@ -55,7 +57,6 @@ Latest Revision: Nov 7, 2023
       - [Async Data Retrieval with IRS](#async-data-retrieval-with-irs)
     - [Business Context](#business-context)
     - [Technical Context](#technical-context)
-      - [Runtime Environments](#runtime-environments)
       - [Container Ecosystem](#container-ecosystem)
         - [Kubernetes Container platform (gardener)](#kubernetes-container-platform-gardener)
         - [Containers](#containers)
@@ -142,7 +143,8 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 
 The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
-![System Scope and Context](./media/ContextDiagram.jpeg)
+
+![Data Retrieval Context](media/dataRetrieval/digitalProductPassContexte.jpg)
 
 ### Application State Diagram
 
@@ -159,7 +161,7 @@ The interaction between the Product Passport Application previous the "BatteryPa
 Here is a resume of the frontend and the backend communication.
 
 
-![Technical Integration Resume](./media/TechnicalIntegrationResume.jpeg)
+![Technical Integration Resume](./media/dataRetrieval/dataRetrievalResume.jpg)
 
 
 The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
@@ -183,7 +185,7 @@ The `/create` api is responsible for calling the `BPN Discovery` service searchi
 If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
 
 
-![CreateDiagram](./media/CreateAPI.jpeg)
+![CreateDiagram](./media/dataRetrieval/createApiSequence.jpg)
 
 Here is possible to see the complete flow of the create api.
 ##### Create Flow Diagram
@@ -198,7 +200,8 @@ At the `/search` API the user can search for a serialized Id and get its contrac
 
 A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract.
 
-![Search API](./media/SearchApi.jpeg)
+![search Api Sequence](media/dataRetrieval/searchApiSequence.jpg)
+
 
 ##### Search API Flow
 Here we can see the search flow more in detail:
@@ -220,7 +223,8 @@ The API `/passport` will descrypt the passport file that is encrypted usint the 
 
 > *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
 
-![Sign API](./media/SignAPI.jpeg)
+
+![sign Api Sequence](media/dataRetrieval/signApiSequence.jpg)
 
 ##### Sign Flow 
 
@@ -283,24 +287,6 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ### Technical Context
 
-#### Runtime Environments
-
-At the moment, the Product Passport Application is hosted in three different environments:
-
-| Application Runtime Environments | URLs |
-| ---- | ----------- |
-| Development (DEV) | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) |
-| Integration (INT) | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) |
-| Beta (BETA) | [https://materialpass.beta.demo.catena-x.net/](https://materialpass.beta.demo.catena-x.net/) |
-
-
-| ArgoCD Deployment | URLs |
-| ---- | ----------- |
-| Development (DEV) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
-| Integration (INT) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
-| Beta (BETA) | [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/) |
-
-
 #### Container Ecosystem
 
 ##### Kubernetes Container platform (gardener)
@@ -317,11 +303,6 @@ At the moment, the Product Passport Application is hosted in three different env
 * PostgreSQL
 
 #### CI/CD
-
-* Managed by ArgoCD:
-  * [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/)
-  * [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/)
-  * [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/)
 * Source code management - GitHub Repository:
   * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
 * DevSecOps:
@@ -336,6 +317,7 @@ At the moment, the Product Passport Application is hosted in three different env
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
 * [Administration Guide](../admin%20guide/Admin_Guide.md)
 * [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+* [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
 
 
 #### Catena-X Shared Services

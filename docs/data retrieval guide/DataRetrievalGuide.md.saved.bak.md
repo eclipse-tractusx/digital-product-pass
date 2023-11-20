@@ -79,7 +79,7 @@ The problems observed from the application side were: 
     - After we receive the list of several EDCs, there is no guideline on the most optimized way of searching which EDC has the digital twin registry asset.
 - Performance problem:
    - There is a performance problem, because if you want to find the digital twin registries for each request + search in each digital twin registry for the assets (which involves contract negotiation with EDCs) takes time.
-- Escalation and Maintenance problem:
+- Scalability and Maintenance problem:
    - If we scale it in to the Catena-X Overarching project, we will observe that every product implemented their own solution. From a maintenance perspective the is big problem.
    - Imagine a new update in the EDC is made or in any other central discovery service, this would mean that every single application would need to change their architecture and code because they are responsible of maintaining it.
 
@@ -87,7 +87,7 @@ Therefore there needs to be a easier way of querying this services and searching
 
 ## Data Retrieval Flow
 
-Here is a diagram of the data retrial flow necessary to retrieve any data from the Catena-X Network without any optimizations:
+Here is a diagram of the data retreival flow necessary to retrieve any data from the Catena-X Network without any optimizations:
 
 ![Data Retrieval Flow](./media/dataRetrievalFlow.jpg)
 
@@ -118,7 +118,7 @@ Once the negotiation for the digital twin registries assets are done we would be
 
 ### Prerequisites
 
-The following information is required to enable the decentralized search for digital twin registries:
+The following information are required to enable the decentralized search for digital twin registries:
 
 | Name | Example | Description |
 | ---- | ------- | ----------- |
@@ -146,7 +146,7 @@ The following information is required for enabling the digital twin search, in o
 
 | Name | Example | Description |
 | ---- | ------- | ----------- |
-| Specific Asset Id Type | *partInstanceId* | The specific asset id type is used to search in the `digital twin registry` for an specific digital twin. It is basically the `name` of  "specificAssetId" object located at the [`digital twin`](#aas-30-digital-twin-example) `specificAssetIds` property. The `*partInstanceId*` is used as an example most of the time, since the digital twin registry implemented a hotfix that allows companies say who can access to their `partInstanceId` fields. Now allowing the *"PUBLIC_READABLE"* property.   |
+| Specific Asset Id Type | *partInstanceId* | The specific asset id type is used to search in the `digital twin registry` for an especific digital twin. It is basically the `name` of  "specificAssetId" object located at the [`digital twin`](#aas-30-digital-twin-example) `specificAssetIds` property. The `*partInstanceId*` is used as an example most of the time, since the digital twin registry implemented a hotfix that allows companies say who can access to their `partInstanceId` fields. Now allowing the *"PUBLIC_READABLE"* property.   |
 | Specific Asset Id Type | *BAT-XYZ789* | The specific asset id value is added in the `digital twin lookup` when calling the `EDC Provider Proxy`. It basically points to the value of the *`Specific Asset Id Type`* property.
 
 ### Sequence Diagram 
@@ -165,7 +165,7 @@ The following information is required for enabling the digital twin search, in o
 
 | Name | Example | Description |
 | ---- | ------- | ----------- |
-| Contract with Policy | [Contract Example](#contract-example) | To start the contract negotiation we need to agree on a policy for the a specific contract. This needs to be selected by the one that is requesting the data.
+| Contract with Policy | [Contract Example](./DataRetrievalGuide.md#Contract%20Example) | To start the contract negotiation we need to agree on a policy for the a specific contract. This needs to be selected by the one that is requesting the data.
 
 
 ### Sequence Diagram
@@ -178,7 +178,7 @@ The following information is required for enabling the digital twin search, in o
 
 #### Data Retrieval
 
-![Data Retrieval Flow 1](./media/dataRetrievalFlow2.jpg)
+![Data Retrieval Flow 2](./media/dataRetrievalFlow2.jpg)
 
 
 ## Attachments

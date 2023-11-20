@@ -180,26 +180,22 @@ create_contractdefinition () {
     }
   }'
 
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json'  --data "${payload}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n"  ${PROVIDER_EDC}/management/v2/contractdefinitions)
+  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${payload}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n"  ${PROVIDER_EDC}/management/v2/contractdefinitions)
   check_status_code "contract created with id : ${CONTRACT_DEF_ID}"
 }
 
 create_submodel_payload (){
 
-  declare -a arraySubmodels=()
   submodels=$1
   type=$2
   noOfSubmodels=$(echo ${submodels}  | jq -r '. | length')
-  # # -- for testing purposes
-  # generate_UUID
-  # ASSET_ID=${UUID}
-
+ 
   echo "***********************Create Submodel data*****************************************"
   for ((i = 0; i < $noOfSubmodels; i++)); do
 
     generate_UUID
     SUBMODEL_ID=${UUID}
-   
+
     # -- prepare the submodel data with the generated SUBMODEL_ID
     data=$(echo "${submodels}" | jq -r ".[$i].data")
     HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${data}" -o /dev/null -w "%{http_code}\n" $SUBMODEL_SERVER/data/${SUBMODEL_ID})
@@ -330,7 +326,7 @@ create_aas3_shell (){
   local globalAssetId=$(echo ${shell} | jq -r ".catenaXId")
   local type=$(echo ${shell} | jq -r ".type")
   local shellDescription=$(echo ${shell} | jq -r ".description")
-
+  
   create_submodel_payload "${submodels}" "${type}"
   submodelDescriptors=$ARRAY_SUBMODELS
   generate_UUID

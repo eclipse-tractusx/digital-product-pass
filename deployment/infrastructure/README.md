@@ -23,47 +23,23 @@
 # Test data Uploader
 ## TL;DR 
 
-Use the following script to upload test data to the provider edc and registry:
+- Configure the following script parameters (shown in below table) in `upload-testdata.sh` script.
+- The `testdata-payload.json` file contains structured data for the edc policy and digital twins.
+- Run the following script to upload test data to the provider setup:
 ```bash
-./upload-testdata.sh -s <submodel-server-url> -e <provider-edc-url> -a <aas-registry-url> -k <edc-api-key> -b <bpn-number>
+./upload-testdata.sh
 ```
 
 #### Script Parameters:
 | Parameter  | Description                  | Example value                                                           | Required/Optionl |
 | :---:      | :---                         | :---                                                                    | :---:            |
-| -s         | Submodel server URL          | https://materialpass.int.demo.catena-x.net/provider_backend             | Required         | 
-| -e         | Provider control plane URL   | https://materialpass.int.demo.catena-x.net/BPNL000000000000             | Required         |
-| -a         | AAS registry URL             | https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0  | Required         |
+| -s         | Submodel server URL          | https://materialpass.dev.demo.catena-x.net/provider_backend             | Required         | 
+| -e         | Provider control plane URL   | https://materialpass.dev.demo.catena-x.net/BPNL000000000000             | Required         |
+| -a         | AAS registry URL             | https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0  | Required         |
 | -k         | EDC API Key                  | xxxxxxxx                                                                | Required         |
-| -b         | BPN number                   | BPNL00000000CBA5                                                        | Required         |
+| -f         | input JSON testdata file     | ./testdata/testdata-payload.json                                        | Required         |
 |            |                              |                                                                         |                  |
 
-
-Use the following script to upload specific test data file
-
-### Digital Product Pass (DPP)
-
-```bash
-./upload-dpp-data.sh <submodel-server-url> <provider-edc-url> <aas-registry-url> <edc-api-key> <bpn-number>
-```
-
-### Battery Pass
-
-```bash
-./upload-batterypass-data.sh <submodel-server-url> <provider-edc-url> <aas-registry-url> <edc-api-key> <bpn-number>
-```
-
-### Transmission Pass
-
-```bash
-./upload-transmissionpass-data.sh <submodel-server-url> <provider-edc-url> <aas-registry-url> <edc-api-key> <bpn-number>
-```
-
-### Secondary Material Content (SMC)
-
-```bash
-./upload-smc-data.sh <submodel-server-url> <provider-edc-url> <aas-registry-url> <edc-api-key> <bpn-number>
-```
 
 ### Delete test data
 

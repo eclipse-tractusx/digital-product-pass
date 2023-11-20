@@ -29,22 +29,17 @@
   },
   "shells": [
     {
-      "catenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+      "catenaXId": "urn:uuid:541ec5a5-9215-12f4-0803-94f456c947df",
       "specificAssetIds": [
         {
           "name": "partInstanceId",
-          "value": "IMR1231",
+          "value": "IMR18650V1",
           "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
         },
         {
           "name": "manufacturerPartId",
-          "value": "XYW1231",
-          "allowedBpns": ["bpn1", "BPNL00000000CBA5", "BPNL00000003CRHL"]
-        },
-        {
-          "name": "manufacturerId",
-          "value": "123",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
         }
       ],
       "type": "Battery",
@@ -56,7 +51,7 @@
       ],
       "submodels": [
         {
-          "name": "batterypass",
+          "name": "batteryPass",
           "data": {
             "electrochemicalProperties": {
               "ratedCapacity": 94,
@@ -346,17 +341,1589 @@
       ]
     },
     {
+      "catenaXId": "urn:uuid:95e3140c-be01-ba3b-b60d-f0a4d42b4b9a",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "value": "NCR186850B",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "Battery",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Passport shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "batteryPass",
+          "data": {
+            "electrochemicalProperties": {
+              "ratedCapacity": 56,
+              "batteryEnergy": {
+                "energyRoundtripEfficiencyChange": 45,
+                "maximumAllowedBatteryEnergy": 75000.0,
+                "energyRoundtripEfficiency": 80
+              },
+              "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.666,
+              "batteryVoltage": {
+                "nominalVoltage": 3.6,
+                "maxVoltage": 4.2,
+                "minVoltage": 2.5
+              },
+              "internalResistance": {
+                "cellinternalResistance": 3.0,
+                "packinternalResistanceIncrease": 2,
+                "packinternalResistance": 80
+              },
+              "capacityThresholdExhaustion": 23,
+              "batteryPower": {
+                "powerFade": 23,
+                "originalPowerCapability": -1.7976931348623157e308,
+                "originalPowerCapabilityLimits": -1.7976931348623157e308,
+                "maximumAllowedBatteryPower": -1.7976931348623157e308,
+                "powerCapabilityAt20Charge": -1.7976931348623157e308,
+                "powerCapabilityAt80Charge": -1.7976931348623157e308
+              },
+              "capacityFade": 2.0
+            },
+            "document": {
+              "responsibleSourcing": [
+                {
+                  "title": "Sustainability Report 2021",
+                  "fileLocation": "telnet://192.0.2.16:80/"
+                }
+              ],
+              "packagingInstructions": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "telnet://192.0.2.16:80/"
+                }
+              ],
+              "transportationInstructions": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+                }
+              ],
+              "vehicleDismantlingProcedure": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+                }
+              ],
+              "testReportsResults": [
+                {
+                  "title": "Certificates of Testing battery",
+                  "fileLocation": ""
+                }
+              ],
+              "batteryDismantlingProcedure": [
+                {
+                  "title": "Certificates of Testing battery",
+                  "fileLocation": "http://www.wikipedia.org"
+                }
+              ],
+              "safetyMeasures": [
+                {
+                  "title": "Battery user safety precautions",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+                }
+              ],
+              "declarationOfConformity": [
+                {
+                  "title": "Declaration of Conformity No. 2",
+                  "fileLocation": ""
+                }
+              ]
+            },
+            "datePlacedOnMarket": "27.03.2022",
+            "cellChemistry": {
+              "electrolyteComposition": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "LiPF6"
+                }
+              ],
+              "anodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Styren butadien"
+                }
+              ],
+              "recyclateContentActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": 4,
+                  "materialWeight": null,
+                  "materialName": "Ni/2022/PlantC"
+                },
+                {
+                  "materialPercentageMassFraction": 5,
+                  "materialWeight": null,
+                  "materialName": "Li/2021/PlantC"
+                },
+                {
+                  "materialPercentageMassFraction": 0,
+                  "materialWeight": null,
+                  "materialName": "Pb(battery model does not contain Pb)"
+                },
+                {
+                  "materialPercentageMassFraction": 15,
+                  "materialWeight": null,
+                  "materialName": "Co/2021/PlantC"
+                }
+              ],
+              "anodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "SiO2-C"
+                }
+              ],
+              "cathodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "NCA (Lithium nickel cobalt aluminum oxide)"
+                }
+              ],
+              "cathodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "carbon black"
+                }
+              ]
+            },
+            "physicalDimensions": {
+              "length": 1800,
+              "width": 1000,
+              "weight": 2000,
+              "diameter": null,
+              "height": 150
+            },
+            "temperatureRangeIdleState": {
+              "temperatureRangeIdleStateUpperLimit": 40,
+              "temperatureRangeIdleStateLowerLimit": -20
+            },
+            "batteryCycleLife": {
+              "cycleLifeTestCRate": 2,
+              "cycleLifeTestDepthOfDischarge": 1.5,
+              "expectedLifetime": 3000
+            },
+            "manufacturer": {
+              "name": "Company C",
+              "contact": {
+                "faxNumber": "+49 89 0987654323",
+                "website": "http://www.CompanyC.com",
+                "phoneNumber": "+49 89 1234567892",
+                "email": "companyC@company.com"
+              },
+              "address": {
+                "locality": {
+                  "value": "CityC",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250A",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetA",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "",
+                  "technicalKey": "CEDEX"
+                },
+                "postalDeliveryPoint": {
+                  "value": "Tor 1",
+                  "technicalKey": "intERURBAN_DELIVERY_POint"
+                }
+              }
+            },
+            "warrantyPeriod": "120",
+            "composition": {
+              "compositionOfBattery": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic"
+                }
+              ],
+              "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
+              "components": {
+                "componentsPartNumber": "Casing Tray: Model C",
+                "componentsSupplier": [
+                  {
+                    "componentsSupplierName": "XY Corporation",
+                    "address": {
+                      "locality": {
+                        "value": "CityD",
+                        "technicalKey": "BLOCK"
+                      },
+                      "country": {
+                        "shortName": "Germany"
+                      },
+                      "postCode": {
+                        "value": "65-250B",
+                        "technicalKey": "CEDEX"
+                      },
+                      "thoroughfare": {
+                        "value": "StreetD",
+                        "number": "1",
+                        "technicalKey": "STREET"
+                      },
+                      "premise": {
+                        "value": "PlantD",
+                        "technicalKey": "BUILDING"
+                      },
+                      "postalDeliveryPoint": {
+                        "value": "GateD",
+                        "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                      }
+                    },
+                    "contact": {
+                      "faxNumber": "+49 89 0987654322",
+                      "website": "https://www.companyD.com",
+                      "phoneNumber": "+49 89 1234567890",
+                      "email": "companyD@company.com"
+                    }
+                  }
+                ]
+              }
+            },
+            "manufacturing": {
+              "dateOfManufacturing": "2022-01-24",
+              "address": {
+                "locality": {
+                  "value": "CityC",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250A",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetC",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "PlantC",
+                  "technicalKey": "BUILDING"
+                },
+                "postalDeliveryPoint": {
+                  "value": "GateC",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                }
+              }
+            },
+            "batteryIdentification": {
+              "batteryType": "NCA",
+              "batteryIDDMCCode": "NCR186850B",
+              "batteryModel": "Li-ion S-model"
+            },
+            "stateOfBattery": {
+              "stateOfHealth": 50,
+              "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
+              "stateOfCharge": 33
+            },
+            "cO2FootprintTotal": 124.0
+          },
+          "description": "Battery Passport Submodel",
+          "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:acabbb94-2073-c949-fae3-0abe7e952c33",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "value": "X123456789012X12345678901234566",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "Battery",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Passport shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "batteryPass",
+          "data": {
+            "electrochemicalProperties": {
+              "ratedCapacity": 56,
+              "batteryEnergy": {
+                "energyRoundtripEfficiencyChange": 45,
+                "maximumAllowedBatteryEnergy": 75000.0,
+                "energyRoundtripEfficiency": 80
+              },
+              "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": 0.666,
+              "batteryVoltage": {
+                "nominalVoltage": 3.6,
+                "maxVoltage": 4.2,
+                "minVoltage": 2.5
+              },
+              "internalResistance": {
+                "cellinternalResistance": 3.0,
+                "packinternalResistanceIncrease": 2,
+                "packinternalResistance": 80
+              },
+              "capacityThresholdExhaustion": 23,
+              "batteryPower": {
+                "powerFade": 23,
+                "originalPowerCapability": -1.7976931348623157e308,
+                "originalPowerCapabilityLimits": -1.7976931348623157e308,
+                "maximumAllowedBatteryPower": -1.7976931348623157e308,
+                "powerCapabilityAt20Charge": -1.7976931348623157e308,
+                "powerCapabilityAt80Charge": -1.7976931348623157e308
+              },
+              "capacityFade": 2.0
+            },
+            "document": {
+              "responsibleSourcing": [
+                {
+                  "title": "Sustainability Report 2021",
+                  "fileLocation": "telnet://192.0.2.16:80/"
+                }
+              ],
+              "packagingInstructions": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "telnet://192.0.2.16:80/"
+                }
+              ],
+              "transportationInstructions": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+                }
+              ],
+              "vehicleDismantlingProcedure": [
+                {
+                  "title": "Packaging and transport Instruction",
+                  "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+                }
+              ],
+              "testReportsResults": [
+                {
+                  "title": "Certificates of Testing battery",
+                  "fileLocation": ""
+                }
+              ],
+              "batteryDismantlingProcedure": [
+                {
+                  "title": "Certificates of Testing battery",
+                  "fileLocation": "http://www.wikipedia.org"
+                }
+              ],
+              "safetyMeasures": [
+                {
+                  "title": "Battery user safety precautions",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+                }
+              ],
+              "declarationOfConformity": [
+                {
+                  "title": "Declaration of Conformity No. 2",
+                  "fileLocation": ""
+                }
+              ]
+            },
+            "datePlacedOnMarket": "27.03.2022",
+            "cellChemistry": {
+              "electrolyteComposition": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "LiPF6"
+                }
+              ],
+              "anodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Styren butadien"
+                }
+              ],
+              "recyclateContentActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": 4,
+                  "materialWeight": null,
+                  "materialName": "Ni/2022/PlantC"
+                },
+                {
+                  "materialPercentageMassFraction": 5,
+                  "materialWeight": null,
+                  "materialName": "Li/2021/PlantC"
+                },
+                {
+                  "materialPercentageMassFraction": 0,
+                  "materialWeight": null,
+                  "materialName": "Pb(battery model does not contain Pb)"
+                },
+                {
+                  "materialPercentageMassFraction": 15,
+                  "materialWeight": null,
+                  "materialName": "Co/2021/PlantC"
+                }
+              ],
+              "anodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "SiO2-C"
+                }
+              ],
+              "cathodeActiveMaterials": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "NCA (Lithium nickel cobalt aluminum oxide)"
+                }
+              ],
+              "cathodeCompositionOther": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "carbon black"
+                }
+              ]
+            },
+            "physicalDimensions": {
+              "length": 1800,
+              "width": 1000,
+              "weight": 2000,
+              "diameter": null,
+              "height": 150
+            },
+            "temperatureRangeIdleState": {
+              "temperatureRangeIdleStateUpperLimit": 40,
+              "temperatureRangeIdleStateLowerLimit": -20
+            },
+            "batteryCycleLife": {
+              "cycleLifeTestCRate": 2,
+              "cycleLifeTestDepthOfDischarge": 1.5,
+              "expectedLifetime": 3000
+            },
+            "manufacturer": {
+              "name": "Company C",
+              "contact": {
+                "faxNumber": "+49 89 0987654323",
+                "website": "http://www.CompanyC.com",
+                "phoneNumber": "+49 89 1234567892",
+                "email": "companyC@company.com"
+              },
+              "address": {
+                "locality": {
+                  "value": "CityC",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250A",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetA",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "",
+                  "technicalKey": "CEDEX"
+                },
+                "postalDeliveryPoint": {
+                  "value": "Tor 1",
+                  "technicalKey": "intERURBAN_DELIVERY_POint"
+                }
+              }
+            },
+            "warrantyPeriod": "120",
+            "composition": {
+              "compositionOfBattery": [
+                {
+                  "materialPercentageMassFraction": null,
+                  "materialWeight": null,
+                  "materialName": "Co -hazardous, Current collector: Aluminum, LiPF6 - ( conducting lithium salt - toxic, in combination with moisture nad elevated temp. Decompose to HF) . Casing: iron, aluminum laminated plastic"
+                }
+              ],
+              "criticalRawMaterials": "Lithium, Cobalt, Natural graphite",
+              "components": {
+                "componentsPartNumber": "Casing Tray: Model C",
+                "componentsSupplier": [
+                  {
+                    "componentsSupplierName": "XY Corporation",
+                    "address": {
+                      "locality": {
+                        "value": "CityD",
+                        "technicalKey": "BLOCK"
+                      },
+                      "country": {
+                        "shortName": "Germany"
+                      },
+                      "postCode": {
+                        "value": "65-250B",
+                        "technicalKey": "CEDEX"
+                      },
+                      "thoroughfare": {
+                        "value": "StreetD",
+                        "number": "1",
+                        "technicalKey": "STREET"
+                      },
+                      "premise": {
+                        "value": "PlantD",
+                        "technicalKey": "BUILDING"
+                      },
+                      "postalDeliveryPoint": {
+                        "value": "GateD",
+                        "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                      }
+                    },
+                    "contact": {
+                      "faxNumber": "+49 89 0987654322",
+                      "website": "https://www.companyD.com",
+                      "phoneNumber": "+49 89 1234567890",
+                      "email": "companyD@company.com"
+                    }
+                  }
+                ]
+              }
+            },
+            "manufacturing": {
+              "dateOfManufacturing": "2022-01-24",
+              "address": {
+                "locality": {
+                  "value": "CityC",
+                  "technicalKey": "BLOCK"
+                },
+                "country": {
+                  "shortName": "Germany"
+                },
+                "postCode": {
+                  "value": "65-250A",
+                  "technicalKey": "CEDEX"
+                },
+                "thoroughfare": {
+                  "value": "StreetC",
+                  "number": "1",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "PlantC",
+                  "technicalKey": "BUILDING"
+                },
+                "postalDeliveryPoint": {
+                  "value": "GateC",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                }
+              }
+            },
+            "batteryIdentification": {
+              "batteryType": "NCA",
+              "batteryIDDMCCode": "X123456789012X12345678901234566",
+              "batteryModel": "Li-ion S-model"
+            },
+            "stateOfBattery": {
+              "stateOfHealth": 50,
+              "statusBattery": "first life/ waste/ repaired/ repurposed/ recycled",
+              "stateOfCharge": 33
+            },
+            "cO2FootprintTotal": 124.0
+          },
+          "description": "Battery Passport Submodel",
+          "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:d3c93fc6-4548-84d7-d1ff-033aa505231f",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "value": "Y792927456954B81677903848654570",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "Battery",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Passport shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "batteryPass",
+          "data": {
+            "electrochemicalProperties": {
+              "ratedCapacity": "103",
+              "batteryEnergy": {
+                "energyRoundtripEfficiencyChange": "0.2",
+                "maximumAllowedBatteryEnergy": "105",
+                "energyRoundtripEfficiency": "86"
+              },
+              "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": "5",
+              "batteryVoltage": {
+                "nominalVoltage": "376.4",
+                "maxVoltage": "438.6",
+                "minVoltage": "285.6"
+              },
+              "internalResistance": {
+                "cellinternalResistance": "45",
+                "packinternalResistanceIncrease": "1.3",
+                "packinternalResistance": "3"
+              },
+              "capacityThresholdExhaustion": "3",
+              "batteryPower": {
+                "powerFade": "0.3",
+                "originalPowerCapability": "395",
+                "originalPowerCapabilityLimits": "320",
+                "maximumAllowedBatteryPower": "420",
+                "powerCapabilityAt20Charge": "78",
+                "powerCapabilityAt80Charge": "97"
+              },
+              "capacityFade": "1.43"
+            },
+            "document": {
+              "responsibleSourcing": [
+                {
+                  "title": "Responsible sourcing report 2023",
+                  "fileLocation": "telnet://192.0.2.16:84/"
+                }
+              ],
+              "packagingInstructions": [
+                {
+                  "title": "Packaging instruction for HVB B",
+                  "fileLocation": "telnet://192.0.2.16:11/"
+                }
+              ],
+              "transportationInstructions": [
+                {
+                  "title": "Shipping guidelines",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1808.txt"
+                }
+              ],
+              "vehicleDismantlingProcedure": [
+                {
+                  "title": "Dismantling procedure of HVB B from vehicle",
+                  "fileLocation": "http://www.ietf.org/rfc/rfc2396.txt"
+                }
+              ],
+              "testReportsResults": [
+                {
+                  "title": "Laboratory test results HVB B",
+                  "fileLocation": "telnet://192.0.2.16:81/"
+                }
+              ],
+              "batteryDismantlingProcedure": [
+                {
+                  "title": "Dismantling procedure of HVB B",
+                  "fileLocation": "http://www.ietf.org/rfc/rfc2390.txt"
+                }
+              ],
+              "safetyMeasures": [
+                {
+                  "title": "HVB B safety document",
+                  "fileLocation": "ftp://ftp.is.co.za/rfc/rfc1819.txt "
+                }
+              ],
+              "declarationOfConformity": [
+                {
+                  "title": "Declaration of conformity 3",
+                  "fileLocation": "telnet://192.0.2.16:94/"
+                }
+              ]
+            },
+            "cellChemistry": {
+              "electrolyteComposition": [
+                {
+                  "materialName": "electrolyte",
+                  "materialWeight": 138.7,
+                  "materialPercentageMassFraction": 23.3
+                },
+                {
+                  "materialName": "others",
+                  "materialWeight": 450.46,
+                  "materialPercentageMassFraction": 56.2
+                },
+                {
+                  "materialName": "methylpropiophenon",
+                  "materialWeight": 444.03,
+                  "materialPercentageMassFraction": 20.5
+                }
+              ],
+              "anodeCompositionOther": [
+                {
+                  "materialName": "glass fibers",
+                  "materialWeight": 122.98,
+                  "materialPercentageMassFraction": 43.2
+                },
+                {
+                  "materialName": "ferrum",
+                  "materialWeight": 490.74,
+                  "materialPercentageMassFraction": 19.7
+                },
+                {
+                  "materialName": "aluminium",
+                  "materialWeight": 261.17,
+                  "materialPercentageMassFraction": 28.9
+                },
+                {
+                  "materialName": "isolation material",
+                  "materialWeight": 141.68,
+                  "materialPercentageMassFraction": 8.2
+                }
+              ],
+              "recyclateContentActiveMaterials": [
+                {
+                  "materialName": "lithium cobalt oxide",
+                  "materialWeight": 145.49,
+                  "materialPercentageMassFraction": 75.5
+                },
+                {
+                  "materialName": "manganese",
+                  "materialWeight": 111.98,
+                  "materialPercentageMassFraction": 24.5
+                }
+              ],
+              "anodeActiveMaterials": [
+                {
+                  "materialName": "graphite",
+                  "materialWeight": 239.55,
+                  "materialPercentageMassFraction": 0.6
+                },
+                {
+                  "materialName": "copper foil",
+                  "materialWeight": 492.93,
+                  "materialPercentageMassFraction": 99.4
+                }
+              ],
+              "cathodeActiveMaterials": [
+                {
+                  "materialName": "lithium cobalt oxide",
+                  "materialWeight": 101.12,
+                  "materialPercentageMassFraction": 15.9
+                },
+                {
+                  "materialName": "lithium nickel manganese cobalt oxide",
+                  "materialWeight": 337.73,
+                  "materialPercentageMassFraction": 12.3
+                },
+                {
+                  "materialName": "lithium nickel cobalt aluminium oxide",
+                  "materialWeight": 437.02,
+                  "materialPercentageMassFraction": 71.9
+                }
+              ],
+              "cathodeCompositionOther": [
+                {
+                  "materialName": "aluminium",
+                  "materialWeight": 326.06,
+                  "materialPercentageMassFraction": 13
+                },
+                {
+                  "materialName": "beryllium",
+                  "materialWeight": 441.63,
+                  "materialPercentageMassFraction": 5.5
+                },
+                {
+                  "materialName": "styrene butadiene copolymer",
+                  "materialWeight": 207.5,
+                  "materialPercentageMassFraction": 47.8
+                },
+                {
+                  "materialName": "cobalt nickel manganese",
+                  "materialWeight": 471.56,
+                  "materialPercentageMassFraction": 33.7
+                }
+              ]
+            },
+            "physicalDimensions": {
+              "length": "2573",
+              "width": "1740",
+              "weight": "684.2",
+              "diameter": "50",
+              "height": "280"
+            },
+            "temperatureRangeIdleState": {
+              "temperatureRangeIdleStateUpperLimit": "45",
+              "temperatureRangeIdleStateLowerLimit": "-22"
+            },
+            "batteryCycleLife": {
+              "cycleLifeTestCRate": "2",
+              "cycleLifeTestDepthOfDischarge": "43",
+              "expectedLifetime": "600"
+            },
+            "manufacturer": {
+              "name": "BMW Group",
+              "contact": {
+                "faxNumber": "N/A",
+                "website": "https://www.bmwgroup.com/",
+                "phoneNumber": "+49893820",
+                "email": "werke@bmwgroup.com"
+              },
+              "address": {
+                "locality": {
+                  "value": "Munich",
+                  "technicalKey": "CITY"
+                },
+                "country": {
+                  "shortName": "GER"
+                },
+                "postCode": {
+                  "value": "80809",
+                  "technicalKey": "REGULAR"
+                },
+                "thoroughfare": {
+                  "value": "Am Olympiapark",
+                  "number": "2",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "PLANT 1",
+                  "technicalKey": "OTHER"
+                },
+                "postalDeliveryPoint": {
+                  "value": "Gate 1",
+                  "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                }
+              }
+            },
+            "warrantyPeriod": "60",
+            "composition": {
+              "compositionOfBattery": [
+                {
+                  "materialName": "steel",
+                  "materialWeight": 69883,
+                  "materialPercentageMassFraction": 11
+                },
+                {
+                  "materialName": "aluminium",
+                  "materialWeight": 101648,
+                  "materialPercentageMassFraction": 16
+                },
+                {
+                  "materialName": "lithium",
+                  "materialWeight": 6353,
+                  "materialPercentageMassFraction": 1
+                },
+                {
+                  "materialName": "cobalt",
+                  "materialWeight": 19059,
+                  "materialPercentageMassFraction": 3
+                },
+                {
+                  "materialName": "nickel",
+                  "materialWeight": 19059,
+                  "materialPercentageMassFraction": 3
+                },
+                {
+                  "materialName": "manganese",
+                  "materialWeight": 19059,
+                  "materialPercentageMassFraction": 3
+                },
+                {
+                  "materialName": "sealant",
+                  "materialWeight": 3176.5,
+                  "materialPercentageMassFraction": 0.5
+                },
+                {
+                  "materialName": "graphite",
+                  "materialWeight": 50824,
+                  "materialPercentageMassFraction": 8
+                },
+                {
+                  "materialName": "insulator",
+                  "materialWeight": 12706,
+                  "materialPercentageMassFraction": 2
+                },
+                {
+                  "materialName": "uv varnish",
+                  "materialWeight": 1270.6,
+                  "materialPercentageMassFraction": 0.2
+                },
+                {
+                  "materialName": "copper",
+                  "materialWeight": 76236,
+                  "materialPercentageMassFraction": 12
+                },
+                {
+                  "materialName": "polyamid",
+                  "materialWeight": 69883,
+                  "materialPercentageMassFraction": 11
+                },
+                {
+                  "materialName": "others",
+                  "materialWeight": 186142.9,
+                  "materialPercentageMassFraction": 29.3
+                }
+              ],
+              "criticalRawMaterials": "lithium, nickel, cobalt, graphite, manganese, copper, aluminium",
+              "components": {
+                "componentsPartNumber": ["5819826-01", "2389175-01"],
+                "componentsSupplier": [
+                  {
+                    "componentsSupplierName": "Dräxlmaier",
+                    "address": {
+                      "locality": {
+                        "value": "Vilsbiburg",
+                        "technicalKey": "CITY"
+                      },
+                      "country": {
+                        "shortName": "GER"
+                      },
+                      "postCode": {
+                        "value": "84137",
+                        "technicalKey": "REGULAR"
+                      },
+                      "thoroughfare": {
+                        "value": "Landshuter Straße",
+                        "number": "100",
+                        "technicalKey": "STREET"
+                      },
+                      "premise": {
+                        "value": "Headquarters",
+                        "technicalKey": "OTHER"
+                      },
+                      "postalDeliveryPoint": {
+                        "value": "GATE 2",
+                        "technicalKey": "INTERURBAN_DELIVERY_POINT"
+                      }
+                    },
+                    "contact": {
+                      "faxNumber": "+498741471940",
+                      "website": "https://www.draexlmaier.com/",
+                      "phoneNumber": "+498741470",
+                      "email": "info@draexlmaier.com"
+                    }
+                  }
+                ]
+              }
+            },
+            "manufacturing": {
+              "dateOfManufacturing": "2022-11-22",
+              "address": {
+                "locality": {
+                  "value": "Munich",
+                  "technicalKey": "CITY"
+                },
+                "country": {
+                  "shortName": "GER"
+                },
+                "postCode": {
+                  "value": "80809",
+                  "technicalKey": "REGULAR"
+                },
+                "thoroughfare": {
+                  "value": "Am Olympiapark",
+                  "number": "2",
+                  "technicalKey": "STREET"
+                },
+                "premise": {
+                  "value": "PLANT 1",
+                  "technicalKey": "OTHER"
+                },
+                "postalDeliveryPoint": {
+                  "value": "Gate 1",
+                  "technicalKey": "intERURBAN_DELIVERY_POint"
+                }
+              }
+            },
+            "batteryIdentification": {
+              "batteryType": "Lithium-ion",
+              "batteryIDDMCCode": "Y792927456954B81677903848654570",
+              "batteryModel": "SE30H"
+            },
+            "stateOfBattery": {
+              "stateOfHealth": "99",
+              "statusBattery": "first life",
+              "stateOfCharge": "54"
+            },
+            "cO2FootprintTotal": "110"
+          },
+          "description": "Battery Passport Submodel",
+          "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "BAT-XYZ789",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "Battery",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Digital Twin"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "singleLevelBomAsBuilt",
+          "data": {
+            "catenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+            "childItems": [
+              {
+                "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                "quantity": {
+                  "quantityNumber": 5.0,
+                  "measurementUnit": "piece"
+                },
+                "businessPartner": "BPNL00000000CBA5",
+                "createdOn": "2023-01-09T17:26:54.709Z",
+                "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+              }
+            ]
+          },
+          "description": "single level Bom As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+        },
+        {
+          "name": "digitalProductPass",
+          "data": {
+            "serialization": {
+              "manufacturingInformation": {
+                "date": "2023-08-30T10:30:00",
+                "country": "USA"
+              },
+              "registration": {
+                "customerPartId": "PRT-67890",
+                "manufacturerPartId": "HV-SPORT-123"
+              },
+              "quantity": {
+                "value": 1.0,
+                "unit": "unit:piece"
+              }
+            },
+            "typology": {
+              "name": "High Voltage Battery for Sports Car",
+              "description": "High performance battery for electric sports cars",
+              "class": {
+                "definition": "High Voltage Battery",
+                "code": "33-06-01-01"
+              },
+              "nameAtManufacturer": "Performance Battery Pack",
+              "nameAtCustomer": "High-Performance Energy Source"
+            },
+            "metadata": {
+              "issueDate": "2023-08-30",
+              "version": "2.0.0",
+              "validityDate": "2023-08-30",
+              "economicOperator": {
+                "eori": "US987654321000",
+                "id": "BPNL000000000000"
+              },
+              "status": "Approved"
+            },
+            "characteristics": {
+              "physicalDimensionsProperty": {
+                "width": 800.0,
+                "length": 1200.0,
+                "weight": 300.5,
+                "height": 150.0
+              },
+              "energyCapacity": {
+                "value": 85.0,
+                "unit": "unit:kWh"
+              },
+              "voltage": {
+                "value": 400.0,
+                "unit": "unit:V"
+              }
+            },
+            "commercial": {
+              "placedOnMarket": "2023-09-01",
+              "warranty": 72
+            },
+            "identification": {
+              "localIdentifiers": [
+                {
+                  "value": "BAT-XYZ789",
+                  "key": "PartInstanceID"
+                }
+              ],
+              "gtin": "12345678901234",
+              "additionalCode": [
+                {
+                  "name": "TARIC",
+                  "value": "8507 80 00 00"
+                }
+              ]
+            },
+            "sources": {
+              "mandatory": {
+                "safetyInformation": {
+                  "header": "Safety Datasheet for High Voltage Battery",
+                  "category": "Safety",
+                  "type": "link",
+                  "content": "www.example.com/safety_datasheet.pdf"
+                },
+                "environmentalImpact": {
+                  "header": "Environmental Impact Assessment",
+                  "category": "Environment",
+                  "type": "link",
+                  "content": "www.example.com/environmental_impact.pdf"
+                }
+              },
+              "optional": [
+                {
+                  "name": "userManual",
+                  "document": {
+                    "header": "User Manual for High Voltage Battery",
+                    "category": "User Manual",
+                    "type": "link",
+                    "content": "www.example.com/user_manual.pdf"
+                  }
+                }
+              ]
+            },
+            "sustainability": {
+              "state": "first life",
+              "material": [
+                {
+                  "name": "Lithium-Ion",
+                  "recycled": false,
+                  "renewable": false,
+                  "percentage": 80.0
+                }
+              ],
+              "critical": ["Lithium", "Cobalt"],
+              "carbonFootprint": {
+                "carbonContentTotal": 10.2,
+                "crossSectoralStandard": "ISO 14040",
+                "productOrSectorSpecificRules": [
+                  {
+                    "ruleName": "ISO 14067"
+                  }
+                ]
+              }
+            },
+            "operation": {
+              "importer": "BPNL000000000000",
+              "manufacturer": {
+                "manufacturerId": "BPNL000000000000",
+                "facilityId": "BPNL000000000123"
+              }
+            }
+          },
+          "description": "Digital Product Pass Submodel",
+          "semanticId": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "EVMODULE-TRJ712",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "BatteryModule",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Module Digital Twin"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "singleLevelBomAsBuilt",
+          "data": {
+            "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+            "childItems": [
+              {
+                "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1",
+                "quantity": {
+                  "quantityNumber": 100.0,
+                  "measurementUnit": "piece"
+                },
+                "businessPartner": "BPNL00000000CBA5",
+                "createdOn": "2023-01-09T17:26:54.709Z",
+                "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+              }
+            ]
+          },
+          "description": "Single level Bom As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+        },
+        {
+          "name": "SingleLevelUsageAsBuilt",
+          "data": {
+            "parentParts": [
+              {
+                "parentCatenaXId": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+                "quantity": {
+                  "quantityNumber": 100.0,
+                  "measurementUnit": "piece"
+                },
+                "createdOn": "2023-01-09T17:26:54.709Z",
+                "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+              }
+            ],
+            "catenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552"
+          },
+          "description": "Single level usage As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt"
+        },
+        {
+          "name": "digitalProductPass",
+          "data": {
+            "serialization": {
+              "manufacturingInformation": {
+                "date": "2023-08-30T14:30:00",
+                "country": "GER"
+              },
+              "registration": {
+                "customerPartId": "MODULE-78901",
+                "manufacturerPartId": "BP-GER-45678"
+              },
+              "quantity": {
+                "value": 100.0,
+                "unit": "unit:piece"
+              }
+            },
+            "typology": {
+              "name": "High-Capacity Battery Module",
+              "description": "Large Battery Module for electric vehicles",
+              "class": {
+                "definition": "Battery Module",
+                "code": "33-06-01-03"
+              },
+              "nameAtManufacturer": "EVModule 45678",
+              "nameAtCustomer": "High-Capacity Power Source"
+            },
+            "metadata": {
+              "issueDate": "2023-08-30",
+              "version": "1.0.0",
+              "validityDate": "2023-08-30",
+              "economicOperator": {
+                "eori": "DE987654321000",
+                "id": "BPNL000000000000"
+              },
+              "status": "Approved"
+            },
+            "characteristics": {
+              "physicalDimensionsProperty": {
+                "width": 800.0,
+                "length": 1000.0,
+                "weight": 700.5,
+                "height": 200.0
+              },
+              "energyCapacity": {
+                "value": 300.0,
+                "unit": "unit:kWh"
+              },
+              "voltage": {
+                "value": 800.0,
+                "unit": "unit:V"
+              }
+            },
+            "identification": {
+              "localIdentifiers": [
+                {
+                  "value": "EVMODULE-TRJ712",
+                  "key": "PartInstanceID"
+                }
+              ],
+              "gtin": "12345678901234",
+              "additionalCode": [
+                {
+                  "name": "TARIC",
+                  "value": "8507 80 00 00"
+                }
+              ]
+            },
+            "sources": {
+              "mandatory": {
+                "safetyInformation": {
+                  "header": "Safety Datasheet for Battery Module",
+                  "category": "Safety",
+                  "type": "link",
+                  "content": "www.example.com/module_safety_datasheet.pdf"
+                }
+              },
+              "optional": [
+                {
+                  "name": "userManual",
+                  "document": {
+                    "header": "User Manual for Battery Module",
+                    "category": "User Manual",
+                    "type": "link",
+                    "content": "www.example.com/module_user_manual.pdf"
+                  }
+                }
+              ]
+            },
+            "sustainability": {
+              "state": "first life",
+              "material": [
+                {
+                  "name": "Lithium-Nickel-Cobalt-Manganese-Oxide",
+                  "recycled": false,
+                  "renewable": false,
+                  "percentage": 35.0
+                }
+              ],
+              "critical": ["Lithium", "Cobalt"],
+              "carbonFootprint": {
+                "carbonContentTotal": 1.2,
+                "crossSectoralStandard": "ISO 14040",
+                "productOrSectorSpecificRules": [
+                  {
+                    "ruleName": "ISO 14067"
+                  }
+                ]
+              }
+            },
+            "operation": {
+              "importer": "BPN1234567890ZZ",
+              "manufacturer": {
+                "manufacturerId": "BPN1234567890ZZ",
+                "facilityId": "BPN1234567890ZZ"
+              }
+            }
+          },
+          "description": "Digital Product Pass Submodel",
+          "semanticId": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "CTA-13123",
+          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+        }
+      ],
+      "type": "BatteryCell",
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery Cell Digital Twin"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "singleLevelBomAsBuilt",
+          "data": {
+            "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1",
+            "childItems": []
+          },
+          "description": "Single level Bom As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+        },
+        {
+          "name": "SingleLevelUsageAsBuilt",
+          "data": {
+            "parentParts": [
+              {
+                "parentCatenaXId": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                "quantity": {
+                  "quantityNumber": 10.0,
+                  "measurementUnit": "piece"
+                },
+                "createdOn": "2023-01-09T17:26:54.709Z",
+                "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+              }
+            ],
+            "catenaXId": "urn:uuid:63b95496-86ed-4762-b248-491d5c1242e1"
+          },
+          "description": "Single level usage As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt"
+        },
+        {
+          "name": "digitalProductPass",
+          "data": {
+            "serialization": {
+              "manufacturingInformation": {
+                "date": "2023-08-30T11:45:00",
+                "country": "JPN"
+              },
+              "registration": {
+                "customerPartId": "CELL-45678",
+                "manufacturerPartId": "BC-JPN-12345"
+              },
+              "quantity": {
+                "value": 1000.0,
+                "unit": "unit:piece"
+              }
+            },
+            "typology": {
+              "name": "Lithium-Ion Battery Cell",
+              "description": "High-capacity lithium-ion battery cell",
+              "class": {
+                "definition": "Battery Cell",
+                "code": "33-06-01-02"
+              },
+              "nameAtManufacturer": "Li-Ion Cell 12345",
+              "nameAtCustomer": "High-Capacity Battery Cell"
+            },
+            "metadata": {
+              "issueDate": "2023-08-30",
+              "version": "1.1.0",
+              "validityDate": "2023-08-30",
+              "economicOperator": {
+                "eori": "JP123456789000",
+                "id": "BPN1234567890ZZ"
+              },
+              "status": "Approved"
+            },
+            "characteristics": {
+              "physicalDimensionsProperty": {
+                "width": 30.0,
+                "length": 60.0,
+                "weight": 50.2,
+                "height": 10.0
+              },
+              "energyCapacity": {
+                "value": 2.5,
+                "unit": "unit:Ah"
+              },
+              "voltage": {
+                "value": 3.7,
+                "unit": "unit:V"
+              }
+            },
+            "identification": {
+              "localIdentifiers": [
+                {
+                  "value": "CTA-13123",
+                  "key": "PartInstanceID"
+                }
+              ],
+              "gtin": "12345678901234",
+              "additionalCode": [
+                {
+                  "name": "TARIC",
+                  "value": "8507 60 00 00"
+                }
+              ]
+            },
+            "sources": {
+              "mandatory": {
+                "safetyInformation": {
+                  "header": "Safety Datasheet for Lithium-Ion Battery Cell",
+                  "category": "Safety",
+                  "type": "link",
+                  "content": "www.example.com/cell_safety_datasheet.pdf"
+                }
+              },
+              "optional": [
+                {
+                  "name": "userManual",
+                  "document": {
+                    "header": "User Manual for Battery Cell",
+                    "category": "User Manual",
+                    "type": "link",
+                    "content": "www.example.com/cell_user_manual.pdf"
+                  }
+                }
+              ]
+            },
+            "sustainability": {
+              "state": "first life",
+              "material": [
+                {
+                  "name": "Lithium-Cobalt Oxide",
+                  "recycled": false,
+                  "renewable": false,
+                  "percentage": 40.0
+                }
+              ],
+              "critical": ["Lithium", "Cobalt"],
+              "carbonFootprint": {
+                "carbonContentTotal": 0.8,
+                "crossSectoralStandard": "ISO 14044",
+                "productOrSectorSpecificRules": [
+                  {
+                    "ruleName": "ISO 14067"
+                  }
+                ]
+              }
+            },
+            "operation": {
+              "importer": "BPN1234567890ZZ",
+              "manufacturer": {
+                "manufacturerId": "BPN1234567890ZZ",
+                "facilityId": "BPN1234567890ZZ"
+              }
+            }
+          },
+          "description": "Digital Product Pass Submodel",
+          "semanticId": "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+        }
+      ]
+    },
+    {
       "catenaXId": "urn:uuid:95f1ddf0-f795-dc9c-6440-13af29059907",
       "specificAssetIds": [
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["bpn1", "bpn2", "BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
         },
         {
           "name": "partInstanceId",
           "value": "KLZ-90-8564-96",
-          "allowedBpns": ["bpn3", "bpn4", "BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
         }
       ],
       "type": "SecondaryMaterialContent",
@@ -610,8 +2177,8 @@
               "driveType": "Combustion Engine",
               "oilType": "ZF Lifeguard Hybrid 2",
               "spreading": 6.79,
-              "torque": 500,
-              "power": 300,
+              "torque": 500.0,
+              "power": 300.0,
               "standardGearRatio": {
                 "gear": "1",
                 "ratio": 4.1567
@@ -660,7 +2227,7 @@
               "localIdentifiers": [
                 {
                   "value": "SNJ-4654-76",
-                  "key": "partInstanceId"
+                  "key": "PartInstanceID"
                 }
               ],
               "dataMatrixCode": "ABCDEF1234567890"
@@ -688,13 +2255,13 @@
             "generalInformation": {
               "additionalInformation": "This is a test product with realistic data.",
               "physicalDimensionsProperty": {
-                "width": 1000,
+                "width": 1000.0,
                 "length": 20000.1,
                 "weight": 100.7,
                 "diameter": 0.03,
                 "height": 0.1
               },
-              "warrantyPeriod": 60,
+              "warrantyPeriod": 60.0,
               "productDescription": "Manual Transmission",
               "productType": "8HP60MH"
             },
@@ -724,7 +2291,7 @@
                     "crossSectoralStandard": "GHG Protocol Product Standard"
                   }
                 ],
-                "co2FootprintTotal": 200,
+                "co2FootprintTotal": 200.0,
                 "productOrSectorSpecificRules": [
                   {
                     "operator": "PEF",

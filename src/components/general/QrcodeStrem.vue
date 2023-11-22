@@ -25,7 +25,10 @@
     class="qrcode-stream"
     @init="onInit"
     @decode="onDecode"
-  ></qrcode-stream>
+    :camera="facingMode"
+  >
+    <div>{{ facingMode }}</div>
+  </qrcode-stream>
 </template>
 
 <script>
@@ -42,6 +45,12 @@ export default {
       error: "",
       decodedString: "",
     };
+  },
+  props: {
+    facingMode: {
+      type: String,
+      default: "front",
+    },
   },
   methods: {
     async onInit(promise) {

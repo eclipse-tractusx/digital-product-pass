@@ -56,6 +56,13 @@
           <v-row data-cy="qr-container">
             <div v-if="!qrError">
               <v-col class="qr-container" cols="12" v-if="QRtoggle">
+                <v-btn rounded v-if="multipleCameras">
+                  <v-icon
+                    icon="mdi-camera-flip-outline"
+                    @click="toggleCamera"
+                    style="color: #0f71cb"
+                  ></v-icon>
+                </v-btn>
                 <div class="stream-container">
                   <v-icon
                     size="x-large"
@@ -65,7 +72,11 @@
                     md
                     icon="mdi-close-thick"
                   ></v-icon>
-                  <QrcodeStream v-if="QRtoggle" :key="reloadReader" />
+                  <QrcodeStream
+                    :facingMode="facingMode"
+                    v-if="QRtoggle"
+                    :key="reloadReader"
+                  />
                 </div>
               </v-col>
               <v-col cols="12" v-else class="qr-container">
@@ -111,6 +122,9 @@ export default {
       isHidden: false,
       QRtoggle: false,
       reloadReader: 0,
+      facingMode: "front",
+
+      multipleCameras: true,
     };
   },
   computed: {
@@ -123,10 +137,28 @@ export default {
       LogotypeDPP,
     };
   },
-  created() {
+  mounted() {
     this.checkCameraPermission();
+    this.toggleCamera();
   },
   methods: {
+    async toggleCamera() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+
+        if (videoDevices.length > 1) {
+          this.facingMode = this.facingMode === "front" ? "rear" : "front";
+        } else {
+          this.multipleCameras = false;
+          this.facingMode = "auto";
+        }
+      } catch (error) {
+        console.error("Error toggling camera:", error);
+      }
+    },
     async checkCameraPermission() {
       try {
         const permissionStatus = await navigator.permissions.query({

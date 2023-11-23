@@ -27,7 +27,6 @@
     @decode="onDecode"
     :camera="facingMode"
   >
-    <div>{{ facingMode }}</div>
   </qrcode-stream>
 </template>
 

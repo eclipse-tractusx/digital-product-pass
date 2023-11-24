@@ -157,8 +157,10 @@ backend:
           bpn:
             key: "manufacturerPartId"
             searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+            timeout: 1500
           edc:
             key: "bpn"
+            timeout: 1500
       
       
         process:

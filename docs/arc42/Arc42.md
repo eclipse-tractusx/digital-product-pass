@@ -331,6 +331,8 @@ This means that first the backend will search in the digital twin if the digital
 
 #### Data Negotiation and Transfer Phase
 
+The **Data Negotiation and Transfer Phase** as it is detailed at the [Data Retrieval Guide Phase 4](../data%20retrieval%20guide/DataRetrievalGuide.md#4-data-negotiation-and-transfer-phase-1) is the phase responsible for the final data transfer and negotiation. In this phase we retrieve the data using the EDC.
+
 Once the user has the contract he can call the `/negotiate` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.
 
 The other option rather than `/negotiate` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="confluence.catena-x.net" modified="2023-11-20T08:22:26.783Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="h6iOIOsIsscbPZXewyIV" version="21.6.8" type="atlas">
+<mxfile host="confluence.catena-x.net" modified="2023-11-24T17:34:01.889Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="8mJyjN6yA44rRLEU7itq" version="21.6.8" type="atlas">
   <diagram id="RZplzNLQ2BTHcVpg_CxX" name="Page-1">
     <mxGraphModel dx="2314" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -89,7 +89,7 @@
         <mxCell id="anbiooKpVJmvCyXVONAX-28" value="/decline" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="875" y="1010" width="50" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="anbiooKpVJmvCyXVONAX-26" value="/sign" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="anbiooKpVJmvCyXVONAX-26" value="/negotiate" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="875" y="920" width="50" height="80" as="geometry" />
         </mxCell>
         <mxCell id="anbiooKpVJmvCyXVONAX-25" value="/search" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -176,7 +176,7 @@
             <mxPoint x="875" y="940" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="anbiooKpVJmvCyXVONAX-53" value="&lt;b&gt;processId + contractId + Sign Token&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" parent="anbiooKpVJmvCyXVONAX-52" connectable="0" vertex="1">
+        <mxCell id="anbiooKpVJmvCyXVONAX-53" value="&lt;b&gt;processId + contractId + policyId + Sign Token&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" parent="anbiooKpVJmvCyXVONAX-52" connectable="0" vertex="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="anbiooKpVJmvCyXVONAX-54" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" parent="1" edge="1">
@@ -239,7 +239,7 @@
             <mxPoint x="500" y="960" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="anbiooKpVJmvCyXVONAX-72" value="Sign Contract" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" parent="anbiooKpVJmvCyXVONAX-71" connectable="0" vertex="1">
+        <mxCell id="anbiooKpVJmvCyXVONAX-72" value="Select Policy + Sign Contract" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" parent="anbiooKpVJmvCyXVONAX-71" connectable="0" vertex="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="anbiooKpVJmvCyXVONAX-74" value="" style="endArrow=none;dashed=1;html=1;rounded=0;entryX=0.5;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=none;" parent="1" source="anbiooKpVJmvCyXVONAX-65" target="anbiooKpVJmvCyXVONAX-73" edge="1">

@@ -170,7 +170,7 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
 
-![Data Retrieval Context](media/dataRetrieval/digitalProductPassContexte.jpg)
+![Data Retrieval Context](media/dataRetrieval/digitalProductPassContext.jpg)
 
 ### Application State Diagram
 

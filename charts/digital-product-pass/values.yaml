@@ -112,6 +112,10 @@ backend:
     # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
     clientId: "<Add client id here>"
     clientSecret: "<Add client secret here>"
+    realm: CX-Central
+    resource: Cl13-CX-Battery
+    tokenUri: ""
+    userInfoUri: ""
   # -- backend server url
   url: ""
   # -- configuration of the spring boot server
@@ -122,34 +126,28 @@ backend:
       root: INFO
       # -- logging for the util components
       utils: INFO
-  configuration:
-    # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
-    # -- max retries for the backend services
-    maxRetries: 5
-    # -- keycloak configuration
-    keycloak:
-      realm: CX-Central
-      resource: Cl13-CX-Battery
-      tokenUri: ""
-      userInfoUri: ""
-    # -- security configuration
-    securityCheck:
-      enabled: false
-      bpn: false
-      edc: false
-    # -- irs configuration
-    irs:
-      endpoint: ""
-    # -- digital twin registry configuration
-    process:
-      # -- unique sha512 hash key used for the passport encryption
-      authorizationKey: ""
-    # -- passport data transfer configuration
-    passport:
-      # -- passport versions and aspects allowed
-      aspects:
-        - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-        - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+  # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
+  # -- max retries for the backend services
+  maxRetries: 5
+  # -- security configuration
+  securityCheck:
+    enabled: false
+    bpn: false
+    edc: false
+  # -- irs configuration
+  irs:
+    endpoint: ""
+  # -- digital twin registry configuration
+  process:
+    # -- unique sha512 hash key used for the passport encryption
+    authorizationKey: ""
+  # -- passport data transfer configuration
+  passport:
+    # -- passport versions and aspects allowed
+    aspects:
+      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
   digitalTwinRegistry:
     # -- central digital twin registry url
     url: ""

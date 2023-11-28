@@ -90,6 +90,10 @@ backend:
   oauth:
     clientId: <path:material-pass/data/dev/backend#clientId>
     clientSecret: <path:material-pass/data/dev/backend#clientSecret>
+    realm: CX-Central
+    resource: Cl13-CX-Battery
+    tokenUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    userInfoUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo"
 
   url: *hostname
   serverPort: 8888
@@ -97,25 +101,20 @@ backend:
     level:
       root: INFO
       utils: INFO
-  configuration:
-    maxRetries: 10
-    keycloak:
-      realm: CX-Central
-      resource: Cl13-CX-Battery
-      tokenUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-      userInfoUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo"
-    securityCheck:
-      enabled: true
-      bpn: true
-      edc: true
-    irs:
-      endpoint: "materialpass-irs.dev.demo.catena-x.net"
-    process:
-      authorizationKey: "<path:material-pass/data/dev/backend/#signKey>"
-    passport:
-      aspects:
-        - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-        - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+  maxRetries: 10      
+  securityCheck:
+    enabled: true
+    bpn: true
+    edc: true
+  irs:
+    endpoint: "materialpass-irs.dev.demo.catena-x.net"
+  process:
+    authorizationKey: "<path:material-pass/data/dev/backend/#signKey>"
+  passport:
+    aspects:
+      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
   digitalTwinRegistry:
     url: "https://semantics.dev.demo.catena-x.net/registry"
     endpoints:

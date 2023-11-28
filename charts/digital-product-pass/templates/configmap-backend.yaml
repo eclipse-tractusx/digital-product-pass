@@ -45,7 +45,7 @@ data:
         
     configuration:
       # -- max retries for the backend services
-      maxRetries: {{ .Values.backend.configuration.maxRetries }}
+      maxRetries: {{ .Values.backend.maxRetries }}
       # -- keycloak configuration
       keycloak:
         realm: {{ .Values.backend.oauth.realm }}

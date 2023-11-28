@@ -79,8 +79,6 @@ backend:
           - *hostname
 
   edc:
-    clientId: <path:material-pass/data/dev/backend#clientId>
-    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
     xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
     participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
     endpoint: "https://materialpass.dev.demo.catena-x.net/consumer"
@@ -89,6 +87,9 @@ backend:
     negotiation: "/contractnegotiations"
     transfer: "/transferprocesses"
     delay: 100
+  oauth:
+    clientId: <path:material-pass/data/dev/backend#clientId>
+    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
 
   url: *hostname
   serverPort: 8888

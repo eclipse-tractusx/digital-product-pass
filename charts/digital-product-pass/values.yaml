@@ -96,10 +96,6 @@ backend:
 
   # -- in this section we configure the values that are inserted as secrets in the backend
   edc:
-    # -- technical user keycloak central id credentials
-    # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
-    clientId: "<Add client id here>"
-    clientSecret: "<Add client secret here>"
     # -- the secret for assesing the edc management API
     xApiKey: "<Add API key here>"
     # -- BPN Number
@@ -111,6 +107,11 @@ backend:
     negotiation: ""
     transfer: ""
     delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+  oauth:
+    # -- technical user keycloak central id credentials
+    # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
   # -- backend server url
   url: ""
   # -- configuration of the spring boot server

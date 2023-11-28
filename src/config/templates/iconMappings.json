@@ -20,5 +20,7 @@
   "electrochemical": "mdi-electron-framework",
   "data": "mdi-data-matrix",
   "chemistry": "mdi-react",
-  "exchange": "mdi-file-swap-outline"
+  "exchange": "mdi-file-swap-outline",
+  "weight": "mdi-weight",
+  "diameter": "mdi-diameter-outline"
 }

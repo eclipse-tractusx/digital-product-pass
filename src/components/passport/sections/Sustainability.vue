@@ -24,41 +24,71 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData['PEF']">
+            <template v-if="propsData['PEF'].carbon">
+              <template v-for="attr in propsData['PEF'].carbon" :key="attr">
+                <Field
+                  :icon="callIconFinder('carbon')"
+                  :label="attr.type"
+                  :value="attr.value"
+                  :unit="attr.unit"
+                />
+              </template>
+            </template>
+            <template v-if="propsData['PEF'].carbon">
+              <template
+                v-for="attr in propsData['PEF'].environmental"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('carbon')"
+                  :label="attr.type"
+                  :value="attr.value"
+                  :unit="attr.unit"
+                />
+              </template>
+            </template>
+          </template>
+          <template v-if="propsData.state">
             <Field
-              icon="mdi-image-size-select-small"
+              :icon="callIconFinder('Sustainability')"
               label="State"
               :value="propsData.state"
             />
-            <AttributeField
-              icon="mdi-image-size-select-small"
-              label="Material"
-              :attributes-list="propsData.material"
-            />
-          </v-col>
-        </template>
-        <template v-if="propsData.carbonFootprint">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Carbon content total"
-              :value="propsData.carbonFootprint.carbonContentTotal"
-            />
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Cross sectoral standard"
-              :value="propsData.carbonFootprint.crossSectoralStandard"
-            />
-            <AttributeField
-              icon="mdi-image-size-select-small"
-              label="Material"
-              :attributes-list="
-                propsData.carbonFootprint.productOrSectorSpecificRules
-              "
-            />
-          </v-col>
-        </template>
+          </template>
+        </v-col>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.material">
+            <template v-for="attr in propsData.material.left" :key="attr">
+              <Field
+                :icon="callIconFinder('material')"
+                :label="attr.name.type"
+                :value="attr.name.name"
+                :unit="attr.unit"
+              />
+              <template v-for="attr in attr.id" :key="attr">
+                <Field
+                  :icon="callIconFinder('id')"
+                  :label="attr.type"
+                  :value="attr.id"
+                  :unit="attr.unit"
+                />
+              </template>
+            </template>
+          </template>
+        </v-col>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.critical">
+            <template v-for="attr in propsData.critical.left" :key="attr">
+              <Field
+                :icon="callIconFinder('material')"
+                label="Critical"
+                :value="attr"
+              />
+            </template>
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -66,12 +96,11 @@
 
 <script>
 import Field from "../Field.vue";
-import AttributeField from "../AttributeField.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "SustainabilityComponent",
   components: {
-    AttributeField,
     Field,
   },
   props: {
@@ -84,6 +113,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.sustainability,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

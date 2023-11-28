@@ -107,7 +107,7 @@ backend:
   irs:
     endpoint: "materialpass-irs.int.demo.catena-x.net"
   process:
-    authorizationKey: "<path:material-pass/data/int/backend/#signKey>"
+    encryptionKey: "<path:material-pass/data/int/backend/#signKey>"
   passport:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"

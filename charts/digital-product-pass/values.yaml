@@ -93,6 +93,11 @@ backend:
   # -- ingress declaration to expose the dpp-backend service
   ingress:
     enabled: false
+    hosts:
+      - host: &hostname "localhost"
+        paths:
+          - path: /
+            pathType: Prefix
 
   # -- in this section we configure the values that are inserted as secrets in the backend
   edc:
@@ -110,14 +115,15 @@ backend:
   oauth:
     # -- technical user keycloak central id credentials
     # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
-    clientId: "<Add client id here>"
-    clientSecret: "<Add client secret here>"
+    techUser:
+      clientId: "<Add client id here>"
+      clientSecret: "<Add client secret here>"
     realm: CX-Central
-    resource: Cl13-CX-Battery
+    resource: ""
     tokenUri: ""
     userInfoUri: ""
   # -- backend server url
-  url: ""
+  url: *hostname
   # -- configuration of the spring boot server
   serverPort: 8888
   logging:
@@ -140,7 +146,7 @@ backend:
   # -- digital twin registry configuration
   process:
     # -- unique sha512 hash key used for the passport encryption
-    authorizationKey: ""
+    encryptionKey: ""
   # -- passport data transfer configuration
   passport:
     # -- passport versions and aspects allowed
@@ -165,13 +171,17 @@ backend:
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
-    # -- discovery configuration
-    discoveryFinderUrl: ""
+  # -- discovery configuration
+  discovery:
+    # -- discovery finder configuration
+    url: ""
     # -- bpn discovery configuration
-    bpnKey: "manufacturerPartId"
-    bpnSearchUrl: ""
+    bpnDiscovery:
+      key: "manufacturerPartId"
+      path: "/api/v1.0/administration/connectors/bpnDiscovery/search"
     # -- edc discovery configuration
-    edcKey: "bpn"
+    edcDiscovery:
+      key: "bpn"
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits

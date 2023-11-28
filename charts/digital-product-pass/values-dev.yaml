@@ -109,7 +109,7 @@ backend:
   irs:
     endpoint: "materialpass-irs.dev.demo.catena-x.net"
   process:
-    authorizationKey: "<path:material-pass/data/dev/backend/#signKey>"
+    encryptionKey: "<path:material-pass/data/dev/backend/#signKey>"
   passport:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
@@ -128,7 +128,10 @@ backend:
       digitalTwin: 20
     temporaryStorage:
       enabled: true
-    discoveryFinderUrl: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
-    bpnKey: "manufacturerPartId"
-    bpnSearchUrl: "/api/v1.0/administration/connectors/bpnDiscovery/search"
-    edcKey: "bpn"
+  discovery:
+    url: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
+    bpnDiscovery:
+      key: "manufacturerPartId"
+      path: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+    edcDiscovery:
+      key: "bpn"

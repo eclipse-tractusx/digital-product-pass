@@ -119,7 +119,7 @@ data:
         # -- indent the process negotiation files
         indent: true
         # -- unique sha512 hash key used for the passport encryption
-        signKey: {{ tpl (.Values.backend.process.authorizationKey | default "") . | quote }}
+        signKey: {{ tpl (.Values.backend.process.encryptionKey | default "") . | quote }}
       # -- passport data transfer configuration
       passport:
         # -- configure the data transfer

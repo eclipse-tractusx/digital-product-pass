@@ -21,37 +21,18 @@
  */
 
 import jsonUtil from "@/utils/jsonUtil.js";
-import cryptUtil from "@/utils/cryptUtil.js";
+import cryptUtil from "@/utils/cryptUtil";
 export default {
-    unwrapToken(token) {
-        try {
-            return jsonUtil.toJson(
-                cryptUtil.decodeUrl(
-                    cryptUtil.fromBase64(
-                        token.split('.')[1]
-                            .replace(/-/g, '+')
-                            .replace(/_/g, '/'))
-                        .split('').map(
-                            (c) => {
-                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                            }
-                        ).join('')
-                )
-            );
-        } catch (e) {
-            console.error.log("[ERROR] It was not possible to parse token: " + e); // Print error message
-            return null;
-        }
+    decodeToken(token){
+        return jsonUtil.toJson(cryptUtil.fromBase64(String(token).split(".")[1]))
     },
     checkBpn(token, bpn){
-        let parsedToken = this.unwrapToken(token);
-        if(parsedToken == null){
-            return false;
-        }
+        let parsedToken = this.decodeToken(token);
+        if (parsedToken == null) return false;
         if(!jsonUtil.exists(parsedToken, "bpn")){
             return false;
         }
-        let tokenBpn = jsonUtil.get("bpn", parsedToken, ".", null);
+        let tokenBpn = jsonUtil.get("bpn",parsedToken, ".", null);
         if(bpn == null){
             return false;
         }

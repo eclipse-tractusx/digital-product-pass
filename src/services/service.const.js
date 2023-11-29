@@ -27,28 +27,30 @@ import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VERSION";
 
 // Mandatory URLs
-const IDP_URL = "IDENTITY_PROVIDER_URL";
+const IDP_URL = "https://centralidp.int.demo.catena-x.net/auth/";
 
 // Get urls that can be empty
-let serverUrl = "HOST_URL";
+let serverUrl = "http://localhost:8080";
 let backendUrl = "DATA_URL";
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let irsDelay = 'APP_IRS_DELAY';
 let irsMaxWaitingTime = 'APP_IRS_WAITING_TIME'; 
 let delay = 'APP_API_DELAY';
-let clientId = "KEYCLOAK_CLIENTID";
-let realm = "KEYCLOAK_REALM";
-let onLoad = "KEYCLOAK_ONLOAD";
 let commitId = "REPO_COMMIT_ID";
 let repoEndpoint = "REPO_ENDPOINT_URL";
+let bpnCheck = "AUTH_BPN_CHECK";
+let bpn = "AUTH_BPN_NUMBER";
+let portalUrl = "APP_PORTAL_URL";
+let adminEmail = "APP_ADMIN_EMAIL";
 
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
-clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
-realm = (realm != null && realm !== "") ? realm : "CX-Central"
-onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
+adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
+portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
+bpnCheck = (bpnCheck === "true")
+
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
@@ -65,27 +67,28 @@ const API_TIMEOUT = timeout;
 const IRS_DELAY = irsDelay;
 const IRS_MAX_WAITING_TIME = irsMaxWaitingTime;
 const API_DELAY = delay;
-const CLIENT_ID = clientId;
-const REALM = realm;
-const ONLOAD = onLoad;
 const COMMIT_ID = commitId;
 const REPO_ENDPOINT = repoEndpoint;
-
+const BPN_CHECK = bpnCheck;
+const BPN = bpn;
+const PORTAL_URL = portalUrl;
+const ADMIN_EMAIL = adminEmail;
 // Initialize configuration objects
 let INIT_OPTIONS = {
   url: null,
-  clientId: CLIENT_ID, // Catena-X ClientId for Battery Pass
-  realm: REALM, // Catena-X Realm
-  onLoad: ONLOAD
+  clientId: 'Cl13-CX-Battery', // Catena-X ClientId for Battery Pass
+  realm: 'CX-Central', // Catena-X Realm
+  onLoad: 'login-required'
 };
 let REDIRECT_URI = "";
 
 if (window.location.href.includes("localhost")) { //Modify credentials for local runs
   INIT_OPTIONS["url"] = (IDP_URL != null) ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
+  
   REDIRECT_URI = "http://localhost:8080/";
 } else {
   INIT_OPTIONS["url"] = IDP_URL;
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME };
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL};

@@ -20,30 +20,48 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { REDIRECT_URI, INIT_OPTIONS } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
+import authUtil from "@/utils/authUtil";
 
 export default class Authentication {
     constructor() {
+      this.login = false;
+      this.authorized = false;
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
     keycloakInit(app) {
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
+      
         if (!auth) {
           window.location.reload();
         }
         else {
-          app.mount('#app');
+          this.login = true;
+          if(!BPN_CHECK){
+            this.authorized = true;
+          }
+          else if(authUtil.checkBpn(this.keycloak.token, BPN)){
+            this.authorized = true;
+          }
         }
         //Token Refresh
         setInterval(() => {
           this.updateToken(60);
         }, 60000);
-
       }).catch((e) => {
         console.log(e);
+        this.authorized = false;
+        this.login = false;
         console.error("keycloakInit -> Login Failure");
       });
+      app.mount('#app');
+    }
+    loginAvailable(){
+      return this.login;
+    }
+    isAuthorized(){
+      return this.authorized;
     }
     getAccessToken() {
       return this.keycloak.token;
@@ -73,13 +91,16 @@ export default class Authentication {
       return this.keycloak.clientId;
     }
     decodeAccessToken() {
-      return JSON.parse(window.atob(this.keycloak.token.split(".")[1]));
+      return authUtil.decodeToken(this.keycloak.token);
     }
     getUserName() {
       return this.decodeAccessToken().email;
     }
     getName() {
       return this.decodeAccessToken().name;
+    }
+    getBpn() {
+      return this.decodeAccessToken().bpn;
     }
     getSessionId() {
       return this.keycloak.sessionId;

@@ -23,14 +23,34 @@
 <template>
   <v-app>
     <v-main>
-      <router-view />
+      <template v-if="auth.loginAvailable()">
+      <template v-if="auth.isAuthorized()">
+        <router-view />
+      </template>
+      <template v-else>
+        <NotAuthorizedComponent />
+      </template>
+      </template>
+      <template v-else>
+        <NotAvailableComponent />
+      </template>
     </v-main>
   </v-app>
 </template>
 
 <script>
+
+import NotAuthorizedComponent from './components/general/NotAuthorizedComponent.vue';
+import { inject } from "vue";
+import NotAvailableComponent from './components/general/NotAvailableComponent.vue';
 export default {
+  components: { NotAuthorizedComponent, NotAvailableComponent },
   name: "App",
+  data() {
+    return {
+      auth: inject("authentication")
+    };
+  },
 };
 </script>
 
@@ -49,7 +69,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: url(https://portal.dev.demo.catena-x.net/assets/images/frame/Home.png);
+  background-image: url('@/media/Home.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

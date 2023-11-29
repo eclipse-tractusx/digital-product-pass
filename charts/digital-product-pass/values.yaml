@@ -174,7 +174,7 @@ backend:
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
-     
+
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration

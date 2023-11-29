@@ -20,44 +20,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-frontend:
-  ingress:
-    enabled: true
-    #className: ""
-    annotations:
-      ingressClassName: nginx
-      # kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/service-upstream: "true"
-    hosts:
-      - host: materialpass.beta.demo.catena-x.net
-        paths:
-          - path: /passport(/|$)(.*)
-            pathType: Prefix
-    tls:
-      - secretName: tls-secret
-        hosts:
-          - materialpass.beta.demo.catena-x.net
-
-  edc:
-    clientId: <path:material-pass/data/beta/aasregistry#client.id>
-    clientSecret: <path:material-pass/data/beta/aasregistry#client.secret>
-    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
-
-  # Product Passport UI Configuration
-  productpass:
-    backend_url: "materialpass.beta.demo.catena-x.net"
-    idp_url: "centralidp.beta.demo.catena-x.net/auth/"
-    keycloak:
-      clientId: "Cl13-CX-Battery"
-      realm: "CX-Central"
-      onLoad: "login-required"
-    irsDelay: ""
-    irsMaxWaitingTime: ""
-
 backend:
   ingress:
     enabled: true
@@ -81,58 +43,57 @@ backend:
   edc:
     xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
     participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
-    endpoint: "https://materialpass.beta.demo.catena-x.net/consumer"
-    management: "/management/v2"
-    catalog: "/catalog/request"
-    negotiation: "/contractnegotiations"
-    transfer: "/transferprocesses"
-    delay: 100
+    endpoint: "materialpass.beta.demo.catena-x.net/consumer"
 
-  oauth:
-    clientId: <path:material-pass/data/beta/backend#clientId>
-    clientSecret: <path:material-pass/data/beta/backend#clientSecret>
-    realm: CX-Central
-    resource: Cl13-CX-Battery
-    tokenUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-    userInfoUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo"
-
-  url: *hostname
-  serverPort: 8888
-  logging:
-    level:
-      root: INFO
-      utils: INFO
-  maxRetries: 10      
+  hostname: *hostname
   securityCheck:
     enabled: true
     bpn: true
     edc: true
+
   irs:
-    endpoint: "materialpass-irs.beta.demo.catena-x.net"
+    enabled: true
+    hostnam: "materialpass-irs.beta.demo.catena-x.net"
+
   process:
     encryptionKey: "<path:material-pass/data/beta/backend/#signKey>"
-  passport:
-    aspects:
-      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
-  digitalTwinRegistry:
-    url: "https://semantics.beta.demo.catena-x.net/registry"
-    endpoints:
-      search: "/lookup/shells"
-      digitalTwin: "/shell-descriptors"
-      subModel: "/submodel-descriptors"
-    timeouts:
-      search: 10
-      negotiation: 40
-      transfer: 10
-      digitalTwin: 20
-    temporaryStorage:
-      enabled: true
+
   discovery:
-    url: "https://semantics.beta.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
-    bpnDiscovery:
-      key: "manufacturerPartId"
-      path: "/api/v1.0/administration/connectors/bpnDiscovery/search"
-    edcDiscovery:
-      key: "bpn"
+    hostname: "semantics.beta.demo.catena-x.net/discoveryfinder"
+
+frontend:
+  ingress:
+    enabled: true
+    #className: ""
+    annotations:
+      ingressClassName: nginx
+      # kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/service-upstream: "true"
+    hosts:
+      - host: materialpass.beta.demo.catena-x.net
+        paths:
+          - path: /passport(/|$)(.*)
+            pathType: Prefix
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - materialpass.beta.demo.catena-x.net
+
+  edc:
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+
+  # Product Passport UI Configuration
+  backend:
+    hostname: "materialpass.beta.demo.catena-x.net"
+
+oauth:
+  hostname: "centralidp.int.demo.catena-x.net"
+  techUser:
+    clientId: <path:material-pass/data/int/backend#clientId>
+    clientSecret: <path:material-pass/data/int/backend#clientSecret>
+  realm: <path:material-pass/data/int/oauth#realm>
+  appId: <path:material-pass/data/int/oauth#appId>

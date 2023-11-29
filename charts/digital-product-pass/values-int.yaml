@@ -20,6 +20,46 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
+backend:
+  ingress:
+    enabled: true
+    # className: "nginx"
+    annotations:
+      ingressClassName: nginx
+      # kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - host: &hostname "materialpass.int.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - *hostname
+  edc:
+    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+    participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
+    endpoint: "materialpass.int.demo.catena-x.net/consumer"
+
+  hostname: *hostname
+  securityCheck:
+    enabled: true
+    bpn: true
+    edc: true
+
+  irs:
+    enabled: true
+    hostname: "materialpass-irs.int.demo.catena-x.net"
+
+  process:
+    encryptionKey: "<path:material-pass/data/int/backend/#signKey>"
+
+  discovery:
+    hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
+
 frontend:
   ingress:
     enabled: true
@@ -43,93 +83,15 @@ frontend:
           - materialpass.int.demo.catena-x.net
 
   edc:
-    clientId: <path:material-pass/data/int/aasregistry#client.id>
-    clientSecret: <path:material-pass/data/int/aasregistry#client.secret>
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
 
-  productpass:
-    backend_url: "materialpass.int.demo.catena-x.net"
-    idp_url: "centralidp.int.demo.catena-x.net/auth/"
-    keycloak:
-      clientId: "Cl13-CX-Battery"
-      realm: "CX-Central"
-      onLoad: "login-required"
-    irsDelay: ""
-    irsMaxWaitingTime: ""
+  backend:
+    hostname: *hostname
 
-backend:
-  ingress:
-    enabled: true
-    # className: "nginx"
-    annotations:
-      ingressClassName: nginx
-      # kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    hosts:
-      - host: &hostname "materialpass.int.demo.catena-x.net"
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: tls-secret
-        hosts:
-          - *hostname
-  edc:
-    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-    participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
-    endpoint: "https://materialpass.int.demo.catena-x.net/consumer"
-    management: "/management/v2"
-    catalog: "/catalog/request"
-    negotiation: "/contractnegotiations"
-    transfer: "/transferprocesses"
-    delay: 100
-  oauth:
+oauth:
+  hostname: "centralidp.int.demo.catena-x.net"
+  techUser:
     clientId: <path:material-pass/data/int/backend#clientId>
     clientSecret: <path:material-pass/data/int/backend#clientSecret>
-    realm: CX-Central
-    resource: Cl13-CX-Battery
-    tokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-    userInfoUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/userinfo"
-
-  url: *hostname
-  serverPort: 8888
-  logging:
-    level:
-      root: INFO
-      utils: INFO
-  maxRetries: 10
-  securityCheck:
-    enabled: true
-    bpn: true
-    edc: true
-  irs:
-    endpoint: "materialpass-irs.int.demo.catena-x.net"
-  process:
-    encryptionKey: "<path:material-pass/data/int/backend/#signKey>"
-  passport:
-    aspects:
-      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
-  digitalTwinRegistry:
-    url: "https://semantics.int.demo.catena-x.net/registry"
-    endpoints:
-      search: "/lookup/shells"
-      digitalTwin: "/shell-descriptors"
-      subModel: "/submodel-descriptors"
-    timeouts:
-      search: 10
-      negotiation: 40
-      transfer: 10
-      digitalTwin: 20
-    temporaryStorage:
-      enabled: true
-  discovery:
-    url: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
-    bpnDiscovery:
-      key: "manufacturerPartId"
-      path: "/api/v1.0/administration/connectors/bpnDiscovery/search"
-    edcDiscovery:
-      key: "bpn"
+  realm: <path:material-pass/data/int/oauth#realm>
+  appId: <path:material-pass/data/int/oauth#appId>

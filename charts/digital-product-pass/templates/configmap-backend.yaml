@@ -48,18 +48,18 @@ data:
       maxRetries: {{ .Values.backend.maxRetries }}
       # -- keycloak configuration
       keycloak:
-        realm: {{ .Values.backend.oauth.realm }}
-        resource: {{ .Values.backend.oauth.resource }}
-        tokenUri: {{ tpl (.Values.backend.oauth.tokenUri | default "http://localhost") . | quote }}
-        userInfoUri: {{ tpl (.Values.backend.oauth.userInfoUri | default "http://localhost") . | quote }}
+        realm: {{ .Values.oauth.realm }}
+        resource: {{ .Values.oauth.appId }}
+        tokenUri: "https://{{ tpl (.Values.oauth.hostname | default "http://localhost") .  }}/auth/realms/{{ .Values.oauth.realm }}/protocol/openid-connect/token"
+        userInfoUri: "https://{{ tpl (.Values.oauth.hostname | default "http://localhost") .  }}/auth/realms/{{ .Values.oauth.realm }}/protocol/openid-connect/userinfo"
       # -- edc consumer connection configuration
       edc:
-        endpoint: {{ .Values.backend.edc.endpoint }}
-        management: {{ .Values.backend.edc.management }}
-        catalog: {{ .Values.backend.edc.catalog }}
-        negotiation: {{ .Values.backend.edc.negotiation }}
-        transfer: {{ .Values.backend.edc.transfer }}
-        receiverEndpoint: "https://{{ .Values.backend.url }}/endpoint"
+        endpoint: "https://{{ .Values.backend.edc.endpoint }}"
+        management: {{ .Values.backend.edc.apis.management }}
+        catalog: {{ .Values.backend.edc.apis.catalog }}
+        negotiation: {{ .Values.backend.edc.apis.negotiation }}
+        transfer: {{ .Values.backend.edc.apis.transfer }}
+        receiverEndpoint: "https://{{ .Values.backend.hostname }}/endpoint"
         delay:  {{ .Values.backend.edc.delay }} # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
       # -- security configuration
       security:
@@ -69,19 +69,16 @@ data:
           edc: {{ .Values.backend.securityCheck.edc }}
       # -- irs configuration
       irs:
-        enabled: true # -- Enable search for children in the requests
-        endpoint: "https://{{ .Values.backend.irs.endpoint }}" # -- IRS endpoint
+        enabled: {{ .Values.backend.irs.enabled }} # -- Enable search for children in the requests
+        endpoint: "https://{{ .Values.backend.irs.hostname }}" # -- IRS endpoint
         paths:
           job: "/irs/jobs" # -- API path for calling in the IRS endpoints and staring/getting jobs
         tree:
           fileName: "treeDataModel" # -- Tree dataModel filename created in the processId directory
           indent: true # -- Indent tree file
-        callbackUrl: "https://{{ .Values.backend.url }}/api/irs" # -- Backend call back base url for the irs controller
+        callbackUrl: "https://{{ .Values.backend.hostname }}/api/irs" # -- Backend call back base url for the irs controller
       # -- digital twin registry configuration
       dtr:
-        central: false
-        # -- central digital twin registry url
-        centralUrl: 'https://{{ .Values.backend.digitalTwinRegistry.url }}'
         # -- asset type to search for the registry in the edc
         assetType: 'data.core.digitalTwinRegistry'
         # -- submodel endpoint interface to search
@@ -104,7 +101,7 @@ data:
       # -- discovery configuration
       discovery:
         # -- discovery finder configuration
-        endpoint: {{ tpl (.Values.backend.discovery.url | default "") . | quote }}
+        endpoint: "https://{{ tpl (.Values.backend.discovery.hostname | default "") . }}/api/v1.0/administration/connectors/discovery/search"
         # -- bpn discovery configuration
         bpn:
           key: {{ tpl (.Values.backend.discovery.bpnDiscovery.key | default "manufacturerPartId") . | quote }}
@@ -131,7 +128,7 @@ data:
           # -- directory to store the passport when is not linked to a process
           dir: "data/transfer"
         # -- passport versions and aspects allowed
-        aspects: {{ .Values.backend.passport.aspects }}
+        aspects: {{- toYaml .Values.backend.passport.aspects | nindent 10 }}
     # -- configuration of the spring boot server
     server:
       # -- configuration of backend errors

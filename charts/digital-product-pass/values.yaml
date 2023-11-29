@@ -47,33 +47,39 @@ frontend:
     hosts: []
 
   # -- product passport UI configuration
-  productpass:
-    # -- url of the digital product pass backend service
-    backend_url: ""
-    # -- url of the identity provider service
-    idp_url: ""
 
-    # -- api timeouts
-    api:
-      # -- max retries for getting status
-      max_retries: 30
-      # -- default timeout  - 90 seconds in milliseconds
-      timeout: 90000
-      # -- delay from getting status
-      delay: 1000
+  # -- url of the digital product pass backend service
+  backend:
+    hostname: ""
 
-    # -- irs api timeouts
-    irs:
-      # -- request timeout delay
-      requestDelay: 30000
-      # -- maximum waiting time to get the irs job status
-      maxWaitingTime: 30
+  # -- api timeouts
+  api:
+    # -- max retries for getting status
+    max_retries: 30
+    # -- default timeout  - 90 seconds in milliseconds
+    timeout: 90000
+    # -- delay from getting status
+    delay: 1000
 
-    # -- keycloak specific configuration for frontend authentication
-    keycloak:
-      clientId: ""
-      realm: ""
-      onLoad: "login-required"
+  # -- irs api timeouts
+  irs:
+    # -- request timeout delay
+    requestDelay: 30000
+    # -- maximum waiting time to get the irs job status
+    maxWaitingTime: 30
+
+# -- oauth configuration
+oauth:
+  # -- url of the identity provider service
+  hostname: ""
+  # -- technical user keycloak central id credentials
+  # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+  techUser:
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
+  realm: ""
+  appId: ""
+  onLoad: "login-required"
 
 # -- Backend configuration
 backend:
@@ -107,46 +113,45 @@ backend:
     participantId: "<Add participant id here>"
     # -- edc consumer connection configuration
     endpoint: ""
-    management: ""
-    catalog: ""
-    negotiation: ""
-    transfer: ""
+    apis:
+      management: '/management/v2'
+      catalog: '/catalog/request'
+      negotiation: '/contractnegotiations'
+      transfer: '/transferprocesses'
     delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-  oauth:
-    # -- technical user keycloak central id credentials
-    # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
-    techUser:
-      clientId: "<Add client id here>"
-      clientSecret: "<Add client secret here>"
-    realm: CX-Central
-    resource: ""
-    tokenUri: ""
-    userInfoUri: ""
-  # -- backend server url
-  url: *hostname
+
+  # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
+  hostname: *hostname
   # -- configuration of the spring boot server
   serverPort: 8888
+
   logging:
     level:
       # -- general logging level
       root: INFO
       # -- logging for the util components
       utils: INFO
+
   # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
   # -- max retries for the backend services
   maxRetries: 5
+
   # -- security configuration
   securityCheck:
     enabled: false
     bpn: false
     edc: false
+
   # -- irs configuration
   irs:
-    endpoint: ""
+    enabled: false
+    hostname: ""
+
   # -- digital twin registry configuration
   process:
     # -- unique sha512 hash key used for the passport encryption
     encryptionKey: ""
+
   # -- passport data transfer configuration
   passport:
     # -- passport versions and aspects allowed
@@ -154,10 +159,8 @@ backend:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+
   digitalTwinRegistry:
-    # -- central digital twin registry url
-    url: ""
-    # -- decentral digital twin apis
     endpoints:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -171,10 +174,11 @@ backend:
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
+      
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration
-    url: ""
+    hostname: ""
     # -- bpn discovery configuration
     bpnDiscovery:
       key: "manufacturerPartId"

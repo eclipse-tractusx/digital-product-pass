@@ -19,12 +19,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- @media (max-width: 585px) {
-  .header-container{
-    padding: 0px 14px 0 0px!important;
+@media (max-width: 585px) {
+  .header-container {
+    padding: 0px 14px 0 0px !important;
   }
- }
-
+}
 
 .header-container {
   position: fixed;
@@ -110,19 +109,17 @@
   line-height: 1.42857;
   .language {
     color: $catena-x-blue;
-    cursor: pointer;
+    margin: 0px 16px 0px 0px;
+    font-weight: 500;
   }
   .active {
-    font-weight: 500;
     color: black;
     border-bottom: 2px solid;
   }
 
   .inactive {
     color: rgb(15 113 203 / 50%);
-    font-weight: 500;
-    cursor: not-allowed;
-    margin: 0px 16px 0px 0px;
+    cursor: pointer;
     line-height: 1.42857;
   }
 }

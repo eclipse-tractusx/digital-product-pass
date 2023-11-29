@@ -87,8 +87,24 @@
                       <span class="profile-text">Sign Out</span>
                     </v-btn>
                     <div class="profile-menu-lang">
-                      <a disabled class="language inactive">DE</a>
-                      <a class="language active">EN</a>
+                      <a
+                        :class="{
+                          language: true,
+                          inactive: activeLanguage !== 'de',
+                          active: activeLanguage === 'de',
+                        }"
+                        @click="setLanguage('de')"
+                        >DE</a
+                      >
+                      <a
+                        :class="{
+                          language: true,
+                          inactive: activeLanguage !== 'en',
+                          active: activeLanguage === 'en',
+                        }"
+                        @click="setLanguage('en')"
+                        >EN</a
+                      >
                     </div>
                   </v-list>
                 </v-menu>
@@ -124,6 +140,7 @@ export default {
   },
   data() {
     return {
+      activeLanguage: this.$i18n.locale,
       profileHover: false,
       hamburgerMenu: false,
       profileMenu: false,
@@ -142,6 +159,10 @@ export default {
     }
   },
   methods: {
+    setLanguage(lang) {
+      this.activeLanguage = lang;
+      this.$i18n.locale = lang;
+    },
     logout() {
       this.auth.logout();
     },

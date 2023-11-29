@@ -26,15 +26,7 @@
     <div class="left-container" :class="{ hidden: isHidden }">
       <div class="left-container-text">
         <h2>Catena-X Battery Passport</h2>
-        <p>
-          The term "Battery Passport" refers to a digital document that contains
-          essential information about a battery, specifically in the context of
-          electric vehicles (EVs). This document includes details about the
-          battery's manufacturer, specifications, performance characteristics,
-          health status, and lifecycle data. The purpose of a Battery Passport
-          is to facilitate proper maintenance, servicing, and recycling of the
-          battery, while also enabling traceability and compliance.
-        </p>
+        <p>{{ $t("welcomeMessage") }}</p>
       </div>
       <div class="img-container">
         <img :src="BatteryScanning" class="image" alt="Battery scanning" />

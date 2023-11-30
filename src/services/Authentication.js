@@ -23,45 +23,43 @@
 import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
 import authUtil from "@/utils/authUtil";
-
 export default class Authentication {
     constructor() {
-      this.login = false;
-      this.authorized = false;
       this.keycloak = new Keycloak(INIT_OPTIONS);
     }
     keycloakInit(app) {
+      var authProperties = app.config.globalProperties.$authProperties;
       this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
-      
         if (!auth) {
           window.location.reload();
         }
         else {
-          this.login = true;
-          if(!BPN_CHECK){
-            this.authorized = true;
+          console.log(this.keycloak.token);
+          console.log(this.keycloak.tokenParsed);
+          console.log(BPN_CHECK);
+          authProperties.loginReachable = true;
+          
+          if(!BPN_CHECK || authUtil.checkBpn(this.keycloak.tokenParsed, BPN)){
+            authProperties.isAuthorized = true;
           }
-          else if(authUtil.checkBpn(this.keycloak.token, BPN)){
-            this.authorized = true;
-          }
+
+          console.log("Authorized: "+ authProperties.isAuthorized);
+          console.log("Login: " + authProperties.loginReachable)
+          console.log("Bpn Allowed: " + authUtil.checkBpn(this.keycloak.tokenParsed, BPN));
         }
         //Token Refresh
         setInterval(() => {
           this.updateToken(60);
         }, 60000);
+        app.config.globalProperties.$authProperties = authProperties;
+        app.mount('#app');
       }).catch((e) => {
         console.log(e);
-        this.authorized = false;
-        this.login = false;
-        console.error("keycloakInit -> Login Failure");
+        authProperties.loginReachable = false;
+        authProperties.isAuthorized = false;
+        app.config.globalProperties.$authProperties = authProperties;
+        app.mount('#app');
       });
-      app.mount('#app');
-    }
-    loginAvailable(){
-      return this.login;
-    }
-    isAuthorized(){
-      return this.authorized;
     }
     getAccessToken() {
       return this.keycloak.token;
@@ -74,7 +72,7 @@ export default class Authentication {
     updateToken(minimumValidity) {
       this.keycloak.updateToken(minimumValidity).then((refreshed) => {
         if (refreshed) {
-          console.info('Token refreshed' + refreshed);
+          console.info('Token refreshed ' + refreshed);
         } else {
           console.warn('Token not refreshed, valid for '
                     + Math.round(this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');

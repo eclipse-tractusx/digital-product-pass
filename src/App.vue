@@ -23,13 +23,13 @@
 <template>
   <v-app>
     <v-main>
-      <template v-if="auth.loginAvailable()">
-      <template v-if="auth.isAuthorized()">
-        <router-view />
-      </template>
-      <template v-else>
-        <NotAuthorizedComponent />
-      </template>
+      <template v-if="$authProperties.loginReachable">
+        <template v-if="$authProperties.isAuthorized">
+          <router-view />
+        </template>
+        <template v-else>
+          <NotAuthorizedComponent />
+        </template>
       </template>
       <template v-else>
         <NotAvailableComponent />
@@ -40,17 +40,11 @@
 
 <script>
 
-import NotAuthorizedComponent from './components/general/NotAuthorizedComponent.vue';
-import { inject } from "vue";
-import NotAvailableComponent from './components/general/NotAvailableComponent.vue';
+import NotAuthorizedComponent from '@/components/general/NotAuthorizedComponent.vue';
+import NotAvailableComponent from '@/components/general/NotAvailableComponent.vue';
 export default {
   components: { NotAuthorizedComponent, NotAvailableComponent },
-  name: "App",
-  data() {
-    return {
-      auth: inject("authentication")
-    };
-  },
+  name: "App"
 };
 </script>
 

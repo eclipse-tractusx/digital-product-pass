@@ -26,9 +26,7 @@ export default {
     decodeToken(token){
         return jsonUtil.toJson(cryptUtil.fromBase64(String(token).split(".")[1]))
     },
-    checkBpn(token, bpn){
-        let parsedToken = this.decodeToken(token);
-        if (parsedToken == null) return false;
+    checkBpn(parsedToken, bpn){
         if(!jsonUtil.exists(parsedToken, "bpn")){
             return false;
         }

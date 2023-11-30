@@ -27,16 +27,19 @@ import numberUtil from "@/utils/numberUtil";
 const VERSION = "APP_VERSION";
 
 // Mandatory URLs
-const IDP_URL = "https://centralidp.int.demo.catena-x.net/auth/";
+const IDP_URL = "IDENTITY_PROVIDER_URL";
 
 // Get urls that can be empty
-let serverUrl = "http://localhost:8080";
+let serverUrl = "HOST_URL";
 let backendUrl = "DATA_URL";
 let retries = 'APP_API_MAX_RETRIES';
 let timeout = 'APP_API_TIMEOUT';
 let irsDelay = 'APP_IRS_DELAY';
 let irsMaxWaitingTime = 'APP_IRS_WAITING_TIME'; 
 let delay = 'APP_API_DELAY';
+let clientId = "KEYCLOAK_CLIENTID";
+let realm = "KEYCLOAK_REALM";
+let onLoad = "KEYCLOAK_ONLOAD";
 let commitId = "REPO_COMMIT_ID";
 let repoEndpoint = "REPO_ENDPOINT_URL";
 let bpnCheck = "AUTH_BPN_CHECK";
@@ -47,6 +50,9 @@ let adminEmail = "APP_ADMIN_EMAIL";
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
+clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
+realm = (realm != null && realm !== "") ? realm : "CX-Central"
+onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
 bpnCheck = (bpnCheck === "true")
@@ -67,24 +73,27 @@ const API_TIMEOUT = timeout;
 const IRS_DELAY = irsDelay;
 const IRS_MAX_WAITING_TIME = irsMaxWaitingTime;
 const API_DELAY = delay;
+const CLIENT_ID = clientId;
+const REALM = realm;
+const ONLOAD = onLoad;
 const COMMIT_ID = commitId;
 const REPO_ENDPOINT = repoEndpoint;
 const BPN_CHECK = bpnCheck;
 const BPN = bpn;
 const PORTAL_URL = portalUrl;
 const ADMIN_EMAIL = adminEmail;
+
 // Initialize configuration objects
 let INIT_OPTIONS = {
   url: null,
-  clientId: 'Cl13-CX-Battery', // Catena-X ClientId for Battery Pass
-  realm: 'CX-Central', // Catena-X Realm
-  onLoad: 'login-required'
+  clientId: CLIENT_ID, // Catena-X ClientId for Battery Pass
+  realm: REALM, // Catena-X Realm
+  onLoad: ONLOAD
 };
 let REDIRECT_URI = "";
 
 if (window.location.href.includes("localhost")) { //Modify credentials for local runs
   INIT_OPTIONS["url"] = (IDP_URL != null) ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
-  
   REDIRECT_URI = "http://localhost:8080/";
 } else {
   INIT_OPTIONS["url"] = IDP_URL;

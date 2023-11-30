@@ -75,6 +75,8 @@ frontend:
       realm: ""
       onLoad: "login-required"
 
+
+
 # -- Backend configuration
 backend:
   name: "dpp-backend"

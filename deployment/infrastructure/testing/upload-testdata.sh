@@ -1,3 +1,4 @@
+#!/bin/bash
 #################################################################################
 # Catena-X - Product Passport Consumer Application
 #
@@ -20,27 +21,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: avp-consumer-backend-cx-registry-auth
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  clientId: {{ .Values.oauth.techUser.clientId }}
-  clientSecret: {{ .Values.oauth.techUser.clientSecret }}
----
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: avp-consumer-backend-edc-oauth
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  xApiKey: {{ .Values.backend.edc.xApiKey }}
-  participantId: {{ .Values.backend.edc.participantId }}
+./transform-and-upload.sh -s https://materialpass.dev.demo.catena-x.net/provider_backend \
+  -e https://materialpass.dev.demo.catena-x.net/BPNL000000000000 \
+  -a https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0 \
+  -k <API-Key> \
+  -f ./testdata/testdata-payload.json

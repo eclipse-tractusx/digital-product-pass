@@ -23,6 +23,7 @@
 import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
 import authUtil from "@/utils/authUtil";
+import jsonUtil from "@/utils/jsonUtil";
 export default class Authentication {
     constructor() {
       this.keycloak = new Keycloak(INIT_OPTIONS);
@@ -47,12 +48,13 @@ export default class Authentication {
           console.log("Login: " + authProperties.loginReachable)
           console.log("Bpn Allowed: " + authUtil.checkBpn(this.keycloak.tokenParsed, BPN));
         }
-        //Token Refresh
-        setInterval(() => {
-          this.updateToken(60);
-        }, 60000);
+
         app.config.globalProperties.$authProperties = authProperties;
         app.mount('#app');
+        //Token Refresh
+        setInterval(() => {
+          this.updateToken(60, app);
+        }, 60000);
       }).catch((e) => {
         console.log(e);
         authProperties.loginReachable = false;
@@ -69,9 +71,11 @@ export default class Authentication {
       return this.keycloak.refreshToken;
     }
 
-    updateToken(minimumValidity) {
+    updateToken(minimumValidity, app) {
       this.keycloak.updateToken(minimumValidity).then((refreshed) => {
         if (refreshed) {
+          app.config.globalProperties.$authProperties.isAuthorized = true;
+          app.config.globalProperties.$authProperties.loginReachable = true;
           console.info('Token refreshed ' + refreshed);
         } else {
           console.warn('Token not refreshed, valid for '
@@ -88,24 +92,24 @@ export default class Authentication {
     getClientId() {
       return this.keycloak.clientId;
     }
-    decodeAccessToken() {
-      return authUtil.decodeToken(this.keycloak.token);
-    }
     getUserName() {
-      return this.decodeAccessToken().email;
+      return this.keycloak.tokenParsed.email;
     }
     getName() {
-      return this.decodeAccessToken().name;
+      return this.keycloak.tokenParsed.name;
     }
     getBpn() {
-      return this.decodeAccessToken().bpn;
+      return this.keycloak.tokenParsed.bpn;
     }
     getSessionId() {
       return this.keycloak.sessionId;
     }
     getRole() {
-      let clientRoles = '';
-      clientRoles = this.keycloak.resourceAccess[this.getClientId()].roles;
+      let clientRoles = "";
+      let clientId = this.getClientId();
+      if(this.keycloak.resourceAccess && jsonUtil.exists(clientId, this.keycloak.resourceAccess)){
+        clientRoles = this.keycloak.resourceAccess[clientId].roles;
+      }
       return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
     }
     logout() {

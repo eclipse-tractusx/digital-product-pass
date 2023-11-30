@@ -42,7 +42,7 @@ backend:
 
   edc:
     xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
-    participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
+    participantId: &bpn <path:material-pass/data/beta/edc/participant#bpnNumber>
     endpoint: "materialpass.beta.demo.catena-x.net/consumer"
 
   hostname: *hostname
@@ -89,11 +89,22 @@ frontend:
   # Product Passport UI Configuration
   backend:
     hostname: "materialpass.beta.demo.catena-x.net"
+  
+  supportContact:
+    adminEmail: "admin@example.com"
 
+  portal:
+    hostname: "portal.beta.demo.catena-x.net"
+    
 oauth:
-  hostname: "centralidp.int.demo.catena-x.net"
+  hostname: "centralidp.data.demo.catena-x.net"
   techUser:
-    clientId: <path:material-pass/data/int/backend#clientId>
-    clientSecret: <path:material-pass/data/int/backend#clientSecret>
-  realm: <path:material-pass/data/int/oauth#realm>
-  appId: <path:material-pass/data/int/oauth#appId>
+    clientId: <path:material-pass/data/data/backend#clientId>
+    clientSecret: <path:material-pass/data/data/backend#clientSecret>
+  realm: <path:material-pass/data/data/oauth#realm>
+  appId: <path:material-pass/data/data/oauth#appId>
+  bpnCheck:
+    enabled: true
+    bpn: *bpn
+  roleCheck:
+    enabled: true  

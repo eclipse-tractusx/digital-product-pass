@@ -69,8 +69,11 @@ spec:
             - name: "KEYCLOAK_ONLOAD"
               value: "{{ .Values.oauth.onLoad }}"
 
+            - name: "AUTH_ROLE_CHECK"
+              value: "{{ .Values.oauth.roleCheck.enabled | default false }}"
+
             - name: "AUTH_BPN_CHECK"
-              value: "{{ .Values.oauth.bpnCheck.enabled }}"
+              value: "{{ .Values.oauth.bpnCheck.enabled | default false }}"
 
             - name: "AUTH_BPN_NUMBER"
               value: "{{ .Values.oauth.bpnCheck.bpn }}"

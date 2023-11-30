@@ -39,6 +39,7 @@ do
 	sed -i 's|KEYCLOAK_ONLOAD|'${KEYCLOAK_ONLOAD}'|g' $file
 	sed -i 's|REPO_COMMIT_ID|'${REPO_COMMIT_ID}'|g' $file
 	sed -i 's|REPO_ENDPOINT_URL|'${REPO_ENDPOINT_URL}'|g' $file
+	sed -i 's|AUTH_ROLE_CHECK|'${AUTH_BPN_CHECK}'|g' $file
 	sed -i 's|AUTH_BPN_CHECK|'${AUTH_BPN_CHECK}'|g' $file
 	sed -i 's|AUTH_BPN_NUMBER|'${AUTH_BPN_NUMBER}'|g' $file
 	sed -i 's|APP_PORTAL_URL|'${APP_PORTAL_URL}'|g' $file

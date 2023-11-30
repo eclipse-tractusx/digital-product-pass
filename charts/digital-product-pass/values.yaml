@@ -28,61 +28,6 @@ name: "digital-product-pass"
 replicaCount: 1
 namespace: ""
 
-frontend:
-  name: "dpp-frontend"
-  image:
-    repository: docker.io/tractusx/digital-product-pass-frontend
-    pullPolicy: Always
-  # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
-  imagePullSecrets: []
-
-  service:
-    # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
-    type: ClusterIP
-    port: 8080
-
-  # -- ingress declaration to expose the dpp-frontend service
-  ingress:
-    enabled: false
-    hosts: []
-
-  # -- product passport UI configuration
-
-  # -- url of the digital product pass backend service
-  backend:
-    hostname: ""
-
-  # -- api timeouts
-  api:
-    # -- max retries for getting status
-    max_retries: 30
-    # -- default timeout  - 90 seconds in milliseconds
-    timeout: 90000
-    # -- delay from getting status
-    delay: 1000
-
-  # -- irs api timeouts
-  irs:
-    # -- request timeout delay
-    requestDelay: 30000
-    # -- maximum waiting time to get the irs job status
-    maxWaitingTime: 30
-
-# -- oauth configuration
-oauth:
-  # -- url of the identity provider service
-  hostname: ""
-  # -- technical user keycloak central id credentials
-  # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
-  techUser:
-    clientId: "<Add client id here>"
-    clientSecret: "<Add client secret here>"
-  realm: ""
-  appId: ""
-  onLoad: "login-required"
-
-
-
 # -- Backend configuration
 backend:
   name: "dpp-backend"
@@ -112,7 +57,7 @@ backend:
     # -- the secret for assesing the edc management API
     xApiKey: "<Add API key here>"
     # -- BPN Number
-    participantId: "<Add participant id here>"
+    participantId: &bpn "<Add participant id here>"
     # -- edc consumer connection configuration
     endpoint: ""
     apis:
@@ -188,6 +133,73 @@ backend:
     # -- edc discovery configuration
     edcDiscovery:
       key: "bpn"
+
+frontend:
+  name: "dpp-frontend"
+  image:
+    repository: docker.io/tractusx/digital-product-pass-frontend
+    pullPolicy: Always
+  # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
+  imagePullSecrets: []
+
+  service:
+    # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
+    type: ClusterIP
+    port: 8080
+
+  # -- ingress declaration to expose the dpp-frontend service
+  ingress:
+    enabled: false
+    hosts: []
+
+  # -- product passport UI configuration
+
+  # -- url of the digital product pass backend service
+  backend:
+    hostname: ""
+
+  supportContact:
+    adminEmail: "admin@example.com"
+
+  portal:
+    hostname: ""
+
+  # -- api timeouts
+  api:
+    # -- max retries for getting status
+    max_retries: 30
+    # -- default timeout  - 90 seconds in milliseconds
+    timeout: 90000
+    # -- delay from getting status
+    delay: 1000
+
+  # -- irs api timeouts
+  irs:
+    # -- request timeout delay
+    requestDelay: 30000
+    # -- maximum waiting time to get the irs job status
+    maxWaitingTime: 30
+
+# -- oauth configuration
+oauth:
+  # -- url of the identity provider service
+  hostname: ""
+  # -- technical user keycloak central id credentials
+  # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+  techUser:
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
+  realm: ""
+  appId: ""
+  onLoad: "login-required"
+  # -- configure here the bpn check for the application
+  bpnCheck:
+    enabled: false
+    # -- this bpn needs to be included in the user login information when the check is enabled
+    bpn: *bpn
+  # -- the role check checks if the user has access roles for the appId  
+  roleCheck:
+    enabled: false  
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits

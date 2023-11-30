@@ -20,7 +20,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN, ROLE_CHECK } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
 import authUtil from "@/utils/authUtil";
 import jsonUtil from "@/utils/jsonUtil";
@@ -37,10 +37,32 @@ export default class Authentication {
         else {
           console.log(this.keycloak.token);
           console.log(this.keycloak.tokenParsed);
+          console.log(ROLE_CHECK);
           console.log(BPN_CHECK);
-          authProperties.loginReachable = true;
           
-          if(!BPN_CHECK || authUtil.checkBpn(this.keycloak.tokenParsed, BPN)){
+          // The login was reachable if the token is available
+          if(this.keycloak.tokenParsed){
+            authProperties.loginReachable = true;
+          }
+
+          // Get conditions for authorization 
+          let bpnAuthorized = authUtil.checkBpn(this.keycloak.tokenParsed, BPN);
+          let roleAuthorized = this.hasRoles();
+          
+          let authorized = false;
+          // Authorize according to configuration 
+          if((BPN_CHECK && ROLE_CHECK) && (bpnAuthorized && roleAuthorized)){ // In case both a valid everything needs to be true
+            authorized = true;
+          }else if((!BPN_CHECK && ROLE_CHECK) && roleAuthorized){ // In case just the role is valid just the role needs to be true
+            authorized = true;
+          }else if((BPN_CHECK && !ROLE_CHECK) && bpnAuthorized){ // In case the 
+            authorized = true;
+          }else if(!BPN_CHECK && !ROLE_CHECK){
+            authorized = true;
+          }
+
+          // If authorized change the default condition
+          if(authorized){
             authProperties.isAuthorized = true;
           }
 
@@ -48,7 +70,7 @@ export default class Authentication {
           console.log("Login: " + authProperties.loginReachable)
           console.log("Bpn Allowed: " + authUtil.checkBpn(this.keycloak.tokenParsed, BPN));
         }
-
+        
         app.config.globalProperties.$authProperties = authProperties;
         app.mount('#app');
         //Token Refresh
@@ -104,10 +126,20 @@ export default class Authentication {
     getSessionId() {
       return this.keycloak.sessionId;
     }
+    hasRoles(){
+      let clientId = this.getClientId();
+      if(!clientId || !this.keycloak.resourceAccess || !jsonUtil.exists(clientId, this.keycloak.resourceAccess)){
+        return false;
+      }
+      if(this.keycloak.resourceAccess.length <= 0){
+        return false;
+      }
+      return true;
+    }
     getRole() {
       let clientRoles = "";
       let clientId = this.getClientId();
-      if(this.keycloak.resourceAccess && jsonUtil.exists(clientId, this.keycloak.resourceAccess)){
+      if(this.hasRoles()){
         clientRoles = this.keycloak.resourceAccess[clientId].roles;
       }
       return clientRoles.length == 1 ? clientRoles[0] : clientRoles;

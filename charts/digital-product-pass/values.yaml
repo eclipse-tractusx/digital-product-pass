@@ -85,7 +85,6 @@ backend:
 
   # -- security configuration
   securityCheck:
-    enabled: false
     bpn: false
     edc: false
 

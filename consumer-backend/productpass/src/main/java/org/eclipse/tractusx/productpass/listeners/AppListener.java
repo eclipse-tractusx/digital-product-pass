@@ -46,11 +46,13 @@ import org.springframework.stereotype.Component;
 import utils.HttpUtil;
 import utils.LogUtil;
 
-
 /**
- * This class consists exclusively of methods to operate on the Application's Event listeners.
+ * This class consists exclusively of methods to operate on the Application's
+ * Event listeners.
  *
- * <p> The methods defined here are the event listeners needed to run the application.
+ * <p>
+ * The methods defined here are the event listeners needed to run the
+ * application.
  *
  */
 @Component
@@ -80,55 +82,64 @@ public class AppListener {
     /** METHODS **/
     @EventListener(ApplicationStartedEvent.class)
     public void started() {
-        try{
+        try {
             SecurityConfig.StartUpCheckConfig startUpConfig = securityConfig.getStartUpChecks();
             Boolean bpnCheck = startUpConfig.getBpnCheck();
             Boolean edcCheck = startUpConfig.getEdcCheck();
 
-            if (bpnCheck || !edcCheck) {
-            try {
-                LogUtil.printMessage("========= [ EXECUTING PRE-CHECKS ] ================================");
-                String participantId = (String) vaultService.getLocalSecret("edc.participantId");
-                if (participantId.isEmpty()) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
-                }
-                if (edcCheck) {
-                    try {
-                        LogUtil.printMessage("[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
-                        String bpnNumber = dataTransferService.checkEdcConsumerConnection();
-                        if (!participantId.equals(bpnNumber)) {
-                            throw new Exception("[" + this.getClass().getName() + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+            if (bpnCheck || edcCheck) {
+                try {
+                    LogUtil.printMessage("========= [ EXECUTING PRE-CHECKS ] ================================");
+                    String participantId = (String) vaultService.getLocalSecret("edc.participantId");
+                    if (participantId.isEmpty()) {
+                        throw new Exception("[" + this.getClass().getName()
+                                + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
+                    }
+                    if (edcCheck) {
+                        try {
+                            LogUtil.printMessage(
+                                    "[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
+                            String bpnNumber = dataTransferService.checkEdcConsumerConnection();
+                            if (!participantId.equals(bpnNumber)) {
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+                            }
+                            LogUtil.printMessage(
+                                    "[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                        } catch (Exception e) {
+                            throw new IncompatibleConfigurationException(e.getMessage());
                         }
-                        LogUtil.printMessage("[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                    }
+                    if (!bpnCheck) {
+                        return;
+                    }
+                    try {
+                        LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
+                        JwtToken token = authService.getToken();
+                        if (token == null) {
+                            throw new Exception("[" + this.getClass().getName()
+                                    + ".onStartUp] Not possible to get technical user credentials!");
+                        }
+                        Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
+                        if (jwtToken == null) {
+                            throw new Exception("[" + this.getClass().getName()
+                                    + ".onStartUp] The technical user JwtToken is empty!");
+                        }
+                        if (!jwtToken.getPayload().containsKey("bpn")) {
+                            throw new Exception("[" + this.getClass().getName()
+                                    + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
+                        }
+                        String techUserBpn = (String) jwtToken.getPayload().get("bpn");
+                        if (!techUserBpn.equals(participantId)) {
+                            throw new Exception("[" + this.getClass().getName()
+                                    + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
+                        }
+                        LogUtil.printMessage(
+                                "[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
                     } catch (Exception e) {
                         throw new IncompatibleConfigurationException(e.getMessage());
                     }
-                }
-                if (!bpnCheck) {
-                    return;
-                }
-                try {
-                    LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
-                    JwtToken token = authService.getToken();
-                    if (token == null) {
-                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] Not possible to get technical user credentials!");
-                    }
-                    Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
-                    if (jwtToken == null) {
-                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken is empty!");
-                    }
-                    if (!jwtToken.getPayload().containsKey("bpn")) {
-                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
-                    }
-                    String techUserBpn = (String) jwtToken.getPayload().get("bpn");
-                    if (!techUserBpn.equals(participantId)) {
-                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
-                    }
-                    LogUtil.printMessage("[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
-                } catch (Exception e) {
-                    throw new IncompatibleConfigurationException(e.getMessage());
-                }
-                LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
+                    LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
                 } catch (Exception e) {
                     throw new IncompatibleConfigurationException(e.getMessage());
                 }
@@ -137,24 +148,29 @@ public class AppListener {
             Boolean bpnAuth = authorizationConfig.getBpnAuth();
             Boolean roleAuth = authorizationConfig.getRoleAuth();
 
-            if(!bpnAuth && !roleAuth) {
+            if (!bpnAuth && !roleAuth) {
                 return;
             }
 
             LogUtil.printMessage("========= [ EXECUTING AUTHORIZATION PRE-CHECKS ] ================================");
-            if(bpnAuth) {
+            if (bpnAuth) {
                 String participantId = (String) vaultService.getLocalSecret("edc.participantId");
                 if (participantId.isEmpty()) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
+                    throw new Exception("[" + this.getClass().getName()
+                            + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
                 }
-                LogUtil.printMessage("[ BPN AUTHORIZATION CHECK ] The following bpn [ "+participantId+" ] is required in authenticated tokens");
+                LogUtil.printMessage("[ BPN AUTHORIZATION CHECK ] The following bpn [ " + participantId
+                        + " ] is required in authenticated tokens");
             }
-            if(roleAuth) {
+            if (roleAuth) {
                 String appId = (String) vaultService.getLocalSecret("appId");
                 if (appId.isEmpty()) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] The appId configuration does not exists in Vault File!");
+                    throw new Exception("[" + this.getClass().getName()
+                            + ".onStartUp] The appId configuration does not exists in Vault File!");
                 }
-                LogUtil.printMessage("[ ROLE AUTHORIZATION CHECK ] The authenticated tokens in requests shall contain roles within this appId [ " + appId + " ]");
+                LogUtil.printMessage(
+                        "[ ROLE AUTHORIZATION CHECK ] The authenticated tokens in requests shall contain roles within this appId [ "
+                                + appId + " ]");
             }
             LogUtil.printMessage("========= [ AUTHORIZATION PRE-CHECKS COMPLETED ] ================================");
         } catch (Exception e) {
@@ -166,40 +182,48 @@ public class AppListener {
     @EventListener(ApplicationReadyEvent.class)
     public void onStartUp() {
         String ascii = "\n" +
-                "    ____  _       _ __        __   ____                 __           __     ____                     \n" +
-                "   / __ \\(_)___ _(_) /_____ _/ /  / __ \\_________  ____/ /_  _______/ /_   / __ \\____ ___________    \n" +
-                "  / / / / / __ `/ / __/ __ `/ /  / /_/ / ___/ __ \\/ __  / / / / ___/ __/  / /_/ / __ `/ ___/ ___/    \n" +
-                " / /_/ / / /_/ / / /_/ /_/ / /  / ____/ /  / /_/ / /_/ / /_/ / /__/ /_   / ____/ /_/ (__  |__  )     \n" +
-                "/_____/_/\\__, /_/\\__/\\__,_/_/  /_/   /_/   \\____/\\__,_/\\__,_/\\___/\\__/  /_/    \\__,_/____/____/      \n" +
-                "        /____/                                                                                       \n" +
-                "                                                                                \\\\/ersion: v" + buildProperties.getVersion() + "\n\n";
+                "    ____  _       _ __        __   ____                 __           __     ____                     \n"
+                +
+                "   / __ \\(_)___ _(_) /_____ _/ /  / __ \\_________  ____/ /_  _______/ /_   / __ \\____ ___________    \n"
+                +
+                "  / / / / / __ `/ / __/ __ `/ /  / /_/ / ___/ __ \\/ __  / / / / ___/ __/  / /_/ / __ `/ ___/ ___/    \n"
+                +
+                " / /_/ / / /_/ / / /_/ /_/ / /  / ____/ /  / /_/ / /_/ / /_/ / /__/ /_   / ____/ /_/ (__  |__  )     \n"
+                +
+                "/_____/_/\\__, /_/\\__/\\__,_/_/  /_/   /_/   \\____/\\__,_/\\__,_/\\___/\\__/  /_/    \\__,_/____/____/      \n"
+                +
+                "        /____/                                                                                       \n"
+                +
+                "                                                                                \\\\/ersion: v"
+                + buildProperties.getVersion() + "\n\n";
         System.out.print(ascii);
         String serverStartUpMessage = "\n\n" +
                 "**********************************************************************\n\n" +
-                " "+buildProperties.getName() + "\n" +
+                " " + buildProperties.getName() + "\n" +
                 " Copyright (c) 2022, 2023: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
                 " Copyright (c) 2022, 2023: Contributors to the Eclipse Foundation.\n\n" +
                 "**********************************************************************\n\n";
         System.out.print(serverStartUpMessage);
-        System.out.print("\n========= [ APPLICATION STARTED ] ====================================\n"+
+        System.out.print("\n========= [ APPLICATION STARTED ] ====================================\n" +
                 "Listening to requests...\n\n");
-        Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and edcDiscovery addresses)
+        Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and
+                                                      // edcDiscovery addresses)
         if (discovery == null) {
-            LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +
-                    "\nIt was not possible to start the application correctly..." +
-                    "\nPlease configure the Discovery Service Endpoint property:" +
-                    "\n\t- [backend.discovery.hostname]" +
-                    "\nMake sure that the Keycloak App Id is available" +
-                    "\n\t- [oauth.appId]" +
-                    "\nMake sure that the Technical User Credentials are correctly configured:" +
-                    "\n\t- [oauth.techUser.clientId]" +
-                    "\n\t- [oauth.techUser.clientSecret]" +
-                    "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
-                    "\n\t- [backend.configuration.tokenUrl]" +
-                    "\n\t- [backend.configuration.userInfoUrl]" +
-                    "\n*****************************************************************************************\n"
-            );
+            LogUtil.printError(
+                    "\n*************************************[CRITICAL ERROR]*************************************" +
+                            "\nIt was not possible to start the application correctly..." +
+                            "\nPlease configure the Discovery Service Endpoint property:" +
+                            "\n\t- [backend.discovery.hostname]" +
+                            "\nMake sure that the Keycloak App Id is available" +
+                            "\n\t- [oauth.appId]" +
+                            "\nMake sure that the Technical User Credentials are correctly configured:" +
+                            "\n\t- [oauth.techUser.clientId]" +
+                            "\n\t- [oauth.techUser.clientSecret]" +
+                            "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
+                            "\n\t- [backend.configuration.tokenUrl]" +
+                            "\n\t- [backend.configuration.userInfoUrl]" +
+                            "\n*****************************************************************************************\n");
         }
 
-       }
     }
+}

@@ -48,7 +48,6 @@ backend:
   hostname: *hostname   
 
   securityCheck:
-    enabled: true
     bpn: true
     edc: true
 

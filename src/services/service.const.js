@@ -57,7 +57,7 @@ onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
 bpnCheck = (bpnCheck === "true")
-roleCheck = (bpnCheck === "true")
+roleCheck = (roleCheck === "true")
 
 
 // Default Variables if value is not specified or is not a integer

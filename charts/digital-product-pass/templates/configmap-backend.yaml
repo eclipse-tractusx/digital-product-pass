@@ -63,8 +63,12 @@ data:
         delay:  {{ .Values.backend.edc.delay }} # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
       # -- security configuration
       security:
-        check:
-          enabled: {{ .Values.backend.securityCheck.enabled }}
+        # -- authorization configuration about bpn and role checks
+        authorization: 
+          bpnAuth: {{ .Values.oauth.bpnCheck.enabled }}
+          roleAuth: {{ .Values.oauth.roleCheck.enabled }}
+        # -- checkups done in the startup  
+        startUpChecks:
           bpn: {{ .Values.backend.securityCheck.bpn }}
           edc: {{ .Values.backend.securityCheck.edc }}
       # -- irs configuration

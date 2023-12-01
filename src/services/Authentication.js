@@ -39,6 +39,7 @@ export default class Authentication {
           console.log(this.keycloak.tokenParsed);
           console.log(ROLE_CHECK);
           console.log(BPN_CHECK);
+          console.log(BPN);
           
           // The login was reachable if the token is available
           if(this.keycloak.tokenParsed){

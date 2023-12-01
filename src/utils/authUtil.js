@@ -31,8 +31,6 @@ export default {
             return false;
         }
         let tokenBpn = jsonUtil.get("bpn",parsedToken, ".", null);
-        console.log("CONFIGURATION BPN: " + bpn);
-        console.log("TOKEN BPN: " + tokenBpn);
         if(bpn == null){
             return false;
         }

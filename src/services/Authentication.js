@@ -60,21 +60,11 @@ export default class Authentication {
         window.location.reload();
       }
       else {
-        console.log(this.keycloak.token);
-        console.log(this.keycloak.tokenParsed);
-        console.log(ROLE_CHECK);
-        console.log(BPN_CHECK);
-        console.log(BPN);
-
         // Check if the refresh token is valid and authenticated
         if(this.keycloak.tokenParsed){
           authProperties.loginReachable = true; 
         } 
         authProperties.isAuthorized = this.isAuthorized(this.keycloak.tokenParsed);
-
-        console.log("Authorized: " + authProperties.isAuthorized);
-        console.log("Login: " + authProperties.loginReachable)
-        console.log("Bpn Allowed: " + authUtil.checkBpn(this.keycloak.tokenParsed, BPN));
       }
 
       app.config.globalProperties.$authProperties = authProperties;
@@ -144,23 +134,16 @@ export default class Authentication {
         return false;
       }
 
-      console.log(this.keycloak.resourceAccess);
-
-      console.log("ClientId [" + clientId + "] exist: " + jsonUtil.exists(clientId, this.keycloak.resourceAccess));
-
-
       if (!jsonUtil.exists(clientId, this.keycloak.resourceAccess)) {
         return false;
       }
 
       let appIdResource = jsonUtil.get(clientId, this.keycloak.resourceAccess, ".", null);
-      console.log("AppIdResource: " + appIdResource);
       if (appIdResource==null || !jsonUtil.exists("roles", appIdResource)) {
         return false;
       }
 
       let roleList = jsonUtil.get("roles", appIdResource, ".", null);
-      console.log("roleList: " + roleList);
       if(roleList == null){
         return false;
       }

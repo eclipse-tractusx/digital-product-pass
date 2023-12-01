@@ -24,6 +24,7 @@
 package org.eclipse.tractusx.productpass.listeners;
 
 import org.eclipse.tractusx.productpass.config.DtrConfig;
+import org.eclipse.tractusx.productpass.config.SecurityConfig;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.catenax.Discovery;
 import org.eclipse.tractusx.productpass.models.edc.Jwt;
@@ -64,7 +65,7 @@ public class AppListener {
     @Autowired
     CatenaXService catenaXService;
     @Autowired
-    DtrConfig dtrConfig;
+    SecurityConfig securityConfig;
     @Autowired
     AuthenticationService authService;
     @Autowired
@@ -79,13 +80,10 @@ public class AppListener {
     /** METHODS **/
     @EventListener(ApplicationStartedEvent.class)
     public void started() {
-        Boolean preChecks = env.getProperty("configuration.security.check.enabled", Boolean.class, true);
-        if (!preChecks) {
-            return;
-        }
+        SecurityConfig.StartUpCheckConfig startUpConfig = securityConfig.getStartUpChecks();
+        Boolean bpnCheck = startUpConfig.getBpnCheck();
+        Boolean edcCheck = startUpConfig.getEdcCheck();
 
-        Boolean bpnCheck = env.getProperty("configuration.security.check.bpn", Boolean.class, true);
-        Boolean edcCheck = env.getProperty("configuration.security.check.edc", Boolean.class, true);
         if (!bpnCheck && !edcCheck) {
             return;
         }
@@ -163,16 +161,18 @@ public class AppListener {
             LogUtil.printError("\n*************************************[CRITICAL ERROR]*************************************" +
                     "\nIt was not possible to start the application correctly..." +
                     "\nPlease configure the Discovery Service Endpoint property:" +
-                    "\n\t- [application.configuration.discovery.endpoint]" +
+                    "\n\t- [backend.discovery.hostname]" +
+                    "\nMake sure that the Keycloak App Id is available" +
+                    "\n\t- [oauth.appId]" +
                     "\nMake sure that the Technical User Credentials are correctly configured:" +
-                    "\n\t- [avp.helm.clientId]" +
-                    "\n\t- [avp.helm.clientSecret]" +
+                    "\n\t- [oauth.techUser.clientId]" +
+                    "\n\t- [oauth.techUser.clientSecret]" +
                     "\nThis user should be able to retrieve the token from the following Keycloak Endpoint:" +
-                    "\n\t- [application.configuration.keycloak.tokenUri]" +
+                    "\n\t- [backend.configuration.tokenUrl]" +
+                    "\n\t- [backend.configuration.userInfoUrl]" +
                     "\n*****************************************************************************************\n"
             );
         }
 
        }
-        // Store the process manager in memory
     }

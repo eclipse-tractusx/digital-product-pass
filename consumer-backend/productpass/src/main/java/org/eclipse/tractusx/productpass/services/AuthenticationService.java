@@ -25,10 +25,12 @@ package org.eclipse.tractusx.productpass.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
+import org.eclipse.tractusx.productpass.config.SecurityConfig;
 import org.eclipse.tractusx.productpass.exceptions.ServiceException;
 import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.productpass.models.auth.JwtToken;
 import org.eclipse.tractusx.productpass.models.auth.UserInfo;
+import org.eclipse.tractusx.productpass.models.edc.Jwt;
 import org.eclipse.tractusx.productpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -50,17 +52,21 @@ public class AuthenticationService extends BaseService {
     private final Environment env;
     private final HttpUtil httpUtil;
     private final JsonUtil jsonUtil;
+
+    private final SecurityConfig securityConfig;
+
     public String tokenUri;
     public String clientId;
     public String clientSecret;
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public AuthenticationService(VaultService vaultService, Environment env, HttpUtil httpUtil, JsonUtil jsonUtil) throws ServiceInitializationException {
+    public AuthenticationService(VaultService vaultService, Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, SecurityConfig securityConfig) throws ServiceInitializationException {
         this.vaultService = vaultService;
         this.env = env;
         this.httpUtil = httpUtil;
         this.jsonUtil = jsonUtil;
+        this.securityConfig = securityConfig;
         this.init(env);
         this.checkEmptyVariables(List.of("clientId", "clientSecret"));
     }
@@ -131,6 +137,58 @@ public class AuthenticationService extends BaseService {
         return userInfo != null;
     }
 
+    public Boolean isUserInfoAvailable(String token){
+        UserInfo userInfo = null;
+        try {
+            userInfo = this.getUserInfo(token);
+        }catch (Exception e){
+            return false;
+        }
+        return userInfo != null;
+    }
+
+    public Boolean tokenContainsSameBpn(Jwt jwtToken){
+        try {
+            if (!jwtToken.getPayload().containsKey("bpn")) {
+                return false;
+            }
+
+            return jwtToken.getPayload().get("bpn") == vaultService.getLocalSecret("edc.participantId");
+        }catch (Exception e){
+            return false;
+        }
+    }
+    /**
+     * Checks if the user is authenticated.
+     * <p>
+     * @param   jwtToken
+     *          the {@code Jwt} token from the request
+     *
+     * @return  true if the token contains any role in the client id, false otherwise.
+     *
+     */
+    public Boolean tokenContainsAnyRole(Jwt jwtToken){
+        try {
+            if (!jwtToken.getPayload().containsKey("resource_access")) {
+                return false;
+            }
+            String appId = (String) vaultService.getLocalSecret("appId");
+            if(appId == null || appId.equals("")){
+                return false;
+            }
+            Map<String, Object> resourceAccess = (Map<String, Object>) jsonUtil.toMap(jwtToken.getPayload().get("resource_access"));
+
+            if (!resourceAccess.containsKey(appId)) {
+                return false;
+            }
+
+            List<String> roles = (List<String>) resourceAccess.get(appId);
+            return roles.size() > 0;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     /**
      * Checks if the user is authenticated.
      * <p>
@@ -145,25 +203,38 @@ public class AuthenticationService extends BaseService {
         if(token == null){
             return false;
         }
-        /*
+
+        SecurityConfig.AuthorizationConfig authorizationConfig = this.securityConfig.getAuthorization();
+        // In this block starts the Authorization configuration for all the Secure APIs
+
+        Boolean bpnAuth = authorizationConfig.getBpnAuth();
+        Boolean roleAuth = authorizationConfig.getRoleAuth();
+
+        if(!bpnAuth && !roleAuth){
+            return this.isUserInfoAvailable(token);
+        }
+        // Check the authorization based on the jwt token received
         Jwt jwtToken = httpUtil.parseToken(token);
-        // If the end user has no bpn available block
-        if(jwtToken.getPayload().containsKey("bpn")){
-            return false;
+
+        Boolean containsSameBpn = this.tokenContainsSameBpn(jwtToken);
+        Boolean containsAnyRole = this.tokenContainsAnyRole(jwtToken);
+        boolean authorized = false;
+
+        // Cross the authentication following the configuration rules
+        if((bpnAuth && roleAuth) && (containsSameBpn && containsAnyRole)){
+            authorized = true;
+        } else if ((!bpnAuth && roleAuth) && containsAnyRole) {
+            authorized = true;
+        } else if ((bpnAuth && !roleAuth) && containsSameBpn) {
+            authorized = true;
         }
 
-        if(jwtToken.getPayload().get("bpn") != vaultService.getLocalSecret("edc.participantId")){
-            return false;
+        // If authorized check if the user info is available
+        if(authorized){
+            return this.isUserInfoAvailable(token);
         }
-        */
 
-        UserInfo userInfo = null;
-        try {
-            userInfo = this.getUserInfo(token);
-        }catch (Exception e){
-            return false;
-        }
-        return userInfo != null;
+        return false;
     }
 
     /**

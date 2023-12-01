@@ -181,8 +181,13 @@ public class AuthenticationService extends BaseService {
             if (!resourceAccess.containsKey(appId)) {
                 return false;
             }
+            Map<String, Object> appIdResource = (Map<String, Object>) jsonUtil.toMap(resourceAccess.get(appId));
 
-            List<String> roles = (List<String>) resourceAccess.get(appId);
+            if (!appIdResource.containsKey("roles")) {
+                return false;
+            }
+
+            List<String> roles = (List<String>) appIdResource.get("roles");
             return roles.size() > 0;
         }catch (Exception e){
             return false;

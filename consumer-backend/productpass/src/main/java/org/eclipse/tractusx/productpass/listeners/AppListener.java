@@ -53,7 +53,6 @@ import utils.LogUtil;
  * <p>
  * The methods defined here are the event listeners needed to run the
  * application.
- *
  */
 @Component
 @Configuration
@@ -61,7 +60,9 @@ import utils.LogUtil;
 @ConfigurationProperties
 public class AppListener {
 
-    /** ATTRIBUTES **/
+    /**
+     * ATTRIBUTES
+     **/
     @Autowired
     BuildProperties buildProperties;
     @Autowired
@@ -79,7 +80,9 @@ public class AppListener {
     @Autowired
     DataTransferService dataTransferService;
 
-    /** METHODS **/
+    /**
+     * METHODS
+     **/
     @EventListener(ApplicationStartedEvent.class)
     public void started() {
         try {
@@ -100,7 +103,11 @@ public class AppListener {
                             LogUtil.printMessage(
                                     "[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
                             String bpnNumber = dataTransferService.checkEdcConsumerConnection();
-                            if (!participantId.equals(bpnNumber)) {
+                            if(bpnNumber == null){
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] The EDC Consumer configured is not reachable!");
+                            }
+                            if (bpnCheck && !participantId.equals(bpnNumber)) {
                                 throw new Exception("[" + this.getClass().getName()
                                         + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
                             }
@@ -110,34 +117,33 @@ public class AppListener {
                             throw new IncompatibleConfigurationException(e.getMessage());
                         }
                     }
-                    if (!bpnCheck) {
-                        return;
-                    }
-                    try {
-                        LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
-                        JwtToken token = authService.getToken();
-                        if (token == null) {
-                            throw new Exception("[" + this.getClass().getName()
-                                    + ".onStartUp] Not possible to get technical user credentials!");
+                    if (bpnCheck) {
+                        try {
+                            LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
+                            JwtToken token = authService.getToken();
+                            if (token == null) {
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] Not possible to get technical user credentials!");
+                            }
+                            Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
+                            if (jwtToken == null) {
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] The technical user JwtToken is empty!");
+                            }
+                            if (!jwtToken.getPayload().containsKey("bpn")) {
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
+                            }
+                            String techUserBpn = (String) jwtToken.getPayload().get("bpn");
+                            if (!techUserBpn.equals(participantId)) {
+                                throw new Exception("[" + this.getClass().getName()
+                                        + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
+                            }
+                            LogUtil.printMessage(
+                                    "[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
+                        } catch (Exception e) {
+                            throw new IncompatibleConfigurationException(e.getMessage());
                         }
-                        Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
-                        if (jwtToken == null) {
-                            throw new Exception("[" + this.getClass().getName()
-                                    + ".onStartUp] The technical user JwtToken is empty!");
-                        }
-                        if (!jwtToken.getPayload().containsKey("bpn")) {
-                            throw new Exception("[" + this.getClass().getName()
-                                    + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
-                        }
-                        String techUserBpn = (String) jwtToken.getPayload().get("bpn");
-                        if (!techUserBpn.equals(participantId)) {
-                            throw new Exception("[" + this.getClass().getName()
-                                    + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
-                        }
-                        LogUtil.printMessage(
-                                "[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
-                    } catch (Exception e) {
-                        throw new IncompatibleConfigurationException(e.getMessage());
                     }
                     LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
                 } catch (Exception e) {
@@ -207,7 +213,7 @@ public class AppListener {
         System.out.print("\n========= [ APPLICATION STARTED ] ====================================\n" +
                 "Listening to requests...\n\n");
         Discovery discovery = catenaXService.start(); // Start the CatenaX service (we need the bpnDiscovery and
-                                                      // edcDiscovery addresses)
+        // edcDiscovery addresses)
         if (discovery == null) {
             LogUtil.printError(
                     "\n*************************************[CRITICAL ERROR]*************************************" +

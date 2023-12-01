@@ -38,7 +38,4 @@ export async function loadFonts () {
       ],
     },
   });
-  setInterval(() => {
-    loadFonts()
-  }, 60000);
 }

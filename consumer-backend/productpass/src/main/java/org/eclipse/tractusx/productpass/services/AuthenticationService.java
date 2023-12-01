@@ -39,6 +39,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +154,7 @@ public class AuthenticationService extends BaseService {
                 return false;
             }
 
-            return jwtToken.getPayload().get("bpn") == vaultService.getLocalSecret("edc.participantId");
+            return jwtToken.getPayload().get("bpn").equals(vaultService.getLocalSecret("edc.participantId"));
         }catch (Exception e){
             return false;
         }
@@ -223,6 +224,7 @@ public class AuthenticationService extends BaseService {
 
         Boolean containsSameBpn = this.tokenContainsSameBpn(jwtToken);
         Boolean containsAnyRole = this.tokenContainsAnyRole(jwtToken);
+
         boolean authorized = false;
 
         // Cross the authentication following the configuration rules

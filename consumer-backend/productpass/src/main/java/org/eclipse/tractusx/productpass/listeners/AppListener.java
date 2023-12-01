@@ -147,14 +147,14 @@ public class AppListener {
                 if (participantId.isEmpty()) {
                     throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
                 }
-                LogUtil.printMessage("[ BPN AUTHORIZATION CHECK ] The following bpn ["+participantId+" ] is required in authenticated tokens");
+                LogUtil.printMessage("[ BPN AUTHORIZATION CHECK ] The following bpn [ "+participantId+" ] is required in authenticated tokens");
             }
             if(roleAuth) {
                 String appId = (String) vaultService.getLocalSecret("appId");
                 if (appId.isEmpty()) {
                     throw new Exception("[" + this.getClass().getName() + ".onStartUp] The appId configuration does not exists in Vault File!");
                 }
-                LogUtil.printMessage("[ ROLE AUTHORIZATION CHECK ] The authenticated tokens in requests shall contain roles within this appId [" + appId + " ]");
+                LogUtil.printMessage("[ ROLE AUTHORIZATION CHECK ] The authenticated tokens in requests shall contain roles within this appId [ " + appId + " ]");
             }
             LogUtil.printMessage("========= [ AUTHORIZATION PRE-CHECKS COMPLETED ] ================================");
         } catch (Exception e) {

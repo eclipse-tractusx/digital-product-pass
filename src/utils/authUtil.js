@@ -27,7 +27,7 @@ export default {
         return jsonUtil.toJson(cryptUtil.fromBase64(String(token).split(".")[1]))
     },
     checkBpn(parsedToken, bpn){
-        if(!jsonUtil.exists(parsedToken, "bpn")){
+        if(!jsonUtil.exists("bpn", parsedToken)){
             return false;
         }
         let tokenBpn = jsonUtil.get("bpn",parsedToken, ".", null);
@@ -36,8 +36,6 @@ export default {
         if(bpn == null){
             return false;
         }
-        
-
 
         return bpn === tokenBpn;
     }

@@ -84,9 +84,6 @@ frontend:
         hosts:
           - materialpass.dev.demo.catena-x.net
 
-  edc:
-    xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
-
   # Product Passport UI Configuration
   backend:
     hostname: *hostname

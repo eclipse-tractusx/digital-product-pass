@@ -80,56 +80,83 @@ public class AppListener {
     /** METHODS **/
     @EventListener(ApplicationStartedEvent.class)
     public void started() {
-        SecurityConfig.StartUpCheckConfig startUpConfig = securityConfig.getStartUpChecks();
-        Boolean bpnCheck = startUpConfig.getBpnCheck();
-        Boolean edcCheck = startUpConfig.getEdcCheck();
+        try{
+            SecurityConfig.StartUpCheckConfig startUpConfig = securityConfig.getStartUpChecks();
+            Boolean bpnCheck = startUpConfig.getBpnCheck();
+            Boolean edcCheck = startUpConfig.getEdcCheck();
 
-        if (!bpnCheck && !edcCheck) {
-            return;
-        }
-        try {
-            LogUtil.printMessage("========= [ EXECUTING PRE-CHECKS ] ================================");
-            String participantId = (String) vaultService.getLocalSecret("edc.participantId");
-            if (participantId.isEmpty()) {
-                throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
-            }
-            if (edcCheck) {
-                try {
-                    LogUtil.printMessage("[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
-                    String bpnNumber = dataTransferService.checkEdcConsumerConnection();
-                    if (!participantId.equals(bpnNumber)) {
-                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+            if (bpnCheck || !edcCheck) {
+            try {
+                LogUtil.printMessage("========= [ EXECUTING PRE-CHECKS ] ================================");
+                String participantId = (String) vaultService.getLocalSecret("edc.participantId");
+                if (participantId.isEmpty()) {
+                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
+                }
+                if (edcCheck) {
+                    try {
+                        LogUtil.printMessage("[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
+                        String bpnNumber = dataTransferService.checkEdcConsumerConnection();
+                        if (!participantId.equals(bpnNumber)) {
+                            throw new Exception("[" + this.getClass().getName() + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+                        }
+                        LogUtil.printMessage("[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                    } catch (Exception e) {
+                        throw new IncompatibleConfigurationException(e.getMessage());
                     }
-                    LogUtil.printMessage("[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                }
+                if (!bpnCheck) {
+                    return;
+                }
+                try {
+                    LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
+                    JwtToken token = authService.getToken();
+                    if (token == null) {
+                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] Not possible to get technical user credentials!");
+                    }
+                    Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
+                    if (jwtToken == null) {
+                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken is empty!");
+                    }
+                    if (!jwtToken.getPayload().containsKey("bpn")) {
+                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
+                    }
+                    String techUserBpn = (String) jwtToken.getPayload().get("bpn");
+                    if (!techUserBpn.equals(participantId)) {
+                        throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
+                    }
+                    LogUtil.printMessage("[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
+                } catch (Exception e) {
+                    throw new IncompatibleConfigurationException(e.getMessage());
+                }
+                LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
                 } catch (Exception e) {
                     throw new IncompatibleConfigurationException(e.getMessage());
                 }
             }
-            if (!bpnCheck) {
+            SecurityConfig.AuthorizationConfig authorizationConfig = securityConfig.getAuthorization();
+            Boolean bpnAuth = authorizationConfig.getBpnAuth();
+            Boolean roleAuth = authorizationConfig.getRoleAuth();
+
+            if(!bpnAuth && !roleAuth) {
                 return;
             }
-            try {
-                LogUtil.printMessage("[ BPN Number Check ] Checking the token from the technical user...");
-                JwtToken token = authService.getToken();
-                if (token == null) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] Not possible to get technical user credentials!");
+
+            LogUtil.printMessage("========= [ EXECUTING AUTHORIZATION PRE-CHECKS ] ================================");
+            if(bpnAuth) {
+                String participantId = (String) vaultService.getLocalSecret("edc.participantId");
+                if (participantId.isEmpty()) {
+                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] ParticipantId configuration does not exists in Vault File!");
                 }
-                Jwt jwtToken = httpUtil.parseToken(token.getAccessToken());
-                if (jwtToken == null) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken is empty!");
-                }
-                if (!jwtToken.getPayload().containsKey("bpn")) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user JwtToken does not specify any BPN number!");
-                }
-                String techUserBpn = (String) jwtToken.getPayload().get("bpn");
-                if (!techUserBpn.equals(participantId)) {
-                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] The technical user does not has the same BPN number as the EDC Consumer and the Backend! Access not allowed!");
-                }
-                LogUtil.printMessage("[ BPN Number Check ] Technical User BPN matches the EDC Consumer and the Backend participantId!");
-            } catch (Exception e) {
-                throw new IncompatibleConfigurationException(e.getMessage());
+                LogUtil.printMessage("[ BPN AUTHORIZATION CHECK ] The following bpn ["+participantId+" ] is required in authenticated tokens");
             }
-            LogUtil.printMessage("========= [ PRE-CHECKS COMPLETED ] ================================");
+            if(roleAuth) {
+                String appId = (String) vaultService.getLocalSecret("appId");
+                if (appId.isEmpty()) {
+                    throw new Exception("[" + this.getClass().getName() + ".onStartUp] The appId configuration does not exists in Vault File!");
+                }
+                LogUtil.printMessage("[ ROLE AUTHORIZATION CHECK ] The authenticated tokens in requests shall contain roles within this appId [" + appId + " ]");
+            }
+            LogUtil.printMessage("========= [ AUTHORIZATION PRE-CHECKS COMPLETED ] ================================");
         } catch (Exception e) {
             throw new IncompatibleConfigurationException(e.getMessage());
         }

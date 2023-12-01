@@ -82,9 +82,6 @@ frontend:
         hosts:
           - dpp.int.demo.catena-x.net
 
-  edc:
-    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-
   backend:
     hostname: *hostname
 

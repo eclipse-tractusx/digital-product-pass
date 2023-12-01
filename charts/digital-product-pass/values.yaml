@@ -59,7 +59,7 @@ backend:
     # -- BPN Number
     participantId: &bpn "<Add participant id here>"
     # -- edc consumer connection configuration
-    endpoint: ""
+    hostname: ""
     apis:
       management: '/management/v2'
       catalog: '/catalog/request'

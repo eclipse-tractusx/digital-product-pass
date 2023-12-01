@@ -43,7 +43,7 @@ backend:
   edc:
     xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/beta/edc/participant#bpnNumber>
-    endpoint: "materialpass.beta.demo.catena-x.net/consumer"
+    hostname: "materialpass.beta.demo.catena-x.net/consumer"
 
   hostname: *hostname
   securityCheck:

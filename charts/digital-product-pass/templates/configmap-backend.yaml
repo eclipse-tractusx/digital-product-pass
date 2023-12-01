@@ -54,7 +54,7 @@ data:
         userInfoUri: "https://{{ tpl (.Values.oauth.hostname | default "http://localhost") .  }}/auth/realms/{{ .Values.oauth.realm }}/protocol/openid-connect/userinfo"
       # -- edc consumer connection configuration
       edc:
-        endpoint: "https://{{ .Values.backend.edc.endpoint }}"
+        endpoint: "https://{{ .Values.backend.edc.hostname }}"
         management: {{ .Values.backend.edc.apis.management }}
         catalog: {{ .Values.backend.edc.apis.catalog }}
         negotiation: {{ .Values.backend.edc.apis.negotiation }}
@@ -69,8 +69,8 @@ data:
           roleAuth: {{ .Values.oauth.roleCheck.enabled }}
         # -- checkups done in the startup  
         startUpChecks:
-          bpn: {{ .Values.backend.securityCheck.bpn }}
-          edc: {{ .Values.backend.securityCheck.edc }}
+          bpnCheck: {{ .Values.backend.securityCheck.bpn }}
+          edcCheck: {{ .Values.backend.securityCheck.edc }}
       # -- irs configuration
       irs:
         enabled: {{ .Values.backend.irs.enabled }} # -- Enable search for children in the requests

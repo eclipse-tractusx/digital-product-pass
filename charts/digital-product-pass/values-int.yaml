@@ -31,7 +31,7 @@ backend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: &hostname "materialpass.int.demo.catena-x.net"
+      - host: &hostname "dpp.int.demo.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
@@ -42,7 +42,7 @@ backend:
   edc:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
-    endpoint: "materialpass.int.demo.catena-x.net/consumer"
+    hostname: "materialpass.int.demo.catena-x.net/consumer"
 
   hostname: *hostname
   securityCheck:
@@ -73,14 +73,14 @@ frontend:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
-      - host: materialpass.int.demo.catena-x.net
+      - host: dpp.int.demo.catena-x.net
         paths:
           - path: /passport(/|$)(.*)
             pathType: Prefix
     tls:
       - secretName: tls-secret
         hosts:
-          - materialpass.int.demo.catena-x.net
+          - dpp.int.demo.catena-x.net
 
   edc:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>

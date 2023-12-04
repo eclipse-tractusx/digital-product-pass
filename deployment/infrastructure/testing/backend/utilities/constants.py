@@ -1,0 +1,42 @@
+#################################################################################
+# Catena-X - Product Passport Consumer Application
+#
+# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+class Constants:
+
+    TOKEN_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    AUTH_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth"
+    REDIRECT_URI = "https://materialpass.int.demo.catena-x.net"
+    CLIENT_ID = "Cl13-CX-Battery"
+    REALM = "CX-Central"
+    SCOPE = "openid"
+    SERVER_URL = "https://materialpass.int.demo.catena-x.net"
+    CREATE_API = "/api/contract/create"
+    SEARCH_API = "/api/contract/search"
+    SIGN_API = "/api/contract/sign"
+    CHECK_STATUS_API = "/api/contract/status"
+    RETRIEVE_PASSPORT_API = "/api/data"
+    API_MAX_RETRIES = 3
+    API_DELAY = 3
+    IS_LOG_ENABLED = False
+    ACCESS_TOKEN = ""
+
+

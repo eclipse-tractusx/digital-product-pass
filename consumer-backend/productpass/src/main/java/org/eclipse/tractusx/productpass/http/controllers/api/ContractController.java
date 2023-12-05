@@ -98,7 +98,7 @@ public class ContractController {
     @Autowired
     HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
-
+    private @Autowired EdcUtil edcUtil;
     /** METHODS **/
 
     /**
@@ -631,8 +631,9 @@ public class ContractController {
             LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] signed! Starting negotiation...");
             String policyId = tokenRequestBody.getPolicyId();
             DataTransferService.NegotiateContract contractNegotiation = null;
+            // Check if policy is available!
             if(policyId != null){
-                Set policy = EdcUtil.getPolicyById(dataset, policyId);
+                Set policy = edcUtil.getPolicyById(dataset, policyId);
                 if(policy == null){
                     response = httpUtil.getBadRequest("The policy selected does not exists!");
                     return httpUtil.buildResponse(response, httpResponse);
@@ -647,6 +648,7 @@ public class ContractController {
                         policy
                 );
             }else {
+                // If the policy is not selected get the first one by default
                 contractNegotiation = dataService
                         .new NegotiateContract(
                         processManager.loadDataModel(httpRequest),

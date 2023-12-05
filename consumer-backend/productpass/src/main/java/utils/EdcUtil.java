@@ -70,9 +70,9 @@ public class EdcUtil {
      * Gets a specific policy from a dataset by id
      * <p>
      *
-     * @param contract the {@code Dataset} object of data set contained in the catalog
+     * @param dataset the {@code Dataset} object of data set contained in the catalog
      * @param policyId {@code String} the id of the policy to get
-     * @return true if the String contains the EDC data endpoint, false otherwise.
+     * @return Set of policy if found or null otherwise.
      */
     public Set getPolicyById(Dataset dataset, String policyId) {
         Object rawPolicy = dataset.getPolicy();

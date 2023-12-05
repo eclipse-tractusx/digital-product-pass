@@ -25,11 +25,13 @@
 
 package org.eclipse.tractusx.productpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @SuppressWarnings("Unused")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EdcResponse extends DidDocument{
     @JsonProperty("edc:createdAt")

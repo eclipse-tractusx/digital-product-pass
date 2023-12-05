@@ -233,6 +233,32 @@ public class DataTransferService extends BaseService {
     }
 
     /**
+     * Builds a negotiation request with the given policy
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the contract offer.
+     * @param   status
+     *          the {@code Status} status of the process.
+     * @param   bpn
+     *          the {@code String} BPN number from BNP discovery for the request.
+     * @param   policy
+     *          the {@code Sete} policy to be negotiated
+     *
+     *
+     * @return  a {@code NegotiationRequest} object with the given data.
+     *
+     */
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, Set policy) {
+        Offer contractOffer = this.buildOffer(dataset, policy);
+        return new NegotiationRequest(
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                status.getEndpoint(),
+                bpn,
+                contractOffer
+        );
+    }
+
+    /**
      * Builds a negotiation request with the given data.
      * <p>
      * @param   dataset
@@ -260,7 +286,26 @@ public class DataTransferService extends BaseService {
                 policyCopy
         );
     }
-
+    /**
+     * Builds a negotiation request with the given data.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the offer.
+     * @param   policy
+     *          the {@code Set} policy to be negotiated
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
+    public Offer buildOffer(Dataset dataset, Set policy) {
+        Set policyCopy = (Set) jsonUtil.bindObject(policy, Set.class);
+        policyCopy.setId(null);
+        return new Offer(
+                policy.getId(),
+                dataset.getAssetId(),
+                policyCopy
+        );
+    }
     /**
      * Gets the Contract Offer's Catalog from the provider.
      * <p>
@@ -802,7 +847,15 @@ public class DataTransferService extends BaseService {
             this.bpn = bpn;
             this.negotiationRequest = buildRequest(dataset, status, bpn);
         }
-
+        // Negotiate contract with policy
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, Set policy) {
+            this.dataModel = dataModel;
+            this.processId = processId;
+            this.dataset = dataset;
+            this.status = status;
+            this.bpn = bpn;
+            this.negotiationRequest = buildRequest(dataset, status, bpn, policy);
+        }
         /** GETTERS AND SETTERS **/
         @SuppressWarnings("Unused")
         public void setNegotiationRequest(NegotiationRequest negotiationRequest) {

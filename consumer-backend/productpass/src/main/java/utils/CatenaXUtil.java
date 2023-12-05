@@ -24,6 +24,7 @@
 package utils;
 
 import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
 import org.springframework.core.env.Environment;
 import utils.exceptions.UtilException;
 
@@ -60,6 +61,7 @@ public final class CatenaXUtil {
     public static Boolean containsBPN(String str) {
         return str.matches(".*" + bpnNumberPattern + ".*");
     }
+
 
     /**
      * Checks if the given String contains the known EDC data endpoint suffix.

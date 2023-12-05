@@ -45,6 +45,9 @@ public class TokenRequest {
     @NotNull(message = "Token needs to be defined!")
     @JsonProperty("token")
     String token;
+    @JsonProperty("policyId")
+    String policyId;
+
 
     /** CONSTRUCTOR(S) **/
     @SuppressWarnings("Unused")
@@ -52,6 +55,13 @@ public class TokenRequest {
         this.processId = processId;
         this.contractId = contractId;
         this.token = token;
+    }
+
+    public TokenRequest(String processId, String contractId, String token, String policyId) {
+        this.processId = processId;
+        this.contractId = contractId;
+        this.token = token;
+        this.policyId = policyId;
     }
 
 
@@ -76,5 +86,13 @@ public class TokenRequest {
     }
     public void setContractId(String contractId) {
         this.contractId = contractId;
+    }
+
+    public String getPolicyId() {
+        return policyId;
+    }
+
+    public void setPolicyId(String policyId) {
+        this.policyId = policyId;
     }
 }

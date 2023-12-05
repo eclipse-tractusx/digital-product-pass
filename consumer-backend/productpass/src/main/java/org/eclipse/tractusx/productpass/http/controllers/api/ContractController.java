@@ -55,16 +55,15 @@ import org.eclipse.tractusx.productpass.models.manager.Process;
 import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.productpass.models.manager.Status;
 import org.eclipse.tractusx.productpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.productpass.models.negotiation.Set;
 import org.eclipse.tractusx.productpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
-import utils.DateTimeUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.LogUtil;
+import utils.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -251,16 +250,6 @@ public class ContractController {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
-            /*List<String> versions;
-            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
-                versions = passportConfig.getDigitalProductPass().getVersions();
-                searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-                LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-            } else {
-                versions = passportConfig.getBatteryPass().getVersions();
-                searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
-            }*/
 
             Process process = null;
             AssetSearch assetSearch = null;
@@ -554,9 +543,9 @@ public class ContractController {
      * @return this {@code Response} HTTP response with the status.
      *
      */
-    @RequestMapping(value = "/sign", method = RequestMethod.POST)
-    @Operation(summary = "Sign contract retrieved from provider and start negotiation")
-    public Response sign(@Valid @RequestBody TokenRequest tokenRequestBody) {
+    @RequestMapping(value = "/negotiate", method = RequestMethod.POST)
+    @Operation(summary = "Start the negotiation for an specific asset")
+    public Response negotiate(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Long signedAt = DateTimeUtil.getTimestamp();
         Response response = httpUtil.getInternalError();
 
@@ -640,16 +629,33 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] signed! Starting negotiation...");
-
-
-            DataTransferService.NegotiateContract contractNegotiation = dataService
-                    .new NegotiateContract(
-                    processManager.loadDataModel(httpRequest),
-                    processId,
-                    status.getBpn(),
-                    dataset,
-                    processManager.getStatus(processId)
-            );
+            String policyId = tokenRequestBody.getPolicyId();
+            DataTransferService.NegotiateContract contractNegotiation = null;
+            if(policyId != null){
+                Set policy = EdcUtil.getPolicyById(dataset, policyId);
+                if(policy == null){
+                    response = httpUtil.getBadRequest("The policy selected does not exists!");
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
+                contractNegotiation = dataService
+                        .new NegotiateContract(
+                        processManager.loadDataModel(httpRequest),
+                        processId,
+                        status.getBpn(),
+                        dataset,
+                        processManager.getStatus(processId),
+                        policy
+                );
+            }else {
+                contractNegotiation = dataService
+                        .new NegotiateContract(
+                        processManager.loadDataModel(httpRequest),
+                        processId,
+                        status.getBpn(),
+                        dataset,
+                        processManager.getStatus(processId)
+                );
+            }
             processManager.startNegotiation(httpRequest, processId, contractNegotiation);
             LogUtil.printStatus("[PROCESS " + processId + "] Negotiation for [" + contractId + "] started!");
 

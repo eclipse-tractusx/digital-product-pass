@@ -22,9 +22,10 @@
 
 class Constants:
 
+    PROVIDER = "https://centralidp.int.demo.catena-x.net"
     TOKEN_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     AUTH_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth"
-    REDIRECT_URI = "https://materialpass.int.demo.catena-x.net"
+    REDIRECT_URI = "https://materialpass.int.demo.catena-x.net/passport/"
     CLIENT_ID = "Cl13-CX-Battery"
     REALM = "CX-Central"
     SCOPE = "openid"
@@ -34,6 +35,7 @@ class Constants:
     SIGN_API = "/api/contract/sign"
     CHECK_STATUS_API = "/api/contract/status"
     RETRIEVE_PASSPORT_API = "/api/data"
+    COMPANY = "CX-Test-Access"
     API_MAX_RETRIES = 3
     API_DELAY = 3
     IS_LOG_ENABLED = False

@@ -11,6 +11,7 @@ import time
 LOGLEVELS = {"NONE": 0, "CRITICAL": 1, "EXCEPTION": 2,
              "ERROR": 3, "WARNING": 4, "INFO": 5, "STATS": 6, "DEBUG": 7}
 LOGLEVEL = LOGLEVELS["STATS"]
+LOGFILE = None
 
 
 from datetime import datetime, timezone
@@ -31,7 +32,7 @@ class op:
     @staticmethod
     def to_json_file(source_object,json_file_path,file_open_mode="w",indent=2):
         tmp_json_string=op.to_json(source_object=source_object,indent=indent)
-        op.writeToFile(data=tmp_json_string, file_path=json_file_path,open_mode=file_open_mode, end="")
+        op.write_to_file(data=tmp_json_string, file_path=json_file_path,open_mode=file_open_mode, end="")
         
     @staticmethod
     def read_json_file(filePath,encoding="utf-8"):
@@ -61,9 +62,9 @@ class op:
     @staticmethod
     def startLog(logFile=None):
         if(logFile == None):
-            logFile = f"./log/generator-{op.timestamp()}.log"
-        openMessage = "Starting Server Log Messages..."
-        op.writeToFile(data=openMessage, filePath=logFile,
+            logFile = f"generator-{op.timestamp()}.log"
+        openMessage = "Starting Log Messages..."
+        op.write_to_file(data=openMessage, filePath=logFile,
                        openMode="w+", end="\n")
 
     @staticmethod
@@ -92,7 +93,7 @@ class op:
 
         # Print the log
         logData = " ".join([logInfo, messageStr])
-        op.writeToFile(data=logData, filePath=LOGFILE, openMode="a+", end="\n")
+        op.write_to_file(data=logData, filePath=LOGFILE, openMode="a+", end="\n")
         return print(logData)
 
     # Init dynamically the new class
@@ -166,14 +167,13 @@ class op:
         if(data == "" or data == None):
             return None
 
-        data = data + end
-        path = op.getPathWithoutFile(filePath)
+        # data = data + end
+        # path = op.get_path_without_file(filePath)
 
-        if path == None or not op.path_exists(path):
-            op.makeDir(path)
+        # if path == None or not op.path_exists(path):
+        #     op.make_dir(path)
 
-        file = open(filePath,
-                    openMode, encoding=sys.stdout.encoding)
+        file = open(filePath, openMode, encoding=sys.stdout.encoding)
         file.write(data)
         file.close()
         return True

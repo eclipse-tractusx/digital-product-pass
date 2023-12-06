@@ -39,6 +39,7 @@ class Constants:
     API_MAX_RETRIES = 3
     API_DELAY = 3
     IS_LOG_ENABLED = False
+    EXPORT_TO_FILE = False
     ACCESS_TOKEN = ""
 
 

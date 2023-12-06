@@ -198,7 +198,7 @@ if __name__ == "__main__":
         # create a process
         process_response = create_process(discovery_id, session)
         if is_log_enabled:
-            op.print_log("Create a process against manufacturerPartId: ", discovery_id, "INFO")
+            op.print_log("Create a process against manufacturerPartId: ", discovery_id)
         print("[INFO] - Create a process against manufacturerPartId: ", discovery_id)
         
         status = op.get_attribute(process_response, "status")
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         status = op.get_attribute(process_response, "status")
         
         if is_log_enabled:
-            op.print_log("Process created with ID ", process_id, "INFO")
+            op.print_log("Process created with ID ", process_id)
         print("[INFO] - Process created with ID ", process_id)
 
         
@@ -256,6 +256,7 @@ if __name__ == "__main__":
         while retries < max_retries:
             status_response = get_status(process_id, session)
             status = op.get_attribute(status_response, "status")
+            negotiation_status = op.get_attribute(status_response, "data.status")
             if (status is None):
                 if is_log_enabled:
                     op.print_log("It was not possible to retrieve the negotiation status", "ERROR")
@@ -268,7 +269,7 @@ if __name__ == "__main__":
 
             if is_log_enabled:
                 op.print_log("Checking for a negotiation status...", "INFO")
-            print("[INFO] - Checking for a negotiation status...")
+            print("[INFO] - Checking for a negotiation status: ", negotiation_status)
 
             op.wait(waiting_time)
             retries += 1
@@ -294,7 +295,12 @@ if __name__ == "__main__":
         print("[INFO] - Passport retrieved successfully")
 
         # display the pasport data to console
-        print("Passport: \n", op.to_json(passport, indent=4))
+        data = op.to_json(passport, indent=4)
+        print("Passport: \n", data)
+
+        if (Constants.EXPORT_TO_FILE):
+            print("Export passport data to a file: passport.json")
+            op.write_to_file(data=data, openMode='w', filePath="passport.json")
 
     except Exception as exception:
         if is_log_enabled:

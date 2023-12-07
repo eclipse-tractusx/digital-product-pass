@@ -52,10 +52,9 @@
                     class="help-btn"
                     :ripple="{ class: 'ripple-background' }"
                     rounded
-                    >Help
+                    >{{ $t("header.helpBtn") }}
                     <Tooltip>
-                      Here you can get help if you need to know more about
-                      Catena-X
+                      {{ $t("header.helpTooltip") }}
                     </Tooltip>
                   </v-btn>
                 </a>
@@ -84,7 +83,9 @@
                       class="menu-btn"
                       @click="logout"
                     >
-                      <span class="profile-text">Sign Out</span>
+                      <span class="profile-text">{{
+                        $t("header.signOut")
+                      }}</span>
                     </v-btn>
                     <div class="profile-menu-lang">
                       <a

@@ -28,14 +28,14 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-image-size-select-small"
-              label="Physical dimensions property"
+              :label="$t('sections.characteristics.physicalDimensionsProperty')"
               :width="propsData.physicalDimensionsProperty.width"
               :length="propsData.physicalDimensionsProperty.length"
               :height="propsData.physicalDimensionsProperty.height"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Weight"
+              :label="$t('sections.characteristics.weight')"
               :value="propsData.physicalDimensionsProperty.weight"
               :unit="propsData.physicalDimensionsProperty.unit"
             />
@@ -45,7 +45,7 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Lifespan"
+              :label="$t('sections.characteristics.lifespan')"
               :value="propsData.lifespan.value"
               :unit="propsData.lifespan.unit"
             />
@@ -55,7 +55,7 @@
           <template v-if="propsData.energyCapacity">
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Energy capacity"
+              :label="$t('sections.characteristics.energyCapacity')"
               :value="propsData.energyCapacity.value"
               :unit="propsData.energyCapacity.unit"
             />
@@ -63,7 +63,7 @@
           <template v-if="propsData.voltage">
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Voltage"
+              :label="$t('sections.characteristics.voltage')"
               :value="propsData.voltage.value"
               :unit="propsData.voltage.unit"
             />

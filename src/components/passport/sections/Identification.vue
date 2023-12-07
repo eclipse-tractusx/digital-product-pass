@@ -40,7 +40,7 @@
           <template v-if="propsData.gtin">
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Gtin"
+              :label="$t('sections.identification.gtin')"
               :value="propsData.gtin"
             />
           </template>

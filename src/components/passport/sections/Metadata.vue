@@ -27,17 +27,17 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             icon="mdi-image-size-select-small"
-            label="Issue date"
+            :label="$t('sections.metadata.issueDate')"
             :value="propsData.issueDate"
           />
           <Field
             icon="mdi-arrow-down-circle-outline"
-            label="Version"
+            :label="$t('sections.metadata.version')"
             :value="propsData.version"
           />
           <Field
             icon="mdi-arrow-down-circle-outline"
-            label="Validity date"
+            :label="$t('sections.metadata.validityDate')"
             :value="propsData.validityDate"
           />
         </v-col>
@@ -45,12 +45,12 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Customer part Id"
+              :label="$t('sections.metadata.customerPartId')"
               :value="propsData.economicOperator.eori"
             />
             <Field
               icon="mdi-arrow-bottom-right-thin-circle-outline"
-              label="Manufacturer part Id"
+              :label="$t('sections.metadata.manufacturerPartId')"
               :value="propsData.economicOperator.id"
             />
           </v-col>
@@ -58,7 +58,7 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             icon="mdi-arrow-bottom-right-thin-circle-outline"
-            label="Status"
+            :label="$t('sections.metadata.status')"
             :value="propsData.status"
           />
         </v-col>

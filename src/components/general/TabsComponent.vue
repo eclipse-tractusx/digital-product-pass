@@ -29,7 +29,7 @@
         :value="section.component"
       >
         <v-icon start md :icon="section.icon"> </v-icon>
-        {{ section.label }}
+        {{ $t(section.label) }}
       </v-tab>
     </v-tabs>
     <v-card-text>

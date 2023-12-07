@@ -31,15 +31,16 @@
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/documentation/?path=docs"
-            >Help</a
           >
+            {{ $t("footer.help") }}
+          </a>
         </div>
         <div>
           <a
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/contact"
-            >Contact</a
+            >{{ $t("footer.contact") }}</a
           >
         </div>
         <div>
@@ -47,98 +48,94 @@
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/imprint"
-            >Imprint</a
           >
+            {{ $t("footer.imprint") }}
+          </a>
         </div>
         <div>
           <a
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/privacy"
-            >Privacy</a
           >
+            {{ $t("footer.privacy") }}
+          </a>
         </div>
         <div>
           <a
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/terms"
-            >Terms of Service</a
           >
+            {{ $t("footer.terms") }}
+          </a>
         </div>
         <div>
           <a
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/cookiepolicy"
-            >Cookies</a
           >
+            {{ $t("footer.cookies") }}
+          </a>
         </div>
         <div>
           <a
             id="lnkHelp"
             target="_blank"
             href="https://portal.int.demo.catena-x.net/thirdpartylicenses"
-            >Third Party Licenses</a
           >
+            {{ $t("footer.thirdParty") }}
+          </a>
         </div>
         <DialogComponent>
           <div>
-            <a id="legalNotice">Legal notice</a>
+            <a id="legalNotice">{{ $t("footer.legal") }}</a>
           </div>
-          <template v-slot:title> Legal notice </template>
+          <template v-slot:title>{{ $t("footer.legal") }}</template>
           <template v-slot:text>
             <div>
-              <a
-                id="lnkHelp"
-                target="_blank"
-                :href="REPO_ENDPOINT"
-                >Digital Product Pass</a
-              >
+              <a id="lnkHelp" target="_blank" :href="REPO_ENDPOINT">{{
+                $t("passportView.dpp")
+              }}</a>
             </div>
-            <div>License: Apache-2.0</div>
+            <div>{{ $t("footer.license") }}</div>
             <div>
-              <span>Licence Path: </span>
+              <span>{{ $t("footer.licensePath") }}</span>
               <a
                 id="lnkHelp"
                 target="_blank"
                 :href="baseCommitUrl + '/LICENSE'"
-                >View License File</a
+                >{{ $t("footer.viewLicense") }}</a
               >
             </div>
             <div>
-              <span>NOTICE: </span>
+              <span>{{ $t("footer.notice") }}</span>
               <a
                 id="lnkHelp"
                 target="_blank"
                 :href="baseCommitUrl + '/NOTICE.md'"
-                >View Notice File</a
+                >{{ $t("footer.viewNotice") }}</a
               >
             </div>
             <div>
-              <span>Source URL: </span>
-              <a
-                id="lnkHelp"
-                target="_blank"
-                :href="REPO_ENDPOINT"
-                >{{REPO_ENDPOINT}}</a
-              >
+              <span>{{ $t("footer.source") }}</span>
+              <a id="lnkHelp" target="_blank" :href="REPO_ENDPOINT">{{
+                REPO_ENDPOINT
+              }}</a>
             </div>
             <div>
-              <span>Commit ID: </span>
-              <a
-                id="lnkHelp"
-                target="_blank"
-                :href="baseCommitUrl"
-                >{{ COMMIT_ID }}</a
-              >
+              <span>{{ $t("footer.commit") }}</span>
+              <a id="lnkHelp" target="_blank" :href="baseCommitUrl">{{
+                COMMIT_ID
+              }}</a>
             </div>
           </template>
         </DialogComponent>
       </div>
       <div class="copyright-container">
         <div class="copyright">
-          Copyright © Catena-X Automotive Network.
+          {{ $t("footer.copyright") }}
           <a target="_blank" id="version" :href="tagRepoUrl">v{{ VERSION }}</a>
         </div>
       </div>
@@ -156,7 +153,7 @@ export default {
   },
   data() {
     return {
-      baseCommitUrl: REPO_ENDPOINT+'/blob/'+COMMIT_ID,
+      baseCommitUrl: REPO_ENDPOINT + "/blob/" + COMMIT_ID,
     };
   },
   computed: {
@@ -171,7 +168,7 @@ export default {
     return {
       VERSION,
       COMMIT_ID,
-      REPO_ENDPOINT
+      REPO_ENDPOINT,
     };
   },
 };

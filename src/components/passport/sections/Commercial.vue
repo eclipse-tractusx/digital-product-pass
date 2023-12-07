@@ -27,12 +27,12 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             icon="mdi-image-size-select-small"
-            label="Place on the market"
+            :label="$t('sections.commercial.placedOnMarket')"
             :value="propsData.placedOnMarket"
           />
           <Field
             icon="mdi-arrow-down-circle-outline"
-            label="Warranty"
+            :label="$t('sections.commercial.warranty')"
             :value="propsData.warranty"
           />
         </v-col>

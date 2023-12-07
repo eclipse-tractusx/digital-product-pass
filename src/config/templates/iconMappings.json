@@ -11,7 +11,6 @@
   "identification": "mdi-information-outline",
   "sources": "mdi-source-branch",
   "handling": "mdi-card-account-details-outline",
-  "sustainability": "mdi-fuse",
   "operation": "mdi-handshake-outline",
   "information": "mdi-information-outline",
   "product": "mdi-watermark",
@@ -20,5 +19,9 @@
   "electrochemical": "mdi-electron-framework",
   "data": "mdi-data-matrix",
   "chemistry": "mdi-react",
-  "exchange": "mdi-file-swap-outline"
+  "exchange": "mdi-file-swap-outline",
+  "general": "mdi-pound",
+  "health": "mdi-battery-plus",
+  "sustainability": "mdi-leaf",
+  "performance": "mdi-chart-timeline-variant-shimmer"
 }

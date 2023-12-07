@@ -25,8 +25,8 @@
   <div class="home-page-container">
     <div class="left-container" :class="{ hidden: isHidden }">
       <div class="left-container-text">
-        <h2>Catena-X Battery Passport</h2>
-        <p>{{ $t("welcomeMessage") }}</p>
+        <h2>{{ $t("searchView.title") }}</h2>
+        <p>{{ $t("searchView.welcomeMessage") }}</p>
       </div>
       <div class="img-container">
         <img :src="BatteryScanning" class="image" alt="Battery scanning" />
@@ -49,9 +49,9 @@
         <v-container class="search-page">
           <div v-if="error" class="qr-container">
             <div class="text-container">
-              <p class="text">Your camera is off.</p>
-              <p class="text">Turn it on or type the ID.</p>
-              <p class="error">{{ error }}</p>
+              <p class="text">{{ $t("searchView.errorCameraOff") }}</p>
+              <p class="text">{{ $t("searchView.errorTypeID") }}</p>
+              <p class="error">{{ $t(error) }}</p>
             </div>
             <SearchInput class="search-input" />
           </div>
@@ -90,10 +90,10 @@
         </v-container>
       </div>
       <div class="guide">
-        📖 Want to find out more? Read our Get
-        <a class="advanced-search-link" @click="openExternalLink"
-          >Started Guide</a
-        >
+        📖 {{ $t("searchView.findOutMore") }}
+        <a class="advanced-search-link" @click="openExternalLink">{{
+          $t("searchView.guide")
+        }}</a>
       </div>
     </div>
   </div>
@@ -152,20 +152,19 @@ export default {
         await promise;
       } catch (error) {
         if (error.name === "NotAllowedError") {
-          this.error = "ERROR: you need to grant camera access permission";
+          this.error = "searchView.cameraError.NotAllowedError";
         } else if (error.name === "NotFoundError") {
-          this.error = "ERROR: no camera on this device";
+          this.error = "searchView.cameraError.NotFoundError";
         } else if (error.name === "NotSupportedError") {
-          this.error = "ERROR: secure context required (HTTPS, localhost)";
+          this.error = "searchView.cameraError.NotSupportedError";
         } else if (error.name === "NotReadableError") {
-          this.error = "ERROR: is the camera already in use?";
+          this.error = "searchView.cameraError.NotReadableError";
         } else if (error.name === "OverconstrainedError") {
-          this.error = "ERROR: installed cameras are not suitable";
+          this.error = "searchView.cameraError.OverconstrainedError";
         } else if (error.name === "StreamApiNotSupportedError") {
-          this.error = "ERROR: Stream API is not supported in this browser";
+          this.error = "searchView.cameraError.StreamApiNotSupportedError";
         } else if (error.name === "InsecureContextError") {
-          this.error =
-            "ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.";
+          this.error = "searchView.cameraError.InsecureContextError";
         } else {
           this.error = `ERROR: Camera error (${error.name})`;
         }

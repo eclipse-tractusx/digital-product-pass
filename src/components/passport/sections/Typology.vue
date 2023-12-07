@@ -29,7 +29,7 @@
             <Field
               info
               icon="mdi-image-size-select-small"
-              label="Name"
+              :label="$t('sections.typology.name')"
               :value="propsData.name"
             />
             <template v-slot:text>
@@ -41,12 +41,12 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Definition"
+              :label="$t('sections.typology.definition')"
               :value="propsData.class.definition"
             />
             <Field
               icon="mdi-arrow-bottom-right-thin-circle-outline"
-              label="Code"
+              :label="$t('sections.typology.code')"
               :value="propsData.class.code"
             />
           </v-col>
@@ -54,12 +54,12 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             icon="mdi-lightning-bolt-outline"
-            label="Name at manufacturer"
+            :label="$t('sections.typology.nameAtManufacturer')"
             :value="propsData.nameAtManufacturer"
           />
           <Field
             icon="mdi-arrow-bottom-right-thin-circle-outline"
-            label="Name at customer"
+            :label="$t('sections.typology.nameAtCustomer')"
             :value="propsData.nameAtCustomer"
           />
         </v-col>

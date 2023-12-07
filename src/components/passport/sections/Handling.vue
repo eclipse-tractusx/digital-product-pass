@@ -29,7 +29,7 @@
             <DialogComponent class="field-dialog">
               <AttributeField
                 icon="mdi-image-size-select-small"
-                label="Maintenance history"
+                :label="$t('sections.handling.maintenanceHistory')"
                 :attributes-list="propsData.maintenanceHistory"
               >
                 <template v-slot:text>
@@ -43,7 +43,7 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <AttributeField
               icon="mdi-image-size-select-small"
-              label="Spare parts"
+              :label="$t('sections.handling.spareParts')"
               :attributes-list="propsData.spareParts"
             />
           </v-col>
@@ -52,7 +52,7 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <AttributeField
               icon="mdi-image-size-select-small"
-              label="Substance of concern"
+              :label="$t('sections.handling.substanceOfConcern')"
               :attributes-list="propsData.substanceOfConcern"
             />
           </v-col>

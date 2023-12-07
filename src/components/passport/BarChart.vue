@@ -30,10 +30,10 @@
       :style="`width: ${barChart(currentValue, maxValue)}; background: #0f71cb`"
     />
     <div class="chart-value current">
-      {{ isNumeric(currentValue) ? currentValue : "No data" }}
+      {{ isNumeric(currentValue) ? currentValue : $t("barChart.noData") }}
     </div>
     <div class="chart-value max">
-      {{ isNumeric(maxValue) ? maxValue : "No data" }}
+      {{ isNumeric(maxValue) ? maxValue : $t("barChart.noData") }}
     </div>
   </div>
 </template>

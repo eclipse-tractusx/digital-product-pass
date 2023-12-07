@@ -28,12 +28,12 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-image-size-select-small"
-              label="State"
+              :label="$t('sections.sustainability.state')"
               :value="propsData.state"
             />
             <AttributeField
               icon="mdi-image-size-select-small"
-              label="Material"
+              :label="$t('sections.sustainability.material')"
               :attributes-list="propsData.material"
             />
           </v-col>
@@ -42,17 +42,17 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-image-size-select-small"
-              label="Carbon content total"
+              :label="$t('sections.sustainability.carbonContentTotal')"
               :value="propsData.carbonFootprint.carbonContentTotal"
             />
             <Field
               icon="mdi-image-size-select-small"
-              label="Cross sectoral standard"
+              :label="$t('sections.sustainability.crossSectoralStandard')"
               :value="propsData.carbonFootprint.crossSectoralStandard"
             />
             <AttributeField
               icon="mdi-image-size-select-small"
-              label="Material"
+              :label="$t('sections.sustainability.material')"
               :attributes-list="
                 propsData.carbonFootprint.productOrSectorSpecificRules
               "

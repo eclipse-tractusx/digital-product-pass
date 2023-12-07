@@ -28,18 +28,18 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-image-size-select-small"
-              label="Importer"
+              :label="$t('sections.operation.importer')"
               :value="propsData.importer"
             />
             <template v-if="propsData.manufacturer">
               <Field
                 icon="mdi-arrow-down-circle-outline"
-                label="Manufacturer Id"
+                :label="$t('sections.operation.manufacturerId')"
                 :value="propsData.manufacturer.manufacturerId"
               />
               <Field
                 icon="mdi-arrow-down-circle-outline"
-                label="Facility Id"
+                :label="$t('sections.operation.facilityId')"
                 :value="propsData.manufacturer.facilityId"
               />
             </template>

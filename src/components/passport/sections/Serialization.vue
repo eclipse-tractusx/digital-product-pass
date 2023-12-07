@@ -26,30 +26,34 @@
       <v-row class="section">
         <template v-if="propsData.manufacturingInformation">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Manufacturing information</div>
+            <div class="element-chart-label">
+              {{ $t("sections.serialization.manufacturingInformation") }}
+            </div>
             <Field
               icon="mdi-image-size-select-small"
-              label="Date"
+              :label="$t('sections.serialization.date')"
               :value="propsData.manufacturingInformation.date"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Country"
+              :label="$t('sections.serialization.country')"
               :value="propsData.manufacturingInformation.country"
             />
           </v-col>
         </template>
         <template v-if="propsData.registration">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Registration</div>
+            <div class="element-chart-label">
+              {{ $t("sections.serialization.registration") }}
+            </div>
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Customer part Id"
+              :label="$t('sections.serialization.customerPartId')"
               :value="propsData.registration.customerPartId"
             />
             <Field
               icon="mdi-arrow-bottom-right-thin-circle-outline"
-              label="Manufacturer part Id"
+              :label="$t('sections.serialization.manufacturerPartId')"
               :value="propsData.registration.manufacturerPartId"
             />
           </v-col>
@@ -59,7 +63,7 @@
             <div class="element-chart-label"></div>
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Quantity"
+              :label="$t('sections.serialization.quantity')"
               :value="propsData.quantity.value"
               :unit="propsData.quantity.unit"
             />

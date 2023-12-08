@@ -973,30 +973,29 @@ public class ProcessManager {
     }
 
     /**
-     * Sets the history of the process's status containing the given processId with "contract-signed" historyId, the "SIGNED" status
+     * Sets the history of the process's status containing the given processId with "contract-agreed" historyId, the "AGREED" status
      * and with the given contractId. Also updates the process state as "STARTING" in the given HTTP session.
      * <p>
      * @param   httpRequest
      *          the HTTP request.
      * @param   processId
      *          the {@code String} id of the application's process.
-     * @param   contractId
-     *          the {@code String} identification of the contract negotiation.
      * @param   signedAt
      *          the {@code Long} timestamp when the contract was signed.
-     *
+     * @param   policyId
+     *          the {@code String} timestamp when the contract was signed.
      * @return  a {@code String} file path of the process status file.
      *
      * @throws ManagerException
      *           if unable to update the status file.
      */
-    public String setSigned(HttpServletRequest httpRequest, String processId, String contractId, Long signedAt) {
+    public String setAgreed(HttpServletRequest httpRequest, String processId, Long signedAt, String policyId) {
 
         this.setProcessState(httpRequest, processId, "STARTING");
 
-        return this.setStatus(processId, "contract-signed", new History(
-                contractId,
-                "SIGNED",
+        return this.setStatus(processId, "contract-agreed", new History(
+                policyId,
+                "AGREED",
                 signedAt
         ));
     }

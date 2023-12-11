@@ -46,59 +46,55 @@ class Authentication:
         f'redirect_uri={Constants.REDIRECT_URI}&'
         f'scope={Constants.SCOPE}'
     )
+    request_header_accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+    request_header_accept_encoding = "gzip, deflate, br"
+    request_header_accept_language = "en-GB,en;q=0.9,de;q=0.8,en-US;q=0.7"
 
+    _company_name = ""
 
-    def __init__(self) -> None:
+    def __init__(self, company_name) -> None:
+        
+        _company_name = company_name
 
-        url = ""
+        central_idp = Constants.AUTH_URI
         state = "fooobarfoobar"
-        resp = requests.get(
-            url="https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth",
-            params={
-                "response_type": "code",
-                "client_id": Constants.CLIENT_ID,
-                "scope": Constants.SCOPE,
-                "redirect_uri": Constants.REDIRECT_URI,
-                "state": state
-            },
-            allow_redirects=True
-        )
+        try:
+            shared_idp_url, cookie = self.get_company_shared_url(central_idp)
+            op.wait(3)
+            shared_idp_auth_url = self.get_auth_url_from_shared_idp(shared_idp_url, cookie)
+            op.wait(3)
+            self.authenticate_in_shared_idp(shared_idp_auth_url,"company 2 user","changeme", cookie)
+            #op.wait(3)
 
-        cookie = resp.headers['Set-Cookie']
-        cookie = '; '.join(c.split(';')[0] for c in cookie.split(', '))
 
-        company_selection_page = resp.text
-        companies_array = re.findall(r'<pre[^>]*">([^<]+)</pre>', company_selection_page)
-        companies_array = (op.json_string_to_object(op.json_string_to_object(op.to_json(companies_array[0]))))
 
-        for company in companies_array:
-            if company is not None and company["name"] == Constants.COMPANY:
-                url = company["url"]
-                break
+
+
+            # response = requests.get(url=path,
+            #             headers={
+            #                     "Cookie": cookie, 
+            #                     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            #                     "Accept-Encoding": "gzip, deflate, br",
+            #                     "Accept-Language": "en-US",
+            #                     'User-Agent': "Mozilla/5.0"
+
+            #                     },
+            #             allow_redirects=False
+            #         )
+            # print(response.raise_for_status())
         
-
-        path = Constants.PROVIDER + url
-        print(path)
-
-        response = requests.get(url=path,
-                    params={
-                        "response_type": "code",
-                        "client_id": "Central-IdP",
-                        "scope": Constants.SCOPE,
-                        "redirect_uri": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/endpoint",
-                        "state": state
-                     },
-                     allow_redirects=True
-                )
-        
-        print(response.text)
+        except requests.exceptions.HTTPError as errh: 
+            print("HTTP Error") 
+            print(errh.args) 
+        # Prints the response code 
+        # print(response) 
 
         #result = re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL)
         # xx = "guru99,education is fun"
         # r1 = re.findall(r"^\w+",xx)
 
-
-
+        # response = requests.get("https://sharedidp.int.demo.catena-x.net/auth/realms/CX-Test-Access/protocol/openid-connect/auth?scope=openid&state=fooobarfoobar&response_type=code&client_id=Central-IdP&redirect_uri=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/endpoint")
+        # print(response.text)
         
         # response = requests.get(url="https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/login?client_id=Cl13-CX-Battery&amp;tab_id=fsGMt1AP4dY&amp;session_code=I1vhOK7wVEKSKbNRPw_0yVrDhV53d7Om3kutczwC44c")
         # print(response)
@@ -118,19 +114,19 @@ class Authentication:
         # page = response.text
         # url = re.findall(r'(https?://\S+)', page)
         # tt = re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL)
-        form_action = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
-        # print(form_action)
+        # form_action = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
+        # # print(form_action)
 
-        resp = requests.post(
-        url=form_action, 
-        data={
-            "username": "company 2 user",
-            "password": "changeme",
-            "credentialId": ""
-        }, 
-        headers={"Cookie": cookie},
-        allow_redirects=True
-        )
+        # resp = requests.post(
+        # url=form_action, 
+        # data={
+        #     "username": "company 2 user",
+        #     "password": "changeme",
+        #     "credentialId": ""
+        # }, 
+        # headers={"Cookie": cookie},
+        # allow_redirects=True
+        # )
         # print(resp.status_code)
         # print(resp.text)
 
@@ -236,5 +232,146 @@ class Authentication:
 
     # def isauthenticated()
     #     return False
+
+    # def get_access_token(username, password):
+
+        #companies = StartCentralIdp();
+        #sharedIdpCompanyUrl = GetCompanySharedIdpUrl(companies);
+        #auth_url_from_shared_idp = get_auth_url_from_shared_idp(sharedIdpCompanyUrl);
+        #authenticateInCentralIdpUrl =
+        #     await AuthenticateInSharedIdp(auth_url_from_shared_idp, "company 2 user", "changeme");
+        # authCode = await GetAuthCodeFromCentralIdp(authenticateInCentralIdpUrl);
+        # return await GetTokenWithAuthCode(authCode);
+
+
+    def get_company_shared_url(self, url):
+        state = "fooobarfoobar"
+
+        try:
+            response = requests.get(
+                url=url,
+                params={
+                    "response_type": "code",
+                    "client_id": Constants.CLIENT_ID,
+                    "scope": Constants.SCOPE,
+                    "redirect_uri": Constants.REDIRECT_URI,
+                    "state": state
+                },
+                allow_redirects=False
+            )
+
+            cookies = response.headers['Set-Cookie']
+            cookie = '; '.join(c.split(';')[0] for c in cookies.split(', '))
+
+            company_selection_page = response.text
+            companies_array = re.findall(r'<pre[^>]*">([^<]+)</pre>', company_selection_page)
+            companies_array = (op.json_string_to_object(op.json_string_to_object(op.to_json(companies_array[0]))))
+
+            for company in companies_array:
+                if company is not None and company["name"] == Constants.COMPANY:
+                    url = company["url"]
+                    break
+            
+
+            path = Constants.PROVIDER + url
+            # print(path)
+            # print(cookie)
+            return path, cookie
+
+        
+        except requests.exceptions.HTTPError as errh: 
+            print("HTTP Error") 
+            print(errh.args)
+
+
+    def get_auth_url_from_shared_idp(self, shared_idp_url, cookie):
+        
+        try:
+            central_idp_url = Constants.PROVIDER.replace("https://", "")
+            headers = {
+                "Accept": self.request_header_accept,
+                "Accept-Language": self.request_header_accept_language,
+                "Accept-Encoding": self.request_header_accept_encoding,
+                "Cookie": cookie
+            }
+            # headers = {
+            #             "Cookie": cookie, 
+            #             "Accept": "*/*",
+            #             "Accept-Encoding": "gzip, deflate, br",
+            #             "Host": central_idp_url
+            #         }
+            
+            url = shared_idp_url.replace("amp;", "")
+            print(url)
+            response = requests.get(
+                url=url,
+                headers=headers
+            )
+            page =response.text
+            form_url = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
+            if form_url is None:
+                return None
+            print(form_url)
+            return form_url
+
+            # response = requests.get(
+            #     url=shared_idp_url,
+            #     headers={"Accept": self.request_header_accept,
+            #              "Accept-Language": self.request_header_accept_language,
+            #              "Accept-Encoding": self.request_header_accept_encoding
+            #              }
+
+            # )
+            # page = response.text
+            # auth_url = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
+
+            # if (auth_url is None):
+            #     print("Authentication failed: The auth url was not found")
+
+            # return auth_url
+
+        except requests.exceptions.HTTPError as errh: 
+            print("HTTP Error") 
+            print(errh.args)
+
+
+
+    def authenticate_in_shared_idp(self, shared_idp_url, username, password, cookie):
+
+        print(shared_idp_url)
+
+        url = shared_idp_url.replace("amp;", "")
+        headers = {
+            "Accept": self.request_header_accept,
+            "Accept-Language": self.request_header_accept_language,
+            "Accept-Encoding": self.request_header_accept_encoding,
+            "Origin": "null",
+            "Cookie": cookie
+        }
+        data = {
+            "companyName": "CX-Test-Access",
+            "username": username, 
+            "password": password,
+            "credentialId": ""
+        }
+        print(data)
+        print(headers)
+        response = requests.post(
+            url=url,
+            headers=headers,
+            data=data
+        )
+
+        print(response.text)
+        
+
+
+        # var authCodeOrUpdatePasswordUrl = response.Headers.Location?.AbsoluteUri;
+        # if (authCodeOrUpdatePasswordUrl is null)
+        # {
+        #     throw new Exception("Authentication failed: the url for getting the auth code or updating the password was not found.");
+        # }
+
+
 
 

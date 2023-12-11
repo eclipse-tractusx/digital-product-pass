@@ -25,7 +25,7 @@ class Constants:
     PROVIDER = "https://centralidp.int.demo.catena-x.net"
     TOKEN_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     AUTH_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth"
-    REDIRECT_URI = "https://materialpass.int.demo.catena-x.net/passport/"
+    REDIRECT_URI = "https://materialpass.int.demo.catena-x.net"
     CLIENT_ID = "Cl13-CX-Battery"
     REALM = "CX-Central"
     SCOPE = "openid"

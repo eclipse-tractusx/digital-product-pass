@@ -19,7 +19,7 @@
                 "odrl:operator": {
                   "@id": "odrl:eq"
                 },
-                "odrl:rightOperand": "DPP"
+                "odrl:rightOperand": "ID 3.0.1 DPP"
               }
             ]
           }
@@ -2304,6 +2304,45 @@
           },
           "description": "Transmission Passport Submodel",
           "semanticId": "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:b2c4c99d-f187-45ad-905b-e2c4e1ededba",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "ABC123",
+          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+        }
+      ],
+      "type": "physicalDimensions",
+      "description": [
+        {
+          "language": "en",
+          "text": "Physical Dimensions shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "physicalDeminsions",
+          "data": {
+            "partInstanceId": "ABC123",
+            "physicalDimensionsProperty": {
+              "width": 1000.0,
+              "length": 20000.1,
+              "weight": 100.7,
+              "diameter": 0.03,
+              "height": 0.1
+            }
+          },
+          "description": "Physical Dimensions Submodel",
+          "semanticId": "urn:bamm:io.catenax.shared.physical_dimension:2.0.0#PhysicalDimensions"
         }
       ]
     }

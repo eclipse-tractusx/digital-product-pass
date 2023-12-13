@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="confluence.catena-x.net" modified="2023-11-24T17:31:30.900Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="qnTYJApILHoVu0DhE0K7" version="21.6.8" type="atlas">
+<mxfile host="confluence.catena-x.net" modified="2023-12-13T11:20:00.474Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="FmEFiZgrNYXZBH3b5iLQ" version="21.6.8" type="atlas">
   <diagram id="67DQLOpX_rzQC5Qooe0f" name="Page-1">
-    <mxGraphModel dx="2314" dy="1414" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2314" dy="1564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -19,7 +19,7 @@
             <mxPoint x="-30" y="215" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="e3KMvohaaFlJr2PwAPiO-3" value="/negotiate is called" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+        <mxCell id="e3KMvohaaFlJr2PwAPiO-3" value="/agree is called" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
           <mxGeometry x="-290" y="177.5" width="170" height="75" as="geometry" />
         </mxCell>
         <mxCell id="e3KMvohaaFlJr2PwAPiO-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="e3KMvohaaFlJr2PwAPiO-7" target="e3KMvohaaFlJr2PwAPiO-32" edge="1">

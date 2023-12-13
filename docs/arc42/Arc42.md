@@ -24,7 +24,7 @@
 
 ![C-X Logo](./media/CXlogo.png) ![acr42 logo](./media/arc42logo.png)  
 
-| Version | v4.5 |
+| Version | v5.0 |
 | ------- | ---- | 
 
 Latest Revision: *Nov 20, 2023*
@@ -56,8 +56,8 @@ Latest Revision: *Nov 20, 2023*
         - [Search API Flow](#search-api-flow)
         - [Aspect Configuration](#aspect-configuration)
       - [Data Negotiation and Transfer Phase](#data-negotiation-and-transfer-phase)
-        - [Negotiate API Sequence Diagram](#negotiate-api-sequence-diagram)
-        - [Negotiate Flow Diagram](#negotiate-flow-diagram)
+        - [Agree API Sequence Diagram](#agree-api-sequence-diagram)
+        - [Agree Flow Diagram](#agree-flow-diagram)
         - [Decline API Flow Diagram](#decline-api-flow-diagram)
         - [Cancel API Flow Diagram](#cancel-api-flow-diagram)
         - [Status API Flow Diagram](#status-api-flow-diagram)
@@ -333,9 +333,9 @@ This means that first the backend will search in the digital twin if the digital
 
 The **Data Negotiation and Transfer Phase** as it is detailed at the [Data Retrieval Guide Phase 4](../data%20retrieval%20guide/DataRetrievalGuide.md#4-data-negotiation-and-transfer-phase-1) is the phase responsible for the final data transfer and negotiation. In this phase we retrieve the data using the EDC.
 
-Once the user has the contract he can call the `/negotiate` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.
+Once the user has the contract he can call the `/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.
 
-The other option rather than `/negotiate` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
+The other option rather than `/agree` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
 
 After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/data`.
 
@@ -344,15 +344,15 @@ The API `/data` will decrypt the passport file that is encrypted using the sessi
 
 > *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
 
-##### Negotiate API Sequence Diagram 
+##### Agree API Sequence Diagram 
 
-![Negotiate Api Sequence](media/dataRetrieval/negotiateApiSequence.jpg)
+![Agree Api Sequence](media/dataRetrieval/agreeApiSequence.jpg)
 
-##### Negotiate Flow Diagram
+##### Agree Flow Diagram
 
 Here is described in detail how the sign flow works:
 
-![Negotiate API Flow](./media/dataRetrieval/negotiateApiFlow.jpg)
+![agree API Flow](./media/dataRetrieval/agreeApiFlow.jpg)
 
 ##### Decline API Flow Diagram
 
@@ -387,7 +387,7 @@ Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/in
 
 The Item Relationship Service [IRS] (**[tractusx/item-relationship-service](https://github.com/eclipse-tractusx/item-relationship-service)**) is responsible for providing the drill down functionality the Digital Product Pass application needs for finding the children of the current passports.
 
-The IRS ([reference implementation](../deployment/helm/irs)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
+The IRS ([charts reference implementation](../deployment/helm/irs)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
 
 > **NOTE**: The IRS Functionality can be deactivated by setting the following configuration at the `values.yaml` file to false: `backend.configuration.irs.enabled` or by setting the attribute `children` to false when the `/api/contract/search` API is called.
 

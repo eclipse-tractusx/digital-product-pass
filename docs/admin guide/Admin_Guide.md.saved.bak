@@ -537,10 +537,29 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 
 ## Item Relationship Service Integration
 
-For deploying and integrating the IRS (Item Relationship Service)[https://github.com/eclipse-tractusx/item-relationship-service] with the digital product pass application first deploy the [reference helm chart values](../../deployment/helm/irs) helm charts.
+For deploying and integrating the IRS (Item Relationship Service) with the digital product pass application first deploy the [reference helm chart values](../../deployment/helm/irs) helm charts.
 
 For creating relationships between the digital twins register "singleLevelBomAsBuilt" and "singleLevelBomAsUsage" aspects which can be found here: [SingleLevelBomAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_usage_as_built) and [SingleLevelUsageAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_usage_as_built)
 
+
+The digital product pass drills down one level using the following IRS query:
+
+```json
+{
+	"aspects": [],
+	"bomLifecycle": "asBuilt",
+	"lookupBPNs": false,
+	"collectAspects": false,
+	"direction": "downward",
+	"depth": 1,
+	"integrityCheck": false,
+	"callbackUrl": "https://<backend.url>/api/irs/endpoint?id=urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d&state=COMPLETED",
+	"key": {
+		"globalAssetId": "aspectAssetId",
+		"bpn": "<bpnNumber>"
+	}
+}
+```
 
 
 > **IMPORTANT**!: The proxy configuration needs to be enabled exactly like it is configured in the dataAdress property above.

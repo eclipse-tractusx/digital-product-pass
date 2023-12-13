@@ -24,6 +24,28 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+## [v1.4.0] - 14-12-2023
+
+## Added
+- Added script to automate the uploading of various passport types
+- Added script to delete data from the data provider
+- Added check for empty or null contractIds with retry attempts
+- Added descriptive logs to search and create methods
+
+## Updated
+- Updated ingress settings and backend configuration in the helm chart
+- Refactored helm values to show only user relevant settings
+
+## Issued Fixed
+- Fixed the timeout time for each negotiation
+- Fixed the long waiting time by implementing timeout when doing the negotiation
+- Fixed the null contract ids creation
+
+## Deleted
+- Remove the legacy style to register/delete the testdata from the data provider
+ 
+
 ## [released]
 ## [v1.3.1] - 08-11-2023
 

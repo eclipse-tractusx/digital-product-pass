@@ -19,6 +19,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
- 
+
+## this command in Python is recommended to run in UNBUFFERED mode, and to print standard output (stdout/stderr)
 export PYTHONUNBUFFERED=TRUE;
-python ./getPassport.py --id BAT-XYZ789 --discoveryId XYZ78901 --semanticId urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport
+
+## execute the python script
+python ./getPassport.py --id BAT-XYZ789 --discoveryId XYZ78901

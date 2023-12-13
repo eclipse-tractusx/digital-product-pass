@@ -79,10 +79,10 @@ backend:
           - materialpass.beta.demo.catena-x.net
 
   edc:
-    clientId: <path:material-pass/data/dev/backend#clientId>
-    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
-    xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
-    participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber
+    clientId: <path:material-pass/data/beta/backend#clientId>
+    clientSecret: <path:material-pass/data/beta/backend#clientSecret>
+    xApiKey: <path:material-pass/data/beta/edc/oauth#api.key>
+    participantId:  <path:material-pass/data/beta/edc/participant#bpnNumber>
 
   application:
     yml: |-

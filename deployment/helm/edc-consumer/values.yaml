@@ -647,17 +647,8 @@ irs-helm:
   edc:
     catalog:
       acceptedPolicies:
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: "ID 3.0 Trace"
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: "ID 3.1 Trace"
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: R2_Traceability
-        - leftOperand: "FrameworkAgreement.traceability"
-          operator: "eq"
+        - leftOperand: "FrameworkAgreement.sustainability"	
+          operator: "eq"	
           rightOperand: "active"
         - leftOperand: "Membership"
           operator: "eq"

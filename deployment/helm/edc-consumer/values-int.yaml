@@ -218,7 +218,7 @@ irs-helm:
   digitalTwinRegistry:
     type: decentral
     url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -241,17 +241,8 @@ irs-helm:
   edc:
     catalog:
       acceptedPolicies:
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: "ID 3.0 Trace"
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: "ID 3.1 Trace"
-        - leftOperand: "PURPOSE"
-          operator: "eq"
-          rightOperand: R2_Traceability
-        - leftOperand: "FrameworkAgreement.traceability"
-          operator: "eq"
+        - leftOperand: "FrameworkAgreement.sustainability"	
+          operator: "eq"	
           rightOperand: "active"
         - leftOperand: "Membership"
           operator: "eq"

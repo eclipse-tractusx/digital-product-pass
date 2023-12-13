@@ -24,31 +24,42 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v1.5 </br>
-Latest Revision Mar 30, 2023
+Version: v2.0 </br>
+Latest Revision 13 Dec, 2023
 
 ## Table of Contents
 
-1. [Table of contents](#table-of-contents)  
-2. [Introduction](#introduction)
-3. [Getting Started Guide](#getting-started-guide)
-4. [Deployment Configuration](#deployment-configuration)
-5. [Local Keycloak Configuration](#local-keycloak-configuration)
-6. [Helm Charts Configuration](#helm-charts-configuration)
-7. [Consumer Backend Configuration](#consumer-backend-configuration)  
-    7.1  [Backend Application Configuration](#backend-application-configuration)  
-    7.2  [Spring Boot Configuration](#spring-boot-configuration)
-
-    7.3  [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
-8. [Postman Collection](#postman-collection)
-9. [Secrets Management](#secrets-management)
-10. [EDC Provider Configuration](#edc-provider-configuration)  
-    10.1 [Documentation Description](#documentation-description)    
-    10.2 [Asset Configuration](#asset-configuration)   
-    10.3 [Policies Configuration](#policies-configuration)    
-    10.4 [Contract Definition Configuration](#contract-definition-configuration)        
-    10.5 [Digital Twin Registration](#digital-twin-registration)
-11. [NOTICE](#notice)
+- [Product Passport Administrator Guide Documentation](#product-passport-administrator-guide-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Getting Started Guide](#getting-started-guide)
+  - [Deployment Configuration](#deployment-configuration)
+  - [Local Keycloak Configuration](#local-keycloak-configuration)
+  - [Consumer Backend Configuration](#consumer-backend-configuration)
+    - [Backend Application Configuration](#backend-application-configuration)
+    - [Spring Boot Configuration](#spring-boot-configuration)
+    - [Spring Boot Logging Configuration](#spring-boot-logging-configuration)
+  - [Postman Collection](#postman-collection)
+  - [Secrets Management](#secrets-management)
+  - [EDC Provider Configuration](#edc-provider-configuration)
+    - [Documentation Description](#documentation-description)
+    - [Asset Configuration](#asset-configuration)
+      - [Variables:](#variables)
+      - [Format and Fields:](#format-and-fields)
+    - [Policies Configuration](#policies-configuration)
+      - [Usage Policies](#usage-policies)
+      - [Variables:](#variables-1)
+      - [Format and Fields:](#format-and-fields-1)
+    - [Contract Definition Configuration](#contract-definition-configuration)
+      - [Variables:](#variables-2)
+      - [Format and Fields:](#format-and-fields-2)
+    - [Digital Twin Registration](#digital-twin-registration)
+      - [Variables:](#variables-3)
+      - [Format and Fields:](#format-and-fields-3)
+    - [Digital Twin Registry Configuration](#digital-twin-registry-configuration)
+      - [Variables:](#variables-4)
+      - [Format and Fields:](#format-and-fields-4)
+  - [NOTICE](#notice)
 
 ## Introduction
 
@@ -95,15 +106,6 @@ Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digi
 | Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) |
 | Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json) |
 
-## Helm Charts Configuration
-
-At the moment, the Product Passport Application is hosted in two environments:
-
-|  | Application Runtime Environment | ArgoCD - Deployment Platform |
-| - | -------- | ---- |
-| **Development** | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
-| **Integration** | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
-| **Beta** | [https://materialpass.beta.demo.catena-x.net/](https://materialpass.beta.demo.catena-x.net/) | [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/) |
 
 All the values for the helm charts are configured for each environment and set up in the Product Passport Application source code:  
 
@@ -188,7 +190,7 @@ When configurating you EDC provider you will be able to set some assets which re
 
 > **_INFO:_** *All public assets must be registered in a SubModel from a Digital Twin in the Digital Twin Registry.*
 
-#### **Variables:**
+#### Variables:
 
 | Name                    | Description                                                                                                                      | Example Value                                                                                                                                                                                                                                                                                                                                                                                                              |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -200,9 +202,9 @@ When configurating you EDC provider you will be able to set some assets which re
 | DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | 699f1245-f57e-4d6b-acdb-ab763665554a                                                                                                                                                                                                                                                                                                                                                                                       |
 
 
-#### **Format and Fields:**
+#### Format and Fields:
 
-```
+```json
 {
     "@context": {},
     "asset": {
@@ -243,7 +245,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 > **_NOTE:_**
 *At the moment only Usage Permission Policies are assigned to assets, however restriction policies could be also configured if it is required for a specific use case.*
 
-#### **Variables:**
+#### Variables:
 
 | Name | Description | Example Value |
 | ---- | -------- | ---- |
@@ -252,12 +254,14 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 | PermissionActionType | Defines the action allowed when the permission is assigned to an asset. In case of the usage policy the value "USE" is necessary | "USE" |
 | BPN                  | Consumer's Business Partner Number                                                                                               | BPNL000000000000 |
 
-#### **Format and Fields:**
+#### Format and Fields:
 
-```
+To allow partners to access information use this policy with the BPN number included:
+
+```json
 {
     "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/leftOperand"
+        "odrl": "http://www.w3.org/ns/odrl/2/"
     },
     "@type": "{{PermissionType}}",
     "@id": "{{PolicyId}}",
@@ -267,7 +271,7 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
           "odrl:action": "{{PermissionActionType}}",
           "odrl:constraint": {
             "odrl:constraint": {
-              "@type": "LogicalConstradev",
+              "@type": "LogicalConstraint",
               "odrl:or": [
                 {
                   "@type": "Contraint",
@@ -283,6 +287,48 @@ Here we specify a simple policy with just the USAGE permission, so we are able t
 }
 ```
 
+For framework agreement and membership in Catena-X check add this policy:
+
+```json
+{
+  "@context": {
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  },
+  "@type": "{{PermissionType}}",
+  "@id": "{{PolicyId}}",
+  "policy": {
+    "@type": "Policy",
+    "odrl:permission" : [
+      {
+        "odrl:action":"{{PermissionActionType}}",
+        "odrl:constraint": {
+          "@type": "LogicalConstraint",
+          "odrl:and": [
+            {
+              "@type": "Constraint",
+              "odrl:leftOperand": "Membership",
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "active"
+            },
+            {
+              "@type": "Constraint",
+              "odrl:leftOperand": "FrameworkAgreement.sustainability",
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "active"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+
+```
+
 
 ### Contract Definition Configuration
 
@@ -290,7 +336,7 @@ Contract definitions allow us to expose the assets and link them to a contract p
 
 > **_INFO:_** *Remember that all **policies and assets** you bind to a contract **must be defined in the same EDC Connector** and linked though their ID in the configuration from the contract.*
 
-#### **Variables:**
+#### Variables:
 
 | Name | Description | Example Value                                                                                                                                 |
 | ---- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -300,11 +346,11 @@ Contract definitions allow us to expose the assets and link them to a contract p
 | ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
 
 
-#### **Format and Fields:**
+#### Format and Fields:
 
 > **_INFO:_** *For testing proposes and in order to ease the access to your assets we are going to define the **same policy as accessPolicy and as contractPolicy**. However, you are recommended to configure two separated policies and specify them adapting each one of them to your specific needs.*
 
-```
+```json
 {
     "@context": {},
     "@id": "{{ContractDefinitionId}}",
@@ -328,7 +374,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
 
 
 
-#### **Variables:**
+#### Variables:
 
 | Name | Description | Example Value |
 | ---- | -------- | ---- |
@@ -338,14 +384,14 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | EDCProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) |
 | BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
 | SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
-| BammModelVersionId | The semantic version of the asset passport model, currently the latest version v3.0.1 is used | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
+| BammModelVersionId | The semantic version of the asset passport model, currently the  version v3.0.1 is used | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
 
 > **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here.*
 
 
-#### **Format and Fields:**
+#### Format and Fields:
 
-```
+```json
 {
     "description": [
         {
@@ -361,50 +407,135 @@ Once you finish the configuration, to make the endpoint public configure in the 
             "value": "{{PartInstanceId}}"
         }
     ],
-    "submodelDescriptors": [
+   "submodelDescriptors":[
+      {
+        "endpoints": [
+          {
+            "interface": "SUBMODEL-3.0",
+            "protocolInformation": {
+              "href": "https://edc.data.plane/{{path}}/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+              "endpointProtocol": "HTTP",
+              "endpointProtocolVersion": [
+                "1.1"
+              ],
+              "subprotocol": "DSP",
+              "subprotocolBody": "{{body with information required by subprotocol}}",
+              "subprotocolBodyEncoding": "plain",
+              "securityAttributes": [
+                {
+                  "type": "NONE",
+                  "key": "NONE",
+                  "value": "NONE"
+                }
+              ]
+            }
+          }
+        ],
+        "idShort": "batteryPass",
+        "id": "urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+        "semanticId": {
+          "type": "ExternalReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+            }
+          ]
+        },
+        "description": [
+          {
+            "language": "en",
+            "text": "Battery Passport Submodel"
+          }
+        ],
         {
-            "endpoints": [
-                {
-                    "interface": "SUBMODEL-3.0",
-                    "protocolInformation": {
-                        "href": "{{EDCProviderUrl}}/{{BPN}}/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}/submodel",
-                        "endpointProtocol": "HTTP",
-                        "endpointProtocolVersion": [ 
-                            "1.1" 
-                        ],
-                        "subprotocol": "DSP",
-                        "subprotocolBody": "id={{DigitalTwinId}}-{{DigitalTwinSubmodelId}}",dspEndpoint={{EDCProviderUrl}}/{{BPN}}",
-                        "subprotocolBodyEncoding": "plain"
-                    }
-                }
-            ],
-            "idShort": "{{SubmodelIdShort}}",
-            "id": "{{DigitalTwinSubmodelId}}",
-            "semanticId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "Submodel",
-                        "value": "{{BammModelVersionId}}"
-                    }
+          "endpoints": [
+            {
+              "interface": "SUBMODEL-3.0",
+              "protocolInformation": {
+                "href": "https://edc.data.plane/{{path}}/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                "subprotocolBodyEncoding": "plain",
+                "securityAttributes": [
+                  {
+                    "type": "NONE",
+                    "key": "NONE",
+                    "value": "NONE"
+                  }
                 ]
-            },
-            "description": [
-                {
-                    "language": "en",
-                    "text": "Battery Passport Submodel"
-                }
+              }
+            }
+          ],
+          "idShort": "digitalProductPass",
+          "id": "urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "urn:samm:io.catenax.generic.digital_product_passport:3.0.0#DigitalProductPassport"
+              }
             ]
+          },
+          "description": [
+            {
+              "language": "en",
+              "text": "Digital Product Passport Submodel"
+            }
+          ]
         }
+      }
     ]
-}
+    }
 ```
-
-
-
 > **_NOTE:_** 
 *The BPN number is not required for the configuration of the endpoint, just **make sure that the host is pointing to the EDC Provider**.*
 
+
+### Digital Twin Registry Configuration
+
+When configuring the digital twin registry behind the EDC Provider you should follow this EDC Registration guidelines:
+
+#### Variables:
+
+| Name         | Description                                 | Example Value                                                 |
+|--------------|---------------------------------------------|---------------------------------------------------------------|
+| registryUrl  | The base url from the digital twin registry | https://materialpass.int.demo.catena-x.net/semantics/registry |
+| registryName | The name from the asset for the registry    | digital-twin-registry                                         |
+
+#### Format and Fields:
+
+```json
+{
+    "@context": {},
+    "asset": {
+        "@type": "data.core.digitalTwinRegistry",
+        "@id": "{{registryName}}", 
+        "properties": {
+            "description": "Digital Twin Registry",
+            "contenttype": "application/json" 
+        }
+    },
+    "dataAddress": {
+        "@type": "DataAddress",
+        "type": "HttpData",
+        "proxyPath": "true",
+        "proxyBody": "true",
+        "proxyMethod": "true",
+        "proxyQueryParams": "true",
+        "baseUrl": "{{registryUrl}}"
+    }
+}
+```
+
+> **IMPORTANT**!: The proxy configuration needs to be enabled exactly like it is configured in the dataAdress property above.
+
+The rest of the assets can be configured in the same way as the normal assets.
 
 ## NOTICE
 

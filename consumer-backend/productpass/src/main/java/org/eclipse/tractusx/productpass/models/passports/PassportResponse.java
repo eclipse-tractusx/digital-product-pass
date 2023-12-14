@@ -28,22 +28,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Map;
 
-
-/*
- * Passport Response given to the consumer with data from the transaction
- * and the passport
- */
+/**
+ * This class consists exclusively to define attributes and methods needed for the Passport response given to the consumer
+ * with metadata from the transaction and the passport.
+ **/
 public class PassportResponse {
     @JsonProperty("metadata")
     Map<String, Object> metadata;
     @JsonProperty("passport")
-    Passport passport;
+    JsonNode passport;
 
-    public PassportResponse(Map<String, Object> metadata, Passport passport) {
+    @SuppressWarnings("Unused")
+    public PassportResponse(Map<String, Object> metadata, JsonNode passport) {
         this.metadata = metadata;
         this.passport = passport;
     }
-
+    @SuppressWarnings("Unused")
     public PassportResponse() {
     }
 }

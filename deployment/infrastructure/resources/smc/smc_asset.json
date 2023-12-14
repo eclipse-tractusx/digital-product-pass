@@ -1,0 +1,19 @@
+{
+  "@context": {},
+    "asset": {
+        "@type": "Asset",
+        "@id": "urn:uuid:d0724e94-6fa5-4551-9e07-abba7a1ecd8b",
+        "properties": {
+            "description": "SMC EDC Test Asset"
+        }
+    },
+    "dataAddress": {
+        "@type": "DataAddress",
+        "type": "HttpData",
+        "baseUrl": "https://materialpass.int.demo.catena-x.net/provider_backend",
+        "proxyPath": "true",
+        "proxyBody": "false",
+        "proxyMethod": "false",
+        "proxyQueryParams": "false"
+    }
+}

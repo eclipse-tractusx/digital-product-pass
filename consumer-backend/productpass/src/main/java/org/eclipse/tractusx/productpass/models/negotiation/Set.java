@@ -29,8 +29,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes related to the Policy's data.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Set extends DidDocument{
+public class Set extends DidDocument {
+
+    /** ATTRIBUTES **/
     @JsonProperty("odrl:permission")
     Object permissions;
     @JsonProperty("odrl:prohibition")
@@ -40,6 +45,7 @@ public class Set extends DidDocument{
     @JsonProperty("odrl:target")
     String target;
 
+    /** CONSTRUCTOR(S) **/
     public Set(String id, String type, Object permissions, Object prohibitions, Object obligations, String target) {
         super(id, type);
         this.permissions = permissions;
@@ -47,50 +53,44 @@ public class Set extends DidDocument{
         this.obligations = obligations;
         this.target = target;
     }
-
     public Set(Object permissions, Object prohibitions, Object obligations, String target) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
         this.target = target;
     }
-
     public Set(String id, String type) {
         super(id, type);
     }
-
     public Set() {
     }
-    
 
+    /** GETTERS AND SETTERS **/
     public String getTarget() {
         return target;
     }
-
     public void setTarget(String target) {
         this.target = target;
     }
-
     public Object getPermissions() {
         return permissions;
     }
-
     public void setPermissions(Object permissions) {
         this.permissions = permissions;
     }
-
+    @SuppressWarnings("Unused")
     public Object getProhibitions() {
         return prohibitions;
     }
-
+    @SuppressWarnings("Unused")
     public void setProhibitions(Object prohibitions) {
         this.prohibitions = prohibitions;
     }
-
+    @SuppressWarnings("Unused")
     public Object getObligations() {
         return obligations;
     }
-
+    @SuppressWarnings("Unused")
     public void setObligations(Object obligations) {
         this.obligations = obligations;
     }

@@ -25,52 +25,95 @@ import CryptoJS from "crypto-js";
 
 export default createStore({
 
-  //   plugins: [createPersistedState({
+    state: {
+        email: '',
+        password: '',
+        role: '',
+        clientId: '',
+        clientSecret: '',
+        sessionId: '',
+        statusData: {
+            "data": {
+                "history": {
+                }
+            }
+        },
+        irsData: [
+            {
+                "id": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+                "name": "Battery_BAT-XYZ789",
+                "searchId": "CX:XYZ78901:BAT-XYZ789",
+                "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+                "children": [
+                    {
+                        "id": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                        "name": "BatteryModule_EVMODULE-TRJ712",
+                        "searchId": "CX:XYZ78901:EVMODULE-TRJ712",
+                        "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d/urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+                        "children": []
+                    }
+                ]
+            }
+        ],
+        processId: null,
+        searchContractId: null,
+        irsState: false
+    },
+    getters: {
+        getClientId(state) {
+            return CryptoJS.AES.decrypt(state.clientId, state.sessionId).toString(CryptoJS.enc.Utf8);
+        },
+        getClientSecret(state) {
+            return CryptoJS.AES.decrypt(state.clientSecret, state.sessionId).toString(CryptoJS.enc.Utf8);
+        },
+        getSessionId(state) {
+            return state.sessionId;
+        },
+        getProcessId(state) {
+            return state.processId;
+        },
+        getIrsData(state) {
+            return state.irsData;
+        },
+        getIrsState(state) {
+            return state.irsState;
+        },
+    },
+    mutations: {
+        setEmail(state, newEmail) {
+            state.email = newEmail;
+        },
+        setPassword(state, newPassword) {
+            state.password = newPassword;
 
-  //     storage: window.localStorage,
-
-  //   })],
-  state: {
-    email: '',
-    password: '',
-    role: '',
-    clientId: '',
-    clientSecret: '',
-    sessionId: ''
-  },
-  getters: {
-    getClientId(state) {
-      return CryptoJS.AES.decrypt(state.clientId, state.sessionId).toString(CryptoJS.enc.Utf8);
+        },
+        setClientId(state, clientId) {
+            let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);
+            state.clientId = bytes.toString();
+        },
+        setClientSecret(state, clientSecret) {
+            let bytes = CryptoJS.AES.encrypt(clientSecret, state.sessionId);
+            state.clientSecret = bytes.toString();
+        },
+        setSessionId(state, sessionId) {
+            state.clientSecret = sessionId;
+        },
+        setStatusData(state, data) {
+            state.statusData = data;
+        },
+        setIrsData(state, data) {
+            state.irsData = data;
+        },
+        setIrsState(state, irsState) {
+            state.irsState = irsState;
+        },
+        setSearchContractId(state, contractId) {
+            state.searchContractId = contractId;
+        },
+        setProcessId(state, processId) {
+            state.processId = processId;
+        }
     },
-    getClientSecret(state) {
-      return CryptoJS.AES.decrypt(state.clientSecret, state.sessionId).toString(CryptoJS.enc.Utf8);
-    },
-    getSessionId(state) {
-      return state.sessionId;
-    },
-
-  },
-  mutations: {
-    setEmail(state, newEmail) {
-      state.email = newEmail;
-    },
-    setPassword(state, newPassword) {
-      state.password = newPassword;
-
-    },
-    setClientId(state, clientId) {
-      let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);
-      state.clientId = bytes.toString();
-    },
-    setClientSecret(state, clientSecret) {
-      let bytes = CryptoJS.AES.encrypt(clientSecret, state.sessionId);
-      state.clientSecret = bytes.toString();
-    },
-    setSessionId(state, sessionId) {
-      state.clientSecret = sessionId;
-    }
-
-  },
-  actions: {},
-  modules: {},
+    actions: {},
+    modules: {},
 });

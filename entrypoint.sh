@@ -27,7 +27,6 @@ echo "Replacing docker environment constants in JavaScript files"
 for file in $ROOT_DIR/assets/index-*.js* $ROOT_DIR/index.html;
 do
 	echo "Processing $file ...";
-	sed -i 's|PASS_VERSION|'${PASSPORT_VERSION}'|g' $file
 	sed -i 's|IDENTITY_PROVIDER_URL|'${IDP_URL}'|g' $file
 	sed -i 's|HOST_URL|'${SERVER_URL}'|g' $file
 	sed -i 's|DATA_URL|'${BACKEND_URL}'|g' $file

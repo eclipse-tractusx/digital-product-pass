@@ -23,19 +23,40 @@
 
 package utils;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import utils.exceptions.UtilException;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+/**
+ * This class consists exclusively of methods to operate on DateTime type instances.
+ *
+ * <p> The methods defined here are intended to parse datetime formats and get current timestamps for logging purposes.
+ *
+ */
 public final class DateTimeUtil {
 
-    /**
-     * Static tools to get current dateTime used for logging.
-     *
-     */
     private DateTimeUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
     }
+
+    /**
+     * Gets the current datetime with a given format.
+     * <p>
+     * @param   pattern
+     *          the intended datetime format to apply.
+     *
+     * @return  a {@code String} object with the current datetime formatted with the given pattern or a default one if the patter is null.
+     *
+     * @apiNote default Format: "dd/MM/yyyy HH:mm:ss.SSS"
+     *
+     */
     public static String getDateTimeFormatted(String pattern){
         String defaultPattern = "dd/MM/yyyy HH:mm:ss.SSS";
         if(pattern == null){
@@ -45,6 +66,19 @@ public final class DateTimeUtil {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
+
+    /**
+     * Gets the current datetime with a given format.
+     * <p>
+     * @param   pattern
+     *          the intended datetime format to apply.
+     *
+     * @return  a {@code String} object with the current datetime formatted with the given pattern or a default one if the patter is null.
+     *
+     * @apiNote default Format: "dd-MM-yyyy_HHmmss"
+     *
+     */
+    @SuppressWarnings("Unused")
     public static String getFileDateTimeFormatted(String pattern){
         String defaultPattern = "dd-MM-yyyy_HHmmss";
         if(pattern == null){
@@ -55,8 +89,48 @@ public final class DateTimeUtil {
         return dtf.format(now);
     }
 
+    /**
+     * Gets the current timestamp.
+     * <p>
+     *
+     * @return  a {@code Long} object representing the current timestamp.
+     *
+     */
     public static Long getTimestamp(){
         return new Timestamp(System.currentTimeMillis()).getTime();
+    }
+
+    /**
+     * Adds hours to a timestamp
+     * <p>
+     * @param timestamp
+     *        a {@code Long} which contains a timestamp
+     * @param hours
+     *        a {@code Integer} which contains the amount of hours to be added
+     *
+     * @return  a {@code Long} object representing the current timestamp.
+     *
+     */
+    public static Long addHoursToTimestamp(Long timestamp, Integer hours){
+        Date date = new Date(timestamp);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, hours);
+        return new Timestamp(cal.getTimeInMillis()).getTime();
+    }
+    /**
+     * Adds hours to current timestamp
+     * <p>
+     * @param hours
+     *        a {@code Integer} which contains the amount of hours to be added
+     *
+     * @return  a {@code Long} object representing the current timestamp.
+     *
+     */
+    public static Long addHoursToCurrentTimestamp(Integer hours){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, hours);
+        return new Timestamp(cal.getTimeInMillis()).getTime();
     }
 
 }

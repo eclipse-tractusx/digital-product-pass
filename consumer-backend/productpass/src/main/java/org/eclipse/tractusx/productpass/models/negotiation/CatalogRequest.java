@@ -31,24 +31,30 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes related to the Catalog requests.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CatalogRequest {
+
+    /** ATTRIBUTES **/
     @JsonProperty("@context")
     JsonNode context;
     @JsonProperty("protocol")
     String protocol;
     @JsonProperty("providerUrl")
     String providerUrl;
-
     @JsonProperty("querySpec")
     QuerySpec querySpec;
 
+    /** CONSTRUCTOR(S) **/
     public CatalogRequest(JsonNode context, String providerUrl, QuerySpec querySpec) {
         this.context = context;
         this.protocol = "dataspace-protocol-http";
         this.providerUrl = providerUrl;
         this.querySpec = querySpec;
     }
+
     public CatalogRequest(JsonNode context, String protocol, String providerUrl, QuerySpec querySpec) {
         this.context = context;
         this.protocol = protocol;
@@ -59,18 +65,16 @@ public class CatalogRequest {
     public CatalogRequest() {
     }
 
+    /** GETTERS AND SETTERS **/
     public JsonNode getContext() {
         return context;
     }
-
     public void setContext(JsonNode context) {
         this.context = context;
     }
-
     public String getProtocol() {
         return protocol;
     }
-
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
@@ -91,26 +95,31 @@ public class CatalogRequest {
         this.querySpec = querySpec;
     }
 
-
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Query specification of the Catalog request.
+     **/
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class QuerySpec {
 
+        /** ATTRIBUTES **/
         @JsonProperty("filterExpression")
         List<FilterExpression> filterExpression;
-
-
         @JsonProperty("offset")
         Integer offset;
-
         @JsonProperty("limit")
         Integer limit;
-
         @JsonProperty("filter")
         String filter;
-
         @JsonProperty("range")
         Range range;
+        @JsonProperty("sortField")
+        String sortField;
+        @JsonProperty("criterion")
+        String criterion;
 
+        /** CONSTRUCTOR(S) **/
+        @SuppressWarnings("Unused")
         public QuerySpec(Integer offset, Integer limit, String filter, Range range, String sortField, String criterion) {
             this.offset = offset;
             this.limit = limit;
@@ -119,146 +128,151 @@ public class CatalogRequest {
             this.sortField = sortField;
             this.criterion = criterion;
         }
-
         public QuerySpec() {
         }
 
-        public List<FilterExpression> getFilterExpression() {
-            return filterExpression;
-        }
-
+        /** GETTERS AND SETTERS **/
+        @SuppressWarnings("Unused")
+        public List<FilterExpression> getFilterExpression() { return filterExpression; }
         public void setFilterExpression(List<FilterExpression> filterExpression) {
             this.filterExpression = filterExpression;
         }
+        @SuppressWarnings("Unused")
+        public Integer getOffset() {
+            return offset;
+        }
+        @SuppressWarnings("Unused")
+        public void setOffset(Integer offset) {
+            this.offset = offset;
+        }
+        @SuppressWarnings("Unused")
+        public Integer getLimit() {
+            return limit;
+        }
+        @SuppressWarnings("Unused")
+        public void setLimit(Integer limit) {
+            this.limit = limit;
+        }
+        @SuppressWarnings("Unused")
+        public String getFilter() {
+            return filter;
+        }
+        @SuppressWarnings("Unused")
+        public void setFilter(String filter) {
+            this.filter = filter;
+        }
+        @SuppressWarnings("Unused")
+        public Range getRange() {
+            return range;
+        }
+        @SuppressWarnings("Unused")
+        public void setRange(Range range) {
+            this.range = range;
+        }
+        @SuppressWarnings("Unused")
+        public String getSortField() {
+            return sortField;
+        }
+        @SuppressWarnings("Unused")
+        public void setSortField(String sortField) {
+            this.sortField = sortField;
+        }
+        @SuppressWarnings("Unused")
+        public String getCriterion() {
+            return criterion;
+        }
+        @SuppressWarnings("Unused")
+        public void setCriterion(String criterion) {
+            this.criterion = criterion;
+        }
+
+        /** INNER CLASSES **/
+        /**
+         * This class consists exclusively to define attributes related to the filter expression property of the Query specification.
+         **/
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        public static class FilterExpression{
+        public static class FilterExpression {
+
+            /** ATTRIBUTES **/
             @JsonProperty("operandLeft")
             String operandLeft;
-
             @JsonProperty("operator")
             String operator;
-
             @JsonProperty("operandRight")
             String operandRight;
 
+            /** CONSTRUCTOR(S) **/
             public FilterExpression(String operandLeft, String operator, String operandRight) {
                 this.operandLeft = operandLeft;
                 this.operator = operator;
                 this.operandRight = operandRight;
             }
-
+            @SuppressWarnings("Unused")
             public FilterExpression() {
             }
 
+            /** GETTERS AND SETTERS **/
+            @SuppressWarnings("Unused")
             public String getOperandLeft() {
                 return operandLeft;
             }
-
+            @SuppressWarnings("Unused")
             public void setOperandLeft(String operandLeft) {
                 this.operandLeft = operandLeft;
             }
-
+            @SuppressWarnings("Unused")
             public String getOperator() {
                 return operator;
             }
-
+            @SuppressWarnings("Unused")
             public void setOperator(String operator) {
                 this.operator = operator;
             }
-
+            @SuppressWarnings("Unused")
             public String getOperandRight() {
                 return operandRight;
             }
-
+            @SuppressWarnings("Unused")
             public void setOperandRight(String operandRight) {
                 this.operandRight = operandRight;
             }
         }
+
+        /**
+         * This class consists exclusively to define attributes to specify the range property of the Query specification.
+         **/
         @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Range {
+
+            /** ATTRIBUTES **/
             @JsonProperty("from")
             Integer from;
-
             @JsonProperty("to")
             Integer to;
 
+            /** CONSTRUCTOR(S) **/
+            @SuppressWarnings("Unused")
             public Range(Integer from, Integer to) {
                 this.from = from;
                 this.to = to;
             }
-
+            @SuppressWarnings("Unused")
             public Range() {
             }
 
+            /** GETTERS AND SETTERS **/
             public Integer getFrom() {
                 return from;
             }
-
             public void setFrom(Integer from) {
                 this.from = from;
             }
-
             public Integer getTo() {
                 return to;
             }
-
             public void setTo(Integer to) {
                 this.to = to;
             }
         }
-
-        @JsonProperty("sortField")
-        String sortField;
-
-        @JsonProperty("criterion")
-        String criterion;
-        public Integer getOffset() {
-            return offset;
-        }
-
-        public void setOffset(Integer offset) {
-            this.offset = offset;
-        }
-
-        public Integer getLimit() {
-            return limit;
-        }
-
-        public void setLimit(Integer limit) {
-            this.limit = limit;
-        }
-
-        public String getFilter() {
-            return filter;
-        }
-
-        public void setFilter(String filter) {
-            this.filter = filter;
-        }
-
-        public Range getRange() {
-            return range;
-        }
-
-        public void setRange(Range range) {
-            this.range = range;
-        }
-
-        public String getSortField() {
-            return sortField;
-        }
-
-        public void setSortField(String sortField) {
-            this.sortField = sortField;
-        }
-
-        public String getCriterion() {
-            return criterion;
-        }
-
-        public void setCriterion(String criterion) {
-            this.criterion = criterion;
-        }
-
     }
 }

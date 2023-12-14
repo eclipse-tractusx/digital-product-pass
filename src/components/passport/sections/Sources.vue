@@ -1,0 +1,81 @@
+<!--
+  Catena-X - Product Passport Consumer Frontend
+ 
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+<template>
+  <div class="section">
+    <v-container class="ma-0">
+      <v-row class="section">
+        <template v-if="propsData.mandatory">
+          <v-col
+            v-for="(attr, key) in mappedSources"
+            :key="key"
+            sm="12"
+            md="3"
+            class="pa-0 ma-0"
+          >
+            <div class="element-chart-label">{{ key }}</div>
+            <div
+              v-for="(doc, index) in attr"
+              :key="index"
+              class="element-chart-label"
+            >
+              <Field
+                :key="index"
+                icon="mdi-image-size-select-small"
+                :label="doc.header"
+                :value="doc.content"
+                :link="doc.content"
+              />
+            </div>
+          </v-col>
+        </template>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
+
+export default {
+  name: "SourcesComponent",
+  components: {
+    Field,
+  },
+  props: {
+    data: {
+      type: Object,
+      default: Object,
+    },
+  },
+  data() {
+    return {
+      propsData: this.$props.data.aspect.sources,
+      mappedSources: null,
+    };
+  },
+  created() {
+    this.mappedSources = passportUtil.groupSources(this.propsData);
+  },
+};
+</script>

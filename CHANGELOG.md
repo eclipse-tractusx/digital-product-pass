@@ -24,8 +24,141 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [released]
+## [v1.4.0] - 14-12-2023
+
+## Added
+- Added script to automate the uploading of various passport types
+- Added script to delete data from the data provider
+- Added check for empty or null contractIds with retry attempts
+- Added descriptive logs to search and create methods
+
+## Updated
+- Updated ingress settings and backend configuration in the helm chart
+- Refactored helm values to show only user relevant settings
+
+## Issued Fixed
+- Fixed the timeout time for each negotiation
+- Fixed the long waiting time by implementing timeout when doing the negotiation
+- Fixed the null contract ids creation
+
+## Deleted
+- Remove the legacy style to register/delete the testdata from the data provider
+ 
+
+## [released]
+## [v1.3.1] - 08-11-2023
+
+## Added
+- Added timeout for the `BPN Discovery` and `EDC Discovery`  APIs returned in the Discovery Service API.
+- Created a new `doPost` function in the `HttpUtils`that allows the usage of timeouts in API calls.
+- Create a new `timeout` function in `ThreadUtils` to be applied to the call of functions.
+
+## [released]
+## [v1.3.0] - 03-11-2023
+
+ 
+## Added 
+- New IRS Service which is able to communicate with the IRS component api.
+- Added condition to deactivate the IRS
+- Added tree manager to manage the tree of components used by each irs process
+- Added structure to manage the information coming from the IRS and jobs initiated
+- Enabled callback mechanism with the IRS component
+- Created `/api/irs/{processId}/tree` and  `/api/irs/{processId}/components` APIs
+- Added process to refresh the cache when the transfer has failed
+- Added timestamp to every known DTR in the cache for refreshing the contract id every time it is reached.
+- Added a mechanism to parse/update file system json files by specific properties, avoiding conflicts
+- Enabled irs search in frontend
+- Added info bar in component search
+- Create visual tree of components
+- Enabled drill down in tree of components
+- Add IRS configuration to the helm values
+- Added Secondary Material Content (SMC) json payloads, edc assets to test the SMC use case
+
+## Updated
+- Update dpp/irs test data edc assets and script to register them
+
+## Issues Fixed
+- Fix IRS tree component bugs related to the Digital Twin parsing
+- Fix IRS job tracker to one single job.
+- Fix bug related to the broadcast search of digital twin registry
+- Fix minor bugs related to the digital twin search and the caching mechanism
+- Fix bug related to the passport retrieval by implementing check for transfer complete
+- Fix database credentials in the edc postgres configuration
+- Fix the condition to the publish dpp backend workflow
 
 
+## [released]
+## [1.2.1] - 31-10-2023
+
+## Deleted
+- Removed cypress from `package.json` dependencies
+- Removed unused devDependencies of `@babel`
+
+## Security Issues 
+- Fixed vulnerabilities related to `crypto-js`, `semver`, `netty-codec`.
+  - Updated `Spring Boot` to version `v3.1.5`
+  - Updated `crypto-js` to version `v4.2.0`
+  - Overrided `semver` to versions over `^v7.5.3`
+
+
+## [released]
+## [1.2.0] - 30-10-2023
+
+## Added
+- Added comments at every classes explaining their purpose
+- Added comments at every methods explaining what its done, each parameter, what it returns and if it throws exceptions
+- Added SupressionWarnings("Unused") annotation in every Class and/or method that is unused, to decide if it is to delete or let it be for future use
+- Added New class for the new model of Digital Product Passport
+- Added to retrieve any type of bamm aspect from a submodel endpoint (searching by the semanticId included in the digital twin)
+- Added new structure to parse the passport payload and display it dynamically
+- Added new components to display the passport
+- Added visualization of the "Digital Product Pass" aspect in the frontend
+- Added a second check for "transfer-completed" in history when passport status is checked in the frontend
+
+### Updated
+- The Aspect Submodels are searching in the Digital Twin by their `semanticId` instead of `idShort` parameter
+- Updated DTR search as type instead of ID
+- Updated the Apis that communicate with the backend
+- Updated DTR configuration to support the new DTR API `v1.0`
+
+### Deleted
+- Removed the passport's version requirement
+- Removed version from the Search Api call
+- Deleted configuration variables related with central search from application.yaml
+- Deleted old version of DigitalTwin, Submodel and Endpoint, no longer used and renamed the most recent versions.
+- Deleted all code related to the central search.
+- Removed the central `Digital Twin Registry` support
+
+
+### Issues Fixed
+- Fixed a bug related to the discovery service when more than one search endpoint would be available
+- Fixed bug related to the passport search and the transfer data not being available sometimes
+
+## [released]
+## [1.1.0] - 19-10-2023
+
+## Added
+- Added loading screen functionality in the frontend
+- Create IRS component configuration for the integration with the backend application in next versions
+- Created IRS postman collection for testing the APIs.
+- Added the QR code scanning button in the main search view (welcome screen)
+- Added support for the new dDTR lookup shells version which is (AAS 3.0) compliant.
+
+## Updated
+- Updated the digital twin test payloads to match AAS 3.0 payloads which should be used for version `>v1.0.0` of the DPP
+- Updated the main readme fixing notable mistakes.
+
+## [released]
+## [1.0.1] - 31-08-2023
+
+## Updated
+- Fixed model parsing from payloads incoming from the `Digital Twin Registry` due to their latest hotfix.
+  - Ignored extra attributes not relevant for the Digital Product Pass application.
+  
+- Added footer License notes in the all the documents inside `/docs` to comply with the TRGs.
+
+- Updated the Trivy workflow to fix a bug related with the configuration
 
 ## [released]
 ## [1.0.0] - 16-08-2023

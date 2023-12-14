@@ -28,69 +28,99 @@ package org.eclipse.tractusx.productpass.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Discovery configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.discovery")
 public class DiscoveryConfig {
+
+    /** ATTRIBUTES **/
     String endpoint;
     BPNConfig bpn;
     EDCConfig edc;
 
+    /** GETTERS AND SETTERS **/
     public BPNConfig getBpn() {
         return bpn;
     }
-
     public void setBpn(BPNConfig bpn) {
         this.bpn = bpn;
     }
-
     public EDCConfig getEdc() {
         return edc;
     }
-
     public void setEdc(EDCConfig edc) {
         this.edc = edc;
     }
-
-
-    public static class BPNConfig{
-        String key;
-        String searchPath;
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getSearchPath() {
-            return searchPath;
-        }
-
-        public void setSearchPath(String searchPath) {
-            this.searchPath = searchPath;
-        }
-    }
-
-    public static class EDCConfig{
-        String key;
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-    }
-
     public String getEndpoint() {
         return endpoint;
     }
-
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+
+    /** INNER CLASSES **/
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the BPN configuration.
+     **/
+    public static class BPNConfig {
+
+        /** ATTRIBUTES **/
+        String key;
+        String searchPath;
+
+        Integer timeout;
+
+        /** GETTERS AND SETTERS **/
+        public String getKey() {
+            return key;
+        }
+        public void setKey(String key) {
+            this.key = key;
+        }
+        public String getSearchPath() {
+            return searchPath;
+        }
+        @SuppressWarnings("Unused")
+        public void setSearchPath(String searchPath) {
+            this.searchPath = searchPath;
+        }
+
+        public Integer getTimeout() {
+            return timeout;
+        }
+
+        public void setTimeout(Integer timeout) {
+            this.timeout = timeout;
+        }
+    }
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the EDC configuration.
+     **/
+    public static class EDCConfig {
+
+        /** ATTRIBUTES **/
+        String key;
+
+        Integer timeout;
+        /** GETTERS AND SETTERS **/
+        public String getKey() {
+            return key;
+        }
+        public void setKey(String key) {
+            this.key = key;
+        }
+        public Integer getTimeout() {
+            return timeout;
+        }
+
+        public void setTimeout(Integer timeout) {
+            this.timeout = timeout;
+        }
     }
 
 }

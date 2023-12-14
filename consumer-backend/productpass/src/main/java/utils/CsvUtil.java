@@ -23,13 +23,17 @@
 
 package utils;
 
-import com.opencsv.*;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+@SuppressWarnings("Unused")
 public final class CsvUtil {
 
     private CsvUtil() {

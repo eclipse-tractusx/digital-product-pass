@@ -22,10 +22,15 @@
 
 <template>
   <div v-if="attributesList" class="field-container">
-    <v-icon start md :icon="icon"> </v-icon>
-    <ul>
+    <ul v-for="attribute in attributesList" :key="attribute">
+      <template v-if="attribute.document">
+        <a :href="attribute.document.content" target="_blank">
+          <v-icon start md :icon="icon" class="link"> </v-icon>
+        </a>
+      </template>
+      <template v-else><v-icon start md :icon="icon"> </v-icon></template>
       <span class="field-label">{{ label }}</span>
-      <li v-for="attribute in attributesList" :key="attribute">
+      <li>
         <span>
           {{ attribute.materialName }}
         </span>
@@ -35,6 +40,25 @@
         <span v-if="attribute.materialWeight">
           - {{ attribute.materialWeight }}kg
         </span>
+        <span v-if="attribute.value"> {{ attribute.value }} </span>
+        <template v-if="attribute.document">
+          <span v-if="attribute.document.header">
+            {{ attribute.document.header }}
+          </span>
+        </template>
+        <template v-if="attribute.name">
+          <span>
+            {{ attribute.name }}
+          </span>
+        </template>
+        <template v-if="attribute.description">
+          <span>
+            {{ attribute.description }}
+          </span>
+        </template>
+        <template v-if="attribute.unit">
+          <span> {{}} {{ attribute.unit }} </span>
+        </template>
       </li>
     </ul>
   </div>

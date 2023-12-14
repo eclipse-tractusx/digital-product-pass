@@ -72,8 +72,6 @@ configuration:
 
   dtr:
     assetType: 'data.core.digitalTwinRegistry'
-    central: false
-    centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'

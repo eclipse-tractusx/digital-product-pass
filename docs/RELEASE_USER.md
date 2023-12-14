@@ -23,6 +23,16 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**November 14 2023 (Version 1.4.0)**
+*14.12.2023*
+
+### Added
+#### DPP test data uploader
+A script is refactored to upload/remove testdata set from the data provider setup. This speeds up the automatic uploading of various passes types into the provider's digital twin registry, data service and EDC connector.
+
+### Updated
+#### Optimize contract negotiation time
+There was a long waiting time during the contract negotiation. This time is now reduced and the negotiation is perfomred faster.
 
 **November 08 2023 (Version 1.3.1)**
 *08.11.2023*

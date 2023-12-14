@@ -23,15 +23,17 @@
 
 package utils;
 
-import org.apache.juli.logging.Log;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import utils.exceptions.UtilException;
 
-import java.util.Map;
+/**
+ * This class consists exclusively of methods for logging purposes.
+ *
+ * <p> The methods defined here are intended to print all type of information for all type of Logs level when needed to log information.
+ *
+ */
 public final class LogUtil {
 
     /**
@@ -51,6 +53,13 @@ public final class LogUtil {
 
 
 
+    /**
+     * Log used for printing logs of level TEST and for usage on Unit Tests
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printTest(String strMessage){
         Level logLevel = TEST;
         Long pid = SystemUtil.getPid();
@@ -58,36 +67,110 @@ public final class LogUtil {
         String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
         ThreadUtil.runThread(new LogPrinter(logLevel, message), "testLogThread");
     }
+
+    /**
+     * Log used for printing logs of level INFO
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printMessage(String strMessage){
         LogUtil.printLog(INFO, strMessage);
     }
+
+    /**
+     * Log used for printing logs of level HTTP
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printHTTPMessage(String strMessage){
         LogUtil.printLog(HTTP, strMessage);
     }
+
+    /**
+     * Log used for printing logs of level HTTPError
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printHTTPErrorMessage(String strMessage){
         LogUtil.printLog(HTTPError, strMessage);
     }
+
+    /**
+     * Log used for printing logs Exceptions
+     * <p>
+     * @param   e
+     *          the {@code Exception} object thrown.
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printException(Exception e, String strMessage){
         String message = " ["+e.getMessage()+"] "+strMessage;
         LogUtil.printLog(EXCEPTION, message);
     }
+
+    /**
+     * Log used for printing logs of level ERROR
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printError(String strMessage){
         LogUtil.printLog(ERROR, strMessage);
     }
+
+    /**
+     * Log used for printing logs of level WARNING
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printWarning(String strMessage){
         LogUtil.printLog(WARNING, strMessage);
     }
 
+    /**
+     * Log used for printing logs for Debugging.
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printDebug(String strMessage) {
         Long pid = SystemUtil.getPid();
         String memoryUsage = SystemUtil.getUsedHeapMemory();
-        String message = "|"+pid+"|"+ memoryUsage+"| [DEBUG] " + strMessage;
+        String message = "|"+pid+"|"+ memoryUsage+"| ["+ DEBUG + "] " + strMessage;
         logger.debug(message);
     }
+
+    /**
+     * Log used for printing logs of level STATUS
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printStatus(String strMessage) {
         LogUtil.printLog(STATUS, strMessage);
     }
 
+    /**
+     * Log used for printing logs of a given level
+     * <p>
+     * @param   logLevel
+     *          the intended level of log to print.
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printLog(Level logLevel, String strMessage){
         //String date = dateTimeTools.getDateTimeFormatted(null);
         Long pid = SystemUtil.getPid();
@@ -95,10 +178,22 @@ public final class LogUtil {
         String message = "|"+pid+"|"+ memoryUsage+"| [" + logLevel.name()+"] " + strMessage;
         logger.log(logLevel, message);
     }
+
+    /**
+     * Log used for printing logs of level FATAL
+     * <p>
+     * @param   strMessage
+     *          the String message intended to print on the log.
+     *
+     */
     public static void printFatal(String strMessage){
         LogUtil.printLog(FATAL, strMessage);
     }
 
+    /**
+     * This inner class consists exclusively to create a Runnable class to use with Threads for Logging.
+     *
+     */
     private static class LogPrinter implements Runnable {
 
         private String message;

@@ -82,7 +82,6 @@ export default {
   },
   data() {
     return {
-      toggle: false,
       propsData: [
         {
           materialPercentageMassFraction: 47,

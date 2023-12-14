@@ -30,48 +30,41 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Process service configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.process")
 public class ProcessConfig {
 
+    /** ATTRIBUTES **/
     private Boolean store = true;
-
-
     private String dir;
-
     private Boolean indent = true;
-
-
     private String signToken;
+
+    /** GETTERS AND SETTERS **/
     public String getSignToken() {
         return signToken;
     }
-
     public void setSignToken(String signToken) {
         this.signToken = signToken;
     }
-
     public Boolean getIndent() {
         return indent;
     }
-
     public void setIndent(Boolean indent) {
         this.indent = indent;
     }
-
-
     public Boolean getStore() {
         return store;
     }
-
     public void setStore(Boolean store) {
         this.store = store;
     }
-
     public String getDir() {
         return dir;
     }
-
     public void setDir(String dir) {
         this.dir = dir;
     }

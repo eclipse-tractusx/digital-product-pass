@@ -24,8 +24,8 @@
 package org.eclipse.tractusx.productpass.http.controllers.error;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.juli.logging.Log;
 import org.eclipse.tractusx.productpass.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -37,21 +37,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import utils.HttpUtil;
-import utils.JsonUtil;
 import utils.LogUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * This class consists exclusively to define the HTTP methods to handle errors.
+ **/
 @Controller
 @Hidden     // hide this endpoint from api documentation  - swagger-ui
 public class ErrorResponseController implements ErrorController {
 
+    /** ATTRIBUTES **/
     @Autowired
     private ErrorAttributes errorAttributes;
-
     @Autowired
     HttpUtil httpUtil;
+
+    /** METHODS **/
+
+    /**
+     * HTTP POST method to get the Digital Twin for the given processId and endpointId in the URL.
+     * <p>
+     * @param   httpRequest
+     *          the HTTP request.
+     * @param   httpResponse
+     *          the HTTP response.
+     *
+     * @return this {@code Response} HTTP response with the error message.
+     *
+     */
     @RequestMapping(value="/error",  method = {RequestMethod.GET})
     @ResponseBody
     public Response handleError(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {

@@ -1,0 +1,13 @@
+{
+    "@context": {},
+    "@id": "aead5322-5c42-4954-bb78-4319638923cd",
+    "@type": "ContractDefinition",
+    "accessPolicyId": "4b480f48-79a0-4851-a56c-6ef71e19ebc4",
+    "contractPolicyId": "4b480f48-79a0-4851-a56c-6ef71e19ebc4",
+    "assetsSelector" : {
+        "@type" : "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "registry-asset"
+    }
+}

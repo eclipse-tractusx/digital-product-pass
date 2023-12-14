@@ -23,6 +23,7 @@
 
 package utils;
 
+@SuppressWarnings("Unused")
 public final class StringUtil {
     private StringUtil() {
         throw new IllegalStateException("Tool/Utility Class Illegal Initialization");
@@ -30,5 +31,7 @@ public final class StringUtil {
     public static Boolean isEmpty(String s) {
         return s == null || s.length() == 0;
     }
+
+    public static String deepCopy(String s){ return String.valueOf(s);}
 }
 

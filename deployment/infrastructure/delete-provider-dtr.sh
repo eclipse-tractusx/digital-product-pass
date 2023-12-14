@@ -40,7 +40,7 @@ DIGITAL_TWIN_4='1f0ef836-40b7-4f31-a9bd-cb6a8960779e'
 DIGITAL_TWIN_SUBMODEL_ID_4='26bf39c5-68a5-43a1-8db7-d33e116a6f61'
 
 SERVER_URL='<data-provider-url>'
-REGISTRY_URL='<registry-url/api/v3.0/shell-descriptors>'
+REGISTRY_URL='<registry-url>/api/v3.0/shell-descriptors'
 
 
 # put access token without 'Bearer ' prefix
@@ -59,17 +59,17 @@ echo
 
 # Delete a contract definition
 echo "Delete contract definition for asset 1 - DTR..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/10
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/10
 echo
 
 # Delete a asset
 echo "Delete asset 1 - DTR..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_DTR}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_DTR}
 echo
 
 # Delete a general policy
 echo "Delete policy for asset 1 - DTR..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/4b480f48-79a0-4851-a56c-6ef71e19ebc4
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/digital-twin-registry.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/4b480f48-79a0-4851-a56c-6ef71e19ebc4
 echo
 
 
@@ -77,29 +77,29 @@ echo '**************************Asset 2 **********************'
 echo
 # Delete Submodel data
 echo "Delete sample data for asset 2..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_1}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/X123456789012X12345678901234566.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_1}
 echo
 
 # Delete a contract definition
 echo "Delete contract definition for asset 2..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/1
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/1
 echo
 
 # Delete a asset
 echo "Delete asset 2..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_1}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_1}
 echo
 
 # Delete a general policy
 echo "Delete policy for asset 2..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/ad8d2c57-cf32-409c-96a8-be59675b6ae5
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/X123456789012X12345678901234566.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/ad8d2c57-cf32-409c-96a8-be59675b6ae5
 echo
 
 # Delete a digital twin and register from the registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Delete a DT for asset 2 and register it devo CX registry..."
 
-curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL/${DIGITAL_TWIN_1}
+curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/X123456789012X12345678901234566.json"  $REGISTRY_URL/${DIGITAL_TWIN_1}
 echo
 echo
 
@@ -111,30 +111,30 @@ echo
 
 # Delete a contract definition
 echo "Delete contract definition for asset 3..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/2
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/2
 echo
 
 
 # Delete Submodel data
 echo "Delete sample data for asset 3..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_2}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/NCR186850B.json"  $SERVER_URL/provider_backend/data/${ASSET_ID_2}
 echo
 
 # Delete a asset
 echo "Delete asset 3..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_2}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_2}
 echo
 
 # Delete a general policy
 echo "Delete policy for asset 3..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/f873e234-112c-4598-893b-eda0671b7402
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/NCR186850B.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/f873e234-112c-4598-893b-eda0671b7402
 echo
 
 # Delete a digital twin and register from the registry
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Delete a DT for asset 3 and register it devo CX registry..."
 
-curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/NCR186850B.json" $REGISTRY_URL/${DIGITAL_TWIN_2}
+curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/NCR186850B.json" $REGISTRY_URL/${DIGITAL_TWIN_2}
 echo
 echo
 
@@ -143,23 +143,23 @@ echo
 echo '**************************Asset 4 **********************'
 # Delete Submodel data
 echo "Delete sample data for asset 4..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_3}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/IMR18650V1.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_3}
 echo
 
 
 # Delete a contract definition
 echo "Delete contract definition for asset 4..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/3
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/3
 echo
 
 # Delete a asset
 echo "Delete asset 4..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_3}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_3}
 echo
 
 # Delete a general policy
 echo "Delete policy for asset 4..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/4b480f48-79a0-4851-a56c-6ef71e19ebb3
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/IMR18650V1.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/4b480f48-79a0-4851-a56c-6ef71e19ebb3
 echo
 
 
@@ -167,30 +167,30 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Delete a DT for asset 4 and register it devo CX registry..."
 
-curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/IMR18650V1.json" $REGISTRY_URL/${DIGITAL_TWIN_3}
+curl -X DELETE -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/IMR18650V1.json" $REGISTRY_URL/${DIGITAL_TWIN_3}
 echo
 
 
 echo '**************************Asset 5 **********************'
 # Delete Submodel data
 echo "Delete sample data for asset 5..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/payloads/Y792927456954B81677903848654570.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_4}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/payloads/Y792927456954B81677903848654570.json"   $SERVER_URL/provider_backend/data/${ASSET_ID_4}
 echo
 
 
 # Delete a contract definition
 echo "Delete contract definition for asset 5..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractdefinitions/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/131
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractdefinitions/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/contractdefinitions/131
 echo
 
 # Delete a asset
 echo "Delete asset 5..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/assets/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_4}
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/assets/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/assets/${ASSET_ID_4}
 echo
 
 # Delete a general policy
 echo "Delete policy for asset 5..."
-curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/contractpolicies/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/0a216bb0-934d-4c93-8e92-ca3b4f862e33
+curl -X DELETE -H 'Content-Type: application/json' -s --data "@resources/dpp/contractpolicies/Y792927456954B81677903848654570.json" --header 'X-Api-Key: '${API_KEY} $SERVER_URL/management/v2/policydefinitions/0a216bb0-934d-4c93-8e92-ca3b4f862e33
 echo
 
 
@@ -199,7 +199,7 @@ echo
 # To authenticate against CX registry, one needs a valid bearer token which can be issued through postman given the clientId and clientSecret
 echo "Delete a DT for asset 5 and register it devo CX registry..."
 
-curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/digitaltwins/Y792927456954B81677903848654570.json" $REGISTRY_URL/${DIGITAL_TWIN_4}
+curl -X POST -s --header 'Content-Type: application/json' --header "Authorization: Bearer ${BEARER_TOKEN//[$'\t\r\n ']}"  --data "@resources/dpp/digitaltwins/Y792927456954B81677903848654570.json" $REGISTRY_URL/${DIGITAL_TWIN_4}
 echo
 
 echo 'Provider setup completed...'

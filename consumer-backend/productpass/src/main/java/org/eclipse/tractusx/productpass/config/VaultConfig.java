@@ -28,23 +28,23 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Vault service configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.vault")
 public class VaultConfig {
 
+    /** ATTRIBUTES **/
     private String type;
-
     private String file;
     private String pathSep;
-
     private Boolean prettyPrint;
-
     private String defaultValue;
-
     private Integer indent;
-
     private List<String> attributes;
 
+    /** GETTERS AND SETTERS **/
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -100,4 +100,5 @@ public class VaultConfig {
     public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
     }
+
 }

@@ -30,11 +30,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@SuppressWarnings("Unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Constraint {
+
     @JsonProperty("odrl:target")
     String target;
-
     @JsonProperty("odrl:action")
     Action action;
 

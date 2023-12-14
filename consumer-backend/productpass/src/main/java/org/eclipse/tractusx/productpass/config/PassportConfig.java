@@ -28,19 +28,41 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define the attributes and methods needed for the Passport configuration.
+ **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
+    private String searchIdSchema;
 
-    private List<String> versions;
+    private List<String> aspects;
 
-
-    public List<String> getVersions() {
-        return this.versions;
+    public PassportConfig() {
     }
 
-    public void setVersions(List<String> versions) {
-        this.versions = versions;
+    public PassportConfig(List<String> aspects) {
+        this.aspects = aspects;
     }
 
+    public PassportConfig(String searchIdSchema, List<String> aspects) {
+        this.searchIdSchema = searchIdSchema;
+        this.aspects = aspects;
+    }
+
+    public List<String> getAspects() {
+        return aspects;
+    }
+    public void setAspects(List<String> aspects) {
+        this.aspects = aspects;
+    }
+
+
+    public String getSearchIdSchema() {
+        return searchIdSchema;
+    }
+
+    public void setSearchIdSchema(String searchIdSchema) {
+        this.searchIdSchema = searchIdSchema;
+    }
 }

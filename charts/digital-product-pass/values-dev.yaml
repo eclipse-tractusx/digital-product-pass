@@ -42,11 +42,10 @@ frontend:
         hosts:
           - materialpass.dev.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/dev/aasregistry#client.id>
-      clientSecret: <path:material-pass/data/dev/aasregistry#client.secret>
-      xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
+  edc:
+    clientId: <path:material-pass/data/dev/aasregistry#client.id>
+    clientSecret: <path:material-pass/data/dev/aasregistry#client.secret>
+    xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
 
   # Product Passport UI Configuration
   productpass:
@@ -56,6 +55,8 @@ frontend:
       clientId: "Cl13-CX-Battery"
       realm: "CX-Central"
       onLoad: "login-required"
+    irsDelay: ""
+    irsMaxWaitingTime: ""
     
 backend:
   ingress:
@@ -77,12 +78,11 @@ backend:
         hosts:
           - materialpass.dev.demo.catena-x.net
 
-  avp:
-    helm:
-      clientId: <path:material-pass/data/dev/backend#clientId>
-      clientSecret: <path:material-pass/data/dev/backend#clientSecret>
-      xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
-      participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
+  edc:
+    clientId: <path:material-pass/data/dev/backend#clientId>
+    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
+    xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
+    participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
 
   application:
     yml: |-
@@ -122,32 +122,46 @@ backend:
         security:
           check:
             enabled: true
-            bpn: true
+            bpn: false
             edc: true
       
+        irs:
+          enabled: true
+          endpoint: "https://materialpass-irs.dev.demo.catena-x.net"
+          paths:
+            job: "/irs/jobs"
+          tree:
+            fileName: "treeDataModel"
+            indent: true
+          callbackUrl: "https://materialpass.dev.demo.catena-x.net/api/irs"
+        
         dtr:
           central: false
           centralUrl: 'https://semantics.dev.demo.catena-x.net/registry'
-          assetId: 'digital-twin-registry'
+          assetType: 'data.core.digitalTwinRegistry'
           dspEndpointKey: 'dspEndpoint'
           endpointInterface: 'SUBMODEL-3.0'
-          internalDtr: "https://materialpass.dev.demo.catena-x.net/BPNL000000000000" # -- If there is an internal DTR available it can be referenced here and will be injected in the list of DTRs
           decentralApis:
-            prefix: "/api/v3.0"
-            search: "/lookup/shells/query"
+            search: "/lookup/shells"
             digitalTwin: "/shell-descriptors"
             subModel: "/submodel-descriptors"
-          transferTimeout: 10000
+          timeouts:
+            search: 10
+            negotiation: 15
+            dtrRequestProcess: 40
+            transfer: 10
+            digitalTwin: 20
           temporaryStorage: true
       
         discovery:
-          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+          endpoint: "https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
           bpn:
             key: "manufacturerPartId"
-            searchPath: "/api/administration/connectors/bpnDiscovery/search"
+            searchPath: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+            timeout: 1500
           edc:
             key: "bpn"
-      
+            timeout: 1500
       
         process:
           store: true
@@ -160,8 +174,9 @@ backend:
             encrypt: true
             indent: true
             dir: "data/transfer"
-          versions:
-            - 'v3.0.1'
+          aspects: 
+            - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+            - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       
         vault:
           type: 'local'

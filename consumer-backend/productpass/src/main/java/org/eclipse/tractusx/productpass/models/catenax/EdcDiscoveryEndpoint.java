@@ -30,33 +30,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * This class consists exclusively to define attributes and methods related to discovering the EDC endpoints for each BPN number.
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EdcDiscoveryEndpoint {
+
+    /** ATTRIBUTES **/
     @JsonProperty("bpn")
     String bpn;
     @JsonProperty("connectorEndpoint")
     List<String> connectorEndpoint;
 
+    /** CONSTRUCTOR(S) **/
     public EdcDiscoveryEndpoint(String bpn, List<String> connectorEndpoint) {
         this.bpn = bpn;
         this.connectorEndpoint = connectorEndpoint;
     }
-
     public EdcDiscoveryEndpoint() {
     }
 
+    /** GETTERS AND SETTERS **/
     public String getBpn() {
         return bpn;
     }
-
     public void setBpn(String bpn) {
         this.bpn = bpn;
     }
-
     public List<String> getConnectorEndpoint() {
         return connectorEndpoint;
     }
-
     public void setConnectorEndpoint(List<String> connectorEndpoint) {
         this.connectorEndpoint = connectorEndpoint;
     }

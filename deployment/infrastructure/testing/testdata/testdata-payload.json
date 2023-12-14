@@ -15,11 +15,19 @@
             "odrl:or": [
               {
                 "@type": "Constraint",
-                "odrl:leftOperand": "PURPOSE",
+                "odrl:leftOperand": "Membership",
                 "odrl:operator": {
                   "@id": "odrl:eq"
                 },
-                "odrl:rightOperand": "ID 3.0.1 DPP"
+                "odrl:rightOperand": "active"
+              },
+              {
+                "@type": "Constraint",
+                "odrl:leftOperand": "FrameworkAgreement.sustainability",
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "active"
               }
             ]
           }

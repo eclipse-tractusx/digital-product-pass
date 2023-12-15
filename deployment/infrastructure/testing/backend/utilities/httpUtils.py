@@ -25,21 +25,58 @@ import requests
 class HttpUtils:
 
     # do post request without session
-    def do_get(url,verify=False,headers=None,timeout=None):
-        return requests.get(url=url,verify=verify,timeout=timeout,headers=headers)
+    def do_get(url,verify=False,headers=None,timeout=None,params=None,allow_redirects=False):
+        return requests.get(url=url,verify=verify,
+                            timeout=timeout,headers=headers,
+                            params=params,allow_redirects=allow_redirects)
     
     # do get request with session
-    def do_get(url,session=None,verify=False,headers=None,timeout=None):
+    def do_get(url,session=None,verify=False,headers=None,timeout=None, params=None,allow_redirects=False):
         if session is None:
             session = requests.Session()
-        return session.get(url=url,verify=verify,timeout=timeout,headers=headers)
+        return session.get(url=url,verify=verify,
+                           timeout=timeout,headers=headers,
+                           params=params,allow_redirects=allow_redirects)
     
     # do post request without session
-    def do_post(url,data=None,verify=False,headers=None,timeout=None,json=None):
-        return requests.post(url=url,verify=verify,timeout=timeout,headers=headers,data=data,json=json)
+    def do_post(url,data=None,verify=False,headers=None,timeout=None,json=None,allow_redirects=False):
+        return requests.post(url=url,verify=verify,
+                             timeout=timeout,headers=headers,
+                             data=data,json=json,
+                             allow_redirects=allow_redirects)
     
     # do post request with session
-    def do_post(url,session=None,data=None,verify=False,headers=None,timeout=None,json=None):
+    def do_post(url,session=None,data=None,verify=False,headers=None,timeout=None,json=None,allow_redirects=False):
         if session is None:
             session = requests.Session()
-        return session.post(url=url,verify=verify,timeout=timeout,headers=headers,data=data,json=json)
+        return session.post(url=url,verify=verify,
+                            timeout=timeout,headers=headers,
+                            data=data,json=json,
+                            allow_redirects=allow_redirects)
+    
+    
+# define user-defined exceptions
+class AuthenticationFailed(Exception):
+    "Raised when the authentication attempt fails due to an authentication error"
+    pass
+
+class CompanyNotFound(Exception):
+    "Raised when a company is invalid or not found"
+    pass
+
+class UrlNotFound(Exception):
+    "Raised when a url is not found"
+    pass
+
+class CodeNotFound(Exception):
+    "Raised when a authorization code is not found"
+    pass
+
+class TokenNotFound(Exception):
+    "Raised when the access token is not found"
+    pass
+
+class HttpError(Exception):
+    "Raised when the request fails due to the HTTP error"
+    pass
+

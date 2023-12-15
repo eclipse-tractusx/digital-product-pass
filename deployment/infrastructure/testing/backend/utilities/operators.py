@@ -12,6 +12,7 @@ LOGLEVELS = {"NONE": 0, "CRITICAL": 1, "EXCEPTION": 2,
              "ERROR": 3, "WARNING": 4, "INFO": 5, "STATS": 6, "DEBUG": 7}
 LOGLEVEL = LOGLEVELS["STATS"]
 LOGFILE = None
+SERVER_LOGS_STARTED = False
 
 
 from datetime import datetime, timezone
@@ -60,11 +61,13 @@ class op:
         return date
     
     @staticmethod
-    def startLog(logFile=None):
-        if(logFile == None):
-            logFile = f"generator-{op.timestamp()}.log"
+    def start_log(log_file=None):
+        global LOGFILE
+        if(log_file == None):
+            log_file = f"generator-{op.timestamp()}.log"
+            LOGFILE = log_file
         openMessage = "Starting Log Messages..."
-        op.write_to_file(data=openMessage, filePath=logFile,
+        op.write_to_file(data=openMessage, filePath=log_file,
                        openMode="w+", end="\n")
 
     @staticmethod
@@ -76,25 +79,24 @@ class op:
     def value_none(obj):
         return None if obj == None or obj == "" else obj
 
-    # Print log Operation
+    # print logs to a file
     @staticmethod
-    def print_log(messageStr, logType="DEBUG", e=None):
-        global LOGLEVEL, LOGLEVELS, LOGFILE
-        if(LOGFILE == None):
-            op.startLog()
+    def print_log(message, log_type="DEBUG", e=None):
+        # global LOGLEVELS, LOGLEVEL
         # If the log level requested is lower than the actual log level
-        if LOGLEVEL < LOGLEVELS[logType]:
-            return None
+        # LOGLEVELS: NONE=0, CRITICAL=1, EXCEPTION=2, ERROR=3, WARNING=4, INFO=5, STATS=6, DEBUG=7
+        # LOGLEVEL: STATS=6
+        # if LOGLEVEL < LOGLEVELS[log_type]:
+        #     return None
 
         # Add the log description and exception if not empty
-        logInfo = "["+logType+"]:"
+        log_info = "["+log_type+"]:"
         if(e != None):
-            logInfo += "[" + str(e) + "]."
-
+            log_info += "[" + str(e) + "]."
+        
         # Print the log
-        logData = " ".join([logInfo, messageStr])
-        op.write_to_file(data=logData, filePath=LOGFILE, openMode="a+", end="\n")
-        return print(logData)
+        log_data = " ".join([log_info, message])
+        op.write_to_file(data=log_data, filePath=LOGFILE, openMode="a+", end="\n")
 
     # Init dynamically the new class
     @ staticmethod
@@ -175,6 +177,7 @@ class op:
 
         file = open(filePath, openMode, encoding=sys.stdout.encoding)
         file.write(data)
+        file.write(end)
         file.close()
         return True
     
@@ -200,3 +203,16 @@ class op:
             sourceObject=sourceObject[part]
         tmpRet=sourceObject
         return tmpRet
+    
+    @staticmethod
+    def print_message(message, info_level="INFO", log_enabled=False):
+        
+        global SERVER_LOGS_STARTED
+        if log_enabled and message is not None:
+            if not SERVER_LOGS_STARTED:
+                op.start_log()
+                SERVER_LOGS_STARTED=True
+            op.print_log(message, info_level)
+        
+        # print message on console
+        print("[" + info_level + "] - " + message)

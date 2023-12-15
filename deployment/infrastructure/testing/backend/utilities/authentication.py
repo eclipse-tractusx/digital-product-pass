@@ -22,244 +22,73 @@
 
 from utilities.constants import Constants
 from urllib.parse import urlparse, parse_qs
-from urllib.parse import urlencode
 from utilities.operators import op
-import webbrowser
-import json
+from utilities.httpUtils import HttpUtils, AuthenticationFailed, CompanyNotFound, UrlNotFound, CodeNotFound, TokenNotFound
 import requests
 import html
 import re
-import urllib.parse
-
-
-
 
 """
 This class defines the authentication operations from the centrally managed keycloak instance
 """
 class Authentication:
 
-    auth_url = (
-        f'{Constants.AUTH_URI}?'
-        f'client_id={Constants.CLIENT_ID}&'
-        f'response_type=code&'
-        f'redirect_uri={Constants.REDIRECT_URI}&'
-        f'scope={Constants.SCOPE}'
-    )
-    request_header_accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
-    request_header_accept_encoding = "gzip, deflate, br"
-    request_header_accept_language = "en-GB,en;q=0.9,de;q=0.8,en-US;q=0.7"
+    _request_header_accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+    _request_header_accept_encoding = "gzip, deflate, br"
+    _request_header_accept_language = "en-GB,en;q=0.9,de;q=0.8,en-US;q=0.7"
 
     _company_name = ""
+    _username = ""
+    _password = ""
+    _central_idp = ""
+    _provider = ""
+    _redirect_uri = ""
+    _token_uri = ""
+    _client_id = ""
+    _scope = ""
+    _shared_idp_cookie = ""
+    _central_idp_cookie = ""
 
-    def __init__(self, company_name) -> None:
+
+    def __init__(self, company_name, username, password) -> None:
         
-        _company_name = company_name
+        self._company_name = company_name
+        self._username = username
+        self._password = password
+        self._client_id = Constants.CLIENT_ID
+        self._redirect_uri = Constants.REDIRECT_URI
+        self._token_uri = Constants.TOKEN_URI
+        self._scope = Constants.SCOPE
+        self._central_idp = Constants.AUTH_URI
+        self._provider = Constants.PROVIDER    
 
-        central_idp = Constants.AUTH_URI
-        state = "fooobarfoobar"
+    def get_access_token(self) -> str:
         try:
-            shared_idp_url, cookie = self.get_company_shared_url(central_idp)
-            op.wait(3)
-            shared_idp_auth_url = self.get_auth_url_from_shared_idp(shared_idp_url, cookie)
-            op.wait(3)
-            self.authenticate_in_shared_idp(shared_idp_auth_url,"company 2 user","changeme", cookie)
-            #op.wait(3)
+            shared_idp_url, self._central_idp_cookie = self.get_company_shared_url(self._central_idp)
 
+            shared_idp_auth_url, self._shared_idp_cookie = self.get_auth_url_from_shared_idp(shared_idp_url)
 
+            authenticate_in_central_idp_url  = self.authenticate_in_shared_idp(shared_idp_auth_url)
 
+            auth_code = self.get_auth_code_from_central_idp(authenticate_in_central_idp_url)
 
-
-            # response = requests.get(url=path,
-            #             headers={
-            #                     "Cookie": cookie, 
-            #                     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-            #                     "Accept-Encoding": "gzip, deflate, br",
-            #                     "Accept-Language": "en-US",
-            #                     'User-Agent': "Mozilla/5.0"
-
-            #                     },
-            #             allow_redirects=False
-            #         )
-            # print(response.raise_for_status())
+            token = self.get_token_with_auth_code(auth_code)
+            return token
         
-        except requests.exceptions.HTTPError as errh: 
-            print("HTTP Error") 
-            print(errh.args) 
-        # Prints the response code 
-        # print(response) 
-
-        #result = re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL)
-        # xx = "guru99,education is fun"
-        # r1 = re.findall(r"^\w+",xx)
-
-        # response = requests.get("https://sharedidp.int.demo.catena-x.net/auth/realms/CX-Test-Access/protocol/openid-connect/auth?scope=openid&state=fooobarfoobar&response_type=code&client_id=Central-IdP&redirect_uri=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/endpoint")
-        # print(response.text)
-        
-        # response = requests.get(url="https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/login?client_id=Cl13-CX-Battery&amp;tab_id=fsGMt1AP4dY&amp;session_code=I1vhOK7wVEKSKbNRPw_0yVrDhV53d7Om3kutczwC44c")
-        # print(response)
-        # response = requests.get(url="https://sharedidp.int.demo.catena-x.net/auth/realms/CX-Test-Access/protocol/openid-connect/auth",
-        #              params={
-        #                 "response_type": "code",
-        #                 "client_id": "Central-IdP",
-        #                 "scope": Constants.SCOPE,
-        #                 "redirect_uri": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/broker/CX-Test-Access/endpoint",
-        #                 "state": state
-        #              },
-        #              allow_redirects=True
-        #         )
-        # print(response.text)
-        # print(response.url)
-
-        # page = response.text
-        # url = re.findall(r'(https?://\S+)', page)
-        # tt = re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL)
-        # form_action = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
-        # # print(form_action)
-
-        # resp = requests.post(
-        # url=form_action, 
-        # data={
-        #     "username": "company 2 user",
-        #     "password": "changeme",
-        #     "credentialId": ""
-        # }, 
-        # headers={"Cookie": cookie},
-        # allow_redirects=True
-        # )
-        # print(resp.status_code)
-        # print(resp.text)
-
-
-
-
-        # not working code
-        # # Use requests or curl to perform the HTTP request programmatically
-        # response = requests.get(self.auth_url)
-        # print(response.url)
-        # print(response.headers)
-        # # Extract the authorization code from the response URL or headers
-        # authorization_code = self.extract_code_from_response(response.url)
-        # print("code: ",authorization_code)
-
-        # Keycloak configuration
-        # keycloak_url = 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central'
-        # client_id = 'your-client-id'
-        # redirect_uri = 'your-redirect-uri'
-
-        # # Step 1: Get authorization code
-        # auth_params = {
-        #     'client_id': Constants.CLIENT_ID,
-        #     'redirect_uri': Constants.REDIRECT_URI,
-        #     'response_type': 'code',
-        #     'scope': 'openid',  # Add additional scopes as needed
-        # }
-        # auth_url = f'{keycloak_url}/protocol/openid-connect/auth?{urlencode(auth_params)}'
-        # print(f'Open the following URL in your browser and authorize the application:\n{auth_url}')
-
-        # # Retrieve the authorization code from the user after they authorize the application
-        # authorization_code = input('Enter the authorization code: ')
-
-        # # Step 2: Exchange authorization code for tokens
-        # token_params = {
-        #     'client_id': Constants.CLIENT_ID,
-        #     'client_secret': '',
-        #     'redirect_uri': Constants.REDIRECT_URI,
-        #     'code': authorization_code,
-        #     'grant_type': 'authorization_code',
-        # }
-        # token_url = f'{keycloak_url}/protocol/openid-connect/token'
-        # token_response = requests.post(token_url, data=token_params)
-
-        # # Extract tokens from the response
-        # tokens = token_response.json()
-        # access_token = tokens['access_token']
-        # refresh_token = tokens.get('refresh_token')
-        # id_token = tokens['id_token']
-
-        # # Now you can use the access token to make authorized requests
-
-        # # Example: Get user info using the access token
-        # user_info_url = f'{keycloak_url}/protocol/openid-connect/userinfo'
-        # headers = {'Authorization': f'Bearer {access_token}'}
-        # user_info_response = requests.get(user_info_url, headers=headers)
-
-        # print(f'User Info:\n{user_info_response.json()}')
-        
-
-    # def extract_code_from_response(self, response_url):
-    #     parsed_url = urlparse(response_url)
-    #     query_params = parse_qs(parsed_url.query)
-    #     print(query_params)
-    #     # Assuming the authorization code is returned as 'code' parameter
-    #     authorization_code = query_params.get('code')
-    #     return authorization_code
-    
-    # # Example usage
-    # response_url = 'https://your-redirect-uri/?code=your-authorization-code&state=your-state'
-    # authorization_code = extract_code_from_response(response_url)
-    # print("Authorization Code:", authorization_code)
-
-    # def __init__(self):
-    #     auth_url = f'{Constants.AUTH_URI}?client_id={Constants.CLIENT_ID}&redirect_uri={Constants.REDIRECT_URI}&response_type=code&scope={Constants.SCOPE}'
-    #     print("Authorization URL:", auth_url)
-    #     webbrowser.open(auth_url)
-
-        # callback_url = input("Enter the callback URL from the browser: ")
-        # authorization_code = input("Enter the authorization code from the callback URL: ")
-
-
-        # token_data = {
-        #     'grant_type': 'authorization_code',
-        #     'code': authorization_code,
-        #     'client_id': Constants.CLIENT_ID,
-        #     'redirect_uri': 'https://materialpass.int.demo.catena-x.net/passport',
-        # }
-
-        # token_response = requests.post(Constants.TOKEN_URI, data=token_data)
-        # # token_response_data = token_response.json()
-        # print(token_response.json())
-        # access_token = token_response_data['access_token']
-        # print("Access Token:", access_token)
-
-
-
-    # def get_token()
-    #     return token
-
-    # def get_user_info()
-    #     return get_user_info
-
-    # def isauthenticated()
-    #     return False
-
-    # def get_access_token(username, password):
-
-        #companies = StartCentralIdp();
-        #sharedIdpCompanyUrl = GetCompanySharedIdpUrl(companies);
-        #auth_url_from_shared_idp = get_auth_url_from_shared_idp(sharedIdpCompanyUrl);
-        #authenticateInCentralIdpUrl =
-        #     await AuthenticateInSharedIdp(auth_url_from_shared_idp, "company 2 user", "changeme");
-        # authCode = await GetAuthCodeFromCentralIdp(authenticateInCentralIdpUrl);
-        # return await GetTokenWithAuthCode(authCode);
-
+        except requests.exceptions.HTTPError as err:
+            print(err)
 
     def get_company_shared_url(self, url):
-        state = "fooobarfoobar"
+        
+        params={
+            "response_type": "code",
+            "client_id": self._client_id,
+            "scope": self._scope,
+            "redirect_uri": self._redirect_uri
+            }
 
         try:
-            response = requests.get(
-                url=url,
-                params={
-                    "response_type": "code",
-                    "client_id": Constants.CLIENT_ID,
-                    "scope": Constants.SCOPE,
-                    "redirect_uri": Constants.REDIRECT_URI,
-                    "state": state
-                },
-                allow_redirects=False
-            )
-
+            response = HttpUtils.do_get(url=url,params=params,allow_redirects=False)
             cookies = response.headers['Set-Cookie']
             cookie = '; '.join(c.split(';')[0] for c in cookies.split(', '))
 
@@ -268,109 +97,148 @@ class Authentication:
             companies_array = (op.json_string_to_object(op.json_string_to_object(op.to_json(companies_array[0]))))
 
             for company in companies_array:
-                if company is not None and company["name"] == Constants.COMPANY:
+                if company is not None and company["name"] == self._company_name:
                     url = company["url"]
                     break
-            
-
-            path = Constants.PROVIDER + url
-            # print(path)
-            # print(cookie)
+            if url is None:
+                raise CompanyNotFound
+            path = self._provider + url
             return path, cookie
 
-        
-        except requests.exceptions.HTTPError as errh: 
-            print("HTTP Error") 
-            print(errh.args)
+        except CompanyNotFound:
+            print("CompanyNotFound exception occured in [get_company_shared_url]: The company was not found")
+        except requests.exceptions.HTTPError as err: 
+            print("HTTP exception occured in [get_company_shared_url]: " + err)
+        except Exception as e:
+            print("Exception occured in [get_company_shared_url]: " + e)
 
 
-    def get_auth_url_from_shared_idp(self, shared_idp_url, cookie):
+    def get_auth_url_from_shared_idp(self, shared_idp_url):
         
+        headers={
+            "Accept": self._request_header_accept,
+            "Accept-Language": self._request_header_accept_language,
+            "Accept-Encoding": self._request_header_accept_encoding,
+            "Cookie": self._central_idp_cookie
+        }
         try:
-            central_idp_url = Constants.PROVIDER.replace("https://", "")
-            headers = {
-                "Accept": self.request_header_accept,
-                "Accept-Language": self.request_header_accept_language,
-                "Accept-Encoding": self.request_header_accept_encoding,
-                "Cookie": cookie
-            }
-            # headers = {
-            #             "Cookie": cookie, 
-            #             "Accept": "*/*",
-            #             "Accept-Encoding": "gzip, deflate, br",
-            #             "Host": central_idp_url
-            #         }
-            
             url = shared_idp_url.replace("amp;", "")
-            print(url)
-            response = requests.get(
-                url=url,
-                headers=headers
-            )
+            response = HttpUtils.do_get(url=url, headers=headers,allow_redirects=True)
             page =response.text
+            cookies = response.headers['Set-Cookie']
+            cookie = '; '.join(c.split(';')[0] for c in cookies.split(', '))
             form_url = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
             if form_url is None:
-                return None
-            print(form_url)
-            return form_url
+                raise UrlNotFound
+            return form_url, cookie
 
-            # response = requests.get(
-            #     url=shared_idp_url,
-            #     headers={"Accept": self.request_header_accept,
-            #              "Accept-Language": self.request_header_accept_language,
-            #              "Accept-Encoding": self.request_header_accept_encoding
-            #              }
-
-            # )
-            # page = response.text
-            # auth_url = html.unescape(re.search('<form\s+.*?\s+action="(.*?)"', page, re.DOTALL).group(1))
-
-            # if (auth_url is None):
-            #     print("Authentication failed: The auth url was not found")
-
-            # return auth_url
-
-        except requests.exceptions.HTTPError as errh: 
-            print("HTTP Error") 
-            print(errh.args)
+        except UrlNotFound:
+            print("UrlNotFound exception occured in [get_auth_url_from_shared_idp]: The shared idp url is not found")
+        except requests.exceptions.HTTPError as err: 
+            print("HTTP exception occured in [get_auth_url_from_shared_idp]:" + err)
+        except Exception as e:
+            print("Exception occured in [get_auth_url_from_shared]: " + e)
 
 
 
-    def authenticate_in_shared_idp(self, shared_idp_url, username, password, cookie):
-
-        print(shared_idp_url)
+    def authenticate_in_shared_idp(self, shared_idp_url):
 
         url = shared_idp_url.replace("amp;", "")
         headers = {
-            "Accept": self.request_header_accept,
-            "Accept-Language": self.request_header_accept_language,
-            "Accept-Encoding": self.request_header_accept_encoding,
+            "Accept": self._request_header_accept,
+            "Accept-Language": self._request_header_accept_language,
+            "Accept-Encoding": self._request_header_accept_encoding,
+            "Cookie": self._shared_idp_cookie,
             "Origin": "null",
-            "Cookie": cookie
+            "Content-Type": "application/x-www-form-urlencoded"
         }
+
         data = {
-            "companyName": "CX-Test-Access",
-            "username": username, 
-            "password": password,
+            "companyName": self._company_name,
+            "username": self._username, 
+            "password": self._password, 
             "credentialId": ""
         }
-        print(data)
-        print(headers)
-        response = requests.post(
-            url=url,
-            headers=headers,
-            data=data
-        )
+        try:
+            response = HttpUtils.do_post(url=url, headers=headers, data=data,allow_redirects=False)
 
-        print(response.text)
+            if (not response.headers["Location"]):
+                raise AuthenticationFailed
+            
+            auth_code_url = response.headers["Location"]
+            return auth_code_url
         
+        except AuthenticationFailed: 
+            print("AuthenticationFailed exception occured in [authenticate_in_shared_idp]: Authentication failed, the url for getting the auth code was not found.")
+        except requests.exceptions.HTTPError as err:
+            print("HTTP exception occured in [authenticate_in_shared_idp]: " + err)
+        except Exception as e:
+            print("Exception occured in [authenticate_in_shared_idp]: " + e)
+    
+    def get_auth_code_from_central_idp(self, auth_code_url):
+        
+        headers = {
+                "Accept": self._request_header_accept,
+                "Accept-Language": self._request_header_accept_language,
+                "Accept-Encoding": self._request_header_accept_encoding,
+                "Cookie": self._central_idp_cookie
+            }
+        try:
+            response = HttpUtils.do_get(url=auth_code_url, headers=headers,allow_redirects=False)
+
+            if (not response.headers["Location"]):
+                raise UrlNotFound
+            
+            url = response.headers["Location"]
+            parsed_url = urlparse(url)
+            auth_code = parse_qs(parsed_url.query)['code'][0]
+            if auth_code is None:
+                raise CodeNotFound
+
+            return auth_code
+        
+        except CodeNotFound:
+            print("CodeNotFound exception occured in [get_auth_code_from_central_idp]: Authorization code was not found")
+        except UrlNotFound:
+            print("UrlNotFound exception occured in [get_auth_code_from_central_idp]: Authentication failed, the url for getting the auth code was not found")
+        except requests.exceptions.HTTPError as err: 
+            print("HTTP exception occured in [get_auth_code_from_central_idp]: " + err)
+        except Exception as e:
+            print("Exception occured in [get_auth_code_from_central_idp]: " + e)
+    
+    def get_token_with_auth_code(self, auth_code):
+
+        headers = {
+                "Accept": "*/*",
+                "Accept-Language": self._request_header_accept_language,
+                "Accept-Encoding": self._request_header_accept_encoding,
+                "Origin": self._redirect_uri,
+                "Referer": self._redirect_uri,
+                "Cookie": self._shared_idp_cookie,
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        data = {
+            "code": auth_code,
+            "grant_type": "authorization_code", 
+            "client_id": self._client_id,
+            "redirect_uri": self._redirect_uri
+        }
+        try:
+            response = HttpUtils.do_post(url=self._token_uri, headers=headers, data=data,allow_redirects=False)
+            token = response.json()
+            token = op.json_string_to_object(op.to_json(token))["access_token"]
+            if (token is None):
+                raise TokenNotFound
+            return token
+        
+        except TokenNotFound:
+            print("TokenNotFound exception occured in [get_token_with_auth_code]: Access Token was not found")
+        except requests.exceptions.HTTPError as err: 
+            print("HTTP exception occured in [get_token_with_auth_code]: " + err)
+        except Exception as e:
+            print("Exception occured in [get_token_with_auth_code]: " + e)
 
 
-        # var authCodeOrUpdatePasswordUrl = response.Headers.Location?.AbsoluteUri;
-        # if (authCodeOrUpdatePasswordUrl is null)
-        # {
-        #     throw new Exception("Authentication failed: the url for getting the auth code or updating the password was not found.");
-        # }
 
 
 

@@ -24,4 +24,8 @@
 export PYTHONUNBUFFERED=TRUE;
 
 ## execute the python script
-python ./getPassport.py --id BAT-XYZ789 --discoveryId XYZ78901
+python ./getPassport.py --id BAT-XYZ789  \
+  --discoveryId XYZ78901 \
+  --company CX-Test-Access \
+  --username "<your username>" \
+  --password "<your password>"

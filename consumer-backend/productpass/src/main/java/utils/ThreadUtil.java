@@ -134,12 +134,12 @@ public final class ThreadUtil {
     {
         try {
             ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future<V> future = executor.submit(function);
             boolean timeout = false;
             V returnObject = null;
             try {
+                Future<V> future = executor.submit(function);
                 returnObject = future.get(milliseconds, TimeUnit.MILLISECONDS);
-            } catch (TimeoutException e) {
+            } catch (Exception e) {
                 timeout = true;
             }
             executor.shutdownNow();

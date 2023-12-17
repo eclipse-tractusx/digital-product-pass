@@ -84,7 +84,11 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   INIT_OPTIONS["url"] = (IDP_URL != null) ? IDP_URL : "http://localhost:8088/auth/", //Point to IDP service if specified or localhost
   REDIRECT_URI = "http://localhost:8080/";
 } else {
-  INIT_OPTIONS["url"] = IDP_URL;
+  if(!IDP_URL.includes("/auth/")){
+    INIT_OPTIONS["url"] = IDP_URL + "/auth/";
+  }else{
+    INIT_OPTIONS["url"] = IDP_URL;
+  }
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES

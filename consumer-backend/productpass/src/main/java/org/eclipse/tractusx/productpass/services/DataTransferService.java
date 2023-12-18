@@ -794,6 +794,7 @@ public class DataTransferService extends BaseService {
         private String processId;
 
         /** CONSTRUCTOR(S) **/
+        public NegotiateContract() {};
         public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status) {
             this.dataModel = dataModel;
             this.processId = processId;

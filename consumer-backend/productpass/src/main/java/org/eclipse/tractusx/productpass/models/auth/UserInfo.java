@@ -23,6 +23,7 @@
 
 package org.eclipse.tractusx.productpass.models.auth;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,6 +36,9 @@ public class UserInfo {
     /** ATTRIBUTES **/
     @JsonProperty("sub")
     String sub;
+    @JsonProperty("bpn")
+    @JsonIgnore
+    String bpn;
     @JsonProperty("email_verified")
     String email_verified;
     @JsonProperty("name")

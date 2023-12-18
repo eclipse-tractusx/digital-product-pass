@@ -1,0 +1,68 @@
+{
+    "description": [
+        {
+            "language": "en",
+            "text": "Battery Passport shell descriptor"
+        }
+    ],
+    "idShort": "Battery_IMR18650V1",
+    "id": "365e6fbe-bb34-11ec-8422-0242ac120002",
+    "specificAssetIds": [
+        {
+            "name": "partInstanceId",
+            "value": "IMR18650V1",
+            "externalSubjectId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "<some-bpn>"
+                    }
+                ]
+            }
+        }
+    ],
+    "submodelDescriptors": [
+        {
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL-3.0",
+                    "protocolInformation": {
+                        "href": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918/submodel",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [
+                          "1.1"
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id=365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000/",
+                        "subprotocolBodyEncoding": "plain",
+                        "securityAttributes": [
+                          {
+                            "type": "NONE",
+                            "key": "NONE",
+                            "value": "NONE"
+                          }
+                        ]
+                    }
+                }
+            ],
+            "idShort": "batteryPass",
+            "id": "61125dc3-5e6f-4f4b-838d-447432b97918",
+            "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Submodel",
+                        "value": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+                    }
+                ]
+            },
+            "description": [
+                {
+                    "language": "en",
+                    "text": "Battery Passport Submodel"
+                }
+            ]
+        }
+    ]
+}

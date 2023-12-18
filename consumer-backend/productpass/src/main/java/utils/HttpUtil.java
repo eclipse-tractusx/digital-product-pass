@@ -608,7 +608,7 @@ public class HttpUtil {
      *          the base URL.
      * @param   params
      *          the Map with key/value pair from each parameter.
-     * @param   encode
+     * @param   encoded
      *          if true will encode the value of each parameter.
      *
      * @return  a {@code String} with the build URL.

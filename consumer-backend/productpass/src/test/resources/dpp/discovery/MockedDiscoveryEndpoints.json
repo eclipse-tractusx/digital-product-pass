@@ -1,0 +1,15 @@
+{
+  "endpoints" : [ {
+    "type" : "manufacturerPartId",
+    "description" : "Service to discover BPN for different kind of type numbers",
+    "endpointAddress" : "https://semantics.int.demo.catena-x.net/bpndiscovery",
+    "documentation" : "https://semantics.int.demo.catena-x.net/bpndiscovery/swagger-ui/index.html",
+    "resourceId" : "278a9cd3-2201-47d1-8474-a0beb6b6f21b"
+  }, {
+    "type" : "bpn",
+    "description" : "Service to discover connector endpoints based on bpns",
+    "endpointAddress" : "https://portal-backend.int.demo.catena-x.net/api/administration/Connectors/discovery",
+    "documentation" : "https://portal-backend.int.demo.catena-x.net/api/administration/swagger/index.html",
+    "resourceId" : "63739df2-84ce-4309-8d71-5a0f29e789e1"
+  } ]
+}

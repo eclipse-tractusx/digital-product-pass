@@ -579,7 +579,6 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to create the status file.
      */
-
     public String newStatusFile(String processId, String connectorAddress, Long created, Boolean childrenCondition){
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);
@@ -685,6 +684,7 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+
      /**
      * Set the children condition in the status file
      * <p>
@@ -698,6 +698,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to update the status file.
      */
+     @SuppressWarnings("Unused")
     public String setChildrenCondition(String processId, Boolean childrenCondition) {
         try {
             String path = this.getProcessFilePath(processId, this.metaFileName);

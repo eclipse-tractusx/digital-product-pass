@@ -43,6 +43,7 @@ import utils.*;
 
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -340,11 +341,11 @@ public class DtrSearchManager {
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
         if (!(bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
-            if (this.dtrDataModel.contains(bpn)) {
+            if (this.dtrDataModel.containsKey(bpn)) {
                 if (!this.dtrDataModel.get(bpn).contains(dtr))
                     this.dtrDataModel.get(bpn).add(dtr);
             } else {
-                this.dtrDataModel.put(bpn, List.of(dtr));
+                this.dtrDataModel.put(bpn, new ArrayList<>(){{add(dtr);}});
             }
         }
         return this;
@@ -512,9 +513,10 @@ public class DtrSearchManager {
             return result;
         } catch (Exception e) {
             LogUtil.printException(e, "Was not possible to load Dtr Data Model!");
-            return new ConcurrentHashMap<String, List<Dtr>>();
+            ConcurrentHashMap<String, List<Dtr>> newDtrDataModel = new ConcurrentHashMap<String, List<Dtr>>();
+            saveDtrDataModel(newDtrDataModel);
+            return newDtrDataModel;
         }
-
     }
 
 }

@@ -37,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;

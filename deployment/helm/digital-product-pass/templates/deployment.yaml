@@ -23,60 +23,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "digital-product-pass.fullname" . }}
+  name: {{ .Values.name }}
   labels:
-    {{- include "digital-product-pass.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "digital-product-pass.selectorLabels" . | nindent 6 }}
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+      component: backend
   template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        {{- include "digital-product-pass.selectorLabels" . | nindent 8 }}
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+        component: backend
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "digital-product-pass.serviceAccountName" . }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:          
+          env:
             - name: "client.id"
               valueFrom:
                 secretKeyRef:
-                  key:  clientId
+                  key: clientId
                   name: consumer-backend-oauth
             - name: "client.secret"
               valueFrom:
                 secretKeyRef:
-                  key:  clientSecret
+                  key: clientSecret
                   name: consumer-backend-oauth
             - name: "edc.apiKey"
               valueFrom:
                 secretKeyRef:
-                  key:  xApiKey
+                  key: xApiKey
                   name: consumer-edc
             - name: "edc.participantId"
               valueFrom:
                 secretKeyRef:
-                  key:  participantId
+                  key: participantId
                   name: consumer-edc
           volumeMounts:
             - name: backend-config
               mountPath: /app/config
             - name: pvc-backend
-              mountPath: /app/data
-              subPath: data
+              mountPath: /app/data/process
+              subPath: data/process
             - name: pvc-backend
               mountPath: /app/log
               subPath: log

@@ -24,112 +24,78 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-name: "digital-product-pass"
+name: "dpp-backend"
 replicaCount: 1
 namespace: ""
-fullname: "dpp-backend"
 
 image:
   repository: docker.io/tractusx/digital-product-pass-backend
   pullPolicy: Always
-  # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
+# -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
 imagePullSecrets: []
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-# podAnnotations: {}
-
-podSecurityContext:
-  runAsUser: 10000
-  fsGroup: 3000
-
-securityContext:
-  readOnlyRootFilesystem: true
-  allowPrivilegeEscalation: false
-  runAsNonRoot: true
-  runAsUser: 10000
-  runAsGroup: 3000
-
 service:
-  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
-    type: ClusterIP
-    port: 8888
+# -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
+  type: ClusterIP
+  port: 8888
 
- # -- ingress declaration to expose the dpp-backend service
+
+# -- ingress declaration to expose the dpp-backend service
 ingress:
   enabled: false
-  # className: ""
-  annotations:
-    ingressClassName: nginx
-    # kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
     - host: &hostname "localhost"
       paths:
         - path: /
           pathType: Prefix
-  tls: []
 
 # -- in this section we configure the values that are inserted as secrets in the backend
 edc:
-  # -- the secret to access the edc management API
+  # -- the secret for assesing the edc management API
   xApiKey: "<Add API key here>"
   # -- BPN Number
   participantId: "<Add participant id here>"
   # -- edc consumer connection configuration
   endpoint: ""
-  management: ""
-  catalog: ""
-  negotiation: ""
-  transfer: ""
+  apis:
+    management: '/management/v2'
+    catalog: '/catalog/request'
+    negotiation: '/contractnegotiations'
+    transfer: '/transferprocesses'
   delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
 
-oauth:
-  # -- technical user credentials centrally managed by keycloak
-  # -- note: these credentials are required for the Discovery Finder, BPN Discovery and EDC Discovery services
-  techUser:
-    clientId: "<Add client id here>"
-    clientSecret: "<Add client secret here>"
-  realm: CX-Central
-  resource: ""
-  tokenUri: ""
-  userInfoUri: ""
-
-# -- backend server url
-url: *hostname
-
+# -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
+hostname: *hostname
 # -- configuration of the spring boot server
 serverPort: 8888
+
 logging:
   level:
     # -- general logging level
     root: INFO
     # -- logging for the util components
     utils: INFO
+
 # -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
 # -- max retries for the backend services
 maxRetries: 5
-# -- security configuration
+
+ # -- security configuration
 securityCheck:
   enabled: false
   bpn: false
   edc: false
+
 # -- irs configuration
 irs:
-  endpoint: ""
+  enabled: false
+  hostname: ""
+
 # -- digital twin registry configuration
 process:
   # -- unique sha512 hash key used for the passport encryption
   encryptionKey: ""
+
 # -- passport data transfer configuration
 passport:
   # -- passport versions and aspects allowed
@@ -137,10 +103,8 @@ passport:
     - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
     - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
     - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+
 digitalTwinRegistry:
-  # -- central digital twin registry url
-  url: ""
-  # -- decentral digital twin apis
   endpoints:
     search: "/lookup/shells"
     digitalTwin: "/shell-descriptors"
@@ -154,10 +118,11 @@ digitalTwinRegistry:
   # -- temporary storage of dDTRs for optimization
   temporaryStorage:
     enabled: true
+
 # -- discovery configuration
 discovery:
   # -- discovery finder configuration
-  url: ""
+  hostname: ""
   # -- bpn discovery configuration
   bpnDiscovery:
     key: "manufacturerPartId"
@@ -166,6 +131,38 @@ discovery:
   edcDiscovery:
     key: "bpn"
 
+# -- oauth configuration
+oauth:
+  # -- url of the identity provider service
+  hostname: ""
+  # -- technical user keycloak central id credentials
+  # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+  techUser:
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
+  realm: ""
+  appId: ""
+  onLoad: "login-required"
+
+podSecurityContext:
+  runAsUser: 10000
+  fsGroup: 3000
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 3000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
@@ -176,6 +173,15 @@ resources:
   requests:
     cpu: 250m
     memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+podAnnotations: {}
 
 # [node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain pods to nodes
 nodeSelector: {}

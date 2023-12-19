@@ -30,7 +30,7 @@ ingress:
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
-    - host: &hostname "materialpass.int.demo.catena-x.net"
+    - host: &hostname "materialpass.dev.demo.catena-x.net"
       paths:
         - path: /
           pathType: Prefix
@@ -38,12 +38,14 @@ ingress:
     - secretName: tls-secret
       hosts:
         - *hostname
-edc:
-  xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-  participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
-  endpoint: "materialpass.int.demo.catena-x.net/consumer"
 
-hostname: *hostname
+edc:
+  xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
+  participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
+  endpoint: "materialpass.dev.demo.catena-x.net/consumer"
+
+hostname: *hostname   
+
 securityCheck:
   enabled: true
   bpn: true
@@ -51,18 +53,18 @@ securityCheck:
 
 irs:
   enabled: true
-  hostname: "materialpass-irs.int.demo.catena-x.net"
+  hostname: "materialpass-irs.dev.demo.catena-x.net"
 
 process:
-  encryptionKey: "<path:material-pass/data/int/backend/#signKey>"
+  encryptionKey: "<path:material-pass/data/dev/backend/#signKey>"
 
 discovery:
-  hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
+  hostname: "semantics.dev.demo.catena-x.net/discoveryfinder"
 
 oauth:
-  hostname: "centralidp.int.demo.catena-x.net"
+  hostname: "centralidp.dev.demo.catena-x.net"
   techUser:
-    clientId: <path:material-pass/data/int/backend#clientId>
-    clientSecret: <path:material-pass/data/int/backend#clientSecret>
-  realm: <path:material-pass/data/int/oauth#realm>
-  appId: <path:material-pass/data/int/oauth#appId>
+    clientId: <path:material-pass/data/dev/backend#clientId>
+    clientSecret: <path:material-pass/data/dev/backend#clientSecret>
+  realm: <path:material-pass/data/dev/oauth#realm>
+  appId: <path:material-pass/data/dev/oauth#appId>

@@ -1,4 +1,4 @@
-#################################################################################
+ #################################################################################
 # Catena-X - Product Passport Consumer Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
@@ -23,16 +23,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "digital-product-pass.fullname" . }}-test-connection"
+  name: dpp-test-connection
   labels:
-    {{- include "digital-product-pass.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
+    - name: backend
       image: busybox
       command: ['/bin/sh','-c']
       args: ["i=0; wget '{{ .Values.name }}:{{ .Values.service.port }}'/health -O /dev/null; while [ $i -ne 5 ]; do wget '{{ .Values.name }}:{{ .Values.service.port }}'/health -O /dev/null; sleep 6; i=$(($i+1)); done"]
-      # args: ['{{ include "digital-product-pass.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
+  

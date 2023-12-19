@@ -21,7 +21,7 @@
 #################################################################################
 
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "digital-product-pass.fullname" . -}}
+{{- $fullName := .Values.name -}}
 {{- $svcPort := .Values.service.port -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -43,7 +43,7 @@ metadata:
   name: {{ $fullName }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "digital-product-pass.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

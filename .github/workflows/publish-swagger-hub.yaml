@@ -66,25 +66,23 @@ jobs:
 
       - name: Extract versions
         run: |
-          export DOWNSTREAM_VERSION=${{ inputs.downstream-version }}
+          export DOWNSTREAM_VERSION=1.3.1
           export UPSTREAM_VERSION=${{ inputs.upstream-version }}
           echo "DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
           echo "UPSTREAM_VERSION=$UPSTREAM_VERSION" >> "$GITHUB_ENV"
 
-      - name: Resolve TX DPP API Spec
+      - name: Create and Download API specs
         shell: bash
         run: |
-          ./gradlew resolve
-
-      - name: Download upstream API specs
-        run: |
-          curl -X GET https://api.swaggerhub.com/apis/eclipse-edc-bot/management-api/${{ env.UPSTREAM_VERSION }}/swagger.yaml > resources/openapi/yaml/upstream-management-api.yaml
-          curl -X GET https://api.swaggerhub.com/apis/eclipse-edc-bot/control-api/${{ env.UPSTREAM_VERSION }}/swagger.yaml > resources/openapi/yaml/upstream-control-api.yaml
-
-      - name: Merge API specs
-        run: |
-          ./gradlew -PapiTitle="Tractus-X DPP REST API" -PapiDescription="Tractus-X DPP API Documentation" :mergeApiSpec --input=./resources/openapi/yaml --output=./resources/openapi/yaml/tractusx-dpp-api.yaml
-
+          cd consumer-backend/productpass
+          mvn -B clean install
+          docker build . --tag dpp-backend:test
+          docker run -p 8888:8888 --name test-container -d dpp-backend:test
+          sleep 5
+          curl -X GET http://localhost:8888/v3/api-docs.yaml > resources/openapi/yaml/tractusx-dpp-api.yaml
+          docker stop test-container
+          docker rm test-container
+              
       # create API, will fail if exists
       - name: Create API
         continue-on-error: true

@@ -173,32 +173,32 @@ export default class BackendService {
             retries++;
         }
         let history = jsonUtil.get("data.history", statusResponse);
-        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
+        if (jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) {
             return await this.retrievePassport(negotiation, authentication);
         }
         // Get status again
         statusResponse = await this.getStatus(processId, authentication)
         status = jsonUtil.get("data.status", statusResponse);
         history = jsonUtil.get("data.history", statusResponse);
-        if(jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)){
+        if (jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) {
             return await this.retrievePassport(negotiation, authentication);
         }
 
         retries = 0;
         // Until the transfer is completed or the status is failed
-        while(retries < maxRetries){
+        while (retries < maxRetries) {
             // Wait
             await threadUtil.sleep(waitingTime);
             // Refresh the values
             statusResponse = await this.getStatus(processId, authentication);
             status = jsonUtil.get("data.status", statusResponse);
             history = jsonUtil.get("data.history", statusResponse);
-            if((jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) || status === "FAILED"){
+            if ((jsonUtil.exists("transfer-completed", history) && jsonUtil.exists("data-received", history)) || status === "FAILED") {
                 break;
             }
             retries++;
         }
-        
+
         // If the status is failed...
         if (status === "FAILED") {
             return this.getErrorMessage(
@@ -210,7 +210,7 @@ export default class BackendService {
         // If is not failed return the passport
         return await this.retrievePassport(negotiation, authentication);
     }
-    
+
     getErrorMessage(message, status, statusText) {
         return {
             "message": message,
@@ -302,6 +302,17 @@ export default class BackendService {
                 });
         });
     }
+    async acceptContract(contractToSign) {
+        return new Promise(resolve => {
+            axios.post(`${BACKEND_URL}/api/data`, contractToSign)
+                .then((response => {
+                    resolve(response.data);
+                })
+                    .catch(error => {
+                        console.error('Error accepting contract', error);
+                    }))
+        });
+    }
     async retrievePassport(negotiation, authentication) {
         return new Promise(resolve => {
             let body = this.getRequestBody(negotiation);
@@ -336,7 +347,6 @@ export default class BackendService {
                     } else {
                         resolve(e.message)
                     }
-
                 });
         });
     }
@@ -345,6 +355,8 @@ export default class BackendService {
             let body = this.getSearchBody(id, processId);
             axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
                 .then((response) => {
+                    // Setting the status to the Store state
+                    store.commit('setSearchData', response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {

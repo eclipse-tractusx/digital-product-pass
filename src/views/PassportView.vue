@@ -225,14 +225,14 @@ export default {
       irsData: [],
       processId: null,
       backendService: null,
-      error: true,
+      error: false,
       errorObj: {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
-      }
+      },
     };
   },
 
@@ -316,10 +316,7 @@ export default {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await this.backendService.getPassport(
-          id,
-          this.auth
-        );
+        response = await this.backendService.getPassport(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)

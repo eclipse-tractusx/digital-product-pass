@@ -42,6 +42,57 @@
             <p class="text-caption">
               {{ condition ? idLabel : "" }}
             </p>
+            <template v-if="contractSign && contractItems.length > 1">
+              <v-overlay class="contract-modal" v-model="showOverlay">
+                <v-card class="contract-container">
+                  <v-card-title class="justify-center">
+                    Choose a policy
+                  </v-card-title>
+                  <v-radio-group class="content-container" v-model="radios">
+                    <v-radio
+                      v-for="(item, index) in contractItems"
+                      :key="index"
+                      @click="chooseContract(item)"
+                      :label="
+                        item['odrl:action']['odrl:type'] +
+                        ': ' +
+                        '[' +
+                        item['odrl:constraint']['odrl:or']['odrl:leftOperand'] +
+                        ']' +
+                        operatorMapper(
+                          item['odrl:constraint']['odrl:or']['odrl:operator'][
+                            '@id'
+                          ]
+                        ) +
+                        '[' +
+                        item['odrl:constraint']['odrl:or'][
+                          'odrl:rightOperand'
+                        ] +
+                        ']'
+                      "
+                      :value="index"
+                    ></v-radio>
+                  </v-radio-group>
+                  <v-row class="pt-8 justify-center">
+                    <v-btn
+                      color="#0F71CB"
+                      class="text-none"
+                      variant="outlined"
+                      @click="declineContract()"
+                      >Decline</v-btn
+                    >
+                    <v-btn
+                      class="text-none ms-4 text-white"
+                      color="#0F71CB"
+                      @click="
+                        callAcceptContract(this.contractToSign['odrl:target'])
+                      "
+                      >Agree</v-btn
+                    >
+                  </v-row>
+                </v-card>
+              </v-overlay>
+            </template>
           </div>
         </div>
       </div>
@@ -50,6 +101,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import store from "../../store/index";
+import BackendService from "@/services/BackendService";
+
 export default {
   name: "StepperItem",
   props: {
@@ -58,7 +113,76 @@ export default {
     successStepSubTitle: { type: [String, Number], default: "" },
     initialStepSubTitle: { type: [String, Number], default: "" },
     displayId: { type: Boolean, default: false },
+    contractSign: { type: Boolean, default: false },
     idLabel: { type: [String, Number], default: "" },
+  },
+  data: () => ({
+    showOverlay: false,
+    contractItems: [],
+    radios: 0,
+  }),
+  computed: {
+    ...mapState(["searchData", "contractToSign"]),
+  },
+  async created() {
+    this.backendService = new BackendService();
+  },
+  mounted() {
+    this.contractItems =
+      this.searchData.contract["odrl:hasPolicy"]["odrl:permission"];
+    this.contractToSign = store.commit(
+      "setContractToSign",
+      this.contractItems[0]
+    );
+
+    this.shouldShowOverlay();
+  },
+  methods: {
+    operatorMapper(operator) {
+      let opr = operator.replace("odrl:", "");
+      if (opr == "eq") {
+        return " = ";
+      }
+      return opr;
+    },
+    chooseContract(contract) {
+      return (this.contractToSign = store.commit(
+        "setContractToSign",
+        contract
+      ));
+    },
+    shouldShowOverlay() {
+      if (this.contractItems.length > 1) {
+        return (this.showOverlay = true);
+      }
+    },
+    async callAcceptContract(contractToSign) {
+      try {
+        // let response = await this.backendService.acceptContract(contractToSign);
+        // return response;
+        alert(contractToSign);
+      } catch (error) {
+        console.error("Error accepting contract", error);
+      } finally {
+        this.contractItems = [];
+      }
+    },
+    declineContract() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
+
+<style scoped>
+.contract-modal {
+  justify-content: center;
+  align-items: center;
+}
+.content-container {
+  margin-top: 20px;
+}
+.contract-container {
+  padding: 20px 80px 50px 80px;
+}
+</style>

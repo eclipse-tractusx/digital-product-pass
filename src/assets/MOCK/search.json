@@ -1,0 +1,60 @@
+{
+  "status": 200,
+  "data": {
+    "id": "ededdca7-998d-4cd6-94a1-dd1e24025a85",
+    "token": "37da8e38e4dc14d32c0edfa82a0ea94bbf39e4013c010bfdfececdc58eadf0c5",
+    "contract": {
+      "@id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19",
+      "@type": "dcat:Dataset",
+      "odrl:hasPolicy": {
+        "@id": "MDc4NjZjMTQtOGE0YS00ZjQ3LWEyYzgtMWI5MmEwOGQ1NTlm:dXJuOnV1aWQ6MGVjOGNmMmItZjU4ZS0zZjEzLWI1ZWYtZTdkZDAxZDE1YjE5:ZDJhNGZjMDItNjc0MS00NGUzLWE5MjUtODNjZDJkMDc0MTk0",
+        "@type": "odrl:Set",
+        "odrl:permission": {
+          "odrl:target": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19",
+          "odrl:action": {
+            "odrl:type": "USE"
+          },
+          "odrl:constraint": {
+            "odrl:or": [
+              {
+                "odrl:leftOperand": "Membership",
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "active"
+              },
+              {
+                "odrl:leftOperand": "FrameworkAgreement.sustainability",
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": [],
+        "odrl:target": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
+      },
+      "dcat:distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "dct:format": {
+            "@id": "HttpProxy"
+          },
+          "dcat:accessService": "f3276bfe-7337-46f8-863f-75661717fb59"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "dct:format": {
+            "@id": "AmazonS3"
+          },
+          "dcat:accessService": "f3276bfe-7337-46f8-863f-75661717fb59"
+        }
+      ],
+      "edc:description": "Digital Product Passport (DPP) test data",
+      "edc:id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
+    }
+  }
+}

@@ -28,22 +28,17 @@ on:
     branches: [ "feature/swaggerhub-workflow" ]
   workflow_call:
     inputs:
-      downstream-version:
+      version:
         required: false
-        type: string
-      upstream-version:
-        required: false
+        default: 'main'
         type: string
 
   workflow_dispatch:
     inputs:
-      downstream-version:
+      version:
         required: false
         description: "Version of the DPP API is to be published"
-        type: string
-      upstream-version:
-        required: false
-        description: "Version of DPP which is to be used"
+        default: 'main'
         type: string
 
 jobs:
@@ -66,21 +61,23 @@ jobs:
 
       - name: Extract versions
         run: |
-          export DOWNSTREAM_VERSION=1.3.1
-          export UPSTREAM_VERSION=${{ inputs.upstream-version }}
-          echo "DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
-          echo "UPSTREAM_VERSION=$UPSTREAM_VERSION" >> "$GITHUB_ENV"
+          export DOWNSTREAM_VERSION=${{ inputs.version }}
+          echo "[INFO] - DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
 
       - name: Create and Download API specs
         shell: bash
         run: |
           cd consumer-backend/productpass
+          echo "[INFO] - Compiling the backend"
           mvn -B clean install
+          echo "[INFO] - Building a docker image - backend:test"
           docker build . --tag dpp-backend:test
+          echo "[INFO] - Starting a docker container to download API specs - test-container"
           docker run -p 8888:8888 --name test-container -d dpp-backend:test
-          sleep 10
+          echo "[INFO] - Wait for some seconds until the docker container comes up"
+          sleep 8
           curl -X GET http://localhost:8888/v3/api-docs.yaml > ./tractusx-dpp-api.yaml
-          cat ./tractusx-dpp-api.yaml
+          echo "[INFO] - Stopping and removing docker container"
           docker stop test-container
           docker rm test-container
               
@@ -88,17 +85,16 @@ jobs:
       - name: Create API
         continue-on-error: true
         run: |
-          ls -l
           swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
 
       # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
       - name: Publish API Specs to SwaggerHub
         run: |
           if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
-            echo "no snapshot, will set the API to 'published'";
+            echo "[INFO] - no snapshot, will set the API to 'published'";
             swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=publish
             swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
           else
-            echo "snapshot, will set the API to 'unpublished'";
+            echo "[INFO] - snapshot, will set the API to 'unpublished'";
             swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
           fi

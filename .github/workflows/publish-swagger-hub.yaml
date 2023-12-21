@@ -78,8 +78,9 @@ jobs:
           mvn -B clean install
           docker build . --tag dpp-backend:test
           docker run -p 8888:8888 --name test-container -d dpp-backend:test
-          sleep 5
-          curl -X GET http://localhost:8888/v3/api-docs.yaml > resources/openapi/yaml/tractusx-dpp-api.yaml
+          sleep 10
+          curl -X GET http://localhost:8888/v3/api-docs.yaml > ./tractusx-dpp-api.yaml
+          cat ./tractusx-dpp-api.yaml
           docker stop test-container
           docker rm test-container
               
@@ -87,16 +88,17 @@ jobs:
       - name: Create API
         continue-on-error: true
         run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./resources/openapi/yaml/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+          ls -l
+          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
 
       # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
       - name: Publish API Specs to SwaggerHub
         run: |
           if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
             echo "no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./resources/openapi/yaml/tractusx-dpp-api.yaml --visibility=public --published=publish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=publish
             swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
           else
             echo "snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./resources/openapi/yaml/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
           fi

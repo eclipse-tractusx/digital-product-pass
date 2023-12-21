@@ -25,7 +25,9 @@ name: "Publish OpenAPI to Swaggerhub"
 
 on:
   push:
-    branches: [ "feature/swaggerhub-workflow" ]
+    branches: [ "main", "develop" ]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_call:
     inputs:
       version:

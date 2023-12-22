@@ -291,21 +291,91 @@
     },
     "additionalData": [
       {
-        "description": "Description of an attribute",
-        "label": "Maximum permitted battery power",
+        "description": "This is the machine parameters that are produced when the machine is used",
+        "label": "Specific Manufacturer Machine Parameters",
         "type": {
           "typeUnit": null,
           "dataType": "object"
         },
         "children": [
           {
-            "description": "Description of an attribute child",
-            "label": "Maximum permitted battery power child",
+            "description": "The usage of the eletricity in the machine",
+            "label": "Eletricity Usage",
             "type": {
-              "typeUnit": "unit:volume",
-              "dataType": "array"
+              "typeUnit": "unit:volts",
+              "dataType": "integer"
             },
             "data": "25"
+          },
+          {
+            "description": "The name of the machine that produced the product",
+            "label": "Machine Name",
+            "type": {
+              "typeUnit": null,
+              "dataType": "string"
+            },
+            "data": "Laser Machine MX-421W"
+          },
+          {
+            "description": "The list of products the machine can produce",
+            "label": "Product Names",
+            "type": {
+              "typeUnit": null,
+              "dataType": "string"
+            },
+            "data": [
+              "Tranmissions",
+              "Batteries",
+              "Seats",
+              "Doors"
+            ]
+          }
+        ]
+      },
+      {
+        "description": "This are the properties of interest",
+        "label": "Properties of Interest",
+        "type": {
+          "typeUnit": null,
+          "dataType": "object"
+        },
+        "children":[
+          {
+            "description": "This are the main properties of interest",
+            "label": "Main Properties",
+            "type": {
+              "typeUnit": null,
+              "dataType": "object"
+            },
+            "children":[
+              {
+                "description": "This is the Normal temperature of production",
+                "label": "Normal Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": 62.7
+              },
+              {
+                "description": "This is the minimmum temperature of production",
+                "label": "Minimum Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": -80.68
+              },
+              {
+                "description": "This is the maximum temperature of production",
+                "label": "Maximum Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": 800.85
+              }
+            ]
           }
         ]
       }

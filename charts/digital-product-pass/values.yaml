@@ -196,9 +196,9 @@ oauth:
     enabled: false
     # -- this bpn needs to be included in the user login information when the check is enabled
     bpn: *bpn
-  # -- the role check checks if the user has access roles for the appId  
+  # -- the role check checks if the user has access roles for the appId
   roleCheck:
-    enabled: false  
+    enabled: false
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits

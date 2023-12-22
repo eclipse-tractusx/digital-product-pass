@@ -56,11 +56,11 @@ configuration:
 
   security:
     authorization:
-      bpnAuth: true
-      roleAuth: true
+      bpnAuth: false
+      roleAuth: false
     startUpChecks:
-      bpnCheck: true
-      edcCheck: true
+      bpnCheck: false
+      edcCheck: false
 
   irs:
     enabled: true

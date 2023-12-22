@@ -76,6 +76,9 @@ export default {
         }
         return uniqueKey; //Return unique id
     },
+    toJson(json){
+        return JSON.parse(json);
+    },
     flatternJsonAttributes(json, attributes=[], sep=".", allowNull = false, allowEmpty = false) {
         if (json == null) return null;
         if (!(json instanceof Object)) return json;

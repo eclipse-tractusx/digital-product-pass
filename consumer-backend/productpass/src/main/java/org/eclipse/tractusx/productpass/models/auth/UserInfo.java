@@ -23,12 +23,14 @@
 
 package org.eclipse.tractusx.productpass.models.auth;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This class consists exclusively to define attributes and methods related to the needed User's information.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserInfo {
 
@@ -37,6 +39,8 @@ public class UserInfo {
     String sub;
     @JsonProperty("email_verified")
     String email_verified;
+    @JsonProperty("bpn")
+    String bpn;
     @JsonProperty("name")
     String name;
     @JsonProperty("preferred_username")
@@ -51,7 +55,23 @@ public class UserInfo {
     String email;
 
     /** CONSTRUCTOR(S) **/
+
     @SuppressWarnings("Unused")
+    public UserInfo() {
+    }
+
+    public UserInfo(String sub, String email_verified, String bpn, String name, String preferred_username, String locale, String given_name, String family_name, String email) {
+        this.sub = sub;
+        this.email_verified = email_verified;
+        this.bpn = bpn;
+        this.name = name;
+        this.preferred_username = preferred_username;
+        this.locale = locale;
+        this.given_name = given_name;
+        this.family_name = family_name;
+        this.email = email;
+    }
+
     public UserInfo(String sub, String email_verified, String name, String preferred_username, String locale, String given_name, String family_name, String email) {
         this.sub = sub;
         this.email_verified = email_verified;
@@ -61,9 +81,6 @@ public class UserInfo {
         this.given_name = given_name;
         this.family_name = family_name;
         this.email = email;
-    }
-    @SuppressWarnings("Unused")
-    public UserInfo() {
     }
 
     /** GETTERS AND SETTERS **/
@@ -128,5 +145,13 @@ public class UserInfo {
     @SuppressWarnings("Unused")
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
     }
 }

@@ -211,6 +211,7 @@ npm/npmjs/-/vscode-languageserver-types/3.16.0, MIT, approved, clearlydefined
 npm/npmjs/-/vscode-languageserver/7.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/vscode-uri/3.0.7, MIT, approved, #5741
 npm/npmjs/-/vue-eslint-parser/9.1.0, MIT, approved, #7091
+npm/npmjs/-/vue-i18n/9.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-router/4.0.13, MIT, approved, clearlydefined
 npm/npmjs/-/vue-template-compiler/2.7.14, 0BSD AND MIT AND MIT, approved, #3476
 npm/npmjs/-/vue-tsc/1.0.24, MIT, approved, clearlydefined
@@ -260,6 +261,9 @@ npm/npmjs/@esbuild/win32-x64/0.17.19, Apache-2.0 AND MIT AND BSD-3-Clause AND (B
 npm/npmjs/@eslint/eslintrc/0.4.3, MIT, approved, clearlydefined
 npm/npmjs/@humanwhocodes/config-array/0.5.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/object-schema/1.2.1, BSD-3-Clause, approved, clearlydefined
+npm/npmjs/@intlify/core-base/9.4.1, , restricted, clearlydefined
+npm/npmjs/@intlify/message-compiler/9.4.1, , restricted, clearlydefined
+npm/npmjs/@intlify/shared/9.4.1, , restricted, clearlydefined
 npm/npmjs/@mdi/font/5.9.55, Apache-2.0, approved, clearlydefined
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
@@ -275,7 +279,7 @@ npm/npmjs/@vue/compiler-core/3.2.47, MIT, approved, #7097
 npm/npmjs/@vue/compiler-dom/3.2.47, MIT, approved, #7093
 npm/npmjs/@vue/compiler-sfc/3.2.47, MIT, approved, #3104
 npm/npmjs/@vue/compiler-ssr/3.2.47, MIT, approved, #7098
-npm/npmjs/@vue/devtools-api/6.0.12, MIT, approved, clearlydefined
+npm/npmjs/@vue/devtools-api/6.5.1, MIT, approved, clearlydefined
 npm/npmjs/@vue/reactivity-transform/3.2.47, MIT, approved, #3096
 npm/npmjs/@vue/reactivity/3.2.47, MIT, approved, #7088
 npm/npmjs/@vue/runtime-core/3.2.47, MIT, approved, #7086

@@ -20,81 +20,152 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { REDIRECT_URI, INIT_OPTIONS } from "@/services/service.const";
+import { REDIRECT_URI, INIT_OPTIONS, BPN_CHECK, BPN, ROLE_CHECK } from "@/services/service.const";
 import Keycloak from 'keycloak-js';
-
+import authUtil from "@/utils/authUtil";
+import jsonUtil from "@/utils/jsonUtil";
 export default class Authentication {
-    constructor() {
-      this.keycloak = new Keycloak(INIT_OPTIONS);
+  constructor() {
+    this.keycloak = new Keycloak(INIT_OPTIONS);
+  }
+  isAuthorized(parsedToken) {
+    if (!BPN_CHECK && !ROLE_CHECK) {
+      return true;
     }
-    keycloakInit(app) {
-      this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
-        if (!auth) {
-          window.location.reload();
+
+    if (!parsedToken) {
+      return false;
+    }
+
+    // Get conditions for authorization 
+    let bpnAuthorized = authUtil.checkBpn(parsedToken, BPN);
+    let roleAuthorized = this.hasRoles();
+
+    // Authorize according to configuration 
+    if ((BPN_CHECK && ROLE_CHECK) && (bpnAuthorized && roleAuthorized)) { // In case both a valid everything needs to be true
+      return true;
+    } else if ((!BPN_CHECK && ROLE_CHECK) && roleAuthorized) { // In case just the role is valid just the role needs to be true
+      return true;
+    } else if ((BPN_CHECK && !ROLE_CHECK) && bpnAuthorized) { // In case the 
+      return true;
+    }
+
+    return false;
+
+  }
+  keycloakInit(app) {
+    var authProperties = app.config.globalProperties.$authProperties;
+    this.keycloak.init({ onLoad: INIT_OPTIONS.onLoad }).then((auth) => {
+      if (!auth) {
+        window.location.reload();
+      }
+      else {
+        // Check if the refresh token is valid and authenticated
+        if(this.keycloak.tokenParsed){
+          authProperties.loginReachable = true; 
+        } 
+        authProperties.isAuthorized = this.isAuthorized(this.keycloak.tokenParsed);
+      }
+
+      app.config.globalProperties.$authProperties = authProperties;
+      app.mount('#app');
+      //Token Refresh
+      setInterval(() => {
+        this.updateToken(60, app);
+      }, 60000);
+    }).catch((e) => {
+      console.log(e);
+      authProperties.loginReachable = false;
+      authProperties.isAuthorized = false;
+      app.config.globalProperties.$authProperties = authProperties;
+      app.mount('#app');
+    });
+  }
+  getAccessToken() {
+    return this.keycloak.token;
+  }
+
+  getRefreshedToken() {
+    return this.keycloak.refreshToken;
+  }
+
+  updateToken(minimumValidity, app) {
+    this.keycloak.updateToken(minimumValidity).then((refreshed) => {
+      if (refreshed) {
+        // Check if the refresh token is valid and authenticated
+        if(this.keycloak.parsedToken){
+          app.config.globalProperties.$authProperties.loginReachable = true; 
+        }else{
+          app.config.globalProperties.$authProperties.loginReachable = false;
         }
-        else {
-          app.mount('#app');
-        }
-        //Token Refresh
-        setInterval(() => {
-          this.updateToken(60);
-        }, 60000);
+        app.config.globalProperties.$authProperties.isAuthorized = this.isAuthorized(this.keycloak.parsedToken);
+        console.info('Token refreshed ' + refreshed);
+      } else {
+        console.warn('Token not refreshed, valid for '
+          + Math.round(this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+      }
+    }).catch(() => {
+      console.error("updateToken -> Failed to refresh token");
+    });
+  }
 
-      }).catch((e) => {
-        console.log(e);
-        console.error("keycloakInit -> Login Failure");
-      });
-    }
-    getAccessToken() {
-      return this.keycloak.token;
-    }
+  isUserAuthenticated() {
+    return this.keycloak.authenticated;
+  }
+  getClientId() {
+    return this.keycloak.clientId;
+  }
+  getUserName() {
+    return this.keycloak.tokenParsed.email;
+  }
+  getName() {
+    return this.keycloak.tokenParsed.name;
+  }
+  getBpn() {
+    return this.keycloak.tokenParsed.bpn;
+  }
+  getSessionId() {
+    return this.keycloak.sessionId;
+  }
+  hasRoles() {
+    try {
+      let clientId = this.getClientId();
+      if (!clientId || !this.keycloak.resourceAccess) {
+        return false;
+      }
 
-    getRefreshedToken() {
-      return this.keycloak.refreshToken;
-    }
+      if (!jsonUtil.exists(clientId, this.keycloak.resourceAccess)) {
+        return false;
+      }
 
-    updateToken(minimumValidity) {
-      this.keycloak.updateToken(minimumValidity).then((refreshed) => {
-        if (refreshed) {
-          console.info('Token refreshed' + refreshed);
-        } else {
-          console.warn('Token not refreshed, valid for '
-                    + Math.round(this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-        }
-      }).catch(() => {
-        console.error("updateToken -> Failed to refresh token");
-      });
-    }
+      let appIdResource = jsonUtil.get(clientId, this.keycloak.resourceAccess, ".", null);
+      if (appIdResource==null || !jsonUtil.exists("roles", appIdResource)) {
+        return false;
+      }
 
-    isUserAuthenticated() {
-      return this.keycloak.authenticated;
+      let roleList = jsonUtil.get("roles", appIdResource, ".", null);
+      if(roleList == null){
+        return false;
+      }
+      return roleList.length > 0;
+    } catch (e) {
+      return false;
     }
-    getClientId() {
-      return this.keycloak.clientId;
+  }
+  getRole() {
+    let clientRoles = "";
+    let clientId = this.getClientId();
+    if (this.hasRoles()) {
+      clientRoles = this.keycloak.resourceAccess[clientId].roles;
     }
-    decodeAccessToken() {
-      return JSON.parse(window.atob(this.keycloak.token.split(".")[1]));
-    }
-    getUserName() {
-      return this.decodeAccessToken().email;
-    }
-    getName() {
-      return this.decodeAccessToken().name;
-    }
-    getSessionId() {
-      return this.keycloak.sessionId;
-    }
-    getRole() {
-      let clientRoles = '';
-      clientRoles = this.keycloak.resourceAccess[this.getClientId()].roles;
-      return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
-    }
-    logout() {
-      let logoutOptions = { redirectUri: REDIRECT_URI };
-      this.keycloak.logout(logoutOptions).then((success) => {
-        console.log("--> log: logout success ", success);
-      }).catch((error) => {
-        console.log("--> log: logout error ", error);
-      });
-    }
+    return clientRoles.length == 1 ? clientRoles[0] : clientRoles;
+  }
+  logout() {
+    let logoutOptions = { redirectUri: REDIRECT_URI };
+    this.keycloak.logout(logoutOptions).then((success) => {
+      console.log("--> log: logout success ", success);
+    }).catch((error) => {
+      console.log("--> log: logout error ", error);
+    });
+  }
 }

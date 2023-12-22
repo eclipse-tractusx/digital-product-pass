@@ -30,7 +30,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/documentation/?path=docs"
+            :href="portalUrl+'/documentation/?path=docs'"
             >Help</a
           >
         </div>
@@ -38,7 +38,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/contact"
+            :href="portalUrl+'/contact'"
             >Contact</a
           >
         </div>
@@ -46,7 +46,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/imprint"
+            :href="portalUrl+'/imprint'"
             >Imprint</a
           >
         </div>
@@ -54,7 +54,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/privacy"
+            :href="portalUrl+'/privacy'"
             >Privacy</a
           >
         </div>
@@ -62,7 +62,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/terms"
+            :href="portalUrl+'/terms'"
             >Terms of Service</a
           >
         </div>
@@ -70,7 +70,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/cookiepolicy"
+            :href="portalUrl+'/cookiepolicy'"
             >Cookies</a
           >
         </div>
@@ -78,7 +78,7 @@
           <a
             id="lnkHelp"
             target="_blank"
-            href="https://portal.int.demo.catena-x.net/thirdpartylicenses"
+            :href="portalUrl+'/thirdpartylicenses'"
             >Third Party Licenses</a
           >
         </div>
@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { VERSION, REPO_ENDPOINT, COMMIT_ID } from "@/services/service.const";
+import { VERSION, REPO_ENDPOINT, COMMIT_ID, PORTAL_URL } from "@/services/service.const";
 import DialogComponent from "../general/Dialog.vue";
 export default {
   name: "FooterComponent",
@@ -157,6 +157,7 @@ export default {
   data() {
     return {
       baseCommitUrl: REPO_ENDPOINT+'/blob/'+COMMIT_ID,
+      portalUrl: PORTAL_URL
     };
   },
   computed: {

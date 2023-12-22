@@ -702,7 +702,6 @@ public final class JsonUtil {
         }
     }
 
-
     /**
      * Parses the JSON object to a Map type object.
      * <p>
@@ -722,7 +721,6 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }
     }
-
     /**
      * Binds the JsonNode object to the given class type object.
      * <p>

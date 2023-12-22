@@ -55,10 +55,12 @@ configuration:
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
 
   security:
-    check:
-      enabled: false
-      bpn: true
-      edc: true
+    authorization:
+      bpnAuth: true
+      roleAuth: true
+    startUpChecks:
+      bpnCheck: true
+      edcCheck: true
 
   irs:
     enabled: true
@@ -72,8 +74,6 @@ configuration:
 
   dtr:
     assetType: 'data.core.digitalTwinRegistry'
-    central: false
-    centralUrl: 'https://semantics.int.demo.catena-x.net/registry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
@@ -83,7 +83,8 @@ configuration:
       subModel: "/submodel-descriptors"
     timeouts:
       search: 10
-      negotiation: 40
+      negotiation: 10
+      dtrRequestProcess: 40
       transfer: 10
       digitalTwin: 20
     temporaryStorage:
@@ -125,6 +126,7 @@ configuration:
     indent: 2
     defaultValue: '<Add secret value here>'
     attributes:
+      - "appId"
       - "client.id"
       - "client.secret"
       - "edc.apiKey"

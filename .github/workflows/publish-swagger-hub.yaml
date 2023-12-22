@@ -69,7 +69,7 @@ jobs:
       - name: Create and Download API specs
         shell: bash
         run: |
-          cd backend/productpass
+          cd dpp-backend/digitalproductpass
           echo "[INFO] - Compiling the backend"
           mvn -B clean install
           echo "[INFO] - Building a docker image - backend:test"

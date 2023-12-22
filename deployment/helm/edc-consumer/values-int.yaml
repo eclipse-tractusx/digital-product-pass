@@ -218,7 +218,7 @@ irs-helm:
   digitalTwinRegistry:
     type: decentral
     url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -232,17 +232,21 @@ irs-helm:
   minioPassword: <path:material-pass/data/int/irs/minio#password>
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
-  keycloak:
-    oauth2:
-      clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
-      clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+  oauth2:
+    clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
+    clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
+    clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
     catalog:
-      policies:
-        allowedNames: "DPP, ID 3.0 Trace, ID 3.1 Trace, R2_Traceability, FrameworkAgreement.traceability, Membership"
+      acceptedPolicies:
+        - leftOperand: "FrameworkAgreement.sustainability"	
+          operator: "eq"	
+          rightOperand: "active"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
     controlplane:
       endpoint:
         data: https://materialpass.int.demo.catena-x.net/consumer/management

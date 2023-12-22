@@ -321,7 +321,7 @@
             "label": "Product Names",
             "type": {
               "typeUnit": null,
-              "dataType": "string"
+              "dataType": "array"
             },
             "data": [
               "Tranmissions",

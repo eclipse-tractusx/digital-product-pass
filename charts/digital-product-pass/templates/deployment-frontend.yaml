@@ -69,6 +69,21 @@ spec:
             - name: "KEYCLOAK_ONLOAD"
               value: "{{ .Values.oauth.onLoad }}"
 
+            - name: "AUTH_ROLE_CHECK"
+              value: "{{ .Values.oauth.roleCheck.enabled | default false }}"
+
+            - name: "AUTH_BPN_CHECK"
+              value: "{{ .Values.oauth.bpnCheck.enabled | default false }}"
+
+            - name: "AUTH_BPN_NUMBER"
+              value: "{{ .Values.oauth.bpnCheck.bpn }}"
+
+            - name: "APP_PORTAL_URL"
+              value: "https://{{ .Values.frontend.portal.hostname }}"
+
+            - name: "APP_ADMIN_EMAIL"
+              value: "{{ .Values.frontend.supportContact.adminEmail }}"
+
             - name: "BACKEND_URL"
               value: "https://{{ .Values.frontend.backend.hostname }}"
 

@@ -55,10 +55,12 @@ configuration:
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
 
   security:
-    check:
-      enabled: false
-      bpn: true
-      edc: true
+    authorization:
+      bpnAuth: true
+      roleAuth: true
+    startUpChecks:
+      bpnCheck: true
+      edcCheck: true
 
   irs:
     enabled: true
@@ -124,6 +126,7 @@ configuration:
     indent: 2
     defaultValue: '<Add secret value here>'
     attributes:
+      - "appId"
       - "client.id"
       - "client.secret"
       - "edc.apiKey"

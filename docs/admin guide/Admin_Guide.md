@@ -198,7 +198,7 @@ When configurating you EDC provider you will be able to set some assets which re
 | AssetId                 | Combination of Digital Twin and Sub Model UUIDs                                                                                  | **Example value for asset**: urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 <br/>**Example value for registry**: digital-twin-registry                                                                                                                                                                                                                                                          |
 | AssetType               | The type of the Asset                                                                                                            | **Example value for asset**: Asset <br/>**Example value for registry**: data.core.digitalTwinRegistry                                                                                                                                                                                                                                                                                                                          |
 | Description             | Simple description of the asset                                                                                                  | Battery Passport Test Data                                                                                                                                                                                                                                                                                                                                                                                                 |
-| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinId}}-{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry](https://materialpass.int.demo.catena-x.net/semantics/registry) |
+| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0](https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0) |
 | DigitalTwinId           | Id from the Digital Twin	                                                                                                        | urn:uuid:de98db6e-8e05-5d8e-8ae8-9f702cf5c396                                                                                                                                                                                                                                                                                                                                                                                      |
 | DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | urn:uuid:555c5513-5e52-2d7d-0904-fe90829252de                                                                                                                                                                                                                                                                                                                                                                                    |
 
@@ -330,6 +330,8 @@ For framework agreement and membership in Catena-X check add this policy:
 
 ```
 
+> *NOTE*: If your SSI credentials do not include both membership and framework agreement, you can use the `odrl:or` keyword instead of the default `odrl:and` keyword. Make sure you credentials are correctly configured in order to access the resources in the EDC from your providers.
+
 
 ### Contract Definition Configuration
 
@@ -385,9 +387,11 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | EDCProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) |
 | BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
 | SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
-| BammModelVersionId | The semantic version of the asset passport model, currently the  version v3.0.1 is used | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
+| BammModelVersionId | The semantic version from the submodel aspect, consult the CX-0096 for more options of the semantic version | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
 
 > **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here.*
+
+
 
 
 #### Format and Fields:
@@ -506,10 +510,10 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 
 | Name         | Description                                 | Example Value                                                 |
 |--------------|---------------------------------------------|---------------------------------------------------------------|
-| registryUrl  | The base url from the digital twin registry | https://materialpass.int.demo.catena-x.net/semantics/registry |
+| registryUrl  | The base url from the digital twin registry | https://<registry-hostname>/semantics/registry/api/v3.0 |
 | registryName | The name from the asset for the registry    | digital-twin-registry                                         |
 
-> **IMPORTANT**: Is mandatory by the Catena-X Standard CX-0002 from the Digital Twin Registry, the asset type should be `data.core.digitalTwinRegistry` in order to the digital product pass to find the asset in the EDC.
+> **IMPORTANT**: Is mandatory by the *Catena-X Standard CX-0002* from the Digital Twin Registry, the asset type should be `data.core.digitalTwinRegistry` in order to the digital product pass to find the asset in the EDC.
 
 #### Format and Fields:
 

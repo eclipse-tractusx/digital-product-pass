@@ -42,6 +42,11 @@ let realm = "KEYCLOAK_REALM";
 let onLoad = "KEYCLOAK_ONLOAD";
 let commitId = "REPO_COMMIT_ID";
 let repoEndpoint = "REPO_ENDPOINT_URL";
+let roleCheck = "AUTH_ROLE_CHECK";
+let bpnCheck = "AUTH_BPN_CHECK";
+let bpn = "AUTH_BPN_NUMBER";
+let portalUrl = "APP_PORTAL_URL";
+let adminEmail = "APP_ADMIN_EMAIL";
 
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
@@ -49,6 +54,11 @@ backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
 clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "") ? realm : "CX-Central"
 onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
+adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
+portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
+bpnCheck = (bpnCheck === "true")
+roleCheck = (roleCheck === "true")
+
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
@@ -70,6 +80,11 @@ const REALM = realm;
 const ONLOAD = onLoad;
 const COMMIT_ID = commitId;
 const REPO_ENDPOINT = repoEndpoint;
+const ROLE_CHECK = roleCheck;
+const BPN_CHECK = bpnCheck;
+const BPN = bpn;
+const PORTAL_URL = portalUrl;
+const ADMIN_EMAIL = adminEmail;
 
 // Initialize configuration objects
 let INIT_OPTIONS = {
@@ -92,4 +107,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME };
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK};

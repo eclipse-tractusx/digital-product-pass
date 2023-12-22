@@ -256,7 +256,7 @@ If the `configuration.dtr.central` is disabled the backend will also make a call
 
 As detailed at the [Data Retrieval Guide Phases](../data%20retrieval%20guide/DataRetrievalGuide.md#data-retrieval-flow) there are 4 main phases required to retrieve data in the **Catena-X Network**:
 
-    1. Discovery Phase
+    1. Discovery Phase 
     2. Digital Twin Registry Search Phase
     3. Digital Twin Search Phase
     4. Data Negotiation and Transfer Phase
@@ -394,7 +394,7 @@ Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/in
 
 The Item Relationship Service [IRS] (**[tractusx/item-relationship-service](https://github.com/eclipse-tractusx/item-relationship-service)**) is responsible for providing the drill down functionality the Digital Product Pass application needs for finding the children of the current passports.
 
-The IRS ([charts reference implementation](../deployment/helm/irs)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
+The IRS ([charts reference implementation](../../deployment/helm/irs)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
 
 > **NOTE**: The IRS Functionality can be deactivated by setting the following configuration at the `values.yaml` file to false: `backend.configuration.irs.enabled` or by setting the attribute `children` to false when the `/api/contract/search` API is called.
 
@@ -537,7 +537,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
 * [Administration Guide](../admin%20guide/Admin_Guide.md)
-* [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+* [API Documentation (Swagger)](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
 * [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
 
 
@@ -695,13 +695,6 @@ The application deployment is translated into Kubernetes resources through helm 
 | GitHub Container Registry (GHCR) | A container registry to store and manage container images and version them with tags |
 | Kubernetes deployment | Kubernetes manifest yaml files such as deployment, pod, service, ingress |
 | Argo CD | Application runtime environment managed by DevSecOps team |
-
-## Runtime View
-
-* Behavioral view
-* User Experience (UX) journey
-
-![Runtime View](./media/GraphicRuntimeView.png)
 
 ## Deployment View
 

@@ -44,7 +44,7 @@ In particular, the appliction is used to access the battery passport data provid
 
 Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.
 
-![General Info View](./docs/arc42/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./docs/arc42/media/GraphicBatteryPassportViewGeneralInfo.png)
 
 > **Note**: For more information check the [documentation section](./docs/README.md)
 
@@ -56,6 +56,7 @@ To get started you can have a look into our documentation:
 | ----------------------------------------------------------------          |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
 | [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
+| [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                  | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                    |
 | [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |

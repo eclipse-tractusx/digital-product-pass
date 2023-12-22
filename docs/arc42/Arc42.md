@@ -22,10 +22,12 @@
 
 # (CEC) ARC42 - Digital Product Pass Application Documentation
 
-![C-X Logo](./CXlogo.png) ![acr24 logo](./arc24logo.png)  
+![C-X Logo](./media/CXlogo.png) ![acr42 logo](./media/arc42logo.png)  
 
-Version: v3.0 <br>
-Latest Revision: Aug. 11, 2023
+| Version | v5.0 |
+| ------- | ---- | 
+
+Latest Revision: *Nov 20, 2023*
 
 
 ## Table of Contents
@@ -39,20 +41,42 @@ Latest Revision: Aug. 11, 2023
   - [System Scope and Context](#system-scope-and-context)
     - [Application State Diagram](#application-state-diagram)
     - [Technical Integration Design](#technical-integration-design)
+    - [Authentication \& Authorization](#authentication--authorization)
+      - [End User Token](#end-user-token)
+      - [Technical User Token](#technical-user-token)
       - [Start Up Services Calls](#start-up-services-calls)
-      - [Create API Diagram](#create-api-diagram)
+    - [Data Retrieval Flow](#data-retrieval-flow)
+      - [Discovery Phase](#discovery-phase)
+      - [Digital Twin Registry Search Phase](#digital-twin-registry-search-phase)
+        - [Create API Sequence Diagram](#create-api-sequence-diagram)
         - [Create Flow Diagram](#create-flow-diagram)
-      - [Search API Diagram](#search-api-diagram)
+      - [Digital Twin Search](#digital-twin-search)
+        - [Search with Drill Down](#search-with-drill-down)
+        - [Search API Sequence Diagram](#search-api-sequence-diagram)
         - [Search API Flow](#search-api-flow)
-      - [Sign API + Decline API + Cancel API + Passport API + Status API Diagram](#sign-api--decline-api--cancel-api--passport-api--status-api-diagram)
-        - [Sign Flow](#sign-flow)
-        - [Decline API Flow](#decline-api-flow)
-        - [Cancel API Flow](#cancel-api-flow)
-        - [Status API Flow](#status-api-flow)
-        - [Passport API Flow](#passport-api-flow)
+        - [Aspect Configuration](#aspect-configuration)
+      - [Data Negotiation and Transfer Phase](#data-negotiation-and-transfer-phase)
+        - [Agree API Sequence Diagram](#agree-api-sequence-diagram)
+        - [Agree Flow Diagram](#agree-flow-diagram)
+        - [Decline API Flow Diagram](#decline-api-flow-diagram)
+        - [Cancel API Flow Diagram](#cancel-api-flow-diagram)
+        - [Status API Flow Diagram](#status-api-flow-diagram)
+        - [Data API Flow Diagram](#data-api-flow-diagram)
+    - [Item Relationship Service Integration (Drill Down Functionality)](#item-relationship-service-integration-drill-down-functionality)
+        - [Input Parameters](#input-parameters)
+        - [Callback Url](#callback-url)
+        - [Important Notes](#important-notes)
+      - [Search API with IRS](#search-api-with-irs)
+        - [Search API Sequence with IRS](#search-api-sequence-with-irs)
+        - [Search API Flow with IRS](#search-api-flow-with-irs)
+      - [Drill Down Status Check with IRS](#drill-down-status-check-with-irs)
+        - [State API Description](#state-api-description)
+        - [Tree API Description](#tree-api-description)
+        - [Components API Description](#components-api-description)
+        - [Async Data Retrieval Sequence with IRS](#async-data-retrieval-sequence-with-irs)
+        - [Async Data Retrieval Flow with IRS](#async-data-retrieval-flow-with-irs)
     - [Business Context](#business-context)
     - [Technical Context](#technical-context)
-      - [Runtime Environments](#runtime-environments)
       - [Container Ecosystem](#container-ecosystem)
         - [Kubernetes Container platform (gardener)](#kubernetes-container-platform-gardener)
         - [Containers](#containers)
@@ -82,6 +106,12 @@ Latest Revision: Aug. 11, 2023
   - [Design Decisions](#design-decisions)
     - [Searching View](#searching-view)
     - [Battery Passport View](#battery-passport-view)
+    - [Digital Product Pass View](#digital-product-pass-view)
+    - [IRS Component Drill Down](#irs-component-drill-down)
+      - [Loading](#loading)
+      - [No Children Available](#no-children-available)
+      - [Tree of Components Available](#tree-of-components-available)
+      - [Error Occurred](#error-occurred)
   - [Quality Requirements](#quality-requirements)
     - [Quality Scenarios](#quality-scenarios)
   - [Risks and Technical Debts](#risks-and-technical-debts)
@@ -90,13 +120,19 @@ Latest Revision: Aug. 11, 2023
 
 ## Introduction and Goals
 
-Within the Catena-X Network, Digital Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
-
-This passports can be used for different products like **Batteries**, **Gearboxes**, etc. At the moment the only product implemented are **batteries**, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that will come in future versions.
+Within the Catena-X Network, Digital Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network. 
 
 The digital product pass app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
 
-This application is developed by the **Digital Product Pass Team**, one of the members from **Catena-X Circular Economy Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
+This passports can be used for different products like **Batteries**, **Gearboxes**, etc. The digital product pass frontend viewer at the moment supports tree types of passports:
+
+    - Digital Product Pass
+    - Battery Pass
+    - Transmission Pass
+
+The digital product pass backend has the power to retrieve any aspect from the Catena-X Network. More information at the [Aspect Configuration]()
+
+This application is developed by the **Digital Product Pass Team**, one of the members from **Catena-X Circular Economy Use Case Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
 
 ### Requirements Overview
 
@@ -133,13 +169,14 @@ Guardrails for Data Souveranity **We follow the Data Souveranity Guardrails from
 
 The Product Passport Application is a Catena-X terms a "blue" application. This means that it is a Business Application that accesses other "green" applications, like the BPN Discovery, EDC Discovery, Discovery Finder, Portal IAM (Keycloack), Secret Management (Hashi Corp Vault), which are provided by the Catena-X network.
 
-![System Scope and Context](./ContextDiagram.jpeg)
+
+![Data Retrieval Context](media/dataRetrieval/digitalProductPassContext.jpg)
 
 ### Application State Diagram
 
 This is the state diagram that describes the flow between the frontend and backend components of the application.
 
-![Application State Design](./StateDiagram.jpeg)
+![Application State Design](./media/dataRetrieval/userFlow.jpg)
 
 ### Technical Integration Design
 
@@ -150,11 +187,57 @@ The interaction between the Product Passport Application previous the "BatteryPa
 Here is a resume of the frontend and the backend communication.
 
 
-![Technical Integration Resume](./TechnicalIntegrationResume.jpeg)
+![Technical Integration Resume](./media/dataRetrieval/dataRetrievalResume.jpg)
 
 
 The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
 
+### Authentication & Authorization
+
+The authorization & authentication are dependent in the Portal Central IDP or a Keycloak instance.
+
+Here is an example of how the authentication & authorization works:
+
+![Authentication Flow](media/auth/authenticationFlow.jpg)
+
+The Digital Product Pass has two authorization methods:
+
+| Authorization Type            | Description                                                                                                                                                                                                                                                                                                                                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Portal Roles                  | Each digital product pass application contains an specific "AppId" provided by the portal in the Marketplace registration. And this Id shall be added to the configuration of the DPP Application in order to authenticate the user. If the end user contains any role added in the portal it will have access to the application if enabled. |
+| Business Partner Number (BPN) | The digital product pass application contains a check for the "BPN" of the end user. An option is also to allow the user to login if he is belonging to the company of the configured "EDC" so no user can act in name of a specific company.                                                                                                 |
+
+#### End User Token
+All the APIs in the Backend except the `/health` API are secured by the usage of JWT Tokens generated by the `Keycloak` or the `Central IDP` service for the End User.
+
+The Frontend is the responsible for obtaining this token and refreshing it, so in this way **the User Session is administrated in the Frontend Browser**, remaining at the client and **is not stored at the Backend**. In this way the Backend is just responsible for identifying which user and with which roles is logged in.
+
+> **NOTE**: At the moment role authentication is not implemented, so the backend is going to return the same information without checking the role, just checking if the Token is valid.
+
+*Frontend Auth Configuration*: `frontend.productpass.idp_url` and `frontend.productpass.keycloak` configurations are required to be added and need to be valid in order that the frontend component works.
+
+```yaml
+clientId: "<clientId>"
+realm: "<realm>"
+onLoad: "login-required"
+```
+
+*Backend Auth Configuration*: `backend.application.configuration.keycloak` is required to be completed: 
+```yaml
+realm: <realm>
+resource: "<clientId>"
+tokenUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/token'
+userInfoUri: 'https://<keycloak.url>/auth/realms/<realm>/protocol/openid-connect/userinfo'
+```
+
+#### Technical User Token
+In order that the Backend can access different services like the `IRS` or the `BPN Disocovery` for example, it needs to obtain at the `Keycloak` or `Central IDP` the an **Technical User Token**
+
+*Backend Technical User Auth Configuration*: `backend.edc` is required to be completed: 
+```yaml
+clientId: "<Add client id here>"
+clientSecret: "<Add client secret here>"
+```
 #### Start Up Services Calls
 
 During the start up from the backend 3 checks are performed.
@@ -168,85 +251,246 @@ During the start up from the backend 3 checks are performed.
 
 If the `configuration.dtr.central` is disabled the backend will also make a call to the `Discovery Finder` service to find the `BPN Discovey` and `EDC Discovey` services.
 
-#### Create API Diagram
+
+### Data Retrieval Flow
+
+As detailed at the [Data Retrieval Guide Phases](../data%20retrieval%20guide/DataRetrievalGuide.md#data-retrieval-flow) there are 4 main phases required to retrieve data in the **Catena-X Network**:
+
+    1. Discovery Phase 
+    2. Digital Twin Registry Search Phase
+    3. Digital Twin Search Phase
+    4. Data Negotiation and Transfer Phase
+
+Below it is described how does the **Digital Product Pass** goes through this phases:
+> **NOTE**: The APIs below have been simplified without their prefix however they are belonging to the  `/api/contract/*` API Controller. 
+
+#### Discovery Phase
+
+The **Digital Product Pass** application request the Discovery Service in startup gathering the `BPN Discovery` and the `EDC Discovery` endpoints.
+
+The keys used for searching the endpoints in the Discovery Service by default are:
+
+| Key | Service Name |
+| --- | ------------ |
+| bpn | EDC Discovery Service |
+| manufacturerPartId | BPN Discovery Service |
+
+> **IMPORTANT NOTE**: This keys can be modified at the configuration (`backend.application.configuration.discovery.bpn.key` and `backend.application.configuration.discovery.edc.key`)
+in case the keys used in the Discovery Service are another ones. 
+
+#### Digital Twin Registry Search Phase
+The **Digital Twin Registry Search Phase** as it is detailed at the [Data Retrieval Guide Phase 1 and 2](../data%20retrieval%20guide/DataRetrievalGuide.md#1-discovery-phase--2-digital-twin-registry-search-phase) is the junction of two main phases the *Discovery Phase*  and the *Digital Twin Registry Search Phase* which are essential for starting the Digital Twin Search.
+
 The `/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.
+This is detailed [here](../data%20retrieval%20guide/DataRetrievalGuide.md#1-discovery-phase--2-digital-twin-registry-search-phase) in the Data Retrieval Guide.
 
-If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
+The API is called "**create**" because it is responsible for creating the **process** which will be responsible for doing the data retrieval in the Digital Product Pass.
+Basically it creates a `processId` when the `Digital Twin Registries` are found and are available for searching Digital Twins.
 
+> **NOTE**: If the property `configuration.dtr.temporaryStorage` is set a optimization will be made and the contractAgreementId will be temporary stored together with the DTR endpoint in order to speed up the Passport Search. At the end it will return the process for the user to search a passport.
 
-![CreateDiagram](./CreateAPI.jpeg)
+##### Create API Sequence Diagram
 
-Here is possible to see the complete flow of the create api.
+![CreateDiagram](./media/dataRetrieval/createApiSequence.jpg)
+
 ##### Create Flow Diagram
 
+![CreateFlow](./media/dataRetrieval/createApiFlow.jpg)
 
-![CreateFlow](./CreateProcessFlow.jpeg)
 
+#### Digital Twin Search
 
-#### Search API Diagram
+The **Digital Twin Search** as it is detailed at the [Data Retrieval Guide Phase 3](../data%20retrieval%20guide/DataRetrievalGuide.md#3-digital-twin-search-phase-1) is the phase responsible for search in all the **Digital Twin Registries** found at the previous phase, finding and retrieving the searched **Digital Twin**.
+
+As described at the *Data Retrieval Guide* the **Digital Product Pass** Application is searching by default for the *partInstanceId* of an specific digital twin.
+
+> **NOTE**: This parameter can be changed in the request of the `/search` API, by including the `idType` property.
 
 At the `/search` API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found.
 
 A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract.
 
-![Search API](./SearchAPI.jpeg)
+##### Search with Drill Down 
+
+The search diagrams below describe the `Search` for digital twins without the **IRS Drill Down** enabled. For more information how it would look if the drill down is enabled by setting the `children` property to on or at the backend configuration param `backend.application.configuration.irs.enabled` to `true`, please look at this section: [Search API with IRS](#search-api-with-irs)
+
+##### Search API Sequence Diagram
+![search Api Sequence](media/dataRetrieval/searchApiSequence.jpg)
 
 ##### Search API Flow
-Here we can see the search flow more in detail:
 
-![Search API Flow](./SearchFlow.jpeg)
-
+![Search API Flow](./media/dataRetrieval/searchApiFlow.jpg)
 
 
-#### Sign API + Decline API + Cancel API + Passport API + Status API Diagram
+##### Aspect Configuration
 
-Once the user has the contract he can call the `/sign` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the framecontracts contained in the contract policy.
+The Aspect search order and priority is defined at the configuration: `backend.configuration.passport.aspects`.
 
-The other option rather than `/sign` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
+Currently the default order of aspects is:
 
-After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/passport`.
+    1. Digital Product Pass (urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport)
+    2. Battery Pass (urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport)
+    3. Transmission Pass (urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass)
 
-The API `/passport` will descrypt the passport file that is encrypted usint the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested.
+This means that first the backend will search in the digital twin if the digital product pass is available and then will search for the next ones.
+
+> **NOTE**: The backend is able to retrieve any aspect from the Catena-X Network, just configure the `semanticId` parameter in the `/api/contract/search` API request body and continue the data negotiation and transfer phase until the data retrieval.
+
+#### Data Negotiation and Transfer Phase
+
+The **Data Negotiation and Transfer Phase** as it is detailed at the [Data Retrieval Guide Phase 4](../data%20retrieval%20guide/DataRetrievalGuide.md#4-data-negotiation-and-transfer-phase-1) is the phase responsible for the final data transfer and negotiation. In this phase we retrieve the data using the EDC.
+
+Once the user has the contract he can call the `/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.
+
+The other option rather than `/agree` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.
+
+After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/data`.
+
+The API `/data` will decrypt the passport file that is encrypted using the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested.
 
 
 > *NOTE*: The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.
 
-![Sign API](./SignAPI.jpeg)
+##### Agree API Sequence Diagram 
 
-##### Sign Flow 
+![Agree Api Sequence](media/dataRetrieval/agreeApiSequence.jpg)
+
+##### Agree Flow Diagram
 
 Here is described in detail how the sign flow works:
 
-![Sign API Flow](./SignFlow.jpeg)
+![agree API Flow](./media/dataRetrieval/agreeApiFlow.jpg)
 
-
-##### Decline API Flow
+##### Decline API Flow Diagram
 
 Here is how the flow of decline works:
 
-![Decline API Flow](./DeclineFlow.jpeg)
+![Decline API Flow](./media/dataRetrieval/declineApiFlow.jpg)
 
-##### Cancel API Flow
+##### Cancel API Flow Diagram
 
 Here is how the flow of cancel works:
 
-![Cancel API Flow](./CancelFlow.jpeg)
+![Cancel API Flow](./media/dataRetrieval/cancelApiFlow.jpg)
 
-##### Status API Flow
+##### Status API Flow Diagram
 
 The get status API just gives the status for a existing process:
 
-![Status API Flow](./GetStatus.jpeg)
+![Status API Flow](./media/dataRetrieval/statusApiFlow.jpg)
 
 
-##### Passport API Flow
+##### Data API Flow Diagram
 
-This API is responsible for retrieving the passport json and some metadata from the contract exchange.
+This API is responsible for retrieving the Aspect Model Payloads and some metadata from the contract exchange.
 
-![Passport API Flow](./PassportRetrievalFlow.jpeg)
+![Passport API Flow](./media/dataRetrieval/dataApiFlow.jpg)
 
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/inde x.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+
+
+### Item Relationship Service Integration (Drill Down Functionality)
+
+The Item Relationship Service [IRS] (**[tractusx/item-relationship-service](https://github.com/eclipse-tractusx/item-relationship-service)**) is responsible for providing the drill down functionality the Digital Product Pass application needs for finding the children of the current passports.
+
+The IRS ([charts reference implementation](../../deployment/helm/irs)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
+
+> **NOTE**: The IRS Functionality can be deactivated by setting the following configuration at the `values.yaml` file to false: `backend.configuration.irs.enabled` or by setting the attribute `children` to false when the `/api/contract/search` API is called.
+
+##### Input Parameters
+Before the Digital Product Pass Application requests the search for the children of a Digital Twin in the IRS `/jobs` [POST] API,  it needs to identify some parameters to input in the Job Request:
+
+| Key | Description |
+| ------- | ---- | 
+| **globalAssetId** | The `globalAssetId` is found in the Digital Twin retrieved from the `Digital Twin Registry` component found during the [Digital Twin Search](#digital-twin-search) |
+| **bpn** | The `business partner number` is found at the `BPN Discovery` and is selected once the `Digital Twin` is found at a `Digital Twin Registry` |
+
+##### Callback Url
+The backend from the Digital Product Pass is responsible for the IRS communications. In order to save the constant requesting for the IRS status in the `jobs/{jobId}` API, it will use the "callbackUrl" property when starting an IRS job.
+
+The callback url is contructed in the following way:
+
+```
+https://<backendUrl>/api/irs/{processId}/{searchId}?status=COMPLETED&id={globalAssetId}
+```
+
+This are the following parameters:
+| Key | Description |
+| ------- | ---- | 
+| **processId** | Parameter generated by the `/create` api and identifies which process it belong to the job search. |
+| **searchId** | The search id is a md5 hash generated by the backend based on the specific `globalAssetId`, the `processId` and other unique information. Therefore any attacks against the backend IRS search process can be executed. And in this way the IRS does not needs any authentication at the response header.
+| **globalAssetId** | The `globalAssetId` is found in the Digital Twin retrieved from the `Digital Twin Registry` component found during the [Digital Twin Search](#digital-twin-search) |
+
+Once the callback url is called when the job is in state "COMPLETED" the backend will call the `jobs/{jobId}` API of the IRS to request the Job Information and populate the **tree data model** if children are available.
+
+##### Important Notes
+These are important notes related to the IRS search.
+
+- The drill down functionality is fixed to `1 depth` because of processing time issues and because most of the cases the "allowed" depth visualization will be 1 level down because of the `one level up - one level down` rule
+- The current version of the IRS ([`v4.1.0`](https://github.com/eclipse-tractusx/item-relationship-service/releases/tag/4.1.0)) takes approximately 7 minutes to load the children. Because of this:
+    - Some timeouts were set at the backend and frontend components to prevent that the loading time is infinite
+- The IRS is currently configured to call the "callback url" when the status "COMPLETED" is reached. In case the IRS is not responding for the timeout time it will be considered as an error.
+- The drill down functionality is build in the way that data sovereignty is respected. This means:
+    - The Digital Product Pass applications knows where the information is, because of the digital twin retrieved at the IRS Response, however it will do the contract negotiation again searching for the `Digital Product Pass` aspect or any other aspect in the [**Aspect Search Order**](#aspect-configuration)    
+
+#### Search API with IRS
+
+The `/search` api detailed at the [Digital Twin Search Phase](#digital-twin-search) is is responsible for finding the **Digital Twin** searched. 
+
+When the IRS is enabled the `/search` API will also start in parallel the search for the children digital twins at the IRS component. It will create a Job using the `globalAssetId` attribute contained in the Digital Twin found. As detailed [above](#input-parameters).
+
+The Job parameters (*jobId, globalAssetId, jobStatus*) will be stored in the `meta.json` file from the process and can be accessed by the backend always when the frontend requests it using the `processId`.
+
+The backend will also create a single node tree for the Digital Twin that is already available. Creating a `treeDataModel.json` file at the process directory.
+
+##### Search API Sequence with IRS
+![IRS Search Sequence](./media/irs/SearchAPIwithIRS.jpg)
+
+##### Search API Flow with IRS
+![IRS Search Flow](media/irs/irsSearchFlow.jpg)
+
+
+#### Drill Down Status Check with IRS
+
+Once the data is retrieved after calling the `/data` API the frontend will be requesting the backend for the current status of the IRS job which is searching for the children asyncronously. 
+
+##### State API Description
+
+In order that the frontend knows what is the status for the digital twin drill down search done by the IRS component, it can call the `/api/irs/{processId}/state` API. It will return the current status of the Job. Basically the backend will be waiting for the call of the callbackUrl (More detailed information [here](#callback-url)) and will return the current status.
+
+States Available:
+
+For easing the processing the state API is a leight weighted and returns really fast the responses for redusing processing and waiting time. It matches the status from the HTTP protocol however they can mean different things:
+
+| Status Code | Status Name | Status Description
+| ----------- | ----------- | ------------------ |
+| **200** | OK | The job callback was done and children were found, the Job Description is returned |
+| **404** | Not Found | The job callback was done and children were not found |
+| **201** | No Content | This means that the job is still running and no job callback was done yet |
+| **405** | Method Not Allowed | The method is not allowed to be called because the IRS property was not enabled at the `/search` method or the IRS configuration property was not enabled in the backend.
+| **401** | Not Authorized | The authentication has expired or the token is not valid |
+| **400** | Bad Request |There was an error when starting the IRS job or at the end of the job processing (when the timeout is reached after receiveing no response from the IRS) |
+| **500** | Internal Server Error | There was an error while processing the drill down |
+
+##### Tree API Description
+
+The `/api/irs/{processId}/tree` returns the complete content of the **Tree Data Model** which contains the digital twins and the complete job information as well as the children structured in a node format.
+
+> **NOTE**: At the moment this API is not used by the frontend since the structure of the data is too detailed and big for the frontend processing. Its just ideal for storing and searching for data fast.
+
+##### Components API Description
+
+The `/api/irs/{processId}/components` API is called by the frontend when the `/api/irs/{processId}/state` API returns a `200` with `children available`. Additionally it is also called at the start of the search process for returning the inital tree with one digital twin. It returns a simplified/resumed version of the `/api/irs/{processId}/tree`, with a Array Node structure allowing the frontend to visualize the data in a more optimized way and making this API returning data more leight weighed. 
+
+However the search using this API response is not ideal, better is to use the `/api/irs/{processId}/tree` API when searching for data.
+
+##### Async Data Retrieval Sequence with IRS
+![IRS Search Flow](./media/irs/IRSDataSearch.jpg)
+
+##### Async Data Retrieval Flow with IRS 
+![IRS Data Apis Flow](media/irs/irsDataApisFlow.jpg)
+
 
 ### Business Context
 
@@ -264,24 +508,6 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ### Technical Context
 
-#### Runtime Environments
-
-At the moment, the Product Passport Application is hosted in three different environments:
-
-| Application Runtime Environments | URLs |
-| ---- | ----------- |
-| Development (DEV) | [https://materialpass.dev.demo.catena-x.net/](https://materialpass.dev.demo.catena-x.net/) |
-| Integration (INT) | [https://materialpass.int.demo.catena-x.net/](https://materialpass.int.demo.catena-x.net/) |
-| Beta (BETA) | [https://materialpass.beta.demo.catena-x.net/](https://materialpass.beta.demo.catena-x.net/) |
-
-
-| ArgoCD Deployment | URLs |
-| ---- | ----------- |
-| Development (DEV) | [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/) |
-| Integration (INT) | [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/) |
-| Beta (BETA) | [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/) |
-
-
 #### Container Ecosystem
 
 ##### Kubernetes Container platform (gardener)
@@ -298,11 +524,6 @@ At the moment, the Product Passport Application is hosted in three different env
 * PostgreSQL
 
 #### CI/CD
-
-* Managed by ArgoCD:
-  * [https://argo.dev.demo.catena-x.net/](https://argo.dev.demo.catena-x.net/)
-  * [https://argo.int.demo.catena-x.net/](https://argo.int.demo.catena-x.net/)
-  * [https://argo.beta.demo.catena-x.net/](https://argo.beta.demo.catena-x.net/)
 * Source code management - GitHub Repository:
   * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
 * DevSecOps:
@@ -316,7 +537,8 @@ At the moment, the Product Passport Application is hosted in three different env
 * [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
 * [Administration Guide](../admin%20guide/Admin_Guide.md)
-* [API Documentation (Swagger)](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+* [API Documentation (Swagger)](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
+* [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
 
 
 #### Catena-X Shared Services
@@ -330,7 +552,7 @@ At the moment, the Product Passport Application is hosted in three different env
 
 ### Architecture Diagram
 
-![Architecture Diagram](./GraphicArchitectureDiagram.jpeg)
+![Architecture Diagram](./media/GraphicArchitectureDiagram.jpeg)
 
 ## Technology & Architecture Detail
 
@@ -352,13 +574,13 @@ Since we are required to follow the style guidelines from Catena-X, we selected 
 
 According to the [Vuetify documentation](https://next.vuetifyjs.com/en/introduction/why-vuetify/), every component in Vuetify is handcrafted under the guise of [Google’s Material Design](https://material.io/) specification and comes with hundreds of customization options that fit any style or design; even if it’s not Material. This gives us flexibility when choosing and personalizing the style of the application, while still maintaining the **stability, scalability and security** from the components. And when compared with other frameworks, we can see that an new patch regarding security and stability is release every week, giving us safety that the library is constantly improved and tested.
 
-![Vue Framework Comparison](./GraphicVueFrameworkComparison2022.png)
+![Vue Framework Comparison](./media/GraphicVueFrameworkComparison2022.png)
 
 Another advantage from Vuetify is its documentation. There you are allowed to understand all the components and personalize them on-flight. Example: [Vuetify Alerts](https://next.vuetifyjs.com/en/components/alerts/).
 
 Here we can see the components from the frontend of the application:
 
-![Frontend Component](./GraphicFrontendComponent.jpg)
+![Frontend Component](./media/GraphicFrontendComponent.jpg)
 
 
 #### Component Description
@@ -392,7 +614,7 @@ We selected spring boot because it allows us to:
 
 To ease the understanding and get a general technical context of the backend the following diagram was created:
 
-![Backend Component](./GraphicBackendComponent.jpg)
+![Backend Component](./media/GraphicBackendComponent.jpg)
 
 #### Component Description
 
@@ -449,11 +671,11 @@ There are different levels categorized concerning the application resources depl
 
 **Level 3:** A development level where application source code is developed and built by developers.
 
-![Building Block View](./GraphicBulidingBlockView.jpg)
+![Building Block View](./media/GraphicBulidingBlockView.jpg)
 
 ### Blackbox Overall System
 
-![Blackbox Overall System](./GraphicBlackboxOverallSys.jpg)
+![Blackbox Overall System](./media/GraphicBlackboxOverallSys.jpg)
 
 ### Whitebox Overall System
 
@@ -463,7 +685,7 @@ During the merge process, the build pipeline also known as Continuous integratio
 
 The application deployment is translated into Kubernetes resources through helm charts which are deployed in Argo CD. We take the advantage of built-in AutoSync feature of ArgoCD that does the Continuous Deployment(CD) job for us. This is done by matching the current and desired state of the application if there is a new code change or a new container image uploaded to a registry.
 
-![Whitebox Overall System](./GraphicWhiteboxOverallSys.png)
+![Whitebox Overall System](./media/GraphicWhiteboxOverallSys.png)
 
 | Name | Responsibility |
 | ---- | -------------- |
@@ -474,20 +696,13 @@ The application deployment is translated into Kubernetes resources through helm 
 | Kubernetes deployment | Kubernetes manifest yaml files such as deployment, pod, service, ingress |
 | Argo CD | Application runtime environment managed by DevSecOps team |
 
-## Runtime View
-
-* Behavioral view
-* User Experience (UX) journey
-
-![Runtime View](./GraphicRuntimeView.png)
-
 ## Deployment View
 
-![DeploymentView](./GraphicDeploymentView.jpg)
+![DeploymentView](./media/GraphicDeploymentView.jpg)
 
 ## Cross-cutting Concepts
 
-![Cross Cutting Concepts](./GraphicCrossCuttingConcepts.jpg)
+![Cross Cutting Concepts](./media/GraphicCrossCuttingConcepts.jpg)
 
 ## Design Decisions
 
@@ -496,25 +711,65 @@ Designs are followed using the Catena-X Style Guidelines.
 
 It was used a basic table, the logo, the footer and the avatar from Catena-X design guidelines:
 
-![Implementation View - Basic Table](./GraphicBasicTable.png)
+![Implementation View - Basic Table](./media/GraphicBasicTable.png)
 
-![Catena-X Logo Style Guidelines](./GraphicLogos.png)
+![Catena-X Logo Style Guidelines](./media/GraphicLogos.png)
 
-![Catena-X Avatar](./GraphicAvatar.png)
+![Catena-X Avatar](./media/GraphicAvatar.png)
 
 ### Searching View
 
 The Search view was also design following the Catena-X buttons and search style guides
 
-![QR Code and Search View](./GraphicSearchView.png)
+![QR Code and Search View](./media/GraphicSearchView.png)
 
 ### Battery Passport View
 
 The passport view was designed following using Catena-X accordion guidelines.
 
-![Battery Passport View - General Information](./GraphicBatteryPassportViewGeneralInfo.png)
+![Battery Passport View - General Information](./media/GraphicBatteryPassportViewGeneralInfo.png)
 
-![Battery Passport View - Electrochemical properties](./GraphicBatteryPassportView.png)
+![Battery Passport View - Electrochemical properties](./media/GraphicBatteryPassportView.png)
+
+### Digital Product Pass View
+
+Since the [v1.2.0](https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.2.0) release the `Digital Product Pass v1.0.0` Aspect is available to be visualized in the application. In the following example we can visualize a Battery Passport as Digital Product Pass:
+
+![Digital Product Pass - Serialization View](./media/DPPView1.jpg)
+
+![Digital Product Pass - Components View](./media/DPPView2.jpg)
+
+### IRS Component Drill Down
+
+The IRS Drill Down feature is available since the version [v1.3.0](https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.3.0) and it will display an tree of components in the frontend. 
+
+The process of requesting the child components from the IRS takes a while aprox 7 minutes so the user is constantly informed of the progress from the IRS Job.
+
+#### Loading 
+
+When the job is still running there will be displayed a spinner and a message saying that the search for components is going on.
+
+![IRS Component Loading](./media/irs/Loading.jpg)
+
+#### No Children Available
+
+When there is the case that the IRS Job returns a empty relationship array the frontend will display a No child component found warning, this means that the asset has no children available in the `Digital Twin Registries` of the BPN Number found for the current asset in the `BPN Discovery` endpoint.
+
+![IRS Component No Children Available](./media/irs/ChildNotFound.jpg)
+
+#### Tree of Components Available
+
+This is the success case, when there are components available in connection to the digital twin.
+
+In this case the user can click in the child `external link` button to open a new tab and start the search for a the Digital Product Pass
+
+![IRS Component Tree of Components](./media/irs/TreeOfComponents.jpg)
+
+#### Error Occurred
+
+In case the backend is not acesible or any other error ocurred the search for the child components will stop. This means that if the user want to search for the child components again it shall request the passport again since there was an error with this process.
+
+![IRS Component Error Occurred](./media/irs/ErrorOccured.jpg)
 
 ## Quality Requirements
 

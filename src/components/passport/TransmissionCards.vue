@@ -80,7 +80,7 @@
 import DialogComponent from "../general/Dialog.vue";
 
 export default {
-  name: "GeneralCards",
+  name: "TransmissionCards",
   components: {
     DialogComponent,
   },
@@ -95,28 +95,26 @@ export default {
       cards: [
         {
           title: "GENERAL",
-          label: "Product name",
+          label: "Product description",
           secondLabel: "Product type",
           icon: "mdi-pound",
-          value: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.name
+          value: this.$props.data.aspect.generalInformation
+            ? this.$props.data.aspect.generalInformation.productDescription
             : "-",
-          secondValue: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.nameAtCustomer
+          secondValue: this.$props.data.aspect.generalInformation
+            ? this.$props.data.aspect.generalInformation.productType
             : "-",
         },
         {
           title: "MANUFACTURING",
           label: "Manufacturer Id",
-          secondLabel: "Date of Manufacturing",
+          secondLabel: "Matrix code",
           icon: "mdi-chart-timeline-variant-shimmer",
-          value: this.$props.data.aspect.operation.manufacturer
-            ? this.$props.data.aspect.operation.manufacturer.manufacturerId
+          value: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.manufacturerId
             : "-",
-          secondValue: this.$props.data.aspect.serialization
-            .manufacturingInformation
-            ? this.$props.data.aspect.serialization.manufacturingInformation
-                .date
+          secondValue: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.dataMatrixCode
             : "-",
           description: {
             title: "Manufacturing",
@@ -124,15 +122,16 @@ export default {
           },
         },
         {
-          title: "ASPECT VERSION",
-          label: "Current version",
-          secondLabel: "Issued",
+          title: "SPECIFIC PARAMETERS",
+          label: "Drive type",
+          secondLabel: "Oil type",
           icon: "mdi-aspect",
-          value: this.$props.data.aspect.metadata.version,
-          secondValue: this.$props.data.aspect.metadata.issueDate,
+          value: this.$props.data.aspect.productSpecificParameters.driveType,
+          secondValue:
+            this.$props.data.aspect.productSpecificParameters.oilType,
           description: {
-            title: "Aspect version",
-            value: "Description of the aspect version",
+            title: "Specific parameters",
+            value: "Description of the Specific parameters",
           },
         },
         {
@@ -142,11 +141,13 @@ export default {
           icon: "mdi-leaf",
           value: this.$props.data.aspect.sustainability.carbonFootprint
             ? this.$props.data.aspect.sustainability.carbonFootprint
-                .carbonContentTotal
+                .co2FootprintTotal
             : "-",
           valueUnits: "t CO2 Total",
-          secondValue: this.$props.data.aspect.commercial.warranty,
-          secondValueUnits: this.$props.data.aspect.commercial.warranty
+          secondValue:
+            this.$props.data.aspect.generalInformation.warrantyPeriod,
+          secondValueUnits: this.$props.data.aspect.generalInformation
+            .warrantyPeriodUnits
             ? "months"
             : "",
           description: {

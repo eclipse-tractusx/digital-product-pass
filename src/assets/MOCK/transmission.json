@@ -155,43 +155,100 @@
       }
     }
   },
-  "semanticId": "general",
+  "semanticId": "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass",
   "aspect": {
-    "serialization": {
-      "manufacturingInformation": {
-        "date": "2022-02-04T14:48:54",
-        "country": "HUR"
+    "productSpecificParameters": {
+      "torqueConverter": [
+        "RYtGKbgicZaHCBRQDSx"
+      ],
+      "driveType": "combustion engine",
+      "oilType": "ZF Lifeguard Hybrid 2",
+      "spreading": 6.79,
+      "torque": 500.0,
+      "power": 300.0,
+      "standardGearRatio": {
+        "gear": "1",
+        "ratio": 4.1567
       },
-      "registration": {
-        "customerPartId": "PRT-12345",
-        "manufacturerPartId": "123-0.740-3434-A"
-      },
-      "quantity": {
-        "value": 1.0,
-        "unit": "unit:piece"
+      "oilCapacity": 8.9,
+      "electricPerformance": [
+        "VLhpfQGTMDYpsBZxvfBoeygjb"
+      ],
+      "speedResistance": {
+        "speed": 7800,
+        "gear": "1"
       }
     },
-    "typology": {
-      "name": "Transmission Type 8HP60",
-      "description": "Product Description long text",
-      "class": {
-        "definition": "Manual transmission (motor vehicle)",
-        "code": "44-09-02-02"
-      },
-      "nameAtManufacturer": "Mirror left",
-      "nameAtCustomer": "side element A"
+    "instructions": {
+      "packagingInstructions": [
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        },
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        }
+      ],
+      "transportationInstructions": [
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        }
+      ],
+      "dismantlingProcedure": [
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        }
+      ],
+      "safetyMeasures": [
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        }
+      ],
+      "vehicleDismantlingProcedure": [
+        {
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
+        }
+      ]
     },
-    "metadata": {
-      "issueDate": "2000-01-01",
-      "version": "1.0.0",
-      "validityDate": "2000-01-01",
-      "economicOperator": {
-        "eori": "GB123456789000",
-        "id": "BPNL1234567890ZZ"
-      },
-      "status": "Draft"
+    "identification": {
+      "manufacturerId": "BPNL1234567890ZZ",
+      "localIdentifiers": [
+        {
+          "value": "SN12345678",
+          "key": "PartInstanceID"
+        }
+      ],
+      "dataMatrixCode": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ"
     },
-    "characteristics": {
+    "sparePartSupplier": [
+      {
+        "supplierContact": {
+          "faxNumber": "+49 89 0987654321",
+          "website": "https://www.samsung.com",
+          "phoneNumber": "+49 89 1234567890",
+          "email": "test.mail@example.com"
+        },
+        "supplierId": "BPNL1234567890ZZ",
+        "sparePartName": "torque converter"
+      }
+    ],
+    "stateOfHealth": {
+      "serviceHistory": [
+        "2023-05-22T13:16:47.239+02:00"
+      ],
+      "expectedLifespan": 500000,
+      "remanufacturing": {
+        "remanufacturingDate": "2023-05-22T13:16:47.239+02:00",
+        "productStatusValue": "first life"
+      }
+    },
+    "generalInformation": {
+      "additionalInformation": "JxkyvRnL",
       "physicalDimensionsProperty": {
         "width": 1000.0,
         "length": 20000.1,
@@ -199,146 +256,49 @@
         "diameter": 0.03,
         "height": 0.1
       },
-      "lifespan": {
-        "value": 36,
-        "unit": "unit:day"
-      },
-      "energyCapacity": {
-        "value": 85.0,
-        "unit": "unit:kWh"
-      },
-      "voltage": {
-        "value": 400.0,
-        "unit": "unit:V"
-      }
+      "warrantyPeriod": 60.0,
+      "productDescription": "manual transmission",
+      "productType": "8HP60MH"
     },
-    "commercial": {
-      "placedOnMarket": "2000-01-01",
-      "warranty": 36
-    },
-    "identification": {
-      "localIdentifiers": [
-        {
-          "value": "SN12345678",
-          "key": "PartInstanceID"
-        },
-        {
-          "value": "SN12345678",
-          "key": "PartInstanceID"
-        }
-      ],
-      "gtin": "12345678",
-      "additionalCode": [
-        {
-          "name": "TARIC",
-          "value": "8703 24 10 00"
-        }
-      ]
-    },
-    "sources": {
-      "mandatory": {
-        "safetyTransportation": {
-          "header": "Sustainability Document Material XY",
-          "category": "Handling",
-          "type": "link",
-          "content": "www.alink.pdf"
-        },
-        "substanceOfConcernDisassembly": {
-          "header": "Sustainability Document Material XY",
-          "category": "Health",
-          "type": "link",
-          "content": "www.alink.pdf"
-        },
-        "substanceOfConcernInstruction": {
-          "header": "Sustainability Document Material XY",
-          "category": "Safety",
-          "type": "link",
-          "content": "www.alink.pdf"
-        },
-        "safetyPackaging": {
-          "header": "Sustainability Document Material XY",
-          "category": "Safety",
-          "type": "link",
-          "content": "www.alink.pdf"
-        },
-        "declarationOfConformity": [
-          {
-            "name": "other",
-            "document": {
-              "header": "Sustainability Document Material XY",
-              "category": "Safety",
-              "type": "link",
-              "content": "www.alidrftynk.pdf"
-            }
-          }
-        ]
-      },
-      "optional": [
-        {
-          "name": "other",
-          "document": {
-            "header": "Sustainability Document Material XY",
-            "category": "wrong",
-            "type": "link",
-            "content": "www.alink.pdf"
-          }
-        }
-      ]
-    },
-    "additionalData": [
-      {
-        "description": "Description of an attribute",
-        "label": "Maximum permitted battery power",
-        "type": {
-          "typeUnit": "unit:volume",
-          "dataType": "array"
-        },
-        "data": "23",
-        "children": [
-          {
-            "description": "Description of an attribute",
-            "label": "Maximum permitted battery power",
-            "type": {
-              "typeUnit": "unit:volume",
-              "dataType": "array"
-            },
-            "data": "23"
-          }
-        ]
-      }
-    ],
     "sustainability": {
-      "state": "first life",
-      "material": [
+      "substancesOfConcern": [
+        "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
+        "yedUsFwdkelQbxeTeQOvaScfqIOOmaa"
+      ],
+      "responsibleSourcingDocument": [
         {
-          "name": "Aluminium",
-          "recycled": false,
-          "renewable": true,
-          "percentage": 5.0
+          "documentTitle": "Title A",
+          "documentLink": "https://www.xxx.pdf"
         }
       ],
-      "critical": [
+      "recyclateContent": {
+        "nickel": -1.7976931348623157E+308,
+        "lithium": -1.7976931348623157E+308,
+        "cobalt": -1.7976931348623157E+308,
+        "otherSubstance": [
+          {
+            "substancePercentage": 8.0,
+            "substanceName": "Lead"
+          }
+        ]
+      },
+      "criticalRawMaterials": [
         "eOMtThyhVNLWUZNRcBaQKxI"
       ],
       "carbonFootprint": {
-        "carbonContentTotal": 2.5,
-        "crossSectoralStandard": "GHG Protocol Product standard",
+        "crossSectoralStandardsUsed": [
+          {
+            "crossSectoralStandard": "GHG Protocol Product standard"
+          }
+        ],
+        "co2FootprintTotal": -1.7976931348623157E+308,
         "productOrSectorSpecificRules": [
           {
-            "extWBCSD_operator": "PEF",
-            "productOrSectorSpecificRules": {
-              "ruleName": "urn:tfs-initiative.com:PCR:The Product Carbon Footprint Guideline for the Chemical Industry:version:v2.0"
-            },
-            "extWBCSD_otherOperatorName": "NSF"
+            "operator": "PEF",
+            "ruleNames": "ABC 2021",
+            "otherOperatorName": "NSF"
           }
         ]
-      }
-    },
-    "operation": {
-      "importer": "BPNL1234567890ZZ",
-      "manufacturer": {
-        "manufacturerId": "BPN1234567890ZZ",
-        "facilityId": "BPNL1234567890ZZ"
       }
     }
   }

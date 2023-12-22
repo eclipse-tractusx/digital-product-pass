@@ -60,7 +60,7 @@ Created: *25 August 2023*
   - [NOTICE](#notice)
 
 ## Introduction
-The Catena-X Network Data Retrieval process can be really complex and challenging to understand. The `Digital Product Pass` application as consumer application is designed to retrieve information from the Catena-X Network in its native way. We as team proposed a solution for retrieving information in this decentralized network in a very efficient way. This solution is implemented in the [`Digital Product Pass Backend`](../../consumer-backend/productpass/readme.md) and can retrieve information in approximated `8-20s` using the algorithm and procedures documented in the [Arc42](../arc42/Arc42.md) documentation.
+The Catena-X Network Data Retrieval process can be really complex and challenging to understand. The `Digital Product Pass` application as consumer application is designed to retrieve information from the Catena-X Network in its native way. We as team proposed a solution for retrieving information in this decentralized network in a very efficient way. This solution is implemented in the [`Digital Product Pass Backend`](../../consumer-dpp-backend/digitalproductpass/readme.md) and can retrieve information in approximated `8-20s` using the algorithm and procedures documented in the [Arc42](../arc42/Arc42.md) documentation.
 
 Therefore this guide is here to provide information about how to retrieve Data from the Catena-X Network like the `Digital Product Pass` application. Here we will describe the problem that many consumers application are facing then retrieving data in Catena-X and how we as the DPP Team propose our vision.
 

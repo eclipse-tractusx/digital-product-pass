@@ -59,7 +59,7 @@ kubectl get pods -n product-material-pass --no-headers |  awk '{if ($1 ~ "consum
 ```
 **Example**:
 
-![img4.png](./consumer-backend/productpass/docs/media/img4.png)
+![img4.png](./dpp-backend/digitalproductpass/docs/media/img4.png)
 
 
 Copy the pod name with the prefix `consumer-backend`
@@ -88,7 +88,7 @@ Use the following commands to install/compile the application:
 
 ### Compile Backend
 ```bash
-cd consumer-backend/productpass 
+cd dpp-backend/digitalproductpass 
 mvn clean install test
 ```
 
@@ -98,7 +98,7 @@ Substitute the `<version>` variable with the current version of the Digital Prod
 
 ```bash
 
-./target/productpass-<version>-SNAPSHOT.jar
+./target/digitalproductpass-<version>-SNAPSHOT.jar
 
 ```
 ### Configure the secrets

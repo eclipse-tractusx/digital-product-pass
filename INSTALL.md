@@ -31,10 +31,18 @@ You must have [Helm](https://helm.sh/),  [Minikube](https://minikube.sigs.k8s.io
 
 ## Install
 
+### First Step: Configuration
+
+First configure the [`values.yaml`](./charts/digital-product-pass/values.yaml) file with the secrets and the necessary configuration for starting the application correctly.
+
+> **TIP**: For a correct Catena-X integration get the correct credentials from the Portal! You can also place this secrets in a Vault so that the credentials are safe!
+
+### Second Step: Deployment
+
 To install the application using the configured helm charts use the following command from the project root directory:
 
 ```bash
-helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml -f charts/digital-product-pass/values-int.yaml 
+helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml 
 ``` 
 
 > **NOTE**: This command will deploy the complete application.

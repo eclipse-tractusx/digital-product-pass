@@ -69,7 +69,7 @@ public class DtrSearchManager {
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds;
-    private final long negotiationTimeoutSeconds;
+    private final long dtrRequestProcessTimeout;
     private final String fileName = "dtrDataModel.json";
     private String dtrDataModelFilePath;
     private State state;
@@ -93,8 +93,7 @@ public class DtrSearchManager {
         this.dtrDataModelFilePath = this.createDataModelFile();
         this.dtrDataModel = this.loadDtrDataModel();
         this.searchTimeoutSeconds = this.dtrConfig.getTimeouts().getSearch();
-        this.negotiationTimeoutSeconds = this.dtrConfig.getTimeouts().getNegotiation();
-
+        this.dtrRequestProcessTimeout = this.dtrConfig.getTimeouts().getDtrRequestProcess();
     }
 
     /** GETTERS AND SETTERS **/
@@ -205,7 +204,7 @@ public class DtrSearchManager {
     }
     public void searchEndpoint(String processId, String bpn, String endpoint){
         //Search Digital Twin Catalog for each connectionURL with a timeout time
-        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "ProcessDtrDataModel");
+        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "SearchEndpoint"+processId+"-"+bpn+"-"+endpoint);
         try {
             if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
                 asyncThread.interrupt();
@@ -228,11 +227,11 @@ public class DtrSearchManager {
         if (contractOffers instanceof LinkedHashMap) {
             Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
             if (dataset != null) {
-                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
-                    if (!singleOfferThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                    if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                         singleOfferThread.interrupt();
-                        LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                        LogUtil.printWarning("Failed to retrieve do contract negotiations due a timeout for the URL: " + endpoint);
                         return;
                     }
                 } catch (InterruptedException e) {
@@ -246,11 +245,11 @@ public class DtrSearchManager {
             return;
         }
         contractOfferList.parallelStream().forEach(dataset -> {
-            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr");
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
             try {
-                if (!multipleOffersThread.join(Duration.ofSeconds(negotiationTimeoutSeconds))) {
+                if (!multipleOffersThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                     multipleOffersThread.interrupt();
-                    LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                    LogUtil.printWarning("Failed to retrieve the contract negotiations due a timeout for the URL: " + endpoint);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -426,14 +425,20 @@ public class DtrSearchManager {
             public void run() {
                 try {
                     Offer offer = dataTransferService.buildOffer(dataset, 0);
-                    String builtDataEndpoint =CatenaXUtil.buildDataEndpoint(connectionUrl);
+                    String builtDataEndpoint = CatenaXUtil.buildDataEndpoint(connectionUrl);
                     IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
                     }
-                    Negotiation negotiation = dataTransferService.seeNegotiation(negotiationResponse.getId());
+                    Integer millis =  dtrConfig.getTimeouts().getNegotiation() * 1000; // Set max timeout from seconds to milliseconds
+                    // If negotiation takes way too much time give timeout
+                    Negotiation negotiation = ThreadUtil.timeout(millis, ()->dataTransferService.seeNegotiation(negotiationResponse.getId()), null);
                     if (negotiation == null) {
                         LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
+                        return;
+                    }
+                    if(negotiation.getContractAgreementId() == null || negotiation.getContractAgreementId().isEmpty()){
+                        LogUtil.printError("It was not possible to get an Contract Agreemment Id for the URL: " + connectionUrl);
                         return;
                     }
                     Dtr dtr = new Dtr(negotiation.getContractAgreementId(), connectionUrl, offer.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));

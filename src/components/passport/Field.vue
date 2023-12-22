@@ -46,6 +46,9 @@
     </span>
 
     <span v-else-if="day"></span>
+    <span v-else-if="faxNumber" class="field-value"
+      >{{ faxNumber ? faxNumber : "—" }}
+    </span>
     <span v-else class="field-value">—</span>
     <!-- This block of code is for section 1 General information Importer information, STREET goes as a value and than the rest below -->
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
@@ -102,6 +105,7 @@ export default {
     postal: { type: [String, Number], default: "" },
     country: { type: [String, Number], default: "" },
     phone: { type: [String, Number], default: "" },
+    faxNumber: { type: [String, Number], default: "" },
     email: { type: [String, Number], default: "" },
     website: { type: [String, Number], default: "" },
     length: { type: [String, Number], default: "" },

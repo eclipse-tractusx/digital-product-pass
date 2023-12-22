@@ -83,7 +83,8 @@ configuration:
       subModel: "/submodel-descriptors"
     timeouts:
       search: 10
-      negotiation: 40
+      negotiation: 10
+      dtrRequestProcess: 40
       transfer: 10
       digitalTwin: 20
     temporaryStorage:

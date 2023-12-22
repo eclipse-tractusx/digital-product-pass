@@ -69,7 +69,7 @@ jobs:
       - name: Create and Download API specs
         shell: bash
         run: |
-          cd consumer-backend/productpass
+          cd backend/productpass
           echo "[INFO] - Compiling the backend"
           mvn -B clean install
           echo "[INFO] - Building a docker image - backend:test"
@@ -87,16 +87,16 @@ jobs:
       - name: Create API
         continue-on-error: true
         run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
 
       # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
       - name: Publish API Specs to SwaggerHub
         run: |
           if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
             echo "[INFO] - no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=publish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=publish
             swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
           else
             echo "[INFO] - snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./consumer-backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./backend/productpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
           fi

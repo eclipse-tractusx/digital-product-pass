@@ -93,7 +93,7 @@ jobs:
       - name:  Build dpp backend with maven for GHCR registry
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
         run: |
-          cd backend/productpass
+          cd dpp-backend/digitalproductpass
           mvn -B clean install
         
       # Build and push Docker image with Buildx
@@ -103,7 +103,7 @@ jobs:
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
         uses: docker/build-push-action@v3
         with:
-          context: backend/productpass
+          context: dpp-backend/digitalproductpass
           push: true
           tags: ${{ steps.meta-for-ghcr.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta-for-ghcr.outputs.labels }}
@@ -141,7 +141,7 @@ jobs:
       - name:  Build dpp backend with maven for Docker Hub
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         run: |
-          cd backend/productpass
+          cd dpp-backend/digitalproductpass
           mvn -B clean install
 
       # Build and push Docker image with Buildx
@@ -151,7 +151,7 @@ jobs:
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         uses: docker/build-push-action@v3
         with:
-          context: backend/productpass
+          context: dpp-backend/digitalproductpass
           push: true
           tags: ${{ steps.meta-for-dockerhub.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta-for-dockerhub.outputs.labels }}

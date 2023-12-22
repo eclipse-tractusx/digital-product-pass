@@ -57,7 +57,7 @@ To get started you can have a look into our documentation:
 | [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
 | [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
 | [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                  | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                    |
-| [Backend Documentation](./backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
+| [Backend Documentation](./dpp-backend/digitalproductpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
 | [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
@@ -99,7 +99,7 @@ Eclipse Tractus-X product(s) installed within the image:
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
 - Dockerfiles: 
     - Frontend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/Dockerfile
-    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/Dockerfile
+    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/Dockerfile
 - Project License: [Apache License, Version 2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE)
 
 

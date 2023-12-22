@@ -125,7 +125,7 @@ All the information about the backend services is described in this documentatio
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/productpass/readme.md) |
+| Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md) |
 | Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
@@ -133,7 +133,7 @@ The configurations of log levels and other variables can be set in the following
 
 | Name                              | Location | Link                                                                                                                                                                                                                                         |
 |-----------------------------------| -------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml) |
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/application.yml) |
 
 ### Spring Boot Configuration
 
@@ -141,7 +141,7 @@ The Consumer Backend is running over a Spring Boot server, therefore a applicati
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml) |
+| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/application.yml) |
 
 All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
 
@@ -152,7 +152,7 @@ In order to manage the logs from the application a XML file was set, it contains
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Logging Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/logback-spring.xml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/logback-spring.xml) |
+| Spring Boot Logging Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/logback-spring.xml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/src/main/resources/logback-spring.xml) |
 
 ## Postman Collection
 
@@ -198,7 +198,7 @@ When configurating you EDC provider you will be able to set some assets which re
 | AssetId                 | Combination of Digital Twin and Sub Model UUIDs                                                                                  | **Example value for asset**: urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 <br/>**Example value for registry**: digital-twin-registry                                                                                                                                                                                                                                                          |
 | AssetType               | The type of the Asset                                                                                                            | **Example value for asset**: Asset <br/>**Example value for registry**: data.core.digitalTwinRegistry                                                                                                                                                                                                                                                                                                                          |
 | Description             | Simple description of the asset                                                                                                  | Battery Passport Test Data                                                                                                                                                                                                                                                                                                                                                                                                 |
-| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_backend/data/{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0](https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0) |
+| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_dpp-backend/data/{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_dpp-backend/data/{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0](https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0) |
 | DigitalTwinId           | Id from the Digital Twin	                                                                                                        | urn:uuid:de98db6e-8e05-5d8e-8ae8-9f702cf5c396                                                                                                                                                                                                                                                                                                                                                                                      |
 | DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | urn:uuid:555c5513-5e52-2d7d-0904-fe90829252de                                                                                                                                                                                                                                                                                                                                                                                    |
 

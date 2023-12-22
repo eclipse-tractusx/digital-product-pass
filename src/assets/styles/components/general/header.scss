@@ -111,16 +111,11 @@
     color: $catena-x-blue;
     margin: 0px 16px 0px 0px;
     font-weight: 500;
+    cursor: pointer;
   }
   .active {
     color: black;
     border-bottom: 2px solid;
-  }
-
-  .inactive {
-    color: rgb(15 113 203 / 50%);
-    cursor: pointer;
-    line-height: 1.42857;
   }
 }
 

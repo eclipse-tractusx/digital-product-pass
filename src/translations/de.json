@@ -23,8 +23,8 @@
   },
   "passportView": {
     "dpp": "Digitaler Produkt Pass",
-    "bpp": "Batterieprodukt Pass",
-    "tpp": "Übertragungsprodukt Pass",
+    "bpp": "Batterie Pass",
+    "tpp": "Getriebe Pass",
     "batteryComponentsNames": {
       "generalInformation": "Allgemeine Informationen",
       "stateOfBattery": "Zustand der Batterie",
@@ -75,7 +75,7 @@
     "descriptionPerformanceTitle": "Leistung",
     "descriptionPerformanceValue": "Beschreibung der Leistung",
     "titleHealth": "GESUNDHEIT",
-    "labelHealth": "Zustand der Gesundheit (SoH)",
+    "labelHealth": "Zustand der Gesundheit",
     "secondLabelHealth": "Ladezyklen",
     "descriptionHealthTitle": "Gesundheit",
     "descriptionHealthValue": "Beschreibung der Gesundheit",
@@ -154,7 +154,7 @@
   },
   "sections": {
     "generalInformation": {
-      "batteryId": "Batterie-ID (DMC)",
+      "batteryId": "Batterie-ID",
       "batteryIdDescriptionTitle": "Batterie-ID",
       "batteryIdDescriptionValue": "Batterie-ID oder DMC, die Sie in Ihren Geräteeinstellungen finden können",
       "batteryType": "Batterietyp",
@@ -170,18 +170,18 @@
       "cO2FootprintTotal": "CO2-Fußabdruck"
     },
     "stateOfBattery": {
-      "stateOfHealth": "Zustand der Gesundheit",
+      "stateOfHealth": "aktueller Zustand",
       "cycleLifeTestCRate": "Zykluslebensdauertest C-Rate",
       "stateOfCharge": "Ladezustand",
       "cycleLifeTestDepthOfDischarge": "Tiefe der Entladung im Zykluslebensdauertest",
       "expectedLifetime": "Erwartete Lebensdauer",
       "temperatureRange": "Temperaturbereich (im Ruhezustand)",
-      "statusBattery": "Batteriestatus"
+      "statusBattery": "Batterie-Status"
     },
     "components": {
-      "searchForChild": "Die Suche nach Kindkomponenten hat begonnen, dies kann eine Weile dauern...",
-      "noChild": "Keine Kindkomponenten gefunden",
-      "somethingWentWrong": "Etwas ist bei der Suche nach Kindkomponenten schiefgelaufen"
+      "searchForChild": "Die Suche nach verbauten Komponenten hat begonnen, dies kann eine Weile dauern...",
+      "noChild": "Keine verbauten Komponenten gefunden",
+      "somethingWentWrong": "Etwas ist bei der Suche nach Komponenten schiefgelaufen"
     },
     "batteryComposition": {
       "batteryComposites": "Hauptbestandteile der Batterie",
@@ -189,13 +189,13 @@
     },
     "cellChemistry": {
       "electrolyteComposition": "Zusammensetzung des Elektrolyts",
-      "recyclateContent": "Recyclatgehalt aktiver Materialien"
+      "recyclateContent": "Recyclat-Anteil"
     },
     "electrochemicalProperties": {
       "capacity": "Kapazität",
       "ratedCapacity": "Nennkapazität",
       "capacityFade": "Kapazitätsverlust",
-      "capacityThresholdExhaustion": "Erschöpfung der Kapazitätsschwelle",
+      "capacityThresholdExhaustion": "Kapazitätsschwelle für Batterie-Erschöpfung",
       "efficiency": "Effizienz",
       "originalPowerCapability": "Ursprüngliche Leistungsfähigkeit",
       "originalPowerCapabilityLimits": "Grenzen der ursprünglichen Leistungsfähigkeit",
@@ -234,7 +234,7 @@
       "edcProtocol": "EDC-Protokoll",
       "protocol": "Protokoll",
       "edcState": "EDC-Zustand",
-      "edcCounterPartyAddress": "EDC-Gegenpartei-Adresse",
+      "edcCounterPartyAddress": "EDC-Partner-Adresse",
       "edcContractAgreementId": "EDC-Vertragsvereinbarungs-ID",
       "connectorId": "Connector-ID",
       "providerId": "Anbieter-ID",
@@ -244,7 +244,7 @@
       "transferState": "Übertragungszustand",
       "edcTimestamp": "EDC-Zeitstempel",
       "edcDataRequestId": "EDC-Datenanfrage-ID",
-      "edcReceiverHttpEndpoint": "EDC-Empfänger-HTTP-Endpunkt",
+      "edcReceiverHttpEndpoint": "EDC-Empfänger HTTP-Endpunkt",
       "assetId": "Anlagen-ID",
       "connectorAddress": "Connector-Adresse",
       "contractId": "Vertrags-ID",
@@ -266,7 +266,7 @@
     "handling": {
       "maintenanceHistory": "Wartungshistorie",
       "spareParts": "Ersatzteile",
-      "substanceOfConcern": "Besorgniserregende Substanz"
+      "substanceOfConcern": "besorgniserregender Stoff"
     },
     "identification": {
       "gtin": "GTIN"
@@ -297,14 +297,14 @@
       "state": "Zustand",
       "material": "Material",
       "carbonContentTotal": "Gesamter Kohlenstoffgehalt",
-      "crossSectoralStandard": "Sektorenübergreifender Standard"
+      "crossSectoralStandard": "übergreifender Standard"
     },
     "typology": {
       "name": "Name",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name beim Hersteller",
-      "nameAtCustomer": "Name beim Kunden"
+      "nameAtCustomer": "Name auf dem Markt"
     }
   }
 }

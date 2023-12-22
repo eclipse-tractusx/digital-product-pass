@@ -33,7 +33,7 @@ VOLUME data log
 RUN mkdir -p ./log
 RUN mkdir -p ./data
 
-COPY ./target/digitalproductpass*.jar productpass.jar
+COPY ./target/digitalproductpass*.jar digitalproductpass.jar
 
 #HEALTHCHECK --interval=60s --timeout=4s CMD curl -f http://localhost:8080/health || exit 1
 HEALTHCHECK NONE

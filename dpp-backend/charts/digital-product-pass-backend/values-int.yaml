@@ -40,7 +40,7 @@ ingress:
         - *hostname
 edc:
   xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-  participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
+  participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
   endpoint: "materialpass.int.demo.catena-x.net/consumer"
 
 hostname: *hostname
@@ -67,6 +67,6 @@ oauth:
   appId: <path:material-pass/data/int/oauth#appId>
   bpnCheck:
     enabled: true
-    bpn: *bpn
+    bpn: ""
   roleCheck:
     enabled: false

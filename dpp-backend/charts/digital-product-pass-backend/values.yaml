@@ -54,7 +54,7 @@ edc:
   # -- the secret for assesing the edc management API
   xApiKey: "<Add API key here>"
   # -- BPN Number
-  participantId: "<Add participant id here>"
+  participantId: &bpn "<Add participant id here>"
   # -- edc consumer connection configuration
   endpoint: ""
   apis:

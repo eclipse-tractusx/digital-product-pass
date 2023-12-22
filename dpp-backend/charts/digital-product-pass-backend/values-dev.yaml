@@ -41,7 +41,7 @@ ingress:
 
 edc:
   xApiKey: <path:material-pass/data/dev/edc/oauth#api.key>
-  participantId:  <path:material-pass/data/dev/edc/participant#bpnNumber>
+  participantId: &bpn <path:material-pass/data/dev/edc/participant#bpnNumber>
   endpoint: "materialpass.dev.demo.catena-x.net/consumer"
 
 hostname: *hostname   

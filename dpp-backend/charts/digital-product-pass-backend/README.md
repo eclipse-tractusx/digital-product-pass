@@ -1,16 +1,15 @@
-# Digital-product-pass Backend
+# digital-product-pass
 
-![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
 A Helm chart for Tractus-X Digital Product Pass Kubernetes
-
 ## TL;DR 
 
 ### Install
 
 ```bash
-cd backend/helm-chart/digital-product-pass
-helm install digital-product-pass -f ./values.yaml -f ./values-int.yaml
+cd backend/charts/digital-product-pass-backend
+helm install digital-product-pass-backend -f ./values.yaml -f ./values-int.yaml
 ```
 
 > **NOTE**: This command will deploy the backend application.
@@ -42,11 +41,11 @@ Open the web browser with the following url to check the health status:
 localhost:8888/health
 ```
 
-**Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/helm-chart/digital-product-pass>
+**Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/charts/digital-product-pass-backend>
 
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/helm-chart/digital-product-pass>
+* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/charts/digital-product-pass-backend>
 
 ## Values
 
@@ -82,8 +81,11 @@ localhost:8888/health
 | name | string | `"dpp-backend"` |  |
 | namespace | string | `""` |  |
 | nodeSelector | object | `{}` |  |
-| oauth | object | `{"appId":"","hostname":"","onLoad":"login-required","realm":"","techUser":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}}` | oauth configuration |
+| oauth | object | `{"appId":"","bpnCheck":{"bpn":"<Add participant id here>","enabled":false},"hostname":"","onLoad":"login-required","realm":"","roleCheck":{"enabled":false},"techUser":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}}` | oauth configuration |
+| oauth.bpnCheck | object | `{"bpn":"<Add participant id here>","enabled":false}` | configure here the bpn check for the application |
+| oauth.bpnCheck.bpn | string | `"<Add participant id here>"` | this bpn needs to be included in the user login information when the check is enabled |
 | oauth.hostname | string | `""` | url of the identity provider service |
+| oauth.roleCheck | object | `{"enabled":false}` | the role check checks if the user has access roles for the appId |
 | oauth.techUser | object | `{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}` | note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery |
 | passport | object | `{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]}` | passport data transfer configuration |
 | passport.aspects | list | `["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]` | passport versions and aspects allowed |
@@ -97,7 +99,7 @@ localhost:8888/health
 | resources.limits.memory | string | `"512Mi"` |  |
 | resources.requests.cpu | string | `"250m"` |  |
 | resources.requests.memory | string | `"512Mi"` |  |
-| securityCheck | object | `{"bpn":false,"edc":false,"enabled":false}` | security configuration |
+| securityCheck | object | `{"bpn":false,"edc":false}` | security configuration |
 | securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | securityContext.readOnlyRootFilesystem | bool | `true` |  |
 | securityContext.runAsGroup | int | `3000` |  |

@@ -1,472 +1,696 @@
 {
-    "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport": {
-        "serialization": {
-            "manufacturingInformation": {
-                "date": null,
-                "country": null
-            },
-            "registration": {
-                "customerPartId": null,
-                "manufacturerPartId": null
-            },
-            "quantity": {
-                "value": null,
-                "unit": null
-            }
-        },
-        "typology": {
-            "name": null,
-            "description": null,
-            "class": {
-                "definition": null,
-                "code": null
-            },
-            "nameAtManufacturer": null,
-            "nameAtCustomer": null
-        },
-        "metadata": {
-            "issueDate": null,
-            "version": null,
-            "validityDate": null,
-            "economicOperator": {
-                "eori": null,
-                "id": null
-            },
-            "status": null
-        },
-        "characteristics": {
-            "physicalDimensionsProperty": {
-                "width": null,
-                "length": null,
-                "weight": null,
-                "height": null
-            },
-            "energyCapacity": {
-                "value": null,
-                "unit": null
-            },
-            "voltage": {
-                "value": null,
-                "unit": null
-            }
-        },
-        "commercial": {
-            "placedOnMarket": null,
-            "warranty": null
-        },
-        "identification": {
-            "localIdentifiers": [
-                {
-                    "value": null,
-                    "key": null
-                }
-            ],
-            "gtin": null,
-            "additionalCode": [
-                {
-                    "name": null,
-                    "value": null
-                }
-            ]
-        },
-        "sources": {
-            "mandatory": {
-                "safetyInformation": {
-                    "header": null,
-                    "category": null,
-                    "type": null,
-                    "content": null
-                },
-                "environmentalImpact": {
-                    "header": null,
-                    "category": null,
-                    "type": null,
-                    "content": null
-                }
-            },
-            "optional": [
-                {
-                    "name": null,
-                    "document": {
-                        "header": null,
-                        "category": null,
-                        "type": null,
-                        "content": null
-                    }
-                }
-            ]
-        },
-        "sustainability": {
-            "state": null,
-            "material": [
-                {
-                    "name": null,
-                    "recycled": false,
-                    "renewable": false,
-                    "percentage": null
-                }
-            ],
-            "critical": null,
-            "carbonFootprint": {
-                "carbonContentTotal": null,
-                "crossSectoralStandard": null,
-                "productOrSectorSpecificRules": [
-                    {
-                        "ruleName": null
-                    }
-                ]
-            }
-        },
-        "operation": {
-            "importer": null,
-            "manufacturer": {
-                "manufacturerId": null,
-                "facilityId": null
-            }
-        }
+  "urn:bamm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport": {
+    "typology": {
+      "shortName": null,
+      "class": {
+        "definition": null,
+        "code": null
+      },
+      "longName": null
     },
-    "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass": {
-        "electrochemicalProperties": {
-            "ratedCapacity": null,
-            "batteryEnergy": {
-                "energyRoundtripEfficiencyChange": null,
-                "maximumAllowedBatteryEnergy": null,
-                "energyRoundtripEfficiency": null
-            },
-            "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": null,
-            "batteryVoltage": {
-                "nominalVoltage": null,
-                "maxVoltage": null,
-                "minVoltage": null
-            },
-            "internalResistance": {
-                "cellInternalResistance": null,
-                "packInternalResistanceIncrease": null,
-                "packInternalResistance": null
-            },
-            "capacityThresholdExhaustion": null,
-            "batteryPower": {
-                "powerFade": null,
-                "originalPowerCapability": null,
-                "originalPowerCapabilityLimits": null,
-                "maximumAllowedBatteryPower": null,
-                "powerCapabilityAt20Charge": null,
-                "powerCapabilityAt80Charge": null
-            },
-            "capacityFade": null
+    "metadata": {
+      "predecessor": null,
+      "issueDate": null,
+      "version": null,
+      "economicOperator": {
+        "legitimization": null,
+        "identification": null
+      },
+      "status": null,
+      "expirationDate": null
+    },
+    "characteristics": {
+      "physicalDimension": {
+        "grossWeight": {
+          "value": null,
+          "unit": null
         },
-        "document": {
-            "responsibleSourcing": [
+        "weightOrVolume": {
+          "left": {
+            "value": null,
+            "unit": null
+          }
+        },
+        "diameter": {
+          "value": null,
+          "unit": null
+        },
+        "grossVolume": {
+          "value": null,
+          "unit": null
+        },
+        "width": {
+          "value": null,
+          "unit": null
+        },
+        "length": {
+          "value": null,
+          "unit": null
+        },
+        "height": {
+          "value": null,
+          "unit": null
+        }
+      },
+      "lifespan": [
+        {
+          "value": null,
+          "unit": null,
+          "key": null
+        }
+      ],
+      "physicalState": null
+    },
+    "commercial": {
+      "placedOnMarket": null
+    },
+    "identification": {
+      "localIdentifier": {
+        "value": null,
+        "key": null
+      },
+      "additionalCode": [
+        {
+          "value": null,
+          "key": null
+        }
+      ],
+      "dataCarrier": {
+        "carrierType": null,
+        "carrierLayout": null
+      }
+    },
+    "sources": [
+      {
+        "header": null,
+        "category": null,
+        "type": null,
+        "content": null
+      }
+    ],
+    "handling": {
+      "spareParts": {
+        "left": {
+          "producer": [
+            {
+              "id": null
+            }
+          ],
+          "part": [
+            {
+              "name": null,
+              "gtin": null
+            }
+          ]
+        }
+      },
+      "substanceOfConcern": {
+        "left": [
+          {
+            "name": {
+              "name": null,
+              "type": null
+            },
+            "location": null,
+            "unit": null,
+            "concentration": {
+              "left": [
                 {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
-                },
-                {
-                    "title": null,
-                    "fileLocation": null
+                  "max": null,
+                  "min": null
                 }
-            ],
-            "packagingInstructions": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "transportationInstructions": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "vehicleDismantlingProcedure": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "testReportsResults": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "batteryDismantlingProcedure": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "safetyMeasures": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
-            ],
-            "declarationOfConformity": [
-                {
-                    "title": null,
-                    "fileLocation": null
-                }
+              ]
+            },
+            "exemption": null,
+            "id": [
+              {
+                "type": null,
+                "id": null
+              }
             ]
+          }
+        ]
+      }
+    },
+    "additionalData": [
+      {
+        "description": null,
+        "label": null,
+        "type": {
+          "typeUnit": null,
+          "dataType": null
         },
-        "datePlacedOnMarket": null,
-        "cellChemistry": {
-            "electrolyteComposition": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ],
-            "anodeCompositionOther": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ],
-            "recyclateContentActiveMaterials": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ],
-            "anodeActiveMaterials": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ],
-            "cathodeActiveMaterials": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ],
-            "cathodeCompositionOther": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
-            ]
-        },
-        "physicalDimensions": {
-            "length": null,
-            "width": null,
-            "weight": null,
-            "diameter": null,
-            "height": null
-        },
-        "temperatureRangeIdleState": {
-            "temperatureRangeIdleStateUpperLimit": null,
-            "temperatureRangeIdleStateLowerLimit": null
-        },
-        "batteryCycleLife": {
-            "cycleLifeTestCRate": null,
-            "cycleLifeTestDepthOfDischarge": null,
-            "expectedLifetime": null
-        },
-        "manufacturer": {
-            "name": null,
-            "contact": {
-                "faxNumber": null,
-                "website": null,
-                "phoneNumber": null,
-                "email": null
+        "data": null,
+        "children": [
+          {
+            "description": null,
+            "label": null,
+            "type": {
+              "typeUnit": null,
+              "dataType": null
             },
-            "address": {
-                "locality": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "country": {
-                    "shortName": null
-                },
-                "postCode": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "thoroughfare": {
-                    "value": null,
-                    "number": null,
-                    "technicalKey": null
-                },
-                "premise": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "postalDeliveryPoint": {
-                    "value": null,
-                    "technicalKey": null
-                }
-            }
+            "data": null
+          }
+        ]
+      }
+    ],
+    "sustainability": {
+      "PEF": {
+        "carbon": [
+          {
+            "lifecycle": null,
+            "rulebook": null,
+            "unit": null,
+            "type": null,
+            "value": null
+          }
+        ],
+        "carbon2": {
+          "lifecycle": null,
+          "rulebook": null,
+          "unit": null,
+          "type": null,
+          "value": null
         },
-        "warrantyPeriod": null,
-        "composition": {
-            "compositionOfBattery": [
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                },
-                {
-                    "materialPercentageMassFraction": null,
-                    "materialName": null,
-                    "materialWeight": null
-                }
+        "environmental": [
+          {
+            "lifecycle": null,
+            "rulebook": null,
+            "unit": null,
+            "type": null,
+            "value": null
+          }
+        ]
+      },
+      "state": null,
+      "material": {
+        "left": [
+          {
+            "name": {
+              "name": null,
+              "type": null
+            },
+            "unit": null,
+            "recycled": null,
+            "id": [
+              {
+                "type": null,
+                "id": null
+              }
             ],
-            "criticalRawMaterials": null,
-            "components": {
-                "componentsPartNumber": [
-                    null
-                ],
-                "componentsSupplier": [
-                    {
-                        "componentsSupplierName": null,
-                        "address": {
-                            "locality": {
-                                "value": null,
-                                "technicalKey": null
-                            },
-                            "country": {
-                                "shortName": null
-                            },
-                            "postCode": {
-                                "value": null,
-                                "technicalKey": null
-                            },
-                            "thoroughfare": {
-                                "value": null,
-                                "number": null,
-                                "technicalKey": null
-                            },
-                            "premise": {
-                                "value": null,
-                                "technicalKey": null
-                            },
-                            "postalDeliveryPoint": {
-                                "value": null,
-                                "technicalKey": null
-                            }
-                        },
-                        "contact": {
-                            "faxNumber": null,
-                            "website": null,
-                            "phoneNumber": null,
-                            "email": null
-                        }
-                    }
-                ]
-            }
-        },
-        "manufacturing": {
-            "dateOfManufacturing": null,
-            "address": {
-                "locality": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "country": {
-                    "shortName": null
-                },
-                "postCode": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "thoroughfare": {
-                    "value": null,
-                    "number": null,
-                    "technicalKey": null
-                },
-                "premise": {
-                    "value": null,
-                    "technicalKey": null
-                },
-                "postalDeliveryPoint": {
-                    "value": null,
-                    "technicalKey": null
-                }
-            }
-        },
-        "batteryIdentification": {
-            "batteryType": null,
-            "batteryIDDMCCode": null,
-            "batteryModel": null
-        },
-        "stateOfBattery": {
-            "stateOfHealth": null,
-            "statusBattery": null,
-            "stateOfCharge": null
-        },
-        "cO2FootprintTotal": null
+            "value": null,
+            "renewable": null
+          }
+        ]
+      },
+      "critical": {
+        "left": [
+          null
+        ]
+      }
+    },
+    "operation": {
+      "importer": {
+        "left": {
+          "eori": null,
+          "id": null
+        }
+      },
+      "manufacturer": {
+        "facility": null,
+        "manufacturingDate": null,
+        "manufacturer": null
+      }
     }
+  },
+  "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport": {
+    "serialization": {
+      "manufacturingInformation": {
+        "date": null,
+        "country": null
+      },
+      "registration": {
+        "customerPartId": null,
+        "manufacturerPartId": null
+      },
+      "quantity": {
+        "value": null,
+        "unit": null
+      }
+    },
+    "typology": {
+      "name": null,
+      "description": null,
+      "class": {
+        "definition": null,
+        "code": null
+      },
+      "nameAtManufacturer": null,
+      "nameAtCustomer": null
+    },
+    "metadata": {
+      "issueDate": null,
+      "version": null,
+      "validityDate": null,
+      "economicOperator": {
+        "eori": null,
+        "id": null
+      },
+      "status": null
+    },
+    "characteristics": {
+      "physicalDimensionsProperty": {
+        "width": null,
+        "length": null,
+        "weight": null,
+        "height": null
+      },
+      "energyCapacity": {
+        "value": null,
+        "unit": null
+      },
+      "voltage": {
+        "value": null,
+        "unit": null
+      }
+    },
+    "commercial": {
+      "placedOnMarket": null,
+      "warranty": null
+    },
+    "identification": {
+      "localIdentifiers": [
+        {
+          "value": null,
+          "key": null
+        }
+      ],
+      "gtin": null,
+      "additionalCode": [
+        {
+          "name": null,
+          "value": null
+        }
+      ]
+    },
+    "sources": {
+      "mandatory": {
+        "safetyInformation": {
+          "header": null,
+          "category": null,
+          "type": null,
+          "content": null
+        },
+        "environmentalImpact": {
+          "header": null,
+          "category": null,
+          "type": null,
+          "content": null
+        }
+      },
+      "optional": [
+        {
+          "name": null,
+          "document": {
+            "header": null,
+            "category": null,
+            "type": null,
+            "content": null
+          }
+        }
+      ]
+    },
+    "sustainability": {
+      "state": null,
+      "material": [
+        {
+          "name": null,
+          "recycled": false,
+          "renewable": false,
+          "percentage": null
+        }
+      ],
+      "critical": null,
+      "carbonFootprint": {
+        "carbonContentTotal": null,
+        "crossSectoralStandard": null,
+        "productOrSectorSpecificRules": [
+          {
+            "ruleName": null
+          }
+        ]
+      }
+    },
+    "operation": {
+      "importer": null,
+      "manufacturer": {
+        "manufacturerId": null,
+        "facilityId": null
+      }
+    }
+  },
+  "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass": {
+    "electrochemicalProperties": {
+      "ratedCapacity": null,
+      "batteryEnergy": {
+        "energyRoundtripEfficiencyChange": null,
+        "maximumAllowedBatteryEnergy": null,
+        "energyRoundtripEfficiency": null
+      },
+      "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": null,
+      "batteryVoltage": {
+        "nominalVoltage": null,
+        "maxVoltage": null,
+        "minVoltage": null
+      },
+      "internalResistance": {
+        "cellInternalResistance": null,
+        "packInternalResistanceIncrease": null,
+        "packInternalResistance": null
+      },
+      "capacityThresholdExhaustion": null,
+      "batteryPower": {
+        "powerFade": null,
+        "originalPowerCapability": null,
+        "originalPowerCapabilityLimits": null,
+        "maximumAllowedBatteryPower": null,
+        "powerCapabilityAt20Charge": null,
+        "powerCapabilityAt80Charge": null
+      },
+      "capacityFade": null
+    },
+    "document": {
+      "responsibleSourcing": [
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        },
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "packagingInstructions": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "transportationInstructions": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "vehicleDismantlingProcedure": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "testReportsResults": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "batteryDismantlingProcedure": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "safetyMeasures": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ],
+      "declarationOfConformity": [
+        {
+          "title": null,
+          "fileLocation": null
+        }
+      ]
+    },
+    "datePlacedOnMarket": null,
+    "cellChemistry": {
+      "electrolyteComposition": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "anodeCompositionOther": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "recyclateContentActiveMaterials": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "anodeActiveMaterials": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "cathodeActiveMaterials": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "cathodeCompositionOther": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ]
+    },
+    "physicalDimensions": {
+      "length": null,
+      "width": null,
+      "weight": null,
+      "diameter": null,
+      "height": null
+    },
+    "temperatureRangeIdleState": {
+      "temperatureRangeIdleStateUpperLimit": null,
+      "temperatureRangeIdleStateLowerLimit": null
+    },
+    "batteryCycleLife": {
+      "cycleLifeTestCRate": null,
+      "cycleLifeTestDepthOfDischarge": null,
+      "expectedLifetime": null
+    },
+    "manufacturer": {
+      "name": null,
+      "contact": {
+        "faxNumber": null,
+        "website": null,
+        "phoneNumber": null,
+        "email": null
+      },
+      "address": {
+        "locality": {
+          "value": null,
+          "technicalKey": null
+        },
+        "country": {
+          "shortName": null
+        },
+        "postCode": {
+          "value": null,
+          "technicalKey": null
+        },
+        "thoroughfare": {
+          "value": null,
+          "number": null,
+          "technicalKey": null
+        },
+        "premise": {
+          "value": null,
+          "technicalKey": null
+        },
+        "postalDeliveryPoint": {
+          "value": null,
+          "technicalKey": null
+        }
+      }
+    },
+    "warrantyPeriod": null,
+    "composition": {
+      "compositionOfBattery": [
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        },
+        {
+          "materialPercentageMassFraction": null,
+          "materialName": null,
+          "materialWeight": null
+        }
+      ],
+      "criticalRawMaterials": null,
+      "components": {
+        "componentsPartNumber": [
+          null
+        ],
+        "componentsSupplier": [
+          {
+            "componentsSupplierName": null,
+            "address": {
+              "locality": {
+                "value": null,
+                "technicalKey": null
+              },
+              "country": {
+                "shortName": null
+              },
+              "postCode": {
+                "value": null,
+                "technicalKey": null
+              },
+              "thoroughfare": {
+                "value": null,
+                "number": null,
+                "technicalKey": null
+              },
+              "premise": {
+                "value": null,
+                "technicalKey": null
+              },
+              "postalDeliveryPoint": {
+                "value": null,
+                "technicalKey": null
+              }
+            },
+            "contact": {
+              "faxNumber": null,
+              "website": null,
+              "phoneNumber": null,
+              "email": null
+            }
+          }
+        ]
+      }
+    },
+    "manufacturing": {
+      "dateOfManufacturing": null,
+      "address": {
+        "locality": {
+          "value": null,
+          "technicalKey": null
+        },
+        "country": {
+          "shortName": null
+        },
+        "postCode": {
+          "value": null,
+          "technicalKey": null
+        },
+        "thoroughfare": {
+          "value": null,
+          "number": null,
+          "technicalKey": null
+        },
+        "premise": {
+          "value": null,
+          "technicalKey": null
+        },
+        "postalDeliveryPoint": {
+          "value": null,
+          "technicalKey": null
+        }
+      }
+    },
+    "batteryIdentification": {
+      "batteryType": null,
+      "batteryIDDMCCode": null,
+      "batteryModel": null
+    },
+    "stateOfBattery": {
+      "stateOfHealth": null,
+      "statusBattery": null,
+      "stateOfCharge": null
+    },
+    "cO2FootprintTotal": null
+  }
 }

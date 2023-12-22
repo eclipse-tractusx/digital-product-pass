@@ -294,10 +294,9 @@
         "description": "Description of an attribute",
         "label": "Maximum permitted battery power",
         "type": {
-          "typeUnit": "unit:volume",
-          "dataType": "array"
+          "typeUnit": null,
+          "dataType": "object"
         },
-        "data": "23",
         "children": [
           {
             "description": "Description of an attribute child",

@@ -22,63 +22,22 @@
 
 <template>
   <div class="section">
-    <v-container class="ma-0" v-for="attribute in propsData" :key="attribute">
+    <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="attribute">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <DialogComponent class="field-dialog">
-              <Field
-                info
-                :icon="callIconFinder('additionalData')"
-                :label="attribute.label"
-                :value="attribute.data"
-                :unit="attribute.type.typeUnit"
-              />
-              <template v-slot:title>
-                {{ attribute.description }}
-              </template>
-              <template v-slot:text>
-                {{ attribute.description }}
-              </template>
-            </DialogComponent>
-          </v-col>
-        </template>
-        <template v-if="attribute.children">
-          <template v-for="attr in attribute.children" :key="attr">
-            <v-col sm="12" md="4" class="pa-0 ma-0">
-              <DialogComponent class="field-dialog">
-                <Field
-                  info
-                  :icon="callIconFinder('additionalData')"
-                  :label="attr.label"
-                  :value="attr.data"
-                  :unit="attr.type.typeUnit"
-                />
-                <template v-slot:title>
-                  {{ attr.description }}
-                </template>
-                <template v-slot:text>
-                  {{ attr.description }}
-                </template>
-              </DialogComponent>
-            </v-col>
-          </template>
-        </template>
+        <RecursiveAdditionalData :jsonData="propsData" />
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import Field from "../Field.vue";
-import DialogComponent from "../../general/Dialog.vue";
 import passportUtil from "@/utils/passportUtil.js";
+import RecursiveAdditionalData from "../../general/RecursiveAdditionalData.vue";
 
 export default {
   name: "AdditionalDataComponent",
   components: {
-    DialogComponent,
-    Field,
+    RecursiveAdditionalData,
   },
   props: {
     data: {

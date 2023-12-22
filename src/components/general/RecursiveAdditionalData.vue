@@ -1,0 +1,93 @@
+<!--
+  Catena-X - Product Passport Consumer Frontend
+ 
+  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+<template>
+  <div>
+    <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+    <template v-for="attribute in jsonData" :key="attribute">
+      <template v-if="attribute.type.dataType !== 'object'">
+        <DialogComponent class="field-dialog">
+          <Field
+            info
+            :icon="callIconFinder('additionalData')"
+            :label="attribute.label"
+            :value="processValue(attribute)"
+            :unit="attribute.type.typeUnit ? attribute.type.typeUnit : ''"
+          />
+          <template v-slot:text>
+            {{ attribute.description }}
+          </template>
+        </DialogComponent>
+      </template>
+      <template v-else>
+        <!-- <v-col sm="12" md="6" class="pa-0 ma-0"> -->
+        <DialogComponent class="field-dialog">
+          <Field
+            info
+            :icon="callIconFinder('additionalData')"
+            :label="attribute.label"
+            value=""
+            :unit="attribute.type.typeUnit ? attribute.type.typeUnit : ''"
+          />
+          <template v-slot:text>
+            {{ attribute.description }}
+          </template>
+        </DialogComponent>
+        <template v-if="attribute.children">
+          <recursive-additional-data :jsonData="attribute.children" />
+        </template>
+        <!-- </v-col> -->
+      </template>
+    </template>
+  </div>
+</template>
+
+<script>
+import passportUtil from "@/utils/passportUtil.js";
+import Field from "../passport/Field.vue";
+import DialogComponent from "../general/Dialog.vue";
+export default {
+  name: "RecursiveAdditionalData",
+  components: {
+    Field,
+    DialogComponent,
+  },
+  props: {
+    jsonData: {
+      type: [Object, Array],
+    },
+  },
+
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
+    processValue(attribute) {
+      if (attribute.type.dataType == "array" && Array.isArray(attribute.data)) {
+        return attribute.data.join(", ");
+      } else {
+        return attribute.data;
+      }
+    },
+  },
+};
+</script>

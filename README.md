@@ -35,9 +35,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-1.3.1">1.3.1</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.0.0">2.0.0</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v1.3.1">v1.3.1</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.0.0">v2.0.0</a></pre>
 
 
 ## Application Preview
@@ -56,7 +56,7 @@ To get started you can have a look into our documentation:
 | ----------------------------------------------------------------          |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
 | [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
-| [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
+| [Backend Documentation](./backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
 | [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
@@ -98,7 +98,7 @@ Eclipse Tractus-X product(s) installed within the image:
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
 - Dockerfiles: 
     - Frontend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/Dockerfile
-    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/Dockerfile
+    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/Dockerfile
 - Project License: [Apache License, Version 2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE)
 
 

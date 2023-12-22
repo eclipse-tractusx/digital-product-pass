@@ -9,7 +9,7 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 ### Install
 
 ```bash
-cd consumer-backend/helm-chart/digital-product-pass
+cd backend/helm-chart/digital-product-pass
 helm install digital-product-pass -f ./values.yaml -f ./values-int.yaml
 ```
 
@@ -42,11 +42,11 @@ Open the web browser with the following url to check the health status:
 localhost:8888/health
 ```
 
-**Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/helm-chart/digital-product-pass>
+**Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/helm-chart/digital-product-pass>
 
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/helm-chart/digital-product-pass>
+* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/helm-chart/digital-product-pass>
 
 ## Values
 

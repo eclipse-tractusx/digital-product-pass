@@ -122,7 +122,7 @@ All the information about the backend services is described in this documentatio
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/consumer-backend/productpass/readme.md) |
+| Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/productpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/backend/productpass/readme.md) |
 | Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
@@ -130,7 +130,7 @@ The configurations of log levels and other variables can be set in the following
 
 | Name                              | Location | Link                                                                                                                                                                                                                                         |
 |-----------------------------------| -------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+| Backend Application Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml) |
 
 ### Spring Boot Configuration
 
@@ -138,7 +138,7 @@ The Consumer Backend is running over a Spring Boot server, therefore a applicati
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/application.yml) |
+| Spring Boot Server Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/application.yml) |
 
 All the application utilizes these variables to configure the utilities (tools) and other controllers/services.
 
@@ -149,7 +149,7 @@ In order to manage the logs from the application a XML file was set, it contains
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Spring Boot Logging Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/logback-spring.xml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/consumer-backend/productpass/src/main/resources/logback-spring.xml) |
+| Spring Boot Logging Configuration | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/logback-spring.xml](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/backend/productpass/src/main/resources/logback-spring.xml) |
 
 ## Postman Collection
 

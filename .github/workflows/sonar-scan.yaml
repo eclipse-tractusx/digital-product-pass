@@ -83,7 +83,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          cd consumer-backend/productpass
+          cd backend/productpass
           mvn -B install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
       # cannot scan frontend component in one sonar cloud project where backend is also running, because frontend implemented in different technology

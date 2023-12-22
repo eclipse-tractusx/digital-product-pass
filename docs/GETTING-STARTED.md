@@ -192,7 +192,7 @@ Link to the Integration (INT) environment: [https://materialpass.int.demo.catena
 
     - Reference docs: 
         - [INSTALL.md](../INSTALL.md)
-        - [Productpass backend](../consumer-backend/productpass/readme.md)
+        - [Productpass backend](../backend/productpass/readme.md)
 
 Link to the Integration (INT) environment: [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net/)
 

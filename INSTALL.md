@@ -51,7 +51,7 @@ kubectl get pods -n product-material-pass --no-headers |  awk '{if ($1 ~ "consum
 ```
 **Example**:
 
-![img4.png](./consumer-backend/productpass/docs/media/img4.png)
+![img4.png](./backend/productpass/docs/media/img4.png)
 
 
 Copy the pod name with the prefix `consumer-backend`
@@ -80,7 +80,7 @@ Use the following commands to install/compile the application:
 
 ### Compile Backend
 ```bash
-cd consumer-backend/productpass 
+cd backend/productpass 
 mvn clean install test
 ```
 

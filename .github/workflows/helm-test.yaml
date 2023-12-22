@@ -85,14 +85,14 @@ jobs:
       # Build Java code with Maven
       - name:  Build dpp backend with maven
         run: |
-          cd consumer-backend/productpass
+          cd backend/productpass
           mvn -B clean install
 
       - name: Build image for backend
         id: build-backend
         uses: docker/build-push-action@v3
         with:
-          context: consumer-backend/productpass
+          context: backend/productpass
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}:${{ env.TAG }}
 

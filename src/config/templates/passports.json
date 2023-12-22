@@ -1,5 +1,5 @@
 {
-  "urn:bamm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport": {
+  "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport": {
     "typology": {
       "shortName": null,
       "class": {

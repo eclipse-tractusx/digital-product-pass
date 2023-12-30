@@ -80,7 +80,7 @@
 import DialogComponent from "../general/Dialog.vue";
 
 export default {
-  name: "BatteryCards",
+  name: "GeneralCards",
   components: {
     DialogComponent,
   },
@@ -129,7 +129,7 @@ export default {
           value: this.$props.data.aspect.metadata.version,
           secondValue: this.$props.data.aspect.metadata.issueDate,
           description: {
-            title: "aspect version",
+            title: "Aspect version",
             value: "Description of the aspect version",
           },
         },

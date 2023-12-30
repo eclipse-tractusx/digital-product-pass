@@ -124,7 +124,7 @@ You can find the backend documentation at the following location:
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Backend Documentation](./consumer-backend/productpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         
+| [Backend Documentation](./dpp-backend/digitalproductpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         
 
 ## Infrastructure Documentation
 

@@ -23,6 +23,57 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**November 22 2023 (Version 2.0.0)**
+*22.12.2023*
+
+### Added
+#### Enabled backend as Standalone Application 
+Now there is a seperate helm chart, script and backend packege as digital product pass in the `/dpp-backend` directory.
+This marks the backend as standalone application that can be used and deployed without the frontend. The backend packege was also updated to match the latest naming of the application. It was renamed to `org.eclipse.tractusx.digitalproductpass`.
+
+#### Added transmision pass v1.0.0 visualization in frontend
+Now the frotend component is able to visualize the transmission pass v1.0.0. It searches for the semanticId of the aspect and visualizes it in the frontend so the user can interactuate with it.
+
+
+#### Script to retrieve any passport type using the dpp-backend
+The script contains the following features:
+
+  - Retrieve DPP information using the backend in json format and prints it to the standard output
+  - Prints data retrieval status to console output on each step
+  - Perform authentication from the centrally managed authorization server (keycloak) based on company and user credentials provided by the user
+  - Export enabled/disabled option to export the requested aspect data to a json file
+  - Logging enabled/disabled option to log intermediate retrieval status to a file for further backtracking/debugging/troubleshooting
+  - The backend API and authorization server settings are configurable
+  - Capable to handle exception and error messages
+
+#### Added security improvement by allowing authorization by BPN and Portal IAM Roles
+The backend and the frontend components from the Digital Product Pass Application are now able to be configured for blocking the access to not authorized end users. 
+The BPN contained in the configuration will be check if enabled and if enabled also the IAM roles asigned to the end user in the Portal will also be checked for the specific `clientId`
+
+#### Added new Data Retrieval Guide
+The data retrieval guide is now available and is a document for explaning in detail how the data retrieval process is performed by applicactions like the digital product pass. It explains how to retrieve data in Catena-X
+
+### Updated
+#### Updated the Arc42 documentation (drill down documentation added)
+The Arc42 is updated and will be used as a base for the EcoPassKIT. It has detailed explanation about the new functionalities of the backend using the Item Relationship Service (IRS), and also how the application is doing the drill down in components.
+
+#### Updated Admin Guide
+The admin guide was updated to match the newest `v1.1.0` of the CX-0096-TriangleForDigitalProductPass standard.
+
+#### Updated QR Scanner
+Updated the QR Scanner to be more resilient and scan the QR codes in a more optimized way improving the UI functionality.
+
+
+**November 14 2023 (Version 1.4.0)**
+*14.12.2023*
+
+### Added
+#### DPP test data uploader
+A script is refactored to upload/remove testdata set from the data provider setup. This speeds up the automatic uploading of various passes types into the provider's digital twin registry, data service and EDC connector.
+
+### Updated
+#### Optimize contract negotiation time
+There was a long waiting time during the contract negotiation. This time is now reduced and the negotiation is perfomred faster.
 
 **November 08 2023 (Version 1.3.1)**
 *08.11.2023*

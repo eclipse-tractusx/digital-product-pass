@@ -98,10 +98,12 @@
 import Field from "../Field.vue";
 import passportUtil from "@/utils/passportUtil.js";
 
+
 export default {
   name: "SustainabilityComponent",
   components: {
     Field,
+    InstructionsField,
   },
   props: {
     data: {
@@ -111,7 +113,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.sustainability,
+      propsData: this.$props.data,
     };
   },
   methods: {

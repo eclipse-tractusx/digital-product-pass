@@ -638,17 +638,21 @@ irs-helm:
   minioPassword: <path:material-pass/data/dev/irs/minio#password>
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
-  keycloak:
-    oauth2:
-      clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
-      clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+  oauth2:
+    clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
+    clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
+    clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
     catalog:
-      policies:
-        allowedNames: "DPP, ID 3.0 Trace, ID 3.1 Trace, R2_Traceability, FrameworkAgreement.traceability, Membership"
+      acceptedPolicies:
+        - leftOperand: "FrameworkAgreement.sustainability"	
+          operator: "eq"	
+          rightOperand: "active"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
     controlplane:
       endpoint:
         data: https://materialpass.dev.demo.catena-x.net/consumer/management

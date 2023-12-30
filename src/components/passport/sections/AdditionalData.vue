@@ -24,14 +24,25 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <RecursiveAdditionalData :jsonData="propsData" />
+        <template v-if="propsData">
+          <v-col
+            v-for="(attr, key) in propsData"
+            :key="key"
+            sm="12"
+            :md="columnWidth"
+            class="pa-0 ma-0 column"
+          >
+            <div class="element-chart-label">{{ attr.label }}</div>
+
+            <RecursiveAdditionalData :jsonData="attr" />
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import passportUtil from "@/utils/passportUtil.js";
 import RecursiveAdditionalData from "../../general/RecursiveAdditionalData.vue";
 
 export default {
@@ -48,12 +59,20 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.additionalData,
+      columnWidth: 6,
     };
   },
+  created() {
+    this.columnWidth = this.columnCounter(this.propsData);
+  },
   methods: {
-    callIconFinder(unit) {
-      return passportUtil.iconFinder(unit);
+    columnCounter(array) {
+      const maxGridSize = 12;
+      const columns = array.length;
+      const columnWidth = Math.max(1, Math.floor(maxGridSize / columns));
+      return columnWidth;
     },
   },
 };
 </script>
+

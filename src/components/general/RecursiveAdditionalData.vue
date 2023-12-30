@@ -21,14 +21,14 @@
 -->
 
 <template>
-  <div>
+  <div class="additional-data">
     <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-    <template v-for="attribute in jsonData" :key="attribute">
+    <template v-for="attribute in jsonData.children" :key="attribute">
       <template v-if="attribute.type.dataType !== 'object'">
         <DialogComponent class="field-dialog">
           <Field
             info
-            :icon="callIconFinder('additionalData')"
+            :icon="callIconFinder(attribute.label)"
             :label="attribute.label"
             :value="processValue(attribute)"
             :unit="attribute.type.typeUnit ? attribute.type.typeUnit : ''"
@@ -39,23 +39,17 @@
         </DialogComponent>
       </template>
       <template v-else>
-        <!-- <v-col sm="12" md="6" class="pa-0 ma-0"> -->
         <DialogComponent class="field-dialog">
-          <Field
-            info
-            :icon="callIconFinder('additionalData')"
-            :label="attribute.label"
-            value=""
-            :unit="attribute.type.typeUnit ? attribute.type.typeUnit : ''"
-          />
+          <div class="column">
+            <div class="container-label">{{ attribute.label }}</div>
+          </div>
           <template v-slot:text>
             {{ attribute.description }}
           </template>
         </DialogComponent>
         <template v-if="attribute.children">
-          <recursive-additional-data :jsonData="attribute.children" />
+          <recursive-additional-data :jsonData="attribute" />
         </template>
-        <!-- </v-col> -->
       </template>
     </template>
   </div>
@@ -91,3 +85,4 @@ export default {
   },
 };
 </script>
+

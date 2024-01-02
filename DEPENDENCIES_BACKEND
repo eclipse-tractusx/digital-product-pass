@@ -63,7 +63,7 @@ maven/mavencentral/org.apache.commons/commons-collections4/4.4, Apache-2.0, appr
 maven/mavencentral/org.apache.commons/commons-lang3/3.13.0, Apache-2.0, approved, #9820
 maven/mavencentral/org.apache.commons/commons-text/1.10.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.21.1, Apache-2.0 AND (Apache-2.0 AND LGPL-2.0-or-later), approved, #11079
-maven/mavencentral/org.apache.logging.log4j/log4j-core/2.21.1, Apache-2.0, restricted, clearlydefined
+maven/mavencentral/org.apache.logging.log4j/log4j-core/2.21.1, Apache-2.0 AND (Apache-2.0 AND LGPL-2.0-or-later), approved, #12592
 maven/mavencentral/org.apache.logging.log4j/log4j-to-slf4j/2.21.1, Apache-2.0, approved, #11919
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.17, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND W3C AND CC0-1.0, approved, #5949
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/10.1.17, Apache-2.0, approved, #6997
@@ -86,15 +86,15 @@ maven/mavencentral/org.springdoc/springdoc-openapi-starter-common/2.0.2, Apache-
 maven/mavencentral/org.springdoc/springdoc-openapi-starter-webmvc-api/2.0.2, Apache-2.0, approved, #5950
 maven/mavencentral/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.0.2, Apache-2.0, approved, #5923
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.2.1, Apache-2.0, approved, #11751
-maven/mavencentral/org.springframework.boot/spring-boot-starter-data-rest/3.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-data-rest/3.2.1, Apache-2.0, approved, #12594
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.2.1, Apache-2.0, approved, #11894
 maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.2.1, Apache-2.0, approved, #11890
-maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.2.1, , restricted, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.2.1, Apache-2.0, approved, #12587
+maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.2.1, Apache-2.0, approved, #12590
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.0.2, Apache-2.0, approved, #7329
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.2.1, Apache-2.0, approved, #11923
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.0.2, Apache-2.0, approved, #5945
-maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.2.1, Apache-2.0, approved, #12589
 maven/mavencentral/org.springframework.boot/spring-boot-starter/3.2.1, Apache-2.0, approved, #11935
 maven/mavencentral/org.springframework.boot/spring-boot/3.2.1, Apache-2.0, approved, #11752
 maven/mavencentral/org.springframework.cloud/spring-cloud-commons/3.1.5, Apache-2.0, approved, #4726
@@ -102,20 +102,20 @@ maven/mavencentral/org.springframework.cloud/spring-cloud-context/3.1.5, Apache-
 maven/mavencentral/org.springframework.cloud/spring-cloud-starter-bootstrap/3.1.5, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.cloud/spring-cloud-starter/3.1.5, Apache-2.0, approved, #4723
 maven/mavencentral/org.springframework.data/spring-data-commons/3.2.1, Apache-2.0, approved, #11917
-maven/mavencentral/org.springframework.data/spring-data-rest-core/4.2.1, , restricted, clearlydefined
-maven/mavencentral/org.springframework.data/spring-data-rest-webmvc/4.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.data/spring-data-rest-core/4.2.1, Apache-2.0, approved, #12591
+maven/mavencentral/org.springframework.data/spring-data-rest-webmvc/4.2.1, Apache-2.0, approved, #12595
 maven/mavencentral/org.springframework.hateoas/spring-hateoas/2.2.0, Apache-2.0, approved, #11883
 maven/mavencentral/org.springframework.plugin/spring-plugin-core/3.0.0, Apache-2.0, approved, #7104
 maven/mavencentral/org.springframework.security/spring-security-config/6.2.1, Apache-2.0, approved, #11896
 maven/mavencentral/org.springframework.security/spring-security-core/6.2.1, Apache-2.0, approved, #11904
 maven/mavencentral/org.springframework.security/spring-security-crypto/6.2.1, Apache-2.0 AND ISC, approved, #11908
-maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.2.1, Apache-2.0, approved, #12586
 maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.2.1, Apache-2.0, approved, #11925
 maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.2.1, Apache-2.0, approved, #11893
 maven/mavencentral/org.springframework.security/spring-security-rsa/1.0.11.RELEASE, Apache-2.0, approved, CQ20647
 maven/mavencentral/org.springframework.security/spring-security-web/6.2.1, Apache-2.0, approved, #11911
-maven/mavencentral/org.springframework.session/spring-session-core/3.2.1, , restricted, clearlydefined
-maven/mavencentral/org.springframework.session/spring-session-jdbc/3.2.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.session/spring-session-core/3.2.1, Apache-2.0, approved, #12588
+maven/mavencentral/org.springframework.session/spring-session-jdbc/3.2.1, Apache-2.0, approved, #12596
 maven/mavencentral/org.springframework/spring-aop/6.1.2, Apache-2.0, approved, #11755
 maven/mavencentral/org.springframework/spring-beans/6.1.2, Apache-2.0, approved, #11754
 maven/mavencentral/org.springframework/spring-context/6.1.2, Apache-2.0, approved, #11753
@@ -125,7 +125,7 @@ maven/mavencentral/org.springframework/spring-jcl/6.1.2, Apache-2.0, approved, #
 maven/mavencentral/org.springframework/spring-jdbc/6.1.2, Apache-2.0, approved, #11897
 maven/mavencentral/org.springframework/spring-tx/6.1.2, Apache-2.0, approved, #11901
 maven/mavencentral/org.springframework/spring-web/6.1.2, Apache-2.0, approved, #11748
-maven/mavencentral/org.springframework/spring-webflux/6.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework/spring-webflux/6.1.2, Apache-2.0, approved, #12593
 maven/mavencentral/org.springframework/spring-webmvc/6.1.2, Apache-2.0, approved, #11879
 maven/mavencentral/org.webjars/swagger-ui/4.15.5, Apache-2.0 AND MIT, approved, #5921
 maven/mavencentral/org.webjars/webjars-locator-core/0.55, MIT, approved, clearlydefined

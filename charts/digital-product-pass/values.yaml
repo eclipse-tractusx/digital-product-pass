@@ -120,6 +120,7 @@ backend:
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
+      lifetime: 12 # -- lifetime of the temporaryStorage in hours
 
   # -- discovery configuration
   discovery:

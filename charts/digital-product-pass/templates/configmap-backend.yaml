@@ -102,8 +102,8 @@ data:
           digitalTwin: {{ .Values.backend.digitalTwinRegistry.timeouts.digitalTwin }}
         # -- temporary storage of dDTRs for optimization
         temporaryStorage:
-          enabled: {{ tpl (.Values.backend.digitalTwinRegistry.temporaryStorage.enabled | default true) . }}
-          lifetime: {{ tpl (.Values.backend.digitalTwinRegistry.temporaryStorage.lifetime | default 12) . }}
+          enabled: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.enabled }}
+          lifetime: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.lifetime }}
       # -- discovery configuration
       discovery:
         # -- discovery finder configuration

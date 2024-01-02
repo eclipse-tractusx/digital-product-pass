@@ -2,8 +2,8 @@
  *
  * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -345,7 +345,7 @@ public class DtrSearchManager {
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
         if (!(bpn == null || bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.containsKey(bpn)) {
-                if (!this.dtrDataModel.get(bpn).contains(dtr)){
+                if (!hasDtrDuplicates(this.dtrDataModel.get(bpn), dtr)){
                     this.dtrDataModel.get(bpn).add(dtr);
                 }
             } else {
@@ -353,6 +353,23 @@ public class DtrSearchManager {
             }
         }
         return this;
+    }
+    /**
+     * Check if elements are present in array list already as duplicates
+     * <p>
+     * @param   dtrList
+     *          the {@code List<Dtr>} list of dtrs
+     * @param   dtr
+     *          the {@code DTR} object to check if exists
+     *
+     * @return this {@code DtrSearchManager} object.
+     *
+     */
+    public Boolean hasDtrDuplicates(List<Dtr> dtrList, Dtr dtr){
+        if(dtrList.contains(dtr)){
+            return true;
+        }
+        return dtrList.stream().anyMatch(e -> e.getAssetId().equals(dtr.getAssetId()) && e.getEndpoint().equals(dtr.getEndpoint()) && e.getBpn().equals(dtr.getBpn()));
     }
 
     /**
@@ -469,7 +486,7 @@ public class DtrSearchManager {
             this.createDataModelFile();
         }
         String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
-        LogUtil.printMessage("[DTR DataModel] Saved [" + this.dtrDataModel.size() + "] assets in DTR data model.");
+        LogUtil.printMessage("[DTR DataModel] [" + this.dtrDataModel.size() + "] Digital Twin Registries available at the dtrDataModel.");
         return filePath != null;
     }
 

@@ -183,16 +183,21 @@ public class ContractController {
                         return httpUtil.buildResponse(response, httpResponse);
                     }
                     Long currentTimestamp = DateTimeUtil.getTimestamp();
-
+                    Dtr tmpDtr = null;
                     // Iterate over every DTR and add it to the file
                     for(Dtr dtr: dtrs){
 
-                        Long validUntil  = dtr.getValidUntil();
+                        Long validUntil = dtr.getValidUntil();
                         if(dtr.getContractId() == null || dtr.getContractId().isEmpty() || validUntil == null || validUntil < currentTimestamp){
                             requestDtrs = true; // If the cache invalidation time has come request Dtrs
                             break;
                         }
-
+                        if(tmpDtr == null){
+                            tmpDtr = dtr;
+                        }else if(tmpDtr.getBpn().equals(dtr.getBpn()) && tmpDtr.getEndpoint().equals(dtr.getEndpoint()) && tmpDtr.getAssetId().equals(dtr.getAssetId())){
+                            requestDtrs = true; // If there is repeated DTRs clean the Endpoints
+                            break;
+                        }
                         processManager.addSearchStatusDtr(processId, dtr);
                     }
                     if(requestDtrs){

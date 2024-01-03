@@ -205,7 +205,7 @@ public class DtrSearchManager {
     public void searchEndpoint(String processId, String bpn, String endpoint){
         //Search Digital Twin Catalog for each connectionURL with a timeout time
         SearchDtrCatalog searchDtrCatalog = new SearchDtrCatalog(endpoint);
-        Thread asyncThread = ThreadUtil.runThread(searchDtrCatalog, "SearchEndpoint"+processId+"-"+bpn+"-"+endpoint);
+        Thread asyncThread = ThreadUtil.runThread(searchDtrCatalog, "SearchEndpoint-"+processId+"-"+bpn+"-"+endpoint);
         Dtr dtr = new Dtr("", endpoint, "", bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()), true);
         try {
             if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {

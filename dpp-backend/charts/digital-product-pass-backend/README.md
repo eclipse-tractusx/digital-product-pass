@@ -1,8 +1,9 @@
-# digital-product-pass
+# digital-product-pass-backend
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
 
-A Helm chart for Tractus-X Digital Product Pass Kubernetes
+A Helm chart for Tractus-X Digital Product Pass Backend Kubernetes
+
 ## TL;DR 
 
 ### Install
@@ -39,7 +40,6 @@ kubectl port-forward dpp-backend-* 8888:8888
 Open the web browser with the following url to check the health status:
 ```
 localhost:8888/health
-```
 
 **Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/charts/digital-product-pass-backend>
 
@@ -59,7 +59,7 @@ localhost:8888/health
 | digitalTwinRegistry.endpoints.digitalTwin | string | `"/shell-descriptors"` |  |
 | digitalTwinRegistry.endpoints.search | string | `"/lookup/shells"` |  |
 | digitalTwinRegistry.endpoints.subModel | string | `"/submodel-descriptors"` |  |
-| digitalTwinRegistry.temporaryStorage | object | `{"enabled":true}` | temporary storage of dDTRs for optimization |
+| digitalTwinRegistry.temporaryStorage | object | `{"enabled":true,"lifetime":12}` | temporary storage of dDTRs for optimization |
 | digitalTwinRegistry.timeouts | object | `{"digitalTwin":20,"negotiation":40,"search":10,"transfer":10}` | timeouts for the digital twin registry async negotiation |
 | discovery | object | `{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""}` | discovery configuration |
 | discovery.bpnDiscovery | object | `{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"}` | bpn discovery configuration |
@@ -81,7 +81,7 @@ localhost:8888/health
 | name | string | `"dpp-backend"` |  |
 | namespace | string | `""` |  |
 | nodeSelector | object | `{}` |  |
-| oauth | object | `{"appId":"","bpnCheck":{"bpn":"<Add participant id here>","enabled":false},"hostname":"","onLoad":"login-required","realm":"","roleCheck":{"enabled":false},"techUser":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}}` | oauth configuration |
+| oauth | object | `{"appId":"<app-id>","bpnCheck":{"bpn":"<Add participant id here>","enabled":false},"hostname":"","onLoad":"login-required","realm":"<realm>","roleCheck":{"enabled":false},"techUser":{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}}` | oauth configuration |
 | oauth.bpnCheck | object | `{"bpn":"<Add participant id here>","enabled":false}` | configure here the bpn check for the application |
 | oauth.bpnCheck.bpn | string | `"<Add participant id here>"` | this bpn needs to be included in the user login information when the check is enabled |
 | oauth.hostname | string | `""` | url of the identity provider service |

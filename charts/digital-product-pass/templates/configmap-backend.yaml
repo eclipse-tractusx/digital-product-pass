@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Pass Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -101,7 +102,9 @@ data:
           transfer: {{ .Values.backend.digitalTwinRegistry.timeouts.transfer }}
           digitalTwin: {{ .Values.backend.digitalTwinRegistry.timeouts.digitalTwin }}
         # -- temporary storage of dDTRs for optimization
-        temporaryStorage: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.enabled }}
+        temporaryStorage:
+          enabled: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.enabled }}
+          lifetime: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.lifetime }}
       # -- discovery configuration
       discovery:
         # -- discovery finder configuration

@@ -1,8 +1,10 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Catena-X - Digital Product Pass Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ *
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -215,8 +217,40 @@ public class IrsService extends BaseService {
         try {
             String searchId = TreeManager.generateSearchId(processId, globalAssetId);
             Long created = DateTimeUtil.getTimestamp();
-            Map<String, String> irsResponse = this.startJob(processId, globalAssetId, searchId, bpn);
-            String jobId = irsResponse.get("id");
+            Map<String, String> irsResponse = null;
+            boolean error = true;
+            String exception = "";
+            String jobId = null;
+            try {
+                irsResponse = this.startJob(processId, globalAssetId, searchId, bpn);
+            }catch (Exception e) {
+                exception = "["+e.getMessage()+"]";
+            }
+            if(irsResponse != null){
+                jobId = irsResponse.get("id");
+            }
+
+            if(jobId!=null && !jobId.equals("")){
+                error = false;
+            }else{
+                exception = "The Job Id is null or empty! " + exception;
+            }
+            if(error){
+                LogUtil.printError("[PROCESS "+ processId + "] Failed to create the IRS Job for the globalAssetId [" + globalAssetId+"]! "+exception);
+                this.processManager.setJobHistory(
+                        processId,
+                        new JobHistory(
+                                exception,
+                                searchId,
+                                globalAssetId,
+                                path,
+                                created,
+                                created,
+                                -2
+                        )
+                );
+                return null;
+            }
             LogUtil.printMessage("[PROCESS "+ processId + "] Job with id [" + jobId + "] created in the IRS for the globalAssetId [" + globalAssetId+"]");
             this.processManager.setJobHistory(
                     processId,

@@ -1,8 +1,9 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -23,6 +24,27 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [released]
+## [v2.0.1] - 04-01-2024
+## Added
+- Added function to check for duplicated DTRs in the temporaryStorage
+- Added check for skipping the check of all BPNs when the DTRs are not available for security and optimization
+- Added `vue-i18n v9.2.2` library that will be used in the release `v2.1.0` with the translations
+- Added check to fix bug related to invalid BPN endpoints in cache
+
+## Updated
+- Updated header license of modified files to match the new year 2024
+
+## Security Issues
+- Updated Axios from version `v0.8.1` -> `v1.6.0`
+- Updated Spring Boot from version `v3.1.5` -> `v3.2.1`
+- Logback from Log4j got updated with the Spring Boot `v1.4.11` ->  `v1.4.14` 
+
+## Issues Fixed
+- Fixed the backend IRS exception handling, for detecting failure when job does not start
+- Fixed misconfiguration of config maps related to the temporaryStorage
+- Fixed incorrect authors names
 
 ## [released]
 ## [v2.0.0] - 22-12-2023

@@ -190,8 +190,8 @@ oauth:
   techUser:
     clientId: "<Add client id here>"
     clientSecret: "<Add client secret here>"
-  realm: ""
-  appId: ""
+  realm: "<realm>"
+  appId: "<app-id>"
   onLoad: "login-required"
   # -- configure here the bpn check for the application
   bpnCheck:

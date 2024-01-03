@@ -25,7 +25,7 @@
 User friendly relase notes without especific technical details.
 
 **January 04 2024 (Version 2.0.0)**
-*04.01.2024*
+*03.01.2024*
 
 ### Added
 #### Added check for invalid and valid Digital Twin Registries in Temporary Storage

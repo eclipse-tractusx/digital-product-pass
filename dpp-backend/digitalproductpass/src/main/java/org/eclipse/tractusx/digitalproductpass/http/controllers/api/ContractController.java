@@ -165,7 +165,11 @@ public class ContractController {
                     LogUtil.printWarning("Failed to load data model from disk!");
                 }
             }
-            // This checks if the cache is deactivated or if the bns are not in thedataModel,  if one of them is not in the data model then we need to check for them
+            System.out.println("Temporary Storage is: "+dtrConfig.getTemporaryStorage().getEnabled());
+            System.out.println(dataModel);
+            System.out.println(bpnList);
+            System.out.println("Has all keys: "+jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false));
+            // This checks if the cache is deactivated or if the bns are not in the dataModel,  if one of them is not in the data model then we need to check for them
             if(!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
                 catenaXService.searchDTRs(bpnList, processId);
             }else{

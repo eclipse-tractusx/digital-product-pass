@@ -208,6 +208,11 @@ public class DtrSearchManager {
         try {
             if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
                 asyncThread.interrupt();
+                if (dtrConfig.getTemporaryStorage().getEnabled()) {
+                    addConnectionToBpnEntry(bpn, null);
+                    saveDtrDataModel();
+                }
+
                 LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
                 return;
             }
@@ -343,7 +348,10 @@ public class DtrSearchManager {
      *
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
-        if (!(bpn == null || bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
+        if(bpn == null || bpn.isEmpty() || bpn.isBlank()){
+            return this;
+        }
+        if (!(dtr == null || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.containsKey(bpn)) {
                 if (!hasDtrDuplicates(this.dtrDataModel.get(bpn), dtr)){
                     this.dtrDataModel.get(bpn).add(dtr);
@@ -351,6 +359,8 @@ public class DtrSearchManager {
             } else {
                 this.dtrDataModel.put(bpn, new ArrayList<>(){{add(dtr);}});
             }
+        }else{
+            this.dtrDataModel.put(bpn, new ArrayList<>(){});
         }
         return this;
     }
@@ -369,7 +379,17 @@ public class DtrSearchManager {
         if(dtrList.contains(dtr)){
             return true;
         }
-        return dtrList.stream().anyMatch(e -> e.getAssetId().equals(dtr.getAssetId()) && e.getEndpoint().equals(dtr.getEndpoint()) && e.getBpn().equals(dtr.getBpn()));
+        List<Dtr> dtrListParsed = null;
+        try {
+            dtrListParsed = (List<Dtr>) jsonUtil.bindReferenceType(dtrList, new TypeReference<List<Dtr>>() {
+            });
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the DTR list!");
+        }
+        if(dtrListParsed == null){
+            throw new ManagerException(this.getClass().getName(), "Could not bind the reference type for the DTR list because it is null!");
+        }
+        return dtrListParsed.stream().anyMatch(e -> e.getAssetId().equals(dtr.getAssetId()) && e.getEndpoint().equals(dtr.getEndpoint()) && e.getBpn().equals(dtr.getBpn()));
     }
 
     /**
@@ -515,6 +535,8 @@ public class DtrSearchManager {
             if(deleted){
                 LogUtil.printMessage("[DTR DataModel Cache Cleaning] Deleted [" + bpnList.size() + "] bpn numbers from the DTR.");
                 saveDtrDataModel(dataModel);
+            }else{
+                LogUtil.printError("[DTR DataModel Cache Cleaning] Failed to do the dtrDataModel cleanup!");
             }
         }catch(Exception e){
             throw new ManagerException(this.getClass().getName() + ".deleteBpns",e,"It was not possible to delete bpns from the DTR data model");

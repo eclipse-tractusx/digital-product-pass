@@ -66,7 +66,7 @@ minikube start
 minikube addons enable ingress
 ```
 
-The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set [set_dev_values.sh](../deployment/helm/local/scripts/set_dev_values.sh) and unset values [unset_dev_values.sh](../deployment/helm/local/scripts/unset_dev_values.sh) in required components as needed. 
+The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set [set_dev_values.sh](../deployment/local/scripts/set_dev_values.sh) and unset values [unset_dev_values.sh](../deployment/local/scripts/unset_dev_values.sh) in required components as needed. 
 
 > Prerequisite: Prior to run the scripts, the values for the follwoing environment variables should be placed in the script.
 
@@ -77,7 +77,7 @@ __Script Environment Variables:__
 
 ```bash
 # Navigate to working directory
-cd ../deployment/helm/local/scripts
+cd ../deployment/local/scripts
 
 # set values for local run
 ./set_dev_values.sh
@@ -98,10 +98,10 @@ cd ../deployment/helm/local/scripts
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/helm/edc-consumer) hosted locally
+        * [Helm Chart](../deployment/infrastructure/edc-consumer) hosted locally
 ```bash
 # Navigate to the working directory
-cd ../deployment/helm/edc-consumer
+cd ../deployment/infrastructure/edc-consumer
 
 # Update chart dependencies
 helm dependency update .
@@ -142,11 +142,11 @@ Integration (INT) deployment available through postman: [https://materialpass.in
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/helm/edc-provider) hosted locally
+        * [Helm Chart](../deployment/infrastructure/edc-provider) hosted locally
 
 ```bash
 # Navigate to the working directory
-cd ../deployment/helm/edc-provider
+cd ../deployment/infrastructure/edc-provider
 
 # Update chart dependencies
 helm dependency update .

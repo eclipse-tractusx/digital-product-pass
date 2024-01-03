@@ -206,8 +206,8 @@ public class AppListener {
         String serverStartUpMessage = "\n\n" +
                 "**********************************************************************\n\n" +
                 " " + buildProperties.getName() + "\n" +
-                " Copyright (c) 2022, 2023: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
-                " Copyright (c) 2022, 2023: Contributors to the Eclipse Foundation.\n\n" +
+                " Copyright (c) 2022, 2024: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
+                " Copyright (c) 2022, 2024: Contributors to the Eclipse Foundation.\n\n" +
                 "**********************************************************************\n\n";
         System.out.print(serverStartUpMessage);
         System.out.print("\n========= [ APPLICATION STARTED ] ====================================\n" +

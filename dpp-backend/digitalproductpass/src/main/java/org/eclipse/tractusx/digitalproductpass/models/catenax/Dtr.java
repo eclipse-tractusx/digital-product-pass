@@ -26,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.catenax;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,6 +35,7 @@ import java.util.List;
 /**
  * This class consists exclusively to define attributes and methods related to the Digital Twin Registry (DTR).
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dtr {
 
@@ -48,7 +50,8 @@ public class Dtr {
     private String bpn;
     @JsonProperty("validUntil")
     private Long validUntil;
-
+    @JsonProperty("invalid")
+    private Boolean invalid;
     /** CONSTRUCTOR(S) **/
 
     public Dtr() {
@@ -60,6 +63,16 @@ public class Dtr {
         this.assetId = assetId;
         this.bpn = bpn;
         this.validUntil = validUntil;
+        this.invalid = false;
+    }
+
+    public Dtr(String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contractId = contractId;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
     }
 
     /** GETTERS AND SETTERS **/
@@ -80,5 +93,13 @@ public class Dtr {
 
     public void setValidUntil(Long validUntil) {
         this.validUntil = validUntil;
+    }
+
+    public Boolean getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Boolean invalid) {
+        this.invalid = invalid;
     }
 }

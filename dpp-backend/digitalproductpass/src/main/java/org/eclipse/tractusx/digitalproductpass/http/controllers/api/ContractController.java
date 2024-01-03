@@ -166,10 +166,6 @@ public class ContractController {
                     LogUtil.printWarning("Failed to load data model from disk!");
                 }
             }
-            System.out.println("Temporary Storage is: "+dtrConfig.getTemporaryStorage().getEnabled());
-            System.out.println(dataModel);
-            System.out.println(bpnList);
-            System.out.println("Has all keys: "+jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false));
             // This checks if the cache is deactivated or if the bns are not in the dataModel,  if one of them is not in the data model then we need to check for them
             if(!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
                 catenaXService.searchDTRs(bpnList, processId);
@@ -184,28 +180,28 @@ public class ContractController {
                         throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                     }
 
-                    if(dtrs.isEmpty()){
-                        response.message = "Failed to get the bpns from the datamodel";
-                        return httpUtil.buildResponse(response, httpResponse);
+                    if(dtrs == null || dtrs.size() == 0){
+                        continue;
                     }
                     Long currentTimestamp = DateTimeUtil.getTimestamp();
-                    Dtr tmpDtr = null;
                     // Iterate over every DTR and add it to the file
                     for(Dtr dtr: dtrs){
 
                         Long validUntil = dtr.getValidUntil();
+                        //Check if invalid time has come
+                        if(dtr.getInvalid() && validUntil > currentTimestamp){
+                            continue;
+                        }
+
                         if(dtr.getContractId() == null || dtr.getContractId().isEmpty() || validUntil == null || validUntil < currentTimestamp){
                             requestDtrs = true; // If the cache invalidation time has come request Dtrs
                             break;
                         }
-                        if(tmpDtr == null){
-                            tmpDtr = dtr;
-                        }else if(tmpDtr.getBpn().equals(dtr.getBpn()) && tmpDtr.getEndpoint().equals(dtr.getEndpoint()) && tmpDtr.getAssetId().equals(dtr.getAssetId())){
-                            requestDtrs = true; // If there is repeated DTRs clean the Endpoints
-                            break;
-                        }
-                        processManager.addSearchStatusDtr(processId, dtr);
+
+                        processManager.addSearchStatusDtr(processId, dtr); //Add valid DTR to status
                     }
+
+                    // If the refresh from the cache is necessary
                     if(requestDtrs){
                         dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
                         catenaXService.searchDTRs(bpnList, processId); // Start again the search
@@ -264,16 +260,6 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            /*List<String> versions;
-            if (searchBody.getIdShort().equalsIgnoreCase("digitalProductPass")) {
-                versions = passportConfig.getDigitalProductPass().getVersions();
-                searchBody.setSemanticId(passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-                LogUtil.printWarning("SEMANTID ID: " + passportConfig.getDigitalProductPass().getFullSemanticId(versions.get(0)));
-            } else {
-                versions = passportConfig.getBatteryPass().getVersions();
-                searchBody.setSemanticId(passportConfig.getBatteryPass().getFullSemanticId(versions.get(0)));
-            }*/
-
             Process process = null;
             AssetSearch assetSearch = null;
 
@@ -298,7 +284,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             Boolean childrenCondition = searchBody.getChildren();
-            String logPrint = "[" + processId + "] Creating search for "+searchBody.getIdType() + ": "+ searchBody.getId();
+            String logPrint = "[PROCESS " + processId + "] Creating search for "+searchBody.getIdType() + ": "+ searchBody.getId();
             if(childrenCondition != null){
                 LogUtil.printMessage(logPrint + " with drilldown enabled");
                 process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
@@ -315,6 +301,7 @@ public class ContractController {
 
 
             if(assetSearch == null){
+                LogUtil.printWarning("[PROCESS " + processId + "] The decentralized digital twin registry asset search return a null response!");
                 status = processManager.getStatus(processId);
                 // Here start the algorithm to refresh the dtrs in the cache if the transfer was incompleted
                 List<Dtr> dtrList = new ArrayList<Dtr>();
@@ -371,7 +358,7 @@ public class ContractController {
             try {
                 dataset = dataService.getContractOfferByAssetId(assetId, connectorAddress);
             } catch (ServiceException e) {
-                response.message = "The EDC is not reachable, it was not possible to retrieve catalog!";
+                response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
                 response.status = 502;
                 response.statusText = "Bad Gateway";
                 return httpUtil.buildResponse(response, httpResponse);

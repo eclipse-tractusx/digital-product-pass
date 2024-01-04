@@ -145,10 +145,14 @@ export default {
                 .carbonContentTotal
             : "-",
           valueUnits: "t CO2 Total",
-          secondValue: this.$props.data.aspect.commercial.warranty,
-          secondValueUnits: this.$props.data.aspect.commercial.warranty
-            ? "months"
-            : "",
+          secondValue: this.$props.data.aspect.commercial
+            ? this.$props.data.aspect.commercial.warranty
+            : "-",
+          secondValueUnits:
+            this.$props.data.aspect.commercial &&
+            this.$props.data.aspect.commercial.warranty
+              ? "months"
+              : "",
           description: {
             title: "Sustainability",
             value: "Description of the Sustainability",

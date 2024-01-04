@@ -25,8 +25,8 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v2.0 </br>
-Latest Revision 13 Dec, 2023
+Version: v2.1 </br>
+Latest Revision 04 Jan, 2024
 
 ## Table of Contents
 
@@ -127,7 +127,7 @@ All the information about the backend services is described in this documentatio
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md) |
-| Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
+| Open API - Swagger | GitHub | [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
 The configurations of log levels and other variables can be set in the following file:

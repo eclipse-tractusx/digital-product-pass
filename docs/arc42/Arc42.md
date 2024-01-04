@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -387,7 +388,7 @@ This API is responsible for retrieving the Aspect Model Payloads and some metada
 ![Passport API Flow](./media/dataRetrieval/dataApiFlow.jpg)
 
 
-Swagger Documentation: [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
 
 
 ### Item Relationship Service Integration (Drill Down Functionality)

@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -135,7 +136,7 @@ kubectl port-forward services/edc-consumer-controlplane 31639:8181
 kubectl port-forward services/edc-consumer-controlplane 31216:8282
 ```
 
-Integration (INT) deployment available through postman: [https://materialpass.int.demo.catena-x.net/consumer](https://materialpass.int.demo.catena-x.net/consumer/)
+Integration (INT) deployment available through postman: [https://dpp.int.demo.catena-x.net/consumer](https://dpp.int.demo.catena-x.net/consumer/)
   
  __Hashicorp-Vault__ & __DAPS__ are centralized components and managed by central CatenaX services.
 * __EDC-Provider__
@@ -180,7 +181,7 @@ kubectl port-forward services/edc-provider-controlplane 31495:8181
 kubectl port-forward services/edc-provider-controlplane 8282:8282
 kubectl port-forward services/edc-provider-backend 8081:8081
 ```
-Link to the Integration (INT) environment: [https://materialpass.int.demo.catena-x.net/provider](https://materialpass.int.demo.catena-x.net/provider/)
+Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net/provider](https://dpp.int.demo.catena-x.net/provider/)
   
  __Hashicorp-Vault__ is centralized components and managed by CatenaX shared services.
         
@@ -194,7 +195,7 @@ Link to the Integration (INT) environment: [https://materialpass.int.demo.catena
         - [INSTALL.md](../INSTALL.md)
         - [Productpass backend](../backend/digitalproductpass/readme.md)
 
-Link to the Integration (INT) environment: [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net/)
+Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net/)
 
 ```bash
 # Navigate to the working directory
@@ -254,7 +255,7 @@ in [deployment/local/postman/Digital-Product-Pass](../deployment/local/postman/D
 The __Digital Product Passport Uer Interface__ will make this process accessible to users.
 
 __Note:__ Adjust the URLs according to the _local_ (`http://localhost:port/`) or
-_integration_ (`https://materialpass.int.demo.catena-x.net/`) environments.
+_integration_ (`https://dpp.int.demo.catena-x.net/`) environments.
 
 - [Documentation of EDC Data Transfer](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/samples/Transfer%20Data.md)
 - [End-to-End Use Case](https://catenax-ng.github.io/docs/guides/catenax-at-home#end-to-end-use-case)

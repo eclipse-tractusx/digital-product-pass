@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Application
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -188,7 +189,7 @@ Name                                                                      | Desc
 Additionally we have a open swagger documentation at the following URL:
 
 <pre>
-<a href="https://materialpass.int.demo.catena-x.net/swagger-ui/index.html">https://materialpass.int.demo.catena-x.net/swagger-ui/index.html</a>
+<a href="https://dpp.int.demo.catena-x.net/swagger-ui/index.html">https://dpp.int.demo.catena-x.net/swagger-ui/index.html</a>
 </pre>
 
 

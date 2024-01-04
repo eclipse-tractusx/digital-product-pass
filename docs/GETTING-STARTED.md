@@ -231,10 +231,10 @@ __Notes:__
 
 ### Application Usage
 
-To use the application, data needs to be prepared in the __EDC-Provider__ using the provider setup script [init-provider-dev.sh](../deployment/infrastructure/provider/init-provider_dev.sh)
+To use the application, data needs to be prepared in the __EDC-Provider__ using the provider setup script [init-provider-dev.sh](../deployment/local/testing/upload-testdata.sh)
 
 __Optional:__ One can also use the postman collection
-in [postman/Digital-Product-Pass](../postman/v3.0.1/Digital-Product-Pass-v1.0.0.postman_collection.json) to access APIs, used among DPP components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent is required.
+in [deployment/local/postman/Digital-Product-Pass](../deployment/local/postman/Digital-Product-Pass-collection.json) to access APIs, used among DPP components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent is required.
 
 
 | Who            | Action/Events                                                                                                |

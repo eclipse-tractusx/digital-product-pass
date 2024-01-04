@@ -20,34 +20,161 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# Test data Uploader
-## TL;DR 
+## Technical Guide - Deployment in ArgoCD Hotel Budapest
 
-- Configure the following script parameters (shown in below table) in `upload-testdata.sh` script.
-- The `testdata-payload.json` file contains structured data for the edc policy and digital twins.
-- Run the following script to upload test data to the provider setup:
+
+> [Getting Started Documentation](../docs/GETTING-STARTED.md)
+
+This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
+
+- Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)
+
+- [edc-consumer](./edc-consumer)
+
+- [edc-provider](./edc-provider)
+
+- [digital-product-pass](../charts/digital-product-pass)
+    - dpp-frontend
+    - dpp-backend
+
+#### Sign in via the GitHub account
+
+After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the digital product pass team. The new app should be created inside this space.
+
+#### Creating New Application
+
+Create new app from the top-left corner button.
+Fill out the following required fields.
+- **Application Name:** <APP_NAME> (e.g., edc-consumer, digital-product-pass)
+- **Project:** project-material-pass
+- **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
+- **Revision:** select branch or a tag
+- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, charts/digital-product-pass)
+- **Cluster URL:** https://kubernetes.default.svc
+- **Namespace:** product-material-pass
+- **Plugin:** argocd-vault-plugin-helm-args
+    - Set following helm args with the corresponding application:
+        - digital-product-pass: set ENV as ***helm_args = -f values.yaml'***
+        - edc-consumer: set ENV as ***helm_args = -f values.yaml'***
+        - edc-provider: set ENV as ***helm_args = -f values.yaml'***
+
+Click on 'Create' button
+
+![Create New App](./images/create-app.png)
+![Select Valut Plugin](./images/create-app-with-plugin.png)
+
+- Go inside the application and sync it. It would take some time to get synced.
+
+![Sync App](./images/sync-app.png)
+
+![Sync App](./images/sync-pod.png)
+
+![Consumer frontend and backend pods](./images/running-pods.png)
+- Go to the individual logs tab
+
+Frontend logs:
+![Consumer frontend logs](./images/frontend-logs.png)
+
+Backend logs:
+![Consumer backend logs](./images/backend-logs.png)
+
+If everything works fine then the application is deployed...
+
+#### Digital-Product-Pass:
+
+##### Consumer-Frontend:
+
+The dpp frontend is a consumer user interface application for the digital product passports that interacts with the end-user and displays passports. The steps above will be followed to deploy the consumer frontend component.
+
+In the end, the frontend should be accessible at https://materialpass.int.demo.catena-x.net. You would be redirected to the CatenaX central IDP and can see the login page after company selection.
+
+##### Login credentails:
+- **Company Selection:** CX-Test-Access
+- **User 1:** Role: Dismantler, user: company 1 user, Password: changeme
+- **User 2:** Role: Recycler, user: company 2 user, Password: changeme
+
+#### Example Screenshots:
+
+![Company Selection Page](./images/company-selection.png)
+
+![Login Page](./images/login.png)
+
+![QR Code Scanner](./images/dashboard.png)
+
+![QR Code Scanner](./images/scan-passport.png)
+
+![Battery Passport - General Information](./images/general-information.png)
+
+![Battery Passport Electrochemical properties](./images/electrochemical-properties.png)
+
+##### Consumer-Backend:
+
+The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in frontend component.
+
+[Open API documentation in Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+
+![Swagger UI](./images/swagger.png)
+
+<br />
+
+## Helm to manage Kubernetes
+
+### Basic Helm tricks
+
+<details><summary>show</summary>
+<p>
+
 ```bash
-./upload-testdata.sh
+# Creating basic helm chart
+helm create <CHART_NAME>
+
+# Building chart dependencies
+ helm dependency build <SOURCE>
+
+# Updating chart dependencies
+ helm dependency update <SOURCE>
+
+# Installing helm release
+helm install <CHART_NAME> -f myvalues.yaml ./SOURCE
+
+# Uninstalling helm release
+helm uninstall <CHART_NAME>
+
+# Listing helm releases
+helm list
+```
+<p>
+</details>
+
+### Using Helm Repository
+<details><summary>show</summary>
+<p>
+
+```bash
+helm repo add [NAME] [URL]  [flags]
+
+helm repo list / helm repo ls
+
+helm repo remove [REPO1] [flags]
+
+helm repo update / helm repo up
+
+helm repo update [REPO1] [flags]
+
+helm repo index [DIR] [flags]
+```
+<p>
+</details>
+
+### Download a Helm chart from a repository 
+
+<details><summary>show</summary>
+<p>
+
+```bash
+helm pull [chart URL | repo/chartname] [...] [flags] ## this would download a helm, not install 
+helm pull --untar [rep/chartname] # untar the chart after downloading it 
 ```
 
-#### Script Parameters:
-| Parameter  | Description                  | Example value                                                           | Required/Optionl |
-| :---:      | :---                         | :---                                                                    | :---:            |
-| -s         | Submodel server URL          | https://materialpass.dev.demo.catena-x.net/provider_backend             | Required         | 
-| -e         | Provider control plane URL   | https://materialpass.dev.demo.catena-x.net/BPNL000000000000             | Required         |
-| -a         | AAS registry URL             | https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0  | Required         |
-| -k         | EDC API Key                  | xxxxxxxx                                                                | Required         |
-| -f         | input JSON testdata file     | ./testdata/testdata-payload.json                                        | Required         |
-|            |                              |                                                                         |                  |
-
-
-### Delete test data
-
-Use the following script to remove all test data from the provider edc and registry:
-```bash
-./delete-testdata.sh -e <provider-edc-url> -a <aas-registry-url> -k <edc-api-key>
-```
-
-
-> **_NOTE:_**
-*It might be the case that some of the assets could not be deleted through the deletion script, because they were already used in the past contract negotiations and may still exist in contract agreement references. In that case, the persistent storage of the provider EDC must to be killed and EDC deployment must be restarted.*
+</p>
+</details>

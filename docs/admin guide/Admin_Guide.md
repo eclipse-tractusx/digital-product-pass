@@ -101,12 +101,12 @@ Additionally two test users shall be created and the correct roles shall be assi
 **User 1:** "company 1 user" (OEM, Dismantler)  
 **User 2:** "company 2 user" (Recycler)  
 
-Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) in order to set up the users, and their passwords correctly:
+Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) in order to set up the users, and their passwords correctly:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) |
-| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json) |
+| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) |
+| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json) |
 
 
 All the values for the helm charts are configured for each environment and set up in the Product Passport Application source code:  
@@ -162,7 +162,7 @@ In order to document and test easily the API that are set up and used by the Pro
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Postman Collection Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman) |
-| Postman Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md) |
+| Postman Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/deployment/local/postman/README.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/deployment/local/postman/README.md) |
 
 ## Secrets Management
 

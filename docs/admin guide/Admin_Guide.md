@@ -436,6 +436,10 @@ Once you finish the configuration, to make the endpoint public configure in the 
                 }
               ]
             }
+        },
+        {
+            "key" : "assetLifecyclePhase",
+            "value": "AsBuild"
         }
     ],
    "submodelDescriptors":[

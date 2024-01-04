@@ -1,6 +1,6 @@
 # digital-product-pass
 
-![Version: 1.5.0](https://img.shields.io/badge/Version-1.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
 
 A Helm chart for Tractus-X Digital Product Pass Kubernetes
 
@@ -15,15 +15,16 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| backend | object | `{"digitalTwinRegistry":{"endpoints":{"digitalTwin":"/shell-descriptors","search":"/lookup/shells","subModel":"/submodel-descriptors"},"temporaryStorage":{"enabled":true},"timeouts":{"digitalTwin":20,"negotiation":40,"search":10,"transfer":10}},"discovery":{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""},"edc":{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"endpoint":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"},"hostname":"localhost","image":{"pullPolicy":"Always","repository":"docker.io/tractusx/digital-product-pass-backend"},"imagePullSecrets":[],"ingress":{"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]},"irs":{"enabled":false,"hostname":""},"logging":{"level":{"root":"INFO","utils":"INFO"}},"maxRetries":5,"name":"dpp-backend","passport":{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]},"process":{"encryptionKey":""},"securityCheck":{"bpn":false,"edc":false,"enabled":false},"serverPort":8888,"service":{"port":8888,"type":"ClusterIP"}}` | Backend configuration |
-| backend.digitalTwinRegistry.temporaryStorage | object | `{"enabled":true}` | temporary storage of dDTRs for optimization |
+| backend | object | `{"digitalTwinRegistry":{"endpoints":{"digitalTwin":"/shell-descriptors","search":"/lookup/shells","subModel":"/submodel-descriptors"},"temporaryStorage":{"enabled":true,"lifetime":12},"timeouts":{"digitalTwin":20,"negotiation":40,"search":10,"transfer":10}},"discovery":{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""},"edc":{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"},"hostname":"localhost","image":{"pullPolicy":"Always","repository":"docker.io/tractusx/digital-product-pass-backend"},"imagePullSecrets":[],"ingress":{"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]},"irs":{"enabled":false,"hostname":""},"logging":{"level":{"root":"INFO","utils":"INFO"}},"maxRetries":5,"name":"dpp-backend","passport":{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]},"process":{"encryptionKey":""},"securityCheck":{"bpn":false,"edc":false},"serverPort":8888,"service":{"port":8888,"type":"ClusterIP"}}` | Backend configuration |
+| backend.digitalTwinRegistry.temporaryStorage | object | `{"enabled":true,"lifetime":12}` | temporary storage of dDTRs for optimization |
+| backend.digitalTwinRegistry.temporaryStorage.lifetime | int | `12` | lifetime of the temporaryStorage in hours |
 | backend.digitalTwinRegistry.timeouts | object | `{"digitalTwin":20,"negotiation":40,"search":10,"transfer":10}` | timeouts for the digital twin registry async negotiation |
 | backend.discovery | object | `{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""}` | discovery configuration |
 | backend.discovery.bpnDiscovery | object | `{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"}` | bpn discovery configuration |
 | backend.discovery.edcDiscovery | object | `{"key":"bpn"}` | edc discovery configuration |
 | backend.discovery.hostname | string | `""` | discovery finder configuration |
-| backend.edc | object | `{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"endpoint":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}` | in this section we configure the values that are inserted as secrets in the backend |
-| backend.edc.endpoint | string | `""` | edc consumer connection configuration |
+| backend.edc | object | `{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}` | in this section we configure the values that are inserted as secrets in the backend |
+| backend.edc.hostname | string | `""` | edc consumer connection configuration |
 | backend.edc.participantId | string | `"<Add participant id here>"` | BPN Number |
 | backend.edc.xApiKey | string | `"<Add API key here>"` | the secret for assesing the edc management API |
 | backend.hostname | string | `"localhost"` | backend hostname (without protocol prefix [DEFAULT HTTPS] for security ) |
@@ -37,7 +38,7 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | backend.passport.aspects | list | `["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]` | passport versions and aspects allowed |
 | backend.process | object | `{"encryptionKey":""}` | digital twin registry configuration |
 | backend.process.encryptionKey | string | `""` | unique sha512 hash key used for the passport encryption |
-| backend.securityCheck | object | `{"bpn":false,"edc":false,"enabled":false}` | security configuration |
+| backend.securityCheck | object | `{"bpn":false,"edc":false}` | security configuration |
 | backend.serverPort | int | `8888` | configuration of the spring boot server |
 | backend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
 | frontend.api | object | `{"delay":1000,"max_retries":30,"timeout":90000}` | api timeouts |
@@ -64,7 +65,7 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | oauth.bpnCheck | object | `{"bpn":"<Add participant id here>","enabled":false}` | configure here the bpn check for the application |
 | oauth.bpnCheck.bpn | string | `"<Add participant id here>"` | this bpn needs to be included in the user login information when the check is enabled |
 | oauth.hostname | string | `""` | url of the identity provider service |
-| oauth.roleCheck | object | `{"enabled":false}` | the role check checks if the user has access roles for the appId   |
+| oauth.roleCheck | object | `{"enabled":false}` | the role check checks if the user has access roles for the appId |
 | oauth.techUser | object | `{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}` | note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery |
 | replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"500m"` |  |

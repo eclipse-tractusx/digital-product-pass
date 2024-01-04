@@ -1,8 +1,9 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -35,9 +36,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.0.0">2.0.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.0.1">2.0.1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.0.0">v2.0.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.0.1">v2.0.1</a></pre>
 
 
 ## Application Preview

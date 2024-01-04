@@ -1,8 +1,9 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -23,7 +24,26 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
-**November 22 2023 (Version 2.0.0)**
+**January 04 2024 (Version 2.0.0)**
+*03.01.2024*
+
+### Added
+#### Added check for invalid and valid Digital Twin Registries in Temporary Storage
+The temporary storage mechanism was fixed to add the invalid and valid Digital Twin Registries that were found.
+Making the storage more precise and effient than the version `v2.0.0`. 
+This fixes a bug from the previous version which more than one BPN numbers were found in the BPN Discovery, it always have done the search without relying on the cache.
+
+#### Added internacionalization library vue-i18n `v9.2.2`
+The library has passed all the IP checks and was added in order to support the next release `DPP v2.1.0` with the internacionalizaiton files.
+
+### Security Issues
+#### Updated Spring Boot to version `v3.2.1`
+In order to fix the security issues the Spring Boot library was updated to the latest version.
+
+#### Updated Axios library to version `v1.6.0`
+In order to fix the security issues the Spring Boot library was updated to the latest version.
+
+**December 22 2023 (Version 2.0.0)**
 *22.12.2023*
 
 ### Added

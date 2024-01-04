@@ -24,7 +24,7 @@
 
 The following people have contributed to this repository:
 
-* Braun Jochen, CGI, https://github.com/jocbra
+* Jochen Braun, CGI, https://github.com/jocbra
 * Muhammad Saud Khan, CGI, https://github.com/saudkhan116
 * Mathias Brunkow Moser, CGI, https://github.com/matbmoser
 * David Zynda, BASF, https://github.com/davidzynda

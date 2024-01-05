@@ -49,3 +49,5 @@ Use the following script to remove all test data from the provider edc and regis
 ```
 
 
+> **_NOTE:_**
+*It might be the case that some of the assets could not be deleted through the deletion script, because they were already used in the past contract negotiations and may still exist in contract agreement references. In that case, the persistent storage of the provider EDC must to be killed and EDC deployment must be restarted.*

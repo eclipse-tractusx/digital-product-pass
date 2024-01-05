@@ -150,14 +150,14 @@ jobs:
       # Build Java code with Maven
       - name: Build JAR
         run: |
-          cd consumer-backend/productpass
+          cd dpp-backend/digitalproductpass
           mvn -B clean install
 
       - name: Build backend image from Dockerfile - GHCR
         id: build-docker-backend-ghcr
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
         run: |
-          cd consumer-backend/productpass
+          cd dpp-backend/digitalproductpass
           docker build -t ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.BACKEND_IMAGE_NAME }}:latest .
 
         # Build action for docker hub registry
@@ -165,7 +165,7 @@ jobs:
         id: build-docker-backend-dockerhub
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         run: |
-          cd consumer-backend/productpass
+          cd dpp-backend/digitalproductpass
           docker build -t ${{ env.IMAGE_NAMESPACE }}/${{ env.BACKEND_IMAGE_NAME }}:latest .
 
       - name: Run Trivy vulnerability scanner - GHCR

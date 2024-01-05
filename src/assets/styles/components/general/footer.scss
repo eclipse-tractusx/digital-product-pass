@@ -20,7 +20,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 .footer-content {
   position: absolute;
   bottom: 0;
@@ -80,8 +79,10 @@
   }
 }
 
-@media (max-width: 893px) {
+@media (max-width: 1020px) {
   .footer-content {
+    position: relative;
+    margin: 0;
     flex-direction: column;
     align-items: center;
 
@@ -91,12 +92,12 @@
     }
   }
 }
-@media (max-width: 900px) {
-  .footer-content {
-    position: relative;
-    margin:0;
-  }
-}
+// @media (max-width: 900px) {
+//   .footer-content {
+//     position: relative;
+//     margin: 0;
+//   }
+// }
 @media (max-width: 585px) {
   .footer-content {
     flex-direction: column;

@@ -62,3 +62,7 @@ target
 *.tgz
 .tgz
 tgz
+
+## Backup Files
+*.bck
+*.bak

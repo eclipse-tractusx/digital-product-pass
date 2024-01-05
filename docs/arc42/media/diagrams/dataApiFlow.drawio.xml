@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="confluence.catena-x.net" modified="2023-11-22T07:46:58.522Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="1m5OtPXuDwYIETGAcR46" version="21.6.8" type="atlas">
+  <diagram id="uDNIIqpgvJG5ANog3Rff" name="Page-1">
+    <mxGraphModel dx="1834" dy="864" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TUDOs611E9yTPleIHmRs-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="TUDOs611E9yTPleIHmRs-1" target="TUDOs611E9yTPleIHmRs-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-1" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.flowchart.on-page_reference;" parent="1" vertex="1">
+          <mxGeometry x="-310" y="160" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="TUDOs611E9yTPleIHmRs-2" target="TUDOs611E9yTPleIHmRs-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="20" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-2" value="/api/data is called&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-240" y="147.5" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="TUDOs611E9yTPleIHmRs-6" target="TUDOs611E9yTPleIHmRs-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TUDOs611E9yTPleIHmRs-6" target="TUDOs611E9yTPleIHmRs-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-6" value="Is data available?" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="-20" y="125" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-7" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.flowchart.on-page_reference;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="665" y="262.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="TUDOs611E9yTPleIHmRs-8" target="TUDOs611E9yTPleIHmRs-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-8" value="Fail" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-15" y="250" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="TUDOs611E9yTPleIHmRs-11" target="TUDOs611E9yTPleIHmRs-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-11" value="Decrypt Passport" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="190" y="147.5" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-13" value="No" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="70" y="215" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-14" value="Yes" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="140" y="140" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="TUDOs611E9yTPleIHmRs-15" target="TUDOs611E9yTPleIHmRs-17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-15" value="Delete Data File" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="390" y="147.5" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="TUDOs611E9yTPleIHmRs-17" target="TUDOs611E9yTPleIHmRs-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="679.9411764705883" y="259.9999999999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TUDOs611E9yTPleIHmRs-17" value="Return Data + Metadata&lt;br&gt;to User" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="600" y="147.5" width="160" height="55" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

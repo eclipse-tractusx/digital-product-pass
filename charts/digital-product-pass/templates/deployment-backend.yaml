@@ -54,17 +54,22 @@ spec:
             allowPrivilegeEscalation: false
             runAsUser: 10000
             runAsGroup: 3000
-          env:          
+          env:
+            - name: "appId"
+              valueFrom:
+                secretKeyRef:
+                  key:  appId
+                  name: avp-consumer-backend-auth          
             - name: "client.id"
               valueFrom:
                 secretKeyRef:
                   key:  clientId
-                  name: avp-consumer-backend-cx-registry-auth
+                  name: avp-consumer-backend-auth
             - name: "client.secret"
               valueFrom:
                 secretKeyRef:
                   key:  clientSecret
-                  name: avp-consumer-backend-cx-registry-auth
+                  name: avp-consumer-backend-auth
             - name: "edc.apiKey"
               valueFrom:
                 secretKeyRef:

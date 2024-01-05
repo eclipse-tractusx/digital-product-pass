@@ -57,7 +57,8 @@ export default createStore({
         ],
         processId: null,
         searchContractId: null,
-        irsState: false
+        irsState: false,
+        qrError: ""
     },
     getters: {
         getClientId(state) {
@@ -77,6 +78,9 @@ export default createStore({
         },
         getIrsState(state) {
             return state.irsState;
+        },
+        getQrError(state) {
+            return state.qrError;
         },
     },
     mutations: {
@@ -112,6 +116,9 @@ export default createStore({
         },
         setProcessId(state, processId) {
             state.processId = processId;
+        },
+        setQrError(state, qrError) {
+            state.qrError = qrError;
         }
     },
     actions: {},

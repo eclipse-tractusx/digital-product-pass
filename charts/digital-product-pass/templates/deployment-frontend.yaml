@@ -61,34 +61,49 @@ spec:
             {{- end }}
 
             - name: "KEYCLOAK_CLIENTID"
-              value: "{{ .Values.frontend.productpass.keycloak.clientId }}"
+              value: "{{ .Values.oauth.appId }}"
 
             - name: "KEYCLOAK_REALM"
-              value: "{{ .Values.frontend.productpass.keycloak.realm }}"
+              value: "{{ .Values.oauth.realm }}"
             
             - name: "KEYCLOAK_ONLOAD"
-              value: "{{ .Values.frontend.productpass.keycloak.onLoad }}"
+              value: "{{ .Values.oauth.onLoad }}"
+
+            - name: "AUTH_ROLE_CHECK"
+              value: "{{ .Values.oauth.roleCheck.enabled | default false }}"
+
+            - name: "AUTH_BPN_CHECK"
+              value: "{{ .Values.oauth.bpnCheck.enabled | default false }}"
+
+            - name: "AUTH_BPN_NUMBER"
+              value: "{{ .Values.oauth.bpnCheck.bpn }}"
+
+            - name: "APP_PORTAL_URL"
+              value: "https://{{ .Values.frontend.portal.hostname }}"
+
+            - name: "APP_ADMIN_EMAIL"
+              value: "{{ .Values.frontend.supportContact.adminEmail }}"
 
             - name: "BACKEND_URL"
-              value: "https://{{ .Values.frontend.productpass.backend_url }}"
+              value: "https://{{ .Values.frontend.backend.hostname }}"
 
             - name: "IDP_URL"
-              value: "https://{{ .Values.frontend.productpass.idp_url }}"
+              value: "https://{{ .Values.oauth.hostname }}"
 
             - name: "API_TIMEOUT"
-              value: "{{ .Values.frontend.productpass.api.timeout }}"
+              value: "{{ .Values.frontend.api.timeout }}"
             
             - name: "API_MAX_RETRIES"
-              value: "{{ .Values.frontend.productpass.api.max_retries }}"
+              value: "{{ .Values.frontend.api.max_retries }}"
 
             - name: "IRS_DELAY"
-              value: "{{ .Values.frontend.productpass.irs.requestDelay }}"
+              value: "{{ .Values.frontend.irs.requestDelay }}"
 
             - name: "IRS_MAX_WAITING_TIME"
-              value: "{{ .Values.frontend.productpass.irs.maxWaitingTime }}"
+              value: "{{ .Values.frontend.irs.maxWaitingTime }}"
 
             - name: "API_DELAY"
-              value: "{{ .Values.frontend.productpass.api.delay }}"
+              value: "{{ .Values.frontend.api.delay }}"
 
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"

@@ -31,10 +31,18 @@ You must have [Helm](https://helm.sh/),  [Minikube](https://minikube.sigs.k8s.io
 
 ## Install
 
+### First Step: Configuration
+
+First configure the [`values.yaml`](./charts/digital-product-pass/values.yaml) file with the secrets and the necessary configuration for starting the application correctly.
+
+> **TIP**: For a correct Catena-X integration get the correct credentials from the Portal! You can also place this secrets in a Vault so that the credentials are safe!
+
+### Second Step: Deployment
+
 To install the application using the configured helm charts use the following command from the project root directory:
 
 ```bash
-helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml -f charts/digital-product-pass/values-int.yaml 
+helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml 
 ``` 
 
 > **NOTE**: This command will deploy the complete application.
@@ -51,7 +59,7 @@ kubectl get pods -n product-material-pass --no-headers |  awk '{if ($1 ~ "consum
 ```
 **Example**:
 
-![img4.png](./consumer-backend/productpass/docs/media/img4.png)
+![img4.png](./dpp-backend/digitalproductpass/docs/media/img4.png)
 
 
 Copy the pod name with the prefix `consumer-backend`
@@ -80,7 +88,7 @@ Use the following commands to install/compile the application:
 
 ### Compile Backend
 ```bash
-cd consumer-backend/productpass 
+cd dpp-backend/digitalproductpass 
 mvn clean install test
 ```
 
@@ -90,7 +98,7 @@ Substitute the `<version>` variable with the current version of the Digital Prod
 
 ```bash
 
-./target/productpass-<version>-SNAPSHOT.jar
+./target/digitalproductpass-<version>-SNAPSHOT.jar
 
 ```
 ### Configure the secrets

@@ -1,0 +1,202 @@
+#################################################################################
+# Catena-X - Product Passport Consumer Application
+#
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+# Default values for dpp-frontend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: "dpp-backend"
+replicaCount: 1
+namespace: ""
+
+image:
+  repository: docker.io/tractusx/digital-product-pass-backend
+  pullPolicy: Always
+# -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
+imagePullSecrets: []
+
+service:
+# -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
+  type: ClusterIP
+  port: 8888
+
+
+# -- ingress declaration to expose the dpp-backend service
+ingress:
+  enabled: false
+  hosts:
+    - host: &hostname "localhost"
+      paths:
+        - path: /
+          pathType: Prefix
+
+# -- in this section we configure the values that are inserted as secrets in the backend
+edc:
+  # -- the secret for assesing the edc management API
+  xApiKey: "<Add API key here>"
+  # -- BPN Number
+  participantId: &bpn "<Add participant id here>"
+  # -- edc consumer connection configuration
+  endpoint: ""
+  apis:
+    management: '/management/v2'
+    catalog: '/catalog/request'
+    negotiation: '/contractnegotiations'
+    transfer: '/transferprocesses'
+  delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+
+# -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
+hostname: *hostname
+# -- configuration of the spring boot server
+serverPort: 8888
+
+logging:
+  level:
+    # -- general logging level
+    root: INFO
+    # -- logging for the util components
+    utils: INFO
+
+# -- Provide your custom configuration here (this overrides the DPP backend spring application.yaml)
+# -- max retries for the backend services
+maxRetries: 5
+
+ # -- security configuration
+securityCheck:
+  bpn: false
+  edc: false
+
+# -- irs configuration
+irs:
+  enabled: false
+  hostname: ""
+
+# -- digital twin registry configuration
+process:
+  # -- unique sha512 hash key used for the passport encryption
+  encryptionKey: ""
+
+# -- passport data transfer configuration
+passport:
+  # -- passport versions and aspects allowed
+  aspects:
+    - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+    - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+    - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+
+digitalTwinRegistry:
+  endpoints:
+    search: "/lookup/shells"
+    digitalTwin: "/shell-descriptors"
+    subModel: "/submodel-descriptors"
+  # -- timeouts for the digital twin registry async negotiation
+  timeouts:
+    search: 10
+    negotiation: 40
+    transfer: 10
+    digitalTwin: 20
+  # -- temporary storage of dDTRs for optimization
+  temporaryStorage:
+    enabled: true
+    lifetime: 12 # -- Hours
+
+# -- discovery configuration
+discovery:
+  # -- discovery finder configuration
+  hostname: ""
+  # -- bpn discovery configuration
+  bpnDiscovery:
+    key: "manufacturerPartId"
+    path: "/api/v1.0/administration/connectors/bpnDiscovery/search"
+  # -- edc discovery configuration
+  edcDiscovery:
+    key: "bpn"
+
+# -- oauth configuration
+oauth:
+  # -- url of the identity provider service
+  hostname: ""
+  # -- technical user keycloak central id credentials
+  # -- note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery
+  techUser:
+    clientId: "<Add client id here>"
+    clientSecret: "<Add client secret here>"
+  realm: "<realm>"
+  appId: "<app-id>"
+  onLoad: "login-required"
+  # -- configure here the bpn check for the application
+  bpnCheck:
+    enabled: false
+    # -- this bpn needs to be included in the user login information when the check is enabled
+    bpn: *bpn
+  # -- the role check checks if the user has access roles for the appId
+  roleCheck:
+    enabled: false
+
+podSecurityContext:
+  runAsUser: 10000
+  fsGroup: 3000
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 3000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+podAnnotations: {}
+
+# [node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain pods to nodes
+nodeSelector: {}
+
+# [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes
+tolerations: []
+
+# [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on
+affinity: {}

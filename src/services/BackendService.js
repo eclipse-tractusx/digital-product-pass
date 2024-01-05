@@ -54,7 +54,7 @@ export default class BackendService {
         }
     }
 
-    async getPassport(id, authentication) {
+    async searchAsset(id, authentication) {
         let processResponse = null;
         // Try to get the negotiation contract
         let ids = null;
@@ -117,12 +117,28 @@ export default class BackendService {
         }
 
         // Get negotiation property
-        let negotiation = negotiationResponse["data"];
-        let processStatus = null;
-        // Check if the attributes in data exist
+        return negotiationResponse["data"];
+    } 
 
-        let token = jsonUtil.get("token", negotiation, ".", null);
-        let contractId = jsonUtil.get("contract.@id", negotiation, ".", null);
+    async negotiateAsset(contracts, token, processId, authentication, contractId=null, policyId=null){
+        let contract = null;
+        // Use selects here a contract
+        if(contractId == null){
+            contract = contracts[Object.keys(contracts)[0]];
+            if(contract == null){
+                return this.getErrorMessage(
+                    "The contract selected is incorrect or does not exists!",
+                    500,
+                    "Internal Server Error"
+                )
+            }
+            contractId = contract["@id"];
+        }
+        let negotiation = {
+            "processId": processId,
+            ""
+        }
+        let processStatus = null;
 
         store.commit('setSearchContractId', contractId);
 
@@ -138,7 +154,7 @@ export default class BackendService {
 
         // Sign the contract request
         try {
-            processStatus = await this.signContract(negotiation, authentication);
+            processStatus = await this.agreeContract(negotiation, authentication);
         } catch (e) {
             return processStatus;
         }
@@ -321,10 +337,10 @@ export default class BackendService {
                 });
         });
     }
-    async signContract(negotiation, authentication) {
+    async agreeContract(negotiation, authentication) {
         return new Promise(resolve => {
             let body = this.getRequestBody(negotiation);
-            axios.post(`${BACKEND_URL}/api/contract/sign`, body, this.getHeadersCredentials(authentication))
+            axios.post(`${BACKEND_URL}/api/contract/agree`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);
                 })

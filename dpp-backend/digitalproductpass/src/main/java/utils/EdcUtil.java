@@ -34,6 +34,9 @@ import utils.exceptions.UtilException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively of methods to operate on Eclipse Dataspace Connector (EDC) data.
@@ -106,6 +109,7 @@ public class EdcUtil {
     }
     // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
 
+
     /**
      * Checks if the EDC is version v0.5.0 basing on the contractId format.
      * <p>
@@ -124,6 +128,23 @@ public class EdcUtil {
             return CrypUtil.isBase64(parts[1]); // If the contractId is base64 encoded
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible check if is the EDC v0.5.0");
+        }
+    }
+
+    /**
+     * Maps lists of datasets from a catalog into a map of contract ids and contracts
+     * <p>
+     *
+     * @param datasets {@code List<Dataset>} the list of contracts to map.
+     * @return {@code Map<String, Dataset>} the map of contract ids with the contracts
+     * @throws UtilException if error when parsing the contracts
+     */
+    public Map<String, Dataset> mapDatasetsById(List<Dataset> datasets){
+        try {
+            return datasets.stream()
+                    .collect(Collectors.toMap(Dataset::getId, Function.identity()));
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to map the datasets");
         }
     }
 

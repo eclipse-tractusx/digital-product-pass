@@ -76,12 +76,14 @@ public class DataTransferService extends BaseService {
     public Environment env;
     public ProcessManager processManager;
 
+    public EdcUtil edcUtil;
     public DtrConfig dtrConfig;
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DataTransferService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
+    public DataTransferService(Environment env, HttpUtil httpUtil, EdcUtil edcUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
+        this.edcUtil = edcUtil;
         this.jsonUtil = jsonUtil;
         this.processManager = processManager;
         this.dtrConfig = dtrConfig;
@@ -196,11 +198,8 @@ public class DataTransferService extends BaseService {
             if(contractOffers.size() == 0){
                 return null;
             }
-            Map<String, Dataset> retDatasets = new HashMap<>();
-            for(Dataset offer: contractOffers){
-                retDatasets.put(offer.getId(),offer);
-            }
-            return retDatasets;
+
+            return edcUtil.mapDatasetsById(contractOffers);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId [" + assetId + "]");
         }

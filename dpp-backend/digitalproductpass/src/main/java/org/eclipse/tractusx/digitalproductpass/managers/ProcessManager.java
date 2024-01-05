@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Catena-X - Digital Product Pass Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -25,8 +25,10 @@
 
 package org.eclipse.tractusx.digitalproductpass.managers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
+import org.checkerframework.framework.qual.Unused;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
@@ -1011,6 +1013,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to load the dataset.
      */
+    @Deprecated
     public Dataset loadDataset(String processId) {
         try {
             String path = this.getProcessFilePath(processId, this.datasetFileName);
@@ -1019,6 +1022,49 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
         }
     }
+    /**
+     * Loads the {@code Dataset} object from the Process with the given processId by a contract id
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return  a {@code Dataset} object with the loaded data.
+     *
+     * @throws ManagerException
+     *           if unable to load the dataset.
+     */
+    public Dataset loadDataset(String processId, String contractId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.datasetFileName);
+            Map<String, Dataset> datasets = (Map<String, Dataset>) jsonUtil.fromJsonFileToObject(path, Map.class);
+            if(datasets == null){
+                throw new ManagerException(this.getClass().getName(),"It was not possible to load the dataset for contract id [" + contractId + "] process id [" + processId + "]");
+            }
+            return datasets.get(contractId);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
+        }
+    }
+    /**
+     * Loads the {@code Dataset} objects from the Process with the given processId.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return  a {@code Dataset} object with the loaded data.
+     *
+     * @throws ManagerException
+     *           if unable to load the dataset.
+     */
+    public Map<String, Dataset> loadDatasets(String processId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.datasetFileName);
+            return (Map<String, Dataset>) this.jsonUtil.bindReferenceType(jsonUtil.fromJsonFileToObject(path, Map.class), new TypeReference<Map<String, Dataset>>() {});
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
+        }
+    }
+
 
     /**
      * Loads the {@code SearchStatus} object from the Process with the given processId.
@@ -1492,6 +1538,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the data set.
      */
+    @Deprecated
     public String saveDataset(String processId, Dataset dataset, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(
@@ -1521,12 +1568,12 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the data set.
      */
-    public String saveDatasets(String processId, Map<String, Dataset> datasets, String contractIds, Long startedTime) {
+    public String saveDatasets(String processId, Map<String, Dataset> datasets, String contractIds, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(
                     processId,
                     datasets,
-                    this.datasetFileName,
+                    !dtr?this.datasetFileName:"digital-twin-registry/"+this.datasetFileName,
                     startedTime,
                     contractIds,
                     "AVAILABLE",

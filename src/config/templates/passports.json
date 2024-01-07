@@ -70,42 +70,12 @@
             ]
         },
         "sources": {
-            "mandatory": {
-                "safetyInformation": {
-                    "header": null,
-                    "category": null,
-                    "type": null,
-                    "content": null
-                },
-                "environmentalImpact": {
-                    "header": null,
-                    "category": null,
-                    "type": null,
-                    "content": null
-                }
-            },
-            "optional": [
-                {
-                    "name": null,
-                    "document": {
-                        "header": null,
-                        "category": null,
-                        "type": null,
-                        "content": null
-                    }
-                }
-            ]
+            "mandatory": {},
+            "optional": []
         },
         "sustainability": {
             "state": null,
-            "material": [
-                {
-                    "name": null,
-                    "recycled": false,
-                    "renewable": false,
-                    "percentage": null
-                }
-            ],
+            "material": [],
             "critical": null,
             "carbonFootprint": {
                 "carbonContentTotal": null,
@@ -468,5 +438,136 @@
             "stateOfCharge": null
         },
         "cO2FootprintTotal": null
+    },
+    "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass": {
+        "productSpecificParameters": {
+            "torqueConverter": null,
+            "driveType": null,
+            "oilType": null,
+            "spreading": null,
+            "torque": null,
+            "power": null,
+            "standardGearRatio": {
+                "gear": null,
+                "ratio": null
+            },
+            "oilCapacity": null,
+            "electricPerformance": null,
+            "speedResistance": {
+                "speed": null,
+                "gear": null
+            }
+        },
+        "instructions": {
+            "packagingInstructions": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ],
+            "transportationInstructions": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ],
+            "dismantlingProcedure": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ],
+            "safetyMeasures": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ],
+            "vehicleDismantlingProcedure": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ]
+        },
+        "identification": {
+            "manufacturerId": null,
+            "localIdentifiers": [
+                {
+                    "value": null,
+                    "key": null
+                }
+            ],
+            "dataMatrixCode": null
+        },
+        "sparePartSupplier": [
+            {
+                "supplierContact": {
+                    "faxNumber": null,
+                    "website": null,
+                    "phoneNumber": null,
+                    "email": null
+                },
+                "supplierId": null,
+                "sparePartName": null
+            }
+        ],
+        "stateOfHealth": {
+            "serviceHistory": null,
+            "expectedLifespan": null,
+            "remanufacturing": {
+                "remanufacturingDate": null,
+                "productStatusValue": null
+            }
+        },
+        "generalInformation": {
+            "additionalInformation": null,
+            "physicalDimensionsProperty": {
+                "width": null,
+                "length": null,
+                "weight": null,
+                "diameter": null,
+                "height": null
+            },
+            "warrantyPeriod": null,
+            "productDescription": null,
+            "productType": null
+        },
+        "sustainability": {
+            "substancesOfConcern": null,
+            "responsibleSourcingDocument": [
+                {
+                    "documentTitle": null,
+                    "documentLink": null
+                }
+            ],
+            "recyclateContent": {
+                "nickel": null,
+                "lithium": null,
+                "cobalt": null,
+                "otherSubstance": [
+                    {
+                        "substancePercentage": null,
+                        "substanceName": null
+                    }
+                ]
+            },
+            "criticalRawMaterials": null,
+            "carbonFootprint": {
+                "crossSectoralStandardsUsed": [
+                    {
+                        "crossSectoralStandard": null
+                    }
+                ],
+                "co2FootprintTotal": null,
+                "productOrSectorSpecificRules": [
+                    {
+                        "operator": null,
+                        "ruleNames": null,
+                        "otherOperatorName": null
+                    }
+                ]
+            }
+        }
     }
 }

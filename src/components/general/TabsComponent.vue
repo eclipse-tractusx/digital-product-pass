@@ -66,6 +66,10 @@ import Handling from "../passport/sections/Handling.vue";
 import AdditionalData from "../passport/sections/AdditionalData.vue";
 import Sustainability from "../passport/sections/Sustainability.vue";
 import Operation from "../passport/sections/Operation.vue";
+import ProductSpecificParameters from "../passport/sections/ProductSpecificParameters.vue";
+import Instructions from "../passport/sections/Instructions.vue";
+import SparePartSupplier from "../passport/sections/SparePartSupplier.vue";
+import StateOfHealth from "../passport/sections/StateOfHealth.vue";
 
 export default {
   name: "TabsComponent",
@@ -90,6 +94,10 @@ export default {
     AdditionalData,
     Sustainability,
     Operation,
+    ProductSpecificParameters,
+    Instructions,
+    SparePartSupplier,
+    StateOfHealth,
   },
   data() {
     return {

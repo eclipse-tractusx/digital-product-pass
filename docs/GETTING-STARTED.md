@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -60,13 +61,13 @@ final __representation of the data__.
 #### Start Minikube Cluster
 ```bash
 # start minikube cluster
-minikube start
+minikube start --cpus 4 --memory 8096
 
 # enable minikube ingress addon
 minikube addons enable ingress
 ```
 
-The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set [set_dev_values.sh](../deployment/helm/local/scripts/set_dev_values.sh) and unset values [unset_dev_values.sh](../deployment/helm/local/scripts/unset_dev_values.sh) in required components as needed. 
+The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set/unset [init-values.sh](../deployment/local/scripts/init-values.sh) in required components as needed. 
 
 > Prerequisite: Prior to run the scripts, the values for the follwoing environment variables should be placed in the script.
 
@@ -77,13 +78,18 @@ __Script Environment Variables:__
 
 ```bash
 # Navigate to working directory
-cd ../deployment/helm/local/scripts
+cd ../deployment/local/scripts
 
 # set values for local run
-./set_dev_values.sh
+# ./init-values.sh <0 or 1> <GH_TOKEN> <VAULT_ADDRESS>
+# 0: unset values back to the placeholders
+# 1: set actual values from the vault storage
+
+# set values
+./init-values.sh 1 <GH_TOKEN> <VAULT_ADDRESS>
 
 # unset values
-./unset_dev_values.sh
+./init-values.sh 0 <GH_TOKEN> <VAULT_ADDRESS>
 ```
 
 
@@ -98,10 +104,10 @@ cd ../deployment/helm/local/scripts
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/helm/edc-consumer) hosted locally
+        * [Helm Chart](../deployment/infrastructure/edc-consumer) hosted locally
 ```bash
 # Navigate to the working directory
-cd ../deployment/helm/edc-consumer
+cd ../deployment/infrastructure/edc-consumer
 
 # Update chart dependencies
 helm dependency update .
@@ -135,18 +141,18 @@ kubectl port-forward services/edc-consumer-controlplane 31639:8181
 kubectl port-forward services/edc-consumer-controlplane 31216:8282
 ```
 
-Integration (INT) deployment available through postman: [https://materialpass.int.demo.catena-x.net/consumer](https://materialpass.int.demo.catena-x.net/consumer/)
+Integration (INT) deployment available through postman: [https://dpp.int.demo.catena-x.net/consumer](https://dpp.int.demo.catena-x.net/consumer/)
   
  __Hashicorp-Vault__ & __DAPS__ are centralized components and managed by central CatenaX services.
 * __EDC-Provider__
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/helm/edc-provider) hosted locally
+        * [Helm Chart](../deployment/infrastructure/edc-provider) hosted locally
 
 ```bash
 # Navigate to the working directory
-cd ../deployment/helm/edc-provider
+cd ../deployment/infrastructure/edc-provider
 
 # Update chart dependencies
 helm dependency update .
@@ -180,7 +186,7 @@ kubectl port-forward services/edc-provider-controlplane 31495:8181
 kubectl port-forward services/edc-provider-controlplane 8282:8282
 kubectl port-forward services/edc-provider-backend 8081:8081
 ```
-Link to the Integration (INT) environment: [https://materialpass.int.demo.catena-x.net/provider](https://materialpass.int.demo.catena-x.net/provider/)
+Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net/provider](https://dpp.int.demo.catena-x.net/provider/)
   
  __Hashicorp-Vault__ is centralized components and managed by CatenaX shared services.
         
@@ -192,9 +198,9 @@ Link to the Integration (INT) environment: [https://materialpass.int.demo.catena
 
     - Reference docs: 
         - [INSTALL.md](../INSTALL.md)
-        - [Productpass backend](../consumer-backend/productpass/readme.md)
+        - [Productpass backend](../backend/digitalproductpass/readme.md)
 
-Link to the Integration (INT) environment: [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net/)
+Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net/)
 
 ```bash
 # Navigate to the working directory
@@ -231,10 +237,10 @@ __Notes:__
 
 ### Application Usage
 
-To use the application, data needs to be prepared in the __EDC-Provider__ using the provider setup script [init-provider-dev.sh](../deployment/infrastructure/provider/init-provider_dev.sh)
+To use the application, data needs to be prepared in the __EDC-Provider__ using the provider setup script [init-provider-dev.sh](../deployment/local/testing/upload-testdata.sh)
 
 __Optional:__ One can also use the postman collection
-in [postman/Digital-Product-Pass](../postman/v3.0.1/Digital-Product-Pass-v1.0.0.postman_collection.json) to access APIs, used among DPP components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent is required.
+in [deployment/local/postman/Digital-Product-Pass](../deployment/local/postman/Digital-Product-Pass-collection.json) to access APIs, used among DPP components. As a prerequisite, [Postman](https://www.postman.com/downloads/) agent is required.
 
 
 | Who            | Action/Events                                                                                                |
@@ -254,7 +260,7 @@ in [postman/Digital-Product-Pass](../postman/v3.0.1/Digital-Product-Pass-v1.0.0.
 The __Digital Product Passport Uer Interface__ will make this process accessible to users.
 
 __Note:__ Adjust the URLs according to the _local_ (`http://localhost:port/`) or
-_integration_ (`https://materialpass.int.demo.catena-x.net/`) environments.
+_integration_ (`https://dpp.int.demo.catena-x.net/`) environments.
 
 - [Documentation of EDC Data Transfer](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/samples/Transfer%20Data.md)
 - [End-to-End Use Case](https://catenax-ng.github.io/docs/guides/catenax-at-home#end-to-end-use-case)

@@ -1,8 +1,9 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -23,6 +24,95 @@
 # Changelog
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [released]
+## [v2.0.1] - 03-01-2024
+## Added
+- Added function to check for duplicated DTRs in the temporaryStorage
+- Added check for skipping the check of all BPNs when the DTRs are not available for security and optimization
+- Added `vue-i18n v9.2.2` library that will be used in the release `v2.1.0` with the translations
+- Added check to fix bug related to invalid BPN endpoints in cache
+
+## Updated
+- Updated header license of modified files to match the new year 2024
+
+## Security Issues
+- Updated Axios from version `v0.8.1` -> `v1.6.0`
+- Updated Spring Boot from version `v3.1.5` -> `v3.2.1`
+- Logback from Log4j got updated with the Spring Boot `v1.4.11` ->  `v1.4.14` 
+
+## Issues Fixed
+- Fixed the backend IRS exception handling, for detecting failure when job does not start
+- Fixed misconfiguration of config maps related to the temporaryStorage
+- Fixed incorrect authors names
+
+## [released]
+## [v2.0.0] - 22-12-2023
+
+## Added
+ 
+- Added components to display a Transmission Pass in frontend
+- Added MOCK file with the transmission pass in frontend
+- Added permission listener & reloader in frontend
+- Added camera toggle component in frontend
+- Added Decentral Digital Twin Registry configuration payloads
+- Added IRS configuration guide
+- New Data Retrieval Guide added with detailed information how to retrieve data in Catena-X like the DPP.
+- Added new structure of files for the Arc42
+- Added new Authentication & Authorization chapter in the Arc42
+- Added detailed description next to the API diagrams at the Arc42
+- Added IRS Integration documentation at the Arc42
+- Added diagrams in xml form for further edition
+- Added Check of BPN Number in Frontend (With Trigger in Configuration) 
+- Added Check of BPN Number in Backend (With Trigger in Configuration) 
+- Added Check for appId Roles in Frontend (With Trigger in Configuration) 
+- Added Check for appId Roles in Backend (With Trigger in Configuration) 
+- Added new security checks in the backend and frontend
+- Added new non authorized view in the frontend
+- Added script to retrieve any type of aspect data using the dpp backend component
+- Added [README.md](./deployment/infrastructure/README.md) on how to execute the script with certain parameters
+
+## Updated
+
+- Refactor frontend code to be compliant with transmission pass 2.0.0.
+- Refactor Responsiveness of frontend
+- Updated URL check in frontend
+- Corrected the payloads ids and the configurations
+- Updated the Install.md file with a section to install the prerequisites and configure values.yaml files
+- Updated the file structure from the Arc42
+- Updated data retrieval api diagrams with better quality
+- Updated context diagram with a new easy context
+- Updated Arc42 Descriptions in the Technical Integration chapter
+- Updated data uploading script by adding physical dimensions aspect
+- Refactored helm chart values configuration.
+- Refactored backend values chart configuration
+- Update the IRS version to 4.2.0
+- Adapted the springboot configuration structure
+- Update the default policies
+- [BREAKING CHANGES]: Updated the path from the backend from `/consumer-backend` to just `/dpp-backend` to declare the to standalone application
+
+
+## [released]
+## [v1.4.0] - 14-12-2023
+
+## Added
+- Added script to automate the uploading of various passport types
+- Added script to delete data from the data provider
+- Added check for empty or null contractIds with retry attempts
+- Added descriptive logs to search and create methods
+
+## Updated
+- Updated ingress settings and backend configuration in the helm chart
+- Refactored helm values to show only user relevant settings
+
+## Issued Fixed
+- Fixed the timeout time for each negotiation
+- Fixed the long waiting time by implementing timeout when doing the negotiation
+- Fixed the null contract ids creation
+
+## Deleted
+- Remove the legacy style to register/delete the testdata from the data provider
+ 
 
 ## [released]
 ## [v1.3.1] - 08-11-2023

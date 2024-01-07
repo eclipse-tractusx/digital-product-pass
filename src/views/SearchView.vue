@@ -20,7 +20,6 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-
 <template>
   <div class="home-page-container">
     <div class="left-container" :class="{ hidden: isHidden }">
@@ -37,17 +36,8 @@
         <div class="logotype-container">
           <img :src="LogotypeDPP" alt="DPP logo" />
         </div>
-
-        <v-icon
-          @click="showWelcome"
-          size="large"
-          :class="{ hidden: !isHidden }"
-          class="arrow-icon"
-          icon="mdi-arrow-right"
-        ></v-icon>
-
         <v-container class="search-page">
-          <div v-if="error" class="qr-container">
+          <div v-if="qrError" class="qr-container">
             <div class="text-container">
               <p class="text">{{ $t("searchView.errorCameraOff") }}</p>
               <p class="text">{{ $t("searchView.errorTypeID") }}</p>
@@ -56,8 +46,15 @@
             <SearchInput class="search-input" />
           </div>
           <v-row data-cy="qr-container">
-            <div v-if="!error">
+            <div v-if="!qrError">
               <v-col class="qr-container" cols="12" v-if="QRtoggle">
+                <v-btn rounded v-if="multipleCameras">
+                  <v-icon
+                    icon="mdi-camera-flip-outline"
+                    @click="toggleCamera"
+                    style="color: #0f71cb"
+                  ></v-icon>
+                </v-btn>
                 <div class="stream-container">
                   <v-icon
                     size="x-large"
@@ -67,12 +64,11 @@
                     md
                     icon="mdi-close-thick"
                   ></v-icon>
-                  <qrcode-stream
-                    :torch="torch"
-                    class="qrcode-stream"
-                    @init="onInit"
-                    @decode="onDecode"
-                  ></qrcode-stream>
+                  <QrcodeStream
+                    :facingMode="facingMode"
+                    v-if="QRtoggle"
+                    :key="reloadReader"
+                  />
                 </div>
               </v-col>
               <v-col cols="12" v-else class="qr-container">
@@ -99,8 +95,6 @@
   </div>
 </template>
 
-
-
 <script>
 import { QrcodeStream } from "vue3-qrcode-reader";
 import CatenaLogo from "../media/logo.png";
@@ -108,6 +102,8 @@ import QRFrame from "../media/qrFrame.svg";
 import BatteryScanning from "../media/backgroundart.jpg";
 import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
+import { mapState } from "vuex";
+import store from "@/store/index";
 
 export default {
   name: "QRScannerView",
@@ -119,68 +115,69 @@ export default {
     return {
       isHidden: false,
       QRtoggle: false,
-      error: "",
-      decodedString: "",
+      reloadReader: 0,
+      facingMode: "front",
+
+      multipleCameras: true,
     };
+  },
+  computed: {
+    ...mapState(["qrError"]),
   },
   setup() {
     SearchInput;
     return {
       BatteryScanning,
       LogotypeDPP,
-      CatenaLogo,
-      QRFrame,
     };
   },
+  mounted() {
+    this.checkCameraPermission();
+    this.toggleCamera();
+  },
   methods: {
+    async toggleCamera() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+
+        if (videoDevices.length > 1) {
+          this.facingMode = this.facingMode === "front" ? "rear" : "front";
+        } else {
+          this.multipleCameras = false;
+          this.facingMode = "auto";
+        }
+      } catch (error) {
+        console.error("Error toggling camera:", error);
+      }
+    },
+    async checkCameraPermission() {
+      try {
+        const permissionStatus = await navigator.permissions.query({
+          name: "camera",
+        });
+        permissionStatus.onchange = () => {
+          this.reloadReader += 1;
+          store.commit("setQrError", "");
+        };
+      } catch (error) {
+        console.error("Error checking camera permission:", error);
+      }
+    },
     hideWelcome() {
       this.isHidden = true;
       this.QRtoggle = true;
     },
-    showWelcome() {
-      this.isHidden = false;
-      this.QRtoggle = false;
-    },
     closeQRScanner() {
       this.QRtoggle = false;
-    },
-    openQRScanner() {
-      this.QRtoggle = true;
-    },
-    async onInit(promise) {
-      try {
-        await promise;
-      } catch (error) {
-        if (error.name === "NotAllowedError") {
-          this.error = "searchView.cameraError.NotAllowedError";
-        } else if (error.name === "NotFoundError") {
-          this.error = "searchView.cameraError.NotFoundError";
-        } else if (error.name === "NotSupportedError") {
-          this.error = "searchView.cameraError.NotSupportedError";
-        } else if (error.name === "NotReadableError") {
-          this.error = "searchView.cameraError.NotReadableError";
-        } else if (error.name === "OverconstrainedError") {
-          this.error = "searchView.cameraError.OverconstrainedError";
-        } else if (error.name === "StreamApiNotSupportedError") {
-          this.error = "searchView.cameraError.StreamApiNotSupportedError";
-        } else if (error.name === "InsecureContextError") {
-          this.error = "searchView.cameraError.InsecureContextError";
-        } else {
-          this.error = `ERROR: Camera error (${error.name})`;
-        }
-      }
     },
     openExternalLink() {
       window.open(
         "https://portal.int.demo.catena-x.net/documentation/?path=docs",
         "_blank"
       );
-    },
-    onDecode(decodedString) {
-      this.decodedString = decodedString;
-      this.$router.push({
-        path: `/${decodedString}`,
-      });
     },
   },
 };

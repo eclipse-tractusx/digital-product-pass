@@ -83,7 +83,7 @@ If questions arise, you can access the Catena-X Helpdesk through clicking on "He
  After requesting data via one of the [product search functions](#search-for-a-product-passport), the information will be displayed on the screen. An exemplary product passport of a battery can be seen below. It provides an overview on the battery's history, technical specifications and data exchange information:
 
 </br></br>
-![Product Pass](./ProductPassport.png)
+![Product Pass](./digitalproductpassport.png)
 </br></br>
 
 Hereby, the information is devided into the following sections:

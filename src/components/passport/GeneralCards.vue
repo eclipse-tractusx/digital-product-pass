@@ -80,7 +80,7 @@
 import DialogComponent from "../general/Dialog.vue";
 
 export default {
-  name: "BatteryCards",
+  name: "GeneralCards",
   components: {
     DialogComponent,
   },

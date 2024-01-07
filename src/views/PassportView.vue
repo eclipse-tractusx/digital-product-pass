@@ -37,7 +37,7 @@
       <template
         v-else-if="
           data.semanticId ===
-          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+          'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
         "
       >
         <span class="header-title">{{ $t("passportView.tpp") }}</span>
@@ -72,17 +72,6 @@
           type="Battery ID"
         />
       </template>
-      <template
-        v-else-if="
-          data.semanticId ===
-          'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
-        "
-      >
-        <PassportHeader
-          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
-          type="Transmission ID"
-        />
-      </template>
       <template v-else>
         <PassportHeader :id="id ? id : '-'" type="ID" />
       </template>
@@ -97,11 +86,11 @@
         </template>
         <template
           v-else-if="
-            data.semanticId ===
-            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
+            data.semanticId ==
+            'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
           "
         >
-          <BatteryCards :data="data" />
+          <TransmissionCards :data="data" />
         </template>
         <template v-else>
           <GeneralCards :data="data" />
@@ -112,17 +101,6 @@
           v-if="
             data.semanticId ===
             'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
-          "
-        >
-          <TabsComponent
-            :componentsNames="batteryComponentsNames"
-            :componentsData="data"
-          />
-        </template>
-        <template
-          v-else-if="
-            data.semanticId ===
-            'urn:bamm:io.catenax.transmission:3.0.1#Transmission'
           "
         >
           <TabsComponent
@@ -150,6 +128,7 @@ import TabsComponent from "../components/general/TabsComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
 import PassportHeader from "@/components/passport/PassportHeader.vue";
 import BatteryCards from "@/components/passport/BatteryCards.vue";
+import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
@@ -172,6 +151,7 @@ export default {
     ErrorComponent,
     TabsComponent,
     GeneralCards,
+    TransmissionCards,
   },
   data() {
     return {
@@ -246,7 +226,9 @@ export default {
         dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
-          label: key[0].toUpperCase() + key.slice(1),
+          label: passportUtil.toSentenceCase(
+            key[0].toUpperCase() + key.slice(1)
+          ),
           icon: passportUtil.iconFinder(key),
           component: key,
         }));

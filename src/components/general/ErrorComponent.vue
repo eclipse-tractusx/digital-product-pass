@@ -1,3 +1,4 @@
+
 <!--
   Catena-X - Product Passport Consumer Frontend
  
@@ -52,7 +53,7 @@
                   ><template v-if="description">{{ $t(description) }}</template>
                   <template v-if="explanation">{{ $t(explanation) }}</template>
                   <template v-if="adminLabel"
-                    ><a :href="'mailto:' + $t(adminEmail)">{{
+                    ><a :href="'mailto:' +adminEmail">{{
                       $t(adminLabel)
                     }}</a></template
                   ></span
@@ -92,54 +93,55 @@
 </template>
 
 <script>
+import { ADMIN_EMAIL } from "@/services/service.const";
 export default {
   name: "ErrorComponent",
   props: {
     title: {
-      type: [String, Number],
-      default: "error.404NotFound",
+      type: [String,Number],
+      default: "404 Not Found",
     },
-    subTitle: {
-      type: [String, Number],
-      default: "error.somethingWentWrong",
+    subTitle:{
+      type: [String,Number],
+      default: "Oops, Something went wrong..."
     },
     description: {
       type: Number,
-      default: null,
+      default: null
     },
     explanation: {
       type: String,
-      default: "error.internalError",
+      default: "The server encountered an internal error or misconfiguration and was unable to complete your request."
     },
-    adminLabel: {
+    adminLabel:{
       type: String,
-      default: "error.contactYourAdmin",
+      default: "Please contact your admin"
     },
-    adminEmail: {
+    adminEmail:{
       type: String,
-      default: "error.example",
+      default: ADMIN_EMAIL,
     },
-    buttonsVisible: {
+    buttonsVisible:{
       type: Boolean,
-      default: true,
+      default: true
     },
-    back: {
+    back:{
       type: [String, Number],
-      default: -1,
+      default: -1
     },
-    homepage: {
+    homepage:{
       type: String,
-      default: "/",
+      default: "/"
     },
-    reloadLabel: {
+    reloadLabel:{
+      type: String, 
+      default: "Reload Page"
+    },
+    reloadIcon:{
       type: String,
-      default: "error.reload",
-    },
-    reloadIcon: {
-      type: String,
-      default: null,
-    },
-  },
+      default: null
+    }
+  }
 };
 </script>
 <style scoped>
@@ -147,3 +149,4 @@ export default {
   width: 110%;
 }
 </style>
+

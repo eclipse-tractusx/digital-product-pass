@@ -50,6 +50,10 @@ app.use(store);
 app.use(router);
 app.use(i18n);
 
-let auth = new authentication();
+var auth = new authentication();
 app.provide('authentication', auth);
+app.config.globalProperties.$authProperties = {
+    loginReachable: false,
+    isAuthorized: false
+};
 auth.keycloakInit(app);

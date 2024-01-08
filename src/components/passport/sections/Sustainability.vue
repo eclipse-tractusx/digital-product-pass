@@ -41,7 +41,7 @@
               >
                 <Field
                   icon="mdi-image-size-select-small"
-                  label="Substances of concern"
+                  :label="$t('sections.sustainability.substancesOfConcern')"
                   :value="attr"
                 />
               </div>
@@ -88,7 +88,7 @@
                 >
                   <Field
                     icon="mdi-image-size-select-small"
-                    label="Critical raw materials"
+                    :label="$t('sections.sustainability.criticalRawMaterials')"
                     :value="attr"
                   />
                 </div>
@@ -120,7 +120,7 @@
                 >
                   <Field
                     icon="mdi-image-size-select-small"
-                    label="Cross sectoral standard"
+                    :label="$t('sections.sustainability.crossSectoralStandard')"
                     :value="attr.crossSectoralStandard"
                   />
                 </div>
@@ -133,7 +133,7 @@
               >
                 <Field
                   icon="mdi-image-size-select-small"
-                  label="Co2 footprint total"
+                  :label="$t('sections.sustainability.co2FootprintTotal')"
                   :value="
                     propsData.aspect.sustainability.carbonFootprint
                       .co2FootprintTotal
@@ -153,17 +153,17 @@
                 >
                   <Field
                     icon="mdi-image-size-select-small"
-                    label="Operator"
+                    :label="$t('sections.sustainability.operator')"
                     :value="attr.operator"
                   />
                   <Field
                     icon="mdi-image-size-select-small"
-                    label="Rule names"
+                    :label="$t('sections.sustainability.ruleNames')"
                     :value="attr.ruleNames"
                   />
                   <Field
                     icon="mdi-image-size-select-small"
-                    label="Other operator name"
+                    :label="$t('sections.sustainability.otherOperatorName')"
                     :value="attr.otherOperatorName"
                   />
                 </div>
@@ -178,14 +178,14 @@
             <template v-if="propsData.aspect.sustainability.state">
               <Field
                 icon="mdi-image-size-select-small"
-                label="State"
+                :label="$t('sections.sustainability.state')"
                 :value="propsData.aspect.sustainability.state"
               />
             </template>
             <template v-if="propsData.aspect.sustainability.material">
               <AttributeField
                 icon="mdi-image-size-select-small"
-                label="Material"
+                :label="$t('sections.sustainability.material')"
                 :attributes-list="propsData.aspect.sustainability.material"
               />
             </template>
@@ -200,7 +200,7 @@
               >
                 <Field
                   icon="mdi-image-size-select-small"
-                  label="Carbon content total"
+                  :label="$t('sections.sustainability.carbonContentTotal')"
                   :value="
                     propsData.aspect.sustainability.carbonFootprint
                       .carbonContentTotal
@@ -215,7 +215,7 @@
               >
                 <Field
                   icon="mdi-image-size-select-small"
-                  label="Cross sectoral standard"
+                  :label="$t('sections.sustainability.crossSectoralStandard')"
                   :value="
                     propsData.aspect.sustainability.carbonFootprint
                       .crossSectoralStandard
@@ -230,7 +230,7 @@
               >
                 <AttributeField
                   icon="mdi-image-size-select-small"
-                  label="Material"
+                  :label="$t('sections.sustainability.material')"
                   :attributes-list="
                     propsData.aspect.sustainability.carbonFootprint
                       .productOrSectorSpecificRules

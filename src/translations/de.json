@@ -296,8 +296,14 @@
     "sustainability": {
       "state": "Zustand",
       "material": "Material",
-      "carbonContentTotal": "Gesamter Kohlenstoffgehalt",
-      "crossSectoralStandard": "übergreifender Standard"
+      "carbonContentTotal": "Gesamtkohlenstoffgehalt",
+      "crossSectoralStandard": "Sektorenübergreifender Standard",
+      "substancesOfConcern": "Besorgniserregende Stoffe",
+      "criticalRawMaterials": "Kritische Rohstoffe",
+      "co2FootprintTotal": "Gesamter CO₂-Fußabdruck",
+      "operator": "Betreiber",
+      "ruleNames": "Regelnamen",
+      "otherOperatorName": "Name des anderen Betreibers"
     },
     "typology": {
       "name": "Name",

@@ -297,7 +297,13 @@
       "state": "State",
       "material": "Material",
       "carbonContentTotal": "Carbon content total",
-      "crossSectoralStandard": "Cross sectoral standard"
+      "crossSectoralStandard": "Cross sectoral standard",
+      "substancesOfConcern": "Substances of concern",
+      "criticalRawMaterials": "Critical raw materials",
+      "co2FootprintTotal": "CO₂ footprint total",
+      "operator": "Operator",
+      "ruleNames": "Rule names",
+      "otherOperatorName": "Other operator name"
     },
     "typology": {
       "name": "Name",

@@ -99,7 +99,9 @@
 import { QrcodeStream } from "vue3-qrcode-reader";
 import CatenaLogo from "../media/logo.png";
 import QRFrame from "../media/qrFrame.svg";
-import BatteryScanning from "../media/backgroundart.jpg";
+import BatteryScanning from "../media/battery-img.jpeg";
+// New picture
+// import BatteryScanning from "../media/backgroundart.jpg";
 import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
 import { mapState } from "vuex";

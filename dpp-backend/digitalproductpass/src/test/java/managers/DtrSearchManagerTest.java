@@ -1,14 +1,17 @@
-package org.eclipse.tractusx.productpass.managers;
+package managers;
 
-import org.eclipse.tractusx.productpass.config.DtrConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.config.VaultConfig;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.catenax.Dtr;
-import org.eclipse.tractusx.productpass.models.manager.SearchStatus;
-import org.eclipse.tractusx.productpass.models.negotiation.Catalog;
-import org.eclipse.tractusx.productpass.services.DataTransferService;
-import org.eclipse.tractusx.productpass.services.VaultService;
+import org.eclipse.tractusx.digitalproductpass.Application;
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.VaultConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
+import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
+import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -16,11 +19,20 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.mock.env.MockEnvironment;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import utils.*;
 
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +46,7 @@ import static org.mockito.Mockito.when;
 class DtrSearchManagerTest {
 
     private DtrSearchManager dtrSearchManager;
-    private final String testAssetPath = "/src/test/resources/dpp/assets/TestAsset.json";
+    private final String testAssetPath = "/dpp/assets/TestAsset.json";
     @Mock
     private ProcessManager processManager;
     @Mock
@@ -53,6 +65,7 @@ class DtrSearchManagerTest {
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
         dtrConfig = initDtrConfig();
+
         env =  Mockito.mock(Environment.class);
         HttpUtil httpUtil = new HttpUtil(env);
         dataTransferService = Mockito.mock(DataTransferService.class);
@@ -69,24 +82,14 @@ class DtrSearchManagerTest {
 
     private DtrConfig initDtrConfig() {
         DtrConfig dtrConfig = new DtrConfig();
-        /*dtrConfig.setAssetType("data.core.digitalTwinRegistry");
-        dtrConfig.setEndpointInterface("SUBMODEL-3.0");
-        dtrConfig.setDspEndpointKey("dspEndpoint");
-        dtrConfig.setInternalDtr("https://materialpass.int.demo.catena-x.net/BPNL000000000000");
-        dtrConfig.setSemanticIdTypeKey("Submodel");
-        DtrConfig.DecentralApis decentralApis = new DtrConfig.DecentralApis();
-        decentralApis.setSearch("/lookup/shells");
-        decentralApis.setDigitalTwin("/shell-descriptors");
-        decentralApis.setSubModel("/submodel-descriptors");
-        dtrConfig.setDecentralApis(decentralApis);*/
         DtrConfig.Timeouts timeouts = new DtrConfig.Timeouts();
         timeouts.setSearch(10);
-        timeouts.setNegotiation(40);
+        timeouts.setDtrRequestProcess(40);
+        timeouts.setNegotiation(10);
         timeouts.setTransfer(10);
         timeouts.setDigitalTwin(20);
         dtrConfig.setTimeouts(timeouts);
         dtrConfig.setTemporaryStorage(new DtrConfig.TemporaryStorage(true, 12));
-
         return dtrConfig;
     }
 
@@ -209,7 +212,9 @@ class DtrSearchManagerTest {
 
     @Test
     void searchEndpoint() { //TODO
-        Object contractOffer = jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() +  testAssetPath, Object.class);
+        String file = Paths.get(fileUtil.getBaseClassDir(this.getClass()), testAssetPath).toString();
+        Object contractOffer = jsonUtil.fromJsonFileToObject(file, Object.class);
+        assertNotNull(contractOffer);
         Catalog catalog = new Catalog();
         catalog.setContractOffer(contractOffer);
         String connectionUrl = "test.connection.url";

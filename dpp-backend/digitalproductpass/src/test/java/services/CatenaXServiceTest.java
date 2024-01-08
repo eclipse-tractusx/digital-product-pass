@@ -1,16 +1,21 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.productpass.config.DiscoveryConfig;
-import org.eclipse.tractusx.productpass.config.DtrConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.productpass.managers.ProcessManager;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.catenax.BpnDiscovery;
-import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.catenax.EdcDiscoveryEndpoint;
+import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.auth.JwtToken;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.BpnDiscovery;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Discovery;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
+import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.services.CatenaXService;
+import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -25,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.env.MockEnvironment;
 import utils.*;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +49,9 @@ class CatenaXServiceTest {
     private DataTransferService dataTransferService;
     private DtrSearchManager dtrSearchManager;
     private AuthenticationService authenticationService;
-    private final String mockedTokenPath = "/src/test/resources/dpp/token/MockedToken.json";
+    private final String mockedTokenPath = "/dpp/token/MockedToken.json";
     private JwtToken mockedToken;
-    private final String mockedDiscoveryEndpointsPath = "/src/test/resources/dpp/discovery/MockedDiscoveryEndpoints.json";
+    private final String mockedDiscoveryEndpointsPath = "/dpp/discovery/MockedDiscoveryEndpoints.json";
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
@@ -59,30 +65,37 @@ class CatenaXServiceTest {
     private Environment env;
     private Discovery discovery;
 
+    private SecurityConfig securityConfig;
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
         fileUtil = new FileUtil();
         yamlUtil = new YamlUtil(fileUtil);
         jsonUtil = new JsonUtil(fileUtil);
-
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        securityConfig = new SecurityConfig();
+        securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
+        securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
 
         env = initEnv();
         httpUtil = Mockito.spy(new HttpUtil(env));
 
-        Map<String, Object> vaultConfig = yamlUtil.readFile(fileUtil.getDataDir() + "/VaultConfig/vault.token.yml");
-        Map<String, Object> client = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("client"));
-        when(vaultService.getLocalSecret("client.id")).thenReturn(client.get("id").toString());
-        when(vaultService.getLocalSecret("client.secret")).thenReturn(client.get("secret").toString());
-        Map<String, Object> edc = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("edc"));
-        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(edc.get("apiKey").toString());
-        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(edc.get("participantId").toString());
+        String mockClientId="xynasdnsda12312";
+        String mockClientTestReturn="212123asddsad54546";
+        String mockApiKey="aqweas1230sad";
+        String mockBpn="BPNL00000000000";
 
-        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil));
+        when(vaultService.getLocalSecret("client.id")).thenReturn(mockClientId);
+        when(vaultService.getLocalSecret("client.secret")).thenReturn(mockClientTestReturn);
 
-        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedTokenPath, JwtToken.class);
+        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(mockApiKey);
+        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(mockBpn);
+
+        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
+
+        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);
         doReturn(mockedToken).when(authenticationService).getToken();
 
         ProcessConfig processConfig = new ProcessConfig();
@@ -129,18 +142,18 @@ class CatenaXServiceTest {
         DtrConfig dtrConfig = new DtrConfig();
         DtrConfig.Timeouts timeouts = new DtrConfig.Timeouts();
         timeouts.setSearch(10);
-        timeouts.setNegotiation(40);
+        timeouts.setDtrRequestProcess(40);
+        timeouts.setNegotiation(10);
         timeouts.setTransfer(10);
         timeouts.setDigitalTwin(20);
         dtrConfig.setTimeouts(timeouts);
         dtrConfig.setTemporaryStorage(new DtrConfig.TemporaryStorage(true, 12));
-
         return dtrConfig;
     }
 
     @Test
     void getDiscoveryEndpoints() {
-        Discovery mockedDefaultDiscovery = (Discovery) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedDiscoveryEndpointsPath, Discovery.class);
+        Discovery mockedDefaultDiscovery = (Discovery) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedDiscoveryEndpointsPath).toString(), Discovery.class);
 
         doReturn(new ResponseEntity<>(jsonUtil.toJsonNode(jsonUtil.toJson(mockedDefaultDiscovery, true)), HttpStatus.OK))
                 .when(httpUtil).doPost(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false));
@@ -190,7 +203,7 @@ class CatenaXServiceTest {
 
         when(vaultService.getLocalSecret(eq("discovery.edc"))).thenReturn(new ArrayList<>(){{add("test.endpoint");}});
         doReturn(new ResponseEntity<>(jsonUtil.toJsonNode(new ArrayList<>(){{add(mockedEdcDiscoveryEndpoint);}}), HttpStatus.OK))
-                .when(httpUtil).doPost(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false));
+                .when(httpUtil).doPost(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false), anyInt());
 
         List<EdcDiscoveryEndpoint> edcDiscoveryEndpoints = catenaXService.getEdcDiscovery(List.of(bpn));
 
@@ -236,7 +249,7 @@ class CatenaXServiceTest {
             bpnDiscoveryEndpoint.setValue(bpn);
             BpnDiscovery bpnDiscovery = new BpnDiscovery(new ArrayList<>(){{add(bpnDiscoveryEndpoint);}});
             return new ResponseEntity<>(jsonUtil.toJsonNode(jsonUtil.toJson(bpnDiscovery, true)), HttpStatus.OK);
-        }).when(httpUtil).doPost(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false));
+        }).when(httpUtil).doPost(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false), anyInt());
 
         List<BpnDiscovery> bpnDiscoveryList = catenaXService.getBpnDiscovery(bpnResourceId, bpnKey);
 

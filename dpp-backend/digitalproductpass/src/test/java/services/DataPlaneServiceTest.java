@@ -1,8 +1,9 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.services.DataPlaneService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,6 +19,7 @@ import utils.FileUtil;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,7 +31,7 @@ import static org.mockito.Mockito.when;
 class DataPlaneServiceTest {
 
     private DataPlaneService dataPlaneService;
-    private final String testPassportPath = "/src/test/resources/dpp/payloads/TestPassport.json";
+    private final String testPassportPath = "/dpp/payloads/TestPassport.json";
     @Mock
     private HttpUtil httpUtil;
     private JsonUtil jsonUtil;
@@ -49,7 +51,7 @@ class DataPlaneServiceTest {
 
         when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(), eq(true), eq(true)))
                 .then(invocation -> {
-                    JsonNode passport = (JsonNode) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testPassportPath, JsonNode.class);
+                    JsonNode passport = (JsonNode) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testPassportPath).toString(), JsonNode.class);
                     return new ResponseEntity<>(passport, HttpStatus.OK);
                 });
 

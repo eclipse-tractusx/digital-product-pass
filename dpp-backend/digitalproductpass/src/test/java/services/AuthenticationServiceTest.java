@@ -1,10 +1,13 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.auth.UserInfo;
+import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.models.auth.JwtToken;
+import org.eclipse.tractusx.digitalproductpass.models.auth.UserInfo;
+import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.core.env.Environment;
 import utils.*;
 
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,8 +30,8 @@ import static org.mockito.Mockito.when;
 class AuthenticationServiceTest {
 
     private AuthenticationService authenticationService;
-    private final String mockedTokenPath = "/src/test/resources/dpp/token/MockedToken.json";
-    private final String mockedUserInfoPath = "/src/test/resources/dpp/token/MockedUserInfo.json";
+    private final String mockedTokenPath = "/dpp/token/MockedToken.json";
+    private final String mockedUserInfoPath = "/dpp/token/MockedUserInfo.json";
     private JwtToken mockedToken;
     private UserInfo mockedUserInfo;
     @Mock
@@ -38,6 +42,7 @@ class AuthenticationServiceTest {
     private JsonUtil jsonUtil;
     private YamlUtil yamlUtil;
     private FileUtil fileUtil;
+    private SecurityConfig securityConfig;
     @Mock
     private HttpServletRequest httpRequest;
 
@@ -48,29 +53,22 @@ class AuthenticationServiceTest {
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
         yamlUtil = new YamlUtil(fileUtil);
-
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        securityConfig = new SecurityConfig();
+        securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
+        securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         Map<String, Object> configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
         Map<String, Object> keycloak = (Map<String, Object>) jsonUtil.toMap(configuration.get("keycloak"));
         when(env.getProperty("configuration.keycloak.tokenUri", String.class,  "")).thenReturn(keycloak.get("tokenUri").toString());
         when(env.getProperty("configuration.keycloak.userInfoUri", String.class, "")).thenReturn(keycloak.get("userInfoUri").toString());
-        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil));
+        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
 
-        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedTokenPath, JwtToken.class);
-        mockedUserInfo = (UserInfo) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedUserInfoPath, UserInfo.class);
+        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);
+        mockedUserInfo = (UserInfo) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedUserInfoPath).toString(), UserInfo.class);
         doReturn(mockedToken).when(authenticationService).getToken();
         doReturn(mockedUserInfo).when(authenticationService).getUserInfo(mockedToken.getAccessToken());
     }
-
-    @BeforeEach
-    void setUp() {
-        Map<String, Object> vaultConfig = yamlUtil.readFile(fileUtil.getDataDir() + "/VaultConfig/vault.token.yml");
-        Map<String, Object> client = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("client"));
-
-        when(vaultService.getLocalSecret("client.id")).thenReturn(client.get("id").toString());
-        when(vaultService.getLocalSecret("client.secret")).thenReturn(client.get("secret").toString());
-    }
-
 
     @Test
     void getToken() {

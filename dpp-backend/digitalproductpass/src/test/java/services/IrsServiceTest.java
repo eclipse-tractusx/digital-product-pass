@@ -1,16 +1,20 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.productpass.config.IrsConfig;
-import org.eclipse.tractusx.productpass.config.PassportConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.ProcessManager;
-import org.eclipse.tractusx.productpass.managers.TreeManager;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.irs.JobHistory;
-import org.eclipse.tractusx.productpass.models.irs.JobRequest;
-import org.eclipse.tractusx.productpass.models.irs.JobResponse;
+import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.managers.TreeManager;
+import org.eclipse.tractusx.digitalproductpass.models.auth.JwtToken;
+import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
+import org.eclipse.tractusx.digitalproductpass.models.irs.JobRequest;
+import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
+import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.services.IrsService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,6 +30,7 @@ import utils.JsonUtil;
 import utils.YamlUtil;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,16 +47,17 @@ class IrsServiceTest {
 
     private IrsService irsService;
     private IrsConfig irsConfig;
-    private final String testJobResposnsePath = "/src/test/resources/dpp/irs/TestJobResponse.json";
-    private final String testStartJobResposnsePath = "/src/test/resources/dpp/irs/TestStartJobResponse.json";
+    private final String testJobResposnsePath = "/dpp/irs/TestJobResponse.json";
+    private final String testStartJobResposnsePath = "/dpp/irs/TestStartJobResponse.json";
     private Map<String, Object> configuration;
-    private final String mockedTokenPath = "/src/test/resources/dpp/token/MockedToken.json";
+    private final String mockedTokenPath = "/dpp/token/MockedToken.json";
     private JwtToken mockedToken;
     @Mock
     private Environment env;
     private HttpUtil httpUtil;
     private JsonUtil jsonUtil;
     private YamlUtil yamlUtil;
+    private SecurityConfig securityConfig;
     private FileUtil fileUtil;
     private ProcessManager processManager;
     private TreeManager treeManager;
@@ -64,27 +70,37 @@ class IrsServiceTest {
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
         yamlUtil = new YamlUtil(fileUtil);
+        securityConfig = new SecurityConfig();
+        securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
+        securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
         httpUtil = Mockito.spy(new HttpUtil(env));
 
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
-        Map<String, Object> vaultConfig = yamlUtil.readFile(fileUtil.getDataDir() + "/VaultConfig/vault.token.yml");
-        Map<String, Object> client = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("client"));
-        when(vaultService.getLocalSecret("client.id")).thenReturn(client.get("id").toString());
-        when(vaultService.getLocalSecret("client.secret")).thenReturn(client.get("secret").toString());
+        String mockClientId="xynasdnsda12312";
+        String mockClientTestReturn="212123asddsad54546";
+        String mockApiKey="aqweas1230sad";
+        String mockBpn="BPNL00000000000";
+
+        when(vaultService.getLocalSecret("client.id")).thenReturn(mockClientId);
+        when(vaultService.getLocalSecret("client.secret")).thenReturn(mockClientTestReturn);
+
+        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(mockApiKey);
+        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(mockBpn);
 
 
         env = initEnv();
         irsConfig = initIrsConfig();
         ProcessConfig processConfig = new ProcessConfig();
         PassportConfig passportConfig = new PassportConfig();
-        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil));
+        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
         processManager = Mockito.spy(new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig));
         treeManager = new TreeManager(fileUtil, jsonUtil, processManager, irsConfig, passportConfig);
 
         irsService = new IrsService(env, processManager, irsConfig, treeManager, httpUtil, vaultService, jsonUtil, authenticationService);
 
-        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedTokenPath, JwtToken.class);
+        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString() , JwtToken.class);
         doReturn(mockedToken).when(authenticationService).getToken();
     }
 
@@ -113,10 +129,10 @@ class IrsServiceTest {
 
     @BeforeEach
     void setUp() {
-        doReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testStartJobResposnsePath, JsonNode.class), HttpStatus.OK))
+        doReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testStartJobResposnsePath).toString() , JsonNode.class), HttpStatus.OK))
                 .when(httpUtil).doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(JobRequest.class), eq(false), eq(false));
 
-        doReturn(new ResponseEntity<>(jsonUtil.toJson(jsonUtil.fromJsonFile(FileUtil.getWorkdirPath() + testJobResposnsePath), true), HttpStatus.OK))
+        doReturn(new ResponseEntity<>(jsonUtil.toJson(jsonUtil.fromJsonFile(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testJobResposnsePath).toString() ), true), HttpStatus.OK))
                 .when(httpUtil).doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(true), eq(false));
 
         doReturn("TEST_PATH").when(processManager).setJobHistory(anyString(), any(JobHistory.class));
@@ -150,7 +166,7 @@ class IrsServiceTest {
 
     @Test
     void getJob() {
-        JobResponse test = (JobResponse) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testJobResposnsePath, JobResponse.class);
+        JobResponse test = (JobResponse) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testJobResposnsePath).toString() , JobResponse.class);
         String jobId = "0bbc712b-17a1-4c9d-9c9c-a7fae8082841";
         JobResponse jobResponse = irsService.getJob(jobId);
 

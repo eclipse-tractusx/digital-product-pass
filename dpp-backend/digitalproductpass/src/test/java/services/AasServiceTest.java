@@ -1,24 +1,29 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import mocks.MockedHttpSession;
 import org.bouncycastle.asn1.x509.GeneralName;
-import org.eclipse.tractusx.productpass.config.DtrConfig;
-import org.eclipse.tractusx.productpass.config.PassportConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.productpass.managers.ProcessManager;
-import org.eclipse.tractusx.productpass.models.auth.JwtToken;
-import org.eclipse.tractusx.productpass.models.catenax.Discovery;
-import org.eclipse.tractusx.productpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.productpass.models.dtregistry.SubModel;
-import org.eclipse.tractusx.productpass.models.edc.AssetSearch;
-import org.eclipse.tractusx.productpass.models.edc.DataPlaneEndpoint;
-import org.eclipse.tractusx.productpass.models.http.requests.Search;
-import org.eclipse.tractusx.productpass.models.manager.History;
-import org.eclipse.tractusx.productpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.auth.JwtToken;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Discovery;
+import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.models.dtregistry.SubModel;
+import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
+import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
+import org.eclipse.tractusx.digitalproductpass.models.manager.History;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.services.AasService;
+import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,6 +40,7 @@ import org.springframework.mock.env.MockEnvironment;
 import utils.*;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
@@ -52,7 +58,7 @@ class AasServiceTest {
     String mockedDigitalTwin;
     private final String digitalTwinId = "365e6fbe-bb34-11ec-8422-0242ac120002";
     private final String semanticId = "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass";
-    private final String testDigitalTwinPath = "/src/test/resources/dpp/digitaltwins/TestDigitalTwin.json";
+    private final String testDigitalTwinPath = "/dpp/digitaltwins/TestDigitalTwin.json";
     private String baseDataDirPath;
     private String testProcessId;
     @Mock
@@ -66,7 +72,7 @@ class AasServiceTest {
     @Mock
     private HttpSession mockedHttpSession;
     private AuthenticationService authenticationService;
-    private final String mockedTokenPath = "/src/test/resources/dpp/token/MockedToken.json";
+    private final String mockedTokenPath = "/dpp/token/MockedToken.json";
     private JwtToken mockedToken;
     @Mock
     private VaultService vaultService;
@@ -76,27 +82,34 @@ class AasServiceTest {
     private DtrSearchManager dtrSearchManager;
     private ProcessManager processManager;
     private DataTransferService dataTransferService;
+
+    private SecurityConfig securityConfig;
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
         yamlUtil = new YamlUtil(fileUtil);
-
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        securityConfig = new SecurityConfig();
+        securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
+        securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
 
         env = initEnv();
         httpUtil = Mockito.spy(new HttpUtil(env));
 
+        String mockClientId="xynasdnsda12312";
+        String mockClientTestReturn="212123asddsad54546";
+        String mockApiKey="aqweas1230sad";
+        String mockBpn="BPNL00000000000";
 
-        Map<String, Object> vaultConfig = yamlUtil.readFile(fileUtil.getDataDir() + "/VaultConfig/vault.token.yml");
-        Map<String, Object> client = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("client"));
-        when(vaultService.getLocalSecret("client.id")).thenReturn(client.get("id").toString());
-        when(vaultService.getLocalSecret("client.secret")).thenReturn(client.get("secret").toString());
-        Map<String, Object> edc = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("edc"));
-        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(edc.get("apiKey").toString());
-        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(edc.get("participantId").toString());
+        when(vaultService.getLocalSecret("client.id")).thenReturn(mockClientId);
+        when(vaultService.getLocalSecret("client.secret")).thenReturn(mockClientTestReturn);
+
+        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(mockApiKey);
+        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(mockBpn);
 
         dtrConfig = initDtrConfig();
         processConfig = new ProcessConfig();
@@ -105,15 +118,15 @@ class AasServiceTest {
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
         dtrSearchManager = new DtrSearchManager(fileUtil,jsonUtil, dataTransferService, dtrConfig, processManager);
         dataTransferService = new DataTransferService(env, httpUtil, jsonUtil,vaultService, processManager, dtrConfig);
-        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil));
-        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + mockedTokenPath, JwtToken.class);
+        authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
+        mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);
         doReturn(mockedToken).when(authenticationService).getToken();
 
         passportConfig = new PassportConfig();
 
         aasService = new AasService(env, httpUtil, jsonUtil, authenticationService, dtrConfig, dtrSearchManager, processManager, dataTransferService, passportConfig);
 
-        mockedDigitalTwin = jsonUtil.toJson(jsonUtil.fromJsonFile(FileUtil.getWorkdirPath() + testDigitalTwinPath), true);
+        mockedDigitalTwin = jsonUtil.toJson(jsonUtil.fromJsonFile(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDigitalTwinPath).toString()), true);
         testProcessId = processManager.initProcess();
 
         mockedHttpSession = new MockedHttpSession();
@@ -144,7 +157,8 @@ class AasServiceTest {
         DtrConfig dtrConfig = new DtrConfig();
         DtrConfig.Timeouts timeouts = new DtrConfig.Timeouts();
         timeouts.setSearch(10);
-        timeouts.setNegotiation(40);
+        timeouts.setDtrRequestProcess(40);
+        timeouts.setNegotiation(10);
         timeouts.setTransfer(10);
         timeouts.setDigitalTwin(20);
         dtrConfig.setTimeouts(timeouts);
@@ -237,13 +251,13 @@ class AasServiceTest {
 
         String historyId = "digital-twin-found";
         String historyStatus = "TEST";
-        String endpoint = "test.endpoint";
-
+        String endpoint = "test.endpoint.com";
+        String dataplane = "test.dataplane.com";
 
         when(request.getSession()).thenReturn(mockedHttpSession);
 
         processManager.createProcess(testProcessId, request);
-        processManager.setEndpoint(testProcessId, endpoint);
+        processManager.setEndpoint(testProcessId, endpoint, dataplane);
         processManager.setStatus(testProcessId, historyId, new History(testProcessId, historyStatus));
         AssetSearch result = aasService.decentralDtrSearch(testProcessId, searchBody);
 

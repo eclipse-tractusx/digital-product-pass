@@ -1,14 +1,16 @@
-package org.eclipse.tractusx.productpass.services;
+package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.productpass.config.DtrConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.config.VaultConfig;
-import org.eclipse.tractusx.productpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.productpass.managers.ProcessManager;
-import org.eclipse.tractusx.productpass.models.http.responses.IdResponse;
-import org.eclipse.tractusx.productpass.models.manager.Status;
-import org.eclipse.tractusx.productpass.models.negotiation.*;
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.VaultConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
+import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.env.MockEnvironment;
 import utils.*;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +41,13 @@ class DataTransferServiceTest {
     private Dataset dataSet;
     private Set policy;
     private String bpn;
-    private final String testPolicyPath = "/src/test/resources/dpp/contractpolicies/TestPolicy.json";
-    private final String testDTCatalogPath = "/src/test/resources/dpp/catalogs/TestDigitalTwinCatalog.json";
-    private final String testCOCatalogPath = "/src/test/resources/dpp/catalogs/TestContractOfferCatalog.json";
-    private final String testResponseInitNegotiationPath = "/src/test/resources/dpp/negotiation/TestResponseInitNegotiation.json";
-    private final String testResponseNegotiationPath = "/src/test/resources/dpp/negotiation/TestResponseNegotiation.json";
-    private final String testResponseInitTransferPath = "/src/test/resources/dpp/transfer/TestResponseInitTransfer.json";
-    private final String testResponseTransferPath = "/src/test/resources/dpp/transfer/TestResponseTransfer.json";
+    private final String testPolicyPath = "/dpp/contractpolicies/TestPolicy.json";
+    private final String testDTCatalogPath = "/dpp/catalogs/TestDigitalTwinCatalog.json";
+    private final String testCOCatalogPath = "/dpp/catalogs/TestContractOfferCatalog.json";
+    private final String testResponseInitNegotiationPath = "/dpp/negotiation/TestResponseInitNegotiation.json";
+    private final String testResponseNegotiationPath = "/dpp/negotiation/TestResponseNegotiation.json";
+    private final String testResponseInitTransferPath = "/dpp/transfer/TestResponseInitTransfer.json";
+    private final String testResponseTransferPath = "/dpp/transfer/TestResponseTransfer.json";
     @Mock
     private VaultService vaultService;
     @Mock
@@ -67,12 +70,11 @@ class DataTransferServiceTest {
         jsonUtil = new JsonUtil(fileUtil);
         yamlUtil = new YamlUtil(fileUtil);
         env = initEnv();
-        Map<String, Object> vaultConfig = yamlUtil.readFile(fileUtil.getDataDir() + "/VaultConfig/vault.token.yml");
-        Map<String, Object> edc = (Map<String, Object>) jsonUtil.toMap(vaultConfig.get("edc"));
-        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(edc.get("apiKey").toString());
-        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(edc.get("participantId").toString());
+        bpn = "BPNL00000000000";
+        String mockApiKey = "12345678979ayasdmasdjncjxnzc";
+        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(mockApiKey);
+        when(vaultService.getLocalSecret("edc.participantId")).thenReturn(bpn);
 
-        bpn = edc.get("participantId").toString();
 
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
@@ -86,7 +88,8 @@ class DataTransferServiceTest {
 
     @BeforeEach
     void setUp() {
-        Set policy = (Set) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() +  testPolicyPath, Set.class);
+        String filePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), testPolicyPath).toString();
+        Set policy = (Set) jsonUtil.fromJsonFileToObject(filePath, Set.class);
 
         Dataset dataSet = new Dataset();
         String dataSetId = UUID.randomUUID().toString();
@@ -103,7 +106,8 @@ class DataTransferServiceTest {
 
     private MockEnvironment initEnv() {
         MockEnvironment env = new MockEnvironment();
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         Map<String, Object> configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
         Map<String, Object> edc = (Map<String, Object>) jsonUtil.toMap(configuration.get("edc"));
         env.setProperty("configuration.edc.endpoint", edc.get("endpoint").toString());
@@ -119,17 +123,18 @@ class DataTransferServiceTest {
         DtrConfig dtrConfig = new DtrConfig();
         DtrConfig.Timeouts timeouts = new DtrConfig.Timeouts();
         timeouts.setSearch(10);
-        timeouts.setNegotiation(40);
+        timeouts.setDtrRequestProcess(40);
+        timeouts.setNegotiation(10);
         timeouts.setTransfer(10);
         timeouts.setDigitalTwin(20);
         dtrConfig.setTimeouts(timeouts);
         dtrConfig.setTemporaryStorage(new DtrConfig.TemporaryStorage(true, 12));
-
         return dtrConfig;
     }
 
     private VaultConfig initVaultConfig() {
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
         Map<String, Object> configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
         Map<String, Object> vault = (Map<String, Object>) jsonUtil.toMap(configuration.get("vault"));
         VaultConfig vaultConfig = new VaultConfig();
@@ -141,7 +146,7 @@ class DataTransferServiceTest {
     @Test
     void checkEdcConsumerConnection() {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
-                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testCOCatalogPath, JsonNode.class), HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK));
 
         String participantId = dataTransferService.checkEdcConsumerConnection();
 
@@ -171,14 +176,14 @@ class DataTransferServiceTest {
     @Test
     void getContractOfferCatalog() {
         String providerUrl = UUID.randomUUID().toString();
-        Catalog catalog = (Catalog) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testCOCatalogPath, Catalog.class);
+        Catalog catalog = (Catalog) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), Catalog.class);
         String assetId = catalog.getParticipantId();
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
                     if (body.getProviderUrl().equals(providerUrl)) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testCOCatalogPath, JsonNode.class), HttpStatus.OK);
+                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
@@ -200,13 +205,13 @@ class DataTransferServiceTest {
     @Test
     void searchDigitalTwinCatalog() {
         String providerUrl = UUID.randomUUID().toString();
-        Catalog catalog = (Catalog) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testDTCatalogPath, Catalog.class);
+        Catalog catalog = (Catalog) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), Catalog.class);
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
                     if (body.getProviderUrl().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testDTCatalogPath, JsonNode.class), HttpStatus.OK);
+                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
@@ -234,7 +239,7 @@ class DataTransferServiceTest {
                 .then(invocation -> {
                     NegotiationRequest body = invocation.getArgument(4);
                     if (body instanceof NegotiationRequest) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseInitNegotiationPath, JsonNode.class), HttpStatus.OK);
+                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseInitNegotiationPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
@@ -246,7 +251,7 @@ class DataTransferServiceTest {
         assertEquals("edc:IdResponseDto", response.getType());
 
         when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
-                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseNegotiationPath, JsonNode.class), HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Negotiation negotiation = dataTransferService.seeNegotiation(response.getId());
 
@@ -263,7 +268,7 @@ class DataTransferServiceTest {
                 .then(invocation -> {
                     NegotiationRequest body = invocation.getArgument(4);
                     if (body instanceof NegotiationRequest) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseInitNegotiationPath, JsonNode.class), HttpStatus.OK);
+                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseInitNegotiationPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
@@ -271,7 +276,7 @@ class DataTransferServiceTest {
         IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
 
         when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
-                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseNegotiationPath, JsonNode.class), HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         return dataTransferService.seeNegotiation(negotiationResponse.getId());
     }
@@ -297,7 +302,7 @@ class DataTransferServiceTest {
         );
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
-                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseInitTransferPath, JsonNode.class).toString(), HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseInitTransferPath).toString(), JsonNode.class).toString(), HttpStatus.OK));
 
         IdResponse response = dataTransferService.initiateTransfer(transferRequest);
 
@@ -306,7 +311,7 @@ class DataTransferServiceTest {
         assertEquals("edc:IdResponseDto", response.getType());
 
         when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
-                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testResponseTransferPath, JsonNode.class), HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Transfer transfer = dataTransferService.seeTransfer(response.getId());
 

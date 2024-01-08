@@ -1,15 +1,17 @@
-package org.eclipse.tractusx.productpass.managers;
+package managers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import mocks.MockedHttpSession;
-import org.eclipse.tractusx.productpass.config.IrsConfig;
-import org.eclipse.tractusx.productpass.config.PassportConfig;
-import org.eclipse.tractusx.productpass.config.ProcessConfig;
-import org.eclipse.tractusx.productpass.models.irs.JobHistory;
-import org.eclipse.tractusx.productpass.models.irs.JobResponse;
-import org.eclipse.tractusx.productpass.models.manager.Node;
-import org.eclipse.tractusx.productpass.models.manager.NodeComponent;
+import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.managers.TreeManager;
+import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
+import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Node;
+import org.eclipse.tractusx.digitalproductpass.models.manager.NodeComponent;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ import utils.YamlUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,9 +42,9 @@ class TreeManagerTest {
     private JobResponse testJobResponse;
     private JobHistory testJobHistory;
     private Map<String, Node> treeDataModel;
-    private final String testJobResposnsePath = "/src/test/resources/dpp/irs/TestJobResponse.json";
-    private final String testJobHistoryPath = "/src/test/resources/dpp/irs/TestJobHistory.json";
-    private final String testTreeDataModelPath = "/src/test/resources/dpp/irs/TestTreeDataModel.json";
+    private final String testJobResposnsePath = "/dpp/irs/TestJobResponse.json";
+    private final String testJobHistoryPath = "/dpp/irs/TestJobHistory.json";
+    private final String testTreeDataModelPath = "/dpp/irs/TestTreeDataModel.json";
     private String baseDataDirPath;
     private String testProcessId;
     private Map<String, Object> configuration;
@@ -66,8 +69,9 @@ class TreeManagerTest {
         fileUtil = new FileUtil();
         yamlUtil = new YamlUtil(fileUtil);
         jsonUtil = new JsonUtil(fileUtil);
+        String configurationFilePath = Paths.get(fileUtil.getBaseClassDir(this.getClass()), "application-test.yml").toString();
+        Map<String, Object> application = yamlUtil.readFile(configurationFilePath);
 
-        Map<String, Object> application = yamlUtil.readFile(FileUtil.getWorkdirPath() + "/src/main/resources/application.yml");
         configuration = (Map<String, Object>) jsonUtil.toMap(application.get("configuration"));
 
         httpUtil = Mockito.spy(new HttpUtil(env));
@@ -90,9 +94,9 @@ class TreeManagerTest {
         testProcessId = processManager.initProcess();
         processManager.createProcess(testProcessId, request);
 
-        testJobResponse = (JobResponse) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testJobResposnsePath, JobResponse.class);
-        testJobHistory = (JobHistory) jsonUtil.fromJsonFileToObject(FileUtil.getWorkdirPath() + testJobHistoryPath, JobHistory.class);
-        treeDataModel = (Map<String, Node>) jsonUtil.toMap(jsonUtil.fromJsonFile(FileUtil.getWorkdirPath() + testTreeDataModelPath));
+        testJobResponse = (JobResponse) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testJobResposnsePath).toString(), JobResponse.class);
+        testJobHistory = (JobHistory) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testJobHistoryPath).toString(), JobHistory.class);
+        treeDataModel = (Map<String, Node>) jsonUtil.toMap(jsonUtil.fromJsonFile(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testTreeDataModelPath).toString()));
     }
 
     @AfterAll

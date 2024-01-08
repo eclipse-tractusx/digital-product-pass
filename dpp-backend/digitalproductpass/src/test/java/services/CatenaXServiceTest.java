@@ -261,7 +261,7 @@ class CatenaXServiceTest {
         BpnDiscovery bpnDiscoveryEndpoint = (BpnDiscovery) jsonUtil.bindObject(bpnDiscoveryList.get(0), BpnDiscovery.class);
 
         assertEquals(1, bpnDiscoveryList.size());
-        assertTrue(bpnDiscoveryEndpoint.getBpnNumbers().contains(bpn));
+        assertTrue(bpnDiscoveryEndpoint.mapBpnNumbers().contains(bpn));
         assertEquals(bpnResourceId, bpnDiscoveryEndpoint.getBpns().get(0).getResourceId());
 
     }

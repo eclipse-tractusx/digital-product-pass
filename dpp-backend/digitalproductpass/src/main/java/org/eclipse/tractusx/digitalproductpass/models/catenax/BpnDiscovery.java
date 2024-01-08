@@ -45,9 +45,6 @@ public class BpnDiscovery {
     @JsonProperty("bpns")
     List<BpnEndpoint> bpns;
 
-    @JsonProperty("bpnNumbers")
-    List<String> bpnNumbers;
-
     /** CONSTRUCTOR(S) **/
     @SuppressWarnings("Unused")
     public BpnDiscovery(List<BpnEndpoint> bpns) {
@@ -68,7 +65,8 @@ public class BpnDiscovery {
     }
 
     /** METHODS **/
-    public List<String> getBpnNumbers(){
+
+    public List<String> mapBpnNumbers(){
         return bpns.stream().map(
                 BpnEndpoint::getValue
         ).collect(Collectors.toList());

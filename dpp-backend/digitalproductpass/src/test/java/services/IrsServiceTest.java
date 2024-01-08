@@ -15,7 +15,10 @@ import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
 import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.services.IrsService;
 import org.eclipse.tractusx.digitalproductpass.services.VaultService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -29,10 +32,7 @@ import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.YamlUtil;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

@@ -486,8 +486,6 @@ class ProcessManagerTest {
         assertFalse(updatedNegotiation.isEmpty());
         assertEquals(2, updatedNegotiation.size());
 
-        LogUtil.printTest("NEGOTIATION: " + jsonUtil.toJson(updatedNegotiation, true));
-
         Map<String, Object> init = (Map<String, Object>) updatedNegotiation.get("init");
         NegotiationRequest updatedNegotiationRequest = (NegotiationRequest) jsonUtil.bindObject(init.get("request"), NegotiationRequest.class);
 
@@ -511,11 +509,11 @@ class ProcessManagerTest {
             public void run() {
                 try {
                     while(true) {
-                        LogUtil.printMessage("NEGOTIATING....!");
+                        LogUtil.printTest("NEGOTIATING....!");
                         sleep(1);
                     }
                 } catch (InterruptedException e) {
-                    LogUtil.printMessage("PROCESS STOPED!");
+                    LogUtil.printTest("PROCESS STOPED!");
                 }
             }
         });
@@ -603,8 +601,6 @@ class ProcessManagerTest {
 
         assertFalse(updatedTransfer.isEmpty());
         assertEquals(2, updatedTransfer.size());
-
-        LogUtil.printTest("TRANSFER: " + jsonUtil.toJson(updatedTransfer, true));
 
         Map<String, Object> init = (Map<String, Object>) updatedTransfer.get("init");
         TransferRequest updatedTransferRequest = (TransferRequest) jsonUtil.bindObject(init.get("request"), TransferRequest.class);

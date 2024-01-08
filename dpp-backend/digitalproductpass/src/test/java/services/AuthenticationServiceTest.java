@@ -1,6 +1,5 @@
 package services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
@@ -9,18 +8,19 @@ import org.eclipse.tractusx.digitalproductpass.models.auth.UserInfo;
 import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.env.Environment;
-import utils.*;
+import utils.FileUtil;
+import utils.HttpUtil;
+import utils.JsonUtil;
+import utils.YamlUtil;
 
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;

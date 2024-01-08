@@ -4,7 +4,10 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import utils.DateTimeUtil;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class MockedHttpSession implements HttpSession {

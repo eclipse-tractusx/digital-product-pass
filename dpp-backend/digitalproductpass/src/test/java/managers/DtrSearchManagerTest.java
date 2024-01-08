@@ -1,38 +1,22 @@
 package managers;
 
-import org.eclipse.tractusx.digitalproductpass.Application;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
-import org.eclipse.tractusx.digitalproductpass.config.VaultConfig;
-import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
-import org.eclipse.tractusx.digitalproductpass.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
-import org.springframework.mock.env.MockEnvironment;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.util.ReflectionTestUtils;
-import utils.*;
+import utils.DateTimeUtil;
+import utils.FileUtil;
+import utils.HttpUtil;
+import utils.JsonUtil;
 
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -197,36 +181,5 @@ class DtrSearchManagerTest {
 
         dtrSearchManager.deleteBpns(dtrSearchManager.getDtrDataModel(), List.of(bpn1, bpn2));
         dtrSearchManager.saveDtrDataModel();
-    }
-
-    @Test
-    void updateProcess() { //TODO
-        String bpn1 = "BPN001";
-        String contractId1 = UUID.randomUUID().toString();
-        String assetId1 = UUID.randomUUID().toString();
-        String endpoint1 = "dtr.endpoint1";
-        Long validUntil1 = DateTimeUtil.getTimestamp();
-        Dtr dtr1 = new Dtr(contractId1, endpoint1, assetId1, bpn1, validUntil1);
-
-    }
-
-    @Test
-    void searchEndpoint() { //TODO
-        String file = Paths.get(fileUtil.getBaseClassDir(this.getClass()), testAssetPath).toString();
-        Object contractOffer = jsonUtil.fromJsonFileToObject(file, Object.class);
-        assertNotNull(contractOffer);
-        Catalog catalog = new Catalog();
-        catalog.setContractOffer(contractOffer);
-        String connectionUrl = "test.connection.url";
-        when(dataTransferService.searchDigitalTwinCatalog(connectionUrl)).thenReturn(catalog);
-        String bpn = "BPN000001";
-        String testProcessId = processManager.initProcess();
-
-        dtrSearchManager.searchEndpoint(testProcessId, bpn, connectionUrl);
-
-        SearchStatus searchStatus = processManager.getSearchStatus(testProcessId);
-
-      //  assertEquals(bpn, searchStatus.getDtrs().get(0).getBpn());
-      //  assertEquals(connectionUrl, searchStatus.getDtrs().get(0).getEndpoint());
     }
 }

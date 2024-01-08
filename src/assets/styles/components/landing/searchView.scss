@@ -167,7 +167,7 @@
     .error {
       font-weight: bold;
       text-align: center;
-      padding: 0 0 70px 0;
+      padding: 0 0 18px 0;
     }
 
     .qr-container {
@@ -198,6 +198,16 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+    }
+  }
+  .tree-row-item {
+    border-radius: 10px;
+    width: 400px;
+    background-color: #f4fbfd;
+    &::before {
+      content: "\F11EC"; // Unicode code for "mdi-plus-box-outline"
+      font-family: "Material Design Icons";
+      margin-right: 8px; // Adjust spacing between the icon and text
     }
   }
 }
@@ -431,6 +441,26 @@
     .stream-container {
       margin-top: 15px;
       margin-bottom: 30px;
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+
+@media (max-height: 650px) {
+  .home-page-container {
+    .stream-container {
+      width: 250px;
+      height: 250px;
+    }
+  }
+}
+
+@media (max-height: 590px) {
+  .home-page-container {
+    .stream-container {
+      width: 200px;
+      height: 200px;
     }
   }
 }
@@ -445,10 +475,8 @@
     }
 
     .stream-container {
-      margin-top: 15px;
+      margin-top: 5px;
       margin-bottom: 30px;
-      width: 200px;
-      height: 200px;
     }
     .logotype-container {
       img {

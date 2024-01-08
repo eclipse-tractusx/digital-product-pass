@@ -57,7 +57,7 @@
 </template>
 
 <script>
-
+import { ADMIN_EMAIL } from "@/services/service.const";
 export default {
   name: "ErrorComponent",
   props: {
@@ -83,7 +83,7 @@ export default {
     },
     adminEmail:{
       type: String,
-      default: "admin@example.com",
+      default: ADMIN_EMAIL,
     },
     buttonsVisible:{
       type: Boolean,

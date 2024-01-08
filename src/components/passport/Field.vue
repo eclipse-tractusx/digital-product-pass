@@ -22,9 +22,14 @@
 
 <template>
   <div class="field-container" :class="{ 'info-dialog': info }">
-    <v-icon start md :icon="icon" class="icon"> </v-icon>
+    <a v-if="link" :href="link" target="_blank">
+      <v-icon start md :icon="icon" class="icon link"> </v-icon>
+    </a>
+    <v-icon v-else start md :icon="icon" class="icon"> </v-icon>
     <span class="field-label">{{ label }}</span>
-    <span v-if="value" class="field-value">{{ value }} {{ unit }}</span>
+    <span v-if="value" class="field-value"
+      >{{ value }} {{ callUnitRemover(unit) }}</span
+    >
     <span v-else-if="length"></span>
     <span v-else-if="tempRangeMin" class="field-value">
       {{ tempRangeMin }} {{ tempUnit }} to {{ tempRangeMax }}
@@ -41,6 +46,9 @@
     </span>
 
     <span v-else-if="day"></span>
+    <span v-else-if="faxNumber" class="field-value"
+      >{{ faxNumber ? faxNumber : "—" }}
+    </span>
     <span v-else class="field-value">—</span>
     <!-- This block of code is for section 1 General information Importer information, STREET goes as a value and than the rest below -->
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
@@ -66,18 +74,26 @@
     </div>
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
-    <span v-if="length" class="field-value"
-      >L: {{ length }}{{ unit }}, H: {{ height }}{{ unit }}, W: {{ width
-      }}{{ unit }}</span
-    >
+    <span class="field-value">
+      <span v-if="length">L: {{ length }}{{ unit }},</span>
+      <span v-if="height">H: {{ height }}{{ unit }},</span>
+      <span v-if="width"> W: {{ width }}{{ unit }}</span>
+    </span>
     <!-- This block of code is for dates -->
     <span v-if="day" class="field-value">{{ day }}{{ month }}{{ year }}</span>
   </div>
 </template>
 
 <script>
+import passportUtil from "@/utils/passportUtil.js";
+
 export default {
   name: "FieldComponent",
+  methods: {
+    callUnitRemover(unit) {
+      return passportUtil.unitRemover(unit);
+    },
+  },
   props: {
     icon: { type: [String, Number], default: "mdi-information-outline" },
     label: { type: [String, Number], default: "" },
@@ -89,11 +105,14 @@ export default {
     postal: { type: [String, Number], default: "" },
     country: { type: [String, Number], default: "" },
     phone: { type: [String, Number], default: "" },
+    faxNumber: { type: [String, Number], default: "" },
     email: { type: [String, Number], default: "" },
     website: { type: [String, Number], default: "" },
     length: { type: [String, Number], default: "" },
     height: { type: [String, Number], default: "" },
     width: { type: [String, Number], default: "" },
+    link: { type: [String, Number], default: "" },
+    weight: { type: [String, Number], default: "" },
     day: { type: [String, Number], default: "" },
     month: { type: [String, Number], default: "" },
     year: { type: [String, Number], default: "" },

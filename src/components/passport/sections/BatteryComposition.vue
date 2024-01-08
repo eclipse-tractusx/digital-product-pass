@@ -60,10 +60,6 @@ export default {
     Field,
   },
   props: {
-    sectionTitle: {
-      type: String,
-      default: "",
-    },
     data: {
       type: Object,
       default: Object,
@@ -71,8 +67,7 @@ export default {
   },
   data() {
     return {
-      toggle: false,
-      propsData: this.$props.data.passport.composition,
+      propsData: this.$props.data.aspect.composition,
     };
   },
 };

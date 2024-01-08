@@ -1,0 +1,128 @@
+#################################################################################
+# Catena-X - Product Passport Consumer Application
+#
+# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+      component: backend
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+        component: backend
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Values.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "appId"
+              valueFrom:
+                secretKeyRef:
+                  key:  appId
+                  name: avp-consumer-backend-oauth       
+            - name: "client.id"
+              valueFrom:
+                secretKeyRef:
+                  key: clientId
+                  name: consumer-backend-oauth
+            - name: "client.secret"
+              valueFrom:
+                secretKeyRef:
+                  key: clientSecret
+                  name: consumer-backend-oauth
+            - name: "edc.apiKey"
+              valueFrom:
+                secretKeyRef:
+                  key: xApiKey
+                  name: consumer-edc
+            - name: "edc.participantId"
+              valueFrom:
+                secretKeyRef:
+                  key: participantId
+                  name: consumer-edc
+          volumeMounts:
+            - name: backend-config
+              mountPath: /app/config
+            - name: pvc-backend
+              mountPath: /app/data/process
+              subPath: data/process
+            - name: pvc-backend
+              mountPath: /app/log
+              subPath: log
+          ports:
+            - name: http
+              containerPort: 8888
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: backend-config
+          configMap:
+            name: backend-config
+        - name: pvc-backend
+          persistentVolumeClaim:
+            claimName: pvc-data

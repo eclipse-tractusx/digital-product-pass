@@ -94,6 +94,11 @@ In the end, the frontend should be accessible at https://dpp.int.demo.catena-x.n
 - **User 1:** Role: Dismantler, user: company 1 user, Password: changeme
 - **User 2:** Role: Recycler, user: company 2 user, Password: changeme
 
+#### Example Product Pass IDs:
+
+- CX:XYZ78901:BAT-XYZ789 (with child components)
+- CX:XYZ78901:IMR18650V1 (without child components)
+
 #### Example Screenshots:
 
 ![Company Selection Page](./images/company-selection.png)

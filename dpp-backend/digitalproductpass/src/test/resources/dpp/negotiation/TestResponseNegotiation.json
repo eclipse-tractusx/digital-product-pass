@@ -1,0 +1,18 @@
+{
+  "@type": "edc:ContractNegotiationDto",
+  "@id": "189f4957-0fbe-4d73-b215-977e3303a45e",
+  "edc:type": "CONSUMER",
+  "edc:protocol": "dataspace-protocol-http",
+  "edc:state": "FINALIZED",
+  "edc:counterPartyAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
+  "edc:callbackAddresses": [],
+  "edc:contractAgreementId": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:NmRjMDFlOTQtMGE0MC00MTQzLThhOTYtY2IyMmYxN2JjZGJj",
+  "@context": {
+    "dct": "https://purl.org/dc/terms/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "dcat": "https://www.w3.org/ns/dcat/",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "dspace": "https://w3id.org/dspace/v0.8/"
+  }
+}

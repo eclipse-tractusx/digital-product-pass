@@ -1,7 +1,8 @@
 <!--
-  Catena-X - Product Passport Consumer Application
+  Catena-X - Digital Product Pass Application
  
   Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -101,17 +102,19 @@ In the end, the frontend should be accessible at https://dpp.int.demo.catena-x.n
 
 ![QR Code Scanner](./images/dashboard.png)
 
-![QR Code Scanner](./images/scan-passport.png)
+![QR Code Scanner](./images/passport-scan.png)
 
-![Battery Passport - General Information](./images/general-information.png)
+![Battery Passport - General Information](./images/product-passport.png)
 
-![Battery Passport Electrochemical properties](./images/electrochemical-properties.png)
+![Drill down components](./images/components.png)
 
 ##### Consumer-Backend:
 
 The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in frontend component.
 
 [Open API documentation in Swagger](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
+
+[Central Swagger Hub](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass/2.0.1)
 
 ![Swagger UI](./images/swagger.png)
 

@@ -79,6 +79,8 @@ For login and log out!
 ------
 /auth/token #Request token from the keycloak instance
 ------
+/auth/userInfo #With this api you can get your user information.
+------
 ```
 
 ## API Services
@@ -86,28 +88,10 @@ For login and log out!
 
 
 ### Data
-Get data from Catena-X Services
-```bash
-/api/data/catalog?providerUrl=<...> #Get all the catalog from the provider
-
-------
-/api/data/submodel/<assetId>?idType=<...>&index=<...>
-__________
-default idType = "Battery_ID_DMC_Code"
-default index = 0
-
-------
-
-/api/data/passport?transferId=<...> #Get passport if the transferId is available -> No contract exchange is required if transferId exists
-
-```
-
-### Passport API
-
-Get a passport from a Catena-X Provider by using its processId, contractId and a token, this retrieves product passport after a successful negotiation.
+Get data from a Catena-X Provider by using its processId, contractId and a token, this retrieves product passport after a successful negotiation.
 
 ```bash
-/api/passport #Get the health status of the server
+/api/data #Returns the data negotiated and transferred
 ```
 ###### Request body
 ```json
@@ -116,20 +100,6 @@ Get a passport from a Catena-X Provider by using its processId, contractId and a
     "contractId": "string",
     "token": "string"
 }
-```
-
-#### Versions Available
-The passport available versions are:
-```bash
-[ "v3.0.1" ] -> Battery Passport
-```
-
-To change the available versions add in the configurations for each environment ``
-
-```yaml
-passport:
-    versions:
-        - 'v3.0.1'
 ```
 
 ### Contract API
@@ -200,7 +170,27 @@ passport:
 /api/contract/status/<processId> #Get status from process
 ```
 
-## Public APIs
+## IRS API
+
+```bash
+/api/irs/<processId>/<searchId> #Endpoint called by the IRS to set status completed
+```
+###### Request parameters
+```
+- Id
+- State
+```
+```bash
+/api/irs/<processId>/tree #Api called by the frontend to obtain the tree of components
+```
+```bash
+/api/irs/<processId>/state #Api called by the frontend to check if the process is finished
+```
+```bash
+/api/irs/<processId>/components #Api called by the frontend to obtain the list of components of the tree
+```
+
+## Public API
 
 Public APIs don't require authentication
 ```bash
@@ -216,12 +206,14 @@ Public APIs don't require authentication
 ```
 
 ```bash
-/endpoint/<processId> 
+/endpoint/<processId> #Receives the EDR from the EDC Consumer and get the passport json 
 ```
 
 ```bash
-/endpoint/<processId>/<endpointId>
+/endpoint/<processId>/<endpointId> #Receives the EDR for the EDC Consumer and queries for the dDTR
 ```
+
+
 
 ## OSS License Check
 

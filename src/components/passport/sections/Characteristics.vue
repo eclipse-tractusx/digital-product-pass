@@ -24,48 +24,85 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.physicalDimensionsProperty">
+        <template v-if="propsData.physicalDimension">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <Field
-              icon="mdi-image-size-select-small"
-              label="Physical dimensions property"
-              :width="propsData.physicalDimensionsProperty.width"
-              :length="propsData.physicalDimensionsProperty.length"
-              :height="propsData.physicalDimensionsProperty.height"
-            />
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Weight"
-              :value="propsData.physicalDimensionsProperty.weight"
-              :unit="propsData.physicalDimensionsProperty.unit"
-            />
+            <div class="element-chart-label">Physical dimension</div>
+            <template v-if="propsData.physicalDimension.grossWeight">
+              <Field
+                :icon="callIconFinder('grossWeight')"
+                label="Gross weight"
+                :value="propsData.physicalDimension.grossWeight.value"
+                :unit="propsData.physicalDimension.grossWeight.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.weightOrVolume.left">
+              <Field
+                :icon="callIconFinder('weightOrVolume')"
+                label="Weight or volume"
+                :value="propsData.physicalDimension.weightOrVolume.left.value"
+                :unit="propsData.physicalDimension.weightOrVolume.left.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.diameter">
+              <Field
+                :icon="callIconFinder('diameter')"
+                label="Diameter"
+                :value="propsData.physicalDimension.diameter.value"
+                :unit="propsData.physicalDimension.diameter.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.grossVolume">
+              <Field
+                :icon="callIconFinder('grossVolume')"
+                label="Gross volume"
+                :value="propsData.physicalDimension.grossVolume.value"
+                :unit="propsData.physicalDimension.grossVolume.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.width">
+              <Field
+                :icon="callIconFinder('width')"
+                label="Width"
+                :value="propsData.physicalDimension.width.value"
+                :unit="propsData.physicalDimension.width.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.length">
+              <Field
+                :icon="callIconFinder('length')"
+                label="Length"
+                :value="propsData.physicalDimension.length.value"
+                :unit="propsData.physicalDimension.length.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.height">
+              <Field
+                :icon="callIconFinder('height')"
+                label="Height"
+                :value="propsData.physicalDimension.height.value"
+                :unit="propsData.physicalDimension.height.unit"
+              />
+            </template>
           </v-col>
         </template>
         <template v-if="propsData.lifespan">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              icon="mdi-arrow-down-circle-outline"
+              v-for="attr in propsData.lifespan"
+              :key="attr"
+              :icon="callIconFinder('lifespan')"
               label="Lifespan"
-              :value="propsData.lifespan.value"
-              :unit="propsData.lifespan.unit"
+              :value="attr.value"
+              :unit="attr.unit"
             />
           </v-col>
         </template>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.energyCapacity">
+          <template v-if="propsData.physicalState">
             <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Energy capacity"
-              :value="propsData.energyCapacity.value"
-              :unit="propsData.energyCapacity.unit"
-            />
-          </template>
-          <template v-if="propsData.voltage">
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Voltage"
-              :value="propsData.voltage.value"
-              :unit="propsData.voltage.unit"
+              :icon="callIconFinder('physicalState')"
+              label="Physical state"
+              :value="propsData.physicalState"
             />
           </template>
         </v-col>
@@ -76,6 +113,7 @@
 
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "CharacteristicsComponent",
@@ -92,6 +130,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.characteristics,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

@@ -21,6 +21,8 @@
   "data": "mdi-data-matrix",
   "chemistry": "mdi-react",
   "exchange": "mdi-file-swap-outline",
+  "weight": "mdi-weight",
+  "diameter": "mdi-diameter-outline",
   "torque": "mdi-cog-outline",
   "gear": "mdi-cog-outline",
   "power": "mdi-cog-outline",

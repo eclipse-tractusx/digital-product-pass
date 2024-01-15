@@ -24,28 +24,17 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.mandatory">
-          <v-col
-            v-for="(attr, key) in mappedSources"
-            :key="key"
-            sm="12"
-            md="3"
-            class="pa-0 ma-0"
-          >
-            <div class="element-chart-label">{{ key }}</div>
-            <div
-              v-for="(doc, index) in attr"
-              :key="index"
-              class="element-chart-label"
-            >
+        <template v-if="propsData">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template v-for="doc in propsData" :key="doc">
               <Field
-                :key="index"
-                icon="mdi-image-size-select-small"
+                :icon="callIconFinder('Sustainability')"
                 :label="doc.header"
                 :value="doc.content"
                 :link="doc.content"
               />
-            </div>
+            </template>
           </v-col>
         </template>
       </v-row>
@@ -71,11 +60,12 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.sources,
-      mappedSources: null,
     };
   },
-  created() {
-    this.mappedSources = passportUtil.groupSources(this.propsData);
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

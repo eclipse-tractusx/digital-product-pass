@@ -22,16 +22,19 @@
 
 <template>
   <div class="section">
-    <v-container class="ma-0" v-for="attribute in propsData" :key="attribute">
+    <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="attribute">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <Field
-              icon="mdi-image-size-select-small"
-              :label="attribute.label"
-              :value="attribute.data"
-              :unit="attribute.type.typeUnit"
-            />
+        <template v-if="propsData">
+          <v-col
+            v-for="(attr, key) in propsData"
+            :key="key"
+            sm="12"
+            :md="columnWidth"
+            class="pa-0 ma-0 column"
+          >
+            <div class="element-chart-label">{{ attr.label }}</div>
+
+            <RecursiveAdditionalData :jsonData="attr" />
           </v-col>
         </template>
       </v-row>
@@ -40,12 +43,12 @@
 </template>
 
 <script>
-import Field from "../Field.vue";
+import RecursiveAdditionalData from "../../general/RecursiveAdditionalData.vue";
 
 export default {
   name: "AdditionalDataComponent",
   components: {
-    Field,
+    RecursiveAdditionalData,
   },
   props: {
     data: {
@@ -56,7 +59,20 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.additionalData,
+      columnWidth: 6,
     };
+  },
+  created() {
+    this.columnWidth = this.columnCounter(this.propsData);
+  },
+  methods: {
+    columnCounter(array) {
+      const maxGridSize = 12;
+      const columns = array.length;
+      const columnWidth = Math.max(1, Math.floor(maxGridSize / columns));
+      return columnWidth;
+    },
   },
 };
 </script>
+

@@ -20,23 +20,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** Global configuration variables **/
-@import "config/variables";
+.contract-modal {
+  justify-content: center;
+  align-items: center;
+  .content-container {
+    margin-top: 20px;
+    width: 300px;
+  }
+  .contract-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px 80px 50px 80px;
+  }
 
-/** Components style import **/
-@import "components/general/footer";
-@import "components/general/header";
-@import "components/general/search";
-@import "components/general/tooltip";
-@import "components/general/contractModal";
-@import "components/general/dialog";
-@import "components/general/recursiveTree";
-@import "components/passport/documentField";
-@import "components/passport/field";
-@import "components/passport/cards";
-@import "components/landing/searchView";
-@import "components/passport/sections";
-@import "components/passport/passportPage";
-@import "components/general/notFound";
-@import "components/general/loading";
-@import "components/passport/elementChart";
+  .title-container {
+    width: fit-content;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px;
+  }
+}

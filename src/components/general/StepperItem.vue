@@ -45,9 +45,7 @@
             <template v-if="contractSign && contractItems.length > 1">
               <v-overlay class="contract-modal" v-model="showOverlay">
                 <v-card class="contract-container">
-                  <v-card-title class="justify-center">
-                    Choose a policy
-                  </v-card-title>
+                  <div class="title-container">Choose a policy</div>
                   <v-radio-group class="content-container" v-model="radios">
                     <v-radio
                       v-for="(item, index) in contractItems"
@@ -173,16 +171,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.contract-modal {
-  justify-content: center;
-  align-items: center;
-}
-.content-container {
-  margin-top: 20px;
-}
-.contract-container {
-  padding: 20px 80px 50px 80px;
-}
-</style>

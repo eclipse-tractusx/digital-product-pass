@@ -99,10 +99,10 @@ export default {
           secondLabel: "generalCards.productType",
           icon: "mdi-pound",
           value: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.name
+            ? this.$props.data.aspect.typology.shortName
             : "-",
           secondValue: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.nameAtCustomer
+            ? this.$props.data.aspect.typology.class.code
             : "-",
         },
         {
@@ -111,12 +111,10 @@ export default {
           secondLabel: "generalCards.dateOfManufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
           value: this.$props.data.aspect.operation.manufacturer
-            ? this.$props.data.aspect.operation.manufacturer.manufacturerId
+            ? this.$props.data.aspect.operation.manufacturer.manufacturer
             : "-",
-          secondValue: this.$props.data.aspect.serialization
-            .manufacturingInformation
-            ? this.$props.data.aspect.serialization.manufacturingInformation
-                .date
+          secondValue: this.$props.data.aspect.operation.manufacturer
+            ? this.$props.data.aspect.operation.manufacturer.manufacturingDate
             : "-",
           description: {
             title: "generalCards.descriptionManufacturingTitle",
@@ -136,13 +134,13 @@ export default {
           },
         },
         {
+
           title: "generalCards.titleSustainability",
           label: "generalCards.totalCo2Footprint",
           secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
-          value: this.$props.data.aspect.sustainability.carbonFootprint
-            ? this.$props.data.aspect.sustainability.carbonFootprint
-                .carbonContentTotal
+          value: this.$props.data.aspect.sustainability["PEF"].carbon
+            ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
             : "-",
           valueUnits: "generalCards.tCo2Total",
           secondValue: this.$props.data.aspect.commercial.warranty,

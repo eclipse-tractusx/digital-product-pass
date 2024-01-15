@@ -24,37 +24,95 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.maintenanceHistory">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
-            <DialogComponent class="field-dialog">
-              <AttributeField
-                icon="mdi-image-size-select-small"
-                :label="$t('sections.handling.maintenanceHistory')"
-                :attributes-list="propsData.maintenanceHistory"
-              >
-                <template v-slot:text>
-                  {{ propsData.maintenanceHistory.description }}
-                </template>
-              </AttributeField>
-            </DialogComponent>
-          </v-col>
-        </template>
         <template v-if="propsData.spareParts">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <AttributeField
-              icon="mdi-image-size-select-small"
-              :label="$t('sections.handling.spareParts')"
-              :attributes-list="propsData.spareParts"
-            />
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template
+              v-for="attr in propsData.spareParts.left.producer"
+              :key="attr"
+            >
+              <Field
+                :icon="callIconFinder('producer')"
+                :value="attr.id"
+                label="Producer Id"
+              />
+            </template>
+            <template
+              v-for="attr in propsData.spareParts.left.part"
+              :key="attr"
+            >
+              <Field
+                :icon="callIconFinder('part')"
+                :value="attr.name"
+                label="Part name"
+              />
+              <Field
+                :icon="callIconFinder('part')"
+                :value="attr.gtin"
+                label="Part gtin"
+              />
+            </template>
           </v-col>
         </template>
         <template v-if="propsData.substanceOfConcern">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <AttributeField
-              icon="mdi-image-size-select-small"
-              :label="$t('sections.handling.substanceOfConcern')"
-              :attributes-list="propsData.substanceOfConcern"
-            />
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template
+              v-for="attr in propsData.substanceOfConcern.left"
+              :key="attr"
+            >
+              <Field
+                :icon="callIconFinder('substanceOfConcern')"
+                :value="attr.name.name"
+                label="Substance of concern"
+              />
+              <Field
+                :icon="callIconFinder('type')"
+                :value="attr.name.type"
+                label="Type"
+              />
+              <Field
+                :icon="callIconFinder('location')"
+                :value="attr.location"
+                label="location"
+              />
+              <Field
+                :icon="callIconFinder('unit')"
+                :value="callUnitRemover(attr.unit)"
+                label="Unit"
+              />
+              <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+              <template v-for="attr in attr.concentration.left" :key="attr">
+                <Field
+                  :icon="callIconFinder('unit')"
+                  :value="attr.max"
+                  label="Concentration max"
+                />
+                <Field
+                  :icon="callIconFinder('unit')"
+                  :value="attr.min"
+                  label="Concentration min"
+                />
+              </template>
+              <Field
+                :icon="callIconFinder('exemption')"
+                :value="attr.exemption"
+                label="Exemption"
+              />
+              <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+              <template v-for="attr in attr.id" :key="attr">
+                <Field
+                  :icon="callIconFinder('type')"
+                  :value="attr.type"
+                  label="Id type"
+                />
+                <Field
+                  :icon="callIconFinder('type')"
+                  :value="attr.id"
+                  label="Id"
+                />
+              </template>
+            </template>
           </v-col>
         </template>
       </v-row>
@@ -63,14 +121,13 @@
 </template>
 
 <script>
-import AttributeField from "../AttributeField.vue";
-import DialogComponent from "../../general/Dialog.vue";
+import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "HandlingComponent",
   components: {
-    AttributeField,
-    DialogComponent,
+    Field,
   },
   props: {
     data: {
@@ -82,6 +139,14 @@ export default {
     return {
       propsData: this.$props.data.aspect.handling,
     };
+  },
+  methods: {
+    callIconFinder(icon) {
+      return passportUtil.iconFinder(icon);
+    },
+    callUnitRemover(unit) {
+      return passportUtil.unitRemover(unit);
+    },
   },
 };
 </script>

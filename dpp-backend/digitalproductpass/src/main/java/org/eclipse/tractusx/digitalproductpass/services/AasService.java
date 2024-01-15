@@ -73,7 +73,6 @@ public class AasService extends BaseService {
     private DtrSearchManager dtrSearchManager;
     private final ProcessManager processManager;
     private DataTransferService dataService;
-
     private PassportConfig passportConfig;
 
 

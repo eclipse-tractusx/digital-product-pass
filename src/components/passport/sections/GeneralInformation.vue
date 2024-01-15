@@ -135,14 +135,14 @@
         </template>
         <template v-if="propsData.warrantyPeriod">
           <v-col sm="12" md="3" class="pa-0 ma-0">
-           <Field
-             icon="mdi-license"
-             :label="$t('sections.generalInformation.warranty')"
-             :value="propsData.warrantyPeriod"
+            <Field
+              icon="mdi-license"
+              :label="$t('sections.generalInformation.warranty')"
+              :value="propsData.warrantyPeriod"
               unit="month"
             />
           </v-col>
-         </template>
+        </template>
       </v-row>
       <template v-if="propsData.physicalDimensions">
         <v-row class="section">
@@ -170,14 +170,15 @@
     <v-container class="container-width-50">
       <template v-if="propsData.manufacturing">
         <v-row class="section">
-        <v-col cols="12" class="pa-0 ma-0">
-          <Field
-            icon="mdi-calendar-range"
-            style="background: #f9f9f9"
-            :label="$t('sections.generalInformation.dateOfManufacturing')"
-            :day="propsData.manufacturing.dateOfManufacturing"
-          />
-        </v-col>
+          <v-col cols="12" class="pa-0 ma-0">
+            <Field
+              icon="mdi-calendar-range"
+              style="background: #f9f9f9"
+              :label="$t('sections.generalInformation.dateOfManufacturing')"
+              :day="propsData.manufacturing.dateOfManufacturing"
+            />
+          </v-col>
+        </v-row>
       </template>
       <template v-if="propsData.manufacturing">
         <v-row>
@@ -205,9 +206,9 @@
               :day="propsData.datePlacedOnMarket"
             />
           </v-col>
-        </v-row>     
+        </v-row>
       </template>
-      </v-container>
+    </v-container>
     <v-container class="container-width-80">
       <v-row style="min-height: 180px">
         <template v-if="propsData.manufacturer">

@@ -32,7 +32,7 @@
       style="border: 2px solid; text-transform: initial"
     >
       <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
-      Back
+      {{ $t("passportHeader.backBtn") }}
     </v-btn>
 
     <div class="id-wrapper">

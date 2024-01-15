@@ -25,39 +25,53 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="2" class="pa-0 ma-0">
-          <div class="element-chart-label">Capacity</div>
+          <div class="element-chart-label">
+            {{ $t("sections.electrochemicalProperties.capacity") }}
+          </div>
           <Field
             icon="mdi-image-size-select-small"
             data-cy="remaining-capacity"
-            label="Rated capacity"
+            :label="$t('sections.electrochemicalProperties.ratedCapacity')"
             unit="kWh"
             :value="propsData.ratedCapacity"
           />
           <Field
             icon="mdi-arrow-down-circle-outline"
-            label="Capacity fade"
+            :label="$t('sections.electrochemicalProperties.capacityFade')"
             unit="%"
             :value="propsData.capacityFade"
           />
           <Field
             icon="mdi-arrow-bottom-right-thin-circle-outline"
-            label="Capacity threshold exhaustion"
+            :label="
+              $t(
+                'sections.electrochemicalProperties.capacityThresholdExhaustion'
+              )
+            "
             unit="%"
             :value="propsData.capacityThresholdExhaustion"
           />
         </v-col>
         <template v-if="propsData.batteryPower">
           <v-col sm="12" md="2" class="pa-0 ma-0">
-            <div class="element-chart-label">Efficiency</div>
+            <div class="element-chart-label">
+              {{ $t("sections.electrochemicalProperties.efficiency") }}
+            </div>
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Original power capability"
+              :label="
+                $t('sections.electrochemicalProperties.originalPowerCapability')
+              "
               unit="kW"
               :value="propsData.batteryPower.originalPowerCapability"
             />
             <Field
               icon="mdi-arrow-bottom-right-thin-circle-outline"
-              label="Original power capability limits"
+              :label="
+                $t(
+                  'sections.electrochemicalProperties.originalPowerCapabilityLimits'
+                )
+              "
               unit="kW"
               :value="propsData.batteryPower.originalPowerCapabilityLimits"
             />
@@ -75,14 +89,18 @@
             <template v-if="propsData.batteryPower">
               <Field
                 icon="mdi-battery"
-                label="Maximum allowed battery power (MABP)"
+                :label="
+                  $t(
+                    'sections.electrochemicalProperties.maximumAllowedBatteryPower'
+                  )
+                "
                 unit="kW"
                 :value="propsData.batteryPower.maximumAllowedBatteryPower"
               />
             </template>
             <Field
               icon="mdi-battery"
-              label="Ratio MABE vs. MABP"
+              :label="$t('MABEvsMABP')"
               unit="%"
               :value="
                 propsData.ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy
@@ -95,19 +113,27 @@
             <div class="element-chart-label"></div>
             <Field
               icon="mdi-battery"
-              label="Power capability at 20 charge"
+              :label="
+                $t(
+                  'sections.electrochemicalProperties.powerCapabilityAt20Charge'
+                )
+              "
               unit="%"
               :value="propsData.batteryPower.powerCapabilityAt20Charge"
             />
             <Field
               icon="mdi-battery"
-              label="Power capability at 80 charge"
+              :label="
+                $t(
+                  'sections.electrochemicalProperties.powerCapabilityAt80Charge'
+                )
+              "
               unit="%"
               :value="propsData.batteryPower.powerCapabilityAt80Charge"
             />
             <Field
               icon="mdi-battery"
-              label="Power fade"
+              :label="$t('sections.electrochemicalProperties.powerFade')"
               unit="%"
               :value="propsData.batteryPower.powerFade"
             />
@@ -115,17 +141,25 @@
         </template>
         <template v-if="propsData.internalResistance">
           <v-col sm="12" md="2" class="pa-0 ma-0">
-            <div class="element-chart-label">Resistance</div>
+            <div class="element-chart-label">
+              {{ $t("sections.electrochemicalProperties.resistance") }}
+            </div>
 
             <Field
               icon="mdi-omega"
-              label="Pack internal resistance"
+              :label="
+                $t('sections.electrochemicalProperties.packInternalResistance')
+              "
               unit="Ω"
               :value="propsData.internalResistance.packInternalResistance"
             />
             <Field
               icon="mdi-arrow-up"
-              label="Pack internal resistance increase"
+              :label="
+                $t(
+                  'sections.electrochemicalProperties.packInternalResistanceIncrease'
+                )
+              "
               unit="%"
               :value="
                 propsData.internalResistance.packInternalResistanceIncrease
@@ -133,7 +167,9 @@
             />
             <Field
               icon="mdi-table-split-cell"
-              label="Cell internal resistance"
+              :label="
+                $t('sections.electrochemicalProperties.cellInternalResistance')
+              "
               unit="Ω"
               :value="propsData.internalResistance.cellInternalResistance"
             />
@@ -141,22 +177,24 @@
         </template>
         <template v-if="propsData.batteryVoltage">
           <v-col sm="12" md="2" class="pa-0 ma-0">
-            <div class="element-chart-label">Voltage</div>
+            <div class="element-chart-label">
+              {{ $t("sections.electrochemicalProperties.voltage") }}
+            </div>
             <Field
               icon="mdi-lightning-bolt-outline"
-              label="Nominal voltage"
+              :label="$t('sections.electrochemicalProperties.nominalVoltage')"
               unit="V"
               :value="propsData.batteryVoltage.nominalVoltage"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Max voltage"
+              :label="$t('sections.electrochemicalProperties.maxVoltage')"
               unit="V"
               :value="propsData.batteryVoltage.maxVoltage"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
-              label="Min voltage"
+              :label="$t('sections.electrochemicalProperties.minVoltage')"
               unit="V"
               :value="propsData.batteryVoltage.minVoltage"
             />

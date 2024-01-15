@@ -27,24 +27,31 @@
         <template v-if="propsData.importer">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              icon="mdi-image-size-select-small"
-              :label="$t('sections.operation.importer')"
-              :value="propsData.importer"
+              :icon="callIconFinder('importer')"
+              label="Importer Id"
+              :value="propsData.importer.left.id"
             />
-            <template v-if="propsData.manufacturer">
-              <Field
-                icon="mdi-arrow-down-circle-outline"
-                :label="$t('sections.operation.manufacturerId')"
-                :value="propsData.manufacturer.manufacturerId"
-              />
-              <Field
-                icon="mdi-arrow-down-circle-outline"
-                :label="$t('sections.operation.facilityId')"
-                :value="propsData.manufacturer.facilityId"
-              />
-            </template>
           </v-col>
         </template>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.manufacturer">
+            <Field
+              :icon="callIconFinder('manufacturer')"
+              label="Manufacturer Id"
+              :value="propsData.manufacturer.manufacturer"
+            />
+            <Field
+              :icon="callIconFinder('facility')"
+              label="Facility Id"
+              :value="propsData.manufacturer.facility"
+            />
+            <Field
+              :icon="callIconFinder('manufacturingDate')"
+              label="Manufacturing date"
+              :value="propsData.manufacturer.manufacturingDate"
+            />
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -52,6 +59,7 @@
 
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "OperationComponent",
@@ -68,6 +76,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.operation,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

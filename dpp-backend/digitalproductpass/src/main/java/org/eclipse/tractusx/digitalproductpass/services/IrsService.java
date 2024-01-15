@@ -60,9 +60,7 @@ public class IrsService extends BaseService {
 
     /** ATTRIBUTES **/
     HttpUtil httpUtil;
-
     JsonUtil jsonUtil;
-
     String irsEndpoint;
     String irsJobPath;
     String callbackUrl;

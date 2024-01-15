@@ -25,42 +25,31 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <DialogComponent class="field-dialog">
-            <Field
-              info
-              icon="mdi-image-size-select-small"
-              :label="$t('sections.typology.name')"
-              :value="propsData.name"
-            />
-            <template v-slot:text>
-              {{ propsData.description }}
-            </template>
-          </DialogComponent>
+          <Field
+            :icon="callIconFinder('shortName')"
+            label="Short name"
+            :value="propsData.shortName"
+          />
         </v-col>
         <template v-if="propsData.class">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              icon="mdi-lightning-bolt-outline"
-              :label="$t('sections.typology.definition')"
+              :icon="callIconFinder('definition')"
+              label="Definition"
               :value="propsData.class.definition"
             />
             <Field
-              icon="mdi-arrow-bottom-right-thin-circle-outline"
-              :label="$t('sections.typology.code')"
+              :icon="callIconFinder('code')"
+              label="Code"
               :value="propsData.class.code"
             />
           </v-col>
         </template>
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
-            icon="mdi-lightning-bolt-outline"
-            :label="$t('sections.typology.nameAtManufacturer')"
-            :value="propsData.nameAtManufacturer"
-          />
-          <Field
-            icon="mdi-arrow-bottom-right-thin-circle-outline"
-            :label="$t('sections.typology.nameAtCustomer')"
-            :value="propsData.nameAtCustomer"
+            :icon="callIconFinder('longName')"
+            label="Long name"
+            :value="propsData.longName"
           />
         </v-col>
       </v-row>
@@ -70,12 +59,11 @@
 
 <script>
 import Field from "../Field.vue";
-import DialogComponent from "../../general/Dialog.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "TypologyComponent",
   components: {
-    DialogComponent,
     Field,
   },
   props: {
@@ -88,6 +76,11 @@ export default {
     return {
       propsData: this.$props.data.aspect["typology"],
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

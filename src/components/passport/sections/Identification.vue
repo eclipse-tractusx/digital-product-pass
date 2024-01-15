@@ -25,57 +25,40 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.manufacturerId">
+          <template v-if="propsData.localIdentifier">
             <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Manufacturer Id"
-              :value="propsData.manufacturerId"
+              :icon="callIconFinder('localIdentifiers')"
+              :value="propsData.localIdentifier.value"
+              :label="propsData.localIdentifier.key"
             />
           </template>
-          <template v-if="propsData.localIdentifiers">
+        </v-col>
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.additionalCode">
             <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-            <template v-for="attr in propsData.localIdentifiers" :key="attr">
+            <template v-for="attr in propsData.additionalCode" :key="attr">
               <Field
-                icon="mdi-newspaper-variant-outline"
+                :icon="callIconFinder('additionalCode')"
                 :value="attr.value"
                 :label="attr.key"
               />
             </template>
           </template>
-          <template v-if="propsData.dataMatrixCode">
+          <template v-if="propsData.dataCarrier">
             <Field
-              icon="mdi-arrow-down-circle-outline"
-              label="Data matrix code"
-              :value="propsData.dataMatrixCode"
+              :icon="callIconFinder('dataCarrier')"
+              :value="propsData.dataCarrier.carrierType"
+              :label="propsData.dataCarrier.carrierLayout"
             />
-          </template>
-        </v-col>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.gtin">
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              :label="$t('sections.identification.gtin')"
-              :value="propsData.gtin"
-            />
-          </template>
-          <template v-if="propsData.additionalCode">
-            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-            <template v-for="attr in propsData.additionalCode" :key="attr">
-              <Field
-                icon="mdi-newspaper-variant-outline"
-                :value="attr.value"
-                :label="attr.name"
-              />
-            </template>
           </template>
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
-
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "IdentificationComponent",
@@ -92,6 +75,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.identification,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

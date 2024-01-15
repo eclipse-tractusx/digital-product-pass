@@ -26,40 +26,45 @@
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
-            icon="mdi-image-size-select-small"
-            :label="$t('sections.metadata.issueDate')"
+            :icon="callIconFinder('predecessor')"
+            label="Predecessor"
+            :value="propsData.predecessor"
+          />
+          <Field
+            :icon="callIconFinder('issueDate')"
+            label="Issue date"
             :value="propsData.issueDate"
           />
           <Field
-            icon="mdi-arrow-down-circle-outline"
-            :label="$t('sections.metadata.version')"
+            :icon="callIconFinder('version')"
+            label="Version"
             :value="propsData.version"
-          />
-          <Field
-            icon="mdi-arrow-down-circle-outline"
-            :label="$t('sections.metadata.validityDate')"
-            :value="propsData.validityDate"
           />
         </v-col>
         <template v-if="propsData.economicOperator">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              icon="mdi-lightning-bolt-outline"
-              :label="$t('sections.metadata.customerPartId')"
-              :value="propsData.economicOperator.eori"
+              :icon="callIconFinder('legitimization')"
+              label="Legitimization"
+              :value="propsData.economicOperator.legitimization"
             />
             <Field
-              icon="mdi-arrow-bottom-right-thin-circle-outline"
-              :label="$t('sections.metadata.manufacturerPartId')"
-              :value="propsData.economicOperator.id"
+              :icon="callIconFinder('identification')"
+              label="Identification"
+              :value="propsData.economicOperator.identification"
             />
           </v-col>
         </template>
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
-            icon="mdi-arrow-bottom-right-thin-circle-outline"
-            :label="$t('sections.metadata.status')"
+            :icon="callIconFinder('status')"
+            label="Status"
             :value="propsData.status"
+          />
+          <Field
+            :icon="callIconFinder('expirationDate')"
+            label="Expiration date"
+            :value="propsData.expirationDate"
           />
         </v-col>
       </v-row>
@@ -69,6 +74,7 @@
 
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "MetadataComponent",
@@ -85,6 +91,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.metadata,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

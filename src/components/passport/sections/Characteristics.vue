@@ -24,7 +24,7 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.physicalDimensionsProperty">
+        <template v-if="propsData.physicalDimension">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               icon="mdi-image-size-select-small"
@@ -39,33 +39,27 @@
               :value="propsData.physicalDimensionsProperty.weight"
               :unit="propsData.physicalDimensionsProperty.unit"
             />
+
           </v-col>
         </template>
         <template v-if="propsData.lifespan">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              icon="mdi-arrow-down-circle-outline"
-              :label="$t('sections.characteristics.lifespan')"
-              :value="propsData.lifespan.value"
-              :unit="propsData.lifespan.unit"
+              v-for="attr in propsData.lifespan"
+              :key="attr"
+              :icon="callIconFinder('lifespan')"
+              label="Lifespan"
+              :value="attr.value"
+              :unit="attr.unit"
             />
           </v-col>
         </template>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.energyCapacity">
+          <template v-if="propsData.physicalState">
             <Field
-              icon="mdi-arrow-down-circle-outline"
-              :label="$t('sections.characteristics.energyCapacity')"
-              :value="propsData.energyCapacity.value"
-              :unit="propsData.energyCapacity.unit"
-            />
-          </template>
-          <template v-if="propsData.voltage">
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              :label="$t('sections.characteristics.voltage')"
-              :value="propsData.voltage.value"
-              :unit="propsData.voltage.unit"
+              :icon="callIconFinder('physicalState')"
+              label="Physical state"
+              :value="propsData.physicalState"
             />
           </template>
         </v-col>
@@ -76,6 +70,7 @@
 
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "CharacteristicsComponent",
@@ -92,6 +87,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.characteristics,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

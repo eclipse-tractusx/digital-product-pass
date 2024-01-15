@@ -26,14 +26,9 @@
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
-            icon="mdi-image-size-select-small"
+            :icon="callIconFinder('placedOnMarket')"
             label="Place on the market"
             :value="propsData.placedOnMarket"
-          />
-          <Field
-            icon="mdi-arrow-down-circle-outline"
-            label="Warranty"
-            :value="propsData.warranty"
           />
         </v-col>
       </v-row>
@@ -43,6 +38,7 @@
 
 <script>
 import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
   name: "CommercialComponent",
@@ -59,6 +55,11 @@ export default {
     return {
       propsData: this.$props.data.aspect.commercial,
     };
+  },
+  methods: {
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
+    },
   },
 };
 </script>

@@ -24,7 +24,7 @@
   <div>
     <SectionHeader :title="title" @click="toggle = !toggle" />
     <div class="section-content" :class="[toggle ? 'hidden' : '']">
-      <slot>Sorry, no content</slot>
+      <slot>{{ $t("section.noContent") }}</slot>
     </div>
   </div>
 </template>

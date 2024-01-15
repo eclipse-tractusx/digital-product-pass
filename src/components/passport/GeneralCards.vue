@@ -46,7 +46,7 @@
               {{ $t(card.label) }}
             </div>
             <div class="card-value">
-              {{ card.value ? $t(card.value) : "-" }} {{ $t(card.valueUnits) }}
+              {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
             </div>
             <v-divider></v-divider>
             <div>

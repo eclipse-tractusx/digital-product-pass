@@ -27,7 +27,7 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('shortName')"
-            label="Short name"
+            :label="$t('sections.typology.shortName')"
             :value="propsData.shortName"
           />
         </v-col>

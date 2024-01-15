@@ -29,17 +29,17 @@
             <Field
               icon="mdi-image-size-select-small"
               :label="$t('sections.characteristics.physicalDimensionsProperty')"
-              :width="propsData.physicalDimensionsProperty.width"
-              :length="propsData.physicalDimensionsProperty.length"
-              :height="propsData.physicalDimensionsProperty.height"
+              :width="propsData.physicalDimension.width.value"
+              :length="propsData.physicalDimension.length.value"
+              :height="propsData.physicalDimension.height.value"
+              :unit="propsData.physicalDimension.width.unit"
             />
             <Field
               icon="mdi-arrow-down-circle-outline"
               :label="$t('sections.characteristics.weight')"
-              :value="propsData.physicalDimensionsProperty.weight"
-              :unit="propsData.physicalDimensionsProperty.unit"
+              :value="propsData.physicalDimension.weight"
+              :unit="propsData.physicalDimension.unit"
             />
-
           </v-col>
         </template>
         <template v-if="propsData.lifespan">

@@ -78,9 +78,9 @@
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
     <span class="field-value">
-      <span v-if="length">L: {{ length }}{{ unit }},</span>
-      <span v-if="height">H: {{ height }}{{ unit }},</span>
-      <span v-if="width"> W: {{ width }}{{ unit }}</span>
+      <span v-if="length">L: {{ length }}{{ callUnitRemover(unit) }}, </span>
+      <span v-if="height">H: {{ height }}{{ callUnitRemover(unit) }}, </span>
+      <span v-if="width"> W: {{ width }}{{ callUnitRemover(unit) }}</span>
     </span>
     <!-- This block of code is for dates -->
     <span v-if="day" class="field-value">{{ day }}{{ month }}{{ year }}</span>

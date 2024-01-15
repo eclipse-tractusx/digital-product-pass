@@ -307,6 +307,7 @@
     },
     "typology": {
       "name": "Name",
+      "shortName": "Kurzer Name",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name beim Hersteller",

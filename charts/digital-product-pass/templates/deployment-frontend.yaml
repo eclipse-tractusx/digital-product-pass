@@ -78,6 +78,9 @@ spec:
             - name: "AUTH_BPN_NUMBER"
               value: "{{ .Values.oauth.bpnCheck.bpn }}"
 
+            - name: "APP_AUTO_SIGN"
+              value: "{{ .Values.frontend.negotiation.autoSign }}"
+
             - name: "APP_PORTAL_URL"
               value: "https://{{ .Values.frontend.portal.hostname }}"
 

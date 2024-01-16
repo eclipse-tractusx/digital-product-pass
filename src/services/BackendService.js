@@ -19,7 +19,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { BACKEND_URL, API_MAX_RETRIES, API_DELAY } from "@/services/service.const";
+import { BACKEND_URL, API_MAX_RETRIES, API_DELAY, AUTO_SIGN } from "@/services/service.const";
 import axios from "axios";
 import jsonUtil from "@/utils/jsonUtil.js";
 import threadUtil from "../utils/threadUtil";
@@ -136,7 +136,26 @@ export default class BackendService {
         }
         let negotiation = {
             "processId": processId,
-            ""
+            "contractId": contractId,
+            "token":  token
+        }
+        if(!AUTO_SIGN){
+            if(contractId == null){
+                return this.getErrorMessage(
+                    "At least one contract needs to be selected",
+                    500,
+                    "Internal Server Error"
+                )
+            }
+            if(policyId == null){
+                return this.getErrorMessage(
+                    "At least one policy needs to be selected",
+                    500,
+                    "Internal Server Error"
+                )
+            }
+            negotiation["policyId"] = policyId;
+            negotiation["contractId"] = contractId;
         }
         let processStatus = null;
 

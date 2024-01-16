@@ -165,6 +165,9 @@ frontend:
   portal:
     hostname: ""
 
+  negotiation: 
+    autoSign: true
+
   # -- api timeouts
   api:
     # -- max retries for getting status

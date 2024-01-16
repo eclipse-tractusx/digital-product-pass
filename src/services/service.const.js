@@ -47,6 +47,7 @@ let bpnCheck = "AUTH_BPN_CHECK";
 let bpn = "AUTH_BPN_NUMBER";
 let portalUrl = "APP_PORTAL_URL";
 let adminEmail = "APP_ADMIN_EMAIL";
+let autoSign = "APP_AUTO_SIGN";
 
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
@@ -58,7 +59,7 @@ adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@exa
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
 bpnCheck = (bpnCheck === "true")
 roleCheck = (roleCheck === "true")
-
+autoSign = (roleCheck === "true")
 
 // Default Variables if value is not specified or is not a integer
 timeout = numberUtil.parseInt(timeout, 60000);
@@ -85,7 +86,7 @@ const BPN_CHECK = bpnCheck;
 const BPN = bpn;
 const PORTAL_URL = portalUrl;
 const ADMIN_EMAIL = adminEmail;
-
+const AUTO_SIGN = autoSign;
 // Initialize configuration objects
 let INIT_OPTIONS = {
   url: null,
@@ -107,4 +108,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK};
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK, AUTO_SIGN};

@@ -2,15 +2,15 @@
   "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass",
   "metadata": {
     "contract": {
-      "@id": "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33",
+      "@id": "9b3c0977-6b14-4201-bd76-55f681a92872",
       "@type": "dcat:Dataset",
       "odrl:hasPolicy": {
-        "@id": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:ac45d75a-2542-4d1a-a0fc-034c705418a9",
+        "@id": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:dc616f20-2781-450a-837a-290d861c8e0a",
         "@type": "odrl:Set",
         "odrl:permission": [],
         "odrl:prohibition": [],
         "odrl:obligation": [],
-        "odrl:target": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+        "odrl:target": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
       },
       "dcat:distribution": [
         {
@@ -29,7 +29,7 @@
         }
       ],
       "edc:description": "Battery Passport test data",
-      "edc:id": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+      "edc:id": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
     },
     "negotiation": {
       "init": {
@@ -42,21 +42,21 @@
           "protocol": "dataspace-protocol-http",
           "connectorId": "BPNL00000000CBA5",
           "offer": {
-            "offerId": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:ac45d75a-2542-4d1a-a0fc-034c705418a9",
-            "assetId": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
+            "offerId": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:dc616f20-2781-450a-837a-290d861c8e0a",
+            "assetId": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
             "policy": {
               "@type": "odrl:Set",
               "odrl:permission": [],
               "odrl:prohibition": [],
               "odrl:obligation": [],
-              "odrl:target": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+              "odrl:target": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
             }
           }
         },
         "response": {
-          "@id": "83892309-6b65-4597-b36a-f86bb7b42f2c",
+          "@id": "b8a41089-1eac-462a-b8e8-e40f724b302f",
           "@type": "edc:IdResponseDto",
-          "edc:createdAt": 1688393668476,
+          "edc:createdAt": 1688393629505,
           "@context": {
             "dct": "https://purl.org/dc/terms/",
             "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -69,14 +69,14 @@
       },
       "get": {
         "response": {
-          "@id": "83892309-6b65-4597-b36a-f86bb7b42f2c",
+          "@id": "b8a41089-1eac-462a-b8e8-e40f724b302f",
           "@type": "edc:ContractNegotiationDto",
           "edc:type": "CONSUMER",
           "edc:protocol": "dataspace-protocol-http",
           "edc:state": "FINALIZED",
           "edc:counterPartyAddress": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
           "edc:callbackAddresses": [],
-          "edc:contractAgreementId": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb",
+          "edc:contractAgreementId": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:102bae7a-22de-44b2-9ed5-ca5f62023390",
           "@context": {
             "dct": "https://purl.org/dc/terms/",
             "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -94,9 +94,9 @@
           "@context": {
             "odrl": "http://www.w3.org/ns/odrl/2/"
           },
-          "assetId": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
+          "assetId": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
           "connectorAddress": "https://materialpass.dev.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
-          "contractId": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb",
+          "contractId": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:102bae7a-22de-44b2-9ed5-ca5f62023390",
           "dataDestination": {
             "properties": {
               "type": "HttpProxy"
@@ -104,7 +104,7 @@
           },
           "managedResources": false,
           "privateProperties": {
-            "receiverHttpEndpoint": "https://materialpass.dev.demo.catena-x.net/endpoint/d0bf9018-87ee-4b4a-b4a5-683b2701d90e"
+            "receiverHttpEndpoint": "https://materialpass.dev.demo.catena-x.net/endpoint/bb8d235e-96c1-4fa3-a9ea-2ec71255ed18"
           },
           "protocol": "dataspace-protocol-http",
           "transferType": {
@@ -113,9 +113,9 @@
           }
         },
         "response": {
-          "@id": "ecdad987-afc4-4c49-aa88-9676b4599db0",
+          "@id": "b9ab18f2-b624-4e2c-a922-c2e727467bb2",
           "@type": "edc:IdResponseDto",
-          "edc:createdAt": 1688393671434,
+          "edc:createdAt": 1688393631831,
           "@context": {
             "dct": "https://purl.org/dc/terms/",
             "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -128,22 +128,22 @@
       },
       "get": {
         "response": {
-          "@id": "ecdad987-afc4-4c49-aa88-9676b4599db0",
+          "@id": "b9ab18f2-b624-4e2c-a922-c2e727467bb2",
           "@type": "edc:TransferProcessDto",
           "edc:state": "COMPLETED",
-          "edc:stateTimestamp": 1688393673622,
+          "edc:stateTimestamp": 1688393633142,
           "edc:type": "CONSUMER",
           "edc:callbackAddresses": [],
           "edc:dataDestination": {
             "edc:type": "HttpProxy"
           },
           "edc:dataRequest": {
-            "@id": "ecdad987-afc4-4c49-aa88-9676b4599db0",
+            "@id": "b9ab18f2-b624-4e2c-a922-c2e727467bb2",
             "@type": "edc:DataRequestDto",
-            "edc:assetId": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23",
-            "edc:contractId": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:b631f6a1-75b5-497b-ae3d-0413d6dd87fb"
+            "edc:assetId": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
+            "edc:contractId": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:102bae7a-22de-44b2-9ed5-ca5f62023390"
           },
-          "edc:receiverHttpEndpoint": "https://materialpass.dev.demo.catena-x.net/endpoint/d0bf9018-87ee-4b4a-b4a5-683b2701d90e",
+          "edc:receiverHttpEndpoint": "https://materialpass.dev.demo.catena-x.net/endpoint/bb8d235e-96c1-4fa3-a9ea-2ec71255ed18",
           "@context": {
             "dct": "https://purl.org/dc/terms/",
             "tx": "https://w3id.org/tractusx/v0.0.1/ns/",

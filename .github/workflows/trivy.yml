@@ -72,6 +72,7 @@ jobs:
           output: "trivy-results1.sarif"
           severity: "CRITICAL,HIGH"
           args: "--ignorefile .trivyignore"
+          skip-dirs: "deployment/infrastructure/edc-consumer,deployment/infrastructure/edc-provider,deployment/infrastructure/edc-provider/data-service,deployment/infrastructure/registry"  # skip scanning external images.
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2

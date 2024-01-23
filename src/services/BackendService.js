@@ -117,7 +117,7 @@ export default class BackendService {
         }
 
         // Get negotiation property
-        return negotiationResponse["data"];
+        return negotiationResponse;
     } 
 
     async negotiateAsset(contracts, token, processId, authentication, contractId=null, policyId=null){

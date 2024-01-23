@@ -31,7 +31,8 @@ do
 	sed -i 's|HOST_URL|'${SERVER_URL}'|g' $file
 	sed -i 's|DATA_URL|'${BACKEND_URL}'|g' $file
 	sed -i 's|APP_VERSION|'${VERSION}'|g' $file
-	sed -i 's|APP_API_TIMEOUT|'${API_TIMEOUT}'|g' $file
+	sed -i 's|API_SEARCH_TIMEOUT|'${API_SEARCH_TIMEOUT}'|g' $file
+	sed -i 's|API_NEGOTIATE_TIMEOUT|'${API_NEGOTIATE_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file
 	sed -i 's|APP_API_MAX_RETRIES|'${API_MAX_RETRIES}'|g' $file
 	sed -i 's|KEYCLOAK_CLIENTID|'${KEYCLOAK_CLIENTID}'|g' $file
@@ -44,6 +45,8 @@ do
 	sed -i 's|AUTH_BPN_NUMBER|'${AUTH_BPN_NUMBER}'|g' $file
 	sed -i 's|APP_PORTAL_URL|'${APP_PORTAL_URL}'|g' $file
 	sed -i 's|APP_ADMIN_EMAIL|'${APP_ADMIN_EMAIL}'|g' $file
+	sed -i 's|APP_AUTO_SIGN|'${APP_AUTO_SIGN}'|g' $file
+
 done
 
 exec "$@"

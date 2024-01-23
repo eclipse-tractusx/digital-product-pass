@@ -93,8 +93,11 @@ spec:
             - name: "IDP_URL"
               value: "https://{{ .Values.oauth.hostname }}"
 
-            - name: "API_TIMEOUT"
-              value: "{{ .Values.frontend.api.timeout }}"
+            - name: "API_NEGOTIATE_TIMEOUT"
+              value: "{{ .Values.frontend.api.negotiateTimeout }}"
+
+            - name: "API_SEARCH_TIMEOUT"
+              value: "{{ .Values.frontend.api.searchTimeout }}"
             
             - name: "API_MAX_RETRIES"
               value: "{{ .Values.frontend.api.max_retries }}"

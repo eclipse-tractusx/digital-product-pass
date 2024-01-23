@@ -33,7 +33,8 @@ const IDP_URL = "IDENTITY_PROVIDER_URL";
 let serverUrl = "HOST_URL";
 let backendUrl = "DATA_URL";
 let retries = 'APP_API_MAX_RETRIES';
-let timeout = 'APP_API_TIMEOUT';
+let searchTimeout = 'API_SEARCH_TIMEOUT';
+let negotiateTimeout = 'API_NEGOTIATE_TIMEOUT';
 let irsDelay = 'APP_IRS_DELAY';
 let irsMaxWaitingTime = 'APP_IRS_WAITING_TIME'; 
 let delay = 'APP_API_DELAY';
@@ -62,7 +63,8 @@ roleCheck = (roleCheck === "true")
 autoSign = (roleCheck === "true")
 
 // Default Variables if value is not specified or is not a integer
-timeout = numberUtil.parseInt(timeout, 60000);
+searchTimeout = numberUtil.parseInt(searchTimeout, 40000);
+negotiateTimeout = numberUtil.parseInt(searchTimeout, 20000);
 delay = numberUtil.parseInt(delay, 1000);
 retries = numberUtil.parseInt(retries, 20);
 irsDelay = numberUtil.parseInt(irsDelay, 30000);
@@ -72,7 +74,8 @@ irsMaxWaitingTime = numberUtil.parseInt(irsMaxWaitingTime, 30);
 const SERVER_URL = serverUrl;
 const BACKEND_URL = backendUrl;
 const API_MAX_RETRIES = retries;
-const API_TIMEOUT = timeout;
+const NEGOTIATE_TIMEOUT = negotiateTimeout;
+const SEARCH_TIMEOUT = searchTimeout;
 const IRS_DELAY = irsDelay;
 const IRS_MAX_WAITING_TIME = irsMaxWaitingTime;
 const API_DELAY = delay;
@@ -108,4 +111,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, API_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK, AUTO_SIGN};
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, NEGOTIATE_TIMEOUT, SEARCH_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK, AUTO_SIGN};

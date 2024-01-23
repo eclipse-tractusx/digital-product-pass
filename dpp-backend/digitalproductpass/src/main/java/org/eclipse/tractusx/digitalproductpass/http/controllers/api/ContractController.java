@@ -733,6 +733,23 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
+            // Check if there is a contract available
+            if (!status.historyExists("contract-dataset")) {
+                response = httpUtil.getBadRequest("No contract is available!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            // Check if the contract id is correct
+            Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
+            String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
+            // Check the validity of the token
+            String expectedToken = processManager.generateToken(process, seedId);
+            String token = tokenRequestBody.getToken();
+            if (!expectedToken.equals(token)) {
+                response = httpUtil.getForbiddenResponse("The token is invalid!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            
             // Decline contract
             String statusPath = processManager.setDecline(httpRequest, processId);
             if (statusPath == null) {

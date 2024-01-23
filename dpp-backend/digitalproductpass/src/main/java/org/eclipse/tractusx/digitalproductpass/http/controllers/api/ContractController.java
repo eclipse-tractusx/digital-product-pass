@@ -749,7 +749,7 @@ public class ContractController {
                 response = httpUtil.getForbiddenResponse("The token is invalid!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            
+
             // Decline contract
             String statusPath = processManager.setDecline(httpRequest, processId);
             if (statusPath == null) {

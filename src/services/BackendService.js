@@ -119,7 +119,21 @@ export default class BackendService {
         // Get negotiation property
         return negotiationResponse;
     } 
+    async declineNegotiation(token, processId, authentication){
+        let processStatus = null;
+        // Use selects here a contract
+        let negotiation = {
+            "processId": processId,
+            "token":  token
+        }
+        try {
+            processStatus = await this.declineContract(negotiation, authentication);
+        } catch (e) {
+            return null;
+        }
 
+        return processStatus;
+    }
     async negotiateAsset(contracts, token, processId, authentication, contractId=null, policyId=null){
         let contract = null;
         // Use selects here a contract
@@ -341,6 +355,25 @@ export default class BackendService {
         return new Promise(resolve => {
             let body = this.getRequestBody(negotiation);
             axios.post(`${BACKEND_URL}/api/data`, body, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+
+                });
+        });
+    }
+    async declineContract(negotiation, authentication) {
+        return new Promise(resolve => {
+            let body = this.getRequestBody(negotiation);
+            axios.post(`${BACKEND_URL}/api/contract/decline`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);
                 })

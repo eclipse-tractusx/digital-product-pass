@@ -2,6 +2,7 @@
 # Catena-X - Product Passport Consumer Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -25,14 +26,13 @@ name: "Publish OpenAPI to Swaggerhub"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "bugfix/cmp-1100/fix-swaggerhub-workflow" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_call:
     inputs:
       version:
         required: false
-        default: 'main'
         type: string
 
   workflow_dispatch:
@@ -40,7 +40,6 @@ on:
       version:
         required: false
         description: "Version of the DPP API is to be published"
-        default: 'main'
         type: string
 
 jobs:
@@ -49,6 +48,7 @@ jobs:
     env:
       SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
       SWAGGERHUB_USER: ${{ secrets.SWAGGERHUB_USER }}
+     
     steps:
       - uses: actions/checkout@v4
 
@@ -60,43 +60,52 @@ jobs:
       - name: Install Swagger CLI
         run: |
           npm i -g swaggerhub-cli
+      
+      - name: Get version tag
+        id: version
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Extract versions
+      - name: Set version tag
         run: |
-          export DOWNSTREAM_VERSION=${{ inputs.version }}
+          if [ -z ${{ inputs.version }} ]; then
+           
+            export DOWNSTREAM_VERSION=${{ steps.version.outputs.tag }}
+          else
+            export DOWNSTREAM_VERSION=${{ inputs.version }}
+          fi
           echo "[INFO] - DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
 
-      - name: Create and Download API specs
-        shell: bash
-        run: |
-          cd dpp-backend/digitalproductpass
-          echo "[INFO] - Compiling the backend"
-          mvn -B clean install
-          echo "[INFO] - Building a docker image - backend:test"
-          docker build . --tag dpp-backend:test
-          echo "[INFO] - Starting a docker container to download API specs - test-container"
-          docker run -p 8888:8888 --name test-container -d dpp-backend:test
-          echo "[INFO] - Wait for some seconds until the docker container comes up"
-          sleep 20
-          curl -X GET http://localhost:8888/v3/api-docs.yaml > ./tractusx-dpp-api.yaml
-          echo "[INFO] - Stopping and removing docker container"
-          docker stop test-container
-          docker rm test-container
+      # - name: Create and Download API specs
+      #   shell: bash
+      #   run: |
+      #     cd dpp-backend/digitalproductpass
+      #     echo "[INFO] - Compiling the backend"
+      #     mvn -B clean install
+      #     echo "[INFO] - Building a docker image - backend:test"
+      #     docker build . --tag dpp-backend:test
+      #     echo "[INFO] - Starting a docker container to download API specs - test-container"
+      #     docker run -p 8888:8888 --name test-container -d dpp-backend:test
+      #     echo "[INFO] - Wait for some seconds until the docker container comes up"
+      #     sleep 20
+      #     curl -X GET http://localhost:8888/v3/api-docs.yaml > ./tractusx-dpp-api.yaml
+      #     echo "[INFO] - Stopping and removing docker container"
+      #     docker stop test-container
+      #     docker rm test-container
               
-      # create API, will fail if exists
-      - name: Create API
-        continue-on-error: true
-        run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+      # # create API, will fail if exists
+      # - name: Create API
+      #   continue-on-error: true
+      #   run: |
+      #     swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
 
-      # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
-      - name: Publish API Specs to SwaggerHub
-        run: |
-          if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
-            echo "[INFO] - no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=publish
-            swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
-          else
-            echo "[INFO] - snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
-          fi
+      # # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
+      # - name: Publish API Specs to SwaggerHub
+      #   run: |
+      #     if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
+      #       echo "[INFO] - no snapshot, will set the API to 'published'";
+      #       swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=publish
+      #       swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
+      #     else
+      #       echo "[INFO] - snapshot, will set the API to 'unpublished'";
+      #       swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
+      #     fi

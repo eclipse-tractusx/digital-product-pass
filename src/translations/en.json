@@ -34,6 +34,20 @@
       "electrochemicalProperties": "Electrochemical Properties",
       "documents": "Documents",
       "exchange": "Exchange"
+    },
+    "dppComponentsNames": {
+      "typology": "Typeology",
+      "metadata": "Metadata",
+      "characteristics": "Characteristics",
+      "components": "Components",
+      "commercial": "Commercial",
+      "identification": "Identification",
+      "sources": "Sources",
+      "handling": "Handling",
+      "additionalData": "Additional Data",
+      "sustainability": "Sustainability",
+      "operation": "Operation",
+      "exchange": "Exchange"
     }
   },
   "home": {
@@ -308,6 +322,7 @@
     "typology": {
       "name": "Name",
       "shortName": "Short name",
+      "longName": "Long name",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name at manufacturer",

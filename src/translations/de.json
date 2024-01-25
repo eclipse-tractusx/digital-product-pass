@@ -34,6 +34,20 @@
       "electrochemicalProperties": "Elektrochemische Eigenschaften",
       "documents": "Dokumente",
       "exchange": "Austausch"
+    },
+    "dppComponentsNames": {
+      "typology": "Typologie",
+      "metadata": "Metadaten",
+      "characteristics": "Merkmale",
+      "components": "Komponenten",
+      "commercial": "Kommerziell",
+      "identification": "Identifikation",
+      "sources": "Quellen",
+      "handling": "Handhabung",
+      "additionalData": "Zusätzliche Daten",
+      "sustainability": "Nachhaltigkeit",
+      "operation": "Betrieb",
+      "exchange": "Austausch"
     }
   },
   "home": {

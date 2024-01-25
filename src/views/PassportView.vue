@@ -226,9 +226,7 @@ export default {
         dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
-          label: passportUtil.toSentenceCase(
-            key[0].toUpperCase() + key.slice(1)
-          ),
+          label: key,
           icon: passportUtil.iconFinder(key),
           component: key,
         }));

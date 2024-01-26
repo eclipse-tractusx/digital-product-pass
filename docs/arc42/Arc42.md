@@ -177,7 +177,7 @@ The Product Passport Application is a Catena-X terms a "blue" application. This 
 
 This is the state diagram that describes the flow between the frontend and backend components of the application.
 
-![Application State Design](./media/dataRetrieval/userFlow.jpg)
+![Application State Design](./media/dataRetrieval/userFlow.drawio.svg)
 
 ### Technical Integration Design
 
@@ -188,7 +188,7 @@ The interaction between the Product Passport Application previous the "BatteryPa
 Here is a resume of the frontend and the backend communication.
 
 
-![Technical Integration Resume](./media/dataRetrieval/dataRetrievalResume.jpg)
+![Technical Integration Resume](./media/dataRetrieval/dataRetrievalResume.drawio.svg)
 
 
 The APIs we see in the diagram are the responsibles for comunicating with the several different services from Catena-X.
@@ -199,7 +199,7 @@ The authorization & authentication are dependent in the Portal Central IDP or a 
 
 Here is an example of how the authentication & authorization works:
 
-![Authentication Flow](media/auth/authenticationFlow.jpg)
+![Authentication Flow](media/auth/authenticationFlow.drawio.svg)
 
 The Digital Product Pass has two authorization methods:
 
@@ -292,11 +292,11 @@ Basically it creates a `processId` when the `Digital Twin Registries` are found 
 
 ##### Create API Sequence Diagram
 
-![CreateDiagram](./media/dataRetrieval/createApiSequence.jpg)
+![CreateDiagram](./media/dataRetrieval/createApiSequence.drawio.svg)
 
 ##### Create Flow Diagram
 
-![CreateFlow](./media/dataRetrieval/createApiFlow.jpg)
+![CreateFlow](./media/dataRetrieval/createApiFlow.drawio.svg)
 
 
 #### Digital Twin Search
@@ -316,11 +316,11 @@ A `sign token` (a sha256 hash) is return also and acts like a "session token" al
 The search diagrams below describe the `Search` for digital twins without the **IRS Drill Down** enabled. For more information how it would look if the drill down is enabled by setting the `children` property to on or at the backend configuration param `backend.application.configuration.irs.enabled` to `true`, please look at this section: [Search API with IRS](#search-api-with-irs)
 
 ##### Search API Sequence Diagram
-![search Api Sequence](media/dataRetrieval/searchApiSequence.jpg)
+![search Api Sequence](media/dataRetrieval/searchApiSequence.drawio.svg)
 
 ##### Search API Flow
 
-![Search API Flow](./media/dataRetrieval/searchApiFlow.jpg)
+![Search API Flow](./media/dataRetrieval/searchApiFlow.drawio.svg)
 
 
 ##### Aspect Configuration
@@ -354,38 +354,38 @@ The API `/data` will decrypt the passport file that is encrypted using the sessi
 
 ##### Agree API Sequence Diagram 
 
-![Agree Api Sequence](media/dataRetrieval/agreeApiSequence.jpg)
+![Agree Api Sequence](media/dataRetrieval/agreeApiSequence.drawio.svg)
 
 ##### Agree Flow Diagram
 
 Here is described in detail how the sign flow works:
 
-![agree API Flow](./media/dataRetrieval/agreeApiFlow.jpg)
+![agree API Flow](./media/dataRetrieval/agreeApiFlow.drawio.svg)
 
 ##### Decline API Flow Diagram
 
 Here is how the flow of decline works:
 
-![Decline API Flow](./media/dataRetrieval/declineApiFlow.jpg)
+![Decline API Flow](./media/dataRetrieval/declineApiFlow.drawio.svg)
 
 ##### Cancel API Flow Diagram
 
 Here is how the flow of cancel works:
 
-![Cancel API Flow](./media/dataRetrieval/cancelApiFlow.jpg)
+![Cancel API Flow](./media/dataRetrieval/cancelApiFlow.drawio.svg)
 
 ##### Status API Flow Diagram
 
 The get status API just gives the status for a existing process:
 
-![Status API Flow](./media/dataRetrieval/statusApiFlow.jpg)
+![Status API Flow](./media/dataRetrieval/statusApiFlow.drawio.svg)
 
 
 ##### Data API Flow Diagram
 
 This API is responsible for retrieving the Aspect Model Payloads and some metadata from the contract exchange.
 
-![Passport API Flow](./media/dataRetrieval/dataApiFlow.jpg)
+![Passport API Flow](./media/dataRetrieval/dataApiFlow.drawio.svg)
 
 
 Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
@@ -449,7 +449,7 @@ The backend will also create a single node tree for the Digital Twin that is alr
 ![IRS Search Sequence](./media/irs/SearchAPIwithIRS.jpg)
 
 ##### Search API Flow with IRS
-![IRS Search Flow](media/irs/irsSearchFlow.jpg)
+![IRS Search Flow](media/irs/irsSearchFlow.drawio.svg)
 
 
 #### Drill Down Status Check with IRS
@@ -553,7 +553,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ### Architecture Diagram
 
-![Architecture Diagram](./media/GraphicArchitectureDiagram.jpeg)
+![Architecture Diagram](./media/GraphicArchitectureDiagram.drawio.svg)
 
 ## Technology & Architecture Detail
 
@@ -581,7 +581,7 @@ Another advantage from Vuetify is its documentation. There you are allowed to un
 
 Here we can see the components from the frontend of the application:
 
-![Frontend Component](./media/GraphicFrontendComponent.jpg)
+![Frontend Component](./media/GraphicFrontendComponent.drawio.svg)
 
 
 #### Component Description
@@ -615,7 +615,7 @@ We selected spring boot because it allows us to:
 
 To ease the understanding and get a general technical context of the backend the following diagram was created:
 
-![Backend Component](./media/GraphicBackendComponent.jpg)
+![Backend Component](./media/GraphicBackendComponent.drawio.svg)
 
 #### Component Description
 
@@ -703,7 +703,7 @@ The application deployment is translated into Kubernetes resources through helm 
 
 ## Cross-cutting Concepts
 
-![Cross Cutting Concepts](./media/GraphicCrossCuttingConcepts.jpg)
+![Cross Cutting Concepts](./media/GraphicCrossCuttingConcepts.drawio.svg)
 
 ## Design Decisions
 

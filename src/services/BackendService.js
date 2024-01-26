@@ -119,6 +119,22 @@ export default class BackendService {
         // Get negotiation property
         return negotiationResponse;
     } 
+    async cancelNegotiation(token, processId, contractId, authentication){
+        let processStatus = null;
+        // Use selects here a contract
+        let negotiation = {
+            "processId": processId,
+            "contractId": contractId,
+            "token":  token
+        }
+        try {
+            processStatus = await this.cancelContract(negotiation, authentication);
+        } catch (e) {
+            return null;
+        }
+
+        return processStatus;
+    }
     async declineNegotiation(token, processId, authentication){
         let processStatus = null;
         // Use selects here a contract
@@ -282,13 +298,6 @@ export default class BackendService {
         }
 
     }
-    getRequestBody(negotiation) {
-        return {
-            "processId": negotiation["id"],
-            "contractId": negotiation["contract"]["@id"],
-            "token": negotiation["token"]
-        }
-    }
 
     getSearchBody(id, processId) {
         return {
@@ -351,9 +360,8 @@ export default class BackendService {
                 });
         });
     }
-    async retrievePassport(negotiation, authentication) {
+    async retrievePassport(body, authentication) {
         return new Promise(resolve => {
-            let body = this.getRequestBody(negotiation);
             axios.post(`${BACKEND_URL}/api/data`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);
@@ -370,9 +378,26 @@ export default class BackendService {
                 });
         });
     }
-    async declineContract(negotiation, authentication) {
+    async cancelContract(body, authentication) {
         return new Promise(resolve => {
-            let body = this.getRequestBody(negotiation);
+            axios.post(`${BACKEND_URL}/api/contract/cancel`, body, this.getHeadersCredentials(authentication))
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message)
+                    }
+
+                });
+        });
+    }
+    async declineContract(body, authentication) {
+        return new Promise(resolve => {
             axios.post(`${BACKEND_URL}/api/contract/decline`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);
@@ -389,9 +414,8 @@ export default class BackendService {
                 });
         });
     }
-    async agreeContract(negotiation, authentication) {
+    async agreeContract(body, authentication) {
         return new Promise(resolve => {
-            let body = this.getRequestBody(negotiation);
             axios.post(`${BACKEND_URL}/api/contract/agree`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
                     resolve(response.data);

@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Product Passport Consumer Frontend
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -18,16 +19,14 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-#################################################################################
+##################################################################################
 
----
-name: "Setup Java 19"
-description: "Setup Java 19"
-runs:
-  using: "composite"
-  steps:
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '19'
-        distribution: 'adopt'
+# List of false positives
+CVE-2023-5363
+CVE-2023-0464
+CVE-2023-44487
+CVE-2023-51074
+CVE-2023-33201
+AVD-KSV-0109
+KSV014
+KSV117

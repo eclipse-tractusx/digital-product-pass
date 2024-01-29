@@ -47,6 +47,10 @@ public class Dtr {
     private Map<String, Dataset> contracts;
     @JsonProperty("contractId")
     private String contractId;
+    @JsonProperty("policyId")
+    private String policyId;
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("endpoint")
     private String endpoint;
     @JsonProperty("assetId")
@@ -79,7 +83,16 @@ public class Dtr {
         this.validUntil = validUntil;
         this.invalid = invalid;
     }
-
+    public Dtr(Map<String, Dataset> contracts, String id, String contractId, String endpoint, String assetId, String bpn, Long validUntil) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = false;
+    }
     public Dtr(Map<String, Dataset> contracts, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
         this.contracts = contracts;
         this.contractId = contractId;
@@ -90,6 +103,39 @@ public class Dtr {
         this.invalid = invalid;
     }
 
+    public Dtr(Map<String, Dataset> contracts, String id, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
+    }
+
+    public Dtr(Map<String, Dataset> contracts, String id, String policyId, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.policyId = policyId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
+    }
+    public Dtr(Map<String, Dataset> contracts,String id, String policyId, String contractId,  String endpoint, String assetId, String bpn, Long validUntil) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.policyId = policyId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = false;
+    }
     /** GETTERS AND SETTERS **/
     public String getContractId() {
         return contractId;
@@ -124,5 +170,21 @@ public class Dtr {
 
     public void setContracts(Map<String, Dataset> contracts) {
         this.contracts = contracts;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPolicyId() {
+        return policyId;
+    }
+
+    public void setPolicyId(String policyId) {
+        this.policyId = policyId;
     }
 }

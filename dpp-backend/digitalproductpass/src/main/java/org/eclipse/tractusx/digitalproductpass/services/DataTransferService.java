@@ -328,6 +328,27 @@ public class DataTransferService extends BaseService {
                 contractOffer
         );
     }
+    /**
+     * Gets a policy by index from a dataset dynamic policy data
+     * <p>
+     * @param   policies
+     *          the {@code Object} one or more policies from a dataset
+     * @param   defaultIndex
+     *          the {@code Integer} default index for the policy.
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
+    public Set selectPolicyByIndex(Object policies, Integer defaultIndex){
+        Set policy = null;
+        if(policies instanceof LinkedHashMap){
+            policy = (Set) jsonUtil.bindObject(policies, Set.class);
+        }else{
+            List<LinkedHashMap> policyList = (List<LinkedHashMap>) jsonUtil.bindObject(policies, List.class);
+            policy = (Set) jsonUtil.bindObject(policyList.get(defaultIndex), Set.class); // Get fist policy from the list to resolve the conflict
+        }
+        return (Set) jsonUtil.bindObject(policy, Set.class);
+    }
 
     /**
      * Builds a negotiation request with the given data.

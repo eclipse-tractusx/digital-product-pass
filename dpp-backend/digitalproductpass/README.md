@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Backend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -33,21 +34,37 @@
 - [What is this backend app responsible for?](#what-is-this-backend-app-responsible-for)
 - [Services Available](#services-available)
   - [Authentication Services](#authentication-services)
-  - [API Services](#api-services)
-    - [Data](#data)
-    - [Passport API](#passport-api)
+- [Open API specification](#open-api-specification)
+  - [Digital Product Pass APIs](#digital-product-pass-apis)
+    - [Parameters](#parameters)
+      - [/api/contract/create](#apicontractcreate)
+      - [/api/contract/search](#apicontractsearch)
+      - [/api/contract/agree](#apicontractagree)
+      - [/api/contract/decline](#apicontractdecline)
+      - [/api/contract/cancel](#apicontractcancel)
+      - [/api/contract/status/{processId}](#apicontractstatusprocessid)
+      - [/api/data](#apidata)
+- [Detailed API Services](#detailed-api-services)
+    - [/api/data](#apidata-1)
           - [Request body](#request-body)
-      - [Versions Available](#versions-available)
     - [Contract API](#contract-api)
+      - [/api/contract/create](#apicontractcreate-1)
           - [Request body](#request-body-1)
+      - [/api/contract/search](#apicontractsearch-1)
           - [Request body](#request-body-2)
+      - [/api/contract/agree](#apicontractagree-1)
           - [Request body](#request-body-3)
+      - [/api/contract/decline](#apicontractdecline-1)
           - [Request body](#request-body-4)
+      - [/api/contract/cancel](#apicontractcancel-1)
           - [Request body](#request-body-5)
-  - [Public APIs](#public-apis)
+      - [/api/contract/status/](#apicontractstatus)
+  - [IRS API](#irs-api)
+          - [Request parameters](#request-parameters)
+  - [Public API](#public-api)
           - [Response](#response)
-  - [OSS License Check](#oss-license-check)
-  - [Swagger Docs](#swagger-docs)
+- [OSS License Check](#oss-license-check)
+- [Swagger Docs](#swagger-docs)
 - [Run the application](#run-the-application)
   - [Modify the configurations in the deployment files](#modify-the-configurations-in-the-deployment-files)
 - [TL;DR](#tldr)
@@ -83,11 +100,92 @@ For login and log out!
 ------
 ```
 
-## API Services
+
+# Open API specification
+
+The Digital Product Pass Open API specification is available at the swagger hub from Tractus-X:
+
+[https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
+
+## Digital Product Pass APIs
+The APIs below are the ones contain in the `Digital Product Pass Backend` reference implementation. Which can be reused for retrieving aspects from the Catena-X Network.
+
+ | API                                   | Method | Description                                                                                                                                                                                                                                                                                                                                                                    | Parameters                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+ | ------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+ | **/api/contract/create**              | POST   | The `/api/contract/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.                                                                                                      | [Go to Params](#apicontractcreate)
+ | **/api/contract/search**              | POST   | At the **/api/contract/search**  API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found. A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract. |[Go to Params](#apicontractsearch) |
+ | **/api/contract/agree**               | POST   | Once the user has the contract he can call the `/api/contract/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.                                                                                                                             | [Go to Params](#apicontractagree) |
+ | **/api/contract/decline**             | POST   | The other option rather than `/agree` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.             |                                                                    [Go to Params](#apicontractdecline)                                                                               
+ | **/api/contract/cancel**              | POST   | The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.                                                                                                                                                                                                              |    [Go to Params](#apicontractcancel)                                                                                                                           
+ | **/api/contract/status/`<processId>`** | GET    | After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/data`..                                                                                                                                                                                                             |         [Go to Params](#apicontractstatusprocessid)                                                                                                                                                                                                         
+ | **/api/data**                         | POST   | The API `/data` will decrypt the passport file that is encrypted using the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested..                                                                                                          |  [Go to Params](#apidata)  |
+
+
+### Parameters
+
+#### /api/contract/create
+
+| Parameter | Value Name       | Mandatory or Optional Value |
+|-----------|------------------|-----------------------------|
+| id        | searchIdValue    | [REQUIRED]                  |
+| type      | searchIdTypeName | manufacturerPartId          |
+
+
+#### /api/contract/search
+
+| Parameter | Value Name            | Mandatory or Optional Value |
+|-----------|-----------------------|-----------------------------|
+| id        | serializedIdValue     | [REQUIRED]                  |
+| idType    | serializedIdTypeName  | partInstanceId              |
+| processId | processIdentification | [REQUIRED]                  |
+
+
+ #### /api/contract/agree
+
+| Parameter  | Value Name             | Mandatory or Optional Value                                                     |
+|------------|------------------------|---------------------------------------------------------------------------------|
+| processId  | processIdentification  | [REQUIRED]                                                                      |
+| contractId | contractIdentification | [REQUIRED]                                                                      |
+| policyId   | policyIdentification   | If no policyId is specified then the first policy of the contract will be taken |
+| token      | searchSessionToken     | [REQUIRED]                                                                      |
+
+#### /api/contract/decline                                                   
+
+| Parameter  | Value Name             | Mandatory or Optional Value |
+|------------|------------------------|-----------------------------|
+| processId  | processIdentification  | [REQUIRED]                  |
+| token      | searchSessionToken     | [REQUIRED]                  |
+
+
+#### /api/contract/cancel
+
+| Parameter  | Value Name             | Mandatory or Optional Value |
+|------------|------------------------|-----------------------------|
+| processId  | processIdentification  | [REQUIRED]                  |
+| contractId | contractIdentification | [REQUIRED]                  |
+| token      | searchSessionToken     | [REQUIRED]                  |
+
+
+#### /api/contract/status/{processId}   
+| Parameter | Value Name            | Mandatory or Optional Value |
+|-----------|-----------------------|-----------------------------|
+| processId | processIdentification | [REQUIRED]                  |
+                                                                                      
+
+#### /api/data 
+
+| Parameter  | Value Name             | Mandatory or Optional Value |
+|------------|------------------------|-----------------------------|
+| processId  | processIdentification  | [REQUIRED]                  |
+| contractId | contractIdentification | [REQUIRED]                  |
+| token      | searchSessionToken     | [REQUIRED]                  |
+                                                                                                                                                                           
+
+# Detailed API Services
 >  **_NOTE:_** You must be authenticated with the keycloak instance to access this APIs
 
 
-### Data
+### /api/data
 Get data from a Catena-X Provider by using its processId, contractId and a token, this retrieves product passport after a successful negotiation.
 
 ```bash
@@ -98,11 +196,14 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
 {
     "processId": "string",
     "contractId": "string",
-    "token": "string"
+    "token": "string",
+    "policyId": "optional:string"
 }
 ```
 
 ### Contract API
+
+#### /api/contract/create
 
 ```bash
 /api/contract/create #Creates a process and checks for the viability of the data retrieval
@@ -115,6 +216,8 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
 }
 ```
 
+#### /api/contract/search
+
 ```bash
 /api/contract/search #Searches for a passport with the following id
 ```
@@ -123,24 +226,29 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
 {
     "processId": "string",
     "id": "string",
-    "version": "string",
-    "idType": "string",
-    "dtIndex": 0,
-    "idShort": "string"
+    "children": true // Optional Boolean
+    "idType": "optional:string",
+    "dtIndex": 0, //Optional Integer
+    "idShort": "optional:string"
 }
 ```
 
+#### /api/contract/agree
+
 ```bash
-/api/contract/sign #Sign contract retrieved from provider and start negotiation
+/api/contract/agree #Sign contract retrieved from provider and start negotiation
 ```
 ###### Request body
 ```json
 {
     "processId": "string",
     "contractId": "string",
-    "token": "string"
+    "token": "string",
+    "policyId": "optional:string"
 }
 ```
+
+#### /api/contract/decline
 
 ```bash
 /api/contract/decline #Decline passport negotiation
@@ -149,10 +257,10 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
 ```json
 {
     "processId": "string",
-    "contractId": "string",
     "token": "string"
 }
 ```
+#### /api/contract/cancel
 
 ```bash
 /api/contract/cancel #Cancel the negotiation
@@ -162,9 +270,12 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
 {
     "processId": "string",
     "contractId": "string",
-    "token": "string"
+    "token": "string",
+    "policyId": "optional:string"
 }
 ```
+
+#### /api/contract/status/<processId>
 
 ```bash
 /api/contract/status/<processId> #Get status from process
@@ -215,7 +326,7 @@ Public APIs don't require authentication
 
 
 
-## OSS License Check
+# OSS License Check
 
 The third party library dependecies, utilized in this app have to  be approved from The Eclipse Foundation.
 
@@ -233,7 +344,7 @@ mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCI
 ```
 
 
-## Swagger Docs
+# Swagger Docs
 
 Swagger documentation is now automatically available at the following path:
 
@@ -268,8 +379,8 @@ Once you configured the application use the follow the [TL;DR](#tldr) below to `
 # TL;DR 
 
 ## Install
-[Backend Installation](../../INSTALL.md)
-
+Find more documentation on how to install the backend in the [INSTALL.md](../../INSTALL.md) file.
+ 
 # License
 [Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)
 

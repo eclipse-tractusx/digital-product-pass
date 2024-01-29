@@ -1178,6 +1178,32 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the payload [" + assetId + "] with eventKey [" + eventKey + "]!");
         }
     }
+    /**
+     * Saves the given payload into the Tmp Process with the given processId and updates its status history with the
+     * given information. Setting the started time with the given timestamp by the startedTime parameter.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   payload
+     *          the {@code Object} object representing the payload.
+     * @param   fileName
+     *          the {@code String} name of the file to store the payload.
+     * @param   assetId
+     *          the {@code String} identification of the asset.
+     *
+     * @return  a {@code String} file path of the file where data was stored.
+     *
+     * @throws ManagerException
+     *           if unable to save the payload for the specified event.
+     */
+    public String saveTmpProcessPayload(String processId, Object payload, String fileName, String assetId) {
+        try {
+            String path = this.getTmpProcessFilePath(processId, fileName);
+            return jsonUtil.toJsonFile(path, payload, processConfig.getIndent());
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the tmp payload [" + assetId + "]!");
+        }
+    }
 
     /**
      * Saves the given payload into the Process with the given processId and updates its status history with the
@@ -1554,6 +1580,62 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
         }
     }
+
+    /**
+     * Saves the given Dtr {@code Datasets} object in the Process with the given processId with the given timestamp.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   datasets
+     *          the {@code Dataset} object to save.
+     * @param   startedTime
+     *          the {@code Long} timestamp when the process's event started.
+     *
+     * @return  a {@code String} file path of the file where data was stored.
+     *
+     * @throws ManagerException
+     *           if unable to save the data set.
+     */
+    public String saveDtrDatasets(String processId, Map<String, Dataset> datasets, String contractIds, Long startedTime) {
+        try {
+            return this.saveTmpProcessPayload(
+                    processId,
+                    datasets,
+                    "digital-twin-registry/"+this.datasetFileName,
+                    contractIds);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
+        }
+    }
+
+    /**
+     * Moves the the given Dtr {@code Datasets} object in the Process with the given processId with the given timestamp.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return  a {@code String} file path of the file where data was stored.
+     *
+     * @throws ManagerException
+     *           if unable to save the data set.
+     */
+    public String moveDtrDatasets(String processId) {
+        try {
+            String path = "digital-twin-registry/"+this.datasetFileName;
+            String fromPath = this.getTmpProcessFilePath(processId,  path);
+            String toPath = this.getProcessFilePath(processId, path);
+            String targetFile=fileUtil.moveFile(fromPath, toPath);
+            if(!targetFile.isEmpty()) {
+                LogUtil.printMessage("["+processId+"] Moved DTR Contracts from the temporary directory to the process directory!");
+            }else{
+                throw new ManagerException(this.getClass().getName(), "["+processId+"] Failed to moved DTR Contracts from the temporary directory to the process directory!");
+            };
+            return targetFile;
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
+        }
+    }
+
     /**
      * Saves the given {@code Datasets} object in the Process with the given processId with the given timestamp.
      * <p>

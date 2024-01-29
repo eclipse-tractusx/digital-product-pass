@@ -246,9 +246,10 @@ public class DtrSearchManager {
         }
         if (contractOffers instanceof LinkedHashMap) {
             Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
-            // Store the dataset in the digital twin logs
-            processManager.saveDatasets(processId, new HashMap<>(){{put(dataset.getId(),dataset);}}, dataset.getId(), DateTimeUtil.getTimestamp(), true);
             if (dataset != null) {
+                // Store the dataset in the digital twin logs
+                Map<String, Dataset> datasets = new HashMap<>(){{put(dataset.getId(),dataset);}};
+                processManager.saveDtrDatasets(processId, datasets, dataset.getId(), DateTimeUtil.getTimestamp());
                 Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
@@ -268,7 +269,7 @@ public class DtrSearchManager {
         }
         Map<String, Dataset> datasets = edcUtil.mapDatasetsById(contractOfferList);
         // Store datasets in the digital twin logs
-        processManager.saveDatasets(processId,datasets, String.join("|", datasets.keySet()), DateTimeUtil.getTimestamp(), true);
+        processManager.saveDtrDatasets(processId, datasets, String.join("|", datasets.keySet()), DateTimeUtil.getTimestamp());
         contractOfferList.parallelStream().forEach(dataset -> {
             Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(dataset, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
             try {

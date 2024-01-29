@@ -388,7 +388,7 @@ public class ContractController {
             );
 
             processManager.saveDatasets(process.id, datasets, seedId, startedTime, false);
-
+            processManager.moveDtrDatasets(process.id);
             // After the search is performed the search dir is deleted
             if(!processManager.deleteSearchDir(process.id)){
                 LogUtil.printError("It was not possible to delete the search.json file for the process");

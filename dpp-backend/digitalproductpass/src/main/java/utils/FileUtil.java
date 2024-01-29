@@ -28,9 +28,7 @@ import utils.exceptions.UtilException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
@@ -281,6 +279,26 @@ public final class FileUtil {
             return Files.createTempDirectory(dirName).toFile().getAbsolutePath();
         } catch (IOException e) {
             throw new UtilException(FileUtil.class, "It was not possible to create dir [" + dirName + "]");
+        }
+    }
+    /**
+     * Moves a file from a directory to another directory
+     * <p>
+     * @param   fromPath
+     *          source file path directory
+     * @param   toPath
+     *          target file path directory
+     *
+     * @return  a {@code String} path of the target file in the directory
+     *
+     * @throws  UtilException
+     *          if unable to create the directory.
+     */
+    public String moveFile(String fromPath, String toPath){
+        try {
+            return Files.move(Paths.get(fromPath), Paths.get(toPath), StandardCopyOption.REPLACE_EXISTING).toFile().getAbsolutePath();
+        }catch (IOException e) {
+            throw new UtilException(FileUtil.class, "It was not possible to move file from [" + fromPath + "] to [" + toPath + "]");
         }
     }
 

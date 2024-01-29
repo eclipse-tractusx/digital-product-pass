@@ -1,5 +1,71 @@
 {
-  "metadata": {},
+  "metadata": {
+    "searchData": {
+      "contract": {
+        "@id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19",
+        "@type": "dcat:Dataset",
+        "odrl:hasPolicy": {
+          "@id": "MDc4NjZjMTQtOGE0YS00ZjQ3LWEyYzgtMWI5MmEwOGQ1NTlm:dXJuOnV1aWQ6MGVjOGNmMmItZjU4ZS0zZjEzLWI1ZWYtZTdkZDAxZDE1YjE5:N2ZjNWNjM2UtMjhjZC00OWI5LTg3MjItZTQ5ODk2MDM1ZDBk",
+          "@type": "odrl:Set",
+          "odrl:permission": [
+            {
+              "odrl:target": "urn:uuid:d6a0ed29-8ba4-fc00-169c-72d3986e0000",
+              "odrl:action": {
+                "odrl:type": "USE"
+              },
+              "odrl:constraint": {
+                "odrl:or": {
+                  "odrl:leftOperand": "PURPOSE",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "ID 3.0 Trace"
+                }
+              }
+            },
+            {
+              "odrl:target": "urn:uuid:d6a0ed29-8ba4-fc00-169c-72d3986e1111",
+              "odrl:action": {
+                "odrl:type": "ACCESS"
+              },
+              "odrl:constraint": {
+                "odrl:or": {
+                  "odrl:leftOperand": "PURPOSE",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "DPP"
+                }
+              }
+            }
+          ],
+          "odrl:prohibition": [],
+          "odrl:obligation": [],
+          "odrl:target": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
+        },
+        "dcat:distribution": [
+          {
+            "@type": "dcat:Distribution",
+            "dct:format": {
+              "@id": "HttpProxy"
+            },
+            "dcat:accessService": "1bcbba32-d074-4bdc-b6fb-80f4e6202d3a"
+          },
+          {
+            "@type": "dcat:Distribution",
+            "dct:format": {
+              "@id": "AmazonS3"
+            },
+            "dcat:accessService": "1bcbba32-d074-4bdc-b6fb-80f4e6202d3a"
+          }
+        ],
+        "edc:description": "Digital Product Passport (DPP) test data",
+        "edc:id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
+      },
+      "id": "a4a816d9-86af-4abd-bffc-d1964698d39b",
+      "token": "5e2e1afd6bdca53de86368b9884b67b0755f4653c5b31cb5b6bc9f070a043672"
+    }
+  },
   "semanticId": "general",
   "aspect": {
     "serialization": {

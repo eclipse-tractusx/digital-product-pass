@@ -56,65 +56,165 @@ export default createStore({
             }
         ],
         searchData: {
-            "contract": {
-                "@id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19",
-                "@type": "dcat:Dataset",
-                "odrl:hasPolicy": {
-                    "@id": "MDc4NjZjMTQtOGE0YS00ZjQ3LWEyYzgtMWI5MmEwOGQ1NTlm:dXJuOnV1aWQ6MGVjOGNmMmItZjU4ZS0zZjEzLWI1ZWYtZTdkZDAxZDE1YjE5:N2ZjNWNjM2UtMjhjZC00OWI5LTg3MjItZTQ5ODk2MDM1ZDBk",
-                    "@type": "odrl:Set",
-                    "odrl:permission": [{
-                        "odrl:target": "urn:uuid:d6a0ed29-8ba4-fc00-169c-72d3986e0000",
-                        "odrl:action": {
-                            "odrl:type": "USE"
-                        },
-                        "odrl:constraint": {
-                            "odrl:or": {
-                                "odrl:leftOperand": "PURPOSE",
-                                "odrl:operator": {
-                                    "@id": "odrl:eq"
-                                },
-                                "odrl:rightOperand": "ID 3.0 Trace"
+            "contracts": [
+                {
+                    "@id": "9b3c0977-6b14-4201-bd76-55f681a92872",
+                    "@type": "dcat:Dataset",
+                    "odrl:hasPolicy": {
+                        "@id": "3:365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918:dc616f20-2781-450a-837a-290d861c8e0a",
+                        "@type": "odrl:Set",
+                        "odrl:permission": {
+                            "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27",
+                            "odrl:action": {
+                                "odrl:type": "USE"
+                            },
+                            "odrl:constraint": {
+                                "odrl:or": [
+                                    {
+                                        "odrl:leftOperand": "Membership",
+                                        "odrl:operator": {
+                                            "@id": "odrl:eq"
+                                        },
+                                        "odrl:rightOperand": "active"
+                                    },
+                                    {
+                                        "odrl:leftOperand": "FrameworkAgreement.sustainability",
+                                        "odrl:operator": {
+                                            "@id": "odrl:eq"
+                                        },
+                                        "odrl:rightOperand": "active"
+                                    }
+                                ]
                             }
-                        }
+                        },
+                        "odrl:prohibition": [],
+                        "odrl:obligation": [],
+                        "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27"
                     },
-
-                    {
-                        "odrl:target": "urn:uuid:d6a0ed29-8ba4-fc00-169c-72d3986e1111",
-                        "odrl:action": {
-                            "odrl:type": "ACCESS"
+                    "dcat:distribution": [
+                        {
+                            "@type": "dcat:Distribution",
+                            "dct:format": {
+                                "@id": "HttpProxy"
+                            },
+                            "dcat:accessService": "1795254a-e354-46c7-9d88-04608b05ca9f"
                         },
-                        "odrl:constraint": {
-                            "odrl:or": {
-                                "odrl:leftOperand": "PURPOSE",
-                                "odrl:operator": {
-                                    "@id": "odrl:eq"
-                                },
-                                "odrl:rightOperand": "DPP"
-                            }
+                        {
+                            "@type": "dcat:Distribution",
+                            "dct:format": {
+                                "@id": "AmazonS3"
+                            },
+                            "dcat:accessService": "1795254a-e354-46c7-9d88-04608b05ca9f"
                         }
-                    }],
-                    "odrl:prohibition": [],
-                    "odrl:obligation": [],
-                    "odrl:target": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
+                    ],
+                    "edc:description": "Battery Passport test data",
+                    "edc:id": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
                 },
-                "dcat:distribution": [{
-                    "@type": "dcat:Distribution",
-                    "dct:format": {
-                        "@id": "HttpProxy"
-                    },
-                    "dcat:accessService": "1bcbba32-d074-4bdc-b6fb-80f4e6202d3a"
-                }, {
-                    "@type": "dcat:Distribution",
-                    "dct:format": {
-                        "@id": "AmazonS3"
-                    },
-                    "dcat:accessService": "1bcbba32-d074-4bdc-b6fb-80f4e6202d3a"
-                }],
-                "edc:description": "Digital Product Passport (DPP) test data",
-                "edc:id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19"
-            },
-            "id": "a4a816d9-86af-4abd-bffc-d1964698d39b",
-            "token": "5e2e1afd6bdca53de86368b9884b67b0755f4653c5b31cb5b6bc9f070a043672"
+                {
+                    "@id": "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33",
+                    "@type": "dcat:Dataset",
+                    "odrl:hasPolicy": [{
+                        "@id": "2:1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23:ac45d75a-2542-4d1a-a0fc-034c705418a9",
+                        "@type": "odrl:Set",
+                        "odrl:permission": {
+                            "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27",
+                            "odrl:action": {
+                                "odrl:type": "USE"
+                            },
+                            "odrl:constraint": {
+                                "odrl:or": [
+                                    {
+                                        "odrl:leftOperand": "Membership",
+                                        "odrl:operator": {
+                                            "@id": "odrl:eq"
+                                        },
+                                        "odrl:rightOperand": "active"
+                                    },
+                                    {
+                                        "odrl:leftOperand": "FrameworkAgreement.sustainability",
+                                        "odrl:operator": {
+                                            "@id": "odrl:eq"
+                                        },
+                                        "odrl:rightOperand": "active"
+                                    }
+                                ]
+                            }
+                        },
+                        "odrl:prohibition": [],
+                        "odrl:obligation": [],
+                        "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27"
+                    }, {
+                        "@id": "2:67deb076-464c-4e8d-8931-087cee0afe2f:ac45d75a-2542-4d1a-a0fc-034c705418a9",
+                        "@type": "odrl:Set",
+                        "odrl:permission": {
+                            "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27",
+                            "odrl:action": {
+                                "odrl:type": "USE"
+                            },
+                            "odrl:constraint": {
+                                "odrl:and": [
+                                    {
+                                        "odrl:leftOperand": "DPP",
+                                        "odrl:operator": {
+                                            "@id": "odrl:eq"
+                                        },
+                                        "odrl:rightOperand": "active"
+                                    }
+                                ]
+                            }
+                        },
+                        "odrl:prohibition": {
+                            "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27",
+                            "odrl:action": {
+                                "odrl:type": "DISTRIBUTE"
+                            },
+                            "odrl:duties": [{
+                                "odrl:action": {
+                                    "@id": "odrl:compensate"
+                                },
+                                "odrl:constraint": {
+                                    "odrl:name": "odrl:payAmount",
+                                    "odrl:operator": {
+                                        "@id": "odrl:eq"
+                                    },
+                                    "odrl:rightOperand": { "@value": "0.0", "@type": "xsd:decimal" },
+                                    "odrl:unit": "http://example.com/iso4217a/EUR"
+                                }
+                            }],
+                            "odrl:constraint": {
+                                "odrl:leftOperand": "event",
+                                "odrl:operator": "odrl:lt",
+                                "odrl:rightOperand": {
+                                    "@id": "odrl:policyUsage"
+                                }
+                            }
+                        },
+                        "odrl:obligation": [],
+                        "odrl:target": "urn:uuid:748cf682-6747-33cb-630b-c35a29970f27"
+                    }
+                    ],
+                    "dcat:distribution": [
+                        {
+                            "@type": "dcat:Distribution",
+                            "dct:format": {
+                                "@id": "HttpProxy"
+                            },
+                            "dcat:accessService": "1795254a-e354-46c7-9d88-04608b05ca9f"
+                        },
+                        {
+                            "@type": "dcat:Distribution",
+                            "dct:format": {
+                                "@id": "AmazonS3"
+                            },
+                            "dcat:accessService": "1795254a-e354-46c7-9d88-04608b05ca9f"
+                        }
+                    ],
+                    "edc:description": "Battery Passport test data",
+                    "edc:id": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
+                }
+            ],
+            "token": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+            "id": "ccbf6bfb-c7e1-4db4-8225-9fa95ee82f7f"
         },
         contractToSign: null,
         processId: null,

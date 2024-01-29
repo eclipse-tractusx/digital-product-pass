@@ -42,34 +42,22 @@
             <p class="text-caption">
               {{ condition ? idLabel : "" }}
             </p>
-            <template v-if="contractSign && contractItems.length > 1">
+            <template v-if="contractSign && policies.length > 1">
               <v-overlay class="contract-modal" v-model="showOverlay">
                 <v-card class="contract-container">
                   <div class="title-container">Choose a policy</div>
                   <v-radio-group class="content-container" v-model="radios">
                     <v-radio
-                      v-for="(item, index) in contractItems"
+                      v-for="(item, index) in policies"
                       :key="index"
                       @click="chooseContract(item)"
-                      :label="
-                        item['odrl:action']['odrl:type'] +
-                        ': ' +
-                        '[' +
-                        item['odrl:constraint']['odrl:or']['odrl:leftOperand'] +
-                        ']' +
-                        operatorMapper(
-                          item['odrl:constraint']['odrl:or']['odrl:operator'][
-                            '@id'
-                          ]
-                        ) +
-                        '[' +
-                        item['odrl:constraint']['odrl:or'][
-                          'odrl:rightOperand'
-                        ] +
-                        ']'
-                      "
                       :value="index"
-                    ></v-radio>
+                      :label="
+                        'Policy type: ' +
+                        item['odrl:permission']['odrl:action']['odrl:type']
+                      "
+                    >
+                    </v-radio>
                   </v-radio-group>
                   <v-row class="pt-8 justify-center">
                     <v-btn
@@ -82,11 +70,28 @@
                     <v-btn
                       class="text-none ms-4 text-white"
                       color="#0F71CB"
-                      @click="
-                        callAcceptContract(this.contractToSign['odrl:target'])
-                      "
+                      @click="callAcceptContract(this.contractToSign['@id'])"
                       >Agree</v-btn
                     >
+                  </v-row>
+                  <v-row>
+                    <v-btn
+                      variant="text"
+                      @click="toggleDetails"
+                      class="details-btn text-none"
+                    >
+                      {{ detailsTitle }}
+                    </v-btn>
+                  </v-row>
+                  <v-row v-if="details">
+                    <div class="json-viewer-container">
+                      <JsonViewer
+                        class="json-viewer"
+                        :value="contractItems"
+                        sort
+                        theme="jv-light"
+                      />
+                    </div>
                   </v-row>
                 </v-card>
               </v-overlay>
@@ -102,9 +107,14 @@
 import { mapState } from "vuex";
 import store from "../../store/index";
 import BackendService from "@/services/BackendService";
-
+import { JsonViewer } from "vue3-json-viewer";
+import "vue3-json-viewer/dist/index.css";
+import { reactive } from "vue";
 export default {
   name: "StepperItem",
+  components: {
+    JsonViewer,
+  },
   props: {
     condition: { type: [String, Number], default: "" },
     stepTitle: { type: [String, Number], default: "" },
@@ -116,8 +126,11 @@ export default {
   },
   data: () => ({
     showOverlay: false,
-    contractItems: [],
+    contractItems: reactive([]),
     radios: 0,
+    details: false,
+    detailsTitle: "More details",
+    policies: [],
   }),
   computed: {
     ...mapState(["searchData", "contractToSign"]),
@@ -125,17 +138,55 @@ export default {
   async created() {
     this.backendService = new BackendService();
   },
+
   mounted() {
-    this.contractItems =
-      this.searchData.contract["odrl:hasPolicy"]["odrl:permission"];
-    this.contractToSign = store.commit(
-      "setContractToSign",
-      this.contractItems[0]
-    );
+    // Initialize contractItems from searchData
+    this.contractItems = this.searchData.contracts;
+
+    // Extract policies
+    this.extractPolicies(this.contractItems);
+
+    // Check if policies array has elements and then access the @id of the first element
+    if (this.policies.length > 0) {
+      const contractId = this.policies[0];
+
+      // Commit the contract ID to the store
+      this.$store.commit("setContractToSign", contractId);
+
+      // Store the ID in state
+      this.contractToSign = contractId;
+    } else {
+      console.error("No policies found");
+    }
 
     this.shouldShowOverlay();
   },
   methods: {
+    extractPolicies(contracts) {
+      const policies = [];
+      contracts.forEach((contract) => {
+        if (contract["odrl:hasPolicy"]) {
+          // Check if 'odrl:hasPolicy' is an array
+          if (Array.isArray(contract["odrl:hasPolicy"])) {
+            contract["odrl:hasPolicy"].forEach((policy) => {
+              policies.push(policy);
+            });
+          } else {
+            // 'odrl:hasPolicy' is a single object
+            policies.push(contract["odrl:hasPolicy"]);
+          }
+        }
+      });
+      return (this.policies = policies);
+    },
+    toggleDetails() {
+      this.details = !this.details;
+      if (this.details) {
+        this.detailsTitle = "Less details";
+      } else {
+        this.detailsTitle = "More details";
+      }
+    },
     operatorMapper(operator) {
       let opr = operator.replace("odrl:", "");
       if (opr == "eq") {
@@ -171,3 +222,4 @@ export default {
   },
 };
 </script>
+

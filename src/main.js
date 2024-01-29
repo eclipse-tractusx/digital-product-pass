@@ -28,13 +28,16 @@ import { loadFonts } from './assets/plugins/webfontloader';
 import router from './router';
 import '@/assets/styles/main.scss';
 import authentication from '@/services/Authentication';
-
+import JsonViewer from "vue3-json-viewer";
+// if you used v1.0.5 or latster ,you should add import "vue3-json-viewer/dist/index.css"
+import "vue3-json-viewer/dist/index.css";
 loadFonts();
 
 const app = createApp(App);
 app.use(vuetify);
 app.use(store);
 app.use(router);
+app.use(JsonViewer);
 
 let auth = new authentication();
 app.provide('authentication', auth);

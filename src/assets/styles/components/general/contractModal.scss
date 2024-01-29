@@ -41,4 +41,19 @@
     font-weight: 600;
     padding: 15px;
   }
+  .details-btn {
+    margin: 20px;
+    color: $catena-x-blue;
+    text-decoration: underline;
+  }
+  .json-viewer-container {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    .json-viewer {
+      min-width: 300px;
+      max-height: 50vh;
+      overflow: auto;
+      background-color: rgb(245, 245, 245);
+    }
+  }
 }

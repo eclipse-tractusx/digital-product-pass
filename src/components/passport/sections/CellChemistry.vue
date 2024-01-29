@@ -28,7 +28,7 @@
           <AttributeField
             icon="mdi-battery-plus"
             :attributes-list="electrolyteComposition"
-            label="Composition of electrolyte"
+            :label="$t('sections.cellChemistry.electrolyteComposition')"
             data-cy="electrolyte-composition"
             style="margin-bottom: 12px; amx"
           />
@@ -49,7 +49,7 @@
             class="element-chart-label"
             style="margin-left: -5px; margin-bottom: 15px"
           >
-            Recyclate Content Active Materials
+            {{ $t("sections.cellChemistry.recyclateContent") }}
           </div>
           <ElementChart :data="propsData" />
         </v-col>

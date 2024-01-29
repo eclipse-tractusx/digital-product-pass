@@ -11,7 +11,7 @@
       "description": "localhost"
     },
     {
-      "url": "https://materialpass.int.demo.catena-x.net",
+      "url": "https://dpp.int.demo.catena-x.net",
       "description": "CatenaX-Integration"
     },
     {
@@ -25,9 +25,7 @@
   "paths": {
     "/health": {
       "get": {
-        "tags": [
-          "default"
-        ],
+        "tags": ["default"],
         "summary": "Returns the backend health status",
         "operationId": "health",
         "responses": {
@@ -46,9 +44,7 @@
     },
     "/auth": {
       "get": {
-        "tags": [
-          "auth-controller"
-        ],
+        "tags": ["auth-controller"],
         "summary": "Returns user logged in details",
         "operationId": "index",
         "responses": {
@@ -67,9 +63,7 @@
     },
     "/auth/token": {
       "get": {
-        "tags": [
-          "auth-controller"
-        ],
+        "tags": ["auth-controller"],
         "summary": "Returns access token",
         "operationId": "getToken",
         "responses": {
@@ -88,9 +82,7 @@
     },
     "/auth/logout": {
       "get": {
-        "tags": [
-          "auth-controller"
-        ],
+        "tags": ["auth-controller"],
         "summary": "Performs logout operation against backend service",
         "operationId": "logout",
         "responses": {
@@ -109,9 +101,7 @@
     },
     "/auth/login": {
       "get": {
-        "tags": [
-          "auth-controller"
-        ],
+        "tags": ["auth-controller"],
         "summary": "Performs authentication against backend service",
         "operationId": "login",
         "responses": {
@@ -130,9 +120,7 @@
     },
     "/auth/check": {
       "get": {
-        "tags": [
-          "auth-controller"
-        ],
+        "tags": ["auth-controller"],
         "summary": "Checks the user logged in status",
         "operationId": "check",
         "responses": {
@@ -151,9 +139,7 @@
     },
     "/api/passport/{version}/{assetId}": {
       "get": {
-        "tags": [
-          "api-controller"
-        ],
+        "tags": ["api-controller"],
         "summary": "Returns versioned product passport by asset Id",
         "operationId": "getPassport",
         "parameters": [
@@ -214,9 +200,7 @@
     },
     "/api/data/submodel/{assetId}": {
       "get": {
-        "tags": [
-          "data-controller"
-        ],
+        "tags": ["data-controller"],
         "summary": "Returns asset submodel by asset Id",
         "operationId": "getSubmodel",
         "parameters": [
@@ -269,9 +253,7 @@
     },
     "/api/data/passport/{transferId}": {
       "get": {
-        "tags": [
-          "data-controller"
-        ],
+        "tags": ["data-controller"],
         "summary": "Returns product passport by transfer process Id",
         "operationId": "getPassport_1",
         "parameters": [
@@ -305,9 +287,7 @@
     },
     "/api/data/catalog": {
       "get": {
-        "tags": [
-          "data-controller"
-        ],
+        "tags": ["data-controller"],
         "summary": "Returns contract offers catalog",
         "operationId": "getCatalog",
         "parameters": [
@@ -334,20 +314,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "openid",
-              "profile",
-              "email"
-            ]
+            "OAuth2": ["openid", "profile", "email"]
           }
         ]
       }
     },
     "/api/contracts/{assetId}": {
       "get": {
-        "tags": [
-          "api-controller"
-        ],
+        "tags": ["api-controller"],
         "summary": "Returns contracts by asset Id",
         "operationId": "getContract",
         "parameters": [
@@ -381,9 +355,7 @@
     },
     "/": {
       "get": {
-        "tags": [
-          "app-controller"
-        ],
+        "tags": ["app-controller"],
         "summary": "Returns backend service status",
         "operationId": "index_1",
         "responses": {
@@ -402,9 +374,7 @@
     },
     "/error": {
       "get": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError",
         "responses": {
           "200": {
@@ -420,9 +390,7 @@
         }
       },
       "put": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_3",
         "responses": {
           "200": {
@@ -438,9 +406,7 @@
         }
       },
       "post": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_2",
         "responses": {
           "200": {
@@ -456,9 +422,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_5",
         "responses": {
           "200": {
@@ -474,9 +438,7 @@
         }
       },
       "options": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_6",
         "responses": {
           "200": {
@@ -492,9 +454,7 @@
         }
       },
       "head": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_1",
         "responses": {
           "200": {
@@ -510,9 +470,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "error-response-controller"
-        ],
+        "tags": ["error-response-controller"],
         "operationId": "handleError_4",
         "responses": {
           "200": {

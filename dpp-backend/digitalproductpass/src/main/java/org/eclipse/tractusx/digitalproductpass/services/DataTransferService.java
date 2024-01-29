@@ -945,7 +945,7 @@ public class DataTransferService extends BaseService {
         private String processId;
 
         /** CONSTRUCTOR(S) **/
-        // Build contract negotiation with first policy selected
+        public NegotiateContract() {};
         public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status) {
             this.dataModel = dataModel;
             this.processId = processId;

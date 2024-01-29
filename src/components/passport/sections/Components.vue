@@ -25,7 +25,7 @@
     <v-container class="ma-0">
       <template v-if="loading || infoBar">
         <div class="info-bar" :style="`background-color: ${infoColor}`">
-          {{ infoBarMessage }}
+          {{ $t(infoBarMessage) }}
         </div>
       </template>
       <RecursiveTree
@@ -57,8 +57,7 @@ export default {
       auth: inject("authentication"),
       loading: false,
       infoBar: false,
-      infoBarMessage:
-        "The search for child components started, this may take a while...",
+      infoBarMessage: "sections.components.searchForChild",
       infoColor: "#0F71CB",
       backendService: null,
       status: 204,
@@ -120,18 +119,16 @@ export default {
           this.invokeIrsData();
           this.infoBar = false;
         } else if (response.status == 404) {
-          this.infoBarMessage = "No child components found";
+          this.infoBarMessage = "sections.components.noChild";
           this.infoColor = "#FFA000";
         } else {
-          this.infoBarMessage =
-            "Something went wrong while searching for child components";
+          this.infoBarMessage = "sections.components.somethingWentWrong";
           this.infoColor = "#d32f2f";
           this.status = 500;
         }
       } catch (error) {
         console.error("API call failed:", error);
-        this.infoBarMessage =
-          "Something went wrong while searching for child components";
+        this.infoBarMessage = "sections.components.somethingWentWrong";
         this.infoColor = "#d32f2f";
         this.status = 500;
       }

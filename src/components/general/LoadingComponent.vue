@@ -23,7 +23,7 @@
 <template>
   <div class="loading-container">
     <v-col class="v-col-auto dpp-id-container">
-      <div class="dpp-id">Asset Id: {{ id }}</div>
+      <div class="dpp-id">{{ $t("loading.assetId") }} {{ id }}</div>
       <v-progress-linear
         :model-value="
           initialProgressValue +
@@ -57,38 +57,38 @@
 
       <StepperItem
         :condition="processId"
-        :stepTitle="this.stepsNames.registrySearch.stepTitle"
+        :stepTitle="$t(this.stepsNames.registrySearch.stepTitle)"
         :successStepSubTitle="
-          this.stepsNames.registrySearch.successStepSubtitle
+          $t(this.stepsNames.registrySearch.successStepSubtitle)
         "
         :initialStepSubTitle="
-          this.stepsNames.registrySearch.initialStepSubtitle
+          $t(this.stepsNames.registrySearch.initialStepSubtitle)
         "
         displayId
-        :idLabel="'Created Process Id: ' + processId"
+        :idLabel="$t('loading.createdProcess') + processId"
       />
       <!-- Contract Search step -->
       <StepperItem
         :condition="searchContractId"
-        :stepTitle="this.stepsNames.contractSearch.stepTitle"
+        :stepTitle="$t(this.stepsNames.contractSearch.stepTitle)"
         :successStepSubTitle="
-          this.stepsNames.contractSearch.successStepSubtitle
+          $t(this.stepsNames.contractSearch.successStepSubtitle)
         "
         :initialStepSubTitle="
-          this.stepsNames.contractSearch.initialStepSubtitle
+          $t(this.stepsNames.contractSearch.initialStepSubtitle)
         "
         displayId
-        :idLabel="'Contract Id: ' + searchContractId"
+        :idLabel="$t('loading.contractId') + searchContractId"
       />
       <!-- Contract Negotiation step -->
       <StepperItem
         :condition="statusData.data.history['negotiation-accepted']"
-        :stepTitle="this.stepsNames.contractNegotiation.stepTitle"
+        :stepTitle="$t(this.stepsNames.contractNegotiation.stepTitle)"
         :successStepSubTitle="
-          this.stepsNames.contractNegotiation.successStepSubtitle
+          $t(this.stepsNames.contractNegotiation.successStepSubtitle)
         "
         :initialStepSubTitle="
-          this.stepsNames.contractNegotiation.initialStepSubtitle
+          $t(this.stepsNames.contractNegotiation.initialStepSubtitle)
         "
         displayId
         :idLabel="
@@ -100,12 +100,12 @@
       <!-- Contract Transfer step -->
       <StepperItem
         :condition="statusData.data.history['transfer-request']"
-        :stepTitle="this.stepsNames.contractTransfer.stepTitle"
+        :stepTitle="$t(this.stepsNames.contractTransfer.stepTitle)"
         :successStepSubTitle="
-          this.stepsNames.contractTransfer.successStepSubtitle
+          $t(this.stepsNames.contractTransfer.successStepSubtitle)
         "
         :initialStepSubTitle="
-          this.stepsNames.contractTransfer.initialStepSubtitle
+          $t(this.stepsNames.contractTransfer.initialStepSubtitle)
         "
         displayId
         :idLabel="
@@ -117,12 +117,12 @@
       <!-- Passport Retrieval step -->
       <StepperItem
         :condition="statusData.data.history['data-received']"
-        :stepTitle="this.stepsNames.passportRetrieval.stepTitle"
+        :stepTitle="$t(this.stepsNames.passportRetrieval.stepTitle)"
         :successStepSubTitle="
-          this.stepsNames.passportRetrieval.successStepSubtitle
+          $t(this.stepsNames.passportRetrieval.successStepSubtitle)
         "
         :initialStepSubTitle="
-          this.stepsNames.passportRetrieval.initialStepSubtitle
+          $t(this.stepsNames.passportRetrieval.initialStepSubtitle)
         "
       />
     </v-timeline>
@@ -143,32 +143,32 @@ export default {
       initialProgressValue: 10,
       stepsNames: {
         registrySearch: {
-          stepTitle: "Registry Search",
-          initialStepSubtitle: "Searching...",
-          successStepSubtitle: "Registries available",
+          stepTitle: "loading.registrySearch",
+          initialStepSubtitle: "loading.searching",
+          successStepSubtitle: "loading.registriesAvailable",
           progressValue: 25,
         },
         contractSearch: {
-          stepTitle: "Contract Search",
-          initialStepSubtitle: "Searching...",
-          successStepSubtitle: "Contract available",
+          stepTitle: "loading.contractSearch",
+          initialStepSubtitle: "loading.searching",
+          successStepSubtitle: "loading.contractAvailable",
           progressValue: 20,
         },
         contractNegotiation: {
-          stepTitle: "Contract Negotiation",
-          initialStepSubtitle: "Negotiating...",
-          successStepSubtitle: "Contract status: ",
+          stepTitle: "loading.contractNegotiation",
+          initialStepSubtitle: "loading.negotiating",
+          successStepSubtitle: "loading.contractStatus",
           progressValue: 10,
         },
         contractTransfer: {
-          stepTitle: "Contract Transfer",
-          initialStepSubtitle: "Transferring...",
-          successStepSubtitle: "Transfer completed",
+          stepTitle: "loading.contractTransfer",
+          initialStepSubtitle: "loading.transferring",
+          successStepSubtitle: "loading.transferCompleted",
           progressValue: 15,
         },
         passportRetrieval: {
-          stepTitle: "Passport Retrieval",
-          initialStepSubtitle: "Retrieving... ",
+          stepTitle: "loading.passportRetrieval",
+          initialStepSubtitle: "loading.retrieving",
           successStepSubtitle: "",
           progressValue: 20,
         },

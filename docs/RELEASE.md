@@ -38,8 +38,8 @@ Helm chart released:
 - [digital-product-pass](../charts/digital-product-pass/Chart.yaml)
 
 Aditional Helm charts of below components can be found in *deployment/helm* folder.
-- [edc-consumer](../deployment/helm/edc-consumer/Chart.yaml)
-- [edc-provider](../deployment/helm/edc-provider/Chart.yaml)
+- [edc-consumer](../deployment/infrastructure/edc-consumer/Chart.yaml)
+- [edc-provider](../deployment/infrastructure/edc-provider/Chart.yaml)
 
 In order to update helm charts, please update helm chart version and related dependencies from *version* property in *Chart.yaml file* for the above components. In addition, if there are changes to application version, the *appVersion* property also needs to be changed.
 

@@ -24,7 +24,7 @@
   <div>
     <HeaderComponent>
       <template v-if="!data">
-        <span class="header-title">Digital Product Passport</span>
+        <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
       <template
         v-else-if="
@@ -32,7 +32,7 @@
           'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
         "
       >
-        <span class="header-title">Battery Product Passport</span>
+        <span class="header-title">{{ $t("passportView.bpp") }}</span>
       </template>
       <template
         v-else-if="
@@ -40,10 +40,10 @@
           'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
         "
       >
-        <span class="header-title">Transmission Product Passport</span>
+        <span class="header-title">{{ $t("passportView.tpp") }}</span>
       </template>
       <template v-else>
-        <span class="header-title">Digital Product Passport</span>
+        <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
     </HeaderComponent>
     <v-container v-if="loading">
@@ -132,11 +132,7 @@ import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
-import {
-  SEARCH_TIMEOUT,
-  NEGOTIATE_TIMEOUT,
-  AUTO_SIGN,
-} from "@/services/service.const";
+import { API_TIMEOUT } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
@@ -161,49 +157,49 @@ export default {
     return {
       batteryComponentsNames: [
         {
-          label: "General Information",
+          label: "passportView.batteryComponentsNames.generalInformation",
           icon: "mdi-information-outline",
           component: "GeneralInformation",
         },
         {
-          label: "Product Condition",
+          label: "passportView.batteryComponentsNames.stateOfBattery",
           icon: "mdi-battery-charging",
           component: "StateOfBattery",
         },
         {
-          label: "Components",
+          label: "passportView.batteryComponentsNames.components",
           icon: "mdi-battery-unknown",
           component: "Components",
         },
         {
-          label: "Battery composition",
+          label: "passportView.batteryComponentsNames.batteryComposition",
           icon: "mdi-battery-unknown",
           component: "BatteryComposition",
         },
         {
-          label: "Cell chemistry",
+          label: "passportView.batteryComponentsNames.cellChemistry",
           icon: "mdi-flask-empty-outline",
           component: "CellChemistry",
         },
         {
-          label: "Electrochemical properties",
+          label:
+            "passportView.batteryComponentsNames.electrochemicalProperties",
           icon: "mdi-microscope",
           component: "ElectrochemicalProperties",
         },
         {
-          label: "Additional information",
+          label: "passportView.batteryComponentsNames.documents",
           icon: "mdi-text-box-multiple-outline",
           component: "Documents",
         },
         {
-          label: "Data exchange information",
+          label: "passportView.batteryComponentsNames.exchange",
           icon: "mdi-file-swap-outline",
           component: "Exchange",
         },
       ],
       auth: inject("authentication"),
       data: null,
-      searchResponse: null,
       loading: true,
       errors: [],
       id: this.$route.params.id,
@@ -462,6 +458,7 @@ export default {
 
         return null;
       }
+
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)

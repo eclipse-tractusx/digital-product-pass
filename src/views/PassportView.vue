@@ -143,7 +143,6 @@ import configUtil from "@/utils/configUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
-import { NEGOTIATE_TIMEOUT } from "../services/service.const";
 
 export default {
   name: "PassportView",

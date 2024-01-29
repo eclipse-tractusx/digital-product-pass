@@ -2,8 +2,8 @@
  *
  * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.catenax;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,6 +35,7 @@ import java.util.List;
  * This class consists exclusively to define attributes and methods related to discovering the needed Endpoints.
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Discovery {
 
     /** ATTRIBUTES **/
@@ -60,6 +62,8 @@ public class Discovery {
     /**
      * This class consists exclusively to define attributes and methods related to the Endpoints information.
      **/
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Endpoint {
 
         /** ATTRIBUTES **/
@@ -73,14 +77,17 @@ public class Discovery {
         String documentation;
         @JsonProperty("resourceId")
         String resourceId;
+        @JsonProperty("timeToLive")
+        String timeToLive;
 
         /** CONSTRUCTOR(S) **/
-        public Endpoint(String type, String description, String endpointAddress, String documentation, String resourceId) {
+        public Endpoint(String type, String description, String endpointAddress, String documentation, String resourceId, String timeToLive) {
             this.type = type;
             this.description = description;
             this.endpointAddress = endpointAddress;
             this.documentation = documentation;
             this.resourceId = resourceId;
+            this.timeToLive = timeToLive;
         }
         public Endpoint() {
         }
@@ -120,6 +127,14 @@ public class Discovery {
         @SuppressWarnings("Unused")
         public void setResourceId(String resourceId) {
             this.resourceId = resourceId;
+        }
+        @SuppressWarnings("Unused")
+        public String getTimeToLive() {
+            return timeToLive;
+        }
+        @SuppressWarnings("Unused")
+        public void setTimeToLive(String timeToLive) {
+            this.timeToLive = timeToLive;
         }
     }
 }

@@ -2,8 +2,8 @@
  *
  * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.catenax;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,6 +35,7 @@ import java.util.List;
  * This class consists exclusively to define attributes and methods related to discovering the EDC endpoints for each BPN number.
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EdcDiscoveryEndpoint {
 
     /** ATTRIBUTES **/

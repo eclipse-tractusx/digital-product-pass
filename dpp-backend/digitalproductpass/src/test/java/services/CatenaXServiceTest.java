@@ -28,10 +28,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.env.MockEnvironment;
-import utils.FileUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.YamlUtil;
+import utils.*;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -67,7 +64,8 @@ class CatenaXServiceTest {
     @Mock
     private Environment env;
     private Discovery discovery;
-
+    @Mock
+    private EdcUtil edcUtil;
     private SecurityConfig securityConfig;
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
@@ -75,6 +73,7 @@ class CatenaXServiceTest {
         fileUtil = new FileUtil();
         yamlUtil = new YamlUtil(fileUtil);
         jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil);
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
         securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
@@ -104,12 +103,12 @@ class CatenaXServiceTest {
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         ProcessManager processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dataTransferService = new DataTransferService(env, httpUtil,jsonUtil, vaultService, processManager, dtrConfig);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, vaultService, processManager, dtrConfig);
 
         discoveryConfig = initDiscoveryConfig();
         dtrConfig = initDtrConfig();
 
-        dtrSearchManager = new DtrSearchManager(fileUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
         catenaXService = new CatenaXService(env, fileUtil, httpUtil, jsonUtil, vaultService, dtrSearchManager, authenticationService, discoveryConfig, dataTransferService, dtrConfig);
 
         discovery = new Discovery(new ArrayList<>());

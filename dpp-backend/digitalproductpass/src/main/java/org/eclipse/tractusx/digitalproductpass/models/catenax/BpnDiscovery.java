@@ -63,7 +63,7 @@ public class BpnDiscovery {
     }
 
     /** METHODS **/
-    public List<String> getBpnNumbers(){
+    public List<String> mapBpnNumbers(){
         return bpns.stream().map(
                 BpnEndpoint::getValue
         ).collect(Collectors.toList());

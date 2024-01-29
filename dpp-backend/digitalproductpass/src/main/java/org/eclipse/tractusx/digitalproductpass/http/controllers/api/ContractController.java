@@ -661,7 +661,7 @@ public class ContractController {
                         processManager.getStatus(processId)
                 );
             }
-            String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, policyId);
+            String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
             if (statusPath == null) {
                 response.message = "Something went wrong when agreeing with the contract!";
                 return httpUtil.buildResponse(response, httpResponse);

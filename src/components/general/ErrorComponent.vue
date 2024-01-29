@@ -1,3 +1,4 @@
+
 <!--
   Catena-X - Product Passport Consumer Frontend
  
@@ -22,42 +23,77 @@
 
 
 <template>
-    <v-container class="page-not-found fill-height align-self-center justify-center">
-      <v-row class="justify-center">
-        <v-col class="v-col-auto justify-center" style="height: fit-content">
-          <img src="@/media/404.svg" class="h-100"> 
-        </v-col>
-        <v-col class="v-col-sm-12 v-col-md-6 v-col-lg-6">
-          <v-container fluid>
-            <template v-if="title">
-              <v-row>
-                <v-col><span class="title">{{ title }}</span></v-col>
-              </v-row>
-            </template>
-            <template v-if="subTitle">
-              <v-row>
-                <v-col><span class="subTitle">{{ subTitle }}</span></v-col>
-              </v-row>
-            </template>
-            <template v-if="explanation || description || adminLabel">
-              <v-row>
-                <v-col><span class="description"><template v-if="description">{{ description }}</template> <template v-if="explanation">{{ explanation }}</template> <template v-if="adminLabel"><a :href="'mailto:'+adminEmail">{{adminLabel}}</a></template></span></v-col>
-              </v-row>
-            </template>
-            <template v-if="buttonsVisible">
-              <v-row class="justify-center">
-                <v-col class="v-col-auto"><v-btn size="large" class="btn" rounded="pill" color="primary" :prepend-icon="reloadIcon" @click="$router.go(back)">{{reloadLabel}}</v-btn></v-col>
-                <v-col class="v-col-auto"><v-btn size="large" class="btn" rounded="pill" variant="outlined" :href="homepage">Homepage</v-btn></v-col>
-              </v-row>
-            </template>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
+  <v-container
+    class="page-not-found fill-height align-self-center justify-center"
+  >
+    <v-row class="justify-center">
+      <v-col class="v-col-auto justify-center" style="height: fit-content">
+        <img src="@/media/404.svg" class="h-100" />
+      </v-col>
+      <v-col class="v-col-sm-12 v-col-md-6 v-col-lg-6">
+        <v-container fluid>
+          <template v-if="title">
+            <v-row>
+              <v-col
+                ><span class="title">{{ $t(title) }}</span></v-col
+              >
+            </v-row>
+          </template>
+          <template v-if="subTitle">
+            <v-row>
+              <v-col
+                ><span class="subTitle">{{ $t(subTitle) }}</span></v-col
+              >
+            </v-row>
+          </template>
+          <template v-if="explanation || description || adminLabel">
+            <v-row>
+              <v-col
+                ><span class="description"
+                  ><template v-if="description">{{ $t(description) }}</template>
+                  <template v-if="explanation">{{ $t(explanation) }}</template>
+                  <template v-if="adminLabel"
+                    ><a :href="'mailto:' +adminEmail">{{
+                      $t(adminLabel)
+                    }}</a></template
+                  ></span
+                ></v-col
+              >
+            </v-row>
+          </template>
+          <template v-if="buttonsVisible">
+            <v-row class="justify-center">
+              <v-col class="v-col-auto"
+                ><v-btn
+                  size="large"
+                  class="btn"
+                  rounded="pill"
+                  color="primary"
+                  :prepend-icon="reloadIcon"
+                  @click="$router.go(back)"
+                  >{{ $t(reloadLabel) }}</v-btn
+                ></v-col
+              >
+              <v-col class="v-col-auto"
+                ><v-btn
+                  size="large"
+                  class="btn"
+                  rounded="pill"
+                  variant="outlined"
+                  :href="homepage"
+                  >{{ $t("homepage") }}</v-btn
+                ></v-col
+              >
+            </v-row>
+          </template>
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-
+import { ADMIN_EMAIL } from "@/services/service.const";
 export default {
   name: "ErrorComponent",
   props: {
@@ -83,7 +119,7 @@ export default {
     },
     adminEmail:{
       type: String,
-      default: "admin@example.com",
+      default: ADMIN_EMAIL,
     },
     buttonsVisible:{
       type: Boolean,
@@ -113,3 +149,4 @@ export default {
   width: 110%;
 }
 </style>
+

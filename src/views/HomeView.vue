@@ -23,7 +23,9 @@
 <template>
   <div>
     <HeaderComponent>
-      <div class="header-title">{{ welcome }}</div>
+      <div class="header-title">
+        {{ welcomeUser ? $t("home.welcome") + welcomeUser : $t("home.home") }}
+      </div>
     </HeaderComponent>
     <v-container>
       <v-window>
@@ -46,19 +48,19 @@ import { inject } from "vue";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomeView",
-  data(){
-    return{
+  data() {
+    return {
       auth: inject("authentication"),
-    }
+    };
   },
   computed: {
-    welcome(){
-        if (this.auth.isUserAuthenticated) {
-          return "Welcome " + this.auth.getName() + "!";
-        }else{
-          return "Home"
-        }
-    }
+    welcomeUser() {
+      if (this.auth.isUserAuthenticated) {
+        return " " + this.auth.getName() + "!";
+      } else {
+        return null;
+      }
+    },
   },
   components: {
     SearchView,

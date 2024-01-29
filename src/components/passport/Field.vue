@@ -46,6 +46,9 @@
     </span>
 
     <span v-else-if="day"></span>
+    <span v-else-if="faxNumber" class="field-value"
+      >{{ faxNumber ? faxNumber : "—" }}
+    </span>
     <span v-else class="field-value">—</span>
     <!-- This block of code is for section 1 General information Importer information, STREET goes as a value and than the rest below -->
     <span v-if="postal" class="field-value">{{ postal ? postal : "—" }} </span>
@@ -62,19 +65,22 @@
     <!-- This block of code is for section 4 Parameters of the battery where we have tests and temp ranges -->
     <div v-if="tempMin || test" class="test-container">
       <span v-if="tempMin" class="test"
-        >Temp ranges:
-        <b>{{ tempMin }} {{ tempUnit }} to {{ tempMax }} {{ tempUnit }}</b>
+        >{{ $t("field.tempRange") }}
+        <b
+          >{{ tempMin }} {{ tempUnit }} {{ $t("field.to") }} {{ tempMax }}
+          {{ tempUnit }}</b
+        >
       </span>
       <span v-if="test" class="test"
-        >Reference test: <b>{{ test }}</b>
+        >{{ $t("field.referenceTest") }} <b>{{ test }}</b>
       </span>
     </div>
 
     <!-- This block of code is for section 1 General information. Dimensions of the battery -->
     <span class="field-value">
-      <span v-if="length">L: {{ length }}{{ unit }},</span>
-      <span v-if="height">H: {{ height }}{{ unit }},</span>
-      <span v-if="width"> W: {{ width }}{{ unit }}</span>
+      <span v-if="length">L: {{ length }}{{ callUnitRemover(unit) }}, </span>
+      <span v-if="height">H: {{ height }}{{ callUnitRemover(unit) }}, </span>
+      <span v-if="width"> W: {{ width }}{{ callUnitRemover(unit) }}</span>
     </span>
     <!-- This block of code is for dates -->
     <span v-if="day" class="field-value">{{ day }}{{ month }}{{ year }}</span>
@@ -102,6 +108,7 @@ export default {
     postal: { type: [String, Number], default: "" },
     country: { type: [String, Number], default: "" },
     phone: { type: [String, Number], default: "" },
+    faxNumber: { type: [String, Number], default: "" },
     email: { type: [String, Number], default: "" },
     website: { type: [String, Number], default: "" },
     length: { type: [String, Number], default: "" },

@@ -24,6 +24,73 @@
 <template v-if="propsData">
   <div class="section">
     <v-container>
+      <!-- Transmission passport-->
+      <template v-if="propsData.generalInformation">
+        <v-row>
+          <template v-if="propsData.generalInformation.additionalInformation">
+            <v-col sm="12" md="3" class="pa-0 ma-0">
+              <Field
+                icon="mdi-fingerprint"
+                label="Additional information"
+                :value="propsData.generalInformation.additionalInformation"
+              />
+            </v-col>
+          </template>
+          <template
+            v-if="propsData.generalInformation.physicalDimensionsProperty"
+          >
+            <v-col sm="12" md="6" class="pa-0 ma-0">
+              <Field
+                icon="mdi-ruler"
+                label="Dimensions"
+                :height="
+                  propsData.generalInformation.physicalDimensionsProperty.height
+                "
+                :length="
+                  propsData.generalInformation.physicalDimensionsProperty.length
+                "
+                unit="mm"
+                :width="
+                  propsData.generalInformation.physicalDimensionsProperty.width
+                "
+              />
+              <Field
+                icon="mdi-scale"
+                label="Weight"
+                unit="kg"
+                :value="
+                  propsData.generalInformation.physicalDimensionsProperty.weight
+                "
+              />
+            </v-col>
+          </template>
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <template v-if="propsData.generalInformation.warrantyPeriod">
+              <Field
+                icon="mdi-license"
+                label="Warranty"
+                :value="propsData.generalInformation.warrantyPeriod"
+                unit="months"
+              />
+            </template>
+            <template v-if="propsData.generalInformation.productDescription">
+              <Field
+                icon="mdi-license"
+                label="Product description"
+                :value="propsData.generalInformation.productDescription"
+              />
+            </template>
+            <template v-if="propsData.generalInformation.productType">
+              <Field
+                icon="mdi-license"
+                label="Product type"
+                :value="propsData.generalInformation.productType"
+              />
+            </template>
+          </v-col>
+        </v-row>
+      </template>
+      <!-- Transmission passport ends here -->
       <template v-if="propsData.batteryIdentification">
         <v-row>
           <v-col sm="12" md="9" class="pa-0 ma-0">
@@ -32,14 +99,18 @@
                 info
                 data-cy="battery-id"
                 icon="mdi-fingerprint"
-                label="Battery ID (DMC)"
+                :label="$t('sections.generalInformation.batteryId')"
                 :value="propsData.batteryIdentification.batteryIDDMCCode"
               />
               <template v-slot:title>
-                {{ descriptions.BatteryId.title }}
+                {{
+                  $t("sections.generalInformation.batteryIdDescriptionTitle")
+                }}
               </template>
               <template v-slot:text>
-                {{ descriptions.BatteryId.value }}
+                {{
+                  $t("sections.generalInformation.batteryIdDescriptionValue")
+                }}
               </template>
             </DialogComponent>
           </v-col>
@@ -49,7 +120,7 @@
         <template v-if="propsData.batteryIdentification">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
-              label="Battery Type"
+              :label="$t('sections.generalInformation.batteryType')"
               icon="mdi-battery-unknown"
               :value="propsData.batteryIdentification.batteryType"
             />
@@ -57,26 +128,28 @@
           <v-col sm="12" md="5" class="pa-0 ma-0">
             <Field
               icon="mdi-battery"
-              label="Battery Model"
+              :label="$t('sections.generalInformation.batteryModel')"
               :value="propsData.batteryIdentification.batteryModel"
             />
           </v-col>
         </template>
-        <v-col sm="12" md="3" class="pa-0 ma-0">
-          <Field
-            icon="mdi-license"
-            label="Warranty"
-            :value="propsData.warrantyPeriod"
-            unit="month"
-          />
-        </v-col>
+        <template v-if="propsData.warrantyPeriod">
+          <v-col sm="12" md="3" class="pa-0 ma-0">
+            <Field
+              icon="mdi-license"
+              :label="$t('sections.generalInformation.warranty')"
+              :value="propsData.warrantyPeriod"
+              unit="month"
+            />
+          </v-col>
+        </template>
       </v-row>
       <template v-if="propsData.physicalDimensions">
         <v-row class="section">
           <v-col sm="12" md="9" class="pa-0 ma-0">
             <Field
               icon="mdi-ruler"
-              label="Dimensions of the battery"
+              :label="$t('sections.generalInformation.dimensions')"
               :height="propsData.physicalDimensions.height"
               :length="propsData.physicalDimensions.length"
               unit="mm"
@@ -86,7 +159,7 @@
           <v-col sm="12" md="3" class="pa-0 ma-0">
             <Field
               icon="mdi-scale"
-              label="Weight"
+              :label="$t('sections.generalInformation.weight')"
               unit="kg"
               :value="propsData.physicalDimensions.weight"
             />
@@ -95,16 +168,18 @@
       </template>
     </v-container>
     <v-container class="container-width-50">
-      <v-row class="section">
-        <v-col cols="12" class="pa-0 ma-0">
-          <Field
-            icon="mdi-calendar-range"
-            style="background: #f9f9f9"
-            label="Date of Manufacture"
-            :day="propsData.manufacturing.dateOfManufacturing"
-          />
-        </v-col>
-      </v-row>
+      <template v-if="propsData.manufacturing">
+        <v-row class="section">
+          <v-col cols="12" class="pa-0 ma-0">
+            <Field
+              icon="mdi-calendar-range"
+              style="background: #f9f9f9"
+              :label="$t('sections.generalInformation.dateOfManufacturing')"
+              :day="propsData.manufacturing.dateOfManufacturing"
+            />
+          </v-col>
+        </v-row>
+      </template>
       <template v-if="propsData.manufacturing">
         <v-row>
           <v-col
@@ -115,22 +190,24 @@
             <Field
               icon="mdi-map-marker-outline"
               style="background: #f9f9f9"
-              label="Place of Manufacturing"
+              :label="$t('sections.generalInformation.placeOfManufacturing')"
               :value="propsData.manufacturing.address.locality.value"
             />
           </v-col>
         </v-row>
       </template>
-      <v-row>
-        <v-col cols="12" class="pa-0 ma-0">
-          <Field
-            style="background: #f9f9f9"
-            icon="mdi-calendar-range"
-            label="Date of placing on the market"
-            :day="propsData.datePlacedOnMarket"
-          />
-        </v-col>
-      </v-row>
+      <template v-if="propsData.datePlacedOnMarket">
+        <v-row>
+          <v-col cols="12" class="pa-0 ma-0">
+            <Field
+              style="background: #f9f9f9"
+              icon="mdi-calendar-range"
+              :label="$t('sections.generalInformation.datePlacedOnMarket')"
+              :day="propsData.datePlacedOnMarket"
+            />
+          </v-col>
+        </v-row>
+      </template>
     </v-container>
     <v-container class="container-width-80">
       <v-row style="min-height: 180px">
@@ -139,7 +216,7 @@
             <Field
               style="min-height: 168px"
               icon="mdi-factory"
-              label="Manufacturer Information"
+              :label="$t('sections.generalInformation.manufacturerInformation')"
               :city="propsData.manufacturer.address.locality.value"
               :country="propsData.manufacturer.address.country.shortName"
               :postal="propsData.manufacturer.address.postCode.value"
@@ -152,7 +229,7 @@
             <Field
               style="min-height: 168px"
               icon="mdi-at"
-              label="Manufaturer Contact"
+              :label="$t('sections.generalInformation.manufacturerContact')"
               :phone="propsData.manufacturer.contact.phoneNumber"
               :email="propsData.manufacturer.contact.email"
               :website="propsData.manufacturer.contact.website"
@@ -165,7 +242,7 @@
         <v-col v-if="propsData.manufacturer" md="12" class="pa-0 ma-0">
           <Field
             icon="mdi-molecule-co2"
-            label="CO2 Footprint"
+            :label="$t('sections.generalInformation.cO2FootprintTotal')"
             :value="propsData.cO2FootprintTotal"
             unit="CO2e/kWh"
           />
@@ -178,7 +255,6 @@
 <script>
 import Field from "../Field.vue";
 import DialogComponent from "../../general/Dialog.vue";
-import descriptions from "../../../config/templates/descriptions.json";
 
 export default {
   name: "GeneralInformation",
@@ -195,7 +271,6 @@ export default {
 
   data() {
     return {
-      descriptions: descriptions,
       propsData: this.$props.data.aspect,
     };
   },

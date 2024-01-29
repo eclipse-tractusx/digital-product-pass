@@ -22,6 +22,23 @@
 import iconMappings from "@/config/templates/iconMappings.json";
 
 export default {
+    formattedDate(timestamp) {
+        const date = new Date(timestamp);
+        const formattedDate = date.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
+        return formattedDate;
+    },
+    toSentenceCase(text) {
+        // Convert the string to sentence case
+        const words = text.split(/(?=[A-Z])/);
+        const firstWord = [words[0].charAt(0).toUpperCase() + words[0].slice(1)];
+        const otherWords = words.slice(1).map((word) => word.toLowerCase());
+        const formattedWords = firstWord.concat(otherWords);
+        return formattedWords.join(" ");
+    },
     unitRemover(unit) {
         return unit.replace("unit:", "");
     },

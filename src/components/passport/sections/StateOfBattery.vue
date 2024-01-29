@@ -29,7 +29,7 @@
             <Field
               icon="mdi-battery-plus"
               data-cy="state-of-charge"
-              label="State of health"
+              :label="$t('sections.stateOfBattery.stateOfHealth')"
               :value="propsData.stateOfBattery.stateOfHealth"
               style="margin-bottom: 12px"
               unit="%"
@@ -37,7 +37,7 @@
           </template>
           <Field
             icon="mdi-recycle-variant"
-            label="Cycle life test c rate"
+            :label="$t('sections.stateOfBattery.cycleLifeTestCRate')"
             :value="propsData.batteryCycleLife.cycleLifeTestCRate"
             style="margin-bottom: 12px"
             unit="C"
@@ -47,7 +47,7 @@
           <template v-if="propsData.stateOfBattery">
             <Field
               icon="mdi-flash-outline"
-              label="State of charge"
+              :label="$t('sections.stateOfBattery.stateOfCharge')"
               :value="propsData.stateOfBattery.stateOfCharge"
               style="margin-bottom: 12px"
               unit="%"
@@ -55,7 +55,7 @@
           </template>
           <Field
             icon="mdi-flash-outline"
-            label="Cycle life test depth of discharge"
+            :label="$t('sections.stateOfBattery.cycleLifeTestDepthOfDischarge')"
             :value="propsData.batteryCycleLife.cycleLifeTestDepthOfDischarge"
             style="margin-bottom: 12px"
             unit="%"
@@ -65,14 +65,14 @@
           <!-- componet belowe needs to be repalced with charging cycle bar chart -->
           <Field
             icon="mdi-battery-charging"
-            label="Expected lifetime"
+            :label="$t('sections.stateOfBattery.expectedLifetime')"
             style="background: #f9f9f9; margin-bottom: 12px"
             :value="propsData.batteryCycleLife.expectedLifetime"
             unit="cycles"
           />
           <Field
             icon="mdi-thermometer-low"
-            label="Temperature range (idle state)"
+            :label="$t('sections.stateOfBattery.temperatureRange')"
             style="background: #f9f9f9; margin-bottom: 12px"
             :tempRangeMin="
               propsData.temperatureRangeIdleState
@@ -90,7 +90,7 @@
           <v-col sm="12" md="2" class="pa-0 ma-0">
             <Field
               icon="mdi-numeric-1-circle-outline"
-              label="Status battery"
+              :label="$t('sections.stateOfBattery.statusBattery')"
               :value="propsData.stateOfBattery.statusBattery"
             />
           </v-col>

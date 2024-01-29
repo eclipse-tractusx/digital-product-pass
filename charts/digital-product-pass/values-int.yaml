@@ -31,7 +31,7 @@ backend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: &hostname "materialpass.int.demo.catena-x.net"
+      - host: &hostname "dpp.int.demo.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
@@ -41,12 +41,11 @@ backend:
           - *hostname
   edc:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-    participantId:  <path:material-pass/data/int/edc/participant#bpnNumber>
-    endpoint: "materialpass.int.demo.catena-x.net/consumer"
+    participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
+    hostname: "materialpass.int.demo.catena-x.net/consumer"
 
   hostname: *hostname
   securityCheck:
-    enabled: true
     bpn: true
     edc: true
 
@@ -73,20 +72,24 @@ frontend:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
-      - host: materialpass.int.demo.catena-x.net
+      - host: dpp.int.demo.catena-x.net
         paths:
           - path: /passport(/|$)(.*)
             pathType: Prefix
     tls:
       - secretName: tls-secret
         hosts:
-          - materialpass.int.demo.catena-x.net
-
-  edc:
-    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
+          - dpp.int.demo.catena-x.net
 
   backend:
     hostname: *hostname
+
+  supportContact:
+    adminEmail: "admin@example.com"
+
+  portal:
+    hostname: "portal.int.demo.catena-x.net"
+
 
 oauth:
   hostname: "centralidp.int.demo.catena-x.net"
@@ -95,3 +98,8 @@ oauth:
     clientSecret: <path:material-pass/data/int/backend#clientSecret>
   realm: <path:material-pass/data/int/oauth#realm>
   appId: <path:material-pass/data/int/oauth#appId>
+  bpnCheck:
+    enabled: true
+    bpn: *bpn
+  roleCheck:
+    enabled: false  

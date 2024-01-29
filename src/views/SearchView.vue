@@ -20,52 +20,48 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-
 <template>
   <div class="home-page-container">
     <div class="left-container" :class="{ hidden: isHidden }">
       <div class="left-container-text">
-        <h2>Catena-X Battery Passport</h2>
-        <p>
-          The term "Battery Passport" refers to a digital document that contains
-          essential information about a battery, specifically in the context of
-          electric vehicles (EVs). This document includes details about the
-          battery's manufacturer, specifications, performance characteristics,
-          health status, and lifecycle data. The purpose of a Battery Passport
-          is to facilitate proper maintenance, servicing, and recycling of the
-          battery, while also enabling traceability and compliance.
-        </p>
+        <h2>{{ $t("searchView.title") }}</h2>
+        <p>{{ $t("searchView.welcomeMessage") }}</p>
       </div>
       <div class="img-container">
         <img :src="BatteryScanning" class="image" alt="Battery scanning" />
       </div>
     </div>
     <div class="right-container">
+      <v-icon
+        @click="showWelcome"
+        size="large"
+        :class="{ hidden: !isHidden }"
+        class="arrow-icon"
+        icon="mdi-arrow-left"
+      ></v-icon>
       <div class="inner-right-container">
         <div class="logotype-container">
           <img :src="LogotypeDPP" alt="DPP logo" />
         </div>
-
-        <v-icon
-          @click="showWelcome"
-          size="large"
-          :class="{ hidden: !isHidden }"
-          class="arrow-icon"
-          icon="mdi-arrow-right"
-        ></v-icon>
-
         <v-container class="search-page">
-          <div v-if="error" class="qr-container">
+          <div v-if="qrError" class="qr-container">
             <div class="text-container">
-              <p class="text">Your camera is off.</p>
-              <p class="text">Turn it on or type the ID.</p>
-              <p class="error">{{ error }}</p>
+              <p class="text">{{ $t("searchView.errorCameraOff") }}</p>
+              <p class="text">{{ $t("searchView.errorTypeID") }}</p>
+              <p class="error">{{ $t(error) }}</p>
             </div>
             <SearchInput class="search-input" />
           </div>
           <v-row data-cy="qr-container">
-            <div v-if="!error">
+            <div v-if="!qrError">
               <v-col class="qr-container" cols="12" v-if="QRtoggle">
+                <v-btn rounded v-if="multipleCameras">
+                  <v-icon
+                    icon="mdi-camera-flip-outline"
+                    @click="toggleCamera"
+                    style="color: #0f71cb"
+                  ></v-icon>
+                </v-btn>
                 <div class="stream-container">
                   <v-icon
                     size="x-large"
@@ -75,12 +71,11 @@
                     md
                     icon="mdi-close-thick"
                   ></v-icon>
-                  <qrcode-stream
-                    :torch="torch"
-                    class="qrcode-stream"
-                    @init="onInit"
-                    @decode="onDecode"
-                  ></qrcode-stream>
+                  <QrcodeStream
+                    :facingMode="facingMode"
+                    v-if="QRtoggle"
+                    :key="reloadReader"
+                  />
                 </div>
               </v-col>
               <v-col cols="12" v-else class="qr-container">
@@ -98,24 +93,26 @@
         </v-container>
       </div>
       <div class="guide">
-        📖 Want to find out more? Read our Get
-        <a class="advanced-search-link" @click="openExternalLink"
-          >Started Guide</a
-        >
+        📖 {{ $t("searchView.findOutMore") }}
+        <a class="advanced-search-link" @click="openExternalLink">{{
+          $t("searchView.guide")
+        }}</a>
       </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 import { QrcodeStream } from "vue3-qrcode-reader";
 import CatenaLogo from "../media/logo.png";
 import QRFrame from "../media/qrFrame.svg";
 import BatteryScanning from "../media/battery-img.jpeg";
+// New picture
+// import BatteryScanning from "../media/backgroundart.jpg";
 import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
+import { mapState } from "vuex";
+import store from "@/store/index";
 
 export default {
   name: "QRScannerView",
@@ -127,69 +124,73 @@ export default {
     return {
       isHidden: false,
       QRtoggle: false,
-      error: "",
-      decodedString: "",
+      reloadReader: 0,
+      facingMode: "front",
+
+      multipleCameras: true,
     };
+  },
+  computed: {
+    ...mapState(["qrError"]),
   },
   setup() {
     SearchInput;
     return {
       BatteryScanning,
       LogotypeDPP,
-      CatenaLogo,
-      QRFrame,
     };
   },
+  mounted() {
+    this.checkCameraPermission();
+    this.toggleCamera();
+  },
   methods: {
-    hideWelcome() {
-      this.isHidden = true;
-      this.QRtoggle = true;
+    async toggleCamera() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+
+        if (videoDevices.length > 1) {
+          this.facingMode = this.facingMode === "front" ? "rear" : "front";
+        } else {
+          this.multipleCameras = false;
+          this.facingMode = "auto";
+        }
+      } catch (error) {
+        console.error("Error toggling camera:", error);
+      }
+    },
+    async checkCameraPermission() {
+      try {
+        const permissionStatus = await navigator.permissions.query({
+          name: "camera",
+        });
+        permissionStatus.onchange = () => {
+          this.reloadReader += 1;
+          store.commit("setQrError", "");
+        };
+      } catch (error) {
+        console.error("Error checking camera permission:", error);
+      }
     },
     showWelcome() {
       this.isHidden = false;
       this.QRtoggle = false;
     },
-    closeQRScanner() {
-      this.QRtoggle = false;
-    },
-    openQRScanner() {
+    hideWelcome() {
+      this.isHidden = true;
       this.QRtoggle = true;
     },
-    async onInit(promise) {
-      try {
-        await promise;
-      } catch (error) {
-        if (error.name === "NotAllowedError") {
-          this.error = "ERROR: you need to grant camera access permission";
-        } else if (error.name === "NotFoundError") {
-          this.error = "ERROR: no camera on this device";
-        } else if (error.name === "NotSupportedError") {
-          this.error = "ERROR: secure context required (HTTPS, localhost)";
-        } else if (error.name === "NotReadableError") {
-          this.error = "ERROR: is the camera already in use?";
-        } else if (error.name === "OverconstrainedError") {
-          this.error = "ERROR: installed cameras are not suitable";
-        } else if (error.name === "StreamApiNotSupportedError") {
-          this.error = "ERROR: Stream API is not supported in this browser";
-        } else if (error.name === "InsecureContextError") {
-          this.error =
-            "ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.";
-        } else {
-          this.error = `ERROR: Camera error (${error.name})`;
-        }
-      }
+    closeQRScanner() {
+      this.QRtoggle = false;
     },
     openExternalLink() {
       window.open(
         "https://portal.int.demo.catena-x.net/documentation/?path=docs",
         "_blank"
       );
-    },
-    onDecode(decodedString) {
-      this.decodedString = decodedString;
-      this.$router.push({
-        path: `/${decodedString}`,
-      });
     },
   },
 };

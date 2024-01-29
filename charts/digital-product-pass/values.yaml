@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Pass Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -20,7 +21,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-# Default values for dpp-frontend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -120,6 +120,8 @@ backend:
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
+      # -- lifetime of the temporaryStorage in hours
+      lifetime: 12
 
   # -- discovery configuration
   discovery:
@@ -188,8 +190,8 @@ oauth:
   techUser:
     clientId: "<Add client id here>"
     clientSecret: "<Add client secret here>"
-  realm: ""
-  appId: ""
+  realm: "<realm>"
+  appId: "<app-id>"
   onLoad: "login-required"
   # -- configure here the bpn check for the application
   bpnCheck:

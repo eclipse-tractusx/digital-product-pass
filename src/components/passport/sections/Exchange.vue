@@ -26,26 +26,28 @@
       <v-row class="section">
         <template v-if="propsData.contract">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Contract</div>
+            <div class="element-chart-label">
+              {{ $t("sections.exchange.contract") }}
+            </div>
             <Field
               icon="mdi-file-swap-outline"
-              label="ID"
+              :label="$t('sections.exchange.id')"
               :value="propsData.contract['@id']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Type"
+              :label="$t('sections.exchange.type')"
               :value="propsData.contract['@type']"
             />
             <DialogComponent class="field-dialog">
               <Field
                 info
                 icon="mdi-file-swap-outline"
-                label="Policy ID"
+                :label="$t('sections.exchange.policyId')"
                 :value="propsData.contract['odrl:hasPolicy']['@id']"
               />
               <template v-slot:title>
-                <h3>Policy</h3>
+                <h3>{{ $t("sections.exchange.policy") }}</h3>
               </template>
               <template v-slot:text>
                 <RecursiveComponent
@@ -57,11 +59,11 @@
               <Field
                 info
                 icon="mdi-file-swap-outline"
-                label="Distribution"
-                value="Distribution list"
+                :label="$t('sections.exchange.distribution')"
+                :value="$t('sections.exchange.distributionList')"
               />
               <template v-slot:title>
-                <h3>Distribution</h3>
+                <h3>{{ $t("sections.exchange.distribution") }}</h3>
               </template>
               <template v-slot:text>
                 <RecursiveComponent
@@ -71,55 +73,56 @@
             </DialogComponent>
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC description"
+              :label="$t('sections.exchange.edcDescription')"
               :value="propsData.contract['edc:description']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC ID"
+              :label="$t('sections.exchange.edcId')"
               :value="propsData.contract['edc:id']"
             />
           </v-col>
         </template>
-
         <template v-if="propsData.negotiation">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Negotiation</div>
+            <div class="element-chart-label">
+              {{ $t("sections.exchange.negotiation") }}
+            </div>
             <Field
               icon="mdi-file-swap-outline"
-              label="Type"
+              :label="$t('sections.exchange.type')"
               :value="propsData.negotiation.get.response['@type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="ID"
+              :label="$t('sections.exchange.id')"
               :value="propsData.negotiation.get.response['@id']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC Type"
+              :label="$t('sections.exchange.edcType')"
               :value="propsData.negotiation.get.response['edc:type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC protocol"
+              :label="$t('sections.exchange.edcProtocol')"
               :value="propsData.negotiation.get.response['edc:protocol']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC state"
+              :label="$t('sections.exchange.edcState')"
               :value="propsData.negotiation.get.response['edc:state']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC counter party address"
+              :label="$t('sections.exchange.edcCounterPartyAddress')"
               :value="
                 propsData.negotiation.get.response['edc:counterPartyAddress']
               "
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC contract agreement ID"
+              :label="$t('sections.exchange.edcContractAgreementId')"
               :value="
                 propsData.negotiation.get.response['edc:contractAgreementId']
               "
@@ -128,11 +131,11 @@
               <Field
                 info
                 icon="mdi-file-swap-outline"
-                label="Context"
+                :label="$t('sections.exchange.context')"
                 :value="propsData.negotiation.get.response['@context'].dct"
               />
               <template v-slot:title>
-                <h3>Context</h3>
+                <h3>{{ $t("sections.exchange.context") }}</h3>
               </template>
               <template v-slot:text>
                 <RecursiveComponent
@@ -144,10 +147,12 @@
         </template>
         <template v-if="propsData.negotiationRequest">
           <v-col sm="12" md="2" class="pa-0 ma-0">
-            <div class="element-chart-label">Negotiation request</div>
+            <div class="element-chart-label">
+              {{ $t("sections.exchange.negotiationRequest") }}
+            </div>
             <Field
               icon="mdi-file-swap-outline"
-              label="Type"
+              :label="$t('sections.exchange.type')"
               :value="propsData.negotiation.init.request['@type']"
             />
             <Field
@@ -157,28 +162,28 @@
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Protocol"
+              :label="$t('sections.exchange.protocol')"
               :value="propsData.negotiation.init.request.protocol"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Connector ID"
+              :label="$t('sections.exchange.connectorId')"
               :value="propsData.negotiation.init.request.connectorId"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Provider ID"
+              :label="$t('sections.exchange.providerId')"
               :value="propsData.negotiation.init.request.providerId"
             />
             <DialogComponent class="field-dialog">
               <Field
                 info
                 icon="mdi-file-swap-outline"
-                label="Offer"
-                value="Offer detail"
+                :label="$t('sections.exchange.offer')"
+                :value="$t('sections.exchange.offerDetail')"
               />
               <template v-slot:title>
-                <h3>Offer</h3>
+                <h3>{{ $t("sections.exchange.offer") }}</h3>
               </template>
               <template v-slot:text>
                 <RecursiveComponent
@@ -190,26 +195,28 @@
         </template>
         <template v-if="propsData.transfer">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label">Transfer</div>
+            <div class="element-chart-label">
+              {{ $t("sections.exchange.transfer") }}
+            </div>
 
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer ID"
+              :label="$t('sections.exchange.transferId')"
               :value="propsData.transfer.get.response['@id']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer type"
+              :label="$t('sections.exchange.transferType')"
               :value="propsData.transfer.get.response['@type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer state"
+              :label="$t('sections.exchange.transferState')"
               :value="propsData.transfer.get.response['edc:state']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC timestamp"
+              :label="$t('sections.exchange.edcTimestamp')"
               :value="
                 formattedDate(
                   propsData.transfer.get.response['edc:stateTimestamp']
@@ -218,25 +225,25 @@
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC type"
+              :label="$t('sections.exchange.edcType')"
               :value="propsData.transfer.get.response['edc:type']"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Transfer type"
+              :label="$t('sections.exchange.transferType')"
               :value="propsData.transfer.get.response['@type']"
             />
             <DialogComponent>
               <Field
                 info
                 icon="mdi-file-swap-outline"
-                label="EDC data request ID"
+                :label="$t('sections.exchange.edcDataRequestId')"
                 :value="
                   propsData.transfer.get.response['edc:dataRequest']['@id']
                 "
               />
               <template v-slot:title>
-                <h3>EDC data request</h3>
+                <h3>{{ $t("sections.exchange.edcDataRequest") }}</h3>
               </template>
               <template v-slot:text>
                 <RecursiveComponent
@@ -246,7 +253,7 @@
             </DialogComponent>
             <Field
               icon="mdi-file-swap-outline"
-              label="EDC receiver http endpoint"
+              :label="$t('sections.exchange.edcReceiverHttpEndpoint')"
               :value="
                 propsData.transfer.get.response['edc:receiverHttpEndpoint']
               "
@@ -255,32 +262,34 @@
         </template>
         <template v-if="propsData.transferRequest">
           <v-col sm="12" md="2" class="pa-0 ma-0">
-            <div class="element-chart-label">Transfer request</div>
+            <div class="element-chart-label">
+              {{ $t("sections.exchange.transferRequest") }}
+            </div>
             <Field
               icon="mdi-file-swap-outline"
-              label="Asset ID"
+              :label="$t('sections.exchange.assetId')"
               :value="propsData.transfer.init.request.assetId"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Connector address"
+              :label="$t('sections.exchange.connectorAddress')"
               :value="propsData.transfer.init.request.connectorAddress"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Contract Id"
+              :label="$t('sections.exchange.contractId')"
               :value="propsData.transfer.init.request.contractId"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Data destination"
+              :label="$t('sections.exchange.dataDestination')"
               :value="
                 propsData.transfer.init.request.dataDestination.properties.type
               "
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Reciver http endpoint"
+              :label="$t('sections.exchange.reciverHttpEndpoint')"
               :value="
                 propsData.transfer.init.request.privateProperties
                   .receiverHttpEndpoint
@@ -288,12 +297,12 @@
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Protocol"
+              :label="$t('sections.exchange.protocol')"
               :value="propsData.transfer.init.request.protocol"
             />
             <Field
               icon="mdi-file-swap-outline"
-              label="Content type"
+              :label="$t('sections.exchange.contentType')"
               :value="propsData.transfer.init.request.transferType.contentType"
             />
           </v-col>
@@ -324,7 +333,6 @@ export default {
   data() {
     return {
       propsData: this.$props.data.metadata,
-      exampleTimestamp: 1666358400,
     };
   },
   methods: {

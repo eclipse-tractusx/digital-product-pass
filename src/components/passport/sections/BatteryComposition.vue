@@ -34,12 +34,12 @@
             data-cy="composition"
             icon="mdi-newspaper-variant-outline"
             :attributes-list="propsData.compositionOfBattery"
-            label="Main Battery Composites"
+            :label="$t('sections.batteryComposition.batteryComposites')"
             style="background: #f9f9f9; min-width: 300px"
           />
           <Field
             icon="mdi-select-all"
-            label="Critical raw materials"
+            :label="$t('sections.batteryComposition.criticalRawMaterials')"
             :value="propsData.criticalRawMaterials"
             style="min-width: 300px"
           />

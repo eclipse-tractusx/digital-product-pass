@@ -122,7 +122,7 @@
       <div class="tile-container">
         <v-icon class="icon-bg mdi-minus gray-bg"> [{{ "mdi-minus" }}] </v-icon>
         <div class="tile not-available">
-          <p class="tile-id">Not available</p>
+          <p class="tile-id">{{ $t("recursiveTree.notAvailable") }}</p>
         </div>
       </div>
     </div>

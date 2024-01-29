@@ -23,6 +23,7 @@
 
 package utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -280,7 +281,7 @@ public final class JsonUtil {
             String fileContent = fileUtil.readFile(path);
             return this.parseJson(fileContent, bindClass);
         } catch (Exception e) {
-            throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
+            throw new UtilException(JsonUtil.class, "It was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");
         }
     }
 

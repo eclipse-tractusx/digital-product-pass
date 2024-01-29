@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Catena-X - Digital Product Pass Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -204,24 +204,45 @@ public class DtrSearchManager {
     }
     public void searchEndpoint(String processId, String bpn, String endpoint){
         //Search Digital Twin Catalog for each connectionURL with a timeout time
-        Thread asyncThread = ThreadUtil.runThread(searchDigitalTwinCatalogExecutor(endpoint), "SearchEndpoint"+processId+"-"+bpn+"-"+endpoint);
+        SearchDtrCatalog searchDtrCatalog = new SearchDtrCatalog(endpoint);
+        Thread asyncThread = ThreadUtil.runThread(searchDtrCatalog, "SearchEndpoint-"+processId+"-"+bpn+"-"+endpoint);
+        Dtr dtr = new Dtr("", endpoint, "", bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()), true);
         try {
             if (!asyncThread.join(Duration.ofSeconds(searchTimeoutSeconds))) {
                 asyncThread.interrupt();
-                LogUtil.printWarning("Failed to retrieve the Catalog due a timeout for the URL: " + endpoint);
+                if (dtrConfig.getTemporaryStorage().getEnabled()) {
+                    addConnectionToBpnEntry(bpn, dtr);
+                    saveDtrDataModel();
+                }
+
+                LogUtil.printWarning("Failed to retrieve the Catalog due that the timeout was reached for the edc endpoint: " + endpoint);
                 return;
             }
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            if (dtrConfig.getTemporaryStorage().getEnabled()) {
+                addConnectionToBpnEntry(bpn, dtr);
+                saveDtrDataModel();
+            }
+            throw new ManagerException("DtrSearchManager.searchEndpoint", "It was not possible to retrieve the Catalog for BPN "+ bpn + " and ENDPOINT" + endpoint);
+        }
+        if(searchDtrCatalog.isError()){
+            if (dtrConfig.getTemporaryStorage().getEnabled()) {
+                addConnectionToBpnEntry(bpn, dtr);
+                saveDtrDataModel();
+            }
+            LogUtil.printError("The endpoint [" + endpoint + "] of the BPN ["+bpn+"] is invalid!");
+            return;
         }
         //Get catalog for a specific connectionURL (if exists) in the catalogCache data structure
         Catalog catalog = catalogsCache.get(endpoint);
         if (catalog == null) {
+            LogUtil.printWarning("Failed to retrieve the catalog from cache: " + endpoint);
             return;
         }
         Object contractOffers = catalog.getContractOffers();
         //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
         if (contractOffers == null) {
+            LogUtil.printWarning("Failed to retrieve get contract offers from endpoint: " + endpoint);
             return;
         }
         if (contractOffers instanceof LinkedHashMap) {
@@ -308,27 +329,29 @@ public class DtrSearchManager {
     /**
      * It's a Thread level method that implements the Runnable interface and searches for the Digital Twin Catalog for
      * a given URL connection. It doesn't return the Catalogs found, it fills the catalogs cache of this class object.
-     * <p>
-     * @param   connectionUrl
-     *          the {@code String} URL connection of the Digital Twin.
-     *
      */
-    private Runnable searchDigitalTwinCatalogExecutor(String connectionUrl) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl);
-                    if (catalog == null) {
-                        LogUtil.printWarning("No catalog was found for the URL: " + connectionUrl);
-                        return;
-                    }
-                    catalogsCache.put(connectionUrl, catalog);
-                } catch (Exception e) {
-                    LogUtil.printWarning("Could not find the catalog for the URL: " + connectionUrl);
+    public class SearchDtrCatalog implements Runnable {
+        Boolean error = true;
+        String connectionUrl;
+        SearchDtrCatalog(String connectionUrl) {
+            this.connectionUrl = connectionUrl;
+        }
+        public Boolean isError() {
+            return this.error;
+        }
+        @Override
+        public void run() {
+            try {
+                Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl);
+                if (catalog == null) {
+                    return;
                 }
+                catalogsCache.put(connectionUrl, catalog);
+                this.error = false;
+            } catch (Exception e) {
+                // Suppress exception
             }
-        };
+        }
     }
 
     /**
@@ -343,16 +366,49 @@ public class DtrSearchManager {
      *
      */
     public DtrSearchManager addConnectionToBpnEntry(String bpn, Dtr dtr) {
-        if (!(bpn == null || bpn.isEmpty() || bpn.isBlank() || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
+        if(bpn == null || bpn.isEmpty() || bpn.isBlank()){
+            return this;
+        }
+        if (!(dtr == null || dtr.getEndpoint().isEmpty() || dtr.getEndpoint().isBlank())) {
             if (this.dtrDataModel.containsKey(bpn)) {
-                if (!this.dtrDataModel.get(bpn).contains(dtr)){
+                if (!hasDtrDuplicates(this.dtrDataModel.get(bpn), dtr)){
+                    LogUtil.printMessage("[DTR DataModel] 1 "+ (!dtr.getInvalid()?"valid":"invalid") +" DTR ["+dtr.getEndpoint()+"] was found and stored! [" + this.dtrDataModel.get(bpn).size() + "] endpoints found for BPN ["+bpn+"]");
                     this.dtrDataModel.get(bpn).add(dtr);
                 }
             } else {
                 this.dtrDataModel.put(bpn, new ArrayList<>(){{add(dtr);}});
             }
+        }else{
+            this.dtrDataModel.put(bpn, new ArrayList<>(){});
         }
         return this;
+    }
+    /**
+     * Check if elements are present in array list already as duplicates
+     * <p>
+     * @param   dtrList
+     *          the {@code List<Dtr>} list of dtrs
+     * @param   dtr
+     *          the {@code DTR} object to check if exists
+     *
+     * @return this {@code DtrSearchManager} object.
+     *
+     */
+    public Boolean hasDtrDuplicates(List<Dtr> dtrList, Dtr dtr){
+        if(dtrList.contains(dtr)){
+            return true;
+        }
+        List<Dtr> dtrListParsed = null;
+        try {
+            dtrListParsed = (List<Dtr>) jsonUtil.bindReferenceType(dtrList, new TypeReference<List<Dtr>>() {
+            });
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the DTR list!");
+        }
+        if(dtrListParsed == null){
+            throw new ManagerException(this.getClass().getName(), "Could not bind the reference type for the DTR list because it is null!");
+        }
+        return dtrListParsed.stream().anyMatch(e -> e.getAssetId().equals(dtr.getAssetId()) && e.getEndpoint().equals(dtr.getEndpoint()) && e.getBpn().equals(dtr.getBpn()));
     }
 
     /**
@@ -469,7 +525,6 @@ public class DtrSearchManager {
             this.createDataModelFile();
         }
         String filePath = jsonUtil.toJsonFile(this.dtrDataModelFilePath, this.dtrDataModel, true);
-        LogUtil.printMessage("[DTR DataModel] Saved [" + this.dtrDataModel.size() + "] assets in DTR data model.");
         return filePath != null;
     }
 
@@ -498,6 +553,8 @@ public class DtrSearchManager {
             if(deleted){
                 LogUtil.printMessage("[DTR DataModel Cache Cleaning] Deleted [" + bpnList.size() + "] bpn numbers from the DTR.");
                 saveDtrDataModel(dataModel);
+            }else{
+                LogUtil.printError("[DTR DataModel Cache Cleaning] Failed to do the dtrDataModel cleanup!");
             }
         }catch(Exception e){
             throw new ManagerException(this.getClass().getName() + ".deleteBpns",e,"It was not possible to delete bpns from the DTR data model");

@@ -1,0 +1,214 @@
+{
+  "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d" : {
+    "id" : "urn:uuid:82e78a83-3ddd-64c1-455d-8f7629833f17",
+    "globalAssetId" : "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+    "idShort" : "Battery_BAT-XYZ789",
+    "searchId" : "CX:XYZ78901:BAT-XYZ789",
+    "path" : "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+    "digitalTwin" : {
+      "description" : [ {
+        "language" : "en",
+        "text" : "Battery Digital Twin"
+      } ],
+      "idShort" : "Battery_BAT-XYZ789",
+      "globalAssetId" : "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
+      "displayName" : [ ],
+      "id" : "urn:uuid:82e78a83-3ddd-64c1-455d-8f7629833f17",
+      "specificAssetIds" : [ {
+        "supplementalSemanticIds" : [ ],
+        "name" : "partInstanceId",
+        "value" : "BAT-XYZ789",
+        "externalSubjectId" : {
+          "type" : "ExternalReference",
+          "keys" : [ {
+            "type" : "GlobalReference",
+            "value" : "BPNL00000000CBA5"
+          } ]
+        }
+      }, {
+        "supplementalSemanticIds" : [ ],
+        "name" : "manufacturerPartId",
+        "value" : "XYZ78901",
+        "externalSubjectId" : {
+          "type" : "ExternalReference",
+          "keys" : [ {
+            "type" : "GlobalReference",
+            "value" : "BPNL00000000CBA5"
+          }, {
+            "type" : "GlobalReference",
+            "value" : "PUBLIC_READABLE"
+          } ]
+        }
+      } ],
+      "submodelDescriptors" : [ {
+        "description" : [ ],
+        "idShort" : "singleLevelBomAsBuilt",
+        "supplementalSemanticId" : [ ],
+        "id" : "urn:uuid:d02f5568-0ff7-b0d3-1adb-b246b81333bc",
+        "semanticId" : {
+          "type" : "ExternalReference",
+          "keys" : [ {
+            "type" : "Submodel",
+            "value" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+          } ]
+        },
+        "endpoints" : [ {
+          "interface" : "SUBMODEL-3.0",
+          "protocolInformation" : {
+            "href" : "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:d02f5568-0ff7-b0d3-1adb-b246b81333bc"
+          ,
+            "endpointProtocol" : "HTTP",
+            "subprotocol" : "DSP",
+            "subprotocolBody" : "id=urn:uuid:1f0aa91b-7978-d8fe-a0c9-20c31928dc68;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000"
+          ,
+            "subprotocolBodyEncoding" : "plain",
+            "securityAttributes" : [ {
+              "type" : "NONE",
+              "key" : "NONE",
+              "value" : "NONE"
+            } ],
+            "endpointProtocolVersion" : [ "1.1" ]
+          }
+        } ]
+      }, {
+        "description" : [ {
+          "language" : "en",
+          "text" : "Digital Product Passport Submodel"
+        } ],
+        "idShort" : "digitalProductPass",
+        "supplementalSemanticId" : [ ],
+        "id" : "urn:uuid:f82e3855-3338-33fc-5130-95fec40b805b",
+        "semanticId" : {
+          "type" : "ExternalReference",
+          "keys" : [ {
+            "type" : "Submodel",
+            "value" : "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+          } ]
+        },
+        "endpoints" : [ {
+          "interface" : "SUBMODEL-3.0",
+          "protocolInformation" : {
+            "href" : "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:f82e3855-3338-33fc-5130-95fec40b805b"
+          ,
+            "endpointProtocol" : "HTTP",
+            "subprotocol" : "DSP",
+            "subprotocolBody" : "id=urn:uuid:1f0aa91b-7978-d8fe-a0c9-20c31928dc68;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000"
+          ,
+            "subprotocolBodyEncoding" : "plain",
+            "securityAttributes" : [ {
+              "type" : "NONE",
+              "key" : "NONE",
+              "value" : "NONE"
+            } ],
+            "endpointProtocolVersion" : [ "1.1" ]
+          }
+        } ]
+      } ]
+    },
+    "children" : {
+      "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552" : {
+        "id" : "urn:uuid:577bb93c-6e6e-a07a-c429-d72b4bc2021d",
+        "globalAssetId" : "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+        "idShort" : "Battery_EVMODULE-TRJ712",
+        "searchId" : "CX:XYZ78901:EVMODULE-TRJ712",
+        "path" : "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d/urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+        "digitalTwin" : {
+          "description" : [ {
+            "language" : "en",
+            "text" : "Battery Module Digital Twin"
+          } ],
+          "idShort" : "Battery_EVMODULE-TRJ712",
+          "globalAssetId" : "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
+          "id" : "urn:uuid:577bb93c-6e6e-a07a-c429-d72b4bc2021d",
+          "specificAssetIds" : [ {
+            "name" : "manufacturerPartId",
+            "value" : "XYZ78901"
+          }, {
+            "name" : "partInstanceId",
+            "value" : "EVMODULE-TRJ712"
+          } ],
+          "submodelDescriptors" : [ {
+            "description" : [ {
+              "language" : "en",
+              "text" : "Digital Product Passport Submodel"
+            } ],
+            "idShort" : "digitalProductPass",
+            "id" : "urn:uuid:13a47464-2826-a597-c3ad-6471ac8fb372",
+            "semanticId" : {
+              "type" : "ExternalReference",
+              "keys" : [ {
+                "type" : "Submodel",
+                "value" : "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+              } ]
+            },
+            "endpoints" : [ {
+              "interface" : "SUBMODEL-3.0",
+              "protocolInformation" : {
+                "href" : "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:13a47464-2826-a597-c3ad-6471ac8fb372"
+              ,
+                "endpointProtocol" : "HTTP",
+                "subprotocol" : "DSP",
+                "subprotocolBody" : "id=urn:uuid:1f0aa91b-7978-d8fe-a0c9-20c31928dc68;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000"
+              ,
+                "subprotocolBodyEncoding" : "plain",
+                "endpointProtocolVersion" : [ "1.1" ]
+              }
+            } ]
+          }, {
+            "description" : [ {
+              "language" : "en",
+              "text" : "Digital Product Passport Submodel"
+            } ],
+            "idShort" : "SingleLevelUsageAsBuilt",
+            "id" : "urn:uuid:90a95f5f-c46e-b086-6675-810b2849bc4a",
+            "semanticId" : {
+              "type" : "ExternalReference",
+              "keys" : [ {
+                "type" : "Submodel",
+                "value" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt"
+              } ]
+            },
+            "endpoints" : [ {
+              "interface" : "SUBMODEL-3.0",
+              "protocolInformation" : {
+                "href" : "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:90a95f5f-c46e-b086-6675-810b2849bc4a"
+              ,
+                "endpointProtocol" : "HTTP",
+                "subprotocol" : "DSP",
+                "subprotocolBody" : "id=urn:uuid:1f0aa91b-7978-d8fe-a0c9-20c31928dc68;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000"
+              ,
+                "subprotocolBodyEncoding" : "plain",
+                "endpointProtocolVersion" : [ "1.1" ]
+              }
+            } ]
+          }, {
+            "description" : [ ],
+            "idShort" : "singleLevelBomAsBuilt",
+            "id" : "urn:uuid:94184a05-00fc-9db8-24cb-d5c217660a82",
+            "semanticId" : {
+              "type" : "ExternalReference",
+              "keys" : [ {
+                "type" : "Submodel",
+                "value" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+              } ]
+            },
+            "endpoints" : [ {
+              "interface" : "SUBMODEL-3.0",
+              "protocolInformation" : {
+                "href" : "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:94184a05-00fc-9db8-24cb-d5c217660a82"
+              ,
+                "endpointProtocol" : "HTTP",
+                "subprotocol" : "DSP",
+                "subprotocolBody" : "id=urn:uuid:1f0aa91b-7978-d8fe-a0c9-20c31928dc68;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000"
+              ,
+                "subprotocolBodyEncoding" : "plain",
+                "endpointProtocolVersion" : [ "1.1" ]
+              }
+            } ]
+          } ]
+        },
+        "children" : { }
+      }
+    }
+  }
+}

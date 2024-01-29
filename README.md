@@ -1,8 +1,9 @@
 <!--
   Catena-X - Product Passport Consumer Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -35,9 +36,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.0.0">2.0.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.0.1">2.0.1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.0.0">v2.0.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.0.1">v2.0.1</a></pre>
 
 
 ## Application Preview
@@ -60,14 +61,14 @@ To get started you can have a look into our documentation:
 | [Backend Documentation](./dpp-backend/digitalproductpass/readme.md)          | Backend documentation Product Passport App                                                                                                                  |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
-| [Keycloak Overview](./docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
+| [Keycloak Overview](./deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
 | [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
 | [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
 | [Release Guidelines](./docs/RELEASE.md)                                     | Digital Product Pass App Release Guide                                                                                                             |
 | [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
 | [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                     |
 | [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                          |
-| [Postman Overview](./postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
+| [Postman Overview](./deployment/local/postman//README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
 | [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                   |
 | [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                       |
 

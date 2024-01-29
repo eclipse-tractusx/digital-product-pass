@@ -33,7 +33,7 @@ updates:
       - "dependabot"
       - "dependencies"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   # Github Actions
   -
@@ -44,7 +44,7 @@ updates:
       - "dependabot"
       - "github-actions"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   # Docker
   -
@@ -55,7 +55,7 @@ updates:
       - "dependabot"
       - "docker"
     schedule:
-      interval: "weekly"
+      interval: "daily"
   -
     package-ecosystem: "docker"
     target-branch: main
@@ -64,4 +64,4 @@ updates:
       - "dependabot"
       - "docker"
     schedule:
-      interval: "weekly"
+      interval: "daily"

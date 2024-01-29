@@ -132,7 +132,7 @@ import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
-import { API_TIMEOUT } from "@/services/service.const";
+import { AUTO_SIGN, SEARCH_TIMEOUT, NEGOTIATE_TIMEOUT } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
@@ -239,12 +239,12 @@ export default {
   },
 
   async created() {
-    let result = null;
     this.backendService = new BackendService();
     this.searchContracts();
   },
   methods: {
     async searchContracts() {
+      let result = null;
       try {
         // Setup aspect promise
         let passportPromise = this.searchAsset(this.id);
@@ -288,6 +288,7 @@ export default {
       contractId = null,
       policyId = null
     ) {
+      let result = null;
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
       let processId =  jsonUtil.get("data.id", searchResponse);

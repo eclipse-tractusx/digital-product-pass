@@ -232,6 +232,7 @@ public class AppController {
             ));
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
+            processManager.saveDtr(processId, endpointId);
             processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
 

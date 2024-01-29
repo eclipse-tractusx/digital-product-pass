@@ -797,6 +797,37 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to set the semanticId!");
         }
     }
+
+    /**
+     * Sets the semantic id in the status file
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   endpointId
+     *          the {@code String} endpointId from the digital twin registry
+     *
+     * @return  a {@code String} file path of the process status file.
+     *
+     * @throws ManagerException
+     *           if unable to update the status file.
+     */
+    public String saveDtr(String processId, String endpointId) {
+        try {
+            SearchStatus searchStatus = this.getSearchStatus(processId);
+            Dtr dtr = searchStatus.getDtr(endpointId);
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setDtr(dtr);
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        }catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dtr in the status file!");
+        }
+    }
     /**
      * Sets the semantic id in the status file
      * <p>
@@ -1576,61 +1607,6 @@ public class ProcessManager {
                     dataset.getId(),
                     "AVAILABLE",
                     "contract-dataset");
-        } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
-        }
-    }
-
-    /**
-     * Saves the given Dtr {@code Datasets} object in the Process with the given processId with the given timestamp.
-     * <p>
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     * @param   datasets
-     *          the {@code Dataset} object to save.
-     * @param   startedTime
-     *          the {@code Long} timestamp when the process's event started.
-     *
-     * @return  a {@code String} file path of the file where data was stored.
-     *
-     * @throws ManagerException
-     *           if unable to save the data set.
-     */
-    public String saveDtrDatasets(String processId, Map<String, Dataset> datasets, String contractIds, Long startedTime) {
-        try {
-            return this.saveTmpProcessPayload(
-                    processId,
-                    datasets,
-                    "digital-twin-registry/"+this.datasetFileName,
-                    contractIds);
-        } catch (Exception e) {
-            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
-        }
-    }
-
-    /**
-     * Moves the the given Dtr {@code Datasets} object in the Process with the given processId with the given timestamp.
-     * <p>
-     * @param   processId
-     *          the {@code String} id of the application's process.
-     *
-     * @return  a {@code String} file path of the file where data was stored.
-     *
-     * @throws ManagerException
-     *           if unable to save the data set.
-     */
-    public String moveDtrDatasets(String processId) {
-        try {
-            String path = "digital-twin-registry/"+this.datasetFileName;
-            String fromPath = this.getTmpProcessFilePath(processId,  path);
-            String toPath = this.getProcessFilePath(processId, path);
-            String targetFile=fileUtil.moveFile(fromPath, toPath);
-            if(!targetFile.isEmpty()) {
-                LogUtil.printMessage("["+processId+"] Moved DTR Contracts from the temporary directory to the process directory!");
-            }else{
-                throw new ManagerException(this.getClass().getName(), "["+processId+"] Failed to moved DTR Contracts from the temporary directory to the process directory!");
-            };
-            return targetFile;
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
         }

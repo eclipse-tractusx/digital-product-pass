@@ -202,6 +202,7 @@ export default {
       auth: inject("authentication"),
       data: null,
       loading: true,
+      searchResponse: null,
       errors: [],
       id: this.$route.params.id,
       irsData: [],
@@ -214,7 +215,7 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
-        reload: false
+        reload: true
       },
     };
   },
@@ -257,33 +258,39 @@ export default {
           null
         );
         if (!result || result == null) {
-          this.errorObj.title = "Timeout! Failed to return passport!";
+          this.errorObj.title = "Timeout! Failed to search for the Digital Twin Registry and the Digital Twin!";
           this.errorObj.description =
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
-          this.errorObj.reload = true;
         }
         this.searchResponse = result;
       } catch (e) {
         console.log("searchContracts -> " + e);
       } finally {
+
+        console.log(this.searchResponse);
+        console.log(this.searchResponse["data"]);
         if (
           this.searchResponse &&
           jsonUtil.exists("status", this.searchResponse) &&
           this.searchResponse["status"] == 200 &&
-          jsonUtil.exists("data", this.data) &&
+          jsonUtil.exists("data", this.searchResponse) &&
           jsonUtil.exists("contracts", this.searchResponse["data"]) &&
           jsonUtil.exists("token", this.searchResponse["data"]) &&
           jsonUtil.exists("id", this.searchResponse["data"])
         ) {
           this.error = false;
+          console.log(this.searchResponse);
+          console.log("AutoSign -> " + AUTO_SIGN);
           if(AUTO_SIGN){
             this.resumeNegotiation(this.searchResponse);
           }
         }
-        // Stop loading
-        this.loading = false;
+        if(this.error || !AUTO_SIGN){
+          // Stop loading
+          this.loading = false;
+        }
       }
     },
     async resumeNegotiation(
@@ -313,12 +320,11 @@ export default {
         );
         if (!result || result == null) {
           this.errorObj.title =
-            "Timeout! Failed to negotiate and return passport!";
+            "Timeout! Failed to negotiate and return the passport!";
           this.errorObj.description =
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
-          this.errorObj.reload = true;
         }
         this.data = result;
       } catch (e) {
@@ -378,7 +384,6 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
-        this.errorObj.reload = true;
         return response;
       }
 
@@ -391,7 +396,6 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
-        this.errorObj.reload = true;
         return null;
       }
       // Check if reponse content was successfull and if not print error comming message from backend
@@ -408,7 +412,6 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
-        this.errorObj.reload = true;
       }
 
       return response;
@@ -427,7 +430,7 @@ export default {
         // Get access token from IDP
         // Get the aspect for the selected version
 
-        response = await this.backendService.negotiatePassport(
+        response = await this.backendService.negotiateAsset(
           contracts,
           token,
           processId,
@@ -450,7 +453,6 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
-        this.errorObj.reload = true;
         return response;
       }
 
@@ -463,7 +465,6 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
-        this.errorObj.reload = true;
         return null;
       }
 
@@ -481,7 +482,6 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
-        this.errorObj.reload = true;
       }
 
       return response;

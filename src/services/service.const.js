@@ -60,7 +60,7 @@ adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@exa
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
 bpnCheck = (bpnCheck === "true")
 roleCheck = (roleCheck === "true")
-autoSign = (roleCheck === "true")
+autoSign = (autoSign === "true")
 
 // Default Variables if value is not specified or is not a integer
 searchTimeout = numberUtil.parseInt(searchTimeout, 40000);

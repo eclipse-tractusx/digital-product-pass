@@ -53,7 +53,7 @@
                   ><template v-if="description">{{ $t(description) }}</template>
                   <template v-if="explanation">{{ $t(explanation) }}</template>
                   <template v-if="adminLabel"
-                    ><a :href="'mailto:' + adminEmail">{{
+                    > <a :href="'mailto:' + adminEmail">{{
                       $t(adminLabel)
                     }}</a></template
                   ></span
@@ -69,7 +69,7 @@
                   size="large"
                   class="btn"
                   rounded="pill"
-                  variant="outlined"
+                  color="primary"
                   @click="$router.go()"
                   prepend-icon="mdi-refresh"
                   >Try Again</v-btn
@@ -92,7 +92,7 @@
                   rounded="pill"
                   variant="outlined"
                   :href="homepage"
-                  >{{ $t("homepage") }}</v-btn
+                  >{{ $t("Home") }}</v-btn
                 ></v-col
               >
             </v-row>

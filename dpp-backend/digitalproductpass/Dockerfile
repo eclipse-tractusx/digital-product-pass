@@ -22,7 +22,7 @@
 #################################################################################
 
 
-FROM eclipse-temurin:19-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 RUN addgroup -g 3000 appgroup \
 	&& adduser -u 1000 -g 3000 -h /home/nonroot -D nonroot

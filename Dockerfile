@@ -41,7 +41,7 @@ COPY . .
 RUN npm run build
 
 
-FROM nginxinc/nginx-unprivileged:stable-alpine
+FROM nginxinc/nginx-unprivileged:alpine
 
 ARG REPO_COMMIT_ID='REPO_COMMIT_ID'
 ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'

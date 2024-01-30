@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Pass Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -145,7 +146,7 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
         # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   
-        # readme-filepath: path/to/dedicated/notice-for-docker-image.md 
+          readme-filepath: docs/notice.md
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}

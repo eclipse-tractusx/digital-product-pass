@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -65,7 +65,7 @@ jobs:
       - name: Docker meta for GHCR
         id: meta-for-ghcr
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
@@ -80,7 +80,7 @@ jobs:
       # https://github.com/docker/login-action
       - name: Log into GHCR registry
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -91,7 +91,7 @@ jobs:
       - name: Build and push frontend for GHCR registry
         id: build-and-push-frontend-ghcr
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: ${{ steps.meta-for-ghcr.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
@@ -104,7 +104,7 @@ jobs:
       - name: Docker meta for Docker Hub
         id: meta-for-dockerhub
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
@@ -119,7 +119,7 @@ jobs:
       # https://github.com/docker/login-action
       - name: Log into a Docker registry
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -129,7 +129,7 @@ jobs:
       - name: Build and push frontend for Docker Hub
         id: build-and-push-frontend-dockerhub
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: ${{ steps.meta-for-dockerhub.outputs.tags }}, ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
@@ -143,7 +143,7 @@ jobs:
       # Important step to push image description to DockerHub 
       - name: Update Docker Hub description
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
         # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   
           readme-filepath: docs/notice.md

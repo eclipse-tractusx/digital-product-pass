@@ -27,7 +27,7 @@ updates:
   # Maven
   -
     package-ecosystem: "maven"
-    target-branch: main
+    target-branch: feature/cmp-1103/dependabot
     directory: ./dpp-backend/digitalproductpass/
     labels:
       - "dependabot"
@@ -38,7 +38,7 @@ updates:
   # Github Actions
   -
     package-ecosystem: "github-actions"
-    target-branch: main
+    target-branch: feature/cmp-1103/dependabot
     directory: /
     labels:
       - "dependabot"
@@ -49,7 +49,7 @@ updates:
   # Docker
   -
     package-ecosystem: "docker"
-    target-branch: main
+    target-branch: feature/cmp-1103/dependabot
     directory: ./dpp-backend/digitalproductpass/
     labels:
       - "dependabot"
@@ -58,7 +58,7 @@ updates:
       interval: "daily"
   -
     package-ecosystem: "docker"
-    target-branch: main
+    target-branch: feature/cmp-1103/dependabot
     directory: /
     labels:
       - "dependabot"

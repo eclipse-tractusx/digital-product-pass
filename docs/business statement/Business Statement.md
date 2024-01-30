@@ -1,7 +1,8 @@
 <!--
-  Catena-X - Product Passport Consumer Application
+  Catena-X - Digital Product Pass Application
  
   Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -20,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# [MP] Product Passport Application
+# Digital Product Passport Application
 
 >Some links might not be accesible as they lead to a private confluence. If you need access please reach out to the dev Team and request what information you need for what reason.
 
@@ -90,6 +91,6 @@ The following candidates are not yet implemented:
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
-- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

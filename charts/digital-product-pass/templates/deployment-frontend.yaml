@@ -44,16 +44,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsUser: 10000
-        fsGroup: 3000
+        {{- toYaml .Values.frontend.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Values.frontend.name }}
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
-          securityContext: 
-            allowPrivilegeEscalation: false
-            runAsUser: 10000
-            runAsGroup: 3000
+          securityContext:
+            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
           env:          
             {{- with (first .Values.frontend.ingress.hosts) }}
             - name: "SERVER_URL"
@@ -107,7 +104,6 @@ spec:
 
             - name: "VERSION"
               value: "{{ .Chart.AppVersion }}"
-
           ports:
             - containerPort: 8080
               name: http

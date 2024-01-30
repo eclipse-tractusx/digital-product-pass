@@ -57,6 +57,7 @@
           :description="errorObj.description"
           reloadLabel="Return"
           reloadIcon="mdi-arrow-left"
+          :reload="errorObj.reload"
         />
       </div>
     </v-container>
@@ -213,6 +214,7 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
+        reload: false
       },
     };
   },
@@ -235,7 +237,7 @@ export default {
       } else {
         return [];
       }
-    },
+    }
   },
 
   async created() {
@@ -260,6 +262,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.errorObj.reload = true;
         }
         this.searchResponse = result;
       } catch (e) {
@@ -315,6 +318,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.errorObj.reload = true;
         }
         this.data = result;
       } catch (e) {
@@ -374,6 +378,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.errorObj.reload = true;
         return response;
       }
 
@@ -386,7 +391,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
-
+        this.errorObj.reload = true;
         return null;
       }
       // Check if reponse content was successfull and if not print error comming message from backend
@@ -403,6 +408,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.errorObj.reload = true;
       }
 
       return response;
@@ -444,6 +450,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.errorObj.reload = true;
         return response;
       }
 
@@ -456,7 +463,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
-
+        this.errorObj.reload = true;
         return null;
       }
 
@@ -474,6 +481,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.errorObj.reload = true;
       }
 
       return response;

@@ -669,7 +669,7 @@ public class ContractController {
             processManager.startNegotiation(httpRequest, processId, contractNegotiation);
             LogUtil.printStatus("[PROCESS " + processId + "] Negotiation for [" + contractId + "] started!");
 
-            response = httpUtil.getResponse("The contract was signed successfully! Negotiation started!");
+            response = httpUtil.getResponse("The contract was agreed successfully! Negotiation started!");
             response.data = processManager.getStatus(processId);
             return httpUtil.buildResponse(response, httpResponse);
 

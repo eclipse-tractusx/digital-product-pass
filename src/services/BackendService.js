@@ -438,6 +438,8 @@ export default class BackendService {
             let body = this.getSearchBody(id, processId);
             axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
                 .then((response) => {
+                    // Setting the status to the Store state
+                    store.commit('setSearchData', response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {

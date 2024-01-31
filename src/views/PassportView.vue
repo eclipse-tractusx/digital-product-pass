@@ -48,6 +48,99 @@
     </HeaderComponent>
     <v-container v-if="loading">
       <LoadingComponent :id="id" />
+      <template v-if="policies.length > 1">
+        <v-overlay class="contract-modal" v-model="showOverlay">
+          <template v-if="showContractModal">
+            <v-card class="contract-container">
+              <div class="title-container">Choose a policy</div>
+              <v-radio-group class="content-container" v-model="radios">
+                <!-- Loop over the grouped policies -->
+                <template
+                  v-for="(group, contractId) in groupedPolicies"
+                  :key="contractId"
+                >
+                  <div class="policy-group-label">
+                    <span class="policy-group-label-mobile">Contract ID:</span>
+                    {{ contractId }}
+                  </div>
+                  <v-radio
+                    v-for="(item, index) in group"
+                    :key="`${contractId}_${index}`"
+                    @click="chooseContract(contractId, item['@id'])"
+                    :value="`${contractId}_${index}`"
+                    :label="
+                      'Policy type: ' +
+                      item['odrl:permission']['odrl:action']['odrl:type']
+                    "
+                  >
+                  </v-radio>
+                </template>
+              </v-radio-group>
+              <v-row class="pt-8 justify-center">
+                <v-btn
+                  color="#0F71CB"
+                  class="text-none"
+                  variant="outlined"
+                  @click="declineContract()"
+                  >Decline</v-btn
+                >
+                <v-btn
+                  class="text-none ms-4 text-white"
+                  color="#0F71CB"
+                  @click="resumeNegotiation()"
+                  >Agree</v-btn
+                >
+              </v-row>
+              <v-row>
+                <v-btn
+                  variant="text"
+                  @click="toggleDetails"
+                  class="details-btn text-none"
+                >
+                  {{ detailsTitle }}
+                </v-btn>
+              </v-row>
+              <v-row v-if="details">
+                <div class="json-viewer-container">
+                  <JsonViewer
+                    class="json-viewer"
+                    :value="contractItems"
+                    sort
+                    theme="jv-light"
+                  />
+                </div>
+              </v-row>
+            </v-card>
+          </template>
+          <template v-if="declineContractModal">
+            <v-card class="contract-container">
+              <div class="title-container">
+                Are you sure you want to decline?
+              </div>
+              <div class="policy-group-label">
+                <div class="back-to-homepage">
+                  This will take you back to the Homepage
+                </div>
+              </div>
+              <v-row class="pt-8 justify-center">
+                <v-btn
+                  color="#0F71CB"
+                  class="text-none"
+                  variant="outlined"
+                  @click="cancelDeclineContract()"
+                  >Cancel</v-btn
+                >
+                <v-btn
+                  class="text-none ms-4 text-white"
+                  color="red-darken-4"
+                  @click="confirmDeclineContract()"
+                  >Yes, Decline</v-btn
+                >
+              </v-row>
+            </v-card>
+          </template>
+        </v-overlay>
+      </template>
     </v-container>
     <v-container v-else-if="error" class="h-100 w-100">
       <div class="d-flex align-items-center w-100 h-100">
@@ -133,17 +226,27 @@ import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
-import { AUTO_SIGN, SEARCH_TIMEOUT, NEGOTIATE_TIMEOUT } from "@/services/service.const";
+import {
+  AUTO_SIGN,
+  SEARCH_TIMEOUT,
+  NEGOTIATE_TIMEOUT,
+} from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
+import { mapState } from "vuex";
+import store from "../store/index";
+import { JsonViewer } from "vue3-json-viewer";
+import "vue3-json-viewer/dist/index.css";
+import { reactive } from "vue";
 
 export default {
   name: "PassportView",
   components: {
+    JsonViewer,
     HeaderComponent,
     FooterComponent,
     PassportHeader,
@@ -156,6 +259,14 @@ export default {
   },
   data() {
     return {
+      showOverlay: false,
+      contractItems: reactive([]),
+      radios: 0,
+      details: false,
+      detailsTitle: "More details",
+      policies: [],
+      declineContractModal: false,
+      showContractModal: true,
       batteryComponentsNames: [
         {
           label: "passportView.batteryComponentsNames.generalInformation",
@@ -215,11 +326,33 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
-        reload: true
+        reload: true,
       },
     };
   },
+  mounted() {
+    // Initialize contractItems from searchData
+    this.contractItems = this.searchData.contracts;
 
+    // Extract policies
+    this.extractPolicies(this.contractItems);
+
+    // Check if policies array has elements and then access the @id of the first element
+    if (this.policies.length > 0) {
+      const firstPolicyObj = this.policies[0];
+      const initialContractToSign = Object.keys(firstPolicyObj)[0];
+      const initialPolicyToSign = firstPolicyObj[initialContractToSign]["@id"];
+      // Commit the contract ID to the store
+      this.$store.commit("setContractToSign", {
+        contract: initialContractToSign,
+        policy: initialPolicyToSign,
+      });
+    } else {
+      console.error("No policies found");
+    }
+
+    this.shouldShowOverlay();
+  },
   computed: {
     filteredComponentsNames() {
       let dataKeys = Object.keys(this.data.aspect);
@@ -238,7 +371,18 @@ export default {
       } else {
         return [];
       }
-    }
+    },
+    ...mapState(["searchData", "contractToSign"]),
+    groupedPolicies() {
+      return this.policies.reduce((groups, policy) => {
+        const contractId = Object.keys(policy)[0];
+        if (!groups[contractId]) {
+          groups[contractId] = [];
+        }
+        groups[contractId].push(policy[contractId]);
+        return groups;
+      }, {});
+    },
   },
 
   async created() {
@@ -246,6 +390,63 @@ export default {
     this.searchContracts();
   },
   methods: {
+    extractPolicies(contracts) {
+      let contractPolicies = [];
+
+      for (let key in contracts) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (contracts.hasOwnProperty(key)) {
+          const contract = contracts[key];
+
+          if (Array.isArray(contract["odrl:hasPolicy"])) {
+            contract["odrl:hasPolicy"].forEach((policy) => {
+              let policyEntry = {};
+              policyEntry[key] = policy;
+              contractPolicies.push(policyEntry);
+            });
+          } else {
+            // Create an entry with the contract key and the policy object
+            let policyEntry = {};
+            policyEntry[key] = contract["odrl:hasPolicy"];
+            contractPolicies.push(policyEntry);
+          }
+        }
+      }
+      return (this.policies = contractPolicies);
+    },
+    toggleDetails() {
+      this.details = !this.details;
+      if (this.details) {
+        this.detailsTitle = "Less details";
+      } else {
+        this.detailsTitle = "More details";
+      }
+    },
+    chooseContract(contract, policy) {
+      console.log("Contract chosen - contractToSign:", this.contractToSign);
+      console.log("Contract chosen - policies:", this.policies);
+
+      return (this.contractToSign = store.commit("setContractToSign", {
+        contract: contract,
+        policy: policy,
+      }));
+    },
+    shouldShowOverlay() {
+      if (this.policies.length > 1) {
+        return (this.showOverlay = true);
+      }
+    },
+    declineContract() {
+      this.declineContractModal = true;
+      this.showContractModal = false;
+    },
+    confirmDeclineContract() {
+      this.$router.push("/");
+    },
+    cancelDeclineContract() {
+      this.declineContractModal = false;
+      this.showContractModal = true;
+    },
     async searchContracts() {
       let result = null;
       try {
@@ -258,7 +459,8 @@ export default {
           null
         );
         if (!result || result == null) {
-          this.errorObj.title = "Timeout! Failed to search for the Digital Twin Registry and the Digital Twin!";
+          this.errorObj.title =
+            "Timeout! Failed to search for the Digital Twin Registry and the Digital Twin!";
           this.errorObj.description =
             "The request took too long... Please retry or try again later.";
           this.status = 408;
@@ -268,7 +470,6 @@ export default {
       } catch (e) {
         console.log("searchContracts -> " + e);
       } finally {
-
         console.log(this.searchResponse);
         console.log(this.searchResponse["data"]);
         if (
@@ -283,11 +484,11 @@ export default {
           this.error = false;
           console.log(this.searchResponse);
           console.log("AutoSign -> " + AUTO_SIGN);
-          if(AUTO_SIGN){
+          if (AUTO_SIGN) {
             this.resumeNegotiation(this.searchResponse);
           }
         }
-        if(this.error || !AUTO_SIGN){
+        if (this.error || !AUTO_SIGN) {
           // Stop loading
           this.loading = false;
         }
@@ -295,14 +496,15 @@ export default {
     },
     async resumeNegotiation(
       searchResponse,
-      contractId = null,
-      policyId = null
+      contractId = this.contractToSign.contract,
+      policyId = this.contractToSign.policy
     ) {
       let result = null;
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
-      let processId =  jsonUtil.get("data.id", searchResponse);
+      let processId = jsonUtil.get("data.id", searchResponse);
       // [TODO] Get Contract Information
+      console.log("resume negotiation:" + contractId + policyId);
       try {
         // Setup aspect promise
         let passportPromise = this.negotiatePassport(
@@ -358,6 +560,7 @@ export default {
         }
         // Stop loading
         this.loading = false;
+        this.contractItems = [];
       }
     },
     async searchAsset(id) {

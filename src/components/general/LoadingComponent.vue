@@ -91,7 +91,6 @@
           $t(this.stepsNames.contractNegotiation.initialStepSubtitle)
         "
         displayId
-        contractSign
         :idLabel="
           statusData.data.history['negotiation-accepted']
             ? statusData.data.history['negotiation-accepted'].status

@@ -229,9 +229,6 @@ public final class JsonUtil {
      */
     synchronized public String toJsonFile(String path, Object json, Boolean prettyPrint){
         try {
-            if(this.fileUtil.pathExists(path)){
-                String fileContent = fileUtil.readFile(path);
-            }
             return fileUtil.toFile(path, this.toJson(json, prettyPrint), false);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to create JSON file ["+path+"]! -> [" + e.getMessage() + "]");

@@ -32,10 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.env.MockEnvironment;
-import utils.FileUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.YamlUtil;
+import utils.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,11 +78,14 @@ class AasServiceTest {
     private DataTransferService dataTransferService;
 
     private SecurityConfig securityConfig;
+
+    private EdcUtil edcUtil;
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil);
         yamlUtil = new YamlUtil(fileUtil);
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
@@ -113,8 +113,8 @@ class AasServiceTest {
         processConfig.setDir("process");
         baseDataDirPath = Path.of(fileUtil.getDataDir(), processConfig.getDir()).toString();
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil,jsonUtil, dataTransferService, dtrConfig, processManager);
-        dataTransferService = new DataTransferService(env, httpUtil, jsonUtil,vaultService, processManager, dtrConfig);
+        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,vaultService, processManager, dtrConfig);
         authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
         mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);
         doReturn(mockedToken).when(authenticationService).getToken();

@@ -78,6 +78,9 @@ spec:
             - name: "AUTH_BPN_NUMBER"
               value: "{{ .Values.oauth.bpnCheck.bpn }}"
 
+            - name: "APP_AUTO_SIGN"
+              value: "{{ .Values.frontend.negotiation.autoSign }}"
+
             - name: "APP_PORTAL_URL"
               value: "https://{{ .Values.frontend.portal.hostname }}"
 
@@ -90,8 +93,11 @@ spec:
             - name: "IDP_URL"
               value: "https://{{ .Values.oauth.hostname }}"
 
-            - name: "API_TIMEOUT"
-              value: "{{ .Values.frontend.api.timeout }}"
+            - name: "API_NEGOTIATE_TIMEOUT"
+              value: "{{ .Values.frontend.api.negotiateTimeout }}"
+
+            - name: "API_SEARCH_TIMEOUT"
+              value: "{{ .Values.frontend.api.searchTimeout }}"
             
             - name: "API_MAX_RETRIES"
               value: "{{ .Values.frontend.api.max_retries }}"

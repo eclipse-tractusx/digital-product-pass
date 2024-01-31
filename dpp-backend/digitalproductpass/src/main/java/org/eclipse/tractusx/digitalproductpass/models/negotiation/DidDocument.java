@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This class consists exclusively to define attributes that are common between the needed data objects for the Application.
  * For example for Catalog, Dataset, Negotiation, etc. that extends this class.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DidDocument {
 

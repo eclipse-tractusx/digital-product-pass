@@ -2,8 +2,8 @@
  *
  * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -25,12 +25,9 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.catenax;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +36,7 @@ import java.util.stream.Collectors;
  * This class consists exclusively to define attributes and methods related to discovering the BPN numbers.
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BpnDiscovery {
 
     /** ATTRIBUTES **/
@@ -65,7 +63,6 @@ public class BpnDiscovery {
     }
 
     /** METHODS **/
-
     public List<String> mapBpnNumbers(){
         return bpns.stream().map(
                 BpnEndpoint::getValue
@@ -76,6 +73,8 @@ public class BpnDiscovery {
     /**
      * This class consists exclusively to define attributes and methods related to BPN endpoints.
      **/
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class BpnEndpoint {
 
         /** ATTRIBUTES **/

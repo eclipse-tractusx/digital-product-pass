@@ -44,56 +44,102 @@
             </p>
             <template v-if="contractSign && policies.length > 1">
               <v-overlay class="contract-modal" v-model="showOverlay">
-                <v-card class="contract-container">
-                  <div class="title-container">Choose a policy</div>
-                  <v-radio-group class="content-container" v-model="radios">
-                    <v-radio
-                      v-for="(item, index) in policies"
-                      :key="index"
-                      @click="chooseContract(item)"
-                      :value="index"
-                      :label="
-                        'Policy type: ' +
-                        item['odrl:permission']['odrl:action']['odrl:type']
-                      "
-                    >
-                    </v-radio>
-                  </v-radio-group>
-                  <v-row class="pt-8 justify-center">
-                    <v-btn
-                      color="#0F71CB"
-                      class="text-none"
-                      variant="outlined"
-                      @click="declineContract()"
-                      >Decline</v-btn
-                    >
-                    <v-btn
-                      class="text-none ms-4 text-white"
-                      color="#0F71CB"
-                      @click="callAcceptContract(this.contractToSign['@id'])"
-                      >Agree</v-btn
-                    >
-                  </v-row>
-                  <v-row>
-                    <v-btn
-                      variant="text"
-                      @click="toggleDetails"
-                      class="details-btn text-none"
-                    >
-                      {{ detailsTitle }}
-                    </v-btn>
-                  </v-row>
-                  <v-row v-if="details">
-                    <div class="json-viewer-container">
-                      <JsonViewer
-                        class="json-viewer"
-                        :value="contractItems"
-                        sort
-                        theme="jv-light"
-                      />
+                <template v-if="showContractModal">
+                  <v-card class="contract-container">
+                    <div class="title-container">Choose a policy</div>
+                    <v-radio-group class="content-container" v-model="radios">
+                      <!-- Loop over the grouped policies -->
+                      <template
+                        v-for="(group, contractId) in groupedPolicies"
+                        :key="contractId"
+                      >
+                        <div class="policy-group-label">
+                          <span class="policy-group-label-mobile"
+                            >Contract ID:</span
+                          >
+                          {{ contractId }}
+                        </div>
+                        <v-radio
+                          v-for="(item, index) in group"
+                          :key="`${contractId}_${index}`"
+                          @click="chooseContract(contractId, item['@id'])"
+                          :value="`${contractId}_${index}`"
+                          :label="
+                            'Policy type: ' +
+                            item['odrl:permission']['odrl:action']['odrl:type']
+                          "
+                        >
+                        </v-radio>
+                      </template>
+                    </v-radio-group>
+                    <v-row class="pt-8 justify-center">
+                      <v-btn
+                        color="#0F71CB"
+                        class="text-none"
+                        variant="outlined"
+                        @click="declineContract()"
+                        >Decline</v-btn
+                      >
+                      <v-btn
+                        class="text-none ms-4 text-white"
+                        color="#0F71CB"
+                        @click="
+                          callAcceptContract(
+                            this.contractToSign.contract,
+                            this.contractToSign.policy
+                          )
+                        "
+                        >Agree</v-btn
+                      >
+                    </v-row>
+                    <v-row>
+                      <v-btn
+                        variant="text"
+                        @click="toggleDetails"
+                        class="details-btn text-none"
+                      >
+                        {{ detailsTitle }}
+                      </v-btn>
+                    </v-row>
+                    <v-row v-if="details">
+                      <div class="json-viewer-container">
+                        <JsonViewer
+                          class="json-viewer"
+                          :value="contractItems"
+                          sort
+                          theme="jv-light"
+                        />
+                      </div>
+                    </v-row>
+                  </v-card>
+                </template>
+                <template v-if="declineContractModal">
+                  <v-card class="contract-container">
+                    <div class="title-container">
+                      Are you sure you want to decline?
                     </div>
-                  </v-row>
-                </v-card>
+                    <div class="policy-group-label">
+                      <div class="back-to-homepage">
+                        This will take you back to the Homepage
+                      </div>
+                    </div>
+                    <v-row class="pt-8 justify-center">
+                      <v-btn
+                        color="#0F71CB"
+                        class="text-none"
+                        variant="outlined"
+                        @click="cancelDeclineContract()"
+                        >Cancel</v-btn
+                      >
+                      <v-btn
+                        class="text-none ms-4 text-white"
+                        color="red-darken-4"
+                        @click="confirmDeclineContract()"
+                        >Yes, Decline</v-btn
+                      >
+                    </v-row>
+                  </v-card>
+                </template>
               </v-overlay>
             </template>
           </div>
@@ -131,9 +177,21 @@ export default {
     details: false,
     detailsTitle: "More details",
     policies: [],
+    declineContractModal: false,
+    showContractModal: true,
   }),
   computed: {
     ...mapState(["searchData", "contractToSign"]),
+    groupedPolicies() {
+      return this.policies.reduce((groups, policy) => {
+        const contractId = Object.keys(policy)[0];
+        if (!groups[contractId]) {
+          groups[contractId] = [];
+        }
+        groups[contractId].push(policy[contractId]);
+        return groups;
+      }, {});
+    },
   },
   async created() {
     this.backendService = new BackendService();
@@ -148,13 +206,14 @@ export default {
 
     // Check if policies array has elements and then access the @id of the first element
     if (this.policies.length > 0) {
-      const contractId = this.policies[0];
-
+      const firstPolicyObj = this.policies[0];
+      const initialContractToSign = Object.keys(firstPolicyObj)[0];
+      const initialPolicyToSign = firstPolicyObj[initialContractToSign]["@id"];
       // Commit the contract ID to the store
-      this.$store.commit("setContractToSign", contractId);
-
-      // Store the ID in state
-      this.contractToSign = contractId;
+      this.$store.commit("setContractToSign", {
+        contract: initialContractToSign,
+        policy: initialPolicyToSign,
+      });
     } else {
       console.error("No policies found");
     }
@@ -163,21 +222,28 @@ export default {
   },
   methods: {
     extractPolicies(contracts) {
-      const policies = [];
-      contracts.forEach((contract) => {
-        if (contract["odrl:hasPolicy"]) {
-          // Check if 'odrl:hasPolicy' is an array
+      let contractPolicies = [];
+
+      for (let key in contracts) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (contracts.hasOwnProperty(key)) {
+          const contract = contracts[key];
+
           if (Array.isArray(contract["odrl:hasPolicy"])) {
             contract["odrl:hasPolicy"].forEach((policy) => {
-              policies.push(policy);
+              let policyEntry = {};
+              policyEntry[key] = policy;
+              contractPolicies.push(policyEntry);
             });
           } else {
-            // 'odrl:hasPolicy' is a single object
-            policies.push(contract["odrl:hasPolicy"]);
+            // Create an entry with the contract key and the policy object
+            let policyEntry = {};
+            policyEntry[key] = contract["odrl:hasPolicy"];
+            contractPolicies.push(policyEntry);
           }
         }
-      });
-      return (this.policies = policies);
+      }
+      return (this.policies = contractPolicies);
     },
     toggleDetails() {
       this.details = !this.details;
@@ -187,29 +253,25 @@ export default {
         this.detailsTitle = "More details";
       }
     },
-    operatorMapper(operator) {
-      let opr = operator.replace("odrl:", "");
-      if (opr == "eq") {
-        return " = ";
-      }
-      return opr;
-    },
-    chooseContract(contract) {
-      return (this.contractToSign = store.commit(
-        "setContractToSign",
-        contract
-      ));
+    chooseContract(contract, policy) {
+      console.log("Contract chosen - contractToSign:", this.contractToSign);
+      console.log("Contract chosen - policies:", this.policies);
+
+      return (this.contractToSign = store.commit("setContractToSign", {
+        contract: contract,
+        policy: policy,
+      }));
     },
     shouldShowOverlay() {
-      if (this.contractItems.length > 1) {
+      if (this.policies.length > 1) {
         return (this.showOverlay = true);
       }
     },
-    async callAcceptContract(contractToSign) {
+    callAcceptContract(contract, policy) {
+      alert("contract: " + contract + " " + "policy: " + policy);
       try {
-        // let response = await this.backendService.acceptContract(contractToSign);
+        // let response = await this.backendService.acceptContract(contract, policy);
         // return response;
-        alert(contractToSign);
       } catch (error) {
         console.error("Error accepting contract", error);
       } finally {
@@ -217,7 +279,15 @@ export default {
       }
     },
     declineContract() {
+      this.declineContractModal = true;
+      this.showContractModal = false;
+    },
+    confirmDeclineContract() {
       this.$router.push("/");
+    },
+    cancelDeclineContract() {
+      this.declineContractModal = false;
+      this.showContractModal = true;
     },
   },
 };

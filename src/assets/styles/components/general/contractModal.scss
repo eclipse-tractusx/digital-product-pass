@@ -23,9 +23,17 @@
 .contract-modal {
   justify-content: center;
   align-items: center;
+  .back-to-homepage {
+    margin: 5px 0;
+  }
   .content-container {
     margin-top: 20px;
-    width: 300px;
+    width: 450px;
+
+    .policy-group-label {
+      margin-top: 15px;
+      font-weight: bolder;
+    }
   }
   .contract-container {
     display: flex;
@@ -54,6 +62,18 @@
       max-height: 50vh;
       overflow: auto;
       background-color: rgb(245, 245, 245);
+    }
+  }
+}
+
+@media (max-width: 628px) {
+  .contract-modal {
+    .content-container {
+      width: 320px;
+      display: inline;
+      .policy-group-label-mobile {
+        display: block;
+      }
     }
   }
 }

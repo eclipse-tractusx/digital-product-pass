@@ -206,7 +206,7 @@ export default {
       irsData: [],
       processId: null,
       backendService: null,
-      error: false,
+      error: true,
       errorObj: {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",

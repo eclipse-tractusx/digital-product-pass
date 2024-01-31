@@ -56,8 +56,8 @@ export default createStore({
             }
         ],
         searchData: {
-            "contracts": [
-                {
+            "contracts": {
+                "9b3c0977-6b14-4201-bd76-55f681a92872": {
                     "@id": "9b3c0977-6b14-4201-bd76-55f681a92872",
                     "@type": "dcat:Dataset",
                     "odrl:hasPolicy": {
@@ -110,7 +110,7 @@ export default createStore({
                     "edc:description": "Battery Passport test data",
                     "edc:id": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918"
                 },
-                {
+                "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33": {
                     "@id": "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33",
                     "@type": "dcat:Dataset",
                     "odrl:hasPolicy": [{
@@ -212,11 +212,11 @@ export default createStore({
                     "edc:description": "Battery Passport test data",
                     "edc:id": "1f4a64f0-aba9-498a-917c-4936c24c50cd-49a06ad2-64b7-46c8-9f3b-a718c462ca23"
                 }
-            ],
+            },
             "token": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
             "id": "ccbf6bfb-c7e1-4db4-8225-9fa95ee82f7f"
         },
-        contractToSign: null,
+        contractToSign: {},
         processId: null,
         searchContractId: null,
         irsState: false,

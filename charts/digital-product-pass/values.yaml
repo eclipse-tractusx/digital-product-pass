@@ -171,9 +171,10 @@ frontend:
     # -- max retries for getting status
     max_retries: 30
     # -- default timeout  - 90 seconds in milliseconds
-    negotiateTimeout: 20000
-    searchTimeout: 40000
-
+    timeout:
+      negotiate: 20000
+      search: 40000
+      decline: 20000
     # -- delay from getting status
     delay: 1000
 

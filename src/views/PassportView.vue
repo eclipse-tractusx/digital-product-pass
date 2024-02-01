@@ -48,97 +48,111 @@
     </HeaderComponent>
     <v-container v-if="loading">
       <LoadingComponent :id="id" />
-      <template v-if="policies.length > 1">
-        <v-overlay class="contract-modal" v-model="showOverlay">
-          <template v-if="showContractModal">
-            <v-card class="contract-container">
-              <div class="title-container">Choose a policy</div>
-              <v-radio-group class="content-container" v-model="radios">
-                <!-- Loop over the grouped policies -->
-                <template
-                  v-for="(group, contractId) in groupedPolicies"
-                  :key="contractId"
-                >
-                  <div class="policy-group-label">
-                    <span class="policy-group-label-mobile">Contract ID:</span>
-                    {{ contractId }}
-                  </div>
-                  <v-radio
-                    v-for="(item, index) in group"
-                    :key="`${contractId}_${index}`"
-                    @click="chooseContract(contractId, item['@id'])"
-                    :value="`${contractId}_${index}`"
-                    :label="
-                      'Policy type: ' +
-                      item['odrl:permission']['odrl:action']['odrl:type']
-                    "
-                  >
-                  </v-radio>
-                </template>
-              </v-radio-group>
-              <v-row class="pt-8 justify-center">
-                <v-btn
-                  color="#0F71CB"
-                  class="text-none"
-                  variant="outlined"
-                  @click="declineContract()"
-                  >Decline</v-btn
-                >
-                <v-btn
-                  class="text-none ms-4 text-white"
-                  color="#0F71CB"
-                  @click="resumeNegotiation()"
-                  >Agree</v-btn
-                >
-              </v-row>
-              <v-row>
-                <v-btn
-                  variant="text"
-                  @click="toggleDetails"
-                  class="details-btn text-none"
-                >
-                  {{ detailsTitle }}
-                </v-btn>
-              </v-row>
-              <v-row v-if="details">
-                <div class="json-viewer-container">
-                  <JsonViewer
-                    class="json-viewer"
-                    :value="contractItems"
-                    sort
-                    theme="jv-light"
-                  />
+    </v-container>
+    <v-container v-if="showOverlay">
+      <div class="loading-container">
+        <v-col class="v-col-auto dpp-id-container">
+          <v-card class="contract-container contract-modal">
+            <div class="title-container">Choose a policy</div>
+            <v-radio-group class="content-container" v-model="radios">
+              <!-- Loop over the grouped policies -->
+              <template
+                v-for="(group, contractId, contractIndex) in groupedPolicies"
+                :key="contractId"
+              >
+                <div class="policy-group-label">
+                  <span class="policy-group-label-mobile">Contract ID:</span>
+                  {{ contractId }}
                 </div>
-              </v-row>
-            </v-card>
-          </template>
-          <template v-if="declineContractModal">
-            <v-card class="contract-container">
-              <div class="title-container">
-                Are you sure you want to decline?
-              </div>
-              <div class="policy-group-label">
-                <div class="back-to-homepage">
-                  This will take you back to the Homepage
-                </div>
-              </div>
-              <v-row class="pt-8 justify-center">
-                <v-btn
-                  color="#0F71CB"
-                  class="text-none"
-                  variant="outlined"
-                  @click="cancelDeclineContract()"
-                  >Cancel</v-btn
+                <v-radio
+                  v-for="(item, index) in group"
+                  :key="`${contractId}_${index}`"
+                  @click="chooseContract(contractId, item['@id'])"
+                  :value="`${contractId}_${index}`"
+                  :checked="contractIndex == 0 && index == 0"
+                  :label="
+                    'Policy type: ' +
+                    (item['odrl:permission']['odrl:action']['odrl:type'] !=
+                    undefined
+                      ? item['odrl:permission']['odrl:action']['odrl:type']
+                      : '')
+                  "
                 >
-                <v-btn
-                  class="text-none ms-4 text-white"
-                  color="red-darken-4"
-                  @click="confirmDeclineContract()"
-                  >Yes, Decline</v-btn
-                >
-              </v-row>
-            </v-card>
-          </template>
+                </v-radio>
+              </template>
+            </v-radio-group>
+            <v-row class="pt-8 justify-center">
+              <v-btn
+                color="#0F71CB"
+                class="text-none"
+                variant="outlined"
+                @click="declineContract()"
+                >Decline</v-btn
+              >
+              <v-btn
+                class="text-none ms-4 text-white"
+                color="#0F71CB"
+                @click="
+                  resumeNegotiation(
+                    searchResponse,
+                    contractToSign.contract,
+                    contractToSign.policy
+                  )
+                "
+                >Agree</v-btn
+              >
+            </v-row>
+            <v-row>
+              <v-btn
+                variant="text"
+                @click="toggleDetails"
+                class="details-btn text-none"
+              >
+                {{ detailsTitle }}
+              </v-btn>
+            </v-row>
+            <v-row v-if="details">
+              <div class="json-viewer-container">
+                <JsonViewer
+                  class="json-viewer"
+                  :value="contractItems"
+                  sort
+                  theme="jv-light"
+                />
+              </div>
+            </v-row>
+          </v-card>
+        </v-col>
+      </div>
+      <template v-if="declineContractModal">
+        <v-overlay>
+          <v-card class="contract-container">
+            <div class="title-container">Are you sure you want to decline?</div>
+            <div class="policy-group-label">
+              <div class="back-to-homepage">
+                This will take you back to the Homepage
+              </div>
+            </div>
+            <v-row class="pt-8 justify-center">
+              <v-btn
+                color="#0F71CB"
+                class="text-none"
+                variant="outlined"
+                @click="cancelDeclineContract()"
+                >Cancel</v-btn
+              >
+              <v-btn
+                class="text-none ms-4 text-white"
+                color="red-darken-4"
+                @click="confirmDeclineContract()"
+                ><template v-if="declineLoading"
+                  ><v-progress-circular
+                    indeterminate
+                  ></v-progress-circular></template
+                ><template v-else>Yes, Decline</template></v-btn
+              >
+            </v-row>
+          </v-card>
         </v-overlay>
       </template>
     </v-container>
@@ -230,6 +244,7 @@ import {
   AUTO_SIGN,
   SEARCH_TIMEOUT,
   NEGOTIATE_TIMEOUT,
+  DECLINE_TIMEOUT,
 } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
@@ -314,6 +329,7 @@ export default {
       data: null,
       loading: true,
       searchResponse: null,
+      declineLoading: false,
       errors: [],
       id: this.$route.params.id,
       irsData: [],
@@ -329,29 +345,6 @@ export default {
         reload: true,
       },
     };
-  },
-  mounted() {
-    // Initialize contractItems from searchData
-    this.contractItems = this.searchData.contracts;
-
-    // Extract policies
-    this.extractPolicies(this.contractItems);
-
-    // Check if policies array has elements and then access the @id of the first element
-    if (this.policies.length > 0) {
-      const firstPolicyObj = this.policies[0];
-      const initialContractToSign = Object.keys(firstPolicyObj)[0];
-      const initialPolicyToSign = firstPolicyObj[initialContractToSign]["@id"];
-      // Commit the contract ID to the store
-      this.$store.commit("setContractToSign", {
-        contract: initialContractToSign,
-        policy: initialPolicyToSign,
-      });
-    } else {
-      console.error("No policies found");
-    }
-
-    this.shouldShowOverlay();
   },
   computed: {
     filteredComponentsNames() {
@@ -432,7 +425,7 @@ export default {
       }));
     },
     shouldShowOverlay() {
-      if (this.policies.length > 1) {
+      if (this.policies.length > 0) {
         return (this.showOverlay = true);
       }
     },
@@ -441,7 +434,11 @@ export default {
       this.showContractModal = false;
     },
     confirmDeclineContract() {
-      this.$router.push("/");
+      this.declineLoading = true;
+      this.triggerDecline(this.searchResponse);
+      if (!this.error) {
+        this.$router.push("/");
+      }
     },
     cancelDeclineContract() {
       this.declineContractModal = false;
@@ -480,8 +477,30 @@ export default {
           jsonUtil.exists("id", this.searchResponse["data"])
         ) {
           this.error = false;
-          if(AUTO_SIGN){
+          if (AUTO_SIGN) {
             this.resumeNegotiation(this.searchResponse);
+          } else {
+            // Initialize contractItems from searchData
+            this.contractItems = jsonUtil.get(
+              "data.contracts",
+              this.searchResponse
+            );
+
+            // Extract policies
+            this.extractPolicies(this.contractItems);
+
+            // Check if policies array has elements and then access the @id of the first element
+            const firstPolicyObj = this.policies[0];
+            const initialContractToSign = Object.keys(firstPolicyObj)[0];
+            const initialPolicyToSign =
+              firstPolicyObj[initialContractToSign]["@id"];
+            // Commit the contract ID to the store
+            this.$store.commit("setContractToSign", {
+              contract: initialContractToSign,
+              policy: initialPolicyToSign,
+            });
+
+            this.shouldShowOverlay();
           }
         }
         if (this.error || !AUTO_SIGN) {
@@ -490,11 +509,49 @@ export default {
         }
       }
     },
+    async triggerDecline(searchResponse) {
+      let result = null;
+      let token = jsonUtil.get("data.token", searchResponse);
+      let processId = jsonUtil.get("data.id", searchResponse);
+      try {
+        // Setup aspect promise
+        let passportPromise = this.declineNegotiation(token, processId);
+        // Execute promisse with a Timeout
+        result = await threadUtil.execWithTimeout(
+          passportPromise,
+          DECLINE_TIMEOUT,
+          null
+        );
+        if (!result || result == null) {
+          this.errorObj.title = "Timeout! Failed to decline negotiation!";
+          this.errorObj.description =
+            "The request took too long... Please retry or try again later.";
+          this.status = 408;
+          this.statusText = "Request Timeout";
+        }
+        this.data = result;
+      } catch (e) {
+        console.log("passportView -> " + e);
+      } finally {
+        if (
+          this.data &&
+          jsonUtil.exists("status", this.data) &&
+          this.data["status"] == 200
+        ) {
+          this.error = false;
+        }
+        // Stop loading
+        this.loading = false;
+        this.declineLoading = false;
+      }
+    },
     async resumeNegotiation(
       searchResponse,
-      contractId = this.contractToSign.contract,
-      policyId = this.contractToSign.policy
+      contractId = null,
+      policyId = null
     ) {
+      this.loading = true;
+      this.showOverlay = false;
       let result = null;
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
@@ -528,7 +585,7 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        console.log(this.data)
+        console.log(this.data);
         if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
@@ -640,6 +697,67 @@ export default {
         );
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
+
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 500;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Internal Server Error";
+        return response;
+      }
+
+      //     response = jsonUtil.copy(response, true);
+
+      // Check if the response is empty and give an error
+      if (!response) {
+        this.errorObj.title = "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to complete the passport transfer.";
+        this.errorObj.status = 400;
+        this.errorObj.statusText = "Bad Request";
+        return null;
+      }
+
+      // Check if reponse content was successfull and if not print error comming message from backend
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "An error occured when searching for the passport!";
+        this.errorObj.description =
+          "An error occured when searching for the passport!";
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 404;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not found";
+      }
+
+      return response;
+    },
+    async declineNegotiation(token, processId) {
+      let response = null;
+      // Get Passport in Backend
+      try {
+        // Init backendService
+        // Get access token from IDP
+        // Get the aspect for the selected version
+
+        response = await this.backendService.declineNegotiation(
+          token,
+          processId,
+          this.auth
+        );
+      } catch (e) {
+        console.log("passportView.declineNegotiation() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)
           ? response["message"]
           : "Failed to return passport";

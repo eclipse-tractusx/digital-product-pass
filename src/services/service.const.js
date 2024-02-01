@@ -35,6 +35,7 @@ let backendUrl = "DATA_URL";
 let retries = 'APP_API_MAX_RETRIES';
 let searchTimeout = 'API_SEARCH_TIMEOUT';
 let negotiateTimeout = 'API_NEGOTIATE_TIMEOUT';
+let declineTimeout = 'API_DECLINE_TIMEOUT';
 let irsDelay = 'APP_IRS_DELAY';
 let irsMaxWaitingTime = 'APP_IRS_WAITING_TIME'; 
 let delay = 'APP_API_DELAY';
@@ -50,6 +51,7 @@ let portalUrl = "APP_PORTAL_URL";
 let adminEmail = "APP_ADMIN_EMAIL";
 let autoSign = "APP_AUTO_SIGN";
 
+
 // Default values if the value is not specified
 serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
@@ -64,7 +66,8 @@ autoSign = (autoSign === "true")
 
 // Default Variables if value is not specified or is not a integer
 searchTimeout = numberUtil.parseInt(searchTimeout, 40000);
-negotiateTimeout = numberUtil.parseInt(searchTimeout, 20000);
+negotiateTimeout = numberUtil.parseInt(negotiateTimeout, 20000);
+declineTimeout = numberUtil.parseInt(declineTimeout, 20000);
 delay = numberUtil.parseInt(delay, 1000);
 retries = numberUtil.parseInt(retries, 20);
 irsDelay = numberUtil.parseInt(irsDelay, 30000);
@@ -76,6 +79,7 @@ const BACKEND_URL = backendUrl;
 const API_MAX_RETRIES = retries;
 const NEGOTIATE_TIMEOUT = negotiateTimeout;
 const SEARCH_TIMEOUT = searchTimeout;
+const DECLINE_TIMEOUT = declineTimeout;
 const IRS_DELAY = irsDelay;
 const IRS_MAX_WAITING_TIME = irsMaxWaitingTime;
 const API_DELAY = delay;
@@ -111,4 +115,4 @@ if (window.location.href.includes("localhost")) { //Modify credentials for local
   REDIRECT_URI = SERVER_URL;
 }
 // Export all the CONSTANTS and VARIABLES
-export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, NEGOTIATE_TIMEOUT, SEARCH_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK, AUTO_SIGN};
+export { INIT_OPTIONS, REDIRECT_URI, SERVER_URL, IDP_URL, BACKEND_URL, VERSION, NEGOTIATE_TIMEOUT, DECLINE_TIMEOUT, SEARCH_TIMEOUT, API_DELAY, API_MAX_RETRIES, COMMIT_ID, REPO_ENDPOINT,IRS_DELAY, IRS_MAX_WAITING_TIME, BPN_CHECK, BPN, PORTAL_URL, ADMIN_EMAIL, ROLE_CHECK, AUTO_SIGN};

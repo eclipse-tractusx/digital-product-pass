@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="section">
+  <div class="section" v-if="propsData">
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">

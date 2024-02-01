@@ -46,9 +46,6 @@
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
     </HeaderComponent>
-    <v-container v-if="loading">
-      <LoadingComponent :id="id" />
-    </v-container>
     <v-container v-if="showOverlay">
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
@@ -153,6 +150,9 @@
             </v-overlay>
         </v-col>
       </div>
+    </v-container>
+    <v-container v-if="loading">
+      <LoadingComponent :id="id" />
     </v-container>
     <v-container v-else-if="error" class="h-100 w-100">
       <div class="d-flex align-items-center w-100 h-100">
@@ -548,14 +548,13 @@ export default {
       contractId = null,
       policyId = null
     ) {
-      this.loading = true;
       this.showOverlay = false;
+      this.loading = true;
       let result = null;
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
       let processId = jsonUtil.get("data.id", searchResponse);
-      // [TODO] Get Contract Information
-      console.log("resume negotiation:" + contractId + policyId);
+      
       try {
         // Setup aspect promise
         let passportPromise = this.negotiatePassport(

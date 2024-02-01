@@ -470,8 +470,6 @@ export default {
       } catch (e) {
         console.log("searchContracts -> " + e);
       } finally {
-        console.log(this.searchResponse);
-        console.log(this.searchResponse["data"]);
         if (
           this.searchResponse &&
           jsonUtil.exists("status", this.searchResponse) &&
@@ -482,9 +480,7 @@ export default {
           jsonUtil.exists("id", this.searchResponse["data"])
         ) {
           this.error = false;
-          console.log(this.searchResponse);
-          console.log("AutoSign -> " + AUTO_SIGN);
-          if (AUTO_SIGN) {
+          if(AUTO_SIGN){
             this.resumeNegotiation(this.searchResponse);
           }
         }
@@ -532,6 +528,7 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
+        console.log(this.data)
         if (
           this.data &&
           jsonUtil.exists("status", this.data) &&

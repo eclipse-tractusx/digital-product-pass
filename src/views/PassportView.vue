@@ -46,7 +46,10 @@
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
     </HeaderComponent>
-    <v-container v-if="showOverlay">
+    <v-container v-if="loading">
+      <LoadingComponent :id="id" />
+    </v-container>
+        <v-container v-else-if="showOverlay">
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
             <v-card class="contract-container">
@@ -150,9 +153,6 @@
             </v-overlay>
         </v-col>
       </div>
-    </v-container>
-    <v-container v-if="loading">
-      <LoadingComponent :id="id" />
     </v-container>
     <v-container v-else-if="error" class="h-100 w-100">
       <div class="d-flex align-items-center w-100 h-100">

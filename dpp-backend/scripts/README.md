@@ -39,7 +39,8 @@ A command line python script to request for any aspect model data using the Digi
 - Export enabled/disabled option to export the requested aspect data to a json file
 - Logging enabled/disabled option to log intermediate retrieval status to a file for further backtracking/debugging/troubleshooting
 - The backend API and authorization server settings are configurable
-- Capable to handle exception and error messages
+- Capable to handle exception and error messages+
+- When doing contract negotiation the first contract is always choosed
 
 ## TL;DR 
 - The default script configuration is provided in [Constants.py](./utilities/constants.py) and can be changed based on the authentication provider.
@@ -57,10 +58,10 @@ The following parameters can be added in the [test.sh](./test.sh)
 | --company         | Company name                                                   |         CX-Test-Access                                                              | Required         |
 | --username        | username                                                       |         your username                                                               | Required         |
 | --password        | password                                                       |         your password                                                               | Required         |
-| --semanticId      | Semantic ID of the aspect model                                | urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport   | Optional         | 
-| -idType           | Product type attribute to lookup into digital twin registry    |         partInstanceId                                                              | Optional         |
+| --semanticId      | Semantic ID of the aspect model                                |         *Managed by the Backend*                                                    | Optional         | 
+| -idType           | Product type attribute to lookup into digital twin registry    |         *Managed by the Backend*: "partInstanceId"                                  | Optional         |
 | --id              |Product type value to lookup into the digital twin registry     |         BAT-XYZ789                                                                  | Required         |
-| --discoveryType   |  Discovery type attribute to lookup into the discovery service |         manufacturerPartId                                                          | Optional         |
+| --discoveryType   |  Discovery type attribute to lookup into the discovery service |         *Managed by the Backend*: "manufacturerPartId"                              | Optional         |
 | --discoveryId     | Discovery type value to lookup into the discovery service      |         XYZ78901                                                                    | Required         |
 | -getChildren      | Boolean value to check if children are retrieved               |         False                                                                       | Optional         |
 |                   |                                                                |                                                                                     |                  |

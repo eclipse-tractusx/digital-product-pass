@@ -592,6 +592,8 @@ public class ContractController {
                 response = httpUtil.getForbiddenResponse("This contract was declined! Please request a new one");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            // Check if negotiation is canceled
             if (status.historyExists("negotiation-canceled")) {
                 response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
                 return httpUtil.buildResponse(response, httpResponse);
@@ -615,6 +617,8 @@ public class ContractController {
                 response = httpUtil.getBadRequest("This contract id does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            // Load all the available contracts
             Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
             String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
             // Check the validity of the token

@@ -214,7 +214,6 @@ if __name__ == "__main__":
 
         #Get first contract key from dictionary
         firstContract = list(contracts.keys())[0]
-        
         contract_id = op.get_attribute(contracts[firstContract], "@id")
         
         # If token or contract id does not exist -> error is returned

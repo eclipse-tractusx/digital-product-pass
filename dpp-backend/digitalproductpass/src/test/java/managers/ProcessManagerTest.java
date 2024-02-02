@@ -623,11 +623,6 @@ class ProcessManagerTest {
     }
 
     @Test
-    void getContractId() {
-    }
-
-
-    @Test
     void loadPassportReturnsManagerException() {
        assertThrows(ManagerException.class, () -> processManager.loadPassport(testProcessId));
     }

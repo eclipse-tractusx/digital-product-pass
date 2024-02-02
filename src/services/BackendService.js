@@ -152,7 +152,6 @@ export default class BackendService {
     }
     async negotiateAsset(contracts, token, processId, authentication, contractId=null, policyId=null){
         let contract = null;
-        console.log("Contracts: " + contracts);
         // Use selects here a contract
         if(contractId == null){
             contract = contracts[Object.keys(contracts)[0]];

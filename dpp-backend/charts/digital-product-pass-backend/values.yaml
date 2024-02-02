@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Pass Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -95,6 +95,13 @@ irs:
 process:
   # -- unique sha512 hash key used for the passport encryption
   encryptionKey: ""
+  
+passport:
+  aspects:
+    - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+    - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+    - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+    - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
 
 digitalTwinRegistry:
   endpoints:
@@ -103,7 +110,7 @@ digitalTwinRegistry:
     subModel: "/submodel-descriptors"
   # -- timeouts for the digital twin registry async negotiation
   timeouts:
-    search: 10
+    search: 50
     negotiation: 40
     transfer: 10
     digitalTwin: 20
@@ -146,14 +153,14 @@ oauth:
     enabled: false
 
 podSecurityContext:
-  runAsUser: 10000
+  runAsUser: 1000
   fsGroup: 3000
 
 securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   runAsNonRoot: true
-  runAsUser: 10000
+  runAsUser: 1000
   runAsGroup: 3000
 
 serviceAccount:

@@ -1,7 +1,7 @@
 <!--
-  Catena-X - Product Passport Consumer Frontend
+  Catena-X - Digital Product Passport Frontend
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -49,10 +49,10 @@
     <v-container v-if="loading">
       <LoadingComponent :id="id" />
     </v-container>
-        <v-container v-else-if="showOverlay">
+    <v-container v-else-if="showOverlay">
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
-            <v-card class="contract-container">
+          <v-card class="contract-container">
             <div class="title-container">Choose a policy:</div>
             <v-radio-group class="content-container" v-model="radios">
               <!-- Loop over the grouped policies -->
@@ -71,7 +71,9 @@
                   @click="chooseContract(contractId, item['@id'])"
                   :value="`${contractIndex}.${index}`"
                   :label="
-                    'Policy [' + index + '] type: ' +
+                    'Policy [' +
+                    index +
+                    '] type: ' +
                     (item['odrl:permission']['odrl:action']['odrl:type'] !=
                     undefined
                       ? item['odrl:permission']['odrl:action']['odrl:type']
@@ -81,76 +83,78 @@
                 </v-radio>
               </template>
             </v-radio-group>
+            <v-row class="pt-8 justify-center">
+              <v-btn
+                color="#0F71CB"
+                class="text-none"
+                variant="outlined"
+                @click="declineContract()"
+                >Decline</v-btn
+              >
+              <v-btn
+                class="text-none ms-4 text-white"
+                color="#0F71CB"
+                @click="
+                  resumeNegotiation(
+                    searchResponse,
+                    contractToSign.contract,
+                    contractToSign.policy
+                  )
+                "
+                >Agree</v-btn
+              >
+            </v-row>
+            <v-row>
+              <v-btn
+                variant="text"
+                @click="toggleDetails"
+                class="details-btn text-none"
+              >
+                {{ detailsTitle }}
+              </v-btn>
+            </v-row>
+            <v-row v-if="details">
+              <div class="json-viewer-container">
+                <JsonViewer
+                  class="json-viewer"
+                  :value="contractItems"
+                  sort
+                  theme="jv-light"
+                />
+              </div>
+            </v-row>
+          </v-card>
+          <v-overlay class="contract-modal" v-model="declineContractModal">
+            <v-card class="contract-container">
+              <div class="title-container">
+                Are you sure you want to decline?
+              </div>
+              <div class="policy-group-label">
+                <div class="back-to-homepage">
+                  This will take you back to the Homepage
+                </div>
+              </div>
               <v-row class="pt-8 justify-center">
                 <v-btn
                   color="#0F71CB"
                   class="text-none"
                   variant="outlined"
-                  @click="declineContract()"
-                  >Decline</v-btn
+                  @click="cancelDeclineContract()"
+                  >Cancel</v-btn
                 >
                 <v-btn
                   class="text-none ms-4 text-white"
-                  color="#0F71CB"
-                  @click="
-                    resumeNegotiation(
-                      searchResponse,
-                      contractToSign.contract,
-                      contractToSign.policy
-                    )
-                  "
-                  >Agree</v-btn
+                  color="red-darken-4"
+                  @click="confirmDeclineContract()"
+                  ><template v-if="declineLoading"
+                    ><v-progress-circular
+                      indeterminate
+                    ></v-progress-circular></template
+                  ><template v-else>Yes, Decline</template></v-btn
                 >
-              </v-row>
-              <v-row>
-                <v-btn
-                  variant="text"
-                  @click="toggleDetails"
-                  class="details-btn text-none"
-                >
-                  {{ detailsTitle }}
-                </v-btn>
-              </v-row>
-              <v-row v-if="details">
-                <div class="json-viewer-container">
-                  <JsonViewer
-                    class="json-viewer"
-                    :value="contractItems"
-                    sort
-                    theme="jv-light"
-                  />
-                </div>
               </v-row>
             </v-card>
-            <v-overlay class="contract-modal" v-model="declineContractModal">
-              <v-card class="contract-container">
-                <div class="title-container">Are you sure you want to decline?</div>
-                <div class="policy-group-label">
-                  <div class="back-to-homepage">
-                    This will take you back to the Homepage
-                  </div>
-                </div>
-                <v-row class="pt-8 justify-center">
-                  <v-btn
-                    color="#0F71CB"
-                    class="text-none"
-                    variant="outlined"
-                    @click="cancelDeclineContract()"
-                    >Cancel</v-btn
-                  >
-                  <v-btn
-                    class="text-none ms-4 text-white"
-                    color="red-darken-4"
-                    @click="confirmDeclineContract()"
-                    ><template v-if="declineLoading"
-                      ><v-progress-circular
-                        indeterminate
-                      ></v-progress-circular></template
-                    ><template v-else>Yes, Decline</template></v-btn
-                  >
-                </v-row>
-              </v-card>
-            </v-overlay>
+          </v-overlay>
         </v-col>
       </div>
     </v-container>
@@ -255,6 +259,7 @@ import store from "../store/index";
 import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
+import passports from "@/config/templates/passports.json";
 
 export default {
   name: "PassportView",
@@ -349,13 +354,23 @@ export default {
       let dataKeys = Object.keys(this.data.aspect);
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
+        // Filter out keys with empty objects or arrays
+        dataKeys = dataKeys.filter((key) => {
+          const value = this.data.aspect[key];
+          if (typeof value === "object" && value !== null) {
+            // Check if it's an array or an object and ensure it's not empty
+            return Array.isArray(value)
+              ? value.length > 0
+              : Object.keys(value).length > 0;
+          }
+          return true; // Include if it's not an object/array or if it's a non-empty primitive value
+        });
+
         dataKeys.splice(3, 0, "components");
         dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
-          label: passportUtil.toSentenceCase(
-            key[0].toUpperCase() + key.slice(1)
-          ),
+          label: key,
           icon: passportUtil.iconFinder(key),
           component: key,
         }));
@@ -414,9 +429,6 @@ export default {
       }
     },
     chooseContract(contract, policy) {
-      console.log("Contract chosen - contractToSign:", this.contractToSign);
-      console.log("Contract chosen - policies:", this.policies);
-
       return (this.contractToSign = store.commit("setContractToSign", {
         contract: contract,
         policy: policy,
@@ -554,7 +566,7 @@ export default {
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
       let processId = jsonUtil.get("data.id", searchResponse);
-      
+
       try {
         // Setup aspect promise
         let passportPromise = this.negotiatePassport(
@@ -582,7 +594,6 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        console.log(this.data);
         if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
@@ -592,22 +603,36 @@ export default {
           jsonUtil.exists("aspect", this.data["data"]) &&
           jsonUtil.exists("semanticId", this.data["data"])
         ) {
-          this.data = configUtil.normalizePassport(
-            jsonUtil.get("data.aspect", this.data),
-            jsonUtil.get("data.metadata", this.data),
-            jsonUtil.get("data.semanticId", this.data)
-          );
-          this.error = false;
-          this.processId = this.$store.getters.getProcessId; // Get process id from the store
-          this.irsData = this.backendService.getIrsData(
-            this.processId,
-            this.auth
-          ); // Return the IRS data
-          this.$store.commit("setIrsData", this.irsData); // Save IRS Data
-          this.$store.commit(
-            "setIrsState",
-            this.backendService.getIrsState(this.processId, this.auth)
-          );
+          let passportSemanticId = jsonUtil.get("data.semanticId", this.data);
+          if (!jsonUtil.exists(passportSemanticId, passports)) {
+            this.errorObj.title =
+              "This application version does not support this passport aspect model version!";
+            this.errorObj.description =
+              "Unfortunatly, this aspect model with semantic id  [" +
+              passportSemanticId +
+              "] is not supported in this application at the moment.";
+            this.errorObj.status = 422;
+            this.errorObj.statusText = "Not Supported Aspect Model";
+            this.errorObj.reload = false;
+            this.error = true;
+          } else {
+            this.data = configUtil.normalizePassport(
+              jsonUtil.get("data.aspect", this.data),
+              jsonUtil.get("data.metadata", this.data),
+              jsonUtil.get("data.semanticId", this.data)
+            );
+            this.error = false;
+            this.processId = this.$store.getters.getProcessId; // Get process id from the store
+            this.irsData = this.backendService.getIrsData(
+              this.processId,
+              this.auth
+            ); // Return the IRS data
+            this.$store.commit("setIrsData", this.irsData); // Save IRS Data
+            this.$store.commit(
+              "setIrsState",
+              this.backendService.getIrsState(this.processId, this.auth)
+            );
+          }
         }
         // Stop loading
         this.loading = false;
@@ -640,8 +665,6 @@ export default {
           : "Internal Server Error";
         return response;
       }
-
-      //     response = jsonUtil.copy(response, true);
 
       // Check if the response is empty and give an error
       if (!response) {
@@ -710,8 +733,6 @@ export default {
         return response;
       }
 
-      //     response = jsonUtil.copy(response, true);
-
       // Check if the response is empty and give an error
       if (!response) {
         this.errorObj.title = "Failed to return passport";
@@ -770,8 +791,6 @@ export default {
           : "Internal Server Error";
         return response;
       }
-
-      //     response = jsonUtil.copy(response, true);
 
       // Check if the response is empty and give an error
       if (!response) {

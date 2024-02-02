@@ -27,17 +27,17 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('predecessor')"
-            label="Predecessor"
+            :label="$t('sections.metadata.predecessor')"
             :value="propsData.predecessor"
           />
           <Field
             :icon="callIconFinder('issueDate')"
-            label="Issue date"
+            :label="$t('sections.metadata.issueDate')"
             :value="propsData.issueDate"
           />
           <Field
             :icon="callIconFinder('version')"
-            label="Version"
+            :label="$t('sections.metadata.version')"
             :value="propsData.version"
           />
         </v-col>
@@ -45,12 +45,12 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               :icon="callIconFinder('legitimization')"
-              label="Legitimization"
+              :label="$t('sections.metadata.legitimization')"
               :value="propsData.economicOperator.legitimization"
             />
             <Field
               :icon="callIconFinder('identification')"
-              label="Identification"
+              :label="$t('sections.metadata.identification')"
               :value="propsData.economicOperator.identification"
             />
           </v-col>
@@ -58,12 +58,12 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('status')"
-            label="Status"
+            :label="$t('sections.metadata.status')"
             :value="propsData.status"
           />
           <Field
             :icon="callIconFinder('expirationDate')"
-            label="Expiration date"
+            :label="$t('sections.metadata.expirationDate')"
             :value="propsData.expirationDate"
           />
         </v-col>

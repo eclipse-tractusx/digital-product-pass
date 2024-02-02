@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -32,7 +33,6 @@ on:
     inputs:
       version:
         required: false
-        default: 'main'
         type: string
 
   workflow_dispatch:
@@ -40,7 +40,6 @@ on:
       version:
         required: false
         description: "Version of the DPP API is to be published"
-        default: 'main'
         type: string
 
 jobs:
@@ -49,6 +48,7 @@ jobs:
     env:
       SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
       SWAGGERHUB_USER: ${{ secrets.SWAGGERHUB_USER }}
+     
     steps:
       - uses: actions/checkout@v4
 
@@ -60,10 +60,19 @@ jobs:
       - name: Install Swagger CLI
         run: |
           npm i -g swaggerhub-cli
+      
+      - name: Get version tag
+        id: version
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Extract versions
+      - name: Set version tag
         run: |
-          export DOWNSTREAM_VERSION=${{ inputs.version }}
+          if [ -z ${{ inputs.version }} ]; then
+           
+            export DOWNSTREAM_VERSION=${{ steps.version.outputs.tag }}
+          else
+            export DOWNSTREAM_VERSION=${{ inputs.version }}
+          fi
           echo "[INFO] - DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
 
       - name: Create and Download API specs

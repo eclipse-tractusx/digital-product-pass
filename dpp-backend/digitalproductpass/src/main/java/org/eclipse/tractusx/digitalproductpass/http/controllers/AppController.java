@@ -154,7 +154,6 @@ public class AppController {
     @Operation(summary = "Receives the EDR for the EDC Consumer and queries for the dDTR")
     public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String endpointId) {
         try {
-            System.out.println(jsonUtil.toJson(body, true));
             DataPlaneEndpoint endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
@@ -308,7 +307,6 @@ public class AppController {
     @Operation(summary = "Receives the EDR from the EDC Consumer and get the passport json")
     public Response endpoint(@RequestBody Object body, @PathVariable String processId) {
         try {
-            System.out.println(jsonUtil.toJson(body, true));
             DataPlaneEndpoint endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);

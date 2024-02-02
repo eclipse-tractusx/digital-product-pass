@@ -24,6 +24,7 @@ npm/npmjs/-/callsites/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/chalk/2.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/chalk/4.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/chokidar/3.5.3, MIT, approved, #2317
+npm/npmjs/-/clipboard/2.0.11, MIT, approved, clearlydefined
 npm/npmjs/-/cliui/8.0.1, ISC AND Artistic-2.0, approved, #3753
 npm/npmjs/-/color-convert/1.9.3, MIT, approved, clearlydefined
 npm/npmjs/-/color-convert/2.0.1, MIT, approved, clearlydefined
@@ -43,10 +44,11 @@ npm/npmjs/-/deep-is/0.1.4, MIT, approved, #2130
 npm/npmjs/-/deepmerge/4.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/define-lazy-prop/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/delayed-stream/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/delegate/3.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/doctrine/3.0.0, Apache-2.0 AND BSD-2-Clause, approved, CQ22628
 npm/npmjs/-/emoji-regex/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/enquirer/2.3.6, MIT AND (ISC AND MIT), approved, #2727
-npm/npmjs/-/esbuild/0.19.12, , restricted, clearlydefined
+npm/npmjs/-/esbuild/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12979
 npm/npmjs/-/escalade/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/4.0.0, MIT, approved, clearlydefined
@@ -87,6 +89,7 @@ npm/npmjs/-/get-caller-file/2.0.5, ISC, approved, clearlydefined
 npm/npmjs/-/glob-parent/5.1.2, ISC, approved, clearlydefined
 npm/npmjs/-/glob/7.2.3, ISC, approved, clearlydefined
 npm/npmjs/-/globals/13.20.0, MIT, approved, #6953
+npm/npmjs/-/good-listener/1.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/has-flag/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-flag/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/he/1.2.0, MIT, approved, clearlydefined
@@ -164,6 +167,7 @@ npm/npmjs/-/rollup/4.9.6, MIT, approved, clearlydefined
 npm/npmjs/-/rtcpeerconnection-shim/1.2.15, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/sass/1.58.0, Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND MIT, approved, #6927
 npm/npmjs/-/sdp/2.12.0, MIT, approved, #6956
+npm/npmjs/-/select/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
@@ -181,6 +185,7 @@ npm/npmjs/-/supports-color/5.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/supports-color/7.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/table/6.8.1, BSD-3-Clause, approved, #4596
 npm/npmjs/-/text-table/0.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/tiny-emitter/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/type-check/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/type-fest/0.20.2, MIT OR (CC0-1.0 AND MIT), approved, clearlydefined
@@ -197,6 +202,7 @@ npm/npmjs/-/vue-router/4.0.13, MIT, approved, clearlydefined
 npm/npmjs/-/vue-template-compiler/2.7.14, 0BSD AND MIT AND MIT, approved, #3476
 npm/npmjs/-/vue-tsc/1.0.24, MIT, approved, clearlydefined
 npm/npmjs/-/vue/3.2.47, MIT, approved, #7094
+npm/npmjs/-/vue3-json-viewer/2.2.2, MIT AND ISC, approved, #12936
 npm/npmjs/-/vue3-qrcode-reader/0.0.1, MIT AND (BSD-3-Clause AND MIT), approved, #6958
 npm/npmjs/-/vuetify/3.1.4, MIT AND W3C-20150513, approved, #7092
 npm/npmjs/-/vuex-persistedstate/4.1.0, MIT, approved, clearlydefined
@@ -216,29 +222,29 @@ npm/npmjs/@babel/code-frame/7.12.11, MIT, approved, clearlydefined
 npm/npmjs/@babel/helper-validator-identifier/7.22.20, MIT, approved, #8955
 npm/npmjs/@babel/highlight/7.22.20, MIT, approved, #9073
 npm/npmjs/@babel/parser/7.23.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #10663
-npm/npmjs/@esbuild/aix-ppc64/0.19.12, , restricted, clearlydefined
+npm/npmjs/@esbuild/aix-ppc64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12976
 npm/npmjs/@esbuild/android-arm/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #11629
-npm/npmjs/@esbuild/android-arm64/0.19.12, , restricted, clearlydefined
+npm/npmjs/@esbuild/android-arm64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12967
 npm/npmjs/@esbuild/android-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #11638
-npm/npmjs/@esbuild/darwin-arm64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/darwin-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/freebsd-arm64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/freebsd-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-arm/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-arm64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-ia32/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-loong64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-mips64el/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-ppc64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-riscv64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-s390x/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/linux-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/netbsd-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/openbsd-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/sunos-x64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/win32-arm64/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/win32-ia32/0.19.12, , restricted, clearlydefined
-npm/npmjs/@esbuild/win32-x64/0.19.12, , restricted, clearlydefined
+npm/npmjs/@esbuild/darwin-arm64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12987
+npm/npmjs/@esbuild/darwin-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12974
+npm/npmjs/@esbuild/freebsd-arm64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12973
+npm/npmjs/@esbuild/freebsd-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12988
+npm/npmjs/@esbuild/linux-arm/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12968
+npm/npmjs/@esbuild/linux-arm64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12985
+npm/npmjs/@esbuild/linux-ia32/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12972
+npm/npmjs/@esbuild/linux-loong64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12971
+npm/npmjs/@esbuild/linux-mips64el/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12977
+npm/npmjs/@esbuild/linux-ppc64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12966
+npm/npmjs/@esbuild/linux-riscv64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12986
+npm/npmjs/@esbuild/linux-s390x/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12975
+npm/npmjs/@esbuild/linux-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12980
+npm/npmjs/@esbuild/netbsd-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12959
+npm/npmjs/@esbuild/openbsd-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12981
+npm/npmjs/@esbuild/sunos-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12970
+npm/npmjs/@esbuild/win32-arm64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12960
+npm/npmjs/@esbuild/win32-ia32/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12969
+npm/npmjs/@esbuild/win32-x64/0.19.12, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #12961
 npm/npmjs/@eslint/eslintrc/0.4.3, MIT, approved, clearlydefined
 npm/npmjs/@humanwhocodes/config-array/0.5.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/object-schema/1.2.1, BSD-3-Clause, approved, clearlydefined
@@ -249,19 +255,19 @@ npm/npmjs/@intlify/shared/9.2.2, MIT, approved, clearlydefined
 npm/npmjs/@intlify/vue-devtools/9.2.2, MIT, approved, clearlydefined
 npm/npmjs/@mdi/font/5.9.55, Apache-2.0, approved, clearlydefined
 npm/npmjs/@popperjs/core/2.11.2, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-android-arm-eabi/4.9.6, , restricted, clearlydefined
+npm/npmjs/@rollup/rollup-android-arm-eabi/4.9.6, MIT AND (ISC AND MIT), approved, #12984
 npm/npmjs/@rollup/rollup-android-arm64/4.9.6, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-darwin-arm64/4.9.6, , restricted, clearlydefined
-npm/npmjs/@rollup/rollup-darwin-x64/4.9.6, , restricted, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm-gnueabihf/4.9.6, , restricted, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm64-gnu/4.9.6, , restricted, clearlydefined
+npm/npmjs/@rollup/rollup-darwin-arm64/4.9.6, MIT AND (ISC AND MIT), approved, #12962
+npm/npmjs/@rollup/rollup-darwin-x64/4.9.6, MIT AND (ISC AND MIT), approved, #12978
+npm/npmjs/@rollup/rollup-linux-arm-gnueabihf/4.9.6, MIT AND (ISC AND MIT), approved, #12964
+npm/npmjs/@rollup/rollup-linux-arm64-gnu/4.9.6, MIT AND (ISC AND MIT), approved, #12982
 npm/npmjs/@rollup/rollup-linux-arm64-musl/4.9.6, MIT, approved, clearlydefined
 npm/npmjs/@rollup/rollup-linux-riscv64-gnu/4.9.6, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-x64-gnu/4.9.6, , restricted, clearlydefined
-npm/npmjs/@rollup/rollup-linux-x64-musl/4.9.6, , restricted, clearlydefined
+npm/npmjs/@rollup/rollup-linux-x64-gnu/4.9.6, MIT AND (ISC AND MIT), approved, #12983
+npm/npmjs/@rollup/rollup-linux-x64-musl/4.9.6, MIT AND (ISC AND MIT), approved, #12963
 npm/npmjs/@rollup/rollup-win32-arm64-msvc/4.9.6, MIT, approved, clearlydefined
 npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.9.6, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-win32-x64-msvc/4.9.6, , restricted, clearlydefined
+npm/npmjs/@rollup/rollup-win32-x64-msvc/4.9.6, MIT AND (ISC AND MIT), approved, #12965
 npm/npmjs/@types/estree/1.0.5, MIT, approved, #8266
 npm/npmjs/@vitejs/plugin-vue/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/@volar/language-core/1.0.24, MIT, approved, clearlydefined

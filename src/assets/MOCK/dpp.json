@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "contract": {
+    "contracts": {
       "@id": "5c4fbb7d-cf02-4401-a7a3-f0ec1c506f33",
       "@type": "dcat:Dataset",
       "odrl:hasPolicy": {

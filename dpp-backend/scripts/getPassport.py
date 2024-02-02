@@ -44,10 +44,9 @@ def get_arguments():
                             help="password required to login", required=True)
 
         parser.add_argument("-s", "--semanticId", \
-                            default="urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport", \
                             help="Semantic ID of the aspect model", required=False)
         
-        parser.add_argument("-it", "--idType", default="partInstanceId", \
+        parser.add_argument("-it", "--idType", \
                             help="Product type attribute to lookup into digital twin registry", required=False)
         
         parser.add_argument("-id", "--id", help="The product type value to lookup into the digital twin registry", \
@@ -86,13 +85,21 @@ def create_process(manufacturer_part_id, session=None):
     except Exception as exception:
         op.print_message("Exception occured while creating a process -> " + exception, info_level="[ERROR]", log_enabled=is_log_enabled)
 
-def search_contract(process_id, serialized_id, id_type, semantic_id, session=None):
+def search_contract(process_id, serialized_id, id_type=None, semantic_id=None, session=None, children=None):
     data = {
         "id": serialized_id,
-        "processId": process_id,
-        "idType": id_type,
-        "semanticId": semantic_id
+        "processId": process_id
     }
+    if(semantic_id is not None):
+        data["semanticId"] = semantic_id
+
+    if(id_type is not None):
+        data["idType"] = id_type
+
+    if(children is not None):
+        data["children"] = children
+
+    print(data)
     headers={
         "Authorization": "Bearer "+ access_token,
         "Content-Type": "application/json"
@@ -115,7 +122,7 @@ def negotiate_contract(process_id, contract_id, token, session=None):
         "Authorization": "Bearer "+ access_token,
         "Content-Type": "application/json"
         }
-    url = Constants.SERVER_URL + Constants.SIGN_API
+    url = Constants.SERVER_URL + Constants.AGREE_API
     try:    
         response = HttpUtils.do_post(url=url, session=session, headers=headers, verify=False, json=data)
         return response.json()
@@ -196,14 +203,18 @@ if __name__ == "__main__":
         op.print_message("Process created with ID " + process_id, log_enabled=is_log_enabled)
 
         # search for a contract
-        negotiation_response = search_contract(process_id, serialized_id, id_type, semantic_id, session)
+        negotiation_response = search_contract(process_id, serialized_id, id_type, semantic_id, session, children)
         if ((status and status != 200) or not negotiation_response["data"]):
             op.print_message("The contract was not available", info_level="[ERROR]", log_enabled=is_log_enabled)
             raise Exception("[ERROR] - The contract was not available")
 
         negotiation = negotiation_response["data"]
         token = op.get_attribute(negotiation, "token")
-        contract_id = op.get_attribute(negotiation, "contract.@id")
+        contracts = op.get_attribute(negotiation, "contracts")
+
+        #Get first contract key from dictionary
+        firstContract = list(contracts.keys())[0]
+        contract_id = op.get_attribute(contracts[firstContract], "@id")
         
         # If token or contract id does not exist -> error is returned
         if (not token or not contract_id):

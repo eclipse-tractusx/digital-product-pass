@@ -38,10 +38,9 @@ backend:
   imagePullSecrets: []
 
   service:
-  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
+    # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service
     type: ClusterIP
     port: 8888
-
 
   # -- ingress declaration to expose the dpp-backend service
   ingress:
@@ -92,11 +91,12 @@ backend:
     # -- edc consumer connection configuration
     hostname: ""
     apis:
-      management: '/management/v2'
-      catalog: '/catalog/request'
-      negotiation: '/contractnegotiations'
-      transfer: '/transferprocesses'
-    delay: 100  # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+      management: "/management/v2"
+      catalog: "/catalog/request"
+      negotiation: "/contractnegotiations"
+      transfer: "/transferprocesses"
+    # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    delay: 100
 
   # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
   hostname: *hostname
@@ -183,7 +183,7 @@ frontend:
   ingress:
     enabled: false
     hosts: []
-  
+
   # -- The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
   podSecurityContext:
     seccompProfile:

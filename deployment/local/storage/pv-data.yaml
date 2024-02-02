@@ -1,7 +1,7 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -21,14 +21,19 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
----
-name: "Setup Java"
-description: "Setup Java"
-runs:
-  using: "composite"
-  steps:
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-data
+  namespace: default
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  claimRef:
+    name: pvc-data
+    namespace: default
+  hostPath:
+    path: "/mnt"

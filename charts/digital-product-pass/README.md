@@ -1,6 +1,6 @@
 # digital-product-pass
 
-![Version: 2.0.2](https://img.shields.io/badge/Version-2.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.2](https://img.shields.io/badge/AppVersion-2.0.2-informational?style=flat-square)
+![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.3](https://img.shields.io/badge/AppVersion-2.0.3-informational?style=flat-square)
 
 A Helm chart for Tractus-X Digital Product Pass Kubernetes
 
@@ -24,6 +24,7 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | backend.discovery.edcDiscovery | object | `{"key":"bpn"}` | edc discovery configuration |
 | backend.discovery.hostname | string | `""` | discovery finder configuration |
 | backend.edc | object | `{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}` | in this section we configure the values that are inserted as secrets in the backend |
+| backend.edc.delay | int | `100` | Negotiation status Delay in milliseconds in between async requests [<= 500] |
 | backend.edc.hostname | string | `""` | edc consumer connection configuration |
 | backend.edc.participantId | string | `"<Add participant id here>"` | BPN Number |
 | backend.edc.xApiKey | string | `"<Add API key here>"` | the secret for assesing the edc management API |

@@ -1,28 +1,6 @@
-<!--
-  Catena-X - Product Passport Consumer Application
- 
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
--->
-
 # tractusx-connector
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.1](https://img.shields.io/badge/AppVersion-0.4.1-informational?style=flat-square)
+![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.0](https://img.shields.io/badge/AppVersion-0.5.0-informational?style=flat-square)
 
 A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc consumer for the DPP applicatiton.
 
@@ -37,15 +15,53 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql(postgresql) | 12.1.6 |
-| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.4.1 |
+| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.5.0 |
+| https://eclipse-tractusx.github.io/item-relationship-service | irs-helm | 6.11.0 |
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| irs-helm.bpdm.bpnEndpoint | string | `"{{- if .Values.bpdm.url }} {{- tpl (.Values.bpdm.url | default \"\") . }}/api/catena/legal-entities/{partnerId}?idType={idType} {{- end }}"` |  |
+| irs-helm.bpdm.url | string | `"https://partners-pool.dev.demo.catena-x.net"` |  |
+| irs-helm.bpn | string | `"<path:material-pass/data/dev/edc/participant#bpnNumber>"` |  |
+| irs-helm.digitalTwinRegistry.discoveryFinderUrl | string | `"https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"` |  |
+| irs-helm.digitalTwinRegistry.type | string | `"decentral"` |  |
+| irs-helm.digitalTwinRegistry.url | string | `"https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[0].leftOperand | string | `"FrameworkAgreement.sustainability"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[0].operator | string | `"eq"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[0].rightOperand | string | `"active"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[1].leftOperand | string | `"Membership"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[1].operator | string | `"eq"` |  |
+| irs-helm.edc.catalog.acceptedPolicies[1].rightOperand | string | `"active"` |  |
+| irs-helm.edc.controlplane.apikey.secret | string | `"<path:material-pass/data/dev/edc/oauth#api.key>"` |  |
+| irs-helm.edc.controlplane.endpoint.data | string | `"https://materialpass.dev.demo.catena-x.net/consumer/management"` |  |
+| irs-helm.enabled | bool | `true` |  |
+| irs-helm.ingress.annotations."nginx.ingress.kubernetes.io/backend-protocol" | string | `"HTTP"` |  |
+| irs-helm.ingress.annotations."nginx.ingress.kubernetes.io/force-ssl-redirect" | string | `"true"` |  |
+| irs-helm.ingress.annotations."nginx.ingress.kubernetes.io/ssl-passthrough" | string | `"false"` |  |
+| irs-helm.ingress.annotations.ingressClassName | string | `"nginx"` |  |
+| irs-helm.ingress.enabled | bool | `true` |  |
+| irs-helm.ingress.hosts[0].host | string | `"materialpass-irs.dev.demo.catena-x.net"` |  |
+| irs-helm.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| irs-helm.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| irs-helm.ingress.tls[0].hosts[0] | string | `"materialpass-irs.dev.demo.catena-x.net"` |  |
+| irs-helm.ingress.tls[0].secretName | string | `"tls-secret"` |  |
+| irs-helm.irsUrl | string | `"https://materialpass-irs.dev.demo.catena-x.net"` |  |
+| irs-helm.minio.rootPassword | string | `"<path:material-pass/data/dev/irs/minio#password>"` |  |
+| irs-helm.minio.rootUser | string | `"<path:material-pass/data/dev/irs/minio#user>"` |  |
+| irs-helm.minio.serviceAccount.create | bool | `false` |  |
+| irs-helm.minioPassword | string | `"<path:material-pass/data/dev/irs/minio#password>"` |  |
+| irs-helm.minioUrl | string | `"http://{{ .Release.Name }}-minio:9000"` |  |
+| irs-helm.minioUser | string | `"<path:material-pass/data/dev/irs/minio#user>"` |  |
+| irs-helm.oauth2.clientId | string | `"<path:material-pass/data/dev/irs/keycloak/oauth2#clientId>"` |  |
+| irs-helm.oauth2.clientSecret | string | `"<path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>"` |  |
+| irs-helm.oauth2.clientTokenUri | string | `"https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"` |  |
+| irs-helm.oauth2.jwkSetUri | string | `"https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"` |  |
+| irs-helm.semanticshub.url | string | `"https://semantics.dev.demo.catena-x.net/hub/api/v1/models"` |  |
 | postgresql.auth.database | string | `"edc"` |  |
-| postgresql.auth.password | string | `"<path:material-pass/data/int/edc/database#password>"` |  |
-| postgresql.auth.username | string | `"<path:material-pass/data/int/edc/database#user>"` |  |
+| postgresql.auth.password | string | `"<path:material-pass/data/dev/edc/database#password>"` |  |
+| postgresql.auth.username | string | `"<path:material-pass/data/dev/edc/database#user>"` |  |
 | postgresql.fullnameOverride | string | `"postgresql"` |  |
 | postgresql.jdbcUrl | string | `"jdbc:postgresql://postgresql:5432/edc"` |  |
 | postgresql.primary.persistence.enabled | bool | `true` |  |
@@ -89,7 +105,7 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.controlplane.envValueFrom | object | `{}` |  |
 | tractusx-connector.controlplane.image.pullPolicy | string | `"IfNotPresent"` | [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use |
 | tractusx-connector.controlplane.image.repository | string | `"tractusx/edc-controlplane-postgresql-hashicorp-vault"` | Which derivate of the control plane to use. when left empty the deployment will select the correct image automatically |
-| tractusx-connector.controlplane.image.tag | string | `"0.4.1"` | Overrides the image tag whose default is the chart appVersion |
+| tractusx-connector.controlplane.image.tag | string | `"0.5.0"` | Overrides the image tag whose default is the chart appVersion |
 | tractusx-connector.controlplane.ingresses[0].annotations | object | `{}` | Additional ingress annotations to add |
 | tractusx-connector.controlplane.ingresses[0].certManager.clusterIssuer | string | `""` | If preset enables certificate generation via cert-manager cluster-wide issuer |
 | tractusx-connector.controlplane.ingresses[0].certManager.issuer | string | `""` | If preset enables certificate generation via cert-manager namespace scoped issuer |
@@ -149,20 +165,17 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.controlplane.securityContext.runAsUser | int | `10001` | The container's process will run with the specified uid |
 | tractusx-connector.controlplane.service.annotations | object | `{}` |  |
 | tractusx-connector.controlplane.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service. |
+| tractusx-connector.controlplane.ssi.endpoint.audience | string | `"https://materialpass.dev.demo.catena-x.net/consumer"` |  |
+| tractusx-connector.controlplane.ssi.miw.authorityId | string | `"<path:material-pass/data/dev/edc/ssi#authorityId>"` |  |
+| tractusx-connector.controlplane.ssi.miw.url | string | `"<path:material-pass/data/dev/edc/ssi#miwUrl>"` |  |
+| tractusx-connector.controlplane.ssi.oauth.client.id | string | `"<path:material-pass/data/dev/edc/ssi#clientId>"` |  |
+| tractusx-connector.controlplane.ssi.oauth.client.secretAlias | string | `"dev-client-secret"` |  |
+| tractusx-connector.controlplane.ssi.oauth.tokenurl | string | `"https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"` |  |
 | tractusx-connector.controlplane.tolerations | list | `[]` |  |
 | tractusx-connector.controlplane.url.ids | string | `""` | Explicitly declared url for reaching the ids api (e.g. if ingresses not used) |
 | tractusx-connector.controlplane.volumeMounts | list | `[]` | declare where to mount [volumes](https://kubernetes.io/docs/concepts/storage/volumes/) into the container |
 | tractusx-connector.controlplane.volumes | list | `[]` | [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories |
 | tractusx-connector.customLabels | object | `{}` |  |
-| tractusx-connector.daps.clientId | string | `"<path:material-pass/data/dev/edc/oauth#client.id>"` |  |
-| tractusx-connector.daps.connectors[0].attributes.referringConnector | string | `"https://materialpass.dev.demo.catena-x.net/consumer/<path:material-pass/data/dev/edc/participant#bpnNumber>"` |  |
-| tractusx-connector.daps.connectors[0].certificate | string | `"<path:material-pass/data/daps-crt-dev#content>"` |  |
-| tractusx-connector.daps.connectors[0].id | string | `"<path:material-pass/data/dev/edc/oauth#client.id>"` |  |
-| tractusx-connector.daps.connectors[0].name | string | `"edcconector"` |  |
-| tractusx-connector.daps.fullnameOverride | string | `"daps"` |  |
-| tractusx-connector.daps.paths.jwks | string | `"/.well-known/jwks.json"` |  |
-| tractusx-connector.daps.paths.token | string | `"/token"` |  |
-| tractusx-connector.daps.url | string | `"https://daps1.int.demo.catena-x.net"` |  |
 | tractusx-connector.dataplane.affinity | object | `{}` |  |
 | tractusx-connector.dataplane.autoscaling.enabled | bool | `false` | Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | tractusx-connector.dataplane.autoscaling.maxReplicas | int | `100` | Maximum replicas if resource consumption exceeds resource threshholds |
@@ -195,7 +208,7 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.dataplane.envValueFrom | object | `{}` |  |
 | tractusx-connector.dataplane.image.pullPolicy | string | `"IfNotPresent"` | [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use |
 | tractusx-connector.dataplane.image.repository | string | `"tractusx/edc-dataplane-hashicorp-vault"` | Which derivate of the data plane to use. when left empty the deployment will select the correct image automatically |
-| tractusx-connector.dataplane.image.tag | string | `"0.4.1"` | Overrides the image tag whose default is the chart appVersion |
+| tractusx-connector.dataplane.image.tag | string | `"0.5.0"` | Overrides the image tag whose default is the chart appVersion |
 | tractusx-connector.dataplane.ingresses[0].annotations | object | `{}` | Additional ingress annotations to add |
 | tractusx-connector.dataplane.ingresses[0].certManager.clusterIssuer | string | `""` | If preset enables certificate generation via cert-manager cluster-wide issuer |
 | tractusx-connector.dataplane.ingresses[0].certManager.issuer | string | `""` | If preset enables certificate generation via cert-manager namespace scoped issuer |
@@ -245,12 +258,16 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.dataplane.volumes | list | `[]` | [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories |
 | tractusx-connector.enabled | bool | `true` |  |
 | tractusx-connector.fullnameOverride | string | `"dpp-edc-consumer"` |  |
-| tractusx-connector.idsdaps.connectors[0].certificate | string | `"<path:material-pass/data/daps-crt-dev#content>"` |  |
 | tractusx-connector.imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | tractusx-connector.install.daps | bool | `false` |  |
 | tractusx-connector.install.postgresql | bool | `false` |  |
 | tractusx-connector.install.vault | bool | `false` |  |
 | tractusx-connector.nameOverride | string | `""` |  |
+| tractusx-connector.networkPolicy.controlplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the controlplane component |
+| tractusx-connector.networkPolicy.controlplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for cp (defaults to all namespaces) |
+| tractusx-connector.networkPolicy.dataplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the dataplane component |
+| tractusx-connector.networkPolicy.dataplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for dp (defaults to all namespaces) |
+| tractusx-connector.networkPolicy.enabled | bool | `false` | If `true` network policy will be created to restrict access to control- and dataplane |
 | tractusx-connector.participant.id | string | `"<path:material-pass/data/dev/edc/participant#bpnNumber>"` |  |
 | tractusx-connector.postgresql.auth.database | string | `"edc"` |  |
 | tractusx-connector.postgresql.auth.password | string | `"<path:material-pass/data/dev/edc/database#password>"` |  |
@@ -263,6 +280,8 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.serviceAccount.create | bool | `true` |  |
 | tractusx-connector.serviceAccount.imagePullSecrets | list | `[]` | Existing image pull secret bound to the service account to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | tractusx-connector.serviceAccount.name | string | `""` |  |
+| tractusx-connector.tests | object | `{"hookDeletePolicy":"before-hook-creation,hook-succeeded"}` | Configurations for Helm tests |
+| tractusx-connector.tests.hookDeletePolicy | string | `"before-hook-creation,hook-succeeded"` | Configure the hook-delete-policy for Helm tests |
 | tractusx-connector.vault.fullnameOverride | string | `"vault"` |  |
 | tractusx-connector.vault.hashicorp.healthCheck.enabled | bool | `true` |  |
 | tractusx-connector.vault.hashicorp.healthCheck.standbyOk | bool | `true` |  |
@@ -272,8 +291,6 @@ A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mo
 | tractusx-connector.vault.hashicorp.token | string | `"<path:material-pass/data/dev/edc/vault#vault.hashicorp.token>"` |  |
 | tractusx-connector.vault.hashicorp.url | string | `"<path:material-pass/data/dev/edc/vault#vault.hashicorp.url>"` |  |
 | tractusx-connector.vault.injector.enabled | bool | `false` |  |
-| tractusx-connector.vault.secretNames.dapsPrivateKey | string | `"daps-key-dev"` |  |
-| tractusx-connector.vault.secretNames.dapsPublicKey | string | `"daps-crt-dev"` |  |
 | tractusx-connector.vault.secretNames.transferProxyTokenEncryptionAesKey | string | `"edc-encryption-key"` |  |
 | tractusx-connector.vault.secretNames.transferProxyTokenSignerPrivateKey | string | `"daps-key-dev"` |  |
 | tractusx-connector.vault.secretNames.transferProxyTokenSignerPublicKey | string | `"daps-crt-dev"` |  |

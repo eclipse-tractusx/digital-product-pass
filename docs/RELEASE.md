@@ -37,7 +37,7 @@ The changelog must also be updated from [CHANGELOG.md](../CHANGELOG.md) file, sh
 Helm chart released:
 - [digital-product-pass](../charts/digital-product-pass/Chart.yaml)
 
-Aditional Helm charts of below components can be found in *deployment/helm* folder.
+Aditional Helm charts of below components can be found in *deployment/infrastructure* folder.
 - [edc-consumer](../deployment/infrastructure/edc-consumer/Chart.yaml)
 - [edc-provider](../deployment/infrastructure/edc-provider/Chart.yaml)
 

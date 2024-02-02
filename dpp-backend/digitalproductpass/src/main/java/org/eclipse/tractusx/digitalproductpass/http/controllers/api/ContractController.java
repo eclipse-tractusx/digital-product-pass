@@ -359,10 +359,14 @@ public class ContractController {
             try {
                 datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
             } catch (ServiceException e) {
-                response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
-                response.status = 502;
-                response.statusText = "Bad Gateway";
-                return httpUtil.buildResponse(response, httpResponse);
+                LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
+                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                if (datasets == null) { // If the contract catalog is not reachable retry...
+                    response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
+                    response.status = 502;
+                    response.statusText = "Service Not Available";
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
             }
             // Check if contract offer was not received
             if (datasets == null) {

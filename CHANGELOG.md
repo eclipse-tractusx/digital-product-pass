@@ -26,6 +26,46 @@
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [v2.0.2] - 02-02-2024
+## Added
+- Added Frameagreement conditions to the provider configuration
+- Added Unit Tests for Managers and for Services
+- Added changes from version `v1.0.0` to version `v2.0.0` for every component involved
+- Added iconMapping for all components involved in DPP `v2.0.0`
+- Added multi-language feature that supports currently `EN` and `DE`
+- Added back button in the welcome page
+- Added `timeToLive` attribute to discovery service model in the dpp-backed
+- Added `readOnlyRootFilesystem` to the container security context in helm charts
+
+
+## Updated
+- Cleaned up necessary scripts
+-Refactored the DPP and IRS postman collections
+- Updated the deployment and testing directory structure and their references in relevant documentation
+- Updated license header and deployment directory references in the following readme files:
+    - Admin guide
+    - Arc42
+    - Getting-Started guide
+- Updated test directory stricture in dpp-backend
+- Updated the app url from [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) to [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net)
+- Updated the payloads of asset, policies, contract definition, digital twin and its aspects to align with the DPPTriangle document `v1.1.0`
+- Updated the following frontend content:
+    - Condition for "commercial.warranty" in General Cards
+    - Mocked passports
+    - Loading page translation
+    - Translation files
+    - Characteristics component
+    - Identification component
+    - Sustainability component
+    - Typology component
+- Updated helm template to provide security context values from helm vaules file
+
+
+## Deleted
+- Filtered out unnecessary nnecessary/unused files
+
+
+## [released]
 ## [v2.0.1] - 03-01-2024
 ## Added
 - Added function to check for duplicated DTRs in the temporaryStorage

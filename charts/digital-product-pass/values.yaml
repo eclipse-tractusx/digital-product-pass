@@ -142,7 +142,7 @@ backend:
       subModel: "/submodel-descriptors"
     # -- timeouts for the digital twin registry async negotiation
     timeouts:
-      search: 10
+      search: 50
       negotiation: 40
       transfer: 10
       digitalTwin: 20
@@ -234,8 +234,8 @@ frontend:
     max_retries: 30
     # -- default timeout  - 90 seconds in milliseconds
     timeout:
-      negotiate: 20000
-      search: 40000
+      negotiate: 40000
+      search: 60000
       decline: 20000
     # -- delay from getting status
     delay: 1000

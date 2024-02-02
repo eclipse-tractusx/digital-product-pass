@@ -4,6 +4,43 @@
 
 A Helm chart for Tractus-X Digital Product Pass Backend Kubernetes
 
+## TL;DR 
+
+### Install
+
+```bash
+cd backend/charts/digital-product-pass-backend
+helm install digital-product-pass-backend -f ./values.yaml -f ./values-int.yaml
+```
+
+> **NOTE**: This command will deploy the backend application.
+
+### Exposing ports
+
+Once the application is running, the certain ports need to be exposed to access the backend outside the Kubernetes cluster.
+
+### Get pod name
+Search for the application name:
+
+```bash
+kubectl get pods --no-headers |  awk '{if ($1 ~ "dpp-backend-*") print $1}'
+```
+Copy the pod name with the prefix `dpp-backend-*`
+
+### Port forwarding
+
+```bash
+kubectl port-forward dpp-backend-* 8888:8888
+```
+
+> **NOTE**: The default port set is `8888` however it can be changed in the configuration.
+
+### Check if the application is running
+
+Open the web browser with the following url to check the health status:
+```
+localhost:8888/health
+
 **Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/charts/digital-product-pass-backend>
 
 ## Source Code

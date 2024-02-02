@@ -41,6 +41,7 @@ In particular, the appliction is used to access the battery passport data provid
 <pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.1.0">v2.1.0</a></pre>
 
 
+
 ## Application Preview
 
 Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.

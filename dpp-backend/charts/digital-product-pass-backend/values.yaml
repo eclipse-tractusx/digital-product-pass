@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Pass Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -154,14 +154,14 @@ oauth:
     enabled: false
 
 podSecurityContext:
-  runAsUser: 10000
+  runAsUser: 1000
   fsGroup: 3000
 
 securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   runAsNonRoot: true
-  runAsUser: 10000
+  runAsUser: 1000
   runAsGroup: 3000
 
 serviceAccount:

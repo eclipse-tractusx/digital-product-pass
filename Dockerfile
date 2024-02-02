@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Frontend
+# Catena-X - Digital Product Pass Frontend Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -40,7 +41,7 @@ COPY . .
 RUN npm run build
 
 
-FROM nginxinc/nginx-unprivileged:stable-alpine
+FROM nginxinc/nginx-unprivileged:alpine
 
 ARG REPO_COMMIT_ID='REPO_COMMIT_ID'
 ARG REPO_ENDPOINT_URL='REPO_ENDPOINT_URL'
@@ -50,7 +51,7 @@ ENV REPO_ENDPOINT_URL=${REPO_ENDPOINT_URL}
 USER root
 
 RUN addgroup -g 3000 appgroup \
-	&& adduser -u 10000 -g 3000 -h /home/appuser -D appuser
+	&& adduser -u 1000 -g 3000 -h /home/nonroot -D nonroot
 
 COPY ./entrypoint.sh /entrypoint.sh
 
@@ -62,15 +63,15 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R 10000:3000 /app && chmod -R 775 /app/
-RUN chown 10000:3000 /entrypoint.sh && chmod -R 775 /entrypoint.sh
+RUN chown -R 1000:3000 /app && chmod -R 775 /app/
+RUN chown 1000:3000 /entrypoint.sh && chmod -R 775 /entrypoint.sh
 
 # Install bash for env variables inject script
 RUN apk update && apk add --no-cache bash
 # Make nginx owner of /usr/share/nginx/html/ and change to nginx user
-RUN chown -R 10000:3000 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
+RUN chown -R 1000:3000 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
 
-USER 10000:3000
+USER 1000:3000
 
 EXPOSE 8080
 

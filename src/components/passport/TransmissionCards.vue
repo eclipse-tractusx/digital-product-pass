@@ -139,12 +139,10 @@ export default {
           label: "Total CO2 footprint",
           secondLabel: "Warranty period",
           icon: "mdi-leaf",
-          value:
-            this.$props.data.aspect.sustainability &&
-            this.$props.data.aspect.sustainability.carbonFootprint
-              ? this.$props.data.aspect.sustainability.carbonFootprint
-                  .co2FootprintTotal
-              : "-",
+          value: this.$props.data.aspect.sustainability.carbonFootprint
+            ? this.$props.data.aspect.sustainability.carbonFootprint
+                .co2FootprintTotal
+            : "-",
           valueUnits: "t CO2 Total",
           secondValue:
             this.$props.data.aspect.generalInformation.warrantyPeriod,

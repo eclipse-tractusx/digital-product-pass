@@ -34,20 +34,6 @@
       "electrochemicalProperties": "Electrochemical Properties",
       "documents": "Documents",
       "exchange": "Exchange"
-    },
-    "dppComponentsNames": {
-      "typology": "Typeology",
-      "metadata": "Metadata",
-      "characteristics": "Characteristics",
-      "components": "Components",
-      "commercial": "Commercial",
-      "identification": "Identification",
-      "sources": "Sources",
-      "handling": "Handling",
-      "additionalData": "Additional Data",
-      "sustainability": "Sustainability",
-      "operation": "Operation",
-      "exchange": "Exchange"
     }
   },
   "home": {
@@ -271,8 +257,7 @@
       "weight": "Weight",
       "lifespan": "Lifespan",
       "energyCapacity": "Energy capacity",
-      "voltage": "Voltage",
-      "physicalState": "Physical state"
+      "voltage": "Voltage"
     },
     "commercial": {
       "placedOnMarket": "Place on the market",
@@ -281,41 +266,23 @@
     "handling": {
       "maintenanceHistory": "Maintenance history",
       "spareParts": "Spare parts",
-      "substanceOfConcern": "Substance of concern",
-      "producerId": "Producer Id",
-      "partName": "Part name",
-      "partGtin": "Part gtin",
-      "type": "Type",
-      "location": "Location",
-      "unit": "Unit",
-      "concentrationMax": "Concentration max",
-      "concentrationMin": "Concentration main",
-      "exemption": "Exemption",
-      "idType": "Id type",
-      "id": "Id"
+      "substanceOfConcern": "Substance of concern"
     },
     "identification": {
-      "gtin": "Gtin",
-      "manufacturerId": "Manufacturer ID",
-      "dataMatrixCode": "Data matrix code"
+      "gtin": "Gtin"
     },
     "metadata": {
-      "predecessor": "Predecessor",
-      "legitimization": "Legitimization",
-      "identification": "Identification",
       "issueDate": "Issue date",
       "version": "Version",
       "validityDate": "Validity date",
       "customerPartId": "Customer part ID",
       "manufacturerPartId": "Manufacturer part ID",
-      "status": "Status",
-      "expirationDate": "Expiration date"
+      "status": "Status"
     },
     "operation": {
-      "importer": "Importer ID",
+      "importer": "Importer",
       "manufacturerId": "Manufacturer ID",
-      "facilityId": "Facility ID",
-      "manufacturingDate": "Manufacturing date"
+      "facilityId": "Facility ID"
     },
     "serialization": {
       "manufacturingInformation": "Manufacturing information",
@@ -330,20 +297,17 @@
       "state": "State",
       "material": "Material",
       "carbonContentTotal": "Carbon content total",
-      "crossSectoralStandard": "Cross sectoral standard used",
+      "crossSectoralStandard": "Cross sectoral standard",
       "substancesOfConcern": "Substances of concern",
       "criticalRawMaterials": "Critical raw materials",
       "co2FootprintTotal": "CO₂ footprint total",
       "operator": "Operator",
       "ruleNames": "Rule names",
-      "otherOperatorName": "Other operator name",
-      "productOrSectorSpecificRules": "Product or sector specific rules",
-      "critical": "Critical"
+      "otherOperatorName": "Other operator name"
     },
     "typology": {
       "name": "Name",
       "shortName": "Short name",
-      "longName": "Long name",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name at manufacturer",

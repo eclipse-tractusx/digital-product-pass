@@ -2,6 +2,7 @@
 # Catena-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -37,6 +38,5 @@ class Constants:
     RETRIEVE_PASSPORT_API = "/api/data"
     API_MAX_RETRIES = 3
     API_DELAY = 3
-    IS_LOG_ENABLED = true
     EXPORT_TO_FILE = False
 

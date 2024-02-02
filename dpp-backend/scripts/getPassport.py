@@ -2,6 +2,7 @@
 # Catena-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -46,7 +47,7 @@ def get_arguments():
     
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--company", \
-                        help="Company name required to login", required=True)
+                        help="Company name required to login", required=False)
     
     parser.add_argument("-u", "--username", \
                         help="username required to login", required=False)
@@ -84,8 +85,8 @@ def create_process(manufacturer_part_id, session=None):
     In the backend, the BPN and EDC Discovery services are called.
 
     Args:
-        manufacturer_part_id (str): Example: TODO
-        session (_type_, optional): _description_. Defaults to None.
+        manufacturer_part_id (str): It identifies the manufacturer to the specific part produced. It refers to the search Id e.g., partInstanceId of the product.
+        session (Session, optional): It authenticates and authorizes the APIs used to retrive the passport. Defaults to None.
 
     Returns:
         :func:`HttpUtils.response.json`: JSON payload of the backend.
@@ -108,18 +109,19 @@ def create_process(manufacturer_part_id, session=None):
 
 def search_contract(process_id, serialized_id, id_type=None, semantic_id=None, session=None, children=None):
     """
-    TODO
+    Search Phase.
+    The backend searches for a serialized Id and retrieve its contract in a catalog.
 
     Args:
-        process_id (_type_): _description_
-        serialized_id (_type_): _description_
-        id_type (_type_, optional): _description_. Defaults to None.
-        semantic_id (_type_, optional): _description_. Defaults to None.
-        session (_type_, optional): _description_. Defaults to None.
-        children (_type_, optional): _description_. Defaults to None.
+        process_id (str): The string identifier of the current process based on which the passport is requested.
+        serialized_id (str): The serialized identifier of the part or product e.g., the value of the product partInstanceId.
+        id_type (str, optional): The serialized attribute type of the product e.g., the product partInstanceId. Defaults to None.
+        semantic_id (str, optional): The Id of the aspect model to be retrieved. Defaults to None.
+        session (Session, optional): It authenticates and authorizes the APIs used to retrive the passport. Defaults to None.
+        children (boolean, optional): A boolean value to check if requested product contains child components. Defaults to None.
 
     Returns:
-        _type_: _description_
+        :func:`HttpUtils.response.json`: JSON payload of the backend.
     """
 
     data = {
@@ -150,16 +152,16 @@ def search_contract(process_id, serialized_id, id_type=None, semantic_id=None, s
 
 def negotiate_contract(process_id, contract_id, token, session=None):
     """
-    TODO
+    This API starts the negotiation process in the backend and transfer of the passport.
 
     Args:
-        process_id (_type_): _description_
-        contract_id (_type_): _description_
-        token (_type_): _description_
-        session (_type_, optional): _description_. Defaults to None.
+        process_id (str): The string identifier of the current process based on which the passport is requested.
+        contract_id (str): A valid contract agreement Id is issued once negotiation process is done and further used in transfer process.
+        token (str): The bearer token makes authentication to the backend APIs to retrieve the passport.
+        session (Session, optional): It authenticates and authorizes the APIs used to retrive the passport. Defaults to None.
 
     Returns:
-        _type_: _description_
+        :func:`HttpUtils.response.json`: JSON payload of the backend.
     """
 
     data = {
@@ -182,14 +184,14 @@ def negotiate_contract(process_id, contract_id, token, session=None):
 
 def get_status(process_id, session=None):
     """
-    TODO
+    Get the process status once the contract is signed. This API is called until the status is ready to retrieve the passport.
 
     Args:
-        process_id (_type_): _description_
-        session (_type_, optional): _description_. Defaults to None.
+        process_id (str): The string identifier of the current process based on which the passport is requested.
+        session (Session, optional): It authenticates and authorizes the APIs used to retrive the passport. Defaults to None.
 
     Returns:
-        _type_: _description_
+        :func:`HttpUtils.response.json`: JSON payload of the backend.
     """
 
     headers={
@@ -206,16 +208,18 @@ def get_status(process_id, session=None):
 
 def retrieve_passport(process_id, contract_id, token, session=None):
     """
-    TODO
+    Decrypts the passport file and retrieves it.
+    The passport is returned just once to the user and cannot be accessed anymore.
+    A new process is initiated to retrieve passport again.
 
     Args:
-        process_id (_type_): _description_
-        contract_id (_type_): _description_
-        token (_type_): _description_
-        session (_type_, optional): _description_. Defaults to None.
+        process_id (str): The string identifier of the current process based on which the passport is requested.
+        contract_id (str): A valid contract agreement Id is issued once negotiation process is done and further used in transfer process. 
+        token (str): The bearer token makes authentication to the backend APIs to retrieve the passport.
+        session (Session, optional): It authenticates and authorizes the APIs used to retrive the passport. Defaults to None.
 
     Returns:
-        _type_: _description_
+        :func:`HttpUtils.response.json`: JSON payload of the backend.
     """
     
     data = {
@@ -258,9 +262,6 @@ if __name__ == "__main__":
         status_response = None
         passport_response = None
 
-        ## Get me out of here!!! -> Replace by logger
-        is_log_enabled = Constants.IS_LOG_ENABLED
-
         logger.info(f"Retrieving passport: {discovery_id}:{serialized_id}")
 
         if(access_token):
@@ -268,6 +269,8 @@ if __name__ == "__main__":
             pass
         elif(username and password):
             logger.debug(f"Username/Password found.")
+            if company is None:
+                raise("Company is required along with user and password") 
             auth = Authentication(company, username, password)
             access_token = auth.get_access_token()
         else:
@@ -324,12 +327,11 @@ if __name__ == "__main__":
             raise Exception(msg)
 
         if (status == "FAILED"):
-            op.print_message("The negotiation process has failed", info_level="[ERROR]", log_enabled=is_log_enabled)
             msg = "The negotiation process has failed"
             logger.error(msg)
             raise Exception(msg)
         
-        while retries < max_retries:
+        while retries < max_retries: 
             status_response = get_status(process_id, session)
             status = op.get_attribute(status_response, "status")
             negotiation_status = op.get_attribute(status_response, "data.status")
@@ -346,23 +348,31 @@ if __name__ == "__main__":
             logger.info(f"Checked for a negotiation status: {negotiation_status}")
 
             op.wait(waiting_time)
+
+            history = op.get_attribute(status_response, "data.history")
+            if (op.get_attribute(history, "transfer-completed") and op.get_attribute(history, "data-received")):
+                logger.info("The contract negotiation has been completed successfully")
+                
+                # retrieve the passport data
+                passport_response = retrieve_passport(process_id, contract_id, token, session)
+                
+                status = op.get_attribute(passport_response, "status")
+                if ((status and status != 200) or not passport_response["data"]):
+                    msg = "Failed to retrieve passport"
+                    logger.error(msg)
+                    raise Exception(msg)
+
+                passport = op.get_attribute(passport_response, "data.aspect")
+                if(passport is not None):
+                    semantic_id_passport = op.get_attribute(passport_response, "data.semanticId")
+                    logger.info(f"Passport with semanticId {semantic_id_passport} retrieved successfully!")
+                    break
             retries += 1
-
-        history = op.get_attribute(status_response, "data.history")
-        if (op.get_attribute(history, "transfer-completed") and op.get_attribute(history, "data-received")):
-            logger.info("The contract negotiation has been completed successfully")
             
-            # retrieve the passport data
-            passport_response = retrieve_passport(process_id, contract_id, token, session)
-            
-            status = op.get_attribute(passport_response, "status")
-            if ((status and status != 200) or not passport_response["data"]):
-                msg = "Failed to retrieve passport"
-                logger.error(msg)
-                raise Exception(msg)
-
-        passport = op.get_attribute(passport_response, "data.aspect")
-        logger.info(f"Passport retrieved successfully")
+        if passport is None:
+            msg = "Failed to retrieve passport, passport is empty"
+            logger.error(msg)
+            raise Exception(msg)
 
         # display the pasport data to console
         data = op.to_json(passport, indent=4)

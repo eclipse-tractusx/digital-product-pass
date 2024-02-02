@@ -32,6 +32,13 @@
       </div>
     </div>
     <div class="right-container">
+      <v-icon
+        @click="showWelcome"
+        size="large"
+        :class="{ hidden: !isHidden }"
+        class="arrow-icon"
+        icon="mdi-arrow-left"
+      ></v-icon>
       <div class="inner-right-container">
         <div class="logotype-container">
           <img :src="LogotypeDPP" alt="DPP logo" />
@@ -167,6 +174,10 @@ export default {
       } catch (error) {
         console.error("Error checking camera permission:", error);
       }
+    },
+    showWelcome() {
+      this.isHidden = false;
+      this.QRtoggle = false;
     },
     hideWelcome() {
       this.isHidden = true;

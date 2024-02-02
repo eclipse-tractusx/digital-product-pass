@@ -24,6 +24,15 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**February 02 2024 (Version 2.0.3)**
+*02.02.2024*
+ 
+### Updated
+#### Updated documentation and business statement
+Updated the user manual to reflect the latests changes
+The business statement was also updated to reflect the latest functionalities from the application like to display the digital product pass aspect.
+
+
 **February 02 2024 (Version 2.0.2)**
 *02.02.2024*
  

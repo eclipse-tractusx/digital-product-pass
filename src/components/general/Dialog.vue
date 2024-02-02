@@ -29,7 +29,7 @@
       <v-card class="dialog-container">
         <v-card-title class="title-container">
           <v-icon start size="small" icon="mdi-information-outline"> </v-icon>
-          <slot name="title"> Description </slot>
+          <slot name="title"> {{ $t("dialog.description") }} </slot>
           <v-card-actions class="close-btn-container">
             <v-btn class="close-btn-container" block @click="dialog = false">
               <v-icon start md icon="mdi-close"></v-icon
@@ -40,7 +40,7 @@
         <v-card-text class="dialog-text">
           <slot name="text">
             <h2>404</h2>
-            <p>No description</p>
+            <p>{{ $t("dialog.noDescription") }}</p>
           </slot>
         </v-card-text>
       </v-card>

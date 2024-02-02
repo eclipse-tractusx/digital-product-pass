@@ -24,16 +24,8 @@
   <div class="home-page-container">
     <div class="left-container" :class="{ hidden: isHidden }">
       <div class="left-container-text">
-        <h2>Catena-X Battery Passport</h2>
-        <p>
-          The term "Battery Passport" refers to a digital document that contains
-          essential information about a battery, specifically in the context of
-          electric vehicles (EVs). This document includes details about the
-          battery's manufacturer, specifications, performance characteristics,
-          health status, and lifecycle data. The purpose of a Battery Passport
-          is to facilitate proper maintenance, servicing, and recycling of the
-          battery, while also enabling traceability and compliance.
-        </p>
+        <h2>{{ $t("searchView.title") }}</h2>
+        <p>{{ $t("searchView.welcomeMessage") }}</p>
       </div>
       <div class="img-container">
         <img :src="BatteryScanning" class="image" alt="Battery scanning" />
@@ -47,9 +39,9 @@
         <v-container class="search-page">
           <div v-if="qrError" class="qr-container">
             <div class="text-container">
-              <p class="text">Your camera is off.</p>
-              <p class="text">Turn it on or type the ID.</p>
-              <p class="error">{{ qrError }}</p>
+              <p class="text">{{ $t("searchView.errorCameraOff") }}</p>
+              <p class="text">{{ $t("searchView.errorTypeID") }}</p>
+              <p class="error">{{ $t(error) }}</p>
             </div>
             <SearchInput class="search-input" />
           </div>
@@ -94,18 +86,22 @@
         </v-container>
       </div>
       <div class="guide">
-        📖 Want to find out more? Read our
-        <a class="advanced-search-link" @click="openExternalLink"
-          >Get Started Guide</a
-        >
+        📖 {{ $t("searchView.findOutMore") }}
+        <a class="advanced-search-link" @click="openExternalLink">{{
+          $t("searchView.guide")
+        }}</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import QrcodeStream from "../components/general/QrcodeStrem.vue";
+import { QrcodeStream } from "vue3-qrcode-reader";
+import CatenaLogo from "../media/logo.png";
+import QRFrame from "../media/qrFrame.svg";
 import BatteryScanning from "../media/battery-img.jpeg";
+// New picture
+// import BatteryScanning from "../media/backgroundart.jpg";
 import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
 import { mapState } from "vuex";

@@ -32,18 +32,21 @@
         style="padding: 6px !important"
       >
         <div class="card-container fill-height">
-          <span class="card-title">{{ card.title }} </span>
+          <span class="card-title">{{ $t(card.title) }} </span>
           <span>
             <v-icon
               class="card-icon"
               start
               md
-              :icon="card.icon"
+              :icon="callIconFinder(card.icon)"
               size="x-large"
             ></v-icon>
           </span>
 
-          <v-container class="pa-0" v-if="card.title === 'SUSTAINABILITY'">
+          <v-container
+            class="pa-0"
+            v-if="card.title == 'batteryCards.titleSustainability'"
+          >
             <v-row class="sustainability pa-0 ma-0">
               <ElementChart
                 :data="card.value"
@@ -56,26 +59,31 @@
                   {{ card.secondValueUnits }}
                 </span>
                 <div class="co2-label" style="padding-top: 0">
-                  {{ card.secondLabel }}
+                  {{ $t(card.secondLabel) }}
                 </div>
               </div>
             </v-row>
           </v-container>
           <div v-else>
             <div class="card-label">
-              {{ card.label }}
+              {{ $t(card.label) }}
             </div>
             <div class="card-value">
               {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
             </div>
             <v-divider></v-divider>
-            <div v-if="card.title === 'HEALTH'" style="margin-bottom: 60px">
-              <div class="charging-cycles-title">Charging Cycles</div>
+            <div
+              v-if="card.title == 'batteryCards.titleHealth'"
+              style="margin-bottom: 60px"
+            >
+              <div class="charging-cycles-title">
+                {{ $t("batteryCards.chargingCycles") }}
+              </div>
               <BarChart :currentValue="currentValue" :maxValue="maxValue" />
             </div>
             <div v-else>
               <div class="card-second-label">
-                {{ card.secondLabel }}
+                {{ $t(card.secondLabel) }}
               </div>
               <div class="card-second-value">
                 {{ card.secondValue ? card.secondValue : "-" }}
@@ -87,10 +95,10 @@
             <DialogComponent>
               <v-icon start md icon="mdi-information-outline"></v-icon>
               <template v-slot:title>
-                {{ card.description.title }}
+                {{ $t(card.description.title) }}
               </template>
               <template v-slot:text>
-                {{ card.description.value }}
+                {{ $t(card.description.value) }}
               </template>
             </DialogComponent>
           </span>
@@ -103,6 +111,7 @@
 <script>
 import ElementChart from "./ElementChart.vue";
 import BarChart from "./BarChart.vue";
+import passportUtil from "@/utils/passportUtil.js";
 import DialogComponent from "../general/Dialog.vue";
 
 export default {
@@ -125,10 +134,10 @@ export default {
       maxValue: this.$props.data.aspect.batteryCycleLife.expectedLifetime,
       cards: [
         {
-          title: "GENERAL",
-          label: "Type",
-          secondLabel: "Model",
-          icon: "mdi-pound",
+          title: "batteryCards.titleGeneral",
+          label: "batteryCards.labelGeneral",
+          secondLabel: "batteryCards.secondLabelGeneral",
+          icon: "general",
           value: this.$props.data.aspect.batteryIdentification
             ? this.$props.data.aspect.batteryIdentification.batteryType
             : "-",
@@ -137,10 +146,10 @@ export default {
             : "-",
         },
         {
-          title: "PERFORMANCE",
-          label: "Rated Capacity",
-          secondLabel: "Original Power",
-          icon: "mdi-chart-timeline-variant-shimmer",
+          title: "batteryCards.titlePerformance",
+          label: "batteryCards.labelPerformance",
+          secondLabel: "batteryCards.secondLabelPerformance",
+          icon: "performance",
           value:
             this.$props.data.aspect.electrochemicalProperties.ratedCapacity,
           valueUnits: "kWh",
@@ -151,15 +160,15 @@ export default {
                 .originalPowerCapability
             : "-",
           description: {
-            title: "Performance",
-            value: "Description of the performance",
+            title: "batteryCards.descriptionPerformanceTitle",
+            value: "batteryCards.descriptionPerformanceValue",
           },
         },
         {
-          title: "HEALTH",
-          label: "State of Health (SoH)",
-          secondLabel: "Charging Cycles",
-          icon: "mdi-battery-plus",
+          title: "batteryCards.titleHealth",
+          label: "batteryCards.labelHealth",
+          secondLabel: "batteryCards.secondLabelHealth",
+          icon: "health",
           value: this.$props.data.aspect.stateOfBattery
             ? this.$props.data.aspect.stateOfBattery.stateOfHealth
             : "-",
@@ -168,14 +177,14 @@ export default {
             ? this.$props.data.aspect.batteryIdentification.batteryModel
             : "-",
           description: {
-            title: "Health",
-            value: "Description of the health",
+            title: "batteryCards.descriptionHealthTitle",
+            value: "batteryCards.descriptionHealthValue",
           },
         },
         {
-          title: "SUSTAINABILITY",
-          icon: "mdi-leaf",
-          secondLabel: "CO2e/kWh",
+          title: "batteryCards.titleSustainability",
+          icon: "sustainability",
+          secondLabel: "batteryCards.secondLabelSustainability",
 
           value: [
             {
@@ -208,12 +217,18 @@ export default {
           ],
           secondValue: this.$props.data.aspect.cO2FootprintTotal,
           description: {
-            title: "Sustainability",
-            value: "Description of the Sustainability",
+            title: "batteryCards.descriptionHSustainabilityTitle",
+            value: "batteryCards.descriptionSustainabilityValue",
           },
         },
       ],
     };
+  },
+
+  methods: {
+    callIconFinder(icon) {
+      return passportUtil.iconFinder(icon);
+    },
   },
 };
 </script>

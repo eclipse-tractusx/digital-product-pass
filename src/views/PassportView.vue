@@ -259,6 +259,7 @@ import store from "../store/index";
 import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
+import passports from "@/config/templates/passports.json";
 
 export default {
   name: "PassportView",
@@ -592,6 +593,18 @@ export default {
           jsonUtil.exists("aspect", this.data["data"]) &&
           jsonUtil.exists("semanticId", this.data["data"])
         ) {
+          let passportSemanticId = jsonUtil.get("data.semanticId", this.data);
+          if (!jsonUtil.exists(passportSemanticId, passports)) {
+            this.errorObj.title =
+              "This application version does not support this passport aspect model version!";
+            this.errorObj.description =
+              "Unfortunatly, this aspect model with semantic id  [" +
+              passportSemanticId +
+              "] is not supported in this application at the moment.";
+            this.status = 422;
+            this.statusText = "Not Supported Aspect Model";
+          }
+
           this.data = configUtil.normalizePassport(
             jsonUtil.get("data.aspect", this.data),
             jsonUtil.get("data.metadata", this.data),

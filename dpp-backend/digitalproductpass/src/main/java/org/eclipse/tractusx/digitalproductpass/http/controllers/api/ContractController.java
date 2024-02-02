@@ -353,7 +353,12 @@ public class ContractController {
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
-
+            if(connectorAddress == null){
+                LogUtil.printError("The connector address is empty!");
+            }
+            if(assetId == null){
+                LogUtil.printError("The assetId is empty!");
+            }
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {

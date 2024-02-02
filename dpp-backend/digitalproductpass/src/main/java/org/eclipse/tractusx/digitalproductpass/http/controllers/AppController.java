@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
@@ -232,6 +233,7 @@ public class AppController {
             ));
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
+            processManager.saveDtr(processId, endpointId);
             processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
 

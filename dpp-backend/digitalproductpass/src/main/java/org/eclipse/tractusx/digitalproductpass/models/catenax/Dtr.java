@@ -29,8 +29,10 @@ package org.eclipse.tractusx.digitalproductpass.models.catenax;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class consists exclusively to define attributes and methods related to the Digital Twin Registry (DTR).
@@ -40,8 +42,15 @@ import java.util.List;
 public class Dtr {
 
     /** ATTRIBUTES **/
+
+    @JsonProperty("contracts")
+    private Map<String, Dataset> contracts;
     @JsonProperty("contractId")
     private String contractId;
+    @JsonProperty("policyId")
+    private String policyId;
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("endpoint")
     private String endpoint;
     @JsonProperty("assetId")
@@ -74,7 +83,59 @@ public class Dtr {
         this.validUntil = validUntil;
         this.invalid = invalid;
     }
+    public Dtr(Map<String, Dataset> contracts, String id, String contractId, String endpoint, String assetId, String bpn, Long validUntil) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = false;
+    }
+    public Dtr(Map<String, Dataset> contracts, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
+    }
 
+    public Dtr(Map<String, Dataset> contracts, String id, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
+    }
+
+    public Dtr(Map<String, Dataset> contracts, String id, String policyId, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.policyId = policyId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = invalid;
+    }
+    public Dtr(Map<String, Dataset> contracts,String id, String policyId, String contractId,  String endpoint, String assetId, String bpn, Long validUntil) {
+        this.contracts = contracts;
+        this.contractId = contractId;
+        this.policyId = policyId;
+        this.id = id;
+        this.endpoint = endpoint;
+        this.assetId = assetId;
+        this.bpn = bpn;
+        this.validUntil = validUntil;
+        this.invalid = false;
+    }
     /** GETTERS AND SETTERS **/
     public String getContractId() {
         return contractId;
@@ -101,5 +162,29 @@ public class Dtr {
 
     public void setInvalid(Boolean invalid) {
         this.invalid = invalid;
+    }
+
+    public Map<String, Dataset> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Map<String, Dataset> contracts) {
+        this.contracts = contracts;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPolicyId() {
+        return policyId;
+    }
+
+    public void setPolicyId(String policyId) {
+        this.policyId = policyId;
     }
 }

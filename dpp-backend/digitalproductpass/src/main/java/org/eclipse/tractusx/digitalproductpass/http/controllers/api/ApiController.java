@@ -150,22 +150,19 @@ public class ApiController {
             }
 
             // Check if the contract id is correct
-            History history = status.getHistory("contract-dataset");
-            if (!history.getId().equals(contractId)) {
-                response = httpUtil.getBadRequest("This contract id is incorrect!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
+            Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
+            String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
             // Check the validity of the token
-            String expectedToken = processManager.generateToken(process, contractId);
+            String expectedToken = processManager.generateToken(process, seedId);
             String token = tokenRequestBody.getToken();
             if (!expectedToken.equals(token)) {
                 response = httpUtil.getForbiddenResponse("The token is invalid!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+            Dataset dataset = availableContracts.get(contractId);
 
-            if (status.historyExists("contract-decline")) {
-                response = httpUtil.getForbiddenResponse("The contract for this passport has been declined!");
+            if (dataset == null) {
+                response.message = "The Contract Selected was not found!";
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
@@ -187,7 +184,6 @@ public class ApiController {
                 response = httpUtil.getNotFound("Failed to load passport!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            Dataset dataset = processManager.loadDataset(processId);
             Map<String, Object> negotiation = processManager.loadNegotiation(processId);
             Map<String, Object> transfer = processManager.loadTransfer(processId);
             response = httpUtil.getResponse();

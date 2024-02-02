@@ -24,9 +24,9 @@ repos:
   - repo: https://github.com/gitguardian/ggshield
     rev: v1.13.6
     hooks:
-      - id: ggshield
-        language_version: python3
-        stages: [commit]
+      # - id: ggshield
+      #   language_version: python3
+      #   stages: [commit]
       - id: ggshield
         language_version: python3
         stages: [push]

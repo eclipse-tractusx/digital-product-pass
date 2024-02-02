@@ -84,10 +84,44 @@ If questions arise, you can access the Catena-X Helpdesk through clicking on "He
 
  After requesting data via one of the [product search functions](#search-for-a-product-passport), the information will start loading against the asset Id (7) as illustrated in the screenshot , showing the steps to retrieve the passport (9) and displayed on the screen once progress bar is loaded (8). An exemplary product passport of a high voltage battery can be seen below. It provides an overview on the product's history, technical specifications, its child components using the Item Relationship Service (IRS) and data exchange information:
 
+
+### Autosign feature
+
+#### Enable Autosign:
+If Autosign setting is enabled, the first contract policy is always choosen as shown in below screenshot.
+The passport is shown to the user.
+
 </br></br>
 ![Loading Product Pass](./images/LoadingPass.png)
 </br></br>
 
+#### Disable Autosign:
+This feature requires user action. If disabled, the contract policy must be choosen by the user from the popup menu.
+
+</br></br>
+![Before Contract Policy Selection](./images/BeforePolicySelection.png)
+</br></br>
+
+</br></br>
+![Agree Contract policy](./images/AgreePolicy.png)
+</br></br>
+
+</br></br>
+![View Contract Policy](./images/ViewPolicy.png)
+</br></br>
+
+</br></br>
+![After Contract Policy Selection](./images/AfterPolicySelection.png)
+</br></br>
+
+</br></br>
+![Decline Contract Policy](./images/DeclinePolicy.png)
+</br></br>
+
+
+</br></br>
+![Aspect Model Not Supported](./images/AspectNotSupported.png)
+</br></br>
 
 </br></br>
 ![Product Pass](./images/ProductPassport.png)

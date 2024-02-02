@@ -46,7 +46,7 @@
               {{ $t(card.label) }}
             </div>
             <div class="card-value">
-              {{ card.value ? $t(card.value) : "-" }} {{ $t(card.valueUnits) }}
+              {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
             </div>
             <v-divider></v-divider>
             <div>
@@ -134,7 +134,6 @@ export default {
           },
         },
         {
-
           title: "generalCards.titleSustainability",
           label: "generalCards.totalCo2Footprint",
           secondLabel: "generalCards.warrantyPeriod",
@@ -142,11 +141,15 @@ export default {
           value: this.$props.data.aspect.sustainability["PEF"].carbon
             ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
             : "-",
-          valueUnits: "generalCards.tCo2Total",
-          secondValue: this.$props.data.aspect.commercial.warranty,
-          secondValueUnits: this.$props.data.aspect.commercial.warranty
-            ? "generalCards.months"
-            : "",
+          valueUnits: "t CO2 Total",
+          secondValue: this.$props.data.aspect.commercial
+            ? this.$props.data.aspect.commercial.warranty
+            : "-",
+          secondValueUnits:
+            this.$props.data.aspect.commercial &&
+            this.$props.data.aspect.commercial.warranty
+              ? "months"
+              : "",
           description: {
             title: "generalCards.descriptionSustainabilityTitle",
             value: "generalCards.descriptionSustainabilityValue",

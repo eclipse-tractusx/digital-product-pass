@@ -23,7 +23,7 @@
 <template>
   <div class="loading-container">
     <v-col class="v-col-auto dpp-id-container">
-      <div class="dpp-id">{{ $("loading.assetId") }} {{ id }}</div>
+      <div class="dpp-id">{{ $t("loading.assetId") }} {{ id }}</div>
       <v-progress-linear
         :model-value="
           initialProgressValue +

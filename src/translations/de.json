@@ -150,7 +150,7 @@
     "passportRetrieval": "Passabruf",
     "retrieving": "Abruf... ",
     "createdProcess": "Erstellte Prozess-ID: ",
-    "contractId: ": "Vertrags-ID: "
+    "contractId": "Vertrags-ID: "
   },
   "sections": {
     "generalInformation": {
@@ -307,6 +307,7 @@
     },
     "typology": {
       "name": "Name",
+      "shortName": "Kurzer Name",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name beim Hersteller",

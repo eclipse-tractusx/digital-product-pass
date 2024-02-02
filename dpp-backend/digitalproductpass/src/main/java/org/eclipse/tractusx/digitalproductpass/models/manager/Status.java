@@ -25,8 +25,10 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.manager;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
 import utils.DateTimeUtil;
 
@@ -37,6 +39,7 @@ import java.util.Map;
 /**
  * This class consists exclusively to define attributes and methods related to the Process' status.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Status {
 
@@ -77,6 +80,9 @@ public class Status {
     /** CONSTRUCTOR(S) **/
     @JsonProperty("semanticId")
     public String semanticId;
+
+    @JsonProperty("dtr")
+    public Dtr dtr;
 
 
     @SuppressWarnings("Unused")
@@ -207,6 +213,22 @@ public class Status {
         this.semanticId = semanticId;
     }
 
+    public Status(String id, String status, Long created, Long modified, JobHistory job, String endpoint, String dataPlaneUrl, String bpn, Boolean children, String treeState, Map<String, History> history, String semanticId, Dtr dtr) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.job = job;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+        this.semanticId = semanticId;
+        this.dtr = dtr;
+    }
+
 
     public String getId() {
         return id;
@@ -325,6 +347,14 @@ public class Status {
 
     public void setJob(JobHistory job) {
         this.job = job;
+    }
+
+    public Dtr getDtr() {
+        return dtr;
+    }
+
+    public void setDtr(Dtr dtr) {
+        this.dtr = dtr;
     }
 }
 

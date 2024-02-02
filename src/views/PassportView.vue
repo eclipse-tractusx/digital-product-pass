@@ -57,6 +57,7 @@
           :description="errorObj.description"
           reloadLabel="Return"
           reloadIcon="mdi-arrow-left"
+          :reload="errorObj.reload"
         />
       </div>
     </v-container>
@@ -132,7 +133,7 @@ import TransmissionCards from "@/components/passport/TransmissionCards.vue";
 import GeneralCards from "@/components/passport/GeneralCards.vue";
 import FooterComponent from "@/components/general/Footer.vue";
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
-import { API_TIMEOUT } from "@/services/service.const";
+import { AUTO_SIGN, SEARCH_TIMEOUT, NEGOTIATE_TIMEOUT } from "@/services/service.const";
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
@@ -201,6 +202,7 @@ export default {
       auth: inject("authentication"),
       data: null,
       loading: true,
+      searchResponse: null,
       errors: [],
       id: this.$route.params.id,
       irsData: [],
@@ -213,6 +215,7 @@ export default {
         type: "error",
         status: 500,
         statusText: "Internal Server Error",
+        reload: true
       },
     };
   },
@@ -245,71 +248,133 @@ export default {
       } else {
         return [];
       }
-    },
+    }
   },
 
   async created() {
-    let result = null;
-    try {
-      this.backendService = new BackendService();
-      // Setup aspect promise
-      let passportPromise = this.getPassport(this.id);
-      // Execute promisse with a Timeout
-      result = await threadUtil.execWithTimeout(
-        passportPromise,
-        API_TIMEOUT,
-        null
-      );
-      if (!result || result == null) {
-        this.errorObj.title = "Timeout! Failed to return passport!";
-        this.errorObj.description =
-          "The request took too long... Please retry or try again later.";
-        this.status = 408;
-        this.statusText = "Request Timeout";
-      }
-      this.data = result;
-    } catch (e) {
-      console.log("passportView -> " + e);
-    } finally {
-      if (
-        this.data &&
-        jsonUtil.exists("status", this.data) &&
-        this.data["status"] == 200 &&
-        jsonUtil.exists("data", this.data) &&
-        jsonUtil.exists("metadata", this.data["data"]) &&
-        jsonUtil.exists("aspect", this.data["data"]) &&
-        jsonUtil.exists("semanticId", this.data["data"])
-      ) {
-        this.data = configUtil.normalizePassport(
-          jsonUtil.get("data.aspect", this.data),
-          jsonUtil.get("data.metadata", this.data),
-          jsonUtil.get("data.semanticId", this.data)
-        );
-        this.error = false;
-        this.processId = this.$store.getters.getProcessId; // Get process id from the store
-        this.irsData = this.backendService.getIrsData(
-          this.processId,
-          this.auth
-        ); // Return the IRS data
-        this.$store.commit("setIrsData", this.irsData); // Save IRS Data
-        this.$store.commit(
-          "setIrsState",
-          this.backendService.getIrsState(this.processId, this.auth)
-        );
-      }
-      // Stop loading
-      this.loading = false;
-    }
+    this.backendService = new BackendService();
+    this.searchContracts();
   },
   methods: {
-    async getPassport(id) {
+    async searchContracts() {
+      let result = null;
+      try {
+        // Setup aspect promise
+        let passportPromise = this.searchAsset(this.id);
+        // Execute promisse with a Timeout
+        result = await threadUtil.execWithTimeout(
+          passportPromise,
+          SEARCH_TIMEOUT,
+          null
+        );
+        if (!result || result == null) {
+          this.errorObj.title = "Timeout! Failed to search for the Digital Twin Registry and the Digital Twin!";
+          this.errorObj.description =
+            "The request took too long... Please retry or try again later.";
+          this.status = 408;
+          this.statusText = "Request Timeout";
+        }
+        this.searchResponse = result;
+      } catch (e) {
+        console.log("searchContracts -> " + e);
+      } finally {
+        if (
+          this.searchResponse &&
+          jsonUtil.exists("status", this.searchResponse) &&
+          this.searchResponse["status"] == 200 &&
+          jsonUtil.exists("data", this.searchResponse) &&
+          jsonUtil.exists("contracts", this.searchResponse["data"]) &&
+          jsonUtil.exists("token", this.searchResponse["data"]) &&
+          jsonUtil.exists("id", this.searchResponse["data"])
+        ) {
+          this.error = false;
+          if(AUTO_SIGN){
+            this.resumeNegotiation(this.searchResponse);
+          }
+        }
+        if(this.error || !AUTO_SIGN){
+          // Stop loading
+          this.loading = false;
+        }
+      }
+    },
+    async resumeNegotiation(
+      searchResponse,
+      contractId = null,
+      policyId = null
+    ) {
+      let result = null;
+      let contracts = jsonUtil.get("data.contracts", searchResponse);
+      let token = jsonUtil.get("data.token", searchResponse);
+      let processId =  jsonUtil.get("data.id", searchResponse);
+      // [TODO] Get Contract Information
+      try {
+        // Setup aspect promise
+        let passportPromise = this.negotiatePassport(
+          contracts,
+          token,
+          processId,
+          contractId,
+          policyId
+        );
+        // Execute promisse with a Timeout
+        result = await threadUtil.execWithTimeout(
+          passportPromise,
+          NEGOTIATE_TIMEOUT,
+          null
+        );
+        if (!result || result == null) {
+          this.errorObj.title =
+            "Timeout! Failed to negotiate and return the passport!";
+          this.errorObj.description =
+            "The request took too long... Please retry or try again later.";
+          this.status = 408;
+          this.statusText = "Request Timeout";
+        }
+        this.data = result;
+      } catch (e) {
+        console.log("passportView -> " + e);
+      } finally {
+        console.log(this.data)
+        if (
+          this.data &&
+          jsonUtil.exists("status", this.data) &&
+          this.data["status"] == 200 &&
+          jsonUtil.exists("data", this.data) &&
+          jsonUtil.exists("metadata", this.data["data"]) &&
+          jsonUtil.exists("aspect", this.data["data"]) &&
+          jsonUtil.exists("semanticId", this.data["data"])
+        ) {
+          this.data = configUtil.normalizePassport(
+            jsonUtil.get("data.aspect", this.data),
+            jsonUtil.get("data.metadata", this.data),
+            jsonUtil.get("data.semanticId", this.data)
+          );
+          this.error = false;
+          this.processId = this.$store.getters.getProcessId; // Get process id from the store
+          this.irsData = this.backendService.getIrsData(
+            this.processId,
+            this.auth
+          ); // Return the IRS data
+          this.$store.commit("setIrsData", this.irsData); // Save IRS Data
+          this.$store.commit(
+            "setIrsState",
+            this.backendService.getIrsState(this.processId, this.auth)
+          );
+        }
+        // Stop loading
+        this.loading = false;
+      }
+    },
+    async searchAsset(id) {
       let response = null;
       // Get Passport in Backend
       try {
         // Init backendService
         // Get access token from IDP
         // Get the aspect for the selected version
-        response = await this.backendService.getPassport(id, this.auth);
+
+        response = await this.backendService.searchAsset(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -317,15 +382,19 @@ export default {
           : "Failed to return passport";
         this.errorObj.description =
           "It was not possible to transfer the passport.";
+
         this.errorObj.status = jsonUtil.exists("status", response)
           ? response["status"]
           : 500;
+
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
         return response;
       }
+
       //     response = jsonUtil.copy(response, true);
+
       // Check if the response is empty and give an error
       if (!response) {
         this.errorObj.title = "Failed to return passport";
@@ -345,10 +414,82 @@ export default {
         this.errorObj.status = jsonUtil.exists("status", response)
           ? response["status"]
           : 404;
+
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
       }
+
+      return response;
+    },
+    async negotiatePassport(
+      contracts,
+      token,
+      processId,
+      contractId = null,
+      policyId = null
+    ) {
+      let response = null;
+      // Get Passport in Backend
+      try {
+        // Init backendService
+        // Get access token from IDP
+        // Get the aspect for the selected version
+
+        response = await this.backendService.negotiateAsset(
+          contracts,
+          token,
+          processId,
+          this.auth,
+          contractId,
+          policyId
+        );
+      } catch (e) {
+        console.log("passportView.getPassport() -> " + e);
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to transfer the passport.";
+
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 500;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Internal Server Error";
+        return response;
+      }
+
+      //     response = jsonUtil.copy(response, true);
+
+      // Check if the response is empty and give an error
+      if (!response) {
+        this.errorObj.title = "Failed to return passport";
+        this.errorObj.description =
+          "It was not possible to complete the passport transfer.";
+        this.errorObj.status = 400;
+        this.errorObj.statusText = "Bad Request";
+        return null;
+      }
+
+      // Check if reponse content was successfull and if not print error comming message from backend
+      if (jsonUtil.exists("status", response) && response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "An error occured when searching for the passport!";
+        this.errorObj.description =
+          "An error occured when searching for the passport!";
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 404;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not found";
+      }
+
       return response;
     },
   },

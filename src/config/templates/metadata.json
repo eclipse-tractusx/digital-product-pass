@@ -9,7 +9,7 @@
         "counterPartyAddress": null,
         "protocol": null
     },
-    "contractOffer": {
+    "contract": {
         "connectorId": null,
         "id": null,
         "policy": {

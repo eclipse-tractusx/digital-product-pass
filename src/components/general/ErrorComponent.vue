@@ -53,7 +53,7 @@
                   ><template v-if="description">{{ $t(description) }}</template>
                   <template v-if="explanation">{{ $t(explanation) }}</template>
                   <template v-if="adminLabel"
-                    ><a :href="'mailto:' +adminEmail">{{
+                    > <a :href="'mailto:' + adminEmail">{{
                       $t(adminLabel)
                     }}</a></template
                   ></span
@@ -63,8 +63,19 @@
           </template>
           <template v-if="buttonsVisible">
             <v-row class="justify-center">
-              <v-col class="v-col-auto"
-                ><v-btn
+              <v-col class="v-col-auto">
+                <v-btn
+                  v-if="reload"
+                  size="large"
+                  class="btn"
+                  rounded="pill"
+                  color="primary"
+                  @click="$router.go()"
+                  prepend-icon="mdi-refresh"
+                  >Try Again</v-btn
+                >
+                <v-btn
+                  v-else
                   size="large"
                   class="btn"
                   rounded="pill"
@@ -72,8 +83,8 @@
                   :prepend-icon="reloadIcon"
                   @click="$router.go(back)"
                   >{{ $t(reloadLabel) }}</v-btn
-                ></v-col
-              >
+                >
+              </v-col>
               <v-col class="v-col-auto"
                 ><v-btn
                   size="large"
@@ -81,7 +92,7 @@
                   rounded="pill"
                   variant="outlined"
                   :href="homepage"
-                  >{{ $t("homepage") }}</v-btn
+                  >{{ $t("Home") }}</v-btn
                 ></v-col
               >
             </v-row>
@@ -98,50 +109,55 @@ export default {
   name: "ErrorComponent",
   props: {
     title: {
-      type: [String,Number],
+      type: [String, Number],
       default: "404 Not Found",
     },
-    subTitle:{
-      type: [String,Number],
-      default: "Oops, Something went wrong..."
+    subTitle: {
+      type: [String, Number],
+      default: "Oops, Something went wrong...",
     },
     description: {
       type: Number,
-      default: null
+      default: null,
     },
     explanation: {
       type: String,
-      default: "The server encountered an internal error or misconfiguration and was unable to complete your request."
+      default:
+        "The server encountered an internal error or misconfiguration and was unable to complete your request.",
     },
-    adminLabel:{
+    adminLabel: {
       type: String,
-      default: "Please contact your admin"
+      default: "Please contact your admin",
     },
-    adminEmail:{
+    adminEmail: {
       type: String,
       default: ADMIN_EMAIL,
     },
-    buttonsVisible:{
+    buttonsVisible: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    back:{
+    back: {
       type: [String, Number],
-      default: -1
+      default: -1,
     },
-    homepage:{
+    homepage: {
       type: String,
-      default: "/"
+      default: "/",
     },
-    reloadLabel:{
-      type: String, 
-      default: "Reload Page"
-    },
-    reloadIcon:{
+    reloadLabel: {
       type: String,
-      default: null
-    }
-  }
+      default: "Reload Page",
+    },
+    reloadIcon: {
+      type: String,
+      default: null,
+    },
+    reload: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 <style scoped>

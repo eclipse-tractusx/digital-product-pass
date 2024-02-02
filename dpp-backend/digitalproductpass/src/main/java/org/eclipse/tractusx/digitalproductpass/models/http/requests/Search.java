@@ -41,9 +41,6 @@ public class Search {
     @NotNull(message = "Id needs to be defined!")
     @JsonProperty("id")
     String id;
-    @NotNull(message = "Passport Version needs to be defined!")
-    @JsonProperty("version")
-    String version;
     @JsonProperty(value = "idType", defaultValue = "partInstanceId")
     String idType = "partInstanceId";
     @JsonProperty(value = "dtIndex", defaultValue = "0")
@@ -62,19 +59,17 @@ public class Search {
     public Search() {
     }
     @SuppressWarnings("Unused")
-    public Search(String processId, String id, String version, String idType, Integer dtIndex, String semanticId) {
+    public Search(String processId, String id, String idType, Integer dtIndex, String semanticId) {
         this.processId = processId;
         this.id = id;
-        this.version = version;
         this.idType = idType;
         this.dtIndex = dtIndex;
         this.semanticId = semanticId;
     }
 
-    public Search(String processId, String id, String version, String idType, Integer dtIndex, Boolean children, String idShort, String semanticId) {
+    public Search(String processId, String id, String idType, Integer dtIndex, Boolean children, String idShort, String semanticId) {
         this.processId = processId;
         this.id = id;
-        this.version = version;
         this.idType = idType;
         this.dtIndex = dtIndex;
         this.children = children;
@@ -111,12 +106,6 @@ public class Search {
     }
     public void setDtIndex(Integer dtIndex) {
         this.dtIndex = dtIndex;
-    }
-    public String getVersion() {
-        return version;
-    }
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public Boolean getChildren() {

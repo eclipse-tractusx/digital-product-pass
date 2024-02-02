@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Application
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -24,8 +25,8 @@
 
 ![C-X Logo](./CXLogo.png)  
 
-Version: v2.0 </br>
-Latest Revision 13 Dec, 2023
+Version: v2.1 </br>
+Latest Revision 04 Jan, 2024
 
 ## Table of Contents
 
@@ -100,12 +101,12 @@ Additionally two test users shall be created and the correct roles shall be assi
 **User 1:** "company 1 user" (OEM, Dismantler)  
 **User 2:** "company 2 user" (Recycler)  
 
-Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) in order to set up the users, and their passwords correctly:
+Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) in order to set up the users, and their passwords correctly:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/README.md) |
-| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docker/local/Keycloak/realm.json) |
+| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) |
+| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json) |
 
 
 All the values for the helm charts are configured for each environment and set up in the Product Passport Application source code:  
@@ -114,8 +115,8 @@ All the values for the helm charts are configured for each environment and set u
 | ---- | -------- | ---- |
 | Helm Charts Main Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts) |
 | Digital Product Pass | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) |
-| EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-consumer) |
-| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/helm/edc-provider) |
+| EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-consumer) |
+| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-provider) |
 
 ## Consumer Backend Configuration
 
@@ -126,7 +127,7 @@ All the information about the backend services is described in this documentatio
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md) |
-| Open API - Swagger | GitHub | [https://materialpass.int.demo.catena-x.net/swagger-ui/index.html](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html) |
+| Open API - Swagger | GitHub | [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html) |
 
 ### Backend Application Configuration
 The configurations of log levels and other variables can be set in the following file:
@@ -161,7 +162,7 @@ In order to document and test easily the API that are set up and used by the Pro
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Postman Collection Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman) |
-| Postman Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/postman/README.md) |
+| Postman Getting Started Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/deployment/local/postman/README.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/deployment/local/postman/README.md) |
 
 ## Secrets Management
 
@@ -195,12 +196,10 @@ When configurating you EDC provider you will be able to set some assets which re
 
 | Name                    | Description                                                                                                                      | Example Value                                                                                                                                                                                                                                                                                                                                                                                                              |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| AssetId                 | Combination of Digital Twin and Sub Model UUIDs                                                                                  | **Example value for asset**: urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 <br/>**Example value for registry**: digital-twin-registry                                                                                                                                                                                                                                                          |
-| AssetType               | The type of the Asset                                                                                                            | **Example value for asset**: Asset <br/>**Example value for registry**: data.core.digitalTwinRegistry                                                                                                                                                                                                                                                                                                                          |
-| Description             | Simple description of the asset                                                                                                  | Battery Passport Test Data                                                                                                                                                                                                                                                                                                                                                                                                 |
-| DataProviderEndpointUrl | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | **Example value for asset**: [https://materialpass.int.demo.catena-x.net/provider_dpp-backend/data/{{DigitalTwinSubmodelId}}](https://materialpass.int.demo.catena-x.net/provider_dpp-backend/data/{{DigitalTwinSubmodelId}}) <br/> **Example value for registry**: [https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0](https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0) |
-| DigitalTwinId           | Id from the Digital Twin	                                                                                                        | urn:uuid:de98db6e-8e05-5d8e-8ae8-9f702cf5c396                                                                                                                                                                                                                                                                                                                                                                                      |
-| DigitalTwinSubmodelId   | Sub Model Id registered in the Digital Twin Registry                                                                             | urn:uuid:555c5513-5e52-2d7d-0904-fe90829252de                                                                                                                                                                                                                                                                                                                                                                                    |
+| AssetId                 | A unique identifier (UUID) of the asset                                                                                  |urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19                                                                                                                                                                                                                                                          |
+| AssetType               | The type of the Asset                                                                                                            | Asset                                                                                                                                                                                                                                                                                                                          |
+| Description             | Simple description of the asset                                                                                                  | Battery Passport Test asset                                                                                                                                                                                                                                                                                                                                                                                                 |
+| submodel.server.endpoint | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://materialpass.int.demo.catena-x.net/provider_backend](https://materialpass.int.demo.catena-x.net/provider_backend) |
 
 
 #### Format and Fields:
@@ -212,7 +211,7 @@ When configurating you EDC provider you will be able to set some assets which re
         "@type": "{{AssetType}}",
         "@id": "{{AssetId}}", 
         "properties": {
-            "description": "{{Description}}"
+            "description": "{{Description}}",
             "contenttype": "application/json"
         }
     },
@@ -220,10 +219,7 @@ When configurating you EDC provider you will be able to set some assets which re
         "@type": "DataAddress",
         "type": "HttpData",
         "proxyPath": "true",
-        "proxyBody": "true",
-        "proxyMethod": "true",
-        "proxyQueryParams": "true",
-        "baseUrl": "{{DataProviderEndpointUrl}}"
+        "baseUrl": "{{submodel.server.endpoint}}"
     }
 }
 ```
@@ -262,6 +258,7 @@ To allow partners to access information use this policy with the BPN number incl
 ```json
 {
     "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
         "odrl": "http://www.w3.org/ns/odrl/2/"
     },
     "@type": "{{PermissionType}}",
@@ -277,7 +274,9 @@ To allow partners to access information use this policy with the BPN number incl
                 {
                   "@type": "Contraint",
                   "odrl:leftOperand": "BusinessPartnerNumber",
-                  "odrl:operator": "EQ",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                 },
                   "odrl:rightOperand": "{{BPN}}"
                 }
               ]
@@ -288,11 +287,12 @@ To allow partners to access information use this policy with the BPN number incl
 }
 ```
 
-For framework agreement and membership in Catena-X check add this policy:
+The minimum set of **membership** and the **circular economy frameworkagreement** **MUST** to be added to the asset:
 
 ```json
 {
   "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "odrl": "http://www.w3.org/ns/odrl/2/"
   },
   "@type": "{{PermissionType}}",
@@ -327,7 +327,6 @@ For framework agreement and membership in Catena-X check add this policy:
     ]
   }
 }
-
 ```
 
 > *NOTE*: If your SSI credentials do not include both membership and framework agreement, you can use the `odrl:or` keyword instead of the default `odrl:and` keyword. Make sure you credentials are correctly configured in order to access the resources in the EDC from your providers.
@@ -344,7 +343,7 @@ Contract definitions allow us to expose the assets and link them to a contract p
 | Name | Description | Example Value                                                                                                                                 |
 | ---- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------|
 | ContractDefinitionId | UUID that identifies the policy in the EDC Connector | 76b50bfc-ec19-457f-9911-a283f0d6d0df                                                                                                          |
-| AssetId | Combination of Digital Twin and Sub Model UUIDs | **Example value for asset**: urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 <br/> **Example value for registry**: digital-twin-registry |
+| AssetId | UUID of the asset | **Example value for asset**: urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 <br/> **Example value for registry**: registry-asset |
 | AccessPolicyId | Policy that allows/restricts/enforces asset access constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
 | ContractPolicyId | Policy that allows/restricts/enforces contract constrains | ad8d2c57-cf32-409c-96a8-be59675b6ae5                                                                                                          |
 
@@ -384,15 +383,16 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | DigitalTwinId | Manually generated DID that contains a UUID | urn:uuid:de98db6e-8e05-5d8e-8ae8-9f702cf5c396 |
 | DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:555c5513-5e52-2d7d-0904-fe90829252de|
 | PartInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
-| EDCProviderUrl | URL to the endpoint which contains the EDC Provider | [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) |
+| ManufacturerPartId | Battery passport attribute - manufacturer part Id | XYZ78901 |
+| edc.data.plane | The edc data plane endpoint of the provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
+| edc.control.plane | The edc control plane endpoint of the provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
+| Path | The edc data plane public endpoint of the provider  | [/api/public/data](/api/public/data) |
+| AssetId | The UUID of the edc data asset | urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 |
 | BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
 | SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
 | BammModelVersionId | The semantic version from the submodel aspect, consult the CX-0096 for more options of the semantic version | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
 
-> **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the EDCProviderUrl points to an valid EDC Provider, that providers valid contracts configured in the structure defined here.*
-
-
-
+> **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the edc.data.plane points to the valid EDC Provider, that providers valid contracts configured in the structure defined here.*
 
 #### Format and Fields:
 
@@ -408,8 +408,38 @@ Once you finish the configuration, to make the endpoint public configure in the 
     "id": "{{DigitalTwinId}}",
     "specificAssetIds": [
         {
+            "name": "manufacturerPartId",
+            "value": "{{ManufacturerPartId}}",
+            "externalSubjectId": {
+            "type": "ExternalReference",
+            "keys": [
+                {
+                "type": "GlobalReference",
+                "value": "{{BPN}}"
+                },
+                {
+                "type": "GlobalReference",
+                "value": "PUBLIC_READABLE"
+                }
+              ]
+            }
+        },
+        {
             "name": "partInstanceId",
-            "value": "{{PartInstanceId}}"
+            "value": "{{PartInstanceId}}",
+            "externalSubjectId": {
+            "type": "ExternalReference",
+            "keys": [
+                {
+                "type": "GlobalReference",
+                "value": "{{BPN}}"
+                }
+              ]
+            }
+        },
+        {
+            "key" : "assetLifecyclePhase",
+            "value": "AsBuild"
         }
     ],
    "submodelDescriptors":[
@@ -418,13 +448,13 @@ Once you finish the configuration, to make the endpoint public configure in the 
           {
             "interface": "SUBMODEL-3.0",
             "protocolInformation": {
-              "href": "https://edc.data.plane/{{path}}/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+              "href": "https://{{edc.data.plane}}/{{Path}}/{{DigitalTwinSubmodelId}}",
               "endpointProtocol": "HTTP",
               "endpointProtocolVersion": [
                 "1.1"
               ],
               "subprotocol": "DSP",
-              "subprotocolBody": "{{body with information required by subprotocol}}",
+              "subprotocolBody": "{{AssetId}};dspEndpoint=https://{{edc.control.plane}}",
               "subprotocolBodyEncoding": "plain",
               "securityAttributes": [
                 {
@@ -437,7 +467,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
           }
         ],
         "idShort": "batteryPass",
-        "id": "urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+        "id": "{{DigitalTwinSubmodelId}}",
         "semanticId": {
           "type": "ExternalReference",
           "keys": [
@@ -458,13 +488,13 @@ Once you finish the configuration, to make the endpoint public configure in the 
             {
               "interface": "SUBMODEL-3.0",
               "protocolInformation": {
-                "href": "https://edc.data.plane/{{path}}/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
+                "href": "https://{{edc.data.plane}}/{{path}}/urn:uuid:777a3f0a-6d29-4fcd-81ea-1c27c1b870cc",
                 "endpointProtocol": "HTTP",
                 "endpointProtocolVersion": [
                   "1.1"
                 ],
                 "subprotocol": "DSP",
-                "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://materialpass.int.demo.catena-x.net/BPNL000000000000",
+                "subprotocolBody": "id={{AssetId}};dspEndpoint=https://{{edc.control.plane}}",
                 "subprotocolBodyEncoding": "plain",
                 "securityAttributes": [
                   {
@@ -502,7 +532,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
 *The BPN number is not required for the configuration of the endpoint, just **make sure that the host is pointing to the EDC Provider**.*
 
 
-### Digital Twin Registry Configuration
+### Digital Twin Registry Asset Configuration
 
 When configuring the digital twin registry behind the EDC Provider you should follow this EDC Registration guidelines:
 
@@ -510,10 +540,10 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 
 | Name         | Description                                 | Example Value                                                 |
 |--------------|---------------------------------------------|---------------------------------------------------------------|
-| registryUrl  | The base url from the digital twin registry | https://<registry-hostname>/semantics/registry/api/v3.0 |
-| registryName | The name from the asset for the registry    | digital-twin-registry                                         |
+| registryUrl  | The base url from the digital twin registry | [https://<registry-hostname>/semantics/registry/api/v3.0](https://<registry-hostname>/semantics/registry/api/v3.0) |
+| registryName | The name from the asset for the registry    | registry-asset                                         |
 
-> **IMPORTANT**: Is mandatory by the *Catena-X Standard CX-0002* from the Digital Twin Registry, the asset type should be `data.core.digitalTwinRegistry` in order to the digital product pass to find the asset in the EDC.
+> **IMPORTANT**: Is mandatory by the *Catena-X Standard CX-0002* from the Digital Twin Registry, the asset.properties.type should be `data.core.digitalTwinRegistry` in order to the digital product pass to find the asset in the EDC.
 
 #### Format and Fields:
 
@@ -521,9 +551,10 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 {
     "@context": {},
     "asset": {
-        "@type": "data.core.digitalTwinRegistry",
+        "@type": "Asset",
         "@id": "{{registryName}}", 
         "properties": {
+            "type": "data.core.digitalTwinRegistry",
             "description": "Digital Twin Registry",
             "contenttype": "application/json" 
         }
@@ -543,7 +574,7 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 
 ## Item Relationship Service Integration
 
-For deploying and integrating the IRS (Item Relationship Service)[https://github.com/eclipse-tractusx/item-relationship-service] with the digital product pass application first deploy the [reference helm chart values](../../deployment/helm/irs) helm charts.
+For deploying and integrating the IRS (Item Relationship Service)[https://github.com/eclipse-tractusx/item-relationship-service] with the digital product pass application first deploy the [reference helm chart values](../../deployment/infrastructure/irs) helm charts.
 
 For creating relationships between the digital twins register "singleLevelBomAsBuilt" and "singleLevelBomAsUsage" aspects which can be found here: [SingleLevelBomAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built) and [SingleLevelUsageAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_usage_as_built)
 

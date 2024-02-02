@@ -29,9 +29,9 @@ This document describes the battery pass application deployment steps in hotel b
 
 - Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)
 
-- [edc-consumer](./helm/edc-consumer)
+- [edc-consumer](./infrastructure/edc-consumer)
 
-- [edc-provider](./helm/edc-provider)
+- [edc-provider](./infrastructure/edc-provider)
 
 - [digital-product-pass](../charts/digital-product-pass)
     - dpp-frontend
@@ -86,7 +86,7 @@ If everything works fine then the application is deployed...
 
 The dpp frontend is a consumer user interface application for the digital product passports that interacts with the end-user and displays passports. The steps above will be followed to deploy the consumer frontend component.
 
-In the end, the frontend should be accessible at https://materialpass.int.demo.catena-x.net. You would be redirected to the CatenaX central IDP and can see the login page after company selection.
+In the end, the frontend should be accessible at https://dpp.int.demo.catena-x.net. You would be redirected to the CatenaX central IDP and can see the login page after company selection.
 
 ##### Login credentails:
 - **Company Selection:** CX-Test-Access
@@ -111,7 +111,7 @@ In the end, the frontend should be accessible at https://materialpass.int.demo.c
 
 The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in frontend component.
 
-[Open API documentation in Swagger](https://materialpass.int.demo.catena-x.net/swagger-ui/index.html)
+[Open API documentation in Swagger](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
 
 ![Swagger UI](./images/swagger.png)
 

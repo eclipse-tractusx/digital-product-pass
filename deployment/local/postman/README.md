@@ -26,21 +26,24 @@ This technical guide depicts the digital product pass end-to-end API calls throu
 
 ### Components in Digital Product Pass:
 - Provider
+  - Submodel Server
+  - EDC
   - Registry
 - Discovery Finder
 - BPN Discovery
 - EDC Discovery
-- Consumer
-    - Data transfer
-- Backend
+- Consumer EDC APIs
+    - Registry Asset
+    - Data Asset
+- DPP Backend
 
 
 ### Steps to  Proceed
 - Setup up [Postman client](https://www.postman.com/downloads)
 
-- Import the [Digital Product Pass](./v3.0.1/Digital-Product-Pass-collection.json)
+- Import the [Digital Product Pass collection](./Digital-Product-Pass-collection.json)
 
-- Configure the following environment variables from the variables tab inside root directory.
+- Configure the following environment variables from the variables tab inside the root directory.
 
 - ***APIKey***
 - ***clientId***

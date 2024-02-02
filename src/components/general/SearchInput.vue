@@ -33,7 +33,7 @@
         v-model="typedCode"
         class="input"
         type="text"
-        placeholder="Enter Battery ID"
+        :placeholder="$t('searchInput.passportId')"
       ></v-text-field>
 
       <v-btn
@@ -56,7 +56,7 @@
       type="submit"
       :disabled="!isContent"
     >
-      Search
+      {{ $t("searchInput.search") }}
     </v-btn>
   </v-form>
 </template>

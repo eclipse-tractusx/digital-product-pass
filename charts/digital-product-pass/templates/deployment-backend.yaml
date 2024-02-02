@@ -44,16 +44,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsUser: 10000
-        fsGroup: 3000
+        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Values.backend.name }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           securityContext:
-            allowPrivilegeEscalation: false
-            runAsUser: 10000
-            runAsGroup: 3000
+            {{- toYaml .Values.backend.securityContext | nindent 12 }}
           env:
             - name: "appId"
               valueFrom:
@@ -86,9 +83,16 @@ spec:
             - name: pvc-backend
               mountPath: /app/data/process
               subPath: data/process
-            - name: pvc-backend
+            - name: tmpfs
               mountPath: /app/log
               subPath: log
+            - name: tmpfs
+              mountPath: /tmp
+            - name: tmpfs
+              mountPath: /app/data/VaultConfig
+              subPath: VaultConfig/vault.token.yml
+            - name: tmpfs
+              mountPath: /app/tmp
           ports:
             - containerPort: 8888
               name: http
@@ -114,5 +118,7 @@ spec:
         - name: pvc-backend
           persistentVolumeClaim:
             claimName: pvc-data
+        - name: tmpfs
+          emptyDir: {}
 
 

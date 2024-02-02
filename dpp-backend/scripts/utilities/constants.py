@@ -29,7 +29,7 @@ class Constants:
     CLIENT_ID = "Cl13-CX-Battery"
     REALM = "CX-Central"
     SCOPE = "openid"
-    SERVER_URL = "https://materialpass.int.demo.catena-x.net"
+    SERVER_URL = "https://dpp.int.demo.catena-x.net"
     CREATE_API = "/api/contract/create"
     SEARCH_API = "/api/contract/search"
     SIGN_API = "/api/contract/sign"

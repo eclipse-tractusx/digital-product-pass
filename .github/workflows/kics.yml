@@ -25,14 +25,16 @@ name: "KICS"
 on:
   push:
     branches: [ main ]
-  # pull_request:
-  # The branches below must be a subset of the branches above
-  # branches: [main, master]
-  # paths-ignore:
-  #   - "**/*.md"
-  #   - "**/*.txt"
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.txt"
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # Once a day
 
 jobs:
   analyze:
@@ -44,7 +46,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: KICS scan
         uses: checkmarx/kics-github-action@master
@@ -74,4 +76,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: kicsResults/results.sarif
-          
+
+      - name: Archive results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: kicsResults.json
+          path: kicsResults/results.json

@@ -28,6 +28,19 @@ import { loadFonts } from './assets/plugins/webfontloader';
 import router from './router';
 import '@/assets/styles/main.scss';
 import authentication from '@/services/Authentication';
+import { createI18n } from 'vue-i18n';
+// Import translation files
+import en from '@/translations/en.json';
+import de from '@/translations/de.json';
+
+const i18n = createI18n({
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+        en,
+        de
+    }
+});
 
 loadFonts();
 
@@ -35,6 +48,7 @@ const app = createApp(App);
 app.use(vuetify);
 app.use(store);
 app.use(router);
+app.use(i18n);
 
 var auth = new authentication();
 app.provide('authentication', auth);

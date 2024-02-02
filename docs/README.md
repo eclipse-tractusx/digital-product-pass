@@ -1,7 +1,8 @@
 <!--
   Catena-X - Product Passport Consumer Application
  
-  Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+   Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -90,7 +91,7 @@ For understating the achitecture first take a look at the following diagram:
 
 ![Application Scope](./arc42/GraphicSystemScopeandContext.jpg)
 
-Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/helm/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc). 
+Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc). 
 
 The [Arc42](./arc42/Arc42.md) documentation is the main architecture guide you can read in order to have a overview from the application and get to know more about the system.
 
@@ -145,7 +146,7 @@ Here you can find the main security documentatin for the Digital Product Pass Ap
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Keycloak Overview](../docker/local/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Keycloak Overview](../deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
 | [Secret Management](./SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
 
 
@@ -178,7 +179,7 @@ Here you can find the API documentation, there is a postman collection with the 
 ## Postman Collection
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------                                                                                                                                     |
-| [Postman Overview](../postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
+| [Postman Overview](../deployment/local/postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
 
 
 
@@ -188,7 +189,7 @@ Name                                                                      | Desc
 Additionally we have a open swagger documentation at the following URL:
 
 <pre>
-<a href="https://materialpass.int.demo.catena-x.net/swagger-ui/index.html">https://materialpass.int.demo.catena-x.net/swagger-ui/index.html</a>
+<a href="https://dpp.int.demo.catena-x.net/swagger-ui/index.html">https://dpp.int.demo.catena-x.net/swagger-ui/index.html</a>
 </pre>
 
 
@@ -207,5 +208,5 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 
 - SPDX-License-Identifier: Apache-2.0
 - SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
-- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

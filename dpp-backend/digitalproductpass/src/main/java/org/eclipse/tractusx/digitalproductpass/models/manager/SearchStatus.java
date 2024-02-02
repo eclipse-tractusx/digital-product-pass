@@ -108,6 +108,7 @@ public class SearchStatus {
     public Dtr getDtr(String id) {
         return this.dtrs.get(id);
     }
+
     /**
      * Gets a new DTR into the DTR map object.
      * <p>

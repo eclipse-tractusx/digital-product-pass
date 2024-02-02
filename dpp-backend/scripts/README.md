@@ -40,8 +40,8 @@ A command line python script to request for any aspect model data using the Digi
 - Export enabled/disabled option to export the requested aspect data to a json file
 - Logging to log intermediate retrieval status to a file for further backtracking/debugging/troubleshooting
 - The backend API and authorization server settings are configurable
-- Capable to handle exception and error messages
-- When doing contract negotiation the first contract is always used
+- Capable to handle exception and error messages+
+- When doing contract negotiation the first contract is always choosed
 
 ## TL;DR 
 - The default script configuration is provided in [Constants.py](./utilities/constants.py) and can be changed based on the authentication provider.

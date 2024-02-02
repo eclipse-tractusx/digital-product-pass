@@ -138,6 +138,7 @@ def search_contract(process_id, serialized_id, id_type=None, semantic_id=None, s
         data["children"] = children
 
     logger.debug(f"Searching for contract: {str(data)}")
+    
     headers={
         "Authorization": "Bearer "+ access_token,
         "Content-Type": "application/json"
@@ -174,6 +175,7 @@ def negotiate_contract(process_id, contract_id, token, session=None):
         "Content-Type": "application/json"
         }
     logger.debug(f"Negotiate contract: {str(data)}")
+
     url = Constants.SERVER_URL + Constants.AGREE_API
     try:    
         response = HttpUtils.do_post(url=url, session=session, headers=headers, verify=False, json=data)

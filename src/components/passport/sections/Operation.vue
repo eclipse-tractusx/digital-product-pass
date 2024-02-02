@@ -28,7 +28,7 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               :icon="callIconFinder('importer')"
-              label="Importer Id"
+              :label="$t('sections.operation.importer')"
               :value="propsData.importer.left.id"
             />
           </v-col>
@@ -37,17 +37,17 @@
           <template v-if="propsData.manufacturer">
             <Field
               :icon="callIconFinder('manufacturer')"
-              label="Manufacturer Id"
+              :label="$t('sections.operation.manufacturerId')"
               :value="propsData.manufacturer.manufacturer"
             />
             <Field
               :icon="callIconFinder('facility')"
-              label="Facility Id"
+              :label="$t('sections.operation.facilityId')"
               :value="propsData.manufacturer.facility"
             />
             <Field
               :icon="callIconFinder('manufacturingDate')"
-              label="Manufacturing date"
+              :label="$t('sections.operation.manufacturingDate')"
               :value="propsData.manufacturer.manufacturingDate"
             />
           </template>

@@ -35,7 +35,7 @@
               <Field
                 :icon="callIconFinder('additionalCode')"
                 :value="propsData.manufacturerId"
-                label="Manufacturer ID"
+                :label="$t('sections.identification.manufacturerId')"
               />
             </template>
             <template v-for="attr in propsData.localIdentifiers" :key="attr">
@@ -49,7 +49,7 @@
               <Field
                 :icon="callIconFinder('additionalCode')"
                 :value="propsData.dataMatrixCode"
-                label="Data matrix code"
+                :label="$t('sections.identification.dataMatrixCode')"
               />
             </template>
           </v-col>

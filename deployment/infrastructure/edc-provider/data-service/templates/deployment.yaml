@@ -67,6 +67,12 @@ spec:
             - containerPort: {{ .Values.container.port }}
               protocol: TCP
               name: http
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+      volumes:
+        - emptyDir: {}
+          name: tmp
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

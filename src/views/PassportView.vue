@@ -583,8 +583,6 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        console.log("DATA:");
-        console.log(this.data);
         if (
           this.data &&
           jsonUtil.exists("status", this.data) &&

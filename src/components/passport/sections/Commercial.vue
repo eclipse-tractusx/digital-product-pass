@@ -27,7 +27,7 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('placedOnMarket')"
-            label="Place on the market"
+            :label="$t('sections.commercial.placedOnMarket')"
             :value="propsData.placedOnMarket"
           />
         </v-col>

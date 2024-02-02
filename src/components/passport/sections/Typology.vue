@@ -35,12 +35,12 @@
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <Field
               :icon="callIconFinder('definition')"
-              label="Definition"
+              :label="$t('sections.typology.definition')"
               :value="propsData.class.definition"
             />
             <Field
               :icon="callIconFinder('code')"
-              label="Code"
+              :label="$t('sections.typology.code')"
               :value="propsData.class.code"
             />
           </v-col>
@@ -48,7 +48,7 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('longName')"
-            label="Long name"
+            :label="$t('sections.typology.longName')"
             :value="propsData.longName"
           />
         </v-col>

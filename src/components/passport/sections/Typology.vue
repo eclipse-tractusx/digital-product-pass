@@ -48,7 +48,7 @@
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <Field
             :icon="callIconFinder('longName')"
-            label="Long name"
+            :label="$t('sections.typology.longName')"
             :value="propsData.longName"
           />
         </v-col>

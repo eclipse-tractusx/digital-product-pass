@@ -23,9 +23,11 @@
 ## this command in Python is recommended to run in UNBUFFERED mode, and to print standard output (stdout/stderr)
 export PYTHONUNBUFFERED=TRUE;
 
+pip install -r requirements.txt --user
+
 ## execute the python script
-python ./getPassport.py --id BAT-XYZ789  \
-  --discoveryId XYZ78901 \
+python ./getPassport.py --id NCM-6789  \
+  --discoveryId MAT7814 \
   --company CX-Test-Access \
-  --username "<your username>" \
-  --password "<your password>"
+  --username "<username>" \
+  --password "<password>"

@@ -48,7 +48,7 @@
               v-for="attr in propsData.lifespan"
               :key="attr"
               :icon="callIconFinder('lifespan')"
-              :label="$t('sections.characteristics.lifespan')"
+              label="Lifespan"
               :value="attr.value"
               :unit="attr.unit"
             />
@@ -58,7 +58,7 @@
           <template v-if="propsData.physicalState">
             <Field
               :icon="callIconFinder('physicalState')"
-              :label="$t('sections.characteristics.physicalState')"
+              label="Physical state"
               :value="propsData.physicalState"
             />
           </template>

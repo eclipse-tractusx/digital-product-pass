@@ -50,7 +50,7 @@ Fill out the following required fields.
 - **Project:** project-material-pass
 - **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
-- **Path:** The path to the deployment (possible values: deployment/helm/edc-consumer, deployment/helm/edc-provider, charts/digital-product-pass)
+- **Path:** The path to the deployment (possible values: deployment/infrastructure/edc-consumer, deployment/infrastructure/edc-provider, charts/digital-product-pass)
 - **Cluster URL:** https://kubernetes.default.svc
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args

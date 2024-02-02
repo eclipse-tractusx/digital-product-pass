@@ -25,6 +25,127 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [released]
+## [v2.1.0] - 02-02-2024
+## Added
+- Added policyId parameter to the `/agree` api.
+- Added mechanism to get a policy by id from a catalog contract
+- Added frontend logic to call the `/decline` and `/cancel` backend APIs
+- Added reload option in case of error
+- Added/fixed logging of the Digital Twin Registry Contracts and which policy was selected (Data Souverenighty improvement)
+- Added util method to move files from one path to another
+- Added functionality to treat more than one policy and more than one contract, allowing user to decide
+- Added safety functionalities to make sure that the contract selected is correct
+- Added Policy selector when autosign is not enabled
+- Added Contract JSON details display
+- Added Agree/Decline button for contract/policy
+- Added fixes in backend and frontend integration
+- Added pydoc comments to the getPassport.py
+- Added access-token parameter to authorize the APIs without providing username/password and company
+ 
+ 
+## Updated
+- Updated versions from container base images
+- Adjusted the non root user ids in Dockerfiles and dpp helm chart configurations
+- Updated diagrams in Arc42, Data Retrieval Guide to editable drawio svgs
+- [BRAKING CHANGE] Renamed API from **sign** to negotiate  **/agree**
+- Bumped Vite to version `>=4.5.2`
+- Updated the frontend to allow the **AutoSigning** of contracts.
+- Optimized temporary directory logging of the DTR negotiation
+- Updated logging and readme
+- Updated license header
+- Updated user manual readme by adding the policy selection screenshots
+ 
+ 
+## Issues Fixed
+- Fixed issue related to `sleepy` EDCs, allowing the backend to re-request the contract negotiation when the EDC does not respond.
+
+## [released]
+## [v2.0.3] - 02-02-2024
+## Added
+- Added Frameagreement conditions to the provider configuration
+- Added Unit Tests for Managers and for Services
+- Added changes from version `v1.0.0` to version `v2.0.0` for every component involved
+- Added iconMapping for all components involved in DPP `v2.0.0`
+- Added multi-language feature that supports currently `EN` and `DE`
+- Added back button in the welcome page
+- Added `timeToLive` attribute to discovery service model in the dpp-backed
+- Added `readOnlyRootFilesystem` to the container security context in helm charts
+- Added Serial Part aspect in the drill down components
+- Added `notice.md` to include **Notice for docker images** section to be only part of DockerHub description
+
+## Updated
+- Cleaned up necessary scripts
+-Refactored the DPP and IRS postman collections
+- Updated the deployment and testing directory structure and their references in relevant documentation
+- Updated license header and deployment directory references in the following readme files:
+    - Admin guide
+    - Arc42
+    - Getting-Started guide
+- Updated test directory stricture in dpp-backend
+- Updated the app url from [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) to [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net)
+- Updated the payloads of asset, policies, contract definition, digital twin and its aspects to align with the DPPTriangle document v1.1.0
+- Updated the following frontend content:
+    - Condition for "commercial.warranty" in General Cards
+    - Mocked passports
+    - Loading page translation
+    - Translation files
+    - Characteristics component
+    - Identification component
+    - Sustainability component
+    - Typology component
+- Updated helm template to provide security context values from helm vaules file
+- Updated kics workflow
+- Updated user manual, deployment guide
+- Updated year 2024 to the license headers
+- Updated diagrams to an editable version in `.svg` in business statement readme
+- Updated `README.md` and `UNIT_TESTS.md` for the dpp-backend
+- Updated versions in docker workflows and setup-java action
+- Refactor docker workflows
+- Updated **Notice for docker images** section in a main `README.md`
+
+
+## [released]
+## [v2.0.2] - 02-02-2024
+## Added
+- Added Frameagreement conditions to the provider configuration
+- Added Unit Tests for Managers and for Services
+- Added changes from version `v1.0.0` to version `v2.0.0` for every component involved
+- Added iconMapping for all components involved in DPP `v2.0.0`
+- Added multi-language feature that supports currently `EN` and `DE`
+- Added back button in the welcome page
+- Added `timeToLive` attribute to discovery service model in the dpp-backed
+- Added `readOnlyRootFilesystem` to the container security context in helm charts
+
+
+## Updated
+- Cleaned up necessary scripts
+-Refactored the DPP and IRS postman collections
+- Updated the deployment and testing directory structure and their references in relevant documentation
+- Updated license header and deployment directory references in the following readme files:
+    - Admin guide
+    - Arc42
+    - Getting-Started guide
+- Updated test directory stricture in dpp-backend
+- Updated the app url from [https://materialpass.int.demo.catena-x.net](https://materialpass.int.demo.catena-x.net) to [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net)
+- Updated the payloads of asset, policies, contract definition, digital twin and its aspects to align with the DPPTriangle document `v1.1.0`
+- Updated the following frontend content:
+    - Condition for "commercial.warranty" in General Cards
+    - Mocked passports
+    - Loading page translation
+    - Translation files
+    - Characteristics component
+    - Identification component
+    - Sustainability component
+    - Typology component
+- Updated helm template to provide security context values from helm vaules file
+
+
+## Deleted
+- Filtered out unnecessary nnecessary/unused files
+
+
 ## [released]
 ## [v2.0.1] - 03-01-2024
 ## Added

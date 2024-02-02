@@ -1,5 +1,5 @@
 <!--
-  Catena-X - Product Passport Consumer Frontend
+  Catena-X - Digital Product Passport Application
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -52,7 +52,6 @@ The business statement was also updated to reflect the latest functionalities fr
 
 **February 02 2024 (Version 2.0.2)**
 *02.02.2024*
-
 ### Added
 #### English and German translations enabled in the application
 Now the application is able to visualize the texts in more than one language.
@@ -216,7 +215,7 @@ to the Digital Product Pass Application core functionality.
 
 #### Added EDC v0.5.0 version support
 
-As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
+As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/infrastructure/edc-provider` and `deployment/infrastructure/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
 
 #### Added Decentralized Digital Twin Registry integration
 
@@ -311,7 +310,7 @@ We are now encrypting the passport  when it arrives from the EDC consumer data p
 ### Updated
 
 #### Updated EDC Provider and Consumer Versions to `v0.4.1`
-Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
+Now the test EDC consusumer and provider contained in `deployment/infrastructure/edc-provider` and `deployment/infrastructure/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
 
 
 ## Removed cx-backend-service support

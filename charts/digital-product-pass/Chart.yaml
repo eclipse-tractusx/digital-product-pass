@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Passport Passport Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -46,4 +47,5 @@ version: 2.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
+
 appVersion: "2.1.0"

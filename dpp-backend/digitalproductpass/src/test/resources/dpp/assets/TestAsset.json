@@ -1,0 +1,21 @@
+{
+    "@context": {},
+    "asset": {
+        "@type": "data.core.digitalTwinRegistry",
+        "@id": "digital-twin-registry", 
+        "properties": {
+            "type": "data.core.digitalTwinRegistry",
+            "description": "Digital Twin Registry for DPP",
+            "contenttype": "application/json" 
+        }
+    },
+    "dataAddress": {
+        "@type": "DataAddress",
+        "type": "HttpData",
+        "proxyPath": "true",
+        "proxyBody": "true",
+        "proxyMethod": "true",
+        "proxyQueryParams": "true",
+        "baseUrl": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0"
+    }
+}

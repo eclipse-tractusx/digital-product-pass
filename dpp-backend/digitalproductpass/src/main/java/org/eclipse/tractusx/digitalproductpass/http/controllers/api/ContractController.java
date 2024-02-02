@@ -148,7 +148,7 @@ public class ContractController {
             }
             List<String> bpnList = new ArrayList<>();
             for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
-                bpnList.addAll(bpnDiscovery.getBpnNumbers());
+                bpnList.addAll(bpnDiscovery.mapBpnNumbers());
             }
             if(bpnList.size() == 0){
                 response.message = "The asset was not found in the BPN Discovery!";

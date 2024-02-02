@@ -25,8 +25,12 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.catenax;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,7 +65,8 @@ public class BpnDiscovery {
     }
 
     /** METHODS **/
-    public List<String> getBpnNumbers(){
+
+    public List<String> mapBpnNumbers(){
         return bpns.stream().map(
                 BpnEndpoint::getValue
         ).collect(Collectors.toList());

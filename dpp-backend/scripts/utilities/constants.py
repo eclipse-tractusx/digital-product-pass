@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Application
+# Catena-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -26,7 +27,7 @@ class Constants:
     TOKEN_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     AUTH_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth"
     REDIRECT_URI = "https://dpp.int.demo.catena-x.net"
-    CLIENT_ID = "<appId>"
+    CLIENT_ID = "<addAppId>"
     REALM = "CX-Central"
     SCOPE = "openid"
     SERVER_URL = "https://dpp.int.demo.catena-x.net"
@@ -37,6 +38,5 @@ class Constants:
     RETRIEVE_PASSPORT_API = "/api/data"
     API_MAX_RETRIES = 3
     API_DELAY = 3
-    IS_LOG_ENABLED = False
     EXPORT_TO_FILE = False
 

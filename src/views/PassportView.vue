@@ -603,24 +603,26 @@ export default {
               "] is not supported in this application at the moment.";
             this.status = 422;
             this.statusText = "Not Supported Aspect Model";
+            this.reload = false;
+            this.error = true;
+          } else {
+            this.data = configUtil.normalizePassport(
+              jsonUtil.get("data.aspect", this.data),
+              jsonUtil.get("data.metadata", this.data),
+              jsonUtil.get("data.semanticId", this.data)
+            );
+            this.error = false;
+            this.processId = this.$store.getters.getProcessId; // Get process id from the store
+            this.irsData = this.backendService.getIrsData(
+              this.processId,
+              this.auth
+            ); // Return the IRS data
+            this.$store.commit("setIrsData", this.irsData); // Save IRS Data
+            this.$store.commit(
+              "setIrsState",
+              this.backendService.getIrsState(this.processId, this.auth)
+            );
           }
-
-          this.data = configUtil.normalizePassport(
-            jsonUtil.get("data.aspect", this.data),
-            jsonUtil.get("data.metadata", this.data),
-            jsonUtil.get("data.semanticId", this.data)
-          );
-          this.error = false;
-          this.processId = this.$store.getters.getProcessId; // Get process id from the store
-          this.irsData = this.backendService.getIrsData(
-            this.processId,
-            this.auth
-          ); // Return the IRS data
-          this.$store.commit("setIrsData", this.irsData); // Save IRS Data
-          this.$store.commit(
-            "setIrsState",
-            this.backendService.getIrsState(this.processId, this.auth)
-          );
         }
         // Stop loading
         this.loading = false;

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="section" v-if="propsData">
+  <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
@@ -29,7 +29,7 @@
             <template v-for="attr in propsData.substancesOfConcern" :key="attr">
               <Field
                 :icon="callIconFinder('carbon')"
-                :label="$t('sections.sustainability.substancesOfConcern')"
+                label="Substances of concern"
                 :value="attr"
               />
             </template>
@@ -72,7 +72,7 @@
           <template v-if="propsData.state">
             <Field
               :icon="callIconFinder('Sustainability')"
-              :label="$t('sections.sustainability.state')"
+              label="State"
               :value="propsData.state"
             />
           </template>
@@ -129,7 +129,7 @@
             >
               <Field
                 :icon="callIconFinder('element')"
-                :label="$t('sections.sustainability.criticalRawMaterials')"
+                label="Critical raw materials"
                 :value="attr"
               />
             </template>
@@ -144,7 +144,7 @@
                 >
                   <Field
                     :icon="callIconFinder('material')"
-                    :label="$t('sections.sustainability.crossSectoralStandard')"
+                    label="Cross sectoral standards used"
                     :value="attr.crossSectoralStandard"
                   />
                 </template>
@@ -152,7 +152,7 @@
               <template v-if="propsData.carbonFootprint.co2FootprintTotal">
                 <Field
                   :icon="callIconFinder('material')"
-                  :label="$t('sections.sustainability.co2FootprintTotal')"
+                  label="CO₂ footprint total"
                   :value="propsData.carbonFootprint.co2FootprintTotal"
                 />
               </template>
@@ -167,9 +167,7 @@
                 >
                   <Field
                     :icon="callIconFinder('operator')"
-                    :label="
-                      $t('sections.sustainability.productOrSectorSpecificRules')
-                    "
+                    label="Product or sector specific rules"
                     :value="attr.operator"
                   />
                 </template>
@@ -180,7 +178,7 @@
             <template v-for="attr in propsData.critical.left" :key="attr">
               <Field
                 :icon="callIconFinder('material')"
-                :label="$t('sections.sustainability.critical')"
+                label="Critical"
                 :value="attr"
               />
             </template>

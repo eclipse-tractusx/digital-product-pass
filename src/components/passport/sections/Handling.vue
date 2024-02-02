@@ -34,7 +34,7 @@
               <Field
                 :icon="callIconFinder('producer')"
                 :value="attr.id"
-                :label="$t('sections.handling.producerId')"
+                label="Producer Id"
               />
             </template>
             <template
@@ -44,78 +44,76 @@
               <Field
                 :icon="callIconFinder('part')"
                 :value="attr.name"
-                :label="$t('sections.handling.partName')"
+                label="Part name"
               />
               <Field
                 :icon="callIconFinder('part')"
                 :value="attr.gtin"
-                :label="$t('sections.handling.partGtin')"
+                label="Part gtin"
               />
             </template>
           </v-col>
         </template>
         <template v-if="propsData.substanceOfConcern">
-          <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-          <template
-            v-for="attr in propsData.substanceOfConcern.left"
-            :key="attr"
-          >
-            <v-col sm="12" md="4" class="pa-0 ma-0">
+          <v-col sm="12" md="4" class="pa-0 ma-0">
+            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+            <template
+              v-for="attr in propsData.substanceOfConcern.left"
+              :key="attr"
+            >
               <Field
                 :icon="callIconFinder('substanceOfConcern')"
                 :value="attr.name.name"
-                :label="$t('sections.handling.substanceOfConcern')"
+                label="Substance of concern"
               />
               <Field
                 :icon="callIconFinder('type')"
                 :value="attr.name.type"
-                :label="$t('sections.handling.type')"
+                label="Type"
               />
               <Field
                 :icon="callIconFinder('location')"
                 :value="attr.location"
-                :label="$t('sections.handling.location')"
+                label="location"
               />
               <Field
                 :icon="callIconFinder('unit')"
                 :value="callUnitRemover(attr.unit)"
-                :label="$t('sections.handling.unit')"
+                label="Unit"
               />
-            </v-col>
-            <v-col sm="12" md="4" class="pa-0 ma-0">
               <!-- eslint-disable-next-line vue/no-v-for-template-key -->
               <template v-for="attr in attr.concentration.left" :key="attr">
                 <Field
                   :icon="callIconFinder('unit')"
                   :value="attr.max"
-                  :label="$t('sections.handling.concentrationMax')"
+                  label="Concentration max"
                 />
                 <Field
                   :icon="callIconFinder('unit')"
                   :value="attr.min"
-                  :label="$t('sections.handling.concentrationMin')"
+                  label="Concentration min"
                 />
               </template>
               <Field
                 :icon="callIconFinder('exemption')"
                 :value="attr.exemption"
-                :label="$t('sections.handling.exemption')"
+                label="Exemption"
               />
               <!-- eslint-disable-next-line vue/no-v-for-template-key -->
               <template v-for="attr in attr.id" :key="attr">
                 <Field
                   :icon="callIconFinder('type')"
                   :value="attr.type"
-                  :label="$t('sections.handling.idType')"
+                  label="Id type"
                 />
                 <Field
                   :icon="callIconFinder('type')"
                   :value="attr.id"
-                  :label="$t('sections.handling.id')"
+                  label="Id"
                 />
               </template>
-            </v-col>
-          </template>
+            </template>
+          </v-col>
         </template>
       </v-row>
     </v-container>

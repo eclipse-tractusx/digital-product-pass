@@ -1,7 +1,8 @@
 #################################################################################
-# Catena-X - Product Passport Consumer Backend
+# Catena-X - Digital Product Pass Backend Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -21,10 +22,10 @@
 #################################################################################
 
 
-FROM eclipse-temurin:19-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 RUN addgroup -g 3000 appgroup \
-	&& adduser -u 10000 -g 3000 -h /home/appuser -D appuser
+	&& adduser -u 1000 -g 3000 -h /home/nonroot -D nonroot
     
 WORKDIR /app
 
@@ -39,9 +40,9 @@ COPY ./target/digitalproductpass*.jar digitalproductpass.jar
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R 10000:3000 /app && chmod -R 775 /app/
+RUN chown -R 1000:3000 /app && chmod -R 775 /app/
 
-USER 10000:3000
+USER 1000:3000
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "./digitalproductpass.jar"]

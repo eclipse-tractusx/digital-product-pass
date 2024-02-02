@@ -58,7 +58,7 @@ backend:
       # -- Restrict a Container's Syscalls with seccomp
       type: RuntimeDefault
     # -- Runs all processes within a pod with a special uid
-    runAsUser: 10000
+    runAsUser: 1000
     # -- Processes within a pod will belong to this guid
     runAsGroup: 3000
     # -- The owner for volumes and any files created within volumes will belong to this guid
@@ -79,7 +79,7 @@ backend:
     # -- Requires the container to run without root privileges
     runAsNonRoot: true
     # -- The container's process will run with the specified uid
-    runAsUser: 10000
+    runAsUser: 1000
     # -- The owner for volumes and any files created within volumes will belong to this guid
     runAsGroup: 3000
 
@@ -190,7 +190,7 @@ frontend:
       # -- Restrict a Container's Syscalls with seccomp
       type: RuntimeDefault
     # -- Runs all processes within a pod with a special uid
-    runAsUser: 10000
+    runAsUser: 1000
     # -- Processes within a pod will belong to this guid
     runAsGroup: 3000
     # -- The owner for volumes and any files created within volumes will belong to this guid
@@ -211,7 +211,7 @@ frontend:
     # -- Requires the container to run without root privileges
     runAsNonRoot: true
     # -- The container's process will run with the specified uid
-    runAsUser: 10000
+    runAsUser: 1000
     # -- The owner for volumes and any files created within volumes will belong to this guid
     runAsGroup: 3000
 

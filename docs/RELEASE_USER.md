@@ -1,5 +1,5 @@
 <!--
-  Catena-X - Product Passport Consumer Frontend
+  Catena-X - Digital Product Passport Application
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -23,6 +23,19 @@
 
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
+
+**February 02 2024 (Version 2.0.2)**
+*02.02.2024*
+ 
+### Added
+#### English and German translations enabled in the application
+Now the application is able to visualize the texts in more than one language.
+The german language selection is added to the application.
+ 
+#### Digital Product Pass version v2.0.0
+The application now supports the version `v2.0.0` of the Digital Product Pass Aspect.
+This deprecates the version `v1.0.0` of the passport aspect.
+
 
 **January 04 2024 (Version 2.0.0)**
 *03.01.2024*

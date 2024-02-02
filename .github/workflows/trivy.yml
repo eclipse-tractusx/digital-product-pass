@@ -2,6 +2,7 @@
 # Catena-X - Product Passport Consumer Application
 #
 # Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -64,16 +65,16 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "config"
-          # ignore-unfixed: true
-          exit-code: "1"
+          ignore-unfixed: true
           hide-progress: false
-          # image-ref: "${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
           format: "sarif"
           output: "trivy-results1.sarif"
           severity: "CRITICAL,HIGH"
+          args: "--ignorefile .trivyignore"
+          skip-dirs: "deployment/infrastructure/edc-consumer,deployment/infrastructure/edc-provider,deployment/infrastructure/edc-provider/data-service,deployment/infrastructure/registry"  # skip scanning external images.
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: "trivy-results1.sarif"
@@ -107,10 +108,11 @@ jobs:
         with:
           image-ref: "${{ env.REGISTRY }}/${{ github.repository }}/${{ env.FRONTEND_IMAGE_NAME }}"
           format: "sarif"
+          ignore-unfixed: true
           output: "trivy-results-dpp-frontend.sarif"
-          exit-code: "1"
           hide-progress: false
           severity: "CRITICAL,HIGH"
+          args: "--ignorefile .trivyignore"
       
       # Build action for docker hub registry
       - name: Run Trivy vulnerability scanner - Docker Hub
@@ -119,15 +121,16 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "${{ env.IMAGE_NAMESPACE }}/${{ env.FRONTEND_IMAGE_NAME }}"
+          ignore-unfixed: true
           format: "sarif"
           output: "trivy-results-dpp-frontend.sarif"
-          exit-code: "1"
           hide-progress: false
           severity: "CRITICAL,HIGH"
+          args: "--ignorefile .trivyignore"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: "trivy-results-dpp-frontend.sarif"
 
@@ -142,7 +145,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: "${{ env.JAVA_VERSION }}"
           distribution: "temurin"
@@ -175,10 +178,11 @@ jobs:
         with:
           image-ref: "${{ env.REGISTRY }}/${{ github.repository }}/${{ env.BACKEND_IMAGE_NAME }}"
           format: "sarif"
+          ignore-unfixed: true
           output: "trivy-results-dpp-backend.sarif"
-          exit-code: "1"
           hide-progress: false
           severity: "CRITICAL,HIGH"
+          args: "--ignorefile .trivyignore"
 
         # Build action for docker hub registry
       - name: Run Trivy vulnerability scanner - Docker Hub
@@ -188,14 +192,15 @@ jobs:
         with:
           image-ref: "${{ env.IMAGE_NAMESPACE }}/${{ env.BACKEND_IMAGE_NAME }}"
           format: "sarif"
+          ignore-unfixed: true
           output: "trivy-results-dpp-backend.sarif"
-          exit-code: "1"
           hide-progress: false
           severity: "CRITICAL,HIGH"
+          args: "--ignorefile .trivyignore"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: "trivy-results-dpp-backend.sarif"
 

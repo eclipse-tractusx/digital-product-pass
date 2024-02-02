@@ -1,7 +1,8 @@
 #################################################################################
 # Catena-X - Product Passport Consumer Application
 #
-# Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -21,13 +22,13 @@
 #################################################################################
 
 ---
-name: "Setup Java 19"
-description: "Setup Java 19"
+name: "Setup Java"
+description: "Setup Java"
 runs:
   using: "composite"
   steps:
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        java-version: '19'
-        distribution: 'adopt'
+        java-version: '21'
+        distribution: 'temurin'

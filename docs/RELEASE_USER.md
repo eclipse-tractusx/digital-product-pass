@@ -1,5 +1,5 @@
 <!--
-  Catena-X - Product Passport Consumer Frontend
+  Catena-X - Digital Product Passport Application
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -23,6 +23,28 @@
 
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
+
+**February 02 2024 (Version 2.0.3)**
+*02.02.2024*
+ 
+### Updated
+#### Updated documentation and business statement
+Updated the user manual to reflect the latests changes
+The business statement was also updated to reflect the latest functionalities from the application like to display the digital product pass aspect.
+
+
+**February 02 2024 (Version 2.0.2)**
+*02.02.2024*
+ 
+### Added
+#### English and German translations enabled in the application
+Now the application is able to visualize the texts in more than one language.
+The german language selection is added to the application.
+ 
+#### Digital Product Pass version v2.0.0
+The application now supports the version `v2.0.0` of the Digital Product Pass Aspect.
+This deprecates the version `v1.0.0` of the passport aspect.
+
 
 **January 04 2024 (Version 2.0.0)**
 *03.01.2024*
@@ -178,7 +200,7 @@ to the Digital Product Pass Application core functionality.
 
 #### Added EDC v0.5.0 version support
 
-As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
+As of now, there is a possibility to run EDC `v0.5.0` version of consumer and provider connectors contained in `deployment/infrastructure/edc-provider` and `deployment/infrastructure/edc-consumer`. Additionally, the last EDC version `v0.4.1` is also compatible with the backend application.
 
 #### Added Decentralized Digital Twin Registry integration
 
@@ -273,7 +295,7 @@ We are now encrypting the passport  when it arrives from the EDC consumer data p
 ### Updated
 
 #### Updated EDC Provider and Consumer Versions to `v0.4.1`
-Now the test EDC consusumer and provider contained in `deployment/helm/edc-provider` and `deployment/helm/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
+Now the test EDC consusumer and provider contained in `deployment/infrastructure/edc-provider` and `deployment/infrastructure/edc-consumer` are updated to the latest version at the moment available the `v0.4.1` 
 
 
 ## Removed cx-backend-service support

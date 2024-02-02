@@ -601,9 +601,9 @@ export default {
               "Unfortunatly, this aspect model with semantic id  [" +
               passportSemanticId +
               "] is not supported in this application at the moment.";
-            this.status = 422;
-            this.statusText = "Not Supported Aspect Model";
-            this.reload = false;
+            this.errorObj.status = 422;
+            this.errorObj.statusText = "Not Supported Aspect Model";
+            this.errorObj.reload = false;
             this.error = true;
           } else {
             this.data = configUtil.normalizePassport(

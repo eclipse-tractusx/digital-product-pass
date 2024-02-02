@@ -91,10 +91,13 @@ spec:
               value: "https://{{ .Values.oauth.hostname }}"
 
             - name: "API_NEGOTIATE_TIMEOUT"
-              value: "{{ .Values.frontend.api.negotiateTimeout }}"
+              value: "{{ .Values.frontend.api.timeout.negotiate }}"
 
             - name: "API_SEARCH_TIMEOUT"
-              value: "{{ .Values.frontend.api.searchTimeout }}"
+              value: "{{ .Values.frontend.api.timeout.search }}"
+            
+            - name: "API_DECLINE_TIMEOUT"
+              value: "{{ .Values.frontend.api.timeout.decline }}"
             
             - name: "API_MAX_RETRIES"
               value: "{{ .Values.frontend.api.max_retries }}"

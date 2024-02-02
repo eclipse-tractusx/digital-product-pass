@@ -152,7 +152,6 @@ export default class BackendService {
     }
     async negotiateAsset(contracts, token, processId, authentication, contractId=null, policyId=null){
         let contract = null;
-        console.log("Contracts: " + contracts);
         // Use selects here a contract
         if(contractId == null){
             contract = contracts[Object.keys(contracts)[0]];
@@ -438,6 +437,8 @@ export default class BackendService {
             let body = this.getSearchBody(id, processId);
             axios.post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
                 .then((response) => {
+                    // Setting the status to the Store state
+                    store.commit('setSearchData', response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {

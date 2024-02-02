@@ -33,6 +33,7 @@ do
 	sed -i 's|APP_VERSION|'${VERSION}'|g' $file
 	sed -i 's|API_SEARCH_TIMEOUT|'${API_SEARCH_TIMEOUT}'|g' $file
 	sed -i 's|API_NEGOTIATE_TIMEOUT|'${API_NEGOTIATE_TIMEOUT}'|g' $file
+	sed -i 's|API_DECLINE_TIMEOUT|'${API_DECLINE_TIMEOUT}'|g' $file
 	sed -i 's|APP_API_DELAY|'${API_DELAY}'|g' $file
 	sed -i 's|APP_API_MAX_RETRIES|'${API_MAX_RETRIES}'|g' $file
 	sed -i 's|KEYCLOAK_CLIENTID|'${KEYCLOAK_CLIENTID}'|g' $file

@@ -353,16 +353,25 @@ public class ContractController {
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
-
+            if(connectorAddress == null){
+                LogUtil.printError("The connector address is empty!");
+            }
+            if(assetId == null){
+                LogUtil.printError("The assetId is empty!");
+            }
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
             } catch (ServiceException e) {
-                response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
-                response.status = 502;
-                response.statusText = "Bad Gateway";
-                return httpUtil.buildResponse(response, httpResponse);
+                LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
+                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                if (datasets == null) { // If the contract catalog is not reachable retry...
+                    response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
+                    response.status = 502;
+                    response.statusText = "Service Not Available";
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
             }
             // Check if contract offer was not received
             if (datasets == null) {
@@ -592,6 +601,8 @@ public class ContractController {
                 response = httpUtil.getForbiddenResponse("This contract was declined! Please request a new one");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            // Check if negotiation is canceled
             if (status.historyExists("negotiation-canceled")) {
                 response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
                 return httpUtil.buildResponse(response, httpResponse);
@@ -615,6 +626,8 @@ public class ContractController {
                 response = httpUtil.getBadRequest("This contract id does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            // Load all the available contracts
             Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
             String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
             // Check the validity of the token

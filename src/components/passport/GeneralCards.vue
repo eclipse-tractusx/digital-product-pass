@@ -96,13 +96,13 @@ export default {
         {
           title: "GENERAL",
           label: "Product name",
-          secondLabel: "Product type",
+          secondLabel: "Product code",
           icon: "mdi-pound",
           value: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.name
+            ? this.$props.data.aspect.typology.shortName
             : "-",
           secondValue: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.nameAtCustomer
+            ? this.$props.data.aspect.typology.class.code
             : "-",
         },
         {
@@ -111,12 +111,10 @@ export default {
           secondLabel: "Date of Manufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
           value: this.$props.data.aspect.operation.manufacturer
-            ? this.$props.data.aspect.operation.manufacturer.manufacturerId
+            ? this.$props.data.aspect.operation.manufacturer.manufacturer
             : "-",
-          secondValue: this.$props.data.aspect.serialization
-            .manufacturingInformation
-            ? this.$props.data.aspect.serialization.manufacturingInformation
-                .date
+          secondValue: this.$props.data.aspect.operation.manufacturer
+            ? this.$props.data.aspect.operation.manufacturer.manufacturingDate
             : "-",
           description: {
             title: "Manufacturing",
@@ -138,17 +136,13 @@ export default {
         {
           title: "SUSTAINABILITY",
           label: "Total CO2 footprint",
-          secondLabel: "Warranty period",
+          secondLabel: "Placed on market",
           icon: "mdi-leaf",
-          value: this.$props.data.aspect.sustainability.carbonFootprint
-            ? this.$props.data.aspect.sustainability.carbonFootprint
-                .carbonContentTotal
+          value: this.$props.data.aspect.sustainability["PEF"].carbon
+            ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
             : "-",
           valueUnits: "t CO2 Total",
-          secondValue: this.$props.data.aspect.commercial.warranty,
-          secondValueUnits: this.$props.data.aspect.commercial.warranty
-            ? "months"
-            : "",
+          secondValue: this.$props.data.aspect.commercial.placedOnMarket,
           description: {
             title: "Sustainability",
             value: "Description of the Sustainability",

@@ -20,23 +20,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** Global configuration variables **/
-@import "config/variables";
-
-/** Components style import **/
-@import "components/general/footer";
-@import "components/general/header";
-@import "components/general/search";
-@import "components/general/tooltip";
-@import "components/general/dialog";
-@import "components/general/recursiveTree";
-@import "components/passport/documentField";
-@import "components/passport/field";
-@import "components/passport/additionalData";
-@import "components/passport/cards";
-@import "components/landing/searchView";
-@import "components/passport/sections";
-@import "components/passport/passportPage";
-@import "components/general/notFound";
-@import "components/general/loading";
-@import "components/passport/elementChart";
+.additional-data {
+  .column {
+    border: 2px solid #f4fbfd;
+    border-radius: 10px;
+    padding: 7px 7px 10px 7px !important;
+    margin: 6px !important;
+  }
+  .container-label {
+    padding: 10px 0;
+    max-height: 60%;
+    cursor: pointer;
+    font-weight: 800;
+    color: $catena-x-blue;
+  }
+}

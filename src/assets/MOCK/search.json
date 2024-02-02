@@ -2,7 +2,7 @@
   "status": 200,
   "data": {
     "id": "ededdca7-998d-4cd6-94a1-dd1e24025a85",
-    "token": "37da8e38e4dc14d32c0edfa82a0ea94bbf39e4013c010bfdfececdc58eadf0c5",
+    "token": "<tokenTest>",
     "contract": {
       "@id": "urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19",
       "@type": "dcat:Dataset",

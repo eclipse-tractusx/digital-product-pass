@@ -86,7 +86,7 @@ The main idea was that they will be called in a sequential way when needed to fi
 
 Here we can observe an example of how a normal exchange would work in a sequential way:
 
-![Simplified Discovery Services Exchange](./media/discoveryServices.jpg)
+![Simplified Discovery Services Exchange](./media/discoveryServices.drawio.svg)
 
 ## Problems Generated
 
@@ -108,7 +108,7 @@ Therefore there needs to be a easier way of querying this services and searching
 
 Here is a diagram of the data retrial flow necessary to retrieve any data from the Catena-X Network without any optimizations:
 
-![Data Retrieval Flow](./media/dataRetrievalFlow.jpg)
+![Data Retrieval Flow](./media/dataRetrievalFlow.drawio.svg)
 
 
 ### 1. Discovery Phase
@@ -145,14 +145,14 @@ The following information is required to enable the decentralized search for dig
 | Search Id Value | *HV-SPORT-123* | The search id value is required for searching in the `BPN Discovery` services. One example could be the `product type id` of a company, which is owned by an unique `BPN` reducing the complexity of the search.
 
 ### Sequence Diagram 
-![Digital Twin Registries Search](./media/dtrSearchSequence.jpg)
+![Digital Twin Registries Search](./media/dtrSearchSequence.drawio.svg)
 
 As we can visualize in the following example we will request the following services and retrieve the contract agreement from the Digital Twin Registries in parallel.
 
 ### Flow Diagram
 The flow diagram below allows us to see in more detail the steps required for retrieving the contract agreement id for each of the digital twin registries assets.
 
-![Flow Digital Twin Registry Search](./media/dtrSearchFlow.jpg)
+![Flow Digital Twin Registry Search](./media/dtrSearchFlow.drawio.svg)
 
 
 ## 3. Digital Twin Search Phase
@@ -169,10 +169,10 @@ The following information is required for enabling the digital twin search, in o
 | Specific Asset Id Type | *BAT-XYZ789* | The specific asset id value is added in the `digital twin lookup` when calling the `EDC Provider Proxy`. It basically points to the value of the *`Specific Asset Id Type`* property.
 
 ### Sequence Diagram 
-![Data Search API](./media/dataSearchApi.jpg)
+![Data Search API](./media/dataSearchApi.drawio.svg)
 
 ### Flow Diagram 
-![Data Search Flow API](./media/searchApiFlow.jpg)
+![Data Search Flow API](./media/searchApiFlow.drawio.svg)
 
 
 ## 4. Data Negotiation and Transfer Phase
@@ -188,16 +188,16 @@ The following information is required for enabling the digital twin search, in o
 
 
 ### Sequence Diagram
-![Data Retrieval](./media/dataRetrievalSequence.jpg)
+![Data Retrieval](./media/dataRetrievalSequence.drawio.svg)
 
 ### Flow Diagram
 
 #### Negotiation and Transfer
-![Data Retrieval Flow 1](./media/dataRetrievalFlow1.jpg)
+![Data Retrieval Flow 1](./media/dataRetrievalFlow1.drawio.svg)
 
 #### Data Retrieval
 
-![Data Retrieval Flow 1](./media/dataRetrievalFlow2.jpg)
+![Data Retrieval Flow 1](./media/dataRetrievalFlow2.drawio.svg)
 
 
 ## Attachments

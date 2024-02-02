@@ -354,13 +354,23 @@ export default {
       let dataKeys = Object.keys(this.data.aspect);
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
+        // Filter out keys with empty objects or arrays
+        dataKeys = dataKeys.filter((key) => {
+          const value = this.data.aspect[key];
+          if (typeof value === "object" && value !== null) {
+            // Check if it's an array or an object and ensure it's not empty
+            return Array.isArray(value)
+              ? value.length > 0
+              : Object.keys(value).length > 0;
+          }
+          return true; // Include if it's not an object/array or if it's a non-empty primitive value
+        });
+
         dataKeys.splice(3, 0, "components");
         dataKeys.push("exchange");
         // Generate component names dynamically from the JSON keys
         return dataKeys.map((key) => ({
-          label: passportUtil.toSentenceCase(
-            key[0].toUpperCase() + key.slice(1)
-          ),
+          label: key,
           icon: passportUtil.iconFinder(key),
           component: key,
         }));

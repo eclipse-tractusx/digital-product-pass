@@ -555,6 +555,7 @@ export default {
           this.error = false;
         }
         // Stop loading
+        this.$store.commit("resetLoadingState");
         this.loading = false;
         this.declineLoading = false;
       }
@@ -639,6 +640,7 @@ export default {
           }
         }
         // Stop loading
+        this.$store.commit("resetLoadingState");
         this.loading = false;
         this.contractItems = [];
       }

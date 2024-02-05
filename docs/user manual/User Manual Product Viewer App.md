@@ -1,9 +1,9 @@
-<!--
-  Catena-X - Digital Product Pass Application
+<!-- 
+  Catena-X - Digital Product Passport Application 
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
- 
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
  
@@ -20,7 +20,6 @@
  
   SPDX-License-Identifier: Apache-2.0
 -->
-
 # User Manual
 
 This manual provides a step by step introduction on how to use the Product Pass Viewer app and gives an overview on its functionalities.

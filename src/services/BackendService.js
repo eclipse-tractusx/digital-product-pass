@@ -1,7 +1,8 @@
 /**
- * Catena-X - Product Passport Consumer Frontend
+ * Catena-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,6 +20,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { BACKEND_URL, API_MAX_RETRIES, API_DELAY, AUTO_SIGN } from "@/services/service.const";
 import axios from "axios";
 import jsonUtil from "@/utils/jsonUtil.js";

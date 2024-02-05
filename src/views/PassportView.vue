@@ -216,12 +216,14 @@
           <TabsComponent
             :componentsNames="batteryComponentsNames"
             :componentsData="data"
+            :semanticId="data.semanticId"
           />
         </template>
         <template v-else>
           <TabsComponent
             :componentsNames="filteredComponentsNames"
             :componentsData="data"
+            :semanticId="data.semanticId"
           />
         </template>
       </div>

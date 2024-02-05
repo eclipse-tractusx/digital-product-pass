@@ -66,6 +66,17 @@
       "sustainability": "Nachhaltigkeit",
       "operation": "Betrieb",
       "exchange": "Austausch"
+    },
+    "tppComponentsNames": {
+      "productSpecificParameters": "Produktspezifische Parameter",
+      "intructions": "Anleitungen",
+      "sparePartSupplier": "Ersatzteil-Lieferant",
+      "components": "Komponenten",
+      "stateOfHealth": "Zustand der Gesundheit",
+      "identification": "Identifikation",
+      "generalInformation": "Allgemeine Informationen",
+      "sustainability": "Nachhaltigkeit",
+      "exchange": "Austausch"
     }
   },
   "home": {

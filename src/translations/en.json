@@ -66,6 +66,17 @@
       "sustainability": "Sustainability",
       "operation": "Operation",
       "exchange": "Exchange"
+    },
+    "tppComponentsNames": {
+      "productSpecificParameters": "Product Specific Parameters",
+      "intructions": "Instructions",
+      "sparePartSupplier": "Spare Part Supplier",
+      "components": "Components",
+      "stateOfHealth": "State of Health",
+      "identification": "Identification",
+      "generalInformation": "General Information",
+      "sustainability": "Sustainability",
+      "exchange": "Exchange"
     }
   },
   "home": {

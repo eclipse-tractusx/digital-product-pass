@@ -25,6 +25,19 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [released]
+## [v2.1.1] - 05-02-2024
+## Added
+- Added translation to transmission pass
+- Integrated dependabot to automate the dependencies updates
+
+## Updated
+- Updated axios library from `v1.6.0` to `v1.6.6`.
+- Updated the license headers in all the files to the latest "license and copyright header" of 2024
+
+## Issues Fixed
+- Fixed tabs bugs related to translation
+- Fixed translations of battery pass and digital product pass
 
 ## [released]
 ## [v2.1.0] - 02-02-2024
@@ -43,8 +56,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Added fixes in backend and frontend integration
 - Added pydoc comments to the getPassport.py
 - Added access-token parameter to authorize the APIs without providing username/password and company
- 
- 
+
 ## Updated
 - Updated versions from container base images
 - Adjusted the non root user ids in Dockerfiles and dpp helm chart configurations
@@ -56,7 +68,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated logging and readme
 - Updated license header
 - Updated user manual readme by adding the policy selection screenshots
- 
  
 ## Issues Fixed
 - Fixed issue related to `sleepy` EDCs, allowing the backend to re-request the contract negotiation when the EDC does not respond.

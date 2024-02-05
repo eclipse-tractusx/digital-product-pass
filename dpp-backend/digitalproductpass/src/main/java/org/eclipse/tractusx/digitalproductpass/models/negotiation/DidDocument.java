@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Catena-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional

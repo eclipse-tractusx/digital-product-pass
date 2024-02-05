@@ -132,28 +132,7 @@
         ]
       }
     },
-    "additionalData": [
-      {
-        "description": null,
-        "label": null,
-        "type": {
-          "typeUnit": null,
-          "dataType": null
-        },
-        "data": null,
-        "children": [
-          {
-            "description": null,
-            "label": null,
-            "type": {
-              "typeUnit": null,
-              "dataType": null
-            },
-            "data": null
-          }
-        ]
-      }
-    ],
+    "additionalData": [],
     "sustainability": {
       "PEF": {
         "carbon": [

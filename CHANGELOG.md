@@ -33,7 +33,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Integrated dependabot to automate the dependencies updates
 
 ## Updated
-- Updated axios library from `v1.6.0` to `v1.6.6` to fix vulnerability
+- Updated axios library from `v1.6.0` to `v1.6.7` to fix vulnerability
 - Updated the license headers in all the files to the latest "license and copyright header" of 2024
 
 ## Issues Fixed

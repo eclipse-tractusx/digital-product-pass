@@ -158,19 +158,7 @@
         </v-col>
       </div>
     </v-container>
-    <v-container v-else-if="error" class="h-100 w-100">
-      <div class="d-flex align-items-center w-100 h-100">
-        <ErrorComponent
-          :title="errorObj.status + ' ' + errorObj.statusText"
-          :subTitle="errorObj.title"
-          :description="errorObj.description"
-          reloadLabel="Return"
-          reloadIcon="mdi-arrow-left"
-          :reload="errorObj.reload"
-        />
-      </div>
-    </v-container>
-    <div v-else>
+    <div v-else-if="data && !error">
       <template
         v-if="
           data.semanticId ===
@@ -229,6 +217,18 @@
       </div>
       <FooterComponent />
     </div>
+    <v-container v-else class="h-100 w-100">
+      <div class="d-flex align-items-center w-100 h-100">
+        <ErrorComponent
+          :title="errorObj.status + ' ' + errorObj.statusText"
+          :subTitle="errorObj.title"
+          :description="errorObj.description"
+          reloadLabel="Return"
+          reloadIcon="mdi-arrow-left"
+          :reload="errorObj.reload"
+        />
+      </div>
+    </v-container>
   </div>
 </template>
 
@@ -592,8 +592,8 @@ export default {
             "Timeout! Failed to negotiate and return the passport!";
           this.errorObj.description =
             "The request took too long... Please retry or try again later.";
-          this.status = 408;
-          this.statusText = "Request Timeout";
+          this.errorObj.status = 408;
+          this.errorObj.statusText = "Request Timeout";
         }
         this.data = result;
       } catch (e) {
@@ -621,11 +621,21 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
+            let additionalData = []
+            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+              additionalData = jsonUtil.copy(this.data["aspect"]["additionalData"]);
+            }
+
             this.data = configUtil.normalizePassport(
               jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data)
             );
+            console.log(this.data);
+            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+              this.data["aspect"]["additionalData"] = additionalData
+            }
+            console.log(this.data);
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store
             this.irsData = this.backendService.getIrsData(

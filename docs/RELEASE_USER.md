@@ -39,7 +39,7 @@ Integrated dependabot to automate the dependencies updates and comply to the tra
 The License and copyright header was changed and the latest version was updated to every files needed in the application folder to the year 2024.
 
 #### Fixed security vulnerabilies related to axios
-Updated the axios library to the latest version `v1.6.6` in order to solve the library vulnerability.
+Updated the axios library to the latest version `v1.6.7` in order to solve the library vulnerability.
 
 **February 02 2024 (Version 2.1.0)**
 *02.02.2024*

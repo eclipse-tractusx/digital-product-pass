@@ -138,9 +138,12 @@ export default {
           label: "generalCards.totalCo2Footprint",
           secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
-          value: this.$props.data.aspect.sustainability["PEF"].carbon
-            ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
-            : "-",
+          value:
+            this.$props.data.aspect.sustainability &&
+            this.$props.data.aspect.sustainability["PEF"] &&
+            this.$props.data.aspect.sustainability["PEF"].carbon
+              ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
+              : "-",
           valueUnits: "t CO2 Total",
           secondValue: this.$props.data.aspect.commercial
             ? this.$props.data.aspect.commercial.warranty

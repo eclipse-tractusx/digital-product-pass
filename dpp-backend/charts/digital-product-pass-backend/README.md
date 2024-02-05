@@ -1,6 +1,6 @@
 # digital-product-pass-backend
 
-![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
 
 A Helm chart for Tractus-X Digital Product Pass Backend Kubernetes
 
@@ -60,7 +60,7 @@ localhost:8888/health
 | digitalTwinRegistry.endpoints.search | string | `"/lookup/shells"` |  |
 | digitalTwinRegistry.endpoints.subModel | string | `"/submodel-descriptors"` |  |
 | digitalTwinRegistry.temporaryStorage | object | `{"enabled":true,"lifetime":12}` | temporary storage of dDTRs for optimization |
-| digitalTwinRegistry.timeouts | object | `{"digitalTwin":20,"negotiation":40,"search":10,"transfer":10}` | timeouts for the digital twin registry async negotiation |
+| digitalTwinRegistry.timeouts | object | `{"digitalTwin":20,"negotiation":40,"search":50,"transfer":10}` | timeouts for the digital twin registry async negotiation |
 | discovery | object | `{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""}` | discovery configuration |
 | discovery.bpnDiscovery | object | `{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"}` | bpn discovery configuration |
 | discovery.edcDiscovery | object | `{"key":"bpn"}` | edc discovery configuration |
@@ -87,11 +87,13 @@ localhost:8888/health
 | oauth.hostname | string | `""` | url of the identity provider service |
 | oauth.roleCheck | object | `{"enabled":false}` | the role check checks if the user has access roles for the appId |
 | oauth.techUser | object | `{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}` | note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery |
-| passport | object | `{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]}` | passport data transfer configuration |
-| passport.aspects | list | `["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"]` | passport versions and aspects allowed |
+| passport.aspects[0] | string | `"urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"` |  |
+| passport.aspects[1] | string | `"urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"` |  |
+| passport.aspects[2] | string | `"urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"` |  |
+| passport.aspects[3] | string | `"urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext.fsGroup | int | `3000` |  |
-| podSecurityContext.runAsUser | int | `10000` |  |
+| podSecurityContext.runAsUser | int | `1000` |  |
 | process | object | `{"encryptionKey":""}` | digital twin registry configuration |
 | process.encryptionKey | string | `""` | unique sha512 hash key used for the passport encryption |
 | replicaCount | int | `1` |  |
@@ -104,7 +106,7 @@ localhost:8888/health
 | securityContext.readOnlyRootFilesystem | bool | `true` |  |
 | securityContext.runAsGroup | int | `3000` |  |
 | securityContext.runAsNonRoot | bool | `true` |  |
-| securityContext.runAsUser | int | `10000` |  |
+| securityContext.runAsUser | int | `1000` |  |
 | serverPort | int | `8888` | configuration of the spring boot server |
 | service.port | int | `8888` |  |
 | service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |

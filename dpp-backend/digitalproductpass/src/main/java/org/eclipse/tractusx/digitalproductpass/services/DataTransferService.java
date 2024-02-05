@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ControllerException;
@@ -33,6 +34,7 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
+import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
@@ -74,12 +76,14 @@ public class DataTransferService extends BaseService {
     public Environment env;
     public ProcessManager processManager;
 
+    public EdcUtil edcUtil;
     public DtrConfig dtrConfig;
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DataTransferService(Environment env, HttpUtil httpUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
+    public DataTransferService(Environment env, HttpUtil httpUtil, EdcUtil edcUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
+        this.edcUtil = edcUtil;
         this.jsonUtil = jsonUtil;
         this.processManager = processManager;
         this.dtrConfig = dtrConfig;
@@ -159,6 +163,48 @@ public class DataTransferService extends BaseService {
             throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
         }
     }
+    /**
+     * Gets the Contract Offers mapped by contract id
+     * <p>
+     * @param   assetId
+     *          the {@code String} identification of the EDC's asset to lookup for.
+     * @param   providerUrl
+     *          the {@code String} provider URL of the asset.
+     *
+     * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
+     *
+     * @throws  ServiceException
+     *           if unable to get the contract offer for the assetId.
+     */
+    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String providerUrl) throws ServiceException {
+        /*
+         *   This method receives the assetId and looks up for targets with the same name.
+         */
+        try {
+            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            if(catalog == null){
+                return null;
+            }
+            Object offers = catalog.getContractOffers();
+            if(offers == null){
+                return null;
+            }
+            if(catalog.getContractOffers() instanceof LinkedHashMap){
+                Dataset retDataset = (Dataset) jsonUtil.bindObject(offers, Dataset.class);
+                return new HashMap<>(){{put(retDataset.getId(),retDataset);}};
+            }
+
+            List<Dataset> contractOffers = (List<Dataset>) jsonUtil.bindObject(offers, List.class);
+            if(contractOffers.size() == 0){
+                return null;
+            }
+
+            return edcUtil.mapDatasetsById(contractOffers);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId [" + assetId + "]");
+        }
+    }
+
 
     /**
      * Gets the Contract Offer from the given AssetId in the given provider URL.
@@ -170,7 +216,7 @@ public class DataTransferService extends BaseService {
      *
      * @return  a {@code Dataset} object with the contract offer information.
      *
-     * @throws  ControllerException
+     * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
     public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ServiceException {
@@ -235,6 +281,76 @@ public class DataTransferService extends BaseService {
     }
 
     /**
+     * Builds a negotiation request with the given data by id.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the contract offer.
+     * @param   status
+     *          the {@code Status} status of the process.
+     * @param   bpn
+     *          the {@code String} BPN number from BNP discovery for the request.
+     *
+     * @return  a {@code NegotiationRequest} object with the given data.
+     *
+     */
+    public NegotiationRequest buildRequestById(Dataset dataset, Status status, String bpn, String policyId) {
+        Offer contractOffer = this.buildOfferById(dataset, policyId);
+        return new NegotiationRequest(
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                status.getEndpoint(),
+                bpn,
+                contractOffer
+        );
+    }
+
+    /**
+     * Builds a negotiation request with the given policy
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the contract offer.
+     * @param   status
+     *          the {@code Status} status of the process.
+     * @param   bpn
+     *          the {@code String} BPN number from BNP discovery for the request.
+     * @param   policy
+     *          the {@code Sete} policy to be negotiated
+     *
+     *
+     * @return  a {@code NegotiationRequest} object with the given data.
+     *
+     */
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, Set policy) {
+        Offer contractOffer = this.buildOffer(dataset, policy);
+        return new NegotiationRequest(
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                status.getEndpoint(),
+                bpn,
+                contractOffer
+        );
+    }
+    /**
+     * Gets a policy by index from a dataset dynamic policy data
+     * <p>
+     * @param   policies
+     *          the {@code Object} one or more policies from a dataset
+     * @param   defaultIndex
+     *          the {@code Integer} default index for the policy.
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
+    public Set selectPolicyByIndex(Object policies, Integer defaultIndex){
+        Set policy = null;
+        if(policies instanceof LinkedHashMap){
+            policy = (Set) jsonUtil.bindObject(policies, Set.class);
+        }else{
+            List<LinkedHashMap> policyList = (List<LinkedHashMap>) jsonUtil.bindObject(policies, List.class);
+            policy = (Set) jsonUtil.bindObject(policyList.get(defaultIndex), Set.class); // Get fist policy from the list to resolve the conflict
+        }
+        return (Set) jsonUtil.bindObject(policy, Set.class);
+    }
+
+    /**
      * Builds a negotiation request with the given data.
      * <p>
      * @param   dataset
@@ -262,7 +378,61 @@ public class DataTransferService extends BaseService {
                 policyCopy
         );
     }
-
+    /**
+     * Builds a negotiation request with the given data.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the offer.
+     * @param   policyId
+     *          the {@code String} id of the selected policy to build the offer
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
+    public Offer buildOfferById(Dataset dataset, String policyId) {
+        try {
+            Object rawPolicy = dataset.getPolicy();
+            Set policy = null;
+            if (rawPolicy instanceof LinkedHashMap) {
+                policy = (Set) jsonUtil.bindObject(rawPolicy, Set.class);
+            } else {
+                List<Set> policyList = (List<Set>) jsonUtil.bindReferenceType(rawPolicy, new TypeReference<List<Set>>() {});
+                policy = policyList.stream().filter(p -> p.getId().equals(policyId)).findAny().orElse(null);
+            }
+            if(policy == null) {
+                throw new ServiceException("DataTransferService.buildOfferById()", "Failed to build offer by id! ["+policyId+"] Because policy does not exists!");
+            }
+            Set policyCopy = (Set) jsonUtil.bindObject(policy, Set.class);
+            policyCopy.setId(null);
+            return new Offer(
+                    policy.getId(),
+                    dataset.getAssetId(),
+                    policyCopy
+            );
+        }catch (Exception e) {
+            throw new ServiceException("DataTransferService.buildOfferById()", e, "Failed to build offer by id! ["+policyId+"]");
+        }
+    }
+    /**
+     * Builds a negotiation request with the given data.
+     * <p>
+     * @param   dataset
+     *          the {@code Dataset} data for the offer.
+     * @param   policy
+     *          the {@code Set} policy to be negotiated
+     *
+     * @return  a {@code Offer} object with the given data built offer.
+     *
+     */
+    public Offer buildOffer(Dataset dataset, Set policy) {
+        Set policyCopy = (Set) jsonUtil.bindObject(policy, Set.class);
+        policyCopy.setId(null);
+        return new Offer(
+                policy.getId(),
+                dataset.getAssetId(),
+                policyCopy
+        );
+    }
     /**
      * Gets the Contract Offer's Catalog from the provider.
      * <p>
@@ -805,7 +975,24 @@ public class DataTransferService extends BaseService {
             this.bpn = bpn;
             this.negotiationRequest = buildRequest(dataset, status, bpn);
         }
-
+        // Negotiate contract with policy
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, Set policy) {
+            this.dataModel = dataModel;
+            this.processId = processId;
+            this.dataset = dataset;
+            this.status = status;
+            this.bpn = bpn;
+            this.negotiationRequest = buildRequest(dataset, status, bpn, policy);
+        }
+        // Start the negotiation and build contract by policy id
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, String policyId) {
+            this.dataModel = dataModel;
+            this.processId = processId;
+            this.dataset = dataset;
+            this.status = status;
+            this.bpn = bpn;
+            this.negotiationRequest = buildRequestById(dataset, status, bpn, policyId);
+        }
         /** GETTERS AND SETTERS **/
         @SuppressWarnings("Unused")
         public void setNegotiationRequest(NegotiationRequest negotiationRequest) {

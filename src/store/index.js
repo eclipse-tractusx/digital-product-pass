@@ -39,22 +39,13 @@ export default createStore({
             }
         },
         irsData: [
-            {
-                "id": "urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
-                "name": "Battery_BAT-XYZ789",
-                "searchId": "CX:XYZ78901:BAT-XYZ789",
-                "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d",
-                "children": [
-                    {
-                        "id": "urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
-                        "name": "BatteryModule_EVMODULE-TRJ712",
-                        "searchId": "CX:XYZ78901:EVMODULE-TRJ712",
-                        "path": "/urn:uuid:efcb5f8d-f31c-4b1f-b090-9c878054554d/urn:uuid:d8ec6acc-1ad7-47b4-bc7e-612122d9d552",
-                        "children": []
-                    }
-                ]
-            }
+            {}
         ],
+        searchData: {
+            "contracts": {
+            },
+        },
+        contractToSign: {},
         processId: null,
         searchContractId: null,
         irsState: false,
@@ -79,17 +70,28 @@ export default createStore({
         getIrsState(state) {
             return state.irsState;
         },
+        getSearchData(state) {
+            return state.searchData;
+        },
+        getContractToSign(state) {
+            return state.contractToSign;
+        },
         getQrError(state) {
             return state.qrError;
         },
     },
     mutations: {
+        setSearchData(state, newSearchData) {
+            state.searchData = newSearchData;
+        },
+        setContractToSign(state, newContractToSign) {
+            state.contractToSign = newContractToSign;
+        },
         setEmail(state, newEmail) {
             state.email = newEmail;
         },
         setPassword(state, newPassword) {
             state.password = newPassword;
-
         },
         setClientId(state, clientId) {
             let bytes = CryptoJS.AES.encrypt(clientId, state.sessionId);

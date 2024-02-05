@@ -34,6 +34,20 @@
       "electrochemicalProperties": "Elektrochemische Eigenschaften",
       "documents": "Dokumente",
       "exchange": "Austausch"
+    },
+    "dppComponentsNames": {
+      "typology": "Typologie",
+      "metadata": "Metadaten",
+      "characteristics": "Merkmale",
+      "components": "Komponenten",
+      "commercial": "Kommerziell",
+      "identification": "Identifikation",
+      "sources": "Quellen",
+      "handling": "Handhabung",
+      "additionalData": "Zusätzliche Daten",
+      "sustainability": "Nachhaltigkeit",
+      "operation": "Betrieb",
+      "exchange": "Austausch"
     }
   },
   "home": {
@@ -257,7 +271,8 @@
       "weight": "Gewicht",
       "lifespan": "Lebensdauer",
       "energyCapacity": "Energiekapazität",
-      "voltage": "Spannung"
+      "voltage": "Spannung",
+      "physicalState": "Physischer Zustand"
     },
     "commercial": {
       "placedOnMarket": "Markteinführung",
@@ -266,23 +281,41 @@
     "handling": {
       "maintenanceHistory": "Wartungshistorie",
       "spareParts": "Ersatzteile",
-      "substanceOfConcern": "besorgniserregender Stoff"
+      "substanceOfConcern": "Besorgniserregende Substanz",
+      "producerId": "Produzenten-ID",
+      "partName": "Teilname",
+      "partGtin": "Teil-GTIN",
+      "type": "Typ",
+      "location": "Standort",
+      "unit": "Einheit",
+      "concentrationMax": "Maximale Konzentration",
+      "concentrationMin": "Minimale Konzentration",
+      "exemption": "Ausnahme",
+      "idType": "ID-Typ",
+      "id": "ID"
     },
     "identification": {
-      "gtin": "GTIN"
+      "gtin": "GTIN",
+      "manufacturerId": "Hersteller-ID",
+      "dataMatrixCode": "Data-Matrix-Code"
     },
     "metadata": {
+      "predecessor": "Vorgänger",
+      "legitimization": "Legitimation",
+      "identification": "Identifikation",
       "issueDate": "Ausgabedatum",
       "version": "Version",
       "validityDate": "Gültigkeitsdatum",
       "customerPartId": "Kundenteil-ID",
       "manufacturerPartId": "Herstellerteil-ID",
-      "status": "Status"
+      "status": "Status",
+      "expirationDate": "Ablaufdatum"
     },
     "operation": {
-      "importer": "Importeur",
+      "importer": "Importeur-ID",
       "manufacturerId": "Hersteller-ID",
-      "facilityId": "Einrichtungs-ID"
+      "facilityId": "Anlagen-ID",
+      "manufacturingDate": "Herstellungsdatum"
     },
     "serialization": {
       "manufacturingInformation": "Herstellungsinformationen",
@@ -303,15 +336,18 @@
       "co2FootprintTotal": "Gesamter CO₂-Fußabdruck",
       "operator": "Betreiber",
       "ruleNames": "Regelnamen",
-      "otherOperatorName": "Name des anderen Betreibers"
+      "otherOperatorName": "Name des anderen Betreibers",
+      "productOrSectorSpecificRules": "Produkt- oder sektorspezifische Regeln",
+      "critical": "Kritisch"
     },
     "typology": {
       "name": "Name",
-      "shortName": "Kurzer Name",
+      "shortName": "Kurzname",
+      "longName": "Langname",
       "definition": "Definition",
       "code": "Code",
       "nameAtManufacturer": "Name beim Hersteller",
-      "nameAtCustomer": "Name auf dem Markt"
+      "nameAtCustomer": "Name beim Kunden"
     }
   }
 }

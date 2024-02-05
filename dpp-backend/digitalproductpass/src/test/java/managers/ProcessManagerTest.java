@@ -56,7 +56,11 @@ class ProcessManagerTest {
     private HttpSession mockedHttpSession;
     @Mock
     private HttpUtil httpUtil;
+
+    @Mock
     private JsonUtil jsonUtil;
+
+    @Mock
     private FileUtil fileUtil;
     @Mock
     private ProcessConfig processConfig;
@@ -535,17 +539,18 @@ class ProcessManagerTest {
     }
 
     @Test
-    void setSigned() {
+    void setAgreed() {
         String contractId = UUID.randomUUID().toString();
+        String policyId = UUID.randomUUID().toString();
         Long signedAt = DateTimeUtil.getTimestamp();
-        processManager.setSigned(mockedHttpServletRequest, testProcessId, contractId, signedAt);
+        processManager.setAgreed(mockedHttpServletRequest, testProcessId, signedAt, contractId, policyId);
 
         Process process = processManager.getProcess(mockedHttpServletRequest, testProcessId);
-        History history = processManager.getStatus(testProcessId).getHistory("contract-signed");
+        History history = processManager.getStatus(testProcessId).getHistory("contract-agreed");
 
         assertEquals("STARTING", process.getState());
-        assertEquals("SIGNED", history.getStatus());
-        assertEquals(contractId, history.getId());
+        assertEquals("AGREED", history.getStatus());
+        assertEquals(contractId+"/"+policyId, history.getId());
         assertEquals(signedAt, history.getStarted());
     }
 
@@ -616,11 +621,6 @@ class ProcessManagerTest {
         assertEquals("COMPLETED", updatedTransferObj.getState());
         assertEquals("edcType1", updatedTransferObj.getEdcType());
     }
-
-    @Test
-    void getContractId() {
-    }
-
 
     @Test
     void loadPassportReturnsManagerException() {

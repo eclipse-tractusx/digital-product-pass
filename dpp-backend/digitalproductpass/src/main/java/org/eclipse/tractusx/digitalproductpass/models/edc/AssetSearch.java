@@ -27,6 +27,7 @@ package org.eclipse.tractusx.digitalproductpass.models.edc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 
 /**
  * This class consists exclusively to define attributes related to the Asset search.
@@ -41,13 +42,15 @@ public class AssetSearch {
     String connectorAddress;
 
     /** CONSTRUCTOR(S) **/
+    @SuppressWarnings("Unused")
+    public AssetSearch() {
+    }
+
     public AssetSearch(String assetId, String connectorAddress) {
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
     }
-    @SuppressWarnings("Unused")
-    public AssetSearch() {
-    }
+
 
     /** GETTERS AND SETTERS **/
     public String getAssetId() {

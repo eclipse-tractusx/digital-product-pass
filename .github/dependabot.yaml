@@ -21,11 +21,47 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-sonar.projectKey=catenax-ng_product-battery-passport-consumer-app
-sonar.organization=catenax-ng
-sonar.javascript.lcov.reportPaths= ./coverage/lcov.info
-sonar.coverage.exclusions=src/**/index.js
-sonar.java.binaries=**/target/classes
-sonar.exclusions=dpp-backend/materialpass/target/**
-#sonar.exclusions=dpp-backend/**
-sonar.sourceEncoding=UTF-8
+---
+version: 2
+updates:
+  # Maven
+  -
+    package-ecosystem: "maven"
+    target-branch: main
+    directory: ./dpp-backend/digitalproductpass/
+    labels:
+      - "dependabot"
+      - "dependencies"
+    schedule:
+      interval: "daily"
+
+  # Github Actions
+  -
+    package-ecosystem: "github-actions"
+    target-branch: main
+    directory: /
+    labels:
+      - "dependabot"
+      - "github-actions"
+    schedule:
+      interval: "daily"
+
+  # Docker
+  -
+    package-ecosystem: "docker"
+    target-branch: main
+    directory: ./dpp-backend/digitalproductpass/
+    labels:
+      - "dependabot"
+      - "docker"
+    schedule:
+      interval: "daily"
+  -
+    package-ecosystem: "docker"
+    target-branch: main
+    directory: /
+    labels:
+      - "dependabot"
+      - "docker"
+    schedule:
+      interval: "daily"

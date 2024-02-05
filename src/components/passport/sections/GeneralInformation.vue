@@ -31,7 +31,7 @@
             <v-col sm="12" md="3" class="pa-0 ma-0">
               <Field
                 icon="mdi-fingerprint"
-                label="Additional information"
+                :label="$t('sections.generalInformation.additionalInformation')"
                 :value="propsData.generalInformation.additionalInformation"
               />
             </v-col>
@@ -42,7 +42,7 @@
             <v-col sm="12" md="6" class="pa-0 ma-0">
               <Field
                 icon="mdi-ruler"
-                label="Dimensions"
+                :label="$t('sections.generalInformation.productDimensions')"
                 :height="
                   propsData.generalInformation.physicalDimensionsProperty.height
                 "
@@ -56,7 +56,7 @@
               />
               <Field
                 icon="mdi-scale"
-                label="Weight"
+                :label="$t('sections.generalInformation.weight')"
                 unit="kg"
                 :value="
                   propsData.generalInformation.physicalDimensionsProperty.weight
@@ -68,7 +68,7 @@
             <template v-if="propsData.generalInformation.warrantyPeriod">
               <Field
                 icon="mdi-license"
-                label="Warranty"
+                :label="$t('sections.generalInformation.warranty')"
                 :value="propsData.generalInformation.warrantyPeriod"
                 unit="months"
               />
@@ -76,14 +76,14 @@
             <template v-if="propsData.generalInformation.productDescription">
               <Field
                 icon="mdi-license"
-                label="Product description"
+                :label="$t('sections.generalInformation.productDescription')"
                 :value="propsData.generalInformation.productDescription"
               />
             </template>
             <template v-if="propsData.generalInformation.productType">
               <Field
                 icon="mdi-license"
-                label="Product type"
+                :label="$t('sections.generalInformation.productType')"
                 :value="propsData.generalInformation.productType"
               />
             </template>

@@ -22,6 +22,24 @@
     }
   },
   "passportView": {
+    "policyAgreement":{
+      "title": "Choose a policy:",
+      "contractId": "Contract ID:",
+      "policy": "Policy",
+      "type": "type",
+      "decline": "Decline",
+      "agree": "Agree",
+      "details":{
+        "moreDetails": "More details",
+        "lessDetails": "Less details"
+      },
+      "declineModal":{
+        "question": "Are you sure you want to decline?",
+        "homepage": "This will take you back to the Homepage",
+        "cancel": "Cancel",
+        "confirm": "Yes, Decline"
+      }
+    },
     "dpp": "Digital Product Passport",
     "bpp": "Battery Product Passport",
     "tpp": "Transmission Product Passport",
@@ -47,6 +65,17 @@
       "additionalData": "Additional Data",
       "sustainability": "Sustainability",
       "operation": "Operation",
+      "exchange": "Exchange"
+    },
+    "tppComponentsNames": {
+      "productSpecificParameters": "Product Specific Parameters",
+      "instructions": "Instructions",
+      "sparePartSupplier": "Spare Part Supplier",
+      "components": "Components",
+      "stateOfHealth": "State of Health",
+      "identification": "Identification",
+      "generalInformation": "General Information",
+      "sustainability": "Sustainability",
       "exchange": "Exchange"
     }
   },
@@ -121,6 +150,12 @@
     "descriptionSustainabilityTitle": "Sustainability",
     "descriptionSustainabilityValue": "Description of the Sustainability"
   },
+  "transmissionCards":{
+    "matrixCode": "Matrix code",
+    "parameters": "SPECIFIC PARAMETERS",
+    "driveType": "Drive type",
+    "oilType": "Oil type"
+  },
   "passportHeader": {
     "backBtn": "Back"
   },
@@ -167,7 +202,44 @@
     "contractId": "Contract ID: "
   },
   "sections": {
+    "instructions": {
+      "packagingInstructions": "Packaging instructions",
+      "transportationInstructions": "Transportation instructions",
+      "dismantlingProcedure": "Dismantling procedure",
+      "safetyMeasures": "Safety measures",
+      "vehicleDismantlingProcedure": "Vehicle dismantling procedure"
+    },
+    "productSpecificParameters":{
+      "torqueConverter": "Torque converter",
+      "driveType": "Drive type",
+      "oilType": "Oil type",
+      "spreading": "Spreading",
+      "torque": "Torque",
+      "power": "Power",
+      "gear": "Gear",
+      "ratio": "Ratio",
+      "speed": "Speed",
+      "standardGearRatio": "Standard gear ratio",
+      "speedResistance": "Speed resistance",
+      "oilCapacity": "Oil capacity",
+      "electricPerformance": "Electric performance"
+    },
+    "sparePartsSupplier": {
+      "supplierContact": "Supplier contact",
+      "supplierId": "Supplier id",
+      "sparePartName": "Spare part name"
+    },
+    "stateOfHealth":{
+      "serviceHistory": "Service history",
+      "expectedLifespan": "Expected lifespan",
+      "remanufacturingDate": "Remanufacturing date",
+      "productStatusValue": "Product status value"
+    },
     "generalInformation": {
+      "additionalInformation": "Additional information",
+      "productDimensions": "Dimensions",
+      "productDescription": "Product description",
+      "productType": "Product type",
       "batteryId": "Battery ID (DMC)",
       "batteryIdDescriptionTitle": "Battery ID",
       "batteryIdDescriptionValue": "Battery ID or DMC that you can find in your device settings",

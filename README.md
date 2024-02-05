@@ -83,7 +83,7 @@ To get started you can have a look into our documentation:
       
 
 ## Installation
-For installing the Digital Product Pass application please consult our [Intallation Guide](./INSTALL.md).
+For installing the Digital Product Pass Application please consult our [Intallation Guide](./INSTALL.md).
 
 ## License
 

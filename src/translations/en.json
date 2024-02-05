@@ -69,7 +69,7 @@
     },
     "tppComponentsNames": {
       "productSpecificParameters": "Product Specific Parameters",
-      "intructions": "Instructions",
+      "instructions": "Instructions",
       "sparePartSupplier": "Spare Part Supplier",
       "components": "Components",
       "stateOfHealth": "State of Health",
@@ -202,7 +202,44 @@
     "contractId": "Contract ID: "
   },
   "sections": {
+    "instructions": {
+      "packagingInstructions": "Packaging instructions",
+      "transportationInstructions": "Transportation instructions",
+      "dismantlingProcedure": "Dismantling procedure",
+      "safetyMeasures": "Safety measures",
+      "vehicleDismantlingProcedure": "Vehicle dismantling procedure"
+    },
+    "productSpecificParameters":{
+      "torqueConverter": "Torque converter",
+      "driveType": "Drive type",
+      "oilType": "Oil type",
+      "spreading": "Spreading",
+      "torque": "Torque",
+      "power": "Power",
+      "gear": "Gear",
+      "ratio": "Ratio",
+      "speed": "Speed",
+      "standardGearRatio": "Standard gear ratio",
+      "speedResistance": "Speed resistance",
+      "oilCapacity": "Oil capacity",
+      "electricPerformance": "Electric performance"
+    },
+    "sparePartsSupplier": {
+      "supplierContact": "Supplier contact",
+      "supplierId": "Supplier id",
+      "sparePartName": "Spare part name"
+    },
+    "stateOfHealth":{
+      "serviceHistory": "Service history",
+      "expectedLifespan": "Expected lifespan",
+      "remanufacturingDate": "Remanufacturing date",
+      "productStatusValue": "Product status value"
+    },
     "generalInformation": {
+      "additionalInformation": "Additional information",
+      "productDimensions": "Dimensions",
+      "productDescription": "Product description",
+      "productType": "Product type",
       "batteryId": "Battery ID (DMC)",
       "batteryIdDescriptionTitle": "Battery ID",
       "batteryIdDescriptionValue": "Battery ID or DMC that you can find in your device settings",

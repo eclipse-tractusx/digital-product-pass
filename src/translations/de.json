@@ -150,6 +150,12 @@
     "descriptionSustainabilityTitle": "Nachhaltigkeit",
     "descriptionSustainabilityValue": "Beschreibung der Nachhaltigkeit"
   },
+  "transmissionCards": {
+    "matrixCode": "Matrixcode",
+    "parameters": "Spezifische Parameter",
+    "driveType": "Antriebstyp",
+    "oilType": "Öltyp"
+  },
   "passportHeader": {
     "backBtn": "Zurück"
   },
@@ -196,7 +202,44 @@
     "contractId": "Vertrags-ID: "
   },
   "sections": {
+    "productSpecificParameters": {
+      "torqueConverter": "Drehmomentwandler",
+      "driveType": "Antriebstyp",
+      "oilType": "Öltyp",
+      "spreading": "Verbreitung",
+      "torque": "Drehmoment",
+      "power": "Leistung",
+      "gear": "Gang",
+      "ratio": "Verhältnis",
+      "speed": "Geschwindigkeit",
+      "standardGearRatio": "Standardübersetzungsverhältnis",
+      "speedResistance": "Geschwindigkeitswiderstand",
+      "oilCapacity": "Ölkapazität",
+      "electricPerformance": "Elektrische Leistung"
+    },
+    "instructions": {
+      "packagingInstructions": "Verpackungsanweisungen",
+      "transportationInstructions": "Transportanweisungen",
+      "dismantlingProcedure": "Demontageverfahren",
+      "safetyMeasures": "Sicherheitsmaßnahmen",
+      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
+    },
+    "sparePartsSupplier": {
+      "supplierContact": "Lieferantenkontakt",
+      "supplierId": "Lieferanten-ID",
+      "sparePartName": "Ersatzteilname"
+    },
+    "stateOfHealth":{
+      "serviceHistory": "Serviceverlauf",
+      "expectedLifespan": "Erwartete Lebensdauer",
+      "remanufacturingDate": "Wiederherstellungsdatum",
+      "productStatusValue": "Produktstatuswert"
+    },
     "generalInformation": {
+      "additionalInformation": "Zusätzliche Informationen",
+      "productDimensions": "Abmessungen",
+      "productDescription": "Produktbeschreibung",
+      "productType": "Produkttyp",
       "batteryId": "Batterie-ID",
       "batteryIdDescriptionTitle": "Batterie-ID",
       "batteryIdDescriptionValue": "Batterie-ID oder DMC, die Sie in Ihren Geräteeinstellungen finden können",

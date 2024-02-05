@@ -122,9 +122,9 @@ export default {
           },
         },
         {
-          title: "tranmissionCards.parameters",
-          label: "tranmissionCards.driveType",
-          secondLabel: "tranmissionCards.oilType",
+          title: "transmissionCards.parameters",
+          label: "transmissionCards.driveType",
+          secondLabel: "transmissionCards.oilType",
           icon: "mdi-aspect",
           value: this.$props.data.aspect.productSpecificParameters.driveType,
           secondValue:

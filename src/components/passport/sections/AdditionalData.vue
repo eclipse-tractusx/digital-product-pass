@@ -63,6 +63,8 @@ export default {
     };
   },
   created() {
+    console.log(this.$props.data.aspect);
+    console.log(this.propsData);
     this.columnWidth = this.columnCounter(this.propsData);
   },
   methods: {

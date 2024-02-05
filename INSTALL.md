@@ -1,5 +1,5 @@
-<!-- 
-  Catena-X - Digital Product Passport Application 
+<!--
+  Catena-X - Digital Product Passport Application
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -29,47 +29,70 @@
 
 You must have [Helm](https://helm.sh/),  [Minikube](https://minikube.sigs.k8s.io/docs/start/) and [Maven](https://maven.apache.org/) to follow this steps.
 
+#### Start Minikube Cluster
+```bash
+# start minikube cluster
+minikube start --cpus 4 --memory 8096
+
+# enable minikube ingress addon
+minikube addons enable ingress
+```
+
 
 ## Install
 
-### First Step: Configuration
+### Configuration
 
 First configure the [`values.yaml`](./charts/digital-product-pass/values.yaml) file with the secrets and the necessary configuration for starting the application correctly.
 
-> **TIP**: For a correct Catena-X integration get the correct credentials from the Portal! You can also place this secrets in a Vault so that the credentials are safe!
+The documentation of the backend configuration is available here [README.md](./dpp-backend/digitalproductpass/README.md)
 
-### Second Step: Deployment
+> **TIP**: For a correct Catena-X integration, get the appropriate credentials from the Portal! You can also place secrets in a Vault so that the credentials are safe!
 
-To install the application using the configured helm charts use the following command from the project root directory:
+### Deployment
+
+Before the application is deployed, the persistance is necessary and must be existed. 
 
 ```bash
-helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml 
+# Launch persistent volume
+kubectl apply -f ./deployment/local/storage/pv-data.yaml
+``` 
+Use the following command to install the application as configured helm deployment:
+
+```bash
+helm install digital-product-pass ./charts/digital-product-pass -f charts/digital-product-pass/values.yaml
 ``` 
 
-> **NOTE**: This command will deploy the complete application.
+> **NOTE**: This command will deploy the complete application. However, it would take some minutes until all the pods are up and in running state. You can check the pod state repeatedly by the following command.
 
-## Expose the ports
+```bash
+# To check the pod status
+kubectl get pods
+``` 
+
+#### Expose necessary ports
 
 Once the application is running, in order for you to access it, we need to expose the ports. Following this commands we will be able to access it.
 
-### Get pod name
+#### Get pod name
 Search for the application name:
+The default value of <YOUR-NAMESPACE> is **default**.
 
 ```bash
-kubectl get pods -n product-material-pass --no-headers |  awk '{if ($1 ~ "consumer-backend-") print $1}'
+kubectl get pods -n <YOUR-NAMESPACE> --no-headers |  awk '{if ($1 ~ "dpp-backend-") print $1}'
 ```
 **Example**:
 
-![img4.png](./dpp-backend/digitalproductpass/docs/media/img4.png)
+![img4.png](./dpp-backend/digitalproductpass/docs/media/podname.png)
 
 
-Copy the pod name with the prefix `consumer-backend`
+Copy the pod name with the prefix `dpp-backend`
 
 ### Port forward
 
 Paste the pod name after the `port-forward` parameter. 
 ```bash
-kubectl -port-forward consumer-backend-67c4c9678-nqg7p 8888:8888 -n product-material-pass
+kubectl -port-forward dpp-backend-95b5d4989-xvbkq 8888:8888 -n default
 ```
 
 > **NOTE**: The default port set is `8888` however it can be changed in the configuration.
@@ -83,7 +106,7 @@ localhost:8888/health
 
 # Frequently asked questions
 
-## How to install the application and run it locally?
+## How to install the application and run it locally without docker and helm charts?
 
 Use the following commands to install/compile the application:
 
@@ -184,12 +207,22 @@ The following environment variables must be set in [build and deploy](./buildAnd
 
 ```bash
 # run script
-../buildAndDeploy.sh consumer-ui
+../buildAndDeploy.sh consumer-frontend
 ```
 
-You can run the application in docker container with existing image `ghcr.io/eclipse-tractusx/digital-product-pass/consumer-ui:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
+You can run the application in docker container with existing image `ghcr.io/catenax-ng/tx-digital-product-pass/digital-product-pass-frontend:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
 
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
+
+
+## What must you do if you encounter problems like "the docker service isn't running. Try restarting the docker service."?
+
+You need to start/restart your docker daemon, and then run the command (mentioned in pre-requisites) to the start minikube cluster.
+
+## Local Setup
+
+If you would like to run the entire application locally, please have a look at the [GETTING-STARTED.md](./docs/GETTING-STARTED.md)
+
 
 ## Coding styles
 

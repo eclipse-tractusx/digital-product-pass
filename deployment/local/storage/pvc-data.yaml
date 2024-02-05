@@ -27,7 +27,7 @@ metadata:
   name: pvc-data
   labels:
     {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
+  namespace: default
 spec:
   storageClassName: standard
   accessModes:

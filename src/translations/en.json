@@ -22,6 +22,24 @@
     }
   },
   "passportView": {
+    "policyAgreement":{
+      "title": "Choose a policy:",
+      "contractId": "Contract ID:",
+      "policy": "Policy",
+      "type": "type",
+      "decline": "Decline",
+      "agree": "Agree",
+      "details":{
+        "moreDetails": "More details",
+        "lessDetails": "Less details"
+      },
+      "declineModal":{
+        "question": "Are you sure you want to decline?",
+        "homepage": "This will take you back to the Homepage",
+        "cancel": "Cancel",
+        "confirm": "Yes, Decline"
+      }
+    },
     "dpp": "Digital Product Passport",
     "bpp": "Battery Product Passport",
     "tpp": "Transmission Product Passport",
@@ -120,6 +138,12 @@
     "months": "months",
     "descriptionSustainabilityTitle": "Sustainability",
     "descriptionSustainabilityValue": "Description of the Sustainability"
+  },
+  "transmissionCards":{
+    "matrixCode": "Matrix code",
+    "parameters": "SPECIFIC PARAMETERS",
+    "driveType": "Drive type",
+    "oilType": "Oil type"
   },
   "passportHeader": {
     "backBtn": "Back"

@@ -22,6 +22,24 @@
     }
   },
   "passportView": {
+    "policyAgreement":{
+      "title": "Wählen Sie eine Richtlinie aus:",
+      "contractId": "Vertrags-ID:",
+      "policy": "Richtlinie",
+      "type": "Typ",
+      "decline": "Ablehnen",
+      "agree": "Zustimmen",
+      "details": {
+        "moreDetails": "Weitere Details",
+        "lessDetails": "Weniger Details"
+      },
+      "declineModal": {
+        "question": "Sind Sie sicher, dass Sie ablehnen möchten?",
+        "homepage": "Dies bringt Sie zurück zur Startseite",
+        "cancel": "Abbrechen",
+        "confirm": "Ja, Ablehnen"
+      }
+    },
     "dpp": "Digitaler Produkt Pass",
     "bpp": "Batterie Pass",
     "tpp": "Getriebe Pass",

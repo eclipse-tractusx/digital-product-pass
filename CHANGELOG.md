@@ -27,16 +27,17 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [released]
 ## [v2.1.1] - 05-02-2024
+
 ## Added
-- Added translation to transmission pass
+- Added missing german translations to the transmission pass
 - Integrated dependabot to automate the dependencies updates
 
 ## Updated
-- Updated axios library from `v1.6.0` to `v1.6.6`.
+- Updated axios library from `v1.6.0` to `v1.6.6` to fix vulnerability
 - Updated the license headers in all the files to the latest "license and copyright header" of 2024
 
 ## Issues Fixed
-- Fixed tabs bugs related to translation
+- Fixed tabs bugs related to translations
 - Fixed translations of battery pass and digital product pass
 
 ## [released]

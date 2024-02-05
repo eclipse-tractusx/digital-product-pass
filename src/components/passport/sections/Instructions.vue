@@ -25,29 +25,29 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="3" class="pa-0 ma-0">
-          <div class="element-chart-label">Packaging instructions</div>
+          <div class="element-chart-label">{{ $t('sections.instructions.packagingInstructions') }}</div>
           <template v-if="propsData.packagingInstructions">
             <InstructionsField :field="propsData.packagingInstructions" />
           </template>
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
-          <div class="element-chart-label">Transportation instructions</div>
+          <div class="element-chart-label">{{ $t('sections.instructions.transportationInstructions') }}</div>
           <template v-if="propsData.transportationInstructions">
             <InstructionsField :field="propsData.transportationInstructions" />
           </template>
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
-          <div class="element-chart-label">Dismantling procedure</div>
+          <div class="element-chart-label">{{ $t('sections.instructions.dismantlingProcedure') }}</div>
           <template v-if="propsData.dismantlingProcedure">
             <InstructionsField :field="propsData.dismantlingProcedure" />
           </template>
         </v-col>
         <v-col sm="12" md="3" class="pa-0 ma-0">
-          <div class="element-chart-label">Safety measures</div>
+          <div class="element-chart-label">{{ $t('sections.instructions.safetyMeasures') }}</div>
           <template v-if="propsData.safetyMeasures">
             <InstructionsField :field="propsData.safetyMeasures" />
           </template>
-          <div class="element-chart-label">Vehicle dismantling procedure</div>
+          <div class="element-chart-label">{{ $t('sections.instructions.vehicleDismantlingProcedure') }}</div>
           <template v-if="propsData.vehicleDismantlingProcedure">
             <InstructionsField :field="propsData.vehicleDismantlingProcedure" />
           </template>

@@ -28,18 +28,18 @@ User friendly relase notes without especific technical details.
 *05.02.2024*
 
 ### Added
-#### Added translation for transmission passport
-The translations related with the view to show the transmission passport was added in order to have both english and german languages on the application.
+#### Added missing german translations for transmission passport
+The missing translations related with the view to show the transmission passport was added in order to have both english and german languages on the application.
+
+#### Integrated dependabot in repository
+Integrated dependabot to automate the dependencies updates and comply to the tractus-x release guidelines.
 
 ### Updated
 #### Updated License and copyright header
-The License and copyright header was changed and the latest version was updated to every files needed in the application folder.
+The License and copyright header was changed and the latest version was updated to every files needed in the application folder to the year 2024.
 
-#### Updated Axios library version
-Due to security issues in version 1.6.0 of the axios library, this library was updated to version 1.6.6 without the vulnerabilities detected.
-
-#### Integrated dependabot
-Integrated dependabot to automate the dependencies updates
+#### Fixed security vulnerabilies related to axios
+Updated the axios library to the latest version `v1.6.6` in order to solve the library vulnerability.
 
 **February 02 2024 (Version 2.1.0)**
 *02.02.2024*

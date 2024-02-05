@@ -57,7 +57,7 @@
           </span>
         </template>
         <template v-if="attribute.unit">
-          <span> {{}} {{ attribute.unit }} </span>
+          <span> {{ attribute.unit }} </span>
         </template>
       </li>
     </ul>

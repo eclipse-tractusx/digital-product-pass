@@ -95,8 +95,7 @@ backend:
       catalog: "/catalog/request"
       negotiation: "/contractnegotiations"
       transfer: "/transferprocesses"
-    # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-    delay: 100
+    delay: 100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
 
   # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
   hostname: *hostname
@@ -129,6 +128,13 @@ backend:
     # -- unique sha512 hash key used for the passport encryption
     encryptionKey: ""
 
+  passport:
+    aspects:
+      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
+      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"
@@ -136,7 +142,7 @@ backend:
       subModel: "/submodel-descriptors"
     # -- timeouts for the digital twin registry async negotiation
     timeouts:
-      search: 10
+      search: 50
       negotiation: 40
       transfer: 10
       digitalTwin: 20
@@ -175,7 +181,7 @@ frontend:
   ingress:
     enabled: false
     hosts: []
-
+  
   # -- The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
   podSecurityContext:
     seccompProfile:
@@ -219,12 +225,18 @@ frontend:
   portal:
     hostname: ""
 
+  negotiation:
+    autoSign: true
+
   # -- api timeouts
   api:
     # -- max retries for getting status
     max_retries: 30
     # -- default timeout  - 90 seconds in milliseconds
-    timeout: 90000
+    timeout:
+      negotiate: 40000
+      search: 60000
+      decline: 20000
     # -- delay from getting status
     delay: 1000
 

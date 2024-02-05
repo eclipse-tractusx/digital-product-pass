@@ -25,6 +25,42 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [released]
+## [v2.1.0] - 02-02-2024
+## Added
+- Added policyId parameter to the `/agree` api.
+- Added mechanism to get a policy by id from a catalog contract
+- Added frontend logic to call the `/decline` and `/cancel` backend APIs
+- Added reload option in case of error
+- Added/fixed logging of the Digital Twin Registry Contracts and which policy was selected (Data Souverenighty improvement)
+- Added util method to move files from one path to another
+- Added functionality to treat more than one policy and more than one contract, allowing user to decide
+- Added safety functionalities to make sure that the contract selected is correct
+- Added Policy selector when autosign is not enabled
+- Added Contract JSON details display
+- Added Agree/Decline button for contract/policy
+- Added fixes in backend and frontend integration
+- Added pydoc comments to the getPassport.py
+- Added access-token parameter to authorize the APIs without providing username/password and company
+ 
+ 
+## Updated
+- Updated versions from container base images
+- Adjusted the non root user ids in Dockerfiles and dpp helm chart configurations
+- Updated diagrams in Arc42, Data Retrieval Guide to editable drawio svgs
+- [BRAKING CHANGE] Renamed API from **sign** to negotiate  **/agree**
+- Bumped Vite to version `>=4.5.2`
+- Updated the frontend to allow the **AutoSigning** of contracts.
+- Optimized temporary directory logging of the DTR negotiation
+- Updated logging and readme
+- Updated license header
+- Updated user manual readme by adding the policy selection screenshots
+ 
+ 
+## Issues Fixed
+- Fixed issue related to `sleepy` EDCs, allowing the backend to re-request the contract negotiation when the EDC does not respond.
+
 ## [released]
 ## [v2.0.3] - 02-02-2024
 ## Added

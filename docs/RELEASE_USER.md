@@ -24,9 +24,26 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**February 02 2024 (Version 2.1.0)**
+*02.02.2024*
+
+### Added
+#### Added Support for more than one Policy and Contract in the Backend
+The backend is now able to handle multiple policies and multiple contracts, allowing the user to select one specific policy if the configuration.
+
+#### Added frontend decline/agree functionality
+Now the frotend is able to show the user the option of "agreeing" or "declining" a contract based on the policy. They are able to select a contract and policy.
+
+### Updated
+#### Refactored Data Retrieval Script
+Refactored the script that retrieves passports to be able to interacturate with the new backend implementation. Upgraded the script documentation to make it more understandable and clear for the user that is using it
+
+#### Updated user manual explanation
+Added explanation for agree and decline functionality in the user manual that explains how the user can choose a policy and interactuate with the new frontend implementation.
+
 **February 02 2024 (Version 2.0.3)**
 *02.02.2024*
- 
+
 ### Updated
 #### Updated documentation and business statement
 Updated the user manual to reflect the latests changes
@@ -35,18 +52,16 @@ The business statement was also updated to reflect the latest functionalities fr
 
 **February 02 2024 (Version 2.0.2)**
 *02.02.2024*
- 
 ### Added
 #### English and German translations enabled in the application
 Now the application is able to visualize the texts in more than one language.
 The german language selection is added to the application.
- 
+
 #### Digital Product Pass version v2.0.0
-The application now supports the version `v2.0.0` of the Digital Product Pass Aspect.
-This deprecates the version `v1.0.0` of the passport aspect.
+The application now supports the version v2.0.0 of the Digital Product Pass Aspect.
+This deprecates the version v1.0.0 of the passport aspect.
 
-
-**January 04 2024 (Version 2.0.0)**
+**January 04 2024 (Version 2.0.1)**
 *03.01.2024*
 
 ### Added

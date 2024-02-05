@@ -12,10 +12,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
-import utils.DateTimeUtil;
-import utils.FileUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +40,22 @@ class DtrSearchManagerTest {
     private FileUtil fileUtil;
     @Mock
     private JsonUtil jsonUtil;
-
+    @Mock
+    private EdcUtil edcUtil;
     @BeforeAll
     void setUpAll() {
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
         dtrConfig = initDtrConfig();
-
+        jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil);
         env =  Mockito.mock(Environment.class);
         HttpUtil httpUtil = new HttpUtil(env);
         dataTransferService = Mockito.mock(DataTransferService.class);
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
 
         fileUtil.deleteFile(dtrSearchManager.getDataModelPath());
         dtrSearchManager.loadDataModel();

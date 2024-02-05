@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Catena-X - Digital Product Pass Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -25,8 +25,10 @@
 
 package org.eclipse.tractusx.digitalproductpass.managers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
+import org.checkerframework.framework.qual.Unused;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
@@ -795,6 +797,37 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to set the semanticId!");
         }
     }
+
+    /**
+     * Sets the semantic id in the status file
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   endpointId
+     *          the {@code String} endpointId from the digital twin registry
+     *
+     * @return  a {@code String} file path of the process status file.
+     *
+     * @throws ManagerException
+     *           if unable to update the status file.
+     */
+    public String saveDtr(String processId, String endpointId) {
+        try {
+            SearchStatus searchStatus = this.getSearchStatus(processId);
+            Dtr dtr = searchStatus.getDtr(endpointId);
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setDtr(dtr);
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        }catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dtr in the status file!");
+        }
+    }
     /**
      * Sets the semantic id in the status file
      * <p>
@@ -974,30 +1007,29 @@ public class ProcessManager {
     }
 
     /**
-     * Sets the history of the process's status containing the given processId with "contract-signed" historyId, the "SIGNED" status
+     * Sets the history of the process's status containing the given processId with "contract-agreed" historyId, the "AGREED" status
      * and with the given contractId. Also updates the process state as "STARTING" in the given HTTP session.
      * <p>
      * @param   httpRequest
      *          the HTTP request.
      * @param   processId
      *          the {@code String} id of the application's process.
-     * @param   contractId
-     *          the {@code String} identification of the contract negotiation.
      * @param   signedAt
      *          the {@code Long} timestamp when the contract was signed.
-     *
+     * @param   policyId
+     *          the {@code String} timestamp when the contract was signed.
      * @return  a {@code String} file path of the process status file.
      *
      * @throws ManagerException
      *           if unable to update the status file.
      */
-    public String setSigned(HttpServletRequest httpRequest, String processId, String contractId, Long signedAt) {
+    public String setAgreed(HttpServletRequest httpRequest, String processId, Long signedAt, String contractId, String policyId) {
 
         this.setProcessState(httpRequest, processId, "STARTING");
 
-        return this.setStatus(processId, "contract-signed", new History(
-                contractId,
-                "SIGNED",
+        return this.setStatus(processId, "contract-agreed", new History(
+                contractId+"/"+policyId,
+                "AGREED",
                 signedAt
         ));
     }
@@ -1013,6 +1045,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to load the dataset.
      */
+    @Deprecated
     public Dataset loadDataset(String processId) {
         try {
             String path = this.getProcessFilePath(processId, this.datasetFileName);
@@ -1021,6 +1054,49 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
         }
     }
+    /**
+     * Loads the {@code Dataset} object from the Process with the given processId by a contract id
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return  a {@code Dataset} object with the loaded data.
+     *
+     * @throws ManagerException
+     *           if unable to load the dataset.
+     */
+    public Dataset loadDataset(String processId, String contractId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.datasetFileName);
+            Map<String, Dataset> datasets = (Map<String, Dataset>) jsonUtil.fromJsonFileToObject(path, Map.class);
+            if(datasets == null){
+                throw new ManagerException(this.getClass().getName(),"It was not possible to load the dataset for contract id [" + contractId + "] process id [" + processId + "]");
+            }
+            return datasets.get(contractId);
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
+        }
+    }
+    /**
+     * Loads the {@code Dataset} objects from the Process with the given processId.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     *
+     * @return  a {@code Dataset} object with the loaded data.
+     *
+     * @throws ManagerException
+     *           if unable to load the dataset.
+     */
+    public Map<String, Dataset> loadDatasets(String processId) {
+        try {
+            String path = this.getProcessFilePath(processId, this.datasetFileName);
+            return (Map<String, Dataset>) this.jsonUtil.bindReferenceType(jsonUtil.fromJsonFileToObject(path, Map.class), new TypeReference<Map<String, Dataset>>() {});
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to load the dataset for process id [" + processId + "]");
+        }
+    }
+
 
     /**
      * Loads the {@code SearchStatus} object from the Process with the given processId.
@@ -1131,6 +1207,32 @@ public class ProcessManager {
             return returnPath;
         } catch (Exception e) {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the payload [" + assetId + "] with eventKey [" + eventKey + "]!");
+        }
+    }
+    /**
+     * Saves the given payload into the Tmp Process with the given processId and updates its status history with the
+     * given information. Setting the started time with the given timestamp by the startedTime parameter.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   payload
+     *          the {@code Object} object representing the payload.
+     * @param   fileName
+     *          the {@code String} name of the file to store the payload.
+     * @param   assetId
+     *          the {@code String} identification of the asset.
+     *
+     * @return  a {@code String} file path of the file where data was stored.
+     *
+     * @throws ManagerException
+     *           if unable to save the payload for the specified event.
+     */
+    public String saveTmpProcessPayload(String processId, Object payload, String fileName, String assetId) {
+        try {
+            String path = this.getTmpProcessFilePath(processId, fileName);
+            return jsonUtil.toJsonFile(path, payload, processConfig.getIndent());
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the tmp payload [" + assetId + "]!");
         }
     }
 
@@ -1494,6 +1596,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the data set.
      */
+    @Deprecated
     public String saveDataset(String processId, Dataset dataset, Long startedTime, Boolean dtr) {
         try {
             return this.saveProcessPayload(
@@ -1509,4 +1612,33 @@ public class ProcessManager {
         }
     }
 
+    /**
+     * Saves the given {@code Datasets} object in the Process with the given processId with the given timestamp.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   datasets
+     *          the {@code Dataset} object to save.
+     * @param   startedTime
+     *          the {@code Long} timestamp when the process's event started.
+     *
+     * @return  a {@code String} file path of the file where data was stored.
+     *
+     * @throws ManagerException
+     *           if unable to save the data set.
+     */
+    public String saveDatasets(String processId, Map<String, Dataset> datasets, String contractIds, Long startedTime, Boolean dtr) {
+        try {
+            return this.saveProcessPayload(
+                    processId,
+                    datasets,
+                    !dtr?this.datasetFileName:"digital-twin-registry/"+this.datasetFileName,
+                    startedTime,
+                    contractIds,
+                    "AVAILABLE",
+                    "contract-dataset");
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to save the dataset!");
+        }
+    }
 }

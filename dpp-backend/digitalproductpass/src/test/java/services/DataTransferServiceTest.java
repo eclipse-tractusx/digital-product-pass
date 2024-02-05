@@ -58,6 +58,8 @@ class DataTransferServiceTest {
     private Environment env;
     @Mock
     private HttpUtil httpUtil;
+
+    private EdcUtil edcUtil;
     private JsonUtil jsonUtil;
     private YamlUtil yamlUtil;
     private FileUtil fileUtil;
@@ -68,6 +70,7 @@ class DataTransferServiceTest {
         dtrConfig = initDtrConfig();
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil);
         yamlUtil = new YamlUtil(fileUtil);
         env = initEnv();
         bpn = "BPNL00000000000";
@@ -80,7 +83,7 @@ class DataTransferServiceTest {
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
 
-        dataTransferService = new DataTransferService(env, httpUtil,jsonUtil, vaultService, processManager, dtrConfig);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, vaultService, processManager, dtrConfig);
 
         when(httpUtil.getHeaders()).thenReturn(new HttpHeaders());
         when(httpUtil.getParams()).thenReturn(new HashMap<>());

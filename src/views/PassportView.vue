@@ -621,21 +621,29 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
-            let additionalData = []
-            if(jsonUtil.exists("additionalData", this.data["aspect"])){
-              additionalData = jsonUtil.copy(this.data["aspect"]["additionalData"]);
+            let additionalData = [];
+            let sources = [];
+            // In order to have the additional data available we need to copy it in deep
+            if(jsonUtil.exists("additionalData", this.data["data"]["aspect"])){
+              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
             }
-
+            // When extend deep is called this property will be replaced
+            if(jsonUtil.exists("sources", this.data["data"]["aspect"])){
+              sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
+            }
             this.data = configUtil.normalizePassport(
               jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data)
             );
-            console.log(this.data);
+            // Re-add the additionalData
             if(jsonUtil.exists("additionalData", this.data["aspect"])){
-              this.data["aspect"]["additionalData"] = additionalData
+              this.data["aspect"]["additionalData"] = additionalData;
             }
-            console.log(this.data);
+            // Re-add the sources
+            if(jsonUtil.exists("sources", this.data["aspect"])){
+              this.data["aspect"]["sources"] = sources;
+            }
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store
             this.irsData = this.backendService.getIrsData(

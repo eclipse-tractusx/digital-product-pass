@@ -80,14 +80,7 @@
         "carrierLayout": null
       }
     },
-    "sources": [
-      {
-        "header": null,
-        "category": null,
-        "type": null,
-        "content": null
-      }
-    ],
+    "sources": [],
     "handling": {
       "spareParts": {
         "left": {

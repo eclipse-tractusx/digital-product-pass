@@ -30,6 +30,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## Added
 - Added missing german translations to the transmission pass
+- Added missing german translations to the policy selection feature
 - Integrated dependabot to automate the dependencies updates
 
 ## Updated
@@ -39,6 +40,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Issues Fixed
 - Fixed tabs bugs related to translations
 - Fixed translations of battery pass and digital product pass
+- Fixed missing additional data visualization 
+- Fixed missing total sources visualization
 
 ## [released]
 ## [v2.1.0] - 02-02-2024

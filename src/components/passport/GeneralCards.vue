@@ -146,7 +146,7 @@ export default {
               : "-",
           valueUnits: (this.$props.data.aspect.sustainability["PEF"].carbon[0].unit !== ""
               ? this.$props.data.aspect.sustainability["PEF"].carbon[0].unit
-              : "t CO₂") + "Total",
+              : "t CO₂") + " Total",
           secondValue: this.$props.data.aspect.commercial
             ? this.$props.data.aspect.commercial.warranty
             : "-",

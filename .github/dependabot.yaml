@@ -2,7 +2,7 @@
 # Catena-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
-# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -27,7 +27,7 @@ updates:
   # Maven
   -
     package-ecosystem: "maven"
-    target-branch: feature/cmp-1103/dependabot
+    target-branch: main
     directory: ./dpp-backend/digitalproductpass/
     labels:
       - "dependabot"
@@ -38,7 +38,7 @@ updates:
   # Github Actions
   -
     package-ecosystem: "github-actions"
-    target-branch: feature/cmp-1103/dependabot
+    target-branch: main
     directory: /
     labels:
       - "dependabot"
@@ -49,7 +49,7 @@ updates:
   # Docker
   -
     package-ecosystem: "docker"
-    target-branch: feature/cmp-1103/dependabot
+    target-branch: main
     directory: ./dpp-backend/digitalproductpass/
     labels:
       - "dependabot"
@@ -58,7 +58,7 @@ updates:
       interval: "daily"
   -
     package-ecosystem: "docker"
-    target-branch: feature/cmp-1103/dependabot
+    target-branch: main
     directory: /
     labels:
       - "dependabot"

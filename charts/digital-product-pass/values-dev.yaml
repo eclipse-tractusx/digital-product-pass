@@ -105,5 +105,4 @@ oauth:
     enabled: true
     bpn: *bpn
   roleCheck:
-    enabled: false  
-
+    enabled: false

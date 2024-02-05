@@ -30,7 +30,14 @@
         :value="section.component"
       >
         <v-icon start md :icon="section.icon"> </v-icon>
-        {{ $t(`passportView.dppComponentsNames.${section.label}`) }}
+        {{
+          section.label.includes("passportView")
+            ? $t(`${section.label}`)
+            : semanticId ===
+              "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+            ? $t(`passportView.tppComponentsNames.${section.label}`)
+            : $t(`passportView.dppComponentsNames.${section.label}`)
+        }}
       </v-tab>
     </v-tabs>
     <v-card-text>
@@ -108,6 +115,7 @@ export default {
   props: {
     componentsNames: { type: Object, default: Object },
     componentsData: { type: Object, default: Object },
+    semanticId: { type: String, default: "" },
   },
 };
 </script>

@@ -54,7 +54,7 @@
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
-            <div class="title-container">Choose a policy:</div>
+            <div class="title-container">{{ $t("passportView.policyAgreement.title") }}</div>
             <v-radio-group class="content-container" v-model="radios">
               <!-- Loop over the grouped policies -->
               <!-- eslint-disable vue/no-v-for-template-key -->
@@ -63,7 +63,7 @@
                 :key="contractId"
               >
                 <div class="policy-group-label">
-                  <span class="policy-group-label-mobile">Contract ID:</span>
+                  <span class="policy-group-label-mobile">{{ $t("passportView.policyAgreement.contractId") }}</span>
                   {{ contractId }}
                 </div>
                 <v-radio
@@ -72,9 +72,9 @@
                   @click="chooseContract(contractId, item['@id'])"
                   :value="`${contractIndex}.${index}`"
                   :label="
-                    'Policy [' +
+                    $t('passportView.policyAgreement.policy') + ' [' +
                     index +
-                    '] type: ' +
+                    '] '+ $t('passportView.policyAgreement.type')+': ' +
                     (item['odrl:permission']['odrl:action']['odrl:type'] !=
                     undefined
                       ? item['odrl:permission']['odrl:action']['odrl:type']
@@ -90,7 +90,7 @@
                 class="text-none"
                 variant="outlined"
                 @click="declineContract()"
-                >Decline</v-btn
+                >{{ $t("passportView.policyAgreement.decline") }}</v-btn
               >
               <v-btn
                 class="text-none ms-4 text-white"
@@ -102,7 +102,7 @@
                     contractToSign.policy
                   )
                 "
-                >Agree</v-btn
+                >{{ $t("passportView.policyAgreement.agree") }}</v-btn
               >
             </v-row>
             <v-row>
@@ -128,11 +128,11 @@
           <v-overlay class="contract-modal" v-model="declineContractModal">
             <v-card class="contract-container">
               <div class="title-container">
-                Are you sure you want to decline?
+                {{ $t("passportView.policyAgreement.declineModal.question") }}
               </div>
               <div class="policy-group-label">
                 <div class="back-to-homepage">
-                  This will take you back to the Homepage
+                  {{ $t("passportView.policyAgreement.declineModal.homepage") }}
                 </div>
               </div>
               <v-row class="pt-8 justify-center">
@@ -141,7 +141,7 @@
                   class="text-none"
                   variant="outlined"
                   @click="cancelDeclineContract()"
-                  >Cancel</v-btn
+                  >{{ $t("passportView.policyAgreement.declineModal.cancel") }}</v-btn
                 >
                 <v-btn
                   class="text-none ms-4 text-white"
@@ -151,7 +151,7 @@
                     ><v-progress-circular
                       indeterminate
                     ></v-progress-circular></template
-                  ><template v-else>Yes, Decline</template></v-btn
+                  ><template v-else>{{ $t("passportView.policyAgreement.declineModal.confirm") }}</template></v-btn
                 >
               </v-row>
             </v-card>
@@ -159,19 +159,7 @@
         </v-col>
       </div>
     </v-container>
-    <v-container v-else-if="error" class="h-100 w-100">
-      <div class="d-flex align-items-center w-100 h-100">
-        <ErrorComponent
-          :title="errorObj.status + ' ' + errorObj.statusText"
-          :subTitle="errorObj.title"
-          :description="errorObj.description"
-          reloadLabel="Return"
-          reloadIcon="mdi-arrow-left"
-          :reload="errorObj.reload"
-        />
-      </div>
-    </v-container>
-    <div v-else>
+    <div v-else-if="data && !error">
       <template
         v-if="
           data.semanticId ===
@@ -217,17 +205,31 @@
           <TabsComponent
             :componentsNames="batteryComponentsNames"
             :componentsData="data"
+            :semanticId="data.semanticId"
           />
         </template>
         <template v-else>
           <TabsComponent
             :componentsNames="filteredComponentsNames"
             :componentsData="data"
+            :semanticId="data.semanticId"
           />
         </template>
       </div>
       <FooterComponent />
     </div>
+    <v-container v-else class="h-100 w-100">
+      <div class="d-flex align-items-center w-100 h-100">
+        <ErrorComponent
+          :title="errorObj.status + ' ' + errorObj.statusText"
+          :subTitle="errorObj.title"
+          :description="errorObj.description"
+          reloadLabel="Return"
+          reloadIcon="mdi-arrow-left"
+          :reload="errorObj.reload"
+        />
+      </div>
+    </v-container>
   </div>
 </template>
 
@@ -282,7 +284,7 @@ export default {
       contractItems: reactive([]),
       radios: "0.0",
       details: false,
-      detailsTitle: "More details",
+      detailsTitle: this.$t("passportView.policyAgreement.details.moreDetails"),
       policies: [],
       declineContractModal: false,
       showContractModal: true,
@@ -363,6 +365,8 @@ export default {
             return Array.isArray(value)
               ? value.length > 0
               : Object.keys(value).length > 0;
+          }else if (Array.isArray(value) && value !== null){
+            return value.length > 0;
           }
           return true; // Include if it's not an object/array or if it's a non-empty primitive value
         });
@@ -424,9 +428,9 @@ export default {
     toggleDetails() {
       this.details = !this.details;
       if (this.details) {
-        this.detailsTitle = "Less details";
+        this.detailsTitle = this.$t("passportView.policyAgreement.details.lessDetails");
       } else {
-        this.detailsTitle = "More details";
+        this.detailsTitle = this.$t("passportView.policyAgreement.details.moreDetails");
       }
     },
     chooseContract(contract, policy) {
@@ -552,6 +556,7 @@ export default {
           this.error = false;
         }
         // Stop loading
+        this.$store.commit("resetLoadingState");
         this.loading = false;
         this.declineLoading = false;
       }
@@ -588,8 +593,8 @@ export default {
             "Timeout! Failed to negotiate and return the passport!";
           this.errorObj.description =
             "The request took too long... Please retry or try again later.";
-          this.status = 408;
-          this.statusText = "Request Timeout";
+          this.errorObj.status = 408;
+          this.errorObj.statusText = "Request Timeout";
         }
         this.data = result;
       } catch (e) {
@@ -617,11 +622,29 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
+            let additionalData = [];
+            let sources = [];
+            // In order to have the additional data available we need to copy it in deep
+            if(jsonUtil.exists("additionalData", this.data["data"]["aspect"])){
+              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
+            }
+            // When extend deep is called this property will be replaced
+            if(jsonUtil.exists("sources", this.data["data"]["aspect"])){
+              sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
+            }
             this.data = configUtil.normalizePassport(
               jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data)
             );
+            // Re-add the additionalData
+            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+              this.data["aspect"]["additionalData"] = additionalData;
+            }
+            // Re-add the sources
+            if(jsonUtil.exists("sources", this.data["aspect"])){
+              this.data["aspect"]["sources"] = sources;
+            }
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store
             this.irsData = this.backendService.getIrsData(
@@ -636,6 +659,7 @@ export default {
           }
         }
         // Stop loading
+        this.$store.commit("resetLoadingState");
         this.loading = false;
         this.contractItems = [];
       }

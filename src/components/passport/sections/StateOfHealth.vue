@@ -31,7 +31,7 @@
             <div v-for="(attr, index) in propsData.serviceHistory" :key="index">
               <Field
                 :icon="callIconFinder('serviceHistory')"
-                label="Service history"
+                :label="$t('sections.stateOfHealth.serviceHistory')"
                 :value="callFormattedDate(attr)"
               />
             </div>
@@ -39,14 +39,14 @@
           <template v-if="propsData.expectedLifespan">
             <Field
               :icon="callIconFinder('expectedLifespan')"
-              label="Expected lifespan"
+              :label="$t('sections.stateOfHealth.expectedLifespan')"
               :value="propsData.expectedLifespan"
             />
           </template>
           <template v-if="propsData.remanufacturing">
             <Field
               :icon="callIconFinder('remanufacturingDate')"
-              label="Remanufacturing date"
+              :label="$t('sections.stateOfHealth.remanufacturingDate')"
               :value="
                 callFormattedDate(propsData.remanufacturing.remanufacturingDate)
               "
@@ -55,7 +55,7 @@
           <template v-if="propsData.remanufacturing">
             <Field
               :icon="callIconFinder('productStatusValue')"
-              label="Product status value"
+              :label="$t('sections.stateOfHealth.productStatusValue')"
               :value="
                 callFormattedDate(propsData.remanufacturing.productStatusValue)
               "

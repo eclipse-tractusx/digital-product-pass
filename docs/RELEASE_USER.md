@@ -24,6 +24,23 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**February 05 2024 (Version 2.1.1)**
+*05.02.2024*
+
+### Added
+#### Added missing german translations for transmission passport
+The missing translations related with the view to show the transmission passport was added in order to have both english and german languages on the application.
+
+#### Integrated dependabot in repository
+Integrated dependabot to automate the dependencies updates and comply to the tractus-x release guidelines.
+
+### Updated
+#### Updated License and copyright header
+The License and copyright header was changed and the latest version was updated to every files needed in the application folder to the year 2024.
+
+#### Fixed security vulnerabilies related to axios
+Updated the axios library to the latest version `v1.6.7` in order to solve the library vulnerability.
+
 **February 02 2024 (Version 2.1.0)**
 *02.02.2024*
 

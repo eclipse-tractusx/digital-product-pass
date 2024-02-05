@@ -34,7 +34,7 @@
             >
               <Field
                 :icon="callIconFinder('torqueConverter')"
-                label="Torque converter"
+                :label="$t('sections.productSpecificParameters.torqueConverter')"
                 :value="attr"
               />
             </div>
@@ -42,72 +42,72 @@
           <template v-if="propsData.driveType">
             <Field
               :icon="callIconFinder('driveType')"
-              label="Drive type"
+              :label="$t('sections.productSpecificParameters.driveType')"
               :value="propsData.driveType"
             />
           </template>
           <template v-if="propsData.oilType">
             <Field
               :icon="callIconFinder('oilType')"
-              label="Oil type"
+              :label="$t('sections.productSpecificParameters.oilType')"
               :value="propsData.oilType"
             />
           </template>
           <template v-if="propsData.spreading">
             <Field
               :icon="callIconFinder('spreading')"
-              label="Spreading"
+              :label="$t('sections.productSpecificParameters.spreading')"
               :value="propsData.spreading"
             />
           </template>
           <template v-if="propsData.torque">
             <Field
               :icon="callIconFinder('Torque')"
-              label="Torque"
+              :label="$t('sections.productSpecificParameters.torque')"
               :value="propsData.torque"
             />
           </template>
           <template v-if="propsData.power">
             <Field
               :icon="callIconFinder('Power')"
-              label="Power"
+              :label="$t('sections.productSpecificParameters.power')"
               :value="propsData.power"
             />
           </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <div class="element-chart-label">Standard gear ratio</div>
+          <div class="element-chart-label">{{ $t('sections.productSpecificParameters.standardGearRatio') }}</div>
           <template v-if="propsData.standardGearRatio">
             <Field
               :icon="callIconFinder('Gear')"
-              label="Gear"
+              :label="$t('sections.productSpecificParameters.gear')"
               :value="propsData.standardGearRatio.gear"
             />
             <Field
               :icon="callIconFinder('Ratio')"
-              label="Ratio"
+              :label="$t('sections.productSpecificParameters.ratio')"
               :value="propsData.standardGearRatio.ratio"
             />
           </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <div class="element-chart-label">Speed resistance</div>
+          <div class="element-chart-label">{{ $t('sections.productSpecificParameters.speedResistance') }}</div>
           <template v-if="propsData.speedResistance">
             <Field
               :icon="callIconFinder('Speed')"
-              label="Speed"
+              :label="$t('sections.productSpecificParameters.speed')"
               :value="propsData.speedResistance.speed"
             />
             <Field
               :icon="callIconFinder('Gear')"
-              label="Gear"
+              :label="$t('sections.productSpecificParameters.gear')"
               :value="propsData.speedResistance.gear"
             />
           </template>
           <template v-if="propsData.oilCapacity">
             <Field
               :icon="callIconFinder('oilCapacity')"
-              label="Oil capacity"
+              :label="$t('sections.productSpecificParameters.oilCapacity')"
               :value="propsData.oilCapacity"
             />
           </template>
@@ -118,7 +118,7 @@
             >
               <Field
                 :icon="callIconFinder('Electric performance')"
-                label="Electric performance"
+                :label="$t('sections.productSpecificParameters.electricPerformance')"
                 :value="attr"
               />
             </div>

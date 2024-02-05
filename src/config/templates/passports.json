@@ -80,14 +80,7 @@
         "carrierLayout": null
       }
     },
-    "sources": [
-      {
-        "header": null,
-        "category": null,
-        "type": null,
-        "content": null
-      }
-    ],
+    "sources": [],
     "handling": {
       "spareParts": {
         "left": {
@@ -132,28 +125,7 @@
         ]
       }
     },
-    "additionalData": [
-      {
-        "description": null,
-        "label": null,
-        "type": {
-          "typeUnit": null,
-          "dataType": null
-        },
-        "data": null,
-        "children": [
-          {
-            "description": null,
-            "label": null,
-            "type": {
-              "typeUnit": null,
-              "dataType": null
-            },
-            "data": null
-          }
-        ]
-      }
-    ],
+    "additionalData": [],
     "sustainability": {
       "PEF": {
         "carbon": [

@@ -95,7 +95,8 @@ backend:
       catalog: "/catalog/request"
       negotiation: "/contractnegotiations"
       transfer: "/transferprocesses"
-    delay: 100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    delay: 100
 
   # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
   hostname: *hostname
@@ -181,7 +182,7 @@ frontend:
   ingress:
     enabled: false
     hosts: []
-  
+
   # -- The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
   podSecurityContext:
     seccompProfile:

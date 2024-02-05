@@ -29,7 +29,7 @@
           <div v-for="(attr, index) in propsData" :key="index">
             <Field
               :icon="callIconFinder('supplierContact')"
-              label="Supplier contact"
+              :label="$t('sections.sparePartsSupplier.supplierContact')"
               :faxNumber="attr.supplierContact.faxNumber"
               :website="attr.supplierContact.website"
               :phone="attr.supplierContact.phoneNumber"
@@ -37,12 +37,12 @@
             />
             <Field
               :icon="callIconFinder('supplierId')"
-              label="Supplier id"
+              :label="$t('sections.sparePartsSupplier.supplierId')"
               :value="attr.supplierId"
             />
             <Field
               :icon="callIconFinder('sparePartName')"
-              label="Spare part name"
+              :label="$t('sections.sparePartsSupplier.sparePartName')"
               :value="attr.sparePartName"
             />
           </div>

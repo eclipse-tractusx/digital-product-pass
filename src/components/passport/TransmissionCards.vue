@@ -32,7 +32,7 @@
         style="padding: 6px !important"
       >
         <div class="card-container fill-height">
-          <span class="card-title">{{ card.title }} </span>
+          <span class="card-title">{{ $t(card.title) }} </span>
           <span>
             <v-icon
               class="card-icon"
@@ -44,7 +44,7 @@
           </span>
           <div>
             <div class="card-label">
-              {{ card.label }}
+              {{ $t(card.label) }}
             </div>
             <div class="card-value">
               {{ card.value ? card.value : "-" }} {{ card.valueUnits }}
@@ -52,7 +52,7 @@
             <v-divider></v-divider>
             <div>
               <div class="card-second-label">
-                {{ card.secondLabel }}
+                {{ $t(card.secondLabel) }}
               </div>
               <div class="card-second-value">
                 {{ card.secondValue ? card.secondValue : "-" }}
@@ -64,10 +64,10 @@
             <DialogComponent>
               <v-icon start md icon="mdi-information-outline"></v-icon>
               <template v-slot:title>
-                {{ card.description.title }}
+                {{ $t(card.description.title) }}
               </template>
               <template v-slot:text>
-                {{ card.description.value }}
+                {{ $t(card.description.value) }}
               </template>
             </DialogComponent>
           </span>
@@ -95,9 +95,9 @@ export default {
     return {
       cards: [
         {
-          title: "GENERAL",
-          label: "Product description",
-          secondLabel: "Product type",
+          title: "generalCards.titleGeneral",
+          label: "generalCards.productName",
+          secondLabel: "generalCards.productType",
           icon: "mdi-pound",
           value: this.$props.data.aspect.generalInformation
             ? this.$props.data.aspect.generalInformation.productDescription
@@ -107,9 +107,9 @@ export default {
             : "-",
         },
         {
-          title: "MANUFACTURING",
-          label: "Manufacturer Id",
-          secondLabel: "Matrix code",
+          title: "generalCards.titleManufacturing",
+          label: "generalCards.manufacturerId",
+          secondLabel: "generalCards.dateOfManufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
           value: this.$props.data.aspect.identification
             ? this.$props.data.aspect.identification.manufacturerId
@@ -123,9 +123,9 @@ export default {
           },
         },
         {
-          title: "SPECIFIC PARAMETERS",
-          label: "Drive type",
-          secondLabel: "Oil type",
+          title: "transmissionCards.parameters",
+          label: "transmissionCards.driveType",
+          secondLabel: "transmissionCards.oilType",
           icon: "mdi-aspect",
           value: this.$props.data.aspect.productSpecificParameters.driveType,
           secondValue:
@@ -136,9 +136,9 @@ export default {
           },
         },
         {
-          title: "SUSTAINABILITY",
-          label: "Total CO2 footprint",
-          secondLabel: "Warranty period",
+          title: "generalCards.titleSustainability",
+          label: "generalCards.totalCo2Footprint",
+          secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
           value:
             this.$props.data.aspect.sustainability &&
@@ -154,8 +154,8 @@ export default {
             ? "months"
             : "",
           description: {
-            title: "Sustainability",
-            value: "Description of the Sustainability",
+            title: "generalCards.descriptionSustainabilityTitle",
+            value: "generalCards.descriptionSustainabilityValue",
           },
         },
       ],

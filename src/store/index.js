@@ -122,6 +122,15 @@ export default createStore({
         },
         setQrError(state, qrError) {
             state.qrError = qrError;
+        },
+        resetLoadingState (state) {
+            state.searchData = {
+                "data": {
+                    "history": {
+                    }
+                }
+            };
+            state.searchContractId = null;
         }
     },
     actions: {},

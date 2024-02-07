@@ -104,9 +104,7 @@
 </template>
 
 <script>
-import { QrcodeStream } from "vue3-qrcode-reader";
-import CatenaLogo from "../media/logo.png";
-import QRFrame from "../media/qrFrame.svg";
+import QrcodeStream from "../components/general/QrcodeStrem.vue";
 import BatteryScanning from "../media/battery-img.jpeg";
 // New picture
 // import BatteryScanning from "../media/backgroundart.jpg";

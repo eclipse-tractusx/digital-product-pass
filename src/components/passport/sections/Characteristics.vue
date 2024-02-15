@@ -27,20 +27,64 @@
       <v-row class="section">
         <template v-if="propsData.physicalDimension">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <Field
-              icon="mdi-image-size-select-small"
-              :label="$t('sections.characteristics.physicalDimensionsProperty')"
-              :width="propsData.physicalDimension.width.value"
-              :length="propsData.physicalDimension.length.value"
-              :height="propsData.physicalDimension.height.value"
-              :unit="propsData.physicalDimension.width.unit"
-            />
-            <Field
-              icon="mdi-arrow-down-circle-outline"
-              :label="$t('sections.characteristics.weight')"
-              :value="propsData.physicalDimension.weight"
-              :unit="propsData.physicalDimension.unit"
-            />
+            <template
+              v-if="
+                propsData.physicalDimension.width ||
+                propsData.physicalDimension.length ||
+                propsData.physicalDimension.height
+              "
+            >
+              <Field
+                icon="mdi-image-size-select-small"
+                :label="
+                  $t('sections.characteristics.physicalDimensionsProperty')
+                "
+                :width="propsData.physicalDimension.width.value"
+                :length="propsData.physicalDimension.length.value"
+                :height="propsData.physicalDimension.height.value"
+                :unit="propsData.physicalDimension.width.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.grossWeight">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.grossWeight')"
+                :value="propsData.physicalDimension.grossWeight.value"
+                :unit="propsData.physicalDimension.grossWeight.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.weight">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.weight')"
+                :value="propsData.physicalDimension.weight"
+                :unit="propsData.physicalDimension.weight.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.weightOrVolume">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.weightOrVolume')"
+                :value="propsData.physicalDimension.weightOrVolume.left.value"
+                :unit="propsData.physicalDimension.weightOrVolume.left.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.grossVolume">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.grossVolume')"
+                :value="propsData.physicalDimension.grossVolume.value"
+                :unit="propsData.physicalDimension.grossVolume.unit"
+              />
+            </template>
+            <template v-if="propsData.physicalDimension.diameter">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.diameter')"
+                :value="propsData.physicalDimension.diameter.value"
+                :unit="propsData.physicalDimension.diameter.unit"
+              />
+            </template>
           </v-col>
         </template>
         <template v-if="propsData.lifespan">

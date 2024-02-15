@@ -1,0 +1,131 @@
+{
+    "productSpecificParameters": {
+      "torqueConverter": ["ABC1234567890", "XYZ9876543210"],
+      "driveType": "Combustion Engine",
+      "oilType": "ZF Lifeguard Hybrid 2",
+      "spreading": 6.79,
+      "torque": 500.0,
+      "power": 300.0,
+      "standardGearRatio": {
+        "gear": "1",
+        "ratio": 4.1567
+      },
+      "oilCapacity": 8.9,
+      "electricPerformance": ["Electric Performance Specification A", "Electric Performance Specification B"],
+      "speedResistance": {
+        "speed": 7800,
+        "gear": "1"
+      }
+    },
+    "instructions": {
+      "packagingInstructions": [
+        {
+          "documentTitle": "Packaging Instructions",
+          "documentLink": "https://www.example.com/packaging-instructions.pdf"
+        }
+      ],
+      "transportationInstructions": [
+        {
+          "documentTitle": "Transportation Instructions",
+          "documentLink": "https://www.example.com/transportation-instructions.pdf"
+        }
+      ],
+      "dismantlingProcedure": [
+        {
+          "documentTitle": "Dismantling Procedure",
+          "documentLink": "https://www.example.com/dismantling-procedure.pdf"
+        }
+      ],
+      "safetyMeasures": [
+        {
+          "documentTitle": "Safety Measures",
+          "documentLink": "https://www.example.com/safety-measures.pdf"
+        }
+      ],
+      "vehicleDismantlingProcedure": [
+        {
+          "documentTitle": "Vehicle Dismantling Procedure",
+          "documentLink": "https://www.example.com/vehicle-dismantling-procedure.pdf"
+        }
+      ]
+    },
+    "identification": {
+      "manufacturerId": "XYZ78901",
+      "localIdentifiers": [
+        {
+          "value": "SNJ-4654-76",
+          "key": "PartInstanceID"
+        }
+      ],
+      "dataMatrixCode": "ABCDEF1234567890"
+    },
+    "sparePartSupplier": [
+      {
+        "supplierContact": {
+          "faxNumber": "+49 89 0987654321",
+          "website": "https://www.example-supplier.com",
+          "phoneNumber": "+49 89 1234567890",
+          "email": "supplier@example.com"
+        },
+        "supplierId": "BPNL1234567890ZZ",
+        "sparePartName": "Torque Converter"
+      }
+    ],
+    "stateOfHealth": {
+      "serviceHistory": ["2023-05-22T13:16:47.239+02:00"],
+      "expectedLifespan": 500000,
+      "remanufacturing": {
+        "remanufacturingDate": "2023-05-22T13:16:47.239+02:00",
+        "productStatusValue": "First Life"
+      }
+    },
+    "generalInformation": {
+      "additionalInformation": "This is a test product with realistic data.",
+      "physicalDimensionsProperty": {
+        "width": 1000.0,
+        "length": 20000.1,
+        "weight": 100.7,
+        "diameter": 0.03,
+        "height": 0.1
+      },
+      "warrantyPeriod": 60.0,
+      "productDescription": "Manual Transmission",
+      "productType": "8HP60MH"
+    },
+    "sustainability": {
+      "substancesOfConcern": ["Substance A", "Substance B"],
+      "responsibleSourcingDocument": [
+        {
+          "documentTitle": "Responsible Sourcing Document",
+          "documentLink": "https://www.example.com/responsible-sourcing.pdf"
+        }
+      ],
+      "recyclateContent": {
+        "nickel": 0.05,
+        "lithium": 0.01,
+        "cobalt": 0.02,
+        "otherSubstance": [
+          {
+            "substancePercentage": 0.1,
+            "substanceName": "Lead"
+          }
+        ]
+      },
+      "criticalRawMaterials": ["Material X", "Material Y"],
+      "carbonFootprint": {
+        "crossSectoralStandardsUsed": [
+          {
+            "crossSectoralStandard": "GHG Protocol Product Standard"
+          }
+        ],
+        "co2FootprintTotal": 200.0,
+        "productOrSectorSpecificRules": [
+          {
+            "operator": "PEF",
+            "ruleNames": "ABC 2021",
+            "otherOperatorName": "NSF"
+          }
+        ]
+      }
+    }
+  }

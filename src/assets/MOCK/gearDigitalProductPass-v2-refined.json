@@ -1,0 +1,252 @@
+{
+  "typology": {
+    "shortName": "Performance Gear",
+    "class": {
+      "definition": "Gear",
+      "code": "42-03-02-01"
+    },
+    "longName": "High-performance gear for automotive applications"
+  },
+  "metadata": {
+    "predecessor": null,
+    "issueDate": "2023-08-30",
+    "version": "2.1.6",
+    "economicOperator": {
+      "legitimization": "DE987654321000",
+      "identification": "BPNL1R2S3T4U5V6W"
+    },
+    "status": "Approved",
+    "expirationDate": "2023-08-30"
+  },
+  "characteristics": {
+    "physicalDimension": {
+      "grossWeight": {
+        "value": 50.5,
+        "unit": "unit:kilogram"
+      },
+      "width": {
+        "value": 200.0,
+        "unit": "unit:millimetre"
+      },
+      "length": {
+        "value": 300.0,
+        "unit": "unit:millimetre"
+      },
+      "height": {
+        "value": 150.0,
+        "unit": "unit:millimetre"
+      }
+    },
+    "lifespan": [
+      {
+        "value": 36,
+        "unit": "unit:day",
+        "key": "guaranteed lifetime"
+      }
+    ],
+    "physicalState": "solid"
+  },
+  "commercial": {
+    "placedOnMarket": "2023-08-30"
+  },
+  "identification": {
+    "localIdentifier": {
+      "value": "GR08-T789",
+      "key": "PartInstanceId"
+    },
+    "additionalCode": [
+      {
+        "value": "8483 30 10 00",
+        "key": "TARIC"
+      },
+      {
+        "value": "GP67890",
+        "key": "manufacturerPartId"
+      }
+    ],
+    "dataCarrier": {
+      "carrierType": "QR",
+      "carrierLayout": "upper-left side"
+    }
+  },
+  "sources": [
+    {
+      "header": "Safety Datasheet for Gear Set",
+      "category": "Safety",
+      "type": "link",
+      "content": "www.example.com/gear_safety_datasheet.pdf"
+    },
+    {
+      "header": "User Manual for Gear Set",
+      "category": "User Manual",
+      "type": "link",
+      "content": "www.example.com/gear_user_manual.pdf"
+    }
+  ],
+  "handling": {
+    "spareParts": {
+      "left": {
+        "producer": [
+          {
+            "id": "BPNL1R2S3T4U5V6W"
+          }
+        ],
+        "part": [
+          {
+            "name": "Aluminum Housing",
+            "gtin": "12345678"
+          }
+        ]
+      }
+    },
+    "substanceOfConcern": {
+      "left": [
+        {
+          "name": {
+            "name": "phenolphthalein",
+            "type": "IUPAC"
+          },
+          "location": "Housing",
+          "unit": "unit:partPerMillion",
+          "concentration": {
+            "left": [
+              {
+                "max": 2.6,
+                "min": 2.1
+              }
+            ]
+          },
+          "exemption": "shall not apply to product x containing not more than 1,5 ml of liquid",
+          "id": [
+            {
+              "type": "CAS",
+              "id": "201-004-7"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additionalData": [
+    {
+        "description": "Machine parameters related to gear production",
+        "label": "Machine Parameters",
+        "type": {
+            "typeUnit": null,
+            "dataType": "object"
+        },
+        "children": [
+            {
+                "description": "Gear cutting speed in rotations per minute",
+                "label": "Cutting Speed",
+                "type": {
+                    "typeUnit": "unit:rpm",
+                    "dataType": "integer"
+                },
+                "data": 1500
+            },
+            {
+                "description": "Machine model used for gear production",
+                "label": "Machine Model",
+                "type": {
+                    "typeUnit": null,
+                    "dataType": "string"
+                },
+                "data": "GearMaster G550"
+            },
+            {
+                "description": "List of gear types produced by the machine",
+                "label": "Gear Types",
+                "type": {
+                    "typeUnit": null,
+                    "dataType": "array"
+                },
+                "data": [
+                    "Spur Gears",
+                    "Helical Gears",
+                    "Bevel Gears",
+                    "Worm Gears"
+                ]
+            }
+        ]
+    },
+    {
+        "description": "Gear material properties",
+        "label": "Material Properties",
+        "type": {
+            "typeUnit": null,
+            "dataType": "object"
+        },
+        "children": [
+            {
+                "description": "Material hardness measured in Rockwell C scale",
+                "label": "Hardness",
+                "type": {
+                    "typeUnit": null,
+                    "dataType": "float"
+                },
+                "data": 55.3
+            },
+            {
+                "description": "Material strength measured in megapascals",
+                "label": "Strength",
+                "type": {
+                    "typeUnit": "unit:MPa",
+                    "dataType": "float"
+                },
+                "data": 800.5
+            }
+        ]
+    }
+] ,
+  "sustainability": {
+    "PEF": {
+      "carbon": [
+        {
+          "lifecycle": "main product production",
+          "rulebook": "ISO 14067",
+          "unit": "kg CO2 eq",
+          "type": "ISO 14067",
+          "value": 2.5
+        }
+      ],
+      "carbon2": null,
+      "environmental": null
+    },
+    "state": "first life",
+    "material": {
+      "left": [
+          {
+        "name": "Steel Alloy",
+        "unit": "unit:partPerMillion",
+        "recycled": false,
+        "renewable": false,
+        "percentage": 95.0
+      },
+      {
+        "name": "Aluminum Alloy",
+        "unit": "unit:partPerMillion",
+        "recycled": false,
+        "renewable": false,
+        "percentage": 46.0
+      }
+    ]
+  },
+    "critical": {
+      "left": ["Steel"]
+    }
+  },
+  "operation": {
+    "importer": {
+      "left": {
+        "eori": "DE987654321000",
+        "id": "BPNL1R2S3T4U5V6W"
+      }
+    },
+    "manufacturer": {
+      "facility": "BPNS4B5C6D7E8F9G",
+      "manufacturingDate": "2023-08-30T14:30:00",
+      "manufacturer": "BPNL1R2S3T4U5V6W"
+    }
+  }
+}

@@ -54,7 +54,9 @@
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
-            <div class="title-container">{{ $t("passportView.policyAgreement.title") }}</div>
+            <div class="title-container">
+              {{ $t("passportView.policyAgreement.title") }}
+            </div>
             <v-radio-group class="content-container" v-model="radios">
               <!-- Loop over the grouped policies -->
               <!-- eslint-disable vue/no-v-for-template-key -->
@@ -63,67 +65,85 @@
                 :key="contractId"
               >
                 <div class="policy-group-label">
-                  <span class="policy-group-label-mobile">{{ $t("passportView.policyAgreement.contractId") }}</span>
+                  <span class="policy-group-label-mobile">{{
+                    $t("passportView.policyAgreement.contractId")
+                  }}</span>
                   {{ contractId }}
                 </div>
                 <v-radio
                   v-for="(item, index) in group"
                   :key="`${contractId}_${index}`"
-                  @click="chooseContract(contractId, item['@id'])"
+                  color="#0F71CB"
+                  @click="chooseContract(contractId, item)"
                   :value="`${contractIndex}.${index}`"
-                  :label="
-                    $t('passportView.policyAgreement.policy') + ' [' +
-                    index +
-                    '] '+ $t('passportView.policyAgreement.type')+': ' +
-                    (item['odrl:permission']['odrl:action']['odrl:type'] !=
-                    undefined
-                      ? item['odrl:permission']['odrl:action']['odrl:type']
-                      : '')
-                  "
                 >
+                  <template v-slot:label>
+                    <div class="radio-label">
+                      {{
+                        $t("passportView.policyAgreement.policy") +
+                        " [" +
+                        index +
+                        "] " +
+                        $t("passportView.policyAgreement.type") +
+                        ": " +
+                        (item["odrl:permission"]["odrl:action"]["odrl:type"] !=
+                        undefined
+                          ? item["odrl:permission"]["odrl:action"]["odrl:type"]
+                          : "")
+                      }}
+                    </div>
+                  </template>
                 </v-radio>
               </template>
             </v-radio-group>
-            <v-row class="pt-8 justify-center">
-              <v-btn
-                color="#0F71CB"
-                class="text-none"
-                variant="outlined"
-                @click="declineContract()"
-                >{{ $t("passportView.policyAgreement.decline") }}</v-btn
-              >
-              <v-btn
-                class="text-none ms-4 text-white"
-                color="#0F71CB"
-                @click="
-                  resumeNegotiation(
-                    searchResponse,
-                    contractToSign.contract,
-                    contractToSign.policy
-                  )
-                "
-                >{{ $t("passportView.policyAgreement.agree") }}</v-btn
-              >
-            </v-row>
-            <v-row>
-              <v-btn
-                variant="text"
-                @click="toggleDetails"
-                class="details-btn text-none"
-              >
-                {{ detailsTitle }}
-              </v-btn>
-            </v-row>
-            <v-row v-if="details">
-              <div class="json-viewer-container">
-                <JsonViewer
-                  class="json-viewer"
-                  :value="contractItems"
-                  sort
-                  theme="jv-light"
-                />
-              </div>
-            </v-row>
+            <div class="btn-background">
+              <v-row class="pt-8 justify-center">
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  color="#0F71CB"
+                  class="text-none"
+                  variant="outlined"
+                  @click="declineContract()"
+                  >{{ $t("passportView.policyAgreement.decline") }}</v-btn
+                >
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  class="text-none ms-4 text-white"
+                  color="#0F71CB"
+                  @click="
+                    resumeNegotiation(
+                      searchResponse,
+                      contractToSign.contract,
+                      contractToSign.policy
+                    )
+                  "
+                  >{{ $t("passportView.policyAgreement.agree") }}</v-btn
+                >
+              </v-row>
+              <v-row>
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  variant="text"
+                  @click="toggleDetails"
+                  class="details-btn text-none"
+                >
+                  {{ detailsTitle }}
+                </v-btn>
+              </v-row>
+              <v-row v-if="details">
+                <div class="json-viewer-container">
+                  <JsonViewer
+                    class="json-viewer"
+                    :value="contractItems"
+                    sort
+                    theme="jv-light"
+                  />
+                </div>
+              </v-row>
+            </div>
           </v-card>
           <v-overlay class="contract-modal" v-model="declineContractModal">
             <v-card class="contract-container">
@@ -137,13 +157,19 @@
               </div>
               <v-row class="pt-8 justify-center">
                 <v-btn
+                  rounded="xl"
+                  size="x-large"
                   color="#0F71CB"
                   class="text-none"
                   variant="outlined"
                   @click="cancelDeclineContract()"
-                  >{{ $t("passportView.policyAgreement.declineModal.cancel") }}</v-btn
+                  >{{
+                    $t("passportView.policyAgreement.declineModal.cancel")
+                  }}</v-btn
                 >
                 <v-btn
+                  rounded="xl"
+                  size="x-large"
                   class="text-none ms-4 text-white"
                   color="red-darken-4"
                   @click="confirmDeclineContract()"
@@ -151,7 +177,9 @@
                     ><v-progress-circular
                       indeterminate
                     ></v-progress-circular></template
-                  ><template v-else>{{ $t("passportView.policyAgreement.declineModal.confirm") }}</template></v-btn
+                  ><template v-else>{{
+                    $t("passportView.policyAgreement.declineModal.confirm")
+                  }}</template></v-btn
                 >
               </v-row>
             </v-card>
@@ -365,7 +393,7 @@ export default {
             return Array.isArray(value)
               ? value.length > 0
               : Object.keys(value).length > 0;
-          }else if (Array.isArray(value) && value !== null){
+          } else if (Array.isArray(value) && value !== null) {
             return value.length > 0;
           }
           return true; // Include if it's not an object/array or if it's a non-empty primitive value
@@ -428,9 +456,13 @@ export default {
     toggleDetails() {
       this.details = !this.details;
       if (this.details) {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.lessDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.lessDetails"
+        );
       } else {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.moreDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.moreDetails"
+        );
       }
     },
     chooseContract(contract, policy) {
@@ -625,11 +657,15 @@ export default {
             let additionalData = [];
             let sources = [];
             // In order to have the additional data available we need to copy it in deep
-            if(jsonUtil.exists("additionalData", this.data["data"]["aspect"])){
-              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
+            if (
+              jsonUtil.exists("additionalData", this.data["data"]["aspect"])
+            ) {
+              additionalData = jsonUtil.copy(
+                this.data["data"]["aspect"]["additionalData"]
+              );
             }
             // When extend deep is called this property will be replaced
-            if(jsonUtil.exists("sources", this.data["data"]["aspect"])){
+            if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
               sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
             }
             this.data = configUtil.normalizePassport(
@@ -638,11 +674,11 @@ export default {
               jsonUtil.get("data.semanticId", this.data)
             );
             // Re-add the additionalData
-            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+            if (jsonUtil.exists("additionalData", this.data["aspect"])) {
               this.data["aspect"]["additionalData"] = additionalData;
             }
             // Re-add the sources
-            if(jsonUtil.exists("sources", this.data["aspect"])){
+            if (jsonUtil.exists("sources", this.data["aspect"])) {
               this.data["aspect"]["sources"] = sources;
             }
             this.error = false;

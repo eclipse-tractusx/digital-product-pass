@@ -36,12 +36,18 @@
       font-weight: bolder;
     }
   }
+  .v-radio .radio-label {
+    color: $catena-x-black !important;
+    cursor: pointer;
+    font-weight: 500;
+  }
   .contract-container {
     display: flex;
     flex-direction: column;
     justify-content: center !important;
     align-items: center !important;
     padding: 20px 80px 50px 80px;
+    border-radius: 20px;
   }
   .title-container {
     width: fit-content;

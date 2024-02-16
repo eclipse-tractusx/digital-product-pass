@@ -104,6 +104,7 @@
                   color="#0F71CB"
                   class="text-none"
                   variant="outlined"
+                  style="border: 2px solid"
                   @click="declineContract()"
                   >{{ $t("passportView.policyAgreement.decline") }}</v-btn
                 >
@@ -163,6 +164,7 @@
                     color="#0F71CB"
                     class="text-none"
                     variant="outlined"
+                    style="border: 2px solid"
                     @click="cancelDeclineContract()"
                     >{{
                       $t("passportView.policyAgreement.declineModal.cancel")

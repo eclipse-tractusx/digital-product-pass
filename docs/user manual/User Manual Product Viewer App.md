@@ -39,6 +39,7 @@ This manual provides a step by step introduction on how to use the Product Pass 
             1. [Agree Contract](#agree-contract)
             2. [Policy Interpretation](#policy-interpretation)
             3. [Decline Contract](#decline-contract)
+            4. [Deprecated Aspect Models](#deprecated-aspect-models)
     2. [Passport Page](#passport-page)
     3. [Drilling Down Child Components](#drilling-down-child-components)
 5. [NOTICE](#notice)
@@ -147,7 +148,9 @@ If a user is not permitted to accept a particular policy from his company, the c
 ![Decline Contract Policy](./images/DeclinePolicy.png)
 </br></br>
 
-The application doesn't support the aspect models which are from older versions and no longer being used.
+
+#### Deprecated Aspect Models 
+The application goes through contract negotiation and data transfer processes, but doesn't visualize the deprecated aspect models. The models which are from older versions and no longer being used.
 
 </br></br>
 ![Aspect Model Not Supported](./images/AspectNotSupported.png)

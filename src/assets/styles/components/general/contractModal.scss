@@ -27,24 +27,56 @@
   .back-to-homepage {
     margin: 5px 0;
   }
+  .decliner {
+    padding: 20px 80px 50px 80px;
+  }
   .content-container {
     margin-top: 20px;
-    width: 500px;
+    min-width: 500px;
 
     .policy-group-label {
       margin-top: 15px;
+      font-weight: bolder;
+      word-break: break-word;
       margin-bottom: 5px;
       padding: 5px;
       font-weight: bolder; 
       word-break: break-all;
     }
   }
+  .btn-background {
+    background-color: rgb(237, 240, 244);
+    width: 100%;
+    padding-bottom: 30px;
+  }
+  .v-selection-control-group {
+    align-items: center;
+  }
+  .v-selection-control {
+    padding-left: 10px;
+  }
+
+  .details {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  .v-radio label {
+    opacity: 1 !important;
+    color: rgb(17, 17, 17);
+  }
+  .v-radio .radio-label {
+    color: $catena-x-black !important;
+    cursor: pointer;
+    font-weight: 500;
+  }
   .contract-container {
     display: flex;
     flex-direction: column;
     justify-content: center !important;
     align-items: center !important;
-    padding: 20px 80px 50px 80px;
+    border-radius: 20px;
+    word-break: break-word;
   }
   .title-container {
     width: fit-content;
@@ -55,11 +87,11 @@
   .details-btn {
     margin: 20px;
     color: $catena-x-blue;
-    text-decoration: underline;
   }
   .json-viewer-container {
     border: 1px solid lightgray;
     border-radius: 5px;
+    margin-bottom: 50px;
     word-break: break-word;
     .json-viewer {
       min-width: 300px;

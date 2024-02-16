@@ -76,7 +76,8 @@
                 <v-radio
                   v-for="(item, index) in group"
                   :key="`${contractId}_${index}`"
-                  @click="chooseContract(contractId, item['@id'])"
+                  color="#0F71CB"
+                  @click="chooseContract(contractId, item)"
                   :value="`${contractIndex}.${index}`"
                 >
                   <template v-slot:label>
@@ -134,80 +135,104 @@
                 </v-radio>
               </template>
             </v-radio-group>
-            <v-row class="pt-8 justify-center">
-              <v-btn
-                color="#0F71CB"
-                class="text-none"
-                variant="outlined"
-                @click="declineContract()"
-                >{{ $t("passportView.policyAgreement.decline") }}</v-btn
-              >
-              <v-btn
-                class="text-none ms-4 text-white"
-                color="#0F71CB"
-                @click="
-                  resumeNegotiation(
-                    searchResponse,
-                    contractToSign.contract,
-                    contractToSign.policy
-                  )
-                "
-                >{{ $t("passportView.policyAgreement.agree") }}</v-btn
-              >
-            </v-row>
-            <v-row>
-              <v-btn
-                variant="text"
-                @click="toggleDetails"
-                class="details-btn text-none"
-              >
-                {{ detailsTitle }}
-              </v-btn>
-            </v-row>
-            <v-row v-if="details">
-              <div class="json-viewer-container">
-                <JsonViewer
-                  class="json-viewer"
-                  :value="contractItems"
-                  sort
-                  theme="jv-light"
-                />
-              </div>
-            </v-row>
+            <div class="btn-background">
+              <v-row class="pt-8 justify-center">
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  color="#0F71CB"
+                  class="text-none"
+                  variant="outlined"
+                  style="border: 2px solid"
+                  @click="declineContract()"
+                  >{{ $t("passportView.policyAgreement.decline") }}</v-btn
+                >
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  class="text-none ms-4 text-white"
+                  color="#0F71CB"
+                  @click="
+                    resumeNegotiation(
+                      searchResponse,
+                      contractToSign.contract,
+                      contractToSign.policy
+                    )
+                  "
+                  >{{ $t("passportView.policyAgreement.agree") }}</v-btn
+                >
+              </v-row>
+              <v-row class="justify-center">
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  variant="text"
+                  :prepend-icon="
+                    !details
+                      ? 'mdi-plus-circle-outline'
+                      : 'mdi-minus-circle-outline'
+                  "
+                  @click="toggleDetails"
+                  class="details-btn text-none"
+                >
+                  {{ detailsTitle }}
+                  <template v-slot:prepend>
+                    <v-icon color="#0F71CB"></v-icon>
+                  </template>
+                </v-btn>
+              </v-row>
+              <v-row v-if="details" class="justify-center">
+                <div class="json-viewer-container">
+                  <JsonViewer
+                    class="json-viewer"
+                    :value="contractItems"
+                    sort
+                    theme="jv-light"
+                  />
+                </div>
+              </v-row>
+            </div>
           </v-card>
           <v-overlay class="contract-modal" v-model="declineContractModal">
             <v-card class="contract-container">
-              <div class="title-container">
+              <div class="title-container pt-8 decliner">
                 {{ $t("passportView.policyAgreement.declineModal.question") }}
               </div>
-              <div class="policy-group-label">
+              <div class="policy-group-label decliner">
                 <div class="back-to-homepage">
                   {{ $t("passportView.policyAgreement.declineModal.homepage") }}
                 </div>
               </div>
-              <v-row class="pt-8 justify-center">
-                <v-btn
-                  color="#0F71CB"
-                  class="text-none"
-                  variant="outlined"
-                  @click="cancelDeclineContract()"
-                  >{{
-                    $t("passportView.policyAgreement.declineModal.cancel")
-                  }}</v-btn
-                >
-                <v-btn
-                  class="text-none ms-4 text-white"
-                  color="red-darken-4"
-                  @click="confirmDeclineContract()"
-                  ><template v-if="declineLoading"
-                    ><v-progress-circular
-                      indeterminate
-                    ></v-progress-circular></template
-                  ><template v-else>{{
-                    $t("passportView.policyAgreement.declineModal.confirm")
-                  }}</template></v-btn
-                >
-              </v-row>
+              <div class="btn-background decliner">
+                <v-row class="pt-8 pb-8 justify-center">
+                  <v-btn
+                    rounded="xl"
+                    size="large"
+                    color="#0F71CB"
+                    class="text-none"
+                    variant="outlined"
+                    style="border: 2px solid"
+                    @click="cancelDeclineContract()"
+                    >{{
+                      $t("passportView.policyAgreement.declineModal.cancel")
+                    }}</v-btn
+                  >
+                  <v-btn
+                    rounded="xl"
+                    size="large"
+                    class="text-none ms-4 text-white"
+                    color="red-darken-4"
+                    @click="confirmDeclineContract()"
+                    ><template v-if="declineLoading"
+                      ><v-progress-circular
+                        indeterminate
+                      ></v-progress-circular></template
+                    ><template v-else>{{
+                      $t("passportView.policyAgreement.declineModal.confirm")
+                    }}</template></v-btn
+                  >
+                </v-row>
+              </div>
             </v-card>
           </v-overlay>
         </v-col>

@@ -47,10 +47,10 @@
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
     </HeaderComponent>
-    <v-container v-if="loading">
+    <v-container v-if="loading && !error">
       <LoadingComponent :id="id" />
     </v-container>
-    <v-container v-else-if="showOverlay">
+    <v-container class="container-policy-selection" v-else-if="showOverlay && !error">
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
@@ -422,7 +422,7 @@ export default {
       processId: null,
       backendService: null,
       parsedPolicyConstraints: {},
-      error: true,
+      error: false,
       errorObj: {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",
@@ -576,6 +576,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.error= true;
         }
         this.searchResponse = result;
       } catch (e) {
@@ -606,6 +607,7 @@ export default {
                   "It was not possible to display the policies and contracts.";
                 this.status = 500;
                 this.statusText = "Internal Server Error";
+                this.error= true;
             }
 
             // Extract policies
@@ -617,6 +619,7 @@ export default {
                   "It was not possible to display the policies and contracts.";
                 this.status = 500;
                 this.statusText = "Internal Server Error";
+                this.error= true;
             }else{
               // Check if policies array has elements and then access the @id of the first element
               const firstPolicyObj = this.policies[0];
@@ -631,6 +634,7 @@ export default {
                     "It was not possible to display the policies and contracts.";
                   this.status = 500;
                   this.statusText = "Internal Server Error";
+                  this.error= true;
               }else{
                 // Commit the contract ID to the store
                 this.$store.commit("setContractToSign", {
@@ -668,6 +672,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.error= true;
         }
         this.data = result;
       } catch (e) {
@@ -720,6 +725,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.errorObj.status = 408;
           this.errorObj.statusText = "Request Timeout";
+          this.error= true;
         }
         this.data = result;
       } catch (e) {
@@ -817,6 +823,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -827,6 +834,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
       // Check if reponse content was successfull and if not print error comming message from backend
@@ -843,6 +851,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;
@@ -884,6 +893,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -894,6 +904,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
 
@@ -911,6 +922,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;
@@ -943,6 +955,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -953,6 +966,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
 
@@ -970,6 +984,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;

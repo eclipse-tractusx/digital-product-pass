@@ -80,6 +80,9 @@ export default {
     toJson(json){
         return JSON.parse(json);
     },
+    toJsonString(json){
+        return JSON.stringify(json);
+    },
     flatternJsonAttributes(json, attributes=[], sep=".", allowNull = false, allowEmpty = false) {
         if (json == null) return null;
         if (!(json instanceof Object)) return json;

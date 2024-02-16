@@ -25,6 +25,21 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [released]
+## [v2.1.2] - 16-02-2024
+
+## Updated
+- Updated the following changes in the frontend:
+    - Updated visualization and selection of policy
+    - Changed styles of buttons and radio button in the policy dialog box to the standard styles guidelines
+    - Updated "Help" link to point the end user manual
+- Updated end user manual readme
+- Increased timeouts to API calls in the backend
+
+## Added
+- Added the mechanism to parse the `ODRL` policy structure in frontend
+
 ## [released]
 ## [v2.1.1] - 05-02-2024
 

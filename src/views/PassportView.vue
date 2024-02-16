@@ -128,10 +128,18 @@
                   rounded="xl"
                   size="x-large"
                   variant="text"
+                  :prepend-icon="
+                    !details
+                      ? 'mdi-plus-circle-outline'
+                      : 'mdi-minus-circle-outline'
+                  "
                   @click="toggleDetails"
                   class="details-btn text-none"
                 >
                   {{ detailsTitle }}
+                  <template v-slot:prepend>
+                    <v-icon color="#0F71CB"></v-icon>
+                  </template>
                 </v-btn>
               </v-row>
               <v-row v-if="details" class="justify-center">

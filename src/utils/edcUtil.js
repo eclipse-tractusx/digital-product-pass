@@ -70,11 +70,28 @@ export default {
             if (property == null || property == {} || property.length == 0) {
                 return defaultValue;
             }
-            // Parse action type and the constraints associated with the permissions
-            return {
-                "actionType": this.parseActionType(jsonUtil.get("odrl:action", property, ".", null)),
-                "constraints": this.parseContraints(jsonUtil.get("odrl:constraint", property, ".", []))
+            // Init variables
+            let parsedProperty = []
+
+            // If just one property is available do the parsing for just this value
+            if (typeof property === 'object' && !Array.isArray(property)) {
+                parsedProperty.push({
+                    "actionType": this.parseActionType(jsonUtil.get("odrl:action", property, ".", null)),
+                    "constraints": this.parseContraints(jsonUtil.get("odrl:constraint", property, ".", []))
+                })
+                return parsedProperty;
             }
+
+            // Do the parsing for every value if more then one are available
+            property.forEach((propertyValue) => {
+                parsedProperty.push({
+                    "actionType": this.parseActionType(jsonUtil.get("odrl:action", propertyValue, ".", null)),
+                    "constraints": this.parseContraints(jsonUtil.get("odrl:constraint", propertyValue, ".", []))
+                });
+            });
+
+            // Parse action type and the constraints associated with the permissions
+            return parsedProperty;
         } catch (e) {
             console.error("It was not possible to parse the policy permissions [" + e.message + "]!");
             return defaultValue;

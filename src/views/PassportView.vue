@@ -54,7 +54,9 @@
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
-            <div class="title-container">{{ $t("passportView.policyAgreement.title") }}</div>
+            <div class="title-container">
+              {{ $t("passportView.policyAgreement.title") }}
+            </div>
             <v-radio-group class="content-container" v-model="radios">
               <!-- Loop over the grouped policies -->
               <!-- eslint-disable vue/no-v-for-template-key -->
@@ -62,25 +64,73 @@
                 v-for="(group, contractId, contractIndex) in groupedPolicies"
                 :key="contractId"
               >
-                <div class="policy-group-label">
-                  <span class="policy-group-label-mobile">{{ $t("passportView.policyAgreement.contractId") }}</span>
-                  {{ contractId }}
-                </div>
+                <v-row class="policy-group-label">
+                  <v-col cols="auto">{{contractIndex+1}}. {{
+                    $t("passportView.policyAgreement.contractId")
+                  }}
+                  </v-col>
+                  <v-col>
+                    <span class="contractid-title"> {{ contractId }}</span>
+                  </v-col>
+                </v-row>
                 <v-radio
                   v-for="(item, index) in group"
                   :key="`${contractId}_${index}`"
                   @click="chooseContract(contractId, item['@id'])"
                   :value="`${contractIndex}.${index}`"
-                  :label="
-                    $t('passportView.policyAgreement.policy') + ' [' +
-                    index +
-                    '] '+ $t('passportView.policyAgreement.type')+': ' +
-                    (item['odrl:permission']['odrl:action']['odrl:type'] !=
-                    undefined
-                      ? item['odrl:permission']['odrl:action']['odrl:type']
-                      : '')
-                  "
                 >
+                  <template v-slot:label>
+                    <div class="radio-label">
+                      <v-container class="policy-container">
+                        <div class="policy-container fill-height">
+                          <span class="policy-title"
+                            ><strong
+                              >Policy {{ contractIndex + 1 }}.{{
+                                index + 1
+                              }}</strong
+                            ></span
+                          >                           
+                          <div>
+                            <v-row>
+                              <v-col cols="auto" justify-content="center" align-content="center">
+                                <div class="policy-label">ID</div>
+                              </v-col>
+                              <v-col>
+                                <div class="policy-value">
+                                  {{ item["@id"] }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                            <v-divider></v-divider>
+                            <div>
+                            <v-row v-for="(attributes, policyKey, policyIndex) in parsedPolicyConstraints[item['@id']]" :key="`${policyIndex}`">
+                              <template v-if="attributes.length != 0">
+                                <v-col cols="auto" justify-content="center" align-content="center">
+                                  <div class="policy-second-label">{{policyKey}}</div>
+                                </v-col>
+                                <v-col>
+                                  <div class="policy-second-value">
+                                      <v-row class="field-container" v-for="(attribute, attrIndex) in attributes" :key="`${attrIndex}`" >
+                                        <p class="policy-second-value">Action Type: {{ attribute.actionType }}</p>
+                                        <div>
+                                          <ul>
+                                              <li v-for="(constraint, constraintIndex) in attribute.constraints.constraint" :key="`${constraintIndex}`" >
+                                                <span v-if="attribute.constraints.operator" class="attribute-operator">{{attribute.constraints.operator}}</span>
+                                                <span class="attribute-constraint">- [{{constraint.leftOperand}}] [{{constraint.operator}}] [{{constraint.rightOperand}}]</span>
+                                              </li>
+                                          </ul>
+                                          </div>
+                                      </v-row > 
+                                  </div>
+                                </v-col>
+                              </template>
+                            </v-row>
+                            </div>
+                          </div>
+                        </div>
+                      </v-container>
+                    </div>
+                  </template>
                 </v-radio>
               </template>
             </v-radio-group>
@@ -141,7 +191,9 @@
                   class="text-none"
                   variant="outlined"
                   @click="cancelDeclineContract()"
-                  >{{ $t("passportView.policyAgreement.declineModal.cancel") }}</v-btn
+                  >{{
+                    $t("passportView.policyAgreement.declineModal.cancel")
+                  }}</v-btn
                 >
                 <v-btn
                   class="text-none ms-4 text-white"
@@ -151,7 +203,9 @@
                     ><v-progress-circular
                       indeterminate
                     ></v-progress-circular></template
-                  ><template v-else>{{ $t("passportView.policyAgreement.declineModal.confirm") }}</template></v-btn
+                  ><template v-else>{{
+                    $t("passportView.policyAgreement.declineModal.confirm")
+                  }}</template></v-btn
                 >
               </v-row>
             </v-card>
@@ -367,7 +421,7 @@ export default {
             return Array.isArray(value)
               ? value.length > 0
               : Object.keys(value).length > 0;
-          }else if (Array.isArray(value) && value !== null){
+          } else if (Array.isArray(value) && value !== null) {
             return value.length > 0;
           }
           return true; // Include if it's not an object/array or if it's a non-empty primitive value
@@ -416,8 +470,12 @@ export default {
               let policyEntry = {};
               let policyId = policy["@id"];
               policyEntry[key] = policy;
-              this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
               contractPolicies.push(policyEntry);
+              try{
+              this.parsedPolicyConstraints[policyId] =edcUtil.parsePolicyConstraints(policy);
+              }catch(e){
+                console.error(e);
+              }
             });
           } else {
             // Create an entry with the contract key and the policy object
@@ -425,8 +483,13 @@ export default {
             let policy = contract["odrl:hasPolicy"];
             let policyId = policy["@id"];
             policyEntry[key] = policy;
-            this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
             contractPolicies.push(policyEntry);
+            try{
+            this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
+            }catch(e){
+              console.error(e);
+              return false;
+            }
           }
         }
       }
@@ -435,9 +498,13 @@ export default {
     toggleDetails() {
       this.details = !this.details;
       if (this.details) {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.lessDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.lessDetails"
+        );
       } else {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.moreDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.moreDetails"
+        );
       }
     },
     chooseContract(contract, policy) {
@@ -507,21 +574,48 @@ export default {
               "data.contracts",
               this.searchResponse
             );
+            if(!this.contractItems){
+                this.errorObj.title =
+                  "No contract items found!";
+                this.errorObj.description =
+                  "It was not possible to display the policies and contracts.";
+                this.status = 500;
+                this.statusText = "Internal Server Error";
+            }
 
             // Extract policies
-            this.extractPolicies(this.contractItems);
+            let res = this.extractPolicies(this.contractItems);
+            if(!res){
+                this.errorObj.title =
+                  "It was not possible to parse policies!";
+                this.errorObj.description =
+                  "It was not possible to display the policies and contracts.";
+                this.status = 500;
+                this.statusText = "Internal Server Error";
+            }else{
+              // Check if policies array has elements and then access the @id of the first element
+              const firstPolicyObj = this.policies[0];
+              const initialContractToSign = Object.keys(firstPolicyObj)[0];
+              const initialPolicyToSign =
+                firstPolicyObj[initialContractToSign]["@id"];
 
-            // Check if policies array has elements and then access the @id of the first element
-            const firstPolicyObj = this.policies[0];
-            const initialContractToSign = Object.keys(firstPolicyObj)[0];
-            const initialPolicyToSign = firstPolicyObj[initialContractToSign]["@id"];
-            // Commit the contract ID to the store
-            this.$store.commit("setContractToSign", {
-              contract: initialContractToSign,
-              policy: initialPolicyToSign,
-            });
+              if(!this.parsedPolicyConstraints || Object.keys(this.parsedPolicyConstraints).length == 0){
+                  this.errorObj.title =
+                    "No contract policies found!";
+                  this.errorObj.description =
+                    "It was not possible to display the policies and contracts.";
+                  this.status = 500;
+                  this.statusText = "Internal Server Error";
+              }else{
+                // Commit the contract ID to the store
+                this.$store.commit("setContractToSign", {
+                  contract: initialContractToSign,
+                  policy: initialPolicyToSign,
+                });
 
-            this.shouldShowOverlay();
+              this.shouldShowOverlay();
+              }
+            }
           }
         }
         if (this.error || !AUTO_SIGN) {
@@ -631,11 +725,15 @@ export default {
             let additionalData = [];
             let sources = [];
             // In order to have the additional data available we need to copy it in deep
-            if(jsonUtil.exists("additionalData", this.data["data"]["aspect"])){
-              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
+            if (
+              jsonUtil.exists("additionalData", this.data["data"]["aspect"])
+            ) {
+              additionalData = jsonUtil.copy(
+                this.data["data"]["aspect"]["additionalData"]
+              );
             }
             // When extend deep is called this property will be replaced
-            if(jsonUtil.exists("sources", this.data["data"]["aspect"])){
+            if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
               sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
             }
             this.data = configUtil.normalizePassport(
@@ -644,11 +742,11 @@ export default {
               jsonUtil.get("data.semanticId", this.data)
             );
             // Re-add the additionalData
-            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+            if (jsonUtil.exists("additionalData", this.data["aspect"])) {
               this.data["aspect"]["additionalData"] = additionalData;
             }
             // Re-add the sources
-            if(jsonUtil.exists("sources", this.data["aspect"])){
+            if (jsonUtil.exists("sources", this.data["aspect"])) {
               this.data["aspect"]["sources"] = sources;
             }
             this.error = false;

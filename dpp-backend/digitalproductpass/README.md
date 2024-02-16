@@ -24,7 +24,7 @@
 <h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
 
-<h2><strong>Version</strong>: <span style="color: cyan">v2.1.1</span><h2>
+<h2><strong>Version</strong>: <span style="color: cyan">v2.1.2</span><h2>
 
 <br>
 

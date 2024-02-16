@@ -112,6 +112,7 @@ import LogotypeDPP from "../media/logotypeDPP.svg";
 import SearchInput from "../components/general/SearchInput.vue";
 import { mapState } from "vuex";
 import store from "@/store/index";
+import { PORTAL_URL } from '../services/service.const';
 
 export default {
   name: "QRScannerView",
@@ -186,8 +187,8 @@ export default {
       this.QRtoggle = false;
     },
     openExternalLink() {
-      window.open(
-        "https://portal.int.demo.catena-x.net/documentation/?path=docs",
+      window.open(PORTAL_URL +
+        "/documentation/?path=docs",
         "_blank"
       );
     },

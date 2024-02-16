@@ -26,28 +26,45 @@ This manual provides a step by step introduction on how to use the Product Pass 
 
 ## Content
 
-1. [Content](#content)
-2. [Getting Started](#getting-started)
-3. [Main Menu](#main-menu)
-    1. [Search for a Product Passport](#search-for-a-product-passport)
-    2. [Settings and Profile Information](#settings-and-profile-information)
-    3. [Catena-X Helpdesk](#catena-x-helpdesk)
-4. [Request Digital Product Passport](#request-digital-product-passport)
-    1. [Autosign Feature](#autosign-feature)
-        1. [Enable Autosign](#enable-autosign)
-        2. [Disable Autosign](#disable-autosign)
-            1. [Agree Contract](#agree-contract)
-            2. [Policy Interpretation](#policy-interpretation)
-            3. [Decline Contract](#decline-contract)
-            4. [Deprecated Aspect Models](#deprecated-aspect-models)
-    2. [Passport Page](#passport-page)
-    3. [Drilling Down Child Components](#drilling-down-child-components)
-5. [NOTICE](#notice)
+- [User Manual](#user-manual)
+  - [Content](#content)
+  - [Getting Started](#getting-started)
+  - [Authorization](#authorization)
+  - [Main Menu](#main-menu)
+    - [Search for a Product Passport](#search-for-a-product-passport)
+    - [Settings and Profile Information](#settings-and-profile-information)
+    - [Catena-X Helpdesk](#catena-x-helpdesk)
+  - [Request Digital Product Passport](#request-digital-product-passport)
+    - [Autosign Feature](#autosign-feature)
+      - [Enable Autosign:](#enable-autosign)
+      - [Disable Autosign:](#disable-autosign)
+      - [Agree Contract](#agree-contract)
+        - [Policy Interpretation:](#policy-interpretation)
+      - [Decline Contract](#decline-contract)
+      - [Deprecated Aspect Models](#deprecated-aspect-models)
+      - [Passport Page](#passport-page)
+    - [Drilling Down Child Components](#drilling-down-child-components)
+  - [NOTICE](#notice)
 
 ## Getting Started
 
 After opening the Digital Product Pass Viewer application on your computer or phone, login with your company's login credentials.
 </br></br>  
+
+## Authorization
+
+In case the user is not allowed to login because the Authorization configuration is enabled the user will received this error:
+
+![Not Authorized](./images/NotAuthorized.png)
+
+It can be because of two complementary causes:
+- The user has not the same BPN number as the EDC connector
+- The user has no roles associated with the application instance (which is configured in the portal)
+
+In case you are allowed to acces the application and you get this error, please contact your administrator so he can add your account credentials at the portal for this instance. This can be done by editing your IAM configuration for the Digital Product Pass application obtained in the Marketplace.
+
+The user can logout or go back to the portal by clicking in the buttons.
+
 
 ## Main Menu
 
@@ -122,11 +139,15 @@ The sign feature basically signs the contract policy before the contract negotia
 
 In the **Choose a policy** dialog, there might be more than one policies listed. User needs to select the appriopriate one and click on the **Agree** button.
 
-The policy shown to the user, is written in Open Digital Rights Language (ODRL) format which is not so much human readable form. Therefore, please see the [Policy Interpretation](#policy-interpretation)
+The policy shown to the user, is written in Open Digital Rights Language (ODRL), which is translated into a more visual interpretation. For more information consult [Policy Interpretation](#policy-interpretation)
 
 ##### Policy Interpretation:
 This section defines how the policy can be interpreted to make it more understandable. The contract policy contains two different constraints separted by **OR** logical operator against the defined asset Id in a target:
-A user or company can have access to this policy either they have **Membership** equals to **active** or **FrameworkAgreemen.sustainability** equals to **acive**.
+
+_Example of policy content_:
+A user or company can have access to this policy either they have **Membership** equals to **active** or **FrameworkAgreemen.sustainability** equals to **active**.
+
+In case the user want to see more details from the policy, it can be done by clicking in "More Details" which will display a JSON tree, with the complete policy and contract available for deep inspection.
 
 > **_NOTE:_**
 *The contract policy is always checked against the defined asset Id in a target field*
@@ -148,9 +169,8 @@ If a user is not permitted to accept a particular policy from his company, the c
 ![Decline Contract Policy](./images/DeclinePolicy.png)
 </br></br>
 
-
 #### Deprecated Aspect Models 
-The application goes through contract negotiation and data transfer processes, but doesn't visualize the deprecated aspect models. The models which are from older versions and no longer being used.
+In case the application is not able to visualize the model version because it is deprecated, the user will see the following error. The user shall search for another passport in this case because it can not be visualized.
 
 </br></br>
 ![Aspect Model Not Supported](./images/AspectNotSupported.png)

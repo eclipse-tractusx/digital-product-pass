@@ -37,23 +37,11 @@
           <slot></slot>
         </v-col>
         <v-col class="v-col-auto" style="padding: 0">
-          <v-container
-            fluid
-            class="d-flex align-center justify-content-end profile-container"
-          >
+          <v-container fluid class="d-flex align-center justify-content-end profile-container">
             <v-row>
-              <v-col
-                class="d-flex justify-content-between align-center help-container"
-              >
-                <a
-                  id="lnkHelp"
-                  target="_blank"
-                  href="https://portal.int.demo.catena-x.net/documentation/?path=docs"
-                >
-                  <v-btn
-                    class="help-btn"
-                    :ripple="{ class: 'ripple-background' }"
-                    rounded
+              <v-col class="d-flex justify-content-between align-center help-container">
+                <a id="lnkHelp" target="_blank" :href="userGuideUrl">
+                  <v-btn class="help-btn" :ripple="{ class: 'ripple-background' }" rounded
                     >{{ $t("header.helpBtn") }}
                     <Tooltip>
                       {{ $t("header.helpTooltip") }}
@@ -61,17 +49,10 @@
                   </v-btn>
                 </a>
               </v-col>
-              <v-col
-                class="d-flex justify-content-between align-center profile"
-              >
+              <v-col class="d-flex justify-content-between align-center profile">
                 <v-menu>
                   <template #activator="{ props }">
-                    <img
-                      v-bind="props"
-                      :src="Profile"
-                      alt="profile"
-                      class="buttons"
-                    />
+                    <img v-bind="props" :src="Profile" alt="profile" class="buttons" />
                   </template>
                   <v-list class="menu-dropdown" rounded="xl">
                     <div class="profile-menu-header">
@@ -80,14 +61,8 @@
                         <p class="role">{{ role }}</p>
                       </span>
                     </div>
-                    <v-btn
-                      :ripple="{ class: 'ripple-background' }"
-                      class="menu-btn"
-                      @click="logout"
-                    >
-                      <span class="profile-text">{{
-                        $t("header.signOut")
-                      }}</span>
+                    <v-btn :ripple="{ class: 'ripple-background' }" class="menu-btn" @click="logout">
+                      <span class="profile-text">{{ $t("header.signOut") }}</span>
                     </v-btn>
                     <div class="profile-menu-lang">
                       <a
@@ -127,6 +102,7 @@ import BatteryLogotype from "@/media/BatteryLogotype.svg";
 import Profile from "@/media/profile.svg";
 import Tooltip from "@/components/general/Tooltip.vue";
 import { inject } from "vue";
+import { REPO_ENDPOINT, COMMIT_ID } from "@/services/service.const";
 
 export default {
   name: "HeaderComponent",
@@ -152,6 +128,8 @@ export default {
       auth: inject("authentication"),
       tab: null,
       lang: "en-EN",
+      userGuideUrl:
+        REPO_ENDPOINT + "/blob/" + COMMIT_ID + "/docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md",
     };
   },
   mounted() {
@@ -175,5 +153,3 @@ export default {
   },
 };
 </script>
-
-

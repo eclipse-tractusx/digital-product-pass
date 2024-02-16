@@ -254,6 +254,7 @@ import {
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
+import edcUtil from "@/utils/edcUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
@@ -280,7 +281,7 @@ export default {
   },
   data() {
     return {
-      showOverlay: false,
+      showOverlay: true,
       contractItems: reactive([]),
       radios: "0.0",
       details: false,
@@ -341,6 +342,7 @@ export default {
       irsData: [],
       processId: null,
       backendService: null,
+      parsedPolicyConstraints: {},
       error: true,
       errorObj: {
         title: "Something went wrong while returning the passport!",
@@ -412,13 +414,18 @@ export default {
           if (Array.isArray(contract["odrl:hasPolicy"])) {
             contract["odrl:hasPolicy"].forEach((policy) => {
               let policyEntry = {};
+              let policyId = policy["@id"];
               policyEntry[key] = policy;
+              this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
               contractPolicies.push(policyEntry);
             });
           } else {
             // Create an entry with the contract key and the policy object
             let policyEntry = {};
-            policyEntry[key] = contract["odrl:hasPolicy"];
+            let policy = contract["odrl:hasPolicy"];
+            let policyId = policy["@id"];
+            policyEntry[key] = policy;
+            this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
             contractPolicies.push(policyEntry);
           }
         }
@@ -507,8 +514,7 @@ export default {
             // Check if policies array has elements and then access the @id of the first element
             const firstPolicyObj = this.policies[0];
             const initialContractToSign = Object.keys(firstPolicyObj)[0];
-            const initialPolicyToSign =
-              firstPolicyObj[initialContractToSign]["@id"];
+            const initialPolicyToSign = firstPolicyObj[initialContractToSign]["@id"];
             // Commit the contract ID to the store
             this.$store.commit("setContractToSign", {
               contract: initialContractToSign,

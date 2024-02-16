@@ -49,7 +49,7 @@
             <div class="text-container">
               <p class="text">{{ $t("searchView.errorCameraOff") }}</p>
               <p class="text">{{ $t("searchView.errorTypeID") }}</p>
-              <p class="error">{{ $t(error) }}</p>
+              <p class="error">{{ $t(`searchView.cameraError.${qrError}`) }}</p>
             </div>
             <SearchInput class="search-input" />
           </div>

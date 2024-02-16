@@ -160,7 +160,7 @@
                 <v-row class="pt-8 pb-8 justify-center">
                   <v-btn
                     rounded="xl"
-                    size="x-large"
+                    size="large"
                     color="#0F71CB"
                     class="text-none"
                     variant="outlined"
@@ -172,7 +172,7 @@
                   >
                   <v-btn
                     rounded="xl"
-                    size="x-large"
+                    size="large"
                     class="text-none ms-4 text-white"
                     color="red-darken-4"
                     @click="confirmDeclineContract()"

@@ -602,8 +602,9 @@ irs-helm:
   enabled: true
   bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
 
-
   irsUrl: "https://materialpass-irs.dev.demo.catena-x.net"
+  apiKeyAdmin: <path:material-pass/data/dev/irs/apiKey#apiKeyAdmin>
+  apiKeyRegular: <path:material-pass/data/dev/irs/apiKey#apiKeyRegular>
 
   ingress:
     enabled: true
@@ -625,25 +626,37 @@ irs-helm:
   digitalTwinRegistry:
     type: decentral
     url: https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
-  semanticshub:
-    url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
-  bpdm:
-    url: https://partners-pool.dev.demo.catena-x.net
-    bpnEndpoint: >-
-      {{- if .Values.bpdm.url }}
-      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
-      {{- end }}
+
+    discovery:
+      oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+      discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+    semanticshub:
+      url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
+      oAuthClientId: semantics
+    bpdm:
+      url: https://partners-pool.dev.demo.catena-x.net
+      oAuthClientId: bpdm
+      bpnEndpoint: >-
+        {{- if .Values.bpdm.url }}
+        {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
+        {{- end }}
 
   minioUser: <path:material-pass/data/dev/irs/minio#user>
   minioPassword: <path:material-pass/data/dev/irs/minio#password>
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
   oauth2:
-    clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
-    clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
     clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    discovery:
+      clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
+    semantics:
+      clientId:  # <semantics-client-id>
+      clientSecret:  # <semantics-client-secret>
+    bpdm:
+      clientId:  # <bpdm-client-id>
+      clientSecret:  # <bpdm-client-secret>
 
   edc:
     catalog:
@@ -658,6 +671,7 @@ irs-helm:
       endpoint:
         data: https://materialpass.dev.demo.catena-x.net/consumer/management
       apikey:
+        header: "X-Api-Key"
         secret: <path:material-pass/data/dev/edc/oauth#api.key>
 
   minio:
@@ -665,4 +679,3 @@ irs-helm:
       create: false
     rootUser: <path:material-pass/data/dev/irs/minio#user>
     rootPassword: <path:material-pass/data/dev/irs/minio#password>
-

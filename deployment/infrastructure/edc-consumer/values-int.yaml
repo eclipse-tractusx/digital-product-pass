@@ -196,8 +196,9 @@ irs-helm:
   enabled: true
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
-
   irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
+  apiKeyAdmin: <path:material-pass/data/int/irs/apiKey#apiKeyAdmin>
+  apiKeyRegular: <path:material-pass/data/int/irs/apiKey#apiKeyRegular>
 
   ingress:
     enabled: true
@@ -219,11 +220,16 @@ irs-helm:
   digitalTwinRegistry:
     type: decentral
     url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
-  semanticshub:
-    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
-  bpdm:
-    url: https://partners-pool.int.demo.catena-x.net
+
+    discovery:
+      oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+      discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+    semanticshub:
+      url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
+      oAuthClientId: semantics
+    bpdm:
+      url: https://partners-pool.int.demo.catena-x.net
+      oAuthClientId: bpdm
     bpnEndpoint: >-
       {{- if .Values.bpdm.url }}
       {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
@@ -234,10 +240,11 @@ irs-helm:
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
   oauth2:
-    clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
-    clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
     clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    discovery:
+      clientId: <path:material-pass/data/int/irs/keycloak/oauth2#clientId>
+      clientSecret: <path:material-pass/data/int/irs/keycloak/oauth2#clientSecret>
 
   edc:
     catalog:
@@ -252,6 +259,7 @@ irs-helm:
       endpoint:
         data: https://materialpass.int.demo.catena-x.net/consumer/management
       apikey:
+        header: "X-Api-Key"
         secret: <path:material-pass/data/int/edc/oauth#api.key>
 
   minio:

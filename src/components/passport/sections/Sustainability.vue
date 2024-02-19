@@ -50,22 +50,24 @@
               <template v-for="attr in propsData['PEF'].carbon" :key="attr">
                 <Field
                   :icon="callIconFinder('carbon')"
-                  :label="attr.type"
+                  :label="attr.lifecycle"
                   :value="attr.value"
                   :unit="attr.unit"
+                  :subText="attr.type"
                 />
               </template>
             </template>
-            <template v-if="propsData['PEF'].carbon">
+            <template v-if="propsData['PEF'].environmental">
               <template
                 v-for="attr in propsData['PEF'].environmental"
                 :key="attr"
               >
                 <Field
                   :icon="callIconFinder('carbon')"
-                  :label="attr.type"
+                  :label="attr.lifecycle"
                   :value="attr.value"
                   :unit="attr.unit"
+                  :subText="attr.type"
                 />
               </template>
             </template>
@@ -99,6 +101,7 @@
                   :icon="callIconFinder('element')"
                   :label="key"
                   :value="attr"
+                  unit="%"
                 />
               </template>
             </template>
@@ -107,8 +110,8 @@
             <template v-for="attr in propsData.material.left" :key="attr">
               <Field
                 :icon="callIconFinder('material')"
-                :label="attr.name.type"
-                :value="attr.name.name"
+                :label="attr.name.type ? attr.name.type : attr.name"
+                :value="computeFieldValue(attr)"
                 :unit="attr.unit"
               />
               <template v-for="attr in attr.id" :key="attr">
@@ -155,6 +158,7 @@
                   :icon="callIconFinder('material')"
                   :label="$t('sections.sustainability.co2FootprintTotal')"
                   :value="propsData.carbonFootprint.co2FootprintTotal"
+                  unit="kg CO₂ eq"
                 />
               </template>
 
@@ -217,6 +221,23 @@ export default {
   methods: {
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    computeFieldValue(attr) {
+      let result = "";
+
+      if (attr.percentage) {
+        result += (result ? ", " : "") + attr.percentage + "%";
+      }
+      if (attr.name && attr.name.name) {
+        result += (result ? ", " : "") + attr.name.name + ": ";
+      }
+      if (attr.value) {
+        result += attr.value;
+      } else if (attr.name) {
+        result += (result ? ", " : "") + attr.name;
+      }
+
+      return result || "No value"; // Return 'No value' if all fields are empty
     },
   },
 };

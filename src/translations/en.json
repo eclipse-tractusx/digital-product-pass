@@ -365,7 +365,7 @@
       "location": "Location",
       "unit": "Unit",
       "concentrationMax": "Concentration max",
-      "concentrationMin": "Concentration main",
+      "concentrationMin": "Concentration min",
       "exemption": "Exemption",
       "idType": "Id type",
       "id": "Id"
@@ -389,6 +389,7 @@
     },
     "operation": {
       "importer": "Importer ID",
+      "importerEori": "Importer EORI",
       "manufacturerId": "Manufacturer ID",
       "facilityId": "Facility ID",
       "manufacturingDate": "Manufacturing date"

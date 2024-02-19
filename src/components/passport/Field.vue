@@ -29,8 +29,10 @@
     <v-icon v-else start md :icon="icon" class="icon"> </v-icon>
     <span class="field-label">{{ label }}</span>
     <span v-if="value" class="field-value"
-      >{{ value }} {{ callUnitRemover(unit) }}</span
-    >
+      >{{ value }} {{ callUnitRemover(unit) }}
+      <div v-if="subText" class="field-label">{{ subText }}</div>
+    </span>
+
     <span v-else-if="length"></span>
     <span v-else-if="tempRangeMin" class="field-value">
       {{ tempRangeMin }} {{ tempUnit }} to {{ tempRangeMax }}
@@ -103,6 +105,7 @@ export default {
     label: { type: [String, Number], default: "" },
     img: { type: [String, Number], default: "" },
     value: { type: [String, Number], default: "" },
+    subText: { type: [String, Number], default: "" },
     unit: { type: [String, Number], default: "" },
     test: { type: [String, Number], default: "" },
     city: { type: [String, Number], default: "" },

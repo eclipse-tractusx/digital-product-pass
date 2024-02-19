@@ -389,6 +389,7 @@
     },
     "operation": {
       "importer": "Importeur-ID",
+      "importerEori": "Importer-EORI",
       "manufacturerId": "Hersteller-ID",
       "facilityId": "Anlagen-ID",
       "manufacturingDate": "Herstellungsdatum"

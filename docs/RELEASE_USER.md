@@ -1,7 +1,7 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -28,9 +28,6 @@ User friendly relase notes without especific technical details.
 *19.02.2024*
 
 ### Updated
-
-#### Removed BASF from header licences and license
-There was a request from the company BASF to remove their company name from the copyright notice and license information.
 
 #### Updated copyright header to Tractus-X instead of Catena-X
 In the copyright headers the Digital Product Pass still had the name "Catena-X". It was removed to comply with the TRGs for legal licenses.
@@ -514,6 +511,6 @@ A deep dive on the application's operation and functionalities can be found in t
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

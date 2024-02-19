@@ -1,4 +1,4 @@
-rem Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+rem Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 rem Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
 
 rem Licensed under the Apache License, Version 2.0 (the "License");

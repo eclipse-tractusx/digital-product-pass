@@ -24,6 +24,15 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**February 16 2024 (Version 2.1.2)**
+*16.02.2024*
+
+### Updated
+
+#### Visualization of a policy
+A mechanism is created to  visualize the contract policy in an improved manner. This makes it easier to understand and selection of a  right policy.
+
+
 **February 05 2024 (Version 2.1.1)**
 *05.02.2024*
 

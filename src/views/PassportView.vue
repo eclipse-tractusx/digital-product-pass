@@ -47,14 +47,16 @@
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
     </HeaderComponent>
-    <v-container v-if="loading">
+    <v-container v-if="loading && !error">
       <LoadingComponent :id="id" />
     </v-container>
-    <v-container v-else-if="showOverlay">
+    <v-container class="container-policy-selection" v-else-if="showOverlay && !error">
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
-            <div class="title-container">{{ $t("passportView.policyAgreement.title") }}</div>
+            <div class="title-container">
+              {{ $t("passportView.policyAgreement.title") }}
+            </div>
             <v-radio-group class="content-container" v-model="radios">
               <!-- Loop over the grouped policies -->
               <!-- eslint-disable vue/no-v-for-template-key -->
@@ -62,98 +64,175 @@
                 v-for="(group, contractId, contractIndex) in groupedPolicies"
                 :key="contractId"
               >
-                <div class="policy-group-label">
-                  <span class="policy-group-label-mobile">{{ $t("passportView.policyAgreement.contractId") }}</span>
-                  {{ contractId }}
-                </div>
+                <v-row class="policy-group-label">
+                  <v-col cols="auto">{{contractIndex+1}}. {{
+                    $t("passportView.policyAgreement.contractId")
+                  }}
+                  </v-col>
+                  <v-col>
+                    <span class="contractid-title"> {{ contractId }}</span>
+                  </v-col>
+                </v-row>
                 <v-radio
                   v-for="(item, index) in group"
                   :key="`${contractId}_${index}`"
-                  @click="chooseContract(contractId, item['@id'])"
+                  color="#0F71CB"
+                  @click="chooseContract(contractId, item)"
                   :value="`${contractIndex}.${index}`"
-                  :label="
-                    $t('passportView.policyAgreement.policy') + ' [' +
-                    index +
-                    '] '+ $t('passportView.policyAgreement.type')+': ' +
-                    (item['odrl:permission']['odrl:action']['odrl:type'] !=
-                    undefined
-                      ? item['odrl:permission']['odrl:action']['odrl:type']
-                      : '')
-                  "
                 >
+                  <template v-slot:label>
+                    <div class="radio-label">
+                      <v-container class="policy-container">
+                        <div class="policy-container fill-height">
+                          <span class="policy-title"
+                            ><strong
+                              >Policy {{ contractIndex + 1 }}.{{
+                                index + 1
+                              }}</strong
+                            ></span
+                          >                           
+                          <div>
+                            <v-row>
+                              <v-col cols="auto" justify-content="center" align-content="center">
+                                <div class="policy-label">ID</div>
+                              </v-col>
+                              <v-col>
+                                <div class="policy-value">
+                                  {{ item["@id"] }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                            <v-divider></v-divider>
+                            <div>
+                            <v-row v-for="(attributes, policyKey, policyIndex) in parsedPolicyConstraints[item['@id']]" :key="`${policyIndex}`">
+                              <template v-if="attributes.length != 0">
+                                <v-col cols="auto" justify-content="center" align-content="center">
+                                  <div class="policy-second-label">{{policyKey}}</div>
+                                </v-col>
+                                <v-col>
+                                  <div class="policy-second-value">
+                                      <v-row class="field-container" v-for="(attribute, attrIndex) in attributes" :key="`${attrIndex}`" >
+                                        <p class="policy-second-value">Action Type: {{ attribute.actionType }}</p>
+                                        <div>
+                                          <ul>
+                                              <li v-for="(constraint, constraintIndex) in attribute.constraints.constraint" :key="`${constraintIndex}`" >
+                                                <span v-if="attribute.constraints.operator" class="attribute-operator">{{attribute.constraints.operator}}</span>
+                                                <span class="attribute-constraint">- [{{constraint.leftOperand}}] [{{constraint.operator}}] [{{constraint.rightOperand}}]</span>
+                                              </li>
+                                          </ul>
+                                          </div>
+                                      </v-row > 
+                                  </div>
+                                </v-col>
+                              </template>
+                            </v-row>
+                            </div>
+                          </div>
+                        </div>
+                      </v-container>
+                    </div>
+                  </template>
                 </v-radio>
               </template>
             </v-radio-group>
-            <v-row class="pt-8 justify-center">
-              <v-btn
-                color="#0F71CB"
-                class="text-none"
-                variant="outlined"
-                @click="declineContract()"
-                >{{ $t("passportView.policyAgreement.decline") }}</v-btn
-              >
-              <v-btn
-                class="text-none ms-4 text-white"
-                color="#0F71CB"
-                @click="
-                  resumeNegotiation(
-                    searchResponse,
-                    contractToSign.contract,
-                    contractToSign.policy
-                  )
-                "
-                >{{ $t("passportView.policyAgreement.agree") }}</v-btn
-              >
-            </v-row>
-            <v-row>
-              <v-btn
-                variant="text"
-                @click="toggleDetails"
-                class="details-btn text-none"
-              >
-                {{ detailsTitle }}
-              </v-btn>
-            </v-row>
-            <v-row v-if="details">
-              <div class="json-viewer-container">
-                <JsonViewer
-                  class="json-viewer"
-                  :value="contractItems"
-                  sort
-                  theme="jv-light"
-                />
-              </div>
-            </v-row>
+            <div class="btn-background">
+              <v-row class="pt-8 justify-center">
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  color="#0F71CB"
+                  class="text-none"
+                  variant="outlined"
+                  style="border: 2px solid"
+                  @click="declineContract()"
+                  >{{ $t("passportView.policyAgreement.decline") }}</v-btn
+                >
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  class="text-none ms-4 text-white"
+                  color="#0F71CB"
+                  @click="
+                    resumeNegotiation(
+                      searchResponse,
+                      contractToSign.contract,
+                      contractToSign.policy
+                    )
+                  "
+                  >{{ $t("passportView.policyAgreement.agree") }}</v-btn
+                >
+              </v-row>
+              <v-row class="justify-center">
+                <v-btn
+                  rounded="xl"
+                  size="x-large"
+                  variant="text"
+                  :prepend-icon="
+                    !details
+                      ? 'mdi-plus-circle-outline'
+                      : 'mdi-minus-circle-outline'
+                  "
+                  @click="toggleDetails"
+                  class="details-btn text-none"
+                >
+                  {{ detailsTitle }}
+                  <template v-slot:prepend>
+                    <v-icon color="#0F71CB"></v-icon>
+                  </template>
+                </v-btn>
+              </v-row>
+              <v-row v-if="details" class="justify-center">
+                <div class="json-viewer-container">
+                  <JsonViewer
+                    class="json-viewer"
+                    :value="contractItems"
+                    sort
+                    theme="jv-light"
+                  />
+                </div>
+              </v-row>
+            </div>
           </v-card>
           <v-overlay class="contract-modal" v-model="declineContractModal">
             <v-card class="contract-container">
-              <div class="title-container">
+              <div class="title-container pt-8 decliner">
                 {{ $t("passportView.policyAgreement.declineModal.question") }}
               </div>
-              <div class="policy-group-label">
+              <div class="policy-group-label decliner">
                 <div class="back-to-homepage">
                   {{ $t("passportView.policyAgreement.declineModal.homepage") }}
                 </div>
               </div>
-              <v-row class="pt-8 justify-center">
-                <v-btn
-                  color="#0F71CB"
-                  class="text-none"
-                  variant="outlined"
-                  @click="cancelDeclineContract()"
-                  >{{ $t("passportView.policyAgreement.declineModal.cancel") }}</v-btn
-                >
-                <v-btn
-                  class="text-none ms-4 text-white"
-                  color="red-darken-4"
-                  @click="confirmDeclineContract()"
-                  ><template v-if="declineLoading"
-                    ><v-progress-circular
-                      indeterminate
-                    ></v-progress-circular></template
-                  ><template v-else>{{ $t("passportView.policyAgreement.declineModal.confirm") }}</template></v-btn
-                >
-              </v-row>
+              <div class="btn-background decliner">
+                <v-row class="pt-8 pb-8 justify-center">
+                  <v-btn
+                    rounded="xl"
+                    size="large"
+                    color="#0F71CB"
+                    class="text-none"
+                    variant="outlined"
+                    style="border: 2px solid"
+                    @click="cancelDeclineContract()"
+                    >{{
+                      $t("passportView.policyAgreement.declineModal.cancel")
+                    }}</v-btn
+                  >
+                  <v-btn
+                    rounded="xl"
+                    size="large"
+                    class="text-none ms-4 text-white"
+                    color="red-darken-4"
+                    @click="confirmDeclineContract()"
+                    ><template v-if="declineLoading"
+                      ><v-progress-circular
+                        indeterminate
+                      ></v-progress-circular></template
+                    ><template v-else>{{
+                      $t("passportView.policyAgreement.declineModal.confirm")
+                    }}</template></v-btn
+                  >
+                </v-row>
+              </div>
             </v-card>
           </v-overlay>
         </v-col>
@@ -254,6 +333,7 @@ import {
 import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
+import edcUtil from "@/utils/edcUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
@@ -280,7 +360,7 @@ export default {
   },
   data() {
     return {
-      showOverlay: false,
+      showOverlay: true,
       contractItems: reactive([]),
       radios: "0.0",
       details: false,
@@ -341,7 +421,8 @@ export default {
       irsData: [],
       processId: null,
       backendService: null,
-      error: true,
+      parsedPolicyConstraints: {},
+      error: false,
       errorObj: {
         title: "Something went wrong while returning the passport!",
         description: "We are sorry for that, you can retry or try again later",
@@ -365,7 +446,7 @@ export default {
             return Array.isArray(value)
               ? value.length > 0
               : Object.keys(value).length > 0;
-          }else if (Array.isArray(value) && value !== null){
+          } else if (Array.isArray(value) && value !== null) {
             return value.length > 0;
           }
           return true; // Include if it's not an object/array or if it's a non-empty primitive value
@@ -412,14 +493,28 @@ export default {
           if (Array.isArray(contract["odrl:hasPolicy"])) {
             contract["odrl:hasPolicy"].forEach((policy) => {
               let policyEntry = {};
+              let policyId = policy["@id"];
               policyEntry[key] = policy;
               contractPolicies.push(policyEntry);
+              try{
+              this.parsedPolicyConstraints[policyId] =edcUtil.parsePolicyConstraints(policy);
+              }catch(e){
+                console.error(e);
+              }
             });
           } else {
             // Create an entry with the contract key and the policy object
             let policyEntry = {};
-            policyEntry[key] = contract["odrl:hasPolicy"];
+            let policy = contract["odrl:hasPolicy"];
+            let policyId = policy["@id"];
+            policyEntry[key] = policy;
             contractPolicies.push(policyEntry);
+            try{
+            this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
+            }catch(e){
+              console.error(e);
+              return false;
+            }
           }
         }
       }
@@ -428,9 +523,13 @@ export default {
     toggleDetails() {
       this.details = !this.details;
       if (this.details) {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.lessDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.lessDetails"
+        );
       } else {
-        this.detailsTitle = this.$t("passportView.policyAgreement.details.moreDetails");
+        this.detailsTitle = this.$t(
+          "passportView.policyAgreement.details.moreDetails"
+        );
       }
     },
     chooseContract(contract, policy) {
@@ -477,6 +576,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.error= true;
         }
         this.searchResponse = result;
       } catch (e) {
@@ -500,22 +600,51 @@ export default {
               "data.contracts",
               this.searchResponse
             );
+            if(!this.contractItems){
+                this.errorObj.title =
+                  "No contract items found!";
+                this.errorObj.description =
+                  "It was not possible to display the policies and contracts.";
+                this.status = 500;
+                this.statusText = "Internal Server Error";
+                this.error= true;
+            }
 
             // Extract policies
-            this.extractPolicies(this.contractItems);
+            let res = this.extractPolicies(this.contractItems);
+            if(!res){
+                this.errorObj.title =
+                  "It was not possible to parse policies!";
+                this.errorObj.description =
+                  "It was not possible to display the policies and contracts.";
+                this.status = 500;
+                this.statusText = "Internal Server Error";
+                this.error= true;
+            }else{
+              // Check if policies array has elements and then access the @id of the first element
+              const firstPolicyObj = this.policies[0];
+              const initialContractToSign = Object.keys(firstPolicyObj)[0];
+              const initialPolicyToSign =
+                firstPolicyObj[initialContractToSign]["@id"];
 
-            // Check if policies array has elements and then access the @id of the first element
-            const firstPolicyObj = this.policies[0];
-            const initialContractToSign = Object.keys(firstPolicyObj)[0];
-            const initialPolicyToSign =
-              firstPolicyObj[initialContractToSign]["@id"];
-            // Commit the contract ID to the store
-            this.$store.commit("setContractToSign", {
-              contract: initialContractToSign,
-              policy: initialPolicyToSign,
-            });
+              if(!this.parsedPolicyConstraints || Object.keys(this.parsedPolicyConstraints).length == 0){
+                  this.errorObj.title =
+                    "No contract policies found!";
+                  this.errorObj.description =
+                    "It was not possible to display the policies and contracts.";
+                  this.status = 500;
+                  this.statusText = "Internal Server Error";
+                  this.error= true;
+              }else{
+                // Commit the contract ID to the store
+                this.$store.commit("setContractToSign", {
+                  contract: initialContractToSign,
+                  policy: initialPolicyToSign,
+                });
 
-            this.shouldShowOverlay();
+              this.shouldShowOverlay();
+              }
+            }
           }
         }
         if (this.error || !AUTO_SIGN) {
@@ -543,6 +672,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
+          this.error= true;
         }
         this.data = result;
       } catch (e) {
@@ -595,6 +725,7 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.errorObj.status = 408;
           this.errorObj.statusText = "Request Timeout";
+          this.error= true;
         }
         this.data = result;
       } catch (e) {
@@ -625,11 +756,15 @@ export default {
             let additionalData = [];
             let sources = [];
             // In order to have the additional data available we need to copy it in deep
-            if(jsonUtil.exists("additionalData", this.data["data"]["aspect"])){
-              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
+            if (
+              jsonUtil.exists("additionalData", this.data["data"]["aspect"])
+            ) {
+              additionalData = jsonUtil.copy(
+                this.data["data"]["aspect"]["additionalData"]
+              );
             }
             // When extend deep is called this property will be replaced
-            if(jsonUtil.exists("sources", this.data["data"]["aspect"])){
+            if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
               sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
             }
             this.data = configUtil.normalizePassport(
@@ -638,11 +773,11 @@ export default {
               jsonUtil.get("data.semanticId", this.data)
             );
             // Re-add the additionalData
-            if(jsonUtil.exists("additionalData", this.data["aspect"])){
+            if (jsonUtil.exists("additionalData", this.data["aspect"])) {
               this.data["aspect"]["additionalData"] = additionalData;
             }
             // Re-add the sources
-            if(jsonUtil.exists("sources", this.data["aspect"])){
+            if (jsonUtil.exists("sources", this.data["aspect"])) {
               this.data["aspect"]["sources"] = sources;
             }
             this.error = false;
@@ -688,6 +823,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -698,6 +834,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
       // Check if reponse content was successfull and if not print error comming message from backend
@@ -714,6 +851,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;
@@ -755,6 +893,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -765,6 +904,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
 
@@ -782,6 +922,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;
@@ -814,6 +955,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
+        this.error= true;
         return response;
       }
 
@@ -824,6 +966,7 @@ export default {
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
+        this.error= true;
         return null;
       }
 
@@ -841,6 +984,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
+        this.error= true;
       }
 
       return response;

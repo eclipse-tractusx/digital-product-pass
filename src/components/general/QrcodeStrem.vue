@@ -57,7 +57,7 @@ export default {
       try {
         await promise;
       } catch (error) {
-        store.commit("setQrError", error);
+        store.commit("setQrError", error.name);
         if (error.name === "NotAllowedError") {
           this.error = "ERROR: you need to grant camera access permission";
         } else if (error.name === "NotFoundError") {

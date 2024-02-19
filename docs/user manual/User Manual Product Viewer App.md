@@ -26,20 +26,45 @@ This manual provides a step by step introduction on how to use the Product Pass 
 
 ## Content
 
-1. [Content](#content)
-2. [Getting Started](#getting-started)
-3. [Main Menu](#main-menu)
-    1. [Search for a Product Passport](#search-for-a-product-passport)
-    2. [Profile Information and Settings](#settings-and-profile-information)
-    3. [Catena-X Helpdesk](#catena-x-helpdesk)
-4. [Digital Product Passport](#digital-product-passport)
-    1. [Drilling Down Child Components](#drilling-down-child-components)
-5. [NOTICE](#notice)
+- [User Manual](#user-manual)
+  - [Content](#content)
+  - [Getting Started](#getting-started)
+  - [Authorization](#authorization)
+  - [Main Menu](#main-menu)
+    - [Search for a Product Passport](#search-for-a-product-passport)
+    - [Settings and Profile Information](#settings-and-profile-information)
+    - [Catena-X Helpdesk](#catena-x-helpdesk)
+  - [Request Digital Product Passport](#request-digital-product-passport)
+    - [Autosign Feature](#autosign-feature)
+      - [Enable Autosign:](#enable-autosign)
+      - [Disable Autosign:](#disable-autosign)
+      - [Agree Contract](#agree-contract)
+        - [Policy Interpretation:](#policy-interpretation)
+      - [Decline Contract](#decline-contract)
+      - [Deprecated Aspect Models](#deprecated-aspect-models)
+      - [Passport Page](#passport-page)
+    - [Drilling Down Child Components](#drilling-down-child-components)
+  - [NOTICE](#notice)
 
 ## Getting Started
 
 After opening the Digital Product Pass Viewer application on your computer or phone, login with your company's login credentials.
 </br></br>  
+
+## Authorization
+
+In case the user is not allowed to login because the Authorization configuration is enabled the user will received this error:
+
+![Not Authorized](./images/NotAuthorized.png)
+
+It can be because of two complementary causes:
+- The user has not the same BPN number as the EDC connector
+- The user has no roles associated with the application instance (which is configured in the portal)
+
+In case you are allowed to acces the application and you get this error, please contact your administrator so he can add your account credentials at the portal for this instance. This can be done by editing your IAM configuration for the Digital Product Pass application obtained in the Marketplace.
+
+The user can logout or go back to the portal by clicking in the buttons.
+
 
 ## Main Menu
 
@@ -61,7 +86,10 @@ The [Main Menu](#main-menu) provides two methods for searching for Product Passp
 
 Both options can be found in the center of the [Main Menu's](#main-menu) screen (1). Whenever you access the [Main Menu](#main-menu), the manual product ID search will be displayed by default (1a). The search text contains the pattern separated by the colon(:) `CX:<manufacturerPartId>:<serializedId>` where CX is a prefix, `<manufacturerPartId>` is the part Id of the manufacturer, and `<serializedId>` is the Id of the product Example: `CX:XYZ78901:X123456789012X12345678901234566`. If the search format is not followed, an error would be displayed.
 
- By clicking on the switch the back arrow button (1b), you activate the QR code scanner and the application will access your devices camera, which you can then capture the QR code with.
+ By clicking on the switch the back arrow button (1b), you activate the QR code scanner and the application will access your device camera, which you can then capture the QR code with.
+
+> **_NOTE:_**
+*Please make sure that the camera permissions must be turned on from the browser, otherwise the QR code cannot be scanned and you have to use the Id manually (1a) as an alternative to retrieve the passport*
 
 
 ![Scan Passport](./images/ScanPassport.png)  
@@ -76,51 +104,81 @@ Clicking on the blue avatar icon in the upper right corner of the [Main Menu](#m
 
 ### Catena-X Helpdesk
 
-If questions arise, you can access the Catena-X Helpdesk through clicking on "Help" in the upper right corner of the [Main Menu](#main-menu) (3).  
+If you need any help or would like to know how to operate the digital product pass application and access its features, you can access the Catena-X Helpdesk through clicking on "Help" in the upper right corner of the [Main Menu](#main-menu) (3).
 </br></br>
 
-## Digital Product Passport
+## Request Digital Product Passport
 
  After requesting data via one of the [product search functions](#search-for-a-product-passport), the information will start loading against the asset Id (7) as illustrated in the screenshot , showing the steps to retrieve the passport (9) and displayed on the screen once progress bar is loaded (8). An exemplary product passport of a high voltage battery can be seen below. It provides an overview on the product's history, technical specifications, its child components using the Item Relationship Service (IRS) and data exchange information:
 
 
-### Autosign feature
+### Autosign Feature
 
 #### Enable Autosign:
 If Autosign setting is enabled, the first contract policy is always choosen as shown in below screenshot.
-The passport is shown to the user.
+The passport is shown to the user as shown in a [Passport Page](#passport-page).
 
 </br></br>
 ![Loading Product Pass](./images/LoadingPass.png)
 </br></br>
 
 #### Disable Autosign:
-This feature requires user action. If disabled, the contract policy must be choosen by the user from the popup menu.
+This feature requires user action. If disabled, the contract policy must be choosen by the user from the popup menu during the loading process.
 
 </br></br>
 ![Before Contract Policy Selection](./images/BeforePolicySelection.png)
 </br></br>
 
+The sign feature basically signs the contract policy before the contract negotiation is done. The right contract policy must be selected by the user, otherwise the contract negotiation is aborted and user is returned back to the [Main Menu](#main-menu). 
+
 </br></br>
 ![Agree Contract policy](./images/AgreePolicy.png)
 </br></br>
+
+#### Agree Contract
+
+In the **Choose a policy** dialog, there might be more than one policies listed. User needs to select the appriopriate one and click on the **Agree** button.
+
+The policy shown to the user, is written in Open Digital Rights Language (ODRL), which is translated into a more visual interpretation. For more information consult [Policy Interpretation](#policy-interpretation)
+
+##### Policy Interpretation:
+This section defines how the policy can be interpreted to make it more understandable. The contract policy contains two different constraints separted by **OR** logical operator against the defined asset Id in a target:
+
+_Example of policy content_:
+A user or company can have access to this policy either they have **Membership** equals to **active** or **FrameworkAgreemen.sustainability** equals to **active**.
+
+In case the user want to see more details from the policy, it can be done by clicking in "More Details" which will display a JSON tree, with the complete policy and contract available for deep inspection.
+
+> **_NOTE:_**
+*The contract policy is always checked against the defined asset Id in a target field*
 
 </br></br>
 ![View Contract Policy](./images/ViewPolicy.png)
 </br></br>
 
+The user accepts the right contract policy, and click on the **Agree** button which resumes the remaining negotiation and data transfer steps. In the end, the passport data is retrieved and displays to the user [Passport Page](#passport-page).
+
 </br></br>
 ![After Contract Policy Selection](./images/AfterPolicySelection.png)
 </br></br>
+
+#### Decline Contract
+If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](#main-menu).
 
 </br></br>
 ![Decline Contract Policy](./images/DeclinePolicy.png)
 </br></br>
 
+#### Deprecated Aspect Models 
+In case the application is not able to visualize the model version because it is deprecated, the user will see the following error. The user shall search for another passport in this case because it can not be visualized.
 
 </br></br>
 ![Aspect Model Not Supported](./images/AspectNotSupported.png)
 </br></br>
+
+#### Passport Page
+
+Here the application shows the digital passport of a product after going through all necessary steps, that have been made in previous sections.
 
 </br></br>
 ![Product Pass](./images/ProductPassport.png)

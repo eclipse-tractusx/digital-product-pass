@@ -1,8 +1,8 @@
 /*********************************************************************************
  *
- * Catena-X - Digital Product Passport Application
+ * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -25,9 +25,9 @@
 
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Tractus-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.

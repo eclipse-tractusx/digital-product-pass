@@ -1,7 +1,7 @@
 <!-- 
-  Catena-X - Digital Product Passport Application 
+  Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -445,7 +445,7 @@ The Job parameters (*jobId, globalAssetId, jobStatus*) will be stored in the `me
 The backend will also create a single node tree for the Digital Twin that is already available. Creating a `treeDataModel.json` file at the process directory.
 
 ##### Search API Sequence with IRS
-![IRS Search Sequence](./media/irs/searchWithIRS.drawio.svg)
+![IRS Search Sequence](./media/irs/searchWithIrs.drawio.svg)
 
 ##### Search API Flow with IRS
 ![IRS Search Flow](media/irs/irsSearchFlow.drawio.svg)
@@ -527,7 +527,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * Source code management - GitHub Repository:
   * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
 * DevSecOps:
-  * [Intro | Catena-x - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
+  * [Intro | Tractus-X - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
 * Eclipse Tractus-X Release Guidelines:
   * [Intro | Eclipse Tractus-X - Release Guidelines](https://eclipse-tractusx.github.io/docs/release)
 
@@ -811,6 +811,6 @@ An user needs to be able to understand easily the application interface, in orde
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

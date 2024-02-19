@@ -445,7 +445,7 @@ The Job parameters (*jobId, globalAssetId, jobStatus*) will be stored in the `me
 The backend will also create a single node tree for the Digital Twin that is already available. Creating a `treeDataModel.json` file at the process directory.
 
 ##### Search API Sequence with IRS
-![IRS Search Sequence](./media/irs/searchWithIRS.drawio.svg)
+![IRS Search Sequence](./media/irs/searchWithIrs.drawio.svg)
 
 ##### Search API Flow with IRS
 ![IRS Search Flow](media/irs/irsSearchFlow.drawio.svg)
@@ -811,6 +811,6 @@ An user needs to be able to understand easily the application interface, in orde
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2023 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

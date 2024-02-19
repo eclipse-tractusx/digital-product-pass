@@ -27,7 +27,7 @@
  *
  * Tractus-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2023 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.

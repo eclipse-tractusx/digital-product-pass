@@ -28,13 +28,13 @@ description: |
   A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc provider for the DPP applicatiton.
 type: application
 version: 0.3.3
-appVersion: "0.5.0"
+appVersion: "0.6.0"
 home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 sources:
   - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 dependencies:
   - name: tractusx-connector
-    version: "0.5.0"
+    version: "0.6.0"
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: enabled
   - name: postgresql

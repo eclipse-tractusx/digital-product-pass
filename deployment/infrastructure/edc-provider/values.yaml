@@ -50,19 +50,12 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
+      tag: "0.6.0"
     initContainers: []
     debug:
       enabled: false
       port: 1044
       suspendOnStart: false
-    internationalDataSpaces:
-      id: TXDC
-      description: Tractus-X Eclipse IDS Data Space Connector
-      title: ""
-      maintainer: ""
-      curator: ""
-      catalogId: TXDC-Catalog
     livenessProbe:
       # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
       enabled: true
@@ -271,12 +264,12 @@ tractusx-connector:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    limits:
+      cpu: 1.5
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -318,7 +311,7 @@ tractusx-connector:
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
+      tag: "0.6.0"
     initContainers: []
     debug:
       enabled: false
@@ -472,12 +465,12 @@ tractusx-connector:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -511,6 +504,19 @@ tractusx-connector:
     url:
       # -- Explicitly declared url for reaching the public api (e.g. if ingresses not used)
       public: ""
+
+  # postgresql:
+  #   jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
+  #   primary:
+  #     persistence:
+  #       enabled: false
+  #   readReplicas:
+  #     persistence:
+  #       enabled: false
+  #   auth:
+  #     database: "edc"
+  #     username: <path:material-pass/data/dev/edc/database#user>
+  #     password: <path:material-pass/data/dev/edc/database#password>
 
   postgresql:
     jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
@@ -550,6 +556,20 @@ tractusx-connector:
   backendService:
     httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
 
+  networkPolicy:
+    # -- If `true` network policy will be created to restrict access to control- and dataplane
+    enabled: false
+    # -- Configuration of the controlplane component
+    controlplane:
+      # -- Specify from rule network policy for cp (defaults to all namespaces)
+      from:
+      - namespaceSelector: {}
+    # -- Configuration of the dataplane component
+    dataplane:
+      # -- Specify from rule network policy for dp (defaults to all namespaces)
+      from:
+      - namespaceSelector: {}
+
   serviceAccount:
     # Specifies whether a service account should be created
     create: true
@@ -563,6 +583,7 @@ tractusx-connector:
     
 
 postgresql:
+  enabled: true
   jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
   fullnameOverride: "postgresqlprovider"
   primary:

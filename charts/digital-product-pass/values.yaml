@@ -94,7 +94,7 @@ backend:
     # -- mounted path for the backend configuration added in the config maps
     - name: backend-config
       mountPath: /app/config
-    # -- contains the location for the process data directory 
+    # -- contains the location for the process data directory
     - name: pvc-backend
       mountPath: /app/data/process
       subPath: data/process
@@ -123,7 +123,7 @@ backend:
     - name: pvc-backend
       persistentVolumeClaim:
         claimName: pvc-data
-    # -- temporary file system mount    
+    # -- temporary file system mount
     - name: tmpfs
       emptyDir: {}
 

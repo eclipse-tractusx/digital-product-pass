@@ -72,6 +72,9 @@ def get_arguments():
 
     parser.add_argument("-di", "--discoveryId", \
                             help="The discovery type value to lookup into the discovery service", required=True)
+    
+    parser.add_argument("-a", "--appId", \
+                        help="The client Id/app Id issued from the portal", required=True)
 
     parser.add_argument("-c", "--getChildren", action = 'store_true' , \
                         help="A boolean value to check if the passport contains children", required=False)
@@ -256,6 +259,7 @@ if __name__ == "__main__":
         serialized_id = args.id
         discovery_type = args.discoveryType
         discovery_id = args.discoveryId
+        app_id = args.appId
         children = args.getChildren
 
         retries = 0
@@ -273,7 +277,7 @@ if __name__ == "__main__":
             logger.debug(f"Username/Password found.")
             if company is None:
                 raise("Company is required along with user and password") 
-            auth = Authentication(company, username, password)
+            auth = Authentication(company, username, password, app_id)
             access_token = auth.get_access_token()
         else:
             raise("Either username+password or access_token must be specified.")

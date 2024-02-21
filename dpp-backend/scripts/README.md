@@ -55,7 +55,7 @@ apt-get install python3-requests
 - Logging to log intermediate retrieval status to a file for further backtracking/debugging/troubleshooting
 - The backend API and authorization server settings are configurable
 - Capable to handle exception and error messages
-- When doing contract negotiation byusing this script the first contract is always used
+- When doing contract negotiation by using this script the first contract is always used
 
 ## TL;DR 
 - The default script configuration is provided in [Constants.py](./utilities/constants.py) and can be changed based on the authentication provider.
@@ -76,9 +76,9 @@ The following parameters can be added in the [get-data.sh](./get-data.sh)
 | --appId           | The client Id/app Id issued from the portal                    |         <place your appId>                                                          | Required         |
 | --semanticId      | Semantic ID of the aspect model                                |         *Managed by the Backend*                                                    | Optional         | 
 | -idType           | Product type attribute to lookup into digital twin registry    |         *Managed by the Backend*: "partInstanceId"                                  | Optional         |
-| --id              |Product type value to lookup into the digital twin registry     |         BAT-XYZ789                                                                  | Required         |
+| --id              |Product type value to lookup into the digital twin registry     |         NCM-6789                                                                    | Required         |
 | --discoveryType   |  Discovery type attribute to lookup into the discovery service |         *Managed by the Backend*: "manufacturerPartId"                              | Optional         |
-| --discoveryId     | Discovery type value to lookup into the discovery service      |         XYZ78901                                                                    | Required         |
+| --discoveryId     | Discovery type value to lookup into the discovery service      |         MAT781                                                                      | Required         |
 | -getChildren      | Boolean value to check if children are retrieved               |         False                                                                       | Optional         |
 | --access_token    | Access token to be used instead of username / password         |         -                                                                           | Optional         |
 |                   |                                                                |                                                                                     |                  |

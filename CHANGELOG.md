@@ -25,6 +25,14 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+## [v2.2.0] - 22-02-2024
+
+## Updated
+- Refactored dpp-script by adding AppId as a script parameter
+- Updated dpp-script readme
+
+
 ## [released]
 ## [v2.1.3] - 19-02-2024
 

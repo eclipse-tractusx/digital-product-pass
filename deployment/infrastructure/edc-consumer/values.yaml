@@ -649,15 +649,15 @@ irs-helm:
     clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     discovery:
-      clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
-      clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
     semantics:
-      clientId:  # <semantics-client-id>
-      clientSecret:  # <semantics-client-secret>
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
     bpdm:
-      clientId:  # <bpdm-client-id>
-      clientSecret:  # <bpdm-client-secret>
-
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+      
   edc:
     catalog:
       acceptedPolicies:

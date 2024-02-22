@@ -23,11 +23,26 @@
 
 # digital-product-pass
 
-![Version: 2.1.3](https://img.shields.io/badge/Version-2.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
+![Version: 2.1.4](https://img.shields.io/badge/Version-2.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
 
 A Helm chart for Tractus-X Digital Product Pass Kubernetes
 
 **Homepage:** <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass>
+
+This Helm charts install the Digital Product Passport Backend and Frontend components.
+
+## Prerequisites
+
+- Kubernetes 1.19+
+- Helm 3.2.0+
+- PV provisioner support in the underlying infrastructure
+
+## TL;DR
+
+```bash
+helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+helm install digital-product-pass tractusx/digital-product-pass
+```
 
 ## Source Code
 
@@ -38,7 +53,7 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| backend | object | `{"digitalTwinRegistry":{"endpoints":{"digitalTwin":"/shell-descriptors","search":"/lookup/shells","subModel":"/submodel-descriptors"},"temporaryStorage":{"enabled":true,"lifetime":12},"timeouts":{"digitalTwin":20,"negotiation":40,"search":50,"transfer":10}},"discovery":{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""},"edc":{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"},"hostname":"localhost","image":{"pullPolicy":"Always","repository":"docker.io/tractusx/digital-product-pass-backend"},"imagePullSecrets":[],"ingress":{"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]},"irs":{"enabled":false,"hostname":""},"logging":{"level":{"root":"INFO","utils":"INFO"}},"maxRetries":5,"name":"dpp-backend","passport":{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass","urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"]},"podSecurityContext":{"fsGroup":3000,"runAsGroup":3000,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}},"process":{"encryptionKey":""},"securityCheck":{"bpn":false,"edc":false},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"add":[],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsGroup":3000,"runAsNonRoot":true,"runAsUser":1000},"serverPort":8888,"service":{"port":8888,"type":"ClusterIP"}}` | Backend configuration |
+| backend | object | `{"digitalTwinRegistry":{"endpoints":{"digitalTwin":"/shell-descriptors","search":"/lookup/shells","subModel":"/submodel-descriptors"},"temporaryStorage":{"enabled":true,"lifetime":12},"timeouts":{"digitalTwin":20,"negotiation":40,"search":50,"transfer":10}},"discovery":{"bpnDiscovery":{"key":"manufacturerPartId","path":"/api/v1.0/administration/connectors/bpnDiscovery/search"},"edcDiscovery":{"key":"bpn"},"hostname":""},"edc":{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"},"hostname":"localhost","image":{"pullPolicy":"Always","repository":"docker.io/tractusx/digital-product-pass-backend"},"imagePullSecrets":[],"ingress":{"annotations":{"ingressClassName":"nginx","nginx.ingress.kubernetes.io/backend-protocol":"HTTP","nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/ssl-passthrough":"false"},"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]},"irs":{"enabled":false,"hostname":""},"logging":{"level":{"root":"INFO","utils":"INFO"}},"maxRetries":5,"name":"dpp-backend","passport":{"aspects":["urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport","urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass","urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass","urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"]},"podSecurityContext":{"fsGroup":3000,"runAsGroup":3000,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}},"process":{"encryptionKey":""},"securityCheck":{"bpn":false,"edc":false},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"add":[],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsGroup":3000,"runAsNonRoot":true,"runAsUser":1000},"serverPort":8888,"service":{"port":8888,"type":"ClusterIP"},"volumeMounts":[{"mountPath":"/app/config","name":"backend-config"},{"mountPath":"/app/data/process","name":"pvc-backend","subPath":"data/process"},{"mountPath":"/app/log","name":"tmpfs","subPath":"log"},{"mountPath":"/tmp","name":"tmpfs"},{"mountPath":"/app/data/VaultConfig","name":"tmpfs","subPath":"VaultConfig/vault.token.yml"},{"mountPath":"/app/tmp","name":"tmpfs"}],"volumes":[{"configMap":{"name":"backend-config"},"name":"backend-config"},{"name":"pvc-backend","persistentVolumeClaim":{"claimName":"pvc-data"}},{"emptyDir":{},"name":"tmpfs"}]}` | Backend configuration |
 | backend.digitalTwinRegistry.temporaryStorage | object | `{"enabled":true,"lifetime":12}` | temporary storage of dDTRs for optimization |
 | backend.digitalTwinRegistry.temporaryStorage.lifetime | int | `12` | lifetime of the temporaryStorage in hours |
 | backend.digitalTwinRegistry.timeouts | object | `{"digitalTwin":20,"negotiation":40,"search":50,"transfer":10}` | timeouts for the digital twin registry async negotiation |
@@ -47,12 +62,14 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | backend.discovery.edcDiscovery | object | `{"key":"bpn"}` | edc discovery configuration |
 | backend.discovery.hostname | string | `""` | discovery finder configuration |
 | backend.edc | object | `{"apis":{"catalog":"/catalog/request","management":"/management/v2","negotiation":"/contractnegotiations","transfer":"/transferprocesses"},"delay":100,"hostname":"","participantId":"<Add participant id here>","xApiKey":"<Add API key here>"}` | in this section we configure the values that are inserted as secrets in the backend |
+| backend.edc.delay | int | `100` | Negotiation status Delay in milliseconds in between async requests [<= 500] |
 | backend.edc.hostname | string | `""` | edc consumer connection configuration |
 | backend.edc.participantId | string | `"<Add participant id here>"` | BPN Number |
 | backend.edc.xApiKey | string | `"<Add API key here>"` | the secret for assesing the edc management API |
 | backend.hostname | string | `"localhost"` | backend hostname (without protocol prefix [DEFAULT HTTPS] for security ) |
 | backend.imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
-| backend.ingress | object | `{"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]}` | ingress declaration to expose the dpp-backend service |
+| backend.ingress | object | `{"annotations":{"ingressClassName":"nginx","nginx.ingress.kubernetes.io/backend-protocol":"HTTP","nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/ssl-passthrough":"false"},"enabled":false,"hosts":[{"host":"localhost","paths":[{"path":"/","pathType":"Prefix"}]}]}` | ingress declaration to expose the dpp-backend service |
+| backend.ingress.annotations.ingressClassName | string | `"nginx"` | ingress class name |
 | backend.irs | object | `{"enabled":false,"hostname":""}` | irs configuration |
 | backend.logging.level.root | string | `"INFO"` | general logging level |
 | backend.logging.level.utils | string | `"INFO"` | logging for the util components |
@@ -74,6 +91,17 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | backend.securityContext.runAsUser | int | `1000` | The container's process will run with the specified uid |
 | backend.serverPort | int | `8888` | configuration of the spring boot server |
 | backend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
+| backend.volumeMounts | list | `[{"mountPath":"/app/config","name":"backend-config"},{"mountPath":"/app/data/process","name":"pvc-backend","subPath":"data/process"},{"mountPath":"/app/log","name":"tmpfs","subPath":"log"},{"mountPath":"/tmp","name":"tmpfs"},{"mountPath":"/app/data/VaultConfig","name":"tmpfs","subPath":"VaultConfig/vault.token.yml"},{"mountPath":"/app/tmp","name":"tmpfs"}]` | specifies the volume mounts for the backend deployment |
+| backend.volumeMounts[0] | object | `{"mountPath":"/app/config","name":"backend-config"}` | mounted path for the backend configuration added in the config maps |
+| backend.volumeMounts[1] | object | `{"mountPath":"/app/data/process","name":"pvc-backend","subPath":"data/process"}` | contains the location for the process data directory  |
+| backend.volumeMounts[2] | object | `{"mountPath":"/app/log","name":"tmpfs","subPath":"log"}` | contains the log directory uses by the backend |
+| backend.volumeMounts[3] | object | `{"mountPath":"/tmp","name":"tmpfs"}` | container tmp directory |
+| backend.volumeMounts[4] | object | `{"mountPath":"/app/data/VaultConfig","name":"tmpfs","subPath":"VaultConfig/vault.token.yml"}` | contains the vault configuration for the backend |
+| backend.volumeMounts[5] | object | `{"mountPath":"/app/tmp","name":"tmpfs"}` | contains the temporary directory used by the backend |
+| backend.volumes | list | `[{"configMap":{"name":"backend-config"},"name":"backend-config"},{"name":"pvc-backend","persistentVolumeClaim":{"claimName":"pvc-data"}},{"emptyDir":{},"name":"tmpfs"}]` | volume claims for the containers |
+| backend.volumes[0] | object | `{"configMap":{"name":"backend-config"},"name":"backend-config"}` | persist the backend configuration |
+| backend.volumes[1] | object | `{"name":"pvc-backend","persistentVolumeClaim":{"claimName":"pvc-data"}}` | persist the backend data directories |
+| backend.volumes[2] | object | `{"emptyDir":{},"name":"tmpfs"}` | temporary file system mount     |
 | frontend.api | object | `{"delay":1000,"max_retries":30,"timeout":{"decline":20000,"negotiate":40000,"search":60000}}` | api timeouts |
 | frontend.api.delay | int | `1000` | delay from getting status |
 | frontend.api.max_retries | int | `30` | max retries for getting status |
@@ -82,7 +110,8 @@ A Helm chart for Tractus-X Digital Product Pass Kubernetes
 | frontend.image.pullPolicy | string | `"Always"` |  |
 | frontend.image.repository | string | `"docker.io/tractusx/digital-product-pass-frontend"` |  |
 | frontend.imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
-| frontend.ingress | object | `{"enabled":false,"hosts":[]}` | ingress declaration to expose the dpp-frontend service |
+| frontend.ingress | object | `{"annotations":{"ingressClassName":"nginx","nginx.ingress.kubernetes.io/backend-protocol":"HTTP","nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/ssl-passthrough":"false"},"enabled":false,"hosts":[]}` | ingress declaration to expose the dpp-frontend service |
+| frontend.ingress.annotations.ingressClassName | string | `"nginx"` | ingress class name |
 | frontend.irs | object | `{"maxWaitingTime":30,"requestDelay":30000}` | irs api timeouts |
 | frontend.irs.maxWaitingTime | int | `30` | maximum waiting time to get the irs job status |
 | frontend.irs.requestDelay | int | `30000` | request timeout delay |

@@ -337,6 +337,7 @@ if __name__ == "__main__":
             logger.error(msg)
             raise Exception(msg)
         
+        passport = None
         while retries < max_retries: 
             status_response = get_status(process_id, session)
             status = op.get_attribute(status_response, "status")

@@ -40,7 +40,7 @@ A command line python script to request for any aspect model data using the Digi
 Prior to execute the script, the `python-requests` library must be installed:
 
 ```bash
-# is python is used
+# if python is used
 apt-get install python-requests
 
 # if python3 is used
@@ -71,9 +71,9 @@ The following parameters can be added in the [get-data.sh](./get-data.sh)
 | Parameter         |  Description                                                    | Default value                                                                      | Required/Optionl |
 | :---:             | :---                                                           | :---                                                                                | :---:            |
 | --company         | Company name                                                   |         CX-Test-Access                                                              | Optional         |
-| --username        | username                                                       |         <place your username>                                                       | Optional         |
-| --password        | password                                                       |         <place your password>                                                       | Optional         |
-| --appId           | The client Id/app Id issued from the portal                    |         <place your appId>                                                          | Required         |
+| --username        | username                                                       |         &lt;place your username&gt;                                                 | Optional         |
+| --password        | password                                                       |         &lt;place your password&gt;                                                 | Optional         |
+| --appId           | The client Id/app Id issued from the portal                    |         &lt;place your appId&gt;                                                    | Required         |
 | --semanticId      | Semantic ID of the aspect model                                |         *Managed by the Backend*                                                    | Optional         | 
 | -idType           | Product type attribute to lookup into digital twin registry    |         *Managed by the Backend*: "partInstanceId"                                  | Optional         |
 | --id              |Product type value to lookup into the digital twin registry     |         NCM-6789                                                                    | Required         |

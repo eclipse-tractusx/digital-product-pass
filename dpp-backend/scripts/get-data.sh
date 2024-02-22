@@ -44,7 +44,7 @@ if [ ! -f ${PYTHON} ]; then
 fi
 
 ## step 2: execute the python script
-python ./getPassport.py --id NCM-6789  \
+${PYTHON} ./getPassport.py --id NCM-6789  \
   --discoveryId MAT7814 \
   --company CX-Test-Access \
   --username "<username>" \

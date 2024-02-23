@@ -185,7 +185,7 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: edc-encryption-key
 
   backendService:
-     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
+     httpProxyTokenReceiverUrl: "https://dpp.int.demo.catena-x.net/endpoint"
 
 postgresql:
   auth:

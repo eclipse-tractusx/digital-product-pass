@@ -552,7 +552,7 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: edc-encryption-key
 
   backendService:
-    httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
+    httpProxyTokenReceiverUrl: "https://dpp.dev.demo.catena-x.net/endpoint"
 
   networkPolicy:
     # -- If `true` network policy will be created to restrict access to control- and dataplane
@@ -657,7 +657,6 @@ irs-helm:
     bpdm:
       clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
       clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
-      
   edc:
     catalog:
       acceptedPolicies:

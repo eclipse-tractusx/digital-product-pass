@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -22,11 +22,15 @@
 #################################################################################
 
 # List of false positives
+# False positive related to medium findings
 CVE-2023-5363
 CVE-2023-0464
 CVE-2023-44487
 CVE-2023-51074
 CVE-2023-33201
+# Secret Scanning False Positive in Backend Charts
 AVD-KSV-0109
+
+# Docker False Positives
 KSV014
 KSV117

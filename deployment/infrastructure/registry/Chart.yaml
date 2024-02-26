@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -26,12 +26,11 @@ name: registry
 description: Tractus-X Digital Twin Registry Helm Chart
 
 type: application
-version: 0.3.23
-#appVersion: 0.3.15-M1
+version: 0.3.31
 
 dependencies:
-  - name: registry
+  - name: digital-twin-registry
     repository: https://eclipse-tractusx.github.io/sldt-digital-twin-registry
     alias: provider-dtr
-    version: 0.3.23
+    version: 0.3.31
     condition: enabled

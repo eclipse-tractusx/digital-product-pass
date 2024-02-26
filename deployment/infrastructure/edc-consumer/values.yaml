@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -53,20 +53,11 @@ tractusx-connector:
       repository: "tractusx/edc-controlplane-postgresql-hashicorp-vault"
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
-      # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
       port: 1044
       suspendOnStart: false
-    internationalDataSpaces:
-      id: TXDC
-      description: Tractus-X Eclipse IDS Data Space Connector
-      title: ""
-      maintainer: ""
-      curator: ""
-      catalogId: TXDC-Catalog
     livenessProbe:
       # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
       enabled: true
@@ -275,12 +266,12 @@ tractusx-connector:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    limits:
+      cpu: 1.5
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -321,8 +312,6 @@ tractusx-connector:
       repository: "tractusx/edc-dataplane-hashicorp-vault"
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
-      # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
@@ -517,8 +506,9 @@ tractusx-connector:
       public: ""
 
   postgresql:
-    jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-    fullnameOverride: "postgresql"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+    fullnameOverride: ""
+    nameOverride: ""
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
     auth:
@@ -585,8 +575,9 @@ tractusx-connector:
     hookDeletePolicy: before-hook-creation,hook-succeeded
 
 postgresql:
-  jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-  fullnameOverride: "postgresql"
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+  fullnameOverride: ""
+  nameOverride: ""
   primary:
     persistence:
       enabled: true

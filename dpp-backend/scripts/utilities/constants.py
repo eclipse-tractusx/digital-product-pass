@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -27,7 +27,6 @@ class Constants:
     TOKEN_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     AUTH_URI = "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth"
     REDIRECT_URI = "https://dpp.int.demo.catena-x.net"
-    CLIENT_ID = "<addAppId>"
     REALM = "CX-Central"
     SCOPE = "openid"
     SERVER_URL = "https://dpp.int.demo.catena-x.net"

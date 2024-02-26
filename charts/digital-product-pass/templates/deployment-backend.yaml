@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -79,21 +79,7 @@ spec:
                   key:  participantId
                   name: avp-consumer-backend-edc-oauth
           volumeMounts:
-            - name: backend-config
-              mountPath: /app/config
-            - name: pvc-backend
-              mountPath: /app/data/process
-              subPath: data/process
-            - name: tmpfs
-              mountPath: /app/log
-              subPath: log
-            - name: tmpfs
-              mountPath: /tmp
-            - name: tmpfs
-              mountPath: /app/data/VaultConfig
-              subPath: VaultConfig/vault.token.yml
-            - name: tmpfs
-              mountPath: /app/tmp
+            {{- toYaml .Values.backend.volumeMounts | nindent 12 }}
           ports:
             - containerPort: 8888
               name: http
@@ -113,13 +99,5 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: backend-config
-          configMap:
-            name: backend-config
-        - name: pvc-backend
-          persistentVolumeClaim:
-            claimName: pvc-data
-        - name: tmpfs
-          emptyDir: {}
-
+        {{- toYaml .Values.backend.volumes | nindent 12 }}
 

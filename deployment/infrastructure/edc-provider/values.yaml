@@ -515,7 +515,7 @@ tractusx-connector:
   #     password: <path:material-pass/data/dev/edc/database#password>
 
   postgresql:
-    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresqlprovider:5432/edc"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
     fullnameOverride: ""
     nameOverride: ""
     username: <path:material-pass/data/dev/edc/database#user>
@@ -581,7 +581,7 @@ tractusx-connector:
 
 postgresql:
   enabled: true
-  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresqlprovider:5432/edc"
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
   fullnameOverride: ""
   nameOverride: ""
   primary:

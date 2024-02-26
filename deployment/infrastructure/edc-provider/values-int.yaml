@@ -163,11 +163,6 @@ tractusx-connector:
           # -- If preset enables certificate generation via cert-manager cluster-wide issuer
           clusterIssuer: ""
 
-  # postgresql:
-  #   auth:
-  #     username: <path:material-pass/data/int/edc/database#user>
-  #     password: <path:material-pass/data/int/edc/database#password>
-
   postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>
@@ -189,16 +184,6 @@ tractusx-connector:
     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
 
 postgresql:
-  enabled: true
-  jdbcUrl: "jdbc:postgresql://postgresqlprovider:5432/edc"
-  fullnameOverride: "postgresqlprovider"
-  primary:
-    persistence:
-      enabled: true
-  readReplicas:
-    persistence:
-      enabled: true
   auth:
-    database: "edc"
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>

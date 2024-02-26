@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X -  Digital Product Passport Application
+# Tractus-X -  Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -51,12 +51,12 @@ class Authentication:
     _central_idp_cookie = ""
 
 
-    def __init__(self, company_name, username, password) -> None:
+    def __init__(self, company_name, username, password, appId) -> None:
         
         self._company_name = company_name
         self._username = username
         self._password = password
-        self._client_id = Constants.CLIENT_ID
+        self._client_id = appId
         self._redirect_uri = Constants.REDIRECT_URI
         self._token_uri = Constants.TOKEN_URI
         self._scope = Constants.SCOPE

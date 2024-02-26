@@ -1,5 +1,5 @@
 <!-- 
-  Catena-X - Digital Product Passport Application 
+  Tractus-X - Digital Product Passport Application 
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -73,6 +73,6 @@ Please see more details about Veracode tool integration [here](https://catenax-n
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

@@ -1,5 +1,5 @@
 #################################################################################
-# Catena-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Application
 #
 # Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -23,12 +23,30 @@
 
 ## this command in Python is recommended to run in UNBUFFERED mode, and to print standard output (stdout/stderr)
 export PYTHONUNBUFFERED=TRUE;
+PYTHON=""
 
-pip install -r requirements.txt --user
+## step 1: check if the python/python3 executable exists
+PYEXEC=$(which python)
 
-## execute the python script
-python ./getPassport.py --id NCM-6789  \
+if [ -f ${PYEXEC} ]; then
+  PYTHON=${PYEXEC};
+fi
+
+PYEXEC=$(which python3)
+
+if [ -f ${PYEXEC} ]; then
+  PYTHON=${PYEXEC};
+fi
+
+if [ ! -f ${PYTHON} ]; then
+  echo "Python executable not found";
+  exit 1
+fi
+
+## step 2: execute the python script
+${PYTHON} ./getPassport.py --id NCM-6789  \
   --discoveryId MAT7814 \
   --company CX-Test-Access \
   --username "<username>" \
-  --password "<password>"
+  --password "<password>" \
+  --appId "<appId>"

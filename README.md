@@ -1,5 +1,5 @@
 <!-- 
-  Catena-X - Digital Product Passport Application 
+  Tractus-X - Digital Product Passport Application 
  
   Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
@@ -36,9 +36,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.1.2">2.1.2</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.1.4">2.1.4</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.1.2">v2.1.2</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.1.3">v2.1.3</a></pre>
 
 
 

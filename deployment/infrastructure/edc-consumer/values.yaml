@@ -506,8 +506,9 @@ tractusx-connector:
       public: ""
 
   postgresql:
-    jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-    fullnameOverride: "postgresql"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+    fullnameOverride: ""
+    nameOverride: ""
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
     auth:
@@ -574,8 +575,9 @@ tractusx-connector:
     hookDeletePolicy: before-hook-creation,hook-succeeded
 
 postgresql:
-  jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-  fullnameOverride: "postgresql"
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+  fullnameOverride: ""
+  nameOverride: ""
   primary:
     persistence:
       enabled: true

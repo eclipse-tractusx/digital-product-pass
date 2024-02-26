@@ -74,6 +74,7 @@ configuration:
     callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
+    assetPropType: 'asset:prop:type'
     assetType: 'data.core.digitalTwinRegistry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'

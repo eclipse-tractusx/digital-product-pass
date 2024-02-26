@@ -73,6 +73,7 @@ public class DataTransferService extends BaseService {
     public String negotiationPath;
     public String transferPath;
 
+
     public Environment env;
     public ProcessManager processManager;
 
@@ -168,7 +169,7 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   assetId
      *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} provider URL of the asset.
      *
      * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
@@ -176,12 +177,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
             if(catalog == null){
                 return null;
             }
@@ -211,7 +212,7 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   assetId
      *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} provider URL of the asset.
      *
      * @return  a {@code Dataset} object with the contract offer information.
@@ -219,12 +220,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Dataset getContractOfferByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
             if(catalog == null){
                 return null;
             }
@@ -436,7 +437,7 @@ public class DataTransferService extends BaseService {
     /**
      * Gets the Contract Offer's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      * @param   assetId
      *          the {@code String} identification of the EDC's asset.
@@ -446,7 +447,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog getContractOfferCatalog(String providerUrl, String assetId) {
+    public Catalog getContractOfferCatalog(String counterPartyAddress, String assetId) {
         try {
             this.checkEmptyVariables();
 
@@ -460,8 +461,11 @@ public class DataTransferService extends BaseService {
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    providerUrl,
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    counterPartyAddress,
                     querySpec
             );
             HttpHeaders headers = httpUtil.getHeaders();
@@ -480,7 +484,7 @@ public class DataTransferService extends BaseService {
     /**
      * Searches for the Digital Twin's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code Catalog} object of the given provider, if exists.
@@ -488,7 +492,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog searchDigitalTwinCatalog(String providerUrl) throws ServiceException {
+    public Catalog searchDigitalTwinCatalog(String counterPartyAddress) throws ServiceException {
         try {
             this.checkEmptyVariables();
 
@@ -496,14 +500,17 @@ public class DataTransferService extends BaseService {
             // Simple catalog request query with no limitation.
             CatalogRequest.QuerySpec querySpec = new CatalogRequest.QuerySpec();
             CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
-                    "https://w3id.org/edc/v0.0.1/ns/type",
+                    this.dtrConfig.getAssetPropType(),
                     "=",
                     this.dtrConfig.getAssetType()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    CatenaXUtil.buildDataEndpoint(providerUrl),
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    CatenaXUtil.buildDataEndpoint(counterPartyAddress),
                     querySpec
             );
 
@@ -559,7 +566,7 @@ public class DataTransferService extends BaseService {
      *          the {@code Offer} object with contract offer data.
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code IdResponse} object with the contract negotiation response.
@@ -567,12 +574,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the contract negotiation.
      */
-    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String providerUrl) {
+    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String counterPartyAddress) {
         try {
             this.checkEmptyVariables();
             NegotiationRequest body = new NegotiationRequest(
                     jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
-                    providerUrl,
+                    counterPartyAddress,
                     bpn,
                     contractOffer
             );

@@ -14,6 +14,11 @@
 
 << If there is a ticket include it here >>
 
+<!--
+Include here the issues if available that will be closed with this PR.
+Use the notation `Closes #<issueId>`
+-->
+
 | Tickets |
 | :---:   |
 | [cmp-xxx](www.link.com) |

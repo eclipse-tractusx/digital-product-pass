@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "97d5c5dd-2ff0-49ab-98dc-70bba8243184",
+		"_postman_id": "5c99ecaa-d709-49c3-8dc6-28082c1b0f77",
 		"name": "Digital Product Pass",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18567091"
+		"_exporter_id": "18567091",
+		"_collection_link": "https://catena-x-product-material-pass.postman.co/workspace/Team-Workspace~b66fa959-bfa7-4129-8a45-8e9e03ef0cbb/collection/18567091-5c99ecaa-d709-49c3-8dc6-28082c1b0f77?action=share&source=collection_link&creator=18567091"
 	},
 	"item": [
 		{
@@ -1688,7 +1689,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"type\": \"manufacturerPartId\",\r\n  \"key\": \"XYZ78901\"\r\n}",
+							"raw": "{\r\n  \"type\": \"manufacturerPartId\",\r\n  \"key\": \"{{manufacturerPartId}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2023,7 +2024,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\r\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{bpnNumber}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"{{offerId}}\",\r\n\t\t\"assetId\": \"{{registryAssetId}}\",\r\n\t\t\"policy\": {\r\n            \"@type\": \"odrl:Set\",\r\n            \"odrl:permission\": {{contractPermissions}},\r\n            \"odrl:prohibition\": {{contractProhibitions}},\r\n            \"odrl:obligation\": {{contractObligations}},\r\n            \"odrl:target\": \"{{registryAssetId}}\"\r\n        }\r\n\t}\r\n}\r\n\r\n\r\n{\r\n  \"@context\": {\r\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\r\n  \"connectorAddress\": \"https://provider-control.plane/api/v1/dsp\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"providerId\": \"<PROVIDER_BPN>\",\r\n  \"connectorId\": \"<PROVIDER_BPN>\", \r\n  \"offer\": {\r\n    \"offerId\": \"<OFFER_ID>\",\r\n    \"assetId\": \"<ASSET_ID>\",\r\n    \"policy\": {\r\n      \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\r\n      \"@type\": \"Set\",\r\n      \"@id\": \"<CONTRACT_OFFER_ID\",\r\n      \"permission\": [\r\n        {\r\n          \"target\": \"<ASSET_ID>\",\r\n          \"action\": \"use\"\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"callbackAddresses\": [\r\n    {\r\n      \"transactional\": false,\r\n      \"uri\": \"http://callback/url\",\r\n      \"events\": [\r\n        \"contract.negotiation\"\r\n      ],\r\n      \"authKey\": \"auth-key\",\r\n      \"authCodeId\": \"auth-code-id\"\r\n    }\r\n  ]\r\n}",
+									"raw": "{\r\n\t\"@context\": {\r\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n\t},\r\n\t\"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\r\n\t\"connectorAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n\t\"protocol\": \"dataspace-protocol-http\",\r\n\t\"connectorId\": \"{{bpnNumber}}\",\r\n\t\"offer\": {\r\n\t\t\"offerId\": \"{{offerId}}\",\r\n\t\t\"assetId\": \"{{registryAssetId}}\",\r\n\t\t\"policy\": {\r\n            \"@type\": \"odrl:Set\",\r\n            \"odrl:permission\": {{contractPermissions}},\r\n            \"odrl:prohibition\": {{contractProhibitions}},\r\n            \"odrl:obligation\": {{contractObligations}},\r\n            \"odrl:target\": \"{{registryAssetId}}\"\r\n        }\r\n\t}\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2655,7 +2656,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"@context\": {\r\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\r\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\r\n    \"dct\": \"https://purl.org/dc/terms/\"\r\n  },\r\n  \"@type\": \"edc:CatalogRequest\",\r\n  \"counterPartyAddress\": \"https://dpp-provider.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n     \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"{{assetId}}\"\r\n            }\r\n        ]\r\n    }\r\n}"
+									"raw": "{\r\n  \"@context\": {\r\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\r\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\r\n    \"dct\": \"https://purl.org/dc/terms/\"\r\n  },\r\n  \"@type\": \"edc:CatalogRequest\",\r\n  \"counterPartyAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n     \"querySpec\": {\r\n        \"filterExpression\": [\r\n            {\r\n                \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n                \"operator\": \"=\",\r\n                \"operandRight\": \"{{assetId}}\"\r\n            }\r\n        ]\r\n    }\r\n}"
 								},
 								"url": {
 									"raw": "https://dpp-consumer.int.demo.catena-x.net/consumer/management/v2/catalog/request",
@@ -2784,7 +2785,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n    },\r\n    \"@type\": \"NegotiationInitiateRequestDto\",\r\n    \"counterPartyAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"connectorId\": \"{{bpnNumber}}\",\r\n    \"providerId\": \"{{bpnNumber}}\",\r\n    \"offer\": {\r\n        \"offerId\": \"ZDhjYmJjYTktODhhNi1jZTg5LTk2ZDgtZjAwZGI0NjdjNGYz:dXJuOnV1aWQ6OTlkMDY4OTEtZWI4My0wNmE5LWRiY2MtMWFlZDVkYjBjNTQ4:YTllNzBlYWYtMzY4Yy00YzgzLWExODgtNjc5ODI0NGYzNmU1\",\r\n        \"assetId\": \"{{assetId}}\",\r\n        \"policy\": {\r\n            \"@type\": \"odrl:Set\",\r\n            \"odrl:permission\": {\r\n                \"odrl:target\": \"urn:uuid:99d06891-eb83-06a9-dbcc-1aed5db0c548\",\r\n                \"odrl:action\": {\r\n                    \"odrl:type\": \"use\"\r\n                }\r\n            },\r\n            \"odrl:prohibition\": {{contractProhibitions}},\r\n            \"odrl:obligation\": {{contractObligations}},\r\n            \"odrl:target\": \"{{assetId}}\"\r\n        }\r\n    }\r\n}",
+									"raw": "{\r\n    \"@context\": {\r\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\r\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n    },\r\n    \"@type\": \"NegotiationInitiateRequestDto\",\r\n    \"counterPartyAddress\": \"{{providerUrl}}/api/v1/dsp\",\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"connectorId\": \"{{bpnNumber}}\",\r\n    \"providerId\": \"{{bpnNumber}}\",\r\n    \"offer\": {\r\n        \"offerId\": \"{{offerId}}\",\r\n        \"assetId\": \"{{assetId}}\",\r\n        \"policy\": {\r\n            \"@type\": \"odrl:Set\",\r\n            \"odrl:permission\": {{contractPermissions}},\r\n            \"odrl:prohibition\": {{contractProhibitions}},\r\n            \"odrl:obligation\": {{contractObligations}},\r\n            \"odrl:target\": \"{{registryAssetId}}\"\r\n        }\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2950,6 +2951,15 @@
 												"type": "default"
 											}
 										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
 											"raw": "{{consumerUrl}}/management/v2/contractnegotiations/{{negotiationId}}",
 											"host": [
@@ -2994,7 +3004,7 @@
 							]
 						},
 						{
-							"name": "Initiate Transfer",
+							"name": "Initiate Transfer (Optional)",
 							"event": [
 								{
 									"listen": "test",
@@ -3104,7 +3114,7 @@
 							]
 						},
 						{
-							"name": "Get Transfer Status",
+							"name": "Get Transfer Status (Optional)",
 							"event": [
 								{
 									"listen": "test",
@@ -3233,7 +3243,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"NegotiateEdrRequestDto\",\n    \"counterPartyAddress\": \"{{providerUrl}}/api/v1/dsp\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"counterPartyId\": \"{{bpnNumber}}\",\n    \"providerId\": \"{{bpnNumber}}\",\n    \"offer\": {\n        \"offerId\": \"{{offerId}}\",\n        \"assetId\": \"{{assetId}}\",\n        \"policy\": {\n            \"@type\": \"odrl:Set\",\n            \"odrl:target\": \"{{assetId}}\",\n            \"odrl:permission\": {\n                \"odrl:target\": \"{{assetId}}\",\n                \"odrl:action\": {\n                    \"odrl:type\": \"use\"\n                }\n            },\n            \"odrl:prohibition\": [],\n            \"odrl:obligation\": []\n        }\n    }\n}",
+									"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"NegotiateEdrRequestDto\",\n    \"counterPartyAddress\": \"{{providerUrl}}/api/v1/dsp\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"counterPartyId\": \"{{bpnNumber}}\",\n    \"providerId\": \"{{bpnNumber}}\",\n    \"offer\": {\n        \"offerId\": \"{{offerId}}\",\n        \"assetId\": \"{{assetId}}\",\n        \"policy\": {\n            \"@type\": \"odrl:Set\",\n            \"odrl:target\": \"{{assetId}}\",\n            \"odrl:permission\": {{contractPermissions}},\n            \"odrl:prohibition\": {{contractProhibitions}},\n            \"odrl:obligation\": {{contractObligations}}\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3375,6 +3385,15 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
 											"raw": "{{consumerUrl}}/management/edrs?assetId=data-asset",
 											"host": [

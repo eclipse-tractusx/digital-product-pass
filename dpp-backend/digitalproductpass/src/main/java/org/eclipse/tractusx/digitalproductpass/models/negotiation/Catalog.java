@@ -25,10 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.xml.crypto.Data;
@@ -48,7 +45,8 @@ public class Catalog extends DidDocument {
     Object contractOffers;
     @JsonProperty("dcat:service")
     DataService service;
-    @JsonProperty("edc:participantId")
+    @JsonProperty("participantId")
+    @JsonAlias({"participantId", "edc:participantId"})
     String participantId;
     @JsonProperty("@context")
     JsonNode context;

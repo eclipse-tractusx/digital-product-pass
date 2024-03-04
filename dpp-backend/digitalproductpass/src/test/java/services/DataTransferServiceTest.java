@@ -176,7 +176,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK));
 
-        String participantId = dataTransferService.checkEdcConsumerConnection();
+        String participantId = dataTransferService.getEdcConnectorBpn();
 
         assertNotNull(participantId);
         assertEquals(vaultService.getLocalSecret("edc.participantId"), participantId);

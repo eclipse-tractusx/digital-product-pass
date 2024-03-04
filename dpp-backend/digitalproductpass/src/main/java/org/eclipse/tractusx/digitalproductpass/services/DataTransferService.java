@@ -35,6 +35,7 @@ import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.models.edc.CheckResult;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
@@ -152,7 +153,23 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to check the EDC consumer connection.
      */
-    public String checkEdcConsumerConnection() throws ServiceException {
+    public Boolean checkEdcConsumerConnection() throws ServiceException {
+        try {
+            return this.getReadinessStatus().getSystemHealthy();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+        }
+    }
+    /**
+     * Checks the EDC consumer connection by trying to establish a connection and retrieve an empty catalog.
+     * <p>
+     *
+     * @return a {@code String} participantId of the retrieved catalog.
+     *
+     * @throws  ControllerException
+     *           if unable to check the EDC consumer connection.
+     */
+    public String getEdcConnectorBpn() throws ServiceException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
             Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
@@ -887,7 +904,35 @@ public class DataTransferService extends BaseService {
                     "It was not possible to transfer the contract! " + id);
         }
     }
-
+    /**
+     * Gets the Health Readiness Status of the EDC
+     * <p>
+     *
+     * @return  a {@code CheckResult} object with the health status readiness
+     *
+     * @throws  ServiceException
+     *           if unable to get readiness status
+     */
+    public CheckResult getReadinessStatus() {
+        try {
+            this.checkEmptyVariables();
+            String endpoint = CatenaXUtil.buildReadinessApi(env);
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers = httpUtil.getHeaders();
+            ResponseEntity<?> response = null;
+            try {
+                response = httpUtil.doGet(endpoint, String.class, headers, params, false, false);
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName() + ".getReadinessStatus", "It was not possible to get readiness status from the edc endpoint ["+endpoint+"]!");
+            }
+            String responseBody = (String) response.getBody();
+            return (CheckResult) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), CheckResult.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
+                    e,
+                    "It was not possible to get readiness status from the edc consumer!");
+        }
+    }
     /**
      * Gets the Passport version 3 from the Process.
      * <p>

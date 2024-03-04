@@ -48,6 +48,7 @@ configuration:
 
   edc:
     endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
+    readiness: '/api/check/readiness'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'

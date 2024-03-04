@@ -35,6 +35,7 @@ import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.models.edc.CheckResult;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
@@ -72,6 +73,7 @@ public class DataTransferService extends BaseService {
     public String catalogPath;
     public String negotiationPath;
     public String transferPath;
+
 
     public Environment env;
     public ProcessManager processManager;
@@ -151,7 +153,23 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to check the EDC consumer connection.
      */
-    public String checkEdcConsumerConnection() throws ServiceException {
+    public Boolean checkEdcConsumerConnection() throws ServiceException {
+        try {
+            return this.getReadinessStatus().getSystemHealthy();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+        }
+    }
+    /**
+     * Checks the EDC consumer connection by trying to establish a connection and retrieve an empty catalog.
+     * <p>
+     *
+     * @return a {@code String} participantId of the retrieved catalog.
+     *
+     * @throws  ControllerException
+     *           if unable to check the EDC consumer connection.
+     */
+    public String getEdcConnectorBpn() throws ServiceException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
             Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
@@ -168,7 +186,7 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   assetId
      *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} provider URL of the asset.
      *
      * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
@@ -176,12 +194,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
             if(catalog == null){
                 return null;
             }
@@ -211,7 +229,7 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   assetId
      *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} provider URL of the asset.
      *
      * @return  a {@code Dataset} object with the contract offer information.
@@ -219,12 +237,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Dataset getContractOfferByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
             if(catalog == null){
                 return null;
             }
@@ -436,7 +454,7 @@ public class DataTransferService extends BaseService {
     /**
      * Gets the Contract Offer's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      * @param   assetId
      *          the {@code String} identification of the EDC's asset.
@@ -446,7 +464,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog getContractOfferCatalog(String providerUrl, String assetId) {
+    public Catalog getContractOfferCatalog(String counterPartyAddress, String assetId) {
         try {
             this.checkEmptyVariables();
 
@@ -460,8 +478,11 @@ public class DataTransferService extends BaseService {
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    providerUrl,
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    counterPartyAddress,
                     querySpec
             );
             HttpHeaders headers = httpUtil.getHeaders();
@@ -480,7 +501,7 @@ public class DataTransferService extends BaseService {
     /**
      * Searches for the Digital Twin's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code Catalog} object of the given provider, if exists.
@@ -488,7 +509,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog searchDigitalTwinCatalog(String providerUrl) throws ServiceException {
+    public Catalog searchDigitalTwinCatalog(String counterPartyAddress) throws ServiceException {
         try {
             this.checkEmptyVariables();
 
@@ -496,14 +517,17 @@ public class DataTransferService extends BaseService {
             // Simple catalog request query with no limitation.
             CatalogRequest.QuerySpec querySpec = new CatalogRequest.QuerySpec();
             CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
-                    "https://w3id.org/edc/v0.0.1/ns/type",
+                    this.dtrConfig.getAssetPropType(),
                     "=",
                     this.dtrConfig.getAssetType()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    CatenaXUtil.buildDataEndpoint(providerUrl),
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    CatenaXUtil.buildDataEndpoint(counterPartyAddress),
                     querySpec
             );
 
@@ -559,7 +583,7 @@ public class DataTransferService extends BaseService {
      *          the {@code Offer} object with contract offer data.
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code IdResponse} object with the contract negotiation response.
@@ -567,12 +591,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the contract negotiation.
      */
-    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String providerUrl) {
+    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String counterPartyAddress) {
         try {
             this.checkEmptyVariables();
             NegotiationRequest body = new NegotiationRequest(
                     jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
-                    providerUrl,
+                    counterPartyAddress,
                     bpn,
                     contractOffer
             );
@@ -880,7 +904,35 @@ public class DataTransferService extends BaseService {
                     "It was not possible to transfer the contract! " + id);
         }
     }
-
+    /**
+     * Gets the Health Readiness Status of the EDC
+     * <p>
+     *
+     * @return  a {@code CheckResult} object with the health status readiness
+     *
+     * @throws  ServiceException
+     *           if unable to get readiness status
+     */
+    public CheckResult getReadinessStatus() {
+        try {
+            this.checkEmptyVariables();
+            String endpoint = CatenaXUtil.buildReadinessApi(env);
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers = httpUtil.getHeaders();
+            ResponseEntity<?> response = null;
+            try {
+                response = httpUtil.doGet(endpoint, String.class, headers, params, false, false);
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName() + ".getReadinessStatus", "It was not possible to get readiness status from the edc endpoint ["+endpoint+"]!");
+            }
+            String responseBody = (String) response.getBody();
+            return (CheckResult) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), CheckResult.class);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
+                    e,
+                    "It was not possible to get readiness status from the edc consumer!");
+        }
+    }
     /**
      * Gets the Passport version 3 from the Process.
      * <p>

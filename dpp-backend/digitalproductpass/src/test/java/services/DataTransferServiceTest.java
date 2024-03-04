@@ -176,7 +176,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK));
 
-        String participantId = dataTransferService.checkEdcConsumerConnection();
+        String participantId = dataTransferService.getEdcConnectorBpn();
 
         assertNotNull(participantId);
         assertEquals(vaultService.getLocalSecret("edc.participantId"), participantId);
@@ -210,7 +210,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
-                    if (body.getProviderUrl().equals(providerUrl)) {
+                    if (body.getCounterPartyAddress().equals(providerUrl)) {
                         return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -238,7 +238,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
-                    if (body.getProviderUrl().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
+                    if (body.getCounterPartyAddress().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
                         return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

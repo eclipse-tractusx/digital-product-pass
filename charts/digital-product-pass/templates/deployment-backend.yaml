@@ -99,5 +99,5 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- toYaml .Values.backend.volumes | nindent 12 }}
+        {{- tpl (toYaml .Values.backend.volumes) . | indent 8 }}
 

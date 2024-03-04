@@ -74,7 +74,7 @@ tractusx-connector:
       # -- observability api with unsecured access, must not be internet facing
       observability:
         # -- port for incoming API calls
-        port: 8085
+        port: 8099
         # -- observability api, provides /health /readiness and /liveness endpoints
         path: /consumer/observability
         # -- allow or disallow insecure access, i.e. access without authentication

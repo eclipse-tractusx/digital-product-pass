@@ -84,7 +84,8 @@ public class DataTransferService extends BaseService {
     final public List<String> successStates = List.of(
             "CONFIRMED",
             "FINALIZED",
-            "VERIFIED"
+            "VERIFIED",
+            "COMPLETED"
     );
     final public List<String> errorStates = List.of(
             "TERMINATED",
@@ -654,7 +655,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to process the exchange of the negotiation or the transfer
      */
-    public NegotiationTransferResponse processExchange(String url, String id, String processId, ProcessDataModel dataModel){
+    public NegotiationTransferResponse processExchange(String url, String id, String processId, ProcessDataModel dataModel) throws ServiceException {
         // Initialize variables
         String actualState = "", state = "";
         boolean success;
@@ -672,7 +673,7 @@ public class DataTransferService extends BaseService {
             // Get the negotiation/transfer status
             body = (NegotiationTransferResponse) httpUtil.doGet(url, NegotiationTransferResponse.class, headers, httpUtil.getParams(), false, false).getBody();
             if (body == null) {
-                throw new ServiceException(this.getClass().getName() + "." + "isStateSuccess",
+                throw new ServiceException(this.getClass().getName() + "." + "processExchange",
                         "No response was received from the EDC!");
             }
 
@@ -691,13 +692,13 @@ public class DataTransferService extends BaseService {
                 actualState = state;
                 end = Instant.now();
                 Duration timeElapsed = Duration.between(start, end);
-                LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                LogUtil.printDebug("[" + id + "] The contract exchange status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                 start = Instant.now();
             }
 
             // If the user calls the cancel api the negotiation/transfer will be terminated
             if (dataModel != null && processId != null && dataModel.getState(processId).equals("TERMINATED")) {
-                LogUtil.printStatus("[" + id + "] The negotiation was cancelled!");
+                LogUtil.printStatus("[" + id + "] The contract exchange was cancelled!");
                 return null;
             }
             // If is not success we will wait for the next request to be done
@@ -736,7 +737,7 @@ public class DataTransferService extends BaseService {
             if(response == null) {
                 return null;
             }
-            return (Negotiation) jsonUtil.bindObject(response, Negotiation.class);
+            return (Negotiation) jsonUtil.bindReferenceType(response, new TypeReference<Negotiation>() {});
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -841,7 +842,7 @@ public class DataTransferService extends BaseService {
             if(response == null) {
                 return null;
             }
-            return (Transfer) jsonUtil.bindObject(response, Transfer.class);
+            return (Transfer) jsonUtil.bindReferenceType(response, new TypeReference<Transfer>() {});
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,

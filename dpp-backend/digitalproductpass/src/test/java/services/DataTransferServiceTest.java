@@ -122,7 +122,6 @@ class DataTransferServiceTest {
         Dataset dataSet = new Dataset();
         String dataSetId = UUID.randomUUID().toString();
         String assetId = UUID.randomUUID().toString();
-        dataSet.setAssetName("TEST");
         dataSet.setId(dataSetId);
         dataSet.setType("test-type");
         dataSet.setAssetId(assetId);

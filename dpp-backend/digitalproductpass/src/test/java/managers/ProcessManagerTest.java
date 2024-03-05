@@ -587,8 +587,6 @@ class ProcessManagerTest {
         Dataset dataset = new Dataset();
         dataset.setId(datasetId);
         dataset.setAssetId(assetId);
-        dataset.setAssetName("TEST");
-
         Dataset initialDataset = processManager.loadDataset(testProcessId);
 
         assertNull(initialDataset);
@@ -599,7 +597,6 @@ class ProcessManagerTest {
         assertNotNull(updatedDataset);
         assertEquals(datasetId, updatedDataset.getId());
         assertEquals(assetId, updatedDataset.getAssetId());
-        assertEquals("TEST", updatedDataset.getAssetName());
     }
 
     @Test

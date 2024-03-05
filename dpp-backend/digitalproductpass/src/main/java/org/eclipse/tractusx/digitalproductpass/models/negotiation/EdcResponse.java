@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,12 +35,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EdcResponse extends DidDocument{
-    @JsonProperty("edc:createdAt")
-    Integer createdAt;
+    @JsonProperty("createdAt")
+    @JsonAlias({"createdAt", "edc:createdAt"})
+    Long createdAt;
     @JsonProperty("@context")
     JsonNode context;
 
-    public EdcResponse(String id, String type, Integer createdAt, JsonNode context) {
+    public EdcResponse(String id, String type, Long createdAt, JsonNode context) {
         super(id, type);
         this.createdAt = createdAt;
         this.context = context;

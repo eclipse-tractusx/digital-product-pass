@@ -47,17 +47,17 @@ public class Set extends DidDocument {
     @JsonProperty("odrl:obligation")
     Object obligations;
     @JsonProperty("odrl:target")
-    String target;
+    Object target;
 
     /** CONSTRUCTOR(S) **/
-    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations, String target) {
+    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations, Object target) {
         super(id, type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
         this.target = target;
     }
-    public Set(Object permissions, Object prohibitions, Object obligations, String target) {
+    public Set(Object permissions, Object prohibitions, Object obligations, Object target) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
@@ -70,7 +70,7 @@ public class Set extends DidDocument {
     }
 
     /** GETTERS AND SETTERS **/
-    public String getTarget() {
+    public Object getTarget() {
         return target;
     }
     public void setTarget(String target) {

@@ -73,7 +73,7 @@ public class Set extends DidDocument {
     public Object getTarget() {
         return target;
     }
-    public void setTarget(String target) {
+    public void setTarget(Object target) {
         this.target = target;
     }
     public Object getPermissions() {

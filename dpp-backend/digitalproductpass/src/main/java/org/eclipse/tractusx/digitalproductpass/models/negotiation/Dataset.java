@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,58 +44,32 @@ public class Dataset extends DidDocument {
     Object policy;
     @JsonProperty("dcat:distribution")
     List<Distribution> distributions;
-    @JsonProperty("edc:description")
-    String assetDescription;
-    @JsonProperty("edc:contenttype")
-    String contentType;
-    @JsonProperty("edc:id")
+    @JsonProperty("id")
+    @JsonAlias({"id", "edc:id"})
     String assetId;
-    @JsonProperty("edc:name")
-    String assetName;
-    @JsonProperty("edc:type")
-    String assetType;
 
     /** CONSTRUCTOR(S) **/
-    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId) {
-        super(id, type);
-        this.policy = policy;
-        this.distributions = distributions;
-        this.assetDescription = assetDescription;
-        this.contentType = contentType;
-        this.assetId = assetId;
-    }
-    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName) {
-        super(id, type);
-        this.policy = policy;
-        this.distributions = distributions;
-        this.assetDescription = assetDescription;
-        this.contentType = contentType;
-        this.assetId = assetId;
-        this.assetName = assetName;
-    }
-    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetDescription, String contentType, String assetId, String assetName, String assetType) {
-        super(id, type);
-        this.policy = policy;
-        this.distributions = distributions;
-        this.assetDescription = assetDescription;
-        this.contentType = contentType;
-        this.assetId = assetId;
-        this.assetName = assetName;
-        this.assetType = assetType;
-    }
+
     public Dataset(String id, String type) {
         super(id, type);
     }
     public Dataset() {
     }
 
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetId) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetId = assetId;
+    }
+
+    public Dataset(Object policy, List<Distribution> distributions, String assetId) {
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetId = assetId;
+    }
+
     /** GETTERS AND SETTERS **/
-    public String getContentType() {
-        return contentType;
-    }
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
     public Object getPolicy() {
         return policy;
     }
@@ -109,34 +84,10 @@ public class Dataset extends DidDocument {
     public void setDistributions(List<Distribution> distributions) {
         this.distributions = distributions;
     }
-    @SuppressWarnings("Unused")
-    public String getAssetDescription() {
-        return assetDescription;
-    }
-    @SuppressWarnings("Unused")
-    public void setAssetDescription(String assetDescription) {
-        this.assetDescription = assetDescription;
-    }
     public String getAssetId() {
         return assetId;
     }
     public void setAssetId(String assetId) {
         this.assetId = assetId;
-    }
-    @SuppressWarnings("Unused")
-    public String getAssetType() {
-        return assetType;
-    }
-    @SuppressWarnings("Unused")
-    public void setAssetType(String assetType) {
-        this.assetType = assetType;
-    }
-    @SuppressWarnings("Unused")
-    public String getAssetName() {
-        return assetName;
-    }
-    @SuppressWarnings("Unused")
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
     }
 }

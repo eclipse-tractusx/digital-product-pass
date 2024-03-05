@@ -38,24 +38,12 @@ import java.util.List;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Transfer extends DidDocument {
+public class Transfer extends NegotiationTransferResponse {
 
     /** ATTRIBUTES **/
-    @JsonProperty("state")
-    @JsonAlias({"state","edc:state"})
-    String state;
     @JsonProperty("stateTimestamp")
     @JsonAlias({"stateTimestamp","edc:stateTimestamp"})
     Long stateTimestamp;
-    @JsonProperty("errorDetail")
-    @JsonAlias({"errorDetail","edc:errorDetail"})
-    String errorDetail;
-    @JsonProperty("type")
-    @JsonAlias({"type","edc:type"})
-    String edcType;
-    @JsonProperty("callbackAddresses")
-    @JsonAlias({"callbackAddresses","edc:callbackAddresses"})
-    List<JsonNode> callbackAddresses;
     @JsonProperty("dataDestination")
     @JsonAlias({"dataDestination","edc:dataDestination"})
     DataDestination dataDestination;
@@ -65,106 +53,74 @@ public class Transfer extends DidDocument {
     @JsonProperty("receiverHttpEndpoint")
     @JsonAlias({"receiverHttpEndpoint","edc:receiverHttpEndpoint"})
     String receiverHttpEndpoint;
-    @JsonProperty("@context")
-    JsonNode context;
 
     /** CONSTRUCTOR(S) **/
-    public Transfer(String id, String type, String state, Long stateTimestamp, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
-        super(id, type);
-        this.state = state;
+    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
         this.stateTimestamp = stateTimestamp;
-        this.edcType = edcType;
-        this.callbackAddresses = callbackAddresses;
         this.dataDestination = dataDestination;
         this.dataRequest = dataRequest;
         this.receiverHttpEndpoint = receiverHttpEndpoint;
-        this.context = context;
-    }
-    public Transfer(String state, Long stateTimestamp, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
-        this.state = state;
-        this.stateTimestamp = stateTimestamp;
-        this.edcType = edcType;
-        this.callbackAddresses = callbackAddresses;
-        this.dataDestination = dataDestination;
-        this.dataRequest = dataRequest;
-        this.receiverHttpEndpoint = receiverHttpEndpoint;
-        this.context = context;
-    }
-    public Transfer(String id, String type) {
-        super(id, type);
-    }
-    public Transfer() {
-    }
-    public Transfer(String id, String type, String state, Long stateTimestamp, String errorDetail, String edcType, List<JsonNode> callbackAddresses, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, JsonNode context) {
-        super(id, type);
-        this.state = state;
-        this.stateTimestamp = stateTimestamp;
-        this.errorDetail = errorDetail;
-        this.edcType = edcType;
-        this.callbackAddresses = callbackAddresses;
-        this.dataDestination = dataDestination;
-        this.dataRequest = dataRequest;
-        this.receiverHttpEndpoint = receiverHttpEndpoint;
-        this.context = context;
     }
 
-    /** GETTERS AND SETTERS **/
-    public String getState() {
-        return state;
+    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
     }
-    public void setState(String state) {
-        this.state = state;
+
+    public Transfer(Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        this.stateTimestamp = stateTimestamp;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
     }
+
+    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
+        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    }
+
+    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
+        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    }
+
+    public Transfer() {
+    }
+
     public Long getStateTimestamp() {
         return stateTimestamp;
     }
+
     public void setStateTimestamp(Long stateTimestamp) {
         this.stateTimestamp = stateTimestamp;
     }
-    @SuppressWarnings("Unused")
-    public String getEdcType() {
-        return edcType;
-    }
-    @SuppressWarnings("Unused")
-    public void setEdcType(String edcType) {
-        this.edcType = edcType;
-    }
-    public List<JsonNode> getCallbackAddresses() {
-        return callbackAddresses;
-    }
-    public void setCallbackAddresses(List<JsonNode> callbackAddresses) {
-        this.callbackAddresses = callbackAddresses;
-    }
+
     public DataDestination getDataDestination() {
         return dataDestination;
     }
+
     public void setDataDestination(DataDestination dataDestination) {
         this.dataDestination = dataDestination;
     }
+
     public DataRequest getDataRequest() {
         return dataRequest;
     }
+
     public void setDataRequest(DataRequest dataRequest) {
         this.dataRequest = dataRequest;
     }
+
     public String getReceiverHttpEndpoint() {
         return receiverHttpEndpoint;
     }
+
     public void setReceiverHttpEndpoint(String receiverHttpEndpoint) {
         this.receiverHttpEndpoint = receiverHttpEndpoint;
     }
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
-    public String getErrorDetail() {
-        return errorDetail;
-    }
-    public void setErrorDetail(String errorDetail) {
-        this.errorDetail = errorDetail;
-    }
+
 
     /** INNER CLASSES **/
     /**

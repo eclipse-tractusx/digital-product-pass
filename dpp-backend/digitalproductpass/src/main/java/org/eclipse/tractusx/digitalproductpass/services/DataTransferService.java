@@ -34,7 +34,6 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.edc.CheckResult;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
@@ -42,6 +41,7 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.NegotiationTransferResponse;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -80,6 +80,17 @@ public class DataTransferService extends BaseService {
 
     public EdcUtil edcUtil;
     public DtrConfig dtrConfig;
+
+    final public List<String> successStates = List.of(
+            "CONFIRMED",
+            "FINALIZED",
+            "VERIFIED"
+    );
+    final public List<String> errorStates = List.of(
+            "TERMINATED",
+            "TERMINATING",
+            "ERROR"
+    );
 
     /** CONSTRUCTOR(S) **/
     @Autowired
@@ -607,6 +618,95 @@ public class DataTransferService extends BaseService {
                     "It was not possible to execute the contract negotiation!");
         }
     }
+    /**
+     * Retrieves the contract negotiation/transfer state success status
+     * <p>
+     * @param   state
+     *          the {@code String} contains the state of the contract negotiation
+     *
+     * @return  a {@code Boolean} with indicating if the negotiation/transfer is in a success state
+     *
+     * @throws  ServiceException
+     *           there was an error with the processing or the negotiation response was an error
+     */
+    public Boolean isStateSuccess(String state){
+        if (state == null || state.isEmpty() || errorStates.contains(state)) {
+            throw new ServiceException(this.getClass().getName() + "." + "isStateSuccess",
+                    "It was not possible to do the information exchange with the EDC!");
+        }                // If the state is success
+        return successStates.contains(state);
+    }
+
+    /**
+     * Gets the Negotiation/Transfer and waits for state to be success
+     * <p>
+     * @param   url
+     *          the {@code String} url of the status exchange api
+     * @param   id
+     *          the {@code String} id of the negotiation response.
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   dataModel
+     *          the {@code ProcessDataModel} object of the process's data model.
+     *
+     * @return  a {@code Negotiation} object with the negotiation data.
+     *
+     * @throws  ServiceException
+     *           if unable to process the exchange of the negotiation or the transfer
+     */
+    public NegotiationTransferResponse processExchange(String url, String id, String processId, ProcessDataModel dataModel){
+        // Initialize variables
+        String actualState = "", state = "";
+        boolean success;
+        Instant start = Instant.now(), end = start;
+        NegotiationTransferResponse body = null;
+
+        // Initialize headers for the request
+        HttpHeaders headers = httpUtil.getHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Api-Key", this.apiKey);
+
+        LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
+        // Request for the negotiation status always
+        do {
+            // Get the negotiation/transfer status
+            body = (NegotiationTransferResponse) httpUtil.doGet(url, NegotiationTransferResponse.class, headers, httpUtil.getParams(), false, false).getBody();
+            if (body == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "isStateSuccess",
+                        "No response was received from the EDC!");
+            }
+
+            // Get the current state
+            state = body.getState();
+            try {
+                // Check if the state is already successful
+                success = this.isStateSuccess(state);
+            }catch(Exception e){
+                LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
+                return null;
+            }
+
+            // If the state has changed we will print the negotiation/state for the debug
+            if (!state.equals(actualState)) {
+                actualState = state;
+                end = Instant.now();
+                Duration timeElapsed = Duration.between(start, end);
+                LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                start = Instant.now();
+            }
+
+            // If the user calls the cancel api the negotiation/transfer will be terminated
+            if (dataModel != null && processId != null && dataModel.getState(processId).equals("TERMINATED")) {
+                LogUtil.printStatus("[" + id + "] The negotiation was cancelled!");
+                return null;
+            }
+            // If is not success we will wait for the next request to be done
+            if(!success){
+                ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
+            }
+        } while (!success);
+        return body;
+    }
 
     /**
      * Gets the Negotiation data object from a Negotiation Response related to a Process.
@@ -630,50 +730,13 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
             // Get variables from configuration
             String url = endpoint + "/" + id;
-            HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + url + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "It was not possible to do contract negotiations!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("CONFIRMED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    sw = false;
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if (dataModel.getState(processId).equals("TERMINATED")) {
-                    LogUtil.printStatus("[" + id + "] The negotiation was cancelled");
-                    return null;
-                }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
-                }
+
+            // Do the process exchange
+            NegotiationTransferResponse response = this.processExchange(url, id, processId, dataModel);
+            if(response == null) {
+                return null;
             }
-            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
+            return (Negotiation) jsonUtil.bindObject(response, Negotiation.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -694,51 +757,7 @@ public class DataTransferService extends BaseService {
      */
     public Negotiation seeNegotiation(String id) {
         try {
-            this.checkEmptyVariables();
-
-            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
-            // Get variables from configuration
-            String url = endpoint + "/" + id;
-            HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + url + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "It was not possible to do contract negotiations!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("CONFIRMED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    sw = false;
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
-                }
-            }
-            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
+            return this.seeNegotiation(id, null, null);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -766,8 +785,7 @@ public class DataTransferService extends BaseService {
 
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);
-            Object body = transferRequest;
-            ResponseEntity<?> response = httpUtil.doPost(url, String.class, headers, httpUtil.getParams(), body, false, false);
+            ResponseEntity<?> response = httpUtil.doPost(url, String.class, headers, httpUtil.getParams(), transferRequest, false, false);
             String responseBody = (String) response.getBody();
             return (IdResponse) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), IdResponse.class);
         } catch (Exception e) {
@@ -790,46 +808,7 @@ public class DataTransferService extends BaseService {
      */
     public Transfer seeTransfer(String id) {
         try {
-            this.checkEmptyVariables();
-            HttpHeaders headers = httpUtil.getHeaders();
-            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
-            String path = endpoint + "/" + id;
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CONTRACT TRANSFER] ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(path, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + path + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT TRANSFER]===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
-                            "It was not possible to do the transfer process!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("COMPLETED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("VERIFIED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT TRANSFER] [" + id + "]===========================================");
-                    sw = false;
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-            }
-            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
+            return this.seeTransfer(id, null, null);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
@@ -855,55 +834,21 @@ public class DataTransferService extends BaseService {
     public Transfer seeTransfer(String id, String processId, ProcessDataModel dataModel) {
         try {
             this.checkEmptyVariables();
-            HttpHeaders headers = httpUtil.getHeaders();
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
-            String path = endpoint + "/" + id;
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CONTRACT TRANSFER] ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(path, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + path + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT TRANSFER]===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
-                            "It was not possible to do the transfer process!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("COMPLETED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("VERIFIED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT TRANSFER] [" + id + "]===========================================");
-                    sw = false;
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if (dataModel.getState(processId).equals("TERMINATED")) {
-                    LogUtil.printStatus("[" + id + "] The transfer was cancelled");
-                    return null;
-                }
+            String url = endpoint + "/" + id;
+            // Do the process exchange
+            NegotiationTransferResponse response = this.processExchange(url, id, processId, dataModel);
+            if(response == null) {
+                return null;
             }
-            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
+            return (Transfer) jsonUtil.bindObject(response, Transfer.class);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
                     "It was not possible to transfer the contract! " + id);
         }
     }
+
     /**
      * Gets the Health Readiness Status of the EDC
      * <p>
@@ -931,42 +876,6 @@ public class DataTransferService extends BaseService {
             throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
                     e,
                     "It was not possible to get readiness status from the edc consumer!");
-        }
-    }
-    /**
-     * Gets the Passport version 3 from the Process.
-     * <p>
-     * @param   transferProcessId
-     *          the {@code String} id of the target passport.
-     * @param   endpoint
-     *          the {@code String} endpoint URL of the target passport.
-     *
-     * @return  a {@code PassportV3} object with the passport data.
-     *
-     * @throws  ServiceException
-     *           if unable to get the passport.
-     */
-    @SuppressWarnings("Unused")
-    public JsonNode getPassport(String transferProcessId, String endpoint) {
-        try {
-            this.checkEmptyVariables();
-            Map<String, Object> params = httpUtil.getParams();
-            HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Accept", "application/octet-stream");
-            boolean retry = false;
-
-            ResponseEntity<?> response = null;
-            try {
-                response = httpUtil.doGet(endpoint, String.class, headers, params, false, false);
-            } catch (Exception e) {
-                throw new ServiceException(this.getClass().getName() + ".getPassport", "It was not possible to get passport with id " + transferProcessId);
-            }
-            String responseBody = (String) response.getBody();
-            return (JsonNode) jsonUtil.toJsonNode(responseBody);
-        } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getPassport",
-                    e,
-                    "It was not possible to retrieve the getPassport for transferProcessId [" + transferProcessId + "]!");
         }
     }
 

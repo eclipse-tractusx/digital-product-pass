@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,20 +41,33 @@ import java.util.List;
 public class Negotiation extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("edc:type")
+    @JsonProperty("type")
+    @JsonAlias({"type","edc:type"})
     String edcType;
-    @JsonProperty("edc:protocol")
+    @JsonProperty("protocol")
+    @JsonAlias({"protocol","edc:protocol"})
     String protocol;
-    @JsonProperty("edc:state")
+    @JsonProperty("state")
+    @JsonAlias({"state","edc:state"})
     String state;
-    @JsonProperty("edc:errorDetail")
+    @JsonProperty("errorDetail")
+    @JsonAlias({"errorDetail","edc:errorDetail"})
     String errorDetail;
-    @JsonProperty("edc:counterPartyAddress")
+    @JsonProperty("counterPartyId")
+    @JsonAlias({"counterPartyId","edc:counterPartyId"})
+    String counterPartyId;
+    @JsonProperty("counterPartyAddress")
+    @JsonAlias({"counterPartyAddress","edc:counterPartyAddress"})
     String counterPartyAddress;
-    @JsonProperty("edc:callbackAddresses")
+    @JsonProperty("callbackAddresses")
+    @JsonAlias({"callbackAddresses","edc:callbackAddresses"})
     List<String> callbackAddresses;
-    @JsonProperty("edc:contractAgreementId")
+    @JsonProperty("contractAgreementId")
+    @JsonAlias({"contractAgreementId","edc:contractAgreementId"})
     String contractAgreementId;
+    @JsonProperty("createdAt")
+    @JsonAlias({"createdAt","edc:createdAt"})
+    Long createdAt;
     @JsonProperty("@context")
     JsonNode context;
 
@@ -98,7 +112,46 @@ public class Negotiation extends DidDocument {
         this.contractAgreementId = contractAgreementId;
         this.context = context;
     }
+    @SuppressWarnings("Unused")
+    public Negotiation(String id, String type, String edcType, String protocol, String state, String errorDetail, String counterPartyId, String counterPartyAddress, List<String> callbackAddresses, String contractAgreementId, JsonNode context) {
+        super(id, type);
+        this.edcType = edcType;
+        this.protocol = protocol;
+        this.state = state;
+        this.errorDetail = errorDetail;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.callbackAddresses = callbackAddresses;
+        this.contractAgreementId = contractAgreementId;
+        this.context = context;
+    }
+    @SuppressWarnings("Unused")
+    public Negotiation(String id, String type, String edcType, String protocol, String state, String errorDetail, String counterPartyId, String counterPartyAddress, List<String> callbackAddresses, String contractAgreementId, Long createdAt, JsonNode context) {
+        super(id, type);
+        this.edcType = edcType;
+        this.protocol = protocol;
+        this.state = state;
+        this.errorDetail = errorDetail;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.callbackAddresses = callbackAddresses;
+        this.contractAgreementId = contractAgreementId;
+        this.createdAt = createdAt;
+        this.context = context;
+    }
 
+    public Negotiation(String edcType, String protocol, String state, String errorDetail, String counterPartyId, String counterPartyAddress, List<String> callbackAddresses, String contractAgreementId, Long createdAt, JsonNode context) {
+        this.edcType = edcType;
+        this.protocol = protocol;
+        this.state = state;
+        this.errorDetail = errorDetail;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.callbackAddresses = callbackAddresses;
+        this.contractAgreementId = contractAgreementId;
+        this.createdAt = createdAt;
+        this.context = context;
+    }
 
     /** GETTERS AND SETTERS **/
     @SuppressWarnings("Unused")

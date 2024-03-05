@@ -25,6 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,21 +41,29 @@ import java.util.List;
 public class Transfer extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("edc:state")
+    @JsonProperty("state")
+    @JsonAlias({"state","edc:state"})
     String state;
-    @JsonProperty("edc:stateTimestamp")
+    @JsonProperty("stateTimestamp")
+    @JsonAlias({"stateTimestamp","edc:stateTimestamp"})
     Long stateTimestamp;
-    @JsonProperty("edc:errorDetail")
+    @JsonProperty("errorDetail")
+    @JsonAlias({"errorDetail","edc:errorDetail"})
     String errorDetail;
-    @JsonProperty("edc:type")
+    @JsonProperty("type")
+    @JsonAlias({"type","edc:type"})
     String edcType;
-    @JsonProperty("edc:callbackAddresses")
+    @JsonProperty("callbackAddresses")
+    @JsonAlias({"callbackAddresses","edc:callbackAddresses"})
     List<JsonNode> callbackAddresses;
-    @JsonProperty("edc:dataDestination")
+    @JsonProperty("dataDestination")
+    @JsonAlias({"dataDestination","edc:dataDestination"})
     DataDestination dataDestination;
-    @JsonProperty("edc:dataRequest")
+    @JsonProperty("dataRequest")
+    @JsonAlias({"dataRequest","edc:dataRequest"})
     DataRequest dataRequest;
-    @JsonProperty("edc:receiverHttpEndpoint")
+    @JsonProperty("receiverHttpEndpoint")
+    @JsonAlias({"receiverHttpEndpoint","edc:receiverHttpEndpoint"})
     String receiverHttpEndpoint;
     @JsonProperty("@context")
     JsonNode context;
@@ -165,11 +174,14 @@ public class Transfer extends DidDocument {
     static class DataRequest extends DidDocument {
 
         /** ATTRIBUTES **/
-        @JsonProperty("edc:assetId")
+        @JsonProperty("assetId")
+        @JsonAlias({"assetId","edc:assetId"})
         String assetId;
-        @JsonProperty("edc:connectorId")
+        @JsonProperty("connectorId")
+        @JsonAlias({"connectorId","edc:connectorId"})
         String connectorId;
-        @JsonProperty("edc:contractId")
+        @JsonProperty("contractId")
+        @JsonAlias({"contractId","edc:contractId"})
         String contractId;
 
         /** GETTERS AND SETTERS **/
@@ -200,7 +212,8 @@ public class Transfer extends DidDocument {
     public static class DataDestination {
 
         /** ATTRIBUTES **/
-        @JsonProperty("edc:type")
+        @JsonProperty("type")
+        @JsonAlias({"type","edc:type"})
         String type;
 
         /** GETTERS AND SETTERS **/

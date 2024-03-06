@@ -694,14 +694,19 @@ public class DataTransferService extends BaseService {
                 LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
                 return null;
             }
-
+            end = Instant.now();
+            Duration timeElapsed = Duration.between(start, end);
             // If the state has changed we will print the negotiation/state for the debug
             if (!state.equals(actualState)) {
                 actualState = state;
-                end = Instant.now();
-                Duration timeElapsed = Duration.between(start, end);
                 LogUtil.printDebug("[" + id + "] The contract exchange status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
                 start = Instant.now();
+            }
+            // If the process has not changed and the timeout has arrived it will break the process exchange
+            if(timeElapsed.getSeconds() >= env.getProperty("configuration.edc.timeout.exchange", Integer.class, 20)){
+                LogUtil.printError("TIMEOUT! [" + id + "] The contract exchange status took too long in state  [\" + state + \"] - Duration [" + timeElapsed + "]s");
+                throw new ServiceException(this.getClass().getName() + "." + "processExchange",
+                        "Timeout achieved while requesting the contract exchange for transfer or negotiation!");
             }
 
             // If the user calls the cancel api the negotiation/transfer will be terminated

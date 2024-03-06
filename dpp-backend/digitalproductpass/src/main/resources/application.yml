@@ -56,6 +56,8 @@ configuration:
     receiverEndpoint: 'https://dpp.int.demo.catena-x.net/endpoint'
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
     transferType: "application/octet-stream"
+    timeout:
+      exchange: 10
 
   security:
     authorization:

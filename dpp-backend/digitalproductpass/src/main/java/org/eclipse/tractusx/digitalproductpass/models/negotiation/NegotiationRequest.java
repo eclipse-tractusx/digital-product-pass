@@ -60,7 +60,6 @@ public class NegotiationRequest extends DidDocument{
         this.providerId = providerId;
         this.offer = offer;
     }
-    @SuppressWarnings("Unused")
     public NegotiationRequest(JsonNode context, String connectorAddress, String connectorId, String providerId, Offer offer) {
         this.context = context;
         this.type = "NegotiationInitiateRequestDto";
@@ -68,14 +67,6 @@ public class NegotiationRequest extends DidDocument{
         this.protocol = "dataspace-protocol-http";
         this.connectorId = connectorId;
         this.providerId = providerId;
-        this.offer = offer;
-    }
-    public NegotiationRequest(JsonNode context, String connectorAddress, String connectorId, Offer offer) {
-        this.context = context;
-        this.type = "NegotiationInitiateRequestDto";
-        this.connectorAddress = connectorAddress;
-        this.protocol = "dataspace-protocol-http";
-        this.connectorId = connectorId;
         this.offer = offer;
     }
     @SuppressWarnings("Unused")

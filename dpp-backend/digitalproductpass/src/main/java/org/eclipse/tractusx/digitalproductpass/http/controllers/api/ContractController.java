@@ -56,6 +56,7 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
 import org.eclipse.tractusx.digitalproductpass.services.*;
@@ -359,13 +360,16 @@ public class ContractController {
             if(assetId == null){
                 LogUtil.printError("The assetId is empty!");
             }
+            Catalog catalog = null;
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                datasets = dataService.getContractOffers(catalog);
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                datasets = dataService.getContractOffers(catalog);
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
                     response.status = 502;
@@ -377,7 +381,8 @@ public class ContractController {
             if (datasets == null) {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                datasets = dataService.getContractOffers(catalog);
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";
                     response.status = 404;
@@ -385,6 +390,7 @@ public class ContractController {
                     return httpUtil.buildResponse(response, httpResponse);
                 }
             }
+            processManager.setProviderBpn(processId, catalog.getParticipantId());
             String seedId = String.join("|", datasets.keySet());
             LogUtil.printDebug("[PROCESS " + process.id + "] ["+datasets.size()+"] Contracts found for asset [" + assetId + "] in EDC Endpoint [" + connectorAddress + "]");
 
@@ -658,6 +664,7 @@ public class ContractController {
                         processManager.loadDataModel(httpRequest),
                         processId,
                         status.getBpn(),
+                        status.getProviderBpn(),
                         dataset,
                         processManager.getStatus(processId),
                         policy
@@ -669,6 +676,7 @@ public class ContractController {
                         processManager.loadDataModel(httpRequest),
                         processId,
                         status.getBpn(),
+                        status.getProviderBpn(),
                         dataset,
                         processManager.getStatus(processId)
                 );

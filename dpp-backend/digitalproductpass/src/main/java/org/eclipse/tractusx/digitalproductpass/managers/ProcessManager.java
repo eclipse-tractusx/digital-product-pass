@@ -647,6 +647,35 @@ public class ProcessManager {
             throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
         }
     }
+    /**
+     * Sets the Provider BPN number of the process with the given processId.
+     * <p>
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   providerBpn
+     *          the {@code String} BPN number.
+     *
+     * @return  a {@code String} file path of the process file.
+     *
+     * @throws ManagerException
+     *           if unable to get the status file.
+     */
+    public String setProviderBpn(String processId, String providerBpn) {
+        try {
+            String path = this.getProcessFilePath(processId, this.metaFileName);
+            Status statusFile = null;
+            if (!fileUtil.pathExists(path)) {
+                throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
+            }
+
+            statusFile = (Status) jsonUtil.fromJsonFileToObject(path, Status.class);
+            statusFile.setProviderBpn(providerBpn);
+            statusFile.setModified(DateTimeUtil.getTimestamp());
+            return jsonUtil.toJsonFile(path, statusFile, processConfig.getIndent()); // Store the plain JSON
+        } catch (Exception e) {
+            throw new ManagerException(this.getClass().getName(), e, "It was not possible to create/update the status file");
+        }
+    }
 
      /**
      * Set the children condition in the status file

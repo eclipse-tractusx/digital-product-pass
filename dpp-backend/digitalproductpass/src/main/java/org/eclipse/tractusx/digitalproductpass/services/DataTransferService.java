@@ -86,7 +86,6 @@ public class DataTransferService extends BaseService {
     final public List<String> successStates = List.of(
             "CONFIRMED",
             "FINALIZED",
-            "VERIFIED",
             "COMPLETED"
     );
     final public List<String> errorStates = List.of(
@@ -198,23 +197,20 @@ public class DataTransferService extends BaseService {
     /**
      * Gets the Contract Offers mapped by contract id
      * <p>
-     * @param   assetId
-     *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   counterPartyAddress
-     *          the {@code String} provider URL of the asset.
+     * @param   catalog
+     *          the {@code Catalog} catalog with the complete offers
      *
      * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
      *
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
+    public Map<String, Dataset> getContractOffers(Catalog catalog) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
-            if(catalog == null){
+            if(catalog==null){
                 return null;
             }
             Object offers = catalog.getContractOffers();
@@ -233,7 +229,7 @@ public class DataTransferService extends BaseService {
 
             return edcUtil.mapDatasetsById(contractOffers);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId [" + assetId + "]");
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId");
         }
     }
 
@@ -296,18 +292,21 @@ public class DataTransferService extends BaseService {
      *          the {@code Dataset} data for the contract offer.
      * @param   status
      *          the {@code Status} status of the process.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
      *
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn) {
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, String providerBpn) {
         Offer contractOffer = this.buildOffer(dataset, 0);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -319,18 +318,21 @@ public class DataTransferService extends BaseService {
      *          the {@code Dataset} data for the contract offer.
      * @param   status
      *          the {@code Status} status of the process.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
      *
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequestById(Dataset dataset, Status status, String bpn, String policyId) {
+    public NegotiationRequest buildRequestById(Dataset dataset, Status status, String bpn, String providerBpn, String policyId) {
         Offer contractOffer = this.buildOfferById(dataset, policyId);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -344,6 +346,8 @@ public class DataTransferService extends BaseService {
      *          the {@code Status} status of the process.
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   policy
      *          the {@code Sete} policy to be negotiated
      *
@@ -351,12 +355,13 @@ public class DataTransferService extends BaseService {
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, Set policy) {
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, String providerBpn, Set policy) {
         Offer contractOffer = this.buildOffer(dataset, policy);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -605,13 +610,14 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the contract negotiation.
      */
-    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String counterPartyAddress) {
+    public IdResponse doContractNegotiation(Offer contractOffer, String bpn, String providerBpn, String counterPartyAddress) {
         try {
             this.checkEmptyVariables();
             NegotiationRequest body = new NegotiationRequest(
                     jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                     counterPartyAddress,
                     bpn,
+                    providerBpn,
                     contractOffer
             );
             return this.doContractNegotiation(body);
@@ -934,35 +940,55 @@ public class DataTransferService extends BaseService {
         private Status status;
         private String bpn;
         private String processId;
+        private String providerBpn;
 
         /** CONSTRUCTOR(S) **/
         public NegotiateContract() {};
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequest(dataset, status, bpn);
+            this.providerBpn = providerBpn;
+            this.negotiationRequest = buildRequest(dataset, status, bpn, providerBpn);
         }
         // Negotiate contract with policy
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, Set policy) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status, Set policy) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequest(dataset, status, bpn, policy);
+            this.negotiationRequest = buildRequest(dataset, status, bpn, providerBpn, policy);
         }
         // Start the negotiation and build contract by policy id
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, String policyId) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status, String policyId) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequestById(dataset, status, bpn, policyId);
+            this.negotiationRequest = buildRequestById(dataset, status, bpn, providerBpn, policyId);
         }
+
+        public NegotiateContract(NegotiationRequest negotiationRequest, ProcessDataModel dataModel, Dataset dataset, Negotiation negotiation, Transfer transfer, TransferRequest transferRequest, IdResponse negotiationResponse, IdResponse tranferResponse, Integer negotiationAttempts, Integer transferAttempts, Status status, String bpn, String processId, String providerBpn) {
+            this.negotiationRequest = negotiationRequest;
+            this.dataModel = dataModel;
+            this.dataset = dataset;
+            this.negotiation = negotiation;
+            this.transfer = transfer;
+            this.transferRequest = transferRequest;
+            this.negotiationResponse = negotiationResponse;
+            this.tranferResponse = tranferResponse;
+            this.negotiationAttempts = negotiationAttempts;
+            this.transferAttempts = transferAttempts;
+            this.status = status;
+            this.bpn = bpn;
+            this.processId = processId;
+            this.providerBpn = providerBpn;
+        }
+
         /** GETTERS AND SETTERS **/
         @SuppressWarnings("Unused")
         public void setNegotiationRequest(NegotiationRequest negotiationRequest) {
@@ -1382,7 +1408,7 @@ public class DataTransferService extends BaseService {
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
                 CallbackAddress callbackAddress = new CallbackAddress(
-                        false,
+                        true,
                         receiverEndpoint,
                         List.of("transfer.process")
                 );

@@ -187,7 +187,7 @@ class DataTransferServiceTest {
         Status status = new Status();
         status.setEndpoint("test.endpoint");
 
-        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status, bpn);
+        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status, bpn, bpn);
 
         assertNotNull(negotiationRequest);
         assertEquals(status.getEndpoint(), negotiationRequest.getConnectorAddress());
@@ -272,7 +272,7 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse response = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
+        IdResponse response = dataTransferService.doContractNegotiation(offer, bpn, bpn, providerUrl);
 
         assertNotNull(response);
         assertEquals("189f4957-0fbe-4d73-b215-977e3303a45e", response.getId());
@@ -304,7 +304,7 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
+        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,bpn,  providerUrl);
 
         when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));

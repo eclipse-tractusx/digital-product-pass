@@ -57,6 +57,8 @@ public class Dtr {
     private String assetId;
     @JsonProperty("bpn")
     private String bpn;
+    @JsonProperty("providerBpn")
+    private String providerBpn;
     @JsonProperty("validUntil")
     private Long validUntil;
     @JsonProperty("invalid")
@@ -114,18 +116,19 @@ public class Dtr {
         this.invalid = invalid;
     }
 
-    public Dtr(Map<String, Dataset> contracts, String id, String policyId, String contractId, String endpoint, String assetId, String bpn, Long validUntil, Boolean invalid) {
+    public Dtr(Map<String, Dataset> contracts, String id, String policyId, String contractId, String endpoint, String assetId, String bpn, String providerBpn, Long validUntil, Boolean invalid) {
         this.contracts = contracts;
         this.contractId = contractId;
         this.policyId = policyId;
         this.id = id;
+        this.providerBpn = providerBpn;
         this.endpoint = endpoint;
         this.assetId = assetId;
         this.bpn = bpn;
         this.validUntil = validUntil;
         this.invalid = invalid;
     }
-    public Dtr(Map<String, Dataset> contracts,String id, String policyId, String contractId,  String endpoint, String assetId, String bpn, Long validUntil) {
+    public Dtr(Map<String, Dataset> contracts,String id, String policyId, String contractId,  String endpoint, String assetId, String bpn, String providerBpn, Long validUntil) {
         this.contracts = contracts;
         this.contractId = contractId;
         this.policyId = policyId;
@@ -133,6 +136,7 @@ public class Dtr {
         this.endpoint = endpoint;
         this.assetId = assetId;
         this.bpn = bpn;
+        this.providerBpn = providerBpn;
         this.validUntil = validUntil;
         this.invalid = false;
     }
@@ -186,5 +190,13 @@ public class Dtr {
 
     public void setPolicyId(String policyId) {
         this.policyId = policyId;
+    }
+
+    public String getProviderBpn() {
+        return providerBpn;
+    }
+
+    public void setProviderBpn(String providerBpn) {
+        this.providerBpn = providerBpn;
     }
 }

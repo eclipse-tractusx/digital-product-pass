@@ -1381,11 +1381,6 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-                CallbackAddress callbackAddress = new CallbackAddress(
-                        true,
-                        receiverEndpoint,
-                        List.of("transfer.process")
-                );
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
@@ -1398,8 +1393,7 @@ public class DataTransferService extends BaseService {
                         false,
                         privateProperties,
                         "dataspace-protocol-http",
-                        transferType,
-                        List.of(callbackAddress)
+                        transferType
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

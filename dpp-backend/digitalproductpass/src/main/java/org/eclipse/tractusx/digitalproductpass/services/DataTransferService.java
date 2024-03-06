@@ -1108,7 +1108,7 @@ public class DataTransferService extends BaseService {
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 CallbackAddress callbackAddress = new CallbackAddress(
-                        false,
+                        true,
                         receiverEndpoint,
                         List.of("transfer.process")
                 );
@@ -1376,15 +1376,20 @@ public class DataTransferService extends BaseService {
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + endpointId;
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
-                transferType.setContentType("application/octet-stream");
+                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
                 transferType.setIsFinite(true);
+
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-
+                CallbackAddress callbackAddress = new CallbackAddress(
+                        true,
+                        receiverEndpoint,
+                        List.of("transfer.process")
+                );
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
-                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dtr.getAssetId(),
                         CatenaXUtil.buildDataEndpoint(dtr.getEndpoint()),
                         bpnNumber,
@@ -1393,7 +1398,8 @@ public class DataTransferService extends BaseService {
                         false,
                         privateProperties,
                         "dataspace-protocol-http",
-                        transferType
+                        transferType,
+                        List.of(callbackAddress)
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

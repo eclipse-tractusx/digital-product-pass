@@ -43,6 +43,7 @@ import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.NegotiationTransferResponse;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -655,7 +656,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to process the exchange of the negotiation or the transfer
      */
-    public NegotiationTransferResponse processExchange(String url, String id, String processId, ProcessDataModel dataModel) throws ServiceException {
+    public JsonNode processExchange(String url, String id, String processId, ProcessDataModel dataModel) throws ServiceException {
         // Initialize variables
         String actualState = "", state = "";
         boolean success;
@@ -706,7 +707,13 @@ public class DataTransferService extends BaseService {
                 ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
             }
         } while (!success);
-        return body;
+        // Get the latest status from the contract exchange
+        JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
+        if (response == null) {
+            throw new ServiceException(this.getClass().getName() + "." + "processExchange",
+                    "No response was received in the last status request from the EDC!");
+        }
+        return response;
     }
 
     /**
@@ -733,7 +740,7 @@ public class DataTransferService extends BaseService {
             String url = endpoint + "/" + id;
 
             // Do the process exchange
-            NegotiationTransferResponse response = this.processExchange(url, id, processId, dataModel);
+            JsonNode response = this.processExchange(url, id, processId, dataModel);
             if(response == null) {
                 return null;
             }
@@ -838,7 +845,7 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
             String url = endpoint + "/" + id;
             // Do the process exchange
-            NegotiationTransferResponse response = this.processExchange(url, id, processId, dataModel);
+            JsonNode response = this.processExchange(url, id, processId, dataModel);
             if(response == null) {
                 return null;
             }

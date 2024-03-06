@@ -536,7 +536,7 @@ public class DtrSearchManager {
                         return;
                     }
                     if(negotiation.getContractAgreementId() == null || negotiation.getContractAgreementId().isEmpty()){
-                        LogUtil.printError("It was not possible to get an Contract Agreemment Id for the URL: " + connectionUrl);
+                        LogUtil.printError("It was not possible to get an Contract Agreement Id for the URL: " + connectionUrl);
                         return;
                     }
                     Dtr dtr = new Dtr(datasets, dataset.getId(), set.getId(), negotiation.getContractAgreementId(), connectionUrl, dataset.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));

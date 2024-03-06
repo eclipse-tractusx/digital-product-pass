@@ -37,11 +37,9 @@ import java.util.List;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CatalogRequest {
+public class CatalogRequest extends DidDocument{
 
     /** ATTRIBUTES **/
-    @JsonProperty("@context")
-    JsonNode context;
     @JsonProperty("protocol")
     String protocol;
     @JsonProperty("counterPartyAddress")
@@ -68,12 +66,6 @@ public class CatalogRequest {
     }
 
     /** GETTERS AND SETTERS **/
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
     public String getProtocol() {
         return protocol;
     }

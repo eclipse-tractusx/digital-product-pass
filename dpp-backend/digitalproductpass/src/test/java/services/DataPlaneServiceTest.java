@@ -27,7 +27,7 @@ package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.services.DataPlaneService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -87,7 +87,7 @@ class DataPlaneServiceTest {
         String endpoint = UUID.randomUUID().toString();
         String authKey = UUID.randomUUID().toString();
         String authCode = UUID.randomUUID().toString();
-        DataPlaneEndpoint dataPlaneEndpoint = new DataPlaneEndpoint();
+        EndpointDataReference dataPlaneEndpoint = new EndpointDataReference();
         dataPlaneEndpoint.setId(id);
         dataPlaneEndpoint.setEndpoint(endpoint);
         dataPlaneEndpoint.setAuthKey(authKey);

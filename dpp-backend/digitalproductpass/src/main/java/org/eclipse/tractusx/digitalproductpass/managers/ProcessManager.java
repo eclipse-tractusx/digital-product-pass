@@ -28,12 +28,11 @@ package org.eclipse.tractusx.digitalproductpass.managers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.checkerframework.framework.qual.Unused;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.edc.Jwt;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
@@ -1440,14 +1439,9 @@ public class ProcessManager {
      * @return  a {@code String} identification of the contract.
      *
      */
-    public String getContractId(DataPlaneEndpoint endpointData){
+    public String getContractId(EndpointDataReference endpointData){
 
-        if(!endpointData.offerIdExists()) {
-            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-            return (String) token.getPayload().get("cid");
-        }
-
-        return endpointData.getOfferId();
+        return endpointData.getContractId();
     }
 
     /**
@@ -1520,7 +1514,7 @@ public class ProcessManager {
      * @throws ManagerException
      *           if unable to save the passport.
      */
-    public String savePassport(String processId, DataPlaneEndpoint endpointData, JsonNode passport) {
+    public String savePassport(String processId, EndpointDataReference endpointData, JsonNode passport) {
         try {
             // Retrieve the configuration
             Boolean prettyPrint = env.getProperty("passport.dataTransfer.indent", Boolean.class, true);

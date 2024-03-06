@@ -48,8 +48,6 @@ public class Catalog extends DidDocument {
     @JsonProperty("participantId")
     @JsonAlias({"participantId", "edc:participantId"})
     String participantId;
-    @JsonProperty("@context")
-    JsonNode context;
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();
 
@@ -94,11 +92,5 @@ public class Catalog extends DidDocument {
     }
     public void setParticipantId(String participantId) {
         this.participantId = participantId;
-    }
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
     }
 }

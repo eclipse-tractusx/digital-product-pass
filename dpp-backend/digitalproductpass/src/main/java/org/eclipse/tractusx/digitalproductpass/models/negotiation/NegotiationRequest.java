@@ -35,13 +35,9 @@ import com.fasterxml.jackson.databind.JsonNode;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NegotiationRequest {
+public class NegotiationRequest extends DidDocument{
 
     /** ATTRIBUTES **/
-    @JsonProperty("@context")
-    JsonNode context;
-    @JsonProperty("@type")
-    String type;
     @JsonProperty("connectorAddress")
     String connectorAddress;
     @JsonProperty("protocol")
@@ -116,12 +112,6 @@ public class NegotiationRequest {
     public void setOffer(Offer offer) {
         this.offer = offer;
     }
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
     public String getProtocol() {
         return protocol;
     }
@@ -135,11 +125,5 @@ public class NegotiationRequest {
     @SuppressWarnings("Unused")
     public void setProviderId(String providerId) {
         this.providerId = providerId;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
     }
 }

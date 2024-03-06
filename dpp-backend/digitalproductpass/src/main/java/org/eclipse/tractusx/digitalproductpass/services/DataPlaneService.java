@@ -28,7 +28,7 @@ package org.eclipse.tractusx.digitalproductpass.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -73,7 +73,7 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the transfer data.
      */
-    public Object getTransferData(DataPlaneEndpoint endpointData) {
+    public Object getTransferData(EndpointDataReference endpointData) {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
@@ -97,7 +97,7 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the transfer data.
      */
-    public Object getTransferDataFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+    public Object getTransferDataFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
@@ -122,7 +122,7 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public JsonNode getPassport(DataPlaneEndpoint endpointData) {
+    public JsonNode getPassport(EndpointDataReference endpointData) {
         try {
             return jsonUtil.toJsonNode(this.getTransferData(endpointData));
         }catch (Exception e){
@@ -144,7 +144,7 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public JsonNode getPassportFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+    public JsonNode getPassportFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
             return jsonUtil.toJsonNode(this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint));
         }catch (Exception e){

@@ -35,11 +35,9 @@ import com.fasterxml.jackson.databind.JsonNode;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransferRequest {
+public class TransferRequest extends DidDocument{
 
     /** ATTRIBUTES **/
-    @JsonProperty("@context")
-    JsonNode context;
     @JsonProperty("assetId")
     String assetId;
     @JsonProperty("connectorAddress")
@@ -76,13 +74,32 @@ public class TransferRequest {
         this.transferType = transferType;
     }
 
+    public TransferRequest(String id, String type, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
+        super(id, type);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+    }
+
+    public TransferRequest(String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+    }
+
     /** GETTERS AND SETTERS **/
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
     public String getAssetId() {
         return assetId;
     }

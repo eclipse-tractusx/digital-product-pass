@@ -60,9 +60,6 @@ public class NegotiationTransferResponse extends DidDocument {
     @JsonAlias({"errorDetail","edc:errorDetail"})
     String errorDetail;
 
-    @JsonProperty("@context")
-    JsonNode context;
-
     /** CONSTRUCTOR(S) **/
     public NegotiationTransferResponse(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
         super(id, type);
@@ -127,12 +124,5 @@ public class NegotiationTransferResponse extends DidDocument {
         this.errorDetail = errorDetail;
     }
 
-    public JsonNode getContext() {
-        return context;
-    }
-
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
 
 }

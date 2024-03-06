@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
@@ -46,7 +45,7 @@ import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.SubModel;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.edc.Jwt;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
@@ -156,7 +155,7 @@ public class AppController {
     @Operation(summary = "Receives the EDR for the EDC Consumer and queries for the dDTR")
     public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String endpointId) {
         try {
-            DataPlaneEndpoint endpointData = null;
+            EndpointDataReference endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
             } catch (Exception e) {
@@ -271,8 +270,8 @@ public class AppController {
      *           if the unable to get the data plane endpoint.
      *
      */
-    public DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
-        DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
+    public EndpointDataReference getEndpointData(Object body) throws ControllerException {
+        EndpointDataReference endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if (endpointData == null) {
             throw new ControllerException(this.getClass().getName(), "The endpoint data request is empty!");
         }
@@ -282,17 +281,6 @@ public class AppController {
         if (endpointData.getAuthCode().isEmpty()) {
             throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
         }
-        if (!endpointData.offerIdExists()) {
-            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-            if (!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")) {
-                throw new ControllerException(this.getClass().getName(), "The Offer Id is empty!");
-            }
-        } else {
-            if (endpointData.getOfferId().isEmpty()) {
-                throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
-            }
-        }
-
         return endpointData;
     }
 
@@ -309,7 +297,7 @@ public class AppController {
     @Operation(summary = "Receives the EDR from the EDC Consumer and get the passport json")
     public Response endpoint(@RequestBody Object body, @PathVariable String processId) {
         try {
-            DataPlaneEndpoint endpointData = null;
+            EndpointDataReference endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
             } catch (Exception e) {

@@ -1098,7 +1098,7 @@ public class DataTransferService extends BaseService {
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
-                transferType.setContentType("application/octet-stream");
+                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
                 transferType.setIsFinite(true);
 
 
@@ -1107,8 +1107,14 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
+                CallbackAddress callbackAddress = new CallbackAddress(
+                        false,
+                        receiverEndpoint,
+                        List.of("transfer.process")
+                );
+                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
-                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dataset.getAssetId(),
                         status.getEndpoint(),
                         bpn,
@@ -1117,7 +1123,8 @@ public class DataTransferService extends BaseService {
                         false,
                         privateProperties,
                         "dataspace-protocol-http",
-                        transferType
+                        transferType,
+                        List.of(callbackAddress)
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

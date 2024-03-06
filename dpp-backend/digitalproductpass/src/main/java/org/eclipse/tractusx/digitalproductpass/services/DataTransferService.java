@@ -742,7 +742,6 @@ public class DataTransferService extends BaseService {
 
             // Do the process exchange
             JsonNode response = this.processExchange(url, id, processId, dataModel);
-            LogUtil.printDebug("Negotiation Response in JSON: " + response.asText());
             if(response == null) {
                 return null;
             }

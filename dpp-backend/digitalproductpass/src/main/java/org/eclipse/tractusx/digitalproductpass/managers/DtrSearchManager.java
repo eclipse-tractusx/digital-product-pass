@@ -535,6 +535,7 @@ public class DtrSearchManager {
                         LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
+                    LogUtil.printDebug(negotiation.getContractAgreementId());
                     if(negotiation.getContractAgreementId() == null || negotiation.getContractAgreementId().isEmpty()){
                         LogUtil.printError("It was not possible to get an Contract Agreement Id for the URL: " + connectionUrl);
                         return;

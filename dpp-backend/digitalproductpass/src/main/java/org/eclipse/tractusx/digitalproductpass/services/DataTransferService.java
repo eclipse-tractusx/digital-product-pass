@@ -1133,11 +1133,6 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
-                CallbackAddress callbackAddress = new CallbackAddress(
-                        false,
-                        receiverEndpoint,
-                        List.of("transfer.process")
-                );
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
@@ -1150,7 +1145,7 @@ public class DataTransferService extends BaseService {
                         privateProperties,
                         "dataspace-protocol-http",
                         transferType,
-                        List.of(callbackAddress)
+                        List.of()
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");
@@ -1407,11 +1402,6 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-                CallbackAddress callbackAddress = new CallbackAddress(
-                        false,
-                        receiverEndpoint,
-                        List.of("transfer.process")
-                );
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
@@ -1425,7 +1415,7 @@ public class DataTransferService extends BaseService {
                         privateProperties,
                         "dataspace-protocol-http",
                         transferType,
-                        List.of(callbackAddress)
+                        List.of()
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

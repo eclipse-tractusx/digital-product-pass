@@ -42,6 +42,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -277,8 +278,11 @@ class DataTransferServiceTest {
         assertEquals("189f4957-0fbe-4d73-b215-977e3303a45e", response.getId());
         assertEquals("IdResponseDto", response.getType());
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Negotiation negotiation = dataTransferService.seeNegotiation(response.getId());
 
@@ -302,8 +306,11 @@ class DataTransferServiceTest {
 
         IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         return dataTransferService.seeNegotiation(negotiationResponse.getId());
     }
@@ -337,8 +344,11 @@ class DataTransferServiceTest {
         assertEquals("9ab72e5b-f2d4-4f60-85e6-0985f9b6b579", response.getId());
         assertEquals("IdResponseDto", response.getType());
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), Transfer.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Transfer transfer = dataTransferService.seeTransfer(response.getId());
 

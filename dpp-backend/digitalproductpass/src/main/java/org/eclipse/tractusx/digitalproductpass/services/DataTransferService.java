@@ -709,16 +709,11 @@ public class DataTransferService extends BaseService {
             }
         } while (!success);
         // Get the latest status from the contract exchange
-        // JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
-        body = (NegotiationTransferResponse) httpUtil.doGet(url, NegotiationTransferResponse.class, headers, httpUtil.getParams(), false, false).getBody();
-        if (body == null) {
+        JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
+        if (response == null) {
             throw new ServiceException(this.getClass().getName() + "." + "processExchange",
                     "No response was received in the last status request from the EDC!");
         }
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode response = mapper.valueToTree(body);
-
         return response;
     }
 

@@ -28,10 +28,10 @@
         "dcat:accessService": "bc491229-1b41-49a9-9101-a430a4907e6e"
       }
     ],
-    "edc:type": "data.core.digitalTwinRegistry",
-    "edc:description": "Digital Twin Registry for DPP",
-    "edc:id": "registry-asset",
-    "edc:contenttype": "application/json"
+    "type": "data.core.digitalTwinRegistry",
+    "description": "Digital Twin Registry for DPP",
+    "id": "registry-asset",
+    "contenttype": "application/json"
   },
   "dcat:service": {
     "@id": "bc491229-1b41-49a9-9101-a430a4907e6e",
@@ -39,7 +39,7 @@
     "dct:terms": "connector",
     "dct:endpointUrl": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp"
   },
-  "edc:participantId": "BPNL00000000000",
+  "participantId": "BPNL00000000000",
   "@context": {
     "dct": "https://purl.org/dc/terms/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",

@@ -27,6 +27,7 @@ package org.eclipse.tractusx.digitalproductpass.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ControllerException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
@@ -708,11 +709,16 @@ public class DataTransferService extends BaseService {
             }
         } while (!success);
         // Get the latest status from the contract exchange
-        JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
-        if (response == null) {
+        // JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
+        body = (NegotiationTransferResponse) httpUtil.doGet(url, NegotiationTransferResponse.class, headers, httpUtil.getParams(), false, false).getBody();
+        if (body == null) {
             throw new ServiceException(this.getClass().getName() + "." + "processExchange",
                     "No response was received in the last status request from the EDC!");
         }
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode response = mapper.valueToTree(body);
+
         return response;
     }
 
@@ -741,6 +747,7 @@ public class DataTransferService extends BaseService {
 
             // Do the process exchange
             JsonNode response = this.processExchange(url, id, processId, dataModel);
+            LogUtil.printDebug("Negotiation Response in JSON: " + response.get("contractAgreementId"));
             if(response == null) {
                 return null;
             }

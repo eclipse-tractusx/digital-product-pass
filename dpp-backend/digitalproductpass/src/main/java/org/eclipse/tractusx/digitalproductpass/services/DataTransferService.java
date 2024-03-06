@@ -1134,7 +1134,7 @@ public class DataTransferService extends BaseService {
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 CallbackAddress callbackAddress = new CallbackAddress(
-                        true,
+                        false,
                         receiverEndpoint,
                         List.of("transfer.process")
                 );

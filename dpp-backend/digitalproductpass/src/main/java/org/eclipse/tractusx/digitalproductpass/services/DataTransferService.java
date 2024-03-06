@@ -704,7 +704,7 @@ public class DataTransferService extends BaseService {
             }
             // If the process has not changed and the timeout has arrived it will break the process exchange
             if(timeElapsed.getSeconds() >= env.getProperty("configuration.edc.timeout.exchange", Integer.class, 20)){
-                LogUtil.printError("TIMEOUT! [" + id + "] The contract exchange status took too long in state  [\" + state + \"] - Duration [" + timeElapsed + "]s");
+                LogUtil.printError("TIMEOUT! [" + id + "] The contract exchange status took too long in state  ["+ state + "] - Duration [" + timeElapsed + "]s");
                 throw new ServiceException(this.getClass().getName() + "." + "processExchange",
                         "Timeout achieved while requesting the contract exchange for transfer or negotiation!");
             }

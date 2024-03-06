@@ -1408,7 +1408,7 @@ public class DataTransferService extends BaseService {
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
                 CallbackAddress callbackAddress = new CallbackAddress(
-                        true,
+                        false,
                         receiverEndpoint,
                         List.of("transfer.process")
                 );

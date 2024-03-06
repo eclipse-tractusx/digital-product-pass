@@ -651,7 +651,7 @@ public class DataTransferService extends BaseService {
      * @param   dataModel
      *          the {@code ProcessDataModel} object of the process's data model.
      *
-     * @return  a {@code Negotiation} object with the negotiation data.
+     * @return  a {@code JsonNode} object with the negotiation/transfer data. If null there was an error in retrieving the exchange status.
      *
      * @throws  ServiceException
      *           if unable to process the exchange of the negotiation or the transfer
@@ -1145,7 +1145,7 @@ public class DataTransferService extends BaseService {
                 }
                 processManager.saveNegotiation(this.processId, this.negotiation, false);
                 String state = this.negotiation.getState();
-                if (!(state.equals("CONFIRMED") || state.equals("FINALIZED"))) {
+                if (!successStates.contains(state)) {
                     throw new ServiceException(this.getClass().getName(), "Contract Negotiation Process Failed [" + this.negotiation.getId() + "]");
                 }
             } catch (Exception e) {
@@ -1158,7 +1158,7 @@ public class DataTransferService extends BaseService {
             }
 
             if (this.dataModel.getState(processId).equals("TERMINATED")) {
-                LogUtil.printMessage("Terminated process " + processId + "stopped transfer!");
+                LogUtil.printMessage("Terminated process " + processId + " transfer terminated!");
                 return;
             }
             ;
@@ -1175,7 +1175,7 @@ public class DataTransferService extends BaseService {
                     return;
                 }
                 processManager.saveTransfer(this.processId, transfer, false);
-                if (!transfer.getState().equals("COMPLETED")) {
+                if (!successStates.contains(transfer.getState())) {
                     throw new ServiceException(this.getClass().getName(), "Transfer Process Failed [" + this.tranferResponse.getId() + "]");
                 }
             } catch (Exception e) {

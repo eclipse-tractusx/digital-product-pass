@@ -78,6 +78,11 @@ spec:
                 secretKeyRef:
                   key:  participantId
                   name: avp-consumer-backend-edc-oauth
+            - name: "oauth.apiKey"
+              valueFrom:
+                secretKeyRef:
+                  key: xApiKey
+                  name: avp-consumer-backend-auth
           volumeMounts:
             {{- toYaml .Values.backend.volumeMounts | nindent 12 }}
           ports:

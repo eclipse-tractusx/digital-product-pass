@@ -37,10 +37,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SimpleApiConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
+import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
+import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
+import org.eclipse.tractusx.digitalproductpass.models.http.requests.SingleApiRequest;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.TokenRequest;
-import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
@@ -50,15 +53,15 @@ import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.exceptions.UtilException;
 
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Thread.sleep;
 
 
 /**
@@ -81,9 +84,10 @@ public class ApiController {
     private @Autowired HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
     private @Autowired ProcessManager processManager;
+    private @Autowired ContractController contractController;
+    private @Autowired SimpleApiConfig simpleApiConfig;
 
     /** METHODS **/
-
     @RequestMapping(value = "/api/*", method = RequestMethod.GET)
     @Hidden
         // hide this endpoint from api documentation - swagger-ui
@@ -205,4 +209,125 @@ public class ApiController {
         }
     }
 
+    /**
+     * HTTP POST method to retrieve the Passport with an API Key authentication.
+     * <p>
+     * @param   singleApiRequestBody
+     *          the {@code SingleApiRequestBody} object with the needed and optional parameters to retrieve the data.
+     *
+     * @return this {@code Response} HTTP response with status.
+     *
+     */
+    @RequestMapping(value = "/data/request", method = {RequestMethod.POST})
+    @Operation(summary = "Returns the data by abstracting from all the different API's needed to get it", responses = {
+            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class))),
+            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PassportResponse.class))),
+    })
+    public Response singleApi(@Valid @RequestBody SingleApiRequest singleApiRequestBody) {
+        Response response = httpUtil.getInternalError();
+        if (!authService.isApiKeyAuthenticated(httpRequest)) {
+            response = httpUtil.getNotAuthorizedResponse();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        try {
+            List<String> mandatoryParams = List.of("id", "discoveryId");
+            if (!jsonUtil.checkJsonKeys(singleApiRequestBody, mandatoryParams, ".", false)) {
+                response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            DiscoverySearch discoverySearch = new DiscoverySearch();
+            discoverySearch.setId(singleApiRequestBody.getId());
+            discoverySearch.setType(singleApiRequestBody.getIdType());
+            //Call Create function
+            Response createResponse = contractController.createCall(response, discoverySearch);
+            //The Status from the response must 200 to proceed
+            if (createResponse.getStatus() != 200) {
+                return createResponse;
+            }
+            Map<String, String> createResponseData;
+            try {
+                createResponseData = (Map<String, String>) jsonUtil.toMap(createResponse.getData());
+            } catch (UtilException e) {
+                response = httpUtil.getBadRequest("Create Call:\n" + e.getMessage());
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            //Call Search function
+            Search searchBody = new Search();
+            searchBody.setId(singleApiRequestBody.getDiscoveryId());
+            searchBody.setIdType(singleApiRequestBody.getDiscoveryIdType());
+            searchBody.setProcessId(createResponseData.get("processId"));
+            searchBody.setChildren(singleApiRequestBody.getChildren());
+            searchBody.setSemanticId(singleApiRequestBody.getSemanticId());
+            Response searchResponse = contractController.searchCall(response, searchBody);
+            //The Status from the response must 200 to proceed
+            if (searchResponse.getStatus() != 200) {
+                return searchResponse;
+            }
+            Map<String, Object> searchResponseData;
+            Map<String, Dataset> contracts;
+            try {
+                searchResponseData = (Map<String, Object>) jsonUtil.toMap(searchResponse.getData());
+                contracts = (Map<String, Dataset>) jsonUtil.toMap(searchResponseData.get("contracts"));
+            } catch (UtilException e) {
+                response = httpUtil.getBadRequest("Search Call:\n" + e.getMessage());
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            //Call sign function
+            TokenRequest tokenRequest = new TokenRequest();
+            tokenRequest.setToken(searchResponseData.get("token").toString());
+            tokenRequest.setProcessId(searchResponseData.get("id").toString());
+            tokenRequest.setContractId(contracts.entrySet().stream().findFirst().get().getKey());
+            Response agreeResponse = contractController.agreeCall(response, tokenRequest);
+            //The Status from the response must 200 to proceed
+            if (agreeResponse.getStatus() != 200) {
+                return agreeResponse;
+            }
+            //Call Check status function
+            Status status;
+            try {
+                status = (Status) jsonUtil.bindObject(agreeResponse.getData(), Status.class);
+            } catch (UtilException e) {
+                response = httpUtil.getBadRequest("Agree Call:\n" + e.getMessage());
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            int retry = 1;
+            int maxRetries = simpleApiConfig.getMaxRetries();
+            while(retry <= maxRetries) {
+                if (status.historyExists("transfer-completed") || status.historyExists("data-received")) {
+                    break;
+                }
+                Response statusResponse = contractController.statusCall(response, searchBody.getProcessId());
+                //The Status from the response must 200 to proceed
+                if (statusResponse.getStatus() != 200) {
+                    return statusResponse;
+                }
+                try{
+                    status = (Status) jsonUtil.bindObject(statusResponse.getData(), Status.class);
+                    ++retry;
+                    sleep(1000);
+                } catch (Exception e) {
+                    response = httpUtil.getBadRequest("Status Call:\n" + e.getMessage());
+                    return httpUtil.buildResponse(response, httpResponse);
+                }
+            }
+            if (retry > maxRetries) {
+                response = httpUtil.getBadRequest("Wasn't possible to retrieve the Passport due to exceeded number of tries!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            //Call getData function
+            response = getData(tokenRequest);
+
+            return response;
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+    }
 }

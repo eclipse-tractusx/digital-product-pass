@@ -62,6 +62,8 @@ configuration:
     startUpChecks:
       bpnCheck: false
       edcCheck: false
+    authentication:
+      header: "X-Api-Key"
 
   irs:
     enabled: true
@@ -102,6 +104,8 @@ configuration:
       key: "bpn"
       timeout: 1500
 
+  simpleApi:
+    maxRetries: 5
 
   process:
     store: true
@@ -132,6 +136,7 @@ configuration:
       - "client.secret"
       - "edc.apiKey"
       - "edc.participantId"
+      - "oauth.apiKey"
 
 server:
   error:

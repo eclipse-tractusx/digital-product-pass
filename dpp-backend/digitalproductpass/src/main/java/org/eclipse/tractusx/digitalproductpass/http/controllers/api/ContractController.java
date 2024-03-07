@@ -124,7 +124,20 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
+            response = createCall(response, searchBody);
 
+            return response;
+
+        } catch (Exception e) {
+            assert response != null;
+            response.message = "It was not possible to create the process and search for the decentral digital twin registries";
+            LogUtil.printException(e, response.message);
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+    }
+
+    public Response createCall (Response response, DiscoverySearch searchBody) {
+        try {
             searchBody.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
             List<String> mandatoryParams = List.of("id");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
@@ -148,19 +161,19 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             List<String> bpnList = new ArrayList<>();
-            for(BpnDiscovery bpnDiscovery : bpnDiscoveries){
+            for (BpnDiscovery bpnDiscovery : bpnDiscoveries) {
                 bpnList.addAll(bpnDiscovery.mapBpnNumbers());
             }
-            if(bpnList.size() == 0){
+            if (bpnList.size() == 0) {
                 response.message = "The asset was not found in the BPN Discovery!";
                 response.status = 404;
                 response.statusText = "Not Found";
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String processId = processManager.initProcess();
-            LogUtil.printMessage("Creating process [" + processId + "] for "+searchBody.getType() + ": "+ searchBody.getId());
+            LogUtil.printMessage("Creating process [" + processId + "] for " + searchBody.getType() + ": " + searchBody.getId());
             ConcurrentHashMap<String, List<Dtr>> dataModel = null;
-            if(dtrConfig.getTemporaryStorage().getEnabled()) {
+            if (dtrConfig.getTemporaryStorage().getEnabled()) {
                 try {
                     dataModel = this.dtrSearchManager.loadDataModel();
                 } catch (Exception e) {
@@ -168,33 +181,34 @@ public class ContractController {
                 }
             }
             // This checks if the cache is deactivated or if the bns are not in the dataModel,  if one of them is not in the data model then we need to check for them
-            if(!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel==null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))){
+            if (!dtrConfig.getTemporaryStorage().getEnabled() || ((dataModel == null) || !jsonUtil.checkJsonKeys(dataModel, bpnList, ".", false))) {
                 catenaXService.searchDTRs(bpnList, processId);
-            }else{
+            } else {
                 boolean requestDtrs = false;
                 // Take the results from cache
-                for(String bpn: bpnList){
+                for (String bpn : bpnList) {
                     List<Dtr> dtrs = null;
                     try {
-                        dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
+                        dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {
+                        });
                     } catch (Exception e) {
                         throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                     }
 
-                    if(dtrs == null || dtrs.size() == 0){
+                    if (dtrs == null || dtrs.size() == 0) {
                         continue;
                     }
                     Long currentTimestamp = DateTimeUtil.getTimestamp();
                     // Iterate over every DTR and add it to the file
-                    for(Dtr dtr: dtrs){
+                    for (Dtr dtr : dtrs) {
 
                         Long validUntil = dtr.getValidUntil();
                         //Check if invalid time has come
-                        if(dtr.getInvalid() && validUntil > currentTimestamp){
+                        if (dtr.getInvalid() && validUntil > currentTimestamp) {
                             continue;
                         }
 
-                        if(dtr.getContractId() == null || dtr.getContractId().isEmpty() || validUntil == null || validUntil < currentTimestamp){
+                        if (dtr.getContractId() == null || dtr.getContractId().isEmpty() || validUntil == null || validUntil < currentTimestamp) {
                             requestDtrs = true; // If the cache invalidation time has come request Dtrs
                             break;
                         }
@@ -203,7 +217,7 @@ public class ContractController {
                     }
 
                     // If the refresh from the cache is necessary
-                    if(requestDtrs){
+                    if (requestDtrs) {
                         dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
                         catenaXService.searchDTRs(bpnList, processId); // Start again the search
                         break;
@@ -212,10 +226,10 @@ public class ContractController {
             }
 
             SearchStatus status = processManager.getSearchStatus(processId);
-            if(status == null){
+            if (status == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries"), httpResponse);
             }
-            if(status.getDtrs().isEmpty()){
+            if (status.getDtrs().isEmpty()) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("No decentral digital twin registry was found"), httpResponse);
             }
             response = httpUtil.getResponse();
@@ -223,7 +237,6 @@ public class ContractController {
                     "processId", processId
             );
             return httpUtil.buildResponse(response, httpResponse);
-
         } catch (Exception e) {
             assert response != null;
             response.message = "It was not possible to create the process and search for the decentral digital twin registries";
@@ -255,162 +268,170 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            List<String> mandatoryParams = List.of("id");
-            if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
-                response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
 
-            Process process = null;
-            AssetSearch assetSearch = null;
+           response = searchCall(response, searchBody);
 
-            // Check for processId
-            if(searchBody.getProcessId() == null){
-                response = httpUtil.getBadRequest("No processId was found on the request body!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
+            return response;
 
-            String processId = searchBody.getProcessId();
-            if(processId.isEmpty()){
-                response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            SearchStatus searchStatus = processManager.getSearchStatus(processId);
-            if (searchStatus == null) {
-                response = httpUtil.getBadRequest("The searchStatus id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            if(searchStatus.getDtrs().keySet().size() == 0){
-                response = httpUtil.getBadRequest("No digital twins are available for this process!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Boolean childrenCondition = searchBody.getChildren();
-            String logPrint = "[PROCESS " + processId + "] Creating search for "+searchBody.getIdType() + ": "+ searchBody.getId();
-            if(childrenCondition != null){
-                LogUtil.printMessage(logPrint + " with drilldown enabled");
-                process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
-            }else {
-                LogUtil.printMessage(logPrint + " with drilldown disabled");
-                process = processManager.createProcess(processId, httpRequest);
-            }
-            Status status = processManager.getStatus(processId);
-            if (status == null) {
-                response = httpUtil.getBadRequest("The status is not available!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
-
-
-            if(assetSearch == null){
-                LogUtil.printWarning("[PROCESS " + processId + "] The decentralized digital twin registry asset search return a null response!");
-                status = processManager.getStatus(processId);
-                // Here start the algorithm to refresh the dtrs in the cache if the transfer was incompleted
-                List<Dtr> dtrList = new ArrayList<Dtr>();
-                Map<String, Dtr> dtrs = searchStatus.getDtrs();
-                List<String> bpnList = new ArrayList<String>();
-                for(String dtrId: searchStatus.getDtrs().keySet()){
-                    // Check if any dtr search was incomplete
-                    if(!status.historyExists("dtr-"+dtrId+"-transfer-incomplete")) {
-                        continue;
-                    }
-                    // Add the dtr bpn to the update cache list
-                    Dtr dtr = dtrs.get(dtrId);
-                    String bpn = dtr.getBpn();
-                    if(!bpnList.contains(bpn)) {
-                        bpnList.add(dtr.getBpn()); // Add bpn to delete in the cache
-                    }
-                    dtrList.add(dtr);
-                }
-
-                // If no bpn numbers need to be updated is because there is no digital twin found
-                if(bpnList.size() == 0){
-                    response = httpUtil.getBadRequest("No digital twin was found!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-
-                LogUtil.printWarning("["+dtrList.size()+"] Digital Twin Registries Contracts are invalid and need to be refreshed! For the following BPN Number(s): "+ bpnList.toString());
-                // Refresh cache or search id
-                if(dtrConfig.getTemporaryStorage().getEnabled()) {
-                    ConcurrentHashMap<String, List<Dtr>> dataModel = null;
-                    try {
-                        dataModel = this.dtrSearchManager.loadDataModel();
-                    } catch (Exception e) {
-                        LogUtil.printWarning("Failed to load data model from disk!");
-                    }
-                    dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
-                }
-                LogUtil.printMessage("Refreshing ["+bpnList.size()+"] BPN Number Endpoints...");
-                catenaXService.searchDTRs(bpnList, processId); // Start again the search for refreshing the dtrs
-                assetSearch = aasService.decentralDtrSearch(process.id, searchBody); // Start again the search
-                if(assetSearch == null) { // If again was not found then we give an error
-                    response = httpUtil.getBadRequest("No digital twin was found! Even after retrying the digital twin transfer!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-            }
-            // Assing the variables with the content
-            String assetId = assetSearch.getAssetId();
-            String connectorAddress = assetSearch.getConnectorAddress();
-
-            /*[1]=========================================*/
-            // Get catalog with all the contract offers
-            if(connectorAddress == null){
-                LogUtil.printError("The connector address is empty!");
-            }
-            if(assetId == null){
-                LogUtil.printError("The assetId is empty!");
-            }
-            Map<String, Dataset> datasets = null;
-            Long startedTime = DateTimeUtil.getTimestamp();
-            try {
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
-            } catch (ServiceException e) {
-                LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
-                if (datasets == null) { // If the contract catalog is not reachable retry...
-                    response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
-                    response.status = 502;
-                    response.statusText = "Service Not Available";
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-            }
-            // Check if contract offer was not received
-            if (datasets == null) {
-                // Retry again...
-                LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
-                if (datasets == null) { // If the contract catalog is not reachable retry...
-                    response.message = "Asset Id not found in any contract!";
-                    response.status = 404;
-                    response.statusText = "Not Found";
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-            }
-            String seedId = String.join("|", datasets.keySet());
-            LogUtil.printDebug("[PROCESS " + process.id + "] ["+datasets.size()+"] Contracts found for asset [" + assetId + "] in EDC Endpoint [" + connectorAddress + "]");
-
-            response = null;
-            response = httpUtil.getResponse();
-            response.data = Map.of(
-                    "id", process.id,
-                    "contracts", datasets,
-                    "token", processManager.generateToken(process, seedId)
-            );
-
-            processManager.saveDatasets(process.id, datasets, seedId, startedTime, false);
-            // After the search is performed the search dir is deleted
-            if(!processManager.deleteSearchDir(process.id)){
-                LogUtil.printError("It was not possible to delete the search.json file for the process");
-            }else{
-                LogUtil.printDebug("[PROCESS " + process.id + "] The tmp search directory was deleted successfully!");
-            }
-
-            return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e) {
             assert response != null;
             response.message = "It was not possible to search for the serialized id";
             LogUtil.printException(e, response.message);
             return httpUtil.buildResponse(response, httpResponse);
         }
+    }
+
+    public Response searchCall(Response response, Search searchBody) {
+        List<String> mandatoryParams = List.of("id");
+        if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
+            response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        Process process = null;
+        AssetSearch assetSearch = null;
+
+        // Check for processId
+        if(searchBody.getProcessId() == null){
+            response = httpUtil.getBadRequest("No processId was found on the request body!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        String processId = searchBody.getProcessId();
+        if(processId.isEmpty()){
+            response = httpUtil.getBadRequest("Process id is required for decentral digital twin registry searches!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        SearchStatus searchStatus = processManager.getSearchStatus(processId);
+        if (searchStatus == null) {
+            response = httpUtil.getBadRequest("The searchStatus id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        if(searchStatus.getDtrs().keySet().size() == 0){
+            response = httpUtil.getBadRequest("No digital twins are available for this process!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        Boolean childrenCondition = searchBody.getChildren();
+        String logPrint = "[PROCESS " + processId + "] Creating search for "+searchBody.getIdType() + ": "+ searchBody.getId();
+        if(childrenCondition != null){
+            LogUtil.printMessage(logPrint + " with drilldown enabled");
+            process = processManager.createProcess(processId, childrenCondition, httpRequest); // Store the children condition
+        }else {
+            LogUtil.printMessage(logPrint + " with drilldown disabled");
+            process = processManager.createProcess(processId, httpRequest);
+        }
+        Status status = processManager.getStatus(processId);
+        if (status == null) {
+            response = httpUtil.getBadRequest("The status is not available!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
+
+
+        if(assetSearch == null){
+            LogUtil.printWarning("[PROCESS " + processId + "] The decentralized digital twin registry asset search return a null response!");
+            status = processManager.getStatus(processId);
+            // Here start the algorithm to refresh the dtrs in the cache if the transfer was incompleted
+            List<Dtr> dtrList = new ArrayList<Dtr>();
+            Map<String, Dtr> dtrs = searchStatus.getDtrs();
+            List<String> bpnList = new ArrayList<String>();
+            for(String dtrId: searchStatus.getDtrs().keySet()){
+                // Check if any dtr search was incomplete
+                if(!status.historyExists("dtr-"+dtrId+"-transfer-incomplete")) {
+                    continue;
+                }
+                // Add the dtr bpn to the update cache list
+                Dtr dtr = dtrs.get(dtrId);
+                String bpn = dtr.getBpn();
+                if(!bpnList.contains(bpn)) {
+                    bpnList.add(dtr.getBpn()); // Add bpn to delete in the cache
+                }
+                dtrList.add(dtr);
+            }
+
+            // If no bpn numbers need to be updated is because there is no digital twin found
+            if(bpnList.size() == 0){
+                response = httpUtil.getBadRequest("No digital twin was found!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+
+            LogUtil.printWarning("["+dtrList.size()+"] Digital Twin Registries Contracts are invalid and need to be refreshed! For the following BPN Number(s): "+ bpnList.toString());
+            // Refresh cache or search id
+            if(dtrConfig.getTemporaryStorage().getEnabled()) {
+                ConcurrentHashMap<String, List<Dtr>> dataModel = null;
+                try {
+                    dataModel = this.dtrSearchManager.loadDataModel();
+                } catch (Exception e) {
+                    LogUtil.printWarning("Failed to load data model from disk!");
+                }
+                dtrSearchManager.deleteBpns(dataModel, bpnList); // Delete BPN numbers
+            }
+            LogUtil.printMessage("Refreshing ["+bpnList.size()+"] BPN Number Endpoints...");
+            catenaXService.searchDTRs(bpnList, processId); // Start again the search for refreshing the dtrs
+            assetSearch = aasService.decentralDtrSearch(process.id, searchBody); // Start again the search
+            if(assetSearch == null) { // If again was not found then we give an error
+                response = httpUtil.getBadRequest("No digital twin was found! Even after retrying the digital twin transfer!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+        }
+        // Assing the variables with the content
+        String assetId = assetSearch.getAssetId();
+        String connectorAddress = assetSearch.getConnectorAddress();
+
+        /*[1]=========================================*/
+        // Get catalog with all the contract offers
+        if(connectorAddress == null){
+            LogUtil.printError("The connector address is empty!");
+        }
+        if(assetId == null){
+            LogUtil.printError("The assetId is empty!");
+        }
+        Map<String, Dataset> datasets = null;
+        Long startedTime = DateTimeUtil.getTimestamp();
+        try {
+            datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+        } catch (ServiceException e) {
+            LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
+            datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+            if (datasets == null) { // If the contract catalog is not reachable retry...
+                response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
+                response.status = 502;
+                response.statusText = "Service Not Available";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+        }
+        // Check if contract offer was not received
+        if (datasets == null) {
+            // Retry again...
+            LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
+            datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+            if (datasets == null) { // If the contract catalog is not reachable retry...
+                response.message = "Asset Id not found in any contract!";
+                response.status = 404;
+                response.statusText = "Not Found";
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+        }
+        String seedId = String.join("|", datasets.keySet());
+        LogUtil.printDebug("[PROCESS " + process.id + "] ["+datasets.size()+"] Contracts found for asset [" + assetId + "] in EDC Endpoint [" + connectorAddress + "]");
+
+        response = null;
+        response = httpUtil.getResponse();
+        response.data = Map.of(
+                "id", process.id,
+                "contracts", datasets,
+                "token", processManager.generateToken(process, seedId)
+        );
+
+        processManager.saveDatasets(process.id, datasets, seedId, startedTime, false);
+        // After the search is performed the search dir is deleted
+        if(!processManager.deleteSearchDir(process.id)){
+            LogUtil.printError("It was not possible to delete the search.json file for the process");
+        }else{
+            LogUtil.printDebug("[PROCESS " + process.id + "] The tmp search directory was deleted successfully!");
+        }
+
+        return httpUtil.buildResponse(response, httpResponse);
     }
 
     /**
@@ -438,15 +459,20 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            // Get status
-            response = httpUtil.getResponse();
-            response.data = processManager.getStatus(processId);
-            return httpUtil.buildResponse(response, httpResponse);
+            response = statusCall(response, processId);
 
+            return response;
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
+    }
+
+    public Response statusCall(Response response, String processId) {
+        // Get status
+        response = httpUtil.getResponse();
+        response.data = processManager.getStatus(processId);
+        return httpUtil.buildResponse(response, httpResponse);
     }
 
     /**
@@ -562,7 +588,6 @@ public class ContractController {
     @RequestMapping(value = "/agree", method = RequestMethod.POST)
     @Operation(summary = "Start the negotiation for an specific asset, contract agreement and policy agreement")
     public Response negotiate(@Valid @RequestBody TokenRequest tokenRequestBody) {
-        Long signedAt = DateTimeUtil.getTimestamp();
         Response response = httpUtil.getInternalError();
 
         // Check for authentication
@@ -571,125 +596,133 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            // Check for the mandatory fields
-            List<String> mandatoryParams = List.of("processId", "contractId", "token");
-            if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
-                response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
 
-            // Check for processId
-            String processId = tokenRequestBody.getProcessId();
-            if (!processManager.checkProcess(httpRequest, processId)) {
-                response = httpUtil.getBadRequest("The process id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
+            response = agreeCall(response, tokenRequestBody);
 
-
-            Process process = processManager.getProcess(httpRequest, processId);
-            if (process == null) {
-                response = httpUtil.getBadRequest("The process id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Get status to check for contract id
-            String contractId = tokenRequestBody.getContractId();
-            Status status = processManager.getStatus(processId);
-
-            // Check if was already declined
-            if (status.historyExists("contract-decline")) {
-                response = httpUtil.getForbiddenResponse("This contract was declined! Please request a new one");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check if negotiation is canceled
-            if (status.historyExists("negotiation-canceled")) {
-                response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check if was already agreed
-            if (status.historyExists("contract-agreed")) {
-                response = httpUtil.getForbiddenResponse("This contract is already agreed!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check if there is a contract available
-            if (!status.historyExists("contract-dataset")) {
-                response = httpUtil.getBadRequest("No contract is available!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check if the contract id is correct
-            History history = status.getHistory("contract-dataset");
-            if (!history.getId().contains(contractId)) {
-                response = httpUtil.getBadRequest("This contract id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Load all the available contracts
-            Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
-            String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
-            // Check the validity of the token
-            String expectedToken = processManager.generateToken(process, seedId);
-            String token = tokenRequestBody.getToken();
-            if (!expectedToken.equals(token)) {
-                response = httpUtil.getForbiddenResponse("The token is invalid!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Dataset dataset = availableContracts.get(contractId);
-
-            if (dataset == null) {
-                response.message = "The Contract Selected was not found!";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            String policyId = tokenRequestBody.getPolicyId();
-            DataTransferService.NegotiateContract contractNegotiation = null;
-            // Check if policy is available!
-            if (policyId != null) {
-                Set policy = edcUtil.getPolicyById(dataset, policyId);
-                if (policy == null) {
-                    response = httpUtil.getBadRequest("The policy selected does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        dataset,
-                        processManager.getStatus(processId),
-                        policy
-                );
-            } else {
-                // If the policy is not selected get the first one by default
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        dataset,
-                        processManager.getStatus(processId)
-                );
-            }
-            String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
-            if (statusPath == null) {
-                response.message = "Something went wrong when agreeing with the contract!";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] Agreed! Starting negotiation...");
-            processManager.startNegotiation(httpRequest, processId, contractNegotiation);
-            LogUtil.printStatus("[PROCESS " + processId + "] Negotiation for [" + contractId + "] started!");
-
-            response = httpUtil.getResponse("The contract was agreed successfully! Negotiation started!");
-            response.data = processManager.getStatus(processId);
-            return httpUtil.buildResponse(response, httpResponse);
+            return response;
 
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
+    }
+
+    public Response agreeCall(Response response, TokenRequest tokenRequestBody) {
+        Long signedAt = DateTimeUtil.getTimestamp();
+        // Check for the mandatory fields
+        List<String> mandatoryParams = List.of("processId", "contractId", "token");
+        if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
+            response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check for processId
+        String processId = tokenRequestBody.getProcessId();
+        if (!processManager.checkProcess(httpRequest, processId)) {
+            response = httpUtil.getBadRequest("The process id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+
+        Process process = processManager.getProcess(httpRequest, processId);
+        if (process == null) {
+            response = httpUtil.getBadRequest("The process id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Get status to check for contract id
+        String contractId = tokenRequestBody.getContractId();
+        Status status = processManager.getStatus(processId);
+
+        // Check if was already declined
+        if (status.historyExists("contract-decline")) {
+            response = httpUtil.getForbiddenResponse("This contract was declined! Please request a new one");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check if negotiation is canceled
+        if (status.historyExists("negotiation-canceled")) {
+            response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check if was already agreed
+        if (status.historyExists("contract-agreed")) {
+            response = httpUtil.getForbiddenResponse("This contract is already agreed!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check if there is a contract available
+        if (!status.historyExists("contract-dataset")) {
+            response = httpUtil.getBadRequest("No contract is available!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check if the contract id is correct
+        History history = status.getHistory("contract-dataset");
+        if (!history.getId().contains(contractId)) {
+            response = httpUtil.getBadRequest("This contract id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Load all the available contracts
+        Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
+        String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
+        // Check the validity of the token
+        String expectedToken = processManager.generateToken(process, seedId);
+        String token = tokenRequestBody.getToken();
+        if (!expectedToken.equals(token)) {
+            response = httpUtil.getForbiddenResponse("The token is invalid!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        Dataset dataset = availableContracts.get(contractId);
+
+        if (dataset == null) {
+            response.message = "The Contract Selected was not found!";
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        String policyId = tokenRequestBody.getPolicyId();
+        DataTransferService.NegotiateContract contractNegotiation = null;
+        // Check if policy is available!
+        if (policyId != null) {
+            Set policy = edcUtil.getPolicyById(dataset, policyId);
+            if (policy == null) {
+                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            contractNegotiation = dataService
+                    .new NegotiateContract(
+                    processManager.loadDataModel(httpRequest),
+                    processId,
+                    status.getBpn(),
+                    dataset,
+                    processManager.getStatus(processId),
+                    policy
+            );
+        } else {
+            // If the policy is not selected get the first one by default
+            contractNegotiation = dataService
+                    .new NegotiateContract(
+                    processManager.loadDataModel(httpRequest),
+                    processId,
+                    status.getBpn(),
+                    dataset,
+                    processManager.getStatus(processId)
+            );
+        }
+        String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
+        if (statusPath == null) {
+            response.message = "Something went wrong when agreeing with the contract!";
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] Agreed! Starting negotiation...");
+        processManager.startNegotiation(httpRequest, processId, contractNegotiation);
+        LogUtil.printStatus("[PROCESS " + processId + "] Negotiation for [" + contractId + "] started!");
+
+        response = httpUtil.getResponse("The contract was agreed successfully! Negotiation started!");
+        response.data = processManager.getStatus(processId);
+        return httpUtil.buildResponse(response, httpResponse);
     }
 
     /**
@@ -777,7 +810,6 @@ public class ContractController {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
-
 
     }
 

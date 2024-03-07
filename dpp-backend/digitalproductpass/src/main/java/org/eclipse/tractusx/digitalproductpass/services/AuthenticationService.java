@@ -198,6 +198,23 @@ public class AuthenticationService extends BaseService {
     }
 
     /**
+     * Checks if the user is Api Key authenticated.
+     * <p>
+     * @param   httpRequest
+     *          the {@code HttpServletRequest} object representing the HTTP request.
+     *
+     * @return  true if the user is authenticated, false otherwise.
+     *
+     */
+    public Boolean isApiKeyAuthenticated(HttpServletRequest httpRequest) {
+        final String xApiKey = httpRequest.getHeader(securityConfig.getAuthentication().getHeader());
+        if (vaultService.getLocalSecret("oauth.apikey").toString().equals(xApiKey)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if the user is authenticated.
      * <p>
      * @param   httpRequest

@@ -39,12 +39,13 @@ public class SecurityConfig {
 
     /** ATTRIBUTES **/
     private AuthorizationConfig authorization;
-
     private StartUpCheckConfig startUpChecks;
+    private AuthenticationConfig authentication;
 
-    public SecurityConfig(AuthorizationConfig authorization, StartUpCheckConfig startUpChecks) {
+    public SecurityConfig(AuthorizationConfig authorization, StartUpCheckConfig startUpChecks, AuthenticationConfig authentication) {
         this.authorization = authorization;
         this.startUpChecks = startUpChecks;
+        this.authentication = authentication;
     }
 
     public SecurityConfig() {
@@ -66,6 +67,15 @@ public class SecurityConfig {
     public void setStartUpChecks(StartUpCheckConfig startUpChecks) {
         this.startUpChecks = startUpChecks;
     }
+
+    public AuthenticationConfig getAuthentication() {
+        return authentication;
+    }
+
+    public void setAuthentication(AuthenticationConfig authentication) {
+        this.authentication = authentication;
+    }
+
     /** INNER CLASSES **/
 
     /**
@@ -132,6 +142,26 @@ public class SecurityConfig {
 
         public void setEdcCheck(Boolean edcCheck) {
             this.edcCheck = edcCheck;
+        }
+    }
+
+    public static class AuthenticationConfig {
+        private String header;
+
+
+        public AuthenticationConfig() {
+        }
+
+        public AuthenticationConfig(String header) {
+            this.header = header;
+        }
+
+        public String getHeader() {
+            return header;
+        }
+
+        public void setHeader(String header) {
+            this.header = header;
         }
     }
 

@@ -103,4 +103,8 @@ oauth:
     enabled: true
     bpn: *bpn
   roleCheck:
-    enabled: false  
+    enabled: false
+  apiKey:
+    header: "X-Api-Key"
+    secret: <path:material-pass/data/int/oauth#xApiKey>
+

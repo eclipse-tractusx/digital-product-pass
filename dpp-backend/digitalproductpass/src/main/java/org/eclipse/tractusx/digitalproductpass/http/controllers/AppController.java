@@ -280,6 +280,16 @@ public class AppController {
         if (endpointData.getAuthCode().isEmpty()) {
             throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
         }
+        if (endpointData.getContractId().isEmpty() && !endpointData.offerIdExists()) {
+            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
+            if (!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")) {
+                throw new ControllerException(this.getClass().getName(), "The Offer Id is empty!");
+            }
+            return endpointData;
+        }
+        if (endpointData.getContractId().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "The contractId is empty!");
+        }
         return endpointData;
     }
 
@@ -314,7 +324,6 @@ public class AppController {
             if(status == null){
                 return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
             }
-
 
             JsonNode passport = dataPlaneService.getPassportFromEndpoint(endpointData, status.getDataPlaneUrl());
             if (passport == null) {

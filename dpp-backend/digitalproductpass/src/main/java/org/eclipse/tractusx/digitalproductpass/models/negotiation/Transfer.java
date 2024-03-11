@@ -44,6 +44,15 @@ public class Transfer extends NegotiationTransferResponse {
     @JsonProperty("stateTimestamp")
     @JsonAlias({"stateTimestamp","edc:stateTimestamp"})
     Long stateTimestamp;
+    @JsonProperty("correlationId")
+    @JsonAlias({"correlationId","edc:correlationId"})
+    String correlationId;
+    @JsonProperty("assetId")
+    @JsonAlias({"assetId","edc:assetId"})
+    String assetId;
+    @JsonProperty("contractId")
+    @JsonAlias({"contractId","edc:contractId"})
+    String contractId;
     @JsonProperty("dataDestination")
     @JsonAlias({"dataDestination","edc:dataDestination"})
     DataDestination dataDestination;
@@ -89,6 +98,38 @@ public class Transfer extends NegotiationTransferResponse {
     public Transfer() {
     }
 
+    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+    }
+
+    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+    }
+
+    public Transfer(Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+    }
+
     public Long getStateTimestamp() {
         return stateTimestamp;
     }
@@ -119,6 +160,30 @@ public class Transfer extends NegotiationTransferResponse {
 
     public void setReceiverHttpEndpoint(String receiverHttpEndpoint) {
         this.receiverHttpEndpoint = receiverHttpEndpoint;
+    }
+
+    public String getCorrelationId() {
+        return correlationId;
+    }
+
+    public void setCorrelationId(String correlationId) {
+        this.correlationId = correlationId;
+    }
+
+    public String getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 
 

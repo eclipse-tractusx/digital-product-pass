@@ -514,8 +514,6 @@ public class DataTransferService extends BaseService {
             HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);
-            System.out.println(jsonUtil.toJson(body, true));
-
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Catalog) jsonUtil.bindJsonNode(result, Catalog.class);
@@ -766,7 +764,7 @@ public class DataTransferService extends BaseService {
             // Get variables from configuration
             String url = endpoint + "/" + id;
             // Do the process exchange
-            JsonNode response = this.processExchange(url, id, processId, dataModel, successStates);
+            JsonNode response = this.processExchange(url, id, processId, dataModel, this.successStates);
             if(response == null) {
                 return null;
             }
@@ -871,7 +869,7 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
             String url = endpoint + "/" + id;
             // Do the process exchange
-            JsonNode response = this.processExchange(url, id, processId, dataModel, transferSuccessStates);
+            JsonNode response = this.processExchange(url, id, processId, dataModel, this.transferSuccessStates);
             if(response == null) {
                 return null;
             }

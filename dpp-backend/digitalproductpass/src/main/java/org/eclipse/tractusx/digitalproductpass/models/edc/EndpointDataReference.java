@@ -49,7 +49,9 @@ public class EndpointDataReference extends DidDocument {
     @JsonProperty("endpoint")
     @JsonAlias({"endpoint", "edc:endpoint"})
     String endpoint;
-
+    @JsonProperty("properties")
+    @JsonAlias({"properties", "edc:properties"})
+    Properties properties;
     @JsonProperty("contractId")
     @JsonAlias({"contractId", "edc:contractId"})
     String contractId;
@@ -77,6 +79,17 @@ public class EndpointDataReference extends DidDocument {
         this.id = id1;
         this.edrType = edrType;
         this.endpoint = endpoint;
+        this.contractId = contractId;
+        this.authKey = authKey;
+        this.authCode = authCode;
+    }
+
+    public EndpointDataReference(JsonNode context, String id, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
+        super(context);
+        this.id = id;
+        this.edrType = edrType;
+        this.endpoint = endpoint;
+        this.properties = properties;
         this.contractId = contractId;
         this.authKey = authKey;
         this.authCode = authCode;
@@ -111,11 +124,33 @@ public class EndpointDataReference extends DidDocument {
         this.authCode = authCode;
     }
 
+    public EndpointDataReference(String id, String type, JsonNode context, String id1, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
+        super(id, type, context);
+        this.id = id1;
+        this.edrType = edrType;
+        this.endpoint = endpoint;
+        this.properties = properties;
+        this.contractId = contractId;
+        this.authKey = authKey;
+        this.authCode = authCode;
+    }
+
     public EndpointDataReference(JsonNode context, String id, String edrType, String endpoint, String contractId, String authKey, String authCode) {
         super(context);
         this.id = id;
         this.edrType = edrType;
         this.endpoint = endpoint;
+        this.contractId = contractId;
+        this.authKey = authKey;
+        this.authCode = authCode;
+    }
+
+    public EndpointDataReference(String id, String type, String id1, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
+        super(id, type);
+        this.id = id1;
+        this.edrType = edrType;
+        this.endpoint = endpoint;
+        this.properties = properties;
         this.contractId = contractId;
         this.authKey = authKey;
         this.authCode = authCode;
@@ -165,4 +200,40 @@ public class EndpointDataReference extends DidDocument {
     public void setEdrType(String edrType) {
         this.edrType = edrType;
     }
+
+    /** METHODS **/
+    /**
+     * Checks if offerId exists in the properties attribute.
+     * <p>
+     *
+     * @return  true if the offerId exists, false otherwise.
+     *
+     */
+    /** INNER CLASSES **/
+    /**
+     * This class consists exclusively to define attributes related to the Asset search's properties.
+     **/
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    static class Properties {
+        @JsonProperty("https://w3id.org/edc/v0.0.1/ns/cid")
+        String offerId;
+    }
+    public Boolean offerIdExists(){
+        try {
+            return this.properties != null && this.properties.offerId != null;
+        }catch (Exception e){
+            // Do nothing because is non-existent the offer id
+        }
+        return false;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
 }

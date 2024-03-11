@@ -97,17 +97,17 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the transfer data.
      */
-    public Object getTransferDataFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
+    public JsonNode getTransferDataFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
             headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
-            ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, Object.class, headers, params, true, true);
-            return response.getBody();
+            ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, String.class, headers, params, true, true);
+            return jsonUtil.toJsonNode((String) response.getBody());
         }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
+            throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,
-                    "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
+                    "It was not possible to get data with transfer id ["+endpointData.getId()+"]");
         }
     }
 
@@ -146,7 +146,7 @@ public class DataPlaneService extends BaseService {
      */
     public JsonNode getPassportFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
-            return jsonUtil.toJsonNode(this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint));
+            return this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

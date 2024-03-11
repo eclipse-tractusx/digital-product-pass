@@ -73,9 +73,14 @@ class DataPlaneServiceTest {
         when(httpUtil.getHeaders()).thenReturn(new HttpHeaders());
         when(httpUtil.getParams()).thenReturn(new HashMap<>());
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(), eq(true), eq(true)))
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(), eq(true), eq(true)))
                 .then(invocation -> {
                     JsonNode passport = (JsonNode) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testPassportPath).toString(), JsonNode.class);
+                    return new ResponseEntity<>(passport, HttpStatus.OK);
+                });
+        when(httpUtil.doGet(anyString(), eq(String.class), any(HttpHeaders.class), any(), eq(true), eq(true)))
+                .then(invocation -> {
+                    String passport = fileUtil.readFile(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testPassportPath).toString());
                     return new ResponseEntity<>(passport, HttpStatus.OK);
                 });
 

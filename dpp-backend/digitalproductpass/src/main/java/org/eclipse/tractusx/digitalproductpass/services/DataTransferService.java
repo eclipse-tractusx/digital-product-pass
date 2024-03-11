@@ -83,11 +83,18 @@ public class DataTransferService extends BaseService {
     public EdcUtil edcUtil;
     public DtrConfig dtrConfig;
 
+    // Success states of the EDC exchanges
     final public List<String> successStates = List.of(
             "CONFIRMED",
             "FINALIZED",
             "COMPLETED"
     );
+    // Success states of the transfer exchange
+    final public List<String> transferSuccessStates = List.of(
+            "STARTED",
+            "COMPLETED"
+    );
+    // Error states of the EDC exchanges
     final public List<String> errorStates = List.of(
             "TERMINATED",
             "TERMINATING",
@@ -632,18 +639,24 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   state
      *          the {@code String} contains the state of the contract negotiation
+     * @param   completedStates
+     *          the {@code List<String>} contains the list of "success" states, if {@code mull} the default edc
+     *          states will be used
      *
      * @return  a {@code Boolean} with indicating if the negotiation/transfer is in a success state
      *
      * @throws  ServiceException
      *           there was an error with the processing or the negotiation response was an error
      */
-    public Boolean isStateSuccess(String state){
+    public Boolean isStateSuccess(String state, List<String> completedStates){
+        if(completedStates == null){
+            completedStates = successStates;
+        }
         if (state == null || state.isEmpty() || errorStates.contains(state)) {
             throw new ServiceException(this.getClass().getName() + "." + "isStateSuccess",
                     "It was not possible to do the information exchange with the EDC!");
         }                // If the state is success
-        return successStates.contains(state);
+        return completedStates.contains(state);
     }
 
     /**
@@ -663,7 +676,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to process the exchange of the negotiation or the transfer
      */
-    public JsonNode processExchange(String url, String id, String processId, ProcessDataModel dataModel) throws ServiceException {
+    public JsonNode processExchange(String url, String id, String processId, ProcessDataModel dataModel, List<String> completedStates) throws ServiceException {
         // Initialize variables
         String actualState = "", state = "";
         boolean success;
@@ -689,7 +702,7 @@ public class DataTransferService extends BaseService {
             state = body.getState();
             try {
                 // Check if the state is already successful
-                success = this.isStateSuccess(state);
+                success = this.isStateSuccess(state, completedStates);
             }catch(Exception e){
                 LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
                 return null;
@@ -750,9 +763,8 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
             // Get variables from configuration
             String url = endpoint + "/" + id;
-
             // Do the process exchange
-            JsonNode response = this.processExchange(url, id, processId, dataModel);
+            JsonNode response = this.processExchange(url, id, processId, dataModel, successStates);
             if(response == null) {
                 return null;
             }
@@ -857,7 +869,7 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
             String url = endpoint + "/" + id;
             // Do the process exchange
-            JsonNode response = this.processExchange(url, id, processId, dataModel);
+            JsonNode response = this.processExchange(url, id, processId, dataModel, transferSuccessStates);
             if(response == null) {
                 return null;
             }
@@ -1209,7 +1221,7 @@ public class DataTransferService extends BaseService {
                     return;
                 }
                 processManager.saveTransfer(this.processId, transfer, false);
-                if (!successStates.contains(transfer.getState())) {
+                if (!transferSuccessStates.contains(transfer.getState())) {
                     throw new ServiceException(this.getClass().getName(), "Transfer Process Failed [" + this.tranferResponse.getId() + "]");
                 }
             } catch (Exception e) {

@@ -126,6 +126,7 @@ public class Transfer extends NegotiationTransferResponse {
     /**
      * This class consists exclusively to define attributes related to the Transfer's data request property.
      **/
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     static class DataRequest extends DidDocument {
 
@@ -164,20 +165,21 @@ public class Transfer extends NegotiationTransferResponse {
     /**
      * This class consists exclusively to define attributes related to the Transfer's data destination attribute.
      **/
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class DataDestination {
+    public static class DataDestination extends DidDocument{
 
         /** ATTRIBUTES **/
         @JsonProperty("type")
         @JsonAlias({"type","edc:type"})
-        String type;
+        String edcType;
 
         /** GETTERS AND SETTERS **/
-        public String getType() {
-            return type;
+        public String getEdcType() {
+            return edcType;
         }
-        public void setType(String type) {
-            this.type = type;
+        public void setEdcType(String edcType) {
+            this.edcType = edcType;
         }
     }
 }

@@ -514,6 +514,8 @@ public class DataTransferService extends BaseService {
             HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);
+            System.out.println(jsonUtil.toJson(body, true));
+
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
             JsonNode result = (JsonNode) response.getBody();
             return (Catalog) jsonUtil.bindJsonNode(result, Catalog.class);

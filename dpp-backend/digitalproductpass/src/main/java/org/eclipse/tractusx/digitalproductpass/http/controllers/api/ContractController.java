@@ -364,11 +364,11 @@ public class ContractController {
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
-                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
                 datasets = dataService.getContractOffers(catalog);
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
                 datasets = dataService.getContractOffers(catalog);
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
@@ -381,7 +381,7 @@ public class ContractController {
             if (datasets == null) {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                catalog = dataService.getContractOfferCatalog(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
                 datasets = dataService.getContractOffers(catalog);
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";

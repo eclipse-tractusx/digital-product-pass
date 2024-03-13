@@ -239,8 +239,8 @@ public class ApiController {
             }
 
             DiscoverySearch discoverySearch = new DiscoverySearch();
-            discoverySearch.setId(singleApiRequestBody.getId());
-            discoverySearch.setType(singleApiRequestBody.getIdType());
+            discoverySearch.setId(singleApiRequestBody.getDiscoveryId());
+            discoverySearch.setType(singleApiRequestBody.getDiscoveryIdType());
             //Call Create function
             Response createResponse = contractController.createCall(response, discoverySearch);
             //The Status from the response must 200 to proceed
@@ -257,8 +257,8 @@ public class ApiController {
 
             //Call Search function
             Search searchBody = new Search();
-            searchBody.setId(singleApiRequestBody.getDiscoveryId());
-            searchBody.setIdType(singleApiRequestBody.getDiscoveryIdType());
+            searchBody.setId(singleApiRequestBody.getId());
+            searchBody.setIdType(singleApiRequestBody.getIdType());
             searchBody.setProcessId(createResponseData.get("processId"));
             searchBody.setChildren(singleApiRequestBody.getChildren());
             searchBody.setSemanticId(singleApiRequestBody.getSemanticId());

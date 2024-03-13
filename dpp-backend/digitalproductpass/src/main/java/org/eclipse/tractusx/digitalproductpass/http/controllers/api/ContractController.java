@@ -139,7 +139,7 @@ public class ContractController {
     public Response createCall (Response response, DiscoverySearch searchBody) {
         try {
             // If the discovery id type is not defined use the default specified in the configuration
-            if(searchBody.getType().isEmpty()) {
+            if(searchBody.getType() == null || searchBody.getType().isEmpty()) {
                 searchBody.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
             }
             List<String> mandatoryParams = List.of("id");
@@ -300,7 +300,7 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         // If the id type is not defined use the default specified in the configuration
-        if(searchBody.getIdType().isEmpty()){
+        if(searchBody.getIdType() == null || searchBody.getIdType().isEmpty()){
             searchBody.setIdType(this.passportConfig.getDefaultIdType());
         }
 

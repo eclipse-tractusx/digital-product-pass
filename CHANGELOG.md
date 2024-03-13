@@ -43,7 +43,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated application.yaml with the single api configurations.
 - Updated deployment-backend.yaml with the oauth.apiKey.
 - Updated values-int/beta/dev.yaml files with the oauth.apiKey.
-- 
 
 ## [released]
 ## [v2.1.3] - 19-02-2024

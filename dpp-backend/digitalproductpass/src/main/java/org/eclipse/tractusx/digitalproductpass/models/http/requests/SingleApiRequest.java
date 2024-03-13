@@ -96,17 +96,10 @@ public class SingleApiRequest {
         return discoveryId;
     }
 
-    public void setDiscoveryId(String discoveryId) {
-        this.discoveryId = discoveryId;
-    }
-
     public String getDiscoveryIdType() {
         return discoveryIdType;
     }
 
-    public void setDiscoveryIdType(String discoveryIdType) {
-        this.discoveryIdType = discoveryIdType;
-    }
 
     public Boolean getChildren() {
         return children;
@@ -122,5 +115,13 @@ public class SingleApiRequest {
 
     public void setSemanticId(String semanticId) {
         this.semanticId = semanticId;
+    }
+
+    public void setDiscoveryId(String discoveryId) {
+        this.discoveryId = discoveryId;
+    }
+
+    public void setDiscoveryIdType(String discoveryIdType) {
+        this.discoveryIdType = discoveryIdType;
     }
 }

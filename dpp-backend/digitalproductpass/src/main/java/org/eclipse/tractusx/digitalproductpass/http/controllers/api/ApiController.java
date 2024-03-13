@@ -56,6 +56,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import utils.HttpUtil;
 import utils.JsonUtil;
+import utils.LogUtil;
 import utils.exceptions.UtilException;
 
 import java.util.List;
@@ -254,7 +255,8 @@ public class ApiController {
                 response = httpUtil.getBadRequest("Create Call:\n" + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
+            String processId= createResponseData.get("processId");
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Digital Twin Registry Found! Process Created!");
             //Call Search function
             Search searchBody = new Search();
             searchBody.setId(singleApiRequestBody.getId());
@@ -276,13 +278,16 @@ public class ApiController {
                 response = httpUtil.getBadRequest("Search Call:\n" + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Search for contracts done! Digital Twin and Contracts available!");
             //Call sign function
             TokenRequest tokenRequest = new TokenRequest();
             tokenRequest.setToken(searchResponseData.get("token").toString());
             tokenRequest.setProcessId(searchResponseData.get("id").toString());
-            tokenRequest.setContractId(contracts.entrySet().stream().findFirst().get().getKey());
+            String contractId = contracts.entrySet().stream().findFirst().get().getKey();
+            System.out.println("CONTRACTID: "+ contractId);
+            tokenRequest.setContractId(contractId);
             Response agreeResponse = contractController.agreeCall(response, tokenRequest);
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Agreed with a contract and started the contract negotiation!");
             //The Status from the response must 200 to proceed
             if (agreeResponse.getStatus() != 200) {
                 return agreeResponse;
@@ -319,7 +324,7 @@ public class ApiController {
                 response = httpUtil.getBadRequest("Wasn't possible to retrieve the Passport due to exceeded number of tries!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Transfer process completed! Retrieving the Passport Data!");
             //Call getData function
             response = getData(tokenRequest);
 

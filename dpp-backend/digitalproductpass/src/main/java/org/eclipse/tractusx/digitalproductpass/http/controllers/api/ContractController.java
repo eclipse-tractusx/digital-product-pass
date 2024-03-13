@@ -83,6 +83,7 @@ public class ContractController {
     private @Autowired HttpServletRequest httpRequest;
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired DataTransferService dataService;
+    private @Autowired ContractService contractService;
     private @Autowired VaultService vaultService;
     private @Autowired AasService aasService;
     private @Autowired AuthenticationService authService;
@@ -588,138 +589,25 @@ public class ContractController {
     @Operation(summary = "Start the negotiation for an specific asset, contract agreement and policy agreement")
     public Response negotiate(@Valid @RequestBody TokenRequest tokenRequestBody) {
         Response response = httpUtil.getInternalError();
-
-        // Check for authentication
-        if (!authService.isAuthenticated(httpRequest)) {
-            response = httpUtil.getNotAuthorizedResponse();
-            return httpUtil.buildResponse(response, httpResponse);
-        }
         try {
-           return agreeCall(tokenRequestBody);
+            // Check for authentication
+            if (!authService.isAuthenticated(httpRequest)) {
+                response = httpUtil.getNotAuthorizedResponse();
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            // Check for the mandatory fields
+            List<String> mandatoryParams = List.of("processId", "contractId", "token");
+            if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
+                response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+           return contractService.doContractAgreement(httpRequest, httpResponse, tokenRequestBody);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
 
-    public Response agreeCall(TokenRequest tokenRequestBody) {
-        Response response = httpUtil.getInternalError();
-        Long signedAt = DateTimeUtil.getTimestamp();
-        // Check for the mandatory fields
-        List<String> mandatoryParams = List.of("processId", "contractId", "token");
-        if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
-            response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Check for processId
-        String processId = tokenRequestBody.getProcessId();
-        if (!processManager.checkProcess(httpRequest, processId)) {
-            response = httpUtil.getBadRequest("The process id does not exists!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-
-        Process process = processManager.getProcess(httpRequest, processId);
-        if (process == null) {
-            response = httpUtil.getBadRequest("The process id does not exists!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Get status to check for contract id
-        String contractId = tokenRequestBody.getContractId();
-        Status status = processManager.getStatus(processId);
-
-        // Check if was already declined
-        if (status.historyExists("contract-decline")) {
-            response = httpUtil.getForbiddenResponse("This contract was declined! Please request a new one");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Check if negotiation is canceled
-        if (status.historyExists("negotiation-canceled")) {
-            response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Check if was already agreed
-        if (status.historyExists("contract-agreed")) {
-            response = httpUtil.getForbiddenResponse("This contract is already agreed!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Check if there is a contract available
-        if (!status.historyExists("contract-dataset")) {
-            response = httpUtil.getBadRequest("No contract is available!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Check if the contract id is correct
-        History history = status.getHistory("contract-dataset");
-        if (!history.getId().contains(contractId)) {
-            response = httpUtil.getBadRequest("This contract id does not exists!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        // Load all the available contracts
-        Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
-        String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
-        // Check the validity of the token
-        String expectedToken = processManager.generateToken(process, seedId);
-        String token = tokenRequestBody.getToken();
-        if (!expectedToken.equals(token)) {
-            response = httpUtil.getForbiddenResponse("The token is invalid!");
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-        Dataset dataset = availableContracts.get(contractId);
-
-        if (dataset == null) {
-            response.message = "The Contract Selected was not found!";
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-
-        String policyId = tokenRequestBody.getPolicyId();
-        DataTransferService.NegotiateContract contractNegotiation = null;
-        // Check if policy is available!
-        if (policyId != null) {
-            Set policy = edcUtil.getPolicyById(dataset, policyId);
-            if (policy == null) {
-                response = httpUtil.getBadRequest("The policy selected does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            contractNegotiation = dataService
-                    .new NegotiateContract(
-                    processManager.loadDataModel(httpRequest),
-                    processId,
-                    status.getBpn(),
-                    dataset,
-                    processManager.getStatus(processId),
-                    policy
-            );
-        } else {
-            // If the policy is not selected get the first one by default
-            contractNegotiation = dataService
-                    .new NegotiateContract(
-                    processManager.loadDataModel(httpRequest),
-                    processId,
-                    status.getBpn(),
-                    dataset,
-                    processManager.getStatus(processId)
-            );
-        }
-        String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
-        if (statusPath == null) {
-            response.message = "Something went wrong when agreeing with the contract!";
-            return httpUtil.buildResponse(response, httpResponse);
-        }
-        LogUtil.printMessage("[PROCESS " + processId + "] Contract [" + contractId + "] Agreed! Starting negotiation...");
-        processManager.startNegotiation(httpRequest, processId, contractNegotiation);
-        LogUtil.printStatus("[PROCESS " + processId + "] Negotiation for [" + contractId + "] started!");
-
-        response = httpUtil.getResponse("The contract was agreed successfully! Negotiation started!");
-        response.data = processManager.getStatus(processId);
-        return httpUtil.buildResponse(response, httpResponse);
-    }
 
     /**
      * HTTP POST method to decline a Passport negotiation.

@@ -24,7 +24,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-data
+  name: {{ .Release.Name }}-pvc-data
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   namespace: {{ .Values.namespace }}

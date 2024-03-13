@@ -57,32 +57,32 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key:  appId
-                  name: avp-consumer-backend-auth          
+                  name: {{ .Release.Name }}-avp-consumer-backend-auth          
             - name: "client.id"
               valueFrom:
                 secretKeyRef:
                   key:  clientId
-                  name: avp-consumer-backend-auth
+                  name: {{ .Release.Name }}-avp-consumer-backend-auth
             - name: "client.secret"
               valueFrom:
                 secretKeyRef:
                   key:  clientSecret
-                  name: avp-consumer-backend-auth
+                  name: {{ .Release.Name }}-avp-consumer-backend-auth
             - name: "edc.apiKey"
               valueFrom:
                 secretKeyRef:
                   key:  xApiKey
-                  name: avp-consumer-backend-edc-oauth
+                  name: {{ .Release.Name }}-avp-consumer-backend-edc-oauth
             - name: "edc.participantId"
               valueFrom:
                 secretKeyRef:
                   key:  participantId
-                  name: avp-consumer-backend-edc-oauth
+                  name: {{ .Release.Name }}-avp-consumer-backend-edc-oauth
             - name: "oauth.apiKey"
               valueFrom:
                 secretKeyRef:
                   key: xApiKey
-                  name: avp-consumer-backend-auth
+                  name: {{ .Release.Name }}-avp-consumer-backend-auth
           volumeMounts:
             {{- toYaml .Values.backend.volumeMounts | nindent 12 }}
           ports:
@@ -104,5 +104,5 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- toYaml .Values.backend.volumes | nindent 12 }}
+        {{- tpl (toYaml .Values.backend.volumes | nindent 12) .}}
 

@@ -37,17 +37,17 @@ public class SingleApiRequest {
 
     /** ATTRIBUTES **/
     @NotNull(message = "serialized id needs to be defined!")
-    @JsonProperty("id")
+    @JsonProperty(value="id")
     String id;
 
-    @JsonProperty("idType")
+    @JsonProperty(value="idType", defaultValue = "partInstanceId")
     String idType;
 
     @NotNull(message = "Dtr search id needs to be defined!")
     @JsonProperty("discoveryId")
     String discoveryId;
 
-    @JsonProperty("discoveryIdType")
+    @JsonProperty(value="discoveryIdType", defaultValue = "manufacturerPartId")
     String discoveryIdType;
 
     @JsonProperty("children")

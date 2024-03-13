@@ -138,7 +138,10 @@ public class ContractController {
 
     public Response createCall (Response response, DiscoverySearch searchBody) {
         try {
-            searchBody.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
+            // If the discovery id type is not defined use the default specified in the configuration
+            if(searchBody.getType().isEmpty()) {
+                searchBody.setType(this.discoveryConfig.getBpn().getKey()); // Set default configuration key as default
+            }
             List<String> mandatoryParams = List.of("id");
             if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
                 response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
@@ -295,6 +298,10 @@ public class ContractController {
         if(searchBody.getProcessId() == null){
             response = httpUtil.getBadRequest("No processId was found on the request body!");
             return httpUtil.buildResponse(response, httpResponse);
+        }
+        // If the id type is not defined use the default specified in the configuration
+        if(searchBody.getIdType().isEmpty()){
+            searchBody.setIdType(this.passportConfig.getDefaultIdType());
         }
 
         String processId = searchBody.getProcessId();

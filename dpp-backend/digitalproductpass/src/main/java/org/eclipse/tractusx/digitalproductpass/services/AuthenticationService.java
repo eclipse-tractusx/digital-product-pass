@@ -207,11 +207,17 @@ public class AuthenticationService extends BaseService {
      *
      */
     public Boolean isApiKeyAuthenticated(HttpServletRequest httpRequest) {
-        final String xApiKey = httpRequest.getHeader(securityConfig.getAuthentication().getHeader());
-        if (vaultService.getLocalSecret("oauth.apikey").toString().equals(xApiKey)) {
-            return true;
+        try {
+            final String xApiKey = httpRequest.getHeader(securityConfig.getAuthentication().getHeader());
+            String vaultApiKey = vaultService.getLocalSecret("oauth.apiKey").toString();
+            if (vaultApiKey.equals(xApiKey)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            LogUtil.printError("["+this.getClass().getName() + "]: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     /**

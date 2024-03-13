@@ -124,10 +124,7 @@ public class ContractController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            response = createCall(response, searchBody);
-
-            return response;
-
+            return createCall(searchBody);
         } catch (Exception e) {
             assert response != null;
             response.message = "It was not possible to create the process and search for the decentral digital twin registries";
@@ -136,7 +133,8 @@ public class ContractController {
         }
     }
 
-    public Response createCall (Response response, DiscoverySearch searchBody) {
+    public Response createCall ( DiscoverySearch searchBody) {
+        Response response = httpUtil.getInternalError();
         try {
             // If the discovery id type is not defined use the default specified in the configuration
             if(searchBody.getType() == null || searchBody.getType().isEmpty()) {
@@ -271,11 +269,7 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-
-           response = searchCall(response, searchBody);
-
-            return response;
-
+           return searchCall(searchBody);
         } catch (Exception e) {
             assert response != null;
             response.message = "It was not possible to search for the serialized id";
@@ -284,7 +278,8 @@ public class ContractController {
         }
     }
 
-    public Response searchCall(Response response, Search searchBody) {
+    public Response searchCall(Search searchBody) {
+        Response response = httpUtil.getInternalError();
         List<String> mandatoryParams = List.of("id");
         if (!jsonUtil.checkJsonKeys(searchBody, mandatoryParams, ".", false)) {
             response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
@@ -465,19 +460,16 @@ public class ContractController {
                 response = httpUtil.getBadRequest("The process id does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-
-            response = statusCall(response, processId);
-
-            return response;
+            return statusCall(processId);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
 
-    public Response statusCall(Response response, String processId) {
+    public Response statusCall(String processId) {
         // Get status
-        response = httpUtil.getResponse();
+        Response response = httpUtil.getResponse();
         response.data = processManager.getStatus(processId);
         return httpUtil.buildResponse(response, httpResponse);
     }
@@ -603,18 +595,15 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-
-            response = agreeCall(response, tokenRequestBody);
-
-            return response;
-
+           return agreeCall(tokenRequestBody);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
 
-    public Response agreeCall(Response response, TokenRequest tokenRequestBody) {
+    public Response agreeCall(TokenRequest tokenRequestBody) {
+        Response response = httpUtil.getInternalError();
         Long signedAt = DateTimeUtil.getTimestamp();
         // Check for the mandatory fields
         List<String> mandatoryParams = List.of("processId", "contractId", "token");

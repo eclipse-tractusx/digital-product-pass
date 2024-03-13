@@ -122,94 +122,97 @@ public class ApiController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-            // Check for the mandatory fields
-            List<String> mandatoryParams = List.of("processId", "contractId", "token");
-            if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
-                response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check for processId
-            String processId = tokenRequestBody.getProcessId();
-            if (!processManager.checkProcess(httpRequest, processId)) {
-                response = httpUtil.getBadRequest("The process id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-
-            Process process = processManager.getProcess(httpRequest, processId);
-            if (process == null) {
-                response = httpUtil.getBadRequest("The process id does not exists!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Get status to check for contract id
-            String contractId = tokenRequestBody.getContractId();
-            Status status = processManager.getStatus(processId);
-
-            if (status.historyExists("contract-decline")) {
-                response = httpUtil.getForbiddenResponse("The contract for this passport has been declined!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            if (status.historyExists("negotiation-canceled")) {
-                response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            // Check if the contract id is correct
-            Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
-            String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
-            // Check the validity of the token
-            String expectedToken = processManager.generateToken(process, seedId);
-            String token = tokenRequestBody.getToken();
-            if (!expectedToken.equals(token)) {
-                response = httpUtil.getForbiddenResponse("The token is invalid!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Dataset dataset = availableContracts.get(contractId);
-
-            if (dataset == null) {
-                response.message = "The Contract Selected was not found!";
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-
-            if (!status.historyExists("data-received")) {
-                status = processManager.getStatus(processId); // Retry to get the status before giving an error
-                if(!status.historyExists("data-received")) {
-                    response = httpUtil.getNotFound("The data is not available!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-            }
-
-            if (status.historyExists("data-retrieved")) {
-                response = httpUtil.getNotFound("The data was already retrieved and is no longer available!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            String semanticId = status.getSemanticId();
-            JsonNode passport = processManager.loadPassport(processId);
-            if (passport == null) {
-                response = httpUtil.getNotFound("Failed to load passport!");
-                return httpUtil.buildResponse(response, httpResponse);
-            }
-            Map<String, Object> negotiation = processManager.loadNegotiation(processId);
-            Map<String, Object> transfer = processManager.loadTransfer(processId);
-            response = httpUtil.getResponse();
-            response.data = Map.of(
-                    "metadata", Map.of(
-                            "contract", dataset,
-                            "negotiation", negotiation,
-                            "transfer", transfer
-                    ),
-                    "aspect", passport,
-                    "semanticId", semanticId
-            );
-            return httpUtil.buildResponse(response, httpResponse);
+            return callGetData(tokenRequestBody);
         } catch (Exception e) {
             response.message = e.getMessage();
             return httpUtil.buildResponse(response, httpResponse);
         }
     }
+    private Response callGetData(TokenRequest tokenRequestBody){
+        Response response = httpUtil.getInternalError();
+        // Check for the mandatory fields
+        List<String> mandatoryParams = List.of("processId", "contractId", "token");
+        if (!jsonUtil.checkJsonKeys(tokenRequestBody, mandatoryParams, ".", false)) {
+            response = httpUtil.getBadRequest("One or all the mandatory parameters " + mandatoryParams + " are missing");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
 
+        // Check for processId
+        String processId = tokenRequestBody.getProcessId();
+        if (!processManager.checkProcess(httpRequest, processId)) {
+            response = httpUtil.getBadRequest("The process id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+
+        Process process = processManager.getProcess(httpRequest, processId);
+        if (process == null) {
+            response = httpUtil.getBadRequest("The process id does not exists!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Get status to check for contract id
+        String contractId = tokenRequestBody.getContractId();
+        Status status = processManager.getStatus(processId);
+
+        if (status.historyExists("contract-decline")) {
+            response = httpUtil.getForbiddenResponse("The contract for this passport has been declined!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        if (status.historyExists("negotiation-canceled")) {
+            response = httpUtil.getForbiddenResponse("This negotiation has been canceled! Please request a new one");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        // Check if the contract id is correct
+        Map<String, Dataset> availableContracts = processManager.loadDatasets(processId);
+        String seedId = String.join("|",availableContracts.keySet()); // Generate Seed
+        // Check the validity of the token
+        String expectedToken = processManager.generateToken(process, seedId);
+        String token = tokenRequestBody.getToken();
+        if (!expectedToken.equals(token)) {
+            response = httpUtil.getForbiddenResponse("The token is invalid!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        Dataset dataset = availableContracts.get(contractId);
+
+        if (dataset == null) {
+            response.message = "The Contract Selected was not found!";
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+
+        if (!status.historyExists("data-received")) {
+            status = processManager.getStatus(processId); // Retry to get the status before giving an error
+            if(!status.historyExists("data-received")) {
+                response = httpUtil.getNotFound("The data is not available!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+        }
+
+        if (status.historyExists("data-retrieved")) {
+            response = httpUtil.getNotFound("The data was already retrieved and is no longer available!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        String semanticId = status.getSemanticId();
+        JsonNode passport = processManager.loadPassport(processId);
+        if (passport == null) {
+            response = httpUtil.getNotFound("Failed to load passport!");
+            return httpUtil.buildResponse(response, httpResponse);
+        }
+        Map<String, Object> negotiation = processManager.loadNegotiation(processId);
+        Map<String, Object> transfer = processManager.loadTransfer(processId);
+        response = httpUtil.getResponse();
+        response.data = Map.of(
+                "metadata", Map.of(
+                        "contract", dataset,
+                        "negotiation", negotiation,
+                        "transfer", transfer
+                ),
+                "aspect", passport,
+                "semanticId", semanticId
+        );
+        return httpUtil.buildResponse(response, httpResponse);
+    }
     /**
      * HTTP POST method to retrieve the Passport with an API Key authentication.
      * <p>
@@ -243,7 +246,7 @@ public class ApiController {
             discoverySearch.setId(singleApiRequestBody.getDiscoveryId());
             discoverySearch.setType(singleApiRequestBody.getDiscoveryIdType());
             //Call Create function
-            Response createResponse = contractController.createCall(response, discoverySearch);
+            Response createResponse = contractController.createCall(discoverySearch);
             //The Status from the response must 200 to proceed
             if (createResponse.getStatus() != 200) {
                 return createResponse;
@@ -264,7 +267,7 @@ public class ApiController {
             searchBody.setProcessId(createResponseData.get("processId"));
             searchBody.setChildren(singleApiRequestBody.getChildren());
             searchBody.setSemanticId(singleApiRequestBody.getSemanticId());
-            Response searchResponse = contractController.searchCall(response, searchBody);
+            Response searchResponse = contractController.searchCall(searchBody);
             //The Status from the response must 200 to proceed
             if (searchResponse.getStatus() != 200) {
                 return searchResponse;
@@ -286,7 +289,7 @@ public class ApiController {
             String contractId = contracts.entrySet().stream().findFirst().get().getKey();
             System.out.println("CONTRACTID: "+ contractId);
             tokenRequest.setContractId(contractId);
-            Response agreeResponse = contractController.agreeCall(response, tokenRequest);
+            Response agreeResponse = contractController.agreeCall(tokenRequest);
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Agreed with a contract and started the contract negotiation!");
             //The Status from the response must 200 to proceed
             if (agreeResponse.getStatus() != 200) {
@@ -306,7 +309,7 @@ public class ApiController {
                 if (status.historyExists("transfer-completed") || status.historyExists("data-received")) {
                     break;
                 }
-                Response statusResponse = contractController.statusCall(response, searchBody.getProcessId());
+                Response statusResponse = contractController.statusCall(searchBody.getProcessId());
                 //The Status from the response must 200 to proceed
                 if (statusResponse.getStatus() != 200) {
                     return statusResponse;
@@ -326,7 +329,7 @@ public class ApiController {
             }
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Transfer process completed! Retrieving the Passport Data!");
             //Call getData function
-            response = getData(tokenRequest);
+            response = callGetData(tokenRequest);
 
             return response;
         } catch (Exception e) {

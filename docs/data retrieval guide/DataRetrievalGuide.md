@@ -21,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# ![C-X Logo](../catena-x-logo.svg) Catena-X Data Retrieval Guide
+# ![C-X Logo](../media/catenaxLogo.svg) Catena-X Data Retrieval Guide
 
 | Version | v1.0 |
 | ------- | ---- | 

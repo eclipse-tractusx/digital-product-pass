@@ -21,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
+<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -57,18 +57,18 @@ To get started you can have a look into our documentation:
 | Name                                                                      | Description                                                                                                                                                 |
 | ----------------------------------------------------------------          |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
-| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
+| [Administration Guide](./docs/admin%20guide/AdminGuide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
 | [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                  | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                    |
 | [Backend Documentation](./dpp-backend/digitalproductpass/README.md)          | Backend documentation Product Passport App                                                                                                                  |
 | [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
 | [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
 | [Keycloak Overview](./deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
 | [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
-| [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
+| [Code Scaning with Kics and Trivy](./docs/Infrastructure%20as%20Code/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
 | [Release Guidelines](./docs/RELEASE.md)                                     | Digital Product Pass App Release Guide                                                                                                             |
 | [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
 | [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                     |
-| [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                          |
+| [End User Manual](./docs/user%20manual/UserManual.md)             | End User Manual Product Viewer App                                                                                                                          |
 | [Postman Overview](./deployment/local/postman//README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
 | [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                   |
 | [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                       |

@@ -23,7 +23,7 @@
 
 # Digital Product Passport Guide
 
-> [CatenaX Introduction](https://catena-x.net/en/angebote/edc-die-zentrale-komponente-fuer-die)
+> [CatenaX Introduction](https://catena-x.net)
 
 ## Application Infrastructure
 
@@ -198,7 +198,7 @@ Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net/pr
 
     - Reference docs: 
         - [INSTALL.md](../INSTALL.md)
-        - [Productpass backend](../backend/digitalproductpass/readme.md)
+        - [Productpass backend](../dpp-backend/digitalproductpass/README.md)
 
 Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net/)
 
@@ -262,7 +262,7 @@ The __Digital Product Passport Uer Interface__ will make this process accessible
 __Note:__ Adjust the URLs according to the _local_ (`http://localhost:port/`) or
 _integration_ (`https://dpp.int.demo.catena-x.net/`) environments.
 
-- [Documentation of EDC Data Transfer](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/samples/Transfer%20Data.md)
+- [Documentation of EDC Data Transfer](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/usage/management-api-walkthrough/06_transferprocesses.md)
 - [End-to-End Use Case](https://catenax-ng.github.io/docs/guides/catenax-at-home#end-to-end-use-case)
 
 

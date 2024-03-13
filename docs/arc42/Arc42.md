@@ -536,7 +536,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 * [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
-* [Administration Guide](../admin%20guide/Admin_Guide.md)
+* [Administration Guide](../admin%20guide/AdminGuide.md)
 * [API Documentation (Swagger)](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
 * [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
 

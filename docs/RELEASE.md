@@ -22,7 +22,7 @@
 -->
 
 <div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="./catena-x-logo.svg" alt="Product Battery Pass Consumer App Release Guide" style="width:50px;"/>
+   <img src="../docs/media/catenaxLogo.svg" alt="Product Battery Pass Consumer App Release Guide" style="width:50px;"/>
    <h1 style="margin: 10px 0 0 10px">Product Battery Pass Consumer App Release Guide</h1>
 </div>
 

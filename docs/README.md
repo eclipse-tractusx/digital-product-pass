@@ -21,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Documentation</h1>
+<h1 style="display:flex; align-items: center;"><img src="./media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Documentation</h1>
 
 Welcome to the documentation section, below you will find all the necesary docs of interest for undestanding the DPP application.
 
@@ -57,7 +57,7 @@ Welcome to the documentation section, below you will find all the necesary docs 
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Business Statement](./business%20statement/Business%20Statement.md)                                             | Business Context from the Application                                                                                                                             |
+| [Business Statement](./business%20statement/BusinessStatement.md)         | Business Context from the Application                                                                                                                             |
 
 # Application User Interface Preview
 
@@ -65,12 +65,12 @@ Here you can find some application screenshots that will help you to visualize a
 
 ## Passport Search View
 
-![Search View](./arc42/GraphicQRCodeView.png)
+![Search View](./arc42/media/GraphicQRCodeView.png)
 
 
 ## Passport General Information View
 
-![General Info View](./arc42/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./arc42/media/GraphicBatteryPassportViewGeneralInfo.png)
 
 
 
@@ -81,7 +81,7 @@ If you need an extra guideline to understand the application user interface plea
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [User Manual](./user%20manual/User%20Manual%20Product%20Viewer%20App.md)                                             | User Manual explaining the user interface                                                                                                                                    |
+| [User Manual](./user%20manual/UserManual.md)                              | User Manual explaining the user interface                                                                                                                                    |
 
 
 # Architecture Documentation
@@ -89,7 +89,7 @@ If you need an extra guideline to understand the application user interface plea
 ## Scope
 For understating the achitecture first take a look at the following diagram:
 
-![Application Scope](./arc42/GraphicSystemScopeandContext.jpg)
+![Application Scope](./arc42/media/dataRetrieval/digitalProductPassContext.drawio.svg)
 
 Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc). 
 
@@ -103,7 +103,7 @@ Here are all the docs you need to understand the architecture and arhitecture co
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Arc42](./arc42/Arc42.md)                                             | Main architecture document  of the Digital Product Pass Application                                                                                                                                     |
-| [Administration Guide](./admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application  
+| [Administration Guide](./admin%20guide/AdminGuide.md)                  | Administration Guide explaining the infrastructure and how to configure the application  
 
 
 # User and Technical User Changelogs
@@ -146,8 +146,8 @@ Here you can find the main security documentatin for the Digital Product Pass Ap
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Keycloak Overview](../deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
-| [Secret Management](./SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+| [Keycloak Overview](../deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./Infrastructure%20as%20Code/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Secret Management](./secrets%20management/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
 
 
 

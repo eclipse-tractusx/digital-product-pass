@@ -104,7 +104,7 @@ configuration:
       key: "bpn"
       timeout: 1500
 
-  simpleApi:
+  simple-api:
     maxRetries: 5
 
   process:

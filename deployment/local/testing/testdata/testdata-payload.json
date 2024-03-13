@@ -42,12 +42,12 @@
         {
           "name": "partInstanceId",
           "value": "IMR18650V1",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -354,12 +354,12 @@
         {
           "name": "partInstanceId",
           "value": "NCR186850B",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -666,12 +666,12 @@
         {
           "name": "partInstanceId",
           "value": "X123456789012X12345678901234566",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -978,12 +978,12 @@
         {
           "name": "partInstanceId",
           "value": "Y792927456954B81677903848654570",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -1394,12 +1394,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "BAT-XYZ789",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -1586,12 +1586,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "EVMODULE-TRJ712",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "BatteryModule",
@@ -1787,12 +1787,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "CTA-13123",
-          "allowedBpns": ["BPNL00000007RVTB", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "BatteryCell",
@@ -1977,12 +1977,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "KLZ-90-8564-96",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "SecondaryMaterialContent",
@@ -2212,12 +2212,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "SNJ-4654-76",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Transmission",
@@ -2372,12 +2372,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "ABC123",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "physicalDimensions",
@@ -2411,12 +2411,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "SN12345678",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000007RVTB"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Transmission",
@@ -2774,7 +2774,7 @@
               "validFrom": "2026-10-06T14:50:23.230+01:00",
               "validTo": "2026-08-06T14:50:23.230+01:00"
             },
-            "catenaXId": "urn:uuid:4a47a4e3-f39e-4c0d-85bf-c5f32094e601"
+            "catenaXId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e58"
           },
           "description": "Transmission pass SerialPart Submodel",
           "semanticId": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
@@ -3353,7 +3353,7 @@
         {
           "name": "singleLevelBomAsBuilt",
           "data": {
-            "catenaXId": "urn:uuid:a8a638ae-1c9c-49ba-90ce-eb127383d206",
+            "catenaXId": "urn:uuid:2f4da2d6-c49e-46b1-a60f-da8a2afbb448",
             "childItems": []
           },
           "description": "single level Bom As Built Submodel",

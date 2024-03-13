@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @ConfigurationProperties(prefix="configuration.simple-api")
-public class SimpleApiConfig {
+public class SingleApiConfig {
 
     /** ATTRIBUTES **/
     private Integer maxRetries;

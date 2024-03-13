@@ -37,7 +37,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
-import org.eclipse.tractusx.digitalproductpass.config.SimpleApiConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SingleApiConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
@@ -85,7 +85,7 @@ public class ApiController {
     private @Autowired JsonUtil jsonUtil;
     private @Autowired ProcessManager processManager;
     private @Autowired ContractController contractController;
-    private @Autowired SimpleApiConfig simpleApiConfig;
+    private @Autowired SingleApiConfig singleApiConfig;
 
     /** METHODS **/
     @RequestMapping(value = "/api/*", method = RequestMethod.GET)
@@ -296,7 +296,7 @@ public class ApiController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
             int retry = 1;
-            int maxRetries = simpleApiConfig.getMaxRetries();
+            int maxRetries = singleApiConfig.getMaxRetries();
             while(retry <= maxRetries) {
                 if (status.historyExists("transfer-completed") || status.historyExists("data-received")) {
                     break;

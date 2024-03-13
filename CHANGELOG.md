@@ -28,11 +28,22 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### Added
+- SingleApiRequest class for the requested data for the single API.
+- SingleApiConfig class to had configurations related to the single API.
+
 ### Updated
 - Refactored dpp-script by adding AppId as a script parameter
 - Updated dpp-script readme
 - Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
 - Updated the digital twin registry version to v0.3.31
+- Updated ApiController with the singleApi POST method.
+- Updated ContractController by creating call methods (create, search, agree and status) without the authentication step to call in the Single API.
+- Updated AuthenticationService by adding the isSingleApiAuthenticated method to authenticate the single API key.
+- Updated application.yaml with the single api configurations.
+- Updated deployment-backend.yaml with the oauth.apiKey.
+- Updated values-int/beta/dev.yaml files with the oauth.apiKey.
+- 
 
 ## [released]
 ## [v2.1.3] - 19-02-2024

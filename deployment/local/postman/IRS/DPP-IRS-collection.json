@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "b2db45aa-3426-4ac6-8f30-e18946cc1773",
+		"name": "DPP-IRS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18567091"
+	},
+	"item": [
+		{
+			"name": "Policy Store",
+			"item": [
+				{
+					"name": "Get all Policies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/policies",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"policyId\": \"dpp-irs-policy\",\r\n    \"validUntil\": \"2026-08-01T00:00:00Z\",\r\n    \"permissions\": [\r\n        {\r\n            \"action\": \"USE\",\r\n            \"constraints\": [\r\n                {\r\n                    \"and\": [\r\n                        {\r\n                            \"leftOperand\": \"FrameworkAgreement.sustainability\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"active\"\r\n                            ]\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"Membership\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"active\"\r\n                            ]\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"BusinessPartnerNumber\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"BPNL00000000CBA5\"\r\n                            ]\r\n                        }\r\n                    ],\r\n                    \"or\": [\r\n                        {\r\n                            \"leftOperand\": \"FrameworkAgreement.sustainability\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"active\"\r\n                            ]\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"Membership\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"active\"\r\n                            ]\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"BusinessPartnerNumber\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": [\r\n                                \"BPNL00000000CBA5\"\r\n                            ]\r\n                        }\r\n                    ]\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{irsServer}}/irs/policies",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Policy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/policies/{{policyId}}",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"policies",
+								"{{policyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{X-Api-Key-admin}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-Api-Key",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "IRS",
+			"item": [
+				{
+					"name": "1. Register Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();\r",
+									"pm.collectionVariables.set(\"jobId\", jsonResponse.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"aspects\": [],\r\n\t\"bomLifecycle\": \"asBuilt\",\r\n\t\"lookupBPNs\": false,\r\n\t\"collectAspects\": false,\r\n\t\"direction\": \"downward\",\r\n\t\"depth\": 1,\r\n\t\"integrityCheck\": false,\r\n\t\"callbackUrl\": \"{{backendServer}}/api/irs/endpoint?id={{globalAssetId}}&state=COMPLETED\",\r\n\t\"key\": {\r\n\t\t\"globalAssetId\": \"{{globalAssetId}}\",\r\n\t\t\"bpn\": \"{{bpn}}\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get specific Job",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs/{{jobId}}",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs",
+								"{{jobId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Jobs",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Api-Key",
+								"value": "admin_password",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{irsServer}}/irs/jobs?page=0&size=20",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all available Aspect models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{irsServer}}/irs/aspectmodels",
+							"host": [
+								"{{irsServer}}"
+							],
+							"path": [
+								"irs",
+								"aspectmodels"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "admin_password",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Api-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "irsServer",
+			"value": "https://materialpass-irs.int.demo.catena-x.net",
+			"type": "default"
+		},
+		{
+			"key": "jobId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "registryUrl",
+			"value": "https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0",
+			"type": "default"
+		},
+		{
+			"key": "policyId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "globalAssetId",
+			"value": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e58",
+			"type": "default"
+		},
+		{
+			"key": "bpn",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "backendServer",
+			"value": "https://dpp.int.demo.catena-x.net",
+			"type": "default"
+		},
+		{
+			"key": "X-Api-Key-regular",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "X-Api-Key-admin",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -34,11 +34,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Distribution {
+public class Distribution extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("@type")
-    String type;
     @JsonProperty("dct:format")
     Format format;
     @JsonProperty("dcat:accessService")
@@ -54,12 +52,6 @@ public class Distribution {
     }
 
     /** GETTERS AND SETTERS **/
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
     public Format getFormat() {
         return format;
     }

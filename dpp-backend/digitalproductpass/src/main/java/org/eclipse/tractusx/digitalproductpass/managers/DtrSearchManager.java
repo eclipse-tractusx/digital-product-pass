@@ -240,6 +240,7 @@ public class DtrSearchManager {
             LogUtil.printWarning("Failed to retrieve the catalog from cache: " + endpoint);
             return;
         }
+        String providerBpn = catalog.getParticipantId();
         Object contractOffers = catalog.getContractOffers();
         //Check if contractOffer is an Array or just an Object and if is not null or empty, adds it to the dtrDataModel data structure
         if (contractOffers == null) {
@@ -251,7 +252,7 @@ public class DtrSearchManager {
             if (dataset != null) {
                 // Store the dataset in the digital twin logs
                 Map<String, Dataset> datasets = new HashMap<>(){{put(dataset.getId(),dataset);}};
-                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                         singleOfferThread.interrupt();
@@ -271,7 +272,7 @@ public class DtrSearchManager {
         Map<String, Dataset> datasets = edcUtil.mapDatasetsById(contractOfferList);
         // Store datasets in the digital twin logs
         contractOfferList.parallelStream().forEach(dataset -> {
-            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn,providerBpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
             try {
                 if (!multipleOffersThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                     multipleOffersThread.interrupt();
@@ -507,7 +508,7 @@ public class DtrSearchManager {
      *           if unable to do the contract negotiation for the DTR.
      *
      */
-    private Runnable createAndSaveDtr(Map<String, Dataset> datasets, String bpn, String connectionUrl, String processId) {
+    private Runnable createAndSaveDtr(Map<String, Dataset> datasets, String bpn, String providerBpn, String connectionUrl, String processId) {
         return new Runnable() {
             @Override
             public void run() {
@@ -524,7 +525,7 @@ public class DtrSearchManager {
                     }
                     Offer offer = dataTransferService.buildOffer(dataset, set);
                     String builtDataEndpoint = CatenaXUtil.buildDataEndpoint(connectionUrl);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, builtDataEndpoint);
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerBpn, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
                     }
@@ -535,11 +536,12 @@ public class DtrSearchManager {
                         LogUtil.printWarning("It was not possible to do ContractNegotiation for URL: " + connectionUrl);
                         return;
                     }
+                    LogUtil.printDebug(negotiation.getContractAgreementId());
                     if(negotiation.getContractAgreementId() == null || negotiation.getContractAgreementId().isEmpty()){
-                        LogUtil.printError("It was not possible to get an Contract Agreemment Id for the URL: " + connectionUrl);
+                        LogUtil.printError("It was not possible to get an Contract Agreement Id for the URL: " + connectionUrl);
                         return;
                     }
-                    Dtr dtr = new Dtr(datasets, dataset.getId(), set.getId(), negotiation.getContractAgreementId(), connectionUrl, dataset.getAssetId(), bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));
+                    Dtr dtr = new Dtr(datasets, dataset.getId(), set.getId(), negotiation.getContractAgreementId(), connectionUrl, dataset.getAssetId(), bpn, providerBpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()));
                     if (dtrConfig.getTemporaryStorage().getEnabled()) {
                         addConnectionToBpnEntry(bpn, dtr);
                         saveDtrDataModel();

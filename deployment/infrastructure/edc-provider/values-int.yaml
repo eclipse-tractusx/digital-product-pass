@@ -162,12 +162,10 @@ tractusx-connector:
           issuer: ""
           # -- If preset enables certificate generation via cert-manager cluster-wide issuer
           clusterIssuer: ""
+
   postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>
-    auth:
-      username: <path:material-pass/data/int/edc/database#user>
-      password: <path:material-pass/data/int/edc/database#password>
 
   vault:
     fullnameOverride: "vault"
@@ -184,7 +182,6 @@ tractusx-connector:
 
   backendService:
     httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
-    
 
 postgresql:
   auth:

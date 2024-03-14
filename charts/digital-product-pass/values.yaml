@@ -27,6 +27,8 @@
 name: "digital-product-pass"
 replicaCount: 1
 namespace: ""
+nameOverride: ""
+fullnameOverride: ""
 
 # -- Backend configuration
 backend:
@@ -118,11 +120,11 @@ backend:
     # -- persist the backend configuration
     - name: backend-config
       configMap:
-        name: backend-config
+        name: "{{ .Release.Name }}-backend-config"
     # -- persist the backend data directories
     - name: pvc-backend
       persistentVolumeClaim:
-        claimName: pvc-data
+        claimName: "{{ .Release.Name }}-pvc-data"
     # -- temporary file system mount
     - name: tmpfs
       emptyDir: {}
@@ -136,6 +138,7 @@ backend:
     # -- edc consumer connection configuration
     hostname: ""
     apis:
+      readiness: "/api/check/readiness"
       management: "/management/v2"
       catalog: "/catalog/request"
       negotiation: "/contractnegotiations"
@@ -189,9 +192,9 @@ backend:
     # -- timeouts for the digital twin registry async negotiation
     timeouts:
       search: 50
-      negotiation: 40
-      transfer: 10
-      digitalTwin: 20
+      negotiation: 60
+      transfer: 20
+      digitalTwin: 40
     # -- temporary storage of dDTRs for optimization
     temporaryStorage:
       enabled: true
@@ -287,7 +290,7 @@ frontend:
     max_retries: 30
     # -- default timeout  - 90 seconds in milliseconds
     timeout:
-      negotiate: 40000
+      negotiate: 60000
       search: 60000
       decline: 20000
     # -- delay from getting status

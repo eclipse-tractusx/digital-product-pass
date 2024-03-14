@@ -53,20 +53,11 @@ tractusx-connector:
       repository: "tractusx/edc-controlplane-postgresql-hashicorp-vault"
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
-      # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
       port: 1044
       suspendOnStart: false
-    internationalDataSpaces:
-      id: TXDC
-      description: Tractus-X Eclipse IDS Data Space Connector
-      title: ""
-      maintainer: ""
-      curator: ""
-      catalogId: TXDC-Catalog
     livenessProbe:
       # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
       enabled: true
@@ -275,12 +266,12 @@ tractusx-connector:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    limits:
+      cpu: 1.5
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -321,8 +312,6 @@ tractusx-connector:
       repository: "tractusx/edc-dataplane-hashicorp-vault"
       # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
       pullPolicy: IfNotPresent
-      # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.5.0"
     initContainers: []
     debug:
       enabled: false
@@ -517,8 +506,9 @@ tractusx-connector:
       public: ""
 
   postgresql:
-    jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-    fullnameOverride: "postgresql"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+    fullnameOverride: ""
+    nameOverride: ""
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
     auth:
@@ -552,7 +542,7 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: edc-encryption-key
 
   backendService:
-    httpProxyTokenReceiverUrl: "https://materialpass.dev.demo.catena-x.net/endpoint"
+    httpProxyTokenReceiverUrl: "https://dpp.dev.demo.catena-x.net/endpoint"
 
   networkPolicy:
     # -- If `true` network policy will be created to restrict access to control- and dataplane
@@ -585,8 +575,9 @@ tractusx-connector:
     hookDeletePolicy: before-hook-creation,hook-succeeded
 
 postgresql:
-  jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
-  fullnameOverride: "postgresql"
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+  fullnameOverride: ""
+  nameOverride: ""
   primary:
     persistence:
       enabled: true
@@ -602,8 +593,9 @@ irs-helm:
   enabled: true
   bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
 
-
   irsUrl: "https://materialpass-irs.dev.demo.catena-x.net"
+  apiKeyAdmin: <path:material-pass/data/dev/irs/apiKey#apiKeyAdmin>
+  apiKeyRegular: <path:material-pass/data/dev/irs/apiKey#apiKeyRegular>
 
   ingress:
     enabled: true
@@ -625,26 +617,37 @@ irs-helm:
   digitalTwinRegistry:
     type: decentral
     url: https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0
-    discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
-  semanticshub:
-    url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
-  bpdm:
-    url: https://partners-pool.dev.demo.catena-x.net
-    bpnEndpoint: >-
-      {{- if .Values.bpdm.url }}
-      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
-      {{- end }}
+
+    discovery:
+      oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+      discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+    semanticshub:
+      url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
+      oAuthClientId: semantics
+    bpdm:
+      url: https://partners-pool.dev.demo.catena-x.net
+      oAuthClientId: bpdm
+      bpnEndpoint: >-
+        {{- if .Values.bpdm.url }}
+        {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
+        {{- end }}
 
   minioUser: <path:material-pass/data/dev/irs/minio#user>
   minioPassword: <path:material-pass/data/dev/irs/minio#password>
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
   oauth2:
-    clientId: <path:material-pass/data/dev/irs/keycloak/oauth2#clientId>
-    clientSecret: <path:material-pass/data/dev/irs/keycloak/oauth2#clientSecret>
     clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-
+    discovery:
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+    semantics:
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+    bpdm:
+      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
+      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
   edc:
     catalog:
       acceptedPolicies:
@@ -658,6 +661,7 @@ irs-helm:
       endpoint:
         data: https://materialpass.dev.demo.catena-x.net/consumer/management
       apikey:
+        header: "X-Api-Key"
         secret: <path:material-pass/data/dev/edc/oauth#api.key>
 
   minio:
@@ -665,4 +669,3 @@ irs-helm:
       create: false
     rootUser: <path:material-pass/data/dev/irs/minio#user>
     rootPassword: <path:material-pass/data/dev/irs/minio#password>
-

@@ -512,7 +512,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ##### Kubernetes Container platform (gardener)
 
-* Hotel Budapest (Development, Integration and Beta Environments)
+* Argo CD infrastructure (Integration environment)
 * Namespace:
   * product-material-pass
 
@@ -663,7 +663,7 @@ The primary battery passport application components are:
 
 There are different levels categorized concerning the application resources deployed for a specific tool:
 
-**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD (Hotel Budapest - INT) through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
+**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
 
 **Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, and digital-product-pass (consumer-ui and consumer-backend). In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
 

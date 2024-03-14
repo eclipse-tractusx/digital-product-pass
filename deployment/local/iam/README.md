@@ -21,9 +21,9 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# Local Keycloak Setup
+# Identity Access Management (IAM) Setup
 
-This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.
+This guide describes how to setup a IAM instance locally using docker container and import existing realm.json file.
 
 ## Launch keycloak docker container
 
@@ -56,11 +56,51 @@ After importing the realm, the users need to be created manually.
 
 Install the keycloak plugin for vuejs app from ```npm install keycloak-js```
 
-The keycloak configurations are defined in [src/services/service.const.js](../../../src/services/service.const.js) and [src/services/Authentication.js](../../../src/services/Authentication.js) files for different deployment environments.
+The keycloak configurations are defined in [dpp-frontend/src/services/service.const.js](../../../dpp-frontend/src/services/service.const.js).
 
 ### Build and run the app
 
 ```
 npm install --legacy-peer-deps
 npm run serve
+```
+
+
+## General Docker commands 
+
+### Build Image
+```bash
+docker build -t <IMAGE_NAME>:<IMAGE_TAG> .
+```
+
+### Run Container
+```bash
+docker run -p <HOST_PORT>:<CONTAINER_PORT> --name <CONTAINER_NAME> -d <IMAGE_NAME>:<IMAGE_TAG>
+```
+
+### Tag Image
+```bash
+docker tag <IMAGE_NAME>:<IMAGE_TAG> <REGISTRY>/<IMAGE_NAME>:<IMAGE_TAG>
+```
+
+### Push Image
+```bash
+docker push <REGISTRY>/<IMAGE_NAME>:<IMAGE_TAG>
+```
+
+### Stop Container
+```bash
+docker stop <CONTAINER_NAME>;
+```
+
+### Remove Container
+```bash
+docker rm <CONTAINER_NAME>;
+```
+
+### Java Remote Debugging:
+Add this parameter when running docker run:
+
+```bash
+-e "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000" -p 8000:8000
 ```

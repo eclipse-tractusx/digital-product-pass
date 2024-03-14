@@ -35,7 +35,7 @@ Latest Revision 04 Jan, 2024
   - [Introduction](#introduction)
   - [Getting Started Guide](#getting-started-guide)
   - [Deployment Configuration](#deployment-configuration)
-  - [Local Keycloak Configuration](#local-keycloak-configuration)
+  - [Local IAM Configuration](#local-iam-configuration)
   - [Consumer Backend Configuration](#consumer-backend-configuration)
     - [Backend Application Configuration](#backend-application-configuration)
     - [Spring Boot Configuration](#spring-boot-configuration)
@@ -90,7 +90,7 @@ All the information about deploying you can find in this resource:
 | ---- | -------- | ---- |
 | Technical Guide for Development | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/README.md) |
 
-## Local Keycloak Configuration
+## Local IAM Configuration
 
 All the authentication and authorization is managed by Catena-X IAM, however there is a possibility to configure a local Keycloak Instance for testing and development purposes.  
 
@@ -101,12 +101,12 @@ Additionally two test users shall be created and the correct roles shall be assi
 **User 1:** "company 1 user" (OEM, Dismantler)  
 **User 2:** "company 2 user" (Recycler)  
 
-Follow the [Local Keycloak Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) in order to set up the users, and their passwords correctly:
+Follow the [Local IAM Setup Guide](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/iam/README.md) in order to set up the users, and their passwords correctly:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Local Keycloak Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/README.md) |
-| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/docker/Keycloak/realm.json) |
+| Local IAM Setup Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/iam/README.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/iam/README.md) |
+| Realm Configuration File | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/iam/realm.json](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/local/iam/realm.json) |
 
 
 All the values for the helm charts are configured for each environment and set up in the Product Passport Application source code:  
@@ -115,8 +115,9 @@ All the values for the helm charts are configured for each environment and set u
 | ---- | -------- | ---- |
 | Helm Charts Main Directory | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts) |
 | Digital Product Pass | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) |
-| EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-consumer) |
-| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/edc-provider) |
+| EDC Consumer Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-consumer/edc-consumer](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-consumer/edc-consumer) |
+| MOCK EDC Provider Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-provider/edc-provider](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-provider/edc-provider) |
+| MOCK Provider Backend Helm Charts | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-provider/data-service](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/deployment/infrastructure/data-provider/data-service) |
 
 ## Consumer Backend Configuration
 
@@ -170,7 +171,7 @@ In order to set up the secret management please follow this guide:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/SECRETS_MANAGEMENT.md) |
+| Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/secrets%20management/SECRETS_MANAGEMENT.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/secrets%20management/SECRETS_MANAGEMENT.md) |
 
 
 ## EDC Provider Configuration

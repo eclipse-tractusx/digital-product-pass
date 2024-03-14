@@ -134,8 +134,8 @@ Here you will find the Infrastructure documentation for the Digital Product Pass
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide 
-| [Deployment in Hotel Budapest](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                                    |
-| [Docker Overview](../docker/README.md)                                      | Overview on general docker commands                                                                                                                                |                   
+| [Deployment in Argo CD](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD - integration environment                                                                                  |
+| [Docker Overview](../deployment/local/iam/README.md)                                      | Overview on general docker commands                                                                                                                                |                   
 
 
 
@@ -146,7 +146,7 @@ Here you can find the main security documentatin for the Digital Product Pass Ap
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Keycloak Overview](../deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./Infrastructure%20as%20Code/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Keycloak Overview](../deployment/local/iam/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./Infrastructure%20as%20Code/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
 | [Secret Management](./secrets%20management/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
 
 

@@ -21,18 +21,21 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-## Technical Guide - Deployment in ArgoCD Hotel Budapest
 
+[link](doc:.. #anchor-links)
+## Technical Guide - Deployment in Argo CD
 
 > [Getting Started Documentation](../docs/GETTING-STARTED.md)
 
-This document describes the battery pass application deployment steps in hotel budapest using helm charts. In order to deploy the app components, the following artifacts are required. 
+This document describes the battery pass application deployment steps in using helm charts. In order to deploy the app components, the following artifacts are required. 
 
-- Link to the Integration environment: [ArgoCD Hotel Budapest INT - Product Material Passport](https://argo.int.demo.catena-x.net)
+> **NOTE**: This tutorial demonstrates the deployment of the application on Argo CD infrastructure. It is assumed that the infrastructure is already configured. Further documentation about the Argo CD. [What is Argo CD platform?](http://argo-cd.readthedocs.io/en/stable)
 
-- [edc-consumer](./infrastructure/edc-consumer)
+- Link to the Integration environment: [ArgoCD - Product Material Passport](https://argo.int.demo.catena-x.net)
 
-- [edc-provider](./infrastructure/edc-provider)
+- [edc-consumer](./infrastructure/data-consumer/edc-consumer)
+
+- [edc-provider](./infrastructure/data-provider/edc-provider)
 
 - [digital-product-pass](../charts/digital-product-pass)
     - dpp-frontend

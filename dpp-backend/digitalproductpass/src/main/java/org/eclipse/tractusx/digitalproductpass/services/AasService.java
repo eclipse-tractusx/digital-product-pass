@@ -36,7 +36,7 @@ import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
@@ -144,7 +144,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a {@code DigitalTwin} for the specified position index.
      */
-    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, EndpointDataReference edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
@@ -252,7 +252,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a {@code DigitalTwin} for the specified id.
      */
-    public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, EndpointDataReference edr) {
         try {
             String path = this.getPathEndpoint("digitalTwin");
             String url = this.getRegistryUrl(registryUrl) + path + "/" + CrypUtil.toBase64Url(digitalTwinId);
@@ -357,7 +357,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the token headers.
      */
-    public HttpHeaders getTokenHeader(DataPlaneEndpoint edr) {
+    public HttpHeaders getTokenHeader(EndpointDataReference edr) {
         try {
             if (edr == null) {
                 // In case it fails we should throw get the token
@@ -455,7 +455,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find any digital twin.
      */
-    public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
+    public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, EndpointDataReference edr) {
         try {
             String path = this.getPathEndpoint("search");
             String url = this.getRegistryUrl(registryUrl) + path;
@@ -563,7 +563,7 @@ public class AasService extends BaseService {
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         /** ATTRIBUTES **/
-        private DataPlaneEndpoint edr;
+        private EndpointDataReference edr;
         private SubModel subModel;
         private DigitalTwin digitalTwin;
         private final String assetId;
@@ -572,7 +572,7 @@ public class AasService extends BaseService {
         private final String semanticId;
 
         /** CONSTRUCTOR(S) **/
-        public DecentralDigitalTwinRegistryQueryById(Search search, DataPlaneEndpoint edr) {
+        public DecentralDigitalTwinRegistryQueryById(Search search, EndpointDataReference edr) {
             this.assetId = search.getId();
             this.idType = search.getIdType();
             this.dtIndex = search.getDtIndex();
@@ -581,10 +581,10 @@ public class AasService extends BaseService {
         }
 
         /** GETTERS AND SETTERS **/
-        public DataPlaneEndpoint getEdr() {
+        public EndpointDataReference getEdr() {
             return edr;
         }
-        public void setEdr(DataPlaneEndpoint edr) {
+        public void setEdr(EndpointDataReference edr) {
             this.edr = edr;
         }
         public SubModel getSubModel() {

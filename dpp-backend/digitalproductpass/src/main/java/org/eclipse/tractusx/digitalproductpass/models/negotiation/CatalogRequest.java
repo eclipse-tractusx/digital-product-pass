@@ -37,30 +37,28 @@ import java.util.List;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CatalogRequest {
+public class CatalogRequest extends DidDocument{
 
     /** ATTRIBUTES **/
-    @JsonProperty("@context")
-    JsonNode context;
     @JsonProperty("protocol")
     String protocol;
-    @JsonProperty("providerUrl")
-    String providerUrl;
+    @JsonProperty("counterPartyAddress")
+    String counterPartyAddress;
     @JsonProperty("querySpec")
     QuerySpec querySpec;
 
     /** CONSTRUCTOR(S) **/
-    public CatalogRequest(JsonNode context, String providerUrl, QuerySpec querySpec) {
+    public CatalogRequest(JsonNode context, String counterPartyAddress, QuerySpec querySpec) {
         this.context = context;
         this.protocol = "dataspace-protocol-http";
-        this.providerUrl = providerUrl;
+        this.counterPartyAddress = counterPartyAddress;
         this.querySpec = querySpec;
     }
 
-    public CatalogRequest(JsonNode context, String protocol, String providerUrl, QuerySpec querySpec) {
+    public CatalogRequest(JsonNode context, String protocol, String counterPartyAddress, QuerySpec querySpec) {
         this.context = context;
         this.protocol = protocol;
-        this.providerUrl = providerUrl;
+        this.counterPartyAddress = counterPartyAddress;
         this.querySpec = querySpec;
     }
 
@@ -68,12 +66,6 @@ public class CatalogRequest {
     }
 
     /** GETTERS AND SETTERS **/
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
     public String getProtocol() {
         return protocol;
     }
@@ -81,12 +73,12 @@ public class CatalogRequest {
         this.protocol = protocol;
     }
 
-    public String getProviderUrl() {
-        return providerUrl;
+    public String getCounterPartyAddress() {
+        return counterPartyAddress;
     }
 
-    public void setProviderUrl(String providerUrl) {
-        this.providerUrl = providerUrl;
+    public void setCounterPartyAddress(String counterPartyAddress) {
+        this.counterPartyAddress = counterPartyAddress;
     }
 
     public QuerySpec getQuerySpec() {

@@ -42,8 +42,8 @@
         "dcat:accessService": "e2a066b3-5a16-45dc-8552-8d96ac787e02"
       }
     ],
-    "edc:description": "batterypass test data",
-    "edc:id": "urn:uuid:9992f962-6f69-875d-0ea4-fb4db3bb3b23"
+    "description": "batterypass test data",
+    "id": "urn:uuid:9992f962-6f69-875d-0ea4-fb4db3bb3b23"
   },
   "dcat:service": {
     "@id": "e2a066b3-5a16-45dc-8552-8d96ac787e02",
@@ -51,7 +51,7 @@
     "dct:terms": "connector",
     "dct:endpointUrl": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp"
   },
-  "edc:participantId": "BPNL00000000000",
+  "participantId": "BPNL00000000000",
   "@context": {
     "dct": "https://purl.org/dc/terms/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",

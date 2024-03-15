@@ -31,6 +31,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Added
 - SingleApiRequest class for the requested data for the single API.
 - SingleApiConfig class to had configurations related to the single API.
+- ContractService class to move all the processing logic from the API and Contract controllers to this service.
 
 ### Updated
 - Refactored dpp-script by adding AppId as a script parameter

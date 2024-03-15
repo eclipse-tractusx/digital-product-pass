@@ -105,7 +105,8 @@ configuration:
       timeout: 1500
 
   simple-api:
-    maxRetries: 5
+    maxRetries: 30
+    delay: 1000
 
   process:
     store: true

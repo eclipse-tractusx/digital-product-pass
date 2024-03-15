@@ -59,6 +59,7 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
 import utils.JsonUtil;
 import utils.LogUtil;
+import utils.ThreadUtil;
 import utils.exceptions.UtilException;
 
 import java.util.List;
@@ -235,14 +236,14 @@ public class ApiController {
                 try{
                     status = (Status) jsonUtil.bindObject(statusResponse.getData(), Status.class);
                     ++retry;
-                    sleep(1000);
+                    ThreadUtil.sleep(singleApiConfig.getDelay());
                 } catch (Exception e) {
                     response = httpUtil.getBadRequest("Status Call:\n" + e.getMessage());
                     return httpUtil.buildResponse(response, httpResponse);
                 }
             }
             if (retry > maxRetries) {
-                response = httpUtil.getBadRequest("Wasn't possible to retrieve the Passport due to exceeded number of tries!");
+                response = httpUtil.getBadRequest("It wasn't possible to retrieve the Passport due to exceeded number of tries!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Transfer process completed! Retrieving the Passport Data!");

@@ -32,7 +32,7 @@
     "vue-router": "^4.0.13",
     "vue3-json-viewer": "^2.2.2",
     "vue3-qrcode-reader": "^0.0.1",
-    "vuetify": "^3.1.4",
+    "vuetify": "^3.5.6",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "webfontloader": "^1.0.0"

@@ -49,11 +49,9 @@ Welcome to the documentation section, below you will find all the necesary docs 
   - [NOTICE](#notice)
 <!-- TOC -->
 
-
 # Business Statement and Application Use Case
 
 > **Note**: *IMPORTANT!* Before you start with the architecture docs **please take a look at the business context** from the application use case. In this way you will be able to understand much better the further documentation.
-
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
@@ -67,34 +65,29 @@ Here you can find some application screenshots that will help you to visualize a
 
 ![Search View](./arc42/media/GraphicQRCodeView.png)
 
-
 ## Passport General Information View
 
 ![General Info View](./arc42/media/GraphicBatteryPassportViewGeneralInfo.png)
-
-
 
 ## User Interface Documentation
 
 If you need an extra guideline to understand the application user interface please check the user manual:
 
-
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [User Manual](./user%20manual/UserManual.md)                              | User Manual explaining the user interface                                                                                                                                    |
 
-
 # Architecture Documentation
 
 ## Scope
+
 For understating the achitecture first take a look at the following diagram:
 
 ![Application Scope](./arc42/media/dataRetrieval/digitalProductPassContext.drawio.svg)
 
-Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc). 
+Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc).
 
 The [Arc42](./arc42/Arc42.md) documentation is the main architecture guide you can read in order to have a overview from the application and get to know more about the system.
-
 
 ## Documents of Interest
 
@@ -105,27 +98,22 @@ Here are all the docs you need to understand the architecture and arhitecture co
 | [Arc42](./arc42/Arc42.md)                                             | Main architecture document  of the Digital Product Pass Application                                                                                                                                     |
 | [Administration Guide](./admin%20guide/AdminGuide.md)                  | Administration Guide explaining the infrastructure and how to configure the application  
 
-
 # User and Technical User Changelogs
+
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Technical User Changelog](../CHANGELOG.md)                                                | Documentation containing all the release changes at a technical level.  
-| [User Changelog](./RELEASE_USER.md)                                                | Resumed released changes from the application without getting into so much technical detail.     
-
+| [User Changelog](./RELEASE_USER.md)                                                | Resumed released changes from the application without getting into so much technical detail.
 
 # Technical Documentation
-                                                                        
 
 ## Backend Documentation
 
-
 You can find the backend documentation at the following location:
-
-
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Backend Documentation](./dpp-backend/digitalproductpass/readme.md)          | Backend documentation Product Passport App                                                                                                                         
+| [Backend Documentation](./dpp-backend/digitalproductpass/readme.md)          | Backend documentation Product Passport App
 
 ## Infrastructure Documentation
 
@@ -133,12 +121,9 @@ Here you will find the Infrastructure documentation for the Digital Product Pass
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide 
+| [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide
 | [Deployment in Argo CD](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD - integration environment                                                                                  |
-| [Docker Overview](../deployment/local/iam/README.md)                                      | Overview on general docker commands                                                                                                                                |                   
-
-
-
+| [Docker Overview](../deployment/local/iam/README.md)                                      | Overview on general docker commands                                                                                                                                |
 
 # Security Documentation
 
@@ -146,11 +131,9 @@ Here you can find the main security documentatin for the Digital Product Pass Ap
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Keycloak Overview](../deployment/local/iam/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file. [Code Scaning with Kics and Trivy](./Infrastructure%20as%20Code/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github        |
+| [Keycloak Overview](../deployment/local/iam/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.  |
+[Code Scaning with Kics and Trivy](./infrastructure%20as%20code/IaC.md)  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github
 | [Secret Management](./secrets%20management/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
-
-
-
 
 # Testing Documentation
 
@@ -158,40 +141,31 @@ Here you can find the test (End to End, etc.) documentation for the Digital Prod
 
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
- [Cypress Overview](./cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                          
-
+ [Cypress Overview](./cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test
 
 # Release Guidelines Documentation
 
-
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-[Release Guidelines](./RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide                             
-
-
+[Release Guidelines](./RELEASE.md)                                     | Product Battery Pass Consumer App Release Guide
 
 # API Documentation
 
-
 Here you can find the API documentation, there is a postman collection with the workflow that our application is following to retrive the data:
 
-
 ## Postman Collection
+
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------                                                                                                                                     |
 | [Postman Overview](../deployment/local/postman/README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                                      |
 
-
-
-## Swagger Documetation 
-
+## Swagger Documetation
 
 Additionally we have a open swagger documentation at the following URL:
 
 <pre>
 <a href="https://dpp.int.demo.catena-x.net/swagger-ui/index.html">https://dpp.int.demo.catena-x.net/swagger-ui/index.html</a>
 </pre>
-
 
 You can also deploy the application using the [deployment guidelines](./GETTING-STARTED.md), which will be deployed at:
 
@@ -201,7 +175,6 @@ You can also deploy the application using the [deployment guidelines](./GETTING-
 
 > **Note**: The port can vary if you change the port at the configuration.
 
-
 ## NOTICE
 
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
@@ -209,4 +182,4 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 - SPDX-License-Identifier: Apache-2.0
 - SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
-- Source URL: https://github.com/eclipse-tractusx/digital-product-pass
+- Source URL: <https://github.com/eclipse-tractusx/digital-product-pass>

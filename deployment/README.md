@@ -21,8 +21,6 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-
-[link](doc:.. #anchor-links)
 ## Technical Guide - Deployment in Argo CD
 
 > [Getting Started Documentation](../docs/GETTING-STARTED.md)

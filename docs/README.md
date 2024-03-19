@@ -85,7 +85,7 @@ For understating the achitecture first take a look at the following diagram:
 
 ![Application Scope](./arc42/media/dataRetrieval/digitalProductPassContext.drawio.svg)
 
-Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc).
+Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/data-consumer/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc).
 
 The [Arc42](./arc42/Arc42.md) documentation is the main architecture guide you can read in order to have a overview from the application and get to know more about the system.
 

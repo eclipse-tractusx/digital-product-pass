@@ -53,7 +53,7 @@ Fill out the following required fields.
 - **Project:** project-material-pass
 - **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
 - **Revision:** select branch or a tag
-- **Path:** The path to the deployment (possible values: deployment/infrastructure/edc-consumer, deployment/infrastructure/edc-provider, charts/digital-product-pass)
+- **Path:** The path to the deployment (possible values: deployment/infrastructure/data-consumer/edc-consumer, deployment/infrastructure/data-provider/edc-provider, charts/digital-product-pass)
 - **Cluster URL:** https://kubernetes.default.svc
 - **Namespace:** product-material-pass
 - **Plugin:** argocd-vault-plugin-helm-args
@@ -64,23 +64,23 @@ Fill out the following required fields.
 
 Click on 'Create' button
 
-![Create New App](./images/create-app.png)
-![Select Valut Plugin](./images/create-app-with-plugin.png)
+![Create New App](./media/create-app.png)
+![Select Valut Plugin](./media/create-app-with-plugin.png)
 
 - Go inside the application and sync it. It would take some time to get synced.
 
-![Sync App](./images/sync-app.png)
+![Sync App](./media/sync-app.png)
 
-![Sync App](./images/sync-pod.png)
+![Sync App](./media/sync-pod.png)
 
-![Consumer frontend and backend pods](./images/running-pods.png)
+![Consumer frontend and backend pods](./media/running-pods.png)
 - Go to the individual logs tab
 
 Frontend logs:
-![Consumer frontend logs](./images/frontend-logs.png)
+![Consumer frontend logs](./media/frontend-logs.png)
 
 Backend logs:
-![Consumer backend logs](./images/backend-logs.png)
+![Consumer backend logs](./media/backend-logs.png)
 
 If everything works fine then the application is deployed...
 
@@ -104,17 +104,17 @@ In the end, the frontend should be accessible at https://dpp.int.demo.catena-x.n
 
 #### Example Screenshots:
 
-![Company Selection Page](./images/company-selection.png)
+![Company Selection Page](./media/company-selection.png)
 
-![Login Page](./images/login.png)
+![Login Page](./media/login.png)
 
-![QR Code Scanner](./images/dashboard.png)
+![QR Code Scanner](./media/dashboard.png)
 
-![QR Code Scanner](./images/passport-scan.png)
+![QR Code Scanner](./media/passport-scan.png)
 
-![Battery Passport - General Information](./images/product-passport.png)
+![Battery Passport - General Information](./media/product-passport.png)
 
-![Drill down components](./images/components.png)
+![Drill down components](./media/components.png)
 
 ##### Consumer-Backend:
 
@@ -124,7 +124,7 @@ The consumer backend is a Java based spring boot application which implements th
 
 [Central Swagger Hub](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass/2.0.1)
 
-![Swagger UI](./images/swagger.png)
+![Swagger UI](./media/swagger.png)
 
 <br />
 

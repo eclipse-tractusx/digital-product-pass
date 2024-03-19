@@ -31,10 +31,10 @@ set -o nounset
 SET_VALUES=$1
 GITHUB_TOKEN=$2
 VAULT_ADDRESS=$3
-DPP_VALUES_FILE="./../../../charts/digital-product-pass/values-dev.yaml"
-EDC_CONSUMER_VALUES_FILE="./../../infrastructure/edc-consumer/values.yaml"
-EDC_PROVIDER_VALUES_FILE="./../../infrastructure/edc-provider/values.yaml"
-REGISTRY_VALUES_FILE="./../../infrastructure/registry/values.yaml"
+DPP_VALUES_FILE="./../../../charts/digital-product-pass/values.yaml"
+EDC_CONSUMER_VALUES_FILE="./../../infrastructure/data-consumer/edc-consumer/values.yaml"
+EDC_PROVIDER_VALUES_FILE="./../../infrastructure/data-provider/edc-provider/values.yaml"
+REGISTRY_VALUES_FILE="./../../infrastructure/data-provider/registry/values.yaml"
 
 export GH_TOKEN=${GITHUB_TOKEN} 
 export VAULT_ADDR=${VAULT_ADDRESS}

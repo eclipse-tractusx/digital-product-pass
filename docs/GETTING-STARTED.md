@@ -67,7 +67,7 @@ minikube start --cpus 4 --memory 8096
 minikube addons enable ingress
 ```
 
-The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set/unset [init-values.sh](../deployment/local/scripts/init-values.sh) in required components as needed. 
+The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set/unset [init-values.sh](../deployment/local/testing/init-values.sh) in required components as needed. 
 
 > Prerequisite: Prior to run the scripts, the values for the follwoing environment variables should be placed in the script.
 
@@ -78,7 +78,7 @@ __Script Environment Variables:__
 
 ```bash
 # Navigate to working directory
-cd ../deployment/local/scripts
+cd ../deployment/local/testing
 
 # set values for local run
 # ./init-values.sh <0 or 1> <GH_TOKEN> <VAULT_ADDRESS>
@@ -104,16 +104,16 @@ cd ../deployment/local/scripts
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/infrastructure/edc-consumer) hosted locally
+        * [Helm Chart](../deployment/infrastructure/data-consumer/edc-consumer) hosted locally
 ```bash
 # Navigate to the working directory
-cd ../deployment/infrastructure/edc-consumer
+cd ../deployment/infrastructure/data-consumer/edc-consumer
 
 # Update chart dependencies
 helm dependency update .
 
 # install helm chart named edc-consumer
-helm install edc-consumer . --values=./values-dev.yaml
+helm install edc-consumer . -f ./values.yaml
 
 # optional: remove/uninstall helm chart 
 helm uninstall edc-consumer
@@ -148,17 +148,17 @@ Integration (INT) deployment available through postman: [https://dpp.int.demo.ca
     * Description: This component consists of different services which are described in
       the [Connector Setup](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector).
     * __Controlplane__ & __Dataplane__
-        * [Helm Chart](../deployment/infrastructure/edc-provider) hosted locally
+        * [Helm Chart](../deployment/infrastructure/data-provider/edc-provider) hosted locally
 
 ```bash
 # Navigate to the working directory
-cd ../deployment/infrastructure/edc-provider
+cd ../deployment/infrastructure/data-provider/edc-provider
 
 # Update chart dependencies
 helm dependency update .
 
 # install helm chart named edc-provider
-helm install edc-provider . --values=./values-dev.yaml
+helm install edc-provider . -f ./values.yaml
 
 # optional: remove/uninstall helm chart 
 helm uninstall edc-provider

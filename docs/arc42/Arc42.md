@@ -394,7 +394,7 @@ Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html]
 
 The Item Relationship Service [IRS] (**[tractusx/item-relationship-service](https://github.com/eclipse-tractusx/item-relationship-service)**) is responsible for providing the drill down functionality the Digital Product Pass application needs for finding the children of the current passports.
 
-The IRS ([charts reference implementation](../../deployment/infrastructure/edc-consumer/Chart.yaml)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
+The IRS ([charts reference implementation](../../deployment/infrastructure/data-consumer/edc-consumer/Chart.yaml)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
 
 > **NOTE**: The IRS Functionality can be deactivated by setting the following configuration at the `values.yaml` file to false: `backend.configuration.irs.enabled` or by setting the attribute `children` to false when the `/api/contract/search` API is called.
 

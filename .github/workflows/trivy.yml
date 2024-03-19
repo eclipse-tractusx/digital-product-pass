@@ -93,13 +93,17 @@ jobs:
       - name: Build frontend image from Dockerfile - GHCR
         id: build-docker-frontend-ghcr
         if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        run: docker build -t ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.FRONTEND_IMAGE_NAME }}:latest .
+        run: |
+          cd dpp-frontend
+          docker build -t ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.FRONTEND_IMAGE_NAME }}:latest .
 
         # Build action for docker hub registry
       - name: Build frontend image from Dockerfile - Docker Hub
         id: build-docker-frontend-dockerhub
         if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
-        run: docker build -t ${{ env.IMAGE_NAMESPACE }}/${{ env.FRONTEND_IMAGE_NAME }}:latest .
+        run: |
+          cd dpp-frontend
+          docker build -t ${{ env.IMAGE_NAMESPACE }}/${{ env.FRONTEND_IMAGE_NAME }}:latest .
 
       - name: Run Trivy vulnerability scanner - GHCR
         id: run-trivy-vulnerability-scanner-frontend-ghcr

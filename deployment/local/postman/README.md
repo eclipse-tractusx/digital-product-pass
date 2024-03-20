@@ -37,18 +37,30 @@ This technical guide depicts the digital product pass end-to-end API calls throu
     - Registry Asset
     - Data Asset
 - DPP Backend
+    - Data Retrieval
+    - IRS
 
 
-### Steps to  Proceed
+### Steps to Proceed
+
+#### Digital Product Pass Collection
 - Setup up [Postman client](https://www.postman.com/downloads)
 
 - Import the [Digital Product Pass collection](./Digital-Product-Pass-collection.json)
 
 - Configure the following environment variables from the variables tab inside the root directory.
+    - ***APIKey***
+    - ***clientId***
+    - ***clientSecret***
+    - ***bpnNumber***
 
-- ***APIKey***
-- ***clientId***
-- ***clientSecret***
-- ***bpnNumber***
+
+#### DPP-IRS Collection
+- If you are looking for the specific DPP-IRS component, please import the [IRS postman collection](./IRS/DPP-IRS-collection.json)
+- Configure the following environment variables:
+    - ***X-Api-Key-regular***
+    - ***X-Api-Key-admin***
+    - ***bpn***
+
 
 For more technical documentation, please refer to the [catenax-at-home-getting-started-guide](https://catenax-ng.github.io/docs/guides/catenax-at-home)

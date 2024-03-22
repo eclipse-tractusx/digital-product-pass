@@ -408,6 +408,11 @@ The following information is required for enabling the digital twin search, in o
 
 ```
 
+## Single API
+The Single API permits to get data from a Catena-X Provider by abstracting of all the separated APIs needed to do so. Authenticating with an defined API Key and with the mandatory and given serialized and discovery identifications, this API will
+create the process and check for the viability of the data retrieval, searches for a passport with the given serialized id, automatically signs the contract retrieved from provider and start negotiation, waits for the negotiation
+to be done and returns the data negotiated and transferred. In short, it's the set of the various APIs in one with auto-sign functionality to agile the data retrieval in a simple way.
+
 ## Authors
 Here are the main authors and reviewers of this documentation:
 

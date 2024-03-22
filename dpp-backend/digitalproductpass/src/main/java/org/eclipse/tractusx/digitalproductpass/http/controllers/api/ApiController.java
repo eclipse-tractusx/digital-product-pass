@@ -206,7 +206,6 @@ public class ApiController {
             tokenRequest.setToken(searchResponseData.get("token").toString());
             tokenRequest.setProcessId(searchResponseData.get("id").toString());
             String contractId = contracts.entrySet().stream().findFirst().get().getKey();
-            System.out.println("CONTRACTID: "+ contractId);
             tokenRequest.setContractId(contractId);
             Response agreeResponse = contractService.doContractAgreement(httpRequest, httpResponse, tokenRequest);
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Agreed with a contract and started the contract negotiation!");

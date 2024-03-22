@@ -30,9 +30,14 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ### Updated
 - Refactored dpp-script by adding AppId as a script parameter
-- Updated dpp-script readme
 - Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
 - Updated the digital twin registry version to v0.3.31
+- Updated postman collection to adjust the APIs from EDC `v0.6.0`
+- Updated IRS collection to change authentication process from OAuth2 to the API-Key
+- Updated the following readme files:
+    - Postman readme
+    - dpp-script readme
+
 
 ## [released]
 ## [v2.1.3] - 19-02-2024

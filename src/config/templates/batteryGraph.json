@@ -1,0 +1,50 @@
+{
+  "title": "NCA",
+  "composition": [
+    {
+      "title": "Composition of Andode",
+      "composition": [
+        {
+          "label": "SiO2-C",
+          "value": 50,
+          "unit": "%"
+        },
+        {
+          "label": "Styren butadien",
+          "value": 50,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "title": "Composition of Cathode",
+      "composition": [
+        {
+          "label": "Lithium",
+          "value": 20,
+          "unit": "%"
+        },
+        {
+          "label": "Nickel",
+          "value": 20,
+          "unit": "%"
+        },
+        {
+          "label": "Cobalt",
+          "value": 20,
+          "unit": "%"
+        },
+        {
+          "label": "Aluminium",
+          "value": 30,
+          "unit": "%"
+        },
+        {
+          "label": "Carbon black",
+          "value": 10,
+          "unit": "%"
+        }
+      ]
+    }
+  ]
+}

@@ -389,6 +389,11 @@ This API is responsible for retrieving the Aspect Model Payloads and some metada
 
 Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
 
+#### Single API
+The Single API permits to get data from a Catena-X Provider by abstracting of all the separated APIs needed to do so. Authenticating with an defined API Key and with the mandatory and given serialized and discovery identifications, this API will
+create the process and check for the viability of the data retrieval, searches for a passport with the given serialized id, automatically signs the contract retrieved from provider and start negotiation, waits for the negotiation
+to be done and returns the data negotiated and transferred. In short, it's the set of the various APIs in one with auto-sign functionality to agile the data retrieval in a simple way.
+
 
 ### Item Relationship Service Integration (Drill Down Functionality)
 

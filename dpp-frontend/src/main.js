@@ -25,7 +25,7 @@ import App from './App.vue';
 import store from './store';
 import vuetify from './assets/plugins/vuetify';
 import { loadFonts } from './assets/plugins/webfontloader';
-import router from './router';
+import router from './router/router';
 import '@/assets/styles/main.scss';
 import authentication from '@/services/Authentication';
 import JsonViewer from "vue3-json-viewer";

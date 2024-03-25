@@ -28,6 +28,9 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+## [released]
+## [v2.2.0] - 25-03-2024
+
 ### Updated
 - Refactored dpp-script by adding AppId as a script parameter
 - Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend

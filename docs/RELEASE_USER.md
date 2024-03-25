@@ -24,6 +24,16 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+
+**March 25 2024 (Version 2.2.0)**
+*25.03.2024*
+
+### Updated
+
+#### Updated backend to support EDC version v0.6.0
+The backend is now supporting EDC version v0.6.0 and is being prepared to be compatible with EDC version v0.7.0.
+
+
 **February 19 2024 (Version 2.1.3)**
 *19.02.2024*
 

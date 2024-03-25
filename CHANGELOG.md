@@ -34,12 +34,20 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 -   Updated the digital twin registry version to v0.3.31
 -   Updated postman collection to adjust the APIs from EDC `v0.6.0`
 -   Updated IRS collection to change authentication process from OAuth2 to the API-Key
+-   Updated models to support the new EDC 0.6.0 semantics (alias for retro-compatibility enabled)
+-   Updated edc-consumer and edc-provider helm charts version to `v0.6.0`
+-   Updated the catalog request semantics
+-   Optimized/refactored the contract negotiation and transfer flow.
+-   Updated Data Plane Service data parsing
 -   Updated the following readme files:
     -   Postman readme
     -   dpp-script readme
 -   Updated hardcoded units
 -   Updated translations
 -   Updated missing data fields
+
+## Added
+- Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.
 
 ## [released]
 

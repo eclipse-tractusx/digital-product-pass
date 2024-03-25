@@ -23,71 +23,64 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.edc;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * This class consists exclusively to define attributes that are common between the needed data objects for the Application.
- * For example for Catalog, Dataset, Negotiation, etc. that extends this class.
+ * This class consists exclusively to define attributes related to the component result in the check result
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DidDocument {
+public class ComponentResult {
 
     /** ATTRIBUTES **/
-    @JsonProperty("@id")
-    String id;
-    @JsonProperty("@type")
-    String type;
-
-    @JsonProperty("@context")
-    JsonNode context;
+    @JsonProperty("failure")
+    Object failure;
+    @JsonProperty("component")
+    String component;
+    @JsonProperty("isHealthy")
+    Boolean isHealthy;
 
     /** CONSTRUCTOR(S) **/
-    public DidDocument(String id, String type) {
-        this.id = id;
-        this.type = type;
-    }
-    public DidDocument() {
+
+    public ComponentResult(Object failure, String component, Boolean isHealthy) {
+        this.failure = failure;
+        this.component = component;
+        this.isHealthy = isHealthy;
     }
 
-    public DidDocument(String id, String type, JsonNode context) {
-        this.id = id;
-        this.type = type;
-        this.context = context;
-    }
-
-    public DidDocument(String type) {
-        this.type = type;
-    }
-
-    public DidDocument(JsonNode context) {
-        this.context = context;
+    public ComponentResult() {
     }
 
     /** GETTERS AND SETTERS **/
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
+
+    public Object getFailure() {
+        return failure;
     }
 
-    public JsonNode getContext() {
-        return context;
+    public void setFailure(Object failure) {
+        this.failure = failure;
     }
 
-    public void setContext(JsonNode context) {
-        this.context = context;
+    public String getComponent() {
+        return component;
     }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    public Boolean getHealthy() {
+        return isHealthy;
+    }
+
+    public void setHealthy(Boolean healthy) {
+        isHealthy = healthy;
+    }
+
+
+
 }

@@ -48,12 +48,16 @@ configuration:
 
   edc:
     endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
+    readiness: '/api/check/readiness'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://dpp.int.demo.catena-x.net/endpoint'
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    transferType: "application/octet-stream"
+    timeout:
+      exchange: 10
 
   security:
     authorization:
@@ -74,6 +78,7 @@ configuration:
     callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
+    assetPropType: 'asset:prop:type'
     assetType: 'data.core.digitalTwinRegistry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'

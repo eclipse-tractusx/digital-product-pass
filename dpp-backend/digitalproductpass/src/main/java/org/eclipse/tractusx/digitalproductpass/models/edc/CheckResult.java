@@ -23,29 +23,51 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.edc;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
-@SuppressWarnings("Unused")
+import java.util.List;
+
+/**
+ * This class consists exclusively to define attributes related to the health check result from the EDC
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EdcResponse extends DidDocument{
-    @JsonProperty("edc:createdAt")
-    Integer createdAt;
-    @JsonProperty("@context")
-    JsonNode context;
+public class CheckResult {
 
-    public EdcResponse(String id, String type, Integer createdAt, JsonNode context) {
-        super(id, type);
-        this.createdAt = createdAt;
-        this.context = context;
+    /** ATTRIBUTES **/
+    @JsonProperty("componentResults")
+    List<ComponentResult> componentResults;
+    @JsonProperty("isSystemHealthy")
+    Boolean isSystemHealthy;
+
+    /** CONSTRUCTOR(S) **/
+    public CheckResult(List<ComponentResult> componentResults, Boolean isSystemHealthy) {
+        this.componentResults = componentResults;
+        this.isSystemHealthy = isSystemHealthy;
     }
 
-    public EdcResponse(String id, String type) {
-        super(id, type);
+    public CheckResult() {
     }
+
+    /** GETTERS AND SETTERS **/
+    public List<ComponentResult> getComponentResults() {
+        return componentResults;
+    }
+
+    public void setComponentResults(List<ComponentResult> componentResults) {
+        this.componentResults = componentResults;
+    }
+
+    public Boolean getSystemHealthy() {
+        return isSystemHealthy;
+    }
+
+    public void setSystemHealthy(Boolean systemHealthy) {
+        isSystemHealthy = systemHealthy;
+    }
+
 }

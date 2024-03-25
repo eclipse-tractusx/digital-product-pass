@@ -25,7 +25,7 @@
 
 package utils;
 
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +61,9 @@ public class EdcUtil {
      * @return a {@code DataPlaneEndpoint} object with the parsed date retrieved from the body.
      * @throws UtilException if unable to parse to the data.
      */
-    public DataPlaneEndpoint parseDataPlaneEndpoint(Object body) {
+    public EndpointDataReference parseDataPlaneEndpoint(Object body) {
         try {
-            return (DataPlaneEndpoint) this.jsonUtil.bindObject(body, DataPlaneEndpoint.class);
+            return (EndpointDataReference) this.jsonUtil.bindObject(body, EndpointDataReference.class);
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to parse the data plain endpoint");
         }

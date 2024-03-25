@@ -30,16 +30,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.List;
+
 /**
  * This class consists exclusively to define attributes related to the Transfer requests.
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransferRequest {
+public class TransferRequest extends DidDocument{
 
     /** ATTRIBUTES **/
-    @JsonProperty("@context")
-    JsonNode context;
     @JsonProperty("assetId")
     String assetId;
     @JsonProperty("connectorAddress")
@@ -59,6 +59,9 @@ public class TransferRequest {
     @JsonProperty("transferType")
     TransferType transferType;
 
+    @JsonProperty("callbackAddresses")
+    List<CallbackAddress> callbackAddresses;
+
     /** CONSTRUCTOR(S) **/
 
     public TransferRequest() {
@@ -76,13 +79,101 @@ public class TransferRequest {
         this.transferType = transferType;
     }
 
+    public TransferRequest(String id, String type, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
+        super(id, type);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+    }
+
+    public TransferRequest(String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType) {
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+    }
+
+    public TransferRequest(String id, String type, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        super(id, type);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
+    public TransferRequest(String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
+    public TransferRequest(String id, String type, JsonNode context, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        super(id, type, context);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
+    public TransferRequest(String type, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        super(type);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
+    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, PrivateProperties privateProperties, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        super(context);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.privateProperties = privateProperties;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
     /** GETTERS AND SETTERS **/
-    public JsonNode getContext() {
-        return context;
-    }
-    public void setContext(JsonNode context) {
-        this.context = context;
-    }
     public String getAssetId() {
         return assetId;
     }
@@ -110,7 +201,16 @@ public class TransferRequest {
     public String getConnectorId() { return connectorId; }
     public void setConnectorId(String connectorId) { this.connectorId = connectorId; }
 
+    public List<CallbackAddress> getCallbackAddresses() {
+        return callbackAddresses;
+    }
+
+    public void setCallbackAddresses(List<CallbackAddress> callbackAddresses) {
+        this.callbackAddresses = callbackAddresses;
+    }
+
     /** INNER CLASSES **/
+
     /**
      * This class consists exclusively to define attributes related to the Transfer request's transfer type property.
      **/

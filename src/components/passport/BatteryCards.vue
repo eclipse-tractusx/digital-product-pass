@@ -62,6 +62,13 @@
                 <div class="co2-label" style="padding-top: 0">
                   {{ $t(card.secondLabel) }}
                 </div>
+                <div>
+                  <img
+                    :src="getImageByKey(separateCollectionImage)"
+                    alt="Separate collection"
+                    style="margin-top: 12px"
+                  />
+                </div>
               </div>
             </v-row>
           </v-container>
@@ -114,6 +121,11 @@ import ElementChart from "./ElementChart.vue";
 import BarChart from "./BarChart.vue";
 import passportUtil from "@/utils/passportUtil.js";
 import DialogComponent from "../general/Dialog.vue";
+import noCollection from "../../media/noCollection.svg";
+import Battery00 from "../../media/Battery00.svg";
+import BatteryCd from "../../media/BatteryCd.svg";
+import BatteryHg from "../../media/BatteryHg.svg";
+import BatteryPb from "../../media/BatteryPb.svg";
 
 export default {
   name: "BatteryCards",
@@ -125,11 +137,22 @@ export default {
   props: {
     data: {
       type: Object,
-      default: Object,
+      default: () => ({}),
     },
+  },
+
+  setup() {
+    return {
+      noCollection,
+      Battery00,
+      BatteryCd,
+      BatteryHg,
+      BatteryPb,
+    };
   },
   data() {
     return {
+      separateCollectionImage: "BATTERY_CD",
       currentValue:
         this.$props.data.aspect.batteryCycleLife.cycleLifeTestDepthOfDischarge,
       maxValue: this.$props.data.aspect.batteryCycleLife.expectedLifetime,
@@ -227,6 +250,15 @@ export default {
   },
 
   methods: {
+    getImageByKey(key) {
+      const imageMap = {
+        BATTERY_00: this.Battery00,
+        BATTERY_CD: this.BatteryCd,
+        BATTERY_HG: this.BatteryHg,
+        BATTERY_PB: this.BatteryPb,
+      };
+      return imageMap.hasOwnProperty(key) ? imageMap[key] : this.noCollection;
+    },
     callIconFinder(icon) {
       return passportUtil.iconFinder(icon);
     },

@@ -44,6 +44,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## Added
 - Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.
+- Added DPP v2 payloads and Drill Down test data
 
 ## [released]
 ## [v2.1.3] - 19-02-2024

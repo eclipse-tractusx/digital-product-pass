@@ -56,9 +56,7 @@
             <Field
               :icon="callIconFinder('productStatusValue')"
               :label="$t('sections.stateOfHealth.productStatusValue')"
-              :value="
-                callFormattedDate(propsData.remanufacturing.productStatusValue)
-              "
+              :value="propsData.remanufacturing.productStatusValue"
             />
           </template>
         </v-col>

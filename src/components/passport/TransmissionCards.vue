@@ -146,7 +146,7 @@ export default {
               ? this.$props.data.aspect.sustainability.carbonFootprint
                   .co2FootprintTotal
               : "-",
-          valueUnits: "t CO2 Total",
+          valueUnits: "t CO₂ Total",
           secondValue:
             this.$props.data.aspect.generalInformation.warrantyPeriod,
           secondValueUnits: this.$props.data.aspect.generalInformation

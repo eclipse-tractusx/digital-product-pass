@@ -22,18 +22,18 @@
     }
   },
   "passportView": {
-    "policyAgreement":{
+    "policyAgreement": {
       "title": "Choose a policy:",
       "contractId": "Contract ID:",
       "policy": "Policy",
       "type": "type",
       "decline": "Decline",
       "agree": "Agree",
-      "details":{
+      "details": {
         "moreDetails": "More details",
         "lessDetails": "Less details"
       },
-      "declineModal":{
+      "declineModal": {
         "question": "Are you sure you want to decline?",
         "homepage": "This will take you back to the Homepage",
         "cancel": "Cancel",
@@ -54,7 +54,7 @@
       "exchange": "Exchange"
     },
     "dppComponentsNames": {
-      "typology": "Typeology",
+      "typology": "Typology",
       "metadata": "Metadata",
       "characteristics": "Characteristics",
       "components": "Components",
@@ -150,7 +150,7 @@
     "descriptionSustainabilityTitle": "Sustainability",
     "descriptionSustainabilityValue": "Description of the Sustainability"
   },
-  "transmissionCards":{
+  "transmissionCards": {
     "matrixCode": "Matrix code",
     "parameters": "SPECIFIC PARAMETERS",
     "driveType": "Drive type",
@@ -209,7 +209,7 @@
       "safetyMeasures": "Safety measures",
       "vehicleDismantlingProcedure": "Vehicle dismantling procedure"
     },
-    "productSpecificParameters":{
+    "productSpecificParameters": {
       "torqueConverter": "Torque converter",
       "driveType": "Drive type",
       "oilType": "Oil type",
@@ -229,7 +229,7 @@
       "supplierId": "Supplier id",
       "sparePartName": "Spare part name"
     },
-    "stateOfHealth":{
+    "stateOfHealth": {
       "serviceHistory": "Service history",
       "expectedLifespan": "Expected lifespan",
       "remanufacturingDate": "Remanufacturing date",
@@ -344,7 +344,11 @@
       "lifespan": "Lifespan",
       "energyCapacity": "Energy capacity",
       "voltage": "Voltage",
-      "physicalState": "Physical state"
+      "physicalState": "Physical state",
+      "weightOrVolume": "Weight or volume",
+      "diameter": "Diameter",
+      "grossWeight": "Gross weight",
+      "grossVolume": "Gross volume"
     },
     "commercial": {
       "placedOnMarket": "Place on the market",
@@ -361,7 +365,7 @@
       "location": "Location",
       "unit": "Unit",
       "concentrationMax": "Concentration max",
-      "concentrationMin": "Concentration main",
+      "concentrationMin": "Concentration min",
       "exemption": "Exemption",
       "idType": "Id type",
       "id": "Id"
@@ -385,6 +389,7 @@
     },
     "operation": {
       "importer": "Importer ID",
+      "importerEori": "Importer EORI",
       "manufacturerId": "Manufacturer ID",
       "facilityId": "Facility ID",
       "manufacturingDate": "Manufacturing date"

@@ -42,6 +42,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -122,7 +123,6 @@ class DataTransferServiceTest {
         Dataset dataSet = new Dataset();
         String dataSetId = UUID.randomUUID().toString();
         String assetId = UUID.randomUUID().toString();
-        dataSet.setAssetName("TEST");
         dataSet.setId(dataSetId);
         dataSet.setType("test-type");
         dataSet.setAssetId(assetId);
@@ -176,7 +176,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK));
 
-        String participantId = dataTransferService.checkEdcConsumerConnection();
+        String participantId = dataTransferService.getEdcConnectorBpn();
 
         assertNotNull(participantId);
         assertEquals(vaultService.getLocalSecret("edc.participantId"), participantId);
@@ -187,7 +187,7 @@ class DataTransferServiceTest {
         Status status = new Status();
         status.setEndpoint("test.endpoint");
 
-        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status, bpn);
+        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status, bpn, bpn);
 
         assertNotNull(negotiationRequest);
         assertEquals(status.getEndpoint(), negotiationRequest.getConnectorAddress());
@@ -210,7 +210,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
-                    if (body.getProviderUrl().equals(providerUrl)) {
+                    if (body.getCounterPartyAddress().equals(providerUrl)) {
                         return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -226,7 +226,7 @@ class DataTransferServiceTest {
         assertEquals(catalog.getContext(), offerCatalog.getContext());
 
         Map<String, String> contractOffer = (Map<String, String>) jsonUtil.toMap(offerCatalog.getContractOffers());
-        assertEquals("batterypass test data", contractOffer.get("edc:description"));
+        assertEquals("batterypass test data", contractOffer.get("description"));
 
     }
 
@@ -238,7 +238,7 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
                     CatalogRequest body = invocation.getArgument(4);
-                    if (body.getProviderUrl().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
+                    if (body.getCounterPartyAddress().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
                         return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                     }
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -254,7 +254,7 @@ class DataTransferServiceTest {
         assertEquals(catalog.getContext(), digitalTwinCatalog.getContext());
 
         Map<String, String> contractOffer = (Map<String, String>) jsonUtil.toMap(digitalTwinCatalog.getContractOffers());
-        assertEquals("data.core.digitalTwinRegistry", contractOffer.get("edc:type"));
+        assertEquals("data.core.digitalTwinRegistry", contractOffer.get("type"));
     }
 
     @Test
@@ -272,19 +272,22 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse response = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
+        IdResponse response = dataTransferService.doContractNegotiation(offer, bpn, bpn, providerUrl);
 
         assertNotNull(response);
         assertEquals("189f4957-0fbe-4d73-b215-977e3303a45e", response.getId());
-        assertEquals("edc:IdResponseDto", response.getType());
+        assertEquals("IdResponseDto", response.getType());
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Negotiation negotiation = dataTransferService.seeNegotiation(response.getId());
 
         assertEquals(response.getId(), negotiation.getId());
-        assertEquals("edc:ContractNegotiationDto", negotiation.getType());
+        assertEquals("ContractNegotiationDto", negotiation.getType());
         assertEquals("FINALIZED", negotiation.getState());
     }
 
@@ -301,9 +304,12 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerUrl);
+        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,bpn,  providerUrl);
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), JsonNode.class), HttpStatus.OK));
 
         return dataTransferService.seeNegotiation(negotiationResponse.getId());
@@ -336,15 +342,18 @@ class DataTransferServiceTest {
 
         assertNotNull(response);
         assertEquals("9ab72e5b-f2d4-4f60-85e6-0985f9b6b579", response.getId());
-        assertEquals("edc:IdResponseDto", response.getType());
+        assertEquals("IdResponseDto", response.getType());
 
-        when(httpUtil.doGet(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+        when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
+                .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), Transfer.class), HttpStatus.OK));
+
+        when(httpUtil.doGet(anyString(), eq(JsonNode.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), JsonNode.class), HttpStatus.OK));
 
         Transfer transfer = dataTransferService.seeTransfer(response.getId());
 
         assertEquals(response.getId(), transfer.getId());
-        assertEquals("edc:TransferProcessDto", transfer.getType());
+        assertEquals("TransferProcessDto", transfer.getType());
         assertEquals("COMPLETED", transfer.getState());
     }
 }

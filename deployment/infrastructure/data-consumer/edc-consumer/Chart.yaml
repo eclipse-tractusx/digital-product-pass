@@ -27,7 +27,7 @@ description: |
   A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc consumer for the DPP applicatiton.
 type: application
 version: 0.3.3
-appVersion: "0.5.0"
+appVersion: "0.6.0"
 home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 sources:
   - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
@@ -35,7 +35,7 @@ urls:
   - https://github.com/eclipse-tractusx/tractusx-edc/releases/download/tractusx-connector-0.5.0/tractusx-connector-0.5.0.tgz
 dependencies:
   - name: tractusx-connector
-    version: "0.5.0"
+    version: "0.6.0"
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: enabled
   - name: postgresql
@@ -45,5 +45,5 @@ dependencies:
     condition: postgresql.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 6.11.0
+    version: 6.14.0
     condition: irs-helm.enabled

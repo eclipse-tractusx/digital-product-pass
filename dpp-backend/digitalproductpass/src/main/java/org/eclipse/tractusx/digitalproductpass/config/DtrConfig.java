@@ -45,19 +45,20 @@ public class DtrConfig {
     String assetType;
     String endpointInterface;
     String dspEndpointKey;
-
+    public String assetPropType;
     String semanticIdTypeKey;
     /** CONSTRUCTOR(S) **/
     public DtrConfig() {
     }
 
-    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String semanticIdTypeKey) {
+    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String assetPropType, String semanticIdTypeKey) {
         this.timeouts = timeouts;
         this.temporaryStorage = temporaryStorage;
         this.decentralApis = decentralApis;
         this.assetType = assetType;
         this.endpointInterface = endpointInterface;
         this.dspEndpointKey = dspEndpointKey;
+        this.assetPropType = assetPropType;
         this.semanticIdTypeKey = semanticIdTypeKey;
     }
 
@@ -108,6 +109,14 @@ public class DtrConfig {
 
     public void setTemporaryStorage(TemporaryStorage temporaryStorage) {
         this.temporaryStorage = temporaryStorage;
+    }
+
+    public String getAssetPropType() {
+        return assetPropType;
+    }
+
+    public void setAssetPropType(String assetPropType) {
+        this.assetPropType = assetPropType;
     }
 
     /** INNER CLASSES **/

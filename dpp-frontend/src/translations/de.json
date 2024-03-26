@@ -22,7 +22,7 @@
     }
   },
   "passportView": {
-    "policyAgreement":{
+    "policyAgreement": {
       "title": "Wählen Sie eine Richtlinie aus:",
       "contractId": "Vertrags-ID:",
       "policy": "Richtlinie",
@@ -229,7 +229,7 @@
       "supplierId": "Lieferanten-ID",
       "sparePartName": "Ersatzteilname"
     },
-    "stateOfHealth":{
+    "stateOfHealth": {
       "serviceHistory": "Serviceverlauf",
       "expectedLifespan": "Erwartete Lebensdauer",
       "remanufacturingDate": "Wiederherstellungsdatum",
@@ -344,7 +344,11 @@
       "lifespan": "Lebensdauer",
       "energyCapacity": "Energiekapazität",
       "voltage": "Spannung",
-      "physicalState": "Physischer Zustand"
+      "physicalState": "Physischer Zustand",
+      "weightOrVolume": "Gewicht oder Volumen",
+      "diameter": "Durchmesser",
+      "grossWeight": "Bruttogewicht",
+      "grossVolume": "Bruttovolumen"
     },
     "commercial": {
       "placedOnMarket": "Markteinführung",
@@ -385,6 +389,7 @@
     },
     "operation": {
       "importer": "Importeur-ID",
+      "importerEori": "Importer-EORI",
       "manufacturerId": "Hersteller-ID",
       "facilityId": "Anlagen-ID",
       "manufacturingDate": "Herstellungsdatum"

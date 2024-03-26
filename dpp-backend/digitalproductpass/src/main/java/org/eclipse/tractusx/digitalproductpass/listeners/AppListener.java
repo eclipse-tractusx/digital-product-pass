@@ -104,17 +104,24 @@ public class AppListener {
                         try {
                             LogUtil.printMessage(
                                     "[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
-                            String bpnNumber = dataTransferService.checkEdcConsumerConnection();
-                            if(bpnNumber == null){
+                            Boolean healthStatus = dataTransferService.checkEdcConsumerConnection();
+                            if(!healthStatus){
                                 throw new Exception("[" + this.getClass().getName()
-                                        + ".onStartUp] The EDC Consumer configured is not reachable!");
-                            }
-                            if (bpnCheck && !participantId.equals(bpnNumber)) {
-                                throw new Exception("[" + this.getClass().getName()
-                                        + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+                                        + ".onStartUp] The EDC consumer endpoint configured is not ready to receive requests!");
                             }
                             LogUtil.printMessage(
-                                    "[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                                    "[ EDC Connection Test ] EDC consumer is ready and accessible!");
+                            if(bpnCheck) {
+                                String bpnNumber = dataTransferService.getEdcConnectorBpn();
+                                if (!participantId.equals(bpnNumber)) {
+                                    throw new Exception("[" + this.getClass().getName()
+                                            + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer!");
+                                }
+                                LogUtil.printMessage(
+                                        "[ EDC Connection Test ] The EDC Business Partner Number is the same as the Digital Product Pass Application one!");
+                            }
+                            LogUtil.printMessage(
+                                    "[ EDC Connection Test ] The EDC consumer checks concluded successfully!");
                         } catch (Exception e) {
                             throw new IncompatibleConfigurationException(e.getMessage());
                         }

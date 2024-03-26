@@ -27,6 +27,7 @@ package org.eclipse.tractusx.digitalproductpass.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ControllerException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
@@ -34,14 +35,16 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.models.edc.CheckResult;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.NegotiationTransferResponse;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -73,11 +76,30 @@ public class DataTransferService extends BaseService {
     public String negotiationPath;
     public String transferPath;
 
+
     public Environment env;
     public ProcessManager processManager;
 
     public EdcUtil edcUtil;
     public DtrConfig dtrConfig;
+
+    // Success states of the EDC exchanges
+    final public List<String> successStates = List.of(
+            "CONFIRMED",
+            "FINALIZED",
+            "COMPLETED"
+    );
+    // Success states of the transfer exchange
+    final public List<String> transferSuccessStates = List.of(
+            "STARTED",
+            "COMPLETED"
+    );
+    // Error states of the EDC exchanges
+    final public List<String> errorStates = List.of(
+            "TERMINATED",
+            "TERMINATING",
+            "ERROR"
+    );
 
     /** CONSTRUCTOR(S) **/
     @Autowired
@@ -151,7 +173,23 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to check the EDC consumer connection.
      */
-    public String checkEdcConsumerConnection() throws ServiceException {
+    public Boolean checkEdcConsumerConnection() throws ServiceException {
+        try {
+            return this.getReadinessStatus().getSystemHealthy();
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+        }
+    }
+    /**
+     * Checks the EDC consumer connection by trying to establish a connection and retrieve an empty catalog.
+     * <p>
+     *
+     * @return a {@code String} participantId of the retrieved catalog.
+     *
+     * @throws  ControllerException
+     *           if unable to check the EDC consumer connection.
+     */
+    public String getEdcConnectorBpn() throws ServiceException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
             Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
@@ -166,23 +204,20 @@ public class DataTransferService extends BaseService {
     /**
      * Gets the Contract Offers mapped by contract id
      * <p>
-     * @param   assetId
-     *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
-     *          the {@code String} provider URL of the asset.
+     * @param   catalog
+     *          the {@code Catalog} catalog with the complete offers
      *
      * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
      *
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Map<String, Dataset> getContractOffersByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Map<String, Dataset> getContractOffers(Catalog catalog) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
-            if(catalog == null){
+            if(catalog==null){
                 return null;
             }
             Object offers = catalog.getContractOffers();
@@ -201,7 +236,7 @@ public class DataTransferService extends BaseService {
 
             return edcUtil.mapDatasetsById(contractOffers);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId [" + assetId + "]");
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId");
         }
     }
 
@@ -211,7 +246,7 @@ public class DataTransferService extends BaseService {
      * <p>
      * @param   assetId
      *          the {@code String} identification of the EDC's asset to lookup for.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} provider URL of the asset.
      *
      * @return  a {@code Dataset} object with the contract offer information.
@@ -219,12 +254,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Dataset getContractOfferByAssetId(String assetId, String providerUrl) throws ServiceException {
+    public Dataset getContractOfferByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(providerUrl, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
             if(catalog == null){
                 return null;
             }
@@ -264,18 +299,21 @@ public class DataTransferService extends BaseService {
      *          the {@code Dataset} data for the contract offer.
      * @param   status
      *          the {@code Status} status of the process.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
      *
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn) {
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, String providerBpn) {
         Offer contractOffer = this.buildOffer(dataset, 0);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -287,18 +325,21 @@ public class DataTransferService extends BaseService {
      *          the {@code Dataset} data for the contract offer.
      * @param   status
      *          the {@code Status} status of the process.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
      *
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequestById(Dataset dataset, Status status, String bpn, String policyId) {
+    public NegotiationRequest buildRequestById(Dataset dataset, Status status, String bpn, String providerBpn, String policyId) {
         Offer contractOffer = this.buildOfferById(dataset, policyId);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -312,6 +353,8 @@ public class DataTransferService extends BaseService {
      *          the {@code Status} status of the process.
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
+     * @param   providerBpn
+     *          the {@code String} BPN number from provider of the catalog
      * @param   policy
      *          the {@code Sete} policy to be negotiated
      *
@@ -319,12 +362,13 @@ public class DataTransferService extends BaseService {
      * @return  a {@code NegotiationRequest} object with the given data.
      *
      */
-    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, Set policy) {
+    public NegotiationRequest buildRequest(Dataset dataset, Status status, String bpn, String providerBpn, Set policy) {
         Offer contractOffer = this.buildOffer(dataset, policy);
         return new NegotiationRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 status.getEndpoint(),
                 bpn,
+                providerBpn,
                 contractOffer
         );
     }
@@ -436,7 +480,7 @@ public class DataTransferService extends BaseService {
     /**
      * Gets the Contract Offer's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      * @param   assetId
      *          the {@code String} identification of the EDC's asset.
@@ -446,7 +490,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog getContractOfferCatalog(String providerUrl, String assetId) {
+    public Catalog getContractOfferCatalog(String counterPartyAddress, String assetId) {
         try {
             this.checkEmptyVariables();
 
@@ -460,8 +504,11 @@ public class DataTransferService extends BaseService {
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    providerUrl,
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    counterPartyAddress,
                     querySpec
             );
             HttpHeaders headers = httpUtil.getHeaders();
@@ -480,7 +527,7 @@ public class DataTransferService extends BaseService {
     /**
      * Searches for the Digital Twin's Catalog from the provider.
      * <p>
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code Catalog} object of the given provider, if exists.
@@ -488,7 +535,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog searchDigitalTwinCatalog(String providerUrl) throws ServiceException {
+    public Catalog searchDigitalTwinCatalog(String counterPartyAddress) throws ServiceException {
         try {
             this.checkEmptyVariables();
 
@@ -496,14 +543,17 @@ public class DataTransferService extends BaseService {
             // Simple catalog request query with no limitation.
             CatalogRequest.QuerySpec querySpec = new CatalogRequest.QuerySpec();
             CatalogRequest.QuerySpec.FilterExpression filterExpression = new CatalogRequest.QuerySpec.FilterExpression(
-                    "https://w3id.org/edc/v0.0.1/ns/type",
+                    this.dtrConfig.getAssetPropType(),
                     "=",
                     this.dtrConfig.getAssetType()
             ); // Filter by asset id
             querySpec.setFilterExpression(List.of(filterExpression));
             Object body = new CatalogRequest(
-                    jsonUtil.newJsonNode(),
-                    CatenaXUtil.buildDataEndpoint(providerUrl),
+                    jsonUtil.toJsonNode(Map.of(
+                        "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
+                        "odrl", "http://www.w3.org/ns/odrl/2/"
+                    )),
+                    CatenaXUtil.buildDataEndpoint(counterPartyAddress),
                     querySpec
             );
 
@@ -559,7 +609,7 @@ public class DataTransferService extends BaseService {
      *          the {@code Offer} object with contract offer data.
      * @param   bpn
      *          the {@code String} BPN number from BNP discovery for the request.
-     * @param   providerUrl
+     * @param   counterPartyAddress
      *          the {@code String} URL from the provider.
      *
      * @return  a {@code IdResponse} object with the contract negotiation response.
@@ -567,13 +617,14 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the contract negotiation.
      */
-    public IdResponse doContractNegotiation(Offer contractOffer, String bpn,  String providerUrl) {
+    public IdResponse doContractNegotiation(Offer contractOffer, String bpn, String providerBpn, String counterPartyAddress) {
         try {
             this.checkEmptyVariables();
             NegotiationRequest body = new NegotiationRequest(
                     jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
-                    providerUrl,
+                    counterPartyAddress,
                     bpn,
+                    providerBpn,
                     contractOffer
             );
             return this.doContractNegotiation(body);
@@ -582,6 +633,112 @@ public class DataTransferService extends BaseService {
                     e,
                     "It was not possible to execute the contract negotiation!");
         }
+    }
+    /**
+     * Retrieves the contract negotiation/transfer state success status
+     * <p>
+     * @param   state
+     *          the {@code String} contains the state of the contract negotiation
+     * @param   completedStates
+     *          the {@code List<String>} contains the list of "success" states, if {@code mull} the default edc
+     *          states will be used
+     *
+     * @return  a {@code Boolean} with indicating if the negotiation/transfer is in a success state
+     *
+     * @throws  ServiceException
+     *           there was an error with the processing or the negotiation response was an error
+     */
+    public Boolean isStateSuccess(String state, List<String> completedStates){
+        if(completedStates == null){
+            completedStates = successStates;
+        }
+        if (state == null || state.isEmpty() || errorStates.contains(state)) {
+            throw new ServiceException(this.getClass().getName() + "." + "isStateSuccess",
+                    "It was not possible to do the information exchange with the EDC!");
+        }                // If the state is success
+        return completedStates.contains(state);
+    }
+
+    /**
+     * Gets the Negotiation/Transfer and waits for state to be success
+     * <p>
+     * @param   url
+     *          the {@code String} url of the status exchange api
+     * @param   id
+     *          the {@code String} id of the negotiation response.
+     * @param   processId
+     *          the {@code String} id of the application's process.
+     * @param   dataModel
+     *          the {@code ProcessDataModel} object of the process's data model.
+     *
+     * @return  a {@code JsonNode} object with the negotiation/transfer data. If null there was an error in retrieving the exchange status.
+     *
+     * @throws  ServiceException
+     *           if unable to process the exchange of the negotiation or the transfer
+     */
+    public JsonNode processExchange(String url, String id, String processId, ProcessDataModel dataModel, List<String> completedStates) throws ServiceException {
+        // Initialize variables
+        String actualState = "", state = "";
+        boolean success;
+        Instant start = Instant.now(), end = start;
+        NegotiationTransferResponse body = null;
+
+        // Initialize headers for the request
+        HttpHeaders headers = httpUtil.getHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Api-Key", this.apiKey);
+
+        LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
+        // Request for the negotiation status always
+        do {
+            // Get the negotiation/transfer status
+            body = (NegotiationTransferResponse) httpUtil.doGet(url, NegotiationTransferResponse.class, headers, httpUtil.getParams(), false, false).getBody();
+            if (body == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "processExchange",
+                        "No response was received from the EDC!");
+            }
+
+            // Get the current state
+            state = body.getState();
+            try {
+                // Check if the state is already successful
+                success = this.isStateSuccess(state, completedStates);
+            }catch(Exception e){
+                LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
+                return null;
+            }
+            end = Instant.now();
+            Duration timeElapsed = Duration.between(start, end);
+            // If the state has changed we will print the negotiation/state for the debug
+            if (!state.equals(actualState)) {
+                actualState = state;
+                LogUtil.printDebug("[" + id + "] The contract exchange status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
+                start = Instant.now();
+            }
+            // If the process has not changed and the timeout has arrived it will break the process exchange
+            if(timeElapsed.getSeconds() >= env.getProperty("configuration.edc.timeout.exchange", Integer.class, 20)){
+                LogUtil.printError("TIMEOUT! [" + id + "] The contract exchange status took too long in state  ["+ state + "] - Duration [" + timeElapsed + "]s");
+                throw new ServiceException(this.getClass().getName() + "." + "processExchange",
+                        "Timeout achieved while requesting the contract exchange for transfer or negotiation!");
+            }
+
+            // If the user calls the cancel api the negotiation/transfer will be terminated
+            if (dataModel != null && processId != null && dataModel.getState(processId).equals("TERMINATED")) {
+                LogUtil.printStatus("[" + id + "] The contract exchange was cancelled!");
+                return null;
+            }
+            // If is not success we will wait for the next request to be done
+            if(!success){
+                ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
+            }
+        } while (!success);
+        // Get the latest status from the contract exchange
+        JsonNode response = (JsonNode) httpUtil.doGet(url, JsonNode.class, headers, httpUtil.getParams(), false, false).getBody();
+        if (response == null) {
+            throw new ServiceException(this.getClass().getName() + "." + "processExchange",
+                    "No response was received in the last status request from the EDC!");
+        }
+        return response;
     }
 
     /**
@@ -606,50 +763,12 @@ public class DataTransferService extends BaseService {
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
             // Get variables from configuration
             String url = endpoint + "/" + id;
-            HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + url + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "It was not possible to do contract negotiations!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("CONFIRMED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    sw = false;
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if (dataModel.getState(processId).equals("TERMINATED")) {
-                    LogUtil.printStatus("[" + id + "] The negotiation was cancelled");
-                    return null;
-                }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait some milliseconds
-                }
+            // Do the process exchange
+            JsonNode response = this.processExchange(url, id, processId, dataModel, this.successStates);
+            if(response == null) {
+                return null;
             }
-            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
+            return (Negotiation) jsonUtil.bindReferenceType(response, new TypeReference<Negotiation>() {});
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -670,51 +789,7 @@ public class DataTransferService extends BaseService {
      */
     public Negotiation seeNegotiation(String id) {
         try {
-            this.checkEmptyVariables();
-
-            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.negotiationPath);
-            // Get variables from configuration
-            String url = endpoint + "/" + id;
-            HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CHECKING STATUS FOR CONTRACT NEGOTIATION]  ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(url, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + url + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT NEGOTIATION] ===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "It was not possible to do contract negotiations!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("CONFIRMED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    sw = false;
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT NEGOTIATION] ===========================================");
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The contract negotiation status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if(sw){
-                    ThreadUtil.sleep(this.env.getProperty("configuration.edc.delay", Integer.class, 200)); // Wait half a second to not overflow the edc
-                }
-            }
-            return (Negotiation) jsonUtil.bindJsonNode(body, Negotiation.class);
+            return this.seeNegotiation(id, null, null);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getNegotiation",
                     e,
@@ -742,8 +817,7 @@ public class DataTransferService extends BaseService {
 
             headers.add("Content-Type", "application/json");
             headers.add("X-Api-Key", this.apiKey);
-            Object body = transferRequest;
-            ResponseEntity<?> response = httpUtil.doPost(url, String.class, headers, httpUtil.getParams(), body, false, false);
+            ResponseEntity<?> response = httpUtil.doPost(url, String.class, headers, httpUtil.getParams(), transferRequest, false, false);
             String responseBody = (String) response.getBody();
             return (IdResponse) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), IdResponse.class);
         } catch (Exception e) {
@@ -766,46 +840,7 @@ public class DataTransferService extends BaseService {
      */
     public Transfer seeTransfer(String id) {
         try {
-            this.checkEmptyVariables();
-            HttpHeaders headers = httpUtil.getHeaders();
-            String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
-            String path = endpoint + "/" + id;
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CONTRACT TRANSFER] ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(path, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + path + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT TRANSFER]===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
-                            "It was not possible to do the transfer process!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("COMPLETED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("VERIFIED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT TRANSFER] [" + id + "]===========================================");
-                    sw = false;
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-            }
-            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
+            return this.seeTransfer(id, null, null);
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
@@ -831,49 +866,14 @@ public class DataTransferService extends BaseService {
     public Transfer seeTransfer(String id, String processId, ProcessDataModel dataModel) {
         try {
             this.checkEmptyVariables();
-            HttpHeaders headers = httpUtil.getHeaders();
             String endpoint = CatenaXUtil.buildManagementEndpoint(env, this.transferPath);
-            String path = endpoint + "/" + id;
-            headers.add("Content-Type", "application/json");
-            headers.add("X-Api-Key", this.apiKey);
-            Map<String, Object> params = httpUtil.getParams();
-            JsonNode body = null;
-            String actualState = "";
-            boolean sw = true;
-            Instant start = Instant.now();
-            Instant end = start;
-            LogUtil.printDebug("[" + id + "] ===== [STARTING CONTRACT TRANSFER] ===========================================");
-            while (sw) {
-                ResponseEntity<?> response = httpUtil.doGet(path, JsonNode.class, headers, params, false, false);
-                body = (JsonNode) response.getBody();
-                if (body == null) {
-                    sw = false;
-                    throw new ServiceException(this.getClass().getName() + "." + "getNegotiations",
-                            "No response received from url [" + path + "]!");
-                }
-                if (!body.has("edc:state") || body.get("edc:state") == null) {
-                    LogUtil.printDebug("[" + id + "] ===== [ERROR CONTRACT TRANSFER]===========================================");
-                    throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
-                            "It was not possible to do the transfer process!");
-                }
-                String state = body.get("edc:state").asText();
-                if (state.equals("COMPLETED") || state.equals("ERROR") || state.equals("FINALIZED") || state.equals("VERIFIED") || state.equals("TERMINATED") || state.equals("TERMINATING")) {
-                    LogUtil.printDebug("[" + id + "] ===== [FINISHED CONTRACT TRANSFER] [" + id + "]===========================================");
-                    sw = false;
-                }
-                if (!state.equals(actualState)) {
-                    actualState = state; // Update current state
-                    end = Instant.now();
-                    Duration timeElapsed = Duration.between(start, end);
-                    LogUtil.printDebug("[" + id + "] The data transfer status changed: [" + state + "] - TIME->[" + timeElapsed + "]s");
-                    start = Instant.now();
-                }
-                if (dataModel.getState(processId).equals("TERMINATED")) {
-                    LogUtil.printStatus("[" + id + "] The transfer was cancelled");
-                    return null;
-                }
+            String url = endpoint + "/" + id;
+            // Do the process exchange
+            JsonNode response = this.processExchange(url, id, processId, dataModel, this.transferSuccessStates);
+            if(response == null) {
+                return null;
             }
-            return (Transfer) jsonUtil.bindJsonNode(body, Transfer.class);
+            return (Transfer) jsonUtil.bindReferenceType(response, new TypeReference<Transfer>() {});
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTransfer",
                     e,
@@ -882,39 +882,32 @@ public class DataTransferService extends BaseService {
     }
 
     /**
-     * Gets the Passport version 3 from the Process.
+     * Gets the Health Readiness Status of the EDC
      * <p>
-     * @param   transferProcessId
-     *          the {@code String} id of the target passport.
-     * @param   endpoint
-     *          the {@code String} endpoint URL of the target passport.
      *
-     * @return  a {@code PassportV3} object with the passport data.
+     * @return  a {@code CheckResult} object with the health status readiness
      *
      * @throws  ServiceException
-     *           if unable to get the passport.
+     *           if unable to get readiness status
      */
-    @SuppressWarnings("Unused")
-    public JsonNode getPassport(String transferProcessId, String endpoint) {
+    public CheckResult getReadinessStatus() {
         try {
             this.checkEmptyVariables();
+            String endpoint = CatenaXUtil.buildReadinessApi(env);
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers = httpUtil.getHeaders();
-            headers.add("Accept", "application/octet-stream");
-            boolean retry = false;
-
             ResponseEntity<?> response = null;
             try {
                 response = httpUtil.doGet(endpoint, String.class, headers, params, false, false);
             } catch (Exception e) {
-                throw new ServiceException(this.getClass().getName() + ".getPassport", "It was not possible to get passport with id " + transferProcessId);
+                throw new ServiceException(this.getClass().getName() + ".getReadinessStatus", "It was not possible to get readiness status from the edc endpoint ["+endpoint+"]!");
             }
             String responseBody = (String) response.getBody();
-            return (JsonNode) jsonUtil.toJsonNode(responseBody);
+            return (CheckResult) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), CheckResult.class);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getPassport",
+            throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
                     e,
-                    "It was not possible to retrieve the getPassport for transferProcessId [" + transferProcessId + "]!");
+                    "It was not possible to get readiness status from the edc consumer!");
         }
     }
 
@@ -964,35 +957,55 @@ public class DataTransferService extends BaseService {
         private Status status;
         private String bpn;
         private String processId;
+        private String providerBpn;
 
         /** CONSTRUCTOR(S) **/
         public NegotiateContract() {};
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequest(dataset, status, bpn);
+            this.providerBpn = providerBpn;
+            this.negotiationRequest = buildRequest(dataset, status, bpn, providerBpn);
         }
         // Negotiate contract with policy
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, Set policy) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status, Set policy) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequest(dataset, status, bpn, policy);
+            this.negotiationRequest = buildRequest(dataset, status, bpn, providerBpn, policy);
         }
         // Start the negotiation and build contract by policy id
-        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn,  Dataset dataset, Status status, String policyId) {
+        public NegotiateContract(ProcessDataModel dataModel, String processId, String bpn, String providerBpn, Dataset dataset, Status status, String policyId) {
             this.dataModel = dataModel;
             this.processId = processId;
             this.dataset = dataset;
             this.status = status;
             this.bpn = bpn;
-            this.negotiationRequest = buildRequestById(dataset, status, bpn, policyId);
+            this.negotiationRequest = buildRequestById(dataset, status, bpn, providerBpn, policyId);
         }
+
+        public NegotiateContract(NegotiationRequest negotiationRequest, ProcessDataModel dataModel, Dataset dataset, Negotiation negotiation, Transfer transfer, TransferRequest transferRequest, IdResponse negotiationResponse, IdResponse tranferResponse, Integer negotiationAttempts, Integer transferAttempts, Status status, String bpn, String processId, String providerBpn) {
+            this.negotiationRequest = negotiationRequest;
+            this.dataModel = dataModel;
+            this.dataset = dataset;
+            this.negotiation = negotiation;
+            this.transfer = transfer;
+            this.transferRequest = transferRequest;
+            this.negotiationResponse = negotiationResponse;
+            this.tranferResponse = tranferResponse;
+            this.negotiationAttempts = negotiationAttempts;
+            this.transferAttempts = transferAttempts;
+            this.status = status;
+            this.bpn = bpn;
+            this.processId = processId;
+            this.providerBpn = providerBpn;
+        }
+
         /** GETTERS AND SETTERS **/
         @SuppressWarnings("Unused")
         public void setNegotiationRequest(NegotiationRequest negotiationRequest) {
@@ -1128,7 +1141,7 @@ public class DataTransferService extends BaseService {
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
-                transferType.setContentType("application/octet-stream");
+                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
                 transferType.setIsFinite(true);
 
 
@@ -1137,8 +1150,9 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
+                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
-                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dataset.getAssetId(),
                         status.getEndpoint(),
                         bpn,
@@ -1147,7 +1161,8 @@ public class DataTransferService extends BaseService {
                         false,
                         privateProperties,
                         "dataspace-protocol-http",
-                        transferType
+                        transferType,
+                        List.of()
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");
@@ -1176,7 +1191,7 @@ public class DataTransferService extends BaseService {
                 }
                 processManager.saveNegotiation(this.processId, this.negotiation, false);
                 String state = this.negotiation.getState();
-                if (!(state.equals("CONFIRMED") || state.equals("FINALIZED"))) {
+                if (!successStates.contains(state)) {
                     throw new ServiceException(this.getClass().getName(), "Contract Negotiation Process Failed [" + this.negotiation.getId() + "]");
                 }
             } catch (Exception e) {
@@ -1189,7 +1204,7 @@ public class DataTransferService extends BaseService {
             }
 
             if (this.dataModel.getState(processId).equals("TERMINATED")) {
-                LogUtil.printMessage("Terminated process " + processId + "stopped transfer!");
+                LogUtil.printMessage("Terminated process " + processId + " transfer terminated!");
                 return;
             }
             ;
@@ -1206,7 +1221,7 @@ public class DataTransferService extends BaseService {
                     return;
                 }
                 processManager.saveTransfer(this.processId, transfer, false);
-                if (!transfer.getState().equals("COMPLETED")) {
+                if (!transferSuccessStates.contains(transfer.getState())) {
                     throw new ServiceException(this.getClass().getName(), "Transfer Process Failed [" + this.tranferResponse.getId() + "]");
                 }
             } catch (Exception e) {
@@ -1399,15 +1414,15 @@ public class DataTransferService extends BaseService {
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + endpointId;
                 TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
-                transferType.setContentType("application/octet-stream");
+                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
                 transferType.setIsFinite(true);
+
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-
                 TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
                 privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
                 return new TransferRequest(
-                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                        jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dtr.getAssetId(),
                         CatenaXUtil.buildDataEndpoint(dtr.getEndpoint()),
                         bpnNumber,
@@ -1416,7 +1431,8 @@ public class DataTransferService extends BaseService {
                         false,
                         privateProperties,
                         "dataspace-protocol-http",
-                        transferType
+                        transferType,
+                        List.of()
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

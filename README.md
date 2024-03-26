@@ -54,81 +54,73 @@ Here is a preview from the DPP App UI, where we visualize a test battery passpor
 
 To get started you can have a look into our documentation:
 
-| Name                                                                      | Description                                                                                                                                                 |
-| ----------------------------------------------------------------          |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Arc42](./docs/arc42/Arc42.md)                                             | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
-| [Administration Guide](./docs/admin%20guide/Admin_Guide.md)                  | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
-| [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                  | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                    |
-| [Backend Documentation](./dpp-backend/digitalproductpass/README.md)          | Backend documentation Product Passport App                                                                                                                  |
-| [Deployment in Hotel Budapest](./deployment/README.md)                     | Technical Guide - Deployment in ArgoCD Hotel Budapest (integration environment)                                                                             |
-| [Docker Overview](./docker/README.md)                                      | Overview on general docker commands                                                                                                                         |
-| [Keycloak Overview](./deployment/local/docker/Keycloak/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.                                        |
-| [Short Introduction into the project](./docs/GETTING-STARTED.md)           | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
-| [Code Scaning with Kics and Trivy](./docs/IaC.md)                          | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
-| [Release Guidelines](./docs/RELEASE.md)                                     | Digital Product Pass App Release Guide                                                                                                             |
-| [Secret Management](./docs/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
-| [Cypress Overview](./docs/cypress/CYPRESS.md)                              | Documentation for Battery Passport App E2E Cypress test                                                                                                     |
-| [End User Manual](./docs/user%20manual/User%20Manual%20Product%20Viewer%20App.md)             | End User Manual Product Viewer App                                                                                                                          |
-| [Postman Overview](./deployment/local/postman//README.md)                                    | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
-| [Changelog](./CHANGELOG.md)                                                | Changelog                                                                                                                                                   |
-| [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass)                                                | Project's Helm Charts                                                                                                                                       |
-
-
+| Name                                                                                                          | Description                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| [Arc42](./docs/arc42/Arc42.md)                                                                                | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
+| [Administration Guide](./docs/admin%20guide/AdminGuide.md)                                                    | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
+| [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                                 | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                         |
+| [Backend Documentation](./dpp-backend/digitalproductpass/README.md)                                           | Backend documentation Product Passport App                                                                                                                  |
+| [Deployment in Argo CD](./deployment/README.md)                                                               | Technical Guide - Deployment in ArgoCD - integration environment                                                                                            |
+| [Docker Overview](./deployment/local/iam/README.md)                                                           | Overview on general docker commands                                                                                                                         |
+| [Keycloak Overview](./deployment/local/iam/README.md)                                                         | This guide describes how to setup a keycloak instance in local docker forcontainer and import existing realm.json file.                                     |
+| [Short Introduction into the project](./docs/GETTING-STARTED.md)                                              | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
+| [Code Scaning with Kics and Trivy](./docs/infrastructure%20as%20code/IaC.md)                                  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
+| [Release Guidelines](./docs/RELEASE.md)                                                                       | Digital Product Pass App Release Guide                                                                                                                      |
+| [Secret Management](./docs/secrets%20management/SECRETS_MANAGEMENT.md)                                        | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |     |
+| [End User Manual](./docs/user%20manual/UserManual.md)                                                         | End User Manual Product Viewer App                                                                                                                          |
+| [Postman Overview](./deployment/local/postman//README.md)                                                     | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
+| [Changelog](./CHANGELOG.md)                                                                                   | Changelog                                                                                                                                                   |
+| [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) | Project's Helm Charts                                                                                                                                       |
 
 ## Base Images
-| Language | Container Base Image |
-| :------- | :------------------- |
-| Java / JVM based   | [Eclipse Temurin](https://hub.docker.com/_/eclipse-temurin) |
-| JS frontends       | [Node.JS](https://hub.docker.com/_/node)  <br/> [Nginx](https://hub.docker.com/r/nginxinc/nginx-unprivileged) |
-      
+
+| Language         | Container Base Image                                                                                         |
+| :--------------- | :----------------------------------------------------------------------------------------------------------- |
+| Java / JVM based | [Eclipse Temurin](https://hub.docker.com/_/eclipse-temurin)                                                  |
+| JS frontends     | [Node.JS](https://hub.docker.com/_/node) <br/> [Nginx](https://hub.docker.com/r/nginxinc/nginx-unprivileged) |
 
 ## Installation
+
 For installing the Digital Product Pass Application please consult our [Intallation Guide](./INSTALL.md).
 
 ## License
 
 [Apache-2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE)
 
-
 ## Notice for Docker image
 
 DockerHub:
-- https://hub.docker.com/r/tractusx/digital-product-pass-frontend
-- https://hub.docker.com/r/tractusx/digital-product-pass-backend
+
+-   https://hub.docker.com/r/tractusx/digital-product-pass-frontend
+-   https://hub.docker.com/r/tractusx/digital-product-pass-backend
 
 **Base images:**
-- DockerHub:
-    - Node: https://hub.docker.com/_/node
-    - Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
-    - Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin
 
-- Dockerfiles:
-    - [node:lts-alpine](https://github.com/nodejs/docker-node)
-    - [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
-    - [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
+-   DockerHub:
 
-- GitHub project:
-    - Node: https://github.com/docker-library/repo-info/tree/master/repos/node
-    - nginxinc/docker-nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
-    - Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
+    -   Node: https://hub.docker.com/_/node
+    -   Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
+    -   Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin
 
+-   Dockerfiles:
 
+    -   [node:lts-alpine](https://github.com/nodejs/docker-node)
+    -   [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
+    -   [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
+
+-   GitHub project:
+    -   Node: https://github.com/docker-library/repo-info/tree/master/repos/node
+    -   nginxinc/docker-nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
+    -   Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
-
 [contributors-url]: https://github.com/eclipse-tractusx/digital-product-pass/graphs/contributors
-
 [stars-shield]: https://img.shields.io/github/stars/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
-
 [stars-url]: https://github.com/eclipse-tractusx/digital-product-pass/stargazers
-
 [license-shield]: https://img.shields.io/github/license/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
-
 [license-url]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE
-
 [release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
-
 [release-url]: https://github.com/eclipse-tractusx/digital-product-pass/releases

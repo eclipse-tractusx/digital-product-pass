@@ -45,6 +45,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 -   Updated hardcoded units
 -   Updated translations
 -   Updated missing data fields
+-   Updated battery graph
 
 ## Added
 - Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.

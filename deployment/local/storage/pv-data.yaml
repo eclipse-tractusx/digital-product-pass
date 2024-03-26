@@ -33,7 +33,7 @@ spec:
     - ReadWriteOnce
   storageClassName: standard
   claimRef:
-    name: pvc-data
+    name: {{ .Release.Name }}-pvc-data
     namespace: {{ .Values.namespace }}
   hostPath:
     path: "/mnt"

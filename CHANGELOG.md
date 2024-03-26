@@ -25,7 +25,11 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
+
+## [released]
+## [v2.2.0] - 26-03-2024
 
 ### Updated
 - Refactored dpp-script by adding AppId as a script parameter
@@ -33,10 +37,21 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated the digital twin registry version to v0.3.31
 - Updated postman collection to adjust the APIs from EDC `v0.6.0`
 - Updated IRS collection to change authentication process from OAuth2 to the API-Key
+- Updated models to support the new EDC 0.6.0 semantics (alias for retro-compatibility enabled)
+- Updated edc-consumer and edc-provider helm charts version to `v0.6.0`
+- Updated the catalog request semantics
+- Optimized/refactored the contract negotiation and transfer flow.
+- Updated Data Plane Service data parsing
 - Updated the following readme files:
     - Postman readme
     - dpp-script readme
+-   Updated translations
+-   Updated battery graph
 
+## Added
+- Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.
+- Added missing static units
+- Added missing data fields
 
 ## [released]
 ## [v2.1.3] - 19-02-2024
@@ -771,4 +786,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Updated
 - Optimized the reponsive from the application
 - Optimized the passport display
-- Updated components with Vuetify 3, making the application more stable. 
+- Updated components with Vuetify 3, making the application more stable.

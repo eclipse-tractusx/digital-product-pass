@@ -243,7 +243,11 @@
         <v-col v-if="propsData.manufacturer" md="12" class="pa-0 ma-0">
           <Field
             icon="mdi-molecule-co2"
-            :label="$t('sections.generalInformation.cO2FootprintTotal')"
+            :label="
+              $t('sections.generalInformation.cO2FootprintTotal') +
+              ' ' +
+              '(production)'
+            "
             :value="propsData.cO2FootprintTotal"
             unit="CO2e/kWh"
           />

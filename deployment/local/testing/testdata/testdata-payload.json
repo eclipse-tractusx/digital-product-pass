@@ -42,12 +42,12 @@
         {
           "name": "partInstanceId",
           "value": "IMR18650V1",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -354,12 +354,12 @@
         {
           "name": "partInstanceId",
           "value": "NCR186850B",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -666,12 +666,12 @@
         {
           "name": "partInstanceId",
           "value": "X123456789012X12345678901234566",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -978,12 +978,12 @@
         {
           "name": "partInstanceId",
           "value": "Y792927456954B81677903848654570",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -1394,12 +1394,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "BAT-XYZ789",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Battery",
@@ -1421,7 +1421,7 @@
                   "quantityNumber": 5.0,
                   "measurementUnit": "piece"
                 },
-                "businessPartner": "BPNL00000000CBA5",
+                "businessPartner": "BPNL00000007RVTB",
                 "createdOn": "2023-01-09T17:26:54.709Z",
                 "lastModifiedOn": "2023-01-09T17:26:54.709Z"
               }
@@ -1586,12 +1586,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "EVMODULE-TRJ712",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "BatteryModule",
@@ -1613,7 +1613,7 @@
                   "quantityNumber": 100.0,
                   "measurementUnit": "piece"
                 },
-                "businessPartner": "BPNL00000000CBA5",
+                "businessPartner": "BPNL00000007RVTB",
                 "createdOn": "2023-01-09T17:26:54.709Z",
                 "lastModifiedOn": "2023-01-09T17:26:54.709Z"
               }
@@ -1787,12 +1787,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "CTA-13123",
-          "allowedBpns": ["BPNL00000000CBA5", "BPNL00000003CRHL"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "BatteryCell",
@@ -1977,12 +1977,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "KLZ-90-8564-96",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "SecondaryMaterialContent",
@@ -2212,12 +2212,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "SNJ-4654-76",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Transmission",
@@ -2372,12 +2372,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "ABC123",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "physicalDimensions",
@@ -2411,12 +2411,12 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
           "name": "partInstanceId",
           "value": "SN12345678",
-          "allowedBpns": ["BPNL00000003CRHL", "BPNL00000000CBA5"]
+          "allowedBpns": ["BPNL00000007RVTB"]
         }
       ],
       "type": "Transmission",
@@ -2716,6 +2716,914 @@
             }
           },
           "description": "Digital Product Pass v2.0.0 Submodel",
+          "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e58",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "MFG024",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "PRT-30001",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        }
+      ],
+      "type": "Transmission",
+      "description": [
+        {
+          "language": "en",
+          "text": "Transmission Digital Twin"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "singleLevelBomAsBuilt",
+          "data": {
+            "catenaXId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e58",
+            "childItems": [
+              {
+                "catenaXId": "urn:uuid:2f4da2d6-c49e-46b1-a60f-da8a2afbb448",
+                "quantity": {
+                  "quantityNumber": 5.0,
+                  "measurementUnit": "piece"
+                },
+                "businessPartner": "BPNL00000007RVTB",
+                "createdOn": "2023-01-09T17:26:54.709Z",
+                "lastModifiedOn": "2023-01-09T17:26:54.709Z"
+              }
+            ]
+          },
+          "description": "Single level Bom As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+        },
+        {
+          "name": "SerialPart",
+          "data": {
+            "partTypeInformation": {
+              "classification": "product",
+              "manufacturerPartId": "MFG024",
+              "nameAtManufacturer": "PRT-30001"
+            },
+            "validityPeriod": {
+              "validFrom": "2026-10-06T14:50:23.230+01:00",
+              "validTo": "2026-08-06T14:50:23.230+01:00"
+            },
+            "catenaXId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e58"
+          },
+          "description": "Transmission pass SerialPart Submodel",
+          "semanticId": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+        },
+        {
+          "name": "digitalProductPass",
+          "data": {
+            "typology": {
+              "shortName": "8HP60",
+              "class": {
+                "definition": "Manual transmission (motor vehicle)",
+                "code": "44-09-02-02"
+              },
+              "longName": "Product Description long text"
+            },
+            "metadata": {
+              "predecessor": "null",
+              "issueDate": "2000-01-01",
+              "version": "1.0.0",
+              "economicOperator": {
+                "legitimization": "DE123456789",
+                "identification": "BPNL1234567890ZZ"
+              },
+              "status": "draft",
+              "expirationDate": "2000-01-01"
+            },
+            "characteristics": {
+              "physicalDimension": {
+                "grossWeight": {
+                  "value": 20.5,
+                  "unit": "unit:kilogram"
+                },
+                "weightOrVolume": {
+                  "left": {
+                    "value": 20.5,
+                    "unit": "unit:cubicMetre"
+                  }
+                },
+                "diameter": {
+                  "value": 20.5,
+                  "unit": "unit:millimetre"
+                },
+                "grossVolume": {
+                  "value": 20.5,
+                  "unit": "unit:cubicMetre"
+                },
+                "width": {
+                  "value": 20.5,
+                  "unit": "unit:millimetre"
+                },
+                "length": {
+                  "value": 20.5,
+                  "unit": "unit:millimetre"
+                },
+                "height": {
+                  "value": 20.5,
+                  "unit": "unit:millimetre"
+                }
+              },
+              "lifespan": [
+                {
+                  "value": 36,
+                  "unit": "unit:day",
+                  "key": "guaranteed lifetime"
+                }
+              ],
+              "physicalState": "solid"
+            },
+            "commercial": {
+              "placedOnMarket": "2000-01-01"
+            },
+            "identification": {
+              "localIdentifier": {
+                "value": "PRT-30001",
+                "key": "PartInstanceId"
+              },
+              "additionalCode": [
+                {
+                  "value": "8703 24 10 00",
+                  "key": "TARIC"
+                },
+                {
+                  "value": "MFG024",
+                  "key": "manufacturerPartId"
+                }
+              ],
+              "dataCarrier": {
+                "carrierType": "QR",
+                "carrierLayout": "upper-left side"
+              }
+            },
+            "sources": [
+              {
+                "header": "Sustainability Document Material XY",
+                "category": "Product Specifications",
+                "type": "URL",
+                "content": "www.alink.pdf"
+              }
+            ],
+            "handling": {
+              "spareParts": {
+                "left": {
+                  "producer": [
+                    {
+                      "id": "BPNL1234567890ZZ"
+                    }
+                  ],
+                  "part": [
+                    {
+                      "name": "Aluminum Housing",
+                      "gtin": "12345678"
+                    }
+                  ]
+                }
+              },
+              "substanceOfConcern": {
+                "left": [
+                  {
+                    "name": {
+                      "name": "phenolphthalein",
+                      "type": "IUPAC"
+                    },
+                    "location": "Housing",
+                    "unit": "unit:partPerMillion",
+                    "concentration": {
+                      "left": [
+                        {
+                          "max": 2.6,
+                          "min": 2.1
+                        }
+                      ]
+                    },
+                    "exemption": "shall not apply to product x containing not more than 1,5 ml of liquid",
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "201-004-7"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "additionalData": [
+              {
+                "description": "This is the machine parameters that are produced when the machine is used",
+                "label": "Specific Manufacturer Machine Parameters",
+                "type": {
+                  "typeUnit": null,
+                  "dataType": "object"
+                },
+                "children": [
+                  {
+                    "description": "The usage of the eletricity in the machine",
+                    "label": "Eletricity Usage",
+                    "type": {
+                      "typeUnit": "unit:volts",
+                      "dataType": "integer"
+                    },
+                    "data": "25"
+                  },
+                  {
+                    "description": "The name of the machine that produced the product",
+                    "label": "Machine Name",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "string"
+                    },
+                    "data": "Laser Machine MX-421W"
+                  },
+                  {
+                    "description": "The list of products the machine can produce",
+                    "label": "Product Names",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "array"
+                    },
+                    "data": ["Tranmissions", "Batteries", "Seats", "Doors"]
+                  }
+                ]
+              },
+              {
+                "description": "This are the properties of interest",
+                "label": "Properties of Interest",
+                "type": {
+                  "typeUnit": null,
+                  "dataType": "object"
+                },
+                "children": [
+                  {
+                    "description": "This are the main properties of interest",
+                    "label": "Main Properties",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "object"
+                    },
+                    "children": [
+                      {
+                        "description": "This is the Normal temperature of production",
+                        "label": "Normal Temperature",
+                        "type": {
+                          "typeUnit": "unit:celcius",
+                          "dataType": "float"
+                        },
+                        "data": 62.7
+                      },
+                      {
+                        "description": "This is the minimmum temperature of production",
+                        "label": "Minimum Temperature",
+                        "type": {
+                          "typeUnit": "unit:celcius",
+                          "dataType": "float"
+                        },
+                        "data": -80.68
+                      },
+                      {
+                        "description": "This is the maximum temperature of production",
+                        "label": "Maximum Temperature",
+                        "type": {
+                          "typeUnit": "unit:celcius",
+                          "dataType": "float"
+                        },
+                        "data": 800.85
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sustainability": {
+              "PEF": {
+                "carbon": [
+                  {
+                    "lifecycle": "main product production",
+                    "rulebook": "https://www.alink.pdf/",
+                    "unit": "kg CO2 eq",
+                    "type": "Climate Change Total",
+                    "value": 12.678
+                  }
+                ],
+                "carbon2": {
+                  "lifecycle": "main product production",
+                  "rulebook": "https://www.alink.pdf/",
+                  "unit": "kg CO2 eq",
+                  "type": "Climate Change Total",
+                  "value": 12.678
+                },
+                "environmental": [
+                  {
+                    "lifecycle": "main product production",
+                    "rulebook": "https://www.alink.pdf/",
+                    "unit": "kg CO2 eq",
+                    "type": "Climate Change Total",
+                    "value": 72.678
+                  }
+                ]
+              },
+              "state": "first life",
+              "material": {
+                "left": [
+                  {
+                    "name": {
+                      "name": "phenolphthalein",
+                      "type": "IUPAC"
+                    },
+                    "unit": "unit:partPerMillion",
+                    "recycled": false,
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "201-004-7"
+                      }
+                    ],
+                    "value": 5,
+                    "renewable": true
+                  }
+                ]
+              },
+              "critical": {
+                "left": ["eOMtThyhVNLWUZNRcBaQKxI"]
+              }
+            },
+            "operation": {
+              "importer": {
+                "left": {
+                  "eori": "GB123456789000",
+                  "id": "BPNL1234567890ZZ"
+                }
+              },
+              "manufacturer": {
+                "facility": "BPNS1234567890ZZ",
+                "manufacturingDate": "2000-01-31",
+                "manufacturer": "BPNL1234567890ZZ"
+              }
+            }
+          },
+          "description": "Digital Product Pass Submodel",
+          "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:2f4da2d6-c49e-46b1-a60f-da8a2afbb448",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "value": "GR08-T789",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerPartId",
+          "value": "GP67890",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        }
+      ],
+      "type": "Gear",
+      "description": [
+        {
+          "language": "en",
+          "text": "Gear shell descriptor"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "digitalproductpass",
+          "data": {
+            "typology": {
+              "shortName": "Performance Gear",
+              "class": {
+                "definition": "Gear",
+                "code": "42-03-02-01"
+              },
+              "longName": "High-performance gear for automotive applications"
+            },
+            "metadata": {
+              "predecessor": null,
+              "issueDate": "2023-08-30",
+              "version": "2.1.6",
+              "economicOperator": {
+                "legitimization": "DE987654321000",
+                "identification": "BPNL1R2S3T4U5V6W"
+              },
+              "status": "Approved",
+              "expirationDate": "2023-08-30"
+            },
+            "characteristics": {
+              "physicalDimension": {
+                "grossWeight": {
+                  "value": 50.5,
+                  "unit": "unit:kilogram"
+                },
+                "width": {
+                  "value": 200.0,
+                  "unit": "unit:millimetre"
+                },
+                "length": {
+                  "value": 300.0,
+                  "unit": "unit:millimetre"
+                },
+                "height": {
+                  "value": 150.0,
+                  "unit": "unit:millimetre"
+                }
+              },
+              "lifespan": [
+                {
+                  "value": 36,
+                  "unit": "unit:day",
+                  "key": "guaranteed lifetime"
+                }
+              ],
+              "physicalState": "solid"
+            },
+            "commercial": {
+              "placedOnMarket": "2023-08-30"
+            },
+            "identification": {
+              "localIdentifier": {
+                "value": "GR08-T789",
+                "key": "PartInstanceId"
+              },
+              "additionalCode": [
+                {
+                  "value": "8483 30 10 00",
+                  "key": "TARIC"
+                },
+                {
+                  "value": "GP67890",
+                  "key": "manufacturerPartId"
+                }
+              ],
+              "dataCarrier": {
+                "carrierType": "QR",
+                "carrierLayout": "upper-left side"
+              }
+            },
+            "sources": [
+              {
+                "header": "Safety Datasheet for Gear Set",
+                "category": "Safety",
+                "type": "link",
+                "content": "www.example.com/gear_safety_datasheet.pdf"
+              },
+              {
+                "header": "User Manual for Gear Set",
+                "category": "User Manual",
+                "type": "link",
+                "content": "www.example.com/gear_user_manual.pdf"
+              }
+            ],
+            "handling": {
+              "spareParts": {
+                "left": {
+                  "producer": [
+                    {
+                      "id": "BPNL1R2S3T4U5V6W"
+                    }
+                  ],
+                  "part": [
+                    {
+                      "name": "Aluminum Housing",
+                      "gtin": "12345678"
+                    }
+                  ]
+                }
+              },
+              "substanceOfConcern": {
+                "left": [
+                  {
+                    "name": {
+                      "name": "phenolphthalein",
+                      "type": "IUPAC"
+                    },
+                    "location": "Housing",
+                    "unit": "unit:partPerMillion",
+                    "concentration": {
+                      "left": [
+                        {
+                          "max": 2.6,
+                          "min": 2.1
+                        }
+                      ]
+                    },
+                    "exemption": "shall not apply to product x containing not more than 1,5 ml of liquid",
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "201-004-7"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "additionalData": [
+              {
+                "description": "Machine parameters related to gear production",
+                "label": "Machine Parameters",
+                "type": {
+                  "typeUnit": null,
+                  "dataType": "object"
+                },
+                "children": [
+                  {
+                    "description": "Gear cutting speed in rotations per minute",
+                    "label": "Cutting Speed",
+                    "type": {
+                      "typeUnit": "unit:rpm",
+                      "dataType": "integer"
+                    },
+                    "data": 1500
+                  },
+                  {
+                    "description": "Machine model used for gear production",
+                    "label": "Machine Model",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "string"
+                    },
+                    "data": "GearMaster G550"
+                  },
+                  {
+                    "description": "List of gear types produced by the machine",
+                    "label": "Gear Types",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "array"
+                    },
+                    "data": ["Spur Gears", "Helical Gears", "Bevel Gears", "Worm Gears"]
+                  }
+                ]
+              },
+              {
+                "description": "Gear material properties",
+                "label": "Material Properties",
+                "type": {
+                  "typeUnit": null,
+                  "dataType": "object"
+                },
+                "children": [
+                  {
+                    "description": "Material hardness measured in Rockwell C scale",
+                    "label": "Hardness",
+                    "type": {
+                      "typeUnit": null,
+                      "dataType": "float"
+                    },
+                    "data": 55.3
+                  },
+                  {
+                    "description": "Material strength measured in megapascals",
+                    "label": "Strength",
+                    "type": {
+                      "typeUnit": "unit:MPa",
+                      "dataType": "float"
+                    },
+                    "data": 800.5
+                  }
+                ]
+              }
+            ],
+            "sustainability": {
+              "PEF": {
+                "carbon": [
+                  {
+                    "lifecycle": "main product production",
+                    "rulebook": "ISO 14067",
+                    "unit": "kg CO2 eq",
+                    "type": "ISO 14067",
+                    "value": 2.5
+                  }
+                ],
+                "carbon2": null,
+                "environmental": null
+              },
+              "state": "first life",
+              "material": {
+                "left": [
+                  {
+                    "name": "Steel Alloy",
+                    "unit": "unit:partPerMillion",
+                    "recycled": false,
+                    "renewable": false,
+                    "percentage": 95.0
+                  },
+                  {
+                    "name": "Aluminum Alloy",
+                    "unit": "unit:partPerMillion",
+                    "recycled": false,
+                    "renewable": false,
+                    "percentage": 46.0
+                  }
+                ]
+              },
+              "critical": {
+                "left": ["Steel"]
+              }
+            },
+            "operation": {
+              "importer": {
+                "left": {
+                  "eori": "DE987654321000",
+                  "id": "BPNL1R2S3T4U5V6W"
+                }
+              },
+              "manufacturer": {
+                "facility": "BPNS4B5C6D7E8F9G",
+                "manufacturingDate": "2023-08-30T14:30:00",
+                "manufacturer": "BPNL1R2S3T4U5V6W"
+              }
+            }
+          },
+          "description": "DPP Submodel",
+          "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+        },
+        {
+          "name": "singleLevelBomAsBuilt",
+          "data": {
+            "catenaXId": "urn:uuid:2f4da2d6-c49e-46b1-a60f-da8a2afbb448",
+            "childItems": []
+          },
+          "description": "single level Bom As Built Submodel",
+          "semanticId": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+        },
+        {
+          "name": "SerialPart",
+          "data": {
+            "partTypeInformation": {
+              "classification": "component",
+              "manufacturerPartId": "GP67890",
+              "nameAtManufacturer": "BPNL00000007RVTB"
+            },
+            "validityPeriod": {
+              "validFrom": "2023-10-06T14:50:23.230+01:00",
+              "validTo": "2024-08-06T14:50:23.230+01:00"
+            },
+            "catenaXId": "urn:uuid:2f4da2d6-c49e-46b1-a60f-da8a2afbb448"
+          },
+          "description": "SerialPart Submodel",
+          "semanticId": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+        }
+      ]
+    },
+    {
+      "catenaXId": "urn:uuid:4f77c7b3-65bd-402a-b1ce-1edc0e49d302",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "value": "MAT7814",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "partInstanceId",
+          "value": "NCM-6789",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        }
+      ],
+      "type": "Material",
+      "description": [
+        {
+          "language": "en",
+          "text": "NCM Digital Twin"
+        }
+      ],
+      "submodels": [
+        {
+          "name": "digitalProductPass",
+          "data": {
+            "typology": {
+              "shortName": "NCM",
+              "class": {
+                "definition": "Material",
+                "code": "42-542-542"
+              },
+              "longName": "Nickel-Cobalt-Manganese Cathode Material"
+            },
+            "metadata": {
+              "predecessor": null,
+              "issueDate": "2024-01-23",
+              "version": "1.0.0",
+              "economicOperator": {
+                "legitimization": "DE123456789",
+                "identification": "BPNL1234567890ZZ"
+              },
+              "status": "Approved",
+              "expirationDate": "2025-01-23"
+            },
+            "characteristics": {
+              "physicalDimension": {
+                "grossWeight": {
+                  "value": 33.7,
+                  "unit": "unit:kilogram"
+                },
+                "grossVolume": {
+                  "value": 6.74,
+                  "unit": "unit:liter"
+                }
+              },
+              "lifespan": [
+                {
+                  "value": 10,
+                  "unit": "unit:year",
+                  "key": "guaranteed lifetime"
+                }
+              ],
+              "physicalState": "liquid"
+            },
+            "commercial": {
+              "placedOnMarket": "1945-02-12"
+            },
+            "identification": {
+              "localIdentifier": {
+                "value": "NCM-6789",
+                "key": "PartInstanceId"
+              },
+              "additionalCode": [
+                {
+                  "value": "8703 24 10 00",
+                  "key": "TARIC"
+                },
+                {
+                  "value": "MAT7814",
+                  "key": "manufacturerPartId"
+                }
+              ],
+              "dataCarrier": {
+                "carrierType": "QR",
+                "carrierLayout": "safety instruction in top right corner"
+              }
+            },
+            "sources": [
+              {
+                "header": "Sustainability Document for Materials",
+                "category": "Product Specifications",
+                "type": "URL",
+                "content": "www.examplelink.pdf"
+              },
+              {
+                "header": "Sustainability Document for Nickel-Cobalt-Manganese",
+                "category": "Product Specifications",
+                "type": "URL",
+                "content": "www.alink.pdf"
+              },
+              {
+                "header": "Safety Intructions for Nickel-Cobalt-Manganese",
+                "category": "Safety",
+                "type": "URL",
+                "content": "www.alink.pdf"
+              },
+              {
+                "header": "Reclycling Guide for Cathode Materials",
+                "category": "Reclycling Instructions",
+                "type": "URL",
+                "content": "www.alink.pdf"
+              }
+            ],
+            "handling": {
+              "spareParts": {
+                "left": {
+                  "producer": [
+                    {
+                      "id": "BPNL00000007RVTB"
+                    }
+                  ],
+                  "part": []
+                }
+              },
+              "substanceOfConcern": {
+                "left": [
+                  {
+                    "name": {
+                      "name": "Nickel",
+                      "type": "Ni-TYPE-7890"
+                    },
+                    "location": "Material",
+                    "unit": "unit:kilogram",
+                    "concentration": {
+                      "left": [
+                        {
+                          "max": 1.5,
+                          "min": 2.0
+                        }
+                      ]
+                    },
+                    "exemption": "Shall not apply to battery packs containing not more than 1,5 ml of liquid",
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "7440-02-0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "additionalData": [],
+            "sustainability": {
+              "PEF": {
+                "carbon": [
+                  {
+                    "lifecycle": "main product production",
+                    "rulebook": "https://www.alink.pdf/",
+                    "unit": "kg CO2 eq",
+                    "type": "Climate Change Total",
+                    "value": 5.421
+                  }
+                ],
+                "environmental": [
+                  {
+                    "lifecycle": "main product production",
+                    "rulebook": "https://www.alink.pdf/",
+                    "unit": "kg CO2 eq",
+                    "type": "Climate Change Total",
+                    "value": 12.678
+                  }
+                ]
+              },
+              "state": "second life",
+              "material": {
+                "left": [
+                  {
+                    "name": {
+                      "name": "Nickel",
+                      "type": "Ni"
+                    },
+                    "unit": "unit:massPercentage",
+                    "recycled": false,
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "7440-02-0"
+                      }
+                    ],
+                    "value": 60,
+                    "renewable": true
+                  },
+                  {
+                    "name": {
+                      "name": "Cobalt",
+                      "type": "Co"
+                    },
+                    "unit": "unit:massPercentage",
+                    "recycled": false,
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "7440-48-4"
+                      }
+                    ],
+                    "value": 15,
+                    "renewable": true
+                  },
+                  {
+                    "name": {
+                      "name": "Cobalt",
+                      "type": "Co"
+                    },
+                    "unit": "unit:massPercentage",
+                    "recycled": false,
+                    "id": [
+                      {
+                        "type": "CAS",
+                        "id": "7439-96-5"
+                      }
+                    ],
+                    "value": 12,
+                    "renewable": true
+                  }
+                ]
+              },
+              "critical": {
+                "left": ["Ni", "Co", "Mn"]
+              }
+            },
+            "operation": {
+              "importer": {
+                "left": {
+                  "eori": "GB123456789000",
+                  "id": "BPNL12345566212"
+                }
+              },
+              "manufacturer": {
+                "facility": "BPNS120120015AS",
+                "manufacturingDate": "2023-12-25",
+                "manufacturer": "BPNL000000000000"
+              }
+            }
+          },
+          "description": "Digital Product Pass Submodel",
           "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
         }
       ]

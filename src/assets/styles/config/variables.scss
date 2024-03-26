@@ -28,3 +28,17 @@ $catena-x-light-blue: rgb(130, 195, 255);
 $catena-x-extra-light-blue: rgb(212, 227, 254);
 $catena-x-dark-blue: rgb(13, 85, 175);
 $catena-x-black: rgb(17, 17, 17);
+
+$background-image-url: "@/media/BatteryCompBG.svg";
+$background-color: #f5f5f5;
+$background-size: cover;
+$background-position: center;
+$background-repeat: no-repeat;
+
+@mixin background-image($url, $color, $size, $position, $repeat) {
+  background-color: $color;
+  background-image: url($url);
+  background-size: $size;
+  background-position: $position;
+  background-repeat: $repeat;
+}

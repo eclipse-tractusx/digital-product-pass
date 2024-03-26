@@ -22,8 +22,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-./transform-and-upload.sh -s https://materialpass.dev.demo.catena-x.net/provider_backend \
-  -e https://materialpass.dev.demo.catena-x.net/BPNL000000000000 \
-  -a https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0 \
+./transform-and-upload.sh -s https://materialpass.int.demo.catena-x.net/provider_backend \
+  -e https://materialpass.int.demo.catena-x.net/BPNL000000000000 \
+  -a https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0 \
   -k <API-Key> \
   -f ./testdata/testdata-payload.json

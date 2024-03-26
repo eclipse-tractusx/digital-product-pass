@@ -73,7 +73,7 @@ jobs:
         id: build-frontend
         uses: docker/build-push-action@v3
         with:
-          working-directory: dpp-frontend
+          context: dpp-frontend
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}}:${{ env.TAG }}
       

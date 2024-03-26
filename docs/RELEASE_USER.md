@@ -36,6 +36,9 @@ The backend is now supporting EDC version v0.6.0 and is being prepared to be com
 #### Improved quality of the frontend User Interface
 The mocked graphs were removed from the user interface and the graphs are now dynamically renderd based on data. The overall quality of the frontend is improved, missing units were added and separate collection symbol is now available for the battery pass. 
 
+#### Supported new Digital Twin Registry version v0.3.31
+The dpp backend is able to comminucate with the latest interface for lookup shells of the digital twin registry using base64 encoding. 
+
 
 **February 19 2024 (Version 2.1.3)**
 *19.02.2024*

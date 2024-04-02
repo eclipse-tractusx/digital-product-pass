@@ -32,6 +32,11 @@
               :label="$t('sections.operation.importer')"
               :value="propsData.importer.left.id"
             />
+            <Field
+              :icon="callIconFinder('importer')"
+              :label="$t('sections.operation.importerEori')"
+              :value="propsData.importer.left.eori"
+            />
           </v-col>
         </template>
         <v-col sm="12" md="4" class="pa-0 ma-0">
@@ -49,7 +54,7 @@
             <Field
               :icon="callIconFinder('manufacturingDate')"
               :label="$t('sections.operation.manufacturingDate')"
-              :value="propsData.manufacturer.manufacturingDate"
+              :value="processDateTime(propsData.manufacturer.manufacturingDate)"
             />
           </template>
         </v-col>
@@ -81,6 +86,15 @@ export default {
   methods: {
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    processDateTime(dateTimeString) {
+      // Check if the string contains 'T'
+      if (dateTimeString.includes("T")) {
+        // Replace 'T' with ', time: ' and return the new string
+        return dateTimeString.replace("T", ", time: ");
+      }
+      // Return the original string if 'T' is not found
+      return dateTimeString;
     },
   },
 };

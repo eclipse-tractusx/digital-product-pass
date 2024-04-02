@@ -21,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
+<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
 # Application Installation
 
@@ -189,7 +189,7 @@ npm run serve
 
 #### Method 2: With Docker
 
-The following environment variables must be set in [build and deploy](./buildAndDeploy.sh) script:
+The following environment variables must be set in [build and deploy](./dpp-frontend/buildAndDeploy.sh) script:
 
 - PASS_VERSION
 - APP_VERSION

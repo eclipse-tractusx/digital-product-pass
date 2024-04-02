@@ -1,0 +1,430 @@
+{
+  "header": {
+    "helpBtn": "Help",
+    "helpTooltip": " Here you can get help if you need to know more about Catena-X",
+    "signOut": "Sign Out"
+  },
+  "searchView": {
+    "title": "Catena-X Battery Passport",
+    "welcomeMessage": "The term \"Battery Passport\" refers to a digital document that contains essential information about a battery, specifically in the context of electric vehicles (EVs). This document includes details about the battery's manufacturer, specifications, performance characteristics, health status, and lifecycle data. The purpose of a Battery Passport is to facilitate proper maintenance, servicing, and recycling of the battery, while also enabling traceability and compliance.",
+    "errorCameraOff": "Your camera is off.",
+    "errorTypeID": "Turn it on or type the ID.",
+    "findOutMore": "Want to find out more? Read our Get",
+    "guide": "Started Guide",
+    "cameraError": {
+      "NotAllowedError": "ERROR: you need to grant camera access permission",
+      "NotFoundError": "ERROR: no camera on this device",
+      "NotSupportedError": "ERROR: secure context required (HTTPS, localhost)",
+      "NotReadableError": "ERROR: is the camera already in use?",
+      "OverconstrainedError": "ERROR: installed cameras are not suitable",
+      "StreamApiNotSupportedError": "ERROR: Stream API is not supported in this browser",
+      "InsecureContextError": "ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP."
+    }
+  },
+  "passportView": {
+    "policyAgreement": {
+      "title": "Choose a policy:",
+      "contractId": "Contract ID:",
+      "policy": "Policy",
+      "type": "type",
+      "decline": "Decline",
+      "agree": "Agree",
+      "details": {
+        "moreDetails": "More details",
+        "lessDetails": "Less details"
+      },
+      "declineModal": {
+        "question": "Are you sure you want to decline?",
+        "homepage": "This will take you back to the Homepage",
+        "cancel": "Cancel",
+        "confirm": "Yes, Decline"
+      }
+    },
+    "dpp": "Digital Product Passport",
+    "bpp": "Battery Product Passport",
+    "tpp": "Transmission Product Passport",
+    "batteryComponentsNames": {
+      "generalInformation": "General Information",
+      "stateOfBattery": "State Of Battery",
+      "components": "Components",
+      "batteryComposition": "Battery Composition",
+      "cellChemistry": "Cell Chemistry",
+      "electrochemicalProperties": "Electrochemical Properties",
+      "documents": "Documents",
+      "exchange": "Exchange"
+    },
+    "dppComponentsNames": {
+      "typology": "Typology",
+      "metadata": "Metadata",
+      "characteristics": "Characteristics",
+      "components": "Components",
+      "commercial": "Commercial",
+      "identification": "Identification",
+      "sources": "Sources",
+      "handling": "Handling",
+      "additionalData": "Additional Data",
+      "sustainability": "Sustainability",
+      "operation": "Operation",
+      "exchange": "Exchange"
+    },
+    "tppComponentsNames": {
+      "productSpecificParameters": "Product Specific Parameters",
+      "instructions": "Instructions",
+      "sparePartSupplier": "Spare Part Supplier",
+      "components": "Components",
+      "stateOfHealth": "State of Health",
+      "identification": "Identification",
+      "generalInformation": "General Information",
+      "sustainability": "Sustainability",
+      "exchange": "Exchange"
+    }
+  },
+  "home": {
+    "welcome": "Welcome",
+    "home": "Home"
+  },
+  "footer": {
+    "help": "Help",
+    "contact": "Contact",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "terms": "Terms of Service",
+    "cookies": "Cookies",
+    "thirdParty": "Third Party Licenses",
+    "legal": "Legal notice",
+    "license": "License: Apache-2.0",
+    "licensePath": "Licence Path: ",
+    "viewLicense": "View License File",
+    "notice": "NOTICE: ",
+    "viewNotice": "View Notice File",
+    "source": "Source URL: ",
+    "commit": "Commit ID: ",
+    "copyright": "Copyright © Catena-X Automotive Network."
+  },
+  "searchInput": {
+    "search": "Search",
+    "passportId": "Enter Passport ID"
+  },
+  "barChart": {
+    "noData": "No data"
+  },
+  "batteryCards": {
+    "titleGeneral": "GENERAL",
+    "labelGeneral": "Type",
+    "secondLabelGeneral": "Model",
+    "titlePerformance": "PERFORMANCE",
+    "labelPerformance": "Rated Capacity",
+    "secondLabelPerformance": "Model",
+    "descriptionPerformanceTitle": "Performance",
+    "descriptionPerformanceValue": "Description of the performance",
+    "titleHealth": "HEALTH",
+    "labelHealth": "State of Health (SoH)",
+    "secondLabelHealth": "Charging Cycles",
+    "descriptionHealthTitle": "Health",
+    "descriptionHealthValue": "Description of the health",
+    "titleSustainability": "SUSTAINABILITY",
+    "secondLabelSustainability": "CO2e/kWh",
+    "descriptionHSustainabilityTitle": "Sustainability",
+    "descriptionSustainabilityValue": "Description of the sustainability",
+    "chargingCycles": "Charging Cycles"
+  },
+  "generalCards": {
+    "titleGeneral": "GENERAL",
+    "productName": "Product name",
+    "productType": "Product type",
+    "titleManufacturing": "MANUFACTURING",
+    "manufacturerId": "Manufacturer ID",
+    "dateOfManufacturing": "Date of Manufacturing",
+    "descriptionManufacturingTitle": "Manufacturing",
+    "descriptionManufacturingValue": "Description of the manufacturing",
+    "titleAspectVersion": "ASPECT VERSION",
+    "currentVersion": "Current version",
+    "issued": "Issued",
+    "descriptionAspectVersionTitle": "Aspect version",
+    "descriptionAspectVersionValue": "Description of the aspect version",
+    "titleSustainability": "SUSTAINABILITY",
+    "totalCo2Footprint": "Total CO2 footprint",
+    "warrantyPeriod": "Warranty period",
+    "tCo2Total": "t CO2 Total",
+    "months": "months",
+    "descriptionSustainabilityTitle": "Sustainability",
+    "descriptionSustainabilityValue": "Description of the Sustainability"
+  },
+  "transmissionCards": {
+    "matrixCode": "Matrix code",
+    "parameters": "SPECIFIC PARAMETERS",
+    "driveType": "Drive type",
+    "oilType": "Oil type"
+  },
+  "passportHeader": {
+    "backBtn": "Back"
+  },
+  "field": {
+    "tempRange": "Temp range:",
+    "to": "to",
+    "referenceTest": "Reference test:"
+  },
+  "recursiveTree": {
+    "notAvailable": "Not available"
+  },
+  "dialog": {
+    "description": "Description",
+    "noDescription": "No description"
+  },
+  "section": {
+    "noContent": "Sorry, no content"
+  },
+  "error": {
+    "404NotFound": "404 Not Found",
+    "somethingWentWrong": "Oops, Something went wrong...",
+    "internalError": "The server encountered an internal error or misconfiguration and was unable to complete your request.",
+    "contactYourAdmin": "Please contact your admin",
+    "adminExample": "admin@example.com",
+    "reload": "Reload Page",
+    "homepage": "Homepage"
+  },
+  "loading": {
+    "assetId": "Asset Id: ",
+    "registrySearch": "Registry Search",
+    "searching": "Searching...",
+    "registriesAvailable": "Registries available",
+    "contractSearch": "Contract Search",
+    "contractAvailable": "Contract available",
+    "contractNegotiation": "Contract Negotiation",
+    "negotiating": "Negotiating...",
+    "contractStatus": "Contract status: ",
+    "contractTransfer": "Contract Transfer",
+    "transferring": "Transferring...",
+    "transferCompleted": "Transfer completed",
+    "passportRetrieval": "Passport Retrieval",
+    "retrieving": "Retrieving... ",
+    "createdProcess": "Created Process ID: ",
+    "contractId": "Contract ID: "
+  },
+  "sections": {
+    "instructions": {
+      "packagingInstructions": "Packaging instructions",
+      "transportationInstructions": "Transportation instructions",
+      "dismantlingProcedure": "Dismantling procedure",
+      "safetyMeasures": "Safety measures",
+      "vehicleDismantlingProcedure": "Vehicle dismantling procedure"
+    },
+    "productSpecificParameters": {
+      "torqueConverter": "Torque converter",
+      "driveType": "Drive type",
+      "oilType": "Oil type",
+      "spreading": "Spreading",
+      "torque": "Torque",
+      "power": "Power",
+      "gear": "Gear",
+      "ratio": "Ratio",
+      "speed": "Speed",
+      "standardGearRatio": "Standard gear ratio",
+      "speedResistance": "Speed resistance",
+      "oilCapacity": "Oil capacity",
+      "electricPerformance": "Electric performance"
+    },
+    "sparePartsSupplier": {
+      "supplierContact": "Supplier contact",
+      "supplierId": "Supplier id",
+      "sparePartName": "Spare part name"
+    },
+    "stateOfHealth": {
+      "serviceHistory": "Service history",
+      "expectedLifespan": "Expected lifespan",
+      "remanufacturingDate": "Remanufacturing date",
+      "productStatusValue": "Product status value"
+    },
+    "generalInformation": {
+      "additionalInformation": "Additional information",
+      "productDimensions": "Dimensions",
+      "productDescription": "Product description",
+      "productType": "Product type",
+      "batteryId": "Battery ID (DMC)",
+      "batteryIdDescriptionTitle": "Battery ID",
+      "batteryIdDescriptionValue": "Battery ID or DMC that you can find in your device settings",
+      "batteryType": "Battery Type",
+      "batteryModel": "Battery Model",
+      "warranty": "Warranty",
+      "dimensions": "Dimensions of the battery",
+      "weight": "Weight",
+      "dateOfManufacturing": "Date of Manufacture",
+      "placeOfManufacturing": "Place of Manufacturing",
+      "datePlacedOnMarket": "Date of placing on the market",
+      "manufacturerInformation": "Manufacturer Information",
+      "manufacturerContact": "Manufacturer Contact",
+      "cO2FootprintTotal": "CO2 Footprint"
+    },
+    "stateOfBattery": {
+      "stateOfHealth": "State of health",
+      "cycleLifeTestCRate": "Cycle life test c rate",
+      "stateOfCharge": "State of charge",
+      "cycleLifeTestDepthOfDischarge": "Cycle life test depth of discharge",
+      "expectedLifetime": "Expected lifetime",
+      "temperatureRange": "Temperature range (idle state)",
+      "statusBattery": "Status battery"
+    },
+    "components": {
+      "searchForChild": "The search for child components started, this may take a while...",
+      "noChild": "No child components found",
+      "somethingWentWrong": "Something went wrong while searching for child components"
+    },
+    "batteryComposition": {
+      "batteryComposites": "Main Battery Composites",
+      "criticalRawMaterials": "Critical raw materials"
+    },
+    "cellChemistry": {
+      "electrolyteComposition": "Composition of electrolyte",
+      "recyclateContent": "Recyclate Content Active Materials"
+    },
+    "electrochemicalProperties": {
+      "capacity": "Capacity",
+      "ratedCapacity": "Rated capacity",
+      "capacityFade": "Capacity fade",
+      "capacityThresholdExhaustion": "Capacity threshold exhaustion",
+      "efficiency": "Efficiency",
+      "originalPowerCapability": "Original power capability",
+      "originalPowerCapabilityLimits": "Original power capability limits",
+      "maximumAllowedBatteryPower": "Maximum allowed battery energy (MABE)",
+      "MABEvsMABP": "Ratio MABE vs. MABP",
+      "powerCapabilityAt20Charge": "Power capability at 20 charge",
+      "powerCapabilityAt80Charge": "Power capability at 80 charge",
+      "powerFade": "Power fade",
+      "resistance": "Resistance",
+      "packInternalResistance": "Pack internal resistance",
+      "packInternalResistanceIncrease": "Pack internal resistance increase",
+      "cellInternalResistance": "Cell internal resistance",
+      "voltage": "Voltage",
+      "nominalVoltage": "Nominal voltage",
+      "maxVoltage": "Max voltage",
+      "minVoltage": "Min voltage"
+    },
+    "exchange": {
+      "contract": "Contract",
+      "policy": "Policy",
+      "distribution": "Distribution",
+      "negotiation": "Negotiation",
+      "context": "Context",
+      "negotiationRequest": "Negotiation request",
+      "offer": "Offer",
+      "transfer": "Transfer",
+      "edcDataRequest": "EDC data request",
+      "transferRequest": "Transfer request",
+      "id": "ID",
+      "type": "Type",
+      "policyId": "Policy ID",
+      "distributionList": "Distribution List",
+      "edcDescription": "EDC description",
+      "edcId": "EDC ID",
+      "edcType": "EDC Type",
+      "edcProtocol": "EDC protocol",
+      "protocol": "Protocol",
+      "edcState": "EDC state",
+      "edcCounterPartyAddress": "EDC counter party address",
+      "edcContractAgreementId": "EDC contract agreement ID",
+      "connectorId": "Connector ID",
+      "providerId": "Provider ID",
+      "offerDetail": "Offer detail",
+      "transferId": "Transfer ID",
+      "transferType": "Transfer Type",
+      "transferState": "Transfer state",
+      "edcTimestamp": "EDC timestamp",
+      "edcDataRequestId": "EDC data request ID",
+      "edcReceiverHttpEndpoint": "EDC receiver http endpoint",
+      "assetId": "Asset ID",
+      "connectorAddress": "Connector address",
+      "contractId": "Contract ID",
+      "dataDestination": "Data destination",
+      "reciverHttpEndpoint": "Reciver http endpoint",
+      "contentType": "Content type"
+    },
+    "characteristics": {
+      "physicalDimensionsProperty": "Physical dimensions property",
+      "weight": "Weight",
+      "lifespan": "Lifespan",
+      "energyCapacity": "Energy capacity",
+      "voltage": "Voltage",
+      "physicalState": "Physical state",
+      "weightOrVolume": "Weight or volume",
+      "diameter": "Diameter",
+      "grossWeight": "Gross weight",
+      "grossVolume": "Gross volume"
+    },
+    "commercial": {
+      "placedOnMarket": "Place on the market",
+      "warranty": "Warranty"
+    },
+    "handling": {
+      "maintenanceHistory": "Maintenance history",
+      "spareParts": "Spare parts",
+      "substanceOfConcern": "Substance of concern",
+      "producerId": "Producer Id",
+      "partName": "Part name",
+      "partGtin": "Part gtin",
+      "type": "Type",
+      "location": "Location",
+      "unit": "Unit",
+      "concentrationMax": "Concentration max",
+      "concentrationMin": "Concentration min",
+      "exemption": "Exemption",
+      "idType": "Id type",
+      "id": "Id"
+    },
+    "identification": {
+      "gtin": "Gtin",
+      "manufacturerId": "Manufacturer ID",
+      "dataMatrixCode": "Data matrix code"
+    },
+    "metadata": {
+      "predecessor": "Predecessor",
+      "legitimization": "Legitimization",
+      "identification": "Identification",
+      "issueDate": "Issue date",
+      "version": "Version",
+      "validityDate": "Validity date",
+      "customerPartId": "Customer part ID",
+      "manufacturerPartId": "Manufacturer part ID",
+      "status": "Status",
+      "expirationDate": "Expiration date"
+    },
+    "operation": {
+      "importer": "Importer ID",
+      "importerEori": "Importer EORI",
+      "manufacturerId": "Manufacturer ID",
+      "facilityId": "Facility ID",
+      "manufacturingDate": "Manufacturing date"
+    },
+    "serialization": {
+      "manufacturingInformation": "Manufacturing information",
+      "date": "Date",
+      "country": "Country",
+      "registration": "Registration",
+      "customerPartId": "Customer part ID",
+      "manufacturerPartId": "Manufacturer part ID",
+      "quantity": "Quantity"
+    },
+    "sustainability": {
+      "state": "State",
+      "material": "Material",
+      "carbonContentTotal": "Carbon content total",
+      "crossSectoralStandard": "Cross sectoral standard used",
+      "substancesOfConcern": "Substances of concern",
+      "criticalRawMaterials": "Critical raw materials",
+      "co2FootprintTotal": "CO₂ footprint total",
+      "operator": "Operator",
+      "ruleNames": "Rule names",
+      "otherOperatorName": "Other operator name",
+      "productOrSectorSpecificRules": "Product or sector specific rules",
+      "critical": "Critical"
+    },
+    "typology": {
+      "name": "Name",
+      "shortName": "Short name",
+      "longName": "Long name",
+      "definition": "Definition",
+      "code": "Code",
+      "nameAtManufacturer": "Name at manufacturer",
+      "nameAtCustomer": "Name at customer"
+    }
+  }
+}

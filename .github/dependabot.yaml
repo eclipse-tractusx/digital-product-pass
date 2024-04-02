@@ -59,7 +59,7 @@ updates:
   -
     package-ecosystem: "docker"
     target-branch: main
-    directory: /
+    directory: ./dpp-frontend/
     labels:
       - "dependabot"
       - "docker"

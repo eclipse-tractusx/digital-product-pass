@@ -78,11 +78,14 @@ jobs:
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift)
       # Automates dependency installation for Python, Ruby, and JavaScript, optimizing the CodeQL analysis setup
       # If this step fails, then you should remove it and run the build manually (see below)
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-        with:
-          working-directory: dpp-backend/digitalproductpass
-
+      - name: Setup Java
+        uses: ./.github/actions/setup-java
+      
+      - name: Build dpp-backend
+        #uses: github/codeql-action/autobuild@v2
+        run: |
+          cd dpp-backend/digitalproductpass
+          mvn -B clean install
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
 

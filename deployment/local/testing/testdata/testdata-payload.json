@@ -1,40 +1,100 @@
 {
-  "policies": {
-    "@context": {
-      "odrl": "http://www.w3.org/ns/odrl/2/"
-    },
-    "@type": "PolicyDefinitionRequestDto",
-    "@id": "dpp-policy-id",
-    "policy": {
-      "@type": "Policy",
-      "odrl:permission": [
-        {
-          "odrl:action": "USE",
-          "odrl:constraint": {
-            "@type": "AtomicConstraint",
-            "odrl:or": [
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "Membership",
-                "odrl:operator": {
-                  "@id": "odrl:eq"
+  "policies": [
+    {
+      "@context": {
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "cx-policy": "https://w3id.org/catenax/policy/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "registry-policy",
+      "profile": "cx-policy:profile2405",
+      "policy": {
+        "@type": "Policy",
+        "@context": "http://www.w3.org/ns/odrl.jsonld",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "LogicalConstraint",
+              "odrl:and": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "Membership",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "active"
                 },
-                "odrl:rightOperand": "active"
-              },
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "FrameworkAgreement.sustainability",
-                "odrl:operator": {
-                  "@id": "odrl:eq"
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "BusinessPartnerNumber",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "BPNL00000007RVTB"
                 },
-                "odrl:rightOperand": "active"
-              }
-            ]
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.core.digitalTwinRegistry:1"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
+    },
+    {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "cx-policy": "https://w3id.org/catenax/policy/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "dpp-policy-id",
+      "profile": "cx-policy:profile2405",
+      "policy": {
+        "@type": "Policy",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "LogicalConstraint",
+              "odrl:and": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "Membership",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "active"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "circulareconomy:1.0"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.circular.dpp:1"
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
-  },
+  ],
   "shells": [
     {
       "catenaXId": "urn:uuid:541ec5a5-9215-12f4-0803-94f456c947df",

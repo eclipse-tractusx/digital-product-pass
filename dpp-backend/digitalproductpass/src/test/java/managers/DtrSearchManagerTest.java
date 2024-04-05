@@ -26,6 +26,7 @@
 package managers;
 
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -59,6 +60,7 @@ class DtrSearchManagerTest {
     private DataTransferService dataTransferService;
     @Mock
     private DtrConfig dtrConfig;
+    private PolicyConfig policyConfig;
     @Mock
     Environment env;
     @Mock
@@ -80,7 +82,7 @@ class DtrSearchManagerTest {
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, policyConfig ,processManager);
 
         fileUtil.deleteFile(dtrSearchManager.getDataModelPath());
         dtrSearchManager.loadDataModel();

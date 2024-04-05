@@ -145,6 +145,28 @@ backend:
       transfer: "/transferprocesses"
     # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
     delay: 100
+    acceptedPolicies:
+      # -- the data contracts are only negotiated for the offers against the defined policies.
+      usagePolicies:
+        - leftOperand: "cx-policy:FrameworkAgreement"
+          operator: "eq"
+          rightOperand: "circulareconomy:1.0"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.circular.dpp:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
+      accessPolicies:
+        - leftOperand: "BusinessPartnerNumber"
+          operator: "eq"
+          rightOperand: *bpn
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.core.digitalTwinRegistry:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
 
   # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
   hostname: *hostname
@@ -200,7 +222,6 @@ backend:
       enabled: true
       # -- lifetime of the temporaryStorage in hours
       lifetime: 12
-
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration

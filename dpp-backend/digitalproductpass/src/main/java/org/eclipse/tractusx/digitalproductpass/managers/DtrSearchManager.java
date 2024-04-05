@@ -27,7 +27,9 @@ package org.eclipse.tractusx.digitalproductpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.logging.Log;
+import org.apache.logging.log4j.Level;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
@@ -66,6 +68,7 @@ public class DtrSearchManager {
     private EdcUtil edcUtil;
     private ProcessManager processManager;
     private DtrConfig dtrConfig;
+    private PolicyConfig policyConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds;
@@ -82,11 +85,12 @@ public class DtrSearchManager {
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
+    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, PolicyConfig policyConfig , ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.processManager = processManager;
         this.dtrConfig = dtrConfig;
+        this.policyConfig = policyConfig;
         this.state = State.Stopped;
         this.edcUtil = edcUtil;
         this.fileUtil = fileUtil;
@@ -252,6 +256,9 @@ public class DtrSearchManager {
             if (dataset != null) {
                 // Store the dataset in the digital twin logs
                 Map<String, Dataset> datasets = new HashMap<>(){{put(dataset.getId(),dataset);}};
+                Object policies = policyConfig.getPolicies();
+                LogUtil.printLog(Level.DEBUG, jsonUtil.toJson(policies,true));
+
                 Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {

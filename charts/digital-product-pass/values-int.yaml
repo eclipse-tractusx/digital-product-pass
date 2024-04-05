@@ -44,6 +44,28 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
+    acceptedPolicies:
+      usagePolicies:
+        - leftOperand: "cx-policy:FrameworkAgreement"
+          operator: "eq"
+          rightOperand: "circulareconomy:1.0"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.circular.dpp:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
+      accessPolicies:
+        - leftOperand: "BusinessPartnerNumber"
+          operator: "eq"
+          rightOperand: *bpn
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.core.digitalTwinRegistry:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
+        
 
   hostname: *hostname
   securityCheck:

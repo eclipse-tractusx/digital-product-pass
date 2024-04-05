@@ -28,10 +28,7 @@ package services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import mocks.MockedHttpSession;
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
-import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
-import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.config.*;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -96,6 +93,7 @@ class AasServiceTest {
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
+    private PolicyConfig policyConfig;
     private ProcessConfig processConfig;
     private PassportConfig passportConfig;
     private DtrSearchManager dtrSearchManager;
@@ -138,7 +136,7 @@ class AasServiceTest {
         processConfig.setDir("process");
         baseDataDirPath = Path.of(fileUtil.getDataDir(), processConfig.getDir()).toString();
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, dataTransferService, dtrConfig, policyConfig, processManager);
         dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,vaultService, processManager, dtrConfig);
         authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
         mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);

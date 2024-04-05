@@ -26,10 +26,7 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
-import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.config.*;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -80,6 +77,7 @@ class CatenaXServiceTest {
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
+    private PolicyConfig policyConfig;
     private DiscoveryConfig discoveryConfig;
     private YamlUtil yamlUtil;
     private JsonUtil jsonUtil;
@@ -133,7 +131,7 @@ class CatenaXServiceTest {
         discoveryConfig = initDiscoveryConfig();
         dtrConfig = initDtrConfig();
 
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, policyConfig, processManager);
         catenaXService = new CatenaXService(env, fileUtil, httpUtil, jsonUtil, vaultService, dtrSearchManager, authenticationService, discoveryConfig, dataTransferService, dtrConfig);
 
         discovery = new Discovery(new ArrayList<>());

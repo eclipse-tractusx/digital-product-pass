@@ -69,51 +69,60 @@ create_edc_asset () {
   ASSET_ID=${UUID}
   
   payload='{
-    "@context": {},
-    "asset": {
-        "@type": "Asset",
-        "@id": "'${ASSET_ID}'",
-        "properties": {
-            "description": "Digital Product Passport (DPP) test data"
+    "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "cx-common": "https://w3id.org/catenax/ontology/common#",
+        "cx-taxo": "https://w3id.org/catenax/taxonomy#",
+        "dct": "https://purl.org/dc/terms/"
+    },
+    "@id": "'${ASSET_ID}'",
+    "properties": {
+        "type": {
+            "@id": "Asset"
         }
     },
     "dataAddress": {
         "@type": "DataAddress",
         "type": "HttpData",
-        "proxyPath": "true",
-        "proxyBody": "true",
-        "proxyMethod": "true",
+        "baseUrl": "'${SUBMODEL_SERVER}'",
         "proxyQueryParams": "true",
-        "baseUrl": "'${SUBMODEL_SERVER}'"
+        "proxyPath": "true",
+        "proxyMethod": "true",
+        "proxyBody": "true"
     }
   }'
-  HTTP_RESPONSE=$(curl -X POST -s -H 'Content-Type: application/json' --data "${payload}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/assets)
+  HTTP_RESPONSE=$(curl -X POST -s -H 'Content-Type: application/json' --data "${payload}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v3/assets)
   check_status_code "[DPP] - edc asset created with uuid : ${ASSET_ID}"
 }
 
 create_registry_asset () {
+
   PAYLOAD='{
-    "@context": {},
-    "asset": {
-        "@type": "data.core.digitalTwinRegistry",
-        "@id": "'${REGISTRY_ASSET_ID}'",
-        "properties": {
-            "type": "data.core.digitalTwinRegistry",
-            "description": "Digital Twin Registry for DPP",
-            "contenttype": "application/json" 
-        }
+    "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "cx-common": "https://w3id.org/catenax/ontology/common#",
+        "cx-taxo": "https://w3id.org/catenax/taxonomy#",
+        "dct": "https://purl.org/dc/terms/"
+    },
+    "@id": "'${REGISTRY_ASSET_ID}'",
+    "properties": {
+        "type": {
+            "@id": "DigitalTwinRegistry"
+        },
+        "version": "3.0",
+        "asset:prop:type": "data.core.digitalTwinRegistry"
     },
     "dataAddress": {
         "@type": "DataAddress",
         "type": "HttpData",
-        "proxyPath": "true",
-        "proxyBody": "true",
-        "proxyMethod": "true",
+        "baseUrl": "'${REGISTRY_URL}'",
         "proxyQueryParams": "true",
-        "baseUrl": "'${REGISTRY_URL}'"
+        "proxyPath": "true",
+        "proxyMethod": "true",
+        "proxyBody": "true"
     }
   }'
-  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/assets)
+  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v3/assets)
   check_status_code "registry asset created with uuid : registry-asset"
 }
 
@@ -131,6 +140,15 @@ create_default_policy () {
   }'
   HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${payload}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/policydefinitions)
   check_status_code "policy created with uuid : default-policy"
+}
+
+create_registry_policy () {
+  policy=$1
+  POLICY_ID=$(echo "${policy}" | jq -r '.["@id"]')
+
+
+  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${policy}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/policydefinitions)
+  check_status_code "policy created with uuid : registry-policy"
 }
 
 create_edc_policy () {
@@ -159,6 +177,25 @@ create_default_contractdefinition () {
   }'
   HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/contractdefinitions)
   check_status_code "contract created with uuid : default-contract-definition"
+}
+
+create_registry_contractdefinition () {
+  
+  PAYLOAD='{
+    "@context": {},
+    "@id": "registry-contract-definition",
+    "@type": "ContractDefinition",
+    "accessPolicyId": "registry-policy",
+    "contractPolicyId": "registry-policy",
+    "assetsSelector" : {
+        "@type": "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "'${REGISTRY_ASSET_ID}'"
+    }
+  }'
+  HTTP_RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -s --data "${PAYLOAD}" --header 'X-Api-Key: '${API_KEY} -o /dev/null -w "%{http_code}\n" ${PROVIDER_EDC}/management/v2/contractdefinitions)
+  check_status_code "contract created with uuid : registry-contract-definition"
 }
 
 create_contractdefinition () {

@@ -1,40 +1,100 @@
 {
-  "policies": {
-    "@context": {
-      "odrl": "http://www.w3.org/ns/odrl/2/"
-    },
-    "@type": "PolicyDefinitionRequestDto",
-    "@id": "dpp-policy-id",
-    "policy": {
-      "@type": "Policy",
-      "odrl:permission": [
-        {
-          "odrl:action": "USE",
-          "odrl:constraint": {
-            "@type": "AtomicConstraint",
-            "odrl:or": [
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "Membership",
-                "odrl:operator": {
-                  "@id": "odrl:eq"
+  "policies": [
+    {
+      "@context": {
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "cx-policy": "https://w3id.org/catenax/policy/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "registry-policy",
+      "profile": "cx-policy:profile2405",
+      "policy": {
+        "@type": "Policy",
+        "@context": "http://www.w3.org/ns/odrl.jsonld",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "LogicalConstraint",
+              "odrl:and": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "Membership",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "active"
                 },
-                "odrl:rightOperand": "active"
-              },
-              {
-                "@type": "Constraint",
-                "odrl:leftOperand": "FrameworkAgreement.sustainability",
-                "odrl:operator": {
-                  "@id": "odrl:eq"
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "BusinessPartnerNumber",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "BPNL00000007RVTB"
                 },
-                "odrl:rightOperand": "active"
-              }
-            ]
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.core.digitalTwinRegistry:1"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
+    },
+    {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "cx-policy": "https://w3id.org/catenax/policy/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "dpp-policy-id",
+      "profile": "cx-policy:profile2405",
+      "policy": {
+        "@type": "Policy",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "LogicalConstraint",
+              "odrl:and": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "Membership",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "active"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "circulareconomy:1.0"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.circular.dpp:1"
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
-  },
+  ],
   "shells": [
     {
       "catenaXId": "urn:uuid:541ec5a5-9215-12f4-0803-94f456c947df",
@@ -42,6 +102,16 @@
         {
           "name": "partInstanceId",
           "value": "IMR18650V1",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -357,6 +427,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -669,6 +749,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -978,6 +1068,16 @@
         {
           "name": "partInstanceId",
           "value": "Y792927456954B81677903848654570",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -1397,6 +1497,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "partInstanceId",
           "value": "BAT-XYZ789",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -1433,6 +1543,20 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "XYZ78901",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "BAT-XYZ789",
+                "key": "partInstanceId"
+              }
+            ],
             "partTypeInformation": {
               "classification": "product",
               "manufacturerPartId": "XYZ78901",
@@ -1570,7 +1694,7 @@
             "operation": {
               "importer": "BPNL000000000000",
               "manufacturer": {
-                "manufacturerId": "BPNL000000000000",
+                "manufacturerId": "BPNL00000007RVTB",
                 "facilityId": "BPNL000000000123"
               }
             }
@@ -1586,6 +1710,16 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -1625,6 +1759,24 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "XYZ78901",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "EVMODULE-TRJ712",
+                "key": "partInstanceId"
+              }
+            ],
+            "manufacturingInformation": {
+              "date": "2022-02-04T14:48:54",
+              "country": "DEU"
+            },
             "partTypeInformation": {
               "classification": "component",
               "manufacturerPartId": "XYZ78901",
@@ -1790,6 +1942,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "partInstanceId",
           "value": "CTA-13123",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -1815,6 +1977,20 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "XYZ78901",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "CTA-13123",
+                "key": "partInstanceId"
+              }
+            ],
             "partTypeInformation": {
               "classification": "component",
               "manufacturerPartId": "XYZ78901",
@@ -1977,6 +2153,16 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -2190,9 +2376,23 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "XYZ78901",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "KLZ-90-8564-96",
+                "key": "partInstanceId"
+              }
+            ],
             "partTypeInformation": {
               "classification": "product",
-              "manufacturerPartId": "677-4.456-3434-K",
+              "manufacturerPartId": "XYZ78901",
               "nameAtManufacturer": "NMC111 Cathode"
             },
             "validityPeriod": {
@@ -2212,6 +2412,16 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -2375,6 +2585,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "partInstanceId",
           "value": "ABC123",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -2411,6 +2631,16 @@
         {
           "name": "manufacturerPartId",
           "value": "XYZ78901",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
@@ -2729,6 +2959,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "partInstanceId",
           "value": "PRT-30001",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -2765,6 +3005,20 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "MFG024",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "PRT-30001",
+                "key": "partInstanceId"
+              }
+            ],
             "partTypeInformation": {
               "classification": "product",
               "manufacturerPartId": "MFG024",
@@ -3085,6 +3339,16 @@
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
           "name": "manufacturerPartId",
           "value": "GP67890",
           "allowedBpns": ["BPNL00000007RVTB"]
@@ -3362,6 +3626,20 @@
         {
           "name": "SerialPart",
           "data": {
+            "localIdentifiers": [
+              {
+                "value": "BPNL00000007RVTB",
+                "key": "manufacturerId"
+              },
+              {
+                "value": "GP67890",
+                "key": "manufacturerPartId"
+              },
+              {
+                "value": "GR08-T789",
+                "key": "partInstanceId"
+              }
+            ],
             "partTypeInformation": {
               "classification": "component",
               "manufacturerPartId": "GP67890",
@@ -3384,6 +3662,16 @@
         {
           "name": "manufacturerPartId",
           "value": "MAT7814",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "manufacturerId",
+          "value": "BPNL00000007RVTB",
+          "allowedBpns": ["BPNL00000007RVTB"]
+        },
+        {
+          "name": "digitalTwinType",
+          "value": "PartInstance",
           "allowedBpns": ["BPNL00000007RVTB"]
         },
         {

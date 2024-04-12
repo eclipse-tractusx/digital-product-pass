@@ -26,19 +26,15 @@
 package org.eclipse.tractusx.digitalproductpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.logging.Log;
 import org.apache.logging.log4j.Level;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig3;
 import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Negotiation;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Offer;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +64,7 @@ public class DtrSearchManager {
     private EdcUtil edcUtil;
     private ProcessManager processManager;
     private DtrConfig dtrConfig;
-    private PolicyConfig policyConfig;
+    private PolicyConfig3 policyConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds;
@@ -85,7 +81,7 @@ public class DtrSearchManager {
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, PolicyConfig policyConfig , ProcessManager processManager) {
+    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, PolicyConfig3 policyConfig , ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.processManager = processManager;
@@ -480,7 +476,19 @@ public class DtrSearchManager {
      */
     public Set getDtrPolicy(Dataset dataset){
         // Here goes the logic of getting which policy for the digital twin registry
-        return dataTransferService.selectPolicyByIndex(dataset.getPolicy(), 0);
+        // get policies from configuration
+        List<DtrConfig.Policy> validPolicies = null;
+        // get policies from configuration
+        List<DtrConfig.Policy> policies = dtrConfig.getPolicies();
+        validPolicies = edcUtil.getPolicyByConstraint(dataset, policies);
+        if (validPolicies == null || validPolicies.size() == 0){
+            LogUtil.printError("No policy is compliant to constraints");
+            return null;
+        }
+        else{
+            // if more than one policy is validated, select the first one
+            return dataTransferService.selectPolicyByIndex(validPolicies, 0);
+        }
     }
     /**
      * Gets the correct dtr dataset for the digital twin registry.

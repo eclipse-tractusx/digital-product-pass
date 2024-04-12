@@ -25,6 +25,7 @@
 
 package utils;
 
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
@@ -47,6 +48,7 @@ import java.util.stream.Collectors;
 public class EdcUtil {
 
     private final JsonUtil jsonUtil;
+    private Object cp;
 
     @Autowired
     public EdcUtil(JsonUtil jsonUtil) {
@@ -109,6 +111,88 @@ public class EdcUtil {
     }
     // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
 
+
+//    /**
+//     * Gets a specific policy from a dataset by constraint
+//     * <p>
+//     *
+//     * @param dataset the {@code Dataset} object of data set contained in the catalog
+//     * @param constraints {@code List<Constraints>} the constraint of the policy to get
+//     * @return Set of policy if found or null otherwise.
+//     */
+    public List<DtrConfig.Policy> getPolicyByConstraint(Dataset dataset, Object configPolicy) {
+        Object rawPolicy = dataset.getPolicy();
+        // If the policy is not available
+        if (rawPolicy == null) {
+            return null;
+        }
+        Set policy = null;
+        Set definedPolicy = null;
+        Set catalogPolicy = null;
+        List<DtrConfig.Constraint> result = null;
+        List<DtrConfig.Policy> validatedPolicyList = null;
+        List<DtrConfig.Policy> list = null;
+        List<LinkedHashMap>  definedPolicyList = null;
+        List<DtrConfig.Constraint>  definedConstraints = null;
+        List<DtrConfig.Constraint> catalogConstraints = null;
+        List<LinkedHashMap> catalogPolicyList = null;
+
+        // Check policy from contract offer catalog
+        // If the catalog policy is an object
+        if (rawPolicy instanceof LinkedHashMap)
+            catalogPolicy = (Set) jsonUtil.bindObject(rawPolicy, Set.class);
+        else
+            catalogPolicyList = (List<LinkedHashMap>) jsonUtil.bindObject(rawPolicy, List.class);
+
+        // Check policy defined in configuration
+        // If the defined policy is an object
+        if (configPolicy instanceof LinkedHashMap)
+                definedPolicy = (Set) jsonUtil.bindObject(configPolicy, Set.class);
+            else {
+            definedPolicyList = (List<LinkedHashMap>) jsonUtil.bindObject(configPolicy, List.class);
+
+            // If policy list is null or empty
+            if (definedPolicyList == null || definedPolicyList.size() == 0)
+                return null;
+
+            for (Object dp : definedPolicyList) {
+                for (Object cp : catalogPolicyList) {
+
+                    Set objDefinedPolicy = (Set) jsonUtil.bindObject(dp, Set.class);
+                    Set objCatalogPolicy = (Set) jsonUtil.bindObject(cp, Set.class);
+
+                    DtrConfig.Policy obj1 =  (DtrConfig.Policy) jsonUtil.bindObject(objCatalogPolicy.getPermissions(), DtrConfig.Policy.class);
+                    DtrConfig.Policy obj2 =  (DtrConfig.Policy) jsonUtil.bindObject(objDefinedPolicy.getPermissions(), DtrConfig.Policy.class);
+                    definedConstraints = obj1.getPermissions().getConstraint();
+                    catalogConstraints = obj2.getPermissions().getConstraint();
+
+                    List<DtrConfig.Constraint> finalCatalogConstraints = catalogConstraints;
+                    result = definedConstraints.stream().filter(definedConstraint ->
+                                    finalCatalogConstraints.stream().anyMatch(catalogConstraint ->
+                                            catalogConstraint.getLeftOperand().equals(definedConstraint.getLeftOperand())
+                                                    && catalogConstraint.getOperator().equals(definedConstraint.getOperator())
+                                                    && catalogConstraint.getRightOperand().equals(definedConstraint.getRightOperand())))
+                            .collect(Collectors.toList());
+                    if (validatedPolicyList != null)
+                        validatedPolicyList.add(new DtrConfig.Policy(new DtrConfig.Permission(result)));
+                }
+            }
+        }
+
+            // If the policy does not exist
+            if (policy == null) {
+                return null;
+            }
+            // If the policy selected is not the one available!
+//        if (!policy.getId().equals(constraints)) {
+//            return null;
+//        }
+
+
+
+        System.out.println(result);
+        return null;
+    }
 
     /**
      * Checks if the EDC is version v0.5.0 basing on the contractId format.

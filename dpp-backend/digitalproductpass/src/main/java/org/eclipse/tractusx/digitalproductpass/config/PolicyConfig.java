@@ -25,7 +25,6 @@
 
 package org.eclipse.tractusx.digitalproductpass.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
@@ -34,241 +33,66 @@ import java.util.List;
  * This class consists exclusively to define the attributes and methods needed for the Digital Twin Registry (DTR) configuration.
  **/
 @Configuration
-@ConfigurationProperties(prefix="configuration.edc")
 public class PolicyConfig {
 
-    /** ATTRIBUTES **/
+    PermissionConfig permission;
 
-    List<Policies> policies;
-
-    /** CONSTRUCTOR(S) **/
-    public PolicyConfig() {
-    }
-
-    public PolicyConfig(List<Policies> policies) {
-        this.policies = policies;
-    }
-
-    /** GETTERS AND SETTERS **/
-    public List<Policies> getPolicies() {
-        return policies;
-    }
-
-    public void setPolicies(List<Policies> policies) {
-        this.policies = policies;
-    }
-
-
-    /** INNER CLASSES **/
 
     /**
-     * This class consists exclusively to define the attributes and methods needed for the EDC policies configuration.
+     * This class consists exclusively to define the attributes and methods needed for edc policy permissions object inside a policy.
      **/
-    public static class Policies {
+    public static class PermissionConfig {
 
-        /** ATTRIBUTES **/
-        List<UsagePolicies> usagePolicies;
-        List<AccessPolicies> accessPolicies;
+        List<ConstraintConfig>  constraints;
 
-        /** CONSTRUCTOR(S) **/
-        public Policies() {
+
+        public PermissionConfig() {
 
         }
 
-        public Policies(List<UsagePolicies> usagePolicies, List<AccessPolicies> accessPolicies) {
-            this.usagePolicies = usagePolicies;
-            this.accessPolicies = accessPolicies;
-        }
+        /**
+         * This class consists exclusively to define the attributes and methods needed for edc policy constraints inside a permission.
+         **/
+        public static class ConstraintConfig {
 
-        /** GETTERS AND SETTERS **/
-        public List<UsagePolicies> getUsagePolicies() {
-            return usagePolicies;
-        }
+            String leftOperand;
+            String operator;
+            String rightOperand;
 
-        public void setUsagePolicies(List<UsagePolicies> usagePolicies) {
-            this.usagePolicies = usagePolicies;
-        }
+            public ConstraintConfig() {
 
-        public List<AccessPolicies> getAccessPolicies() {
-            return accessPolicies;
-        }
+            }
 
-        public void setAccessPolicies(List<AccessPolicies> accessPolicies) {
-            this.accessPolicies = accessPolicies;
+            public ConstraintConfig(String leftOperand, String operator, String rightOperand) {
+                this.leftOperand = leftOperand;
+                this.operator = operator;
+                this.rightOperand = rightOperand;
+            }
+
+            public String getLeftOperand() {
+                return leftOperand;
+            }
+
+            public void setLeftOperand(String leftOperand) {
+                this.leftOperand = leftOperand;
+            }
+
+            public String getOperator() {
+                return operator;
+            }
+
+            public void setOperator(String operator) {
+                this.operator = operator;
+            }
+
+            public String getRightOperand() {
+                return rightOperand;
+            }
+
+            public void setRightOperand(String rightOperand) {
+                this.rightOperand = rightOperand;
+            }
         }
     }
 
-    /**
-     * This class consists exclusively to define the attributes and methods needed to process usage policies for asset.
-     **/
-    static class UsagePolicies {
-
-        /** ATTRIBUTES **/
-
-        String leftOperand;
-        String operator;
-        String rightOperand;
-
-        /** CONSTRUCTOR(S) **/
-        public UsagePolicies() {
-        }
-
-        public UsagePolicies(String leftOperand, String operator, String rightOperand) {
-            this.leftOperand = leftOperand;
-            this.operator = operator;
-            this.rightOperand = rightOperand;
-        }
-
-        public String getLeftOperand() {
-            return leftOperand;
-        }
-
-        public void setLeftOperand(String leftOperand) {
-            this.leftOperand = leftOperand;
-        }
-
-        public String getOperator() {
-            return operator;
-        }
-
-        public void setOperator(String operator) {
-            this.operator = operator;
-        }
-
-        public String getRightOperand() {
-            return rightOperand;
-        }
-
-        public void setRightOperand(String rightOperand) {
-            this.rightOperand = rightOperand;
-        }
-
-        //        public UsagePolicies(List<Operator> constraints) {
-//            this.constraints = constraints;
-//        }
-//
-//        /** GETTERS AND SETTERS **/
-//        public List<Operator> getConstraints() {
-//            return constraints;
-//        }
-//
-//        public void setConstraints(List<Operator> constraints) {
-//            this.constraints = constraints;
-//        }
-    }
-
-    /**
-     * This class consists exclusively to define the attributes and methods needed to process access policies for DTR.
-     **/
-    static class AccessPolicies {
-
-        /** ATTRIBUTES **/
-        String leftOperand;
-        String operator;
-        String rightOperand;
-//        List<Operator> constraints;
-
-        /** CONSTRUCTOR(S) **/
-        public AccessPolicies() {
-        }
-
-        public String getLeftOperand() {
-            return leftOperand;
-        }
-
-        public void setLeftOperand(String leftOperand) {
-            this.leftOperand = leftOperand;
-        }
-
-        public String getOperator() {
-            return operator;
-        }
-
-        public void setOperator(String operator) {
-            this.operator = operator;
-        }
-
-        public String getRightOperand() {
-            return rightOperand;
-        }
-
-        public void setRightOperand(String rightOperand) {
-            this.rightOperand = rightOperand;
-        }
-
-        //        public AccessPolicies(List<Operator> constraints) {
-//            this.constraints = constraints;
-//        }
-//        /** GETTERS AND SETTERS **/
-//        public List<Operator> getConstraints() {
-//            return constraints;
-//        }
-//
-//        public void setConstraints(List<Operator> constraints) {
-//            this.constraints = constraints;
-//        }
-    }
-    /**
-     * This class consists exclusively to define the attributes and methods needed for the OPERATOR.
-     **/
-    static class Operator {
-        List<AndOperator> andOperator;
-
-        public Operator(List<AndOperator> andOperator) {
-            this.andOperator = andOperator;
-        }
-
-        public Operator() {
-        }
-
-        public List<AndOperator> getAndOperator() {
-            return andOperator;
-        }
-
-        public void setAndOperator(List<AndOperator> andOperator) {
-            this.andOperator = andOperator;
-        }
-    }
-
-    /**
-     * This class consists exclusively to define the attributes and methods needed for the operands of AND OPERATOR.
-     **/
-    static class AndOperator{
-        String leftOperand;
-        String operator;
-        String rightOperand;
-
-        public AndOperator(String leftOperand, String operator, String rightOperand) {
-            this.leftOperand = leftOperand;
-            this.operator = operator;
-            this.rightOperand = rightOperand;
-        }
-
-        public AndOperator() {
-        }
-
-        public String getLeftOperand() {
-            return leftOperand;
-        }
-
-        public void setLeftOperand(String leftOperand) {
-            this.leftOperand = leftOperand;
-        }
-
-        public String getOperator() {
-            return operator;
-        }
-
-        public void setOperator(String operator) {
-            this.operator = operator;
-        }
-
-        public String getRightOperand() {
-            return rightOperand;
-        }
-
-        public void setRightOperand(String rightOperand) {
-            this.rightOperand = rightOperand;
-        }
-    }
 }

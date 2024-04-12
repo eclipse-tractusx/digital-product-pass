@@ -58,27 +58,6 @@ configuration:
     transferType: "application/octet-stream"
     timeout:
       exchange: 10
-    policies:
-      usagePolicies:
-        - leftOperand: "cx-policy:FrameworkAgreement"
-          operator: "eq"
-          rightOperand: "circulareconomy:1.0"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.circular.dpp:1"
-        - leftOperand: "Membership"
-          operator: "eq"
-          rightOperand: "active"
-      accessPolicies:
-        - leftOperand: "BusinessPartnerNumber"
-          operator: "eq"
-          rightOperand: "BPNL00000007RVTB"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.core.digitalTwinRegistry:1"
-        - leftOperand: "Membership"
-          operator: "eq"
-          rightOperand: "active"
 
   security:
     authorization:
@@ -104,6 +83,15 @@ configuration:
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
+    policies:
+      permission:
+        constraints:
+          - leftOperand: "cx-policy:UsagePurpose"
+            operator: "eq"
+            rightOperand: "cx.core.digitalTwinRegistry:1"
+          - leftOperand: "Membership"
+            operator: "eq"
+            rightOperand: "active"
     decentralApis:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -137,6 +125,18 @@ configuration:
 
   passport:
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
+    policies:
+      permission:
+        constraints:
+          - leftOperand: "cx-policy:FrameworkAgreement"
+            operator: "eq"
+            rightOperand: "circulareconomy:1.0"
+          - leftOperand: "cx-policy:UsagePurpose"
+            operator: "eq"
+            rightOperand: "cx.circular.dpp:1"
+          - leftOperand: "Membership"
+            operator: "eq"
+            rightOperand: "active"
     dataTransfer:
       encrypt: true
       indent: true

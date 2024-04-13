@@ -25,17 +25,20 @@
 
 package utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ControllerException;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,12 @@ import java.util.stream.Collectors;
  */
 @Component
 public class EdcUtil {
+
+    private final List<String> logicConstraints = List.of("odrl:and", "odrl:or");
+    private final String odrlConstraintKey = "odrl:constraint";
+    private final String odrlLeftOperandKey = "odrl:leftOperand";
+    private final String odrlRightOperandKey = "odrl:rightOperand";
+    private final String odrlOperatorIdPath = "odrl:operator.@id";
 
     private final JsonUtil jsonUtil;
     private Object cp;
@@ -109,89 +118,94 @@ public class EdcUtil {
 
         return policy;
     }
-    // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
+    /**
+     * Evaluates a policy for specific constraints to check if policy is valid and can be parsed
+     * <p>
+     *
+     *  @param constraint the {@code Object} to be checked if constraint
+     *  @return mapped constraint or null if constraint is not valid
+     *
+     **/
+    public Constraint parseConstraint(Object constraint){
+        try {
+            // Checks if a constraint can be parsed or is empty
+            Constraint parsedConstraint = jsonUtil.convertObject(constraint, Constraint.class);
+            return !parsedConstraint.isEmpty()?parsedConstraint:null;
+        }catch (Exception e) {
+            throw new UtilException(EdcUtil.class, "It is not possible to parse constraint, something went wrong!");
+        }
+    }
 
 
-//    /**
-//     * Gets a specific policy from a dataset by constraint
-//     * <p>
-//     *
-//     * @param dataset the {@code Dataset} object of data set contained in the catalog
-//     * @param constraints {@code List<Constraints>} the constraint of the policy to get
-//     * @return Set of policy if found or null otherwise.
-//     */
-    public List<DtrConfig.Policy> getPolicyByConstraint(Dataset dataset, Object configPolicy) {
-        Object rawPolicy = dataset.getPolicy();
+    public Boolean isConstraintValid(Constraint parsedConstraint, List<PolicyConfig.ConstraintConfig> constraintsConfig, String prefix){
+        return true;
+    }
+    /**
+     * Evaluates a policy for specific constraints to check if policy is valid
+     * <p>
+     *
+     *  @param policy the {@code Set} object of with one or more policies
+     *  @param constraintsConfig {@code List<PolicyConfig.ConstraintConfig>} list of constraints for permissions
+     *  @param operand the {@code String} operand from the policy, can be null, "odrl:and" or "odrl:or"
+     *  @param prefix the {@code String} prefix before the leftConstraint key ex: "cx-policy"
+     *  @return {@code Boolean} condition true if the policy is valid.
+     */
+    public Boolean isPolicyPermissionsValid(Set policy, List<PolicyConfig.ConstraintConfig> constraintsConfig, String operand, String prefix){
+        if(policy == null || constraintsConfig == null || constraintsConfig.size() == 0){
+            return null;
+        }
+
+        Object permissions = policy.getPermissions();
+        // In case permissions is not a list
+        if (permissions instanceof LinkedHashMap) {
+             Object constraint = jsonUtil.getValue(permissions, odrlConstraintKey, ".", null);
+             Constraint parsedConstraint = parseConstraint(constraint);
+             if(parsedConstraint != null){
+                 // It was possible to parse the constraint
+                 return isConstraintValid(parsedConstraint, constraintsConfig, prefix);
+             }else{
+                 return false;
+                 // This is a collection of constraints
+             }
+
+        }else{
+
+            // Many permissions
+            return false;
+
+        }
+    }
+
+   /**
+    * Gets a specific policy from a dataset by constraint
+    * <p>
+    *
+    *  @param policies the {@code Object} object of with one or more policies
+    *  @param permissionConstraints {@code List<PolicyConfig.ConstraintConfig>} list of constraints for permissions
+    *  @param operand the {@code String} operand from the policy, can be null, "odrl:and" or "odrl:or"
+    *  @param prefix the {@code String} prefix before the leftConstraint key ex: "cx-policy"
+    * @return Set if the policy is found
+     */
+    public Set getPolicyByConstraints(Object policies, List<PolicyConfig.ConstraintConfig> permissionConstraints, String operand, String prefix) {
         // If the policy is not available
-        if (rawPolicy == null) {
+        if (policies == null) {
             return null;
         }
         Set policy = null;
-        Set definedPolicy = null;
-        Set catalogPolicy = null;
-        List<DtrConfig.Constraint> result = null;
-        List<DtrConfig.Policy> validatedPolicyList = null;
-        List<DtrConfig.Policy> list = null;
-        List<LinkedHashMap>  definedPolicyList = null;
-        List<DtrConfig.Constraint>  definedConstraints = null;
-        List<DtrConfig.Constraint> catalogConstraints = null;
-        List<LinkedHashMap> catalogPolicyList = null;
-
         // Check policy from contract offer catalog
         // If the catalog policy is an object
-        if (rawPolicy instanceof LinkedHashMap)
-            catalogPolicy = (Set) jsonUtil.bindObject(rawPolicy, Set.class);
-        else
-            catalogPolicyList = (List<LinkedHashMap>) jsonUtil.bindObject(rawPolicy, List.class);
-
-        // Check policy defined in configuration
-        // If the defined policy is an object
-        if (configPolicy instanceof LinkedHashMap)
-                definedPolicy = (Set) jsonUtil.bindObject(configPolicy, Set.class);
-            else {
-            definedPolicyList = (List<LinkedHashMap>) jsonUtil.bindObject(configPolicy, List.class);
-
-            // If policy list is null or empty
-            if (definedPolicyList == null || definedPolicyList.size() == 0)
-                return null;
-
-            for (Object dp : definedPolicyList) {
-                for (Object cp : catalogPolicyList) {
-
-                    Set objDefinedPolicy = (Set) jsonUtil.bindObject(dp, Set.class);
-                    Set objCatalogPolicy = (Set) jsonUtil.bindObject(cp, Set.class);
-
-                    DtrConfig.Policy obj1 =  (DtrConfig.Policy) jsonUtil.bindObject(objCatalogPolicy.getPermissions(), DtrConfig.Policy.class);
-                    DtrConfig.Policy obj2 =  (DtrConfig.Policy) jsonUtil.bindObject(objDefinedPolicy.getPermissions(), DtrConfig.Policy.class);
-                    definedConstraints = obj1.getPermissions().getConstraint();
-                    catalogConstraints = obj2.getPermissions().getConstraint();
-
-                    List<DtrConfig.Constraint> finalCatalogConstraints = catalogConstraints;
-                    result = definedConstraints.stream().filter(definedConstraint ->
-                                    finalCatalogConstraints.stream().anyMatch(catalogConstraint ->
-                                            catalogConstraint.getLeftOperand().equals(definedConstraint.getLeftOperand())
-                                                    && catalogConstraint.getOperator().equals(definedConstraint.getOperator())
-                                                    && catalogConstraint.getRightOperand().equals(definedConstraint.getRightOperand())))
-                            .collect(Collectors.toList());
-                    if (validatedPolicyList != null)
-                        validatedPolicyList.add(new DtrConfig.Policy(new DtrConfig.Permission(result)));
-                }
+        if (policies instanceof LinkedHashMap) {
+            policy = (Set) jsonUtil.bindObject(policies, Set.class);
+            this.isPolicyPermissionsValid(policy, permissionConstraints, operand, prefix);
+        } else {
+            List<Set> policyList = null;
+            try {
+                policyList = (List<Set>) jsonUtil.bindReferenceType(policies, new TypeReference<List<Set>>() {});
+            } catch (Exception e) {
+                throw new UtilException(EdcUtil.class, e, "It was not possible to parse the policy");
             }
         }
-
-            // If the policy does not exist
-            if (policy == null) {
-                return null;
-            }
-            // If the policy selected is not the one available!
-//        if (!policy.getId().equals(constraints)) {
-//            return null;
-//        }
-
-
-
-        System.out.println(result);
-        return null;
+        return policy;
     }
 
     /**

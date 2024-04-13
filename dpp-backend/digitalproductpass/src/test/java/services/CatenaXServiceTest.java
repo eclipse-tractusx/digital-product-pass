@@ -131,7 +131,7 @@ class CatenaXServiceTest {
         discoveryConfig = initDiscoveryConfig();
         dtrConfig = initDtrConfig();
 
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, policyConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
         catenaXService = new CatenaXService(env, fileUtil, httpUtil, jsonUtil, vaultService, dtrSearchManager, authenticationService, discoveryConfig, dataTransferService, dtrConfig);
 
         discovery = new Discovery(new ArrayList<>());

@@ -83,10 +83,13 @@ configuration:
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
-    policies:
+    policyCheck:
+      enable: true
       permission:
+        prefix: "cx-policy"
+        operand: "odrl:and"
         constraints:
-          - leftOperand: "cx-policy:UsagePurpose"
+          - leftOperand: "UsagePurpose"
             operator: "eq"
             rightOperand: "cx.core.digitalTwinRegistry:1"
           - leftOperand: "Membership"
@@ -125,13 +128,15 @@ configuration:
 
   passport:
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
-    policies:
+    policyCheck:
+      enabled: true
       permission:
+        prefix: "cx-policy"
         constraints:
-          - leftOperand: "cx-policy:FrameworkAgreement"
+          - leftOperand: "FrameworkAgreement"
             operator: "eq"
             rightOperand: "circulareconomy:1.0"
-          - leftOperand: "cx-policy:UsagePurpose"
+          - leftOperand: "UsagePurpose"
             operator: "eq"
             rightOperand: "cx.circular.dpp:1"
           - leftOperand: "Membership"

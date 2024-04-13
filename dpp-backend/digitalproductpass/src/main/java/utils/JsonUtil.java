@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -783,6 +784,48 @@ public final class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return this.bindJsonNode(mapper.valueToTree(json), bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    /**
+     * Binds the json object to the given class type object.
+     * <p>
+     * @param   json
+     *          the json object with json properties annotations.
+     * @param   bindClass
+     *          the class type to map the json object structure.
+     *
+     * @return  a {@code T Class} object parsed with the json data of the given type class.
+     *
+     * @throws  UtilException
+     *          if unable to parse the json object.
+     */
+    public <T> T convertObject(Object json, Class<T> bindClass){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.convertValue(json, bindClass);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
+        }
+    }
+    /**
+     * Checks if class can be cast to a specific binding class
+     * <p>
+     * @param   json
+     *          the json object with json properties annotations.
+     * @param   bindClass
+     *          the class type to map the json object structure.
+     *
+     * @return  a {@code Boolean} object parsed with the json data of the given type class.
+     *
+     * @throws  UtilException
+     *          if unable to parse the json object.
+     */
+    public <T> boolean isType(Object json, Class<T> bindClass){
+        try {
+            T castedObj = this.convertObject(json, bindClass);
+            return ObjectUtils.isNotEmpty(castedObj);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "It was not possible to parse json -> [" + e.getMessage() + "]");
         }

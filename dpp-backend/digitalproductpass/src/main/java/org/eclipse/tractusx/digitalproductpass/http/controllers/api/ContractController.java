@@ -35,7 +35,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
@@ -46,7 +45,6 @@ import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
@@ -69,7 +67,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively to define the HTTP methods needed for the Contract negotiation.
@@ -652,29 +649,11 @@ public class ContractController {
 
             String policyId = tokenRequestBody.getPolicyId();
             Set policy = null;
-            List<DtrConfig.Policy> validPolicies = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            // Check if policy is available!
-            if (policyId != null) {
-                 policy = edcUtil.getPolicyById(dataset, policyId);
-                if (policy == null) {
-                    response = httpUtil.getBadRequest("The policy selected does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-            } else {
-                // If the policy is not selected get the first one by default
-                // get policies from configuration
-                List<DtrConfig.Policy> policies = dtrConfig.getPolicies();
-                //policies.get(0).getPermission().getConstraint().get(0).getLeftOperand();
-                validPolicies = edcUtil.getPolicyByConstraint(dataset, policies);
-                if (validPolicies == null || validPolicies.size() == 0){
-                    response = httpUtil.getBadRequest("No policy compliant to constraints");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                else{
-                    // if more than one policy is validated, select the first one
-                    policy = (Set) jsonUtil.bindObject(validPolicies.get(0), Set.class);
-                }
+            policy = edcUtil.getPolicyById(dataset, policyId);
+            if (policy == null) {
+                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
             }
             contractNegotiation = dataService
                     .new NegotiateContract(

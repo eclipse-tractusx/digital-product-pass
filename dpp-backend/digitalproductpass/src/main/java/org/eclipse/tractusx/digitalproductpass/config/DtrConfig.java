@@ -28,9 +28,6 @@ package org.eclipse.tractusx.digitalproductpass.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.sql.Time;
-import java.util.Map;
-
 /**
  * This class consists exclusively to define the attributes and methods needed for the Digital Twin Registry (DTR) configuration.
  **/
@@ -47,6 +44,9 @@ public class DtrConfig {
     String dspEndpointKey;
     public String assetPropType;
     String semanticIdTypeKey;
+
+    PolicyConfig policyCheck;
+
     /** CONSTRUCTOR(S) **/
     public DtrConfig() {
     }
@@ -60,6 +60,18 @@ public class DtrConfig {
         this.dspEndpointKey = dspEndpointKey;
         this.assetPropType = assetPropType;
         this.semanticIdTypeKey = semanticIdTypeKey;
+    }
+
+    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String assetPropType, String semanticIdTypeKey, PolicyConfig policyCheck) {
+        this.timeouts = timeouts;
+        this.temporaryStorage = temporaryStorage;
+        this.decentralApis = decentralApis;
+        this.assetType = assetType;
+        this.endpointInterface = endpointInterface;
+        this.dspEndpointKey = dspEndpointKey;
+        this.assetPropType = assetPropType;
+        this.semanticIdTypeKey = semanticIdTypeKey;
+        this.policyCheck = policyCheck;
     }
 
 
@@ -117,6 +129,14 @@ public class DtrConfig {
 
     public void setAssetPropType(String assetPropType) {
         this.assetPropType = assetPropType;
+    }
+
+    public PolicyConfig getPolicyCheck() {
+        return policyCheck;
+    }
+
+    public void setPolicyCheck(PolicyConfig policyCheck) {
+        this.policyCheck = policyCheck;
     }
 
     /** INNER CLASSES **/

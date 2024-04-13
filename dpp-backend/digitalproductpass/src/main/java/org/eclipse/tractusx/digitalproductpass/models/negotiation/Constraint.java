@@ -25,139 +25,82 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.checkerframework.checker.units.qual.C;
 
-import java.util.List;
+import java.util.Objects;
 
-@SuppressWarnings("Unused")
+/**
+ * This class defined the specification from the EDC constraints
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Constraint {
 
-    @JsonProperty("odrl:target")
-    String target;
-    @JsonProperty("odrl:action")
-    Action action;
+    /** ATTRIBUTES **/
+    @JsonProperty("leftOperand")
+    @JsonAlias({"leftOperand","odrl:leftOperand"})
+    String leftOperand;
+    @JsonProperty("operator")
+    @JsonAlias({"operator","odrl:operator"})
+    DidDocument operator;
+    @JsonProperty("rightOperand")
+    @JsonAlias({"rightOperand","odrl:rightOperand"})
+    String rightOperand;
 
-    public Constraint(String target, Action action, List<Operator> constraints) {
-        this.target = target;
-        this.action = action;
-        this.constraints = constraints;
+    /** CONSTRUCTOR(S) **/
+    public Constraint(String leftOperand, DidDocument operator, String rightOperand) {
+        this.leftOperand = leftOperand;
+        this.operator = operator;
+        this.rightOperand = rightOperand;
     }
 
     public Constraint() {
     }
 
-    public String getTarget() {
-        return target;
+    /** GETTERS AND SETTERS **/
+    public String getLeftOperand() {
+        return leftOperand;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setLeftOperand(String leftOperand) {
+        this.leftOperand = leftOperand;
     }
 
-    public Action getAction() {
-        return action;
+    public DidDocument getOperator() {
+        return operator;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
-    }
-    static class Action{
-        @JsonProperty("odrl:type")
-        String type;
-
-        public Action(String type) {
-            this.type = type;
-        }
-
-        public Action() {
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
+    public void setOperator(DidDocument operator) {
+        this.operator = operator;
     }
 
-    public List<Operator> getConstraints() {
-        return constraints;
+    public String getRightOperand() {
+        return rightOperand;
     }
 
-    public void setConstraints(List<Operator> constraints) {
-        this.constraints = constraints;
+    public void setRightOperand(String rightOperand) {
+        this.rightOperand = rightOperand;
     }
 
-    @JsonProperty("odrl:constraint")
-    List<Operator> constraints;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class Operator{
-
-        @JsonProperty("odrl:or")
-        List<OrOperator> orOperator;
-
-        public Operator(List<OrOperator> orOperator) {
-            this.orOperator = orOperator;
-        }
-
-        public Operator() {
-        }
-
-        public List<OrOperator> getOrOperator() {
-            return orOperator;
-        }
-
-        public void setOrOperator(List<OrOperator> orOperator) {
-            this.orOperator = orOperator;
-        }
-
-        static class OrOperator{
-            @JsonProperty("odrl:leftOperand")
-            String leftOperand;
-            @JsonProperty("odrl:operator")
-            String operator;
-            @JsonProperty("odrl:rightOperand")
-            String rightOperand;
-
-            public OrOperator(String leftOperand, String operator, String rightOperand) {
-                this.leftOperand = leftOperand;
-                this.operator = operator;
-                this.rightOperand = rightOperand;
-            }
-
-            public OrOperator() {
-            }
-
-            public String getLeftOperand() {
-                return leftOperand;
-            }
-
-            public void setLeftOperand(String leftOperand) {
-                this.leftOperand = leftOperand;
-            }
-
-            public String getOperator() {
-                return operator;
-            }
-
-            public void setOperator(String operator) {
-                this.operator = operator;
-            }
-
-            public String getRightOperand() {
-                return rightOperand;
-            }
-
-            public void setRightOperand(String rightOperand) {
-                this.rightOperand = rightOperand;
-            }
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Constraint that = (Constraint) o;
+        return Objects.equals(leftOperand, that.leftOperand) && Objects.equals(operator, that.operator) && Objects.equals(rightOperand, that.rightOperand);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(leftOperand, operator, rightOperand);
+    }
+
+    public boolean isEmpty(){
+        Constraint empty = new Constraint();
+        return this.equals(empty);
+    }
 }

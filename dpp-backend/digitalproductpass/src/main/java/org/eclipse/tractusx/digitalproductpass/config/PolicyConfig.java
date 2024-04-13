@@ -35,7 +35,37 @@ import java.util.List;
 @Configuration
 public class PolicyConfig {
 
+    Boolean enabled;
     PermissionConfig permission;
+
+
+    public PolicyConfig(PermissionConfig permission) {
+        this.permission = permission;
+    }
+
+    public PolicyConfig() {
+    }
+
+    public PolicyConfig(Boolean enabled, PermissionConfig permission) {
+        this.enabled = enabled;
+        this.permission = permission;
+    }
+
+    public PermissionConfig getPermission() {
+        return permission;
+    }
+
+    public void setPermission(PermissionConfig permission) {
+        this.permission = permission;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
 
     /**
@@ -43,56 +73,93 @@ public class PolicyConfig {
      **/
     public static class PermissionConfig {
 
-        List<ConstraintConfig>  constraints;
+        String prefix;
+
+        String operand;
+
+        List<ConstraintConfig> constraints;
 
 
         public PermissionConfig() {
 
         }
 
-        /**
-         * This class consists exclusively to define the attributes and methods needed for edc policy constraints inside a permission.
-         **/
-        public static class ConstraintConfig {
+        public PermissionConfig(String prefix, List<ConstraintConfig> constraints) {
+            this.prefix = prefix;
+            this.constraints = constraints;
+        }
 
-            String leftOperand;
-            String operator;
-            String rightOperand;
+        public PermissionConfig(String prefix, String operand, List<ConstraintConfig> constraints) {
+            this.prefix = prefix;
+            this.operand = operand;
+            this.constraints = constraints;
+        }
 
-            public ConstraintConfig() {
+        public String getPrefix() {
+            return prefix;
+        }
 
-            }
+        public void setPrefix(String prefix) {
+            this.prefix = prefix;
+        }
 
-            public ConstraintConfig(String leftOperand, String operator, String rightOperand) {
-                this.leftOperand = leftOperand;
-                this.operator = operator;
-                this.rightOperand = rightOperand;
-            }
+        public List<ConstraintConfig> getConstraints() {
+            return constraints;
+        }
 
-            public String getLeftOperand() {
-                return leftOperand;
-            }
+        public void setConstraints(List<ConstraintConfig> constraints) {
+            this.constraints = constraints;
+        }
 
-            public void setLeftOperand(String leftOperand) {
-                this.leftOperand = leftOperand;
-            }
+        public String getOperand() {
+            return operand;
+        }
 
-            public String getOperator() {
-                return operator;
-            }
-
-            public void setOperator(String operator) {
-                this.operator = operator;
-            }
-
-            public String getRightOperand() {
-                return rightOperand;
-            }
-
-            public void setRightOperand(String rightOperand) {
-                this.rightOperand = rightOperand;
-            }
+        public void setOperand(String operand) {
+            this.operand = operand;
         }
     }
+    /**
+     * This class consists exclusively to define the attributes and methods needed for edc policy constraints inside a permission.
+     **/
+    public static class ConstraintConfig {
 
+        String leftOperand;
+        String operator;
+        String rightOperand;
+
+        public ConstraintConfig() {
+
+        }
+
+        public ConstraintConfig(String leftOperand, String operator, String rightOperand) {
+            this.leftOperand = leftOperand;
+            this.operator = operator;
+            this.rightOperand = rightOperand;
+        }
+
+        public String getLeftOperand() {
+            return leftOperand;
+        }
+
+        public void setLeftOperand(String leftOperand) {
+            this.leftOperand = leftOperand;
+        }
+
+        public String getOperator() {
+            return operator;
+        }
+
+        public void setOperator(String operator) {
+            this.operator = operator;
+        }
+
+        public String getRightOperand() {
+            return rightOperand;
+        }
+
+        public void setRightOperand(String rightOperand) {
+            this.rightOperand = rightOperand;
+        }
+    }
 }

@@ -26,9 +26,8 @@
 package org.eclipse.tractusx.digitalproductpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.logging.log4j.Level;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig3;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
@@ -42,11 +41,13 @@ import org.springframework.stereotype.Component;
 import utils.*;
 
 import java.nio.file.Path;
+import java.security.Permission;
 import java.time.Duration;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively of methods to operate on executing the DTR search.
@@ -64,7 +65,6 @@ public class DtrSearchManager {
     private EdcUtil edcUtil;
     private ProcessManager processManager;
     private DtrConfig dtrConfig;
-    private PolicyConfig3 policyConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
     private ConcurrentHashMap<String, Catalog> catalogsCache;
     private final long searchTimeoutSeconds;
@@ -81,12 +81,11 @@ public class DtrSearchManager {
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, PolicyConfig3 policyConfig , ProcessManager processManager) {
+    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.processManager = processManager;
         this.dtrConfig = dtrConfig;
-        this.policyConfig = policyConfig;
         this.state = State.Stopped;
         this.edcUtil = edcUtil;
         this.fileUtil = fileUtil;
@@ -252,9 +251,6 @@ public class DtrSearchManager {
             if (dataset != null) {
                 // Store the dataset in the digital twin logs
                 Map<String, Dataset> datasets = new HashMap<>(){{put(dataset.getId(),dataset);}};
-                Object policies = policyConfig.getPolicies();
-                LogUtil.printLog(Level.DEBUG, jsonUtil.toJson(policies,true));
-
                 Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-"+processId+"-"+bpn+"-"+endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
@@ -476,20 +472,34 @@ public class DtrSearchManager {
      */
     public Set getDtrPolicy(Dataset dataset){
         // Here goes the logic of getting which policy for the digital twin registry
-        // get policies from configuration
-        List<DtrConfig.Policy> validPolicies = null;
-        // get policies from configuration
-        List<DtrConfig.Policy> policies = dtrConfig.getPolicies();
-        validPolicies = edcUtil.getPolicyByConstraint(dataset, policies);
-        if (validPolicies == null || validPolicies.size() == 0){
-            LogUtil.printError("No policy is compliant to constraints");
-            return null;
-        }
-        else{
-            // if more than one policy is validated, select the first one
-            return dataTransferService.selectPolicyByIndex(validPolicies, 0);
+        try {
+            Object policies = dataset.getPolicy();
+            if (policies == null){
+                throw new ManagerException("getDtrPolicy","No policies found for the digital twin registry contract offers");
+            }
+            PolicyConfig policyConfig = dtrConfig.getPolicyCheck();
+            if (policyConfig.getEnabled()) {
+                PolicyConfig.PermissionConfig permissionConfig = policyConfig.getPermission();
+                return edcUtil.getPolicyByConstraints(dataset.getPolicy(), permissionConfig.getConstraints(), permissionConfig.getOperand(), permissionConfig.getPrefix());
+            } else {
+                // if more than one policy is validated, select the first one
+                return dataTransferService.selectPolicyByIndex(dataset.getPolicy(), 0);
+            }
+        }catch (Exception e) {
+            throw new ManagerException(this.getClass().getName() + ".getDtrPolicy",e,"Failed to get any dtr policy!");
         }
     }
+
+    public Boolean checkDatasetPolicies(Dataset dataset){
+        try {
+            Set dtrPolicy = getDtrPolicy(dataset);
+
+        }   catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Gets the correct dtr dataset for the digital twin registry.
      * <p>
@@ -501,8 +511,12 @@ public class DtrSearchManager {
      */
     public Dataset getDtrDataset(Map<String, Dataset> datasets){
         // Here goes the logic of getting which contract for the digital twin registry
-        String firstKey = datasets.keySet().stream().findFirst().orElse(null);
-        return datasets.get(firstKey);
+        String validDatasetKey = datasets.keySet().stream().filter(
+                datasetKey -> checkDatasetPolicies(datasets.get(datasetKey))
+        ).findFirst().orElseThrow(
+                () -> { throw new ManagerException(this.getClass().getName() + ".getDtrDataset","No valid dtr dataset found for the policy configuration provided!");}
+        );
+        return datasets.get(validDatasetKey);
     }
     /**
      * It's a Thread level method that implements the Runnable interface. It creates the DTR and saves it in the DTR Data Model

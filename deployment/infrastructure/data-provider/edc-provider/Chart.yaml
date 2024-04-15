@@ -39,6 +39,6 @@ dependencies:
     condition: enabled
   - name: postgresql
     alias: postgresql
-    version: 15.2.1
+    version: 12.1.6
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled

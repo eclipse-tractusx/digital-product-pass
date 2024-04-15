@@ -31,6 +31,18 @@ tractusx-connector:
   participant:
     id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
 
+  iatp:
+    # Decentralized IDentifier
+    id: "did:web:changeme"
+    sts:
+      dim:
+        url: https://materialpass.int.demo.catena-x.net/consumer
+      oauth:
+        token_url: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+        client:
+          id: "<path:material-pass/data/int/edc/ssi#clientId>"
+          secret_alias: "int-client-secret"
+
   controlplane:
     enabled: true
     endpoints:
@@ -120,12 +132,16 @@ tractusx-connector:
       public:
         port: 8081
         path: /BPNL000000000000/api/public
+      signaling:
+        port: 8083
+        path: /api/signaling
       control:
         port: 8083
         path: /BPNL000000000000/api/dataplane/control
       proxy:
         port: 8186
         path: /BPNL000000000000/proxy
+        authKey: <path:material-pass/data/int/edc/oauth#api.key>
       observability:
         # -- port for incoming API calls
         port: 8085
@@ -136,6 +152,20 @@ tractusx-connector:
       metrics:
         port: 9090
         path: /BPNL000000000000/metrics
+
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias: ids-daps_key
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias: ids-daps_crt
+
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress

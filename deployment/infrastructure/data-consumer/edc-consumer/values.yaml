@@ -51,7 +51,7 @@ tractusx-connector:
     id: "did:web:changeme"
     sts:
       dim:
-        url: https://materialpass.dev.demo.catena-x.net/consumer
+        url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       oauth:
         token_url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
         client:
@@ -130,14 +130,7 @@ tractusx-connector:
         port: 9090
         # -- path for incoming api calls
         path: /consumer/metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
+
     businessPartnerValidation:
       log:
         agreementValidation: true
@@ -146,20 +139,7 @@ tractusx-connector:
       cache_validity_seconds: 600
       server:
         # URL of the BPN/DID Resolution Service - required:
-        url: https://semantics.int.demo.catena-x.net/bpndiscovery/api/v1.0/administration/connectors/bpnDiscovery/search
-
-          # SSI configuration
-    # ssi:
-    #   miw:
-    #     url: "<path:material-pass/data/dev/edc/ssi#miwUrl>"
-    #     authorityId: "<path:material-pass/data/dev/edc/ssi#authorityId>"
-    #   oauth:
-    #     tokenurl: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-    #     client:
-    #       id: "<path:material-pass/data/dev/edc/ssi#clientId>"
-    #       secretAlias: "dev-client-secret"
-    #   endpoint:
-    #     audience: https://materialpass.dev.demo.catena-x.net/consumer
+        url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
         
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
@@ -323,7 +303,7 @@ tractusx-connector:
     affinity: {}
     url:
       # -- Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
-      ids: ""
+      protocol: ""
   dataplane:
     enabled: true
     image:
@@ -383,13 +363,6 @@ tractusx-connector:
         port: 8186
         path: /consumer/proxy
         authKey: <path:material-pass/data/dev/edc/oauth#api.key>
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
       metrics:
         port: 9090
         path: /consumer/metrics

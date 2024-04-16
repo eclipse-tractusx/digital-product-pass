@@ -41,7 +41,7 @@ tractusx-connector:
     id: "did:web:changeme"
     sts:
       dim:
-        url: https://materialpass.int.demo.catena-x.net/consumer
+        url: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       oauth:
         token_url: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
         client:
@@ -83,26 +83,6 @@ tractusx-connector:
         port: 9090
         # -- path for incoming api calls
         path: /consumer/metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        # -- port for incoming API calls
-        port: 8099
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
-
-    ssi:
-      miw:
-        url: "<path:material-pass/data/int/edc/ssi#miwUrl>"
-        authorityId: "<path:material-pass/data/int/edc/ssi#authorityId>"
-      oauth:
-        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-        client:
-          id: "<path:material-pass/data/int/edc/ssi#clientId>"
-          secretAlias: "int-client-secret"
-      endpoint:
-        audience: https://materialpass.int.demo.catena-x.net/consumer
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -150,10 +130,6 @@ tractusx-connector:
       observability:
         # -- port for incoming API calls
         port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
       metrics:
         port: 9090
         path: /consumer/metrics

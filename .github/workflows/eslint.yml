@@ -53,5 +53,7 @@ jobs:
           npm install @microsoft/eslint-formatter-sarif@2.1.7 --legacy-peer-deps
 
       - name: Run ESLint
-        run: npx eslint .
+        run: |
+          cd dpp-frontend
+          npx eslint .
         continue-on-error: false

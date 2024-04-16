@@ -22,7 +22,7 @@
 -->
 
 <div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="./catena-x-logo.svg" alt="Product Battery Pass Consumer App Release Guide" style="width:50px;"/>
+   <img src="../docs/media/catenaxLogo.svg" alt="Product Battery Pass Consumer App Release Guide" style="width:50px;"/>
    <h1 style="margin: 10px 0 0 10px">Product Battery Pass Consumer App Release Guide</h1>
 </div>
 
@@ -39,8 +39,8 @@ Helm chart released:
 - [digital-product-pass](../charts/digital-product-pass/Chart.yaml)
 
 Aditional Helm charts of below components can be found in *deployment/infrastructure* folder.
-- [edc-consumer](../deployment/infrastructure/edc-consumer/Chart.yaml)
-- [edc-provider](../deployment/infrastructure/edc-provider/Chart.yaml)
+- [edc-consumer](../deployment/infrastructure/data-consumer/edc-consumer/Chart.yaml)
+- [edc-provider](../deployment/infrastructure/data-provider/edc-provider/Chart.yaml)
 
 In order to update helm charts, please update helm chart version and related dependencies from *version* property in *Chart.yaml file* for the above components. In addition, if there are changes to application version, the *appVersion* property also needs to be changed.
 

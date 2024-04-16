@@ -1,0 +1,430 @@
+{
+  "header": {
+    "helpBtn": "Hilfe",
+    "helpTooltip": "Hier können Sie Hilfe erhalten, wenn Sie mehr über Catena-X wissen müssen",
+    "signOut": "Abmelden"
+  },
+  "searchView": {
+    "title": "Catena-X Batteriepass",
+    "welcomeMessage": "Der Begriff 'Batteriepass' bezieht sich auf ein digitales Dokument, das wesentliche Informationen über eine Batterie enthält, insbesondere im Kontext von Elektrofahrzeugen (EVs). Dieses Dokument umfasst Details über den Hersteller der Batterie, Spezifikationen, Leistungsmerkmale, Gesundheitszustand und Lebenszyklusdaten. Der Zweck eines Batteriepasses besteht darin, eine ordnungsgemäße Wartung, Instandhaltung und Recycling der Batterie zu erleichtern, sowie die Rückverfolgbarkeit und Konformität zu ermöglichen.",
+    "errorCameraOff": "Ihre Kamera ist ausgeschaltet.",
+    "errorTypeID": "Schalten Sie sie ein oder geben Sie die ID ein.",
+    "findOutMore": "Möchten Sie mehr erfahren? Lesen Sie unseren",
+    "guide": "Einsteiger-Leitfaden",
+    "cameraError": {
+      "NotAllowedError": "FEHLER: Sie müssen die Kamera-Zugriffsberechtigung erteilen",
+      "NotFoundError": "FEHLER: keine Kamera auf diesem Gerät",
+      "NotSupportedError": "FEHLER: Sichere Umgebung erforderlich (HTTPS, localhost)",
+      "NotReadableError": "FEHLER: Wird die Kamera bereits verwendet?",
+      "OverconstrainedError": "FEHLER: installierte Kameras sind nicht geeignet",
+      "StreamApiNotSupportedError": "FEHLER: Stream-API wird in diesem Browser nicht unterstützt",
+      "InsecureContextError": "FEHLER: Kamerazugriff ist nur in sicherer Umgebung erlaubt. Verwenden Sie HTTPS oder localhost anstelle von HTTP."
+    }
+  },
+  "passportView": {
+    "policyAgreement": {
+      "title": "Wählen Sie eine Richtlinie aus:",
+      "contractId": "Vertrags-ID:",
+      "policy": "Richtlinie",
+      "type": "Typ",
+      "decline": "Ablehnen",
+      "agree": "Zustimmen",
+      "details": {
+        "moreDetails": "Weitere Details",
+        "lessDetails": "Weniger Details"
+      },
+      "declineModal": {
+        "question": "Sind Sie sicher, dass Sie ablehnen möchten?",
+        "homepage": "Dies bringt Sie zurück zur Startseite",
+        "cancel": "Abbrechen",
+        "confirm": "Ja, Ablehnen"
+      }
+    },
+    "dpp": "Digitaler Produkt Pass",
+    "bpp": "Batterie Pass",
+    "tpp": "Getriebe Pass",
+    "batteryComponentsNames": {
+      "generalInformation": "Allgemeine Informationen",
+      "stateOfBattery": "Zustand der Batterie",
+      "components": "Komponenten",
+      "batteryComposition": "Batteriezusammensetzung",
+      "cellChemistry": "Zellenchemie",
+      "electrochemicalProperties": "Elektrochemische Eigenschaften",
+      "documents": "Dokumente",
+      "exchange": "Austausch"
+    },
+    "dppComponentsNames": {
+      "typology": "Typologie",
+      "metadata": "Metadaten",
+      "characteristics": "Merkmale",
+      "components": "Komponenten",
+      "commercial": "Kommerziell",
+      "identification": "Identifikation",
+      "sources": "Quellen",
+      "handling": "Handhabung",
+      "additionalData": "Zusätzliche Daten",
+      "sustainability": "Nachhaltigkeit",
+      "operation": "Betrieb",
+      "exchange": "Austausch"
+    },
+    "tppComponentsNames": {
+      "productSpecificParameters": "Produktspezifische Parameter",
+      "intructions": "Anleitungen",
+      "sparePartSupplier": "Ersatzteil-Lieferant",
+      "components": "Komponenten",
+      "stateOfHealth": "Zustand der Gesundheit",
+      "identification": "Identifikation",
+      "generalInformation": "Allgemeine Informationen",
+      "sustainability": "Nachhaltigkeit",
+      "exchange": "Austausch"
+    }
+  },
+  "home": {
+    "welcome": "Willkommen",
+    "home": "Startseite"
+  },
+  "footer": {
+    "help": "Hilfe",
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen",
+    "cookies": "Cookies",
+    "thirdParty": "Lizenzen Dritter",
+    "legal": "Rechtlicher Hinweis",
+    "license": "Lizenz: Apache-2.0",
+    "licensePath": "Lizenzpfad: ",
+    "viewLicense": "Lizenzdatei ansehen",
+    "notice": "HINWEIS: ",
+    "viewNotice": "Hinweisdatei ansehen",
+    "source": "Quell-URL: ",
+    "commit": "Commit-ID: ",
+    "copyright": "Urheberrecht © Catena-X Automotive Network."
+  },
+  "searchInput": {
+    "search": "Suchen",
+    "passportId": "Pass-ID eingeben"
+  },
+  "barChart": {
+    "noData": "Keine Daten"
+  },
+  "batteryCards": {
+    "titleGeneral": "ALLGEMEIN",
+    "labelGeneral": "Typ",
+    "secondLabelGeneral": "Modell",
+    "titlePerformance": "LEISTUNG",
+    "labelPerformance": "Nennkapazität",
+    "secondLabelPerformance": "Modell",
+    "descriptionPerformanceTitle": "Leistung",
+    "descriptionPerformanceValue": "Beschreibung der Leistung",
+    "titleHealth": "GESUNDHEIT",
+    "labelHealth": "Zustand der Gesundheit",
+    "secondLabelHealth": "Ladezyklen",
+    "descriptionHealthTitle": "Gesundheit",
+    "descriptionHealthValue": "Beschreibung der Gesundheit",
+    "titleSustainability": "NACHHALTIGKEIT",
+    "secondLabelSustainability": "CO2e/kWh",
+    "descriptionHSustainabilityTitle": "Nachhaltigkeit",
+    "descriptionSustainabilityValue": "Beschreibung der Nachhaltigkeit",
+    "chargingCycles": "Ladezyklen"
+  },
+  "generalCards": {
+    "titleGeneral": "ALLGEMEIN",
+    "productName": "Produktname",
+    "productType": "Produkttyp",
+    "titleManufacturing": "HERSTELLUNG",
+    "manufacturerId": "Hersteller-ID",
+    "dateOfManufacturing": "Herstellungsdatum",
+    "descriptionManufacturingTitle": "Herstellung",
+    "descriptionManufacturingValue": "Beschreibung der Herstellung",
+    "titleAspectVersion": "ASPEKTVERSION",
+    "currentVersion": "Aktuelle Version",
+    "issued": "Ausgestellt",
+    "descriptionAspectVersionTitle": "Aspektversion",
+    "descriptionAspectVersionValue": "Beschreibung der Aspektversion",
+    "titleSustainability": "NACHHALTIGKEIT",
+    "totalCo2Footprint": "Gesamter CO2-Fußabdruck",
+    "warrantyPeriod": "Garantiezeitraum",
+    "tCo2Total": "t CO2 Gesamt",
+    "months": "Monate",
+    "descriptionSustainabilityTitle": "Nachhaltigkeit",
+    "descriptionSustainabilityValue": "Beschreibung der Nachhaltigkeit"
+  },
+  "transmissionCards": {
+    "matrixCode": "Matrixcode",
+    "parameters": "Spezifische Parameter",
+    "driveType": "Antriebstyp",
+    "oilType": "Öltyp"
+  },
+  "passportHeader": {
+    "backBtn": "Zurück"
+  },
+  "field": {
+    "tempRange": "Temperaturbereich:",
+    "to": "bis",
+    "referenceTest": "Referenztest:"
+  },
+  "recursiveTree": {
+    "notAvailable": "Nicht verfügbar"
+  },
+  "dialog": {
+    "description": "Beschreibung",
+    "noDescription": "Keine Beschreibung"
+  },
+  "section": {
+    "noContent": "Entschuldigung, kein Inhalt"
+  },
+  "error": {
+    "404NotFound": "404 Nicht gefunden",
+    "somethingWentWrong": "Hoppla, etwas ist schiefgelaufen...",
+    "internalError": "Der Server hat einen internen Fehler oder eine Fehlkonfiguration festgestellt und konnte Ihre Anfrage nicht bearbeiten.",
+    "contactYourAdmin": "Bitte kontaktieren Sie Ihren Administrator",
+    "adminExample": "admin@beispiel.com",
+    "reload": "Seite neu laden",
+    "homepage": "Startseite"
+  },
+  "loading": {
+    "assetId": "Anlage-ID: ",
+    "registrySearch": "Register Suche",
+    "searching": "Suche...",
+    "registriesAvailable": "Register verfügbar",
+    "contractSearch": "Vertragssuche",
+    "contractAvailable": "Vertrag verfügbar",
+    "contractNegotiation": "Vertragsverhandlung",
+    "negotiating": "Verhandlung...",
+    "contractStatus": "Vertragsstatus: ",
+    "contractTransfer": "Vertragsübertragung",
+    "transferring": "Übertragung...",
+    "transferCompleted": "Übertragung abgeschlossen",
+    "passportRetrieval": "Passabruf",
+    "retrieving": "Abruf... ",
+    "createdProcess": "Erstellte Prozess-ID: ",
+    "contractId": "Vertrags-ID: "
+  },
+  "sections": {
+    "productSpecificParameters": {
+      "torqueConverter": "Drehmomentwandler",
+      "driveType": "Antriebstyp",
+      "oilType": "Öltyp",
+      "spreading": "Verbreitung",
+      "torque": "Drehmoment",
+      "power": "Leistung",
+      "gear": "Gang",
+      "ratio": "Verhältnis",
+      "speed": "Geschwindigkeit",
+      "standardGearRatio": "Standardübersetzungsverhältnis",
+      "speedResistance": "Geschwindigkeitswiderstand",
+      "oilCapacity": "Ölkapazität",
+      "electricPerformance": "Elektrische Leistung"
+    },
+    "instructions": {
+      "packagingInstructions": "Verpackungsanweisungen",
+      "transportationInstructions": "Transportanweisungen",
+      "dismantlingProcedure": "Demontageverfahren",
+      "safetyMeasures": "Sicherheitsmaßnahmen",
+      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
+    },
+    "sparePartsSupplier": {
+      "supplierContact": "Lieferantenkontakt",
+      "supplierId": "Lieferanten-ID",
+      "sparePartName": "Ersatzteilname"
+    },
+    "stateOfHealth": {
+      "serviceHistory": "Serviceverlauf",
+      "expectedLifespan": "Erwartete Lebensdauer",
+      "remanufacturingDate": "Wiederherstellungsdatum",
+      "productStatusValue": "Produktstatuswert"
+    },
+    "generalInformation": {
+      "additionalInformation": "Zusätzliche Informationen",
+      "productDimensions": "Abmessungen",
+      "productDescription": "Produktbeschreibung",
+      "productType": "Produkttyp",
+      "batteryId": "Batterie-ID",
+      "batteryIdDescriptionTitle": "Batterie-ID",
+      "batteryIdDescriptionValue": "Batterie-ID oder DMC, die Sie in Ihren Geräteeinstellungen finden können",
+      "batteryType": "Batterietyp",
+      "batteryModel": "Batteriemodell",
+      "warranty": "Garantie",
+      "dimensions": "Abmessungen der Batterie",
+      "weight": "Gewicht",
+      "dateOfManufacturing": "Herstellungsdatum",
+      "placeOfManufacturing": "Herstellungsort",
+      "datePlacedOnMarket": "Markteinführungsdatum",
+      "manufacturerInformation": "Herstellerinformationen",
+      "manufacturerContact": "Herstellerkontakt",
+      "cO2FootprintTotal": "CO2-Fußabdruck"
+    },
+    "stateOfBattery": {
+      "stateOfHealth": "aktueller Zustand",
+      "cycleLifeTestCRate": "Zykluslebensdauertest C-Rate",
+      "stateOfCharge": "Ladezustand",
+      "cycleLifeTestDepthOfDischarge": "Tiefe der Entladung im Zykluslebensdauertest",
+      "expectedLifetime": "Erwartete Lebensdauer",
+      "temperatureRange": "Temperaturbereich (im Ruhezustand)",
+      "statusBattery": "Batterie-Status"
+    },
+    "components": {
+      "searchForChild": "Die Suche nach verbauten Komponenten hat begonnen, dies kann eine Weile dauern...",
+      "noChild": "Keine verbauten Komponenten gefunden",
+      "somethingWentWrong": "Etwas ist bei der Suche nach Komponenten schiefgelaufen"
+    },
+    "batteryComposition": {
+      "batteryComposites": "Hauptbestandteile der Batterie",
+      "criticalRawMaterials": "Kritische Rohstoffe"
+    },
+    "cellChemistry": {
+      "electrolyteComposition": "Zusammensetzung des Elektrolyts",
+      "recyclateContent": "Recyclat-Anteil"
+    },
+    "electrochemicalProperties": {
+      "capacity": "Kapazität",
+      "ratedCapacity": "Nennkapazität",
+      "capacityFade": "Kapazitätsverlust",
+      "capacityThresholdExhaustion": "Kapazitätsschwelle für Batterie-Erschöpfung",
+      "efficiency": "Effizienz",
+      "originalPowerCapability": "Ursprüngliche Leistungsfähigkeit",
+      "originalPowerCapabilityLimits": "Grenzen der ursprünglichen Leistungsfähigkeit",
+      "maximumAllowedBatteryPower": "Maximal zulässige Batterieenergie (MABE)",
+      "MABEvsMABP": "Verhältnis MABE zu MABP",
+      "powerCapabilityAt20Charge": "Leistungsfähigkeit bei 20% Ladung",
+      "powerCapabilityAt80Charge": "Leistungsfähigkeit bei 80% Ladung",
+      "powerFade": "Leistungsverlust",
+      "resistance": "Widerstand",
+      "packInternalResistance": "Interner Widerstand des Batteriepacks",
+      "packInternalResistanceIncrease": "Zunahme des internen Widerstands des Batteriepacks",
+      "cellInternalResistance": "Interner Widerstand der Zelle",
+      "voltage": "Spannung",
+      "nominalVoltage": "Nennspannung",
+      "maxVoltage": "Maximale Spannung",
+      "minVoltage": "Minimale Spannung"
+    },
+    "exchange": {
+      "contract": "Vertrag",
+      "policy": "Richtlinie",
+      "distribution": "Verteilung",
+      "negotiation": "Verhandlung",
+      "context": "Kontext",
+      "negotiationRequest": "Verhandlungsanfrage",
+      "offer": "Angebot",
+      "transfer": "Übertragung",
+      "edcDataRequest": "EDC-Datenanfrage",
+      "transferRequest": "Übertragungsanfrage",
+      "id": "ID",
+      "type": "Typ",
+      "policyId": "Richtlinien-ID",
+      "distributionList": "Verteilungsliste",
+      "edcDescription": "EDC-Beschreibung",
+      "edcId": "EDC-ID",
+      "edcType": "EDC-Typ",
+      "edcProtocol": "EDC-Protokoll",
+      "protocol": "Protokoll",
+      "edcState": "EDC-Zustand",
+      "edcCounterPartyAddress": "EDC-Partner-Adresse",
+      "edcContractAgreementId": "EDC-Vertragsvereinbarungs-ID",
+      "connectorId": "Connector-ID",
+      "providerId": "Anbieter-ID",
+      "offerDetail": "Angebotsdetails",
+      "transferId": "Übertragungs-ID",
+      "transferType": "Übertragungstyp",
+      "transferState": "Übertragungszustand",
+      "edcTimestamp": "EDC-Zeitstempel",
+      "edcDataRequestId": "EDC-Datenanfrage-ID",
+      "edcReceiverHttpEndpoint": "EDC-Empfänger HTTP-Endpunkt",
+      "assetId": "Anlagen-ID",
+      "connectorAddress": "Connector-Adresse",
+      "contractId": "Vertrags-ID",
+      "dataDestination": "Datendestination",
+      "reciverHttpEndpoint": "Empfänger-HTTP-Endpunkt",
+      "contentType": "Inhaltstyp"
+    },
+    "characteristics": {
+      "physicalDimensionsProperty": "Eigenschaft der physischen Abmessungen",
+      "weight": "Gewicht",
+      "lifespan": "Lebensdauer",
+      "energyCapacity": "Energiekapazität",
+      "voltage": "Spannung",
+      "physicalState": "Physischer Zustand",
+      "weightOrVolume": "Gewicht oder Volumen",
+      "diameter": "Durchmesser",
+      "grossWeight": "Bruttogewicht",
+      "grossVolume": "Bruttovolumen"
+    },
+    "commercial": {
+      "placedOnMarket": "Markteinführung",
+      "warranty": "Garantie"
+    },
+    "handling": {
+      "maintenanceHistory": "Wartungshistorie",
+      "spareParts": "Ersatzteile",
+      "substanceOfConcern": "Besorgniserregende Substanz",
+      "producerId": "Produzenten-ID",
+      "partName": "Teilname",
+      "partGtin": "Teil-GTIN",
+      "type": "Typ",
+      "location": "Standort",
+      "unit": "Einheit",
+      "concentrationMax": "Maximale Konzentration",
+      "concentrationMin": "Minimale Konzentration",
+      "exemption": "Ausnahme",
+      "idType": "ID-Typ",
+      "id": "ID"
+    },
+    "identification": {
+      "gtin": "GTIN",
+      "manufacturerId": "Hersteller-ID",
+      "dataMatrixCode": "Data-Matrix-Code"
+    },
+    "metadata": {
+      "predecessor": "Vorgänger",
+      "legitimization": "Legitimation",
+      "identification": "Identifikation",
+      "issueDate": "Ausgabedatum",
+      "version": "Version",
+      "validityDate": "Gültigkeitsdatum",
+      "customerPartId": "Kundenteil-ID",
+      "manufacturerPartId": "Herstellerteil-ID",
+      "status": "Status",
+      "expirationDate": "Ablaufdatum"
+    },
+    "operation": {
+      "importer": "Importeur-ID",
+      "importerEori": "Importer-EORI",
+      "manufacturerId": "Hersteller-ID",
+      "facilityId": "Anlagen-ID",
+      "manufacturingDate": "Herstellungsdatum"
+    },
+    "serialization": {
+      "manufacturingInformation": "Herstellungsinformationen",
+      "date": "Datum",
+      "country": "Land",
+      "registration": "Registrierung",
+      "customerPartId": "Kundenteil-ID",
+      "manufacturerPartId": "Herstellerteil-ID",
+      "quantity": "Menge"
+    },
+    "sustainability": {
+      "state": "Zustand",
+      "material": "Material",
+      "carbonContentTotal": "Gesamtkohlenstoffgehalt",
+      "crossSectoralStandard": "Sektorenübergreifender Standard",
+      "substancesOfConcern": "Besorgniserregende Stoffe",
+      "criticalRawMaterials": "Kritische Rohstoffe",
+      "co2FootprintTotal": "Gesamter CO₂-Fußabdruck",
+      "operator": "Betreiber",
+      "ruleNames": "Regelnamen",
+      "otherOperatorName": "Name des anderen Betreibers",
+      "productOrSectorSpecificRules": "Produkt- oder sektorspezifische Regeln",
+      "critical": "Kritisch"
+    },
+    "typology": {
+      "name": "Name",
+      "shortName": "Kurzname",
+      "longName": "Langname",
+      "definition": "Definition",
+      "code": "Code",
+      "nameAtManufacturer": "Name beim Hersteller",
+      "nameAtCustomer": "Name beim Kunden"
+    }
+  }
+}

@@ -120,7 +120,7 @@ The *{commit comment}* should briefely describe the relevant content/reason of t
 
 The branching approach is based on the gitflow workflow: [https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-![Branching Strategy](./Branching_strategy.PNG)
+![Branching Strategy](./docs/media/branchingStrategy.png)
 
 Due to the restriction, that only "Eclipse Committer" can work directly on tractus-x, we extended gitflow with a "forked branch". This enables everybody to fork their own repository and contribute in a structured manner.  
 

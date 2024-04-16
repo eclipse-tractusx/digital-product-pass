@@ -26,6 +26,9 @@ __pycache__/
 node_modules
 dist
 
+# MOCK asset files
+MOCK/
+
 # local env files
 .env.local
 .env.*.local
@@ -147,6 +150,11 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
+
+# mvn wrapper
+.mvn/
+mvnw
+mvnw.cmd
 
 
 # Chart dependencies

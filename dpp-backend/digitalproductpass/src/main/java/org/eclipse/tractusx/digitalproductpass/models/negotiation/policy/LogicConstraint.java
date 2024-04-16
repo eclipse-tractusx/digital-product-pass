@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -41,6 +41,12 @@ import java.util.List;
 public class LogicConstraint extends Constraint {
 
     /** ATTRIBUTES **/
+
+    enum LogicType {
+        AND, // Represents the "and" constraint
+        OR, // Represents the "or" constraint
+        NONE // No logic constraint available
+    }
     @JsonProperty("odrl:and")
     @JsonAlias({"and","odrl:and"})
     List<Constraint> andOperator;
@@ -79,6 +85,17 @@ public class LogicConstraint extends Constraint {
 
     public void setOrOperator(List<Constraint> orOperator) {
         this.orOperator = orOperator;
+    }
+
+    // Find which logic operation has the policy constraints
+    public LogicType getLogicType(){
+        boolean condition1 = (this.orOperator == null || this.orOperator.isEmpty());
+        boolean condition2 = (this.andOperator == null || this.andOperator.isEmpty());
+        if (condition1&&condition2)
+            return LogicType.NONE;
+        if (condition1)
+            return LogicType.AND;
+        return LogicType.OR;
     }
 
 }

@@ -88,6 +88,7 @@ configuration:
       # List of allowed permissions policies
       permission:
         - action: "use"
+          logicConstraint: "odrl:and"
           constraints:
           - leftOperand: "cx-policy:UsagePurpose"
             operator: "eq"
@@ -96,11 +97,12 @@ configuration:
             operator: "eq"
             rightOperand: "active"
         - action: "use"
+          logicConstraint: "odrl:and"
           constraints:
             - leftOperand: "UsagePurpose"
               operator: "eq"
               rightOperand: "cx.core.digitalTwinRegistry:1"
-            - leftOperand: "cx-policy:Membership"
+            - leftOperand: "Membership"
               operator: "eq"
               rightOperand: "active"
         - action: "use"
@@ -108,8 +110,8 @@ configuration:
             - leftOperand: "BusinessPartnerNumber"
               operator: "eq"
               rightOperand: "BPNL1TEST12342321"
-      prohibition: null
-      obligation: null
+      prohibition: []
+      obligation: []
 
     decentralApis:
       search: "/lookup/shells"

@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,24 +43,47 @@ public class Set extends DidDocument {
 
     /** ATTRIBUTES **/
     @JsonProperty("odrl:permission")
-    Object permissions;
+    Collection<Action> permissions;
     @JsonProperty("odrl:prohibition")
-    Object prohibitions;
+    Collection<Action> prohibitions;
     @JsonProperty("odrl:obligation")
-    Object obligations;
+    Collection<Action> obligations;
 
     /** CONSTRUCTOR(S) **/
-    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations) {
+    public Set(String id, String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
         super(id, type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
-    public Set(Object permissions, Object prohibitions, Object obligations) {
+
+    public Set(Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
+
+    public Set(String id, String type, JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+        super(id, type, context);
+        this.permissions = permissions;
+        this.prohibitions = prohibitions;
+        this.obligations = obligations;
+    }
+
+    public Set(String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+        super(type);
+        this.permissions = permissions;
+        this.prohibitions = prohibitions;
+        this.obligations = obligations;
+    }
+
+    public Set(JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+        super(context);
+        this.permissions = permissions;
+        this.prohibitions = prohibitions;
+        this.obligations = obligations;
+    }
+
     public Set(String id, String type) {
         super(id, type);
     }
@@ -67,26 +91,30 @@ public class Set extends DidDocument {
     }
 
     /** GETTERS AND SETTERS **/
-    public Object getPermissions() {
+
+    public Collection<Action> getPermissions() {
         return permissions;
     }
-    public void setPermissions(Object permissions) {
+
+    public void setPermissions(Collection<Action> permissions) {
         this.permissions = permissions;
     }
-    @SuppressWarnings("Unused")
-    public Object getProhibitions() {
+
+    public Collection<Action> getProhibitions() {
         return prohibitions;
     }
-    @SuppressWarnings("Unused")
-    public void setProhibitions(Object prohibitions) {
+
+    public void setProhibitions(Collection<Action> prohibitions) {
         this.prohibitions = prohibitions;
     }
-    @SuppressWarnings("Unused")
-    public Object getObligations() {
+
+    public Collection<Action> getObligations() {
         return obligations;
     }
-    @SuppressWarnings("Unused")
-    public void setObligations(Object obligations) {
+
+    public void setObligations(Collection<Action> obligations) {
         this.obligations = obligations;
     }
+
+
 }

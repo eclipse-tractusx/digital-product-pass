@@ -32,10 +32,20 @@ import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constra
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import utils.exceptions.UtilException;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -45,8 +55,12 @@ import static org.junit.jupiter.api.Assertions.*;
 /*
  * This test class is used to test various methods from the EDC Util class
  */
+@WebAppConfiguration
 @RunWith(SpringRunner.class)
+@ContextConfiguration(locations = "classpath*:application.yml")
 @SpringBootTest(classes = {utils.JsonUtil.class, utils.EdcUtil.class, utils.FileUtil.class, DtrConfig.class})
+@EnableAutoConfiguration
+@ActiveProfiles("test")
 class EdcUtilTest {
     @Autowired
     private DtrConfig dtrConfig;
@@ -132,16 +146,17 @@ class EdcUtilTest {
      */
     @Test
     void isPolicyActionsValid() {
-        System.out.println(this.policy.getClass().getName());
-        System.out.println(jsonUtil.toJson(this.policy,true));
-        // Check if policy is valid or not
+        // Bind policy to class
         Set mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
-        System.out.println(mappedPolicy.getClass().getName());
-        System.out.println(jsonUtil.toJson(mappedPolicy, true));
-        System.out.println(jsonUtil.toJson(mappedPolicy.getPermissions(), true));
-
-        // In case the policy is valid return the policy
-        PolicyConfig policyConfigs = dtrConfig.getPolicyCheck();
+        if(mappedPolicy == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+        }
+        // Get policy configuration
+        PolicyConfig policyConfigs = this.dtrConfig.getPolicyCheck();
+        if(policyConfigs == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Policy configuration not found!");
+        }
+        // Call the edcUtil method
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
         Boolean constraintResponse = edcUtil.isPolicyActionsValid(mappedPolicy, policyConfigs);
         LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(constraintResponse, true));

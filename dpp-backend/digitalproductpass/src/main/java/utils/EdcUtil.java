@@ -148,18 +148,18 @@ public class EdcUtil {
      */
     public Boolean isPolicyActionsValid(Set policy, PolicyConfig policyConfig){
         try{
-            // Check the obligations against the configuration
-            if(!this.isPolicyActionValid(policy.getObligations(), policyConfig.getObligation())){
-                return false;
-            }
             // Check the prohibitions against the configuration
             if(!this.isPolicyActionValid(policy.getProhibitions(), policyConfig.getProhibition())){
                 return false;
+            }            // Check the obligations against the configuration
+            if(!this.isPolicyActionValid(policy.getObligations(), policyConfig.getObligation())){
+                return false;
             }
+
             // Check the permissions against the configuration
             return this.isPolicyActionValid(policy.getPermissions(), policyConfig.getPermission());
         }catch (Exception e) {
-            throw new UtilException(EdcUtil.class, "It was not possible to check if the policy actions are valid!");
+            throw new UtilException(EdcUtil.class,e, "It was not possible to check if the policy actions are valid!");
         }
     }
     /**
@@ -195,7 +195,7 @@ public class EdcUtil {
 
         }
         }catch (Exception e) {
-            throw new UtilException(EdcUtil.class, "It was not possible to check if the policy action is valid!");
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if the policy action is valid!");
         }
     }
 

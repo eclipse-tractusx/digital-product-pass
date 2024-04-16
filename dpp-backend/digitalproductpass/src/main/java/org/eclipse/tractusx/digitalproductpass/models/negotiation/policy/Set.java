@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -23,12 +23,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.policy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.List;
 
@@ -46,22 +47,18 @@ public class Set extends DidDocument {
     Object prohibitions;
     @JsonProperty("odrl:obligation")
     Object obligations;
-    @JsonProperty("odrl:target")
-    Object target;
 
     /** CONSTRUCTOR(S) **/
-    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations, Object target) {
+    public Set(String id, String type, Object permissions, Object prohibitions, Object obligations) {
         super(id, type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
-        this.target = target;
     }
-    public Set(Object permissions, Object prohibitions, Object obligations, Object target) {
+    public Set(Object permissions, Object prohibitions, Object obligations) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
-        this.target = target;
     }
     public Set(String id, String type) {
         super(id, type);
@@ -70,12 +67,6 @@ public class Set extends DidDocument {
     }
 
     /** GETTERS AND SETTERS **/
-    public Object getTarget() {
-        return target;
-    }
-    public void setTarget(Object target) {
-        this.target = target;
-    }
     public Object getPermissions() {
         return permissions;
     }
@@ -98,5 +89,4 @@ public class Set extends DidDocument {
     public void setObligations(Object obligations) {
         this.obligations = obligations;
     }
-
 }

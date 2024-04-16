@@ -85,16 +85,32 @@ configuration:
     semanticIdTypeKey: 'Submodel'
     policyCheck:
       enable: true
+      # List of allowed permissions policies
       permission:
-        prefix: "cx-policy"
-        operand: "odrl:and"
-        constraints:
-          - leftOperand: "UsagePurpose"
+        - action: "use"
+          constraints:
+          - leftOperand: "cx-policy:UsagePurpose"
             operator: "eq"
             rightOperand: "cx.core.digitalTwinRegistry:1"
           - leftOperand: "Membership"
             operator: "eq"
             rightOperand: "active"
+        - action: "use"
+          constraints:
+            - leftOperand: "UsagePurpose"
+              operator: "eq"
+              rightOperand: "cx.core.digitalTwinRegistry:1"
+            - leftOperand: "cx-policy:Membership"
+              operator: "eq"
+              rightOperand: "active"
+        - action: "use"
+          constraints:
+            - leftOperand: "BusinessPartnerNumber"
+              operator: "eq"
+              rightOperand: "BPNL1TEST12342321"
+      prohibition: null
+      obligation: null
+
     decentralApis:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -132,6 +148,7 @@ configuration:
       enabled: true
       permission:
         prefix: "cx-policy"
+        any: true
         constraints:
           - leftOperand: "FrameworkAgreement"
             operator: "eq"

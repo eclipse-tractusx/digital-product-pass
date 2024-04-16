@@ -831,6 +831,7 @@ public final class JsonUtil {
         }
     }
 
+
     /**
      * Binds the json object to the given type reference object.
      * <p>
@@ -852,7 +853,27 @@ public final class JsonUtil {
             throw new UtilException(JsonUtil.class, "It was not possible to get reference type -> [" + e.getMessage() + "]");
         }
     }
-
+    /**
+     * Binds the json object to the given type reference object.
+     * <p>
+     * @param   json
+     *          the json object with json properties annotations.
+     * @param   reference
+     *          the type reference of an object to bind the json object.
+     *
+     * @return  a {@code Object} object parsed with the json data of the given reference type object.
+     *
+     * @throws  UtilException
+     *          if unable to parse the json object.
+     */
+    public <T> T bind (Object json, TypeReference<T> reference) {
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            return mapper.convertValue(json, reference);
+        }  catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "It was not possible to get reference type -> [" + e.getMessage() + "]");
+        }
+    }
 
     public List<?> mapToList(Map<String, ?> map){
         try{

@@ -33,21 +33,22 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Negotiation;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.*;
 
 import java.nio.file.Path;
-import java.security.Permission;
 import java.time.Duration;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively of methods to operate on executing the DTR search.
@@ -183,8 +184,7 @@ public class DtrSearchManager {
                 }
                 List<Dtr> dtrEndpoints = null;
                 try {
-                    dtrEndpoints = (List<Dtr>) jsonUtil.bindReferenceType(dtrs, new TypeReference<List<EdcDiscoveryEndpoint>>() {
-                    });
+                    dtrEndpoints = jsonUtil.bind(dtrs, new TypeReference<>() {});
                 } catch (Exception e) {
                     throw new DataModelException(this.getClass().getName(), e, "Could not bind the reference type!");
                 }
@@ -479,11 +479,10 @@ public class DtrSearchManager {
             }
             PolicyConfig policyConfig = dtrConfig.getPolicyCheck();
             if (policyConfig.getEnabled()) {
-                PolicyConfig.PermissionConfig permissionConfig = policyConfig.getPermission();
-                return edcUtil.getPolicyByConstraints(dataset.getPolicy(), permissionConfig.getConstraints(), permissionConfig.getOperand(), permissionConfig.getPrefix());
+                return edcUtil.getPolicyByConstraints(policies, policyConfig);
             } else {
                 // if more than one policy is validated, select the first one
-                return dataTransferService.selectPolicyByIndex(dataset.getPolicy(), 0);
+                return dataTransferService.selectPolicyByIndex(policies, 0);
             }
         }catch (Exception e) {
             throw new ManagerException(this.getClass().getName() + ".getDtrPolicy",e,"Failed to get any dtr policy!");

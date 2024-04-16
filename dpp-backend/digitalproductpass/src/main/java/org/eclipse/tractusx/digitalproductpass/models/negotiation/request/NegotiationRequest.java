@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Catena-X - Product Passport Consumer Backend
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -23,19 +23,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
 
 /**
  * This class consists exclusively to define attributes related to the Negotiation requests.
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NegotiationRequest extends DidDocument{
+public class NegotiationRequest extends DidDocument {
 
     /** ATTRIBUTES **/
     @JsonProperty("connectorAddress")

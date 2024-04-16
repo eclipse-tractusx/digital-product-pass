@@ -27,36 +27,31 @@ package org.eclipse.tractusx.digitalproductpass.config;
 
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
  * This class consists exclusively to define the attributes and methods needed for the Digital Twin Registry (DTR) configuration.
+ * Based on the <a href="https://github.com/catenax-eV/cx-odrl-profile">https://github.com/catenax-eV/cx-odrl-profile</a> configuration.
  **/
 @Configuration
 public class PolicyConfig {
 
     Boolean enabled;
-    PermissionConfig permission;
+    // Permissions for usage and access
+    // Check https://github.com/catenax-eV/cx-odrl-profile for policy configuration guidelines
+    List<ActionConfig> permission;
+    List<ActionConfig> obligation; // Obligations can also be configured
+    List<ActionConfig> prohibition; // Prohibitions can also be configured
 
-
-    public PolicyConfig(PermissionConfig permission) {
+    public PolicyConfig(Boolean enabled, List<ActionConfig> permission, List<ActionConfig> obligation, List<ActionConfig> prohibition) {
+        this.enabled = enabled;
         this.permission = permission;
+        this.obligation = obligation;
+        this.prohibition = prohibition;
     }
 
     public PolicyConfig() {
-    }
-
-    public PolicyConfig(Boolean enabled, PermissionConfig permission) {
-        this.enabled = enabled;
-        this.permission = permission;
-    }
-
-    public PermissionConfig getPermission() {
-        return permission;
-    }
-
-    public void setPermission(PermissionConfig permission) {
-        this.permission = permission;
     }
 
     public Boolean getEnabled() {
@@ -67,40 +62,65 @@ public class PolicyConfig {
         this.enabled = enabled;
     }
 
+    public List<ActionConfig> getPermission() {
+        return permission;
+    }
+
+    public void setPermission(List<ActionConfig> permission) {
+        this.permission = permission;
+    }
+
+    public List<ActionConfig> getObligation() {
+        return obligation;
+    }
+
+    public void setObligation(List<ActionConfig> obligation) {
+        this.obligation = obligation;
+    }
+
+    public List<ActionConfig> getProhibition() {
+        return prohibition;
+    }
+
+    public void setProhibition(List<ActionConfig> prohibition) {
+        this.prohibition = prohibition;
+    }
+
 
     /**
      * This class consists exclusively to define the attributes and methods needed for edc policy permissions object inside a policy.
      **/
-    public static class PermissionConfig {
+    public static class ActionConfig {
 
-        String prefix;
+        String action;
 
-        String operand;
+        @Nullable
+        String logicConstraint;
 
         List<ConstraintConfig> constraints;
 
 
-        public PermissionConfig() {
+        public ActionConfig() {
 
         }
 
-        public PermissionConfig(String prefix, List<ConstraintConfig> constraints) {
-            this.prefix = prefix;
+        public ActionConfig(String prefix, List<ConstraintConfig> constraints) {
+            this.action = prefix;
             this.constraints = constraints;
         }
 
-        public PermissionConfig(String prefix, String operand, List<ConstraintConfig> constraints) {
-            this.prefix = prefix;
-            this.operand = operand;
+        public ActionConfig(String prefix, @Nullable String logicConstraint, List<ConstraintConfig> constraints) {
+            this.action = prefix;
+            this.logicConstraint = logicConstraint;
             this.constraints = constraints;
         }
 
         public String getPrefix() {
-            return prefix;
+            return action;
         }
 
         public void setPrefix(String prefix) {
-            this.prefix = prefix;
+            this.action = prefix;
         }
 
         public List<ConstraintConfig> getConstraints() {
@@ -111,12 +131,13 @@ public class PolicyConfig {
             this.constraints = constraints;
         }
 
-        public String getOperand() {
-            return operand;
+        @Nullable
+        public String getLogicConstraint() {
+            return logicConstraint;
         }
 
-        public void setOperand(String operand) {
-            this.operand = operand;
+        public void setLogicConstraint(@Nullable String logicConstraint) {
+            this.logicConstraint = logicConstraint;
         }
     }
     /**

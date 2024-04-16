@@ -29,9 +29,8 @@ package org.eclipse.tractusx.digitalproductpass.models.catenax;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 
-import java.util.List;
 import java.util.Map;
 
 /**

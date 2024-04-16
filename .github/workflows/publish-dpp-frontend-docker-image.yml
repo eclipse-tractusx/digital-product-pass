@@ -61,7 +61,6 @@ jobs:
         id: meta-for-dockerhub
         uses: docker/metadata-action@v5
         with:
-          context: dpp-frontend
           images: |
             ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
           tags: |

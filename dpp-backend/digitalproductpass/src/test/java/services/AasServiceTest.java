@@ -49,6 +49,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,10 +80,16 @@ class AasServiceTest {
     private String testProcessId;
     @Mock
     private Environment env;
+    @Autowired
     private HttpUtil httpUtil;
+    @Autowired
     private JsonUtil jsonUtil;
+    @Autowired
     private FileUtil fileUtil;
+    @Autowired
     private YamlUtil yamlUtil;
+    @Autowired
+    private PolicyUtil policyUtil;
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -93,23 +100,19 @@ class AasServiceTest {
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
-    private PolicyConfig policyConfig;
+    private PolicyCheckConfig policyCheckConfig;
     private ProcessConfig processConfig;
     private PassportConfig passportConfig;
     private DtrSearchManager dtrSearchManager;
     private ProcessManager processManager;
     private DataTransferService dataTransferService;
-
+    @Autowired
     private SecurityConfig securityConfig;
-
+    @Autowired
     private EdcUtil edcUtil;
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
-        fileUtil = new FileUtil();
-        jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
-        yamlUtil = new YamlUtil(fileUtil);
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
         securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));

@@ -35,23 +35,19 @@ import java.util.List;
  * Based on the <a href="https://github.com/catenax-eV/cx-odrl-profile">https://github.com/catenax-eV/cx-odrl-profile</a> configuration.
  **/
 @Configuration
-public class PolicyConfig {
+public class PolicyCheckConfig {
 
     Boolean enabled;
-    // Permissions for usage and access
-    // Check https://github.com/catenax-eV/cx-odrl-profile for policy configuration guidelines
-    List<ActionConfig> permission;
-    List<ActionConfig> obligation; // Obligations can also be configured
-    List<ActionConfig> prohibition; // Prohibitions can also be configured
 
-    public PolicyConfig(Boolean enabled, List<ActionConfig> permission, List<ActionConfig> obligation, List<ActionConfig> prohibition) {
-        this.enabled = enabled;
-        this.permission = permission;
-        this.obligation = obligation;
-        this.prohibition = prohibition;
+    List<PolicyConfig> policies;
+
+
+    public PolicyCheckConfig() {
     }
 
-    public PolicyConfig() {
+    public PolicyCheckConfig(Boolean enabled, List<PolicyConfig> policies) {
+        this.enabled = enabled;
+        this.policies = policies;
     }
 
     public Boolean getEnabled() {
@@ -62,28 +58,44 @@ public class PolicyConfig {
         this.enabled = enabled;
     }
 
-    public List<ActionConfig> getPermission() {
-        return permission;
+    public List<PolicyConfig> getPolicies() {
+        return policies;
     }
 
-    public void setPermission(List<ActionConfig> permission) {
-        this.permission = permission;
+    public void setPolicies(List<PolicyConfig> policies) {
+        this.policies = policies;
     }
+    public static class PolicyConfig {
 
-    public List<ActionConfig> getObligation() {
-        return obligation;
-    }
+        // Permissions for usage and access
+        // Check https://github.com/catenax-eV/cx-odrl-profile for policy configuration guidelines
+        List<ActionConfig> permission;
+        List<ActionConfig> obligation; // Obligations can also be configured
+        List<ActionConfig> prohibition; // Prohibitions can also be configured
 
-    public void setObligation(List<ActionConfig> obligation) {
-        this.obligation = obligation;
-    }
+        public List<ActionConfig> getPermission() {
+            return permission;
+        }
 
-    public List<ActionConfig> getProhibition() {
-        return prohibition;
-    }
+        public void setPermission(List<ActionConfig> permission) {
+            this.permission = permission;
+        }
 
-    public void setProhibition(List<ActionConfig> prohibition) {
-        this.prohibition = prohibition;
+        public List<ActionConfig> getObligation() {
+            return obligation;
+        }
+
+        public void setObligation(List<ActionConfig> obligation) {
+            this.obligation = obligation;
+        }
+
+        public List<ActionConfig> getProhibition() {
+            return prohibition;
+        }
+
+        public void setProhibition(List<ActionConfig> prohibition) {
+            this.prohibition = prohibition;
+        }
     }
 
 
@@ -95,7 +107,7 @@ public class PolicyConfig {
         String action;
 
         @Nullable
-        String logicConstraint;
+        String logicalConstraint;
 
         List<ConstraintConfig> constraints;
 
@@ -104,22 +116,22 @@ public class PolicyConfig {
 
         }
 
-        public ActionConfig(String prefix, List<ConstraintConfig> constraints) {
-            this.action = prefix;
+        public ActionConfig(String action, List<ConstraintConfig> constraints) {
+            this.action = action;
             this.constraints = constraints;
         }
 
-        public ActionConfig(String prefix, @Nullable String logicConstraint, List<ConstraintConfig> constraints) {
-            this.action = prefix;
-            this.logicConstraint = logicConstraint;
+        public ActionConfig(String action, @Nullable String logicalConstraint, List<ConstraintConfig> constraints) {
+            this.action = action;
+            this.logicalConstraint = logicalConstraint;
             this.constraints = constraints;
         }
 
-        public String getPrefix() {
+        public String getAction() {
             return action;
         }
 
-        public void setPrefix(String prefix) {
+        public void setAction(String prefix) {
             this.action = prefix;
         }
 
@@ -132,12 +144,12 @@ public class PolicyConfig {
         }
 
         @Nullable
-        public String getLogicConstraint() {
-            return logicConstraint;
+        public String getLogicalConstraint() {
+            return logicalConstraint;
         }
 
-        public void setLogicConstraint(@Nullable String logicConstraint) {
-            this.logicConstraint = logicConstraint;
+        public void setLogicalConstraint(@Nullable String logicalConstraint) {
+            this.logicalConstraint = logicalConstraint;
         }
     }
     /**

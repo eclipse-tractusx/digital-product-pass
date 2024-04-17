@@ -29,10 +29,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class consists exclusively to define attributes related to the Policy's data.
@@ -89,6 +93,36 @@ public class Set extends DidDocument {
     }
     public Set() {
     }
+    public Set(PolicyCheckConfig.PolicyConfig policyConfig) {
+        buildSet(policyConfig);
+    }
+    /* METHODS */
+
+    /**
+     * Method responsible for parsing the policy based on the configuration
+     * <p>
+     * @param  policyConfig {@code PolicyCheckConfig.PolicyConfig} instance representing the policy configuration from the policy
+     *
+     */
+    public void buildSet(PolicyCheckConfig.PolicyConfig policyConfig){
+        // Set all the values for the different actions
+        this.permissions = this.buildActions(policyConfig.getPermission());
+        this.obligations = this.buildActions(policyConfig.getObligation());
+        this.prohibitions = this.buildActions(policyConfig.getProhibition());
+    }
+
+    public Collection<Action> buildActions(List<PolicyCheckConfig.ActionConfig> actionConfigs){
+        try {
+            // Set actions to the collection
+            Collection<Action> actions = new ArrayList<>(actionConfigs.size());
+            actionConfigs.forEach(actionConfig -> actions.add(new Action(actionConfig))); // Parse and create actions
+            return actions;
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), "It was not possible to build actions");
+        }
+    }
+
+
 
     /** GETTERS AND SETTERS **/
 
@@ -116,5 +150,21 @@ public class Set extends DidDocument {
         this.obligations = obligations;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Set set = (Set) o;
+        return Objects.equals(permissions, set.permissions) && Objects.equals(prohibitions, set.prohibitions) && Objects.equals(obligations, set.obligations);
+    }
 
+    /** Compare the two sets with the hashCodes **/
+    public boolean compare(Set set){
+        return this.hashCode() == set.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(permissions, prohibitions, obligations);
+    }
 }

@@ -26,8 +26,9 @@
 package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig.ActionConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
@@ -48,18 +49,21 @@ import java.util.stream.Collectors;
 @Component
 public class EdcUtil {
 
-    private final List<String> logicConstraints = List.of("odrl:and", "odrl:or");
+    private final List<String> logicalConstraints = List.of("odrl:and", "odrl:or");
     private final String odrlConstraintKey = "odrl:constraint";
     private final String odrlLeftOperandKey = "odrl:leftOperand";
     private final String odrlRightOperandKey = "odrl:rightOperand";
     private final String odrlOperatorIdPath = "odrl:operator.@id";
 
-    private final JsonUtil jsonUtil;
     private Object cp;
 
     @Autowired
-    public EdcUtil(JsonUtil jsonUtil) {
-        this.jsonUtil = jsonUtil;
+    private JsonUtil jsonUtil;
+
+    @Autowired
+    private PolicyUtil policyUtil;
+
+    public EdcUtil() {
     }
 
     /**
@@ -117,85 +121,22 @@ public class EdcUtil {
         return policy;
     }
     /**
-     * Evaluates a policy for specific constraints to check if policy is valid and can be parsed
+     * Evaluate if the policy give in included in the list of policies
      * <p>
      *
-     *  @param constraint the {@code Object} to be checked if constraint
-     *  @return mapped constraint or null if constraint is not valid
+     *  @param policy the {@code Set} of the policy
+     *  @param validPolicies the {@code validPolicies} list of valid policies to be compared to
+     *  @return true if the policy is valid
      *
      **/
-    public Constraint parseConstraint(Object constraint){
+    public Boolean isPolicyValid(Set policy, List<Set> validPolicies){
         try {
-            // Checks if a constraint can be parsed or is empty
-            Constraint parsedConstraint = jsonUtil.convertObject(constraint, Constraint.class);
-            return !parsedConstraint.isEmpty()?parsedConstraint:null;
+            // Get the hashCodes from the different policies
+            List<String> hashes = validPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
+            String policyHash = CrypUtil.sha256(this.jsonUtil.toJson(policy, false));
+            return hashes.contains(policyHash); // If hashcode is in the list the policy is valid!
         }catch (Exception e) {
-            throw new UtilException(EdcUtil.class, "It is not possible to parse constraint, something went wrong!");
-        }
-    }
-
-
-    public Boolean isConstraintValid(Constraint parsedConstraint, ActionConfig actionConfig){
-        return true;
-    }
-    /**
-     * Check if the policy is valid against the configuration
-     * <p>
-     *
-     *  @param policy the {@code Policy} which comes from the catalog response
-     *  @param policyConfig {@code PolicyConfig} the configuration from the policy
-     *  @return {@code Boolean} condition true if the policy action is valid.
-     */
-    public Boolean isPolicyActionsValid(Set policy, PolicyConfig policyConfig){
-        try{
-            // Check the prohibitions against the configuration
-            if(!this.isPolicyActionValid(policy.getProhibitions(), policyConfig.getProhibition())){
-                return false;
-            }            // Check the obligations against the configuration
-            if(!this.isPolicyActionValid(policy.getObligations(), policyConfig.getObligation())){
-                return false;
-            }
-
-            // Check the permissions against the configuration
-            return this.isPolicyActionValid(policy.getPermissions(), policyConfig.getPermission());
-        }catch (Exception e) {
-            throw new UtilException(EdcUtil.class,e, "It was not possible to check if the policy actions are valid!");
-        }
-    }
-    /**
-     * Evaluates a policy for specific constraints to check if policy is valid
-     * <p>
-     *
-     *  @param action the {@code Object} representing the policy action
-     *  @param actionConfigs {@code List<PolicyConfig.ActionConfig>} action for permissions, permissions or restrictions
-     *  @return {@code Boolean} condition true if the policy is valid.
-     */
-    public Boolean isPolicyActionValid(Object action, List<PolicyConfig.ActionConfig> actionConfigs){
-        try{
-        if(action == null || actionConfigs == null || actionConfigs.size() == 0){
-            return null;
-        }
-
-        // Check if the actions
-        if (action instanceof LinkedHashMap) {
-             Object constraint = jsonUtil.getValue(action, odrlConstraintKey, ".", null);
-             Constraint parsedConstraint = parseConstraint(constraint);
-             if(parsedConstraint != null){
-                 // It was possible to parse the constraint
-                 return isConstraintValid(parsedConstraint, actionConfigs.get(0));
-             }else{
-                 return false;
-                 // This is a collection of constraints
-             }
-
-        }else{
-
-            // Many permissions
-            return false;
-
-        }
-        }catch (Exception e) {
-            throw new UtilException(EdcUtil.class, e, "It was not possible to check if the policy action is valid!");
+            throw new UtilException(EdcUtil.class, "It was not possible to check if policy is valid");
         }
     }
 
@@ -204,19 +145,23 @@ public class EdcUtil {
     * <p>
     *
     *  @param policies the {@code Object} object of with one or more policies
-    *  @param policyConfigs {@code List<PolicyConfig>} list of constraints for the permissions
+    *  @param policyCheckConfigs {@code List<PolicyConfig>} list of constraints for the permissions
     * @return Correct policy for constraints or null if the policy or policies are not valid.
      */
-    public Set getPolicyByConstraints(Object policies, PolicyConfig policyConfigs) {
-
-
+    public Set getPolicyByConstraints(Object policies, PolicyCheckConfig policyCheckConfigs) {
         // Find if policy is array or object and call the evaluate functions
         try {
+            List<PolicyConfig> policyConfigs = policyCheckConfigs.getPolicies();
             // If the policy is not available
-            if (policies == null || policyConfigs == null) {
+            if (policies == null || policyCheckConfigs == null) {
                 return null;
             }
 
+            List<Set> validPolicies = policyUtil.buildPolicies(policyConfigs);
+            // There is no valid policy available
+            if (validPolicies == null || validPolicies.size() == 0) {
+                return null;
+            }
             if (policies instanceof LinkedHashMap) {
                 System.out.println(policies.getClass().getName());
                 System.out.println(jsonUtil.toJson(policies,true));
@@ -225,7 +170,7 @@ public class EdcUtil {
                 System.out.println(policy.getClass().getName());
                 System.out.println(jsonUtil.toJson(policy, true));
                 // In case the policy is valid return the policy
-                return this.isPolicyActionsValid(policy, policyConfigs)?policy:null;
+                return this.isPolicyValid(policy, validPolicies)?policy:null;
             }
             List<Set> policyList = null;
             try {

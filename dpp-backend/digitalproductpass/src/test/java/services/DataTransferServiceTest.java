@@ -51,6 +51,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -92,20 +93,21 @@ class DataTransferServiceTest {
     private Environment env;
     @Mock
     private HttpUtil httpUtil;
-
+    @Autowired
     private EdcUtil edcUtil;
+    @Autowired
     private JsonUtil jsonUtil;
+    @Autowired
     private YamlUtil yamlUtil;
+    @Autowired
     private FileUtil fileUtil;
+    @Autowired
+    private PolicyUtil policyUtil ;
 
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
         dtrConfig = initDtrConfig();
-        fileUtil = new FileUtil();
-        jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
-        yamlUtil = new YamlUtil(fileUtil);
         env = initEnv();
         bpn = "BPNL00000000000";
         String mockApiKey = "12345678979ayasdmasdjncjxnzc";

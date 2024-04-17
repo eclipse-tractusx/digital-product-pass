@@ -48,12 +48,16 @@ configuration:
 
   edc:
     endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
+    readiness: '/api/check/readiness'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
-    receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
+    receiverEndpoint: 'https://dpp.int.demo.catena-x.net/endpoint'
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    transferType: "application/octet-stream"
+    timeout:
+      exchange: 10
 
   security:
     authorization:
@@ -74,10 +78,28 @@ configuration:
     callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
+    assetPropType: 'asset:prop:type'
     assetType: 'data.core.digitalTwinRegistry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
+    policyCheck:
+      enabled: true
+      # List of allowed permissions policies
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.core.digitalTwinRegistry:1"
+          prohibition: []
+          obligation: []
+
     decentralApis:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -91,35 +113,7 @@ configuration:
     temporaryStorage:
       enabled: true
       lifetime: 12 # -- Hours
-    policyCheck:
-      enable: true
-      # List of allowed permissions policies
-      permission:
-        - action: "use"
-          logicConstraint: "odrl:and"
-          constraints:
-            - leftOperand: "cx-policy:UsagePurpose"
-              operator: "eq"
-              rightOperand: "cx.core.digitalTwinRegistry:1"
-            - leftOperand: "Membership"
-              operator: "eq"
-              rightOperand: "active"
-        - action: "use"
-          logicConstraint: "odrl:and"
-          constraints:
-            - leftOperand: "UsagePurpose"
-              operator: "eq"
-              rightOperand: "cx.core.digitalTwinRegistry:1"
-            - leftOperand: "Membership"
-              operator: "eq"
-              rightOperand: "active"
-        - action: "use"
-          constraints:
-            - leftOperand: "BusinessPartnerNumber"
-              operator: "eq"
-              rightOperand: "BPNL1TEST12342321"
-      prohibition: []
-      obligation: []
+
   discovery:
     endpoint: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
     bpn:
@@ -139,6 +133,21 @@ configuration:
 
   passport:
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
+    policyCheck:
+      enabled: true
+      permission:
+        prefix: "cx-policy"
+        any: true
+        constraints:
+          - leftOperand: "FrameworkAgreement"
+            operator: "eq"
+            rightOperand: "circulareconomy:1.0"
+          - leftOperand: "UsagePurpose"
+            operator: "eq"
+            rightOperand: "cx.circular.dpp:1"
+          - leftOperand: "Membership"
+            operator: "eq"
+            rightOperand: "active"
     dataTransfer:
       encrypt: true
       indent: true

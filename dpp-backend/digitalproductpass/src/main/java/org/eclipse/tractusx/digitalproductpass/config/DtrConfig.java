@@ -45,7 +45,7 @@ public class DtrConfig {
     public String assetPropType;
     String semanticIdTypeKey;
 
-    PolicyConfig policyCheck;
+    PolicyCheckConfig policyCheck;
 
     /** CONSTRUCTOR(S) **/
     public DtrConfig() {
@@ -62,7 +62,7 @@ public class DtrConfig {
         this.semanticIdTypeKey = semanticIdTypeKey;
     }
 
-    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String assetPropType, String semanticIdTypeKey, PolicyConfig policyCheck) {
+    public DtrConfig(Timeouts timeouts, TemporaryStorage temporaryStorage, DecentralApis decentralApis, String assetType, String endpointInterface, String dspEndpointKey, String assetPropType, String semanticIdTypeKey, PolicyCheckConfig policyCheck) {
         this.timeouts = timeouts;
         this.temporaryStorage = temporaryStorage;
         this.decentralApis = decentralApis;
@@ -131,11 +131,11 @@ public class DtrConfig {
         this.assetPropType = assetPropType;
     }
 
-    public PolicyConfig getPolicyCheck() {
+    public PolicyCheckConfig getPolicyCheck() {
         return policyCheck;
     }
 
-    public void setPolicyCheck(PolicyConfig policyCheck) {
+    public void setPolicyCheck(PolicyCheckConfig policyCheck) {
         this.policyCheck = policyCheck;
     }
 

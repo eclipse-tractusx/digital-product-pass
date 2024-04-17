@@ -45,6 +45,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -77,13 +78,20 @@ class CatenaXServiceTest {
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
-    private PolicyConfig policyConfig;
+    private PolicyCheckConfig policyCheckConfig;
     private DiscoveryConfig discoveryConfig;
+    @Autowired
     private YamlUtil yamlUtil;
+    @Autowired
     private JsonUtil jsonUtil;
-
+    @Autowired
+    private PolicyUtil policyUtil;
+    @Autowired
     private HttpUtil httpUtil;
+    @Autowired
     private FileUtil fileUtil;
+
+
     @Mock
     private Environment env;
     private Discovery discovery;
@@ -93,10 +101,6 @@ class CatenaXServiceTest {
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
-        fileUtil = new FileUtil();
-        yamlUtil = new YamlUtil(fileUtil);
-        jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
         securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));

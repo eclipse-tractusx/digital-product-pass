@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.Objects;
@@ -41,13 +42,13 @@ import java.util.Objects;
 public class Constraint {
 
     /** ATTRIBUTES **/
-    @JsonProperty("leftOperand")
+    @JsonProperty("odrl:leftOperand")
     @JsonAlias({"leftOperand","odrl:leftOperand"})
     String leftOperand;
-    @JsonProperty("operator")
+    @JsonProperty("odrl:operator")
     @JsonAlias({"operator","odrl:operator"})
     DidDocument operator;
-    @JsonProperty("rightOperand")
+    @JsonProperty("odrl:rightOperand")
     @JsonAlias({"rightOperand","odrl:rightOperand"})
     String rightOperand;
 
@@ -59,6 +60,22 @@ public class Constraint {
     }
 
     public Constraint() {
+    }
+    public Constraint(String leftOperand, String operator, String rightOperand){
+        this.leftOperand = leftOperand;
+        this.operator = new DidDocument();
+        this.operator.setId(operator);
+        this.rightOperand = rightOperand;
+    }
+    public Constraint(PolicyCheckConfig.ConstraintConfig constraintConfig) {
+        this.buildConstraint(constraintConfig);
+    }
+
+    public void buildConstraint(PolicyCheckConfig.ConstraintConfig constraintConfig){
+        this.leftOperand = constraintConfig.getLeftOperand();
+        this.operator = new DidDocument();
+        this.operator.setId(constraintConfig.getOperator());
+        this.rightOperand = constraintConfig.getRightOperand();
     }
 
     /** GETTERS AND SETTERS **/
@@ -98,12 +115,6 @@ public class Constraint {
     public int hashCode() {
         return Objects.hash(leftOperand, operator, rightOperand);
     }
-
-    public boolean isEmpty(){
-        Constraint empty = new Constraint();
-        return this.equals(empty);
-    }
-
     public String retrieveOperatorId(){
         return this.operator.getId();
     }

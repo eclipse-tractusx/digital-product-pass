@@ -40,7 +40,7 @@ public class PassportConfig {
 
     private List<String> aspects;
 
-    PolicyConfig policyCheck;
+    PolicyCheckConfig policyCheck;
 
     public PassportConfig() {
     }
@@ -54,7 +54,7 @@ public class PassportConfig {
         this.aspects = aspects;
     }
 
-    public PassportConfig(String searchIdSchema, List<String> aspects, PolicyConfig policyCheck) {
+    public PassportConfig(String searchIdSchema, List<String> aspects, PolicyCheckConfig policyCheck) {
         this.searchIdSchema = searchIdSchema;
         this.aspects = aspects;
         this.policyCheck = policyCheck;
@@ -76,11 +76,11 @@ public class PassportConfig {
         this.searchIdSchema = searchIdSchema;
     }
 
-    public PolicyConfig getPolicyCheck() {
+    public PolicyCheckConfig getPolicyCheck() {
         return policyCheck;
     }
 
-    public void setPolicyCheck(PolicyConfig policyCheck) {
+    public void setPolicyCheck(PolicyCheckConfig policyCheck) {
         this.policyCheck = policyCheck;
     }
 }

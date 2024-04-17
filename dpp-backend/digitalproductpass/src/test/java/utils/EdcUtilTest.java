@@ -27,75 +27,93 @@ package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import utils.exceptions.UtilException;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
  * This test class is used to test various methods from the EDC Util class
  */
-@WebAppConfiguration
-@RunWith(SpringRunner.class)
-@ContextConfiguration(locations = "classpath*:application.yml")
-@SpringBootTest(classes = {utils.JsonUtil.class, utils.EdcUtil.class, utils.FileUtil.class, DtrConfig.class})
-@EnableAutoConfiguration
 @ActiveProfiles("test")
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(classes = {utils.JsonUtil.class, utils.EdcUtil.class, utils.PolicyUtil.class,utils.FileUtil.class, DtrConfig.class})
+@ComponentScan(basePackages = { "org.eclipse.tractusx.digitalproductpass" })
+@EnableConfigurationProperties
 class EdcUtilTest {
+
     @Autowired
     private DtrConfig dtrConfig;
     @Autowired
     private JsonUtil jsonUtil;
     @Autowired
     private EdcUtil edcUtil;
-    LinkedHashMap<String, Object> logicConstraint;
+    @Autowired
+    private PolicyUtil policyUtil;
+    LinkedHashMap<String, Object> logicalConstraint;
+    LinkedHashMap<String, Object> logicalConstraintDtr;
     LinkedHashMap<String, Object> constraint1;
     LinkedHashMap<String, Object> constraint2;
+    LinkedHashMap<String, Object> constraint3;
+
+    LinkedHashMap<String, Object> constraint4;
     LinkedHashMap<String, Object> operator;
     LinkedList<LinkedHashMap<String, Object>> constraints;
+    LinkedList<LinkedHashMap<String, Object>> configuredConstraints;
     LinkedHashMap<String, Object> action;
+    LinkedHashMap<String, Object> actionDtr;
     LinkedList<LinkedHashMap<String, Object>> permissions;
+    LinkedList<LinkedHashMap<String, Object>> permissionsDtr;
     LinkedList<LinkedHashMap<String, Object>> prohibitions;
     LinkedList<LinkedHashMap<String, Object>> obligations;
     LinkedHashMap<String, Object> policy;
+    LinkedHashMap<String, Object> policyDtr;
     LinkedList<LinkedHashMap<String, Object>> policies;
+    LinkedList<LinkedHashMap<String, Object>> policiesDtr;
     LinkedHashMap<String, Object> credential;
+    LinkedHashMap<String, Object> credentialDtr;
     LinkedHashMap<String, Object> multipleCredential;
+    LinkedHashMap<String, Object> multipleCredentialDtr;
     @BeforeEach
     void setUp() {
-        logicConstraint = new LinkedHashMap<>();
+        logicalConstraintDtr = new LinkedHashMap<>();
+        logicalConstraint = new LinkedHashMap<>();
         constraint1 = new LinkedHashMap<>();
         constraint2 = new LinkedHashMap<>();
+        constraint3 = new LinkedHashMap<>();
+        constraint4 = new LinkedHashMap<>();
         operator = new LinkedHashMap<>();
         constraints = new LinkedList<>();
+        configuredConstraints = new LinkedList<>();
         policy = new LinkedHashMap<>();
+        policyDtr = new LinkedHashMap<>();
         credential = new LinkedHashMap<>();
+        credentialDtr = new LinkedHashMap<>();
         action = new LinkedHashMap<>();
+        actionDtr = new LinkedHashMap<>();
         permissions = new LinkedList<>();
+        permissionsDtr = new LinkedList<>();
         prohibitions = new LinkedList<>();
         obligations = new LinkedList<>();
         policies = new LinkedList<>();
-        multipleCredential=  new LinkedHashMap<>();
+        policiesDtr = new LinkedList<>();
+        multipleCredential = new LinkedHashMap<>();
+        multipleCredentialDtr = new LinkedHashMap<>();
         operator.put("@id", "odrl:eq");
         constraint1.put("odrl:leftOperand", "cx-policy:Membership");
         constraint1.put("odrl:operator", operator);
@@ -106,60 +124,152 @@ class EdcUtilTest {
         constraint2.put("odrl:rightOperand", "circulareconomy:1.0");
         constraints.add(constraint1);
         constraints.add(constraint2);
-        logicConstraint.put("odrl:and", constraints);
+
+        operator.put("@id", "odrl:eq");
+        constraint3.put("odrl:leftOperand", "cx-policy:Membership");
+        constraint3.put("odrl:operator", operator);
+        constraint3.put("odrl:rightOperand", "active");
+
+        constraint4.put("odrl:leftOperand", "cx-policy:UsagePurpose");
+        constraint4.put("odrl:operator", operator);
+        constraint4.put("odrl:rightOperand", "cx.core.digitalTwinRegistry:1");
+        configuredConstraints.add(constraint3);
+        configuredConstraints.add(constraint4);
+        logicalConstraintDtr.put("odrl:and", configuredConstraints);
+        logicalConstraint.put("odrl:and", constraints);
 
         action.put("odrl:action", "USE");
-        action.put("odrl:constraint", logicConstraint);
+        action.put("odrl:constraint", logicalConstraint);
+
+        actionDtr.put("odrl:action", "USE");
+        actionDtr.put("odrl:constraint", logicalConstraintDtr);
 
         permissions.add(action);
         policy.put("odrl:permission", permissions);
         policy.put("odrl:prohibition", prohibitions);
         policy.put("odrl:obligation", obligations);
         credential.put("policy", policy);
+
+        permissionsDtr.add(actionDtr);
+        policyDtr.put("odrl:permission", permissionsDtr);
+        policyDtr.put("odrl:prohibition", prohibitions);
+        policyDtr.put("odrl:obligation", obligations);
+        credentialDtr.put("policy", policyDtr);
+        policiesDtr.add(policyDtr);
+        policiesDtr.add(policyDtr);
+        multipleCredentialDtr.put("policy",policiesDtr);
+
         policies.add(policy);
         policies.add(policy);
         multipleCredential.put("policy",policies);
 
     }
     /*
-     * This test case parses a correct constraint in to the desired object format.
+     * This test case checks if a policy that is invalid is marked as invalid
      */
     @Test
-    void parseCorrectConstraint() {
-        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(constraint1, true));
-        Constraint constraintResponse = edcUtil.parseConstraint(constraint1);
-        LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(constraintResponse, true));
-        assertNotNull(constraintResponse);
-    }
-    /*
-     * This test case parses a logic complex constraint with the parse constraint logic
-     */
-    @Test
-    void parseLogicConstraint() {
-        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(logicConstraint, true));
-        Constraint constraintResponse = edcUtil.parseConstraint(logicConstraint);
-        LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(constraintResponse, true));
-        assertNull(constraintResponse);
-    }
-    /*
-     * This test case parses a policy testing the configuration
-     */
-    @Test
-    void isPolicyActionsValid() {
+    void isInvalidPolicyValid() {
         // Bind policy to class
         Set mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
         if(mappedPolicy == null){
             throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
         }
-        // Get policy configuration
-        PolicyConfig policyConfigs = this.dtrConfig.getPolicyCheck();
-        if(policyConfigs == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Policy configuration not found!");
+
+        if(this.dtrConfig == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
         }
-        // Call the edcUtil method
+
+        // Get policy configuration
+        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
+        if(policyCheckConfigs == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
+        }
+        // Get all the policies from configuration
+        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
+        if(policies == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
+        }
+        // Generate the policies from configuration
+        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean constraintResponse = edcUtil.isPolicyActionsValid(mappedPolicy, policyConfigs);
-        LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(constraintResponse, true));
-        assertNull(constraintResponse);
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
+        assertFalse(isValid);
     }
+    /*
+     * This test case checks if a policy that is valid is marked as valid
+     */
+    @Test
+    void isValidPolicyValid() {
+        // Bind policy to class
+        Set mappedPolicy = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
+        if(mappedPolicy == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+        }
+
+        if(this.dtrConfig == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
+        }
+
+        // Get policy configuration
+        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
+        if(policyCheckConfigs == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
+        }
+        // Get all the policies from configuration
+        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
+        if(policies == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
+        }
+        // Generate the policies from configuration
+        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
+        assertTrue(isValid);
+    }
+
+    /**
+     * Evaluate if the policy give in included in the list of policies
+     * <p>
+     *
+     *  @param policy the {@code Set} of the policy
+     *  @param validPolicies the {@code validPolicies} list of valid policies to be compared to
+     *  @return true if the policy is valid
+     *
+     **/
+    @Test
+    void isPolicyValid(){
+        // Bind policy to class
+        Set mappedPolicy = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
+        if(mappedPolicy == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+        }
+
+        if(this.dtrConfig == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
+        }
+
+        // Get policy configuration
+        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
+        if(policyCheckConfigs == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
+        }
+        // Get all the policies from configuration
+        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
+        if(policies == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
+        }
+        // Generate the policies from configuration
+        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        // Get the hashCodes from the different policies
+        List<String> hashes = builtPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
+        LogUtil.printTest("[ALL VALID POLICY HASHES]: " + jsonUtil.toJson(hashes, true));
+        String policyHash = CrypUtil.sha256(this.jsonUtil.toJson(this.policyDtr, false));
+        LogUtil.printTest("[POLICY HASH]: " + jsonUtil.toJson(policyHash, true));
+        assertTrue(hashes.contains(policyHash));
+    }
+
 }

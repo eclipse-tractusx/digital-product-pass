@@ -27,7 +27,7 @@ package org.eclipse.tractusx.digitalproductpass.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
@@ -477,9 +477,9 @@ public class DtrSearchManager {
             if (policies == null){
                 throw new ManagerException("getDtrPolicy","No policies found for the digital twin registry contract offers");
             }
-            PolicyConfig policyConfig = dtrConfig.getPolicyCheck();
-            if (policyConfig.getEnabled()) {
-                return edcUtil.getPolicyByConstraints(policies, policyConfig);
+            PolicyCheckConfig policyCheckConfig = dtrConfig.getPolicyCheck();
+            if (policyCheckConfig.getEnabled()) {
+                return edcUtil.getPolicyByConstraints(policies, policyCheckConfig);
             } else {
                 // if more than one policy is validated, select the first one
                 return dataTransferService.selectPolicyByIndex(policies, 0);

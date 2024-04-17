@@ -84,34 +84,21 @@ configuration:
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
     policyCheck:
-      enable: true
+      enabled: true
       # List of allowed permissions policies
-      permission:
-        - action: "use"
-          logicConstraint: "odrl:and"
-          constraints:
-          - leftOperand: "cx-policy:UsagePurpose"
-            operator: "eq"
-            rightOperand: "cx.core.digitalTwinRegistry:1"
-          - leftOperand: "Membership"
-            operator: "eq"
-            rightOperand: "active"
-        - action: "use"
-          logicConstraint: "odrl:and"
-          constraints:
-            - leftOperand: "UsagePurpose"
-              operator: "eq"
-              rightOperand: "cx.core.digitalTwinRegistry:1"
-            - leftOperand: "Membership"
-              operator: "eq"
+      policies:
+        - permission:
+          - action: "USE"
+            logicalConstraint: "odrl:and"
+            constraints:
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
               rightOperand: "active"
-        - action: "use"
-          constraints:
-            - leftOperand: "BusinessPartnerNumber"
-              operator: "eq"
-              rightOperand: "BPNL1TEST12342321"
-      prohibition: []
-      obligation: []
+            - leftOperand: "cx-policy:UsagePurpose"
+              operator: "odrl:eq"
+              rightOperand: "cx.core.digitalTwinRegistry:1"
+          prohibition: []
+          obligation: []
 
     decentralApis:
       search: "/lookup/shells"

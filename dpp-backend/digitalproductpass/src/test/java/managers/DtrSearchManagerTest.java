@@ -26,7 +26,7 @@
 package managers;
 
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import utils.*;
 
@@ -60,22 +61,20 @@ class DtrSearchManagerTest {
     private DataTransferService dataTransferService;
     @Mock
     private DtrConfig dtrConfig;
-    private PolicyConfig policyConfig;
+    private PolicyCheckConfig policyCheckConfig;
     @Mock
     Environment env;
-    @Mock
+    @Autowired
     private FileUtil fileUtil;
-    @Mock
+    @Autowired
     private JsonUtil jsonUtil;
-    @Mock
+    @Autowired
     private EdcUtil edcUtil;
+    @Autowired
+    private PolicyUtil policyUtil;
     @BeforeAll
     void setUpAll() {
-        fileUtil = new FileUtil();
-        jsonUtil = new JsonUtil(fileUtil);
         dtrConfig = initDtrConfig();
-        jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
         env =  Mockito.mock(Environment.class);
         HttpUtil httpUtil = new HttpUtil(env);
         dataTransferService = Mockito.mock(DataTransferService.class);

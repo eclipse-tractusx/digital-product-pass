@@ -64,7 +64,7 @@ jobs:
       - run: zip -r veracode-scan-target.zip ./
 
       - name: Run Veracode Upload And Scan
-        uses: veracode/veracode-uploadandscan-action@0.2.6
+        uses: veracode/veracode-uploadandscan-action@v1.0
         with:
           appname: "Battery-Passport-Consumer-App"
           createprofile: false

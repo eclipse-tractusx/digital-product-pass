@@ -135,9 +135,6 @@ public class ContractService extends BaseService {
                 try {
                     bpnDiscoveries = catenaXService.getBpnDiscovery(searchBody.getId(), searchBody.getType());
                 } catch (Exception e) {
-//                    throw new ServiceException(this.getClass().getName() + "." + "createCall",
-//                            e,
-//                            "It was not possible to get the bpn number from discovery service!");
                     response.message = "Failed to get the bpn number from the discovery service";
                     response.status = 404;
                     response.statusText = "Not Found";

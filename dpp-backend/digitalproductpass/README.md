@@ -21,10 +21,8 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
+<h1 style="display:flex; align-items: center;"><img src="../../docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
-
-<h2><strong>Version</strong>: <span style="color: cyan">v2.1.3</span><h2>
 
 <br>
 

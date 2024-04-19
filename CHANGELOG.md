@@ -32,18 +32,58 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - SingleApiRequest class for the requested data for the single API.
 - SingleApiConfig class to had configurations related to the single API.
 - ContractService class to move all the processing logic from the API and Contract controllers to this service.
+- Added the following Industry Core changes to the policy and digital twin:
+    - Added `manufacturerId` and `digitalTwinType` to the specificAssetIds in digital twin registry
+    - Added localIdentifiers to the SerialPart aspect model
 
 ### Updated
-- Refactored dpp-script by adding AppId as a script parameter
-- Updated dpp-script readme
-- Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
-- Updated the digital twin registry version to v0.3.31
+- Refactored workflows where required
+- Moved frontend source files into dpp-frontend directory
+- Made data-service chart independent from the edc-provider chart
+- Renamed Keycloak to IAM
+- Re-organized data-consumer and data-provider artifacts
+- Re-organized directory strcuture for docs and deployment folders
+- Updated documentation references where required
+- Updated infrastructure guide
+- Updated testdata script to allow EDC constrained policy for the registry
 - Updated ApiController with the singleApi POST method.
 - Updated ContractController by creating call methods (create, search, agree and status) without the authentication step to call in the Single API.
 - Updated AuthenticationService by adding the isSingleApiAuthenticated method to authenticate the single API key.
 - Updated application.yaml with the single api configurations.
 - Updated deployment-backend.yaml with the oauth.apiKey.
 - Updated values-int/beta/dev.yaml files with the oauth.apiKey.
+
+### Deleted
+- Deleted unused files/directories/docs/images
+    - Removed environment-specific values files from helm charts
+    - Removed MOCKed json payloads
+    - Removed docker directory
+
+
+## [released]
+## [v2.2.0] - 26-03-2024
+
+### Updated
+- Refactored dpp-script by adding AppId as a script parameter
+- Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
+- Updated the digital twin registry version to v0.3.31
+- Updated postman collection to adjust the APIs from EDC `v0.6.0`
+- Updated IRS collection to change authentication process from OAuth2 to the API-Key
+- Updated models to support the new EDC 0.6.0 semantics (alias for retro-compatibility enabled)
+- Updated edc-consumer and edc-provider helm charts version to `v0.6.0`
+- Updated the catalog request semantics
+- Optimized/refactored the contract negotiation and transfer flow.
+- Updated Data Plane Service data parsing
+- Updated the following readme files:
+    - Postman readme
+    - dpp-script readme
+-   Updated translations
+-   Updated battery graph
+
+## Added
+- Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.
+- Added missing static units
+- Added missing data fields
 
 ## [released]
 ## [v2.1.3] - 19-02-2024
@@ -778,4 +818,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Updated
 - Optimized the reponsive from the application
 - Optimized the passport display
-- Updated components with Vuetify 3, making the application more stable. 
+- Updated components with Vuetify 3, making the application more stable.

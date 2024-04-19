@@ -105,4 +105,3 @@ spec:
       {{- end }}
       volumes:
         {{- tpl (toYaml .Values.backend.volumes | nindent 12) .}}
-

@@ -35,7 +35,7 @@ import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
@@ -587,8 +587,6 @@ class ProcessManagerTest {
         Dataset dataset = new Dataset();
         dataset.setId(datasetId);
         dataset.setAssetId(assetId);
-        dataset.setAssetName("TEST");
-
         Dataset initialDataset = processManager.loadDataset(testProcessId);
 
         assertNull(initialDataset);
@@ -599,7 +597,6 @@ class ProcessManagerTest {
         assertNotNull(updatedDataset);
         assertEquals(datasetId, updatedDataset.getId());
         assertEquals(assetId, updatedDataset.getAssetId());
-        assertEquals("TEST", updatedDataset.getAssetName());
     }
 
     @Test
@@ -655,7 +652,7 @@ class ProcessManagerTest {
     void saveAndLoadPassport() {
         when(env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true)).thenReturn(false);
 
-        DataPlaneEndpoint dataPlaneEndpoint = new DataPlaneEndpoint();
+        EndpointDataReference dataPlaneEndpoint = new EndpointDataReference();
         String id = UUID.randomUUID().toString();
         String authKey = UUID.randomUUID().toString();
         String contractId = UUID.randomUUID().toString();

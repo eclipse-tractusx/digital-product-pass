@@ -22,26 +22,19 @@
 #################################################################################
 
 apiVersion: v1
-kind: Secret
+kind: Service
 metadata:
-  name: avp-consumer-backend-cx-registry-auth
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  clientId: {{ .Values.oauth.techUser.clientId }}
-  clientSecret: {{ .Values.oauth.techUser.clientSecret }}
----
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: avp-consumer-backend-edc-oauth
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  xApiKey: {{ .Values.edc.xApiKey }}
-  participantId: {{ .Values.edc.participantId }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}      # host port
+      targetPort: 8888                      # container port
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+    component: backend

@@ -25,10 +25,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation.policy;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
@@ -44,7 +41,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LogicalConstraint extends Constraint {
 
+
+
     /** ATTRIBUTES **/
+    enum LogicType{
+        AND,
+        OR,
+        NONE
+    }
 
     @JsonProperty("odrl:and")
     @JsonAlias({"and","odrl:and"})
@@ -122,9 +126,62 @@ public class LogicalConstraint extends Constraint {
         return newConstraints;
     }
 
+
+    // Find which logic operation has the policy constraints
+    public LogicType findLogicalConstraint(){
+        boolean condition1 = (this.orOperator == null || this.orOperator.isEmpty());
+        boolean condition2 = (this.andOperator == null || this.andOperator.isEmpty());
+        if (condition1&&condition2)
+            return LogicType.NONE;
+        if (condition1)
+            return LogicType.AND;
+        return LogicType.OR;
+    }
+
     /** GETTERS AND SETTERS **/
 
-
+    /**
+     * Method responsible for comparing two logical constraints
+     * <p>
+     * @param  logicalConstraint {@code LogicalConstraint} is the object to be compared
+     * @return true if the logicalConstraint is the same
+     */
+    public Boolean compare(LogicalConstraint logicalConstraint){
+        try{
+            LogicType logic = logicalConstraint.findLogicalConstraint();
+            LogicType currentLogic = this.findLogicalConstraint();
+            if(logic != currentLogic){
+                return false;
+            }
+            // Compare logic constraints
+            switch (logic){
+                case AND -> {return this.compareLogicalConstraint(this.getAndOperator(), logicalConstraint.getAndOperator());}
+                case OR -> {return this.compareLogicalConstraint(this.getOrOperator(), logicalConstraint.getOrOperator());}
+                default -> {return this.compareConstraint(logicalConstraint);}
+            }
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the logical constraint!");
+        }
+    }
+    /**
+     * Method responsible for comparing two logical constraints
+     * <p>
+     * @param  logicalConstraint {@code List<Constraint>} is the list of constraints to be compared
+     * @param  incomingConstraints {@code List<Constraint>} is the list of constraints to be compared to
+     * @return true if the list of constraints is the same
+     */
+    public Boolean compareLogicalConstraint(List<Constraint> logicalConstraint, List<Constraint> incomingConstraints) {
+        try{
+            List<Boolean> validConstraints = new ArrayList<>();
+            logicalConstraint.stream().parallel().forEach(c -> {
+                // Compare constraints against each other
+                incomingConstraints.stream().parallel().forEach(co -> validConstraints.add(co.compareConstraint(c)));
+            });
+            return !validConstraints.contains(false); //If there is a false the constraints are not equal
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the list of logical constraints!");
+        }
+    }
 
     public List<Constraint> getAndOperator() {
         return andOperator;

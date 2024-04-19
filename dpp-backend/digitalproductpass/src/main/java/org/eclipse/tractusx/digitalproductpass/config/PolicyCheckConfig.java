@@ -38,6 +38,7 @@ import java.util.List;
 public class PolicyCheckConfig {
 
     Boolean enabled;
+    Boolean strictMode;
 
     List<PolicyConfig> policies;
 
@@ -47,6 +48,12 @@ public class PolicyCheckConfig {
 
     public PolicyCheckConfig(Boolean enabled, List<PolicyConfig> policies) {
         this.enabled = enabled;
+        this.policies = policies;
+    }
+
+    public PolicyCheckConfig(Boolean enabled, Boolean strictMode, List<PolicyConfig> policies) {
+        this.enabled = enabled;
+        this.strictMode = strictMode;
         this.policies = policies;
     }
 
@@ -65,6 +72,15 @@ public class PolicyCheckConfig {
     public void setPolicies(List<PolicyConfig> policies) {
         this.policies = policies;
     }
+
+    public Boolean getStrictMode() {
+        return strictMode;
+    }
+
+    public void setStrictMode(Boolean strictMode) {
+        this.strictMode = strictMode;
+    }
+
     public static class PolicyConfig {
 
         // Permissions for usage and access

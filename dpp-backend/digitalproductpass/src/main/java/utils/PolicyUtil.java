@@ -50,6 +50,8 @@ import java.util.List;
 @Component
 public class PolicyUtil {
 
+    @Autowired
+    JsonUtil jsonUtil;
     public PolicyUtil() {
     }
 
@@ -72,7 +74,59 @@ public class PolicyUtil {
         }
     }
 
-
+    /**
+     * Checks a policy configuration strictly against the incoming policy
+     * <p>
+     *
+     * @param policy {@code Set} the policy to be checked
+     * @param validPolicies {@code List<Set>} the list of valid policies
+     * @return {@code List<Set>} the list of parsed policies built from the configuration parameters
+     * @throws UtilException if error when parsing the contracts
+     */
+    public Boolean strictPolicyCheck(Set policy, List<Set> validPolicies){
+        try {
+            // Get the hashCodes from the different policies
+            List<String> hashes = validPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
+            String policyHash = CrypUtil.sha256(this.jsonUtil.toJson(policy, false));
+            return hashes.contains(policyHash); // If hashcode is in the list the policy is valid
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, "[STRICT MODE] It was not possible to check if policy is valid!");
+        }
+    }
+    /**
+     * Checks a policy configuration strictly against the incoming policy
+     * <p>
+     *
+     * @param policy {@code Set} the policy to be checked
+     * @param configPolicy {@code List<Set>} the config policy to be checked
+     * @return {@code List<Set>} the list of parsed policies built from the configuration parameters
+     * @throws UtilException if error when parsing the contracts
+     */
+    public Boolean isPolicyConstraintsValid(Set policy, Set configPolicy){
+        try {
+            return policy.compare(configPolicy);
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");
+        }
+    }
+    /**
+     * Checks a policy configuration strictly against the incoming policy
+     * <p>
+     *
+     * @param policy {@code Set} the policy to be checked
+     * @param validPolicies {@code List<Set>} the list of valid policies
+     * @return {@code Boolean} return true if policy is valid with default mode
+     * @throws UtilException if error when doing the policy check
+     */
+    public Boolean defaultPolicyCheck(Set policy, List<Set> validPolicies){
+        try {
+            // Filter the list of policies based on the policy configuration
+            List<Set> policies = validPolicies.stream().filter(p -> this.isPolicyConstraintsValid(policy, p)).toList();
+            return policies.size() > 0; //If any policy is valid then return true
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");
+        }
+    }
 
 
 }

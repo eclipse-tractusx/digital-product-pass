@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.Objects;
@@ -109,6 +110,26 @@ public class Constraint {
         if (o == null || getClass() != o.getClass()) return false;
         Constraint that = (Constraint) o;
         return Objects.equals(leftOperand, that.leftOperand) && Objects.equals(operator, that.operator) && Objects.equals(rightOperand, that.rightOperand);
+    }
+
+    /**
+     * Method responsible for comparing two constraints
+     * <p>
+     * @param  constraint {@code Constraint} is the object to be compared
+     * @return true if the constraint is the same
+     */
+    public Boolean compareConstraint(Constraint constraint){
+        try{
+            if(!this.leftOperand.equalsIgnoreCase(constraint.getLeftOperand())){
+                return false;
+            }
+            if(!this.operator.getId().equalsIgnoreCase(constraint.getOperator().getId())){
+                return false;
+            }
+            return this.rightOperand.equalsIgnoreCase(constraint.getRightOperand());
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the constraints!");
+        }
     }
 
     @Override

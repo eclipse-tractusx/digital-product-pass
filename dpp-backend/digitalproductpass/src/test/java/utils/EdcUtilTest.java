@@ -193,7 +193,7 @@ class EdcUtilTest {
         List<Set> builtPolicies = policyUtil.buildPolicies(policies);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies);
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies,policyCheckConfigs.getStrictMode());
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertFalse(isValid);
     }
@@ -226,19 +226,13 @@ class EdcUtilTest {
         List<Set> builtPolicies = policyUtil.buildPolicies(policies);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies);
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies,policyCheckConfigs.getStrictMode());
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertTrue(isValid);
     }
 
     /**
-     * Evaluate if the policy give in included in the list of policies
-     * <p>
-     *
-     *  @param policy the {@code Set} of the policy
-     *  @param validPolicies the {@code validPolicies} list of valid policies to be compared to
-     *  @return true if the policy is valid
-     *
+     * Evaluate if the policy in configuration is valid
      **/
     @Test
     void isPolicyValid(){

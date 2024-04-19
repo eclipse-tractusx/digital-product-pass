@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 
 /**
  * This class responsible for mapping the logic constraints from a policy set
@@ -93,5 +94,21 @@ public class Action {
 
     public void setConstraint(LogicalConstraint constraint) {
         this.constraint = constraint;
+    }
+
+
+    /**
+     * Method responsible for comparing two actions
+     * <p>
+     * @param  action {@code Action} is the object to be compared
+     * @return true if the actions is the same
+     */
+    public Boolean compare(Action action){
+        try{
+            if(!action.getAction().equalsIgnoreCase(this.getAction())){return false;}
+            return action.getConstraint().compare(this.getConstraint());
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the actions!");
+        }
     }
 }

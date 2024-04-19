@@ -120,6 +120,8 @@ public class EdcUtil {
 
         return policy;
     }
+
+
     /**
      * Evaluate if the policy give in included in the list of policies
      * <p>
@@ -129,12 +131,11 @@ public class EdcUtil {
      *  @return true if the policy is valid
      *
      **/
-    public Boolean isPolicyValid(Set policy, List<Set> validPolicies){
+    public Boolean isPolicyValid(Set policy, List<Set> validPolicies, Boolean strictMode){
         try {
-            // Get the hashCodes from the different policies
-            List<String> hashes = validPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
-            String policyHash = CrypUtil.sha256(this.jsonUtil.toJson(policy, false));
-            return hashes.contains(policyHash); // If hashcode is in the list the policy is valid!
+            // Check is strict mode is selected
+            if(strictMode){ return policyUtil.strictPolicyCheck(policy, validPolicies); }
+            return policyUtil.defaultPolicyCheck(policy, validPolicies);
         }catch (Exception e) {
             throw new UtilException(EdcUtil.class, "It was not possible to check if policy is valid");
         }
@@ -158,6 +159,7 @@ public class EdcUtil {
             }
 
             List<Set> validPolicies = policyUtil.buildPolicies(policyConfigs);
+            Boolean strictMode = policyCheckConfigs.getStrictMode();
             // There is no valid policy available
             if (validPolicies == null || validPolicies.size() == 0) {
                 return null;
@@ -170,7 +172,7 @@ public class EdcUtil {
                 System.out.println(policy.getClass().getName());
                 System.out.println(jsonUtil.toJson(policy, true));
                 // In case the policy is valid return the policy
-                return this.isPolicyValid(policy, validPolicies)?policy:null;
+                return this.isPolicyValid(policy, validPolicies, strictMode)?policy:null;
             }
             List<Set> policyList = null;
             try {

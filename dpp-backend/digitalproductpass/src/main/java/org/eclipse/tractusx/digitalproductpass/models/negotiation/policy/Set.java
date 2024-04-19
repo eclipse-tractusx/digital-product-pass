@@ -158,10 +158,38 @@ public class Set extends DidDocument {
         return Objects.equals(permissions, set.permissions) && Objects.equals(prohibitions, set.prohibitions) && Objects.equals(obligations, set.obligations);
     }
 
-    /** Compare the two sets with the hashCodes **/
-    public boolean compare(Set set){
-        return this.hashCode() == set.hashCode();
+
+
+    /**
+     * Method responsible for parsing the policy based on the configuration
+     * <p>
+     * @param  set {@code Set} policy to compare with the current policy
+     *
+     */
+    public Boolean compare(Set set){
+        // Compare policies actions
+        if(!this.compareActions(set.getProhibitions(), this.getProhibitions())){return false;};
+        if(!this.compareActions(set.getObligations(), this.getObligations())){return false;};
+        return this.compareActions(set.getPermissions(), this.getPermissions());
     }
+    /**
+     * Method responsible for comparing two actions constraints
+     * <p>
+     * @param  currentActions {@code Collection<Action>} is the object to be compared
+     * @param  incomingActions {@code Collection<Action>} is the object to be compared to
+     * @return true if the actions are the same
+     */
+    public Boolean compareActions(Collection<Action> currentActions, Collection<Action> incomingActions){
+        try {
+            // Set actions to the collection
+            List<Boolean> validActions = new ArrayList<>();
+            incomingActions.stream().parallel().forEach(a -> currentActions.stream().parallel().forEach(ac -> validActions.add(ac.compare(a))));
+            return !validActions.contains(false); // If one of the actions is false it is not valid
+        }catch (Exception e){
+            throw new ModelException(this.getClass().getName(), e,"It was not possible to build actions");
+        }
+    }
+
 
     @Override
     public int hashCode() {

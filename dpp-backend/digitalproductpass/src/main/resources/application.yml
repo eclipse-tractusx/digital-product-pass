@@ -85,6 +85,7 @@ configuration:
     semanticIdTypeKey: 'Submodel'
     policyCheck:
       enabled: true
+      strictMode: true # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
       # List of allowed permissions policies
       policies:
         - permission:

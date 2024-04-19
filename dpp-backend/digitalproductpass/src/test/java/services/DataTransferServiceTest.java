@@ -33,6 +33,7 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.CatalogRequest;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
@@ -51,7 +52,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -93,21 +94,20 @@ class DataTransferServiceTest {
     private Environment env;
     @Mock
     private HttpUtil httpUtil;
-    @Autowired
+
     private EdcUtil edcUtil;
-    @Autowired
     private JsonUtil jsonUtil;
-    @Autowired
     private YamlUtil yamlUtil;
-    @Autowired
     private FileUtil fileUtil;
-    @Autowired
-    private PolicyUtil policyUtil ;
 
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
         dtrConfig = initDtrConfig();
+        fileUtil = new FileUtil();
+        jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
+        yamlUtil = new YamlUtil(fileUtil);
         env = initEnv();
         bpn = "BPNL00000000000";
         String mockApiKey = "12345678979ayasdmasdjncjxnzc";

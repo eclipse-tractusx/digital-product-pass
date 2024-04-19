@@ -89,6 +89,10 @@ class EdcUtilTest {
     LinkedHashMap<String, Object> credentialDtr;
     LinkedHashMap<String, Object> multipleCredential;
     LinkedHashMap<String, Object> multipleCredentialDtr;
+    PolicyCheckConfig policyCheckConfig;
+    Set mappedPolicy;
+    Set mappedPolicyDtr;
+    List<PolicyCheckConfig.PolicyConfig> policiesConfig;
     @BeforeEach
     void setUp() {
         logicalConstraintDtr = new LinkedHashMap<>();
@@ -159,9 +163,31 @@ class EdcUtilTest {
         policiesDtr.add(policyDtr);
         multipleCredentialDtr.put("policy",policiesDtr);
 
-        policies.add(policy);
+        policies.add(policyDtr);
         policies.add(policy);
         multipleCredential.put("policy",policies);
+        // Bind policy to class
+        mappedPolicyDtr = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
+        if(mappedPolicyDtr == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy dtr to type reference!");
+        }
+        mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
+        if(mappedPolicy == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+        }
+
+        if(this.dtrConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
+        }
+        policyCheckConfig = this.dtrConfig.getPolicyCheck();
+        if(policyCheckConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
+        }
+        // Get all the policies from configuration
+        policiesConfig = policyCheckConfig.getPolicies();
+        if(policiesConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
+        }
 
     }
     /*
@@ -169,31 +195,11 @@ class EdcUtilTest {
      */
     @Test
     void isInvalidPolicyValid() {
-        // Bind policy to class
-        Set mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
-        if(mappedPolicy == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
-        }
-
-        if(this.dtrConfig == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
-        }
-
-        // Get policy configuration
-        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
-        if(policyCheckConfigs == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
-        }
-        // Get all the policies from configuration
-        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
-        if(policies == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
-        }
         // Generate the policies from configuration
-        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies,policyCheckConfigs.getStrictMode());
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies, false);
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertFalse(isValid);
     }
@@ -202,31 +208,10 @@ class EdcUtilTest {
      */
     @Test
     void isValidPolicyValid() {
-        // Bind policy to class
-        Set mappedPolicy = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
-        if(mappedPolicy == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
-        }
-
-        if(this.dtrConfig == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
-        }
-
-        // Get policy configuration
-        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
-        if(policyCheckConfigs == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
-        }
-        // Get all the policies from configuration
-        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
-        if(policies == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
-        }
-        // Generate the policies from configuration
-        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
-        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies,policyCheckConfigs.getStrictMode());
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
+        Boolean isValid = edcUtil.isPolicyValid(mappedPolicyDtr, builtPolicies,false);
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertTrue(isValid);
     }
@@ -236,28 +221,8 @@ class EdcUtilTest {
      **/
     @Test
     void isPolicyValid(){
-        // Bind policy to class
-        Set mappedPolicy = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
-        if(mappedPolicy == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
-        }
-
-        if(this.dtrConfig == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
-        }
-
-        // Get policy configuration
-        PolicyCheckConfig policyCheckConfigs = this.dtrConfig.getPolicyCheck();
-        if(policyCheckConfigs == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
-        }
-        // Get all the policies from configuration
-        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfigs.getPolicies();
-        if(policies == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
-        }
         // Generate the policies from configuration
-        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         // Get the hashCodes from the different policies
         List<String> hashes = builtPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
         LogUtil.printTest("[ALL VALID POLICY HASHES]: " + jsonUtil.toJson(hashes, true));
@@ -266,4 +231,15 @@ class EdcUtilTest {
         assertTrue(hashes.contains(policyHash));
     }
 
+    /**
+     * This test case gets policies by constraint
+     * **/
+    @Test
+    void getPolicyByConstraints() {
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policies, true));
+        LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfig, true));
+        Set validPolicy = edcUtil.getPolicyByConstraints(policies, policyCheckConfig);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
+        assertNotNull(validPolicy);
+    }
 }

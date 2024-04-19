@@ -26,7 +26,10 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.config.*;
+import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
+import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -45,7 +48,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -78,20 +80,11 @@ class CatenaXServiceTest {
     @Mock
     private VaultService vaultService;
     private DtrConfig dtrConfig;
-    private PolicyCheckConfig policyCheckConfig;
     private DiscoveryConfig discoveryConfig;
-    @Autowired
     private YamlUtil yamlUtil;
-    @Autowired
     private JsonUtil jsonUtil;
-    @Autowired
-    private PolicyUtil policyUtil;
-    @Autowired
     private HttpUtil httpUtil;
-    @Autowired
     private FileUtil fileUtil;
-
-
     @Mock
     private Environment env;
     private Discovery discovery;
@@ -101,6 +94,10 @@ class CatenaXServiceTest {
     @BeforeAll
     void setUpAll() throws ServiceInitializationException {
         MockitoAnnotations.openMocks(this);
+        fileUtil = new FileUtil();
+        yamlUtil = new YamlUtil(fileUtil);
+        jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
         securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));

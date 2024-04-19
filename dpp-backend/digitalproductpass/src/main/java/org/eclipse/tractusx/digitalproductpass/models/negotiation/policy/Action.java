@@ -105,8 +105,9 @@ public class Action {
      */
     public Boolean compare(Action action){
         try{
-            if(!action.getAction().equalsIgnoreCase(this.getAction())){return false;}
-            return action.getConstraint().compare(this.getConstraint());
+            if(action == null){return false;} // If action is null not continue
+            if(!action.getAction().equalsIgnoreCase(this.getAction())){return false;} // If actions strings are not the same
+            return action.getConstraint().compare(this.getConstraint()); //If constraints are the same
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the actions!");
         }

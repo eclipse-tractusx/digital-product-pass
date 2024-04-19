@@ -85,7 +85,7 @@ configuration:
     semanticIdTypeKey: 'Submodel'
     policyCheck:
       enabled: true
-      strictMode: true
+      strictMode: false
       # List of allowed permissions policies
       policies:
         - permission:

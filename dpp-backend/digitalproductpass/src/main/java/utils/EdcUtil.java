@@ -65,7 +65,10 @@ public class EdcUtil {
 
     public EdcUtil() {
     }
-
+    public EdcUtil(JsonUtil jsonUtil,PolicyUtil policyUtil) {
+        this.jsonUtil = jsonUtil;
+        this.policyUtil = policyUtil;
+    }
     /**
      * Parses the data from HTTP request {@code Object} body to a {@code DataPLaneEndpoint} object data.
      * <p>
@@ -180,7 +183,8 @@ public class EdcUtil {
             } catch (Exception e) {
                 throw new UtilException(EdcUtil.class, e, "It was not possible to parse the policy");
             }
-            return policyList.stream().findFirst().orElse(null);
+            //Search for policies that are valid and get one of the valid ones
+            return policyList.stream().parallel().filter(p -> this.isPolicyValid(p, validPolicies, strictMode)).findAny().orElse(null);
         }catch (Exception e) {
             throw new UtilException(EdcUtil.class, "It was not possible to get policy by constraints!");
         }

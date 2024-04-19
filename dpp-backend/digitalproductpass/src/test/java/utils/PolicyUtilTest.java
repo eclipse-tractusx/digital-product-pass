@@ -65,27 +65,197 @@ class PolicyUtilTest {
     @Autowired
     private PolicyUtil policyUtil;
 
+    LinkedHashMap<String, Object> logicalConstraint;
+    LinkedHashMap<String, Object> logicalConstraintDtr;
+    LinkedHashMap<String, Object> constraint1;
+    LinkedHashMap<String, Object> constraint2;
+    LinkedHashMap<String, Object> constraint3;
+
+    LinkedHashMap<String, Object> constraint4;
+    LinkedHashMap<String, Object> operator;
+    LinkedList<LinkedHashMap<String, Object>> constraints;
+    LinkedList<LinkedHashMap<String, Object>> configuredConstraints;
+    LinkedHashMap<String, Object> action;
+    LinkedHashMap<String, Object> actionDtr;
+    LinkedList<LinkedHashMap<String, Object>> permissions;
+    LinkedList<LinkedHashMap<String, Object>> permissionsDtr;
+    LinkedList<LinkedHashMap<String, Object>> prohibitions;
+    LinkedList<LinkedHashMap<String, Object>> obligations;
+    LinkedHashMap<String, Object> policy;
+    LinkedHashMap<String, Object> policyDtr;
+    LinkedList<LinkedHashMap<String, Object>> policies;
+    LinkedList<LinkedHashMap<String, Object>> policiesDtr;
+    LinkedHashMap<String, Object> credential;
+    LinkedHashMap<String, Object> credentialDtr;
+    LinkedHashMap<String, Object> multipleCredential;
+    LinkedHashMap<String, Object> multipleCredentialDtr;
+    PolicyCheckConfig policyCheckConfig;
+    Set mappedPolicy;
+    Set mappedPolicyDtr;
+    List<PolicyCheckConfig.PolicyConfig> policiesConfig;
+    @BeforeEach
+    void setUp() {
+        logicalConstraintDtr = new LinkedHashMap<>();
+        logicalConstraint = new LinkedHashMap<>();
+        constraint1 = new LinkedHashMap<>();
+        constraint2 = new LinkedHashMap<>();
+        constraint3 = new LinkedHashMap<>();
+        constraint4 = new LinkedHashMap<>();
+        operator = new LinkedHashMap<>();
+        constraints = new LinkedList<>();
+        configuredConstraints = new LinkedList<>();
+        policy = new LinkedHashMap<>();
+        policyDtr = new LinkedHashMap<>();
+        credential = new LinkedHashMap<>();
+        credentialDtr = new LinkedHashMap<>();
+        action = new LinkedHashMap<>();
+        actionDtr = new LinkedHashMap<>();
+        permissions = new LinkedList<>();
+        permissionsDtr = new LinkedList<>();
+        prohibitions = new LinkedList<>();
+        obligations = new LinkedList<>();
+        policies = new LinkedList<>();
+        policiesDtr = new LinkedList<>();
+        multipleCredential = new LinkedHashMap<>();
+        multipleCredentialDtr = new LinkedHashMap<>();
+        operator.put("@id", "odrl:eq");
+        constraint1.put("odrl:leftOperand", "cx-policy:Membership");
+        constraint1.put("odrl:operator", operator);
+        constraint1.put("odrl:rightOperand", "active");
+
+        constraint2.put("odrl:leftOperand", "cx-policy:FrameworkAgreement");
+        constraint2.put("odrl:operator", operator);
+        constraint2.put("odrl:rightOperand", "circulareconomy:1.0");
+        constraints.add(constraint1);
+        constraints.add(constraint2);
+
+        operator.put("@id", "odrl:eq");
+        constraint3.put("odrl:leftOperand", "cx-policy:Membership");
+        constraint3.put("odrl:operator", operator);
+        constraint3.put("odrl:rightOperand", "active");
+
+        constraint4.put("odrl:leftOperand", "cx-policy:UsagePurpose");
+        constraint4.put("odrl:operator", operator);
+        constraint4.put("odrl:rightOperand", "cx.core.digitalTwinRegistry:1");
+        configuredConstraints.add(constraint3);
+        configuredConstraints.add(constraint4);
+        logicalConstraintDtr.put("odrl:and", configuredConstraints);
+        logicalConstraint.put("odrl:and", constraints);
+
+        action.put("odrl:action", "USE");
+        action.put("odrl:constraint", logicalConstraint);
+
+        actionDtr.put("odrl:action", "USE");
+        actionDtr.put("odrl:constraint", logicalConstraintDtr);
+
+        permissions.add(action);
+        policy.put("odrl:permission", permissions);
+        policy.put("odrl:prohibition", prohibitions);
+        policy.put("odrl:obligation", obligations);
+        credential.put("policy", policy);
+
+        permissionsDtr.add(actionDtr);
+        policyDtr.put("odrl:permission", permissionsDtr);
+        policyDtr.put("odrl:prohibition", prohibitions);
+        policyDtr.put("odrl:obligation", obligations);
+        credentialDtr.put("policy", policyDtr);
+        policiesDtr.add(policyDtr);
+        policiesDtr.add(policyDtr);
+        multipleCredentialDtr.put("policy",policiesDtr);
+
+        policies.add(policy);
+        policies.add(policy);
+        multipleCredential.put("policy",policies);
+        // Bind policy to class
+        mappedPolicyDtr = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
+        if(mappedPolicyDtr == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy dtr to type reference!");
+        }
+        mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
+        if(mappedPolicy == null){
+            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+        }
+
+        if(this.dtrConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
+        }
+        policyCheckConfig = this.dtrConfig.getPolicyCheck();
+        if(policyCheckConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
+        }
+        // Get all the policies from configuration
+        policiesConfig = policyCheckConfig.getPolicies();
+        if(policiesConfig == null){
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
+        }
+
+    }
+    /*
+     * Checks if all the constraints are the same and valid
+     */
+    @Test
+    void defaultValidPolicyCheck() {
+        try {
+            // Call the edcUtil method
+            List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
+            LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
+            LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+            Boolean result = policyUtil.defaultPolicyCheck(mappedPolicyDtr, builtPolicies);
+            LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(result, true));
+            assertTrue(result);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+    /*
+     * Checks if all the constraints are the same and invalid
+     */
+    @Test
+    void defaultInvalidPolicyCheck() {
+        try {
+            List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
+            LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
+            LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+            Boolean result = policyUtil.defaultPolicyCheck(mappedPolicy, builtPolicies);
+            LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(result, true));
+            assertFalse(result);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
     /*
      * This test case parses a correct constraint in to the desired object format.
      */
     @Test
     void buildPolicies() {
-        if(this.dtrConfig == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
-        }
-        PolicyCheckConfig policyCheckConfig = this.dtrConfig.getPolicyCheck();
-        if(policyCheckConfig == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
-        }
-        // Get all the policies from configuration
-        List<PolicyCheckConfig.PolicyConfig> policies = policyCheckConfig.getPolicies();
-        if(policies == null){
-            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policies in configuration were not found!");
-        }
-        // Call the edcUtil method
-        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policies, true));
-        List<Set> builtPolicies = policyUtil.buildPolicies(policies);
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policiesConfig, true));
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(builtPolicies, true));
-        assertEquals(builtPolicies.size(), policies.size());
+        assertEquals(builtPolicies.size(), policiesConfig.size());
     }
+    /*
+     * This test case check is the policy is valid using hashes
+     */
+    @Test
+    void strictValidPolicyCheck() {
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+        Boolean result = policyUtil.strictPolicyCheck(mappedPolicyDtr, builtPolicies);
+        LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(result, true));
+        assertTrue(result);
+    }
+    /*
+     * This test case check is the policy is invalid using hashes
+     */
+    @Test
+    void strictInvalidPolicyCheck() {
+        List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+        Boolean result = policyUtil.strictPolicyCheck(mappedPolicy, builtPolicies);
+        LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(result, true));
+        assertFalse(result);
+    }
+
 }

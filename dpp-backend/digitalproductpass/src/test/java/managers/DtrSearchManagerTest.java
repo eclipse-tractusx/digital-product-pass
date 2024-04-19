@@ -26,7 +26,6 @@
 package managers;
 
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
@@ -37,7 +36,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import utils.*;
 
@@ -61,27 +59,28 @@ class DtrSearchManagerTest {
     private DataTransferService dataTransferService;
     @Mock
     private DtrConfig dtrConfig;
-    private PolicyCheckConfig policyCheckConfig;
     @Mock
     Environment env;
-    @Autowired
+    @Mock
     private FileUtil fileUtil;
-    @Autowired
+    @Mock
     private JsonUtil jsonUtil;
-    @Autowired
+    @Mock
     private EdcUtil edcUtil;
-    @Autowired
-    private PolicyUtil policyUtil;
     @BeforeAll
     void setUpAll() {
+        fileUtil = new FileUtil();
+        jsonUtil = new JsonUtil(fileUtil);
         dtrConfig = initDtrConfig();
+        jsonUtil = new JsonUtil(fileUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
         env =  Mockito.mock(Environment.class);
         HttpUtil httpUtil = new HttpUtil(env);
         dataTransferService = Mockito.mock(DataTransferService.class);
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig ,processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
 
         fileUtil.deleteFile(dtrSearchManager.getDataModelPath());
         dtrSearchManager.loadDataModel();

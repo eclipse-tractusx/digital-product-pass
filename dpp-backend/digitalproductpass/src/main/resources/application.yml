@@ -85,19 +85,19 @@ configuration:
     semanticIdTypeKey: 'Submodel'
     policyCheck:
       enabled: true
-      strictMode: true # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
       # List of allowed permissions policies
       policies:
         - permission:
-          - action: "USE"
-            logicalConstraint: "odrl:and"
-            constraints:
-            - leftOperand: "cx-policy:Membership"
-              operator: "odrl:eq"
-              rightOperand: "active"
-            - leftOperand: "cx-policy:UsagePurpose"
-              operator: "odrl:eq"
-              rightOperand: "cx.core.digitalTwinRegistry:1"
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.core.digitalTwinRegistry:1"
           prohibition: []
           obligation: []
 

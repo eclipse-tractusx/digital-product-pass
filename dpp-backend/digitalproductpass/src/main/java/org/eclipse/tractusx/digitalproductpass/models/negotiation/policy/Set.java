@@ -168,8 +168,8 @@ public class Set extends DidDocument {
      */
     public Boolean compare(Set set){
         // Compare policies actions
-        if(!this.compareActions(set.getProhibitions(), this.getProhibitions())){return false;};
-        if(!this.compareActions(set.getObligations(), this.getObligations())){return false;};
+        if(!this.compareActions(set.getProhibitions(), this.getProhibitions())){return false;}
+        if(!this.compareActions(set.getObligations(), this.getObligations())){return false;}
         return this.compareActions(set.getPermissions(), this.getPermissions());
     }
     /**
@@ -181,10 +181,15 @@ public class Set extends DidDocument {
      */
     public Boolean compareActions(Collection<Action> currentActions, Collection<Action> incomingActions){
         try {
+            // Optimizations to avoid searching in children
+            if(currentActions == null && incomingActions == null){return true;} // If both actions are null they are equal
+            if(currentActions == null || incomingActions == null){return false;}// If one of be options are null and they both are not than they are not the same
+            if(currentActions.size() != incomingActions.size()){return false;} // If the actions are with different sizes
+            if(currentActions.isEmpty()){return true;} // If the actions are empty they are the same and have the same size if one is empty both are empty
             // Set actions to the collection
             List<Boolean> validActions = new ArrayList<>();
-            incomingActions.stream().parallel().forEach(a -> currentActions.stream().parallel().forEach(ac -> validActions.add(ac.compare(a))));
-            return !validActions.contains(false); // If one of the actions is false it is not valid
+            incomingActions.stream().parallel().forEach(a -> currentActions.stream().parallel().forEach(ac -> {if(ac.compare(a)){validActions.add(true);}}));
+            return validActions.size() == currentActions.size(); //If all the actions are the same there must be the same number of actions
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e,"It was not possible to build actions");
         }

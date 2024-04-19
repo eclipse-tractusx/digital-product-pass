@@ -148,11 +148,9 @@ public class LogicalConstraint extends Constraint {
      */
     public Boolean compare(LogicalConstraint logicalConstraint){
         try{
+            // Get new logicalConstraint logic
             LogicType logic = logicalConstraint.findLogicalConstraint();
-            LogicType currentLogic = this.findLogicalConstraint();
-            if(logic != currentLogic){
-                return false;
-            }
+            if(logic != this.findLogicalConstraint()){return false;} // In case the logic is not the same as the currenct logic
             // Compare logic constraints
             switch (logic){
                 case AND -> {return this.compareLogicalConstraint(this.getAndOperator(), logicalConstraint.getAndOperator());}
@@ -172,12 +170,16 @@ public class LogicalConstraint extends Constraint {
      */
     public Boolean compareLogicalConstraint(List<Constraint> logicalConstraint, List<Constraint> incomingConstraints) {
         try{
+            // Optimizations to avoid searching in children
+            if(logicalConstraint == null && incomingConstraints == null){return true; } // If both constraints are null they are equal
+            if(logicalConstraint == null || incomingConstraints == null){return false; }// If one of be options are null and they both are not than they are not the same
+            if(logicalConstraint.size() != incomingConstraints.size()){return false;} // If the constraints are with different sizes
+            if(logicalConstraint.isEmpty()){return true; }// If the constraints are empty they are the same and have the same size if one is empty both are empty
+
             List<Boolean> validConstraints = new ArrayList<>();
-            logicalConstraint.stream().parallel().forEach(c -> {
-                // Compare constraints against each other
-                incomingConstraints.stream().parallel().forEach(co -> validConstraints.add(co.compareConstraint(c)));
-            });
-            return !validConstraints.contains(false); //If there is a false the constraints are not equal
+            // Compare constraints against each other
+            incomingConstraints.stream().parallel().forEach(c -> {logicalConstraint.stream().parallel().forEach(co -> {if(c.compareConstraint(co)) {validConstraints.add(true);}});});
+            return validConstraints.size() == logicalConstraint.size(); // If the number of constraints is the same as the size of the current constraint they are the same.
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the list of logical constraints!");
         }

@@ -122,6 +122,7 @@ public class PolicyUtil {
         try {
             // Filter the list of policies based on the policy configuration
             List<Set> policies = validPolicies.stream().filter(p -> this.isPolicyConstraintsValid(policy, p)).toList();
+            System.out.println("[VALID POLICIES] " + policies);
             return policies.size() > 0; //If any policy is valid then return true
         }catch (Exception e) {
             throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");

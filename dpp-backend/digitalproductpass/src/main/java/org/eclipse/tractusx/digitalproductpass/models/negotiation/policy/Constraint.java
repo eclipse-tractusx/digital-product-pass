@@ -120,13 +120,9 @@ public class Constraint {
      */
     public Boolean compareConstraint(Constraint constraint){
         try{
-            if(!this.leftOperand.equalsIgnoreCase(constraint.getLeftOperand())){
-                return false;
-            }
-            if(!this.operator.getId().equalsIgnoreCase(constraint.getOperator().getId())){
-                return false;
-            }
-            return this.rightOperand.equalsIgnoreCase(constraint.getRightOperand());
+            if(!this.leftOperand.equalsIgnoreCase(constraint.getLeftOperand())){return false;} //If left operand is not the same as the left operand
+            if(!this.operator.getId().equalsIgnoreCase(constraint.getOperator().getId())){return false;}//If operator id is not the same as the operator id
+            return this.rightOperand.equalsIgnoreCase(constraint.getRightOperand());//If right operand is not the same as the right operand
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the constraints!");
         }

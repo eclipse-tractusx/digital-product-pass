@@ -56,12 +56,16 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       # Build actions for docker hub registry
       - name: Docker meta
         id: meta-for-dockerhub
         uses: docker/metadata-action@v5
         with:
-          context: dpp-frontend
           images: |
             ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
           tags: |

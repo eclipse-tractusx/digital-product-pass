@@ -60,6 +60,9 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
+      - name: Setup Java
+        uses: ./.github/actions/setup-java
+
       # Build actions for docker hub registry
       - name: Docker meta
         id: meta-for-dockerhub

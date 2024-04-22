@@ -28,6 +28,29 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### Added
+- Added the following Industry Core changes to the policy and digital twin:
+    - Added `manufacturerId` and `digitalTwinType` to the specificAssetIds in digital twin registry
+    - Added localIdentifiers to the SerialPart aspect model
+
+### Updated
+- Refactored workflows where required
+- Moved frontend source files into dpp-frontend directory
+- Made data-service chart independent from the edc-provider chart
+- Renamed Keycloak to IAM
+- Re-organized data-consumer and data-provider artifacts
+- Re-organized directory strcuture for docs and deployment folders
+- Updated documentation references where required
+- Updated infrastructure guide
+- Updated testdata script to allow EDC constrained policy for the registry
+
+### Deleted
+- Deleted unused files/directories/docs/images
+    - Removed environment-specific values files from helm charts
+    - Removed MOCKed json payloads
+    - Removed docker directory
+
+
 ## [released]
 ## [v2.2.0] - 26-03-2024
 

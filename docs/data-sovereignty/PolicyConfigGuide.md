@@ -37,6 +37,11 @@ When auto-negotiation is enabled for the assets or done for the digital twin reg
 | Digital Twin Registry       | X                |                    | Just auto-negotiation is enabled, where the contract agreements get stored for optimizing the data retrieval process. The allowed policies can be configured in the helm chart value files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Aspect Model (Data Service) | X                | X                  | Negotiation is always automatic, however the policies can be "manually selected" in the frontend if disabled. If no policy is send in the "agree" response the policy will be took from configuration. Just the policies provided in the configuration will be chosen, and will be allowed to negotiate. A filter from the catalog will be done for the contracts with valid policies. Allowing the user in the manual selection to chose the policy he wants. I case for the manual selection the user wants to be able to see all the policies the `policyConfig.enabled` from the `passport` configuration needs to be set to false. More information [here](#manual-negotiation) |
 
+
+> [!IMPORTANT]
+> 
+> The Digital Product Passport application does not have any logic to check if the policy is valid in the network or if the partner retrieving information using SSI has the authorized policy permissions for accessing and using the asset. This logic is already covered by the `Eclipse DataSpace Connector (EDC)` which is consuming the information from the network in name of the digital product pass application.  
+
 ## Table of contents
 
 <!-- TOC -->
@@ -59,6 +64,10 @@ When auto-negotiation is enabled for the assets or done for the digital twin reg
     * [Agree Contract](#agree-contract)
       * [Policy Interpretation](#policy-interpretation)
       * [Decline Contract](#decline-contract)
+* [Examples](#examples)
+  * [Logical Constraints](#logical-constraints)
+  * [Multiple Policies](#multiple-policies)
+  * [Single Constraint](#single-constraint)
 <!-- TOC -->
 
 # DPP Backend Configuration
@@ -144,7 +153,7 @@ If the parameter is set to `false` the backend will automatically select the fir
 
 ## Policy Selection Options
 
-For viewing and understanding the latest information regarding the policy selection flow see th [User Manual](../user%20manual/UserManual).
+For viewing and understanding the latest information regarding the policy selection flow see th [User Manual](../user%20manual/UserManual.md).
 
 In this documentation some points and resources will be indicated:
 
@@ -189,6 +198,242 @@ The user accepts the right contract policy, and click on the **Agree** button wh
 ![After Contract Policy Selection](../user%20manual/media/afterPolicySelection.png)
 
 #### Decline Contract
-If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](#main-menu).
+If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](../user%20manual/UserManual.md#main-menu).
 
 ![Decline Contract Policy](../user%20manual/media/declinePolicy.png)
+
+# Examples
+
+## Logical Constraints
+
+In case the and operator is used here is the way how it would be configured. For this policy in `JSON` format:
+
+```json
+{
+   "@context": {
+      "odrl": "http://www.w3.org/ns/odrl/2/",
+      "cx-policy": "https://w3id.org/catenax/policy/"
+   },
+   "@type": "PolicyDefinitionRequest",
+   "@id": "cx-policy",
+   "profile": "cx-policy:profile2405",
+   "policy": {
+      "@type": "Policy",
+      "odrl:permission": [
+         {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+               "@type": "LogicalConstraint",
+               "odrl:and": [
+                  {
+                     "@type": "Constraint",
+                     "odrl:leftOperand": "cx-policy:Membership",
+                     "odrl:operator": {
+                        "@id": "odrl:eq"
+                     },
+                     "odrl:rightOperand": "active"
+                  },
+                  {
+                     "@type": "Constraint",
+                     "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+                     "odrl:operator": {
+                        "@id": "odrl:eq"
+                     },
+                     "odrl:rightOperand": "circulareconomy:1.0"
+                  },
+                  {
+                     "@type": "Constraint",
+                     "odrl:leftOperand": "cx-policy:UsagePurpose",
+                     "odrl:operator": {
+                        "@id": "odrl:eq"
+                     },
+                     "odrl:rightOperand": "cx.circular.dpp:1"
+                  }
+               ]
+            }
+         }
+      ],
+      "odrl:obligation": [],
+      "odrl:prohibition": []
+   }
+}
+```
+
+The complete configuration in the `passport` section would be the following in `YAML` format with reduced complexity:
+
+```yaml
+policyCheck:
+  enabled: true
+  strictMode: false # -- Can be enabled if order from constraints is important
+  policies:
+    - permission:
+        - action: "USE"
+          logicalConstraint: "odrl:and"
+          constraints:
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+            - leftOperand: "cx-policy:FrameworkAgreement"
+              operator: "odrl:eq"
+              rightOperand: "circulareconomy:1.0"
+            - leftOperand: "cx-policy:UsagePurpose"
+              operator: "odrl:eq"
+              rightOperand: "cx.circular.dpp:1"
+      prohibition: [ ]
+      obligation: [ ]
+```
+
+## Multiple Policies
+
+In case of multiple allowed policies the configuration will look like this:
+
+>[!TIP]
+> 
+> The `prohibition` and `obligation` constraints if empty can be omitted!
+
+```yaml
+policyCheck:
+  enabled: true
+  strictMode: false # -- Can be enabled if order from constraints is important
+  policies:
+    # -- All three constraints must be there if the "odrl:and" constraint
+    - permission:
+        - action: "USE"
+          logicalConstraint: "odrl:and"
+          constraints:
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+            - leftOperand: "cx-policy:FrameworkAgreement"
+              operator: "odrl:eq"
+              rightOperand: "circulareconomy:1.0"
+            - leftOperand: "cx-policy:UsagePurpose"
+              operator: "odrl:eq"
+              rightOperand: "cx.circular.dpp:1"
+      prohibition: [ ]
+      obligation: [ ]
+    # -- Just one constraint is mentioned and without logical constraint
+    - permission:
+        - action: "USE"
+          constraints:
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+      prohibition: [ ]
+      obligation: [ ]
+    # -- Example with "odrl:or" logical constraint
+    - permission:
+        - action: "USE"
+          logicalConstraint: "odrl:or"
+          constraints:
+            - leftOperand: "cx-policy:FrameworkAgreement"
+              operator: "odrl:eq"
+              rightOperand: "circulareconomy:1.0"
+            - leftOperand: "cx-policy:FrameworkAgreement"
+              operator: "odrl:eq"
+              rightOperand: "pcf:1.0"
+      prohibition: [ ]
+      obligation: [ ]
+```
+
+## Single Constraint
+
+In case the policy is simple and has one constraint, no `logicalConstraint` shall be added.
+
+```yaml
+policyCheck:
+  enabled: true
+  strictMode: false # -- Can be enabled if order from constraints is important
+  policies:
+    # -- Just one constraint is mentioned and without logical constraint
+    - permission:
+        - action: "USE"
+          constraints:
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+      prohibition: [ ]
+      obligation: [ ]
+```
+
+In case another constraint is added just the first one will be considered:
+```yaml
+policyCheck:
+  enabled: true
+  strictMode: false # -- Can be enabled if order from constraints is important
+  policies:
+    # -- Just one constraint is mentioned and without logical constraint
+    - permission:
+        - action: "USE"
+          # -- No logical constraint mentioned here
+          constraints:
+            # -- Just this constraint will be selected
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+            # -- This constraint will be ignored
+            - leftOperand: "cx-policy:UsagePurpose"
+              operator: "odrl:neq"
+              rightOperand: "cx.core.qualityNotifications:1"
+      prohibition: [ ]
+      obligation: [ ]
+
+```
+The reason behind this is that the policies without logical constraints look like this:
+
+```json
+{
+   "@context": {
+      "odrl": "http://www.w3.org/ns/odrl/2/",
+      "cx-policy": "https://w3id.org/catenax/policy/"
+   },
+   "@type": "PolicyDefinitionRequest",
+   "@id": "cx-policy",
+   "profile": "cx-policy:profile2405",
+   "policy": {
+      "@type": "Policy",
+      "odrl:permission": [
+         {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+               "odrl:leftOperand": "cx-poliy:Membership",
+               "odrl:operator": {
+                  "@id": "odrl:eq"
+               },
+               "odrl:rightOperand": "active"
+            }
+         }
+      ],
+      "odrl:obligation": [],
+      "odrl:prohibition": []
+   }
+}
+```
+
+If you want to have multiple single constraints do it like this:
+
+```yaml
+policyCheck:
+  enabled: true
+  strictMode: false # -- Can be enabled if order from constraints is important
+  policies:
+    # -- Just one constraint is mentioned and without logical constraint
+    - permission:
+        - action: "USE"
+          # -- No logical constraint mentioned here
+          constraints:
+            # -- Just this constraint will be selected
+            - leftOperand: "cx-policy:Membership"
+              operator: "odrl:eq"
+              rightOperand: "active"
+      # -- Just one constraint is mentioned and without logical constraint
+    - permission:
+        - action: "USE"
+          # -- No logical constraint mentioned here
+          constraints:
+            # -- This constraint will be considered now
+            - leftOperand: "cx-policy:UsagePurpose"
+              operator: "odrl:neq"
+              rightOperand: "cx.core.qualityNotifications:1"
+
+```

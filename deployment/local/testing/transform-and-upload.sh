@@ -58,20 +58,25 @@ export SUBMODEL_ID=''
 
 source ./functions.sh
 
-POLICY=''
+DATA_POLICY=''
+REGISTRY_POLICY=''
+
+REGISTRY_POLICY=$(jq '.policies[0]' "${datapath}")
+DATA_POLICY=$(jq '.policies[1]' "${datapath}")
+
 # create edc assets, policies and contracts for the registry (DTR)
 echo "Creating default edc assets for the registry asset"
 create_registry_asset
+create_registry_policy "${REGISTRY_POLICY}"
+create_registry_contractdefinition
 create_default_policy
 create_default_contractdefinition
 echo
 
-POLICY=$(jq '.policies' "${datapath}")
-
 # create assets for passes
 echo "Creating edc assets for the passport"
 create_edc_asset
-create_edc_policy "${POLICY}"
+create_edc_policy "${DATA_POLICY}"
 create_contractdefinition
 echo
 

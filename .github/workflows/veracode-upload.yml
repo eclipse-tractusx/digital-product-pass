@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ''
 
@@ -64,7 +64,7 @@ jobs:
       - run: zip -r veracode-scan-target.zip ./
 
       - name: Run Veracode Upload And Scan
-        uses: veracode/veracode-uploadandscan-action@0.2.1
+        uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
           appname: "Battery-Passport-Consumer-App"
           createprofile: false

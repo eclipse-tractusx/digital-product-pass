@@ -85,7 +85,7 @@ configuration:
     semanticIdTypeKey: 'Submodel'
     policyCheck:
       enabled: true
-      strictMode: false
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
       # List of allowed permissions policies
       policies:
         - permission:
@@ -134,21 +134,6 @@ configuration:
 
   passport:
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
-    policyCheck:
-      enabled: true
-      permission:
-        prefix: "cx-policy"
-        any: true
-        constraints:
-          - leftOperand: "FrameworkAgreement"
-            operator: "eq"
-            rightOperand: "circulareconomy:1.0"
-          - leftOperand: "UsagePurpose"
-            operator: "eq"
-            rightOperand: "cx.circular.dpp:1"
-          - leftOperand: "Membership"
-            operator: "eq"
-            rightOperand: "active"
     dataTransfer:
       encrypt: true
       indent: true
@@ -156,6 +141,24 @@ configuration:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+    policyCheck:
+      enabled: true
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:FrameworkAgreement"
+                  operator: "odrl:eq"
+                  rightOperand: "circulareconomy:1.0"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.circular.dpp:1"
+          prohibition: [ ]
+          obligation: [ ]
 
   vault:
     type: 'local'

@@ -145,28 +145,6 @@ backend:
       transfer: "/transferprocesses"
     # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
     delay: 100
-    acceptedPolicies:
-      # -- the data contracts are only negotiated for the offers against the defined policies.
-      usagePolicies:
-        - leftOperand: "cx-policy:FrameworkAgreement"
-          operator: "eq"
-          rightOperand: "circulareconomy:1.0"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.circular.dpp:1"
-        - leftOperand: "Membership"
-          operator: "eq"
-          rightOperand: "active"
-      accessPolicies:
-        - leftOperand: "BusinessPartnerNumber"
-          operator: "eq"
-          rightOperand: *bpn
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.core.digitalTwinRegistry:1"
-        - leftOperand: "Membership"
-          operator: "eq"
-          rightOperand: "active"
 
   # -- backend hostname (without protocol prefix [DEFAULT HTTPS] for security )
   hostname: *hostname
@@ -205,7 +183,29 @@ backend:
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
       - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
-
+    # -- configuration for policies to filter in the digital product pass asset negotiation
+    policyCheck:
+      # -- condition to enable and disable the policy check
+      enabled: true
+      # -- the strict mode is quicker (uses hashes) and requires less computation complexity, the default mode is comparing against every single object value
+      strictMode: false
+      # -- list of allowed policies that can be selected from the edc catalog in negotiations
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:FrameworkAgreement"
+                  operator: "odrl:eq"
+                  rightOperand: "circulareconomy:1.0"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.circular.dpp:1"
+          prohibition: [ ]
+          obligation: [ ]
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"
@@ -222,6 +222,26 @@ backend:
       enabled: true
       # -- lifetime of the temporaryStorage in hours
       lifetime: 12
+    # -- policy configuration for the digital twin assets in the edc catalog
+    policyCheck:
+      # -- condition to enable and disable the policy check
+      enabled: true
+      # -- the strict mode is quicker (uses hashes) and requires less computation complexity, the default mode is comparing against every single object value
+      strictMode: false
+      # -- list of allowed policies that can be selected from the edc catalog in negotiations
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.core.digitalTwinRegistry:1"
+          prohibition: [ ]
+          obligation: [ ]
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration

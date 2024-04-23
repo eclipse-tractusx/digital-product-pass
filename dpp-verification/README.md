@@ -261,7 +261,8 @@ explanation of this Certification and Verification Concept.
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 See the [License](./CC-BY-4.0) for more information about usage of content and author attribution.
-Author: [Mathias Brunkow Moser](https://github.com/matbmoser)
+
+Authors: [Mathias Brunkow Moser](https://github.com/matbmoser)
 
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2023, 2024 BMW AG

@@ -28,14 +28,19 @@ SPDX-License-Identifier: Apache-2.0
   <h1> Digital Product Pass Verification Add-on </h1>
 </div>
 
+[![Contributors]https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge]
+
+
 | Version | v1.0 |
 | ------- | ---- |
 
 |                      | Date              |
 | -------------------- | ----------------- |
 | **Created**          | December 29, 2023 |
-| **Lastest Revision** | April 22, 2024    |
+| **Lastest Revision** | April 23, 2024    |
 
+> [!CAUTION]
+> This documentation is still in progress... Not all the content is yet available. It is being migrated and published here whenever it is ready. It will be finished and added to main in the R24.05
 
 ## Tags
 

@@ -25,30 +25,24 @@ SPDX-License-Identifier: Apache-2.0
 
 <div align="center">
   <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
+  <br><br>
+  <img alt="Version:  v1.0" src="https://img.shields.io/badge/Version-v1.0-blue?style=for-the-badge">
+  <img alt="STATUS: IN PROGRESS" src="https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge">
   <h1> Digital Product Pass Verification Add-on </h1>
 </div>
-
-![https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge]
-
-
-| Version | v1.0 |
-| ------- | ---- |
-
-|                      | Date              |
-| -------------------- | ----------------- |
-| **Created**          | December 29, 2023 |
-| **Lastest Revision** | April 23, 2024    |
 
 > [!CAUTION]
 > This documentation is still in progress... Not all the content is yet available. It is being migrated and published here whenever it is ready. It will be finished and added to main in the R24.05
 
-## Tags
+# Metadata
 
-> [!NOTE]
-> #Cybersecurity #DataVerification #DataCertification #Catena-X #DigitalProductPassVerification #DPP #SignedDocuments #DataCredentials
-> #DigitalProductPass #VerifiableCredentials #Wallets #DecentralIdenties #SSI #ProductDataExchangeTrust #Verification #Innovation #Ed25519 #JWS #Web3.0
+|                      | Date              | Authors & Reviewers                                   |
+| -------------------- | ----------------- | ----------------------------------------------------- |
+| **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | April 23, 2024    | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
+
 
 | Name                  | GitHub                                     | Role                                    |
 | --------------------- | ------------------------------------------ | --------------------------------------- |
@@ -56,7 +50,15 @@ SPDX-License-Identifier: Apache-2.0
 |                       |                                            |                                         |
 |                       |                                            |                                         |
 
-## Abstract
+## Tags
+
+> [!NOTE]
+> #Cybersecurity #DataVerification #DataCertification #Catena-X #DigitalProductPassVerification #DPP #SignedDocuments #DataCredentials
+> #DigitalProductPass #VerifiableCredentials #Wallets #DecentralIdenties #SSI #ProductDataExchangeTrust #Verification #Innovation #Ed25519 #JWS #Web3.0
+
+
+
+# Abstract
 
 When talking about increasing trust in data ecosystems there are multiple possible ways to be followed. Contractual and Policy solutions can be taken into consideration to ensure data sovereignty based on analog framework agreement contracts. Blockchain solutions can be implemented to assure that transactions and ownership is mathematically proofed, creating a assertive level of trust in the complete chain. Artificial Intelligence can be used as a neutral party for doing moderation and certification of data of partners and member of the network. However if you want to maintain your data and identify under your control assuring data sovereignty and keeping it decentral the best option to choose are Decentral Identities from the W3C.
 

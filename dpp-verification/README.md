@@ -28,7 +28,7 @@ SPDX-License-Identifier: Apache-2.0
   <h1> Digital Product Pass Verification Add-on </h1>
 </div>
 
-[![Contributors]https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge]
+![https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge]
 
 
 | Version | v1.0 |

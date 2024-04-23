@@ -57,12 +57,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Kubernetes KinD Cluster
-        uses: container-tools/kind-action@v1
+        uses: container-tools/kind-action@v2
         with:
           # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
           version: v0.19.0
@@ -71,7 +71,7 @@ jobs:
 
       - name: Build image for frontend
         id: build-frontend
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: dpp-frontend
           push: true
@@ -91,24 +91,24 @@ jobs:
 
       - name: Build image for backend
         id: build-backend
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: dpp-backend/digitalproductpass
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE}}:${{ env.TAG }}
 
       - name: Set up Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4
         with:
           version: v3.9.3
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           check-latest: true
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.3.1
+        uses: helm/chart-testing-action@v2.6.1
 
       - name: Run chart-testing (list-changed)
         id: list-changed

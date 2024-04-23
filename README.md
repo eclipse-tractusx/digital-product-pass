@@ -21,7 +21,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
+<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -55,7 +55,7 @@ Here is a preview from the DPP App UI, where we visualize a test battery passpor
 To get started you can have a look into our documentation:
 
 | Name                                                                                                          | Description                                                                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Arc42](./docs/arc42/Arc42.md)                                                                                | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
 | [Administration Guide](./docs/admin%20guide/AdminGuide.md)                                                    | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
 | [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                                 | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                         |
@@ -66,7 +66,7 @@ To get started you can have a look into our documentation:
 | [Short Introduction into the project](./docs/GETTING-STARTED.md)                                              | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
 | [Code Scaning with Kics and Trivy](./docs/infrastructure%20as%20code/IaC.md)                                  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
 | [Release Guidelines](./docs/RELEASE.md)                                                                       | Digital Product Pass App Release Guide                                                                                                                      |
-| [Secret Management](./docs/secrets%20management/SECRETS_MANAGEMENT.md)                                        | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |     |
+| [Secret Management](./docs/secrets%20management/SECRETS_MANAGEMENT.md)                                        | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
 | [End User Manual](./docs/user%20manual/UserManual.md)                                                         | End User Manual Product Viewer App                                                                                                                          |
 | [Postman Overview](./deployment/local/postman//README.md)                                                     | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
 | [Changelog](./CHANGELOG.md)                                                                                   | Changelog                                                                                                                                                   |

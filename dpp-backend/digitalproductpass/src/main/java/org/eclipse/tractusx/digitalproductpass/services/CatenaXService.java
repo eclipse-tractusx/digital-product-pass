@@ -69,7 +69,6 @@ public class CatenaXService extends BaseService {
     private final VaultService vaultService;
     private final DtrSearchManager dtrSearchManager;
     private final DataTransferService dataTransferService;
-
     private final AuthenticationService authService;
 
     private final DiscoveryConfig discoveryConfig;

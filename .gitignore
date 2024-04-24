@@ -71,6 +71,7 @@ tgz
 ## Backup Files
 *.bck
 *.bak
+*.bkp
 
 ######## Python - inspired by https://github.com/github/gitignore/blob/main/Python.gitignore
 

@@ -26,7 +26,6 @@ name: "Publish OpenAPI to Swaggerhub"
 
 on:
   push:
-    branches: [ "main", "develop" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_call:
@@ -61,19 +60,16 @@ jobs:
         run: |
           npm i -g swaggerhub-cli
       
-      - name: Get version tag
+      - name: Extract version tag
         id: version
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-
-      - name: Set version tag
         run: |
+          echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
           if [ -z ${{ inputs.version }} ]; then
-           
-            export DOWNSTREAM_VERSION=${{ steps.version.outputs.tag }}
+            export DOWNSTREAM_VERSION=${GITHUB_REF#refs/*/}
           else
             export DOWNSTREAM_VERSION=${{ inputs.version }}
           fi
-          echo "[INFO] - DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
+          echo "DOWNSTREAM_VERSION=$DOWNSTREAM_VERSION" >> "$GITHUB_ENV"
 
       - name: Create and Download API specs
         shell: bash
@@ -93,19 +89,8 @@ jobs:
           docker rm test-container
               
       # create API, will fail if exists
-      - name: Create API
+      - name: Create  and publish API Specs to SwaggerHub
         continue-on-error: true
         run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
-
-      # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
-      - name: Publish API Specs to SwaggerHub
-        run: |
-          if [[ ${{ env.DOWNSTREAM_VERSION }} != *-SNAPSHOT ]]; then
-            echo "[INFO] - no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=publish
-            swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}
-          else
-            echo "[INFO] - snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=unpublish
-          fi
+          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=publish
+          swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}

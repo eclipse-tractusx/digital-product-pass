@@ -26,7 +26,6 @@ name: "Publish OpenAPI to Swaggerhub"
 
 on:
   push:
-    branches: [ "main", "bugfix/fix-swagger-workflow" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_call:
@@ -93,4 +92,5 @@ jobs:
       - name: Create  and publish API Specs to SwaggerHub
         continue-on-error: true
         run: |
-          swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/2.2.0
+          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }} -f ./dpp-backend/digitalproductpass/tractusx-dpp-api.yaml --visibility=public --published=publish
+          swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/digital-product-pass/${{ env.DOWNSTREAM_VERSION }}

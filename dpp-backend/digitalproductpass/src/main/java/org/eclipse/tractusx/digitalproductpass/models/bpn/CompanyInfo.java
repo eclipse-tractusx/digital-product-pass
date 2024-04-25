@@ -30,38 +30,49 @@ package org.eclipse.tractusx.digitalproductpass.models.bpn;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.eclipse.tractusx.digitalproductpass.config.BpdmConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
+import utils.JsonUtil;
 
 import java.util.Map;
 
 /**
- * This class consists exclusively to define attributes and methods related to the BDPM Service properties
+ * This class consists exclusively to define attributes and methods related to the BDPM Service properties for company
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BpnAddress {
+public class CompanyInfo extends Info{
 
     /**
      * ATTRIBUTES
      **/
     @JsonProperty("name")
     private String name;
-    @JsonProperty("city")
-    private String city;
-    @JsonProperty("street")
-    private String street;
-    @JsonProperty("postalCode`")
-    private String postalCode;
+
+    private BpdmConfig.CompanyConfig config;
 
     /** CONSTRUCTOR(S) **/
-    public BpnAddress(String name, String city, String street, String postalCode) {
-        this.name = name;
-        this.city = city;
-        this.street = street;
-        this.postalCode = postalCode;
+    public CompanyInfo(Map<String,Object> data, BpdmConfig.CompanyConfig config) {
+        // Build the address using the information from data in the main property
+        super(data);
+        this.config = config;
+        this.name = unpackValue(config.getName(), new TypeReference<>(){});
     }
 
-    public BpnAddress() {
+
+    public CompanyInfo(String name, BpdmConfig.CompanyConfig config) {
+        this.name = name;
+        this.config = config;
+    }
+
+    public CompanyInfo(Map<String, Object> data, String name, BpdmConfig.CompanyConfig config) {
+        super(data);
+        this.name = name;
+        this.config = config;
+    }
+
+    public CompanyInfo() {
     }
 
     /** GETTERS AND SETTERS **/
@@ -74,29 +85,14 @@ public class BpnAddress {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
+    public BpdmConfig.CompanyConfig getConfig() {
+        return config;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setConfig(BpdmConfig.CompanyConfig config) {
+        this.config = config;
     }
-
-    public String getStreet() {
-        return street;
+    public Boolean isEmpty(){
+        return this.name != null;
     }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-
 }

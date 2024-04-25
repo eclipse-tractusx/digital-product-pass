@@ -39,6 +39,7 @@ import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnAddress;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnCompany;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.BpnRequest;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.TokenRequest;
@@ -109,11 +110,14 @@ public class BpnController {
         // Mock response
         BpnResponse bpnResponse = new BpnResponse(
                 Map.of("BPNL000000000001",
-                            new BpnAddress(
+                            new BpnCompany(
                                 "Company-X Inc.",
-                                "Ulm",
-                                "Beim Alten Fritz 2",
-                                "89075"
+                                    new BpnAddress(
+                                            "Germany",
+                                    "Ulm",
+                                    "Beim Alten Fritz 2",
+                                    "89075"
+                                    )
                             )
                         )
         );

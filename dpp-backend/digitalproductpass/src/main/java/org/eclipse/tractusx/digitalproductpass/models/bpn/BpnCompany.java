@@ -24,39 +24,54 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.http.responses;
 
+package org.eclipse.tractusx.digitalproductpass.models.bpn;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnAddress;
-import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnCompany;
-
-import java.util.Map;
 
 /**
- * This class is responsible for parsing the request from the Bpn response
+ * This class consists exclusively to define attributes and methods related to the BDPM Service properties for company
  **/
-public class BpnResponse {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BpnCompany {
 
+    /**
+     * ATTRIBUTES
+     **/
+    @JsonProperty("company")
+    private CompanyInfo company;
+    @JsonProperty("address")
+    private AddressInfo address;
 
-    /** ATTRIBUTES **/
-    @JsonProperty("bpns")
-    Map<String, BpnCompany> bpns;
 
     /** CONSTRUCTOR(S) **/
-    public BpnResponse(Map<String, BpnCompany> bpns) {
-        this.bpns = bpns;
+    public BpnCompany() {
     }
 
-    public BpnResponse() {
+    public BpnCompany(CompanyInfo company, AddressInfo address) {
+        this.company = company;
+        this.address = address;
     }
-
     /** GETTERS AND SETTERS **/
-
-    public Map<String, BpnCompany> getBpns() {
-        return bpns;
+    public AddressInfo getAddress() {
+        return address;
     }
 
-    public void setBpns(Map<String, BpnCompany> bpns) {
-        this.bpns = bpns;
+    public void setAddress(AddressInfo address) {
+        this.address = address;
     }
+
+    public CompanyInfo getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyInfo company) {
+        this.company = company;
+    }
+
+
+
 }

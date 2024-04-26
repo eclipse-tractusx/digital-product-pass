@@ -49,7 +49,7 @@ public abstract class Info {
      * ATTRIBUTES
      **/
     public Map<String,Object> data;
-
+    public String bpn;
 
     /** CONSTRUCTOR(S) **/
     public Info() {
@@ -57,6 +57,11 @@ public abstract class Info {
 
     public Info(Map<String, Object> data) {
         this.data = data;
+    }
+
+    public Info(Map<String, Object> data, String bpn) {
+        this.data = data;
+        this.bpn = bpn;
     }
 
 
@@ -87,5 +92,13 @@ public abstract class Info {
 
     public void setData(Map<String, Object> data) {
         this.data = data;
+    }
+
+    public String getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
     }
 }

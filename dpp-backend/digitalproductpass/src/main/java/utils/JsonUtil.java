@@ -591,7 +591,7 @@ public final class JsonUtil {
                 currentPath.remove(part); // Remove part of path from list (Go to parent path)
                 parentPath = String.join(pathSep, currentPath); // Get current path from parent in sourceObj
                 try {
-                    tmpParent = mapper.convertValue(this.getValue(sourceObj, parentPath, pathSep, null), new TypeReference<Map<String, Object>>(){});
+                    tmpParent = mapper.convertValue(JsonUtil.getValue(sourceObj, parentPath, pathSep, null), new TypeReference<Map<String, Object>>(){});
                 }catch (Exception e){
                     //LogUtil.printError("[DEBUG] It was not possible to parse to map the parent, because it already exists as another type");
                     throw new UtilException(JsonUtil.class, "It was not possible to get value in path ["+keyPath+"] -> [" + e.getMessage() + "] ["+e.getClass()+"]");

@@ -39,21 +39,49 @@ public class BpnRequest {
 
 
     /** ATTRIBUTES **/
-    @JsonProperty("bpns")
-    List<String> bpns;
+    @JsonProperty("legalEntity")
+    List<String> legalEntities;
+
+    @JsonProperty("site")
+    List<String> sites;
+
+    @JsonProperty("address")
+    List<String> addresses;
 
     /** CONSTRUCTOR(S) **/
-    public BpnRequest(List<String> bpns) {
-        this.bpns = bpns;
+
+    public BpnRequest(List<String> legalEntities, List<String> sites, List<String> addresses) {
+        this.legalEntities = legalEntities;
+        this.sites = sites;
+        this.addresses = addresses;
     }
 
-    public List<String> getBpns() {
-        return bpns;
+    public BpnRequest() {
     }
 
     /** GETTERS AND SETTERS **/
-
-    public void setBpns(List<String> bpns) {
-        this.bpns = bpns;
+    public List<String> getLegalEntities() {
+        return legalEntities;
     }
+
+    public void setLegalEntities(List<String> legalEntities) {
+        this.legalEntities = legalEntities;
+    }
+
+    public List<String> getSites() {
+        return sites;
+    }
+
+    public void setSites(List<String> sites) {
+        this.sites = sites;
+    }
+
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
+
 }

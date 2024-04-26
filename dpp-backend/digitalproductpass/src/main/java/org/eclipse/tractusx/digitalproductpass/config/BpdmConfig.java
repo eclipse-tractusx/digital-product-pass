@@ -113,18 +113,22 @@ public class BpdmConfig {
 
     /** INNER CLASSES **/
 
+
     /**
-     * This class consists exclusively to define the attributes and methods needed for the bpdm company configuration.
+     * This class consists in a generic structure which is required to identify an entity (company or address)
      **/
-    public static class CompanyConfig {
+    public static class EntityConfig {
 
         String apiPath;
+        String bpnKey;
 
-        AttributeConfig name;
 
-        public CompanyConfig(String apiPath, AttributeConfig name) {
+        public EntityConfig(String apiPath, String bpnKey) {
             this.apiPath = apiPath;
-            this.name = name;
+            this.bpnKey = bpnKey;
+        }
+
+        public EntityConfig() {
         }
 
         public String getApiPath() {
@@ -134,6 +138,36 @@ public class BpdmConfig {
         public void setApiPath(String apiPath) {
             this.apiPath = apiPath;
         }
+
+        public String getBpnKey() {
+            return bpnKey;
+        }
+
+        public void setBpnKey(String bpnKey) {
+            this.bpnKey = bpnKey;
+        }
+    }
+
+
+    /**
+     * This class consists exclusively to define the attributes and methods needed for the bpdm company configuration.
+     **/
+    public static class CompanyConfig extends EntityConfig{
+
+        AttributeConfig name;
+
+        public CompanyConfig(String apiPath, String bpnKey, AttributeConfig name) {
+            super(apiPath, bpnKey);
+            this.name = name;
+        }
+
+        public CompanyConfig(AttributeConfig name) {
+            this.name = name;
+        }
+
+        public CompanyConfig() {
+        }
+
 
         public AttributeConfig getName() {
             return name;
@@ -147,9 +181,8 @@ public class BpdmConfig {
     /**
      * This class consists exclusively to define the attributes and methods needed for the bpdm address configuration.
      **/
-    public static class AddressConfig{
+    public static class AddressConfig extends EntityConfig{
 
-        String apiPath;
         String countryPath;
         AttributeConfig postalCode;
         AttributeConfig city;
@@ -158,8 +191,15 @@ public class BpdmConfig {
         public AddressConfig() {
         }
 
-        public AddressConfig(String apiPath, String countryPath, AttributeConfig postalCode, AttributeConfig city, AttributeConfig street) {
-            this.apiPath = apiPath;
+        public AddressConfig(String apiPath, String bpnKey, String countryPath, AttributeConfig postalCode, AttributeConfig city, AttributeConfig street) {
+            super(apiPath, bpnKey);
+            this.countryPath = countryPath;
+            this.postalCode = postalCode;
+            this.city = city;
+            this.street = street;
+        }
+
+        public AddressConfig(String countryPath, AttributeConfig postalCode, AttributeConfig city, AttributeConfig street) {
             this.countryPath = countryPath;
             this.postalCode = postalCode;
             this.city = city;
@@ -198,13 +238,6 @@ public class BpdmConfig {
             this.street = street;
         }
 
-        public String getApiPath() {
-            return apiPath;
-        }
-
-        public void setApiPath(String apiPath) {
-            this.apiPath = apiPath;
-        }
     }
 
     /**

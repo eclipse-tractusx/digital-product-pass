@@ -40,6 +40,65 @@ logging:
 configuration:
   maxRetries: 5
 
+  bpdm:
+    enabled: true
+    endpoint: "https://partners-pool.int.demo.catena-x.net"
+    companyInfo:
+      apiPath: "api/catena/legal-entities"
+      bpnKey: "bpn"
+      name:
+        path: "names"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "LOCAL"
+    site:
+      apiPath: "/api/catena/sites/main-addresses/search"
+      bpnKey: "site"
+      countryPath: "country.name"
+      postalCode:
+        path: "mainAddress.postalCodes"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "OTHER"
+      city:
+        path: "mainAddress.localities"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "CITY"
+      street:
+        path: "mainAddress.thoroughfares"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "STREET"
+    legalEntity:
+      apiPath: "/api/catena/legal-entities/legal-addresses/search"
+      bpnKey: "legalEntity"
+      countryPath: "legalAddress.country.name"
+      postalCode:
+        path: "legalAddress.postalCodes"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "REGULAR"
+      city:
+        path: "legalAddress.localities"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "CITY"
+      street:
+        path: "legalAddress.thoroughfares"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "STREET"
+    address:
+      apiPath: "api/catena/addresses"
+      bpnKey: "address.bpn"
+      countryPath: "address.country.name"
+      postalCode:
+        path: "address.postalCodes"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "REGULAR"
+      city:
+        path: "address.localities"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "CITY"
+      street:
+        path: "address.thoroughfares"
+        technicalKeys: # -- or operator active (just one will be retrieved)
+          - "STREET"
+
   keycloak:
     realm: CX-Central
     resource: Cl13-CX-Battery

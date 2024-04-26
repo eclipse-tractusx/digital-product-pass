@@ -27,9 +27,11 @@
 package org.eclipse.tractusx.digitalproductpass.models.http.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnAddress;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.AddressInfo;
 import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnCompany;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.CompanyInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,24 +41,52 @@ public class BpnResponse {
 
 
     /** ATTRIBUTES **/
-    @JsonProperty("bpns")
-    Map<String, BpnCompany> bpns;
+    @JsonProperty("legalEntity")
+    Map<String, BpnCompany> legalEntities;
+
+    @JsonProperty("site")
+    Map<String, AddressInfo> sites;
+
+    @JsonProperty("address")
+    Map<String, AddressInfo> addresses;
 
     /** CONSTRUCTOR(S) **/
-    public BpnResponse(Map<String, BpnCompany> bpns) {
-        this.bpns = bpns;
+    public BpnResponse(Map<String, BpnCompany> legalEntities, Map<String, AddressInfo> sites, Map<String, AddressInfo> addresses) {
+        this.legalEntities = legalEntities;
+        this.sites = sites;
+        this.addresses = addresses;
     }
-
     public BpnResponse() {
     }
 
+
     /** GETTERS AND SETTERS **/
-
-    public Map<String, BpnCompany> getBpns() {
-        return bpns;
+    public Map<String, BpnCompany> getLegalEntities() {
+        return legalEntities;
     }
 
-    public void setBpns(Map<String, BpnCompany> bpns) {
-        this.bpns = bpns;
+    public void setLegalEntities(Map<String, BpnCompany> legalEntities) {
+        this.legalEntities = legalEntities;
     }
+
+    public Map<String, AddressInfo> getSites() {
+        return sites;
+    }
+
+    public void setSites(Map<String, AddressInfo> sites) {
+        this.sites = sites;
+    }
+
+    public Map<String, AddressInfo> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Map<String, AddressInfo> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Boolean isEmpty(){
+        return (this.legalEntities == null || this.legalEntities.isEmpty()) && (this.addresses == null || addresses.isEmpty()) && (this.sites == null || this.sites.isEmpty());
+    }
+
 }

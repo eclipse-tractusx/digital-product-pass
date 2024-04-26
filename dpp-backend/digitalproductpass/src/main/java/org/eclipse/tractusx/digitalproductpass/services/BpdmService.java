@@ -27,6 +27,7 @@ package org.eclipse.tractusx.digitalproductpass.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.core.util.ReflectionUtils;
 import org.eclipse.tractusx.digitalproductpass.config.BpdmConfig;
 import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
@@ -34,8 +35,11 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.managers.TreeManager;
 import org.eclipse.tractusx.digitalproductpass.models.bpn.AddressInfo;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnCompany;
 import org.eclipse.tractusx.digitalproductpass.models.bpn.CompanyInfo;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.Info;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.BpnRequest;
+import org.eclipse.tractusx.digitalproductpass.models.http.responses.BpnResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobRequest;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
@@ -47,15 +51,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
-import utils.DateTimeUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.LogUtil;
+import utils.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class is a service responsible for handling the communication with a external IRS component.
@@ -141,23 +140,141 @@ public class BpdmService extends BaseService {
     }
 
     /**
-     * Gets the information from different bpn types and also from companies
+     * Gets the information in the BPDM Service from different bpn types (BPNL, BPNS, BPNA)
      * <p>
      *
-     * @param legalBpns   the {@code List<String>} process id of the job
-     * @param siteBpns    the {@code List<String>} global asset id from the digital twin
-     * @param addressBpns the {@code List<String>} search id provided by the backend to identify the job
-     * @return a {@code Map<String, String>} map object with the object prepared for return
-     * @throws ServiceException if unable to start the IRS job
+     * @param legalBpns   the {@code List<String>} list of BPNL for legal entities
+     * @param siteBpns    the {@code List<String>} list of BPNS for sites
+     * @param addressBpns the {@code List<String>} list of BPNA for addresses
+     * @return {@code BpnResponse} the response from the bpn information request
+     * @throws ServiceException if unable to get bpn information
      */
-    public Map<String, String> getBpnInformation(List<String> legalBpns, List<String> siteBpns, List<String> addressBpns) {
+    public BpnResponse getBpnInformation(List<String> legalBpns, List<String> siteBpns, List<String> addressBpns) {
         try {
-            // TODO: CHECK HOW THE RETURN WILL BE HERE. MANY TO MANY IS ENABLED..
-            return null;
+            Map<String, BpnCompany> companyInfo = this.requestLegalEntityInformation(legalBpns);
+            Map<String, AddressInfo> siteLocations = this.getBpnsInformation(siteBpns);
+            Map<String, AddressInfo> addressLocations = this.getBpnaInformation(addressBpns);
+            return new BpnResponse(companyInfo, siteLocations, addressLocations);
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getAddressInformation",
-                    e,
-                    "It was not possible to get addresses information!");
+            throw new ServiceException(this.getClass().getName() + "." + "getBpnInformation", e, "It was not possible to get bpn information!");
+        }
+    }
+
+    /**
+     * Gets the information in the BPDM Service from a single bpn type ( BPNA)
+     * <p>
+     *
+     * @param addressBpns the {@code List<String>} list of BPNA for addresses
+     * @return {@code BpnResponse} the response from the bpn information request
+     * @throws ServiceException if unable to get bpn information
+     */
+    @SuppressWarnings("Unused")
+    public BpnResponse getAddressInformation(List<String> addressBpns) {
+        try {
+            BpnResponse response = new BpnResponse();
+            response.setAddresses(this.getBpnaInformation(addressBpns));
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getAddressInformation", e, "It was not possible to get bpn address information!");
+        }
+    }
+
+    /**
+     * Gets the information in the BPDM Service from single bpn type (BPNS)
+     * <p>
+     *
+     * @param siteBpns the {@code List<String>} list of BPNS for sites
+     * @return {@code BpnResponse} the response from the bpn information request
+     * @throws ServiceException if unable to get bpn information
+     */
+    @SuppressWarnings("Unused")
+    public BpnResponse getSiteInformation(List<String> siteBpns) {
+        try {
+            BpnResponse response = new BpnResponse();
+            response.setSites(this.getBpnsInformation(siteBpns));
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getSiteInformation", e, "It was not possible to get bpn site information!");
+        }
+    }
+
+    /**
+     * Gets the information in the BPDM Service from single bpn type (BPNL)
+     * <p>
+     *
+     * @param legalBpns the {@code List<String>} list of BPNL for legal entities
+     * @return {@code BpnResponse} the response from the bpn information request
+     * @throws ServiceException if unable to get bpn information
+     */
+    @SuppressWarnings("Unused")
+    public BpnResponse getLegalEntityInformation(List<String> legalBpns) {
+        try {
+            BpnResponse response = new BpnResponse();
+            response.setLegalEntities(this.requestLegalEntityInformation(legalBpns));
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntityInformation", e, "It was not possible to get bpn the legal entity information!");
+        }
+    }
+
+    /**
+     * Gets the information in the BPDM Service from different bpn types (BPNL)
+     * <p>
+     *
+     * @param legalBpns the {@code List<String>} list of BPNL for legal entities
+     * @return {@code BpnResponse} the response from the bpn information request
+     * @throws ServiceException if unable to get bpn information
+     */
+    public Map<String, BpnCompany> requestLegalEntityInformation(List<String> legalBpns) {
+        try {
+            Map<String, CompanyInfo> legalInfo = this.getBpnlCompanyInformation(legalBpns);
+            Map<String, AddressInfo> legalLocations = this.getBpnlInformation(legalBpns);
+            return this.mergeCompanyInformation(legalInfo, legalLocations);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntityInformation", e, "It was not possible to get the legal entity information!");
+        }
+    }
+
+    /**
+     * Merges company information with company address information into one map
+     * <p>
+     *
+     * @param companyInfo      the {@code Map<String, CompanyInfo>} the company information mapped by BPNL
+     * @param companyLocations the {@code Map<String, AddressInfo>} the company address informatino mapped by BPNL
+     * @return a {@code Map<String, BpnCompany>} map object with the company information merged
+     * @throws ServiceException if it was not possible to merge the information
+     */
+    public Map<String, BpnCompany> mergeCompanyInformation(Map<String, CompanyInfo> companyInfo, Map<String, AddressInfo> companyLocations) {
+        try {
+            Map<String, BpnCompany> companyMap = new HashMap<>();
+            // Map companies information with address locations
+            companyInfo.keySet().forEach(o -> companyMap.put(o, new BpnCompany(companyInfo.get(o), companyLocations.get(o))));
+            return companyMap;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "mergeInformation", e, "It was not possible to get the company information merged!");
+        }
+    }
+
+    /**
+     * Search for single address information in the BDPM Service
+     * <p>
+     *
+     * @param addressBpn the {@code String} single BPNA element
+     * @return a {@code List<AddressInfo>} object containing the information from address
+     * @throws ServiceException if unable to get the information
+     */
+    public AddressInfo getAddressInformation(String addressBpn) {
+        try {
+            this.checkEmptyVariables();
+            String url = this.bpdmEndpoint + "/" + this.bpdmAddressPath + "/" + addressBpn;
+            // Build the Job request for the IRS
+            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+            ResponseEntity<?> response = httpUtil.doGet(url, List.class, headers, httpUtil.getParams(), false, false);
+            Map<String, Object> body = JsonUtil.bind(response.getBody(), new TypeReference<>() {
+            });
+            return buildSingleAddressInfo(body, this.bpdmConfig.getAddress());
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getAddressInformation", e, "It was not possible to get address information!");
         }
     }
 
@@ -169,21 +286,24 @@ public class BpdmService extends BaseService {
      * @return a {@code List<AddressInfo>} object containing the information from address
      * @throws ServiceException if unable to get the information
      */
-    public List<AddressInfo> getBpnaInformation(List<String> addressBpns) {
+    public Map<String, AddressInfo> getBpnaInformation(List<String> addressBpns) {
         try {
             this.checkEmptyVariables();
-            String url = this.bpdmEndpoint + "/" + this.bpdmAddressPath;
-            // Build the Job request for the IRS
-
-            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
-            headers.add("Content-Type", "application/json");
-
-            ResponseEntity<?> response = httpUtil.doPost(url, List.class, headers, httpUtil.getParams(), addressBpns, false, false);
-            return this.buildAddressInfo((List<?>) Objects.requireNonNull(response.getBody()), this.bpdmConfig.getAddress());
+            Map<String, AddressInfo> addresses = new HashMap<>();
+            addressBpns.forEach(a -> {
+                AddressInfo address = this.getAddressInformation(a);
+                if (address.isEmpty()) {
+                    LogUtil.printError("It was not possible to find information for the following address BPNA [" + a + "]");
+                    return;
+                }
+                addresses.put(address.getBpn(), address);
+            });
+            if (addresses.isEmpty()) {
+                throw new ServiceException(this.getClass().getName() + ".getBpnaInformation", "It was not possible to find any information for the requested BPNA Addresses!");
+            }
+            return addresses;
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getAddressInformation",
-                    e,
-                    "It was not possible to get addresses information!");
+            throw new ServiceException(this.getClass().getName() + "." + "getSiteInformation", e, "It was not possible to get site information!");
         }
     }
 
@@ -195,7 +315,7 @@ public class BpdmService extends BaseService {
      * @return a {@code List<AddressInfo>} object containing the information from site
      * @throws ServiceException if unable to get the information
      */
-    public List<AddressInfo> getBpnsInformation(List<String> siteBpns) {
+    public Map<String, AddressInfo> getBpnsInformation(List<String> siteBpns) {
         try {
             this.checkEmptyVariables();
             String url = this.bpdmEndpoint + "/" + this.bpdmSitePath;
@@ -207,9 +327,7 @@ public class BpdmService extends BaseService {
             ResponseEntity<?> response = httpUtil.doPost(url, List.class, headers, httpUtil.getParams(), siteBpns, false, false);
             return this.buildAddressInfo((List<?>) Objects.requireNonNull(response.getBody()), this.bpdmConfig.getSite());
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getSiteInformation",
-                    e,
-                    "It was not possible to get site information!");
+            throw new ServiceException(this.getClass().getName() + "." + "getSiteInformation", e, "It was not possible to get site information!");
         }
     }
 
@@ -221,7 +339,7 @@ public class BpdmService extends BaseService {
      * @return a {@code List<AddressInfo>} object containing the address information from legal entities
      * @throws ServiceException if unable to get the information
      */
-    public List<AddressInfo> getBpnlInformation(List<String> legalEntitiesBpns) {
+    public Map<String, AddressInfo> getBpnlInformation(List<String> legalEntitiesBpns) {
         try {
             this.checkEmptyVariables();
             String url = this.bpdmEndpoint + "/" + this.bpdmLegalEntityPath;
@@ -233,9 +351,7 @@ public class BpdmService extends BaseService {
             ResponseEntity<?> response = httpUtil.doPost(url, List.class, headers, httpUtil.getParams(), legalEntitiesBpns, false, false);
             return this.buildAddressInfo((List<?>) Objects.requireNonNull(response.getBody()), this.bpdmConfig.getLegalEntity());
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntitiesInformation",
-                    e,
-                    "It was not possible to get legal entity information!");
+            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntitiesInformation", e, "It was not possible to get legal entity information!");
         }
     }
 
@@ -247,10 +363,10 @@ public class BpdmService extends BaseService {
      * @return a {@code List<AddressInfo>} object containing the address information from legal entities
      * @throws ServiceException if unable to get the information
      */
-    public List<CompanyInfo> getBpnlCompanyInformation(List<String> legalEntitiesBpns) {
+    public Map<String, CompanyInfo> getBpnlCompanyInformation(List<String> legalEntitiesBpns) {
         try {
             this.checkEmptyVariables();
-            String url = this.bpdmEndpoint + "/" + this.bpdmLegalEntityPath;
+            String url = this.bpdmEndpoint + "/" + this.companyInfoPath;
             // Build the Job request for the IRS
 
             HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
@@ -259,9 +375,7 @@ public class BpdmService extends BaseService {
             ResponseEntity<?> response = httpUtil.doPost(url, List.class, headers, httpUtil.getParams(), legalEntitiesBpns, false, false);
             return this.buildCompanyInfo((List<?>) Objects.requireNonNull(response.getBody()), this.bpdmConfig.getCompanyInfo());
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntitiesInformation",
-                    e,
-                    "It was not possible to get legal entity information!");
+            throw new ServiceException(this.getClass().getName() + "." + "getLegalEntitiesInformation", e, "It was not possible to get legal entity information!");
         }
     }
 
@@ -274,25 +388,43 @@ public class BpdmService extends BaseService {
      * @return a {@code List<CompanyInfo>} list of objects containing information about the company
      * @throws ServiceException if unable to get the information
      */
-    public List<CompanyInfo> buildCompanyInfo(List<?> objList, BpdmConfig.CompanyConfig config) {
-        List<CompanyInfo> companies = new ArrayList<>();
-        objList.forEach(o -> {
-            // Parse data
-            Map<String, Object> data = JsonUtil.bind(o, new TypeReference<>() {
+    public Map<String, CompanyInfo> buildCompanyInfo(List<?> objList, BpdmConfig.CompanyConfig config) {
+        try {
+            Map<String, CompanyInfo> companies = new HashMap<>();
+            objList.forEach(o -> {
+                // Get the company data and parse it into the company information
+                CompanyInfo companyInfo = this.getData(o, CompanyInfo.class, config);
+                if (companyInfo.isEmpty()) {
+                    LogUtil.printError("It was not possible to find information for the following company object [" + jsonUtil.toJson(o, false) + "]");
+                    return;
+                }
+                companies.put(companyInfo.getBpn(), companyInfo);
             });
-            // If binding was not possible continue iterating
-            if (data == null) {
-                return;
+            if (companies.isEmpty()) {
+                throw new ServiceException(this.getClass().getName() + ".buildCompanyInfo", "It was not possible to build any company information!");
             }
-            CompanyInfo companyInfo = new CompanyInfo(data, config);
-            if (!companies.isEmpty()) {
-                companies.add(companyInfo);
-            }
-        });
-        if (companies.size() == 0) {
-            return null;
+            return companies;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "buildCompanyInfo", e, "Failed to build company information!");
         }
-        return companies;
+    }
+
+    /**
+     * Builds a single address info object based on configuration and list of data
+     * <p>
+     *
+     * @param obj    the {@code Map<String, Object>} object with the address information
+     * @param config the {@code BpdmConfig.AddressConfig} the specific configuration for the Address Type (BPNA)
+     * @return a {@code AddressInfo} object containing information about the address
+     * @throws ServiceException if unable to get the information
+     */
+    public AddressInfo buildSingleAddressInfo(Map<String, Object> obj, BpdmConfig.AddressConfig config) {
+        try {
+            // Get a single address information and parse it into the address information
+            return this.getData(obj, AddressInfo.class, config);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "buildSingleAddressInfo", e, "Failed to build single address information");
+        }
     }
 
     /**
@@ -304,25 +436,58 @@ public class BpdmService extends BaseService {
      * @return a {@code List<AddressInfo>} list of objects containing information about the company
      * @throws ServiceException if unable to get the information
      */
-    public List<AddressInfo> buildAddressInfo(List<?> objList, BpdmConfig.AddressConfig config) {
-        List<AddressInfo> addresses = new ArrayList<>();
-        objList.forEach(o -> {
+    public Map<String, AddressInfo> buildAddressInfo(List<?> objList, BpdmConfig.AddressConfig config) {
+        try {
+            Map<String, AddressInfo> addresses = new HashMap<>();
+            objList.forEach(o -> {
+                // Get address information and parse it into the address information
+                AddressInfo addressInfo = this.getData(o, AddressInfo.class, config);
+                if (addressInfo.isEmpty()) {
+                    LogUtil.printError("It was not possible to find information for the following address object [" + jsonUtil.toJson(o, false) + "]");
+                    return;
+                }
+                addresses.put(addressInfo.getBpn(), addressInfo);
+            });
+            if (addresses.isEmpty()) {
+                throw new ServiceException(this.getClass().getName() + ".buildCompanyInfo", "It was not possible to build any address information!");
+            }
+            return addresses;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "buildAddressInfo", e, "Failed to build address information!");
+        }
+    }
+
+    /**
+     * Get the entity data from a raw data into a specific class instance using the configuration
+     * <p>
+     *
+     * @param rawData  the {@code Object} the object which contains the raw data
+     * @param instance the {@code Class<T>} class type which will be returned a object
+     * @param config   the {@code BpdmConfig.EntityConfig} the generic configuration for the Company and Address Type (BPNL, BPNS, BPNA)
+     * @return a {@code T} class type from the parameter instance
+     * @throws ServiceException if unable to get the data
+     */
+
+    public <T> T getData(Object rawData, Class<T> instance, BpdmConfig.EntityConfig config) {
+        try {
             // Parse data
-            Map<String, Object> data = JsonUtil.bind(o, new TypeReference<>() {
+            Map<String, Object> data = JsonUtil.bind(rawData, new TypeReference<>() {
             });
             // If binding was not possible continue iterating
             if (data == null) {
-                return;
+                return null;
             }
-            AddressInfo addressInfo = new AddressInfo(data, config);
-            if (!addresses.isEmpty()) {
-                addresses.add(addressInfo);
+            // Get bpn by configured key for the entity
+            String bpn = JsonUtil.bind(data.get(config.getBpnKey()), new TypeReference<>() {
+            });
+            if (bpn == null) {
+                throw new ServiceException(this.getClass().getName() + "." + "getData", "No bpn key available for the information!");
             }
-        });
-        if (addresses.size() == 0) {
-            return null;
+            // Instance a class dynamically with its parameters
+            return ReflectionUtil.instanceClass(instance, data, config);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getData", e, "Failed to parse and get data!");
         }
-        return addresses;
     }
 
 }

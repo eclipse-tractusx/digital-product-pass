@@ -38,7 +38,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
-import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnAddress;
+import org.eclipse.tractusx.digitalproductpass.models.bpn.AddressInfo;
 import org.eclipse.tractusx.digitalproductpass.models.bpn.BpnCompany;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.BpnRequest;
@@ -47,6 +47,7 @@ import org.eclipse.tractusx.digitalproductpass.models.http.responses.BpnResponse
 import org.eclipse.tractusx.digitalproductpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.digitalproductpass.services.AasService;
 import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.services.BpdmService;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -57,6 +58,7 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -75,6 +77,7 @@ public class BpnController {
     private @Autowired AasService aasService;
     private @Autowired Environment env;
     private @Autowired AuthenticationService authService;
+    private @Autowired BpdmService bpdmService;
     private @Autowired PassportConfig passportConfig;
     private @Autowired HttpUtil httpUtil;
     private @Autowired JsonUtil jsonUtil;
@@ -88,7 +91,7 @@ public class BpnController {
         return httpUtil.getResponse("Redirect to UI");
     }
     /**
-     * HTTP POST method to retrieve information from the BPDM Service
+     * HTTP POST method to retrieve information from the BPDM Service for all the BPNL, BPNS, BPNA
      * <p>
      * @param   bpnRequestBody
      *          the {@code BpnRequest} object with the list of bpns.
@@ -97,31 +100,78 @@ public class BpnController {
      *
      */
     @RequestMapping(value = "/request", method = {RequestMethod.POST})
-    @Operation(summary = "Requests information about a company information + address, which will be requested in the BPDM service", responses = {
+    @Operation(summary = "Requests information about a company information + address, which will be requested in the BPDM service for BPNL, BPNS and BPNS", responses = {
             @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
             @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = BpnResponse.class))),
     })
     public Response getCompanyInfo(@Valid @RequestBody BpnRequest bpnRequestBody) {
-        Response response = httpUtil.getResponse();
-        // Do the search in the BPDM Service
+        Response response = httpUtil.getInternalError("It was not possible to get the company/site/address information with the selected BPNs!");
+        try {
+            // Check for authentication
+            if (!authService.isAuthenticated(httpRequest)) {
+                response = httpUtil.getNotAuthorizedResponse();
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            // Check for the fields
+            BpnResponse bpnResponse = new BpnResponse();
+            List<String> bpnl = bpnRequestBody.getLegalEntities();
+            List<String> bpns = bpnRequestBody.getSites();
+            List<String> bpna = bpnRequestBody.getAddresses();
 
-        // Mock response
-        BpnResponse bpnResponse = new BpnResponse(
-                Map.of("BPNL000000000001",
-                            new BpnCompany(
-                                "Company-X Inc.",
-                                    new BpnAddress(
-                                            "Germany",
-                                    "Ulm",
-                                    "Beim Alten Fritz 2",
-                                    "89075"
-                                    )
-                            )
-                        )
-        );
-        response.setData(bpnResponse);
-        return httpUtil.buildResponse(response, httpResponse);
+            // If all the fields are empty return an error
+            if(bpnl == null && bpns == null && bpna == null){
+                return httpUtil.buildResponse(httpUtil.getBadRequest("No parameters specified!"), httpResponse);
+            }
+
+            // If the bpnl field is not empty try to retrieve information
+            if(bpnl != null && !bpnl.isEmpty()){
+                // Request legal entity information from the bpdm service (with company info and address)
+                Map<String, BpnCompany> companyInfo = bpdmService.requestLegalEntityInformation(bpnl);
+                // If is not possible to get any info return an error
+                if(companyInfo == null || companyInfo.isEmpty()){
+                    return httpUtil.buildResponse(httpUtil.getInternalError("It was not possible to request legal entities information"), httpResponse);
+                }
+                // Set legal entity information to the response
+                bpnResponse.setLegalEntities(companyInfo);
+            }
+
+            // If the bpns field is not empty try to retrieve information
+            if(bpns != null && !bpns.isEmpty()){
+                // Request site information from the bpdm service
+                Map<String, AddressInfo> siteInfo = bpdmService.getBpnsInformation(bpns);
+                // If is not possible to get any info return an error
+                if(siteInfo == null || siteInfo.isEmpty()){
+                    return httpUtil.buildResponse(httpUtil.getInternalError("It was not possible to request sites information"), httpResponse);
+                }
+                // Set sites information to the response
+                bpnResponse.setSites(siteInfo);
+            }
+
+            // If the bpna field is not empty try to retrieve information
+            if(bpna != null && !bpna.isEmpty()){
+                // Request address information from the bpdm service
+                Map<String, AddressInfo> addressInfo = bpdmService.getBpnaInformation(bpna);
+                // If is not possible to get any info return an error
+                if(addressInfo == null || addressInfo.isEmpty()){
+                    return httpUtil.buildResponse(httpUtil.getInternalError("It was not possible to request addresses information"), httpResponse);
+                }
+                // Set address information to the response
+                bpnResponse.setAddresses(addressInfo);
+            }
+
+            // If no information was found return an error!
+            if(bpnResponse.isEmpty()){
+                return httpUtil.buildResponse(httpUtil.getNotFound("No business partner information was found for the different BPN types!"), httpResponse);
+            }
+
+            // Add the bpn response to the data
+            response.data = bpnResponse;
+            return httpUtil.buildResponse(response, httpResponse);
+        } catch (Exception e) {
+            response.message = e.getMessage();
+            return httpUtil.buildResponse(response, httpResponse);
+        }
     }
 }

@@ -256,16 +256,16 @@ explanation of this Certification and Verification Concept.
 | VP                    | Verifiable Presentation                                    |
 | W3C                   | World Wide Web Consortium                                  |
 
-
 ## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
-See the [License](./CC-BY-4.0) for more information about usage of content and author attribution.
-
-Authors: [Mathias Brunkow Moser](https://github.com/matbmoser)
 
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2023, 2024 BMW AG
 - SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass
+
+## AUTHORS
+
+- [Mathias Brunkow Moser](https://github.com/matbmoser)

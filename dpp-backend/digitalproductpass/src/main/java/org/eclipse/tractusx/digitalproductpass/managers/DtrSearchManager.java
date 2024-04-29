@@ -64,6 +64,7 @@ public class DtrSearchManager {
     private FileUtil fileUtil;
     private JsonUtil jsonUtil;
     private EdcUtil edcUtil;
+    private PolicyUtil policyUtil;
     private ProcessManager processManager;
     private DtrConfig dtrConfig;
     private ConcurrentHashMap<String, List<Dtr>> dtrDataModel;
@@ -82,7 +83,7 @@ public class DtrSearchManager {
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
+    public DtrSearchManager(FileUtil fileUtil, EdcUtil edcUtil, JsonUtil jsonUtil, PolicyUtil policyUtil, DataTransferService dataTransferService, DtrConfig dtrConfig, ProcessManager processManager) {
         this.catalogsCache = new ConcurrentHashMap<>();
         this.dataTransferService = dataTransferService;
         this.processManager = processManager;
@@ -90,6 +91,7 @@ public class DtrSearchManager {
         this.state = State.Stopped;
         this.edcUtil = edcUtil;
         this.fileUtil = fileUtil;
+        this.policyUtil = policyUtil;
         this.jsonUtil = jsonUtil;
         this.dtrDataModelFilePath = this.createDataModelFile();
         this.dtrDataModel = this.loadDtrDataModel();
@@ -479,7 +481,7 @@ public class DtrSearchManager {
             }
             PolicyCheckConfig policyCheckConfig = dtrConfig.getPolicyCheck();
             if (policyCheckConfig.getEnabled()) {
-                return edcUtil.getPolicyByConstraints(policies, policyCheckConfig);
+                return policyUtil.getPolicyByConstraints(policies, policyCheckConfig);
             } else {
                 // if more than one policy is validated, select the first one
                 return dataTransferService.selectPolicyByIndex(policies, 0);

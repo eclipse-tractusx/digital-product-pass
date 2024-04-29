@@ -39,6 +39,7 @@ import utils.exceptions.UtilException;
 
 import java.util.ArrayList;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -53,6 +54,125 @@ public class PolicyUtil {
     @Autowired
     JsonUtil jsonUtil;
     public PolicyUtil() {
+    }
+    /**
+     * Evaluate if the policy give in included in the list of policies
+     * <p>
+     *
+     *  @param policy the {@code Set} of the policy
+     *  @param validPolicies the {@code validPolicies} list of valid policies to be compared to
+     *  @return true if the policy is valid
+     *
+     **/
+    public Boolean isPolicyValid(Set policy, List<Set> validPolicies, Boolean strictMode){
+        try {
+            // Check is strict mode is selected
+            if(strictMode){ return this.strictPolicyCheck(policy, validPolicies); }
+            return this.defaultPolicyCheck(policy, validPolicies);
+        }catch (Exception e) {
+            throw new UtilException(EdcUtil.class, "It was not possible to check if policy is valid");
+        }
+    }
+
+    /**
+     * Gets a specific policy from a dataset by id
+     * <p>
+     *
+     * @param dataset the {@code Dataset} object of data set contained in the catalog
+     * @param policyId {@code String} the id of the policy to get
+     * @return Set of policy if found or null otherwise.
+     */
+    public Set getPolicyById(Dataset dataset, String policyId) {
+        Object rawPolicy = dataset.getPolicy();
+        // If the policy is not available
+        if (rawPolicy == null) {
+            return null;
+        }
+        Set policy = null;
+        // If the policy is an object
+        if (rawPolicy instanceof LinkedHashMap) {
+            policy = (Set) this.jsonUtil.bindObject(rawPolicy, Set.class);
+        } else {
+            List<LinkedHashMap> policyList = (List<LinkedHashMap>) this.jsonUtil.bindObject(rawPolicy, List.class);
+            if (policyList == null) {
+                return null;
+            }
+            policy = (Set) this.jsonUtil.bindObject(policyList.stream().filter(
+                    (p) -> p.get("@id").equals(policyId)
+            ).findFirst(), Set.class); // Get policy with the specific policy id
+        }
+        // If the policy does not exist
+        if (policy == null) {
+            return null;
+        }
+        // If the policy selected is not the one available!
+        if (!policy.getId().equals(policyId)) {
+            return null;
+        }
+
+        return policy;
+    }
+
+    /**
+     * Gets a specific policy from a dataset by constraint
+     * <p>
+     *
+     *  @param policies the {@code Object} object of with one or more policies
+     *  @param policyCheckConfigs {@code List<PolicyConfig>} list of constraints for the permissions
+     * @return List of valid policies for constraints or null if the policy or policies are not valid.
+     */
+    public List<Set> getValidPoliciesByConstraints(Object policies, PolicyCheckConfig policyCheckConfigs) {
+        // Find if policy is array or object and call the evaluate functions
+        try {
+            // If the policy is not available
+            if (policies == null || policyCheckConfigs == null) {
+                return null;
+            }
+            List<PolicyConfig> policyConfigs = policyCheckConfigs.getPolicies();
+            List<Set> validPolicies = this.buildPolicies(policyConfigs);
+            Boolean strictMode = policyCheckConfigs.getStrictMode();
+            // There is no valid policy available
+            if (validPolicies == null || validPolicies.size() == 0) {
+                return null;
+            }
+            if (policies instanceof LinkedHashMap) {
+                // Check if policy is valid or not
+                Set policy = jsonUtil.bind(policies, new TypeReference<>(){});
+                // In case the policy is valid return the policy
+                if(this.isPolicyValid(policy, validPolicies, strictMode)){
+                    return new ArrayList<>(){{add(policy);}}; // Add policy to a list of valid policies
+                }
+                // If the policy is not valid return an empty list
+                return new ArrayList<>();
+            }
+            List<Set> policyList;
+            try {
+                policyList = jsonUtil.bind(policies, new TypeReference<>(){});
+            } catch (Exception e) {
+                throw new UtilException(PolicyUtil.class, e, "It was not possible to parse the policy list");
+            }
+            //Search for policies that are valid and get one of the valid ones
+            return policyList.stream().parallel().filter(p -> this.isPolicyValid(p, validPolicies, strictMode)).toList();
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, "It was not possible to get policy by constraints!");
+        }
+    }
+    /**
+     * Gets a specific policy from a dataset by constraint
+     * <p>
+     *
+     *  @param policies the {@code Object} object of with one or more policies
+     *  @param policyCheckConfigs {@code List<PolicyConfig>} list of constraints for the permissions
+     * @return Correct policy for constraints or null if no policy is valid
+     */
+    public Set getPolicyByConstraints(Object policies, PolicyCheckConfig policyCheckConfigs) {
+        // Find if policy is array or object and call the evaluate functions
+        try {
+            //Search for policies that are valid and get one of the valid ones or return null
+            return this.getValidPoliciesByConstraints(policies, policyCheckConfigs).stream().findAny().orElse(null);
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, "It was not possible to get policy by constraints!");
+        }
     }
 
     /**

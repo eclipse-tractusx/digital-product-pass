@@ -80,7 +80,7 @@ class DtrSearchManagerTest {
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, new PolicyUtil(), dataTransferService, dtrConfig, processManager);
 
         fileUtil.deleteFile(dtrSearchManager.getDataModelPath());
         dtrSearchManager.loadDataModel();

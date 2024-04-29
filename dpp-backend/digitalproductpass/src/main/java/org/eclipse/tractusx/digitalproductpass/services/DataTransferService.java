@@ -28,6 +28,7 @@ package org.eclipse.tractusx.digitalproductpass.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ControllerException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
@@ -207,6 +208,39 @@ public class DataTransferService extends BaseService {
         }
     }
     /**
+     * A wrapper function to filter the contract offers and give the valid ones according to the configuration
+     * <p>
+     * @param   catalog
+     *          the {@code Catalog} catalog with the complete offers
+     * @param   policyConfig
+     *          the {@code PolicyCheckConfig} configuration for the policies contained in the contracts
+     * @return  a {@code Map<String, Dataset>} object with the contract offers mapped by id
+     *
+     * @throws  ServiceException
+     *           if unable to get the contract offer for the assetId.
+     */
+    public Map<String, Dataset> getValidContractOffers(Catalog catalog, PolicyCheckConfig policyConfig) throws ServiceException {
+        /*
+         *   This method receives the assetId and looks up for targets with the same name.
+         */
+        try {
+            // Get contracts with the default method
+            Map<String, Dataset> contracts = this.getContractOffers(catalog);
+            if(contracts == null || contracts.keySet().size() == 0){
+                return null;
+            }
+            // If policy check is not enabled return all the contract offers
+            if(!policyConfig.getEnabled()){
+                return contracts;
+            }
+            // If is enabled filter for the valid contract offers
+            return edcUtil.filterValidContracts(contracts, policyConfig);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName(), e, "It was not possible to get the valid contract Contract Offers");
+        }
+    }
+
+    /**
      * Gets the Contract Offers mapped by contract id
      * <p>
      * @param   catalog
@@ -244,7 +278,6 @@ public class DataTransferService extends BaseService {
             throw new ServiceException(this.getClass().getName(), e, "It was not possible to get Contract Offers for assetId");
         }
     }
-
 
     /**
      * Gets the Contract Offer from the given AssetId in the given provider URL.

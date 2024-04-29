@@ -199,7 +199,7 @@ class EdcUtilTest {
         List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicy, builtPolicies, false);
+        Boolean isValid = policyUtil.isPolicyValid(mappedPolicy, builtPolicies, false);
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertFalse(isValid);
     }
@@ -211,7 +211,7 @@ class EdcUtilTest {
         List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
-        Boolean isValid = edcUtil.isPolicyValid(mappedPolicyDtr, builtPolicies,false);
+        Boolean isValid = policyUtil.isPolicyValid(mappedPolicyDtr, builtPolicies,false);
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
         assertTrue(isValid);
     }
@@ -238,7 +238,7 @@ class EdcUtilTest {
     void getPolicyByConstraints() {
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policies, true));
         LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfig, true));
-        Set validPolicy = edcUtil.getPolicyByConstraints(policies, policyCheckConfig);
+        Set validPolicy = policyUtil.getPolicyByConstraints(policies, policyCheckConfig);
         LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
         assertNotNull(validPolicy);
     }

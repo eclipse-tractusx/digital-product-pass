@@ -138,7 +138,7 @@ class AasServiceTest {
         processConfig.setDir("process");
         baseDataDirPath = Path.of(fileUtil.getDataDir(), processConfig.getDir()).toString();
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, new PolicyUtil(), dataTransferService, dtrConfig, processManager);
         dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,vaultService, processManager, dtrConfig);
         authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
         mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);

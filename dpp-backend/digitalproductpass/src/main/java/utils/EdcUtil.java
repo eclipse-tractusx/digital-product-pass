@@ -31,6 +31,7 @@ import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionCo
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
+import org.eclipse.tractusx.digitalproductpass.models.general.Selection;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
@@ -117,6 +118,55 @@ public class EdcUtil {
     }
 
     /**
+     * Gets a valid contract from a map of contracts
+     * <p>
+     *
+     * @param contracts {@code Map<String, Dataset>} the map of contracts by id
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code Dataset} any valid contract from the map or null if no valid contract is valid
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public Dataset getValidContract(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
+        try {
+            // Check all the contract policies against the configuration
+            Map<String, Dataset> validContracts = this.filterValidContracts(contracts, policyConfig);
+            if(validContracts == null || validContracts.size() == 0){
+                return null; // No valid contract was found
+            }
+            String anyContractKey = validContracts.keySet().stream().findAny().orElse(null);
+            return validContracts.get(anyContractKey); // Get any contract from the map
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
+        }
+    }
+    /**
+     * Gets a valid contract from a map of contracts
+     * <p>
+     *
+     * @param contracts {@code Map<String, Dataset>} the map of contracts by id
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code Dataset} any valid contract from the map or null if no valid contract is valid
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public Selection<Dataset, Set> selectValidContractAndPolicy(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
+        try {
+            List<Selection<Dataset,Set>> validContractSelections  = new ArrayList<>(); // Array with possible selections
+            contracts.keySet().forEach(key -> {
+                Dataset contract = contracts.get(key); // Get the contract
+                List<Set> policies = policyUtil.getValidPoliciesByConstraints(contract.getPolicy(), policyConfig); // Get all its valid policies
+                // If policies are not null or are more than one
+                if(policies == null || policies.size() == 0){
+                    return;
+                }
+                policies.forEach(policy -> validContractSelections.add(new Selection<>(contract, policy))); // Create the possible selections
+            });
+            // Select any possible selection
+            return validContractSelections.stream().findAny().orElse(null);
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to get any valid contract and policy!");
+        }
+    }
+    /**
      * Filters a map of contracts by policy configuration constraints
      * <p>
      *
@@ -127,6 +177,10 @@ public class EdcUtil {
      */
     public Map<String, Dataset> filterValidContracts(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
         try {
+            // If no configuration was provided all contracts are valid
+            if(policyConfig == null){
+                return contracts;
+            }
             // If policy config is disabled then all the contracts are valid
             if(!policyConfig.getEnabled()){
                 return contracts;
@@ -151,17 +205,36 @@ public class EdcUtil {
      */
     public Boolean isContractValid(Dataset contract, PolicyCheckConfig policyConfig){
         try {
+            return policyUtil.getValidPoliciesByConstraints(contract, policyConfig).size() > 0; // If any policy is found the contract is valid
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
+        }
+    }
+    /**
+     * Get the contract valid policies as a list
+     * <p>
+     *
+     * @param contract {@code Dataset} the contract to be checked if valid
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code List<Set>} list of valid policies or empty list if no is available
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public List<Set> getContractValidPolicies(Dataset contract, PolicyCheckConfig policyConfig){
+        try {
+            // If no configuration was provided any contract is valid
+            if(policyConfig == null){
+                return new ArrayList<>();
+            }
             // If policy config is disabled then the contract is valid
             if(!policyConfig.getEnabled()){
-                return true;
+                return new ArrayList<>();
             }
             Object policies = contract.getPolicy();
             if (policies == null){
                 throw new UtilException(EdcUtil.class,"The contract has no parsable policies");
             }
             // Check all the contract policies against the configuration
-            List<Set> validPolicies = policyUtil.getValidPoliciesByConstraints(policies, policyConfig);
-            return validPolicies.size() > 0; // If any policy is found the contract is valid
+            return policyUtil.getValidPoliciesByConstraints(policies, policyConfig);
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
         }

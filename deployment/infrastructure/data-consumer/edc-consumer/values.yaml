@@ -142,7 +142,7 @@ tractusx-connector:
       server:
         # URL of the BPN/DID Resolution Service - required:
         url: "https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory"
-        
+
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
       type: ClusterIP
@@ -179,8 +179,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env: {}
-    #  ENV_NAME: value
+    env:
+      #  ENV_NAME: value
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -418,8 +421,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env: {}
-    #  ENV_NAME: value
+    env:
+      #  ENV_NAME: value
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core

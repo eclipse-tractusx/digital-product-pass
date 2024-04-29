@@ -44,12 +44,14 @@ tractusx-connector:
 
   iatp:
     # Decentralized IDentifier
-    id: "did:web:changeme"
+    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
+      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
     sts:
       dim:
-        url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+        url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
           id: "<path:material-pass/data/dev/edc/ssi#clientId>"
           secret_alias: "dev-client-secret"
@@ -135,7 +137,7 @@ tractusx-connector:
       cache_validity_seconds: 600
       server:
         # URL of the BPN/DID Resolution Service - required:
-        url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+        url: "https://bpn-did-resolution-service.int.demo.catena-x.net/api/management/bpn-directory"
  
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.

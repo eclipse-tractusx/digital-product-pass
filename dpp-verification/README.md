@@ -44,11 +44,11 @@ SPDX-License-Identifier: Apache-2.0
 ## Authors
 
 
-| Name                  | GitHub                                     | Role                                    |
-| --------------------- | ------------------------------------------ | --------------------------------------- |
-| Mathias Brunkow Moser | [@matbmoser](https://github.com/matbmoser) | Digital Product Pass Software Architect |
-|                       |                                            |                                         |
-|                       |                                            |                                         |
+| Name                  | Company | GitHub                                     | Role                                    |
+| --------------------- | ------- |------------------------------------------ | --------------------------------------- |
+| Mathias Brunkow Moser | CGI | [@matbmoser](https://github.com/matbmoser) | Digital Product Pass Software Architect |
+|                          |   |                                            |                                         |
+|                          |   |                                            |                                         |
 
 ## Tags
 
@@ -144,6 +144,52 @@ When talking about the certification and verification of data we can find severa
 | **Easing Decision Taking**            | When companies need to take important decisions, having external verified attributes/aspect can make a huge difference in which way to go or which product to choose.                                                                                                     |
 | **Secure Data Against Fraud**         | The data providers by verifying and signing digitately their data when issued, are **transparently being protected against fraud or false accusations**, because they can demonstrate the data was verified by an external auditors or their internal quality management. |
 
+# Previous Investigation
+<!-- TODO: Add previous investigation here -->
+> [!WARNING]
+> Previous investigation is still not available here!
+
+
+# Processes Terminology
+
+The naming from the different processes is important when it comes to differentiating the role from each actor.
+
+The process terminology from **Data Consumer** to **Data Provider** is called **Data Verification Process** and can optionally be also done between the data auditor and the data consumer.
+
+The other terminology from **Data Provider** to **Data Auditor** is called **Data Certification Process.**
+
+![Role-Process Definition](./resources/processes/role-process-definition.svg)
+
+|**Process Terminology**|**Actors**|**Description**|**Artifacts**|
+| :-- | :-: | :-- | :-: |
+|**Data Verification**|Data Consumer, Data Provider, Data Auditor|The data verification process englobes the complete journey from retrieving data as a data consumer from a data provider. It includes the search for verification statements and attribute level verification in digital twins.At the end of the journey attribute specific verification may or not be found. Other types of verification like self attestations may be or not retrieved. Depends in the available verification information.In the data verification process is included the verification of the signatures included in the data created and certified in the Data Certification Process. |**Verification Result** *with the status/flaws*|
+|**Data Certification**|Data Provider, Data Auditor|The data certification process includes all the processes related to triggering the verification until providing the data for certifying specific attributes.The data provider triggers the certification for a external or internal data auditor, which generates and optionally stores a verification statements|**Certified Data Aspects** *as Verification Statements*|
+
+## **Roles/Actors**
+Three main roles are defined and have certain responsibilities or can conduct actions in the processes. Each role can have more than one W3C role and generate different artifacts as specified in the following table:
+
+|**Role/Actors**|**Company Types**|**W3C Roles**|**Responsibilities/Actions**|**Use Cases**|**Artifacts**|
+| :-- | --- | --- | :-- | :-- | :-- |
+|Data Provider|OEMs, Tier-1|Issuer, Holder|- Creating and Issuing Data- Refence/Provision of data in a Digital Twin Registry <br>- Store and link complete data submodels in a infrastructure <br>- **[OPTIONAL]:** Self-sign data when issuing aspects <br>- **[OPTIONAL]:** Provide and Store certified credentials from external parties <br>- Store link to external parties certified credential aspects in Digital Twin Registry <br>- Requests and pays external parties (data auditors) to audit their data|As a data provider I want to be able to hand over my data to consumers and auditors. I want also to be able to manage my data and verified assets. In some cases I want to be able to self-testify my own issued data.| **Digital Twin + Submodels with EDC Endpoints for CDC and CSC** Certified Data Credential (CDC) or Plain **Digital Product Pass** <br> **[OPTIONAL]:** Storage of Certified Snapshot Credentials (CSC) in **Verification Statements Aspect**|
+|Data Auditor|Auditors, Certification Agencies, Consulting Companies, OEMs|Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rulebooks&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials|As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was payed to audit by a Data Provider.|Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC|
+|Data Consumer|Recyclers, Dismantlers, OEMs, Tier-1|Verifier|- Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result |As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider|**Verification Result Presentation**|
+
+### Abstract Interaction (Business Interaction)
+In the following diagram we can observe how the data provider, the data auditor and the data consumer interact:# Certification Processes
+
+![Roles Business Interaction](./resources/processes/roles-business-interaction.svg)
+
+The **Data Provider** is always the one that has control from its own data, following the data sovereignty concept. He offers its own data to the **data consumers** and **data auditors**.
+The **Data Consumer** `verifies` the data incoming from the **data provider** and certified by the **data auditor**.
+The **Data Auditor** retrieves data from the **data provider** and `certifies` the data against standards, then sends the `verification statement or certificate` to the **data provider**.
+
+### Document Exchange Details
+The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
+
+![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
+
+**Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
+This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors
 
 # Certification Processes
 
@@ -153,11 +199,6 @@ For easing the understanding from the certification process and the interaction 
 >
 > The Certification Processes of data are valid equally for `Type` level digital twins (Aspect Model in Type Level) or `Instance` digital twins (Aspect Model in Serialized Level). The difference relies on the configuration of the digital twin, and in which level the certification wants to be done.
 > Is important to know that the certification **MUST** be at the same level always. If we talk about a Digital Twin in Type Level, then the Digital Product Pass or any aspect model will contain Type level data, as well as the verified attributes.
-
-## Certification Types
-
-
-
 
 ##  Attribute Certification Process
 The attribute certification is based on a plain JSON Aspect Model Payload that contains the information from a digital product pass. It starts with the `data provider` that creates the `digital product passport` with the available information from and storing it in the `data service`.

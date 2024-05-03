@@ -73,6 +73,8 @@ tgz
 *.bak
 *.bkp
 
+bin
+
 ######## Python - inspired by https://github.com/github/gitignore/blob/main/Python.gitignore
 
 __pycache__/

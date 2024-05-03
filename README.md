@@ -21,12 +21,18 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Apache 2.0 License][license-shield]][license-url]
 [![Latest Release][release-shield]][release-url]
+
+<div align="center">
+  <img alt="Digital Product Pass App Logo" width="200" height="200" src="./docs/media/dpp-tx-logo.png"/>
+  <br>
+  <h1 style="align-items: center;">Digital Product Pass Application</h1>
+</div>
+
+
 
 ## Description
 

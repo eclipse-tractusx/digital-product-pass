@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -223,6 +224,6 @@ In the below figure, the product battery contains one child component (13) named
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co KGaA
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

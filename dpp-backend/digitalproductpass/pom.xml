@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
@@ -42,11 +42,6 @@
     </description>
     <properties>
         <java.version>19</java.version>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.organization>catenax-ng</sonar.organization>
-        <sonar.projectKey>catenax-ng_product-battery-passport-consumer-app</sonar.projectKey>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
     <dependencies>

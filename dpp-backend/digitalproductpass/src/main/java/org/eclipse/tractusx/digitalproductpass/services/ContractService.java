@@ -49,8 +49,8 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.*;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +76,7 @@ public class ContractService extends BaseService {
     private @Autowired DiscoveryConfig discoveryConfig;
     private @Autowired DtrConfig dtrConfig;
     private @Autowired EdcUtil edcUtil;
+    private @Autowired PolicyUtil policyUtil;
     @Autowired
     ProcessManager processManager;
     @Autowired
@@ -514,34 +515,23 @@ public class ContractService extends BaseService {
             }
 
             String policyId = tokenRequestBody.getPolicyId();
+            Set policy = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            // Check if policy is available!
-            if (policyId != null) {
-                Set policy = edcUtil.getPolicyById(dataset, policyId);
-                if (policy == null) {
-                    response = httpUtil.getBadRequest("The policy selected does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        dataset,
-                        processManager.getStatus(processId),
-                        policy
-                );
-            } else {
-                // If the policy is not selected get the first one by default
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        dataset,
-                        processManager.getStatus(processId)
-                );
+            policy = policyUtil.getPolicyById(dataset, policyId);
+            if (policy == null) {
+                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
             }
+            contractNegotiation = dataService
+                    .new NegotiateContract(
+                    processManager.loadDataModel(httpRequest),
+                    processId,
+                    status.getBpn(),
+                    status.getProviderBpn(),
+                    dataset,
+                    processManager.getStatus(processId),
+                    policy
+            );
             String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
             if (statusPath == null) {
                 response.message = "Something went wrong when agreeing with the contract!";

@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -25,7 +26,6 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [Unreleased]
 
 ### Added
@@ -43,12 +43,32 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated documentation references where required
 - Updated infrastructure guide
 - Updated testdata script to allow EDC constrained policy for the registry
+- Refactored the swagger workflow
 
 ### Deleted
 - Deleted unused files/directories/docs/images
     - Removed environment-specific values files from helm charts
     - Removed MOCKed json payloads
     - Removed docker directory
+- Deleted veracode-pipeline workflow (replaced by CodeQL and dependabot)
+
+### Issues Fixed
+- Fixed tagging issue in swagger workflow
+- Fixed table formatting in main `README.md`
+
+### Dependencies Fixed by Dependabot
+* chore(deps): bump actions/upload-artifact from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/214
+* chore(deps): bump helm/chart-testing-action from 2.3.1 to 2.6.1 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/216
+* chore(deps): bump actions/setup-python from 4 to 5 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/220
+* chore(deps): bump veracode/veracode-uploadandscan-action from 0.2.1 to 0.2.6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/218
+* chore(deps): bump actions/checkout from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/284
+* chore(deps): bump docker/build-push-action from 3 to 5 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/283
+* chore(deps): bump container-tools/kind-action from 1 to 2 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/285
+* chore(deps): bump github/codeql-action from 2 to 3 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/281
+* chore(deps): bump follow-redirects from 1.15.4 to 1.15.6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/258
+* chore(deps): bump azure/setup-helm from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/292
+* chore(deps): bump helm/chart-releaser-action from 1.4.1 to 1.6.0 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/291
+* chore(deps): bump actions/setup-java from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/290
 
 
 ## [released]

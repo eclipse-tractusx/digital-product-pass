@@ -99,6 +99,8 @@ public class ContractController {
     CatenaXService catenaXService;
     @Autowired
     HttpUtil httpUtil;
+    @Autowired
+    PolicyUtil policyUtil;
     private @Autowired JsonUtil jsonUtil;
 
     /** METHODS **/
@@ -362,11 +364,11 @@ public class ContractController {
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
                     response.status = 502;
@@ -379,7 +381,7 @@ public class ContractController {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";
                     response.status = 404;
@@ -650,7 +652,7 @@ public class ContractController {
             String policyId = tokenRequestBody.getPolicyId();
             Set policy = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            policy = edcUtil.getPolicyById(dataset, policyId);
+            policy = policyUtil.getPolicyById(dataset, policyId);
             if (policy == null) {
                 response = httpUtil.getBadRequest("The policy selected does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA 
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -301,7 +302,7 @@ public class ContractService extends BaseService {
                 response = httpUtil.getBadRequest("The status is not available!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
-            assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
+             assetSearch = aasService.decentralDtrSearch(process.id, searchBody);
 
 
             if(assetSearch == null){
@@ -362,13 +363,16 @@ public class ContractService extends BaseService {
             if(assetId == null){
                 LogUtil.printError("The assetId is empty!");
             }
+            Catalog catalog = null;
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
                     response.status = 502;
@@ -380,7 +384,8 @@ public class ContractService extends BaseService {
             if (datasets == null) {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                datasets = dataService.getContractOffersByAssetId(assetId, connectorAddress);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";
                     response.status = 404;
@@ -388,6 +393,7 @@ public class ContractService extends BaseService {
                     return httpUtil.buildResponse(response, httpResponse);
                 }
             }
+            processManager.setProviderBpn(processId, catalog.getParticipantId());
             String seedId = String.join("|", datasets.keySet());
             LogUtil.printDebug("[PROCESS " + process.id + "] ["+datasets.size()+"] Contracts found for asset [" + assetId + "] in EDC Endpoint [" + connectorAddress + "]");
 

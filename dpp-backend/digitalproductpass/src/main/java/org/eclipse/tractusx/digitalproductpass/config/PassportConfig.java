@@ -62,6 +62,12 @@ public class PassportConfig {
         this.aspects = aspects;
         this.policyCheck = policyCheck;
     }
+    public PassportConfig(String searchIdSchema, List<String> aspects, String defaultIdType, PolicyCheckConfig policyCheck) {
+        this.searchIdSchema = searchIdSchema;
+        this.aspects = aspects;
+        this.policyCheck = policyCheck;
+        this.defaultIdType = defaultIdType;
+    }
 
     public List<String> getAspects() {
         return aspects;
@@ -79,20 +85,17 @@ public class PassportConfig {
         this.searchIdSchema = searchIdSchema;
     }
 
-<<<<<<< HEAD
     public String getDefaultIdType() {
         return defaultIdType;
     }
 
     public void setDefaultIdType(String defaultIdType) {
         this.defaultIdType = defaultIdType;
-=======
     public PolicyCheckConfig getPolicyCheck() {
         return policyCheck;
     }
 
     public void setPolicyCheck(PolicyCheckConfig policyCheck) {
         this.policyCheck = policyCheck;
->>>>>>> 7481bbb80080db7831112bbee2b80b995d3ba0da
     }
 }

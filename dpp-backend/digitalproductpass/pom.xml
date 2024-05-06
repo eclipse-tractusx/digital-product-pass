@@ -3,7 +3,8 @@
   ~
   ~ Tractus-X - Digital Product Pass Application
   ~
-  ~ Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  ~ Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  ~ Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   ~ Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   ~ See the NOTICE file(s) distributed with this work for additional
@@ -29,7 +30,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -215,7 +216,7 @@ public class AppListener {
         String serverStartUpMessage = "\n\n" +
                 "**********************************************************************\n\n" +
                 " " + buildProperties.getName() + "\n" +
-                " Copyright (c) 2022, 2024: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
+                " Copyright (c) 2022, 2024: BMW AG, Henkel AG & Co. KGaA\n" +
                 " Copyright (c) 2022, 2024: Contributors to the Eclipse Foundation.\n\n" +
                 "**********************************************************************\n\n";
         System.out.print(serverStartUpMessage);

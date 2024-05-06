@@ -1,9 +1,10 @@
 /*********************************************************************************
  *
- * Catena-X - Product Passport Consumer Backend
+ * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2023 BASF SE, BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2023 Contributors to the CatenaX (ng) GitHub Organisation.
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -23,13 +24,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ import java.util.List;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CatalogRequest extends DidDocument {
+public class CatalogRequest extends DidDocument{
 
     /** ATTRIBUTES **/
     @JsonProperty("protocol")

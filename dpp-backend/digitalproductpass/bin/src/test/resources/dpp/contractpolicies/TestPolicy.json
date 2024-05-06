@@ -1,8 +1,0 @@
-{
-  "@id": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:MTIxMjYzMzgtYzhkMC00MGQ4LTkxYWMtZmY2ZTY0ZTQ5ZmM0",
-  "@type": "odrl:Set",
-  "odrl:permission" : [],
-  "odrl:prohibition": [],
-  "odrl:obligation": [],
-  "odrl:target": "registry-asset"
-}

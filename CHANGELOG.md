@@ -26,6 +26,7 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 
 ### Added
@@ -52,6 +53,12 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated documentation references where required
 - Updated infrastructure guide
 - Updated testdata script to allow EDC constrained policy for the registry
+- Updated ApiController with the singleApi POST method.
+- Updated ContractController by creating call methods (create, search, agree and status) without the authentication step to call in the Single API.
+- Updated AuthenticationService by adding the isSingleApiAuthenticated method to authenticate the single API key.
+- Updated application.yaml with the single api configurations.
+- Updated deployment-backend.yaml with the oauth.apiKey.
+- Updated values-int/beta/dev.yaml files with the oauth.apiKey.
 - Refactored the swagger workflow
 
 ### Deleted

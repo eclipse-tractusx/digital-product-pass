@@ -48,6 +48,11 @@ import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.TokenRequest;
+import org.eclipse.tractusx.digitalproductpass.models.manager.History;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
+import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
 import org.eclipse.tractusx.digitalproductpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +154,7 @@ public class ContractController {
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-           return contractService.searchCall(httpRequest, httpResponse, searchBody);
+           return contractService.searchCall(httpRequest, httpResponse, searchBody);  
         } catch (Exception e) {
             assert response != null;
             response.message = "It was not possible to search for the serialized id";

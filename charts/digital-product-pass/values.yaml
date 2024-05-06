@@ -254,6 +254,10 @@ backend:
     # -- edc discovery configuration
     edcDiscovery:
       key: "bpn"
+  # -- configuration to the single API endpoint
+  singleApi:
+    maxRetries: 30
+    delay: 1000
 
 frontend:
   name: "dpp-frontend"
@@ -365,6 +369,8 @@ oauth:
   # -- the role check checks if the user has access roles for the appId
   roleCheck:
     enabled: false
+
+  # -- to authenticate against single API
   apiKey:
     header: "X-Api-Key"
     secret: "<api-key>"

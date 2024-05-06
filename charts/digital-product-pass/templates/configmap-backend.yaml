@@ -74,6 +74,8 @@ data:
         startUpChecks:
           bpnCheck: {{ .Values.backend.securityCheck.bpn }}
           edcCheck: {{ .Values.backend.securityCheck.edc }}
+        authentication:
+          header: {{ .Values.oauth.apiKey.header }}
       # -- irs configuration
       irs:
         enabled: {{ .Values.backend.irs.enabled }} # -- Enable search for children in the requests
@@ -123,6 +125,10 @@ data:
         # -- edc discovery configuration
         edc:
           key: {{ tpl (.Values.backend.discovery.edcDiscovery.key | default "bpn") . | quote }}
+      # -- configuration to the single API endpoint
+      singleApi:
+        maxRetries: {{ .Values.backend.singleApi.maxRetries }}
+        delay: {{ .Values.backend.singleApi.delay }}
       # -- process configuration
       process:
         # -- directory for storing the contract negotiation files

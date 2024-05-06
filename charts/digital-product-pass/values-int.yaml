@@ -83,6 +83,11 @@ backend:
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
+  singleApi:
+    maxRetries: 30
+    delay: 1000
+
+
 frontend:
   ingress:
     enabled: true

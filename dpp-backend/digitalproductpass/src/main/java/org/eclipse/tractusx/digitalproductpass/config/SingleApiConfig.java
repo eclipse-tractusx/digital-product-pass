@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
  * This class consists exclusively to define the attributes and methods needed for the Simple API configuration.
  **/
 @Configuration
-@ConfigurationProperties(prefix="configuration.simple-api")
+@ConfigurationProperties(prefix="configuration.singleApi")
 public class SingleApiConfig {
 
     /** ATTRIBUTES **/

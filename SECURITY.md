@@ -1,5 +1,5 @@
 <!-- 
-  Trwaiactus-X - Digital Product Passport Application 
+  Tractus-X - Digital Product Passport Application 
  
   Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG

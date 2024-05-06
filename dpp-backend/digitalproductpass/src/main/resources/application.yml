@@ -84,6 +84,24 @@ configuration:
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
+    policyCheck:
+      enabled: true
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
+      # List of allowed permissions policies
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.core.digitalTwinRegistry:1"
+          prohibition: []
+          obligation: []
+
     decentralApis:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -124,6 +142,26 @@ configuration:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+    policyCheck:
+      enabled: true
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:FrameworkAgreement"
+                  operator: "odrl:eq"
+                  rightOperand: "circulareconomy:1.0"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.circular.dpp:1"
+          prohibition: [ ]
+          obligation: [ ]
 
   vault:
     type: 'local'

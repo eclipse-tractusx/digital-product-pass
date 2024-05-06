@@ -36,7 +36,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
@@ -47,7 +46,6 @@ import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.BpnDiscovery;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
@@ -57,9 +55,9 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Catalog;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -70,7 +68,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * This class consists exclusively to define the HTTP methods needed for the Contract negotiation.
@@ -103,6 +100,8 @@ public class ContractController {
     CatenaXService catenaXService;
     @Autowired
     HttpUtil httpUtil;
+    @Autowired
+    PolicyUtil policyUtil;
     private @Autowired JsonUtil jsonUtil;
 
     /** METHODS **/
@@ -366,11 +365,11 @@ public class ContractController {
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
                     response.status = 502;
@@ -383,7 +382,7 @@ public class ContractController {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
                 catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
-                datasets = dataService.getContractOffers(catalog);
+                datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";
                     response.status = 404;
@@ -652,36 +651,23 @@ public class ContractController {
             }
 
             String policyId = tokenRequestBody.getPolicyId();
+            Set policy = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            // Check if policy is available!
-            if (policyId != null) {
-                Set policy = edcUtil.getPolicyById(dataset, policyId);
-                if (policy == null) {
-                    response = httpUtil.getBadRequest("The policy selected does not exists!");
-                    return httpUtil.buildResponse(response, httpResponse);
-                }
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        status.getProviderBpn(),
-                        dataset,
-                        processManager.getStatus(processId),
-                        policy
-                );
-            } else {
-                // If the policy is not selected get the first one by default
-                contractNegotiation = dataService
-                        .new NegotiateContract(
-                        processManager.loadDataModel(httpRequest),
-                        processId,
-                        status.getBpn(),
-                        status.getProviderBpn(),
-                        dataset,
-                        processManager.getStatus(processId)
-                );
+            policy = policyUtil.getPolicyById(dataset, policyId);
+            if (policy == null) {
+                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                return httpUtil.buildResponse(response, httpResponse);
             }
+            contractNegotiation = dataService
+                    .new NegotiateContract(
+                    processManager.loadDataModel(httpRequest),
+                    processId,
+                    status.getBpn(),
+                    status.getProviderBpn(),
+                    dataset,
+                    processManager.getStatus(processId),
+                    policy
+            );
             String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);
             if (statusPath == null) {
                 response.message = "Something went wrong when agreeing with the contract!";

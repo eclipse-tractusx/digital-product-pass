@@ -24,56 +24,73 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Distribution;
 
 import java.util.List;
 
 /**
- * This class consists exclusively to define attributes related to the Offer's data.
+ * This class consists exclusively to define attributes related to the Contract Offer's information data set.
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Offer {
+public class Dataset extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("offerId")
-    String offerId;
-    @JsonProperty("assetId")
+    @JsonProperty("odrl:hasPolicy")
+    Object policy;
+    @JsonProperty("dcat:distribution")
+    List<Distribution> distributions;
+    @JsonProperty("id")
+    @JsonAlias({"id", "edc:id"})
     String assetId;
-    @JsonProperty("policy")
-    Set policy;
 
     /** CONSTRUCTOR(S) **/
-    public Offer(String offerId, String assetId, Set policy) {
-        this.offerId = offerId;
-        this.assetId = assetId;
-        this.policy = policy;
+
+    public Dataset(String id, String type) {
+        super(id, type);
     }
-    public Offer() {
+    public Dataset() {
+    }
+
+    public Dataset(String id, String type, Object policy, List<Distribution> distributions, String assetId) {
+        super(id, type);
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetId = assetId;
+    }
+
+    public Dataset(Object policy, List<Distribution> distributions, String assetId) {
+        this.policy = policy;
+        this.distributions = distributions;
+        this.assetId = assetId;
     }
 
     /** GETTERS AND SETTERS **/
-    public String getOfferId() {
-        return offerId;
+    public Object getPolicy() {
+        return policy;
+    }
+    public void setPolicy(Object policy) {
+        this.policy = policy;
     }
     @SuppressWarnings("Unused")
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    public List<Distribution> getDistributions() {
+        return distributions;
+    }
+    @SuppressWarnings("Unused")
+    public void setDistributions(List<Distribution> distributions) {
+        this.distributions = distributions;
     }
     public String getAssetId() {
         return assetId;
     }
     public void setAssetId(String assetId) {
         this.assetId = assetId;
-    }
-    public Set getPolicy() {
-        return policy;
-    }
-    public void setPolicy(Set policy) {
-        this.policy = policy;
     }
 }

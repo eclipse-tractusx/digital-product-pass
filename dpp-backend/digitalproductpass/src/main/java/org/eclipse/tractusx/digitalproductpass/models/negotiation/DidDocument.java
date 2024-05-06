@@ -41,12 +41,12 @@ public class DidDocument {
 
     /** ATTRIBUTES **/
     @JsonProperty("@id")
-    String id;
+    public String id;
     @JsonProperty("@type")
-    String type;
+    public String type;
 
     @JsonProperty("@context")
-    JsonNode context;
+    public JsonNode context;
 
     /** CONSTRUCTOR(S) **/
     public DidDocument(String id, String type) {

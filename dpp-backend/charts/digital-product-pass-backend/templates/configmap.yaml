@@ -25,10 +25,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backend-config
+  name: {{ .Release.Name }}-backend-config
   namespace: {{ .Values.namespace }}
 data:
-   application.yaml: |-
+  application.yaml: |-
     spring:
       name: "Digital Product Passport Consumer Backend"
       main:
@@ -57,6 +57,7 @@ data:
       # -- edc consumer connection configuration
       edc:
         endpoint: "https://{{ .Values.edc.hostname }}"
+        readiness: {{ .Values.edc.apis.readiness }}
         management: {{ .Values.edc.apis.management }}
         catalog: {{ .Values.edc.apis.catalog }}
         negotiation: {{ .Values.edc.apis.negotiation }}
@@ -73,6 +74,8 @@ data:
         startUpChecks:
           bpnCheck: {{ .Values.securityCheck.bpn }}
           edcCheck: {{ .Values.securityCheck.edc }}
+        authentication:
+          header: {{ .Values.oauth.apiKey.header }}
       # -- irs configuration
       irs:
         enabled: {{ .Values.irs.enabled }} # -- Enable search for children in the requests
@@ -123,6 +126,10 @@ data:
         # -- edc discovery configuration
         edc:
           key: {{ tpl (.Values.discovery.edcDiscovery.key | default "bpn") . | quote }}
+      # -- configuration to the single API endpoint
+      singleApi:
+        maxRetries: {{ .Values.singleApi.maxRetries }}
+        delay: {{ .Values.singleApi.delay }}
       # -- process configuration
       process:
         # -- directory for storing the contract negotiation files

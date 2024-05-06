@@ -83,6 +83,11 @@ backend:
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
+  singleApi:
+    maxRetries: 30
+    delay: 1000
+
+
 frontend:
   ingress:
     enabled: true
@@ -126,4 +131,8 @@ oauth:
     enabled: true
     bpn: *bpn
   roleCheck:
-    enabled: false  
+    enabled: false
+  apiKey:
+    header: "X-Api-Key"
+    secret: <path:material-pass/data/int/oauth#xApiKey>
+

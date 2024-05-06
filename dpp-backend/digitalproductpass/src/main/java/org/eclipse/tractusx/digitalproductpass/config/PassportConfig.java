@@ -37,6 +37,8 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
+
+    private String defaultIdType;
     private String searchIdSchema;
 
     private List<String> aspects;
@@ -60,6 +62,12 @@ public class PassportConfig {
         this.aspects = aspects;
         this.policyCheck = policyCheck;
     }
+    public PassportConfig(String searchIdSchema, List<String> aspects, String defaultIdType, PolicyCheckConfig policyCheck) {
+        this.searchIdSchema = searchIdSchema;
+        this.aspects = aspects;
+        this.policyCheck = policyCheck;
+        this.defaultIdType = defaultIdType;
+    }
 
     public List<String> getAspects() {
         return aspects;
@@ -77,6 +85,12 @@ public class PassportConfig {
         this.searchIdSchema = searchIdSchema;
     }
 
+    public String getDefaultIdType() {
+        return defaultIdType;
+    }
+
+    public void setDefaultIdType(String defaultIdType) {
+        this.defaultIdType = defaultIdType;
     public PolicyCheckConfig getPolicyCheck() {
         return policyCheck;
     }

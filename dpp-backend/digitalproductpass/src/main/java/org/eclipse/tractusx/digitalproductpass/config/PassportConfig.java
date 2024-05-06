@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -42,6 +43,8 @@ public class PassportConfig {
 
     private List<String> aspects;
 
+    PolicyCheckConfig policyCheck;
+
     public PassportConfig() {
     }
 
@@ -54,10 +57,10 @@ public class PassportConfig {
         this.aspects = aspects;
     }
 
-    public PassportConfig(String defaultIdType, String searchIdSchema, List<String> aspects) {
-        this.defaultIdType = defaultIdType;
+    public PassportConfig(String searchIdSchema, List<String> aspects, PolicyCheckConfig policyCheck) {
         this.searchIdSchema = searchIdSchema;
         this.aspects = aspects;
+        this.policyCheck = policyCheck;
     }
 
     public List<String> getAspects() {
@@ -76,11 +79,20 @@ public class PassportConfig {
         this.searchIdSchema = searchIdSchema;
     }
 
+<<<<<<< HEAD
     public String getDefaultIdType() {
         return defaultIdType;
     }
 
     public void setDefaultIdType(String defaultIdType) {
         this.defaultIdType = defaultIdType;
+=======
+    public PolicyCheckConfig getPolicyCheck() {
+        return policyCheck;
+    }
+
+    public void setPolicyCheck(PolicyCheckConfig policyCheck) {
+        this.policyCheck = policyCheck;
+>>>>>>> 7481bbb80080db7831112bbee2b80b995d3ba0da
     }
 }

@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -394,7 +395,7 @@ Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html]
 
 The Item Relationship Service [IRS] (**[tractusx/item-relationship-service](https://github.com/eclipse-tractusx/item-relationship-service)**) is responsible for providing the drill down functionality the Digital Product Pass application needs for finding the children of the current passports.
 
-The IRS ([charts reference implementation](../../deployment/infrastructure/edc-consumer/Chart.yaml)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
+The IRS ([charts reference implementation](../../deployment/infrastructure/data-consumer/edc-consumer/Chart.yaml)) is deployed and attached to the EDC Consumer so that it can search in the network for the children of an specific `globalAssetId` and a `BPN`. 
 
 > **NOTE**: The IRS Functionality can be deactivated by setting the following configuration at the `values.yaml` file to false: `backend.configuration.irs.enabled` or by setting the attribute `children` to false when the `/api/contract/search` API is called.
 
@@ -512,7 +513,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 ##### Kubernetes Container platform (gardener)
 
-* Hotel Budapest (Development, Integration and Beta Environments)
+* Argo CD infrastructure (Integration environment)
 * Namespace:
   * product-material-pass
 
@@ -536,7 +537,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 * [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
-* [Administration Guide](../admin%20guide/Admin_Guide.md)
+* [Administration Guide](../admin%20guide/AdminGuide.md)
 * [API Documentation (Swagger)](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
 * [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
 
@@ -663,7 +664,7 @@ The primary battery passport application components are:
 
 There are different levels categorized concerning the application resources deployed for a specific tool:
 
-**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD (Hotel Budapest - INT) through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
+**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
 
 **Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, and digital-product-pass (consumer-ui and consumer-backend). In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
 
@@ -811,6 +812,7 @@ An user needs to be able to understand easily the application interface, in orde
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

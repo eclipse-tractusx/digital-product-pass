@@ -1,0 +1,75 @@
+<!-- 
+  Tractus-X - Digital Product Passport Application 
+ 
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Apache License, Version 2.0 which is available at
+  https://www.apache.org/licenses/LICENSE-2.0.
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the
+  License for the specific language govern in permissions and limitations
+  under the License.
+ 
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+# data-service
+
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+
+The Eclipse Dataspace Connector requires the Backend Application to transfer data using the HTTP-TransferMethod.
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| container.port | int | `80` |  |
+| fullnameOverride | string | `"data-service"` | Overrides the releases full name |
+| image.command | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use |
+| image.repository | string | `"ghcr.io/catenax-ng/catenax-at-home/provider-backend-service"` | Which container image to use |
+| image.tag | string | `"0.0.1"` | Overrides the image tag whose default is the chart appVersion |
+| imagePullSecrets | list | `[]` |  |
+| ingress.annotations."nginx.ingress.kubernetes.io/backend-protocol" | string | `"HTTP"` |  |
+| ingress.annotations."nginx.ingress.kubernetes.io/force-ssl-redirect" | string | `"true"` |  |
+| ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$2"` |  |
+| ingress.annotations."nginx.ingress.kubernetes.io/ssl-passthrough" | string | `"false"` |  |
+| ingress.className | string | `"nginx"` |  |
+| ingress.enabled | bool | `true` |  |
+| ingress.hosts[0].host | string | `"materialpass.int.demo.catena-x.net"` |  |
+| ingress.hosts[0].paths[0].path | string | `"/provider_backend(/|$)(.*)"` |  |
+| ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| ingress.tls[0].hosts[0] | string | `"materialpass.int.demo.catena-x.net"` |  |
+| ingress.tls[0].secretName | string | `"tls-secret"` |  |
+| livenessProbe | object | `{}` |  |
+| nameOverride | string | `""` | Overrides the charts name |
+| nodeSelector | object | `{}` |  |
+| podAnnotations | object | `{}` | additional annotations for the pod |
+| podSecurityContext.fsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
+| podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
+| podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
+| podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
+| readinessProbe | object | `{}` |  |
+| replicaCount | int | `1` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` | Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID |
+| securityContext.capabilities.add | list | `[]` | Specifies which capabilities to add to issue specialized syscalls |
+| securityContext.capabilities.drop | list | `["ALL"]` | Specifies which capabilities to drop to reduce syscall attack surface |
+| securityContext.readOnlyRootFilesystem | bool | `true` | Whether the root filesystem is mounted in read-only mode |
+| securityContext.runAsNonRoot | bool | `true` | Requires the container to run without root privileges |
+| securityContext.runAsUser | int | `10001` | The container's process will run with the specified uid |
+| service.port | int | `8080` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service) to expose the running application on a set of Pods as a network service. |
+| service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service. |
+| tolerations | list | `[]` |  |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)

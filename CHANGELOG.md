@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -25,25 +26,84 @@
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [Unreleased]
 
 ### Added
 - SingleApiRequest class for the requested data for the single API.
 - SingleApiConfig class to had configurations related to the single API.
 - ContractService class to move all the processing logic from the API and Contract controllers to this service.
-
-### Updated
-- Refactored dpp-script by adding AppId as a script parameter
-- Updated dpp-script readme
-- Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
-- Updated the digital twin registry version to v0.3.31
+- Added the following Industry Core changes to the policy and digital twin:
+    - Added `manufacturerId` and `digitalTwinType` to the specificAssetIds in digital twin registry
+    - Added localIdentifiers to the SerialPart aspect model
 - Updated ApiController with the singleApi POST method.
 - Updated ContractController by creating call methods (create, search, agree and status) without the authentication step to call in the Single API.
 - Updated AuthenticationService by adding the isSingleApiAuthenticated method to authenticate the single API key.
 - Updated application.yaml with the single api configurations.
 - Updated deployment-backend.yaml with the oauth.apiKey.
 - Updated values-int/beta/dev.yaml files with the oauth.apiKey.
+
+### Updated
+- Refactored workflows where required
+- Moved frontend source files into dpp-frontend directory
+- Made data-service chart independent from the edc-provider chart
+- Renamed Keycloak to IAM
+- Re-organized data-consumer and data-provider artifacts
+- Re-organized directory strcuture for docs and deployment folders
+- Updated documentation references where required
+- Updated infrastructure guide
+- Updated testdata script to allow EDC constrained policy for the registry
+- Refactored the swagger workflow
+
+### Deleted
+- Deleted unused files/directories/docs/images
+    - Removed environment-specific values files from helm charts
+    - Removed MOCKed json payloads
+    - Removed docker directory
+- Deleted veracode-pipeline workflow (replaced by CodeQL and dependabot)
+
+### Issues Fixed
+- Fixed tagging issue in swagger workflow
+- Fixed table formatting in main `README.md`
+
+### Dependencies Fixed by Dependabot
+* chore(deps): bump actions/upload-artifact from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/214
+* chore(deps): bump helm/chart-testing-action from 2.3.1 to 2.6.1 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/216
+* chore(deps): bump actions/setup-python from 4 to 5 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/220
+* chore(deps): bump veracode/veracode-uploadandscan-action from 0.2.1 to 0.2.6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/218
+* chore(deps): bump actions/checkout from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/284
+* chore(deps): bump docker/build-push-action from 3 to 5 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/283
+* chore(deps): bump container-tools/kind-action from 1 to 2 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/285
+* chore(deps): bump github/codeql-action from 2 to 3 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/281
+* chore(deps): bump follow-redirects from 1.15.4 to 1.15.6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/258
+* chore(deps): bump azure/setup-helm from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/292
+* chore(deps): bump helm/chart-releaser-action from 1.4.1 to 1.6.0 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/291
+* chore(deps): bump actions/setup-java from 3 to 4 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/290
+
+
+## [released]
+## [v2.2.0] - 26-03-2024
+
+### Updated
+- Refactored dpp-script by adding AppId as a script parameter
+- Updated the encoding scheme to base64 to the lookup/shells?assetIds... in dpp-backend
+- Updated the digital twin registry version to v0.3.31
+- Updated postman collection to adjust the APIs from EDC `v0.6.0`
+- Updated IRS collection to change authentication process from OAuth2 to the API-Key
+- Updated models to support the new EDC 0.6.0 semantics (alias for retro-compatibility enabled)
+- Updated edc-consumer and edc-provider helm charts version to `v0.6.0`
+- Updated the catalog request semantics
+- Optimized/refactored the contract negotiation and transfer flow.
+- Updated Data Plane Service data parsing
+- Updated the following readme files:
+    - Postman readme
+    - dpp-script readme
+-   Updated translations
+-   Updated battery graph
+
+## Added
+- Added timeout in negotiation and transfer requests for avoiding infinite loops. When status from transfer does not changes from STARTED.
+- Added missing static units
+- Added missing data fields
 
 ## [released]
 ## [v2.1.3] - 19-02-2024
@@ -778,4 +838,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Updated
 - Optimized the reponsive from the application
 - Optimized the passport display
-- Updated components with Vuetify 3, making the application more stable. 
+- Updated components with Vuetify 3, making the application more stable.

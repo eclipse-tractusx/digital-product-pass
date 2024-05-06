@@ -2,7 +2,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -22,8 +23,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-./transform-and-upload.sh -s https://materialpass.dev.demo.catena-x.net/provider_backend \
-  -e https://materialpass.dev.demo.catena-x.net/BPNL000000000000 \
-  -a https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0 \
+./transform-and-upload.sh -s https://materialpass.int.demo.catena-x.net/provider_backend \
+  -e https://materialpass.int.demo.catena-x.net/BPNL000000000000 \
+  -a https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0 \
   -k <API-Key> \
   -f ./testdata/testdata-payload.json

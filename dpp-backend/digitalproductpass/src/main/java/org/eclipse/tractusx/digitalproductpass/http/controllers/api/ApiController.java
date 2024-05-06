@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -43,8 +44,9 @@ import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySea
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.SingleApiRequest;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.TokenRequest;
+import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.digitalproductpass.services.AasService;
 import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;

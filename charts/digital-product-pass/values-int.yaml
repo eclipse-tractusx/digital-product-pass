@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -44,6 +45,28 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
+    acceptedPolicies:
+      usagePolicies:
+        - leftOperand: "cx-policy:FrameworkAgreement"
+          operator: "eq"
+          rightOperand: "circulareconomy:1.0"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.circular.dpp:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
+      accessPolicies:
+        - leftOperand: "BusinessPartnerNumber"
+          operator: "eq"
+          rightOperand: *bpn
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.core.digitalTwinRegistry:1"
+        - leftOperand: "Membership"
+          operator: "eq"
+          rightOperand: "active"
+        
 
   hostname: *hostname
   securityCheck:

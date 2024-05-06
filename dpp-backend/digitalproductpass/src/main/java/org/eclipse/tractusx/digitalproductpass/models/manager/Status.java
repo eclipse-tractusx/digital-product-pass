@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -67,6 +68,8 @@ public class Status {
 
     @JsonProperty("bpn")
     public String bpn;
+    @JsonProperty("providerBpn")
+    public String providerBpn;
 
     @JsonProperty("children")
     public Boolean children;
@@ -229,6 +232,23 @@ public class Status {
         this.dtr = dtr;
     }
 
+    public Status(String id, String status, Long created, Long modified, JobHistory job, String endpoint, String dataPlaneUrl, String bpn, String providerBpn, Boolean children, String treeState, Map<String, History> history, String semanticId, Dtr dtr) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.job = job;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.providerBpn = providerBpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+        this.semanticId = semanticId;
+        this.dtr = dtr;
+    }
+
 
     public String getId() {
         return id;
@@ -355,6 +375,14 @@ public class Status {
 
     public void setDtr(Dtr dtr) {
         this.dtr = dtr;
+    }
+
+    public String getProviderBpn() {
+        return providerBpn;
+    }
+
+    public void setProviderBpn(String providerBpn) {
+        this.providerBpn = providerBpn;
     }
 }
 

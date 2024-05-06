@@ -1,0 +1,231 @@
+/**
+ * Tractus-X - Digital Product Passport Application
+ *
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+  .contract-modal {
+    justify-content: center;
+    align-items: center;
+
+    .back-to-homepage {
+      margin: 5px 0;
+    }
+
+    .decliner {
+      padding: 20px 80px 50px 80px;
+    }
+
+    .content-container {
+      margin-top: 20px;
+      min-width: 500px;
+
+      .policy-group-label {
+        margin-top: 15px;
+        font-weight: bolder;
+        word-break: break-word;
+        margin-bottom: 5px;
+        padding: 5px;
+        font-weight: bolder;
+        word-break: break-all;
+        width: 100%;
+      }
+    }
+
+    .btn-background {
+      background-color: rgb(237, 240, 244);
+      width: 100%;
+      padding-bottom: 30px;
+    }
+
+    .v-selection-control-group {
+      align-items: center;
+      padding: 0 40px;
+    }
+
+    .v-selection-control {
+      padding-left: 10px;
+    }
+
+    .details {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .v-radio label {
+      opacity: 1 !important;
+      color: rgb(17, 17, 17);
+    }
+
+    .v-radio .radio-label {
+      color: $catena-x-black !important;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .contract-container {
+      border-radius: 20px;
+      word-break: break-word;
+    }
+
+    .title-container {
+      width: fit-content;
+      font-size: 1.5em;
+      font-weight: 600;
+      width: 100%;
+      text-align: center;
+      padding-top: 56px;
+    }
+
+    .details-btn {
+      margin: 20px;
+      color: $catena-x-blue;
+    }
+
+    .json-viewer-container {
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      margin-bottom: 50px;
+      word-break: break-word;
+
+      .json-viewer {
+        min-width: 300px;
+        max-height: 50vh;
+        overflow: auto;
+        background-color: rgb(245, 245, 245);
+      }
+    }
+
+    .contractid-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .policy-container {
+      color: rgb(17, 17, 17) !important;
+      padding: 5px 15px 15px 15px !important;
+
+      .attribute-operator {
+        padding: 10px 0;
+        max-height: 60%;
+        cursor: pointer;
+        font-weight: 800;
+        color: $catena-x-blue;
+      }
+
+      .attribute-constraint {
+        word-break: break-all;
+      }
+
+      .policy-container {
+        background-color: #fff;
+        border-radius: 10px;
+        border: solid 1px #dcdcdc;
+
+        .policy-title {
+          font-size: 11px;
+          font-weight: 500;
+          color: rgb(17, 17, 17) !important;
+        }
+
+        .policy-icon {
+          position: absolute;
+          right: 7px;
+          top: 7px;
+          color: #939393;
+        }
+
+        .policy-icon-green {
+          color: #428c5b;
+        }
+
+        .policy-label {
+          font-size: 12px;
+          font-weight: 500;
+          padding-bottom: 5px;
+          display: flex;
+          align-items: center;
+        }
+
+        .policy-value {
+          font-size: 10px;
+          font-weight: 500;
+          padding-bottom: 5px;
+          word-wrap: break-word;
+        }
+
+        .policy-second-value {
+          font-size: 10px;
+          font-weight: 500;
+          padding-bottom: 5px;
+          word-wrap: break-word;
+        }
+
+        .policy-second-label {
+          font-size: 12px;
+          font-weight: 500;
+          padding-top: 12px;
+        }
+
+        .policy-info-icon {
+          position: absolute;
+          right: 0;
+          bottom: 7px;
+          color: #0f71cb;
+        }
+
+        .policy-info-icon:hover {
+          color: $catena-x-dark-blue;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  @media (max-width: 628px) {
+    .contract-modal {
+      .content-container {
+        width: 320px;
+        display: inline;
+
+        .policy-group-label-mobile {
+          display: block;
+        }
+      }
+    }
+  }
+.container-policy-selection {
+  @media (max-width: 628px) {
+    margin-top: 95px;
+  }
+
+  @media (max-width: 375px) {
+    margin-top: 160px;
+  }
+
+
+}
+
+@media (max-width: 628px) {
+  .container-policy-selection .contract-modal .v-selection-control-group {
+    padding: 0 !important;
+  }
+}

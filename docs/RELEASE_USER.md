@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -23,6 +24,22 @@
 
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
+
+
+**March 26 2024 (Version 2.2.0)**
+*26.03.2024*
+
+### Updated
+
+#### Updated backend to support EDC version v0.6.0
+The backend is now supporting EDC version v0.6.0 and is being prepared to be compatible with EDC version v0.7.0.
+
+#### Improved quality of the frontend User Interface
+The mocked graphs were removed from the user interface and the graphs are now dynamically renderd based on data. The overall quality of the frontend is improved, missing units were added and separate collection symbol is now available for the battery pass. 
+
+#### Supported new Digital Twin Registry version v0.3.31
+The dpp backend is able to comminucate with the latest interface for lookup shells of the digital twin registry using base64 encoding. 
+
 
 **February 19 2024 (Version 2.1.3)**
 *19.02.2024*
@@ -511,6 +528,7 @@ A deep dive on the application's operation and functionalities can be found in t
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -35,7 +36,7 @@ import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
@@ -43,6 +44,11 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.NegotiationRequest;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.TransferRequest;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Negotiation;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Transfer;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -218,8 +224,8 @@ class ProcessManagerTest {
     void getProcessThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.getProcess(null, null));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to get process [null], " +
-                "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
-                "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null"
+                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
+                        "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null"
                 , exception.getMessage());
     }
 
@@ -241,12 +247,12 @@ class ProcessManagerTest {
     void checkProcessThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.checkProcess( null));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to check if process exists [null], " +
-                        "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
+                "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
 
         exception = assertThrows(ManagerException.class, () -> processManager.checkProcess( null,testProcessId));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to check if process exists ["+ testProcessId +"], " +
-                "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
-                "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
+                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
+                        "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
                 exception.getMessage());
     }
 
@@ -270,8 +276,8 @@ class ProcessManagerTest {
     void setProcessThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.setProcess(null, testProcess));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to set process ["+testProcessId+"], " +
-                "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
-                "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
+                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
+                        "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
                 exception.getMessage());
     }
 
@@ -303,7 +309,7 @@ class ProcessManagerTest {
     void setStatusThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.setStatus(null, null, null));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to create/update the status file, " +
-                        "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
+                "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
     }
 
     @Test
@@ -413,7 +419,7 @@ class ProcessManagerTest {
     void deleteSearchDirThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.deleteSearchDir("1000"));
         assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to create/update the search in search status file, " +
-                "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Temporary process file does not exists for id [1000]!"
+                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Temporary process file does not exists for id [1000]!"
                 , exception.getMessage());
     }
 
@@ -587,8 +593,6 @@ class ProcessManagerTest {
         Dataset dataset = new Dataset();
         dataset.setId(datasetId);
         dataset.setAssetId(assetId);
-        dataset.setAssetName("TEST");
-
         Dataset initialDataset = processManager.loadDataset(testProcessId);
 
         assertNull(initialDataset);
@@ -599,7 +603,6 @@ class ProcessManagerTest {
         assertNotNull(updatedDataset);
         assertEquals(datasetId, updatedDataset.getId());
         assertEquals(assetId, updatedDataset.getAssetId());
-        assertEquals("TEST", updatedDataset.getAssetName());
     }
 
     @Test
@@ -649,13 +652,13 @@ class ProcessManagerTest {
 
     @Test
     void loadPassportReturnsManagerException() {
-       assertThrows(ManagerException.class, () -> processManager.loadPassport(testProcessId));
+        assertThrows(ManagerException.class, () -> processManager.loadPassport(testProcessId));
     }
     @Test
     void saveAndLoadPassport() {
         when(env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true)).thenReturn(false);
 
-        DataPlaneEndpoint dataPlaneEndpoint = new DataPlaneEndpoint();
+        EndpointDataReference dataPlaneEndpoint = new EndpointDataReference();
         String id = UUID.randomUUID().toString();
         String authKey = UUID.randomUUID().toString();
         String contractId = UUID.randomUUID().toString();

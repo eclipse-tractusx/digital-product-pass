@@ -1,21 +1,21 @@
 {
   "@id": "9ab72e5b-f2d4-4f60-85e6-0985f9b6b579",
-  "@type": "edc:TransferProcessDto",
-  "edc:state": "COMPLETED",
-  "edc:stateTimestamp": 1699439577253,
-  "edc:type": "CONSUMER",
-  "edc:callbackAddresses": [],
-  "edc:dataDestination": {
-    "edc:type": "HttpProxy"
+  "@type": "TransferProcessDto",
+  "state": "COMPLETED",
+  "stateTimestamp": 1699439577253,
+  "type": "CONSUMER",
+  "callbackAddresses": [],
+  "dataDestination": {
+    "type": "HttpProxy"
   },
-  "edc:dataRequest": {
-    "@type": "edc:DataRequestDto",
+  "dataRequest": {
+    "@type": "DataRequestDto",
     "@id": "9ab72e5b-f2d4-4f60-85e6-0985f9b6b579",
-    "edc:assetId": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
-    "edc:contractId": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:NmRjMDFlOTQtMGE0MC00MTQzLThhOTYtY2IyMmYxN2JjZGJj",
-    "edc:connectorId": "BPNL00000000CBA5"
+    "assetId": "365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
+    "contractId": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:NmRjMDFlOTQtMGE0MC00MTQzLThhOTYtY2IyMmYxN2JjZGJj",
+    "connectorId": "BPNL00000000CBA5"
   },
-  "edc:receiverHttpEndpoint": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/endpoint/ebc08cdc-fc22-41e8-9394-81142de0b35a/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
+  "receiverHttpEndpoint": "https://testUrl.com/BPNL000000000000/endpoint/ebc08cdc-fc22-41e8-9394-81142de0b35a/365e6fbe-bb34-11ec-8422-0242ac120002-61125dc3-5e6f-4f4b-838d-447432b97918",
   "@context": {
     "dct": "https://purl.org/dc/terms/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",

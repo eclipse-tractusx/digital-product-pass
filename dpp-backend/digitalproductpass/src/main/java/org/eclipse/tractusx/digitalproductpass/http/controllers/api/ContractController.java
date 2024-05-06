@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -40,6 +41,9 @@ import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.BpnDiscovery;
+import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
+import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
@@ -49,10 +53,12 @@ import org.eclipse.tractusx.digitalproductpass.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
-import utils.EdcUtil;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.LogUtil;
+import utils.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class consists exclusively to define the HTTP methods needed for the Contract negotiation.
@@ -86,6 +92,8 @@ public class ContractController {
     CatenaXService catenaXService;
     @Autowired
     HttpUtil httpUtil;
+    @Autowired
+    PolicyUtil policyUtil;
     private @Autowired JsonUtil jsonUtil;
 
     /** METHODS **/

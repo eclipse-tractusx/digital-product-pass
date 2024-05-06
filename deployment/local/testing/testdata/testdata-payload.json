@@ -8,10 +8,9 @@
       },
       "@type": "PolicyDefinitionRequestDto",
       "@id": "registry-policy",
-      "profile": "cx-policy:profile2405",
       "policy": {
-        "@type": "Policy",
-        "@context": "http://www.w3.org/ns/odrl.jsonld",
+        "profile": "cx-policy:profile2405",
+        "@type": "odrl:Set",
         "odrl:permission": [
           {
             "odrl:action": "USE",
@@ -55,9 +54,9 @@
       },
       "@type": "PolicyDefinitionRequestDto",
       "@id": "dpp-policy-id",
-      "profile": "cx-policy:profile2405",
       "policy": {
-        "@type": "Policy",
+        "profile": "cx-policy:profile2405",
+        "@type": "odrl:Set",
         "odrl:permission": [
           {
             "odrl:action": "USE",
@@ -739,7 +738,7 @@
           "semanticId": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
         }
       ]
-    },
+},
     {
       "catenaXId": "urn:uuid:acabbb94-2073-c949-fae3-0abe7e952c33",
       "specificAssetIds": [

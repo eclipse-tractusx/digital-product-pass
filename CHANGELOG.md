@@ -29,6 +29,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+## [released]
+## [v2.3.0] - 06-05-2024
 ### Added
 - SingleApiRequest class for the requested data for the single API.
 - SingleApiConfig class to had configurations related to the single API.
@@ -60,6 +62,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated deployment-backend.yaml with the oauth.apiKey.
 - Updated values-int/beta/dev.yaml files with the oauth.apiKey.
 - Refactored the swagger workflow
+- Updated: as agreed removed BASF from the license and license headers and added CGI instead
+
 
 ### Deleted
 - Deleted unused files/directories/docs/images

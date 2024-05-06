@@ -28,6 +28,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+## [released]
+## [v2.3.0] - 06-05-2024
 ### Added
 - Added the following Industry Core changes to the policy and digital twin:
     - Added `manufacturerId` and `digitalTwinType` to the specificAssetIds in digital twin registry
@@ -44,6 +46,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated infrastructure guide
 - Updated testdata script to allow EDC constrained policy for the registry
 - Refactored the swagger workflow
+- Updated Copyright headers: remove BASF from the license headers and added CGI
 
 ### Deleted
 - Deleted unused files/directories/docs/images

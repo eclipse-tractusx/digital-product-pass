@@ -25,6 +25,15 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**May 06 2024 (Version 2.3.0)**
+*06.05.2024*
+
+### Updated
+
+### Integration of Industry Core Changes
+
+There has been some new changes from Industry Core adjusted to the asset policy and digital twin. The new attributes are `manufacturerId` and `digitalTwinType` to the specific asset Ids of the digital twin and the asset policy is now contrained to be compliant with the standardization.
+
 
 **March 26 2024 (Version 2.2.0)**
 *26.03.2024*

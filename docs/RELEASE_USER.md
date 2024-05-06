@@ -25,6 +25,19 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+**May 06 2024 (Version 2.3.0)**
+*06.05.2024*
+
+### Updated
+
+#### Integration of Industry Core Changes
+
+There has been some new changes from Industry Core adjusted to the asset policy and digital twin. The new attributes are `manufacturerId` and `digitalTwinType` to the specific asset Ids of the digital twin and the asset policy is now contrained to be compliant with the standardization.
+
+#### License and License Header correction
+
+As request by `BASF` in the last interation (PI12) the company wanted to be removed from the copyright for the further development of the application in Tractus-X. Instead `CGI` which has been doing the work in name of BASF is added to the copyright headers and license together with the other companies `BMW` and `HENKEL`. Reference in the Pull Request: [#304](https://github.com/eclipse-tractusx/digital-product-pass/pull/304)
+
 
 **March 26 2024 (Version 2.2.0)**
 *26.03.2024*

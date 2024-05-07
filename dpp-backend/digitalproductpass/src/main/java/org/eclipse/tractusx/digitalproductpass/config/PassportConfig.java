@@ -91,6 +91,7 @@ public class PassportConfig {
 
     public void setDefaultIdType(String defaultIdType) {
         this.defaultIdType = defaultIdType;
+    }
     public PolicyCheckConfig getPolicyCheck() {
         return policyCheck;
     }

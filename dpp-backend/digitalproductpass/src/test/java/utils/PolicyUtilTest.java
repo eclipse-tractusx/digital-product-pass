@@ -35,10 +35,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import utils.exceptions.UtilException;
@@ -54,17 +59,16 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, DtrConfig.class})
-@ComponentScan(basePackages = { "org.eclipse.tractusx.digitalproductpass" })
+@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, org.eclipse.tractusx.digitalproductpass.config.DtrConfig.class})
 @EnableConfigurationProperties
 class PolicyUtilTest {
 
     @Autowired
-    private DtrConfig dtrConfig;
+    DtrConfig dtrConfig;
     @Autowired
-    private JsonUtil jsonUtil;
+    JsonUtil jsonUtil;
     @Autowired
-    private PolicyUtil policyUtil;
+    PolicyUtil policyUtil;
 
     LinkedHashMap<String, Object> logicalConstraint;
     LinkedHashMap<String, Object> logicalConstraintDtr;
@@ -93,6 +97,7 @@ class PolicyUtilTest {
     PolicyCheckConfig policyCheckConfig;
     Set mappedPolicy;
     Set mappedPolicyDtr;
+
     List<PolicyCheckConfig.PolicyConfig> policiesConfig;
     @BeforeEach
     void setUp() {
@@ -170,11 +175,11 @@ class PolicyUtilTest {
         // Bind policy to class
         mappedPolicyDtr = jsonUtil.bind(this.policyDtr, new TypeReference<>(){});
         if(mappedPolicyDtr == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy dtr to type reference!");
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy dtr to type reference!");
         }
         mappedPolicy = jsonUtil.bind(this.policy, new TypeReference<>(){});
         if(mappedPolicy == null){
-            throw new UtilException(EdcUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
+            throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Failed to parse policy to type reference!");
         }
 
         if(this.dtrConfig == null){
@@ -229,34 +234,129 @@ class PolicyUtilTest {
      */
     @Test
     void buildPolicies() {
+        try{
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policiesConfig, true));
         List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(builtPolicies, true));
         assertEquals(builtPolicies.size(), policiesConfig.size());
+    }catch(Exception e){
+        throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+    }
     }
     /*
      * This test case check is the policy is valid using hashes
      */
     @Test
     void strictValidPolicyCheck() {
+        try{
         List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         Boolean result = policyUtil.strictPolicyCheck(mappedPolicyDtr, builtPolicies);
         LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(result, true));
         assertTrue(result);
+    }catch(Exception e){
+        throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+    }
     }
     /*
      * This test case check is the policy is invalid using hashes
      */
     @Test
     void strictInvalidPolicyCheck() {
+        try{
         List<Set> builtPolicies = policyUtil.buildPolicies(policiesConfig);
         LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
         LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
         Boolean result = policyUtil.strictPolicyCheck(mappedPolicy, builtPolicies);
         LogUtil.printTest("[RESPONSE]: "+ jsonUtil.toJson(result, true));
         assertFalse(result);
+    }catch(Exception e){
+        throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+    }
+    }
+    /*
+     * This test case checks if a policy that is invalid is marked as invalid
+     */
+    @Test
+    void isInvalidPolicyValid() {
+        try{
+        // Generate the policies from configuration
+        List<Set> builtPolicies = this.policyUtil.buildPolicies(policiesConfig);
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicy, true));
+        Boolean isValid = this.policyUtil.isPolicyValid(mappedPolicy, builtPolicies, false);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
+        assertFalse(isValid);
+    }catch(Exception e){
+        throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+    }
+    }
+    /*
+     * This test case checks if a policy that is valid is marked as valid
+     */
+    @Test
+    void isValidPolicyValid() {
+        try{
+        List<Set> builtPolicies = this.policyUtil.buildPolicies(policiesConfig);
+        LogUtil.printTest("[CONFIGURATION POLICIES]: " + jsonUtil.toJson(builtPolicies, true));
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(mappedPolicyDtr, true));
+        Boolean isValid = this.policyUtil.isPolicyValid(mappedPolicyDtr, builtPolicies,false);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(isValid, true));
+        assertTrue(isValid);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+
+    /**
+     * Evaluate if the policy in configuration is valid
+     **/
+    @Test
+    void isPolicyValid(){
+        try{
+        // Generate the policies from configuration
+        List<Set> builtPolicies = this.policyUtil.buildPolicies(policiesConfig);
+        // Get the hashCodes from the different policies
+        List<String> hashes = builtPolicies.stream().map(p -> CrypUtil.sha256(this.jsonUtil.toJson(p, false))).toList();
+        LogUtil.printTest("[ALL VALID POLICY HASHES]: " + jsonUtil.toJson(hashes, true));
+        String policyHash = CrypUtil.sha256(this.jsonUtil.toJson(this.policyDtr, false));
+        LogUtil.printTest("[POLICY HASH]: " + jsonUtil.toJson(policyHash, true));
+        assertTrue(hashes.contains(policyHash));
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+
+    /**
+     * This test case gets policies by constraint
+     * **/
+    @Test
+    void getPolicyByConstraints() {
+        try{
+        LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policiesDtr, true));
+        LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfig, true));
+        Set validPolicy = this.policyUtil.getPolicyByConstraints(policiesDtr, policyCheckConfig);
+        LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
+        assertNotNull(validPolicy);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+    /**
+     * This test case gets policies by constraint when invalid
+     * **/
+    @Test
+    void getPolicyInvalidByConstraints() {
+        try{
+            LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(policies, true));
+            LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfig, true));
+            Set validPolicy = this.policyUtil.getPolicyByConstraints(policies, policyCheckConfig);
+            LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
+            assertNull(validPolicy);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
     }
 
 }

@@ -255,7 +255,7 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        Catalog digitalTwinCatalog = dataTransferService.searchDigitalTwinCatalog(providerUrl);
+        Catalog digitalTwinCatalog = dataTransferService.searchDigitalTwinCatalog(providerUrl, bpn);
 
         assertNotNull(digitalTwinCatalog);
         assertNotEquals(catalog, digitalTwinCatalog);

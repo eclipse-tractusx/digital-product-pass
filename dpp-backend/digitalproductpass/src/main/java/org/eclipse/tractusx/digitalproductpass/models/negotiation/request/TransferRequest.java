@@ -176,6 +176,19 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
+    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String connectorId, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+        super(context);
+        this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+        this.connectorId = connectorId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.managedResources = managedResources;
+        this.protocol = protocol;
+        this.transferType = transferType;
+        this.callbackAddresses = callbackAddresses;
+    }
+
     /** GETTERS AND SETTERS **/
     public String getAssetId() {
         return assetId;

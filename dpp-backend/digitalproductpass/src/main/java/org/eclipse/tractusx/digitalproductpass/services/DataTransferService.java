@@ -41,6 +41,7 @@ import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.CallbackAddress;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.CatalogRequest;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
@@ -196,16 +197,16 @@ public class DataTransferService extends BaseService {
      * @throws  ControllerException
      *           if unable to check the EDC consumer connection.
      */
-    public String getEdcConnectorBpn() throws ServiceException {
+    public Boolean isApplicationEdc(String applicationBpn) throws ServiceException {
         try {
             String edcConsumerDsp = this.edcEndpoint + CatenaXUtil.edcDataEndpoint;
-            Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, ""); // Get empty catalog
+            Catalog catalog = this.getContractOfferCatalog(edcConsumerDsp, applicationBpn, ""); // Get empty catalog
             if (catalog == null || catalog.getParticipantId().isEmpty()) {
-                throw new ControllerException(this.getClass().getName()+".checkEdcConsumerConnection", "The catalog response is null or the participant id is not set!");
+                return false;
             }
-            return catalog.getParticipantId();
+            return catalog.getParticipantId().equals(applicationBpn); // Return true if the bpns matches
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName()+".checkEdcConsumerConnection", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
+            throw new ServiceException(this.getClass().getName()+".getEdcConnectorBpn", e, "It was not possible to establish connection with the EDC consumer endpoint [" + this.edcEndpoint+"]");
         }
     }
     /**
@@ -293,12 +294,12 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the contract offer for the assetId.
      */
-    public Dataset getContractOfferByAssetId(String assetId, String counterPartyAddress) throws ServiceException {
+    public Dataset getContractOfferByAssetId(String assetId, String counterPartyAddress, String counterPartId) throws ServiceException {
         /*
          *   This method receives the assetId and looks up for targets with the same name.
          */
         try {
-            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, assetId);
+            Catalog catalog = this.getContractOfferCatalog(counterPartyAddress, counterPartId, assetId);
             if(catalog == null){
                 return null;
             }
@@ -529,7 +530,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog getContractOfferCatalog(String counterPartyAddress, String assetId) {
+    public Catalog getContractOfferCatalog(String counterPartyAddress, String counterPartyId, String assetId) {
         try {
             this.checkEmptyVariables();
 
@@ -547,8 +548,11 @@ public class DataTransferService extends BaseService {
                         "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
                         "odrl", "http://www.w3.org/ns/odrl/2/"
                     )),
+                    "dataspace-protocol-http",
+                    counterPartyId,
                     counterPartyAddress,
-                    querySpec
+                    querySpec,
+                    "edc:CatalogRequest"
             );
             HttpHeaders headers = httpUtil.getHeaders();
             headers.add("Content-Type", "application/json");
@@ -574,7 +578,7 @@ public class DataTransferService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the catalog.
      */
-    public Catalog searchDigitalTwinCatalog(String counterPartyAddress) throws ServiceException {
+    public Catalog searchDigitalTwinCatalog(String counterPartyAddress, String counterPartId) throws ServiceException {
         try {
             this.checkEmptyVariables();
 
@@ -592,8 +596,11 @@ public class DataTransferService extends BaseService {
                         "@vocab", "https://w3id.org/edc/v0.0.1/ns/",
                         "odrl", "http://www.w3.org/ns/odrl/2/"
                     )),
+                    "dataspace-protocol-http",
+                    counterPartId,
                     CatenaXUtil.buildDataEndpoint(counterPartyAddress),
-                    querySpec
+                    querySpec,
+                    "edc:CatalogRequest"
             );
 
             HttpHeaders headers = httpUtil.getHeaders();
@@ -1187,9 +1194,13 @@ public class DataTransferService extends BaseService {
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
 
-                TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
-                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
-                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
+
+                List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
+                        false,
+                        receiverEndpoint,
+                        List.of("transfer.process")
+                ));
+
                 return new TransferRequest(
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dataset.getAssetId(),
@@ -1198,10 +1209,9 @@ public class DataTransferService extends BaseService {
                         negotiation.getContractAgreementId(),
                         dataDestination,
                         false,
-                        privateProperties,
                         "dataspace-protocol-http",
                         transferType,
-                        List.of()
+                        callbackAddresses
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");
@@ -1458,8 +1468,11 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-                TransferRequest.PrivateProperties privateProperties = new TransferRequest.PrivateProperties();
-                privateProperties.setReceiverHttpEndpoint(receiverEndpoint);
+                List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
+                        false,
+                        receiverEndpoint,
+                        List.of("transfer.process")
+                ));
                 return new TransferRequest(
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dtr.getAssetId(),
@@ -1468,10 +1481,9 @@ public class DataTransferService extends BaseService {
                         dtr.getContractId(),
                         dataDestination,
                         false,
-                        privateProperties,
                         "dataspace-protocol-http",
                         transferType,
-                        List.of()
+                        callbackAddresses
                 );
             } catch (Exception e) {
                 throw new ServiceException(this.getClass().getName(), e, "Failed to build the transfer request!");

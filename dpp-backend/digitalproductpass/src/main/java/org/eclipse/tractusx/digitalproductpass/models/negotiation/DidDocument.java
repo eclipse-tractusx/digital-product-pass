@@ -69,6 +69,10 @@ public class DidDocument {
     public DidDocument(JsonNode context) {
         this.context = context;
     }
+    public DidDocument(JsonNode context,  String type) {
+        this.context = context;
+        this.type = type;
+    }
 
     /** GETTERS AND SETTERS **/
     public String getId() {

@@ -206,7 +206,7 @@ public class DtrSearchManager {
 
     public void searchEndpoint(String processId, String bpn, String endpoint) {
         //Search Digital Twin Catalog for each connectionURL with a timeout time
-        SearchDtrCatalog searchDtrCatalog = new SearchDtrCatalog(endpoint);
+        SearchDtrCatalog searchDtrCatalog = new SearchDtrCatalog(endpoint, bpn);
         Thread asyncThread = ThreadUtil.runThread(searchDtrCatalog, "SearchEndpoint-" + processId + "-" + bpn + "-" + endpoint);
         Dtr dtr = new Dtr("", endpoint, "", bpn, DateTimeUtil.addHoursToCurrentTimestamp(dtrConfig.getTemporaryStorage().getLifetime()), true);
         try {
@@ -339,9 +339,11 @@ public class DtrSearchManager {
     public class SearchDtrCatalog implements Runnable {
         Boolean error = true;
         String connectionUrl;
+        String bpn;
 
-        SearchDtrCatalog(String connectionUrl) {
+        public SearchDtrCatalog(String connectionUrl, String bpn) {
             this.connectionUrl = connectionUrl;
+            this.bpn = bpn;
         }
 
         public Boolean isError() {
@@ -351,7 +353,7 @@ public class DtrSearchManager {
         @Override
         public void run() {
             try {
-                Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl);
+                Catalog catalog = dataTransferService.searchDigitalTwinCatalog(connectionUrl, bpn);
                 if (catalog == null) {
                     return;
                 }

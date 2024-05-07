@@ -355,11 +355,15 @@ public class ContractService extends BaseService {
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();
+            String bpn = assetSearch.getBpn();
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
             if(connectorAddress == null){
                 LogUtil.printError("The connector address is empty!");
+            }
+            if(bpn == null){
+                LogUtil.printError("The bpn is empty!");
             }
             if(assetId == null){
                 LogUtil.printError("The assetId is empty!");
@@ -368,11 +372,11 @@ public class ContractService extends BaseService {
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
@@ -385,7 +389,7 @@ public class ContractService extends BaseService {
             if (datasets == null) {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";

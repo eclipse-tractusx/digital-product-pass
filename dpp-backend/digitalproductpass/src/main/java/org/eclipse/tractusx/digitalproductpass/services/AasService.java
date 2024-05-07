@@ -429,7 +429,7 @@ public class AasService extends BaseService {
             }
             status = this.processManager.getStatus(processId);
             if (status.historyExists("digital-twin-found")) {
-                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getBpn(), status.getEndpoint());
             }
             return null;
         } catch (Exception e) {

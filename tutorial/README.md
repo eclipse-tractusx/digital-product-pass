@@ -55,29 +55,29 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
 
 Split into groups of three individuals, ensuring each group receives a sheet of paper containing a distinct Part from the Arena-X Car.
 
-## Phase 1: Create the puzzle with DPPs (Provider)​
+## Phase 1: Data Provision 
 
 In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
 ##### Duration: 45 mins
 
-### Part A - Create a Digital Product Pass 
+#### Step 1 - Create a Digital Product Pass 
 
-1. In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
+* In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
    
   * Follow the tutorial on "How to create Aspect Model Guide"
 
-2. #### Hosting JSON Using Postman
+#### Step 2 - Hosting JSON Using Postman
 
-Create a new POST request in Postman. Paste the JSON content into the body section, and send the request to the given URL to host the JSON file.
+* Create a new POST request in Postman. Paste the JSON content into the body section, and send the request to the given URL to host the JSON file.
 
-### Part B - Create a Digital Twin integrating the genenrated DPP as a submodel
+#### Step 3 - Create a Digital Twin integrating the generated DPP as a submodel
 
-3. In this step, you will create a Digital Twin of your provided Car part. 
+In this step, you will create a Digital Twin of your provided Car part. 
 
   * Follow the tutorial on "How to create a Digital Twin"
 
-4. #### Upload the Digital Twin the Digital Twin Registry
+#### Step 4 - Upload the Digital Twin in the Digital Twin Registry
    
 Provide the Digital Twin and its relations in the Digital Twin Registry.
 
@@ -86,42 +86,44 @@ Provide the Digital Twin and its relations in the Digital Twin Registry.
    * Manufacturer Part ID
    * Submodel Reference
 
-5. #### Generate the QR Code
+#### Step 5 - Generate the QR Code
 
   * Follow the tutorial on "How to generate a QR code"
    
-7. Print the QR-Code and paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
+#### Step 6 - Print the QR-Code 
+
+Print the QR Code from the nearby printer and paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
 
 
-## Phase 2: Consume the Digital Product Pass with app (Consumer + Provider)
+## Phase 2: Data Consumption
 
-### Part A - Digital Product Pass Application Deployment
+##### Duration: 45 mins
 
-1. #### DPP App Deployment
+#### Step 1 - Digital Product Pass Application Deployment
 
-Access the virual Machine (VM) and follow the instructions from the workstream.
+   * Access the virual Machine (VM) and follow the instructions from the workstream.
 
-2. Namespace creation - Each group will be allocated a Namespace.
+   * Namespace creation - Each group will be allocated a Namespace.
 
-3. Deploy the application using Helm Charts
+   * Deploy the application using Helm Charts
 
-4. Verify and access the deployment using your computer
+   * Verify and access the deployment using your computer
 
-### Part B - Consumption - Access application using Smartphone using IP address and Ports
+#### Step 2 - Consumption - Access application using Smartphone using IP address and Ports
 
-5. Access the application using the provided credentials
+   * Access the application using the provided credentials
 
-6.  Scan the QR code of your respective part.
+   * Scan the QR code of your respective part.
 
-7.  Upon scanning, you will obtain the passport.
+   * Upon scanning, you will obtain the passport.
 
-8.  Access the UI of the passport to view its details.
+   * Access the UI of the passport to view its details.
 
-###  Part C - Creating the Final Digital Product Passport (DPP) for the Whole Car
+####  Step 3 - Creating the Final Digital Product Passport (DPP) for the Whole Car
 
-9. Scan the QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
+   * Scan the QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
 
-10. #### Compile the following information to create the DPP:
+* #### Compile the following information to create the DPP:
 
    * Name: Provide a name for the car model.
    * Description: Include a brief description of the car, its features, and specifications.

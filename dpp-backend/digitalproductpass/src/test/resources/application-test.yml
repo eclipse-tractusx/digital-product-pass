@@ -67,6 +67,8 @@ configuration:
     startUpChecks:
       bpnCheck: false
       edcCheck: false
+    authentication:
+      header: "X-Api-Key"
 
   irs:
     enabled: true
@@ -126,6 +128,9 @@ configuration:
       key: "bpn"
       timeout: 1500
 
+  singleApi:
+    maxRetries: 30
+    delay: 1000
 
   process:
     store: true
@@ -134,6 +139,7 @@ configuration:
     signKey: 'c55e3f35200f6afedbce37cefdaf40eadd15c92814edfdbc4d6ab0eacdcdd56dbcd5a2a34ca4b675084d33f9f479d7d79347795148aaf4443e1b47ab96b27e72'
 
   passport:
+    defaultIdType: "partInstanceId"
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
     dataTransfer:
       encrypt: true
@@ -142,8 +148,11 @@ configuration:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
     policyCheck:
       enabled: true
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
       policies:
         - permission:
             - action: "USE"
@@ -174,6 +183,7 @@ configuration:
       - "client.secret"
       - "edc.apiKey"
       - "edc.participantId"
+      - "oauth.apiKey"
 
 server:
   error:

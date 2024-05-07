@@ -184,6 +184,9 @@
                 <directory>${project.basedir}/src/main/resources</directory>
             </resource>
             <resource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </resource>
+            <resource>
                 <directory>${project.basedir}/../..</directory>
                 <includes>
                     <include>LICENSE</include>

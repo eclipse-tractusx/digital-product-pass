@@ -65,7 +65,7 @@ To use a vault and create new secret, please look here: [how to-use vault create
 
 ### Using Docker
 
-If consumer frontend is run using docker, the following environment variables must be set in [build and deploy script](../../dpp-frontend/buildAndDeploy.sh):
+If consumer frontend is run using docker, the following environment variables must be set in [build and deploy script](../../../dpp-frontend/buildAndDeploy.sh):
 
 - PASS_VERSION
 - APP_VERSION
@@ -95,7 +95,7 @@ Further info about vault plugin for helm charts: [argocd-vault-plugin-helm](http
 ## Secrets Scanning
 
 ### Veracode
-Veracode upload-and-scan is used for secret scanning and scan results are then published in veracode dashboard once job is completed [Static Application Serucity Testing](./IaC.md)
+Veracode upload-and-scan is used for secret scanning and scan results are then published in veracode dashboard once job is completed [Static Application Serucity Testing](../infrastructure-as-code/IaC.md)
 
 ### Git Guardian
 
@@ -111,12 +111,11 @@ A client-side git hook similar to pre-commit hook that runs right before code ch
 
 GitGuardian hooks are performed through ggshield utility. ggshield is a wrapper around GitGuardian API for secrets detection that requires an API key to work. Please refer the official documentation for more information [here](https://docs.gitguardian.com/ggshield-docs/integrations/git-hooks/pre-commit)
 
-The git hooks for this repository are set up in [yaml file](../pre-commit-config.yaml)
 
-
-
-Setting up Git Guradian for the project [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)
-
+#### Links
+- Setting up Git Guradian for the project: [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)
+- The git hooks for the repository: [yaml file](../../../pre-commit-config.yaml)
+- Release Guidelines requirements: [here](https://eclipse-tractusx.github.io/docs/release/trg-8/trg-8-03)
 
 ## NOTICE
 

@@ -530,10 +530,9 @@ public class ContractService extends BaseService {
                     .new NegotiateContract(
                     processManager.loadDataModel(httpRequest),
                     processId,
-                    status.getBpn(),
                     status.getProviderBpn(),
                     dataset,
-                    processManager.getStatus(processId),
+                    processManager.getStatus(processId).getEndpoint(),
                     policy
             );
             String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);

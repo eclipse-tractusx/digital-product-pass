@@ -42,6 +42,7 @@ public class DidDocument {
     /** ATTRIBUTES **/
     @JsonProperty("@id")
     public String id;
+
     @JsonProperty("@type")
     public String type;
 

@@ -34,11 +34,11 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.CallbackAddress;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.CatalogRequest;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Policy;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.NegotiationRequest;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.TransferRequest;
@@ -53,7 +53,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.sonarsource.scanner.api.internal.shaded.minimaljson.Json;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -187,10 +186,9 @@ class DataTransferServiceTest {
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK));
 
-        String participantId = dataTransferService.getEdcConnectorBpn();
+        Boolean result = dataTransferService.isApplicationEdc(bpn);
 
-        assertNotNull(participantId);
-        assertEquals(vaultService.getLocalSecret("edc.participantId"), participantId);
+        assertTrue(result);
     }
 
     @Test
@@ -198,36 +196,32 @@ class DataTransferServiceTest {
         Status status = new Status();
         status.setEndpoint("test.endpoint");
 
-        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status, bpn, bpn);
+        NegotiationRequest negotiationRequest = dataTransferService.buildRequest(dataSet, status.getEndpoint(), bpn, this.policy);
 
         assertNotNull(negotiationRequest);
-        assertEquals(status.getEndpoint(), negotiationRequest.getConnectorAddress());
-        assertEquals(bpn, negotiationRequest.getConnectorId());
+        assertEquals(status.getEndpoint(), negotiationRequest.getCounterPartyAddress());
+        assertEquals(bpn, negotiationRequest.getPolicy().getAssigner().getId());
 
-        Offer offer = negotiationRequest.getOffer();
+        Policy policyOffer = negotiationRequest.getPolicy();
 
-        assertNotNull(offer);
-        assertEquals(dataSet.getAssetId(), offer.getAssetId());
-        assertEquals(policy.getId(), offer.getOfferId());
-        assertNotNull(offer.getPolicy());
+        assertNotNull(policyOffer);
+        assertEquals(dataSet.getAssetId(), policyOffer.getTarget().getId());
+        assertEquals(policy.getId(), policyOffer.getId());
+        assertNotNull(policy);
     }
 
     @Test
     void getContractOfferCatalog() {
         String providerUrl = UUID.randomUUID().toString();
         Catalog catalog = (Catalog) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), Catalog.class);
-        String assetId = catalog.getParticipantId();
+        String assetId = catalog.getId();
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
-                    CatalogRequest body = invocation.getArgument(4);
-                    if (body.getCounterPartyAddress().equals(providerUrl)) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
-                    }
-                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testCOCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                 });
 
-        Catalog offerCatalog = dataTransferService.getContractOfferCatalog(providerUrl, assetId);
+        Catalog offerCatalog = dataTransferService.getContractOfferCatalog(providerUrl, bpn, assetId);
 
         assertNotNull(offerCatalog);
         assertNotEquals(catalog, offerCatalog);
@@ -248,15 +242,11 @@ class DataTransferServiceTest {
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
                 .then(invocation -> {
-                    CatalogRequest body = invocation.getArgument(4);
-                    if (body.getCounterPartyAddress().equals(CatenaXUtil.buildDataEndpoint(providerUrl))) {
-                        return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
-                    }
-                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testDTCatalogPath).toString(), JsonNode.class), HttpStatus.OK);
                 });
 
         Catalog digitalTwinCatalog = dataTransferService.searchDigitalTwinCatalog(providerUrl, bpn);
-
+        LogUtil.printTest(jsonUtil.toJson(digitalTwinCatalog, true));
         assertNotNull(digitalTwinCatalog);
         assertNotEquals(catalog, digitalTwinCatalog);
         assertEquals(catalog.getId(), digitalTwinCatalog.getId());
@@ -265,14 +255,14 @@ class DataTransferServiceTest {
         assertEquals(catalog.getContext(), digitalTwinCatalog.getContext());
 
         Map<String, String> contractOffer = (Map<String, String>) jsonUtil.toMap(digitalTwinCatalog.getContractOffers());
-        assertEquals("data.core.digitalTwinRegistry", contractOffer.get("type"));
+        assertEquals("data.core.digitalTwinRegistry", contractOffer.get("asset:prop:type"));
     }
 
     @Test
     void doContractNegotiationAndSeeNegotiation() {
         String providerUrl = UUID.randomUUID().toString();
 
-        Offer offer = dataTransferService.buildOffer(dataSet, 0);
+        Policy policyOffer = dataTransferService.buildOffer(dataSet, 0, bpn);
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(NegotiationRequest.class), eq(false), eq(false)))
                 .then(invocation -> {
@@ -283,11 +273,11 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse response = dataTransferService.doContractNegotiation(offer, bpn, bpn, providerUrl);
+        IdResponse response = dataTransferService.doContractNegotiation(policyOffer, providerUrl);
 
         assertNotNull(response);
         assertEquals("189f4957-0fbe-4d73-b215-977e3303a45e", response.getId());
-        assertEquals("IdResponseDto", response.getType());
+        assertEquals("IdResponse", response.getType());
 
         when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
@@ -298,13 +288,13 @@ class DataTransferServiceTest {
         Negotiation negotiation = dataTransferService.seeNegotiation(response.getId());
 
         assertEquals(response.getId(), negotiation.getId());
-        assertEquals("ContractNegotiationDto", negotiation.getType());
+        assertEquals("ContractNegotiation", negotiation.getType());
         assertEquals("FINALIZED", negotiation.getState());
     }
 
     private Negotiation getNegotiation() {
         String providerUrl = UUID.randomUUID().toString();
-        Offer offer = dataTransferService.buildOffer(dataSet, 0);
+        Policy policyOffer = dataTransferService.buildOffer(dataSet, 0, bpn);
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(NegotiationRequest.class), eq(false), eq(false)))
                 .then(invocation -> {
@@ -315,7 +305,7 @@ class DataTransferServiceTest {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 });
 
-        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn,bpn,  providerUrl);
+        IdResponse negotiationResponse = dataTransferService.doContractNegotiation(policyOffer,  providerUrl);
 
         when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseNegotiationPath).toString(), Negotiation.class), HttpStatus.OK));
@@ -331,19 +321,26 @@ class DataTransferServiceTest {
 
         Negotiation negotiation = getNegotiation();
         Status status = new Status();
-        status.setEndpoint("test.endpoint");
+        TransferRequest.TransferType transferType = new TransferRequest.TransferType();
 
+        transferType.setContentType(env.getProperty("configuration.edc.transferType"));
+        transferType.setIsFinite(true);
+        status.setEndpoint("test.endpoint");
+        List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
+                false,
+                "http://test.endpoint/4546",
+                List.of("transfer.process")
+        ));
         TransferRequest transferRequest = new TransferRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 dataSet.getAssetId(),
                 status.getEndpoint(),
-                bpn,
                 negotiation.getContractAgreementId(),
                 null,
                 false,
-                null,
                 "dataspace-protocol-http",
-                null
+                transferType,
+                callbackAddresses
         );
 
         when(httpUtil.doPost(anyString(), any(Class.class), any(HttpHeaders.class), any(Map.class), any(Object.class), eq(false), eq(false)))
@@ -352,8 +349,8 @@ class DataTransferServiceTest {
         IdResponse response = dataTransferService.initiateTransfer(transferRequest);
 
         assertNotNull(response);
-        assertEquals("9ab72e5b-f2d4-4f60-85e6-0985f9b6b579", response.getId());
-        assertEquals("IdResponseDto", response.getType());
+        assertEquals("73af176d-bc46-4cc2-80e2-423c0c6fb244", response.getId());
+        assertEquals("IdResponse", response.getType());
 
         when(httpUtil.doGet(anyString(), eq(NegotiationTransferResponse.class), any(HttpHeaders.class), any(Map.class), eq(false), eq(false)))
                 .thenReturn(new ResponseEntity<>(jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), testResponseTransferPath).toString(), Transfer.class), HttpStatus.OK));
@@ -364,7 +361,7 @@ class DataTransferServiceTest {
         Transfer transfer = dataTransferService.seeTransfer(response.getId());
 
         assertEquals(response.getId(), transfer.getId());
-        assertEquals("TransferProcessDto", transfer.getType());
-        assertEquals("COMPLETED", transfer.getState());
+        assertEquals("TransferProcess", transfer.getType());
+        assertEquals("STARTED", transfer.getState());
     }
 }

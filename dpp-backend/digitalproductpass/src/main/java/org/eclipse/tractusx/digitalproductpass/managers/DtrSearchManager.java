@@ -38,7 +38,7 @@ import org.eclipse.tractusx.digitalproductpass.models.general.Selection;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Catalog;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Policy;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Negotiation;
 import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
@@ -514,9 +514,9 @@ public class DtrSearchManager {
                         return;
                     }
 
-                    Offer offer = dataTransferService.buildOffer(dataset, set);
+                    Policy policy = dataTransferService.buildOffer(dataset, set, providerBpn);
                     String builtDataEndpoint = CatenaXUtil.buildDataEndpoint(connectionUrl);
-                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(offer, bpn, providerBpn, builtDataEndpoint);
+                    IdResponse negotiationResponse = dataTransferService.doContractNegotiation(policy, builtDataEndpoint);
                     if (negotiationResponse == null) {
                         return;
                     }

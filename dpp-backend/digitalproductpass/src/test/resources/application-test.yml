@@ -128,7 +128,7 @@ configuration:
       key: "bpn"
       timeout: 1500
 
-  singleApi:
+  single-api:
     maxRetries: 30
     delay: 1000
 

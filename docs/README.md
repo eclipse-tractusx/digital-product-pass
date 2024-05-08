@@ -123,7 +123,6 @@ Here you will find the Infrastructure documentation for the Digital Product Pass
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide
-| [Deployment in Argo CD](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD - integration environment                                                                                  |
 | [Docker Overview](../deployment/local/iam/README.md)                                      | Overview on general docker commands                                                                                                                                |
 
 # Security Documentation
@@ -134,7 +133,7 @@ Name                                                                      | Desc
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Keycloak Overview](../deployment/local/iam/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.  |
 [Code Scaning with Kics and Trivy](./security/infrastructure-as-code/IaC.md)  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github
-| [Secret Management](./security/secrets-management/SecretsManagement.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+| [Secret Management](./security/secrets-management/SecretsManagement.md)                          | Secrets management to store client credentials, database passwords, access tokens                                   |
 
 # Testing Documentation
 

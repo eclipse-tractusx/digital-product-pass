@@ -689,7 +689,7 @@ A developer who creates a new feature branch to work on a specific feature that 
 
 During the merge process, the build pipeline also known as Continuous integration (CI) gets triggered through a git action which builds the application artifacts, packages them into a docker image, and finally publishes the image onto the GitHub Container Registry with the tag holding latest commit SHA. In addition, other jobs are also executed which scan the code based on various criteria to fulfill the quality gate requirements.
 
-The application deployment is translated into Kubernetes resources through helm charts which are deployed in Argo CD. We take the advantage of built-in AutoSync feature of ArgoCD that does the Continuous Deployment(CD) job for us. This is done by matching the current and desired state of the application if there is a new code change or a new container image uploaded to a registry.
+The application deployment is translated into Kubernetes resources through helm charts which can be deployed in some cloud environment. At the time of writing this guide, ArgoCD platform was used for deployment purposes. We take the advantage of ArgoCD to leverage the Continuous Deployment (CD) process through its built-in auto-sync feature. This is done by matching the current and desired state of the application once a code is pushed or a new container image is uploaded to a registry.
 
 ![Whitebox Overall System](./media/intrastructure/GraphicWhiteboxOverallSys.drawio.svg)
 

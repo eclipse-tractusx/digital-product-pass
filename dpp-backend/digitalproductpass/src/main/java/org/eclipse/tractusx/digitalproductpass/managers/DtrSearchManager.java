@@ -157,7 +157,7 @@ public class DtrSearchManager {
                     state = State.Finished;
                 } catch (Exception e) {
                     state = State.Error;
-                    throw new DataModelException(this.getClass().getName(), e, "Was not possible to process the DTRs");
+                    throw new DataModelException(this.getClass().getName(), e, "It was not possible find any valid digital twin registry!");
                 }
             }
         };

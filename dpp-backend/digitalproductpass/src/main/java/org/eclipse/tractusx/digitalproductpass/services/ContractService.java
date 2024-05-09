@@ -215,10 +215,10 @@ public class ContractService extends BaseService {
 
                 SearchStatus status = processManager.getSearchStatus(processId);
                 if (status == null) {
-                    return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries"), httpResponse);
+                    return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentralized digital twin registries"), httpResponse);
                 }
                 if (status.getDtrs().isEmpty()) {
-                    return httpUtil.buildResponse(httpUtil.getNotFound("No decentral digital twin registry was found"), httpResponse);
+                    return httpUtil.buildResponse(httpUtil.getNotFound("No valid decentralized digital twin registries found for the configured policies!"), httpResponse);
                 }
                 response = httpUtil.getResponse();
                 response.data = Map.of(

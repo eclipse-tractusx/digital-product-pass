@@ -274,10 +274,12 @@ public class DtrSearchManager {
             }
             return;
         }
-        List<Dataset> contractOfferList = (List<Dataset>) jsonUtil.bindObject(contractOffers, List.class);
-        if (contractOfferList.isEmpty()) {
+        List<Dataset> contractOfferList = jsonUtil.bind(contractOffers, new TypeReference<>() {});
+        if (contractOfferList == null || contractOfferList.isEmpty()) {
+            LogUtil.printDebug("[DEBUG] ContractOfferList is empty!");
             return;
         }
+        LogUtil.printDebug("[DEBUG] ContractOfferList: " + jsonUtil.toJson(contractOfferList, true));
         Map<String, Dataset> datasets = edcUtil.mapDatasetsById(contractOfferList);
         Selection<Dataset,Set> contractAndPolicy = getDtrDataset(datasets);
         if (contractAndPolicy == null) {

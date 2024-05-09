@@ -154,11 +154,14 @@ public class EdcUtil {
             List<Selection<Dataset,Set>> validContractSelections  = new ArrayList<>(); // Array with possible selections
             contracts.keySet().forEach(key -> {
                 Dataset contract = contracts.get(key); // Get the contract
+                LogUtil.printDebug("[DEBUG]: Contract ["+key+"] -> " + jsonUtil.toJson(contract, true));
                 List<Set> policies = policyUtil.getValidPoliciesByConstraints(contract.getPolicy(), policyConfig); // Get all its valid policies
+                LogUtil.printDebug("[DEBUG]: Contract ["+key+"] with no valid policies!");
                 // If policies are not null or are more than one
                 if(policies == null || policies.size() == 0){
                     return;
                 }
+                LogUtil.printDebug("[DEBUG]: Contract ["+key+"] valid policies: " + jsonUtil.toJson(policies, true));
                 policies.forEach(policy -> validContractSelections.add(new Selection<>(contract, policy))); // Create the possible selections
             });
             // Select any possible selection

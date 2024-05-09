@@ -139,8 +139,10 @@ public class PolicyUtil {
             if (policies instanceof LinkedHashMap) {
                 // Check if policy is valid or not
                 Set policy = jsonUtil.bind(policies, new TypeReference<>(){});
+                LogUtil.printDebug("[DEBUG] Policy in contract -> "+ jsonUtil.toJson(policy, true));
                 // In case the policy is valid return the policy
                 if(this.isPolicyValid(policy, validPolicies, strictMode)){
+                    LogUtil.printDebug("[DEBUG] Policy in contract is valid!");
                     return new ArrayList<>(){{add(policy);}}; // Add policy to a list of valid policies
                 }
                 // If the policy is not valid return an empty list
@@ -243,7 +245,7 @@ public class PolicyUtil {
         try {
             // Filter the list of policies based on the policy configuration
             List<Set> policies = validPolicies.stream().filter(p -> this.isPolicyConstraintsValid(policy, p)).toList();
-            System.out.println("[VALID POLICIES] " + policies);
+            System.out.println("[DEBUG] [VALID POLICIES] " + policies);
             return policies.size() > 0; //If any policy is valid then return true
         }catch (Exception e) {
             throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");

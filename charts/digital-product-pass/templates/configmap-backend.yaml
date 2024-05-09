@@ -126,7 +126,7 @@ data:
         edc:
           key: {{ tpl (.Values.backend.discovery.edcDiscovery.key | default "bpn") . | quote }}
       # -- configuration to the single API endpoint
-      singleApi:
+      single-api:
         maxRetries: {{ .Values.backend.singleApi.maxRetries }}
         delay: {{ .Values.backend.singleApi.delay }}
       # -- process configuration

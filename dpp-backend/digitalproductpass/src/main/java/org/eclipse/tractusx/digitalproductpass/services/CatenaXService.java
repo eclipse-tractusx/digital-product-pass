@@ -628,6 +628,7 @@ public class CatenaXService extends BaseService {
         try {
             List<EdcDiscoveryEndpoint> edcEndpointBinded = null;
             List<EdcDiscoveryEndpoint> edcEndpoints = this.getEdcDiscovery(bpnList);
+            LogUtil.printDebug("EDC ENDPOINTS [ " + jsonUtil.toJson(edcEndpoints, true));
             try {
                 edcEndpointBinded = (List<EdcDiscoveryEndpoint>) jsonUtil.bindReferenceType(edcEndpoints, new TypeReference<List<EdcDiscoveryEndpoint>>() {});
             } catch (Exception e) {

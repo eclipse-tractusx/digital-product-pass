@@ -255,7 +255,13 @@ public class DtrSearchManager {
                 Map<String, Dataset> datasets = new HashMap<>() {{
                     put(dataset.getId(), dataset);
                 }};
-                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);
+
+                Selection<Dataset,Set> contractAndPolicy = getDtrDataset(datasets);
+                if (contractAndPolicy == null) {
+                    throw new ManagerException("DtrSearchManager.searchEndpoint", "There was no valid policy available for the digital twin registry found!");
+                }
+
+                Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(contractAndPolicy, datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                         singleOfferThread.interrupt();
@@ -273,9 +279,13 @@ public class DtrSearchManager {
             return;
         }
         Map<String, Dataset> datasets = edcUtil.mapDatasetsById(contractOfferList);
+        Selection<Dataset,Set> contractAndPolicy = getDtrDataset(datasets);
+        if (contractAndPolicy == null) {
+            throw new ManagerException("DtrSearchManager.searchEndpoint", "There was no valid policy available for the digital twin registry found!");
+        }
         // Store datasets in the digital twin logs
         contractOfferList.parallelStream().forEach(dataset -> {
-            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);
+            Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(contractAndPolicy, datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);
             try {
                 if (!multipleOffersThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
                     multipleOffersThread.interrupt();
@@ -486,23 +496,19 @@ public class DtrSearchManager {
      * for a given BPN number and an URL connection into a process with the given process id.
      * <p>
      *
-     * @param datasets      the {@code Map<String,Dataset>} data for the contract offer.
+     * @param contractAndPolicy the {@code Selection<Dataset,Set>} the selected contract and policy
+     * @param datasets the {@code Map<String, Dataset>} map of contracts available
      * @param bpn           the {@code String} bpn number.
      * @param connectionUrl the {@code String} URL connection of the Digital Twin.
      * @param processId     the {@code String} id of the application's process.
      * @return a {@code Runnable} object to be used by a calling thread.
      * @throws ManagerException if unable to do the contract negotiation for the DTR.
      */
-    private Runnable createAndSaveDtr(Map<String, Dataset> datasets, String bpn, String providerBpn, String connectionUrl, String processId) {
+    private Runnable createAndSaveDtr(Selection<Dataset,Set> contractAndPolicy, Map<String, Dataset> datasets, String bpn, String providerBpn, String connectionUrl, String processId) {
         return new Runnable() {
             @Override
             public void run() {
                 try {
-                    Selection<Dataset,Set> contractAndPolicy = getDtrDataset(datasets);
-                    if (contractAndPolicy == null) {
-                        LogUtil.printError("It was not possible to get the dataset contract and policy!");
-                        return;
-                    }
                     Dataset dataset = contractAndPolicy.d(); // Get the contract element
                     if (dataset == null) {
                         LogUtil.printError("It was not possible to get the contract!");
@@ -539,9 +545,8 @@ public class DtrSearchManager {
                     }
 
                     processManager.addSearchStatusDtr(processId, dtr);
-
                 } catch (Exception e) {
-                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr", e, "Failed to save the dataModel for this connection url: " + connectionUrl);
+                    throw new ManagerException(this.getClass().getName() + ".createAndSaveDtr", e, "Failed to create the digital twin registry for url: " + connectionUrl);
                 }
             }
         };

@@ -31,9 +31,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
+import com.google.gson.annotations.SerializedName;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
@@ -41,7 +40,7 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,53 +49,46 @@ import java.util.Objects;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Jacksonized
-@JsonPOJOBuilder(buildMethodName = "createSet", withPrefix = "construct")
 public class Set extends DidDocument {
 
     /** ATTRIBUTES **/
-    @Singular
     @JsonProperty("odrl:permission")
-    Collection<Action> permissions;
-    @Singular
+    List<Action> permissions;
     @JsonProperty("odrl:prohibition")
-    Collection<Action> prohibitions;
-    @Singular
-    @JsonProperty("odrl:obligation")
-    Collection<Action> obligations;
+    List<Action> prohibitions;
 
-    public Set createSet() {
-        return new Set(permissions, prohibitions, obligations);
-    }
+    @JsonProperty("odrl:obligation")
+    List<Action> obligations;
+
     /** CONSTRUCTOR(S) **/
-    public Set(String id, String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Set(String id, String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(id, type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
 
-    public Set(Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Set(List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
 
-    public Set(String id, String type, JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Set(String id, String type, JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(id, type, context);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
 
-    public Set(String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Set(String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(type);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
         this.obligations = obligations;
     }
 
-    public Set(JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Set(JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(context);
         this.permissions = permissions;
         this.prohibitions = prohibitions;
@@ -126,10 +118,10 @@ public class Set extends DidDocument {
         this.prohibitions = this.buildActions(policyConfig.getProhibition());
     }
 
-    public Collection<Action> buildActions(List<PolicyCheckConfig.ActionConfig> actionConfigs){
+    public List<Action> buildActions(List<PolicyCheckConfig.ActionConfig> actionConfigs){
         try {
             // Set actions to the collection
-            Collection<Action> actions = new ArrayList<>(actionConfigs.size());
+            List<Action> actions = new ArrayList<>(actionConfigs.size());
             actionConfigs.forEach(actionConfig -> actions.add(new Action(actionConfig))); // Parse and create actions
             return actions;
         }catch (Exception e){
@@ -143,27 +135,27 @@ public class Set extends DidDocument {
 
     /** GETTERS AND SETTERS **/
 
-    public Collection<Action> getPermissions() {
+    public List<Action> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Collection<Action> permissions) {
+    public void setPermissions(List<Action> permissions) {
         this.permissions = permissions;
     }
 
-    public Collection<Action> getProhibitions() {
+    public List<Action> getProhibitions() {
         return prohibitions;
     }
 
-    public void setProhibitions(Collection<Action> prohibitions) {
+    public void setProhibitions(List<Action> prohibitions) {
         this.prohibitions = prohibitions;
     }
 
-    public Collection<Action> getObligations() {
+    public List<Action> getObligations() {
         return obligations;
     }
 
-    public void setObligations(Collection<Action> obligations) {
+    public void setObligations(List<Action> obligations) {
         this.obligations = obligations;
     }
 
@@ -192,11 +184,11 @@ public class Set extends DidDocument {
     /**
      * Method responsible for comparing two actions constraints
      * <p>
-     * @param  currentActions {@code Collection<Action>} is the object to be compared
-     * @param  incomingActions {@code Collection<Action>} is the object to be compared to
+     * @param  currentActions {@code List<Action>} is the object to be compared
+     * @param  incomingActions {@code List<Action>} is the object to be compared to
      * @return true if the actions are the same
      */
-    public Boolean compareActions(Collection<Action> currentActions, Collection<Action> incomingActions){
+    public Boolean compareActions(List<Action> currentActions, List<Action> incomingActions){
         try {
             // Optimizations to avoid searching in children
             if(currentActions == null && incomingActions == null){return true;} // If both actions are null they are equal

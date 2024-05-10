@@ -27,11 +27,13 @@
 package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Action;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,11 +140,9 @@ public class PolicyUtil {
             }
             if (policies instanceof LinkedHashMap) {
                 // Check if policy is valid or not
-                Set policy = jsonUtil.bind(policies, new TypeReference<>(){});
-                LogUtil.printDebug("[DEBUG] Policy in contract -> "+ jsonUtil.toJson(policy, true));
+                Set policy = this.parsePolicy(policies);
                 // In case the policy is valid return the policy
                 if(this.isPolicyValid(policy, validPolicies, strictMode)){
-                    LogUtil.printDebug("[DEBUG] Policy in contract is valid!");
                     return new ArrayList<>(){{add(policy);}}; // Add policy to a list of valid policies
                 }
                 // If the policy is not valid return an empty list
@@ -232,6 +232,47 @@ public class PolicyUtil {
             throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");
         }
     }
+
+    /**
+     * Builds a policy from a raw policy object
+     * <p>
+     *
+     * @param rawPolicy {@code Object} the policy to be checked
+     * @return {@code Set} the list of parsed policies built from the configuration parameters
+     * @throws UtilException if error when parsing the contracts
+     */
+    public Set parsePolicy(Object rawPolicy){
+        try {
+            JsonNode policy = jsonUtil.toJsonNode(rawPolicy);
+            JsonNode permission = policy.get("odrl:permission");
+            JsonNode prohibition = policy.get("odrl:prohibition");
+            JsonNode obligation = policy.get("odrl:obligation");
+            if(permission.isArray() && prohibition.isArray() && obligation.isArray()){
+                return jsonUtil.bind(rawPolicy, new TypeReference<>(){});
+            }
+            return new Set(this.parseActions(permission), this.parseActions(prohibition), this.parseActions(obligation));
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policy!");
+        }
+    }
+    /**
+     * Builds an action from a raw policy object
+     * <p>
+     *
+     * @param node {@code JsonNode} action to be checked
+     * @return {@code List<Action>} the list of actions parsed
+     * @throws UtilException if error when parsing the contracts
+     */
+    public List<Action> parseActions(JsonNode node){
+        List<Action> arrayList = new ArrayList<>();
+        if(!node.isArray()){
+            arrayList.add(jsonUtil.bind(node, new TypeReference<>(){}));
+        }else{
+            arrayList = jsonUtil.bind(node, new TypeReference<>(){});
+        }
+        return arrayList;
+    }
+
     /**
      * Checks a policy configuration strictly against the incoming policy
      * <p>

@@ -35,7 +35,7 @@ import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Action;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Policy representing the offer from the catalog
@@ -54,31 +54,31 @@ public class Policy extends Set {
 
     /** CONSTRUCTOR(S) **/
 
-    public Policy(String id, String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations, DidDocument target, DidDocument assigner) {
+    public Policy(String id, String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations, DidDocument target, DidDocument assigner) {
         super(id, type, permissions, prohibitions, obligations);
         this.target = target;
         this.assigner = assigner;
     }
 
-    public Policy(Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations, DidDocument target, DidDocument assigner) {
+    public Policy(List<Action> permissions, List<Action> prohibitions, List<Action> obligations, DidDocument target, DidDocument assigner) {
         super(permissions, prohibitions, obligations);
         this.target = target;
         this.assigner = assigner;
     }
 
-    public Policy(String id, String type, JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations, DidDocument target, DidDocument assigner) {
+    public Policy(String id, String type, JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations, DidDocument target, DidDocument assigner) {
         super(id, type, context, permissions, prohibitions, obligations);
         this.target = target;
         this.assigner = assigner;
     }
 
-    public Policy(String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations, DidDocument target, DidDocument assigner) {
+    public Policy(String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations, DidDocument target, DidDocument assigner) {
         super(type, permissions, prohibitions, obligations);
         this.target = target;
         this.assigner = assigner;
     }
 
-    public Policy(JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations, DidDocument target, DidDocument assigner) {
+    public Policy(JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations, DidDocument target, DidDocument assigner) {
         super(context, permissions, prohibitions, obligations);
         this.target = target;
         this.assigner = assigner;
@@ -101,23 +101,23 @@ public class Policy extends Set {
         this.assigner = assigner;
     }
 
-    public Policy(String id, String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Policy(String id, String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(id, type, permissions, prohibitions, obligations);
     }
 
-    public Policy(Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Policy(List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(permissions, prohibitions, obligations);
     }
 
-    public Policy(String id, String type, JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Policy(String id, String type, JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(id, type, context, permissions, prohibitions, obligations);
     }
 
-    public Policy(String type, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Policy(String type, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(type, permissions, prohibitions, obligations);
     }
 
-    public Policy(JsonNode context, Collection<Action> permissions, Collection<Action> prohibitions, Collection<Action> obligations) {
+    public Policy(JsonNode context, List<Action> permissions, List<Action> prohibitions, List<Action> obligations) {
         super(context, permissions, prohibitions, obligations);
     }
 

@@ -30,7 +30,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Builder;
 import lombok.Singular;
+import lombok.extern.jackson.Jacksonized;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
@@ -45,6 +47,8 @@ import java.util.Objects;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Jacksonized
+@Builder
 public class Set extends DidDocument {
 
     /** ATTRIBUTES **/

@@ -34,7 +34,7 @@ fullnameOverride: ""
 
 image:
   repository: docker.io/tractusx/digital-product-pass-backend
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
 imagePullSecrets: []
 
@@ -48,7 +48,7 @@ service:
 ingress:
   enabled: false
   hosts:
-    - host: &hostname "localhost"
+    - host: &hostname ""
       paths:
         - path: /
           pathType: Prefix
@@ -176,7 +176,7 @@ discovery:
   edcDiscovery:
     key: "bpn"
 # -- configuration to the single API endpoint
-singleApi:
+single-api:
   maxRetries: 30
   delay: 1000
 

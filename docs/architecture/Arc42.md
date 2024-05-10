@@ -255,7 +255,7 @@ If the `configuration.dtr.central` is disabled the backend will also make a call
 
 ### Data Retrieval Flow
 
-As detailed at the [Data Retrieval Guide Phases](../data%20retrieval%20guide/DataRetrievalGuide.md#data-retrieval-flow) there are 4 main phases required to retrieve data in the **Catena-X Network**:
+As detailed at the [Data Retrieval Guide Phases](../data-retrieval/README.md#data-retrieval-flow) there are 4 main phases required to retrieve data in the **Catena-X Network**:
 
     1. Discovery Phase 
     2. Digital Twin Registry Search Phase
@@ -280,10 +280,10 @@ The keys used for searching the endpoints in the Discovery Service by default ar
 in case the keys used in the Discovery Service are another ones. 
 
 #### Digital Twin Registry Search Phase
-The **Digital Twin Registry Search Phase** as it is detailed at the [Data Retrieval Guide Phase 1 and 2](../data%20retrieval%20guide/DataRetrievalGuide.md#1-discovery-phase--2-digital-twin-registry-search-phase) is the junction of two main phases the *Discovery Phase*  and the *Digital Twin Registry Search Phase* which are essential for starting the Digital Twin Search.
+The **Digital Twin Registry Search Phase** as it is detailed at the [Data Retrieval Guide Phase 1 and 2](../data-retrieval/README.md#1-discovery-phase--2-digital-twin-registry-search-phase) is the junction of two main phases the *Discovery Phase*  and the *Digital Twin Registry Search Phase* which are essential for starting the Digital Twin Search.
 
 The `/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.
-This is detailed [here](../data%20retrieval%20guide/DataRetrievalGuide.md#1-discovery-phase--2-digital-twin-registry-search-phase) in the Data Retrieval Guide.
+This is detailed [here](../data-retrieval/README.md#1-discovery-phase--2-digital-twin-registry-search-phase) in the Data Retrieval Guide.
 
 The API is called "**create**" because it is responsible for creating the **process** which will be responsible for doing the data retrieval in the Digital Product Pass.
 Basically it creates a `processId` when the `Digital Twin Registries` are found and are available for searching Digital Twins.
@@ -301,7 +301,7 @@ Basically it creates a `processId` when the `Digital Twin Registries` are found 
 
 #### Digital Twin Search
 
-The **Digital Twin Search** as it is detailed at the [Data Retrieval Guide Phase 3](../data%20retrieval%20guide/DataRetrievalGuide.md#3-digital-twin-search-phase-1) is the phase responsible for search in all the **Digital Twin Registries** found at the previous phase, finding and retrieving the searched **Digital Twin**.
+The **Digital Twin Search** as it is detailed at the [Data Retrieval Guide Phase 3](../data-retrieval/README.md#3-digital-twin-search-phase-1) is the phase responsible for search in all the **Digital Twin Registries** found at the previous phase, finding and retrieving the searched **Digital Twin**.
 
 As described at the *Data Retrieval Guide* the **Digital Product Pass** Application is searching by default for the *partInstanceId* of an specific digital twin.
 
@@ -339,7 +339,7 @@ This means that first the backend will search in the digital twin if the digital
 
 #### Data Negotiation and Transfer Phase
 
-The **Data Negotiation and Transfer Phase** as it is detailed at the [Data Retrieval Guide Phase 4](../data%20retrieval%20guide/DataRetrievalGuide.md#4-data-negotiation-and-transfer-phase-1) is the phase responsible for the final data transfer and negotiation. In this phase we retrieve the data using the EDC.
+The **Data Negotiation and Transfer Phase** as it is detailed at the [Data Retrieval Guide Phase 4](../data-retrieval/README.md#4-data-negotiation-and-transfer-phase-1) is the phase responsible for the final data transfer and negotiation. In this phase we retrieve the data using the EDC.
 
 Once the user has the contract he can call the `/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.
 
@@ -542,9 +542,9 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 * [ARC42 Documentation](./Arc42.md)
 * [GitHub Documentation](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/docs)
-* [Administration Guide](../admin%20guide/AdminGuide.md)
+* [Administration Guide](../admin/AdminGuide.md)
 * [API Documentation (Swagger)](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
-* [Data Retrieval Guide](../data%20retrieval%20guide/DataRetrievalGuide.md)
+* [Data Retrieval Guide](../data-retrieval/README.md)
 
 
 #### Catena-X Shared Services
@@ -689,7 +689,7 @@ A developer who creates a new feature branch to work on a specific feature that 
 
 During the merge process, the build pipeline also known as Continuous integration (CI) gets triggered through a git action which builds the application artifacts, packages them into a docker image, and finally publishes the image onto the GitHub Container Registry with the tag holding latest commit SHA. In addition, other jobs are also executed which scan the code based on various criteria to fulfill the quality gate requirements.
 
-The application deployment is translated into Kubernetes resources through helm charts which are deployed in Argo CD. We take the advantage of built-in AutoSync feature of ArgoCD that does the Continuous Deployment(CD) job for us. This is done by matching the current and desired state of the application if there is a new code change or a new container image uploaded to a registry.
+The application deployment is translated into Kubernetes resources through helm charts which can be deployed in some cloud environment. At the time of writing this guide, ArgoCD platform was used for deployment purposes. We take the advantage of ArgoCD to leverage the Continuous Deployment (CD) process through its built-in auto-sync feature. This is done by matching the current and desired state of the application once a code is pushed or a new container image is uploaded to a registry.
 
 ![Whitebox Overall System](./media/intrastructure/GraphicWhiteboxOverallSys.drawio.svg)
 

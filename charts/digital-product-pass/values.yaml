@@ -36,7 +36,7 @@ backend:
   name: "dpp-backend"
   image:
     repository: docker.io/tractusx/digital-product-pass-backend
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
 
@@ -56,7 +56,7 @@ backend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: &hostname "localhost"
+      - host: &hostname ""
         paths:
           - path: /
             pathType: Prefix
@@ -205,8 +205,8 @@ backend:
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.circular.dpp:1"
-          prohibition: [ ]
-          obligation: [ ]
+          prohibition: []
+          obligation: []
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"
@@ -241,8 +241,8 @@ backend:
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.core.digitalTwinRegistry:1"
-          prohibition: [ ]
-          obligation: [ ]
+          prohibition: []
+          obligation: []
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration
@@ -263,7 +263,7 @@ frontend:
   name: "dpp-frontend"
   image:
     repository: docker.io/tractusx/digital-product-pass-frontend
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
 

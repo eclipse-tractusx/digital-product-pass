@@ -45,7 +45,7 @@ Aditional Helm charts of below components can be found in *deployment/infrastruc
 
 In order to update helm charts, please update helm chart version and related dependencies from *version* property in *Chart.yaml file* for the above components. In addition, if there are changes to application version, the *appVersion* property also needs to be changed.
 
-Navigate to the [Deploymment Guide](/deployment/README.md) and follow the steps. The deployment guide illustrates the manual steps to install helm deployments into ArgoCD INT environment.
+Navigate to the [Deploymment Guide](/deployment/README.md) and have a look into the reference links.
 
 
 ## NOTICE

@@ -24,10 +24,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DataService;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import javax.xml.crypto.Data;
 import java.util.HashMap;

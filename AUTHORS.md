@@ -29,7 +29,7 @@ The following people have contributed to this repository:
 * Jochen Braun, CGI, https://github.com/jocbra
 * Muhammad Saud Khan, CGI, https://github.com/saudkhan116
 * Mathias Brunkow Moser, CGI, https://github.com/matbmoser
-* David Zynda, BASF, https://github.com/davidzynda
+* David Zynda, https://github.com/davidzynda
 * Diogo Parracho, CGI, https://github.com/dsrparracho
 
 Please add yourself to this list, if you contribute to the content.

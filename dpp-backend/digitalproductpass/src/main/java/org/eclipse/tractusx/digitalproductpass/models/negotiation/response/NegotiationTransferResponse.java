@@ -24,7 +24,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.response;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

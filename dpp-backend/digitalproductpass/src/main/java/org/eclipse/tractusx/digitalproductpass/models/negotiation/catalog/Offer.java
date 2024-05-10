@@ -24,28 +24,55 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.models.negotiation;
+package org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 
-@SuppressWarnings("Unused")
+/**
+ * This class consists exclusively to define attributes related to the Offer's data.
+ **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Properties {
-    @JsonProperty("type")
-    String type;
+public class Offer {
 
-    public Properties(String type) {
-        this.type = type;
+    /** ATTRIBUTES **/
+    @JsonProperty("offerId")
+    String offerId;
+    @JsonProperty("assetId")
+    String assetId;
+    @JsonProperty("policy")
+    Set policy;
+
+    /** CONSTRUCTOR(S) **/
+    public Offer(String offerId, String assetId, Set policy) {
+        this.offerId = offerId;
+        this.assetId = assetId;
+        this.policy = policy;
+    }
+    public Offer() {
     }
 
-    public String getType() {
-        return type;
+    /** GETTERS AND SETTERS **/
+    public String getOfferId() {
+        return offerId;
     }
-
-    public void setType(String type) {
-        this.type = type;
+    @SuppressWarnings("Unused")
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
+    }
+    public String getAssetId() {
+        return assetId;
+    }
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
+    }
+    public Set getPolicy() {
+        return policy;
+    }
+    public void setPolicy(Set policy) {
+        this.policy = policy;
     }
 }

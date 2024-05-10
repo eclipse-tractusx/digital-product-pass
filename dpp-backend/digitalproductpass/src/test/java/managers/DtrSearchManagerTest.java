@@ -74,14 +74,14 @@ class DtrSearchManagerTest {
         jsonUtil = new JsonUtil(fileUtil);
         dtrConfig = initDtrConfig();
         jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
         env =  Mockito.mock(Environment.class);
         HttpUtil httpUtil = new HttpUtil(env);
         dataTransferService = Mockito.mock(DataTransferService.class);
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, new PolicyUtil(), dataTransferService, dtrConfig, processManager);
 
         fileUtil.deleteFile(dtrSearchManager.getDataModelPath());
         dtrSearchManager.loadDataModel();

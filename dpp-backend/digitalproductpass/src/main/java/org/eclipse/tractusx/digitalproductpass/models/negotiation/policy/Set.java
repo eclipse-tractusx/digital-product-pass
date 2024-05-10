@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Singular;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
@@ -47,10 +48,13 @@ import java.util.Objects;
 public class Set extends DidDocument {
 
     /** ATTRIBUTES **/
+    @Singular
     @JsonProperty("odrl:permission")
     Collection<Action> permissions;
+    @Singular
     @JsonProperty("odrl:prohibition")
     Collection<Action> prohibitions;
+    @Singular
     @JsonProperty("odrl:obligation")
     Collection<Action> obligations;
 
@@ -122,6 +126,8 @@ public class Set extends DidDocument {
             throw new ModelException(this.getClass().getName(), "It was not possible to build actions");
         }
     }
+
+
 
 
 

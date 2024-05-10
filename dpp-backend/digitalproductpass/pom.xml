@@ -158,6 +158,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10</version>
@@ -234,7 +239,7 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>
+            <plugin>
                 <groupId>org.eclipse.dash</groupId>
                 <artifactId>license-tool-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
@@ -246,7 +251,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

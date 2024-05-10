@@ -154,14 +154,14 @@ If the parameter is set to `false` the backend will automatically select the fir
 
 ## Policy Selection Options
 
-For viewing and understanding the latest information regarding the policy selection flow see th [User Manual](../user%20manual/UserManual.md).
+For viewing and understanding the latest information regarding the policy selection flow see th [User Manual](../user/UserManual.md).
 
 In this documentation some points and resources will be indicated:
 
 ### Auto-Negotiation
 
 If Auto sign setting is enabled, the first valid contract policy checked against the configuration is always chosen as shown in below screenshot.
-The passport is shown to the user as shown in a [Passport Page](../user%20manual/UserManual.md#passport-page).
+The passport is shown to the user as shown in a [Passport Page](../user/UserManual.md#passport-page).
 
 ![Loading Product Pass](../user%20manual/media/loadingPass.png)
 
@@ -171,7 +171,7 @@ This feature requires user action. If disabled, the contract policy must be choo
 
 ![Before Contract Policy Selection](../user%20manual/media/beforePolicySelection.png)
 
-The sign feature basically signs the contract policy before the contract negotiation is done. The right contract policy must be selected by the user, otherwise the contract negotiation is aborted and user is returned back to the [Main Menu](../user%20manual/UserManual.md#main-menu). 
+The sign feature basically signs the contract policy before the contract negotiation is done. The right contract policy must be selected by the user, otherwise the contract negotiation is aborted and user is returned back to the [Main Menu](../user/UserManual.md#main-menu). 
 
 ![Agree Contract policy](../user%20manual/media/agreePolicy.png)
 
@@ -194,12 +194,12 @@ In case the user want to see more details from the policy, it can be done by cli
 
 ![View Contract Policy](../user%20manual/media/viewPolicy.png)
 
-The user accepts the right contract policy, and click on the **Agree** button which resumes the remaining negotiation and data transfer steps. In the end, the passport data is retrieved and displays to the user [Passport Page](../user%20manual/UserManual.md#passport-page).
+The user accepts the right contract policy, and click on the **Agree** button which resumes the remaining negotiation and data transfer steps. In the end, the passport data is retrieved and displays to the user [Passport Page](../user/UserManual.md#passport-page).
 
 ![After Contract Policy Selection](../user%20manual/media/afterPolicySelection.png)
 
 #### Decline Contract
-If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](../user%20manual/UserManual.md#main-menu).
+If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](../user/UserManual.md#main-menu).
 
 ![Decline Contract Policy](../user%20manual/media/declinePolicy.png)
 

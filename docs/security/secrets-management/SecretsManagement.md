@@ -22,28 +22,27 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-## Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP)
+## Secrets management with HashiCorp Vault Service
 
 The client credentials, database passwords, access tokens are considered as secrets and they are usually kept in a vault. CatenaX have a central Hashicorp vault component to store these types of secrets and credentails to prevant from revealing them in a public source code repository to ensure security. These secrets are then utilized by Kubernetes resources through helm charts in a safe and secure manner.
 
-ArgoCD access these secrets through vault plugins **(avp)** which solves the secret management issues with GitOps. Vault plugin internally uses a special vault token for authentication,  retrieve actual secret values against their keys and subsitute them in a deployment.
+At the time of writing this guide, ArgoCD was used to deploy the application. It accesses the secrets through its built-in vault plugins which solves the secret management issues with GitOps. Vault plugin internally uses a special vault token for authentication,  retrieve actual secret values against their keys and subsitute them in a deployment.
 
 Further read about ArgoCD valut plugin here: [ArgoCD vault plugin](https://argocd-vault-plugin.readthedocs.io/en/stable/)
 
-MaterialPass team is allocated a vault space at [CX HashiCorp Vault - Material Pass ](https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/list).
+MaterialPass team is allocated a vault space at [HashiCorp Vault - Material Pass ](https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/list).
 
 To access a material pass vault space, a vault token is required
 
  Vault contents:
-- **ids-daps_key**
-- **ids_daps_crt**
-- **int/** (directory used for integration environment)
-- **dev/** (directory used for development purposes)
-- **beta/** (directory used for beta environment)
-- **int-client-secret**
-- **dev-client-secret**
-- **beta-client-secret**
-- **edc-encryption-key**
+- **edc/oauth#api.key** 
+- **edc/participant#bpnNumber**
+- **backend/#signKey**
+- **backend#clientId**
+- **backend#clientSecret**
+- **oauth#realm**
+- **oauth#appId**
+- **oauth#xApiKey**
 
 To put a secret from vault, a special pattern is followed in helm values files:
 
@@ -65,13 +64,22 @@ To use a vault and create new secret, please look here: [how to-use vault create
 
 ### Using Docker
 
-If consumer frontend is run using docker, the following environment variables must be set in [build and deploy script](../../dpp-frontend/buildAndDeploy.sh):
+If dpp frontend is run using docker, the following environment variables must be set in [build and deploy script](../../../dpp-frontend/buildAndDeploy.sh):
 
-- PASS_VERSION
 - APP_VERSION
-- APP_API_TIMEOUT
 - APP_API_MAX_RETRIES
+- API_SEARCH_TIMEOUT
+- API_NEGOTIATE_TIMEOUT
+- API_DECLINE_TIMEOUT
 - APP_API_DELAY
+- REPO_COMMIT_ID
+- REPO_ENDPOINT_URL
+- AUTH_ROLE_CHECK
+- AUTH_BPN_CHECK
+- AUTH_BPN_NUMBER
+- APP_PORTAL_URL
+- APP_ADMIN_EMAIL
+- APP_AUTO_SIGN
 - IDENTITY_PROVIDER_URL
 - HOST_URL
 - DATA_URL
@@ -95,7 +103,7 @@ Further info about vault plugin for helm charts: [argocd-vault-plugin-helm](http
 ## Secrets Scanning
 
 ### Veracode
-Veracode upload-and-scan is used for secret scanning and scan results are then published in veracode dashboard once job is completed [Static Application Serucity Testing](./IaC.md)
+Veracode upload-and-scan is used for secret scanning and scan results are then published in veracode dashboard once job is completed [Static Application Serucity Testing](../infrastructure-as-code/IaC.md)
 
 ### Git Guardian
 
@@ -111,12 +119,11 @@ A client-side git hook similar to pre-commit hook that runs right before code ch
 
 GitGuardian hooks are performed through ggshield utility. ggshield is a wrapper around GitGuardian API for secrets detection that requires an API key to work. Please refer the official documentation for more information [here](https://docs.gitguardian.com/ggshield-docs/integrations/git-hooks/pre-commit)
 
-The git hooks for this repository are set up in [yaml file](../pre-commit-config.yaml)
 
-
-
-Setting up Git Guradian for the project [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)
-
+#### Links
+- Setting up Git Guradian for the project: [gitguardian-shield](https://docs.gitguardian.com/ggshield-docs/getting-started)
+- The git hooks for the repository: [yaml file](../../../pre-commit-config.yaml)
+- Release Guidelines requirements: [here](https://eclipse-tractusx.github.io/docs/release/trg-8/trg-8-03)
 
 ## NOTICE
 

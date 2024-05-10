@@ -172,7 +172,7 @@ In order to set up the secret management please follow this guide:
 
 | Name | Location | Link |
 | ---- | -------- | ---- |
-| Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/secrets%20management/SECRETS_MANAGEMENT.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/secrets%20management/SECRETS_MANAGEMENT.md) |
+| Secrets Management Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/security/secrets-management/SecretsManagement.md](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/security/secrets-management/SecretsManagement.md) |
 
 
 ## EDC Provider Configuration

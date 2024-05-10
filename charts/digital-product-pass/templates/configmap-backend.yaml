@@ -127,8 +127,8 @@ data:
           key: {{ tpl (.Values.backend.discovery.edcDiscovery.key | default "bpn") . | quote }}
       # -- configuration to the single API endpoint
       single-api:
-        maxRetries: {{ .Values.backend.singleApi.maxRetries }}
-        delay: {{ .Values.backend.singleApi.delay }}
+        maxRetries: {{ .Values.backend.single-api.maxRetries }}
+        delay: {{ .Values.backend.single-api.delay }}
       # -- process configuration
       process:
         # -- directory for storing the contract negotiation files

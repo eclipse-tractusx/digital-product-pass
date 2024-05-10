@@ -23,10 +23,10 @@
 -->
 
 # Data Provision
-         ________EDC-Connector________         ________Registry________         ________Data Service________  
-        |                             |       |                        |       |                            |
-        | Controlplane <-> Dataplane  | <---> |         AAS DTR        | <---> |     A plain JSON Server    |           
-        |_____________________________|       |________________________|       |____________________________|
+             ________EDC-Connector________         ________Registry________         ________Data Service________  
+            |                             |       |                        |       |                            |
+            | Controlplane <-> Dataplane  | <---> |         AAS DTR        | <---> |     A plain JSON Server    |           
+            |_____________________________|       |________________________|       |____________________________|
 
 
 This guide provides the information needed to setup data provisioning services as a data provider. Additionally, it enables you to register data payloads into the data service and configure digital twins in digital twin registry component. 
@@ -57,7 +57,7 @@ git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 
 ## Prepare DPP data
 
-The content of specific part assigned to each group is available in [resources](./resources/) directory. Please find your content corresponding to your assigned part.
+The content of specific part assigned to each group is available in [resources](./resources/payloads/) directory. Please find your content corresponding to your assigned part.
 
 
 ## Add Data to the Submodel Server
@@ -82,15 +82,13 @@ Open a new terminal and run the following command to add your data into the data
 ```bash
 curl --location '<INTERNAL_SERVER_IP>/data/urn:<GROUP_NUMBER>:<PART_NUMBER>' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <API_KEY>' \
---data "@resources/<YOUR_JSON_FILE>.json"
+--data "@resources/payloads/<YOUR_JSON_FILE>.json"
 ```
 
 Check your data is registerd in the service
 ```bash
 curl --location '<INTERNAL_SERVER_IP>/data/urn:<GROUP_NUMBER>:<PART_NUMBER>' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <API_KEY>'
 ```
 
 ## Create DPP Aspect Model
@@ -155,13 +153,12 @@ Use the following template and substitute the following parameters:
 
 After creation of the aspect model in previous step, its time to attach this model to submodel descriptors of an existing digital twin.
 
-> POST /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors
+> PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors
 
 ```bash
-curl --location --request PUT 'https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/DIGITAL_TWIN_ID_BASE64_ENCODED/submodel-descriptors/' \
+curl --location --request PUT '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/DIGITAL_TWIN_ID_BASE64_ENCODED/submodel-descriptors/' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key;' \
---data '@resources/DigitalTwins/<part>.json'
+--data '@resources/digital-twins/<part>.json'
 ```
 
 > [!Note]  
@@ -173,10 +170,9 @@ Check if your aspect model is added to the Digital twin.
 > GET /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors
 
 ```bash
-curl --location --request PUT 'https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0//shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors' \
+curl --location --request GET '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key;' \
---data '@resources/DigitalTwins/<part>.json'
+--data '@resources/digital-twins/<part>.json'
 ```
 
 If everything works fine, then you have reached at the end of data provisioning guide.

@@ -26,16 +26,16 @@
 
 This guide provides the information needed to setup the Digital product Passport (DPP) application as a data consumer. It describes how to run a local setup to leverage the DPP frontend and backend components using a container platform.
 
-                 ________________________Kubernetes Cluster________________________
-                |                                                                  |
-                |     _______________________Namespace________________________     |
-                |    |     ___________________         __________________     |    |
-                |    |    |                   |       |                  |    |    |
-                |    |    |   DPP Frontend    | <---> |    DPP Backend   |    |    |
-                |    |    |___________________|       |__________________|    |    |
-                |    |________________________________________________________|    |
-                |                                                                  |
-                |__________________________________________________________________|
+                         ________________________Kubernetes Cluster________________________
+                        |                                                                  |
+                        |     _______________________Namespace________________________     |
+                        |    |     ___________________         __________________     |    |
+                        |    |    |                   |       |                  |    |    |
+                        |    |    |   DPP Frontend    | <---> |    DPP Backend   |    |    |
+                        |    |    |___________________|       |__________________|    |    |
+                        |    |________________________________________________________|    |
+                        |                                                                  |
+                        |__________________________________________________________________|
             
 
 
@@ -99,7 +99,7 @@ Access the app in browser
 
 ## Configure the helm values
 
-Go to the [values.yaml](../charts/digital-product-pass/values.yaml) file
+Go to the [values.yaml](../../charts/digital-product-pass/values.yaml) file
 
 ### Backend Configuration
 The backend has the following settings to be configured:

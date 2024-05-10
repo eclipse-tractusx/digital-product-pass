@@ -148,12 +148,7 @@ public class PolicyUtil {
                 // If the policy is not valid return an empty list
                 return new ArrayList<>();
             }
-            List<Set> policyList;
-            try {
-                policyList = jsonUtil.bind(policies, new TypeReference<>(){});
-            } catch (Exception e) {
-                throw new UtilException(PolicyUtil.class, e, "It was not possible to parse the policy list");
-            }
+            List<Set> policyList = this.parsePolicies(policies);
             //Search for policies that are valid and get one of the valid ones
             return policyList.stream().parallel().filter(p -> this.isPolicyValid(p, validPolicies, strictMode)).toList();
         }catch (Exception e) {
@@ -232,7 +227,30 @@ public class PolicyUtil {
             throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");
         }
     }
-
+    /**
+     * Builds a policy from a raw policy object
+     * <p>
+     *
+     * @param rawPolicy {@code Object} the policy to be checked
+     * @return {@code Set} the list of parsed policies built from the configuration parameters
+     * @throws UtilException if error when parsing the contracts
+     */
+    public List<Set> parsePolicies(Object rawPolicy){
+        try {
+            JsonNode policy = jsonUtil.toJsonNode(rawPolicy);
+            if(!policy.isArray()){
+                Set parsedPolicy = this.parsePolicy(policy);
+                return new ArrayList<>(){{add(parsedPolicy);}};
+            }
+            List<Set> policies = new ArrayList<>();
+            for (final JsonNode p : policy) {
+                policies.add(this.parsePolicy(p));
+            }
+            return policies;
+        }catch (Exception e) {
+            throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policy!");
+        }
+    }
     /**
      * Builds a policy from a raw policy object
      * <p>

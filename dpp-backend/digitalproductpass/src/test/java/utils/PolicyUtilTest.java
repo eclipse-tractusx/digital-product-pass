@@ -67,9 +67,9 @@ class PolicyUtilTest {
 
     @Autowired
     DtrConfig dtrConfig;
-
     @Autowired
     PassportConfig passportConfig;
+
     @Autowired
     JsonUtil jsonUtil;
     @Autowired
@@ -168,7 +168,6 @@ class PolicyUtilTest {
         constraint4.put("odrl:rightOperand", "cx.core.digitalTwinRegistry:1");
         configuredConstraints.add(constraint3);
         configuredConstraints.add(constraint4);
-        configuredConstraints = new LinkedList<>();
         logicalConstraintDtr.put("odrl:and", configuredConstraints);
         logicalConstraint.put("odrl:and", constraints);
 

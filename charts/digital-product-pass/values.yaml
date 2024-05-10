@@ -205,8 +205,8 @@ backend:
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.circular.dpp:1"
-          prohibition: [ ]
-          obligation: [ ]
+          prohibition: []
+          obligation: []
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"
@@ -241,8 +241,8 @@ backend:
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.core.digitalTwinRegistry:1"
-          prohibition: [ ]
-          obligation: [ ]
+          prohibition: []
+          obligation: []
   # -- discovery configuration
   discovery:
     # -- discovery finder configuration

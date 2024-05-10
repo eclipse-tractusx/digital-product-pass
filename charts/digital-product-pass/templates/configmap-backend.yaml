@@ -25,8 +25,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: { { .Release.Name } }-backend-config
-  namespace: { { .Values.namespace } }
+  name: {{ .Release.Name }}-backend-config
+  namespace: {{ .Values.namespace }}
 data:
   application.yaml: |-
     spring:

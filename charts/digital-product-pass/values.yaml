@@ -255,7 +255,7 @@ backend:
     edcDiscovery:
       key: "bpn"
   # -- configuration to the single API endpoint
-  singleApi:
+  single-api:
     maxRetries: 30
     delay: 1000
 

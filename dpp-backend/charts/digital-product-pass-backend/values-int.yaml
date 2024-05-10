@@ -60,7 +60,7 @@ process:
 discovery:
   hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
-singleApi:
+single-api:
   maxRetries: 30
   delay: 1000
 

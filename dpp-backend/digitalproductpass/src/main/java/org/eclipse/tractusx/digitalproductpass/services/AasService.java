@@ -62,6 +62,8 @@ import java.util.Map;
  */
 @Service
 public class AasService extends BaseService {
+    /** CONSTANTS **/
+    public static final String AUTHORIZATION_KEY = "Authorization";
 
     /** ATTRIBUTES **/
     public String registryUrl;
@@ -370,7 +372,11 @@ public class AasService extends BaseService {
 
             // Get the normal headers based on the EDR
             HttpHeaders headers = this.httpUtil.getHeaders();
-            headers.add(env.getProperty("configuration.edc.authorizationKey", "Authorization"), edr.getPayload().getDataAddress().getProperties().getAuthorization());
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, edr.getPayload().getDataAddress().getProperties().getAuthorization());
             return headers;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTokenHeader",

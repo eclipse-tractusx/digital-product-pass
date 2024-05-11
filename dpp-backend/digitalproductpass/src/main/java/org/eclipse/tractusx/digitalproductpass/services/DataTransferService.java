@@ -1165,11 +1165,7 @@ public class DataTransferService extends BaseService {
                 dataDestination.setType("HttpProxy");
 
 
-                List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
-                        false,
-                        receiverEndpoint,
-                        List.of("transfer.process")
-                ));
+                List<CallbackAddress> callbackAddresses = List.of(CallbackAddress.builder().transactional(false).uri(receiverEndpoint).events(List.of("transfer.process")).build());
 
                 return new TransferRequest(
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
@@ -1433,11 +1429,7 @@ public class DataTransferService extends BaseService {
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
-                List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
-                        false,
-                        receiverEndpoint,
-                        List.of("transfer.process")
-                ));
+                List<CallbackAddress> callbackAddresses = List.of(CallbackAddress.builder().transactional(false).uri(receiverEndpoint).events(List.of("transfer.process")).build());
                 return new TransferRequest(
                         jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/","@vocab", "https://w3id.org/edc/v0.0.1/ns/")),
                         dtr.getAssetId(),

@@ -322,11 +322,7 @@ class DataTransferServiceTest {
         Negotiation negotiation = getNegotiation();
         Status status = new Status();
         status.setEndpoint("test.endpoint");
-        List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
-                false,
-                "http://test.endpoint/4546",
-                List.of("transfer.process")
-        ));
+        List<CallbackAddress> callbackAddresses = List.of(CallbackAddress.builder().transactional(false).uri("http://test.endpoint/4546").events(List.of("transfer.process")).build());
         TransferRequest transferRequest = new TransferRequest(
                 jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
                 dataSet.getAssetId(),

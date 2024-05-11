@@ -98,8 +98,8 @@ public class EndpointDataReference {
         @JsonAlias({"contractId", "edc:contractId"})
         String contractId;
 
-        @JsonProperty("contractId")
-        @JsonAlias({"contractId", "edc:contractId"})
+        @JsonProperty("dataAddress")
+        @JsonAlias({"dataAddress", "edc:dataAddress"})
         DataAddress dataAddress;
     }
     @Builder

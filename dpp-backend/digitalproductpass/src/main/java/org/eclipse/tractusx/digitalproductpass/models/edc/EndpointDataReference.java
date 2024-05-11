@@ -26,215 +26,148 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.edc;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.CallbackAddress;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
+
+import java.util.List;
+import java.util.Properties;
 
 /**
  * This class consists exclusively to define attributes related to Endpoint Data Reference (EDR) received from the EDC.
- **/
+ * */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EndpointDataReference extends DidDocument {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Jacksonized
+@Data
+public class EndpointDataReference {
+
+    /** CONSTANTS **/
+    @JsonIgnore
+    private static final String W3C_EDC = "https://w3id.org/edc/v0.0.1/ns/";
+    @JsonIgnore
+    private static final String W3C_TRACTUSX = "https://w3id.org/tractusx/auth/";
 
     /** ATTRIBUTES **/
     @JsonProperty("id")
     @JsonAlias({"id", "edc:id"})
     String id;
+    @JsonProperty("at")
+    @JsonAlias({"at", "edc:at"})
+    Long at;
+
     @JsonProperty("type")
     @JsonAlias({"type", "edc:type"})
-    String edrType;
-    @JsonProperty("endpoint")
-    @JsonAlias({"endpoint", "edc:endpoint"})
-    String endpoint;
-    @JsonProperty("properties")
-    @JsonAlias({"properties", "edc:properties"})
-    Properties properties;
-    @JsonProperty("contractId")
-    @JsonAlias({"contractId", "edc:contractId"})
-    String contractId;
-    @JsonProperty("authKey")
-    @JsonAlias({"authKey", "edc:authKey"})
-    String authKey;
-    @JsonProperty("authCode")
-    @JsonAlias({"authCode", "edc:authCode"})
-    String authCode;
-
-    /** CONSTRUCTOR(S) **/
-    @SuppressWarnings("Unused")
-    public EndpointDataReference(String id, String endpoint, String authKey, String authCode) {
-        this.id = id;
-        this.endpoint = endpoint;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-    @SuppressWarnings("Unused")
-    public EndpointDataReference() {
-    }
-
-    public EndpointDataReference(String id, String type, String id1, String edrType, String endpoint, String contractId, String authKey, String authCode) {
-        super(id, type);
-        this.id = id1;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(JsonNode context, String id, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
-        super(context);
-        this.id = id;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.properties = properties;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(String id, String edrType, String endpoint, String contractId, String authKey, String authCode) {
-        this.id = id;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(String id, String type, JsonNode context, String id1, String edrType, String endpoint, String contractId, String authKey, String authCode) {
-        super(id, type, context);
-        this.id = id1;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(String type, String id, String edrType, String endpoint, String contractId, String authKey, String authCode) {
-        super(type);
-        this.id = id;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(String id, String type, JsonNode context, String id1, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
-        super(id, type, context);
-        this.id = id1;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.properties = properties;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(JsonNode context, String id, String edrType, String endpoint, String contractId, String authKey, String authCode) {
-        super(context);
-        this.id = id;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
-
-    public EndpointDataReference(String id, String type, String id1, String edrType, String endpoint, Properties properties, String contractId, String authKey, String authCode) {
-        super(id, type);
-        this.id = id1;
-        this.edrType = edrType;
-        this.endpoint = endpoint;
-        this.properties = properties;
-        this.contractId = contractId;
-        this.authKey = authKey;
-        this.authCode = authCode;
-    }
+    String type;
 
 
-    /** GETTERS AND SETTERS **/
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getEndpoint() {
-        return endpoint;
-    }
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-    public String getAuthKey() {
-        return authKey;
-    }
-    @SuppressWarnings("Unused")
-    public void setAuthKey(String authKey) {
-        this.authKey = authKey;
-    }
-    public String getAuthCode() {
-        return authCode;
-    }
-    @SuppressWarnings("Unused")
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
-    }
 
-    public String getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(String contractId) {
-        this.contractId = contractId;
-    }
-
-    public String getEdrType() {
-        return edrType;
-    }
-
-    public void setEdrType(String edrType) {
-        this.edrType = edrType;
-    }
-
-    /** METHODS **/
-    /**
-     * Checks if offerId exists in the properties attribute.
-     * <p>
-     *
-     * @return  true if the offerId exists, false otherwise.
-     *
-     */
     /** INNER CLASSES **/
-    /**
-     * This class consists exclusively to define attributes related to the Asset search's properties.
-     **/
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class Properties {
-        @JsonProperty("https://w3id.org/edc/v0.0.1/ns/cid")
-        String offerId;
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Jacksonized
+    static class Payload {
+        @JsonProperty("transferProcessId")
+        @JsonAlias({"transferProcessId", "edc:transferProcessId"})
+        String transferProcessId;
+        @JsonProperty("callbackAddresses")
+        @JsonAlias({"callbackAddresses", "edc:callbackAddresses"})
+        List<CallbackAddress> callbackAddresses;
+
+        @JsonProperty("assetId")
+        @JsonAlias({"assetId", "edc:assetId"})
+        String assetId;
+
+        @JsonProperty("type")
+        @JsonAlias({"type", "edc:type"})
+        String type;
+
+        @JsonProperty("contractId")
+        @JsonAlias({"contractId", "edc:contractId"})
+        String contractId;
+
+        @JsonProperty("contractId")
+        @JsonAlias({"contractId", "edc:contractId"})
+        DataAddress dataAddress;
     }
-    public Boolean offerIdExists(){
-        try {
-            return this.properties != null && this.properties.offerId != null;
-        }catch (Exception e){
-            // Do nothing because is non-existent the offer id
-        }
-        return false;
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Jacksonized
+    static class DataAddress{
+        @JsonProperty("properties")
+        @JsonAlias({"properties", "edc:properties"})
+        Properties properties;
     }
 
-    public Properties getProperties() {
-        return properties;
-    }
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Jacksonized
+    static class Properties{
+        @JsonProperty("processId")
+        @JsonAlias({"process_id", "edc:process_id"})
+        String processId;
+        @JsonProperty("participantId")
+        @JsonAlias({"participant_id", "edc:participant_id"})
+        String participantId;
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
+        @JsonProperty("assetId")
+        @JsonAlias({"asset_id", "edc:asset_id"})
+        String assetId;
 
+        @JsonProperty("endpointType")
+        @JsonAlias({W3C_EDC+"endpointType", "endpointType", "edc:endpointType"})
+        String endpointType;
+
+        @JsonProperty("refreshEndpoint")
+        @JsonAlias({W3C_TRACTUSX+"refreshEndpoint", "refreshEndpoint", "edc:refreshEndpoint"})
+        String refreshEndpoint;
+
+        @JsonProperty("audience")
+        @JsonAlias({W3C_TRACTUSX+"audience", "audience", "edc:audience"})
+        String audience;
+
+        @JsonProperty("agreementId")
+        @JsonAlias({"agreement_id", "edc:agreement_id"})
+        String agreement_id;
+
+        @JsonProperty("flowType")
+        @JsonAlias({"flow_type", "edc:flow_type"})
+        String flow_type;
+
+        @JsonProperty("type")
+        @JsonAlias({W3C_EDC+"type", "type", "edc:type"})
+        String type;
+
+        @JsonProperty("endpoint")
+        @JsonAlias({W3C_EDC+"endpoint", "endpoint", "edc:endpoint"})
+        String endpoint;
+        @JsonProperty("refreshToken")
+        @JsonAlias({W3C_TRACTUSX+"refreshToken", "refreshToken", "edc:refreshToken"})
+        String refreshToken;
+
+        @JsonProperty("expiresIn")
+        @JsonAlias({W3C_TRACTUSX+"expiresIn", "expiresIn", "edc:expiresIn"})
+        String expiresIn;
+
+        @JsonProperty("authorization")
+        @JsonAlias({W3C_EDC+"authorization", "authorization", "edc:authorization"})
+        String authorization;
+
+        @JsonProperty("refreshAudience")
+        @JsonAlias({W3C_TRACTUSX+"refreshAudience", "refreshAudience", "edc:refreshAudience"})
+        String refreshAudience;
+    }
 }

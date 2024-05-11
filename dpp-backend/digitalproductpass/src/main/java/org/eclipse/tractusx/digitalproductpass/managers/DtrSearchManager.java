@@ -46,6 +46,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.*;
 
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.time.Duration;
 
@@ -249,7 +250,7 @@ public class DtrSearchManager {
             return;
         }
         if (contractOffers instanceof LinkedHashMap) {
-            Dataset dataset = (Dataset) jsonUtil.bindObject(contractOffers, Dataset.class);
+            Dataset dataset = jsonUtil.bind(contractOffers, new TypeReference<>() {});
             if (dataset != null) {
                 // Store the dataset in the digital twin logs
                 Map<String, Dataset> datasets = new HashMap<>() {{
@@ -276,10 +277,8 @@ public class DtrSearchManager {
         }
         List<Dataset> contractOfferList = jsonUtil.bind(contractOffers, new TypeReference<>() {});
         if (contractOfferList == null || contractOfferList.isEmpty()) {
-            LogUtil.printDebug("[DEBUG] ContractOfferList is empty!");
             return;
         }
-        LogUtil.printDebug("[DEBUG] ContractOfferList: " + jsonUtil.toJson(contractOfferList, true));
         Map<String, Dataset> datasets = edcUtil.mapDatasetsById(contractOfferList);
         Selection<Dataset,Set> contractAndPolicy = getDtrDataset(datasets);
         if (contractAndPolicy == null) {

@@ -94,15 +94,15 @@ public class PolicyUtil {
         Set policy = null;
         // If the policy is an object
         if (rawPolicy instanceof LinkedHashMap) {
-            policy = (Set) this.jsonUtil.bindObject(rawPolicy, Set.class);
+            policy = this.parsePolicy(rawPolicy);
         } else {
             List<LinkedHashMap> policyList = (List<LinkedHashMap>) this.jsonUtil.bindObject(rawPolicy, List.class);
             if (policyList == null) {
                 return null;
             }
-            policy = (Set) this.jsonUtil.bindObject(policyList.stream().filter(
+            policy = this.parsePolicy(policyList.stream().filter(
                     (p) -> p.get("@id").equals(policyId)
-            ).findFirst(), Set.class); // Get policy with the specific policy id
+            ).findFirst());
         }
         // If the policy does not exist
         if (policy == null) {
@@ -282,13 +282,10 @@ public class PolicyUtil {
      * @throws UtilException if error when parsing the contracts
      */
     public List<Action> parseActions(JsonNode node){
-        List<Action> arrayList = new ArrayList<>();
         if(!node.isArray()){
-            arrayList.add(jsonUtil.bind(node, new TypeReference<>(){}));
-        }else{
-            arrayList = jsonUtil.bind(node, new TypeReference<>(){});
+            return new ArrayList<>(){{add(jsonUtil.bind(node, new TypeReference<>(){}));}};
         }
-        return arrayList;
+        return jsonUtil.bind(node, new TypeReference<>(){});
     }
 
     /**

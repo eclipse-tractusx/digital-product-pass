@@ -1,5 +1,5 @@
 {
-  "@type" : "IdResponseDto",
+  "@type" : "IdResponse",
   "@id" : "189f4957-0fbe-4d73-b215-977e3303a45e",
   "createdAt" : 1699439557127,
   "@context" : {

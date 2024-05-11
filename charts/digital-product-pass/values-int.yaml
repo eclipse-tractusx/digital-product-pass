@@ -62,7 +62,7 @@ backend:
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
-  single-api:
+  singleApi:
     maxRetries: 30
     delay: 1000
 

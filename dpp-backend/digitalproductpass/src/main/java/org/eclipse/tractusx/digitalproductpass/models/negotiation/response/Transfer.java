@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.CallbackAddress;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.NegotiationTransferResponse;
 
@@ -65,73 +66,98 @@ public class Transfer extends NegotiationTransferResponse {
     @JsonProperty("receiverHttpEndpoint")
     @JsonAlias({"receiverHttpEndpoint","edc:receiverHttpEndpoint"})
     String receiverHttpEndpoint;
+    @JsonProperty("callbackAddresses")
+    @JsonAlias({"callbackAddresses","edc:callbackAddresses"})
+    Object callbackAddresses;
 
-    /** CONSTRUCTOR(S) **/
-    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
-        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Transfer(Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses) {
         this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.dataRequest = dataRequest;
         this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses;
     }
 
-    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
-        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Transfer(String id, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(id, type, state, edcType, createdAt, callbackAddresses, errorDetail);
         this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.dataRequest = dataRequest;
         this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
     }
 
-    public Transfer(Long stateTimestamp, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
+    public Transfer(String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(state, edcType, createdAt, callbackAddresses, errorDetail);
         this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.dataRequest = dataRequest;
         this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
     }
 
-    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
-        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Transfer(String id, String type, JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(id, type, context, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
     }
 
-    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
-        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Transfer(String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(type, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
+    }
+
+    public Transfer(JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(context, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
+    }
+
+    public Transfer(JsonNode context, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint, Object callbackAddresses1) {
+        super(context, type, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.stateTimestamp = stateTimestamp;
+        this.correlationId = correlationId;
+        this.assetId = assetId;
+        this.contractId = contractId;
+        this.dataDestination = dataDestination;
+        this.dataRequest = dataRequest;
+        this.receiverHttpEndpoint = receiverHttpEndpoint;
+        this.callbackAddresses = callbackAddresses1;
     }
 
     public Transfer() {
     }
 
-    public Transfer(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
-        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
-        this.stateTimestamp = stateTimestamp;
-        this.correlationId = correlationId;
-        this.assetId = assetId;
-        this.contractId = contractId;
-        this.dataDestination = dataDestination;
-        this.dataRequest = dataRequest;
-        this.receiverHttpEndpoint = receiverHttpEndpoint;
-    }
+    /** CONSTRUCTOR(S) **/
 
-    public Transfer(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
-        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
-        this.stateTimestamp = stateTimestamp;
-        this.correlationId = correlationId;
-        this.assetId = assetId;
-        this.contractId = contractId;
-        this.dataDestination = dataDestination;
-        this.dataRequest = dataRequest;
-        this.receiverHttpEndpoint = receiverHttpEndpoint;
-    }
-
-    public Transfer(Long stateTimestamp, String correlationId, String assetId, String contractId, DataDestination dataDestination, DataRequest dataRequest, String receiverHttpEndpoint) {
-        this.stateTimestamp = stateTimestamp;
-        this.correlationId = correlationId;
-        this.assetId = assetId;
-        this.contractId = contractId;
-        this.dataDestination = dataDestination;
-        this.dataRequest = dataRequest;
-        this.receiverHttpEndpoint = receiverHttpEndpoint;
-    }
 
     public Long getStateTimestamp() {
         return stateTimestamp;

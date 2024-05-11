@@ -28,6 +28,7 @@ package utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.bouncycastle.est.ESTAuth;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import utils.exceptions.UtilException;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,12 +61,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, org.eclipse.tractusx.digitalproductpass.config.DtrConfig.class})
+@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, org.eclipse.tractusx.digitalproductpass.config.DtrConfig.class, org.eclipse.tractusx.digitalproductpass.config.PassportConfig.class})
 @EnableConfigurationProperties
 class PolicyUtilTest {
 
     @Autowired
     DtrConfig dtrConfig;
+    @Autowired
+    PassportConfig passportConfig;
+
     @Autowired
     JsonUtil jsonUtil;
     @Autowired
@@ -83,18 +88,23 @@ class PolicyUtilTest {
     LinkedHashMap<String, Object> action;
     LinkedHashMap<String, Object> actionDtr;
     LinkedList<LinkedHashMap<String, Object>> permissions;
+
+    LinkedHashMap<String, Object> singlePermission;
     LinkedList<LinkedHashMap<String, Object>> permissionsDtr;
     LinkedList<LinkedHashMap<String, Object>> prohibitions;
     LinkedList<LinkedHashMap<String, Object>> obligations;
     LinkedHashMap<String, Object> policy;
+    LinkedHashMap<String, Object> uniquePolicy;
     LinkedHashMap<String, Object> policyDtr;
     LinkedList<LinkedHashMap<String, Object>> policies;
     LinkedList<LinkedHashMap<String, Object>> policiesDtr;
     LinkedHashMap<String, Object> credential;
+    LinkedHashMap<String, Object> uniqueCredential;
     LinkedHashMap<String, Object> credentialDtr;
     LinkedHashMap<String, Object> multipleCredential;
     LinkedHashMap<String, Object> multipleCredentialDtr;
     PolicyCheckConfig policyCheckConfig;
+    PolicyCheckConfig policyCheckConfigPassport;
     Set mappedPolicy;
     Set mappedPolicyDtr;
 
@@ -111,12 +121,15 @@ class PolicyUtilTest {
         constraints = new LinkedList<>();
         configuredConstraints = new LinkedList<>();
         policy = new LinkedHashMap<>();
+        uniquePolicy = new LinkedHashMap<>();
         policyDtr = new LinkedHashMap<>();
         credential = new LinkedHashMap<>();
+        uniqueCredential = new LinkedHashMap<>();
         credentialDtr = new LinkedHashMap<>();
         action = new LinkedHashMap<>();
         actionDtr = new LinkedHashMap<>();
         permissions = new LinkedList<>();
+        singlePermission = new LinkedHashMap<>();
         permissionsDtr = new LinkedList<>();
         prohibitions = new LinkedList<>();
         obligations = new LinkedList<>();
@@ -132,9 +145,19 @@ class PolicyUtilTest {
         constraint2.put("odrl:leftOperand", "cx-policy:FrameworkAgreement");
         constraint2.put("odrl:operator", operator);
         constraint2.put("odrl:rightOperand", "circulareconomy:1.0");
+
+        LinkedHashMap<String, Object> constraint5 = new LinkedHashMap<>();
+        LinkedList<LinkedHashMap<String, Object>> correctContraints = new LinkedList<>();
+        LinkedHashMap<String, Object> correctAction = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> correctLogicalConstraint = new LinkedHashMap<>();
+        constraint5.put("odrl:leftOperand", "cx-policy:UsagePurpose");
+        constraint5.put("odrl:operator", operator);
+        constraint5.put("odrl:rightOperand", "cx.circular.dpp:1");
         constraints.add(constraint1);
         constraints.add(constraint2);
-
+        correctContraints.add(constraint1);
+        correctContraints.add(constraint2);
+        correctContraints.add(constraint5);
         operator.put("@id", "odrl:eq");
         constraint3.put("odrl:leftOperand", "cx-policy:Membership");
         constraint3.put("odrl:operator", operator);
@@ -148,13 +171,24 @@ class PolicyUtilTest {
         logicalConstraintDtr.put("odrl:and", configuredConstraints);
         logicalConstraint.put("odrl:and", constraints);
 
+        correctLogicalConstraint.put("odrl:and", correctContraints);
+
         action.put("odrl:action", "USE");
         action.put("odrl:constraint", logicalConstraint);
+
+        correctAction.put("odrl:action", "USE");
+        correctAction.put("odrl:constraint", correctLogicalConstraint);
 
         actionDtr.put("odrl:action", "USE");
         actionDtr.put("odrl:constraint", logicalConstraintDtr);
 
+        singlePermission = correctAction;
         permissions.add(action);
+        uniquePolicy.put("odrl:permission", singlePermission);
+        uniquePolicy.put("odrl:prohibition", prohibitions);
+        uniquePolicy.put("odrl:obligation", obligations);
+        uniqueCredential.put("policy", uniquePolicy);
+
         policy.put("odrl:permission", permissions);
         policy.put("odrl:prohibition", prohibitions);
         policy.put("odrl:obligation", obligations);
@@ -185,6 +219,7 @@ class PolicyUtilTest {
         if(this.dtrConfig == null){
             throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: Configuration not found!");
         }
+        policyCheckConfigPassport = this.passportConfig.getPolicyCheck();
         policyCheckConfig = this.dtrConfig.getPolicyCheck();
         if(policyCheckConfig == null){
             throw new UtilException(PolicyUtilTest.class, "[TEST EXCEPTION]: The policy configuration was not found!");
@@ -354,6 +389,38 @@ class PolicyUtilTest {
             Set validPolicy = this.policyUtil.getPolicyByConstraints(policies, policyCheckConfig);
             LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
             assertNull(validPolicy);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+
+    /**
+     * Parse unique policy instead of array
+     * **/
+    @Test
+    void parseUniquePolicy(){
+        try{
+            LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(uniquePolicy, true));
+            LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfigPassport, true));
+            Set validPolicy = this.policyUtil.getPolicyByConstraints(uniquePolicy, policyCheckConfigPassport);
+            LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicy, true));
+            assertNotNull(validPolicy);
+        }catch(Exception e){
+            throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
+        }
+    }
+
+    /**
+     * Parse unique policy instead of array
+     * **/
+    @Test
+    void getUniquePolicies(){
+        try{
+            LogUtil.printTest("[INPUT]: " + jsonUtil.toJson(uniquePolicy, true));
+            LogUtil.printTest("[POLICY CONFIGURATION]: " + jsonUtil.toJson(policyCheckConfigPassport, true));
+            List<Set> validPolicies = this.policyUtil.getValidPoliciesByConstraints(uniquePolicy, policyCheckConfigPassport);
+            LogUtil.printTest("[RESPONSE]: " + jsonUtil.toJson(validPolicies, true));
+            assertTrue(validPolicies.size() > 0);
         }catch(Exception e){
             throw new UtilException(PolicyUtilTest.class, e,"It was not possible to test the default policy check!");
         }

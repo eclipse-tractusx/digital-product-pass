@@ -235,7 +235,7 @@ backend:
             - action: "USE"
               logicalConstraint: "odrl:and"
               constraints:
-                - leftOperand: "cx-policy:Membership"
+                - leftOperand: "Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
                 - leftOperand: "cx-policy:UsagePurpose"

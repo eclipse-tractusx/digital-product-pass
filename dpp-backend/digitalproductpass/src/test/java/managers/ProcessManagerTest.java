@@ -43,7 +43,6 @@ import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
 import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.NegotiationRequest;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.TransferRequest;
@@ -493,12 +492,8 @@ class ProcessManagerTest {
     @Test
     void saveNegotiationRequestAndNegotiation() {
         NegotiationRequest negotiationRequest = new NegotiationRequest();
-        String providerId = UUID.randomUUID().toString();
-        String connectorId = UUID.randomUUID().toString();
         negotiationRequest.setProtocol("HTTP");
-        negotiationRequest.setProviderId(providerId);
-        negotiationRequest.setConnectorAddress("connectorAddress");
-        negotiationRequest.setConnectorId(connectorId);
+        negotiationRequest.setCounterPartyAddress("connectorAddress");
 
         String negotiationId = UUID.randomUUID().toString();
         String contractAgreement = UUID.randomUUID().toString();
@@ -524,8 +519,6 @@ class ProcessManagerTest {
         Map<String, Object> init = (Map<String, Object>) updatedNegotiation.get("init");
         NegotiationRequest updatedNegotiationRequest = (NegotiationRequest) jsonUtil.bindObject(init.get("request"), NegotiationRequest.class);
 
-        assertEquals(providerId, updatedNegotiationRequest.getProviderId());
-        assertEquals(connectorId, updatedNegotiationRequest.getConnectorId());
         assertEquals("HTTP", updatedNegotiationRequest.getProtocol());
 
         Map<String, Object> get = (Map<String, Object>) updatedNegotiation.get("get");
@@ -615,7 +608,6 @@ class ProcessManagerTest {
         transferRequest.setContractId(contractId);
         transferRequest.setAssetId(assetId);
         transferRequest.setConnectorAddress("connectorAddress");
-        transferRequest.setConnectorId(connectorId);
 
         String transferId = UUID.randomUUID().toString();
         Transfer transfer = new Transfer();
@@ -639,7 +631,6 @@ class ProcessManagerTest {
         TransferRequest updatedTransferRequest = (TransferRequest) jsonUtil.bindObject(init.get("request"), TransferRequest.class);
 
         assertEquals(contractId, updatedTransferRequest.getContractId());
-        assertEquals(connectorId, updatedTransferRequest.getConnectorId());
         assertEquals("HTTP", updatedTransferRequest.getProtocol());
 
         Map<String, Object> get = (Map<String, Object>) updatedTransfer.get("get");

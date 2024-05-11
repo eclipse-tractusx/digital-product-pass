@@ -42,6 +42,7 @@ public class DidDocument {
     /** ATTRIBUTES **/
     @JsonProperty("@id")
     public String id;
+
     @JsonProperty("@type")
     public String type;
 
@@ -68,6 +69,10 @@ public class DidDocument {
 
     public DidDocument(JsonNode context) {
         this.context = context;
+    }
+    public DidDocument(JsonNode context,  String type) {
+        this.context = context;
+        this.type = type;
     }
 
     /** GETTERS AND SETTERS **/

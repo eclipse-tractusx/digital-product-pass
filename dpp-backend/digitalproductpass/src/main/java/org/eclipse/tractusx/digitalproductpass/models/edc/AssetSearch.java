@@ -39,6 +39,9 @@ public class AssetSearch {
     /** ATTRIBUTES **/
     @JsonProperty("assetId")
     String assetId;
+
+    @JsonProperty("bpn")
+    String bpn;
     @JsonProperty("connectorAddress")
     String connectorAddress;
 
@@ -49,6 +52,12 @@ public class AssetSearch {
 
     public AssetSearch(String assetId, String connectorAddress) {
         this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+    }
+
+    public AssetSearch(String assetId, String bpn, String connectorAddress) {
+        this.assetId = assetId;
+        this.bpn = bpn;
         this.connectorAddress = connectorAddress;
     }
 
@@ -67,4 +76,11 @@ public class AssetSearch {
         this.connectorAddress = connectorAddress;
     }
 
+    public String getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
+    }
 }

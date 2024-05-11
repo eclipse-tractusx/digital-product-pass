@@ -46,6 +46,8 @@ public class CatalogRequest extends DidDocument {
     String protocol;
     @JsonProperty("counterPartyAddress")
     String counterPartyAddress;
+    @JsonProperty("counterPartyId")
+    String counterPartyId;
     @JsonProperty("querySpec")
     QuerySpec querySpec;
 
@@ -65,6 +67,52 @@ public class CatalogRequest extends DidDocument {
     }
 
     public CatalogRequest() {
+    }
+
+    public CatalogRequest(String id, String type, String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec) {
+        super(id, type);
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
+    }
+
+    public CatalogRequest(String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec) {
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
+    }
+
+    public CatalogRequest(String id, String type, JsonNode context, String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec) {
+        super(id, type, context);
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
+    }
+
+    public CatalogRequest(String type, String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec) {
+        super(type);
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
+    }
+
+    public CatalogRequest(JsonNode context, String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec) {
+        super(context);
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
+    }
+    public CatalogRequest(JsonNode context, String protocol, String counterPartyAddress, String counterPartyId, QuerySpec querySpec, String type) {
+        super(context, type);
+        this.protocol = protocol;
+        this.counterPartyAddress = counterPartyAddress;
+        this.counterPartyId = counterPartyId;
+        this.querySpec = querySpec;
     }
 
     /** GETTERS AND SETTERS **/
@@ -89,6 +137,14 @@ public class CatalogRequest extends DidDocument {
 
     public void setQuerySpec(QuerySpec querySpec) {
         this.querySpec = querySpec;
+    }
+
+    public String getCounterPartyId() {
+        return counterPartyId;
+    }
+
+    public void setCounterPartyId(String counterPartyId) {
+        this.counterPartyId = counterPartyId;
     }
 
     /** INNER CLASSES **/

@@ -45,7 +45,7 @@ public class Action {
      **/
     @JsonProperty("odrl:action")
     @JsonAlias({"action", "odrl:action"})
-    String action;
+    ActionType action;
     @JsonProperty("odrl:constraint")
     @JsonAlias({"constraint", "odrl:constraint"})
     LogicalConstraint constraint;
@@ -58,7 +58,7 @@ public class Action {
     public Action() {
     }
 
-    public Action(String action, LogicalConstraint constraint) {
+    public Action(ActionType action, LogicalConstraint constraint) {
         this.action = action;
         this.constraint = constraint;
     }
@@ -75,17 +75,28 @@ public class Action {
      */
     public void buildAction(PolicyCheckConfig.ActionConfig actionConfig){
         // Create clean list of constraints
-        this.action = actionConfig.getAction();
+        addAction(actionConfig.getAction());
         this.constraint = new LogicalConstraint(actionConfig);
     }
     /**
      * GETTERS AND SETTERS
      **/
-    public String getAction() {
+    public String retrieveAction() {
+        if(this.action == null){
+            return null;
+        }
+        return this.action.getType();
+    }
+    public void addAction(String action) {
+        this.action = new ActionType();
+        this.action.setType(action);
+    }
+
+    public ActionType getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(ActionType action) {
         this.action = action;
     }
 
@@ -107,10 +118,31 @@ public class Action {
     public Boolean compare(Action action){
         try{
             if(action == null){return false;} // If action is null not continue
-            if(!action.getAction().equalsIgnoreCase(this.getAction())){return false;} // If actions strings are not the same
+            if(!action.retrieveAction().equalsIgnoreCase(this.retrieveAction())){return false;} // If actions strings are not the same
             return action.getConstraint().compare(this.getConstraint()); //If constraints are the same
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the actions!");
+        }
+    }
+
+    static class ActionType{
+        @JsonProperty("odrl:type")
+        @JsonAlias({"type", "odrl:type", "@type"})
+        String type;
+
+        public ActionType(String type) {
+            this.type = type;
+        }
+
+        public ActionType() {
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 }

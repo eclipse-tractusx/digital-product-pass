@@ -23,11 +23,11 @@
 #################################################################################
 
 backend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     # className: "nginx"
-    image:
-      pullPolicy: Always
     annotations:
       ingressClassName: nginx
       # kubernetes.io/tls-acme: "true"

@@ -96,13 +96,13 @@ public class PolicyUtil {
         if (rawPolicy instanceof LinkedHashMap) {
             policy = this.parsePolicy(rawPolicy);
         } else {
-            List<LinkedHashMap> policyList = (List<LinkedHashMap>) this.jsonUtil.bindObject(rawPolicy, List.class);
+            List<Set> policyList = this.parsePolicies(rawPolicy);
             if (policyList == null) {
                 return null;
             }
-            policy = this.parsePolicy(policyList.stream().filter(
-                    (p) -> p.get("@id").equals(policyId)
-            ).findFirst());
+            policy = policyList.stream().filter(
+                    (p) -> p.getId().equals(policyId)
+            ).findFirst().orElse(null);
         }
         // If the policy does not exist
         if (policy == null) {
@@ -243,7 +243,7 @@ public class PolicyUtil {
                 return new ArrayList<>(){{add(parsedPolicy);}};
             }
             List<Set> policies = new ArrayList<>();
-            for (final JsonNode p : policy) {
+            for (JsonNode p : policy) {
                 policies.add(this.parsePolicy(p));
             }
             return policies;
@@ -261,13 +261,21 @@ public class PolicyUtil {
      */
     public Set parsePolicy(Object rawPolicy){
         try {
+            // Parse policy to json node
             JsonNode policy = jsonUtil.toJsonNode(rawPolicy);
+            // Get permission, prohibition and obligation
             JsonNode permission = policy.get("odrl:permission");
             JsonNode prohibition = policy.get("odrl:prohibition");
             JsonNode obligation = policy.get("odrl:obligation");
+            // Check if its null
+            if(permission == null || prohibition == null || obligation == null){
+                throw new UtilException(PolicyUtil.class, "One of the policy action constraints is empty!");
+            }
+            // Check if all them are array then parse as default
             if(permission.isArray() && prohibition.isArray() && obligation.isArray()){
                 return jsonUtil.bind(rawPolicy, new TypeReference<>(){});
             }
+            // If not parse the set by action type
             return new Set(this.parseActions(permission), this.parseActions(prohibition), this.parseActions(obligation));
         }catch (Exception e) {
             throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policy!");
@@ -282,9 +290,11 @@ public class PolicyUtil {
      * @throws UtilException if error when parsing the contracts
      */
     public List<Action> parseActions(JsonNode node){
+        // If node is not array parse a single action object
         if(!node.isArray()){
             return new ArrayList<>(){{add(jsonUtil.bind(node, new TypeReference<>(){}));}};
         }
+        // If node is array parse the action node as a list
         return jsonUtil.bind(node, new TypeReference<>(){});
     }
 

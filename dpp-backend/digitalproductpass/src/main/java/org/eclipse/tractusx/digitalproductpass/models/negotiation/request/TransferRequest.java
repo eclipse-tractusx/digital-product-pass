@@ -56,7 +56,7 @@ public class TransferRequest extends DidDocument {
     @JsonProperty("protocol")
     String protocol;
     @JsonProperty("transferType")
-    TransferType transferType;
+    String transferType;
     @JsonProperty("callbackAddresses")
     List<CallbackAddress> callbackAddresses;
 
@@ -65,7 +65,7 @@ public class TransferRequest extends DidDocument {
     public TransferRequest() {
     }
 
-    public TransferRequest(String id, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String id, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(id, type);
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
@@ -77,7 +77,7 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
         this.contractId = contractId;
@@ -88,7 +88,7 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String id, String type, JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String id, String type, JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(id, type, context);
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
@@ -100,7 +100,7 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(type);
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
@@ -112,7 +112,7 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(context);
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
@@ -124,7 +124,7 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(JsonNode context, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, TransferType transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(JsonNode context, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(context, type);
         this.assetId = assetId;
         this.connectorAddress = connectorAddress;
@@ -159,8 +159,8 @@ public class TransferRequest extends DidDocument {
 
     public String getProtocol() { return protocol; }
     public void setProtocol(String protocol) { this.protocol = protocol; }
-    public TransferType getTransferType() { return transferType; }
-    public void setTransferType(TransferType transferType) { this.transferType = transferType; }
+    public String getString() { return transferType; }
+    public void setString(String transferType) { this.transferType = transferType; }
 
     public List<CallbackAddress> getCallbackAddresses() {
         return callbackAddresses;
@@ -172,32 +172,6 @@ public class TransferRequest extends DidDocument {
 
     /** INNER CLASSES **/
 
-    /**
-     * This class consists exclusively to define attributes related to the Transfer request's transfer type property.
-     **/
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class TransferType {
-
-        /** ATTRIBUTES **/
-        @JsonProperty("contentType")
-        String contentType;
-        @JsonProperty("isFinite")
-        Boolean isFinite;
-
-        /** GETTERS AND SETTERS **/
-        public String getContentType() {
-            return contentType;
-        }
-        public void setContentType(String contentType) {
-            this.contentType = contentType;
-        }
-        public Boolean getIsFinite() {
-            return isFinite;
-        }
-        public void setIsFinite(Boolean isFinite) {
-            this.isFinite = isFinite;
-        }
-    }
 
     /**
      * This class consists exclusively to define attributes related to the Transfer request's private properties' attribute.

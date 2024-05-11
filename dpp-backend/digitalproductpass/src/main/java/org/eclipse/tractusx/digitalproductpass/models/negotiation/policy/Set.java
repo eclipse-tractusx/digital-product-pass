@@ -26,13 +26,20 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation.policy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import utils.LogUtil;
+import utils.PolicyUtil;
+import utils.exceptions.UtilException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +54,19 @@ import java.util.Objects;
 public class Set extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("odrl:permission")
+    @JsonIgnore
+    static final String PERMISSION = "odrl:permission";
+    @JsonIgnore
+    static final String PROHIBITION = "odrl:prohibition";
+    @JsonIgnore
+    static final String OBLIGATION = "odrl:obligation";
+
+    @JsonProperty(PERMISSION)
     List<Action> permissions;
-    @JsonProperty("odrl:prohibition")
+    @JsonProperty(PROHIBITION)
     List<Action> prohibitions;
 
-    @JsonProperty("odrl:obligation")
+    @JsonProperty(OBLIGATION)
     List<Action> obligations;
 
     /** CONSTRUCTOR(S) **/
@@ -124,6 +138,45 @@ public class Set extends DidDocument {
         }
     }
 
+    /**
+     * Builds a policy from a raw policy object
+     * <p>
+     *
+     * @param rawPolicy {@code Object} the policy to be checked
+     * @throws ModelException if error when parsing the contracts
+     */
+    static public Set build(Object rawPolicy){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode policy = mapper.convertValue(rawPolicy, new TypeReference<>(){});
+            String policyId = null;
+            String policyType = null;
+            // Parse policy to json node
+            if(policy.has(ID)) {
+                policyId = mapper.convertValue(policy.get(ID), new TypeReference<>() {});
+            }
+            if(policy.has(TYPE)) {
+                policyType = mapper.convertValue(policy.get(TYPE), new TypeReference<>() {});
+            }
+            // Get permission, prohibition and obligation
+            JsonNode permission = policy.get(PERMISSION);
+            JsonNode prohibition = policy.get(PROHIBITION);
+            JsonNode obligation = policy.get(OBLIGATION);
+
+            // Check if its null
+            if(permission == null || prohibition == null || obligation == null){
+                throw new ModelException(Set.class.getName(), "One of the mandatory fields where not found!");
+            }
+            // Check if all them are array then parse as default
+            if(permission.isArray() && prohibition.isArray() && obligation.isArray()){
+                return mapper.convertValue(rawPolicy, new TypeReference<>(){});
+            }
+            // If not parse the set by action type
+            return new Set(policyId, policyType, Action.build(permission), Action.build(prohibition), Action.build(obligation));
+        }catch (Exception e) {
+            throw new ModelException(Set.class.getName(), "It was not possible to create a new policy!");
+        }
+    }
 
 
 

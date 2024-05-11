@@ -522,6 +522,7 @@ public class DtrSearchManager {
                     }
 
                     Policy policy = dataTransferService.buildOffer(dataset, set, providerBpn);
+                    LogUtil.printMessage("DEBUG: Policy offer after"+ jsonUtil.toJson(policy, true) );
                     String builtDataEndpoint = CatenaXUtil.buildDataEndpoint(connectionUrl);
                     IdResponse negotiationResponse = dataTransferService.doContractNegotiation(policy, builtDataEndpoint);
                     if (negotiationResponse == null) {

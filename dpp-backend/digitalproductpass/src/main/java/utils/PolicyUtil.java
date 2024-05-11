@@ -94,7 +94,7 @@ public class PolicyUtil {
         Set policy = null;
         // If the policy is an object
         if (rawPolicy instanceof LinkedHashMap) {
-            policy = this.parsePolicy(rawPolicy);
+            policy = Set.build(rawPolicy);
         } else {
             List<Set> policyList = this.parsePolicies(rawPolicy);
             if (policyList == null) {
@@ -146,7 +146,7 @@ public class PolicyUtil {
             if (policies instanceof LinkedHashMap) {
                 // Check if policy is valid or not
                 LogUtil.printMessage("DEBUG: Single Policy!");
-                Set policy = this.parsePolicy(policies);
+                Set policy = Set.build(policies);
                 LogUtil.printMessage("DEBUG: Policy: " + jsonUtil.toJson(policy, true));
 
                 // In case the policy is valid return the policy
@@ -252,75 +252,16 @@ public class PolicyUtil {
         try {
             JsonNode policy = jsonUtil.toJsonNode(rawPolicy);
             if(!policy.isArray()){
-                Set parsedPolicy = this.parsePolicy(policy);
-                return new ArrayList<>(){{add(parsedPolicy);}};
+                return new ArrayList<>(){{add(Set.build(policy));}};
             }
             List<Set> policies = new ArrayList<>();
             for (JsonNode p : policy) {
-                policies.add(this.parsePolicy(p));
+                policies.add(Set.build(p));
             }
             return policies;
         }catch (Exception e) {
-            throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policy!");
+            throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policies!");
         }
-    }
-    /**
-     * Builds a policy from a raw policy object
-     * <p>
-     *
-     * @param rawPolicy {@code Object} the policy to be checked
-     * @return {@code Set} the list of parsed policies built from the configuration parameters
-     * @throws UtilException if error when parsing the contracts
-     */
-    public Set parsePolicy(Object rawPolicy){
-        try {
-            // Parse policy to json node
-            JsonNode policy = jsonUtil.toJsonNode(rawPolicy);
-            LogUtil.printMessage("DEBUG: Json Node Policy: " + jsonUtil.toJson(policy, true));
-            // Get permission, prohibition and obligation
-            JsonNode permission = policy.get("odrl:permission");
-            LogUtil.printMessage("DEBUG: Permission Json Node: " + jsonUtil.toJson(permission, true));
-
-            JsonNode prohibition = policy.get("odrl:prohibition");
-            LogUtil.printMessage("DEBUG: prohibition Json Node: " + jsonUtil.toJson(prohibition, true));
-
-            JsonNode obligation = policy.get("odrl:obligation");
-            LogUtil.printMessage("DEBUG: prohibition Json Node: " + jsonUtil.toJson(obligation, true));
-
-            // Check if its null
-            if(permission == null || prohibition == null || obligation == null){
-                throw new UtilException(PolicyUtil.class, "One of the policy action constraints is empty!");
-            }
-            // Check if all them are array then parse as default
-            if(permission.isArray() && prohibition.isArray() && obligation.isArray()){
-                LogUtil.printMessage("DEBUG: All is array ");
-
-                return jsonUtil.bind(rawPolicy, new TypeReference<>(){});
-            }
-            LogUtil.printMessage("DEBUG: One is not array ");
-            // If not parse the set by action type
-            return new Set(this.parseActions(permission), this.parseActions(prohibition), this.parseActions(obligation));
-        }catch (Exception e) {
-            throw new UtilException(PolicyUtil.class, e, "It was not possible to create a new policy!");
-        }
-    }
-    /**
-     * Builds an action from a raw policy object
-     * <p>
-     *
-     * @param node {@code JsonNode} action to be checked
-     * @return {@code List<Action>} the list of actions parsed
-     * @throws UtilException if error when parsing the contracts
-     */
-    public List<Action> parseActions(JsonNode node){
-        // If node is not array parse a single action object
-        if(!node.isArray()){
-            LogUtil.printMessage("DEBUG: Node is not array " +jsonUtil.toJson(node, true));
-            return new ArrayList<>(){{add(jsonUtil.bind(node, new TypeReference<>(){}));}};
-        }
-        LogUtil.printMessage("DEBUG: Node is array " +jsonUtil.toJson(node, true));
-        // If node is array parse the action node as a list
-        return jsonUtil.bind(node, new TypeReference<>(){});
     }
 
     /**

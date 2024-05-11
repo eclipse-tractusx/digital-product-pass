@@ -75,6 +75,8 @@ public class DataTransferService extends BaseService {
 
     /** ATTRIBUTES **/
     private final HttpUtil httpUtil;
+
+    private final PolicyUtil policyUtil;
     private final JsonUtil jsonUtil;
     public String apiKey;
     public String bpnNumber;
@@ -111,10 +113,11 @@ public class DataTransferService extends BaseService {
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public DataTransferService(Environment env, HttpUtil httpUtil, EdcUtil edcUtil, JsonUtil jsonUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
+    public DataTransferService(Environment env, HttpUtil httpUtil, EdcUtil edcUtil, JsonUtil jsonUtil, PolicyUtil policyUtil, VaultService vaultService, ProcessManager processManager, DtrConfig dtrConfig) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.edcUtil = edcUtil;
         this.jsonUtil = jsonUtil;
+        this.policyUtil =policyUtil;
         this.processManager = processManager;
         this.dtrConfig = dtrConfig;
         this.env = env;
@@ -431,12 +434,10 @@ public class DataTransferService extends BaseService {
     public Set selectPolicyByIndex(Object policies, Integer defaultIndex){
         Set policy = null;
         if(policies instanceof LinkedHashMap){
-            policy = (Set) jsonUtil.bindObject(policies, Set.class);
-        }else{
-            List<LinkedHashMap> policyList = (List<LinkedHashMap>) jsonUtil.bindObject(policies, List.class);
-            policy = (Set) jsonUtil.bindObject(policyList.get(defaultIndex), Set.class); // Get fist policy from the list to resolve the conflict
+            return Set.build(policies);
         }
-        return (Set) jsonUtil.bindObject(policy, Set.class);
+        List<LinkedHashMap> policyList = (List<LinkedHashMap>) jsonUtil.bindObject(policies, List.class);
+        return Set.build(policyList.get(defaultIndex)); // Get fist policy from the list to resolve the conflict
     }
 
     /**
@@ -454,10 +455,10 @@ public class DataTransferService extends BaseService {
         Object rawPolicy = dataset.getPolicy();
         Set policy = null;
         if(rawPolicy instanceof LinkedHashMap){
-            policy = (Set) jsonUtil.bindObject(rawPolicy, Set.class);
+            policy =  Set.build(rawPolicy);
         }else{
             List<LinkedHashMap> policyList = (List<LinkedHashMap>) jsonUtil.bindObject(rawPolicy, List.class);
-            policy = (Set) jsonUtil.bindObject(policyList.get(defaultIndex), Set.class); // Get fist policy from the list to resolve the conflict
+            policy = Set.build(policyList.get(defaultIndex)); // Get fist policy from the list to resolve the conflict
         }
         return this.buildOffer(dataset, policy, bpn);
     }
@@ -477,9 +478,9 @@ public class DataTransferService extends BaseService {
             Object rawPolicy = dataset.getPolicy();
             Set policy = null;
             if (rawPolicy instanceof LinkedHashMap) {
-                policy = (Set) jsonUtil.bindObject(rawPolicy, Set.class);
+                policy =  Set.build(rawPolicy);
             } else {
-                List<Set> policyList = (List<Set>) jsonUtil.bindReferenceType(rawPolicy, new TypeReference<List<Set>>() {});
+                List<Set> policyList = policyUtil.parsePolicies(rawPolicy);
                 policy = policyList.stream().filter(p -> p.getId().equals(policyId)).findAny().orElse(null);
             }
             if(policy == null) {
@@ -502,7 +503,11 @@ public class DataTransferService extends BaseService {
      *
      */
     public Policy buildOffer(Dataset dataset, Set policy, String bpn) {
+        LogUtil.printMessage("DEBUG: Set before "+ jsonUtil.toJson(policy, true) );
+
         Policy policyOffer = jsonUtil.bind(policy, new TypeReference<>() {});
+        LogUtil.printMessage("DEBUG: Policy offer before "+ jsonUtil.toJson(policyOffer, true) );
+
         return policyOffer.setup(dataset.getAssetId(), bpn, "odrl:Offer");
     }
     /**
@@ -1154,10 +1159,6 @@ public class DataTransferService extends BaseService {
         public TransferRequest buildTransferRequest(Dataset dataset, String endpoint, Negotiation negotiation) {
             try {
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + this.processId; // Send process Id to identification the session.
-                TransferRequest.TransferType transferType = new TransferRequest.TransferType();
-
-                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
-                transferType.setIsFinite(true);
 
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
@@ -1178,7 +1179,7 @@ public class DataTransferService extends BaseService {
                         dataDestination,
                         false,
                         "dataspace-protocol-http",
-                        transferType,
+                        env.getProperty("configuration.edc.transferType"),
                         callbackAddresses
                 );
             } catch (Exception e) {
@@ -1429,10 +1430,6 @@ public class DataTransferService extends BaseService {
             try {
                 // Build transfer request to make the Digital Twin Query
                 String receiverEndpoint = env.getProperty("configuration.edc.receiverEndpoint") + "/" + processId +  "/" + endpointId;
-                TransferRequest.TransferType transferType = new TransferRequest.TransferType();
-
-                transferType.setContentType(env.getProperty("configuration.edc.transferType"));
-                transferType.setIsFinite(true);
 
                 TransferRequest.DataDestination dataDestination = new TransferRequest.DataDestination();
                 dataDestination.setType("HttpProxy");
@@ -1449,7 +1446,7 @@ public class DataTransferService extends BaseService {
                         dataDestination,
                         false,
                         "dataspace-protocol-http",
-                        transferType,
+                        env.getProperty("configuration.edc.transferType"),
                         callbackAddresses
                 );
             } catch (Exception e) {

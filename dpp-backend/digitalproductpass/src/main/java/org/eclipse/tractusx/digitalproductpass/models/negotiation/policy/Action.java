@@ -30,8 +30,14 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ModelException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class responsible for mapping the logic constraints from a policy set
@@ -123,6 +129,23 @@ public class Action {
         }catch (Exception e){
             throw new ModelException(this.getClass().getName(), e, "It was not possible to compare the actions!");
         }
+    }
+    /**
+     * Builds an action from a raw policy object
+     * <p>
+     *
+     * @param node {@code JsonNode} action to be checked
+     * @return {@code List<Action>} the list of actions parsed
+     * @throws ModelException if error when parsing the contracts
+     */
+    static public List<Action> build(JsonNode node){
+        ObjectMapper mapper = new ObjectMapper();
+        // If node is not array parse a single action object
+        if(!node.isArray()){
+            return new ArrayList<>(){{add(mapper.convertValue(node, new TypeReference<>(){}));}};
+        }
+        // If node is array parse the action node as a list
+        return mapper.convertValue(node, new TypeReference<>(){});
     }
 
     static class ActionType{

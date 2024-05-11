@@ -119,7 +119,7 @@ class DataTransferServiceTest {
         processConfig.setDir("process");
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
 
-        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, vaultService, processManager, dtrConfig);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,new PolicyUtil(), vaultService, processManager, dtrConfig);
 
         when(httpUtil.getHeaders()).thenReturn(new HttpHeaders());
         when(httpUtil.getParams()).thenReturn(new HashMap<>());
@@ -321,10 +321,6 @@ class DataTransferServiceTest {
 
         Negotiation negotiation = getNegotiation();
         Status status = new Status();
-        TransferRequest.TransferType transferType = new TransferRequest.TransferType();
-
-        transferType.setContentType(env.getProperty("configuration.edc.transferType"));
-        transferType.setIsFinite(true);
         status.setEndpoint("test.endpoint");
         List<CallbackAddress> callbackAddresses = List.of(new CallbackAddress(
                 false,
@@ -339,7 +335,7 @@ class DataTransferServiceTest {
                 null,
                 false,
                 "dataspace-protocol-http",
-                transferType,
+                env.getProperty("configuration.edc.transferType"),
                 callbackAddresses
         );
 

@@ -177,8 +177,7 @@ public class ContractService extends BaseService {
                     for (String bpn : bpnList) {
                         List<Dtr> dtrs = null;
                         try {
-                            dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {
-                            });
+                            dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
                         } catch (Exception e) {
                             throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                         }

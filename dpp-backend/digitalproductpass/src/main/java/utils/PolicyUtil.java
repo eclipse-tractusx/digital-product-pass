@@ -133,22 +133,34 @@ public class PolicyUtil {
             }
             List<PolicyConfig> policyConfigs = policyCheckConfigs.getPolicies();
             List<Set> validPolicies = this.buildPolicies(policyConfigs);
+
+            LogUtil.printMessage("DEBUG: Valid Policies: " + jsonUtil.toJson(validPolicies, true));
+
             Boolean strictMode = policyCheckConfigs.getStrictMode();
             // There is no valid policy available
             if (validPolicies == null || validPolicies.size() == 0) {
                 return null;
             }
+            LogUtil.printMessage("DEBUG: Raw Policies: " + jsonUtil.toJson(policies, true));
+
             if (policies instanceof LinkedHashMap) {
                 // Check if policy is valid or not
+
                 Set policy = this.parsePolicy(policies);
+                LogUtil.printMessage("DEBUG: Policy: " + jsonUtil.toJson(policy, true));
+
                 // In case the policy is valid return the policy
                 if(this.isPolicyValid(policy, validPolicies, strictMode)){
+                    LogUtil.printMessage("DEBUG: Policy not valid!");
+
                     return new ArrayList<>(){{add(policy);}}; // Add policy to a list of valid policies
                 }
                 // If the policy is not valid return an empty list
                 return new ArrayList<>();
             }
             List<Set> policyList = this.parsePolicies(policies);
+            LogUtil.printMessage("DEBUG: Policies: " + jsonUtil.toJson(policyList, true));
+
             //Search for policies that are valid and get one of the valid ones
             return policyList.stream().parallel().filter(p -> this.isPolicyValid(p, validPolicies, strictMode)).toList();
         }catch (Exception e) {

@@ -32,6 +32,7 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationE
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,11 +51,16 @@ import java.util.Map;
 @Service
 public class DataPlaneService extends BaseService {
 
+    /** CONSTANTS **/
+    public static final String AUTHORIZATION_KEY = "Authorization";
+
     /** ATTRIBUTES **/
     @Autowired
     HttpUtil httpUtil;
     @Autowired
     JsonUtil jsonUtil;
+
+    public Environment env;
 
     /** CONSTRUCTOR(S) **/
     public DataPlaneService() throws ServiceInitializationException {
@@ -78,8 +84,12 @@ public class DataPlaneService extends BaseService {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
-            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
-            ResponseEntity<?> response = httpUtil.doGet(endpointData.getEndpoint(), Object.class, headers, params, true, true);
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, endpointData.getPayload().getDataAddress().getProperties().getAuthorization());
+            ResponseEntity<?> response = httpUtil.doGet(endpointData.getPayload().getDataAddress().getProperties().getEndpoint(), Object.class, headers, params, true, true);
             return response.getBody();
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
@@ -102,7 +112,11 @@ public class DataPlaneService extends BaseService {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
-            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, endpointData.getPayload().getDataAddress().getProperties().getAuthorization());
             ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, String.class, headers, params, true, true);
             return jsonUtil.toJsonNode((String) response.getBody());
         }catch (Exception e){

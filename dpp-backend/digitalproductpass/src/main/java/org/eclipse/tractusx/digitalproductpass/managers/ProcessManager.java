@@ -1474,7 +1474,7 @@ public class ProcessManager {
      */
     public String getContractId(EndpointDataReference endpointData){
 
-        return endpointData.getContractId();
+        return endpointData.getPayload().getContractId();
     }
 
     /**

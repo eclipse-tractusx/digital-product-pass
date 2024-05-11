@@ -74,7 +74,7 @@ public class EdcUtil {
      */
     public EndpointDataReference parseDataPlaneEndpoint(Object body) {
         try {
-            return (EndpointDataReference) this.jsonUtil.bindObject(body, EndpointDataReference.class);
+            return this.jsonUtil.bind(body, new TypeReference<>() {});
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to parse the data plain endpoint");
         }

@@ -59,6 +59,7 @@ configuration:
     transferType: "HttpData-PULL"
     timeout:
       exchange: 10
+    authorizationKey: "Authorization"
 
   security:
     authorization:

@@ -46,6 +46,7 @@ import java.util.Properties;
 @AllArgsConstructor
 @Jacksonized
 @Data
+@Getter
 public class EndpointDataReference {
 
     /** CONSTANTS **/
@@ -66,7 +67,9 @@ public class EndpointDataReference {
     @JsonAlias({"type", "edc:type"})
     String type;
 
-
+    @JsonProperty("payload")
+    @JsonAlias({"payload", "edc:payload"})
+    Payload payload;
 
     /** INNER CLASSES **/
 
@@ -75,7 +78,7 @@ public class EndpointDataReference {
     @NoArgsConstructor
     @AllArgsConstructor
     @Jacksonized
-    static class Payload {
+    public static class Payload {
         @JsonProperty("transferProcessId")
         @JsonAlias({"transferProcessId", "edc:transferProcessId"})
         String transferProcessId;
@@ -104,7 +107,7 @@ public class EndpointDataReference {
     @NoArgsConstructor
     @AllArgsConstructor
     @Jacksonized
-    static class DataAddress{
+    public static class DataAddress{
         @JsonProperty("properties")
         @JsonAlias({"properties", "edc:properties"})
         Properties properties;
@@ -115,7 +118,7 @@ public class EndpointDataReference {
     @NoArgsConstructor
     @AllArgsConstructor
     @Jacksonized
-    static class Properties{
+    public static class Properties{
         @JsonProperty("processId")
         @JsonAlias({"process_id", "edc:process_id"})
         String processId;

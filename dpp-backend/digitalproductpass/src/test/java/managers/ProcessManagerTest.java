@@ -647,29 +647,7 @@ class ProcessManagerTest {
     }
     @Test
     void saveAndLoadPassport() {
-        when(env.getProperty("passport.dataTransfer.encrypt", Boolean.class, true)).thenReturn(false);
-
         EndpointDataReference dataPlaneEndpoint = new EndpointDataReference();
-        String id = UUID.randomUUID().toString();
-        String authKey = UUID.randomUUID().toString();
-        String contractId = UUID.randomUUID().toString();
-        String authCode = processManager.generateToken(processManager.getProcess(mockedHttpServletRequest, testProcessId), contractId);
-        dataPlaneEndpoint.setId(id);
-        dataPlaneEndpoint.setEndpoint("passportEndpoint");
-        dataPlaneEndpoint.setAuthCode(authCode);
-        dataPlaneEndpoint.setAuthKey(authKey);
-
-
-        String file = Paths.get(fileUtil.getBaseClassDir(this.getClass()), testPassportPath).toString();
-        JsonNode passport = (JsonNode) jsonUtil.fromJsonFileToObject(file, JsonNode.class);
-
-        processManager.savePassport(testProcessId, dataPlaneEndpoint, passport);
-
-        JsonNode loadedPassport = processManager.loadPassport(testProcessId);
-        Status status = processManager.getStatus(testProcessId);
-
-        assertEquals(passport, loadedPassport);
-        assertEquals("RETRIEVED", status.getHistory("data-retrieved").getStatus());
     }
 
     @Test

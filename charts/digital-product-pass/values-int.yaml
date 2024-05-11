@@ -26,6 +26,8 @@ backend:
   ingress:
     enabled: true
     # className: "nginx"
+    image:
+      pullPolicy: Always
     annotations:
       ingressClassName: nginx
       # kubernetes.io/tls-acme: "true"
@@ -68,6 +70,8 @@ backend:
 
 
 frontend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     #className: ""

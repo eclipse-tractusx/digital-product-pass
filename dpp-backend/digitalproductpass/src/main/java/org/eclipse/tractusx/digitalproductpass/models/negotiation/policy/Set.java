@@ -158,6 +158,8 @@ public class Set extends DidDocument {
             if(policy.has(TYPE)) {
                 policyType = mapper.convertValue(policy.get(TYPE), new TypeReference<>() {});
             }
+
+            LogUtil.printMessage("DEBUG: Policy: "+ policy.toPrettyString());
             // Get permission, prohibition and obligation
             JsonNode permission = policy.get(PERMISSION);
             JsonNode prohibition = policy.get(PROHIBITION);
@@ -165,6 +167,21 @@ public class Set extends DidDocument {
 
             // Check if its null
             if(permission == null || prohibition == null || obligation == null){
+                if (permission != null) {
+                    LogUtil.printMessage("DEBUG: Permission: "+ permission.toPrettyString());
+                }else{
+                    LogUtil.printMessage("DEBUG: Permission is null!");
+                }
+                if (prohibition != null) {
+                    LogUtil.printMessage("DEBUG: Prohibition: "+ prohibition.toPrettyString());
+                }else{
+                    LogUtil.printMessage("DEBUG: Prohibition is null!");
+                }
+                if (obligation != null) {
+                    LogUtil.printMessage("DEBUG: Obligation: "+ obligation.toPrettyString());
+                }else{
+                    LogUtil.printMessage("DEBUG: Obligation is null!");
+                }
                 throw new ModelException(Set.class.getName(), "One of the mandatory fields where not found!");
             }
             // Check if all them are array then parse as default

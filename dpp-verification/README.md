@@ -204,14 +204,89 @@ For our technical implementation from the Certification/Verification of aspect m
 |Complete Data Verification Statement | Self Signed Document containing the complete data from a aspect model payload. |
 |Partial Data Verification Statement|Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
 
+
 ## Verification Statements Documents/Credentials
 
-The different verificaiton statement types were mapped to certain technical verification statement documents which encapsulate the certification and verification of attributes in the framework.
+The different verificaiton statement types were mapped to certain technical verification statement documents which encapsulate the certification and verification of attributes in the framework. Using the **Verifiable Credential** technology from the W3C we are able to idenfity to different documents to have signature from different issuers:
+
+> [!TIP]
+>
+> For more information about what is a verifiable credential [go to this chapter](#what-is-a-verifiable-credential).
+
 
 | Document/Credential Name | Short Name |Issuer |Verification Statement Type | Content | Description |
 | -- | -- | -- | -- | -- | -- |
 | **Certified Data Credential** | **CDC** | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control | Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data. | 
 | **Certified Snapshot Credential** | **CSC** | Data Auditor | Partial Data Verification Statement | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
+
+
+# Creating Trust and Risk Mitigation Assets
+
+> Why to place trust in companies which certify data?
+
+The companies auditing the data must be authorized and given the trust
+from another member party to issue data related credentials. Only
+
+We know we humans make mistakes. When third party companies already known
+in the business of providing trust and certifications for specific assets. This assets would be audited or its original data would be audited, and then will be compared to the different **Regulations**, **Standards** and **Rulebooks** that define if the data content is:
+
+- Certify data plausibility (that the values make sense)
+- Certify that the attribute values in the data that follow the standards.
+- Certify Structure and semantics that follow the standards
+- Certify that the actual physical asset has the content which is placed in the Digital Product Pass serialized or type payload.
+- Certify that issuance of data to prevent fraud
+
+## Verifiable Credential Documents
+
+The idea behind the verifiable credentials is to provide signed proof
+for a content. This credential is a JSON-LD structure, which contains
+the "data" that was certified and the proof is able to be verified by
+resolving the "DID Method" contained in the bottom of the credential.
+
+But what is a verifiable credential?
+
+### What is a Verifiable Credential?
+
+According to the W3C
+(<https://www.w3.org/TR/vc-data-model-2.0/#what-is-a-verifiable-credential>)
+a verifiable credential is:
+
+-   Information related to identifying
+    the [subject](https://www.w3.org/TR/vc-data-model-2.0/#dfn-subjects) of
+    the [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) (for
+    example, a photo, name, or identification number)
+
+-   Information related to the issuing authority (for example, a city
+    government, national agency, or certification body)
+
+-   Information related to the type
+    of [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) this
+    is (for example, a Dutch passport, an American driving license, or a
+    health insurance card)
+
+-   Information related to specific attributes or properties being
+    asserted by the issuing authority about
+    the [subject](https://www.w3.org/TR/vc-data-model-2.0/#dfn-subjects) (for
+    example, nationality, the classes of vehicle entitled to drive, or
+    date of birth)
+
+-   Evidence related to how
+    the [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) was
+    derived
+
+-   Information related to constraints on the credential (for example,
+    validity period, or terms of use).
+
+A [verifiable
+credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-verifiable-credential) can
+represent all of the same information that a
+physical [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) represents.
+The addition of technologies, such as digital signatures,
+makes [verifiable
+credentials](https://www.w3.org/TR/vc-data-model-2.0/#dfn-verifiable-credential) more
+tamper-evident and more trustworthy than their physical counterparts.
+
+In this concept **Verifiable Credentials** are not representing the identities from the Product but are some sort of **Documents** which contain the actual information from a product and are **signed** by issuer of the data or in case of partial data certified, signed by a data auditor.
 
 # Certification Processes
 

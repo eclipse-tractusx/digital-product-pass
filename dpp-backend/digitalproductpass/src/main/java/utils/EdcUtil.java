@@ -206,7 +206,7 @@ public class EdcUtil {
      */
     public Boolean isContractValid(Dataset contract, PolicyCheckConfig policyConfig){
         try {
-            return policyUtil.getValidPoliciesByConstraints(contract, policyConfig).size() > 0; // If any policy is found the contract is valid
+            return policyUtil.getValidPoliciesByConstraints(contract.getPolicy(), policyConfig).size() > 0; // If any policy is found the contract is valid
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
         }

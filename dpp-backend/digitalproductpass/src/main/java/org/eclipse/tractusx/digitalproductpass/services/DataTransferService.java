@@ -432,7 +432,6 @@ public class DataTransferService extends BaseService {
      *
      */
     public Set selectPolicyByIndex(Object policies, Integer defaultIndex){
-        Set policy = null;
         if(policies instanceof LinkedHashMap){
             return Set.build(policies);
         }

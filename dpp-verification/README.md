@@ -28,7 +28,9 @@ SPDX-License-Identifier: Apache-2.0
   <br><br>
   <img alt="Version:  v1.0" src="https://img.shields.io/badge/Version-v1.0-blue?style=for-the-badge">
   <img alt="STATUS: IN PROGRESS" src="https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge">
+  <h3> Catena-X Data Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
+  
 </div>
 
 > [!CAUTION]
@@ -53,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
 ## Tags
 
 > [!NOTE]
-> #Cybersecurity #DataVerification #DataCertification #Catena-X #DigitalProductPassVerification #DPP #SignedDocuments #DataCredentials
+> #Cybersecurity #DataVerification #DataCertification #Catena-X #DigitalProductPassVerification #DPP #SignedDocuments #DataCredentials # Framework
 > #DigitalProductPass #VerifiableCredentials #Wallets #DecentralIdenties #SSI #ProductDataExchangeTrust #Verification #Innovation #Ed25519 #JWS #Web3.0
 
 
@@ -190,6 +192,26 @@ The different roles will exchange different document which will contain, informa
 
 **Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
 This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors
+
+# Verification Statements
+
+For our technical implementation from the Certification/Verification of aspect models and attributes we can abstract two type of verification statements:
+
+## Abstract Types
+
+| Type | Description |
+| -- | -- |
+|Complete Data Verification Statement | Self Signed Document containing the complete data from a aspect model payload. |
+|Partial Data Verification Statement|Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
+
+## Verification Statements Documents/Credentials
+
+The different verificaiton statement types were mapped to certain technical verification statement documents which encapsulate the certification and verification of attributes in the framework.
+
+| Document/Credential Name | Short Name |Issuer |Verification Statement Type | Content | Description |
+| -- | -- | -- | -- | -- | -- |
+| **Certified Data Credential** | **CDC** | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control | Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data. | 
+| **Certified Snapshot Credential** | **CSC** | Data Auditor | Partial Data Verification Statement | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
 
 # Certification Processes
 

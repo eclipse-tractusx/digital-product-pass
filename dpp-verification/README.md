@@ -80,15 +80,39 @@ This concept has been proved to be of high interest from the Certification and V
 
 ## Table of Contents
 
-<!-- TOC -->
+- [Metadata](#metadata)
+  - [Authors](#authors)
+  - [Tags](#tags)
+- [Abstract](#abstract)
+  - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
   - [Value Proposition Motivators](#value-proposition-motivators)
   - [Objectives](#objectives)
   - [Use Cases](#use-cases)
+- [Previous Investigation](#previous-investigation)
+- [Processes Terminology](#processes-terminology)
+  - [**Roles/Actors**](#rolesactors)
+    - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
+    - [Document Exchange Details](#document-exchange-details)
+- [Asumptions](#asumptions)
+- [Verification Statements](#verification-statements)
+  - [Abstract Types](#abstract-types)
+  - [Verification Statements Documents/Credentials](#verification-statements-documentscredentials)
+- [Creating Trust and Risk Mitigation Assets](#creating-trust-and-risk-mitigation-assets)
+  - [Verifiable Credential Documents](#verifiable-credential-documents)
+    - [What is a Verifiable Credential?](#what-is-a-verifiable-credential)
+    - [Credential Schema](#credential-schema)
+- [Certification Processes](#certification-processes)
+  - [Attribute Certification Process](#attribute-certification-process)
+  - [Self-Testify Certification Process](#self-testify-certification-process)
+  - [Total Certification Process](#total-certification-process)
+- [Technical Integration](#technical-integration)
 - [References](#references)
 - [Special Thanks](#special-thanks)
 - [Glossary](#glossary)
-<!-- TOC -->
+  - [NOTICE](#notice)
+  - [AUTHORS](#authors-1)
+
 
 # Introduction
 
@@ -305,6 +329,20 @@ tamper-evident and more trustworthy than their physical counterparts.
 
 In this concept **Verifiable Credentials** are not representing the identities from the Product but are some sort of **Documents** which contain the actual information from a product and are **signed** by issuer of the data or in case of partial data certified, signed by a data auditor.
 
+### Credential Schema
+
+The signed document credential has the following resumed schema:
+
+![Configuration Sections](./resources/processes/document-credential-resume.svg)
+
+Depending in each verification types different configuration will be provided in the location of the payload aspect or specific attributes. The detailed configuration is defined in the [Technical Integration](#technical-integration) chapter.
+
+| Section | Description |
+| --- | ---- |
+| **Metadata** | The metadata contains the context information and credential schema details. Also contains the identification of the credential and which documents it contained. |
+| **Aspect Model Data / Credential Data** | In this section is defined all the neccessary data of each credential type. The specific attributes with methods and proof from data auditor or the original data issued and sigend by the data provider.|
+| **Proof and Verification Methods** | This section contain the digital signature from the Data Provider or Data Auditor. It also contains all the methods for a Data Verifier/Data Consumer to access the verification requirements to check if the credential is still valid and not revoked.|
+
 # Certification Processes
 
 For easing the understanding from the certification process and the interaction between the Data Provider and the Data Auditor, some diagrams are provided where the different interactions and artifacts generated are mapped.
@@ -341,6 +379,8 @@ The self-testify certification process consist in the data provided singing its 
 The total certification process is the same as the attribute verification process however the complete process is not starting with a plain json file. In this case the data provider can `self testify` its own data. The rest of the process is same and will result in the verification from the specific attributes from the aspect.
 
 ![](./resources/processes/cdc-csc-workflow.svg)
+
+# Technical Integration
 
 
 # References

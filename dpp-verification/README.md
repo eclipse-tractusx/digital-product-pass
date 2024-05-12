@@ -88,7 +88,6 @@ This concept has been proved to be of high interest from the Certification and V
 - [References](#references)
 - [Special Thanks](#special-thanks)
 - [Glossary](#glossary)
-
 <!-- TOC -->
 
 # Introduction
@@ -193,6 +192,25 @@ The different roles will exchange different document which will contain, informa
 **Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
 This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors
 
+# Asumptions
+
+When we talk about verification and certification processes, serveral questions and concerns can be raised in regards of making it productive and implementable.
+When a concept is developed not all the processes and problems can be addressed, therefore this concept has some conditions that should be considered.
+Therefore we have decided to list the initial asumptions that are required for this verification process to be successful:
+
+| Asumption | Description | 
+| --- | ----- |
+| **Digital Product Pass Process Creation is established** | The digital product pass process is a complex process that is implemented in each *Data Provider* and is tailored to the systems and application avaialable in each company. This concepts starts its journey from the assumption that the digital product pass data is already available in the **Data Provider** infrastructure as a **Serialized Aspect Model Payload** |
+| **Data Exchange is Standardized** | As we know in Catena-X the data exchange between partners in this case need to be standardized, there fore the digital product pass data and all the related statements will be standardized and available for all members of the network to be able to parse and handle the fields and certifications. | 
+| **Data Certification Process is defined by Data Auditor** | The complexity of the certification process is high and can vary from auditor company to company. Therefore in this concept there was decided to resume the certification of attributes to the most unitary and simple **Technical Solution**, allowing each company to adopt and implement the process according to its needs and requirements. |
+| **Only minimum exchanged data is specified** | Only the minimum exchanged data is specified when transfering data from one company to another. When a certification process is triggered there are many other attributes, data and elements to be specified. Only the neccessary attributes to retrieve the data are specified in this concept to keep things simple and indicate the MVP attributes needed to make it possible. |
+| **All legal requirements are fullfilled** | In this company we asume that the company has all the neccessary legal requirements and agreements to exchange data with its partners in the Catena-X network, policies and permissions are not going to be specified, all the EDC configurations are the ones specified by the Catena-X network. For more information [see this specification](https://github.com/catenax-eV/cx-odrl-profile). |
+| **The digital product pass standards are followed** | The digital twin registry and data service must be implemented as indicated in the latest CX standard for digital product passports and other products. |
+| **The certification and verification are not limited to digital product passports** | This concept sets the initial path to verify any aspect model payload in Catena-X that uses JSON as its serialized representation. The concept is tailored to digital product passports since the **EcoDesign** regulations are playing a important role in the future of Data Ecosystems like *Catena-X*. |
+| **The wallets used in the concept allow to sign any type of credential** | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB). |
+| **Each company MUST have an decentral wallet** | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X. |
+| **All data exchanges are done through the Eclipse DataSpace Connector** | Every company **MUST** have a EDC in order to provide data to othere parties and consume data from other partners. Data sovereighty is followed and shall use the guidelines provided by the Catena-X network. |
+
 # Verification Statements
 
 For our technical implementation from the Certification/Verification of aspect models and attributes we can abstract two type of verification statements:
@@ -218,7 +236,6 @@ The different verificaiton statement types were mapped to certain technical veri
 | -- | -- | -- | -- | -- | -- |
 | **Certified Data Credential** | **CDC** | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control | Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data. | 
 | **Certified Snapshot Credential** | **CSC** | Data Auditor | Partial Data Verification Statement | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
-
 
 # Creating Trust and Risk Mitigation Assets
 
@@ -297,7 +314,8 @@ For easing the understanding from the certification process and the interaction 
 > The Certification Processes of data are valid equally for `Type` level digital twins (Aspect Model in Type Level) or `Instance` digital twins (Aspect Model in Serialized Level). The difference relies on the configuration of the digital twin, and in which level the certification wants to be done.
 > Is important to know that the certification **MUST** be at the same level always. If we talk about a Digital Twin in Type Level, then the Digital Product Pass or any aspect model will contain Type level data, as well as the verified attributes.
 
-##  Attribute Certification Process
+## Attribute Certification Process
+
 The attribute certification is based on a plain JSON Aspect Model Payload that contains the information from a digital product pass. It starts with the `data provider` that creates the `digital product passport` with the available information from and storing it in the `data service`.
 Once that is done the data will be linked in a `digital twin`, so in this way by receiving the digital twin and searching for the passport submodel it can be found. After that it will be stored in the `digital twin registry`. Now if any attribute level certification is required to be done by an auditor, a `request` will be triggered from the data provider side, so a `EDC Push Notification` will be sent to the `data auditor` with the EDC Provider URL, the Digital Twin Id and the DPP Aspect Submodel Id (unique identification)
 

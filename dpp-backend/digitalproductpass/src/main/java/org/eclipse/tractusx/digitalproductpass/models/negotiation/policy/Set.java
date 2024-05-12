@@ -159,7 +159,6 @@ public class Set extends DidDocument {
                 policyType = mapper.convertValue(policy.get(TYPE), new TypeReference<>() {});
             }
 
-            LogUtil.printMessage("DEBUG: Policy: "+ policy.toPrettyString());
             // Get permission, prohibition and obligation
             JsonNode permission = policy.get(PERMISSION);
             JsonNode prohibition = policy.get(PROHIBITION);

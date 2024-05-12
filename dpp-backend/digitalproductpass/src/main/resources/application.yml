@@ -96,7 +96,7 @@ configuration:
             - action: "USE"
               logicalConstraint: "odrl:and"
               constraints:
-                - leftOperand: "cx-policy:Membership"
+                - leftOperand: "Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
                 - leftOperand: "cx-policy:UsagePurpose"
@@ -153,12 +153,13 @@ configuration:
       - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
     policyCheck:
       enabled: true
+      strictMode: false
       policies:
         - permission:
             - action: "USE"
               logicalConstraint: "odrl:and"
               constraints:
-                - leftOperand: "cx-policy:Membership"
+                - leftOperand: "Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
                 - leftOperand: "cx-policy:FrameworkAgreement"

@@ -26,15 +26,10 @@
 
 package utils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
-import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Action;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -131,37 +126,26 @@ public class PolicyUtil {
             if (policies == null || policyCheckConfigs == null) {
                 return null;
             }
+            // Generate configuration policies
             List<PolicyConfig> policyConfigs = policyCheckConfigs.getPolicies();
             List<Set> validPolicies = this.buildPolicies(policyConfigs);
-
-            LogUtil.printMessage("DEBUG: Valid Policies: " + jsonUtil.toJson(validPolicies, true));
 
             Boolean strictMode = policyCheckConfigs.getStrictMode();
             // There is no valid policy available
             if (validPolicies == null || validPolicies.size() == 0) {
                 return null;
             }
-            LogUtil.printMessage("DEBUG: Raw Policies: " + jsonUtil.toJson(policies, true));
-
             if (policies instanceof LinkedHashMap) {
                 // Check if policy is valid or not
-                LogUtil.printMessage("DEBUG: Single Policy!");
                 Set policy = Set.build(policies);
-                LogUtil.printMessage("DEBUG: Policy: " + jsonUtil.toJson(policy, true));
-
                 // In case the policy is valid return the policy
                 if(this.isPolicyValid(policy, validPolicies, strictMode)){
-                    LogUtil.printMessage("DEBUG: Policy not valid!");
-
                     return new ArrayList<>(){{add(policy);}}; // Add policy to a list of valid policies
                 }
                 // If the policy is not valid return an empty list
                 return new ArrayList<>();
             }
-            LogUtil.printMessage("DEBUG: Multiple Policies!");
             List<Set> policyList = this.parsePolicies(policies);
-            LogUtil.printMessage("DEBUG: Policies: " + jsonUtil.toJson(policyList, true));
-
             //Search for policies that are valid and get one of the valid ones
             return policyList.stream().parallel().filter(p -> this.isPolicyValid(p, validPolicies, strictMode)).toList();
         }catch (Exception e) {
@@ -277,7 +261,6 @@ public class PolicyUtil {
         try {
             // Filter the list of policies based on the policy configuration
             List<Set> policies = validPolicies.stream().filter(p -> this.isPolicyConstraintsValid(policy, p)).toList();
-            System.out.println("[DEBUG] [VALID POLICIES] " + policies);
             return policies.size() > 0; //If any policy is valid then return true
         }catch (Exception e) {
             throw new UtilException(PolicyUtil.class, e, "[DEFAULT MODE] It was not possible to check if policy is valid!");

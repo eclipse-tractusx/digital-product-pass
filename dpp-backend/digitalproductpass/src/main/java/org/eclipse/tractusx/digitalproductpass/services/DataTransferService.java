@@ -502,11 +502,7 @@ public class DataTransferService extends BaseService {
      *
      */
     public Policy buildOffer(Dataset dataset, Set policy, String bpn) {
-        LogUtil.printMessage("DEBUG: Set before "+ jsonUtil.toJson(policy, true) );
-
         Policy policyOffer = jsonUtil.bind(policy, new TypeReference<>() {});
-        LogUtil.printMessage("DEBUG: Policy offer before "+ jsonUtil.toJson(policyOffer, true) );
-
         return policyOffer.setup(dataset.getAssetId(), bpn, "odrl:Offer");
     }
     /**

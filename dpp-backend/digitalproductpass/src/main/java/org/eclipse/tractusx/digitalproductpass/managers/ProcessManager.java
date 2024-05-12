@@ -1056,9 +1056,7 @@ public class ProcessManager {
      *           if unable to update the status file.
      */
     public String setAgreed(HttpServletRequest httpRequest, String processId, Long signedAt, String contractId, String policyId) {
-
         this.setProcessState(httpRequest, processId, "STARTING");
-
         return this.setStatus(processId, "contract-agreed", new History(
                 contractId+"/"+policyId,
                 "AGREED",

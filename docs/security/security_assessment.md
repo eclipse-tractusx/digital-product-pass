@@ -33,7 +33,7 @@
 | Status of assessment      | RE-ASSESSMENT DONE & Approved                                                                            |
 
 ## Product Description
-Product Passport App is Internet facing web app designed with a purpose of disclosing details about battery (and others products in the future) products for authenticated & authorized users.
+The Digital Product Passport App is Internet facing web app designed with a purpose of disclosing details about battery (and others products in the future) products for authenticated & authorized users.
 Within the Catena-X Network, Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
 This passports can be used for different products like Batteries, Gearboxes, etc. At the moment the only product implemented are batteries, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that is in development at the moment.
 The product passport consumer app provides an easy way to request a product passport from a manufacturer using the Catena-X network and standardized components and technologies. The passport will be displayed user-readable in an common browser. The app is used to access the passport data, which is provided by a manufacturer. Another interesting feature, is that you are able to scan a QR-code or by knowing the manufacturer and product-ID a user can request the passport over the Catena-X. On the other end, the manufacturer will provide passports with data elements, that the signed-in user is allowed to see the detailed information from a product.
@@ -51,8 +51,8 @@ As the data provider might not send every data field regarding to the users priv
 |ID | Component Description |
 | ------------------------- | ------------------------- |
 |1 | Authentication Service|
-|2 | Product Passport UI |
-|3 | Product Passport UI|
+|2 | Digital Product Passport Frontend |
+|3 | Digital Product Passport Backend |
 
 ## Components out of scope of the review
 |ID | Component Description |

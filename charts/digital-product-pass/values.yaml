@@ -196,7 +196,7 @@ backend:
             - action: "USE"
               logicalConstraint: "odrl:and"
               constraints:
-                - leftOperand: "Membership"
+                - leftOperand: "cx-policy:Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
                 - leftOperand: "cx-policy:FrameworkAgreement"
@@ -207,6 +207,19 @@ backend:
                   rightOperand: "cx.circular.dpp:1"
           prohibition: []
           obligation: []
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:FrameworkAgreement"
+                  operator: "odrl:eq"
+                  rightOperand: "circulareconomy:1.0"
+          prohibition: [ ]
+          obligation: [ ]
+
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"

@@ -80,12 +80,9 @@ export default class BackendService {
         try {
             processResponse = await this.createProcess(ids["discoveryId"], authentication);
         } catch (e) {
-            console.log("CATCH")
-            console.log(processResponse);
             return processResponse;
         }
-        console.log("PROCESS RESPONSE")
-        console.log(processResponse);
+
         // Check if the process is successful or if the data is not retrieved
         if (!processResponse || (jsonUtil.exists("status", processResponse) && processResponse["status"] != 200) || !jsonUtil.exists("data", processResponse)) {
             return processResponse;

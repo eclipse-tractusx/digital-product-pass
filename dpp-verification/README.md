@@ -110,9 +110,18 @@ This concept has been proved to be of high interest from the Certification and V
   - [Certified Snapshot Credential](#certified-snapshot-credential)
   - [Certified Data Credential](#certified-data-credential)
   - [Complete Data Certification Verification](#complete-data-certification-verification)
-- [Technical Specification](#technical-specification)
-- [Technical Integration](#technical-integration)
+- [Verification Processes](#verification-processes)
+  - [Flow Diagrams](#flow-diagrams)
+    - [CDC Technical Verification Flow](#cdc-technical-verification-flow)
+    - [CSC Technical Verification Flow](#csc-technical-verification-flow)
+- [Technical Integration Design](#technical-integration-design)
   - [Interfaces](#interfaces)
+  - [Certification Sequence Diagrams](#certification-sequence-diagrams)
+    - [CSC Certification Sequence Diagram](#csc-certification-sequence-diagram)
+    - [CDC + CSC Certification Sequence Diagram](#cdc--csc-certification-sequence-diagram)
+  - [Verification Sequence Diagrams](#verification-sequence-diagrams)
+    - [CSC Verification Sequence Diagram](#csc-verification-sequence-diagram)
+    - [CDC + CSC Verification Sequence Diagram](#cdc--csc-verification-sequence-diagram)
 - [References](#references)
 - [Special Thanks](#special-thanks)
 - [Glossary](#glossary)
@@ -407,13 +416,26 @@ The complete verification comparation would be happen when both Certified Data C
 ![CDC + CSC Complete Verification Method](./resources/technical/complete-verification-CSC-CDC.svg)
 
 
-# Technical Specification
+# Verification Processes
 
+## Flow Diagrams
 
+In order for the Certified Data Credential and Certified Snapshot Credential to be retrieve, the consumer application **MUST** be able to access the digital twin in the data auditor registry.
 
+### CDC Technical Verification Flow
 
-# Technical Integration
-<!-- TODO: Add previous investigation here -->
+By simply accessing the digital twin the data will be available as a submodel, the same way as a normal digital product pass serialized payload is available:
+
+![Verification Flow CDC](./resources/processes/verification-process-cdc.svg)
+
+### CSC Technical Verification Flow
+
+For the partial credential the data will be available in a "Verification" aspect called `Attribute Certification Record` (ACR) which contains the different attribute verification for a particular submodel in a digital twin.
+
+![Verification Flow CSC](./resources/processes/verification-process-csc.svg)
+
+# Technical Integration Design
+<!-- TODO: Add previous TID here -->
 > [!WARNING]
 > The complete technical integration design is still not available here!
 
@@ -422,6 +444,38 @@ The complete verification comparation would be happen when both Certified Data C
 The digital product pass application would act in the dpp-verification concept as the "Verification System" which is able to communicate with different systems, behind or not behind a EDC connector. Data would be exchange using the EDC however components like the Wallet could be accessed using the "DID Web" method, or the Semantic Hub using the central interface provided by the operator of the network.
 
 ![intefaces](./resources/technical/interfaces.svg)
+
+## Certification Sequence Diagrams
+
+> [!WARNING]
+> Some details may be missing or incorrect, since that is the first implementation concept for the certification and verification. The concept is still being elaborated and will be determined in the new release with the actual implementation!
+
+
+### CSC Certification Sequence Diagram
+
+In this sequence diagram we can see how a data auditor retrieved the data as a normal Digital Product Pass Application. It will select then the different attributes and then sign his certificate against its own `decentral wallet`. After he will send it to the data provider.
+
+![CSC Certification](./resources/technical/technical-integration-flow-csc-data-auditor.svg)
+
+### CDC + CSC Certification Sequence Diagram
+
+In this sequence diagram we have the same as the first one, however the data auditor can also indicate which data needs to be updated in the original data for being `compliant`. Therefore the data provider can also update its data in the original data and verify it once again.
+
+![CSC + CDC Certification](./resources/technical/technical-integration-flow-csc+cdc-data-auditor.svg)
+
+## Verification Sequence Diagrams
+
+### CSC Verification Sequence Diagram
+
+In this verification sequence diagram we can observe the digital product pass application will retrieve the data first and then will request for any verification data available.
+
+![CSC Verification](./resources/technical/technical-integration-flow-csc.svg)
+
+### CDC + CSC Verification Sequence Diagram
+
+In this verification sequence diagram the complete verification is found. The CDC credential is retrieved in the first step and checked if it verified against a wallet. And then the data is displayed, after that the user requests more verification and gets it from the data provider if allowed.
+
+![CSC + CDC Verification](./resources/technical/technical-integration-flow-csc+cdc.svg)
 
 # References
 

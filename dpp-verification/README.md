@@ -106,6 +106,11 @@ This concept has been proved to be of high interest from the Certification and V
   - [Attribute Certification Process](#attribute-certification-process)
   - [Self-Testify Certification Process](#self-testify-certification-process)
   - [Total Certification Process](#total-certification-process)
+- [Certification and Verification Methods](#certification-and-verification-methods)
+  - [Certified Snapshot Credential](#certified-snapshot-credential)
+  - [Certified Data Credential](#certified-data-credential)
+  - [Complete Data Certification Verification](#complete-data-certification-verification)
+- [Technical Specification](#technical-specification)
 - [Technical Integration](#technical-integration)
 - [References](#references)
 - [Special Thanks](#special-thanks)
@@ -379,6 +384,32 @@ The self-testify certification process consist in the data provided singing its 
 The total certification process is the same as the attribute verification process however the complete process is not starting with a plain json file. In this case the data provider can `self testify` its own data. The rest of the process is same and will result in the verification from the specific attributes from the aspect.
 
 ![](./resources/processes/cdc-csc-workflow.svg)
+
+# Certification and Verification Methods
+
+## Certified Snapshot Credential
+
+By using `hashes` and indicating which attributes were verified we are able to use `Selective Disclosure` to indicate which values were present in the original data audited. In this way the data gets not duplicated and the verification using the data retrieved from the data provider is still possible.
+
+![CSC Simple Verification Method](./resources/technical/simple-verification-CSC.svg)
+
+## Certified Data Credential
+
+In this case just the data provider would sign its own digital product pass credential and generating the corresponding Certified Data Credential with the proof of the content issued in a specific datetime.
+
+![CDC Simple Verification Method](./resources/technical/simple-verification-CDC.svg)
+
+## Complete Data Certification Verification
+
+The complete verification comparation would be happen when both Certified Data Credential (CDC) and one or more the Certified Snapshot Credentials (CSC) are available. The different partial credential (CSCs) you be compared against the CDC credential hashes. This allows the application to know which attributes were certified by the data-auditor and with each value.
+
+![CDC + CSC Complete Verification Method](./resources/technical/complete-verification-CSC-CDC.svg)
+
+
+# Technical Specification
+
+
+
 
 # Technical Integration
 <!-- TODO: Add previous investigation here -->

@@ -26,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.http.controllers.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -197,8 +198,8 @@ public class ApiController {
             Map<String, Object> searchResponseData;
             Map<String, Dataset> contracts;
             try {
-                searchResponseData = (Map<String, Object>) jsonUtil.toMap(searchResponse.getData());
-                contracts = (Map<String, Dataset>) jsonUtil.toMap(searchResponseData.get("contracts"));
+                searchResponseData = jsonUtil.bind(searchResponse.getData(), new TypeReference<>() {});
+                contracts = jsonUtil.bind(searchResponseData.get("contracts"), new TypeReference<>() {});
             } catch (UtilException e) {
                 response = httpUtil.getInternalError("Failed to search for digital twin in dtrs: " + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);

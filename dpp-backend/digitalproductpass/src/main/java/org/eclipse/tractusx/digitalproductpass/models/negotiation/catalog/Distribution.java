@@ -29,6 +29,8 @@ package org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.DataService;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 /**
@@ -40,60 +42,65 @@ public class Distribution extends DidDocument {
 
     /** ATTRIBUTES **/
     @JsonProperty("dct:format")
-    Format format;
+    DidDocument format;
     @JsonProperty("dcat:accessService")
-    String accessService;
+    DataService accessService;
 
     /** CONSTRUCTOR(S) **/
-    public Distribution(String type, Format format, String accessService) {
-        this.type = type;
-        this.format = format;
-        this.accessService = accessService;
-    }
+
     public Distribution() {
     }
 
-    /** GETTERS AND SETTERS **/
-    public Format getFormat() {
-        return format;
-    }
-    public void setFormat(Format format) {
+    public Distribution(String id, String type, DidDocument format, DataService accessService) {
+        super(id, type);
         this.format = format;
-    }
-    @SuppressWarnings("Unused")
-    public String getAccessService() {
-        return accessService;
-    }
-    @SuppressWarnings("Unused")
-    public void setAccessService(String accessService) {
         this.accessService = accessService;
     }
 
-    /** INNER CLASSES **/
-    /**
-     * This class consists exclusively to define attributes related to the Distribution's format property.
-     **/
-    static class Format {
-        /** ATTRIBUTES **/
-        @JsonProperty("@id")
-        String id;
+    public Distribution(DidDocument format, DataService accessService) {
+        this.format = format;
+        this.accessService = accessService;
+    }
 
-        /** CONSTRUCTOR(S) **/
-        @SuppressWarnings("Unused")
-        public Format(String id) {
-            this.id = id;
-        }
-        @SuppressWarnings("Unused")
-        public Format() {
-        }
+    public Distribution(String id, String type, JsonNode context, DidDocument format, DataService accessService) {
+        super(id, type, context);
+        this.format = format;
+        this.accessService = accessService;
+    }
 
-        /** GETTERS AND SETTERS **/
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
+    public Distribution(String type, DidDocument format, DataService accessService) {
+        super(type);
+        this.format = format;
+        this.accessService = accessService;
+    }
+
+    public Distribution(JsonNode context, DidDocument format, DataService accessService) {
+        super(context);
+        this.format = format;
+        this.accessService = accessService;
+    }
+
+    public Distribution(JsonNode context, String type, DidDocument format, DataService accessService) {
+        super(context, type);
+        this.format = format;
+        this.accessService = accessService;
+    }
+    /** GETTERS AND SETTERS **/
+
+    public DidDocument getFormat() {
+        return format;
+    }
+
+    public void setFormat(DidDocument format) {
+        this.format = format;
+    }
+
+    public DataService getAccessService() {
+        return accessService;
+    }
+
+    public void setAccessService(DataService accessService) {
+        this.accessService = accessService;
     }
 
 

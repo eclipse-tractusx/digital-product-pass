@@ -51,7 +51,7 @@ public class SingleApiRequest {
     @JsonProperty(value="discoveryIdType", defaultValue = "manufacturerPartId")
     String discoveryIdType;
 
-    @JsonProperty("children")
+    @JsonProperty(value="children", defaultValue = "false")
     Boolean children;
 
     @JsonProperty("semanticId")

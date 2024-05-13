@@ -56,9 +56,10 @@ configuration:
     transfer: '/transferprocesses'
     receiverEndpoint: 'https://dpp.int.demo.catena-x.net/endpoint'
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
-    transferType: "application/octet-stream"
+    transferType: "HttpData-PULL"
     timeout:
       exchange: 10
+    authorizationKey: "Authorization"
 
   security:
     authorization:
@@ -152,6 +153,7 @@ configuration:
       - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
     policyCheck:
       enabled: true
+      strictMode: false
       policies:
         - permission:
             - action: "USE"

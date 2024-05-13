@@ -64,6 +64,7 @@ data:
         transfer: {{ .Values.backend.edc.apis.transfer }}
         receiverEndpoint: "https://{{ .Values.backend.hostname }}/endpoint"
         delay:  {{ .Values.backend.edc.delay }} # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+        authorizationKey: {{ .Values.backend.edc.authorizationKey }}
       # -- security configuration
       security:
         # -- authorization configuration about bpn and role checks

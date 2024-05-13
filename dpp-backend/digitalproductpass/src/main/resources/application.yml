@@ -96,7 +96,7 @@ configuration:
             - action: "USE"
               logicalConstraint: "odrl:and"
               constraints:
-                - leftOperand: "Membership"
+                - leftOperand: "cx-policy:Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
                 - leftOperand: "cx-policy:UsagePurpose"

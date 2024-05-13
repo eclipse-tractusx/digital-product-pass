@@ -24,15 +24,16 @@
 
 # Security Assessment Product Passport Application
 
-| Contact                  | Details                                                                           |
-| ------------------------- | ---------------------------------------------------------------------------------------------- |
-| Contact for product       | https://github.com/matbmoser |
+| Contact                   | Details                                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Contact for product       | https://github.com/matbmoser                                                                         |
 | Security responsible      | [@SSIRKC](https://github.com/SSIRKC) <br> [@szymonkowalczykzf](https://github.com/szymonkowalczykzf) |
-| Version number of product | 24.05                                                                                          |
-| Dates of assessment       | 2024-05-13: Re-Assessment                                                                      |
-| Status of assessment      | RE-ASSESSMENT DONE & Approved                                                                            |
+| Version number of product | 24.05                                                                                                |
+| Dates of assessment       | 2024-05-13: Re-Assessment                                                                            |
+| Status of assessment      | RE-ASSESSMENT DONE & Approved                                                                        |
 
 ## Product Description
+
 The Digital Product Passport App is Internet facing web app designed with a purpose of disclosing details about battery (and others products in the future) products for authenticated & authorized users.
 Within the Catena-X Network, Product Passports are provided by manufacturers and can be exchanged in a standardized way. The data exchange standards are given by Catena-X and are used provide the product passport to different users in the network.
 This passports can be used for different products like Batteries, Gearboxes, etc. At the moment the only product implemented are batteries, so the user interface only displays product passports. In the near future it will be able to display any passport structure, over a generic product passport that is in development at the moment.
@@ -48,25 +49,28 @@ An User can request a passport:
 As the data provider might not send every data field regarding to the users privileges, the application is flexible with its layout and data handling, displaying only what it receives.
 
 ## Scope of the review
-|ID | Component Description |
-| ------------------------- | ------------------------- |
-|1 | Authentication Service|
-|2 | Digital Product Passport Frontend |
-|3 | Digital Product Passport Backend |
+
+| ID  | Component Description             |
+| --- | --------------------------------- |
+| 1   | Authentication Service            |
+| 2   | Digital Product Passport Frontend |
+| 3   | Digital Product Passport Backend  |
 
 ## Components out of scope of the review
-|ID | Component Description |
-| ------------------------- | ------------------------- |
-|1 | CX Portal|
-|2 | IAM Registry - Keycloack |
-|3 | HashiCorp Vault|
-|4 | Digital Twin Registry|
-|5 | Dynamic Attribute Provisioning Service|
-|6 | EDC Discovery|
-|7 | Discovery Finder|
-|8 | BPN Discovery|
+
+| ID  | Component Description                  |
+| --- | -------------------------------------- |
+| 1   | CX Portal                              |
+| 2   | IAM Registry - Keycloack               |
+| 3   | HashiCorp Vault                        |
+| 4   | Digital Twin Registry                  |
+| 5   | Dynamic Attribute Provisioning Service |
+| 6   | EDC Discovery                          |
+| 7   | Discovery Finder                       |
+| 8   | BPN Discovery                          |
 
 ## Security Control Design
+
 Current state of the security controls already implemented within the application.
 
 Authentication, authorization  - Product Passport App is using Catena - X Portal authentication & authorization mechanism, it's implemented according to CX policies & requirements, with the usage of CX Keycloak & secure way of populating the privileges with the usage of tokens. 
@@ -94,10 +98,11 @@ Public customer - allowing a set of details available to everyone with access to
 
 
 ## Diagrams
+
 ```mermaid
 flowchart TD
         A(Customer \n Human User) 
-        B(PAssport Fron End)
+        B(Passport Front End)
         C(CX Portal - IAM Registry - Keycloack)
         D(HashiCorp Vault -Secret Management Vault)
         E(Discovery Service)
@@ -164,146 +169,146 @@ M-->|4.3 Get & Return Data from Submodel Server|N
 
 
 ## Vulnerabilities & Threats
-| V001 | Log forge attack into application through frontend console.log()	 |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Low, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement logging in backend system, instead of logging in frontend.|
 
-| V002 | Secrets for Keycloak instance are exposed in frontend component.	|
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement GitGuardan, Veracode and migrate the login in Keycloak instance to the backend.|
+| V001              | Log forge attack into application through frontend console.log()     |
+| ----------------- | -------------------------------------------------------------------- |
+| Element           | Product Passport Application                                         |
+| Before Mitigation | Impact: Medium, Likelihood: Low, Risk: Low                           |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                              |
+| Mitigation        | Implement logging in backend system, instead of logging in frontend. |
 
-| V003 | Integration between backend and frontend can generate vulnerabilities.	|
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Test the code and scan for attack surface with Veracode.|
+| V002              | Secrets for Keycloak instance are exposed in frontend component.                          |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                              |
+| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium                                          |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                   |
+| Mitigation        | Implement GitGuardan, Veracode and migrate the login in Keycloak instance to the backend. |
 
-| V004 | Login password credentials are too weak and can be brute forced easily.	 |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Change access passwords in Keycloak instance. Recommendation is aimed for the password policies managed by the C-X Portal Team. Product Passport App is just using them in a Black Box approach. Risk Transferred|
+| V003              | Integration between backend and frontend can generate vulnerabilities. |
+| ----------------- | ---------------------------------------------------------------------- |
+| Element           | Product Passport Application                                           |
+| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium                       |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                |
+| Mitigation        | Test the code and scan for attack surface with Veracode.               |
 
-| V005 | Fields and the usage of GET methods for searching are an open door to SQL Injection attacks.|
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: High, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement a filter for not allowed characters.|
+| V004              | Login password credentials are too weak and can be brute forced easily.                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                                                                                                      |
+| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High                                                                                                                                                                      |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                                                                                           |
+| Mitigation        | Change access passwords in Keycloak instance. Recommendation is aimed for the password policies managed by the C-X Portal Team. Product Passport App is just using them in a Black Box approach. Risk Transferred |
 
-| V006 | XSS attacks can be performed by attacking ID searching in product passport using GET Method. Leading to exposal of sensible information. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: High, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Add filters for XSS characters and injection of <script> tags.|
+| V005              | Fields and the usage of GET methods for searching are an open door to SQL Injection attacks. |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                 |
+| Before Mitigation | Impact: High, Likelihood: High, Risk: High                                                   |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                      |
+| Mitigation        | Implement a filter for not allowed characters.                                               |
 
-| V007 | No security is implemented regarding the access to the passport information.	 |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement backend role based passport information retrieve. Data requested by the passport application is already validated. The current approach is similar to the black box approach that we are trusting as it's part of the C-X project. Risk Transferred|
+| V006              | XSS attacks can be performed by attacking ID searching in product passport using GET Method. Leading to exposal of sensible information. |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                             |
+| Before Mitigation | Impact: High, Likelihood: High, Risk: High                                                                                               |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                  |
+| Mitigation        | Add filters for XSS characters and injection of <script> tags.                                                                           |
 
-| V008 | Error control not correctly implemented. Risk of breaking the workflow from the application. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: High, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement popup alerts that allow the user to maintain the workflow.|
+| V007              | No security is implemented regarding the access to the passport information.                                                                                                                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                                                                                                                                                  |
+| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High                                                                                                                                                                                                                  |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                                                                                                                                       |
+| Mitigation        | Implement backend role based passport information retrieve. Data requested by the passport application is already validated. The current approach is similar to the black box approach that we are trusting as it's part of the C-X project. Risk Transferred |
 
-| V009 | No responsive interface has been implemented, risk of mal function in smartphones and tablets. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: High, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement a responsive structure, using responsive components or a Vue.js framework like Vuetify|
+| V008              | Error control not correctly implemented. Risk of breaking the workflow from the application. |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                 |
+| Before Mitigation | Impact: High, Likelihood: High, Risk: High                                                   |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                      |
+| Mitigation        | Implement popup alerts that allow the user to maintain the workflow.                         |
 
-| V010 | Components are not scalable and are self-built. Risk of building unsafe components. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: Medium, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement component framework like Vuetify, allowing scalability and abstraction of components. Test the UI.|
+| V009              | No responsive interface has been implemented, risk of mal function in smartphones and tablets.   |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| Element           | Product Passport Application                                                                     |
+| Before Mitigation | Impact: Medium, Likelihood: High, Risk: Medium                                                   |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                          |
+| Mitigation        | Implement a responsive structure, using responsive components or a Vue.js framework like Vuetify |
 
-| V011 | Unstable UX, components are not stable since they are personalized. Risk of confusing and giving a bad impression to the end user. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: High, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Develop abstract components over Vuetify framework. Test the UI.|
+| V010              | Components are not scalable and are self-built. Risk of building unsafe components.                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| Element           | Product Passport Application                                                                                 |
+| Before Mitigation | Impact: High, Likelihood: Medium, Risk: Medium                                                               |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                      |
+| Mitigation        | Implement component framework like Vuetify, allowing scalability and abstraction of components. Test the UI. |
 
-| V012 | 	Permissions for each role are not correctly defined, risk of accessing to another role restricted data leading to data leaking.|
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Discussion on the subject was ended with marking this finding as not valid.|
+| V011              | Unstable UX, components are not stable since they are personalized. Risk of confusing and giving a bad impression to the end user. |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                       |
+| Before Mitigation | Impact: High, Likelihood: High, Risk: High                                                                                         |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                            |
+| Mitigation        | Develop abstract components over Vuetify framework. Test the UI.                                                                   |
 
-| V013 | No privacy policy is still defined. Risk of not complying with data privacy. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Risk should be handled by the C-X team, not the Passport app team directly. Risk Transferred|
+| V012              | Permissions for each role are not correctly defined, risk of accessing to another role restricted data leading to data leaking. |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                    |
+| Before Mitigation | Impact: High, Likelihood: Medium, Risk: High                                                                                    |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                         |
+| Mitigation        | Discussion on the subject was ended with marking this finding as not valid.                                                     |
 
-| V014 | Dependencies can get deprecated.|
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Low, Likelihood: Medium, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Follow up in Veracode the status of dependencies versions, and implement dependabot in Github|
+| V013              | No privacy policy is still defined. Risk of not complying with data privacy.                 |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                 |
+| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low                                                     |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                      |
+| Mitigation        | Risk should be handled by the C-X team, not the Passport app team directly. Risk Transferred |
 
-| V015 | API can be accessed without a correct role. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Implement session communications between frontend and backend using JWT tokens.|
+| V014              | Dependencies can get deprecated.                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                  |
+| Before Mitigation | Impact: Low, Likelihood: Medium, Risk: Low                                                    |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                       |
+| Mitigation        | Follow up in Veracode the status of dependencies versions, and implement dependabot in Github |
 
-| V016 | The end user may not understand the UI and the workflow. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Create an End User Manual that contains an explanation how to use the application.|
+| V015              | API can be accessed without a correct role.                                     |
+| ----------------- | ------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                    |
+| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium                                |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                         |
+| Mitigation        | Implement session communications between frontend and backend using JWT tokens. |
 
-| V017 | Access to the user camera can be misused.	 |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Use camera only for the really necessary moments and then deactivate it. Allow the user to stop scanning the screen. A button to stop scanning has been included and is in development fase, therefore the user will be able to decide if wants to scan the QR code or introduce a Battery Id.|
+| V016              | The end user may not understand the UI and the workflow.                           |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                       |
+| Before Mitigation | Impact: Low, Likelihood: Low, Risk: Low                                            |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                            |
+| Mitigation        | Create an End User Manual that contains an explanation how to use the application. |
 
-| V018 | Landing page requests webcam. No compliance to the GDPR.	 |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | QR Code scanning must be added in a separated page, after landing page. QR Code scanning was moved to another tab from the application. And thanks to the Vue.js technology the exchange between the views does not requires reload.|
+| V017              | Access to the user camera can be misused.                                                                                                                                                                                                                                                      |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                                                                                                                                                                                   |
+| Before Mitigation | Impact: Medium, Likelihood: Medium, Risk: Medium                                                                                                                                                                                                                                               |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                                                                                                                                                                        |
+| Mitigation        | Use camera only for the really necessary moments and then deactivate it. Allow the user to stop scanning the screen. A button to stop scanning has been included and is in development fase, therefore the user will be able to decide if wants to scan the QR code or introduce a Battery Id. |
 
-| V019 | No cookies banner is implemented. No compliance to the GDPR. |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | A review was made and cookies are not utilized, the user is not tracked in their actions. Not Valid|
+| V018              | Landing page requests webcam. No compliance to the GDPR.                                                                                                                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Element           | Product Passport Application                                                                                                                                                                                                         |
+| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low                                                                                                                                                                                             |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                                                                                                              |
+| Mitigation        | QR Code scanning must be added in a separated page, after landing page. QR Code scanning was moved to another tab from the application. And thanks to the Vue.js technology the exchange between the views does not requires reload. |
 
-| V020| Lack of rate limiting for API |
-| ------------------------- | ------------------------- |
-| Element | Product Passport Application 	 |
-| Before Mitigation | Impact: Medium, Likelihood: Low, Risk: Low |
-| After Mitigation | Impact: Low, Likelihood: Low, Risk: Low |
-| Mitigation | Enable rate limiting that will allow to setup a maximum number of request that may be handled by the application at once which will allow to secure it from denial of service type of attacks generated by too large number of requests flooding the Passport application.|
+| V019              | No cookies banner is implemented. No compliance to the GDPR.                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                        |
+| Before Mitigation | Impact: Low, Likelihood: High, Risk: Low                                                            |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                             |
+| Mitigation        | A review was made and cookies are not utilized, the user is not tracked in their actions. Not Valid |
 
+| V020              | Lack of rate limiting for API                                                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Element           | Product Passport Application                                                                                                                                                                                                                                               |
+| Before Mitigation | Impact: Medium, Likelihood: Low, Risk: Low                                                                                                                                                                                                                                 |
+| After Mitigation  | Impact: Low, Likelihood: Low, Risk: Low                                                                                                                                                                                                                                    |
+| Mitigation        | Enable rate limiting that will allow to setup a maximum number of request that may be handled by the application at once which will allow to secure it from denial of service type of attacks generated by too large number of requests flooding the Passport application. |
 
 ## NOTICE
 

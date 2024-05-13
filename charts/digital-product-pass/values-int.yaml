@@ -23,6 +23,8 @@
 #################################################################################
 
 backend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     # className: "nginx"
@@ -62,12 +64,14 @@ backend:
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
-  single-api:
+  singleApi:
     maxRetries: 30
     delay: 1000
 
 
 frontend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     #className: ""

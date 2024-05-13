@@ -49,7 +49,7 @@ public class Catalog extends DidDocument {
     @JsonProperty("dcat:service")
     DataService service;
     @JsonProperty("participantId")
-    @JsonAlias({"participantId", "edc:participantId"})
+    @JsonAlias({"participantId", "edc:participantId", "dspace:participantId"})
     String participantId;
     @JsonIgnore
     protected Map<String, Integer> contractOffersMap = new HashMap<>();

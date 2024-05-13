@@ -26,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,11 +39,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DidDocument {
+    @JsonIgnore
+    public static final String ID = "@id";
+    @JsonIgnore
+    public static final String TYPE = "@type";
+    @JsonIgnore
+    public static final String CONTEXT = "@context";
 
     /** ATTRIBUTES **/
-    @JsonProperty("@id")
+    @JsonProperty(ID)
     public String id;
-    @JsonProperty("@type")
+
+    @JsonProperty(TYPE)
     public String type;
 
     @JsonProperty("@context")
@@ -68,6 +76,10 @@ public class DidDocument {
 
     public DidDocument(JsonNode context) {
         this.context = context;
+    }
+    public DidDocument(JsonNode context,  String type) {
+        this.context = context;
+        this.type = type;
     }
 
     /** GETTERS AND SETTERS **/

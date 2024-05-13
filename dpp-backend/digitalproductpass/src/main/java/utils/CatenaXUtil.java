@@ -88,6 +88,8 @@ public final class CatenaXUtil {
      *
      */
     public static String buildDataEndpoint(String endpoint) {
+        if(endpoint.contains(edcDataEndpoint))
+            return endpoint;
         return endpoint + edcDataEndpoint;
     }
 

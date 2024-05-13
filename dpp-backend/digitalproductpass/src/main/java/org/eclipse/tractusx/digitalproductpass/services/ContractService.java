@@ -177,8 +177,7 @@ public class ContractService extends BaseService {
                     for (String bpn : bpnList) {
                         List<Dtr> dtrs = null;
                         try {
-                            dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {
-                            });
+                            dtrs = (List<Dtr>) jsonUtil.bindReferenceType(dataModel.get(bpn), new TypeReference<List<Dtr>>() {});
                         } catch (Exception e) {
                             throw new ControllerException(this.getClass().getName(), e, "Could not bind the reference type!");
                         }
@@ -215,10 +214,10 @@ public class ContractService extends BaseService {
 
                 SearchStatus status = processManager.getSearchStatus(processId);
                 if (status == null) {
-                    return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentral digital twin registries"), httpResponse);
+                    return httpUtil.buildResponse(httpUtil.getNotFound("It was not possible to search for the decentralized digital twin registries"), httpResponse);
                 }
                 if (status.getDtrs().isEmpty()) {
-                    return httpUtil.buildResponse(httpUtil.getNotFound("No decentral digital twin registry was found"), httpResponse);
+                    return httpUtil.buildResponse(httpUtil.getNotFound("No valid decentralized digital twin registries found for the configured policies!"), httpResponse);
                 }
                 response = httpUtil.getResponse();
                 response.data = Map.of(
@@ -355,11 +354,15 @@ public class ContractService extends BaseService {
             // Assing the variables with the content
             String assetId = assetSearch.getAssetId();
             String connectorAddress = assetSearch.getConnectorAddress();
+            String bpn = assetSearch.getBpn();
 
             /*[1]=========================================*/
             // Get catalog with all the contract offers
             if(connectorAddress == null){
                 LogUtil.printError("The connector address is empty!");
+            }
+            if(bpn == null){
+                LogUtil.printError("The bpn is empty!");
             }
             if(assetId == null){
                 LogUtil.printError("The assetId is empty!");
@@ -368,11 +371,11 @@ public class ContractService extends BaseService {
             Map<String, Dataset> datasets = null;
             Long startedTime = DateTimeUtil.getTimestamp();
             try {
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
             } catch (ServiceException e) {
                 LogUtil.printError("The EDC is not reachable, it was not possible to retrieve catalog! Trying again...");
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "The EDC is not reachable, it was not possible to retrieve catalog! Please try again!";
@@ -385,7 +388,7 @@ public class ContractService extends BaseService {
             if (datasets == null) {
                 // Retry again...
                 LogUtil.printWarning("[PROCESS " + process.id + "] No asset id found for the dataset contract offers in the catalog! Requesting catalog again...");
-                catalog = dataService.getContractOfferCatalog(connectorAddress, assetId);
+                catalog = dataService.getContractOfferCatalog(connectorAddress, bpn, assetId);
                 datasets = edcUtil.filterValidContracts(dataService.getContractOffers(catalog), this.passportConfig.getPolicyCheck());
                 if (datasets == null) { // If the contract catalog is not reachable retry...
                     response.message = "Asset Id not found in any contract!";
@@ -517,19 +520,23 @@ public class ContractService extends BaseService {
             String policyId = tokenRequestBody.getPolicyId();
             Set policy = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            policy = policyUtil.getPolicyById(dataset, policyId);
+            // This function will always get a complaint policy from the allowed ones
+            policy = policyUtil.getCompliantPolicyById(dataset, policyId, passportConfig.getPolicyCheck());
             if (policy == null) {
-                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                response = httpUtil.getBadRequest("The policy selected is not allowed per configuration or does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            LogUtil.printMessage("[ASSET"+(policyId == null?"-":"-AUTO-")+"NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+policy.getId()+"]:["+this.jsonUtil.toJson(policy, false)+"]!");
+            LogUtil.printMessage("[ASSET-NEGOTIATION] [PROCESS "+processId + "] Selected [CONTRACT "+dataset.getId()+"]:["+this.jsonUtil.toJson(dataset, false)+"]!");
+
             contractNegotiation = dataService
                     .new NegotiateContract(
                     processManager.loadDataModel(httpRequest),
                     processId,
-                    status.getBpn(),
                     status.getProviderBpn(),
                     dataset,
-                    processManager.getStatus(processId),
+                    processManager.getStatus(processId).getEndpoint(),
                     policy
             );
             String statusPath = processManager.setAgreed(httpRequest, processId, signedAt, contractId, policyId);

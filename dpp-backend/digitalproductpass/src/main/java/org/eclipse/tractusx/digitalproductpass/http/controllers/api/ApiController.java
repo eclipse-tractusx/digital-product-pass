@@ -26,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.http.controllers.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,6 +40,7 @@ import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.config.SingleApiConfig;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.models.general.Selection;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.DiscoverySearch;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
@@ -47,6 +49,7 @@ import org.eclipse.tractusx.digitalproductpass.models.http.requests.TokenRequest
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.models.passports.PassportResponse;
 import org.eclipse.tractusx.digitalproductpass.services.AasService;
 import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
@@ -58,10 +61,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import utils.HttpUtil;
-import utils.JsonUtil;
-import utils.LogUtil;
-import utils.ThreadUtil;
+import utils.*;
 import utils.exceptions.UtilException;
 
 import java.util.List;
@@ -89,6 +89,8 @@ public class ApiController {
     private @Autowired AuthenticationService authService;
     private @Autowired PassportConfig passportConfig;
     private @Autowired HttpUtil httpUtil;
+    private @Autowired EdcUtil edcUtil;
+    private @Autowired PolicyUtil policyUtil;
     private @Autowired JsonUtil jsonUtil;
     private @Autowired ProcessManager processManager;
     private @Autowired SingleApiConfig singleApiConfig;
@@ -176,7 +178,7 @@ public class ApiController {
             try {
                 createResponseData = (Map<String, String>) jsonUtil.toMap(createResponse.getData());
             } catch (UtilException e) {
-                response = httpUtil.getBadRequest("Create Call:\n" + e.getMessage());
+                response = httpUtil.getInternalError("Failed in creating process: " + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);
             }
             String processId= createResponseData.get("processId");
@@ -196,10 +198,10 @@ public class ApiController {
             Map<String, Object> searchResponseData;
             Map<String, Dataset> contracts;
             try {
-                searchResponseData = (Map<String, Object>) jsonUtil.toMap(searchResponse.getData());
-                contracts = (Map<String, Dataset>) jsonUtil.toMap(searchResponseData.get("contracts"));
+                searchResponseData = jsonUtil.bind(searchResponse.getData(), new TypeReference<>() {});
+                contracts = jsonUtil.bind(searchResponseData.get("contracts"), new TypeReference<>() {});
             } catch (UtilException e) {
-                response = httpUtil.getBadRequest("Search Call:\n" + e.getMessage());
+                response = httpUtil.getInternalError("Failed to search for digital twin in dtrs: " + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);
             }
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Search for contracts done! Digital Twin and Contracts available!");
@@ -207,8 +209,20 @@ public class ApiController {
             TokenRequest tokenRequest = new TokenRequest();
             tokenRequest.setToken(searchResponseData.get("token").toString());
             tokenRequest.setProcessId(searchResponseData.get("id").toString());
-            String contractId = contracts.entrySet().stream().findFirst().get().getKey();
-            tokenRequest.setContractId(contractId);
+            // Get valid contract and policy
+            Selection<Dataset, Set> selection = edcUtil.selectValidContractAndPolicy(contracts, passportConfig.getPolicyCheck());
+
+            if(selection == null){
+                LogUtil.printError("[SINGLE API] [PROCESS "+processId + "] No valid contracts and policies found!");
+                response = httpUtil.getNotFound("No valid contracts and policies were found in the asset negotiation!");
+                return httpUtil.buildResponse(response, httpResponse);
+            }
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Selected [CONTRACT "+selection.d().getId()+"]:["+this.jsonUtil.toJson(selection.d(), false)+"]!");
+            LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Selected [POLICY "+selection.s().getId()+"]:["+this.jsonUtil.toJson(selection.s(), false)+"]!");
+            // Set contract
+            tokenRequest.setContractId(selection.d().getId());
+            // Set policy id
+            tokenRequest.setPolicyId(selection.s().getId());
             Response agreeResponse = contractService.doContractAgreement(httpRequest, httpResponse, tokenRequest);
             LogUtil.printMessage("[SINGLE API] [PROCESS "+processId + "] Agreed with a contract and started the contract negotiation!");
             //The Status from the response must 200 to proceed
@@ -220,7 +234,7 @@ public class ApiController {
             try {
                 status = (Status) jsonUtil.bindObject(agreeResponse.getData(), Status.class);
             } catch (UtilException e) {
-                response = httpUtil.getBadRequest("Agree Call:\n" + e.getMessage());
+                response = httpUtil.getInternalError("Failed to agree in the contract policy: " + e.getMessage());
                 return httpUtil.buildResponse(response, httpResponse);
             }
             int retry = 1;
@@ -239,7 +253,7 @@ public class ApiController {
                     ++retry;
                     ThreadUtil.sleep(singleApiConfig.getDelay());
                 } catch (Exception e) {
-                    response = httpUtil.getBadRequest("Status Call:\n" + e.getMessage());
+                    response = httpUtil.getBadRequest("Failed to look for process status: " + e.getMessage());
                     return httpUtil.buildResponse(response, httpResponse);
                 }
             }

@@ -29,6 +29,11 @@ package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
@@ -37,6 +42,11 @@ import java.util.List;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Jacksonized
 public class CallbackAddress {
     /**
      * ATTRIBUTES
@@ -51,65 +61,7 @@ public class CallbackAddress {
     String authKey;
     @JsonProperty("authCodeId")
     String authCodeId;
-    /**
-     * CONSTRUCTORS
-     **/
 
-    public CallbackAddress(Boolean transactional, String uri, String authKey, String authCodeId) {
-        this.transactional = transactional;
-        this.uri = uri;
-        this.authKey = authKey;
-        this.authCodeId = authCodeId;
-    }
 
-    public CallbackAddress(Boolean transactional, String uri, List<String> events) {
-        this.transactional = transactional;
-        this.uri = uri;
-        this.events = events;
-    }
-
-    /**
-     * GETTERS AND SETTERS
-     **/
-
-    public Boolean getTransactional() {
-        return transactional;
-    }
-
-    public void setTransactional(Boolean transactional) {
-        this.transactional = transactional;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public String getAuthKey() {
-        return authKey;
-    }
-
-    public void setAuthKey(String authKey) {
-        this.authKey = authKey;
-    }
-
-    public String getAuthCodeId() {
-        return authCodeId;
-    }
-
-    public void setAuthCodeId(String authCodeId) {
-        this.authCodeId = authCodeId;
-    }
-
-    public List<String> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<String> events) {
-        this.events = events;
-    }
 }
 

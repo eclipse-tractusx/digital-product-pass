@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Policy;
 
 /**
  * This class consists exclusively to define attributes related to the Negotiation requests.
@@ -41,83 +41,105 @@ import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Offer;
 public class NegotiationRequest extends DidDocument {
 
     /** ATTRIBUTES **/
-    @JsonProperty("connectorAddress")
-    String connectorAddress;
+    @JsonProperty("counterPartyAddress")
+    String counterPartyAddress;
     @JsonProperty("protocol")
     String protocol;
-    @JsonProperty("connectorId")
-    String connectorId;
-    @JsonProperty("providerId")
-    String providerId;
-    @JsonProperty("offer")
-    Offer offer;
+    @JsonProperty("policy")
+    Policy policy;
 
-    /** CONSTRUCTOR(S) **/
-    @SuppressWarnings("Unused")
-    public NegotiationRequest(JsonNode context, String connectorAddress, String protocol, String connectorId, String providerId, Offer offer) {
-        this.context = context;
-        this.type = "NegotiationInitiateRequestDto";
-        this.connectorAddress = connectorAddress;
+    public NegotiationRequest(String id, String type, String counterPartyAddress, String protocol, Policy policy) {
+        super(id, type);
+        this.counterPartyAddress = counterPartyAddress;
         this.protocol = protocol;
-        this.connectorId = connectorId;
-        this.providerId = providerId;
-        this.offer = offer;
+        this.policy = policy;
     }
-    public NegotiationRequest(JsonNode context, String connectorAddress, String connectorId, String providerId, Offer offer) {
-        this.context = context;
-        this.type = "NegotiationInitiateRequestDto";
-        this.connectorAddress = connectorAddress;
-        this.protocol = "dataspace-protocol-http";
-        this.connectorId = connectorId;
-        this.providerId = providerId;
-        this.offer = offer;
-    }
-    @SuppressWarnings("Unused")
-    public NegotiationRequest(JsonNode context, String type, String connectorAddress, String protocol, String connectorId, String providerId, Offer offer) {
-        this.context = context;
-        this.type = type;
-        this.connectorAddress = connectorAddress;
+
+    public NegotiationRequest(String counterPartyAddress, String protocol, Policy policy) {
+        this.counterPartyAddress = counterPartyAddress;
         this.protocol = protocol;
-        this.connectorId = connectorId;
-        this.providerId = providerId;
-        this.offer = offer;
+        this.policy = policy;
     }
-    @SuppressWarnings("Unused")
+
+    public NegotiationRequest(String id, String type, JsonNode context, String counterPartyAddress, String protocol, Policy policy) {
+        super(id, type, context);
+        this.counterPartyAddress = counterPartyAddress;
+        this.protocol = protocol;
+        this.policy = policy;
+    }
+
+    public NegotiationRequest(String type, String counterPartyAddress, String protocol, Policy policy) {
+        super(type);
+        this.counterPartyAddress = counterPartyAddress;
+        this.protocol = protocol;
+        this.policy = policy;
+    }
+
+    public NegotiationRequest(JsonNode context, String counterPartyAddress, String protocol, Policy policy) {
+        super(context);
+        this.counterPartyAddress = counterPartyAddress;
+        this.protocol = protocol;
+        this.policy = policy;
+    }
+
+    public NegotiationRequest(JsonNode context, String type, String counterPartyAddress, String protocol, Policy policy) {
+        super(context, type);
+        this.counterPartyAddress = counterPartyAddress;
+        this.protocol = protocol;
+        this.policy = policy;
+    }
+
+    public NegotiationRequest(String id, String type) {
+        super(id, type);
+    }
+
     public NegotiationRequest() {
     }
 
-    /** GETTERS AND SETTERS **/
-    public String getConnectorId() {
-        return connectorId;
+    public NegotiationRequest(String id, String type, JsonNode context) {
+        super(id, type, context);
     }
-    public void setConnectorId(String connectorId) {
-        this.connectorId = connectorId;
+
+    public NegotiationRequest(String type) {
+        super(type);
     }
-    public String getConnectorAddress() {
-        return connectorAddress;
+
+    public NegotiationRequest(JsonNode context) {
+        super(context);
     }
-    public void setConnectorAddress(String connectorAddress) {
-        this.connectorAddress = connectorAddress;
+
+    public NegotiationRequest(JsonNode context, String type) {
+        super(context, type);
     }
-    public Offer getOffer() {
-        return offer;
+
+
+    public String getCounterPartyAddress() {
+        return counterPartyAddress;
     }
-    @SuppressWarnings("Unused")
-    public void setOffer(Offer offer) {
-        this.offer = offer;
+
+    public void setCounterPartyAddress(String counterPartyAddress) {
+        this.counterPartyAddress = counterPartyAddress;
     }
+
     public String getProtocol() {
         return protocol;
     }
+
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
-    @SuppressWarnings("Unused")
-    public String getProviderId() {
-        return providerId;
+
+    public Policy getPolicy() {
+        return policy;
     }
-    @SuppressWarnings("Unused")
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+
+    public void setPolicy(Policy policy) {
+        this.policy = policy;
     }
+
+    /** CONSTRUCTOR(S) **/
+
+
+    /** GETTERS AND SETTERS **/
+
 }

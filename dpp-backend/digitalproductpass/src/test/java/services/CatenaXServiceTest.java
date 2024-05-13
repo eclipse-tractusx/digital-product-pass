@@ -128,7 +128,7 @@ class CatenaXServiceTest {
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         ProcessManager processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, vaultService, processManager, dtrConfig);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, new PolicyUtil(),vaultService, processManager, dtrConfig);
 
         discoveryConfig = initDiscoveryConfig();
         dtrConfig = initDtrConfig();

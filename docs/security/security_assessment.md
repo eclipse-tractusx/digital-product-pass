@@ -70,7 +70,73 @@ Public customer - allowing a set of details available to everyone with access to
 
 
 ## Diagrams
-To be added by @szymonkowalcyk
+```mermaid
+flowchart TD
+        A(Customer \n Human User) 
+        B(PAssport Fron End)
+        C(CX Portal - IAM Registry - Keycloack)
+        D(HashiCorp Vault -Secret Management Vault)
+        E(Discovery Service)
+        F(BPN Discovery)
+        G(EDC Discovery)
+        H(Authentication Service / Authentication Controller)
+        I(API Controller & Contract Controller)
+        J(Endpoint API)
+        K(SSI - Self Sovereign Identity - Identity Services)
+        L(EDC - C-X Instance - Proxy)
+        M(EDC - Data Provider Instance)
+        N(Provider Data Storage)
+        O(DTReg - Data Twin Registry)
+    subgraph Internet Boundary
+        subgraph Data Consumer Environment
+                  A
+                  end
+         subgraph Customer Web Browser - Usage of Vue.js 3 Framework
+                 B   
+                 end
+end
+subgraph Catena - X Environment - Cloud
+    C
+    D
+    E
+    F
+    G
+    K
+    L
+    subgraph Isolated Passport App Back End Kubernetes Container                          
+          H 
+          I 
+          J                     
+    end
+    end
+subgraph Data Provider Environment
+M
+N
+O
+    end
+A-->|1.0 Access the Passport Web App \n 3.0 Request for a passport by ID search or QR Code Scan \n 5.0 Visualize requested data \n HTTPS|B
+B-->|1.1 Access to CX Portal \n 1.2 Login in CentralIP - CX Shared Service \n 1.3 GET HTTP Request - Authentiction Authorization Token - 5 min \n HTTPS|C
+C-->|Forwarding the token \n HTTPS |B
+H-->|2.2 GET HTTPS Request for User Session|C
+H-->|2.3 Grants access to the app with confirmed role \n HTTPS|B
+C-->|User information \n Basic User Information \n No secrets-|H
+I-->|0.0 Secret Sotrage \n Vault Services Used for the storage of API Keys, \n IAM client IDs & secrets for token requests \n HTTPS|D
+I-->|0.0 It is done on the startup of the application. \n Looking for source to search more dicovery services \n IAM Authenticated \n HTTPS|E
+I-->|Looking for BPN for Manufacturer parts ID \n IAM Authenticated \n HTTPS|F
+I-->|Looking for EDC Endpoint with the BPN Number \n IAM Authenticated \n HTTPS|G
+I-->|4.1 Request Data for products \n from data providers \n HTTPS|L
+J-->|Data Request with Token \n HTTPS|L
+L-->|EDR - product passport receive token \n HTTPS|J
+I-->|Authentication services|H
+B-->|3.1 Get request of assetID of product \n 3.3 Get submodel endpoints \n 4.0 Request Data for products \n HTTPS|I
+M-->|4.2.1 Identity Confirmation Service \n HTTPS|K
+L-->|4.2.1 Identity Confirmation Service \n HTTPS|K
+L-->|4.2 Contract Negotiation & Request Data from dataplane \n HTTPS|M
+M-->|3.2 Forwarding Get request of assetID of product \n 3.4 Forwarding Get request of submodel endpoints HTTPS|O
+M-->|4.3 Get & Return Data from Submodel Server|N
+```
+
+
 
 
 ## Vulnerabilities & Threats

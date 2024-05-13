@@ -163,17 +163,17 @@ In this documentation some points and resources will be indicated:
 If Auto sign setting is enabled, the first valid contract policy checked against the configuration is always chosen as shown in below screenshot.
 The passport is shown to the user as shown in a [Passport Page](../user/UserManual.md#passport-page).
 
-![Loading Product Pass](../user%20manual/media/loadingPass.png)
+![Loading Product Pass](../user/media/loadingPass.png)
 
 ### Manual Negotiation
 
 This feature requires user action. If disabled, the contract policy must be choosen by the user from the popup menu during the loading process.
 
-![Before Contract Policy Selection](../user%20manual/media/beforePolicySelection.png)
+![Before Contract Policy Selection](../user/media/beforePolicySelection.png)
 
 The sign feature basically signs the contract policy before the contract negotiation is done. The right contract policy must be selected by the user, otherwise the contract negotiation is aborted and user is returned back to the [Main Menu](../user/UserManual.md#main-menu). 
 
-![Agree Contract policy](../user%20manual/media/agreePolicy.png)
+![Agree Contract policy](../user/media/agreePolicy.png)
 
 ### Agree Contract
 
@@ -192,16 +192,16 @@ In case the user want to see more details from the policy, it can be done by cli
 > **_NOTE:_**
 *The contract policy is always checked against the defined asset Id in a target field*
 
-![View Contract Policy](../user%20manual/media/viewPolicy.png)
+![View Contract Policy](../user/media/viewPolicy.png)
 
 The user accepts the right contract policy, and click on the **Agree** button which resumes the remaining negotiation and data transfer steps. In the end, the passport data is retrieved and displays to the user [Passport Page](../user/UserManual.md#passport-page).
 
-![After Contract Policy Selection](../user%20manual/media/afterPolicySelection.png)
+![After Contract Policy Selection](../user/media/afterPolicySelection.png)
 
 #### Decline Contract
 If a user is not permitted to accept a particular policy from his company, the contract policy can be declined in this case. The user will be redirected to the [Main Menu](../user/UserManual.md#main-menu).
 
-![Decline Contract Policy](../user%20manual/media/declinePolicy.png)
+![Decline Contract Policy](../user/media/declinePolicy.png)
 
 # Examples
 

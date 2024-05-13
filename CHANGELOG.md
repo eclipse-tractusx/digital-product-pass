@@ -29,6 +29,57 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+
+## [released]
+## [v3.0.0-rc1] - 13-05-2024
+### Added
+- Added security assessment report in /docs for the threat modeling
+- Added SingleApiRequest class for the requested data for the single API.
+- Added SingleApiConfig class to had configurations related to the single API.
+- Added Policy Check configuration in helm charts
+- EDC Util methods for asserting the policy configuration against the actual constraints
+- Methods for parsing the policy contraints
+- Unit tests for testing the policy evaluation feature
+- Policy configuration guide added
+- EDC v0.7.0 models
+- Optimization in the catalog query using `bpn`
+- Updated EDR structure
+- Added `lombok` dependency to speed the development
+- Added security assessment documentation
+
+
+### Updated
+- Updated postman collection and tested end-to-end data exchange journey with EDC v0.7.0
+- Updated policy in testdata file
+- Updated and renamed the following readme files in /docs
+    - docs/admin guide/ -> docs/admin/
+    - docs/arch42/ -> docs/architecture/
+    - docs/userManual/ -> docs/user/
+    - docs/infrastcuture as code/ -> docs/security/infrastructure-as-code/
+    - docs/secrets management/SECRET_MANAGEMENT.md -> docs/security/secrets-management/SecretsManagement.md
+    - docs/data retrieval guide/data-retrieval -> docs/data-retrieval/README.md
+    - docs/business statement/ -> docs/interoperability/Interoperability.md
+- Updated all relevant references from the above files
+- Updated dpp helm values
+- Updated ApiController with the singleApi POST method.
+- Updated ContractController by creating call methods (create, search, agree and status) without the authentication step to call in the Single API.
+- Updated AuthenticationService by adding the isSingleApiAuthenticated method to authenticate the single API key.
+- Updated application.yaml with the single api configurations.
+- Updated deployment-backend.yaml with the oauth.apiKey.
+- Updated values-int/beta/dev.yaml files with the oauth.apiKey.
+- Updated spring boot to version `v3.2.5` from `v3.2.4`
+- Updated EDR structure to match new EDC 0.7.0 one
+
+
+## Deleted
+- Deleted values-dev.yaml and values-beta.yaml from helm charts
+
+
+## Issues Fixed
+- Fixed issue with multiple contract and policies parsing
+- Optimized data sovereignty checks removing spotted bugs
+
+
 ## [released]
 ## [v2.3.0] - 06-05-2024
 ### Added

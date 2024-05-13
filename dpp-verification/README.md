@@ -41,16 +41,16 @@ SPDX-License-Identifier: Apache-2.0
 |                      | Date              | Authors & Reviewers                                   |
 | -------------------- | ----------------- | ----------------------------------------------------- |
 | **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
-| **Lastest Revision** | May 13, 2024    | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | May 13, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
 
 
 | Name                  | Company | GitHub                                     | Role                                    |
-| --------------------- | ------- |------------------------------------------ | --------------------------------------- |
-| Mathias Brunkow Moser | CGI | [@matbmoser](https://github.com/matbmoser) | Digital Product Pass Software Architect |
-|                          |   |                                            |                                         |
-|                          |   |                                            |                                         |
+| --------------------- | ------- | ------------------------------------------ | --------------------------------------- |
+| Mathias Brunkow Moser | CGI     | [@matbmoser](https://github.com/matbmoser) | Digital Product Pass Software Architect |
+|                       |         |                                            |                                         |
+|                       |         |                                            |                                         |
 
 ## Tags
 
@@ -114,6 +114,11 @@ This concept has been proved to be of high interest from the Certification and V
   - [Flow Diagrams](#flow-diagrams)
     - [CDC Technical Verification Flow](#cdc-technical-verification-flow)
     - [CSC Technical Verification Flow](#csc-technical-verification-flow)
+- [Technical Specification](#technical-specification)
+  - [Certification Aspects Schemas](#certification-aspects-schemas)
+    - [Certified Data Credential Schema](#certified-data-credential-schema)
+  - [Certified Snapshot Credential Schema](#certified-snapshot-credential-schema)
+  - [Attribute Certification Registry](#attribute-certification-registry)
 - [Technical Integration Design](#technical-integration-design)
   - [Interfaces](#interfaces)
   - [Certification Sequence Diagrams](#certification-sequence-diagrams)
@@ -200,21 +205,22 @@ The other terminology from **Data Provider** to **Data Auditor** is called **Dat
 
 ![Role-Process Definition](./resources/processes/role-process-definition.svg)
 
-|**Process Terminology**|**Actors**|**Description**|**Artifacts**|
-| :-- | :-: | :-- | :-: |
-|**Data Verification**|Data Consumer, Data Provider, Data Auditor|The data verification process englobes the complete journey from retrieving data as a data consumer from a data provider. It includes the search for verification statements and attribute level verification in digital twins.At the end of the journey attribute specific verification may or not be found. Other types of verification like self attestations may be or not retrieved. Depends in the available verification information.In the data verification process is included the verification of the signatures included in the data created and certified in the Data Certification Process. |**Verification Result** *with the status/flaws*|
-|**Data Certification**|Data Provider, Data Auditor|The data certification process includes all the processes related to triggering the verification until providing the data for certifying specific attributes.The data provider triggers the certification for a external or internal data auditor, which generates and optionally stores a verification statements|**Certified Data Aspects** *as Verification Statements*|
+| **Process Terminology** |                 **Actors**                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                      **Artifacts**                      |
+| :---------------------- | :----------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------: |
+| **Data Verification**   | Data Consumer, Data Provider, Data Auditor | The data verification process englobes the complete journey from retrieving data as a data consumer from a data provider. It includes the search for verification statements and attribute level verification in digital twins.At the end of the journey attribute specific verification may or not be found. Other types of verification like self attestations may be or not retrieved. Depends in the available verification information.In the data verification process is included the verification of the signatures included in the data created and certified in the Data Certification Process. |     **Verification Result** *with the status/flaws*     |
+| **Data Certification**  |        Data Provider, Data Auditor         | The data certification process includes all the processes related to triggering the verification until providing the data for certifying specific attributes.The data provider triggers the certification for a external or internal data auditor, which generates and optionally stores a verification statements                                                                                                                                                                                                                                                                                        | **Certified Data Aspects** *as Verification Statements* |
 
 ## **Roles/Actors**
 Three main roles are defined and have certain responsibilities or can conduct actions in the processes. Each role can have more than one W3C role and generate different artifacts as specified in the following table:
 
-|**Role/Actors**|**Company Types**|**W3C Roles**|**Responsibilities/Actions**|**Use Cases**|**Artifacts**|
-| :-- | --- | --- | :-- | :-- | :-- |
-|Data Provider|OEMs, Tier-1|Issuer, Holder|- Creating and Issuing Data- Refence/Provision of data in a Digital Twin Registry <br>- Store and link complete data submodels in a infrastructure <br>- **[OPTIONAL]:** Self-sign data when issuing aspects <br>- **[OPTIONAL]:** Provide and Store certified credentials from external parties <br>- Store link to external parties certified credential aspects in Digital Twin Registry <br>- Requests and pays external parties (data auditors) to audit their data|As a data provider I want to be able to hand over my data to consumers and auditors. I want also to be able to manage my data and verified assets. In some cases I want to be able to self-testify my own issued data.| **Digital Twin + Submodels with EDC Endpoints for CDC and CSC** Certified Data Credential (CDC) or Plain **Digital Product Pass** <br> **[OPTIONAL]:** Storage of Certified Snapshot Credentials (CSC) in **Verification Statements Aspect**|
-|Data Auditor|Auditors, Certification Agencies, Consulting Companies, OEMs|Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rulebooks&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials|As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was payed to audit by a Data Provider.|Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC|
-|Data Consumer|Recyclers, Dismantlers, OEMs, Tier-1|Verifier|- Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result |As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider|**Verification Result Presentation**|
+| **Role/Actors** | **Company Types**                                            | **W3C Roles**                | **Responsibilities/Actions**                                                                                                                                                                                                                                                                                                                                                                                                                                             | **Use Cases**                                                                                                                                                                                                                                                                        | **Artifacts**                                                                                                                                                                                                                                |
+| :-------------- | ------------------------------------------------------------ | ---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Data Provider   | OEMs, Tier-1                                                 | Issuer, Holder               | - Creating and Issuing Data- Refence/Provision of data in a Digital Twin Registry <br>- Store and link complete data submodels in a infrastructure <br>- **[OPTIONAL]:** Self-sign data when issuing aspects <br>- **[OPTIONAL]:** Provide and Store certified credentials from external parties <br>- Store link to external parties certified credential aspects in Digital Twin Registry <br>- Requests and pays external parties (data auditors) to audit their data | As a data provider I want to be able to hand over my data to consumers and auditors. I want also to be able to manage my data and verified assets. In some cases I want to be able to self-testify my own issued data.                                                               | **Digital Twin + Submodels with EDC Endpoints for CDC and CSC** Certified Data Credential (CDC) or Plain **Digital Product Pass** <br> **[OPTIONAL]:** Storage of Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** |
+| Data Auditor    | Auditors, Certification Agencies, Consulting Companies, OEMs | Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rulebooks&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials      | As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was payed to audit by a Data Provider.                                                                               | Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC                                                                                     |
+| Data Consumer   | Recyclers, Dismantlers, OEMs, Tier-1                         | Verifier                     | - Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result                                             | As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider | **Verification Result Presentation**                                                                                                                                                                                                         |
 
 ### Abstract Interaction (Business Interaction)
+
 In the following diagram we can observe how the data provider, the data auditor and the data consumer interact:# Certification Processes
 
 ![Roles Business Interaction](./resources/processes/roles-business-interaction.svg)
@@ -224,6 +230,7 @@ The **Data Consumer** `verifies` the data incoming from the **data provider** an
 The **Data Auditor** retrieves data from the **data provider** and `certifies` the data against standards, then sends the `verification statement or certificate` to the **data provider**.
 
 ### Document Exchange Details
+
 The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
 
 ![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
@@ -237,18 +244,18 @@ When we talk about verification and certification processes, serveral questions 
 When a concept is developed not all the processes and problems can be addressed, therefore this concept has some conditions that should be considered.
 Therefore we have decided to list the initial asumptions that are required for this verification process to be successful:
 
-| Asumption | Description | 
-| --- | ----- |
-| **Digital Product Pass Process Creation is established** | The digital product pass process is a complex process that is implemented in each *Data Provider* and is tailored to the systems and application avaialable in each company. This concepts starts its journey from the assumption that the digital product pass data is already available in the **Data Provider** infrastructure as a **Serialized Aspect Model Payload** |
-| **Data Exchange is Standardized** | As we know in Catena-X the data exchange between partners in this case need to be standardized, there fore the digital product pass data and all the related statements will be standardized and available for all members of the network to be able to parse and handle the fields and certifications. | 
-| **Data Certification Process is defined by Data Auditor** | The complexity of the certification process is high and can vary from auditor company to company. Therefore in this concept there was decided to resume the certification of attributes to the most unitary and simple **Technical Solution**, allowing each company to adopt and implement the process according to its needs and requirements. |
-| **Only minimum exchanged data is specified** | Only the minimum exchanged data is specified when transfering data from one company to another. When a certification process is triggered there are many other attributes, data and elements to be specified. Only the neccessary attributes to retrieve the data are specified in this concept to keep things simple and indicate the MVP attributes needed to make it possible. |
-| **All legal requirements are fullfilled** | In this company we asume that the company has all the neccessary legal requirements and agreements to exchange data with its partners in the Catena-X network, policies and permissions are not going to be specified, all the EDC configurations are the ones specified by the Catena-X network. For more information [see this specification](https://github.com/catenax-eV/cx-odrl-profile). |
-| **The digital product pass standards are followed** | The digital twin registry and data service must be implemented as indicated in the latest CX standard for digital product passports and other products. |
-| **The certification and verification are not limited to digital product passports** | This concept sets the initial path to verify any aspect model payload in Catena-X that uses JSON as its serialized representation. The concept is tailored to digital product passports since the **EcoDesign** regulations are playing a important role in the future of Data Ecosystems like *Catena-X*. |
-| **The wallets used in the concept allow to sign any type of credential** | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB). |
-| **Each company MUST have an decentral wallet** | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X. |
-| **All data exchanges are done through the Eclipse DataSpace Connector** | Every company **MUST** have a EDC in order to provide data to othere parties and consume data from other partners. Data sovereighty is followed and shall use the guidelines provided by the Catena-X network. |
+| Asumption                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Digital Product Pass Process Creation is established**                            | The digital product pass process is a complex process that is implemented in each *Data Provider* and is tailored to the systems and application avaialable in each company. This concepts starts its journey from the assumption that the digital product pass data is already available in the **Data Provider** infrastructure as a **Serialized Aspect Model Payload**                      |
+| **Data Exchange is Standardized**                                                   | As we know in Catena-X the data exchange between partners in this case need to be standardized, there fore the digital product pass data and all the related statements will be standardized and available for all members of the network to be able to parse and handle the fields and certifications.                                                                                         |
+| **Data Certification Process is defined by Data Auditor**                           | The complexity of the certification process is high and can vary from auditor company to company. Therefore in this concept there was decided to resume the certification of attributes to the most unitary and simple **Technical Solution**, allowing each company to adopt and implement the process according to its needs and requirements.                                                |
+| **Only minimum exchanged data is specified**                                        | Only the minimum exchanged data is specified when transfering data from one company to another. When a certification process is triggered there are many other attributes, data and elements to be specified. Only the neccessary attributes to retrieve the data are specified in this concept to keep things simple and indicate the MVP attributes needed to make it possible.               |
+| **All legal requirements are fullfilled**                                           | In this company we asume that the company has all the neccessary legal requirements and agreements to exchange data with its partners in the Catena-X network, policies and permissions are not going to be specified, all the EDC configurations are the ones specified by the Catena-X network. For more information [see this specification](https://github.com/catenax-eV/cx-odrl-profile). |
+| **The digital product pass standards are followed**                                 | The digital twin registry and data service must be implemented as indicated in the latest CX standard for digital product passports and other products.                                                                                                                                                                                                                                         |
+| **The certification and verification are not limited to digital product passports** | This concept sets the initial path to verify any aspect model payload in Catena-X that uses JSON as its serialized representation. The concept is tailored to digital product passports since the **EcoDesign** regulations are playing a important role in the future of Data Ecosystems like *Catena-X*.                                                                                      |
+| **The wallets used in the concept allow to sign any type of credential**            | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB).                                                                                                                                                                              |
+| **Each company MUST have an decentral wallet**                                      | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X.                                                                                                                                                                                                                   |
+| **All data exchanges are done through the Eclipse DataSpace Connector**             | Every company **MUST** have a EDC in order to provide data to othere parties and consume data from other partners. Data sovereighty is followed and shall use the guidelines provided by the Catena-X network.                                                                                                                                                                                  |
 
 # Verification Statements
 
@@ -256,10 +263,10 @@ For our technical implementation from the Certification/Verification of aspect m
 
 ## Abstract Types
 
-| Type | Description |
-| -- | -- |
-|Complete Data Verification Statement | Self Signed Document containing the complete data from a aspect model payload. |
-|Partial Data Verification Statement|Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
+| Type                                 | Description                                                                                                                                                           |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Complete Data Verification Statement | Self Signed Document containing the complete data from a aspect model payload.                                                                                        |
+| Partial Data Verification Statement  | Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
 
 
 ## Verification Statements Documents/Credentials
@@ -271,10 +278,10 @@ The different verificaiton statement types were mapped to certain technical veri
 > For more information about what is a verifiable credential [go to this chapter](#what-is-a-verifiable-credential).
 
 
-| Document/Credential Name | Short Name |Issuer |Verification Statement Type | Content | Description |
-| -- | -- | -- | -- | -- | -- |
-| **Certified Data Credential** | **CDC** | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control | Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data. | 
-| **Certified Snapshot Credential** | **CSC** | Data Auditor | Partial Data Verification Statement | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
+| Document/Credential Name          | Short Name | Issuer        | Verification Statement Type          | Content                                                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                              |
+| --------------------------------- | ---------- | ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Certified Data Credential**     | **CDC**    | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control                                                                                                                                                 | Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data.                                                                                                               |
+| **Certified Snapshot Credential** | **CSC**    | Data Auditor  | Partial Data Verification Statement  | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
 
 # Creating Trust and Risk Mitigation Assets
 
@@ -307,30 +314,30 @@ According to the W3C
 (<https://www.w3.org/TR/vc-data-model-2.0/#what-is-a-verifiable-credential>)
 a verifiable credential is:
 
--   Information related to identifying
+- Information related to identifying
     the [subject](https://www.w3.org/TR/vc-data-model-2.0/#dfn-subjects) of
     the [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) (for
     example, a photo, name, or identification number)
 
--   Information related to the issuing authority (for example, a city
+- Information related to the issuing authority (for example, a city
     government, national agency, or certification body)
 
--   Information related to the type
+- Information related to the type
     of [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) this
     is (for example, a Dutch passport, an American driving license, or a
     health insurance card)
 
--   Information related to specific attributes or properties being
+- Information related to specific attributes or properties being
     asserted by the issuing authority about
     the [subject](https://www.w3.org/TR/vc-data-model-2.0/#dfn-subjects) (for
     example, nationality, the classes of vehicle entitled to drive, or
     date of birth)
 
--   Evidence related to how
+- Evidence related to how
     the [credential](https://www.w3.org/TR/vc-data-model-2.0/#dfn-credential) was
     derived
 
--   Information related to constraints on the credential (for example,
+- Information related to constraints on the credential (for example,
     validity period, or terms of use).
 
 A [verifiable
@@ -350,13 +357,13 @@ The signed document credential has the following resumed schema:
 
 ![Configuration Sections](./resources/processes/document-credential-resume.svg)
 
-Depending in each verification types different configuration will be provided in the location of the payload aspect or specific attributes. The detailed configuration is defined in the [Technical Integration](#technical-integration) chapter.
+Depending in each verification types different configuration will be provided in the location of the payload aspect or specific attributes. The detailed configuration is defined in the [Technical Integration Design](#technical-integration-design) chapter.
 
-| Section | Description |
-| --- | ---- |
-| **Metadata** | The metadata contains the context information and credential schema details. Also contains the identification of the credential and which documents it contained. |
-| **Aspect Model Data / Credential Data** | In this section is defined all the neccessary data of each credential type. The specific attributes with methods and proof from data auditor or the original data issued and sigend by the data provider.|
-| **Proof and Verification Methods** | This section contain the digital signature from the Data Provider or Data Auditor. It also contains all the methods for a Data Verifier/Data Consumer to access the verification requirements to check if the credential is still valid and not revoked.|
+| Section                                 | Description                                                                                                                                                                                                                                              |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Metadata**                            | The metadata contains the context information and credential schema details. Also contains the identification of the credential and which documents it contained.                                                                                        |
+| **Aspect Model Data / Credential Data** | In this section is defined all the neccessary data of each credential type. The specific attributes with methods and proof from data auditor or the original data issued and sigend by the data provider.                                                |
+| **Proof and Verification Methods**      | This section contain the digital signature from the Data Provider or Data Auditor. It also contains all the methods for a Data Verifier/Data Consumer to access the verification requirements to check if the credential is still valid and not revoked. |
 
 # Certification Processes
 
@@ -378,22 +385,21 @@ Once that is done the data will be linked in a `digital twin`, so in this way by
 
 Once the EDC Push Notification is received by the `data auditor` the Digital Twin and the Digital Product Pass (JSON aspect model payload to be audited) will be retrieved using the `EDC Connector` and through the `EDC Data Plane proxy`. When the passport aspect is available the data auditor can certify the `specific attributes requested` from the product against the different catena-x standards and regulations. The `data auditor` will create a new document (a certified snapshot credential) which contains the proof of compliance of the specific attributes audited in the passport using selective disclosure, there the data is not copied it is hashed so it can be signed and stored in the wallet from the `data auditor` for tracking reasons.
 
-The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` which contains all the attribute certifications for an specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats again.
+The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Registry (ACR)` which contains all the attribute certifications for an specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats again.
 
-![](./resources/processes/csc-workflow.svg)
+![csc workflow](./resources/processes/csc-workflow.svg)
 
 ## Self-Testify Certification Process
 
 The self-testify certification process consist in the data provided singing its own data which is being provided. Basically giving proof that he was the one that aggregated and created this data.
 
-![](./resources/processes/cdc-workflow.svg)
-
+![cdc workflow](./resources/processes/cdc-workflow.svg)
 
 ## Total Certification Process
 
 The total certification process is the same as the attribute verification process however the complete process is not starting with a plain json file. In this case the data provider can `self testify` its own data. The rest of the process is same and will result in the verification from the specific attributes from the aspect.
 
-![](./resources/processes/cdc-csc-workflow.svg)
+![cdc and csc workflow](./resources/processes/cdc-csc-workflow.svg)
 
 # Certification and Verification Methods
 
@@ -430,9 +436,374 @@ By simply accessing the digital twin the data will be available as a submodel, t
 
 ### CSC Technical Verification Flow
 
-For the partial credential the data will be available in a "Verification" aspect called `Attribute Certification Record` (ACR) which contains the different attribute verification for a particular submodel in a digital twin.
+For the partial credential the data will be available in a "Verification" aspect called `Attribute Certification Registry` (ACR) which contains the different attribute verification for a particular submodel in a digital twin.
 
 ![Verification Flow CSC](./resources/processes/verification-process-csc.svg)
+
+# Technical Specification
+
+## Certification Aspects Schemas
+
+<!-- TODO: Add previous TID here -->
+> [!CAUTION]
+> The information added here its still not productive, what its proposed is simply a MOCK, and its not ready to be implemented in a system yet, the actual schema and details **MUST** be defined in the future of this documentation
+
+### Certified Data Credential Schema
+
+The CDC schema contains the complete passport and some additional information, as well as as the signature of the data provider.
+
+Here we have an example with the [Digital Product Passport v2.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0) Aspect Model.
+
+<details>
+<summary>🚀 Expand Certified Data Credential (CDC) Aspect Schema </summary>
+
+```json
+{
+  "id": "https://dpp-system-url.com/api/public/cx:mfg024:prt-30001",
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "http://json-schema.org/draft-04/schema",
+    "https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0/gen/DigitalProductPassport-schema.json",
+    "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+  ],
+  "type": ["VerifiableCredential", "CDC", "DPP"],
+  "issuer": "did:web:wallet-url.test.com:BPNL00000007RVTB",
+  "credentialSubject": {
+    "id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A6da1f07c-999b-4602-b4d3-8eb649e5d10f",
+    "parent": {
+        "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
+        "checksum": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
+    },
+    "checksum": "ac35e22f24fc4257e2759f7e7105f14568e5e86573fea4b05515697f254111c1f3490d28653b400cb9ddc9690760ef1390f5cac7a3d55966490dab994c1f5cd1",
+    "data": {
+        "typology" : {
+          "shortName" : "8HP60",
+          "class" : {
+            "definition" : "Manual transmission (motor vehicle)",
+            "code" : "44-09-02-02"
+          },
+          "longName" : "Product Description long text"
+        },
+        "metadata" : {
+          "predecessor" : "null",
+          "issueDate" : "2000-01-01",
+          "version" : "1.0.0",
+          "economicOperator" : {
+            "legitimization" : "DE123456789",
+            "identification" : "BPNL1234567890ZZ"
+          },
+          "status" : "draft",
+          "expirationDate" : "2000-01-01"
+        },
+        "characteristics" : {
+          "physicalDimension" : {
+            "grossWeight" : {
+              "value" : 20.5,
+              "unit" : "unit:kilogram"
+            },
+            "weightOrVolume" : {
+              "left" : {
+                "value" : 20.5,
+                "unit" : "unit:cubicMetre"
+              }
+            },
+            "diameter" : {
+              "value" : 20.5,
+              "unit" : "unit:millimetre"
+            },
+            "grossVolume" : {
+              "value" : 20.5,
+              "unit" : "unit:cubicMetre"
+            },
+            "width" : {
+              "value" : 20.5,
+              "unit" : "unit:millimetre"
+            },
+            "length" : {
+              "value" : 20.5,
+              "unit" : "unit:millimetre"
+            },
+            "height" : {
+              "value" : 20.5,
+              "unit" : "unit:millimetre"
+            }
+          },
+          "lifespan" : [ {
+            "value" : 36,
+            "unit" : "unit:day",
+            "key" : "guaranteed lifetime"
+          } ],
+          "physicalState" : "solid"
+        },
+        "commercial" : {
+          "placedOnMarket" : "2000-01-01"
+        },
+        "identification" : {
+          "localIdentifier" : {
+            "value" : "PRT-30001",
+            "key" : "PartInstanceId"
+          },
+          "additionalCode" : [ {
+            "value" : "8703 24 10 00",
+            "key" : "TARIC"
+          }, {
+            "value" : "MFG024",
+            "key" : "manufacturerPartId"
+          } ],
+          "dataCarrier" : {
+            "carrierType" : "QR",
+            "carrierLayout" : "upper-left side"
+          }
+        },
+        "sources" : [ {
+          "header" : "Sustainability Document Material XY",
+          "category" : "Product Specifications",
+          "type" : "URL",
+          "content" : "www.alink.pdf"
+        } ],
+        "handling" : {
+          "spareParts" : {
+            "left" : {
+              "producer" : [ {
+                "id" : "BPNL1234567890ZZ"
+              } ],
+              "part" : [ {
+                "name" : "Aluminum Housing",
+                "gtin" : "12345678"
+              } ]
+            }
+          },
+          "substanceOfConcern" : {
+            "left" : [ {
+              "name" : {
+                "name" : "phenolphthalein",
+                "type" : "IUPAC"
+              },
+              "location" : "Housing",
+              "unit" : "unit:partPerMillion",
+              "concentration" : {
+                "left" : [ {
+                  "max" : 2.6,
+                  "min" : 2.1
+                } ]
+              },
+              "exemption" : "shall not apply to product x containing not more than 1,5 ml of liquid",
+              "id" : [ {
+                "type" : "CAS",
+                "id" : "201-004-7"
+              } ]
+            } ]
+          }
+        },
+        "additionalData" : [ {
+          "description" : "This is the machine parameters that are produced when the machine is used",
+          "label" : "Specific Manufacturer Machine Parameters",
+          "type" : {
+            "typeUnit" : null,
+            "dataType" : "object"
+          },
+          "children" : [ {
+            "description" : "The usage of the eletricity in the machine",
+            "label" : "Eletricity Usage",
+            "type" : {
+              "typeUnit" : "unit:volts",
+              "dataType" : "integer"
+            },
+            "data" : "25"
+          }, {
+            "description" : "The name of the machine that produced the product",
+            "label" : "Machine Name",
+            "type" : {
+              "typeUnit" : null,
+              "dataType" : "string"
+            },
+            "data" : "Laser Machine MX-421W"
+          }, {
+            "description" : "The list of products the machine can produce",
+            "label" : "Product Names",
+            "type" : {
+              "typeUnit" : null,
+              "dataType" : "array"
+            },
+            "data" : [ "Tranmissions", "Batteries", "Seats", "Doors" ]
+          } ]
+        }, {
+          "description" : "This are the properties of interest",
+          "label" : "Properties of Interest",
+          "type" : {
+            "typeUnit" : null,
+            "dataType" : "object"
+          },
+          "children" : [ {
+            "description" : "This are the main properties of interest",
+            "label" : "Main Properties",
+            "type" : {
+              "typeUnit" : null,
+              "dataType" : "object"
+            },
+            "children" : [ {
+              "description" : "This is the Normal temperature of production",
+              "label" : "Normal Temperature",
+              "type" : {
+                "typeUnit" : "unit:celcius",
+                "dataType" : "float"
+              },
+              "data" : 62.7
+            }, {
+              "description" : "This is the minimmum temperature of production",
+              "label" : "Minimum Temperature",
+              "type" : {
+                "typeUnit" : "unit:celcius",
+                "dataType" : "float"
+              },
+              "data" : -80.68
+            }, {
+              "description" : "This is the maximum temperature of production",
+              "label" : "Maximum Temperature",
+              "type" : {
+                "typeUnit" : "unit:celcius",
+                "dataType" : "float"
+              },
+              "data" : 800.85
+            } ]
+          } ]
+        } ],
+        "sustainability" : {
+          "PEF" : {
+            "carbon" : [ {
+              "lifecycle" : "main product production",
+              "rulebook" : "https://www.alink.pdf/",
+              "unit" : "kg CO2 eq",
+              "type" : "Climate Change Total",
+              "value" : 12.678
+            } ]
+          },
+          "state" : "first life",
+          "material" : {
+            "left" : [ {
+              "name" : {
+                "name" : "phenolphthalein",
+                "type" : "IUPAC"
+              },
+              "unit" : "unit:partPerMillion",
+              "recycled" : false,
+              "id" : [ {
+                "type" : "CAS",
+                "id" : "201-004-7"
+              } ],
+              "value" : 5,
+              "renewable" : true
+            } ]
+          },
+          "critical" : {
+            "left" : [ "eOMtThyhVNLWUZNRcBaQKxI" ]
+          }
+        },
+        "operation" : {
+          "importer" : {
+            "left" : {
+              "eori" : "GB123456789000",
+              "id" : "BPNL1234567890ZZ"
+            }
+          },
+          "manufacturer" : {
+            "facility" : "BPNS1234567890ZZ",
+            "manufacturingDate" : "2000-01-31",
+            "manufacturer" : "BPNL1234567890ZZ"
+          }
+        }
+    }
+  },
+  "issuanceDate": "2024-02-15T00:00:00.000Z",
+  "proof": {
+    "type": "JsonWebSignature2020",
+    "created": "2024-02-15T12:35:39Z",
+    "verificationMethod": "did:web:wallet-url.test.com:BPNL00000007RVTB#8f858500-7008-4b97-a8bb-605d4c8eca75",
+    "proofPurpose": "assertionMethod",
+    "jws": "eyJhbGciOiJFZERTQSJ9..4snTkqta4UwXIAtKJiIEDhiwmVtAC3kml0j7Wc25vmTbLbPlviXgL9he9X0A0xRTNlnsEwILf0NbPIyeztzJCw"
+  }
+}
+```
+
+</details>
+
+## Certified Snapshot Credential Schema
+
+The CDC schema contains the partial passport with different attributes, all them with the methods used for the ceritification, as well as as the signature of the data provider.
+
+Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v2.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0) Aspect Model.
+
+<details>
+<summary>🚀 Expand Certified Snapshot Credential (CSC) Aspect Schema </summary>
+
+```json
+{
+    "id": "https://dpp-system-url.com/api/public/cx:mfg024:prt-30001",
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "http://json-schema.org/draft-04/schema",
+        "https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0/gen/DigitalProductPassport-schema.json",
+        "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+    ],
+    "type": [
+        "VerifiableCredential",
+        "CSC",
+        "DPP"
+    ],
+    "issuer": "did:web:wallet-url.test.com:BPNL000000086WTL",
+    "credentialSubject": {
+        "id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3Acd1c0904-27e2-4ae2-8751-5c8c8e4b6812",
+        "checksum": "ac35e22f24fc4257e2759f7e7105f14568e5e86573fea4b05515697f254111c1f3490d28653b400cb9ddc9690760ef1390f5cac7a3d55966490dab994c1f5cd1",
+        "data": [
+            {
+                "path": "sustainability.PEF.carbon[0].value",
+                "proof": "112b7337ac2710961e728f5bf983ce1dbdef1972ed6ec949982faf7c80566b7f9146a781d40a3166a9b00286b46136be863c3ca16c6b9d13c218b675892a4fd9",
+                "method": [
+                    {
+                        "type": "Standard",
+                        "name": "PCF Rulebook Standard",
+                        "id": "CX-0029",
+                        "url": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+                    },
+                    {
+                        "type": "Regulation",
+                        "name": "Ecodesign for Sustainable Products Regulation",
+                        "id": "2009/125/EC",
+                        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:02009L0125-20121204&from=EN"
+                    }
+                ]
+            },
+            {
+                "path": "sustainability.state",
+                "proof": "f4f14ed3c319f1f1cd4ee5a50353ec0147da5cb0f8da86a3161bd2c70c83026bc4bdf64c99a4a38fb10afc19f6e07e6cbf820981ab13468133da3a403036e9eb",
+                "method": [
+                    {
+                        "type": "Standard",
+                        "name": "Secondary Material Content Standard",
+                        "id": "CX-0098",
+                        "url": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_Januar_2024/CX-0098-AspectModelSecondaryMaterialContent-v1.0.0.pdf"
+                    }
+                ]
+            }
+        ]
+    },
+    "issuanceDate": "2024-02-15T00:00:00.000Z",
+    "proof": {
+        "type": "JsonWebSignature2020",
+        "created": "2024-02-15T12:35:39Z",
+        "verificationMethod": "did:web:wallet-url.test.com:BPNL000000086WTL#049f920c-e702-4e36-9b01-540423788a90",
+        "proofPurpose": "assertionMethod",
+        "jws": "eyJhbGciOiJFZERTQSJ9..4snTkqta4UwXIAtKJiIEDhiwmVtAC3kml0j7Wc25vmTbLbPlviXgL9he9X0A0xRTNlnsEwILf0NbPIyeztzJCw"
+    }
+}
+```
+
+</details>
+
+## Attribute Certification Registry
+<!-- TODO: Add previous ACR here -->
+> [!WARNING]
+> The attribute certification registry details is still not available. It will contain the complete list of CSC certificates and also reference to the CDC or plain json submodel in the same digital twin.
 
 # Technical Integration Design
 <!-- TODO: Add previous TID here -->
@@ -483,28 +854,28 @@ The following references were used as inspiration for understanding more how pro
 
 No content with copyright was copied. All the information used as reference in this documentation is open source, is available for the public or released under creative commons license.
 
-| Name                                                                                   | Author                                                                                                                                                                                                                  | Date                                                                                                                 | Link                                                                                                                                                                               |
-|:---------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Data Integrity Demonstrator (TRS) in Supply Chain                                      | [Matthias Binzer](https://github.com/matgnt) - Bosch                                                                                                                                                                  | 2023                                                                                                                 |  https://github.com/boschresearch/cx-data-integrity-demonstrator                                                                                                                                                |
-| ID Union Data Integrity Demonstrator                                                   | [Matthias Binzer](https://github.com/matgnt) - Bosch                                                                                                                                                                                    | 2023                                                                                                        | https://github.com/IDunion/i40-examples/tree/main/nameplate-vc                                                                                                                     |
-| Digital Product Passport Verifiable Credential Demo                                    | Spherity                                                                                                                                                                                                                | 2023                                                                                                                 | https://acme.dpp.spherity.com/                                                                                                                                                     |
-| Verifiable Credentials Data Model v1.1/v2.0                                            | W3C                                                                                                                                                                                                                     | 2022 - 2024                                                                                                          | https://www.w3.org/TR/vc-data-model/ https://www.w3.org/TR/vc-data-model-2.0/                                                                                                      |
-| Tractus-X SSI Documentation                                                            | Catena-X Core-ART Architects & Eclipse Tractus-X Contributors                                                                                                                                                           | 2023                                                                                                                 | https://github.com/eclipse-tractusx/ssi-docu/tree/main/docs/architecture/cx-3-2                                                                                                    |
-| Ed25519: high-speed high-security signatures                                           | Daniel J. Bernstein, University of Illinois at Chicago  Niels Duif, Technische Universiteit Eindhoven Tanja Lange, TechnischeUniversiteit Eindhoven Peter Schwabe,National Taiwan UniversityBo-Yin Yang,Academia Sinica | 2017                                                                                                                 | https://ed25519.cr.yp.to/                                                                                                                                                          |
-| Digital Product Pass Documentation and Arc42                                           | [Mathias Brunkow Moser](https://github.com/matbmoser) & [Muhammad Saud Khan](https://github.com/saudkhan116) - CGI - Tractus-X Contributors                                                                             | 2021-2024                                                                                                            | https://github.com/eclipse-tractusx/digital-product-pass/ https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/arc42/Arc42.md                                   |
-| Managed Identity Wallets                                                               | Tractus-X Contributors                                                                                           | 2022-2024                                                                                                            | https://github.com/eclipse-tractusx/managed-identity-wallet                                                                                                                        |
-| Digital Twin Registry                                                                  | Bosch - Tractus-X Contributors                                                                                                                                                                     | 2021-2024                                                                                                            | https://github.com/eclipse-tractusx/sldt-digital-twin-registry                                                                                                                     |
-| Tractus-X EDC                                                                          | Tractus-X Contributors                                                                                                                                     | 2021-2024                                                                                                            | https://github.com/eclipse-tractusx/tractusx-edc                                                                                                                                   |
-| Eclipse Connector                                                                      | Eclipse Foundation Contributors                                                                                                                                                                                         | 2021-2024                                                                                                            | https://github.com/eclipse-edc/Connector                                                                                                                                           |
-| Universal Resolver for DIDs                                                            | Universal Resolver                                                                                                                                                                                                      | 2017-2024                                                                                                            | https://dev.uniresolver.io/ https://github.com/decentralized-identity/universal-resolver                                                                                           |
-| Decentralized Identifiers (DIDs) v1.0                                                  | W3C                                                                                                                                                                                                                     | 2022                                                                                                                 | https://www.w3.org/TR/did-core/                                                                                                                                                    |
-| Decentralized Identifier Resolution (DID Resolution) v0.3                              | W3C                                                                                                                                                                                                                     | 2023                                                                                                                 | https://w3c-ccg.github.io/did-resolution/                                                                                                                                          |
-| Self-Sovereign Identity - Decentralized Digital Identity and Verifiable Credentials v2 | Manning Publications: manning.com                                                                                                                                                                                       | 2020                                                                                                                 | https://livebook.manning.com/book/self-sovereign-identity/chapter-8/v-2/7                                                                                                          |
-| EECC Verifier for Verifiable Credentials                                               | Free Software Foundation, Inc (https://fsf.org)                                                                                                                                                                         | 2022-2024                                                                                                            | https://github.com/european-epc-competence-center/vc-verifier [ssi.eecc.de/verifier](ssi.eecc.de/verifier/)                                                                        |
-| Identity Resolution Verification                                                       | European EPC Competence Center GmbHhttps://eecc.info/                                                                                                                                                                   | 2022-2024                                                                                                            | https://id.eecc.de/                                                                                                                                                                |
-| SuplyTree - The Inter-company Tamper-evidence Protocol for Supply Chain Traceability   | Matthias Guenther, Robert Bosch GmbH, Economy of Things Dominie Woerner, Robert Bosch Switzerland, Economy of Things | 2023                                                                                                                                                                                                                    |                                                                                                                                                                                    |
-| A Beginners Guide to Decentralized Identifiers (DIDs)                                  | Amarachi Johnson-Ubah - Medium                                                                                                                                                                                          | 2022                                                                                                                 | https://medium.com/veramo/a-beginners-guide-to-decentralized-identifiers-dids-5e842398e82c#:~:text=A%20decentralized%20identifier%20is%20an,the%20signatures%20of%20that%20subject |
-| Schema Organization for JSON-LD                                                        | W3C                                                                                                                                                                                                                     | 2021-2024                                                                                                            | https://schema.org/                                                                                                                                                                |
+| Name                                                                                   | Author                                                                                                                                                                                                                  | Date        | Link                                                                                                                                                                               |
+| :------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Data Integrity Demonstrator (TRS) in Supply Chain                                      | [Matthias Binzer](https://github.com/matgnt) - Bosch                                                                                                                                                                    | 2023        | https://github.com/boschresearch/cx-data-integrity-demonstrator                                                                                                                    |
+| ID Union Data Integrity Demonstrator                                                   | [Matthias Binzer](https://github.com/matgnt) - Bosch                                                                                                                                                                    | 2023        | https://github.com/IDunion/i40-examples/tree/main/nameplate-vc                                                                                                                     |
+| Digital Product Passport Verifiable Credential Demo                                    | Spherity                                                                                                                                                                                                                | 2023        | https://acme.dpp.spherity.com/                                                                                                                                                     |
+| Verifiable Credentials Data Model v1.1/v2.0                                            | W3C                                                                                                                                                                                                                     | 2022 - 2024 | https://www.w3.org/TR/vc-data-model/ https://www.w3.org/TR/vc-data-model-2.0/                                                                                                      |
+| Tractus-X SSI Documentation                                                            | Catena-X Core-ART Architects & Eclipse Tractus-X Contributors                                                                                                                                                           | 2023        | https://github.com/eclipse-tractusx/ssi-docu/tree/main/docs/architecture/cx-3-2                                                                                                    |
+| Ed25519: high-speed high-security signatures                                           | Daniel J. Bernstein, University of Illinois at Chicago  Niels Duif, Technische Universiteit Eindhoven Tanja Lange, TechnischeUniversiteit Eindhoven Peter Schwabe,National Taiwan UniversityBo-Yin Yang,Academia Sinica | 2017        | https://ed25519.cr.yp.to/                                                                                                                                                          |
+| Digital Product Pass Documentation and Arc42                                           | [Mathias Brunkow Moser](https://github.com/matbmoser) & [Muhammad Saud Khan](https://github.com/saudkhan116) - CGI - Tractus-X Contributors                                                                             | 2021-2024   | https://github.com/eclipse-tractusx/digital-product-pass/ https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/arc42/Arc42.md                                   |
+| Managed Identity Wallets                                                               | Tractus-X Contributors                                                                                                                                                                                                  | 2022-2024   | https://github.com/eclipse-tractusx/managed-identity-wallet                                                                                                                        |
+| Digital Twin Registry                                                                  | Bosch - Tractus-X Contributors                                                                                                                                                                                          | 2021-2024   | https://github.com/eclipse-tractusx/sldt-digital-twin-registry                                                                                                                     |
+| Tractus-X EDC                                                                          | Tractus-X Contributors                                                                                                                                                                                                  | 2021-2024   | https://github.com/eclipse-tractusx/tractusx-edc                                                                                                                                   |
+| Eclipse Connector                                                                      | Eclipse Foundation Contributors                                                                                                                                                                                         | 2021-2024   | https://github.com/eclipse-edc/Connector                                                                                                                                           |
+| Universal Resolver for DIDs                                                            | Universal Resolver                                                                                                                                                                                                      | 2017-2024   | https://dev.uniresolver.io/ https://github.com/decentralized-identity/universal-resolver                                                                                           |
+| Decentralized Identifiers (DIDs) v1.0                                                  | W3C                                                                                                                                                                                                                     | 2022        | https://www.w3.org/TR/did-core/                                                                                                                                                    |
+| Decentralized Identifier Resolution (DID Resolution) v0.3                              | W3C                                                                                                                                                                                                                     | 2023        | https://w3c-ccg.github.io/did-resolution/                                                                                                                                          |
+| Self-Sovereign Identity - Decentralized Digital Identity and Verifiable Credentials v2 | Manning Publications: manning.com                                                                                                                                                                                       | 2020        | https://livebook.manning.com/book/self-sovereign-identity/chapter-8/v-2/7                                                                                                          |
+| EECC Verifier for Verifiable Credentials                                               | Free Software Foundation, Inc (https://fsf.org)                                                                                                                                                                         | 2022-2024   | https://github.com/european-epc-competence-center/vc-verifier [ssi.eecc.de/verifier](ssi.eecc.de/verifier/)                                                                        |
+| Identity Resolution Verification                                                       | European EPC Competence Center GmbHhttps://eecc.info/                                                                                                                                                                   | 2022-2024   | https://id.eecc.de/                                                                                                                                                                |
+| SuplyTree - The Inter-company Tamper-evidence Protocol for Supply Chain Traceability   | Matthias Guenther, Robert Bosch GmbH, Economy of Things Dominie Woerner, Robert Bosch Switzerland, Economy of Things                                                                                                    | 2023        |                                                                                                                                                                                    |
+| A Beginners Guide to Decentralized Identifiers (DIDs)                                  | Amarachi Johnson-Ubah - Medium                                                                                                                                                                                          | 2022        | https://medium.com/veramo/a-beginners-guide-to-decentralized-identifiers-dids-5e842398e82c#:~:text=A%20decentralized%20identifier%20is%20an,the%20signatures%20of%20that%20subject |
+| Schema Organization for JSON-LD                                                        | W3C                                                                                                                                                                                                                     | 2021-2024   | https://schema.org/                                                                                                                                                                |
 
 
 # Special Thanks
@@ -522,6 +893,7 @@ explanation of this Certification and Verification Concept.
 | **Abbreviation**      | **Complete Term**                                          |
 | --------------------- | ---------------------------------------------------------- |
 | AAS                   | Asset Administration Shell                                 |
+| ACR                   | Attribute Certification Registry                           |
 | API                   | Application Programming Interfaces                         |
 | BPN(BPNL, BPNA, BPNS) | Business Partner Number (Legal Entities, Addresses, Sites) |
 | CSC                   | Certified Snapshot Credential                              |

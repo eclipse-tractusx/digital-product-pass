@@ -46,6 +46,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Updated EDR structure
 - Added `lombok` dependency to speed the development
 - Added security assessment documentation
+- Added Digital Product Pass Verification Concept initial documentation
 
 
 ### Updated
@@ -78,6 +79,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## Issues Fixed
 - Fixed issue with multiple contract and policies parsing
 - Optimized data sovereignty checks removing spotted bugs
+- Fixed issue when policy is selected in the frontend
+- Fixed issue when backend is not available in the fronted
 
 
 ## [released]

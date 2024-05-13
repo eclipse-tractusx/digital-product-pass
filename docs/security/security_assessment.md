@@ -22,11 +22,11 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-# Security Assessment Product Passport Application 
+# Security Assessment Product Passport Application
 
 | Contact                  | Details                                                                           |
 | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| Contact for product       | https://github.com/matbmoser - mathias.brunkowmoser@cgi.com |
+| Contact for product       | https://github.com/matbmoser |
 | Security responsible      | [@SSIRKC](https://github.com/SSIRKC) <br> [@szymonkowalczykzf](https://github.com/szymonkowalczykzf) |
 | Version number of product | 24.05                                                                                          |
 | Dates of assessment       | 2024-05-13: Re-Assessment                                                                      |

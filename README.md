@@ -43,9 +43,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.2.0">2.2.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.3.0">2.3.0</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.2.0">v2.2.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.3.0">v2.3.0</a></pre>
 
 
 
@@ -53,7 +53,7 @@ In particular, the appliction is used to access the battery passport data provid
 
 Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.
 
-![General Info View](./docs/arc42/media/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./docs/architecture/media/GraphicBatteryPassportViewGeneralInfo.png)
 
 > **Note**: For more information check the [documentation section](./docs/README.md)
 
@@ -63,18 +63,19 @@ To get started you can have a look into our documentation:
 
 | Name                                                                                                          | Description                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Arc42](./docs/arc42/Arc42.md)                                                                                | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
-| [Administration Guide](./docs/admin%20guide/AdminGuide.md)                                                    | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
-| [Data Retrieval Guide](./docs/data%20retrieval%20guide/DataRetrievalGuide.md)                                 | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                         |
+| [Arc42](./docs/architecture/Arc42.md)                                                                                | Main Architecture Document (Arc42) of Digital Product Pass Application                                                                                      |
+| [Interoperability](./docs/interoperability/InteroperabilityGuide.md)                                                                                | Interoperability document of Digital Product Pass Application                                                                                      |
+| [Data Sovereignty](./docs/data-sovereignty/PolicyConfigGuide.md)                                                                                | Data Sovereignty document of Digital Product Pass Application                                                                                      |
+| [Administration Guide](./docs/admin/AdminGuide.md)                                                    | Administration Guide explaining the infrastructure and how to configure the application                                                                     |
+| [Data Retrieval Guide](./docs/data-retrieval/README.md)                                 | Guide on how to retrieve data from the Catena-X Network as the Digital Product Pass                                                                         |
 | [Backend Documentation](./dpp-backend/digitalproductpass/README.md)                                           | Backend documentation Product Passport App                                                                                                                  |
-| [Deployment in Argo CD](./deployment/README.md)                                                               | Technical Guide - Deployment in ArgoCD - integration environment                                                                                            |
 | [Docker Overview](./deployment/local/iam/README.md)                                                           | Overview on general docker commands                                                                                                                         |
 | [Keycloak Overview](./deployment/local/iam/README.md)                                                         | This guide describes how to setup a keycloak instance in local docker forcontainer and import existing realm.json file.                                     |
 | [Short Introduction into the project](./docs/GETTING-STARTED.md)                                              | Digital Product Pass App infrastructure, helm installation guide, technical usage guide                                                                     |
-| [Code Scaning with Kics and Trivy](./docs/infrastructure%20as%20code/IaC.md)                                  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
+| [Code Scaning with Kics and Trivy](./docs/security/infrastructure-as-code/IaC.md)                                  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github |
 | [Release Guidelines](./docs/RELEASE.md)                                                                       | Digital Product Pass App Release Guide                                                                                                                      |
-| [Secret Management](./docs/secrets%20management/SECRETS_MANAGEMENT.md)                                        | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                            |
-| [End User Manual](./docs/user%20manual/UserManual.md)                                                         | End User Manual Product Viewer App                                                                                                                          |
+| [Secret Management](./docs/security/secrets-management/SecretsManagement.md)                                        | Secrets management to store client credentials, database passwords, access tokens                         |
+| [End User Manual](./docs/user/UserManual.md)                                                         | End User Manual Product Viewer App                                                                                                                          |
 | [Postman Overview](./deployment/local/postman//README.md)                                                     | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
 | [Changelog](./CHANGELOG.md)                                                                                   | Changelog                                                                                                                                                   |
 | [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) | Project's Helm Charts                                                                                                                                       |

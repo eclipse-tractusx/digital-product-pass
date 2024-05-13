@@ -68,7 +68,7 @@ minikube start --cpus 4 --memory 8096
 minikube addons enable ingress
 ```
 
-The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set/unset [init-values.sh](../deployment/local/testing/init-values.sh) in required components as needed. 
+The secrets/credentials for all components are stored in a centralized vault service (HashiCorp Vault). The secrets in configurations must be populated with their values, and security must also be ensured during the substitution process. To achieve this, a shell script is available to set/unset [init-values.sh](../deployment/local/testing/init-values.sh) in required components as needed. 
 
 > Prerequisite: Prior to run the scripts, the values for the follwoing environment variables should be placed in the script.
 

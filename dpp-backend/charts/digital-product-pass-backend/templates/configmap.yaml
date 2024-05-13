@@ -25,10 +25,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backend-config
+  name: {{ .Release.Name }}-backend-config
   namespace: {{ .Values.namespace }}
 data:
-   application.yaml: |-
+  application.yaml: |-
     spring:
       name: "Digital Product Passport Consumer Backend"
       main:
@@ -57,6 +57,7 @@ data:
       # -- edc consumer connection configuration
       edc:
         endpoint: "https://{{ .Values.edc.hostname }}"
+        readiness: {{ .Values.edc.apis.readiness }}
         management: {{ .Values.edc.apis.management }}
         catalog: {{ .Values.edc.apis.catalog }}
         negotiation: {{ .Values.edc.apis.negotiation }}
@@ -73,6 +74,8 @@ data:
         startUpChecks:
           bpnCheck: {{ .Values.securityCheck.bpn }}
           edcCheck: {{ .Values.securityCheck.edc }}
+        authentication:
+          header: {{ .Values.oauth.apiKey.header }}
       # -- irs configuration
       irs:
         enabled: {{ .Values.irs.enabled }} # -- Enable search for children in the requests
@@ -106,6 +109,12 @@ data:
         temporaryStorage:
           enabled: {{ .Values.digitalTwinRegistry.temporaryStorage.enabled }}
           lifetime: {{ .Values.digitalTwinRegistry.temporaryStorage.lifetime }}
+        # -- policy configuration for the digital twin registries negotiation
+        policyCheck:
+          enabled: {{ .Values.digitalTwinRegistry.policyCheck.enabled }}
+          strictMode: {{ .Values.digitalTwinRegistry.policyCheck.strictMode }}
+          policies: {{- toYaml .Values.digitalTwinRegistry.policyCheck.policies | nindent 10 }}
+    
       # -- discovery configuration
       discovery:
         # -- discovery finder configuration
@@ -117,6 +126,10 @@ data:
         # -- edc discovery configuration
         edc:
           key: {{ tpl (.Values.discovery.edcDiscovery.key | default "bpn") . | quote }}
+      # -- configuration to the single API endpoint
+      single-api:
+        maxRetries: {{ .Values.singleApi.maxRetries }}
+        delay: {{ .Values.singleApi.delay }}
       # -- process configuration
       process:
         # -- directory for storing the contract negotiation files
@@ -137,6 +150,11 @@ data:
           dir: "data/transfer"
         # -- passport versions and aspects allowed
         aspects: {{- toYaml .Values.passport.aspects | nindent 10 }}
+        # -- policy configuration for the digital product pass aspect models negotiation
+        policyCheck:
+          enabled: {{ .Values.passport.policyCheck.enabled }}
+          strictMode: {{ .Values.passport.policyCheck.strictMode }}
+          policies: {{- toYaml .Values.passport.policyCheck.policies | nindent 10 }}
     # -- configuration of the spring boot server
     server:
       # -- configuration of backend errors

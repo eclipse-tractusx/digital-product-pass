@@ -45,6 +45,7 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
+        
 
   hostname: *hostname
   securityCheck:
@@ -60,6 +61,11 @@ backend:
 
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
+
+  single-api:
+    maxRetries: 30
+    delay: 1000
+
 
 frontend:
   ingress:
@@ -104,4 +110,8 @@ oauth:
     enabled: true
     bpn: *bpn
   roleCheck:
-    enabled: false  
+    enabled: false
+  apiKey:
+    header: "X-Api-Key"
+    secret: <path:material-pass/data/int/oauth#xApiKey>
+

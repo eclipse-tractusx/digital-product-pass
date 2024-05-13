@@ -44,7 +44,7 @@ data:
         root: {{ tpl (.Values.backend.logging.level.root | default "INFO") . | quote }}
         # -- logging for the util components
         utils: {{ tpl (.Values.backend.logging.level.utils | default "INFO") . | quote }}
-        
+    
     configuration:
       # -- max retries for the backend services
       maxRetries: {{ .Values.backend.maxRetries }}
@@ -74,6 +74,8 @@ data:
         startUpChecks:
           bpnCheck: {{ .Values.backend.securityCheck.bpn }}
           edcCheck: {{ .Values.backend.securityCheck.edc }}
+        authentication:
+          header: {{ .Values.oauth.apiKey.header }}
       # -- irs configuration
       irs:
         enabled: {{ .Values.backend.irs.enabled }} # -- Enable search for children in the requests
@@ -107,6 +109,11 @@ data:
         temporaryStorage:
           enabled: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.enabled }}
           lifetime: {{ .Values.backend.digitalTwinRegistry.temporaryStorage.lifetime }}
+        # -- policy configuration for the digital twin registries negotiation
+        policyCheck:
+          enabled: {{ .Values.backend.digitalTwinRegistry.policyCheck.enabled }}
+          strictMode: {{ .Values.backend.digitalTwinRegistry.policyCheck.strictMode }}
+          policies: {{- toYaml .Values.backend.digitalTwinRegistry.policyCheck.policies | nindent 10 }}
       # -- discovery configuration
       discovery:
         # -- discovery finder configuration
@@ -118,6 +125,10 @@ data:
         # -- edc discovery configuration
         edc:
           key: {{ tpl (.Values.backend.discovery.edcDiscovery.key | default "bpn") . | quote }}
+      # -- configuration to the single API endpoint
+      single-api:
+        maxRetries: {{ .Values.backend.singleApi.maxRetries }}
+        delay: {{ .Values.backend.singleApi.delay }}
       # -- process configuration
       process:
         # -- directory for storing the contract negotiation files
@@ -138,6 +149,11 @@ data:
           dir: "data/transfer"
         # -- passport versions and aspects allowed
         aspects: {{- toYaml .Values.backend.passport.aspects | nindent 10 }}
+        # -- policy configuration for passport retrieval (for auto-signing only)
+        policyCheck:
+          enabled: {{ .Values.backend.passport.policyCheck.enabled }}
+          strictMode: {{ .Values.backend.passport.policyCheck.strictMode }}
+          policies: {{- toYaml .Values.backend.passport.policyCheck.policies | nindent 10 }}
     # -- configuration of the spring boot server
     server:
       # -- configuration of backend errors

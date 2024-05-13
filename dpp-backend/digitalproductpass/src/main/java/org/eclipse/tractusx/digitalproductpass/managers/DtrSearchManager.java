@@ -262,6 +262,9 @@ public class DtrSearchManager {
                     throw new ManagerException("DtrSearchManager.searchEndpoint", "There was no valid policy available for the digital twin registry found!");
                 }
 
+                LogUtil.printMessage("[DTR-AUTO-NEGOTIATION] [PROCESS "+processId + "] Selected [CONTRACT "+contractAndPolicy.d().getId()+"]:["+this.jsonUtil.toJson(contractAndPolicy.d(), false)+"]!");
+                LogUtil.printMessage("[DTR-AUTO-NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+contractAndPolicy.s().getId()+"]:["+this.jsonUtil.toJson(contractAndPolicy.s(), false)+"]!");
+
                 Thread singleOfferThread = ThreadUtil.runThread(createAndSaveDtr(contractAndPolicy, datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);
                 try {
                     if (!singleOfferThread.join(Duration.ofSeconds(this.dtrRequestProcessTimeout))) {
@@ -284,6 +287,8 @@ public class DtrSearchManager {
         if (contractAndPolicy == null) {
             throw new ManagerException("DtrSearchManager.searchEndpoint", "There was no valid policy available for the digital twin registry found!");
         }
+        LogUtil.printMessage("[DTR-AUTO-NEGOTIATION] [PROCESS "+processId + "] Selected [CONTRACT "+contractAndPolicy.d().getId()+"]:["+this.jsonUtil.toJson(contractAndPolicy.d(), false)+"]!");
+        LogUtil.printMessage("[DTR-AUTO-NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+contractAndPolicy.s().getId()+"]:["+this.jsonUtil.toJson(contractAndPolicy.s(), false)+"]!");
         // Store datasets in the digital twin logs
         contractOfferList.parallelStream().forEach(dataset -> {
             Thread multipleOffersThread = ThreadUtil.runThread(createAndSaveDtr(contractAndPolicy, datasets, bpn, providerBpn, endpoint, processId), "CreateAndSaveDtr-" + processId + "-" + bpn + "-" + endpoint);

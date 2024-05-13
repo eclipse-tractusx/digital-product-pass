@@ -520,11 +520,16 @@ public class ContractService extends BaseService {
             String policyId = tokenRequestBody.getPolicyId();
             Set policy = null;
             DataTransferService.NegotiateContract contractNegotiation = null;
-            policy = policyUtil.getPolicyById(dataset, policyId);
+            // This function will always get a complaint policy from the allowed ones
+            policy = policyUtil.getCompliantPolicyById(dataset, policyId, passportConfig.getPolicyCheck());
             if (policy == null) {
-                response = httpUtil.getBadRequest("The policy selected does not exists!");
+                response = httpUtil.getBadRequest("The policy selected is not allowed per configuration or does not exists!");
                 return httpUtil.buildResponse(response, httpResponse);
             }
+
+            LogUtil.printMessage("[ASSET"+(policyId == null?"-":"-AUTO-")+"NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+policy.getId()+"]:["+this.jsonUtil.toJson(policy, false)+"]!");
+            LogUtil.printMessage("[ASSET-NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+policy.getId()+"]:["+this.jsonUtil.toJson(policy, false)+"]!");
+
             contractNegotiation = dataService
                     .new NegotiateContract(
                     processManager.loadDataModel(httpRequest),

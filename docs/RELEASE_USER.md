@@ -25,6 +25,25 @@
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
 
+
+**May 13 2024 (Version 3.0.0-rc1)**
+*13.05.2024*
+
+### Added
+
+#### Data Sovereighty Configuration enabled
+
+Now in the backend configuration it is possible to add the policies required per contract.
+The policy configuration guide can be found here: [Policy Configuration Guide](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md)
+
+#### Single API functionality enabled
+
+Now the backend allows users to access and retrieve information without pending of a frontend keyclock authentication. With a single api call `/api/data/request` and the API Key configured in the helm charts values, the backend is allowed to be accessed.
+
+#### EDC 0.7.0 integrated in the application
+
+The Digital Product Pass application now supports the latest edc version available. The new models and payloads have been integrated into the application.
+
 **May 06 2024 (Version 2.3.0)**
 *06.05.2024*
 

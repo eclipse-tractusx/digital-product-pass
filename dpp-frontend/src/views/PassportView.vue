@@ -908,7 +908,7 @@ export default {
               this.error = true;
       }
       // Check if the response is empty and give an error
-      else if (!response ){
+      else if (!response){
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";

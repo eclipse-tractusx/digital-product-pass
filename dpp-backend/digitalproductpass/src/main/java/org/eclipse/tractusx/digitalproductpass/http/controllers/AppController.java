@@ -158,7 +158,6 @@ public class AppController {
         try {
             EndpointDataReference endpointData = null;
             try {
-                LogUtil.printMessage("EDR: " + jsonUtil.toJson(body, true));
                 endpointData = this.getEndpointData(body);
             } catch (Exception e) {
                 return httpUtil.buildResponse(httpUtil.getBadRequest(e.getMessage()), httpResponse);

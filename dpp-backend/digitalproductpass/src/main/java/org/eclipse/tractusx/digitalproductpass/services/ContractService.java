@@ -528,7 +528,7 @@ public class ContractService extends BaseService {
             }
 
             LogUtil.printMessage("[ASSET"+(policyId == null?"-":"-AUTO-")+"NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+policy.getId()+"]:["+this.jsonUtil.toJson(policy, false)+"]!");
-            LogUtil.printMessage("[ASSET-NEGOTIATION] [PROCESS "+processId + "] Selected [POLICY "+policy.getId()+"]:["+this.jsonUtil.toJson(policy, false)+"]!");
+            LogUtil.printMessage("[ASSET-NEGOTIATION] [PROCESS "+processId + "] Selected [CONTRACT "+dataset.getId()+"]:["+this.jsonUtil.toJson(dataset, false)+"]!");
 
             contractNegotiation = dataService
                     .new NegotiateContract(

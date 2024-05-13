@@ -633,13 +633,24 @@ export default {
       } catch (e) {
         console.log("searchContracts -> " + e);
       } finally {
-        if(!this.searchResponse || this.searchResponse["status"] != 200){
-              this.errorObj.title = "The backend is not accessible!";
-              this.errorObj.description =
-                "It was not possible to search for contracts in backend!.";
-              this.status = 503;
-              this.statusText = "Not Available";
-              this.error = true;
+        if (!this.searchResponse || this.searchResponse["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.searchResponse)
+            ? this.searchResponse["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.searchResponse)
+            ? this.searchResponse["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists(
+            "statusText",
+            this.searchResponse
+          )
+            ? this.searchResponse["statusText"]
+            : "Not Available";
+          this.error = true;
         } else if (
           this.searchResponse &&
           jsonUtil.exists("status", this.searchResponse) &&
@@ -736,15 +747,22 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        if(!this.data || this.data["status"] != 200){
-              this.errorObj.title = "The backend is not accessible!";
-              this.errorObj.description =
-                "It was not possible to search for contracts in backend!.";
-              this.status = 503;
-              this.statusText = "Not Available";
-              this.error = true;
-        }
-        else if (
+        if (!this.data || this.data["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.data)
+            ? this.data["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.data)
+            ? this.data["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists("statusText", this.data)
+            ? this.data["statusText"]
+            : "Not Available";
+          this.error = true;
+        } else if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
           this.data["status"] == 200
@@ -797,13 +815,21 @@ export default {
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        if(!this.data || this.data["status"] != 200){
-              this.errorObj.title = "The backend is not accessible!";
-              this.errorObj.description =
-                "It was not possible to search for contracts in backend!.";
-              this.status = 503;
-              this.statusText = "Not Available";
-              this.error = true;
+        if (!this.data || this.data["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.data)
+            ? this.data["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.data)
+            ? this.data["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists("statusText", this.data)
+            ? this.data["statusText"]
+            : "Not Available";
+          this.error = true;
         } else if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
@@ -899,24 +925,22 @@ export default {
         this.error = true;
         return response;
       }
-      if(!this.response || this.response["status"] != 200){
-              this.errorObj.title = "The backend is not accessible!";
-              this.errorObj.description =
-                "It was not possible to search for contracts in backend!.";
-              this.status = 503;
-              this.statusText = "Not Available";
-              this.error = true;
-      }
-      // Check if the response is empty and give an error
-      else if (!response){
-        this.errorObj.title = "Failed to return passport";
+      if (!response || response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "The backend is not accessible!";
         this.errorObj.description =
-          "It was not possible to complete the passport transfer.";
-        this.errorObj.status = 400;
-        this.errorObj.statusText = "Bad Request";
+          "It was not possible to search for contracts in backend!.";
+
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 503;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not Available";
         this.error = true;
-        return null;
-      }
+      } 
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -1042,7 +1066,7 @@ export default {
       }
 
       // Check if the response is empty and give an error
-      if (!response ||  response.status != 200){
+      if (!response || response.status != 200) {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";

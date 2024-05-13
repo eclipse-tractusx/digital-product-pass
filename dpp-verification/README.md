@@ -112,6 +112,7 @@ This concept has been proved to be of high interest from the Certification and V
   - [Complete Data Certification Verification](#complete-data-certification-verification)
 - [Technical Specification](#technical-specification)
 - [Technical Integration](#technical-integration)
+  - [Interfaces](#interfaces)
 - [References](#references)
 - [Special Thanks](#special-thanks)
 - [Glossary](#glossary)
@@ -414,7 +415,13 @@ The complete verification comparation would be happen when both Certified Data C
 # Technical Integration
 <!-- TODO: Add previous investigation here -->
 > [!WARNING]
-> The technical integration design is still not available here!
+> The complete technical integration design is still not available here!
+
+## Interfaces
+
+The digital product pass application would act in the dpp-verification concept as the "Verification System" which is able to communicate with different systems, behind or not behind a EDC connector. Data would be exchange using the EDC however components like the Wallet could be accessed using the "DID Web" method, or the Semantic Hub using the central interface provided by the operator of the network.
+
+![intefaces](./resources/technical/interfaces.svg)
 
 # References
 

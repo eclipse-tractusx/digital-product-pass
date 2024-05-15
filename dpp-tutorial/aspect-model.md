@@ -31,8 +31,8 @@ This guide provides a simple explanation on how to create a digital product pass
 You must fullfill the following pre-requisites:
 
 - A Catena-X Standarized Aspect Model (in this case we use the [Digital Product Pass v2.0.0 Model](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/2.0.0))
-- JSON Editor like [VS Code]() or [Notepad++]()
-
+- JSON Editor like [VS Code](https://code.visualstudio.com/) or [Notepad++](https://notepad-plus-plus.org/downloads/)
+- Car Parts JSON Test Data [found here]()
 
 >[!WARNING]
 >
@@ -41,9 +41,9 @@ You must fullfill the following pre-requisites:
 
 ## Aspect Model Creation
 
-Follow this steps to create a new Digital Product Passport serialized model.
+Follow this steps to create a new Digital Product Passport serialized model:
 
-### 
+###  
 
 ## NOTICE
 

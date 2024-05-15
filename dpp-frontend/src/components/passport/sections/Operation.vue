@@ -26,8 +26,13 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.importer">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(propsData.importer, propsData.intoServiceDate)"
+        >
+          <template v-if="propsData.importer">
             <Field
               :icon="callIconFinder('importer')"
               :label="$t('sections.operation.importer')"
@@ -38,8 +43,41 @@
               :label="$t('sections.operation.importerEori')"
               :value="propsData.importer.left.eori"
             />
-          </v-col>
-        </template>
+          </template>
+          <template v-if="propsData.intoServiceDate">
+            <Field
+              :icon="callIconFinder('intoServiceDate')"
+              :label="$t('sections.operation.intoServiceDate')"
+              :value="propsData.intoServiceDate"
+            />
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(propsData.import)"
+        >
+          <template v-if="propsData.import?.importer">
+            <Field
+              :icon="callIconFinder('importer')"
+              :label="$t('sections.operation.importerID')"
+              :value="propsData.import.importer.id"
+            />
+            <Field
+              :icon="callIconFinder('importer')"
+              :label="$t('sections.operation.importerEori')"
+              :value="propsData.import.importer.eori"
+            />
+          </template>
+          <template v-if="propsData.intoServiceDate">
+            <Field
+              :icon="callIconFinder('intoServiceDate')"
+              :label="$t('sections.operation.intoServiceDate')"
+              :value="propsData.intoServiceDate"
+            />
+          </template>
+        </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <template v-if="propsData.manufacturer">
             <Field
@@ -47,11 +85,30 @@
               :label="$t('sections.operation.manufacturerId')"
               :value="propsData.manufacturer.manufacturer"
             />
-            <Field
-              :icon="callIconFinder('facility')"
-              :label="$t('sections.operation.facilityId')"
-              :value="propsData.manufacturer.facility"
-            />
+            <template
+              v-if="
+                propsData.manufacturer.facility &&
+                typeof propsData.manufacturer.facility === 'object'
+              "
+            >
+              <template
+                v-for="attr in propsData.manufacturer.facility"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('facility')"
+                  :label="$t('sections.operation.facilityId')"
+                  :value="attr.facility"
+                />
+              </template>
+            </template>
+            <template v-else>
+              <Field
+                :icon="callIconFinder('facility')"
+                :label="$t('sections.operation.facilityId')"
+                :value="propsData.manufacturer.facility"
+              />
+            </template>
             <Field
               :icon="callIconFinder('manufacturingDate')"
               :label="$t('sections.operation.manufacturingDate')"
@@ -85,6 +142,9 @@ export default {
     };
   },
   methods: {
+    callHasContent(...args) {
+      return passportUtil.hasContent(...args);
+    },
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
     },

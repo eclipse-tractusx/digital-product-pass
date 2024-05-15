@@ -58,7 +58,7 @@
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.weight')"
-                :value="propsData.physicalDimension.weight"
+                :value="propsData.physicalDimension.weight.value"
                 :unit="propsData.physicalDimension.weight.unit"
               />
             </template>
@@ -86,10 +86,27 @@
                 :unit="propsData.physicalDimension.diameter.unit"
               />
             </template>
+            <template v-if="propsData.physicalDimension.volume">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.volume')"
+                :value="propsData.physicalDimension.volume.value"
+                :unit="propsData.physicalDimension.volume.unit"
+              />
+            </template>
           </v-col>
         </template>
-        <template v-if="propsData.lifespan">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              propsData.lifespan || propsData.generalPerformanceClass
+            )
+          "
+        >
+          <template v-if="propsData.lifespan">
             <Field
               v-for="attr in propsData.lifespan"
               :key="attr"
@@ -98,14 +115,29 @@
               :value="attr.value"
               :unit="attr.unit"
             />
-          </v-col>
-        </template>
+          </template>
+          <template v-if="propsData.generalPerformanceClass">
+            <Field
+              :icon="callIconFinder('generalPerformanceClass')"
+              :label="$t('sections.characteristics.generalPerformanceClass')"
+              :value="propsData.generalPerformanceClass"
+            />
+          </template>
+        </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <template v-if="propsData.physicalState">
             <Field
               :icon="callIconFinder('physicalState')"
               :label="$t('sections.characteristics.physicalState')"
               :value="propsData.physicalState"
+            />
+          </template>
+          <template v-if="propsData.warranty">
+            <Field
+              :icon="callIconFinder('warranty')"
+              :label="$t('sections.characteristics.warranty')"
+              :value="propsData.warranty.lifeValue"
+              :unit="propsData.warranty.lifeUnit"
             />
           </template>
         </v-col>
@@ -137,6 +169,9 @@ export default {
   methods: {
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    callHasContent(data) {
+      return passportUtil.hasContent(data);
     },
   },
 };

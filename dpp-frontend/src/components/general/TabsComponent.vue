@@ -48,7 +48,11 @@
           :key="index"
           :value="section.component"
         >
-          <component :is="section.component" :data="componentsData" />
+          <component
+            :is="section.component"
+            :data="componentsData"
+            :semanticId="semanticId"
+          />
         </v-window-item>
       </v-window>
     </v-card-text>
@@ -57,10 +61,8 @@
 
 <script>
 import GeneralInformation from "../passport/sections/GeneralInformation.vue";
-import CellChemistry from "../passport/sections/CellChemistry.vue";
 import ElectrochemicalProperties from "../passport/sections/ElectrochemicalProperties.vue";
 import BatteryComposition from "@/components/passport/sections/BatteryComposition.vue";
-import StateOfBattery from "@/components/passport/sections/StateOfBattery.vue";
 import Documents from "@/components/passport/sections/Documents.vue";
 import Exchange from "@/components/passport/sections/Exchange.vue";
 import Serialization from "../passport/sections/Serialization.vue";
@@ -79,15 +81,17 @@ import ProductSpecificParameters from "../passport/sections/ProductSpecificParam
 import Instructions from "../passport/sections/Instructions.vue";
 import SparePartSupplier from "../passport/sections/SparePartSupplier.vue";
 import StateOfHealth from "../passport/sections/StateOfHealth.vue";
+import Performance from "../passport/sections/Performance.vue";
+import Safety from "../passport/sections/Safety.vue";
+import Conformity from "../passport/sections/Conformity.vue";
+import Materials from "../passport/sections/Materials.vue";
 
 export default {
   name: "TabsComponent",
   components: {
     GeneralInformation,
-    CellChemistry,
     ElectrochemicalProperties,
     BatteryComposition,
-    StateOfBattery,
     Documents,
     Exchange,
     Serialization,
@@ -107,6 +111,10 @@ export default {
     Instructions,
     SparePartSupplier,
     StateOfHealth,
+    Performance,
+    Safety,
+    Conformity,
+    Materials,
   },
   data() {
     return {

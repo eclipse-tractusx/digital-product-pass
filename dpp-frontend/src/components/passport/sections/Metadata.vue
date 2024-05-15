@@ -43,8 +43,36 @@
             :value="propsData.version"
           />
         </v-col>
-        <template v-if="propsData.economicOperator">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.backupReference">
+            <Field
+              :icon="callIconFinder('backupReference')"
+              :label="$t('sections.metadata.backupReference')"
+              :value="propsData.backupReference"
+            />
+          </template>
+          <template v-if="propsData.registrationIdentifier">
+            <Field
+              :icon="callIconFinder('registrationIdentifier')"
+              :label="$t('sections.metadata.registrationIdentifier')"
+              :value="propsData.registrationIdentifier"
+            />
+          </template>
+          <template v-if="propsData.economicOperatorId">
+            <Field
+              :icon="callIconFinder('economicOperatorId')"
+              :label="$t('sections.metadata.economicOperatorId')"
+              :value="propsData.economicOperatorId"
+            />
+          </template>
+          <template v-if="propsData.passportIdentifier">
+            <Field
+              :icon="callIconFinder('passportIdentifier')"
+              :label="$t('sections.metadata.passportIdentifier')"
+              :value="propsData.passportIdentifier"
+            />
+          </template>
+          <template v-if="propsData.economicOperator">
             <Field
               :icon="callIconFinder('legitimization')"
               :label="$t('sections.metadata.legitimization')"
@@ -55,19 +83,23 @@
               :label="$t('sections.metadata.identification')"
               :value="propsData.economicOperator.identification"
             />
-          </v-col>
-        </template>
+          </template>
+        </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <Field
-            :icon="callIconFinder('status')"
-            :label="$t('sections.metadata.status')"
-            :value="propsData.status"
-          />
-          <Field
-            :icon="callIconFinder('expirationDate')"
-            :label="$t('sections.metadata.expirationDate')"
-            :value="propsData.expirationDate"
-          />
+          <template v-if="propsData.status">
+            <Field
+              :icon="callIconFinder('status')"
+              :label="$t('sections.metadata.status')"
+              :value="propsData.status"
+            />
+          </template>
+          <template v-if="propsData.expirationDate">
+            <Field
+              :icon="callIconFinder('expirationDate')"
+              :label="$t('sections.metadata.expirationDate')"
+              :value="propsData.expirationDate"
+            />
+          </template>
         </v-col>
       </v-row>
     </v-container>
@@ -88,10 +120,15 @@ export default {
       type: Object,
       default: Object,
     },
+    semanticId: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
       propsData: this.$props.data.aspect.metadata,
+      propsSemanticId: this.$props.semanticId,
     };
   },
   methods: {

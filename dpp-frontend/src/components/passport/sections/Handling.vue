@@ -28,36 +28,67 @@
       <v-row class="section">
         <template v-if="propsData.spareParts">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-            <template
-              v-for="attr in propsData.spareParts.left.producer"
-              :key="attr"
-            >
-              <Field
-                :icon="callIconFinder('producer')"
-                :value="attr.id"
-                :label="$t('sections.handling.producerId')"
-              />
+            <template v-if="propsData.spareParts.producer">
+              <template
+                v-for="attr in propsData.spareParts.producer"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('producer')"
+                  :value="attr.id"
+                  :label="$t('sections.handling.producerId')"
+                />
+              </template>
+              <template v-if="propsData.spareParts.sparePart">
+                <template
+                  v-for="attr in propsData.spareParts.sparePart"
+                  :key="attr"
+                >
+                  <Field
+                    :icon="callIconFinder('part')"
+                    :value="attr.manufacturerPartId"
+                    :label="$t('sections.handling.manufacturerPartId')"
+                  />
+                  <Field
+                    :icon="callIconFinder('part')"
+                    :value="attr.nameAtManufacturer"
+                    :label="$t('sections.handling.nameAtManufacturer')"
+                  />
+                </template>
+              </template>
             </template>
-            <template
-              v-for="attr in propsData.spareParts.left.part"
-              :key="attr"
-            >
-              <Field
-                :icon="callIconFinder('part')"
-                :value="attr.name"
-                :label="$t('sections.handling.partName')"
-              />
-              <Field
-                :icon="callIconFinder('part')"
-                :value="attr.gtin"
-                :label="$t('sections.handling.partGtin')"
-              />
+            <template v-if="propsData.spareParts.left">
+              <template
+                v-for="attr in propsData.spareParts.left.producer"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('producer')"
+                  :value="attr.id"
+                  :label="$t('sections.handling.producerId')"
+                />
+              </template>
+            </template>
+            <template v-if="propsData.spareParts.left">
+              <template
+                v-for="attr in propsData.spareParts.left.part"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('part')"
+                  :value="attr.name"
+                  :label="$t('sections.handling.partName')"
+                />
+                <Field
+                  :icon="callIconFinder('part')"
+                  :value="attr.gtin"
+                  :label="$t('sections.handling.partGtin')"
+                />
+              </template>
             </template>
           </v-col>
         </template>
         <template v-if="propsData.substanceOfConcern">
-          <!-- eslint-disable-next-line vue/no-v-for-template-key -->
           <template
             v-for="attr in propsData.substanceOfConcern.left"
             :key="attr"
@@ -85,7 +116,6 @@
               />
             </v-col>
             <v-col sm="12" md="4" class="pa-0 ma-0">
-              <!-- eslint-disable-next-line vue/no-v-for-template-key -->
               <template v-for="attr in attr.concentration.left" :key="attr">
                 <Field
                   :icon="callIconFinder('unit')"
@@ -103,7 +133,6 @@
                 :value="attr.exemption"
                 :label="$t('sections.handling.exemption')"
               />
-              <!-- eslint-disable-next-line vue/no-v-for-template-key -->
               <template v-for="attr in attr.id" :key="attr">
                 <Field
                   :icon="callIconFinder('type')"

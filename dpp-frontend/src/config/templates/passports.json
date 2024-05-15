@@ -1,199 +1,325 @@
 {
-  "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport": {
-    "typology": {
-      "shortName": null,
-      "class": {
-        "definition": null,
-        "code": null
+  "urn:samm:io.catenax.generic.digital_product_passport:4.0.0#DigitalProductPassport": {
+      "metadata": {
+          "backupReference": null,
+          "registrationIdentifier": null,
+          "economicOperatorId": null,
+          "predecessor": null,
+          "issueDate": null,
+          "version": null,
+          "passportIdentifier": null,
+          "status": null,
+          "expirationDate": null
       },
-      "longName": null
-    },
-    "metadata": {
-      "predecessor": null,
-      "issueDate": null,
-      "version": null,
-      "economicOperator": {
-        "legitimization": null,
-        "identification": null
-      },
-      "status": null,
-      "expirationDate": null
-    },
-    "characteristics": {
-      "physicalDimension": {
-        "grossWeight": {
-          "value": null,
-          "unit": null
-        },
-        "weightOrVolume": {
-          "left": {
-            "value": null,
-            "unit": null
-          }
-        },
-        "diameter": {
-          "value": null,
-          "unit": null
-        },
-        "grossVolume": {
-          "value": null,
-          "unit": null
-        },
-        "width": {
-          "value": null,
-          "unit": null
-        },
-        "length": {
-          "value": null,
-          "unit": null
-        },
-        "height": {
-          "value": null,
-          "unit": null
-        }
-      },
-      "lifespan": [
-        {
-          "value": null,
-          "unit": null,
-          "key": null
-        }
-      ],
-      "physicalState": null
-    },
-    "commercial": {
-      "placedOnMarket": null
-    },
-    "identification": {
-      "localIdentifier": {
-        "value": null,
-        "key": null
-      },
-      "additionalCode": [
-        {
-          "value": null,
-          "key": null
-        }
-      ],
-      "dataCarrier": {
-        "carrierType": null,
-        "carrierLayout": null
-      }
-    },
-    "sources": [],
-    "handling": {
-      "spareParts": {
-        "left": {
-          "producer": [
-            {
-              "id": null
-            }
-          ],
-          "part": [
-            {
-              "name": null,
-              "gtin": null
-            }
+      "characteristics": {
+          "generalPerformanceClass": null,
+          "physicalState": null,
+          "physicalDimension": {
+              "volume": {
+                  "value": null,
+                  "unit": null
+              },
+              "grossWeight": {
+                  "value": null,
+                  "unit": null
+              },
+              "diameter": {
+                  "value": null,
+                  "unit": null
+              },
+              "grossVolume": {
+                  "value": null,
+                  "unit": null
+              },
+              "width": {
+                  "value": null,
+                  "unit": null
+              },
+              "length": {
+                  "value": null,
+                  "unit": null
+              },
+              "weight": {
+                  "value": null,
+                  "unit": null
+              },
+              "height": {
+                  "value": null,
+                  "unit": null
+              }
+          },
+          "lifespan": [
+              {
+                  "value": null,
+                  "unit": null,
+                  "key": null
+              }
           ]
-        }
       },
-      "substanceOfConcern": {
-        "left": [
+      "commercial": {
+          "placedOnMarket": null
+      },
+      "identification": {
+          "batch": [
+              {
+                  "value": null,
+                  "key": null
+              }
+          ],
+          "codes": [
+              {
+                  "value": null,
+                  "description": null,
+                  "key": null
+              }
+          ],
+          "type": {
+              "manufacturerPartId": null,
+              "nameAtManufacturer": null
+          },
+          "classification": [
+              {
+                  "classificationStandard": null,
+                  "classificationID": null,
+                  "classificationDescription": null
+              }
+          ],
+          "serial": [
+              {
+                  "value": null,
+                  "key": null
+              }
+          ],
+          "dataCarrier": {
+              "carrierType": null,
+              "carrierLayout": null
+          }
+      },
+      "sources": [
           {
-            "name": {
-              "name": null,
-              "type": null
-            },
-            "location": null,
-            "unit": null,
-            "concentration": {
-              "left": [
-                {
-                  "max": null,
-                  "min": null
-                }
+              "header": null,
+              "category": null,
+              "type": null,
+              "content": null
+          }
+      ],
+      "materials": {
+          "substancesOfConcern": {
+              "substanceOfConcern": [
+                  {
+                      "unit": null,
+                      "hazardClassification": {
+                          "category": null,
+                          "statement": null,
+                          "class": null
+                      },
+                      "documentation": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ],
+                      "concentrationRange": [
+                          {
+                              "max": null,
+                              "min": null
+                          }
+                      ],
+                      "name": {
+                          "name": null,
+                          "type": null
+                      },
+                      "location": null,
+                      "concentration": null,
+                      "exemption": null,
+                      "id": [
+                          {
+                              "type": null,
+                              "id": null
+                          }
+                      ]
+                  }
+              ],
+              "applicable": null
+          },
+          "materialComposition": {
+              "applicable": null,
+              "chemicalMaterial": [
+                  {
+                      "unit": null,
+                      "recycled": null,
+                      "critical": null,
+                      "renewable": null,
+                      "documentation": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ],
+                      "name": {
+                          "name": null,
+                          "type": null
+                      },
+                      "concentration": null,
+                      "id": [
+                          {
+                              "type": null,
+                              "id": null
+                          }
+                      ]
+                  }
               ]
-            },
-            "exemption": null,
-            "id": [
-              {
-                "type": null,
-                "id": null
-              }
-            ]
           }
-        ]
-      }
-    },
-    "additionalData": [],
-    "sustainability": {
-      "PEF": {
-        "carbon": [
-          {
-            "lifecycle": null,
-            "rulebook": null,
-            "unit": null,
-            "type": null,
-            "value": null
-          }
-        ],
-        "carbon2": {
-          "lifecycle": null,
-          "rulebook": null,
-          "unit": null,
-          "type": null,
-          "value": null
-        },
-        "environmental": [
-          {
-            "lifecycle": null,
-            "rulebook": null,
-            "unit": null,
-            "type": null,
-            "value": null
-          }
-        ]
       },
-      "state": null,
-      "material": {
-        "left": [
+      "handling": {
+          "spareParts": {
+              "producer": [
+                  {
+                      "id": null
+                  }
+              ],
+              "sparePart": [
+                  {
+                      "manufacturerPartId": null,
+                      "nameAtManufacturer": null
+                  }
+              ]
+          },
+          "applicable": null
+      },
+      "additionalData": [
           {
-            "name": {
-              "name": null,
-              "type": null
-            },
-            "unit": null,
-            "recycled": null,
-            "id": [
-              {
-                "type": null,
-                "id": null
-              }
-            ],
-            "value": null,
-            "renewable": null
+              "description": null,
+              "label": null,
+              "type": {
+                  "typeUnit": null,
+                  "dataType": null
+              },
+              "data": null,
+              "children": [
+                  {
+                      "description": null,
+                      "label": null,
+                      "type": {
+                          "typeUnit": null,
+                          "dataType": null
+                      },
+                      "data": null
+                  }
+              ]
           }
-        ]
+      ],
+      "operation": {
+          "import": {
+              "importer": {
+                  "eori": null,
+                  "id": null
+              },
+              "applicable": null
+          },
+          "manufacturer": {
+              "facility": [
+                  {
+                      "facility": null
+                  }
+              ],
+              "manufacturingDate": null,
+              "manufacturer": null
+          }
       },
-      "critical": {
-        "left": [
-          null
-        ]
+      "sustainability": {
+          "reparabilityScore": null,
+          "productFootprint": {
+              "material": [
+                  {
+                      "lifecycle": null,
+                      "rulebook": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ],
+                      "unit": null,
+                      "performanceClass": null,
+                      "manufacturingPlant": [
+                          {
+                              "facility": null
+                          }
+                      ],
+                      "type": null,
+                      "value": null,
+                      "declaration": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ]
+                  }
+              ],
+              "carbon": [
+                  {
+                      "lifecycle": null,
+                      "rulebook": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ],
+                      "unit": null,
+                      "performanceClass": null,
+                      "manufacturingPlant": [
+                          {
+                              "facility": null
+                          }
+                      ],
+                      "type": null,
+                      "value": null,
+                      "declaration": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ]
+                  }
+              ],
+              "environmental": [
+                  {
+                      "lifecycle": null,
+                      "rulebook": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ],
+                      "unit": null,
+                      "performanceClass": null,
+                      "manufacturingPlant": [
+                          {
+                              "facility": null
+                          }
+                      ],
+                      "type": null,
+                      "value": null,
+                      "declaration": [
+                          {
+                              "contentType": null,
+                              "header": null,
+                              "content": null
+                          }
+                      ]
+                  }
+              ]
+          },
+          "status": null,
+          "durabilityScore": null
       }
-    },
-    "operation": {
-      "importer": {
-        "left": {
-          "eori": null,
-          "id": null
-        }
-      },
-      "manufacturer": {
-        "facility": null,
-        "manufacturingDate": null,
-        "manufacturer": null
-      }
-    }
   },
   "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass": {
     "productSpecificParameters": {
@@ -326,7 +452,7 @@
       }
     }
   },
-  "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass": {
+  "urn:samm:io.catenax.battery.battery_pass:5.0.0#BatteryPass": {
     "electrochemicalProperties": {
       "ratedCapacity": null,
       "batteryEnergy": {

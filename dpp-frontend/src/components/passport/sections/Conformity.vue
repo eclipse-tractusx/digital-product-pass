@@ -23,53 +23,53 @@
 -->
 
 <template>
-  <div class="materials-container">
-    <v-row>
-      <div
-        class="material-container"
-        v-for="(material, key) in activeComposition"
-        :key="key"
-      >
-        <span class="material-label">{{ key }}</span>
-        <span class="material-value"> {{ material.recycled }}% </span>
-      </div>
-    </v-row>
+  <div class="section">
+    <v-container class="ma-0">
+      <v-row class="section">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-for="(attr, key) in propsData" :key="key">
+            <template v-for="attrChild in attr" :key="attrChild">
+              <Field
+                :icon="callIconFinder(key)"
+                :label="callToSentenceCase(key)"
+                :value="attrChild.content"
+                :subText="attrChild.header"
+              />
+            </template>
+          </template>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
-
 <script>
+import Field from "../Field.vue";
+import passportUtil from "@/utils/passportUtil.js";
+
 export default {
-  name: "ElementChart",
+  name: "CharacteristicsComponent",
+  components: {
+    Field,
+  },
   props: {
     data: {
       type: Object,
-      default: () => ({}),
+      default: Object,
     },
   },
   data() {
     return {
-      propsData: this.$props.data,
-      activeComposition: {},
+      propsData: this.$props.data.aspect.conformity,
     };
   },
-
   methods: {
-    parseActiveComposition(activeData) {
-      const data = JSON.parse(JSON.stringify(activeData)); // Clone to avoid direct mutation
-
-      // Filter out top-level array properties
-      Object.keys(data).forEach((key) => {
-        if (Array.isArray(data[key])) {
-          delete data[key]; // Remove array properties
-        }
-      });
-
-      this.activeComposition = data; // Assign the filtered data to activeComposition
+    callIconFinder(unit) {
+      return passportUtil.iconFinder(unit);
     },
-  },
-  mounted() {
-    this.parseActiveComposition(this.propsData);
+    callToSentenceCase(text) {
+      return passportUtil.toSentenceCase(text);
+    },
   },
 };
 </script>

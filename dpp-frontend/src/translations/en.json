@@ -43,16 +43,6 @@
     "dpp": "Digital Product Passport",
     "bpp": "Battery Product Passport",
     "tpp": "Transmission Product Passport",
-    "batteryComponentsNames": {
-      "generalInformation": "General Information",
-      "stateOfBattery": "State Of Battery",
-      "components": "Components",
-      "batteryComposition": "Battery Composition",
-      "cellChemistry": "Cell Chemistry",
-      "electrochemicalProperties": "Electrochemical Properties",
-      "documents": "Documents",
-      "exchange": "Exchange"
-    },
     "dppComponentsNames": {
       "typology": "Typology",
       "metadata": "Metadata",
@@ -65,7 +55,11 @@
       "additionalData": "Additional Data",
       "sustainability": "Sustainability",
       "operation": "Operation",
-      "exchange": "Exchange"
+      "exchange": "Exchange",
+      "performance": "Performance",
+      "materials": "Materials",
+      "safety": "Safety",
+      "conformity": "Conformity"
     },
     "tppComponentsNames": {
       "productSpecificParameters": "Product Specific Parameters",
@@ -111,10 +105,10 @@
   "batteryCards": {
     "titleGeneral": "GENERAL",
     "labelGeneral": "Type",
-    "secondLabelGeneral": "Model",
+    "secondLabelGeneral": "Category",
     "titlePerformance": "PERFORMANCE",
     "labelPerformance": "Rated Capacity",
-    "secondLabelPerformance": "Model",
+    "secondLabelPerformance": "Power",
     "descriptionPerformanceTitle": "Performance",
     "descriptionPerformanceValue": "Description of the performance",
     "titleHealth": "HEALTH",
@@ -202,6 +196,71 @@
     "contractId": "Contract ID: "
   },
   "sections": {
+    "materials": {
+      "recycled": "Recycled materials",
+      "renewable": "Renewable materials",
+      "hazardClassification": "Hazard classification",
+      "concentrationRange": "Concentration range",
+      "documentation": "Documentation",
+      "concentration": "Concentration",
+      "name": "Name",
+      "otherMaterials": "Other materials",
+      "type": "Type",
+      "location": "Location",
+      "recycledContent": "Recycled content",
+      "materialIdentification": "Material identification",
+      "hazardous": "Hazardous",
+      "compositionOf": "Composition of",
+      "recyclateContent": "Recyclate content"
+    },
+    "performance": {
+      "rated": "Rated",
+      "depthOfDischarge": "Depth of Discharge",
+      "temperature": "Temperature",
+      "50PercentLife": "50% Life",
+      "initial": "Initial",
+      "selfDischargingRate": "Self Discharging Rate",
+      "lowerTemperature": "Lower Temperature",
+      "upperTemperature": "Upper Temperature",
+      "lifetime": "Lifetime",
+      "dynamic": "Dynamic",
+      "appliedDischargeRate": "Applied Discharge Rate",
+      "cycleLifeTesting": "Lifecycle testing",
+      "cycles": "Cycles",
+      "expectedYears": "Expected years",
+      "at20SoC": "At 20°C",
+      "at80SoC": "At 80°C",
+      "power": "Power",
+      "cell": "Cell",
+      "pack": "Pack",
+      "module": "Module",
+      "voltage": "Voltage",
+      "voltageMin": "Voltage Min",
+      "voltageMax": "Voltage Max",
+      "voltageNominal": "Voltage nominal",
+      "energy": "Energy",
+      "capacity": "Capacity",
+      "thresholdExhaustion": "Threshold Exhaustion",
+      "roundTripEfficiency": "Round Trip Efficiency",
+      "remaining": "Remaining power",
+      "fade": "Power fade",
+      "operatingEnvironment": "Operating environment",
+      "stateOfCharge": "State of charge",
+      "performanceDocument": "Performance document",
+      "fullCycles": "Full cycles",
+      "negativeEvents": "Negative events",
+      "resistance": "Resistance",
+      "remainingCell": "Remaining cell resistance",
+      "remainingPack": "Remaining pack resistance",
+      "remainingModule": "Remaining module resistance",
+      "increaseCell": "Increasing cell resistance",
+      "increasePack": "Increasing pack resistance",
+      "increaseModule": "Increasing module resistance",
+      "capacityFade": "Capacity fade",
+      "throughput": "Throughput",
+      "remainingEnergy": "Remaining energy",
+      "soce": "Soce"
+    },
     "instructions": {
       "packagingInstructions": "Packaging instructions",
       "transportationInstructions": "Transportation instructions",
@@ -255,15 +314,6 @@
       "manufacturerContact": "Manufacturer Contact",
       "cO2FootprintTotal": "CO2 Footprint"
     },
-    "stateOfBattery": {
-      "stateOfHealth": "State of health",
-      "cycleLifeTestCRate": "Cycle life test c rate",
-      "stateOfCharge": "State of charge",
-      "cycleLifeTestDepthOfDischarge": "Cycle life test depth of discharge",
-      "expectedLifetime": "Expected lifetime",
-      "temperatureRange": "Temperature range (idle state)",
-      "statusBattery": "Status battery"
-    },
     "components": {
       "searchForChild": "The search for child components started, this may take a while...",
       "noChild": "No child components found",
@@ -272,10 +322,6 @@
     "batteryComposition": {
       "batteryComposites": "Main Battery Composites",
       "criticalRawMaterials": "Critical raw materials"
-    },
-    "cellChemistry": {
-      "electrolyteComposition": "Composition of electrolyte",
-      "recyclateContent": "Recyclate Content Active Materials"
     },
     "electrochemicalProperties": {
       "capacity": "Capacity",
@@ -339,6 +385,8 @@
       "contentType": "Content type"
     },
     "characteristics": {
+      "volume": "Volume",
+      "generalPerformanceClass": "General performance class",
       "physicalDimensionsProperty": "Physical dimensions property",
       "weight": "Weight",
       "lifespan": "Lifespan",
@@ -348,13 +396,16 @@
       "weightOrVolume": "Weight or volume",
       "diameter": "Diameter",
       "grossWeight": "Gross weight",
-      "grossVolume": "Gross volume"
+      "grossVolume": "Gross volume",
+      "warranty": "Warranty"
     },
     "commercial": {
       "placedOnMarket": "Place on the market",
       "warranty": "Warranty"
     },
     "handling": {
+      "manufacturerPartId": "Manufacturer part ID",
+      "nameAtManufacturer": "Name at manufacturer",
       "maintenanceHistory": "Maintenance history",
       "spareParts": "Spare parts",
       "substanceOfConcern": "Substance of concern",
@@ -371,9 +422,13 @@
       "id": "Id"
     },
     "identification": {
+      "classification": "Classification",
       "gtin": "Gtin",
       "manufacturerId": "Manufacturer ID",
-      "dataMatrixCode": "Data matrix code"
+      "dataMatrixCode": "Data matrix code",
+      "chemistry": "Chemistry",
+      "idDmc": "DMC ID",
+      "category": "Category"
     },
     "metadata": {
       "predecessor": "Predecessor",
@@ -385,9 +440,15 @@
       "customerPartId": "Customer part ID",
       "manufacturerPartId": "Manufacturer part ID",
       "status": "Status",
-      "expirationDate": "Expiration date"
+      "expirationDate": "Expiration date",
+      "backupReference": "Backup reference",
+      "registrationIdentifier": "Registration identifier",
+      "economicOperatorId": "Economic operator ID",
+      "passportIdentifier": "Passport identifier"
     },
     "operation": {
+      "importerID": "Importer ID",
+      "intoServiceDate": "Into service date",
       "importer": "Importer ID",
       "importerEori": "Importer EORI",
       "manufacturerId": "Manufacturer ID",
@@ -404,7 +465,17 @@
       "quantity": "Quantity"
     },
     "sustainability": {
+      "durabilityScore": "Durability score",
+      "reparabilityScore": "Reparability Score",
+      "lifecycle": "Lifecycle",
       "state": "State",
+      "status": "Status",
+      "carbonFootprint": "Carbon Footprint",
+      "performanceClass": "Performance Class",
+      "type": "Type",
+      "rulebook": "Rulebook",
+      "manufacturingPlant": "Manufacturing plant",
+      "declaration": "Declaration",
       "material": "Material",
       "carbonContentTotal": "Carbon content total",
       "crossSectoralStandard": "Cross sectoral standard used",
@@ -425,6 +496,10 @@
       "code": "Code",
       "nameAtManufacturer": "Name at manufacturer",
       "nameAtCustomer": "Name at customer"
+    },
+    "safety": {
+      "fireClass": "Fire class",
+      "media": "Media"
     }
   }
 }

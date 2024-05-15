@@ -43,16 +43,6 @@
     "dpp": "Digitaler Produkt Pass",
     "bpp": "Batterie Pass",
     "tpp": "Getriebe Pass",
-    "batteryComponentsNames": {
-      "generalInformation": "Allgemeine Informationen",
-      "stateOfBattery": "Zustand der Batterie",
-      "components": "Komponenten",
-      "batteryComposition": "Batteriezusammensetzung",
-      "cellChemistry": "Zellenchemie",
-      "electrochemicalProperties": "Elektrochemische Eigenschaften",
-      "documents": "Dokumente",
-      "exchange": "Austausch"
-    },
     "dppComponentsNames": {
       "typology": "Typologie",
       "metadata": "Metadaten",
@@ -65,7 +55,11 @@
       "additionalData": "Zusätzliche Daten",
       "sustainability": "Nachhaltigkeit",
       "operation": "Betrieb",
-      "exchange": "Austausch"
+      "exchange": "Austausch",
+      "performance": "Leistung",
+      "materials": "Materialien",
+      "safety": "Sicherheit",
+      "conformity": "Konformität"
     },
     "tppComponentsNames": {
       "productSpecificParameters": "Produktspezifische Parameter",
@@ -111,10 +105,10 @@
   "batteryCards": {
     "titleGeneral": "ALLGEMEIN",
     "labelGeneral": "Typ",
-    "secondLabelGeneral": "Modell",
+    "secondLabelGeneral": "Kategorie",
     "titlePerformance": "LEISTUNG",
     "labelPerformance": "Nennkapazität",
-    "secondLabelPerformance": "Modell",
+    "secondLabelPerformance": "Strom",
     "descriptionPerformanceTitle": "Leistung",
     "descriptionPerformanceValue": "Beschreibung der Leistung",
     "titleHealth": "GESUNDHEIT",
@@ -199,9 +193,75 @@
     "passportRetrieval": "Passabruf",
     "retrieving": "Abruf... ",
     "createdProcess": "Erstellte Prozess-ID: ",
-    "contractId": "Vertrags-ID: "
+    "contractId": "Vertrags-ID: ",
+    "compositionOf": "Composition of"
   },
   "sections": {
+    "materials": {
+      "recycled": "Recycelte Materialien",
+      "renewable": "Nachwachsende Rohstoffe",
+      "hazardClassification": "Gefahrenklassifikation",
+      "concentrationRange": "Konzentrationsbereich",
+      "documentation": "Dokumentation",
+      "concentration": "Konzentration",
+      "name": "Name",
+      "otherMaterials": "Andere Materialien",
+      "type": "Typ",
+      "location": "Standort",
+      "recycledContent": "Recycelter Inhalt",
+      "materialIdentification": "Materialidentifikation",
+      "hazardous": "Gefährlich",
+      "compositionOf": "Zusammensetzung von",
+      "recyclateContent": "Rezyklatgehalt"
+    },
+    "performance": {
+      "rated": "Bewertet",
+      "depthOfDischarge": "Entladetiefe",
+      "temperature": "Temperatur",
+      "50PercentLife": "50% Lebensdauer",
+      "initial": "Anfangs",
+      "selfDischargingRate": "Selbstentladerate",
+      "lowerTemperature": "Niedrigere Temperatur",
+      "upperTemperature": "Höhere Temperatur",
+      "lifetime": "Lebensdauer",
+      "dynamic": "Dynamisch",
+      "appliedDischargeRate": "Angewandte Entladerate",
+      "cycleLifeTesting": "Lebensdauertest",
+      "cycles": "Zyklen",
+      "expectedYears": "Erwartete Jahre",
+      "at20SoC": "Bei 20°C",
+      "at80SoC": "Bei 80°C",
+      "power": "Leistung",
+      "cell": "Zelle",
+      "pack": "Pack",
+      "module": "Modul",
+      "voltage": "Spannung",
+      "voltageMin": "Minimale Spannung",
+      "voltageMax": "Maximale Spannung",
+      "voltageNominal": "Nennspannung",
+      "energy": "Energie",
+      "capacity": "Kapazität",
+      "thresholdExhaustion": "Erschöpfungsschwelle",
+      "roundTripEfficiency": "Rundum-Wirkungsgrad",
+      "remaining": "Verbleibende Leistung",
+      "fade": "Leistungsabfall",
+      "operatingEnvironment": "Betriebsumgebung",
+      "stateOfCharge": "Ladezustand",
+      "performanceDocument": "Leistungsdokumentation",
+      "fullCycles": "Volle Zyklen",
+      "negativeEvents": "Negative Ereignisse",
+      "resistance": "Widerstand",
+      "remainingCell": "Verbleibender Zellwiderstand",
+      "remainingPack": "Verbleibender Packwiderstand",
+      "remainingModule": "Verbleibender Modulwiderstand",
+      "increaseCell": "Zunehmender Zellwiderstand",
+      "increasePack": "Zunehmender Packwiderstand",
+      "increaseModule": "Zunehmender Modulwiderstand",
+      "capacityFade": "Kapazitätsverlust",
+      "throughput": "Durchsatz",
+      "remainingEnergy": "Verbleibende Energie",
+      "soce": "Ladezustandsschätzung"
+    },
     "productSpecificParameters": {
       "torqueConverter": "Drehmomentwandler",
       "driveType": "Antriebstyp",
@@ -255,15 +315,6 @@
       "manufacturerContact": "Herstellerkontakt",
       "cO2FootprintTotal": "CO2-Fußabdruck"
     },
-    "stateOfBattery": {
-      "stateOfHealth": "aktueller Zustand",
-      "cycleLifeTestCRate": "Zykluslebensdauertest C-Rate",
-      "stateOfCharge": "Ladezustand",
-      "cycleLifeTestDepthOfDischarge": "Tiefe der Entladung im Zykluslebensdauertest",
-      "expectedLifetime": "Erwartete Lebensdauer",
-      "temperatureRange": "Temperaturbereich (im Ruhezustand)",
-      "statusBattery": "Batterie-Status"
-    },
     "components": {
       "searchForChild": "Die Suche nach verbauten Komponenten hat begonnen, dies kann eine Weile dauern...",
       "noChild": "Keine verbauten Komponenten gefunden",
@@ -272,10 +323,6 @@
     "batteryComposition": {
       "batteryComposites": "Hauptbestandteile der Batterie",
       "criticalRawMaterials": "Kritische Rohstoffe"
-    },
-    "cellChemistry": {
-      "electrolyteComposition": "Zusammensetzung des Elektrolyts",
-      "recyclateContent": "Recyclat-Anteil"
     },
     "electrochemicalProperties": {
       "capacity": "Kapazität",
@@ -339,6 +386,8 @@
       "contentType": "Inhaltstyp"
     },
     "characteristics": {
+      "volume": "Volumen",
+      "generalPerformanceClass": "Allgemeine Leistungsklasse",
       "physicalDimensionsProperty": "Eigenschaft der physischen Abmessungen",
       "weight": "Gewicht",
       "lifespan": "Lebensdauer",
@@ -348,13 +397,16 @@
       "weightOrVolume": "Gewicht oder Volumen",
       "diameter": "Durchmesser",
       "grossWeight": "Bruttogewicht",
-      "grossVolume": "Bruttovolumen"
+      "grossVolume": "Bruttovolumen",
+      "warranty": "Garantie"
     },
     "commercial": {
       "placedOnMarket": "Markteinführung",
       "warranty": "Garantie"
     },
     "handling": {
+      "manufacturerPartId": "Herstellerteilenummer",
+      "nameAtManufacturer": "Name beim Hersteller",
       "maintenanceHistory": "Wartungshistorie",
       "spareParts": "Ersatzteile",
       "substanceOfConcern": "Besorgniserregende Substanz",
@@ -371,9 +423,13 @@
       "id": "ID"
     },
     "identification": {
+      "classification": "Klassifikation",
       "gtin": "GTIN",
       "manufacturerId": "Hersteller-ID",
-      "dataMatrixCode": "Data-Matrix-Code"
+      "dataMatrixCode": "Datenmatrixcode",
+      "chemistry": "Chemie",
+      "idDmc": "DMC-ID",
+      "category": "Kategorie"
     },
     "metadata": {
       "predecessor": "Vorgänger",
@@ -385,9 +441,15 @@
       "customerPartId": "Kundenteil-ID",
       "manufacturerPartId": "Herstellerteil-ID",
       "status": "Status",
-      "expirationDate": "Ablaufdatum"
+      "expirationDate": "Ablaufdatum",
+      "backupReference": "Backup-Referenz",
+      "registrationIdentifier": "Registrierungs-ID",
+      "economicOperatorId": "Wirtschaftsteilnehmer-ID",
+      "passportIdentifier": "Pass-ID"
     },
     "operation": {
+      "importerID": "Importeur-ID",
+      "intoServiceDate": "Inbetriebnahmedatum",
       "importer": "Importeur-ID",
       "importerEori": "Importer-EORI",
       "manufacturerId": "Hersteller-ID",
@@ -404,7 +466,17 @@
       "quantity": "Menge"
     },
     "sustainability": {
+      "durabilityScore": "Haltbarkeitswert",
+      "reparabilityScore": "Reparaturwert",
+      "lifecycle": "Lebenszyklus",
       "state": "Zustand",
+      "status": "Status",
+      "carbonFootprint": "CO2-Fußabdruck",
+      "performanceClass": "Leistungsklasse",
+      "type": "Typ",
+      "rulebook": "Regelwerk",
+      "manufacturingPlant": "Produktionsstätte",
+      "declaration": "Erklärung",
       "material": "Material",
       "carbonContentTotal": "Gesamtkohlenstoffgehalt",
       "crossSectoralStandard": "Sektorenübergreifender Standard",
@@ -425,6 +497,10 @@
       "code": "Code",
       "nameAtManufacturer": "Name beim Hersteller",
       "nameAtCustomer": "Name beim Kunden"
+    },
+    "safety": {
+      "fireClass": "Brandklasse",
+      "media": "Medien"
     }
   }
 }

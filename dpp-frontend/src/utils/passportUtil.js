@@ -25,6 +25,10 @@
 import iconMappings from "@/config/templates/iconMappings.json";
 
 export default {
+    hasContent(...args) {
+        // Check if any of the passed arguments is truthy
+        return args.some((arg) => !!arg);
+    },
     formattedDate(timestamp) {
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleDateString("en-GB", {

@@ -26,7 +26,32 @@
   <div class="section" v-if="propsData">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              propsData.documents ||
+                propsData.substancesOfConcern ||
+                responsibleSourcingDocument ||
+                propsData['PEF'] ||
+                propsData.state ||
+                propsData.reparabilityScore ||
+                propsData.productFootprint.material
+            )
+          "
+        >
+          <template v-for="(attr, key) in propsData.documents" :key="key">
+            <template v-for="attrChild in attr" :key="attrChild">
+              <Field
+                :icon="callIconFinder('warranty')"
+                :label="callToSentenceCase(key)"
+                :value="attrChild.content"
+                :subText="attrChild.header"
+              />
+            </template>
+          </template>
           <template v-if="propsData.substancesOfConcern">
             <template v-for="attr in propsData.substancesOfConcern" :key="attr">
               <Field
@@ -73,6 +98,13 @@
               </template>
             </template>
           </template>
+          <template v-if="propsData.reparabilityScore">
+            <Field
+              :icon="callIconFinder('reparabilityScore')"
+              :label="$t('sections.sustainability.reparabilityScore')"
+              :value="propsData.reparabilityScore"
+            />
+          </template>
           <template v-if="propsData.state">
             <Field
               :icon="callIconFinder('Sustainability')"
@@ -80,8 +112,141 @@
               :value="propsData.state"
             />
           </template>
+          <template v-if="propsData.productFootprint?.material">
+            <template
+              v-for="(attr, key) in propsData.productFootprint.material"
+              :key="key"
+            >
+              <template v-if="attr.lifecycle">
+                <Field
+                  :icon="callIconFinder('lifecycle')"
+                  :label="$t('sections.sustainability.lifecycle')"
+                  :value="attr.lifecycle"
+                />
+              </template>
+              <template v-for="attrChild in attr.rulebook" :key="attrChild">
+                <Field
+                  :icon="callIconFinder('rulebook')"
+                  :label="$t('sections.sustainability.rulebook')"
+                  :value="attrChild.content"
+                  :subText="attrChild.header"
+                />
+              </template>
+              <Field
+                :icon="callIconFinder('material')"
+                :label="$t('sections.sustainability.material')"
+                :value="attr.value"
+                :unit="attr.unit"
+              />
+              <Field
+                :icon="callIconFinder('performanceClass')"
+                :label="$t('sections.sustainability.performanceClass')"
+                :value="attr.performanceClass"
+              />
+              <template v-for="attrChild in attr.declaration" :key="attrChild">
+                <Field
+                  :icon="callIconFinder('declaration')"
+                  :label="$t('sections.sustainability.declaration')"
+                  :value="attrChild.content"
+                  :subText="attrChild.header"
+                />
+              </template>
+              <template
+                v-for="attrChild in attr.manufacturingPlant"
+                :key="attrChild"
+              >
+                <Field
+                  :icon="callIconFinder('manufacturingPlant')"
+                  :label="$t('sections.sustainability.manufacturingPlant')"
+                  :value="attrChild.facility"
+                />
+              </template>
+              <Field
+                :icon="callIconFinder('type')"
+                :label="$t('sections.sustainability.type')"
+                :value="attr.type"
+              />
+            </template>
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(propsData.productFootprint?.carbon)"
+        >
+          <template v-if="propsData.productFootprint?.carbon">
+            <template
+              v-for="(attr, key) in propsData.productFootprint.carbon"
+              :key="key"
+            >
+              <template v-if="attr.lifecycle">
+                <Field
+                  :icon="callIconFinder('lifecycle')"
+                  :label="$t('sections.sustainability.lifecycle')"
+                  :value="attr.lifecycle"
+                />
+              </template>
+              <template v-for="attrChild in attr.rulebook" :key="attrChild">
+                <Field
+                  :icon="callIconFinder('rulebook')"
+                  :label="$t('sections.sustainability.rulebook')"
+                  :value="attrChild.content"
+                  :subText="attrChild.header"
+                />
+              </template>
+              <Field
+                :icon="callIconFinder('material')"
+                :label="$t('sections.sustainability.material')"
+                :value="attr.value"
+                :unit="attr.unit"
+              />
+              <Field
+                :icon="callIconFinder('performanceClass')"
+                :label="$t('sections.sustainability.performanceClass')"
+                :value="attr.performanceClass"
+              />
+              <template v-for="attrChild in attr.declaration" :key="attrChild">
+                <Field
+                  :icon="callIconFinder('declaration')"
+                  :label="$t('sections.sustainability.declaration')"
+                  :value="attrChild.content"
+                  :subText="attrChild.header"
+                />
+              </template>
+              <template
+                v-for="attrChild in attr.manufacturingPlant"
+                :key="attrChild"
+              >
+                <Field
+                  :icon="callIconFinder('manufacturingPlant')"
+                  :label="$t('sections.sustainability.manufacturingPlant')"
+                  :value="attrChild.facility"
+                />
+              </template>
+              <Field
+                :icon="callIconFinder('type')"
+                :label="$t('sections.sustainability.type')"
+                :value="attr.type"
+              />
+            </template>
+          </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.status">
+            <Field
+              :icon="callIconFinder('status')"
+              :label="$t('sections.sustainability.status')"
+              :value="propsData.status"
+            />
+          </template>
+          <template v-if="propsData.durabilityScore">
+            <Field
+              :icon="callIconFinder('durabilityScore')"
+              :label="$t('sections.sustainability.durabilityScore')"
+              :value="propsData.durabilityScore"
+            />
+          </template>
           <template v-if="propsData.recyclateContent">
             <template
               v-for="(attr, key) in propsData.recyclateContent"
@@ -125,8 +290,114 @@
               </template>
             </template>
           </template>
+          <template
+            v-for="(attr, key) in propsData.productFootprint?.environmental"
+            :key="key"
+          >
+            <template v-if="attr.lifecycle">
+              <Field
+                :icon="callIconFinder('lifecycle')"
+                :label="$t('sections.sustainability.lifecycle')"
+                :value="attr.lifecycle"
+              />
+            </template>
+            <template v-for="attrChild in attr.rulebook" :key="attrChild">
+              <Field
+                :icon="callIconFinder('rulebook')"
+                :label="$t('sections.sustainability.rulebook')"
+                :value="attrChild.content"
+                :subText="attrChild.header"
+              />
+            </template>
+            <Field
+              :icon="callIconFinder('material')"
+              :label="$t('sections.sustainability.material')"
+              :value="attr.value"
+              :unit="attr.unit"
+            />
+            <Field
+              :icon="callIconFinder('performanceClass')"
+              :label="$t('sections.sustainability.performanceClass')"
+              :value="attr.performanceClass"
+            />
+            <template v-for="attrChild in attr.declaration" :key="attrChild">
+              <Field
+                :icon="callIconFinder('declaration')"
+                :label="$t('sections.sustainability.declaration')"
+                :value="attrChild.content"
+                :subText="attrChild.header"
+              />
+            </template>
+            <template
+              v-for="attrChild in attr.manufacturingPlant"
+              :key="attrChild"
+            >
+              <Field
+                :icon="callIconFinder('manufacturingPlant')"
+                :label="$t('sections.sustainability.manufacturingPlant')"
+                :value="attrChild.facility"
+              />
+            </template>
+            <Field
+              :icon="callIconFinder('type')"
+              :label="$t('sections.sustainability.type')"
+              :value="attr.type"
+            />
+          </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-if="propsData.carbonFootprint">
+            <template v-if="Array.isArray(propsData.carbonFootprint)">
+              <template v-for="attr in propsData.carbonFootprint" :key="attr">
+                <Field
+                  :icon="callIconFinder('carbonFootprint')"
+                  :label="$t('sections.sustainability.carbonFootprint')"
+                  :value="attr.value"
+                  :unit="attr.unit"
+                  :subText="attr.lifecycle"
+                />
+                <Field
+                  :icon="callIconFinder('performanceClass')"
+                  :label="$t('sections.sustainability.performanceClass')"
+                  :value="attr.performanceClass"
+                />
+                <Field
+                  :icon="callIconFinder('type')"
+                  :label="$t('sections.sustainability.type')"
+                  :value="attr.type"
+                />
+                <template v-for="attrChild in attr.rulebook" :key="attrChild">
+                  <Field
+                    :icon="callIconFinder('rulebook')"
+                    :label="$t('sections.sustainability.rulebook')"
+                    :value="attrChild.content"
+                    :subText="attrChild.header"
+                  />
+                </template>
+                <template
+                  v-for="attrChild in attr.manufacturingPlant"
+                  :key="attrChild"
+                >
+                  <Field
+                    :icon="callIconFinder('manufacturingPlant')"
+                    :label="$t('sections.sustainability.manufacturingPlant')"
+                    :value="attrChild.facility"
+                  />
+                </template>
+                <template
+                  v-for="attrChild in attr.declaration"
+                  :key="attrChild"
+                >
+                  <Field
+                    :icon="callIconFinder('declaration')"
+                    :label="$t('sections.sustainability.declaration')"
+                    :value="attrChild.content"
+                    :subText="attrChild.header"
+                  />
+                </template>
+              </template>
+            </template>
+          </template>
           <template v-if="propsData.criticalRawMaterials">
             <template
               v-for="attr in propsData.criticalRawMaterials"
@@ -162,7 +433,6 @@
                   unit="kg CO₂ eq"
                 />
               </template>
-
               <template
                 v-if="propsData.carbonFootprint.productOrSectorSpecificRules"
               >
@@ -220,6 +490,12 @@ export default {
     };
   },
   methods: {
+    callHasContent(...args) {
+      return passportUtil.hasContent(...args);
+    },
+    callToSentenceCase(text) {
+      return passportUtil.toSentenceCase(text);
+    },
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
     },

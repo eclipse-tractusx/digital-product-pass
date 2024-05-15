@@ -51,8 +51,8 @@
             <v-row>
               <v-col
                 ><span class="description"
-                  ><template v-if="description">{{ $t(description) }}</template> 
-                  <template v-if="explanation">{{ $t(explanation) }}</template> 
+                  ><template v-if="description">{{ $t(description) }}</template>
+                  <template v-if="explanation">{{ $t(explanation) }}</template>
                   <template v-if="adminLabel"
                     > <a :href="'mailto:' + adminEmail">{{
                       $t(adminLabel)

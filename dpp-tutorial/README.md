@@ -22,7 +22,8 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="../docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Tractus-X​ Digital Product Passport​ Workstream​</h1>
+<div align=right><img height=200 src="../docs/media/dpp-tx-logo.png"/>&nbsp;&nbsp;<h1>Tractus-X​ Digital Product Passport​ Workstream​</h1><h4>Second Tractus-X Community Days - 16,17 May 2024 - Stuttgart</h4></div>
+
 
 ## Description
 

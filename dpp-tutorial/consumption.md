@@ -24,7 +24,7 @@
 
 # DPP Consumption Guide
 
-This guide provides the information needed to setup the Digital product Passport (DPP) application as a data consumer. It describes how to run a local setup to leverage the DPP frontend and backend components using a container platform.
+This guide provides a simple way of accessing the digital product pass consumer application and retrieving data from the network scanning a QR code or introducing an ID.
 
                               DATA CONSUMER  DPP APP                             ___________________
                 |     ___________________         __________________    |       |                   | 

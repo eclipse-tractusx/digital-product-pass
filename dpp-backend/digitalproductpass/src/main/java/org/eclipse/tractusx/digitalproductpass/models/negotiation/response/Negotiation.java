@@ -57,20 +57,8 @@ public class Negotiation extends NegotiationTransferResponse {
     String contractAgreementId;
 
     /** CONSTRUCTOR(S) **/
-    public Negotiation(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
-        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
-        this.protocol = protocol;
-        this.counterPartyId = counterPartyId;
-        this.counterPartyAddress = counterPartyAddress;
-        this.contractAgreementId = contractAgreementId;
-    }
 
-    public Negotiation(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
-        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
-        this.protocol = protocol;
-        this.counterPartyId = counterPartyId;
-        this.counterPartyAddress = counterPartyAddress;
-        this.contractAgreementId = contractAgreementId;
+    public Negotiation() {
     }
 
     public Negotiation(String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
@@ -80,15 +68,52 @@ public class Negotiation extends NegotiationTransferResponse {
         this.contractAgreementId = contractAgreementId;
     }
 
-    public Negotiation(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
-        super(id, type, state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Negotiation(String id, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(id, type, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
     }
 
-    public Negotiation(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
-        super(state, edcType, createdAt, callbackAddresses, context, errorDetail);
+    public Negotiation(String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
     }
 
-    public Negotiation() {
+    public Negotiation(String id, String type, JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(id, type, context, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
+    }
+
+    public Negotiation(String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(type, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
+    }
+
+    public Negotiation(JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(context, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
+    }
+
+    public Negotiation(JsonNode context, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail, String protocol, String counterPartyId, String counterPartyAddress, String contractAgreementId) {
+        super(context, type, state, edcType, createdAt, callbackAddresses, errorDetail);
+        this.protocol = protocol;
+        this.counterPartyId = counterPartyId;
+        this.counterPartyAddress = counterPartyAddress;
+        this.contractAgreementId = contractAgreementId;
     }
 
     /** GETTERS AND SETTERS **/

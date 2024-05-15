@@ -85,6 +85,9 @@ The following candidates are not yet implemented:
 * Sealant Passport, Tire Passport
 * E-Drive
 
+The digital product pass is using the [EDC v0.7.0](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.7.0) and enables the  [data sovereignty policy configurations](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md)
+
+
 ## Technical Integration Design
 
 The technical integration design can be found in the [arc42 documentation](../architecture/Arc42.md)

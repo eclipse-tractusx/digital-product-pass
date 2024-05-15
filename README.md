@@ -22,12 +22,18 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Apache 2.0 License][license-shield]][license-url]
 [![Latest Release][release-shield]][release-url]
+
+<div align="center">
+  <img alt="Digital Product Pass App Logo" width="200" height="200" src="./docs/media/dpp-tx-logo.png"/>
+  <br>
+  <h1 style="align-items: center;">Digital Product Pass Application</h1>
+</div>
+
+
 
 ## Description
 
@@ -37,9 +43,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-2.3.0">2.3.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-3.0.0-rc1">3.0.0-rc1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v2.3.0">v2.3.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v3.0.0-rc1">v3.0.0-rc1</a></pre>
 
 
 

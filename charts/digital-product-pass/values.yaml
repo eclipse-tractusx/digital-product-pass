@@ -207,6 +207,7 @@ backend:
                   rightOperand: "cx.circular.dpp:1"
           prohibition: []
           obligation: []
+
   digitalTwinRegistry:
     endpoints:
       search: "/lookup/shells"

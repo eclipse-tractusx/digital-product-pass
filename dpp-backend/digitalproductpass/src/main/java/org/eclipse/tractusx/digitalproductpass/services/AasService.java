@@ -62,6 +62,8 @@ import java.util.Map;
  */
 @Service
 public class AasService extends BaseService {
+    /** CONSTANTS **/
+    public static final String AUTHORIZATION_KEY = "Authorization";
 
     /** ATTRIBUTES **/
     public String registryUrl;
@@ -71,6 +73,8 @@ public class AasService extends BaseService {
     private final HttpUtil httpUtil;
     private final JsonUtil jsonUtil;
     private final DtrConfig dtrConfig;
+
+    public Environment env;
     private final AuthenticationService authService;
     Map<String, Object> apis;
     private DtrSearchManager dtrSearchManager;
@@ -368,7 +372,11 @@ public class AasService extends BaseService {
 
             // Get the normal headers based on the EDR
             HttpHeaders headers = this.httpUtil.getHeaders();
-            headers.add(edr.getAuthKey(), ""+edr.getAuthCode());
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, edr.getPayload().getDataAddress().getProperties().getAuthorization());
             return headers;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTokenHeader",
@@ -429,7 +437,7 @@ public class AasService extends BaseService {
             }
             status = this.processManager.getStatus(processId);
             if (status.historyExists("digital-twin-found")) {
-                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getBpn(), status.getEndpoint());
             }
             return null;
         } catch (Exception e) {
@@ -622,7 +630,7 @@ public class AasService extends BaseService {
          */
         @Override
         public void run() {
-            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
+            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getPayload().getDataAddress().getProperties().getEndpoint(), this.getEdr()));
             if(this.semanticId == null || this.semanticId.isEmpty()){
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin()));
             }else {

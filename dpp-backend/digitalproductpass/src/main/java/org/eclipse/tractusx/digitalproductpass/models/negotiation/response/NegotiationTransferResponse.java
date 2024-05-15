@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.CallbackAddress;
 import org.eclipse.tractusx.digitalproductpass.models.negotiation.DidDocument;
 
 import java.util.List;
@@ -56,32 +57,67 @@ public class NegotiationTransferResponse extends DidDocument {
     Long createdAt;
     @JsonProperty("callbackAddresses")
     @JsonAlias({"callbackAddresses","edc:callbackAddresses"})
-    List<JsonNode> callbackAddresses;
+    Object callbackAddresses;
+
     @JsonProperty("errorDetail")
     @JsonAlias({"errorDetail","edc:errorDetail"})
     String errorDetail;
 
     /** CONSTRUCTOR(S) **/
-    public NegotiationTransferResponse(String id, String type, String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
+    public NegotiationTransferResponse() {
+    }
+
+    public NegotiationTransferResponse(String id, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
         super(id, type);
         this.state = state;
         this.edcType = edcType;
         this.createdAt = createdAt;
         this.callbackAddresses = callbackAddresses;
-        this.context = context;
         this.errorDetail = errorDetail;
     }
 
-    public NegotiationTransferResponse(String state, String edcType, Long createdAt, List<JsonNode> callbackAddresses, JsonNode context, String errorDetail) {
+    public NegotiationTransferResponse(String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
         this.state = state;
         this.edcType = edcType;
         this.createdAt = createdAt;
         this.callbackAddresses = callbackAddresses;
-        this.context = context;
         this.errorDetail = errorDetail;
     }
 
-    public NegotiationTransferResponse() {
+    public NegotiationTransferResponse(String id, String type, JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
+        super(id, type, context);
+        this.state = state;
+        this.edcType = edcType;
+        this.createdAt = createdAt;
+        this.callbackAddresses = callbackAddresses;
+        this.errorDetail = errorDetail;
+    }
+
+    public NegotiationTransferResponse(String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
+        super(type);
+        this.state = state;
+        this.edcType = edcType;
+        this.createdAt = createdAt;
+        this.callbackAddresses = callbackAddresses;
+        this.errorDetail = errorDetail;
+    }
+
+    public NegotiationTransferResponse(JsonNode context, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
+        super(context);
+        this.state = state;
+        this.edcType = edcType;
+        this.createdAt = createdAt;
+        this.callbackAddresses = callbackAddresses;
+        this.errorDetail = errorDetail;
+    }
+
+    public NegotiationTransferResponse(JsonNode context, String type, String state, String edcType, Long createdAt, Object callbackAddresses, String errorDetail) {
+        super(context, type);
+        this.state = state;
+        this.edcType = edcType;
+        this.createdAt = createdAt;
+        this.callbackAddresses = callbackAddresses;
+        this.errorDetail = errorDetail;
     }
 
     /** GETTERS AND SETTERS **/
@@ -109,14 +145,6 @@ public class NegotiationTransferResponse extends DidDocument {
         this.createdAt = createdAt;
     }
 
-    public List<JsonNode> getCallbackAddresses() {
-        return callbackAddresses;
-    }
-
-    public void setCallbackAddresses(List<JsonNode> callbackAddresses) {
-        this.callbackAddresses = callbackAddresses;
-    }
-
     public String getErrorDetail() {
         return errorDetail;
     }
@@ -126,4 +154,11 @@ public class NegotiationTransferResponse extends DidDocument {
     }
 
 
+    public Object getCallbackAddresses() {
+        return callbackAddresses;
+    }
+
+    public void setCallbackAddresses(Object callbackAddresses) {
+        this.callbackAddresses = callbackAddresses;
+    }
 }

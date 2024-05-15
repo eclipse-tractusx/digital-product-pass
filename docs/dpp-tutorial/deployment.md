@@ -61,10 +61,14 @@ git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 > If you already cloned this repository, you can ignore this step
 
 
-## Setup a cluster 
+
+## Setup a cluster
+
+This step is optional for those who already have a running cluster.
+
 
 ```bash
-# start minikube cluster with the user profile
+# start minikube cluster
 minikube start -p $USER
 
 # enable minikube ingress addon
@@ -73,7 +77,31 @@ minikube addons enable ingress -p $USER
 # create your namespace
 kubectl create namespace $USER
 ```
-<!-- > **Important:** <dpp-yourgroupnumber>: please substitute your group number e.g., dpp-group1 -->
+
+> [!TIP]
+> $USER is a current user account from Operating System
+> The current usr can be checked using command: `echo $USER` or `whoami`
+
+
+## Check cluster availability
+
+
+```bash
+# check is cluster is accessible using the forrowing command
+kubectl config current-context
+
+# output - you must see your minikube as current context
+# minikube
+
+# check your namespace is accessible
+kubectl get pods
+
+# output
+# No resources found in $USER namespace
+```
+
+> [!CAUTION]
+> Each user must follow the guide inside its user namespace
 
 <!-- #### Start Minikube Cluster
 ```bash

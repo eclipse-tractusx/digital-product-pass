@@ -32,7 +32,7 @@ You must fullfill the following pre-requisites:
 
 - A Catena-X Standarized Aspect Model (in this case we use the [Digital Product Pass v2.0.0 Model](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/2.0.0))
 - JSON Editor like [VS Code](https://code.visualstudio.com/) or [Notepad++](https://notepad-plus-plus.org/downloads/)
-- Car Parts JSON Test Data [found here]()
+- Car Parts JSON Test Data [found here](./resources/test-data/carParts.json)
 
 >[!WARNING]
 >
@@ -43,7 +43,13 @@ You must fullfill the following pre-requisites:
 
 Follow this steps to create a new Digital Product Passport serialized model:
 
-###  
+### 1º - Paste the example payload in your VS Code/Notepad++ application
+
+Paste this [Digital Product Passport v2.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
+
+![DPP Example](dpp-example.png)
+
+
 
 ## NOTICE
 

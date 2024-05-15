@@ -45,3 +45,12 @@ Follow this steps to create a new Digital Product Passport serialized model.
 
 ### 
 
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2023, 2024 BMW AG
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
+- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

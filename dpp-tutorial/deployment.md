@@ -282,3 +282,13 @@ helm install digital-product-pass ./charts/digital-product-pass -f ./charts/digi
 If everything works fine, then you have reached at the end of deployment guide.
 
 Congratulations, you have successfully setup the data consumer Digital Product Passport application. It is now available and ready to exchange data in the dataspace.
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2023, 2024 BMW AG
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
+- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

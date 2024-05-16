@@ -25,7 +25,7 @@
     },
     {
       "name": "manufacturerPartId",
-      "value": "MFG024",
+      "value": "MPI0012",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [

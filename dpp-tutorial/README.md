@@ -66,12 +66,12 @@ Group name is defined like this:
 > [!NOTE]
 > Session number will be provided by the coaches! There are three sessions, values from [1-3].
 
-## Phase 1: Deployment 
+## Phase 1: Deployment
 
-> [!NOTE] 
+> [!NOTE]
 > The deployment of the [Digital Product Passport application](./deployment.md) is not within the scope of the Workshop, as it has already been deployed for you.
 
-## Phase 2: Data Provision 
+## Phase 2: Data Provision
 
 In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
@@ -141,7 +141,6 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
    * ID: Assign a unique identifier for the car.
    * Aggregate Value: Calculate and add up the PCF values of all individual parts to obtain the aggregate carbon footprint value for the entire car.
 
-
 For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
 
 1º - Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
@@ -150,6 +149,22 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 
 3º - As "id" add with this schema: `urn:uuid:<your group name>`
 
+4º - Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value
+
+>[!IMPORTANT]
+> Remember the part instance id for proving the QR code
+
+5º -> For `manufacturerPartId` use MPI0012
+
+6º -> Add the submodel as specified in the [digital-twin-provision](. digital-twin-provision) guide to the twin.
+
+7º -> Upload your payload to the data service as specified in the [digital-twin-provision](. digital-twin-provision) guide.
+
+8º -> Generate a QR code as specified in the [qr code guide](./qr-code.md)
+
+9º -> Scan it and access it with the app.
+
+10º -> Add your QR code to the board!
 
 ## Links of interest
  

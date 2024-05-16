@@ -25,7 +25,7 @@
     },
     {
       "name": "manufacturerPartId",
-      "value": "MFG024",
+      "value": "MPI0012",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [
@@ -136,7 +136,7 @@
         "keys": [
           {
             "type": "Submodel",
-            "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+            "value": "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
           }
         ]
       },

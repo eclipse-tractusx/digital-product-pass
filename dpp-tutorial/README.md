@@ -87,7 +87,7 @@ In this step, you'll create the Digital Product Passport (DPP) by utilizing data
 
 In this step, you will create a Digital Twin of your provided Car part. 
 
-  * Follow the tutorial on [How to create a Digital Twin](./digital-twin-provision)
+  * Follow the tutorial on [How to create a Digital Twin](./digital-twin-provision.md)
 
 #### Step 3 - Upload the Digital Twin in the Digital Twin Registry
    

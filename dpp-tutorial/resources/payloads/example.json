@@ -1,0 +1,278 @@
+{
+    "typology": {
+      "shortName": "8HP60",
+      "class": {
+        "definition": "Manual transmission (motor vehicle)",
+        "code": "44-09-02-02"
+      },
+      "longName": "Product Description long text"
+    },
+    "metadata": {
+      "predecessor": "null",
+      "issueDate": "2000-01-01",
+      "version": "1.0.0",
+      "economicOperator": {
+        "legitimization": "DE123456789",
+        "identification": "BPNL1234567890ZZ"
+      },
+      "status": "draft",
+      "expirationDate": "2000-01-01"
+    },
+    "characteristics": {
+      "physicalDimension": {
+        "grossWeight": {
+          "value": 20.5,
+          "unit": "unit:kilogram"
+        },
+        "weightOrVolume": {
+          "left": {
+            "value": 20.5,
+            "unit": "unit:cubicMetre"
+          }
+        },
+        "diameter": {
+          "value": 20.5,
+          "unit": "unit:millimetre"
+        },
+        "grossVolume": {
+          "value": 20.5,
+          "unit": "unit:cubicMetre"
+        },
+        "width": {
+          "value": 20.5,
+          "unit": "unit:millimetre"
+        },
+        "length": {
+          "value": 20.5,
+          "unit": "unit:millimetre"
+        },
+        "height": {
+          "value": 20.5,
+          "unit": "unit:millimetre"
+        }
+      },
+      "lifespan": [
+        {
+          "value": 36,
+          "unit": "unit:day",
+          "key": "guaranteed lifetime"
+        }
+      ],
+      "physicalState": "solid"
+    },
+    "commercial": {
+      "placedOnMarket": "2000-01-01"
+    },
+    "identification": {
+      "localIdentifier": {
+        "value": "SN12345678",
+        "key": "PartInstanceId"
+      },
+      "additionalCode": [
+        {
+          "value": "8703 24 10 00",
+          "key": "TARIC"
+        }
+      ],
+      "dataCarrier": {
+        "carrierType": "QR",
+        "carrierLayout": "upper-left side"
+      }
+    },
+    "sources": [
+      {
+        "header": "Sustainability Document Material XY",
+        "category": "Product Specifications",
+        "type": "URL",
+        "content": "www.alink.pdf"
+      }
+    ],
+    "handling": {
+      "spareParts": {
+        "left": {
+          "producer": [
+            {
+              "id": "BPNL1234567890ZZ"
+            }
+          ],
+          "part": [
+            {
+              "name": "Aluminum Housing",
+              "gtin": "12345678"
+            }
+          ]
+        }
+      },
+      "substanceOfConcern": {
+        "left": [
+          {
+            "name": {
+              "name": "phenolphthalein",
+              "type": "IUPAC"
+            },
+            "location": "Housing",
+            "unit": "unit:partPerMillion",
+            "concentration": {
+              "left": [
+                {
+                  "max": 2.6,
+                  "min": 2.1
+                }
+              ]
+            },
+            "exemption": "shall not apply to product x containing not more than 1,5 ml of liquid",
+            "id": [
+              {
+                "type": "CAS",
+                "id": "201-004-7"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "additionalData": [
+      {
+        "description": "This is the machine parameters that are produced when the machine is used",
+        "label": "Specific Manufacturer Machine Parameters",
+        "type": {
+          "typeUnit": null,
+          "dataType": "object"
+        },
+        "children": [
+          {
+            "description": "The usage of the eletricity in the machine",
+            "label": "Eletricity Usage",
+            "type": {
+              "typeUnit": "unit:volts",
+              "dataType": "integer"
+            },
+            "data": "25"
+          },
+          {
+            "description": "The name of the machine that produced the product",
+            "label": "Machine Name",
+            "type": {
+              "typeUnit": null,
+              "dataType": "string"
+            },
+            "data": "Laser Machine MX-421W"
+          },
+          {
+            "description": "The list of products the machine can produce",
+            "label": "Product Names",
+            "type": {
+              "typeUnit": null,
+              "dataType": "array"
+            },
+            "data": [
+              "Tranmissions",
+              "Batteries",
+              "Seats",
+              "Doors"
+            ]
+          }
+        ]
+      },
+      {
+        "description": "This are the properties of interest",
+        "label": "Properties of Interest",
+        "type": {
+          "typeUnit": null,
+          "dataType": "object"
+        },
+        "children": [
+          {
+            "description": "This are the main properties of interest",
+            "label": "Main Properties",
+            "type": {
+              "typeUnit": null,
+              "dataType": "object"
+            },
+            "children": [
+              {
+                "description": "This is the Normal temperature of production",
+                "label": "Normal Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": 62.7
+              },
+              {
+                "description": "This is the minimmum temperature of production",
+                "label": "Minimum Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": -80.68
+              },
+              {
+                "description": "This is the maximum temperature of production",
+                "label": "Maximum Temperature",
+                "type": {
+                  "typeUnit": "unit:celcius",
+                  "dataType": "float"
+                },
+                "data": 800.85
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sustainability": {
+      "PEF": {
+        "carbon": [
+          {
+            "lifecycle": "main product production",
+            "rulebook": "https://www.cx-pcf-rulebook.pdf/",
+            "unit": "kg CO2 eq",
+            "type": "Climate Change Total",
+            "value": 12.678
+          }
+        ]
+      },
+      "state": "first life",
+      "material": {
+        "left": [
+          {
+            "name": {
+              "name": "phenolphthalein",
+              "type": "IUPAC"
+            },
+            "unit": "unit:partPerMillion",
+            "recycled": false,
+            "id": [
+              {
+                "type": "CAS",
+                "id": "201-004-7"
+              }
+            ],
+            "value": 5,
+            "renewable": true
+          }
+        ]
+      },
+      "critical": {
+        "left": [
+          "Lythium",
+          "Uranium"
+        ]
+      }
+    },
+    "operation": {
+      "importer": {
+        "left": {
+          "eori": "GB123456789000",
+          "id": "BPNL1234567890ZZ"
+        }
+      },
+      "manufacturer": {
+        "facility": "BPNS1234567890ZZ",
+        "manufacturingDate": "2000-01-31",
+        "manufacturer": "BPNL1234567890ZZ"
+      }
+    }
+  }

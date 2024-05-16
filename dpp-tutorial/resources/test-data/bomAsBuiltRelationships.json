@@ -1,0 +1,324 @@
+{
+  "urn:uuid:c28098f6-6996-4a77-be8d-497fd9f60fc6": {
+    "catenaXId": "urn:uuid:c28098f6-6996-4a77-be8d-497fd9f60fc6",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:0d5d59ab-93b3-49f7-9a8c-48f9b96747ab",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:2120821b-7274-4bf3-8499-31cefc455fa0",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:500388e5-be9a-4c58-8f11-404218f76259",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:fbc89d8d-f60f-4a4f-a553-b379f28eecb6",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:8ac58560-3bbb-4d3a-a55e-a6cebddc6ed9",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:365e997e-d001-4962-b023-f637e43d6444",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:cf80c23e-5dc7-45b8-8de5-16fe09556d63",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:5fc6fa4c-1e79-46bf-a374-fcb77f0c411f",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:ad0677c8-fa6d-47f1-86a5-77c8861111a5",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:0d5d59ab-93b3-49f7-9a8c-48f9b96747ab": {
+    "catenaXId": "urn:uuid:0d5d59ab-93b3-49f7-9a8c-48f9b96747ab",
+    "childItems": []
+  },
+  "urn:uuid:2120821b-7274-4bf3-8499-31cefc455fa0": {
+    "catenaXId": "urn:uuid:2120821b-7274-4bf3-8499-31cefc455fa0",
+    "childItems": []
+  },
+  "urn:uuid:500388e5-be9a-4c58-8f11-404218f76259": {
+    "catenaXId": "urn:uuid:500388e5-be9a-4c58-8f11-404218f76259",
+    "childItems": []
+  },
+  "urn:fbc89d8d-f60f-4a4f-a553-b379f28eecb6": {
+    "catenaXId": "urn:uuid:fbc89d8d-f60f-4a4f-a553-b379f28eecb6",
+    "childItems": []
+  },
+  "urn:uuid:8ac58560-3bbb-4d3a-a55e-a6cebddc6ed9": {
+    "catenaXId": "urn:uuid:8ac58560-3bbb-4d3a-a55e-a6cebddc6ed9",
+    "childItems": []
+  },
+  "urn:uuid:365e997e-d001-4962-b023-f637e43d6444": {
+    "catenaXId": "urn:uuid:365e997e-d001-4962-b023-f637e43d6444",
+    "childItems": []
+  },
+  "urn:uuid:cf80c23e-5dc7-45b8-8de5-16fe09556d63": {
+    "catenaXId": "urn:uuid:cf80c23e-5dc7-45b8-8de5-16fe09556d63",
+    "childItems": []
+  },
+  "urn:uuid:5fc6fa4c-1e79-46bf-a374-fcb77f0c411f": {
+    "catenaXId": "urn:uuid:5fc6fa4c-1e79-46bf-a374-fcb77f0c411f",
+    "childItems": []
+  },
+  "urn:uuid:ad0677c8-fa6d-47f1-86a5-77c8861111a5": {
+    "catenaXId": "urn:uuid:ad0677c8-fa6d-47f1-86a5-77c8861111a5",
+    "childItems": []
+  },
+  "urn:uuid:680c4a01-e8a7-4b1a-934f-261449b98206": {
+    "catenaXId": "urn:uuid:680c4a01-e8a7-4b1a-934f-261449b98206",
+    "childItems": []
+  },
+  "urn:uuid:618c2cf5-acfb-4b54-b2ff-a5483f90c8e6": {
+    "catenaXId": "urn:uuid:618c2cf5-acfb-4b54-b2ff-a5483f90c8e6",
+    "childItems": []
+  },
+  "urn:uuid:48acc23b-7cb8-4288-b620-9eb3d9dce6bf": {
+    "catenaXId": "urn:uuid:48acc23b-7cb8-4288-b620-9eb3d9dce6bf",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:12e656bb-948e-44eb-9b5e-88d7deedf388",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe": {
+    "catenaXId": "urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe",
+    "childItems": []
+  },
+  "urn:uuid:12e656bb-948e-44eb-9b5e-88d7deedf388": {
+    "catenaXId": "urn:uuid:12e656bb-948e-44eb-9b5e-88d7deedf388",
+    "childItems": []
+  },
+  "urn:uuid:2854cc7b-b815-4db0-ab10-047b4965c867": {
+    "catenaXId": "urn:uuid:2854cc7b-b815-4db0-ab10-047b4965c867",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:0b55ea93-7c5f-4f93-a2c9-9842f327a630",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:0b55ea93-7c5f-4f93-a2c9-9842f327a630": {
+    "catenaXId": "urn:uuid:0b55ea93-7c5f-4f93-a2c9-9842f327a630",
+    "childItems": []
+  },
+  "urn:uuid:6512af5a-31dd-4a0f-ae9f-d0814e6f680b": {
+    "catenaXId": "urn:uuid:6512af5a-31dd-4a0f-ae9f-d0814e6f680b",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:202a175a-2b79-481f-8c4e-8bcc5c478f0e",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:202a175a-2b79-481f-8c4e-8bcc5c478f0e": {
+    "catenaXId": "urn:uuid:202a175a-2b79-481f-8c4e-8bcc5c478f0e",
+    "childItems": []
+  },
+  "urn:uuid:3bff7e1c-3297-4a8d-9243-eb0dacf3266e": {
+    "catenaXId": "urn:uuid:3bff7e1c-3297-4a8d-9243-eb0dacf3266e",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:084eb265-6c63-4fe6-bd7c-b0c697e27354",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:084eb265-6c63-4fe6-bd7c-b0c697e27354": {
+    "catenaXId": "urn:uuid:084eb265-6c63-4fe6-bd7c-b0c697e27354",
+    "childItems": []
+  },
+  "urn:uuid:a62faa9a-7a3d-4a02-9fba-186243361350": {
+    "catenaXId": "urn:uuid:a62faa9a-7a3d-4a02-9fba-186243361350",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:51806f42-c4b5-4fbc-be28-8a4524d4785f",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:51806f42-c4b5-4fbc-be28-8a4524d4785f": {
+    "catenaXId": "urn:uuid:51806f42-c4b5-4fbc-be28-8a4524d4785f",
+    "childItems": []
+  },
+  "urn:uuid:97568dae-4691-4a10-9c15-1ef7338490eb": {
+    "catenaXId": "urn:uuid:97568dae-4691-4a10-9c15-1ef7338490eb",
+    "childItems": []
+  },
+  "urn:uuid:5cfc51b0-0a57-42da-9411-1e02d7154c49": {
+    "catenaXId": "urn:uuid:5cfc51b0-0a57-42da-9411-1e02d7154c49",
+    "childItems": []
+  },
+  "urn:uuid:77311eb4-36bd-4d3c-b7b2-fd6e51433887": {
+    "catenaXId": "urn:uuid:77311eb4-36bd-4d3c-b7b2-fd6e51433887",
+    "childItems": []
+  },
+  "urn:uuid:8c407040-ef41-4241-8b7a-c45695e879a7": {
+    "catenaXId": "urn:uuid:8c407040-ef41-4241-8b7a-c45695e879a7",
+    "childItems": []
+  },
+  "urn:uuid:adc5d909-8a9e-4f04-9237-131863096cae": {
+    "catenaXId": "urn:uuid:adc5d909-8a9e-4f04-9237-131863096cae",
+    "childItems": []
+  },
+  "urn:uuid:ea781f61-33b0-4ddb-a4c1-767d9a1c6f41": {
+    "catenaXId": "urn:uuid:ea781f61-33b0-4ddb-a4c1-767d9a1c6f41",
+    "childItems": []
+  },
+  "urn:uuid:f748848c-f6dc-4d84-be34-e26e5deb0189": {
+    "catenaXId": "urn:uuid:f748848c-f6dc-4d84-be34-e26e5deb0189",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:a2aa762f-84e0-4689-b310-55b9d539974f",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:e7ffe0cd-7a6d-45f8-a6c6-44fca3053319",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL0073928UJ879",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
+  },
+  "urn:uuid:a2aa762f-84e0-4689-b310-55b9d539974f": {
+    "catenaXId": "urn:uuid:a2aa762f-84e0-4689-b310-55b9d539974f",
+    "childItems": []
+  },
+  "urn:uuid:e7ffe0cd-7a6d-45f8-a6c6-44fca3053319": {
+    "catenaXId": "urn:uuid:e7ffe0cd-7a6d-45f8-a6c6-44fca3053319",
+    "childItems": []
+  }
+}

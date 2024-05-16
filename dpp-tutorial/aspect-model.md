@@ -101,7 +101,6 @@ Example:
 
 ![PCF](./resources/screenshots/pcf-update.png)
 
-
 #### Where to substitute the data?
 
 Follow this paths to find where the information is located.
@@ -122,7 +121,7 @@ Follow this paths to find where the information is located.
 |Hazard Materials | critical.left (add elements to list) |
 | Guarantee | lifespan (Add value and unit for garantee) |
 
-Congratulations! You have successfully created your own digital product pass! 
+Congratulations! You have successfully created your own digital product pass!
 
 > [!TIP]
 > You can add more relavant data and personalized information at the digital product pass, follow the template and modify the data as you wish!

@@ -148,28 +148,28 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
 
 For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
 
-1º - Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
+ * Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
+ 
+ * Paste it on "globalAssetId" with this format `urn:uuid:<your uuid>`
 
-2º - Paste it on "globalAssetId" with this format `urn:uuid:<your uuid>`
+ * As "id" add with this schema: `urn:uuid:<your group name>`
 
-3º - As "id" add with this schema: `urn:uuid:<your group name>`
-
-4º - Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value
+ * Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value
 
 >[!IMPORTANT]
 > Remember the part instance id you created for later creating the QR code -> `CX:<manufacturerPartId>:<partInstanceId>`
 
-5º -> For the `manufacturerPartId` use `MPI0012`
+ * For the `manufacturerPartId` use `MPI0012`
 
-6º -> Add the submodel as specified in the [digital-twin-provision](. digital-twin-provision) guide to the twin.
+ * Add the submodel as specified in the [digital-twin-provision](.digital-twin-provision.md) guide to the twin.
 
-7º -> Upload your payload to the data service as specified in the [digital-twin-provision](. digital-twin-provision) guide.
+ * Upload your payload to the data service as specified in the [digital-twin-provision](.digital-twin-provision.md) guide.
+ 
+ *   Generate a QR code as specified in the [qr code guide](./qr-code.md)
 
-8º -> Generate a QR code as specified in the [qr code guide](./qr-code.md)
+ * Scan it and access it with the app.
 
-9º -> Scan it and access it with the app.
-
-10º -> Add your QR code to the board!
+ * Add your QR code to the board!
 
 
 Congratulations! You have completed the E2E Journey for Digital Product Pass
@@ -180,7 +180,7 @@ Congratulations! You have completed the E2E Journey for Digital Product Pass
 | -------- | ----- |
 | How to deploy DPP Application | [deployment.md](./deployment.md) |
 | How to create Aspect Model | [aspect-model.md](./aspect-model.md) |
-| How to create a Digital Twin | [digital-twin-provision](. digital-twin-provision) |
+| How to create a Digital Twin | [digital-twin-provision](.digital-twin-provision.md) |
 | How to generate a QR code | [qr-code.md](./qr-code.md) |
 | DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
 

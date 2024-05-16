@@ -55,7 +55,7 @@ git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 > If you already cloned this repository, you can ignore this step
 
 
-## Prepare Aspect Model
+## 1º Prepare Digital Product Pass Model
 
 In order to prepare aspect models, please follow the [aspect model guide](./aspect-model.md) 
 
@@ -69,28 +69,27 @@ The <UUID> can be generated from here: https://www.uuidgenerator.net/
 Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
 ```
 
-> [!IMPORTANT]  
-> Please substitute the <<UUID>UUID> with the one generated above.
-
+> [!IMPORTANT]
+> For this test purposes you can use the UUID provider in the paper for you.
 
 Open a new terminal and run the following command to add your data into the data service: 
-> POST /data/uuid:urn:<<UUID>UUID>
+
+Substitute the UUID for the actual one in the paper
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
 Verify your data is registerd in the service
 
-> GET /data/uuid:urn:<<UUID>UUID>
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
 --header 'Content-Type: application/json' \
 ```
 
-## Create Digital Twin
+## 2º Create Digital Twin
 
 After preparing and registering aspect models, create a digital twin of a part assigned. 
 Create a new json and use the template in [resources/digital-twins/example-dt.json](./resources/digital-twins/example-dt.json)
@@ -104,20 +103,19 @@ Replace the following placeholders:
 <ID_SHORT>                             ->   the name is the part assigned
 ```
 
-## Add Digital Twin into Digital Twin Registry (DTR)
+## 3º Add Digital Twin into Digital Twin Registry (DTR)
 
 After creation of the digital twin in previous step, add the twin into Digital Twin Registry (DTR).
 
-> POST /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
 ```bash
-curl --location --request POST '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/api/v3.0/shell-descriptors' \
+curl --location --request POST '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors' \
 --header 'Content-Type: application/json' \
 --data '@resources/<YOUR_DT_JSON>.json'
 ```
 
 > [!Note]  
-> Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with a plenty of digital twins.
+> Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
 
 The digital twin registered can be checked/verified from the following command:
 
@@ -137,7 +135,7 @@ curl --location --request GET '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0
 --header 'Content-Type: application/json'
 ```
 
-If everything works fine, then you have reached at the end of data provisioning guide.
+If everything works fine, then you have reached the end of data provisioning guide.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 

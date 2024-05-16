@@ -47,7 +47,11 @@ You must have the following tools installed and configured:
 - A container platform preferrably [Docker](https://docs.docker.com/engine/install/)
 - A local Kubernetes cluster. It could be a [Minikube](https://minikube.sigs.k8s.io/docs/start/) or other cluster runtimes such as [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/). In this tutorial we would use a single node minikube cluster.
 - A [Helm](https://helm.sh/) package manager for Kubernetes cluster to run kubernetes resources. 
-- MXD Setup
+- MXD Setup (2 EDCS + Wallet + IAM)
+- BPN Discovery Service + EDC Discovery Service + Discovery Finder
+
+> [!CAUTION]
+> For the worksession in 16, 17 May Second Tractus-X Community Days the deployement is already provided for you! So just data consumption and provision are going to be the center of the attention. You can skip this guide!
 
 ## Clone a Git repository
 

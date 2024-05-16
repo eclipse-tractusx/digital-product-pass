@@ -204,7 +204,7 @@ irs-helm:
   enabled: true
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
-  irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
+  irsUrl: "https://dpp-irs.int.demo.catena-x.net"
   apiKeyAdmin: <path:material-pass/data/int/irs/apiKey#apiKeyAdmin>
   apiKeyRegular: <path:material-pass/data/int/irs/apiKey#apiKeyRegular>
 
@@ -216,13 +216,13 @@ irs-helm:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
     hosts:
-      - host: "materialpass-irs.int.demo.catena-x.net"
+      - host: "dpp-irs.int.demo.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - "materialpass-irs.int.demo.catena-x.net"
+          - "dpp-irs.int.demo.catena-x.net"
         secretName: tls-secret
 
   digitalTwinRegistry:

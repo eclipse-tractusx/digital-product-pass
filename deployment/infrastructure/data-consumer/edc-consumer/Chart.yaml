@@ -44,7 +44,7 @@ dependencies:
     version: 12.1.6
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
-  - name: irs-helm
+  - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 6.14.0
-    condition: irs-helm.enabled
+    version: 7.1.2
+    condition: item-relationship-service.enabled

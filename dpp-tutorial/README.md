@@ -161,9 +161,9 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 
  * For the `manufacturerPartId` use `MPI0012`
 
- * Add the submodel as specified in the [digital-twin-provision](.digital-twin-provision.md) guide to the twin.
+ * Add the submodel as specified in the [digital-twin-provision](./digital-twin-provision.md) guide to the twin.
 
- * Upload your payload to the data service as specified in the [digital-twin-provision](.digital-twin-provision.md) guide.
+ * Upload your payload to the data service as specified in the [digital-twin-provision](./digital-twin-provision.md) guide.
  
  *   Generate a QR code as specified in the [qr code guide](./qr-code.md)
 

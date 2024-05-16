@@ -1,0 +1,44 @@
+
+{
+  "urn:uuid:48acc23b-7cb8-4288-b620-9eb3d9dce6bf": {
+    "catenaXId" : "urn:uuid:48acc23b-7cb8-4288-b620-9eb3d9dce6bf",
+    "childItems" : [ {
+      "catenaXId" : "urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe",
+      "quantity" : {
+        "value" : 1.0,
+        "unit" : "unit:piece"
+      },
+      "hasAlternatives" : false,
+      "createdOn" : "2022-02-03T14:48:54.709Z",
+      "businessPartner" : "BPNL0073928UJ879",
+      "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+    },
+    {
+      "catenaXId" : "urn:uuid:12e656bb-948e-44eb-9b5e-88d7deedf388",
+      "quantity" : {
+        "value" : 1.0,
+        "unit" : "unit:piece"
+      },
+      "hasAlternatives" : false,
+      "createdOn" : "2022-02-03T14:48:54.709Z",
+      "businessPartner" : "BPNL0073928UJ879",
+      "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+    }
+   ]
+  },
+  "urn:uuid:2854cc7b-b815-4db0-ab10-047b4965c867": {
+    "catenaXId" : "urn:uuid:2854cc7b-b815-4db0-ab10-047b4965c867",
+    "childItems" : [ {
+      "catenaXId" : "urn:uuid:0b55ea93-7c5f-4f93-a2c9-9842f327a630",
+      "quantity" : {
+        "value" : 1.0,
+        "unit" : "unit:piece"
+      },
+      "hasAlternatives" : false,
+      "createdOn" : "2022-02-03T14:48:54.709Z",
+      "businessPartner" : "BPNL0073928UJ879",
+      "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+    }
+   ]
+  }
+}

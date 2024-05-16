@@ -47,9 +47,85 @@ Follow this steps to create a new Digital Product Passport serialized model:
 
 Paste this [Digital Product Passport v2.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
 
-![DPP Example](dpp-example.png)
+![DPP Example](./resources/screenshots/dpp-example.png)
 
 
+### 2º - Find your assigned part in the test data file
+
+Test JSON file can be found [here](./resources/test-data/carParts.json) or in the paper at the worksession.
+
+To find your part:
+
+1 - Search by uuid with CTRL + F:
+
+![search id](./resources/screenshots/idsearch.png)
+
+You will get your information in a paper:
+
+Example:
+
+```json
+{
+ "f10c0181-ce80-4139-81f0-a59226c88bfe": {
+      "Name":"TRUNK LID HINGE (LEFT)",
+      "PCF (Product Carbon Footprint)": "189 kgCO2e",
+      "Height": "24 cm",
+      "Width": "2 cm",
+      "Length": "38 cm",
+      "Weight": "1.4 kg",
+      "id": "f10c0181-ce80-4139-81f0-a59226c88bfe",
+      "Part Instance ID": "DLH-5159",
+      "Manufacturing Date": "01.12.2023",
+      "Placed on Market Date": "15.01.2024",
+      "List of Materials": "Aluminum",
+      "Hazard Materials": "Lead, Butyl, Cyanoacrylates, Polyurethane",
+      "Guarantee": "24 months"
+  }
+}
+
+```
+
+> [!TIP]
+> Copy and paste the data for creating your digital product pass faster!
+
+
+### 3º - Substitute data in the template
+
+For example for adding the PCF value follow the following path:
+
+```text
+sustainability.PEF.carbon.value
+```
+
+Example:
+
+![PCF](./resources/screenshots/pcf-update.png)
+
+
+#### Where to substitute the data?
+
+Follow this paths to find where the information is located.
+
+| Property | Path |
+| -------- | ----- |
+| Name | typology.shortName |
+| Complete Name | typology.longName |
+| Class/Type of Part | typology.class.definition |
+| PCF | sustainability.PEF.carbon.value |
+|Height| characteristics.physicalDimension.height.value |
+|Width| characteristics.physicalDimension.width.value|
+|Length| characteristics.physicalDimension.length.value|
+|Weight| characteristics.physicalDimension.grossWeight.value|
+|Part Instance Id | identification.localIdentifier.key |
+|Manufacturing Date |operation.manufacturer.manufacturingDate |
+|List of Materials | sustainability.material.left.name.name (Add In Array)|
+|Hazard Materials | critical.left (add elements to list) |
+| Guarantee | lifespan (Add value and unit for garantee) |
+
+Congratulations! You have successfully created your own digital product pass! 
+
+> [!TIP]
+> You can add more relavant data and personalized information at the digital product pass, follow the template and modify the data as you wish!
 
 ## NOTICE
 

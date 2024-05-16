@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -92,11 +93,14 @@ class DataPlaneServiceTest {
         String endpoint = UUID.randomUUID().toString();
         String authKey = UUID.randomUUID().toString();
         String authCode = UUID.randomUUID().toString();
-        EndpointDataReference dataPlaneEndpoint = new EndpointDataReference();
-        dataPlaneEndpoint.setId(id);
-        dataPlaneEndpoint.setEndpoint(endpoint);
-        dataPlaneEndpoint.setAuthKey(authKey);
-        dataPlaneEndpoint.setAuthCode(authCode);
+        EndpointDataReference dataPlaneEndpoint = EndpointDataReference.builder().id(id)
+                .payload(
+                EndpointDataReference.Payload.builder().dataAddress(
+                        EndpointDataReference.DataAddress.builder().properties(
+                                EndpointDataReference.Properties.builder().endpoint(endpoint).authorization(authCode).build()
+                        ).build()
+                    ).build()
+                ).build();
         String dataPLaneEndpointStr = "test.endpoint";
 
         JsonNode passport = dataPlaneService.getPassportFromEndpoint(dataPlaneEndpoint, dataPLaneEndpointStr);

@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -55,7 +56,7 @@ Welcome to the documentation section, below you will find all the necesary docs 
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Business Statement](./business%20statement/BusinessStatement.md)         | Business Context from the Application                                                                                                                             |
+| [Business Statement](./interoperability/InteroperabilityGuide.md)         | Business Context from the Application                                                                                                                             |
 
 # Application User Interface Preview
 
@@ -63,11 +64,11 @@ Here you can find some application screenshots that will help you to visualize a
 
 ## Passport Search View
 
-![Search View](./arc42/media/GraphicQRCodeView.png)
+![Search View](./architecture/media/GraphicQRCodeView.png)
 
 ## Passport General Information View
 
-![General Info View](./arc42/media/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./architecture/media/GraphicBatteryPassportViewGeneralInfo.png)
 
 ## User Interface Documentation
 
@@ -75,7 +76,7 @@ If you need an extra guideline to understand the application user interface plea
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [User Manual](./user%20manual/UserManual.md)                              | User Manual explaining the user interface                                                                                                                                    |
+| [User Manual](./user/UserManual.md)                              | User Manual explaining the user interface                                                                                                                                    |
 
 # Architecture Documentation
 
@@ -83,11 +84,11 @@ If you need an extra guideline to understand the application user interface plea
 
 For understating the achitecture first take a look at the following diagram:
 
-![Application Scope](./arc42/media/dataRetrieval/digitalProductPassContext.drawio.svg)
+![Application Scope](./architecture/media/dataRetrieval/digitalProductPassContext.drawio.svg)
 
 Here you can see that the Digital Product Pass Application is located between the consumer and the data provider. It should be provided by the Consumer and conected to a EDC. At the moment the DPP is hosted by Catena-X and is connected to a [test EDC Consumer](../deployment/infrastructure/data-consumer/edc-consumer/), which is maintained by the Eclipse Foundation and can be found in the [Eclipse Tractus-X EDC Repository](https://github.com/eclipse-tractusx/tractusx-edc).
 
-The [Arc42](./arc42/Arc42.md) documentation is the main architecture guide you can read in order to have a overview from the application and get to know more about the system.
+The [Arc42](./architecture/Arc42.md) documentation is the main architecture guide you can read in order to have a overview from the application and get to know more about the system.
 
 ## Documents of Interest
 
@@ -95,8 +96,8 @@ Here are all the docs you need to understand the architecture and arhitecture co
 
 | Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
-| [Arc42](./arc42/Arc42.md)                                             | Main architecture document  of the Digital Product Pass Application                                                                                                                                     |
-| [Administration Guide](./admin%20guide/AdminGuide.md)                  | Administration Guide explaining the infrastructure and how to configure the application  
+| [Arc42](./architecture/Arc42.md)                                             | Main architecture document  of the Digital Product Pass Application                                                                                                                                     |
+| [Administration Guide](./admin/AdminGuide.md)                  | Administration Guide explaining the infrastructure and how to configure the application  
 
 # User and Technical User Changelogs
 
@@ -122,7 +123,6 @@ Here you will find the Infrastructure documentation for the Digital Product Pass
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Getting Started Introduction](./GETTING-STARTED.md)           | Digital Product Pass application infrastructure, installation guide, technical usage guide
-| [Deployment in Argo CD](../deployment/README.md)                     | Technical Guide - Deployment in ArgoCD - integration environment                                                                                  |
 | [Docker Overview](../deployment/local/iam/README.md)                                      | Overview on general docker commands                                                                                                                                |
 
 # Security Documentation
@@ -132,8 +132,8 @@ Here you can find the main security documentatin for the Digital Product Pass Ap
 Name                                                                      | Description                                                                                                                                                        |
 | ----------------------------------------------------------------          | -----------------------------------------------------------------------------------------------------------------------------------------------------------        |
 | [Keycloak Overview](../deployment/local/iam/README.md)                     | This guide describes how to setup a keycloak instance in local docker container and import existing realm.json file.  |
-[Code Scaning with Kics and Trivy](./infrastructure%20as%20code/IaC.md)  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github
-| [Secret Management](./secrets%20management/SECRETS_MANAGEMENT.md)                          | Secrets management with CX HashiCorp Vault and ArgoCD Vault Plugin (AVP) - client credentials, database passwords, access tokens                                   |
+[Code Scaning with Kics and Trivy](./security/infrastructure-as-code/IaC.md)  | Infrastructure As Code (IaC) with KICS intends to find security vulnerabilities by scanning the code and upload results to the security dashboard in github
+| [Secret Management](./security/secrets-management/SecretsManagement.md)                          | Secrets management to store client credentials, database passwords, access tokens                                   |
 
 # Testing Documentation
 
@@ -180,6 +180,7 @@ You can also deploy the application using the [deployment guidelines](./GETTING-
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: <https://github.com/eclipse-tractusx/digital-product-pass>

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -38,6 +39,9 @@ public class AssetSearch {
     /** ATTRIBUTES **/
     @JsonProperty("assetId")
     String assetId;
+
+    @JsonProperty("bpn")
+    String bpn;
     @JsonProperty("connectorAddress")
     String connectorAddress;
 
@@ -48,6 +52,12 @@ public class AssetSearch {
 
     public AssetSearch(String assetId, String connectorAddress) {
         this.assetId = assetId;
+        this.connectorAddress = connectorAddress;
+    }
+
+    public AssetSearch(String assetId, String bpn, String connectorAddress) {
+        this.assetId = assetId;
+        this.bpn = bpn;
         this.connectorAddress = connectorAddress;
     }
 
@@ -66,4 +76,11 @@ public class AssetSearch {
         this.connectorAddress = connectorAddress;
     }
 
+    public String getBpn() {
+        return bpn;
+    }
+
+    public void setBpn(String bpn) {
+        this.bpn = bpn;
+    }
 }

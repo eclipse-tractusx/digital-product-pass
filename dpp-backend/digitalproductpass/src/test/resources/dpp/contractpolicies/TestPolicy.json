@@ -1,8 +1,7 @@
 {
-  "@id": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:MTIxMjYzMzgtYzhkMC00MGQ4LTkxYWMtZmY2ZTY0ZTQ5ZmM0",
-  "@type": "odrl:Set",
-  "odrl:permission" : [],
+  "@id": "cmVnaXN0cnktY29udHJhY3QtZGVmaW5pdGlvbg==:ZHBwLXJlZ2lzdHJ5:N2FjZDM0OGItNzk3Ny00MGRhLWIyZTktMGQyY2Y4NzBkNjhi",
+  "@type": "odrl:Offer",
+  "odrl:permission": [],
   "odrl:prohibition": [],
-  "odrl:obligation": [],
-  "odrl:target": "registry-asset"
+  "odrl:obligation": []
 }

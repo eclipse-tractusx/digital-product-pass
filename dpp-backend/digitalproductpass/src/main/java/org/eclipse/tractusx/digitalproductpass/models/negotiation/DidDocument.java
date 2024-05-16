@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -25,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.models.negotiation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,15 +39,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DidDocument {
+    @JsonIgnore
+    public static final String ID = "@id";
+    @JsonIgnore
+    public static final String TYPE = "@type";
+    @JsonIgnore
+    public static final String CONTEXT = "@context";
 
     /** ATTRIBUTES **/
-    @JsonProperty("@id")
-    String id;
-    @JsonProperty("@type")
-    String type;
+    @JsonProperty(ID)
+    public String id;
+
+    @JsonProperty(TYPE)
+    public String type;
 
     @JsonProperty("@context")
-    JsonNode context;
+    public JsonNode context;
 
     /** CONSTRUCTOR(S) **/
     public DidDocument(String id, String type) {
@@ -67,6 +76,10 @@ public class DidDocument {
 
     public DidDocument(JsonNode context) {
         this.context = context;
+    }
+    public DidDocument(JsonNode context,  String type) {
+        this.context = context;
+        this.type = type;
     }
 
     /** GETTERS AND SETTERS **/

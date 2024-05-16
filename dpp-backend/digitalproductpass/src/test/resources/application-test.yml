@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -48,12 +49,16 @@ configuration:
 
   edc:
     endpoint: 'https://materialpass.int.demo.catena-x.net/consumer'
+    readiness: '/api/check/readiness'
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
     transfer: '/transferprocesses'
-    receiverEndpoint: 'https://materialpass.int.demo.catena-x.net/endpoint'
+    receiverEndpoint: 'https://dpp.int.demo.catena-x.net/endpoint'
     delay:  100 # -- Negotiation status Delay in milliseconds in between async requests [<= 500]
+    transferType: "HttpData-PULL"
+    timeout:
+      exchange: 10
 
   security:
     authorization:
@@ -62,6 +67,8 @@ configuration:
     startUpChecks:
       bpnCheck: false
       edcCheck: false
+    authentication:
+      header: "X-Api-Key"
 
   irs:
     enabled: true
@@ -74,10 +81,29 @@ configuration:
     callbackUrl: "https://materialpass.int.demo.catena-x.net/api/irs"
 
   dtr:
+    assetPropType: 'asset:prop:type'
     assetType: 'data.core.digitalTwinRegistry'
     endpointInterface: 'SUBMODEL-3.0'
     dspEndpointKey: 'dspEndpoint'
     semanticIdTypeKey: 'Submodel'
+    policyCheck:
+      enabled: true
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
+      # List of allowed permissions policies
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.core.digitalTwinRegistry:1"
+          prohibition: []
+          obligation: []
+
     decentralApis:
       search: "/lookup/shells"
       digitalTwin: "/shell-descriptors"
@@ -102,6 +128,9 @@ configuration:
       key: "bpn"
       timeout: 1500
 
+  single-api:
+    maxRetries: 30
+    delay: 1000
 
   process:
     store: true
@@ -110,6 +139,7 @@ configuration:
     signKey: 'c55e3f35200f6afedbce37cefdaf40eadd15c92814edfdbc4d6ab0eacdcdd56dbcd5a2a34ca4b675084d33f9f479d7d79347795148aaf4443e1b47ab96b27e72'
 
   passport:
+    defaultIdType: "partInstanceId"
     searchIdSchema: "CX:<manufacturerPartId>:<partInstanceId>"
     dataTransfer:
       encrypt: true
@@ -118,6 +148,27 @@ configuration:
     aspects:
       - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
       - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
+      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+    policyCheck:
+      enabled: true
+      strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
+      policies:
+        - permission:
+            - action: "USE"
+              logicalConstraint: "odrl:and"
+              constraints:
+                - leftOperand: "cx-policy:Membership"
+                  operator: "odrl:eq"
+                  rightOperand: "active"
+                - leftOperand: "cx-policy:FrameworkAgreement"
+                  operator: "odrl:eq"
+                  rightOperand: "circulareconomy:1.0"
+                - leftOperand: "cx-policy:UsagePurpose"
+                  operator: "odrl:eq"
+                  rightOperand: "cx.circular.dpp:1"
+          prohibition: [ ]
+          obligation: [ ]
 
   vault:
     type: 'local'
@@ -132,6 +183,7 @@ configuration:
       - "client.secret"
       - "edc.apiKey"
       - "edc.participantId"
+      - "oauth.apiKey"
 
 server:
   error:

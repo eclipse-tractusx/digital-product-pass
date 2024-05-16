@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -83,7 +84,6 @@ class CatenaXServiceTest {
     private DiscoveryConfig discoveryConfig;
     private YamlUtil yamlUtil;
     private JsonUtil jsonUtil;
-
     private HttpUtil httpUtil;
     private FileUtil fileUtil;
     @Mock
@@ -98,7 +98,7 @@ class CatenaXServiceTest {
         fileUtil = new FileUtil();
         yamlUtil = new YamlUtil(fileUtil);
         jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
         securityConfig.setStartUpChecks(new SecurityConfig.StartUpCheckConfig(false, false));
@@ -128,12 +128,12 @@ class CatenaXServiceTest {
         ProcessConfig processConfig = new ProcessConfig();
         processConfig.setDir("process");
         ProcessManager processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, vaultService, processManager, dtrConfig);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil, new PolicyUtil(),vaultService, processManager, dtrConfig);
 
         discoveryConfig = initDiscoveryConfig();
         dtrConfig = initDtrConfig();
 
-        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
+        dtrSearchManager = new DtrSearchManager(fileUtil, edcUtil, jsonUtil, new PolicyUtil(), dataTransferService, dtrConfig, processManager);
         catenaXService = new CatenaXService(env, fileUtil, httpUtil, jsonUtil, vaultService, dtrSearchManager, authenticationService, discoveryConfig, dataTransferService, dtrConfig);
 
         discovery = new Discovery(new ArrayList<>());

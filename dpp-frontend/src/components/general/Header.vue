@@ -1,7 +1,8 @@
 <!--
   Tractus-X - Digital Product Passport Application
 
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -37,19 +38,11 @@
           <slot></slot>
         </v-col>
         <v-col class="v-col-auto" style="padding: 0">
-          <v-container
-            fluid
-            class="d-flex align-center justify-content-end profile-container"
-          >
+          <v-container fluid class="d-flex align-center justify-content-end profile-container">
             <v-row>
-              <v-col
-                class="d-flex justify-content-between align-center help-container"
-              >
+              <v-col class="d-flex justify-content-between align-center help-container">
                 <a id="lnkHelp" target="_blank" :href="userGuideUrl">
-                  <v-btn
-                    class="help-btn"
-                    :ripple="{ class: 'ripple-background' }"
-                    rounded
+                  <v-btn class="help-btn" :ripple="{ class: 'ripple-background' }" rounded
                     >{{ $t("header.helpBtn") }}
                     <Tooltip>
                       {{ $t("header.helpTooltip") }}
@@ -57,17 +50,10 @@
                   </v-btn>
                 </a>
               </v-col>
-              <v-col
-                class="d-flex justify-content-between align-center profile"
-              >
+              <v-col class="d-flex justify-content-between align-center profile">
                 <v-menu>
                   <template #activator="{ props }">
-                    <img
-                      v-bind="props"
-                      :src="Profile"
-                      alt="profile"
-                      class="buttons"
-                    />
+                    <img v-bind="props" :src="Profile" alt="profile" class="buttons" />
                   </template>
                   <v-list class="menu-dropdown" rounded="xl">
                     <div class="profile-menu-header">
@@ -76,14 +62,8 @@
                         <p class="role">{{ role }}</p>
                       </span>
                     </div>
-                    <v-btn
-                      :ripple="{ class: 'ripple-background' }"
-                      class="menu-btn"
-                      @click="logout"
-                    >
-                      <span class="profile-text">{{
-                        $t("header.signOut")
-                      }}</span>
+                    <v-btn :ripple="{ class: 'ripple-background' }" class="menu-btn" @click="logout">
+                      <span class="profile-text">{{ $t("header.signOut") }}</span>
                     </v-btn>
                     <div class="profile-menu-lang">
                       <a
@@ -145,11 +125,7 @@ export default {
       auth: inject("authentication"),
       tab: null,
       lang: "en-EN",
-      userGuideUrl:
-        REPO_ENDPOINT +
-        "/blob/" +
-        COMMIT_ID +
-        "/docs/user%20manual/UserManual.md",
+      userGuideUrl: REPO_ENDPOINT + "/blob/" + COMMIT_ID + "/docs/user/UserManual.md",
     };
   },
   mounted() {

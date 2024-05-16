@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -23,6 +24,38 @@
 
 # Release Notes Digital Product Pass Application
 User friendly relase notes without especific technical details.
+
+
+**May 13 2024 (Version 3.0.0-rc1)**
+*13.05.2024*
+
+### Added
+
+#### Data Sovereighty Configuration enabled
+
+Now in the backend configuration it is possible to add the policies required per contract.
+The policy configuration guide can be found here: [Policy Configuration Guide](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md)
+
+#### Single API functionality enabled
+
+Now the backend allows users to access and retrieve information without pending of a frontend keyclock authentication. With a single api call `/api/data/request` and the API Key configured in the helm charts values, the backend is allowed to be accessed.
+
+#### EDC 0.7.0 integrated in the application
+
+The Digital Product Pass application now supports the latest edc version available. The new models and payloads have been integrated into the application.
+
+**May 06 2024 (Version 2.3.0)**
+*06.05.2024*
+
+### Updated
+
+#### Integration of Industry Core Changes
+
+There has been some new changes from Industry Core adjusted to the asset policy and digital twin. The new attributes are `manufacturerId` and `digitalTwinType` to the specific asset Ids of the digital twin and the asset policy is now contrained to be compliant with the standardization.
+
+#### License and License Header correction
+
+As request by `BASF` in the last interation (PI12) the company wanted to be removed from the copyright for the further development of the application in Tractus-X. Instead `CGI` which has been doing the work in name of BASF is added to the copyright headers and license together with the other companies `BMW` and `HENKEL`. Reference in the Pull Request: [#304](https://github.com/eclipse-tractusx/digital-product-pass/pull/304)
 
 
 **March 26 2024 (Version 2.2.0)**
@@ -527,6 +560,7 @@ A deep dive on the application's operation and functionalities can be found in t
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -29,9 +30,8 @@ package org.eclipse.tractusx.digitalproductpass.models.catenax;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
 
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -67,7 +68,7 @@ minikube start --cpus 4 --memory 8096
 minikube addons enable ingress
 ```
 
-The secrets/credentials for all components are stored in CX Hashicorp vault (a CatenaX shared service). There is a argocd-vault-plugin which retrieves secrets when it comes to INT or DEV, but the plugin does not work locally as we are not using argocd to deploy the apps in localhost. Therefore, the secrets variables in configurations need to be substituted with their actual values and security must also be ensured during the substitution process. To achieve this, a shell script is used to set/unset [init-values.sh](../deployment/local/testing/init-values.sh) in required components as needed. 
+The secrets/credentials for all components are stored in a centralized vault service (HashiCorp Vault). The secrets in configurations must be populated with their values, and security must also be ensured during the substitution process. To achieve this, a shell script is available to set/unset [init-values.sh](../deployment/local/testing/init-values.sh) in required components as needed. 
 
 > Prerequisite: Prior to run the scripts, the values for the follwoing environment variables should be placed in the script.
 
@@ -271,6 +272,7 @@ _integration_ (`https://dpp.int.demo.catena-x.net/`) environments.
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 - SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

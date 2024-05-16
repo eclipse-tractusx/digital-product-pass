@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -28,10 +29,12 @@
 name: "dpp-backend"
 replicaCount: 1
 namespace: ""
+nameOverride: ""
+fullnameOverride: ""
 
 image:
   repository: docker.io/tractusx/digital-product-pass-backend
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
 imagePullSecrets: []
 
@@ -45,7 +48,7 @@ service:
 ingress:
   enabled: false
   hosts:
-    - host: &hostname "localhost"
+    - host: &hostname ""
       paths:
         - path: /
           pathType: Prefix
@@ -57,8 +60,9 @@ edc:
   # -- BPN Number
   participantId: &bpn "<Add participant id here>"
   # -- edc consumer connection configuration
-  endpoint: ""
+  hostname: ""
   apis:
+    readiness: "/api/check/readiness"
     management: '/management/v2'
     catalog: '/catalog/request'
     negotiation: '/contractnegotiations'
@@ -102,7 +106,29 @@ passport:
     - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
     - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
     - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
-
+  # -- configuration for policies to filter in the digital product pass asset negotiation
+  policyCheck:
+    # -- condition to enable and disable the policy check
+    enabled: true
+    # -- the strict mode is quicker (uses hashes) and requires less computation complexity, the default mode is comparing against every single object value
+    strictMode: false
+    # -- list of allowed policies that can be selected from the edc catalog in negotiations
+    policies:
+      - permission:
+          - action: "USE"
+            logicalConstraint: "odrl:and"
+            constraints:
+              - leftOperand: "cx-policy:Membership"
+                operator: "odrl:eq"
+                rightOperand: "active"
+              - leftOperand: "cx-policy:FrameworkAgreement"
+                operator: "odrl:eq"
+                rightOperand: "circulareconomy:1.0"
+              - leftOperand: "cx-policy:UsagePurpose"
+                operator: "odrl:eq"
+                rightOperand: "cx.circular.dpp:1"
+        prohibition: [ ]
+        obligation: [ ]
 digitalTwinRegistry:
   endpoints:
     search: "/lookup/shells"
@@ -111,14 +137,33 @@ digitalTwinRegistry:
   # -- timeouts for the digital twin registry async negotiation
   timeouts:
     search: 50
-    negotiation: 40
-    transfer: 10
-    digitalTwin: 20
+    negotiation: 60
+    transfer: 20
+    digitalTwin: 40
   # -- temporary storage of dDTRs for optimization
   temporaryStorage:
     enabled: true
     lifetime: 12 # -- Hours
-
+  # -- policy configuration for the digital twin assets in the edc catalog
+  policyCheck:
+    # -- condition to enable and disable the policy check
+    enabled: true
+    # -- the strict mode is quicker (uses hashes) and requires less computation complexity, the default mode is comparing against every single object value
+    strictMode: false
+    # -- list of allowed policies that can be selected from the edc catalog in negotiations
+    policies:
+      - permission:
+          - action: "USE"
+            logicalConstraint: "odrl:and"
+            constraints:
+              - leftOperand: "cx-policy:Membership"
+                operator: "odrl:eq"
+                rightOperand: "active"
+              - leftOperand: "cx-policy:UsagePurpose"
+                operator: "odrl:eq"
+                rightOperand: "cx.core.digitalTwinRegistry:1"
+        prohibition: [ ]
+        obligation: [ ]
 # -- discovery configuration
 discovery:
   # -- discovery finder configuration
@@ -130,6 +175,10 @@ discovery:
   # -- edc discovery configuration
   edcDiscovery:
     key: "bpn"
+# -- configuration to the single API endpoint
+single-api:
+  maxRetries: 30
+  delay: 1000
 
 # -- oauth configuration
 oauth:
@@ -152,16 +201,79 @@ oauth:
   roleCheck:
     enabled: false
 
+  # -- to authenticate against single API
+  apiKey:
+    header: "X-Api-Key"
+    secret: "<api-key>"
+
+# -- The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
 podSecurityContext:
+  seccompProfile:
+    # -- Restrict a Container's Syscalls with seccomp
+    type: RuntimeDefault
+  # -- Runs all processes within a pod with a special uid
   runAsUser: 1000
+  # -- Processes within a pod will belong to this guid
+  runAsGroup: 3000
+  # -- The owner for volumes and any files created within volumes will belong to this guid
   fsGroup: 3000
 
+# The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
 securityContext:
+  capabilities:
+    # -- Specifies which capabilities to drop to reduce syscall attack surface
+    drop:
+      - ALL
+    # -- Specifies which capabilities to add to issue specialized syscalls
+    add: []
+  # -- Whether the root filesystem is mounted in read-only mode
   readOnlyRootFilesystem: true
+  # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
   allowPrivilegeEscalation: false
+  # -- Requires the container to run without root privileges
   runAsNonRoot: true
+  # -- The container's process will run with the specified uid
   runAsUser: 1000
+  # -- The owner for volumes and any files created within volumes will belong to this guid
   runAsGroup: 3000
+
+# -- specifies the volume mounts for the backend deployment
+volumeMounts:
+  # -- mounted path for the backend configuration added in the config maps
+  - name: backend-config
+    mountPath: /app/config
+  # -- contains the location for the process data directory
+  - name: pvc-backend
+    mountPath: /app/data/process
+    subPath: data/process
+  # -- contains the log directory uses by the backend
+  - name: tmpfs
+    mountPath: /app/log
+    subPath: log
+  # -- container tmp directory
+  - name: tmpfs
+    mountPath: /tmp
+  # -- contains the vault configuration for the backend
+  - name: tmpfs
+    mountPath: /app/data/VaultConfig
+    subPath: VaultConfig/vault.token.yml
+  # -- contains the temporary directory used by the backend
+  - name: tmpfs
+    mountPath: /app/tmp
+
+# -- volume claims for the containers
+volumes:
+  # -- persist the backend configuration
+  - name: backend-config
+    configMap:
+      name: "{{ .Release.Name }}-backend-config"
+  # -- persist the backend data directories
+  - name: pvc-backend
+    persistentVolumeClaim:
+      claimName: "{{ .Release.Name }}-pvc-data"
+  # -- temporary file system mount
+  - name: tmpfs
+    emptyDir: {}
 
 serviceAccount:
   # Specifies whether a service account should be created

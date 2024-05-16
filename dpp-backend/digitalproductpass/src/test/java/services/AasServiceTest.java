@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -110,7 +111,7 @@ class AasServiceTest {
         MockitoAnnotations.openMocks(this);
         fileUtil = new FileUtil();
         jsonUtil = new JsonUtil(fileUtil);
-        edcUtil = new EdcUtil(jsonUtil);
+        edcUtil = new EdcUtil(jsonUtil, new PolicyUtil());
         yamlUtil = new YamlUtil(fileUtil);
         securityConfig = new SecurityConfig();
         securityConfig.setAuthorization(new SecurityConfig.AuthorizationConfig(false, false));
@@ -138,8 +139,8 @@ class AasServiceTest {
         processConfig.setDir("process");
         baseDataDirPath = Path.of(fileUtil.getDataDir(), processConfig.getDir()).toString();
         processManager = new ProcessManager(httpUtil, jsonUtil, fileUtil, processConfig);
-        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, dataTransferService, dtrConfig, processManager);
-        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,vaultService, processManager, dtrConfig);
+        dtrSearchManager = new DtrSearchManager(fileUtil,edcUtil, jsonUtil, new PolicyUtil(), dataTransferService, dtrConfig, processManager);
+        dataTransferService = new DataTransferService(env, httpUtil,edcUtil, jsonUtil,new PolicyUtil(),vaultService, processManager, dtrConfig);
         authenticationService = Mockito.spy(new AuthenticationService(vaultService, env, httpUtil, jsonUtil, securityConfig));
         mockedToken = (JwtToken) jsonUtil.fromJsonFileToObject(Paths.get(fileUtil.getBaseClassDir(this.getClass()), mockedTokenPath).toString(), JwtToken.class);
         doReturn(mockedToken).when(authenticationService).getToken();

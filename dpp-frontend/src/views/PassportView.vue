@@ -1,7 +1,8 @@
 <!--
   Tractus-X - Digital Product Passport Application
 
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -50,7 +51,10 @@
     <v-container v-if="loading && !error">
       <LoadingComponent :id="id" />
     </v-container>
-    <v-container class="container-policy-selection" v-else-if="showOverlay && !error">
+    <v-container
+      class="container-policy-selection"
+      v-else-if="showOverlay && !error"
+    >
       <div class="loading-container">
         <v-col class="v-col-auto dpp-id-container contract-modal">
           <v-card class="contract-container">
@@ -65,9 +69,9 @@
                 :key="contractId"
               >
                 <v-row class="policy-group-label">
-                  <v-col cols="auto">{{contractIndex+1}}. {{
-                    $t("passportView.policyAgreement.contractId")
-                  }}
+                  <v-col cols="auto"
+                    >{{ contractIndex + 1 }}.
+                    {{ $t("passportView.policyAgreement.contractId") }}
                   </v-col>
                   <v-col>
                     <span class="contractid-title"> {{ contractId }}</span>
@@ -77,7 +81,7 @@
                   v-for="(item, index) in group"
                   :key="`${contractId}_${index}`"
                   color="#0F71CB"
-                  @click="chooseContract(contractId, item)"
+                  @click="chooseContract(contractId, item['@id'])"
                   :value="`${contractIndex}.${index}`"
                 >
                   <template v-slot:label>
@@ -90,10 +94,14 @@
                                 index + 1
                               }}</strong
                             ></span
-                          >                           
+                          >
                           <div>
                             <v-row>
-                              <v-col cols="auto" justify-content="center" align-content="center">
+                              <v-col
+                                cols="auto"
+                                justify-content="center"
+                                align-content="center"
+                              >
                                 <div class="policy-label">ID</div>
                               </v-col>
                               <v-col>
@@ -104,28 +112,69 @@
                             </v-row>
                             <v-divider></v-divider>
                             <div>
-                            <v-row v-for="(attributes, policyKey, policyIndex) in parsedPolicyConstraints[item['@id']]" :key="`${policyIndex}`">
-                              <template v-if="attributes.length != 0">
-                                <v-col cols="auto" justify-content="center" align-content="center">
-                                  <div class="policy-second-label">{{policyKey}}</div>
-                                </v-col>
-                                <v-col>
-                                  <div class="policy-second-value">
-                                      <v-row class="field-container" v-for="(attribute, attrIndex) in attributes" :key="`${attrIndex}`" >
-                                        <p class="policy-second-value">Action Type: {{ attribute.actionType }}</p>
+                              <v-row
+                                v-for="(
+                                  attributes, policyKey, policyIndex
+                                ) in parsedPolicyConstraints[item['@id']]"
+                                :key="`${policyIndex}`"
+                              >
+                                <template v-if="attributes.length != 0">
+                                  <v-col
+                                    cols="auto"
+                                    justify-content="center"
+                                    align-content="center"
+                                  >
+                                    <div class="policy-second-label">
+                                      {{ policyKey }}
+                                    </div>
+                                  </v-col>
+                                  <v-col>
+                                    <div class="policy-second-value">
+                                      <v-row
+                                        class="field-container"
+                                        v-for="(
+                                          attribute, attrIndex
+                                        ) in attributes"
+                                        :key="`${attrIndex}`"
+                                      >
+                                        <p class="policy-second-value">
+                                          Action Type:
+                                          {{ attribute.actionType }}
+                                        </p>
                                         <div>
                                           <ul>
-                                              <li v-for="(constraint, constraintIndex) in attribute.constraints.constraint" :key="`${constraintIndex}`" >
-                                                <span v-if="attribute.constraints.operator" class="attribute-operator">{{attribute.constraints.operator}}</span>
-                                                <span class="attribute-constraint">- [{{constraint.leftOperand}}] [{{constraint.operator}}] [{{constraint.rightOperand}}]</span>
-                                              </li>
+                                            <li
+                                              v-for="(
+                                                constraint, constraintIndex
+                                              ) in attribute.constraints
+                                                .constraint"
+                                              :key="`${constraintIndex}`"
+                                            >
+                                              <span
+                                                v-if="
+                                                  attribute.constraints.operator
+                                                "
+                                                class="attribute-operator"
+                                                >{{
+                                                  attribute.constraints.operator
+                                                }}</span
+                                              >
+                                              <span class="attribute-constraint"
+                                                >- [{{
+                                                  constraint.leftOperand
+                                                }}] [{{ constraint.operator }}]
+                                                [{{
+                                                  constraint.rightOperand
+                                                }}]</span
+                                              >
+                                            </li>
                                           </ul>
-                                          </div>
-                                      </v-row > 
-                                  </div>
-                                </v-col>
-                              </template>
-                            </v-row>
+                                        </div>
+                                      </v-row>
+                                    </div>
+                                  </v-col>
+                                </template>
+                              </v-row>
                             </div>
                           </div>
                         </div>
@@ -496,9 +545,10 @@ export default {
               let policyId = policy["@id"];
               policyEntry[key] = policy;
               contractPolicies.push(policyEntry);
-              try{
-              this.parsedPolicyConstraints[policyId] =edcUtil.parsePolicyConstraints(policy);
-              }catch(e){
+              try {
+                this.parsedPolicyConstraints[policyId] =
+                  edcUtil.parsePolicyConstraints(policy);
+              } catch (e) {
                 console.error(e);
               }
             });
@@ -509,9 +559,10 @@ export default {
             let policyId = policy["@id"];
             policyEntry[key] = policy;
             contractPolicies.push(policyEntry);
-            try{
-            this.parsedPolicyConstraints[policyId] = edcUtil.parsePolicyConstraints(policy);
-            }catch(e){
+            try {
+              this.parsedPolicyConstraints[policyId] =
+                edcUtil.parsePolicyConstraints(policy);
+            } catch (e) {
               console.error(e);
               return false;
             }
@@ -576,13 +627,31 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
-          this.error= true;
+          this.error = true;
         }
         this.searchResponse = result;
       } catch (e) {
         console.log("searchContracts -> " + e);
       } finally {
-        if (
+        if (!this.searchResponse || this.searchResponse["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.searchResponse)
+            ? this.searchResponse["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.searchResponse)
+            ? this.searchResponse["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists(
+            "statusText",
+            this.searchResponse
+          )
+            ? this.searchResponse["statusText"]
+            : "Not Available";
+          this.error = true;
+        } else if (
           this.searchResponse &&
           jsonUtil.exists("status", this.searchResponse) &&
           this.searchResponse["status"] == 200 &&
@@ -600,49 +669,49 @@ export default {
               "data.contracts",
               this.searchResponse
             );
-            if(!this.contractItems){
-                this.errorObj.title =
-                  "No contract items found!";
-                this.errorObj.description =
-                  "It was not possible to display the policies and contracts.";
-                this.status = 500;
-                this.statusText = "Internal Server Error";
-                this.error= true;
+            if (!this.contractItems) {
+              this.errorObj.title = "No contract items found!";
+              this.errorObj.description =
+                "It was not possible to display the policies and contracts.";
+              this.status = 500;
+              this.statusText = "Internal Server Error";
+              this.error = true;
             }
 
             // Extract policies
             let res = this.extractPolicies(this.contractItems);
-            if(!res){
-                this.errorObj.title =
-                  "It was not possible to parse policies!";
-                this.errorObj.description =
-                  "It was not possible to display the policies and contracts.";
-                this.status = 500;
-                this.statusText = "Internal Server Error";
-                this.error= true;
-            }else{
+            if (!res) {
+              this.errorObj.title = "It was not possible to parse policies!";
+              this.errorObj.description =
+                "It was not possible to display the policies and contracts.";
+              this.status = 500;
+              this.statusText = "Internal Server Error";
+              this.error = true;
+            } else {
               // Check if policies array has elements and then access the @id of the first element
               const firstPolicyObj = this.policies[0];
               const initialContractToSign = Object.keys(firstPolicyObj)[0];
               const initialPolicyToSign =
                 firstPolicyObj[initialContractToSign]["@id"];
 
-              if(!this.parsedPolicyConstraints || Object.keys(this.parsedPolicyConstraints).length == 0){
-                  this.errorObj.title =
-                    "No contract policies found!";
-                  this.errorObj.description =
-                    "It was not possible to display the policies and contracts.";
-                  this.status = 500;
-                  this.statusText = "Internal Server Error";
-                  this.error= true;
-              }else{
+              if (
+                !this.parsedPolicyConstraints ||
+                Object.keys(this.parsedPolicyConstraints).length == 0
+              ) {
+                this.errorObj.title = "No contract policies found!";
+                this.errorObj.description =
+                  "It was not possible to display the policies and contracts.";
+                this.status = 500;
+                this.statusText = "Internal Server Error";
+                this.error = true;
+              } else {
                 // Commit the contract ID to the store
                 this.$store.commit("setContractToSign", {
                   contract: initialContractToSign,
                   policy: initialPolicyToSign,
                 });
 
-              this.shouldShowOverlay();
+                this.shouldShowOverlay();
               }
             }
           }
@@ -672,13 +741,28 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.status = 408;
           this.statusText = "Request Timeout";
-          this.error= true;
+          this.error = true;
         }
         this.data = result;
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        if (
+        if (!this.data || this.data["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.data)
+            ? this.data["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.data)
+            ? this.data["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists("statusText", this.data)
+            ? this.data["statusText"]
+            : "Not Available";
+          this.error = true;
+        } else if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
           this.data["status"] == 200
@@ -725,13 +809,28 @@ export default {
             "The request took too long... Please retry or try again later.";
           this.errorObj.status = 408;
           this.errorObj.statusText = "Request Timeout";
-          this.error= true;
+          this.error = true;
         }
         this.data = result;
       } catch (e) {
         console.log("passportView -> " + e);
       } finally {
-        if (
+        if (!this.data || this.data["status"] != 200) {
+          this.errorObj.title = jsonUtil.exists("message", this.data)
+            ? this.data["message"]
+            : "The backend is not accessible!";
+          this.errorObj.description =
+            "It was not possible to search for contracts in backend!.";
+
+          this.errorObj.status = jsonUtil.exists("status", this.data)
+            ? this.data["status"]
+            : 503;
+
+          this.errorObj.statusText = jsonUtil.exists("statusText", this.data)
+            ? this.data["statusText"]
+            : "Not Available";
+          this.error = true;
+        } else if (
           this.data &&
           jsonUtil.exists("status", this.data) &&
           this.data["status"] == 200 &&
@@ -823,20 +922,25 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
-        this.error= true;
+        this.error = true;
         return response;
       }
-
-      // Check if the response is empty and give an error
-      if (!response) {
-        this.errorObj.title = "Failed to return passport";
+      if (!response || response["status"] != 200) {
+        this.errorObj.title = jsonUtil.exists("message", response)
+          ? response["message"]
+          : "The backend is not accessible!";
         this.errorObj.description =
-          "It was not possible to complete the passport transfer.";
-        this.errorObj.status = 400;
-        this.errorObj.statusText = "Bad Request";
-        this.error= true;
-        return null;
-      }
+          "It was not possible to search for contracts in backend!.";
+
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 503;
+
+        this.errorObj.statusText = jsonUtil.exists("statusText", response)
+          ? response["statusText"]
+          : "Not Available";
+        this.error = true;
+      } 
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -851,7 +955,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
-        this.error= true;
+        this.error = true;
       }
 
       return response;
@@ -893,7 +997,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
-        this.error= true;
+        this.error = true;
         return response;
       }
 
@@ -902,9 +1006,11 @@ export default {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
-        this.errorObj.status = 400;
+        this.errorObj.status = jsonUtil.exists("status", response)
+          ? response["status"]
+          : 503;
         this.errorObj.statusText = "Bad Request";
-        this.error= true;
+        this.error = true;
         return null;
       }
 
@@ -922,7 +1028,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
-        this.error= true;
+        this.error = true;
       }
 
       return response;
@@ -955,18 +1061,18 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Internal Server Error";
-        this.error= true;
+        this.error = true;
         return response;
       }
 
       // Check if the response is empty and give an error
-      if (!response) {
+      if (!response || response.status != 200) {
         this.errorObj.title = "Failed to return passport";
         this.errorObj.description =
           "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";
-        this.error= true;
+        this.error = true;
         return null;
       }
 
@@ -984,7 +1090,7 @@ export default {
         this.errorObj.statusText = jsonUtil.exists("statusText", response)
           ? response["statusText"]
           : "Not found";
-        this.error= true;
+        this.error = true;
       }
 
       return response;

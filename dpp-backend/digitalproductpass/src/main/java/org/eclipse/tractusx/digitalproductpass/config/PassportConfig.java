@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -36,9 +37,13 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix="configuration.passport")
 public class PassportConfig {
+
+    private String defaultIdType;
     private String searchIdSchema;
 
     private List<String> aspects;
+
+    PolicyCheckConfig policyCheck;
 
     public PassportConfig() {
     }
@@ -50,6 +55,18 @@ public class PassportConfig {
     public PassportConfig(String searchIdSchema, List<String> aspects) {
         this.searchIdSchema = searchIdSchema;
         this.aspects = aspects;
+    }
+
+    public PassportConfig(String searchIdSchema, List<String> aspects, PolicyCheckConfig policyCheck) {
+        this.searchIdSchema = searchIdSchema;
+        this.aspects = aspects;
+        this.policyCheck = policyCheck;
+    }
+    public PassportConfig(String searchIdSchema, List<String> aspects, String defaultIdType, PolicyCheckConfig policyCheck) {
+        this.searchIdSchema = searchIdSchema;
+        this.aspects = aspects;
+        this.policyCheck = policyCheck;
+        this.defaultIdType = defaultIdType;
     }
 
     public List<String> getAspects() {
@@ -66,5 +83,20 @@ public class PassportConfig {
 
     public void setSearchIdSchema(String searchIdSchema) {
         this.searchIdSchema = searchIdSchema;
+    }
+
+    public String getDefaultIdType() {
+        return defaultIdType;
+    }
+
+    public void setDefaultIdType(String defaultIdType) {
+        this.defaultIdType = defaultIdType;
+    }
+    public PolicyCheckConfig getPolicyCheck() {
+        return policyCheck;
+    }
+
+    public void setPolicyCheck(PolicyCheckConfig policyCheck) {
+        this.policyCheck = policyCheck;
     }
 }

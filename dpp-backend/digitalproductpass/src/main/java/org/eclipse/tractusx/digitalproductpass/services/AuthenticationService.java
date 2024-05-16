@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -194,6 +195,27 @@ public class AuthenticationService extends BaseService {
             return roles.size() > 0;
         }catch (Exception e){
             return false;
+        }
+    }
+
+    /**
+     * Checks if the user is Api Key authenticated.
+     * <p>
+     * @param   httpRequest
+     *          the {@code HttpServletRequest} object representing the HTTP request.
+     *
+     * @return  true if the user is authenticated, false otherwise.
+     *
+     */
+    public Boolean isApiKeyAuthenticated(HttpServletRequest httpRequest) {
+        try {
+            final String xApiKey = httpRequest.getHeader(securityConfig.getAuthentication().getHeader());
+            String vaultApiKey = vaultService.getLocalSecret("oauth.apiKey").toString();
+            if (vaultApiKey == null || vaultApiKey.isEmpty())
+                throw new ServiceException(this.getClass().getName()+"."+"isApiKeyAuthenticated", "API key is null or empty!");
+            return vaultApiKey.equals(xApiKey);
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName()+"."+"isApiKeyAuthenticated", e, "There was a error when checking for the api key authentication!");
         }
     }
 

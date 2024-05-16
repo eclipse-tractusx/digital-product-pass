@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -272,23 +273,17 @@ public class AppController {
     public EndpointDataReference getEndpointData(Object body) throws ControllerException {
         EndpointDataReference endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if (endpointData == null) {
-            throw new ControllerException(this.getClass().getName(), "The endpoint data request is empty!");
+            throw new ControllerException(this.getClass().getName(), "[EDR] The endpoint data request is empty!");
         }
-        if (endpointData.getEndpoint().isEmpty()) {
-            throw new ControllerException(this.getClass().getName(), "The data plane endpoint address is empty!");
+        EndpointDataReference.Properties properties =  endpointData.getPayload().getDataAddress().getProperties();
+        if (properties.getEndpoint().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The data plane endpoint address is empty!");
         }
-        if (endpointData.getAuthCode().isEmpty()) {
-            throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
+        if (endpointData.getPayload().getDataAddress().getProperties().getEndpoint().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The authorization code is empty!");
         }
-        if (endpointData.getContractId().isEmpty() && !endpointData.offerIdExists()) {
-            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-            if (!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")) {
-                throw new ControllerException(this.getClass().getName(), "The Offer Id is empty!");
-            }
-            return endpointData;
-        }
-        if (endpointData.getContractId().isEmpty()) {
-            throw new ControllerException(this.getClass().getName(), "The contractId is empty!");
+        if (endpointData.getPayload().getContractId().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The contractId is empty!");
         }
         return endpointData;
     }

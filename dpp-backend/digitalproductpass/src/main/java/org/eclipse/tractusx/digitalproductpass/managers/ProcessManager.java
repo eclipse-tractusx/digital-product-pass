@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -33,7 +34,6 @@ import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
-import org.eclipse.tractusx.digitalproductpass.models.edc.Jwt;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.http.responses.IdResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
@@ -41,7 +41,11 @@ import org.eclipse.tractusx.digitalproductpass.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.*;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.NegotiationRequest;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.request.TransferRequest;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Negotiation;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.response.Transfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -1052,9 +1056,7 @@ public class ProcessManager {
      *           if unable to update the status file.
      */
     public String setAgreed(HttpServletRequest httpRequest, String processId, Long signedAt, String contractId, String policyId) {
-
         this.setProcessState(httpRequest, processId, "STARTING");
-
         return this.setStatus(processId, "contract-agreed", new History(
                 contractId+"/"+policyId,
                 "AGREED",
@@ -1470,7 +1472,7 @@ public class ProcessManager {
      */
     public String getContractId(EndpointDataReference endpointData){
 
-        return endpointData.getContractId();
+        return endpointData.getPayload().getContractId();
     }
 
     /**

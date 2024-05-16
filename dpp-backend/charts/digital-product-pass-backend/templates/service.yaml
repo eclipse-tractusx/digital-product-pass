@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -22,26 +23,19 @@
 #################################################################################
 
 apiVersion: v1
-kind: Secret
+kind: Service
 metadata:
-  name: avp-consumer-backend-cx-registry-auth
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  clientId: {{ .Values.oauth.techUser.clientId }}
-  clientSecret: {{ .Values.oauth.techUser.clientSecret }}
----
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: avp-consumer-backend-edc-oauth
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  xApiKey: {{ .Values.edc.xApiKey }}
-  participantId: {{ .Values.edc.participantId }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}      # host port
+      targetPort: 8888                      # container port
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+    component: backend

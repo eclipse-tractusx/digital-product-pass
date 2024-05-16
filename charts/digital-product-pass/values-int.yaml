@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -22,6 +23,8 @@
 #################################################################################
 
 backend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     # className: "nginx"
@@ -44,6 +47,7 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
+        
 
   hostname: *hostname
   securityCheck:
@@ -60,7 +64,14 @@ backend:
   discovery:
     hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
 
+  singleApi:
+    maxRetries: 30
+    delay: 1000
+
+
 frontend:
+  image:
+    pullPolicy: Always
   ingress:
     enabled: true
     #className: ""
@@ -103,4 +114,8 @@ oauth:
     enabled: true
     bpn: *bpn
   roleCheck:
-    enabled: false  
+    enabled: false
+  apiKey:
+    header: "X-Api-Key"
+    secret: <path:material-pass/data/int/oauth#xApiKey>
+

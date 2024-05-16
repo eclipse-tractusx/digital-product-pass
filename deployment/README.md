@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -21,108 +22,20 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-## Technical Guide - Deployment in Argo CD
+## Deployment Guide
 
-> [Getting Started Documentation](../docs/GETTING-STARTED.md)
+### Reference Links
 
-This document describes the battery pass application deployment steps in using helm charts. In order to deploy the app components, the following artifacts are required. 
+* [Getting Started Documentation](../docs/GETTING-STARTED.md)
+* [Install.md](../INSTALL.md)
+* Helm Charts
+    * [edc-consumer](./infrastructure/data-consumer/edc-consumer)
+    * [edc-provider](./infrastructure/data-provider/edc-provider)
+    * [digital-product-pass](../charts/digital-product-pass)
+* OpenAPI Documentation
+    * [Open API documentation in Swagger](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
+    * [Central Swagger Hub](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
 
-> **NOTE**: This tutorial demonstrates the deployment of the application on Argo CD infrastructure. It is assumed that the infrastructure is already configured. Further documentation about the Argo CD. [What is Argo CD platform?](http://argo-cd.readthedocs.io/en/stable)
-
-- Link to the Integration environment: [ArgoCD - Product Material Passport](https://argo.int.demo.catena-x.net)
-
-- [edc-consumer](./infrastructure/data-consumer/edc-consumer)
-
-- [edc-provider](./infrastructure/data-provider/edc-provider)
-
-- [digital-product-pass](../charts/digital-product-pass)
-    - dpp-frontend
-    - dpp-backend
-
-#### Sign in via the GitHub account
-
-After signing in into the account, you can see the allocated space inside the namespace 'product-material-pass' and project 'project-material-pass' for the digital product pass team. The new app should be created inside this space.
-
-#### Creating New Application
-
-Create new app from the top-left corner button.
-Fill out the following required fields.
-- **Application Name:** <APP_NAME> (e.g., edc-consumer, digital-product-pass)
-- **Project:** project-material-pass
-- **Source:** Git repository where the application artifacts are stored (https://github.com/eclipse-tractusx/digital-product-pass)
-- **Revision:** select branch or a tag
-- **Path:** The path to the deployment (possible values: deployment/infrastructure/data-consumer/edc-consumer, deployment/infrastructure/data-provider/edc-provider, charts/digital-product-pass)
-- **Cluster URL:** https://kubernetes.default.svc
-- **Namespace:** product-material-pass
-- **Plugin:** argocd-vault-plugin-helm-args
-    - Set following helm args with the corresponding application:
-        - digital-product-pass: set ENV as ***helm_args = -f values.yaml'***
-        - edc-consumer: set ENV as ***helm_args = -f values.yaml'***
-        - edc-provider: set ENV as ***helm_args = -f values.yaml'***
-
-Click on 'Create' button
-
-![Create New App](./media/create-app.png)
-![Select Valut Plugin](./media/create-app-with-plugin.png)
-
-- Go inside the application and sync it. It would take some time to get synced.
-
-![Sync App](./media/sync-app.png)
-
-![Sync App](./media/sync-pod.png)
-
-![Consumer frontend and backend pods](./media/running-pods.png)
-- Go to the individual logs tab
-
-Frontend logs:
-![Consumer frontend logs](./media/frontend-logs.png)
-
-Backend logs:
-![Consumer backend logs](./media/backend-logs.png)
-
-If everything works fine then the application is deployed...
-
-#### Digital-Product-Pass:
-
-##### Consumer-Frontend:
-
-The dpp frontend is a consumer user interface application for the digital product passports that interacts with the end-user and displays passports. The steps above will be followed to deploy the consumer frontend component.
-
-In the end, the frontend should be accessible at https://dpp.int.demo.catena-x.net. You would be redirected to the CatenaX central IDP and can see the login page after company selection.
-
-##### Login credentails:
-- **Company Selection:** CX-Test-Access
-- **User 1:** Role: Dismantler, user: company 1 user, Password: changeme
-- **User 2:** Role: Recycler, user: company 2 user, Password: changeme
-
-#### Example Product Pass IDs:
-
-- CX:XYZ78901:BAT-XYZ789 (with child components)
-- CX:XYZ78901:IMR18650V1 (without child components)
-
-#### Example Screenshots:
-
-![Company Selection Page](./media/company-selection.png)
-
-![Login Page](./media/login.png)
-
-![QR Code Scanner](./media/dashboard.png)
-
-![QR Code Scanner](./media/passport-scan.png)
-
-![Battery Passport - General Information](./media/product-passport.png)
-
-![Drill down components](./media/components.png)
-
-##### Consumer-Backend:
-
-The consumer backend is a Java based spring boot application which implements the service modules and business layer to manage the passports in frontend component.
-
-[Open API documentation in Swagger](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
-
-[Central Swagger Hub](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass/2.0.1)
-
-![Swagger UI](./media/swagger.png)
 
 <br />
 

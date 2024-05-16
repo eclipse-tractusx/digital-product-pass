@@ -65,6 +65,7 @@ public class IrsService extends BaseService {
     String irsEndpoint;
     String irsJobPath;
     String callbackUrl;
+    String apiKey;
     AuthenticationService authService;
     IrsConfig irsConfig;
     ProcessManager processManager;
@@ -96,6 +97,7 @@ public class IrsService extends BaseService {
         this.irsEndpoint = this.irsConfig.getEndpoint();
         this.irsJobPath = this.irsConfig.getPaths().getJob();
         this.callbackUrl = this.irsConfig.getCallbackUrl();
+        this.apiKey = (String) this.vaultService.getLocalSecret("irs.apiKey");
     }
     /**
      * Creates a List of missing variables needed to proceed with the request.
@@ -115,6 +117,9 @@ public class IrsService extends BaseService {
         }
         if (this.callbackUrl.isEmpty()) {
             missingVariables.add("irs.callbackUrl");
+        }
+        if (this.apiKey.isEmpty()) {
+            missingVariables.add("irs.apiKey");
         }
         return missingVariables;
     }
@@ -183,7 +188,7 @@ public class IrsService extends BaseService {
                     callbackUrl
             );
             body.setKey(globalAssetId, bpn);
-            HttpHeaders headers = httpUtil.getHeadersWithApiKey((String) this.vaultService.getLocalSecret("irs.apiKey"));
+            HttpHeaders headers = httpUtil.getHeadersWithApiKey(this.apiKey);
             headers.add("Content-Type", "application/json");
 
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);
@@ -283,7 +288,7 @@ public class IrsService extends BaseService {
         try {
             String url = this.irsEndpoint + "/" + this.irsJobPath + "/" + jobId;
             Map<String, Object> params = httpUtil.getParams();
-            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+            HttpHeaders headers = httpUtil.getHeadersWithApiKey(this.apiKey);
             ResponseEntity<?> response = httpUtil.doGet(url, String.class, headers, params, true, false);
             String responseBody = (String) response.getBody();
             return (JobResponse) jsonUtil.bindJsonNode(jsonUtil.toJsonNode(responseBody), JobResponse.class);

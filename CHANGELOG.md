@@ -31,7 +31,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 
 ## [released]
-## [v3.0.0-rc1] - 13-05-2024
+## [v3.0.0] - 13-05-2024
 ### Added
 - Added security assessment report in /docs for the threat modeling
 - Added SingleApiRequest class for the requested data for the single API.

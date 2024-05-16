@@ -66,24 +66,17 @@ And a login page from Catena-X will pop up. To perform the login follow this ste
 ### 1º Introduce Company Name
 
 ```
-CX-Operator
+CX-Test-Access
 ```
 
-![company selection](./resources/screenshots/company-selection.png)
+![image](https://github.com/eclipse-tractusx/digital-product-pass/assets/71728767/60e5d9df-7149-43af-a8a2-0b8d0b8809e3)
 
 ### 2º Introduce Test Credentials
 
-```
-Username:
-cx-operator@tx.test
-```
+The credentials will be provided in the workshop
 
-```
-Pass:
-tractusx-umbr3lla!
-```
+![image](https://github.com/eclipse-tractusx/digital-product-pass/assets/71728767/435493f4-2ad5-4708-a9ad-7e119b4508e8)
 
-![test login](./resources/screenshots/test-login.png)
 
 ### 3º A Search by ID
 

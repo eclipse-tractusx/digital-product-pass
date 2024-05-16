@@ -43,18 +43,11 @@ You must fullfill the following pre-requisites:
 
 Follow this steps to create a new Digital Product Passport serialized model:
 
-### 1º - Paste the example payload in your VS Code/Notepad++ application
+### 1º - Find test data before generating the model
 
-Paste this [Digital Product Passport v2.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
+In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a tes JSON file.
 
-![DPP Example](./resources/screenshots/dpp-example.png)
-
-
-### 2º - Find your assigned part in the test data file
-
-Test JSON file can be found [here](./resources/test-data/carParts.json) or in the paper at the worksession.
-
-To find your part:
+To find your part and be able to copy and paste the information:
 
 1 - Search by uuid with CTRL + F:
 
@@ -89,6 +82,15 @@ Example:
 > Copy and paste the data for creating your digital product pass faster!
 
 
+
+### 2º - Copy the digital product pass aspect model template into a new file or window
+
+Paste this [Digital Product Passport v2.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
+
+![DPP Example](./resources/screenshots/dpp-example.png)
+
+It is a test data template that can be personalized to your part with the test data provider to you and your creativity!
+
 ### 3º - Substitute data in the template
 
 For example for adding the PCF value follow the following path:
@@ -107,8 +109,8 @@ Follow this paths to find where the information is located.
 
 | Property | Path |
 | -------- | ----- |
-| Name | typology.shortName |
-| Complete Name | typology.longName |
+| Name (Really short) | typology.shortName |
+| Complete Name (More fancy name) | typology.longName |
 | Class/Type of Part | typology.class.definition |
 | PCF | sustainability.PEF.carbon.value |
 |Height| characteristics.physicalDimension.height.value |
@@ -122,6 +124,8 @@ Follow this paths to find where the information is located.
 | Guarantee | lifespan (Add value and unit for garantee) |
 
 Congratulations! You have successfully created your own digital product pass!
+
+The next step will be to register your data in a Data Service, for that follow the [digital-twin-provision](./digital-twin-provision.md) guide.
 
 > [!TIP]
 > You can add more relavant data and personalized information at the digital product pass, follow the template and modify the data as you wish!

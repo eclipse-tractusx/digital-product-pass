@@ -22,25 +22,24 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
+
 # DPP Consumption Guide
 
 This guide provides a simple way of accessing the digital product pass consumer application and retrieving data from the network scanning a QR code or introducing an ID.
 
                               DATA CONSUMER  DPP APP                             ___________________
-                |     ___________________         __________________    |       |                   | 
+                |     ___________________         __________________    |       |                   |
                 |    |                   |       |                  |   |  -->  |                   |
                 |    |   DPP Frontend    | <---> |    DPP Backend   |   |       |   DATA PROVIDER   |
-                |    |___________________|       |__________________|   |  <--  |                   |   
-                |                                                       |       |___________________|  
+                |    |___________________|       |__________________|   |  <--  |                   |
+                |                                                       |       |___________________|
 
-
-        
 ## Prerequisites
 
 You must have the following tools installed and configured:
 
 - DPP Application with Backend and Frontend components deployed.
-- Login credentials to the DPP Frontned component
+- Login credentials to the DPP Frontend component
 - Web Browser
 - Catena-X Central Service Running (Federated IAM, Discovery Finder, BPN Discovery and EDC Discovery)
 
@@ -62,11 +61,11 @@ https://<dpp-hostname-url>/passport
 
 ```
 
-And a login page from Catena-X will pop up. For doing the login follow this steps:
+And a login page from Catena-X will pop up. To perform the login follow this steps:
 
 ### 1º Introduce Company Name
 
-``` 
+```
 CX-Operator
 ```
 
@@ -78,13 +77,13 @@ CX-Operator
 Username:
 cx-operator@tx.test
 ```
+
 ```
 Pass:
 tractusx-umbr3lla!
 ```
 
 ![test login](./resources/screenshots/test-login.png)
-
 
 ### 3º A Search by ID
 
@@ -108,8 +107,7 @@ Give permissions to the camera, and position the window over the QR code frame.
 
 ![QR code scanning](./resources/screenshots/qrcode-scanning.png)
 
-
-### 5º Wait some seconds for the policy selection popup to appear
+### 5º Wait a few seconds for the policy selection pop-up to appear
 
 When the digital twin registries are being searched in the complete network, the digital product pass will call the following service to find where the digital twin registy with the digital twin data is located:
 
@@ -127,11 +125,10 @@ This steps are done:
 
 - 5º -> Retrieve digital twin and find submodel for the digital product pass.
 
-- 6º -> Query with the EDC Consumer the Catalog from the EDC Provider looking fro the asset 
+- 6º -> Query with the EDC Consumer the Catalog from the EDC Provider looking for the asset
   - (This information is found in the Digital Twin)
 
-Once the asset policy is found you will get a pop up more or less like this:
-
+Once the asset policy is found you will get a pop-up similar to this one:
 
 ![Popup policy selection](./resources/screenshots/policy-selectionpopup.png)
 
@@ -143,7 +140,7 @@ Click on agree to accept the policy you have selected:
 
 > [!IMPORTANT]
 > The new Digital Product Pass version (v3.0.0) that will be released in R24.05 allows you to configure the policies in the Backend application.
-> There is a [policy configuration guide](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md) that can help you understanding that better!
+> There is a [policy configuration guide](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md) that can help you understanding this better!
 
 ### 7º Wait until contract negotiation is done
 
@@ -155,11 +152,9 @@ In some seconds it should start updating with the latest status of your applicat
 
 ![Visualization](./resources/screenshots/visualization.png)
 
-
 #### Look for the PCF Information
 
 ![PCF Information](./resources/screenshots/pcf-info.png)
-
 
 #### Check characteristics and many more!
 
@@ -167,7 +162,7 @@ In some seconds it should start updating with the latest status of your applicat
 
 Congratulations! Now you are able to access the information regarding digital product passports and many more!
 
->[!TIP]
+> [!TIP]
 > Other models like the Battery Passport and the Transmission Passport are also available to be visualized in the app. You can follow the [CX-0096 Digital Product Pass Triangle Standard](https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_Maerz_2024/CX-0096-TriangleForDigitalProductPass-v1.1.0.pdf) to configure the other models in the digital twin. For providing data read the [Data Provision Guide](data-provision.md)
 
 ## NOTICE

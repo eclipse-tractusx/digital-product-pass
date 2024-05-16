@@ -55,31 +55,41 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
 
 ## Preparation
 
-Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the test data [test-data](./resources/test-data/carParts.json).
+Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).
 
-## Phase 1: Data Provision 
+Group name is defined like this:
+
+```
+ dpp-<your number=page number right bit)-<sessionNumber>-partName
+```
+
+> [!NOTE]
+> Session number will be provided by the coaches! There are three sessions, values from [1-3].
+
+## Phase 1: Deployment 
+
+> [!NOTE] 
+> The deployment of the [Digital Product Passport application](./deployment.md) is not within the scope of the Workshop, as it has already been deployed for you.
+
+## Phase 2: Data Provision 
 
 In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
 ##### Duration: 45 mins
 
-#### Step 1 - Create a Digital Product Pass 
+#### Step 1 - Create a Digital Product Passport (DPP) 
 
-* In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
+In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
    
-  * Follow the tutorial on "How to create Aspect Model Guide"
+  * Follow the tutorial on [How to create Aspect Model](./aspect-model.md) 
 
-#### Step 2 - Hosting JSON Using Postman
-
-* Create a new POST request in Postman. Paste the JSON content into the body section, and send the request to the given URL to host the JSON file.
-
-#### Step 3 - Create a Digital Twin integrating the generated DPP as a submodel
+#### Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
 
 In this step, you will create a Digital Twin of your provided Car part. 
 
-  * Follow the tutorial on "How to create a Digital Twin"
+  * Follow the tutorial on [How to create a Digital Twin](./digital-twin-provision)
 
-#### Step 4 - Upload the Digital Twin in the Digital Twin Registry
+#### Step 3 - Upload the Digital Twin in the Digital Twin Registry
    
 Provide the Digital Twin and its relations in the Digital Twin Registry.
 
@@ -88,42 +98,41 @@ Provide the Digital Twin and its relations in the Digital Twin Registry.
    * Manufacturer Part ID
    * Submodel Reference
 
-#### Step 5 - Generate the QR Code
+#### Step 4 - Generate the QR Code
 
-  * Follow the tutorial on "How to generate a QR code"
+  * Follow the tutorial on [How to generate a QR code](./qr-code.md)
    
-#### Step 6 - Print the QR-Code 
+#### Step 5 - Print the QR-Code 
 
 Print the QR Code from the nearby printer and paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
 
+Great! The data provisioning process has been successfully set up. It is now ready for data exchange within the dataspace. This means that all necessary configurations and integrations have been completed, ensuring efficient data sharing.
 
-## Phase 2: Data Consumption
+## Phase 3: Data Consumption
+
+In this phase, you as a consumer, will access the Digital Product Pass (DPP) consumer application and retrieve data from the network by either scanning a QR code or entering an ID.
 
 ##### Duration: 45 mins
 
-#### Step 1 - Digital Product Pass Application Deployment
+#### Step 1 - Consumption - Access DPP Application
 
-   * Access the virual Machine (VM) and follow the instructions from the workstream.
+  * Follow the tutorial on [DPP Data Consumption](./data-consumption.md)
 
-   * Namespace creation - Each group will be allocated a Namespace.
+    * You can access the application by using URL and the credentials. 
 
-   * Deploy the application using Helm Charts
+    * Scan the available QR Codes on the Car parts or provide the ID. 
 
-   * Verify and access the deployment using your computer
+    * Upon scanning, you will obtain the passport of the part. 
 
-#### Step 2 - Consumption - Access application using Smartphone using IP address and Ports
+    * Access the UI of the passport to view its details.
 
-   * Access the application using the provided credentials
+    * Look for the Product Carbon Footprint (PCF) information for each of the specific car part
+   
+    * Calculate and add up the PCF values of all individual parts to obtain the aggregate Carbon Footprint value for the entire car.
+    
+####  Step 2 - Creating the Final Digital Product Passport (DPP) for the Whole Car
 
-   * Scan the QR code of your respective part.
-
-   * Upon scanning, you will obtain the passport.
-
-   * Access the UI of the passport to view its details.
-
-####  Step 3 - Creating the Final Digital Product Passport (DPP) for the Whole Car
-
-   * Scan the QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
+   * Scan the available QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
 
 * #### Compile the following information to create the DPP:
 
@@ -133,4 +142,31 @@ Print the QR Code from the nearby printer and paste it in the specific Part in t
    * Aggregate Value: Calculate and add up the PCF values of all individual parts to obtain the aggregate carbon footprint value for the entire car.
 
 
+For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
 
+1º - Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
+
+2º - Paste it on "globalAssetId" with this format `urn:uuid:<your uuid>`
+
+3º - As "id" add with this schema: `urn:uuid:<your group name>`
+
+
+## Links of interest
+ 
+| How to Guides | Link |
+| -------- | ----- |
+| How to deploy DPP Application | [deployment.md](./deployment.md) |
+| How to create Aspect Model | [aspect-model.md](./aspect-model.md) |
+| How to create a Digital Twin | [digital-twin-provision](. digital-twin-provision) |
+| How to generate a QR code | [qr-code.md](./qr-code.md) |
+| DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2023, 2024 BMW AG
+- SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
+- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+- Source URL: https://github.com/eclipse-tractusx/digital-product-pass

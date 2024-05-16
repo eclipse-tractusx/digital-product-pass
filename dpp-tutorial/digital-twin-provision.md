@@ -170,7 +170,7 @@ Check if your aspect model is added to the Digital twin.
 > GET /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors
 
 ```bash
-curl --location --request GET '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>/submodel-descriptors' \
+curl --location --request GET '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>\
 --header 'Content-Type: application/json' \
 --data '@resources/digital-twins/<part>.json'
 ```

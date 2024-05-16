@@ -1060,6 +1060,11 @@ public class HttpUtil {
         headers.add("Authorization", "Bearer " + accessToken);
         return headers;
     }
+    public  HttpHeaders getHeadersWithApiKey(String apiKey) {
+        HttpHeaders headers =  new HttpHeaders();
+        headers.add("X-Api-Key", apiKey);
+        return headers;
+    }
     public  Map<String, Object> getParams() {
         return new HashMap<String, Object>();
     }

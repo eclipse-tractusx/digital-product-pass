@@ -183,7 +183,7 @@ public class IrsService extends BaseService {
                     callbackUrl
             );
             body.setKey(globalAssetId, bpn);
-            HttpHeaders headers = httpUtil.getHeadersWithToken(this.authService.getToken().getAccessToken());
+            HttpHeaders headers = httpUtil.getHeadersWithApiKey((String) this.vaultService.getLocalSecret("irs.apiKey"));
             headers.add("Content-Type", "application/json");
 
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), body, false, false);

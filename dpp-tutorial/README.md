@@ -66,12 +66,7 @@ Group name is defined like this:
 > [!NOTE]
 > Session number will be provided by the coaches! There are three sessions, values from [1-3].
 
-## Phase 1: Deployment
-
-> [!NOTE]
-> The deployment of the [Digital Product Passport application](./deployment.md) is not within the scope of the Workshop, as it has already been deployed for you.
-
-## Phase 2: Data Provision
+## Phase 1: Data Provision
 
 In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
@@ -108,11 +103,11 @@ Print the QR Code from the nearby printer and start searching your part in the C
 
 #### Step 6 - Paste QR Code in the Car Part of the Picture
 
-Paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
+Paste it in the specific Part in the Car. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
 
 Great! The data provisioning process has been successfully set up. It is now ready for data exchange within the dataspace. This means that all necessary configurations and integrations have been completed, ensuring efficient data sharing.
 
-## Phase 3: Data Consumption
+## Phase 2: Data Consumption
 
 In this phase, you as a consumer, will access the Digital Product Pass (DPP) consumer application and retrieve data from the network by either scanning a QR code or entering an ID.
 
@@ -148,11 +143,13 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
 
 For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
 
+ * After generating the aspect model you need to generate the car digital twin. You can look in the previous [phase 2](#phase-2:-data-consumption)
+   
  * Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
  
- * Paste it on "globalAssetId" with this format `urn:uuid:<your uuid>`
+ * Paste it on digital twin "globalAssetId" with this format `urn:uuid:<your uuid>`
 
- * As "id" add with this schema: `urn:uuid:<your group name>`
+ * As digital twin "id" add with this schema: `urn:uuid:<your group name>`
 
  * Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value
 
@@ -165,7 +162,7 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 
  * Upload your payload to the data service as specified in the [digital-twin-provision](./digital-twin-provision.md) guide.
  
- *   Generate a QR code as specified in the [qr code guide](./qr-code.md)
+ * Generate a QR code as specified in the [qr code guide](./qr-code.md)
 
  * Scan it and access it with the app.
 

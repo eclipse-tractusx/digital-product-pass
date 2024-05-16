@@ -104,7 +104,11 @@ Provide the Digital Twin and its relations in the Digital Twin Registry.
    
 #### Step 5 - Print the QR-Code 
 
-Print the QR Code from the nearby printer and paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
+Print the QR Code from the nearby printer and start searching your part in the Car!
+
+#### Step 6 - Paste QR Code in the Car Part of the Picture
+
+Paste it in the specific Part in the Arena -X. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
 
 Great! The data provisioning process has been successfully set up. It is now ready for data exchange within the dataspace. This means that all necessary configurations and integrations have been completed, ensuring efficient data sharing.
 
@@ -128,7 +132,7 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
 
     * Look for the Product Carbon Footprint (PCF) information for each of the specific car part
    
-    * Calculate and add up the PCF values of all individual parts to obtain the aggregate Carbon Footprint value for the entire car.
+    * Sum up the PCF values of all individual parts to obtain the aggregate Carbon Footprint value for the entire car.
     
 ####  Step 2 - Creating the Final Digital Product Passport (DPP) for the Whole Car
 
@@ -139,7 +143,8 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
    * Name: Provide a name for the car model.
    * Description: Include a brief description of the car, its features, and specifications.
    * ID: Assign a unique identifier for the car.
-   * Aggregate Value: Calculate and add up the PCF values of all individual parts to obtain the aggregate carbon footprint value for the entire car.
+   * Total PCF Aggregate Value: Calculate and add up the PCF values of all individual parts to obtain the aggregate carbon footprint value for the entire car.
+   * Any other information you may find relevant
 
 For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
 
@@ -152,9 +157,9 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 4º - Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value
 
 >[!IMPORTANT]
-> Remember the part instance id for proving the QR code
+> Remember the part instance id you created for later creating the QR code -> `CX:<manufacturerPartId>:<partInstanceId>`
 
-5º -> For `manufacturerPartId` use MPI0012
+5º -> For the `manufacturerPartId` use `MPI0012`
 
 6º -> Add the submodel as specified in the [digital-twin-provision](. digital-twin-provision) guide to the twin.
 
@@ -165,6 +170,9 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 9º -> Scan it and access it with the app.
 
 10º -> Add your QR code to the board!
+
+
+Congratulations! You have completed the E2E Journey for Digital Product Pass
 
 ## Links of interest
  

@@ -138,7 +138,7 @@ Scan the available QR codes from various parts of the car and record the Product
    * Total PCF Aggregate Value: Calculate and add up the PCF values of all individual parts to obtain the aggregate carbon footprint value for the entire car.
    * Any other information you may find relevant
 
-For creating the Car passport use [this template](./resources/digital-twins/car-dt-template.json)
+For creating the Car passport digital twin use [this template](./resources/digital-twins/car-dt-template.json)
 
  * After generating the aspect model you need to generate the car digital twin. You can look in the previous [phase 2](#phase-2:-data-consumption)
    

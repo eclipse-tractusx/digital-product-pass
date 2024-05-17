@@ -144,8 +144,6 @@ For creating the Car passport digital twin use [this template](./resources/digit
    
  * Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4)
  
- * Paste it on digital twin "globalAssetId" with this format `urn:uuid:<your uuid>`
-
  * As digital twin "id" add with this schema: `urn:uuid:<your group name>`
 
  * Create Part Instance Id of your choice and add to `specificAssetIds["name=partInstanceId"].value

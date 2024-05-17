@@ -73,11 +73,11 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "<PROVIDER_DATAPLANE_URL>/api/public/data/urn:uuid:<UUID>",
+            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:<UUID>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<PROVIDER_CONTROLPLANE_URL>",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
             "subprotocolBodyEncoding": "plain",
             "securityAttributes": [
               {

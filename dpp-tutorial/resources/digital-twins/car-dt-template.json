@@ -6,9 +6,9 @@
     }
   ],
   "displayName": [],
-  "globalAssetId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e59",
+  "globalAssetId": "<UUID>",
   "idShort": "Car",
-  "id": "urn:dt-example-001",
+  "id": "UUID",
   "specificAssetIds": [
     {
       "name": "partInstanceId",
@@ -18,7 +18,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL00000000001"
+            "value": "BPNL0073928UJ879"
           }
         ]
       }
@@ -31,7 +31,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL00000000001"
+            "value": "BPNL0073928UJ879"
           },
           {
             "type": "GlobalReference",
@@ -42,13 +42,13 @@
     },
     {
       "name": "manufacturerId",
-      "value": "BPNL00000000001",
+      "value": "BPNL0073928UJ879",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL00000000001"
+            "value": "BPNL0073928UJ879"
           }
         ]
       }
@@ -61,7 +61,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL00000000001"
+            "value": "BPNL0073928UJ879"
           }
         ]
       }
@@ -73,7 +73,7 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:<UUID>",
+            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/<UUID>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
@@ -90,7 +90,7 @@
         }
       ],
       "idShort": "digitalProductPass",
-      "id": "urn:example-prtnumber",
+      "id": "<UUID>",
       "semanticId": {
         "type": "ExternalReference",
         "keys": [

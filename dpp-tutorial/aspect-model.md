@@ -117,7 +117,7 @@ Follow this paths to find where the information is located.
 |Width| characteristics.physicalDimension.width.value|
 |Length| characteristics.physicalDimension.length.value|
 |Weight| characteristics.physicalDimension.grossWeight.value|
-|Part Instance Id | identification.localIdentifier.key |
+|Part Instance Id | identification.localIdentifier.value |
 |Manufacturing Date |operation.manufacturer.manufacturingDate |
 |List of Materials | sustainability.material.left.name.name (Add In Array)|
 |Hazard Materials | critical.left (add elements to list) |

@@ -87,24 +87,15 @@ In this step, you will create a Digital Twin of your provided Car part.
 
   * Follow the tutorial on [How to create a Digital Twin](./digital-twin-provision.md)
 
-#### Step 3 - Upload the Digital Twin in the Digital Twin Registry
-   
-Provide the Digital Twin and its relations in the Digital Twin Registry.
-
-* UUID
-* Part Instance ID
-   * Manufacturer Part ID
-   * Submodel Reference
-
-#### Step 4 - Generate the QR Code
+#### Step 3 - Generate the QR Code
 
   * Follow the tutorial on [How to generate a QR code](./qr-code.md)
    
-#### Step 5 - Print the QR-Code 
+#### Step 4 - Print the QR-Code 
 
 Print the QR Code from the nearby printer and start searching your part in the Car!
 
-#### Step 6 - Paste QR Code in the Car Part of the Picture
+#### Step 5 - Paste QR Code in the Car Part of the Picture
 
 Paste it in the specific Part in the Car. Ensure that the QR code is securely attached and easily scannable. Test the scanning functionality to verify that the encoded information can be retrieved accurately.
 
@@ -116,7 +107,7 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
 
 ##### Duration: 45 mins
 
-#### Step 1 - Consumption - Access DPP Application
+#### Consumption - Access DPP Application
 
   * Follow the tutorial on [DPP Data Consumption](./data-consumption.md)
 
@@ -131,12 +122,15 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
     * Look for the Product Carbon Footprint (PCF) information for each of the specific car part
    
     * Sum up the PCF values of all individual parts to obtain the aggregate Carbon Footprint value for the entire car.
-    
-####  Step 2 - Creating the Final Digital Product Passport (DPP) for the Whole Car
+  
+## Final Challenge: Car Passport
 
-   * Scan the available QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
+### Creating the Final Digital Product Passport (DPP) for the Whole Car
 
-* #### Compile the following information to create the DPP:
+Scan the available QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.
+
+
+### Compile the following information to create the DPP:
 
    * Name: Provide a name for the car model.
    * Description: Include a brief description of the car, its features, and specifications.
@@ -148,7 +142,7 @@ For creating the Car passport use [this template](./resources/digital-twins/car-
 
  * After generating the aspect model you need to generate the car digital twin. You can look in the previous [phase 2](#phase-2:-data-consumption)
    
- * Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4) and copy it to the "id" and "global asset id" part.
+ * Generate a new UUID4 in this [uuid generator page](https://www.uuidgenerator.net/version4)
  
  * Paste it on digital twin "globalAssetId" with this format `urn:uuid:<your uuid>`
 

@@ -63,14 +63,8 @@ In order to prepare aspect models, please follow the [aspect model guide](./aspe
 
 The data generated in previous step can be stored into the submode data service.
 
-The <UUID> can be generated from here: https://www.uuidgenerator.net/ 
-
-```bash
-Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
-```
-
-> [!IMPORTANT]
-> For this test purposes you can use the UUID provider in the paper for you.
+> [!Caution]
+>  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
 
 Open a new terminal and run the following command to add your data into the data service: 
 
@@ -100,7 +94,6 @@ Replace the following placeholders:
 <PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
 <DT_UUID>                              ->   the UUID written on datasheet
-<ID_SHORT>                             ->   the name is the part assigned
 ```
 
 ## 3º Add Digital Twin into Digital Twin Registry (DTR)
@@ -109,7 +102,7 @@ After creation of the digital twin in previous step, add the twin into Digital T
 
 
 ```bash
-curl --location --request POST '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors' \
+curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' \
 --header 'Content-Type: application/json' \
 --data '@resources/<YOUR_DT_JSON>.json'
 ```
@@ -124,15 +117,24 @@ The digital twin registered can be checked/verified from the following command:
 
 ```bash
 Example:
-Digital Twin Id: urn:uuid:3f89d0d4-e11c-f83b-16fd-733c63d4e121
+Digital Twin Id: 3f89d0d4-e11c-f83b-16fd-733c63d4e121
 Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 ```
 
 > GET /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
 ```bash
-curl --location --request GET '<REGISTRY_SERVER_URL>/semantics/registry/api/v3.0/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
+curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
 --header 'Content-Type: application/json'
+```
+
+In case of error, you can always modify your digital twin using the following commands:
+
+> PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+
+```bash
+curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
+--header 'Content-Type: application/json' --data '@resources/<YOUR_DT_JSON>.json'
 ```
 
 If everything works fine, then you have reached the end of data provisioning guide.

@@ -66,6 +66,9 @@ Group name is defined like this:
 > [!NOTE]
 > Session number will be provided by the coaches! There are three sessions, values from [1-3].
 
+> [!Caution]
+> Please dont change the given templates, only change the provided placeholders 
+
 ## Phase 1: Data Provision
 
 In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.

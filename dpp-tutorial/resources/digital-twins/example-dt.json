@@ -89,7 +89,7 @@
           }
         }
       ],
-      "idShort": "<ID_SHORT>",
+      "idShort": "digitalProductPass",
       "id": "<UUID>",
       "semanticId": {
         "type": "ExternalReference",

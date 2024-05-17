@@ -12,7 +12,7 @@
   "specificAssetIds": [
     {
       "name": "partInstanceId",
-      "value": "PRT-30002",
+      "value": "<YOUR PART INSTANCE ID>",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [

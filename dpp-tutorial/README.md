@@ -57,17 +57,9 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
 
 Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).
 
-Group name is defined like this:
-
-```
- dpp-<your number=page number right bit)-<sessionNumber>-partName
-```
-
-> [!NOTE]
-> Session number will be provided by the coaches! There are three sessions, values from [1-3].
 
 > [!Caution]
-> Please dont change the given templates, only change the provided placeholders 
+> Please dont change the given templates for digital twin, only change the provided placeholders 
 
 ## Phase 1: Data Provision
 
@@ -125,6 +117,14 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
   
 ## Final Challenge: Car Passport
 
+Group name is defined like this:
+
+```
+ dpp-<your number=page number right bit)-<sessionNumber>-partName
+```
+
+> [!NOTE]
+> Session number will be provided by the coaches! There are three sessions, values from [1-3].
 ### Creating the Final Digital Product Passport (DPP) for the Whole Car
 
 Scan the available QR codes from various parts of the car and record the Product Carbon Footprint (PCF) value of each specific part.

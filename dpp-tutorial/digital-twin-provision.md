@@ -133,7 +133,7 @@ In case of error, you can always modify your digital twin using the following co
 > PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
 ```bash
-curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
+curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
 --header 'Content-Type: application/json' --data '@resources/<YOUR_DT_JSON>.json'
 ```
 

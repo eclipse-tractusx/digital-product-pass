@@ -92,7 +92,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "dpp.int.demo.catena-x.net"
        # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -200,7 +200,7 @@ postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>
 
-irs-helm:
+item-relationship-service:
   enabled: true
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
@@ -227,7 +227,7 @@ irs-helm:
 
   digitalTwinRegistry:
     type: decentral
-    url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
+    url: https://dpp.int.demo.catena-x.net/semantics/registry/api/v3.0
 
     discovery:
       oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
@@ -271,7 +271,7 @@ irs-helm:
           rightOperand: "active"
     controlplane:
       endpoint:
-        data: https://materialpass.int.demo.catena-x.net/consumer/management
+        data: https://dpp.int.demo.catena-x.net/consumer/management
       apikey:
         header: "X-Api-Key"
         secret: <path:material-pass/data/int/edc/oauth#api.key>

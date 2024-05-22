@@ -608,7 +608,7 @@ postgresql:
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
 
-irs-helm:
+item-relationship-service:
   enabled: true
   bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
 

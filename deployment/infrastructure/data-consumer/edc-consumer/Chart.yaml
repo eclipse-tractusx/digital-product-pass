@@ -46,5 +46,5 @@ dependencies:
     condition: postgresql.enabled
   - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 7.1.2
+    version: 7.1.3
     condition: item-relationship-service.enabled

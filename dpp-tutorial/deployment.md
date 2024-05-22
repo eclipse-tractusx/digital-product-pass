@@ -258,7 +258,7 @@ kubectl wait --namespace $USER \
 kubectl port-forward service/dpp-frontend --namespace $USER <EXTERNAL_PORT>:8080 --address 0.0.0.0
 
 # enable port forwarding to expose the backend application as a service to outside world
-kubectl port-forward service/dpp-frontend --namespace $USER <EXTERNAL_PORT>:8888 --address 0.0.0.0
+kubectl port-forward service/dpp-backend --namespace $USER <EXTERNAL_PORT>:8888 --address 0.0.0.0
 
 # access the application through your browser and your mobile device
 http://<PUBLIC_IP>:<EXTERNAL_PORT>

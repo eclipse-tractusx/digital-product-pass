@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -21,10 +22,8 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="../../docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
+<h1 style="display:flex; align-items: center;"><img src="../../docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
 
-
-<h2><strong>Version</strong>: <span style="color: cyan">v2.1.3</span><h2>
 
 <br>
 
@@ -110,16 +109,16 @@ The Digital Product Pass Open API specification is available at the swagger hub 
 ## Digital Product Pass APIs
 The APIs below are the ones contain in the `Digital Product Pass Backend` reference implementation. Which can be reused for retrieving aspects from the Catena-X Network.
 
- | API                                   | Method | Description                                                                                                                                                                                                                                                                                                                                                                    | Parameters                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
- | ------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
- | **/api/contract/create**              | POST   | The `/api/contract/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.                                                                                                      | [Go to Params](#apicontractcreate)
- | **/api/contract/search**              | POST   | At the **/api/contract/search**  API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found. A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract. |[Go to Params](#apicontractsearch) |
- | **/api/contract/agree**               | POST   | Once the user has the contract he can call the `/api/contract/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.                                                                                                                             | [Go to Params](#apicontractagree) |
- | **/api/contract/decline**             | POST   | The other option rather than `/agree` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.             |                                                                    [Go to Params](#apicontractdecline)                                                                               
- | **/api/contract/cancel**              | POST   | The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.                                                                                                                                                                                                              |    [Go to Params](#apicontractcancel)                                                                                                                           
- | **/api/contract/status/`<processId>`** | GET    | After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/data`..                                                                                                                                                                                                             |         [Go to Params](#apicontractstatusprocessid)                                                                                                                                                                                                         
- | **/api/data**                         | POST   | The API `/data` will decrypt the passport file that is encrypted using the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested..                                                                                                          |  [Go to Params](#apidata)  |
-
+ | API                                    | Method | Description                                                                                                                                                                                                                                                                                                                                                                    | Parameters                                  |
+ |----------------------------------------| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
+ | **/api/contract/create**               | POST   | The `/api/contract/create` api is responsible for calling the `BPN Discovery` service searching for the BPN of a `manufacturerPartId` and validating if there is any `Decentral Digital Twin Registry` available for the BPN number found in the `EDC Discovery` service.                                                                                                      | [Go to Params](#apicontractcreate)          
+ | **/api/contract/search**               | POST   | At the **/api/contract/search**  API the user can search for a serialized Id and get its contract. The `Backend` will search for the Digital Twin and will return the contract for the first one that is found. A `sign token` (a sha256 hash) is return also and acts like a "session token" allowing just the user that created the process to sign or decline the contract. | [Go to Params](#apicontractsearch)          |
+ | **/api/contract/agree**                | POST   | Once the user has the contract he can call the `/api/contract/agree` API to start the negotiation process and the transfer of the passport. This means that the user accepted the policy and the frame-contracts contained in the contract policy.                                                                                                                             | [Go to Params](#apicontractagree)           |
+ | **/api/contract/decline**              | POST   | The other option rather than `/agree` is the `/decline` API, that basically blocks the process and makes it invalid. This means that the user declined the specific contract that was found for this process.                                                                                                                                                                  | [Go to Params](#apicontractdecline)         
+ | **/api/contract/cancel**               | POST   | The user can use `/cancel` to interrupt the negotiation process once it is signed by mistake if is the case. It will be only valid until the negotiation is made.                                                                                                                                                                                                              | [Go to Params](#apicontractcancel)          
+ | **/api/contract/status/`<processId>`** | GET    | After the user signs the contract he can use the `/status` API to get the process status and see when it is ready to retrieve the passport using the API `/data`..                                                                                                                                                                                                             | [Go to Params](#apicontractstatusprocessid) 
+ | **/api/data**                          | POST   | The API `/data` will decrypt the passport file that is encrypted using the session token "sign token", and will delete the file so that it is returned just once to the user and can not be accessed anymore. So a new passport will be always need to be requested..                                                                                                          | [Go to Params](#apidata)                    |
+ | **/api/data/request**                  | POST   | The Single API `/data/request` calls the necessary above APIs in order to retrieve the passport with auto-sign capability, it calls the create API, then search API, signs with the agree API and retrieves the data with the data API. The authentication is done with an API Key received as an HTTP header.                                                                 | [Go to Params](#apidataRequest)             |
 
 ### Parameters
 
@@ -179,6 +178,17 @@ The APIs below are the ones contain in the `Digital Product Pass Backend` refere
 | processId  | processIdentification  | [REQUIRED]                  |
 | contractId | contractIdentification | [REQUIRED]                  |
 | token      | searchSessionToken     | [REQUIRED]                  |
+
+#### /api/data/request
+
+| Parameter       | Value Name             | Mandatory or Optional Value |
+|-----------------|------------------------|-----------------------------|
+| id              | searchIdValue          | [REQUIRED]                  |
+| idType          | searchIdTypeName       | manufacturerPartId          |
+| discoveryId     | serializedIdValue      | [REQUIRED]                  |
+| discoveryIdType | serializedIdTypeName   | partInstanceId              |
+| children        | searchForChildren      | true/false                  |
+| semanticId      | semanticIdentification | semanticId                  |
                                                                                                                                                                            
 
 # Detailed API Services
@@ -198,6 +208,26 @@ Get data from a Catena-X Provider by using its processId, contractId and a token
     "contractId": "string",
     "token": "string",
     "policyId": "optional:string"
+}
+```
+
+### /api/data/request
+The Single API permits to get data from a Catena-X Provider by abstracting of all the needed APIs to do so. Authenticating with an API Key and with the given id and discoveryId, this API will
+create the process and check for the viability of the data retrieval, searches for a passport with the given id, automatically signs the contract retrieved from provider and start negotiation, waits for the negotiation
+to be done and returns the data negotiated and transferred.
+
+```bash
+/api/data/request #Creates the process, searchs for a passport with the following id, negotiates and signes the contract, returns the data negotiated and transferred.
+```
+###### Request body
+```json
+{
+    "id": "string",
+    "idType": "optional:string",
+    "discoveryId": "string",
+    "discoveryIdType": "optional:string",
+    "children": "optional:boolean",
+    "semanticId": "optional:string"
 }
 ```
 

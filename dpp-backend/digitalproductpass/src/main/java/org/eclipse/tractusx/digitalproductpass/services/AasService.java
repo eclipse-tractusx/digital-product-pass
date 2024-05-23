@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -36,7 +37,7 @@ import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.SubModel;
 import org.eclipse.tractusx.digitalproductpass.models.edc.AssetSearch;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
 import org.eclipse.tractusx.digitalproductpass.models.manager.SearchStatus;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
@@ -61,6 +62,8 @@ import java.util.Map;
  */
 @Service
 public class AasService extends BaseService {
+    /** CONSTANTS **/
+    public static final String AUTHORIZATION_KEY = "Authorization";
 
     /** ATTRIBUTES **/
     public String registryUrl;
@@ -70,6 +73,8 @@ public class AasService extends BaseService {
     private final HttpUtil httpUtil;
     private final JsonUtil jsonUtil;
     private final DtrConfig dtrConfig;
+
+    public Environment env;
     private final AuthenticationService authService;
     Map<String, Object> apis;
     private DtrSearchManager dtrSearchManager;
@@ -144,7 +149,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a {@code DigitalTwin} for the specified position index.
      */
-    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin searchDigitalTwin(String assetType, String assetId, Integer position, String registryUrl, EndpointDataReference edr) {
         try {
             ArrayList<String> digitalTwinIds = this.queryDigitalTwin(assetType, assetId, registryUrl, edr);
             if (digitalTwinIds == null || digitalTwinIds.size() == 0) {
@@ -252,7 +257,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find a {@code DigitalTwin} for the specified id.
      */
-    public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, DataPlaneEndpoint edr) {
+    public DigitalTwin getDigitalTwin(String digitalTwinId, String registryUrl, EndpointDataReference edr) {
         try {
             String path = this.getPathEndpoint("digitalTwin");
             String url = this.getRegistryUrl(registryUrl) + path + "/" + CrypUtil.toBase64Url(digitalTwinId);
@@ -357,7 +362,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to retrieve the token headers.
      */
-    public HttpHeaders getTokenHeader(DataPlaneEndpoint edr) {
+    public HttpHeaders getTokenHeader(EndpointDataReference edr) {
         try {
             if (edr == null) {
                 // In case it fails we should throw get the token
@@ -367,7 +372,11 @@ public class AasService extends BaseService {
 
             // Get the normal headers based on the EDR
             HttpHeaders headers = this.httpUtil.getHeaders();
-            headers.add(edr.getAuthKey(), ""+edr.getAuthCode());
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, edr.getPayload().getDataAddress().getProperties().getAuthorization());
             return headers;
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "getTokenHeader",
@@ -428,7 +437,7 @@ public class AasService extends BaseService {
             }
             status = this.processManager.getStatus(processId);
             if (status.historyExists("digital-twin-found")) {
-                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getEndpoint());
+                return new AssetSearch(status.getHistory("digital-twin-found").getId(), status.getBpn(), status.getEndpoint());
             }
             return null;
         } catch (Exception e) {
@@ -455,7 +464,7 @@ public class AasService extends BaseService {
      * @throws  ServiceException
      *           if unable to find any digital twin.
      */
-    public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, DataPlaneEndpoint edr) {
+    public ArrayList<String> queryDigitalTwin(String assetType, String assetId, String registryUrl, EndpointDataReference edr) {
         try {
             String path = this.getPathEndpoint("search");
             String url = this.getRegistryUrl(registryUrl) + path;
@@ -563,7 +572,7 @@ public class AasService extends BaseService {
     public class DecentralDigitalTwinRegistryQueryById implements Runnable {
 
         /** ATTRIBUTES **/
-        private DataPlaneEndpoint edr;
+        private EndpointDataReference edr;
         private SubModel subModel;
         private DigitalTwin digitalTwin;
         private final String assetId;
@@ -572,7 +581,7 @@ public class AasService extends BaseService {
         private final String semanticId;
 
         /** CONSTRUCTOR(S) **/
-        public DecentralDigitalTwinRegistryQueryById(Search search, DataPlaneEndpoint edr) {
+        public DecentralDigitalTwinRegistryQueryById(Search search, EndpointDataReference edr) {
             this.assetId = search.getId();
             this.idType = search.getIdType();
             this.dtIndex = search.getDtIndex();
@@ -581,10 +590,10 @@ public class AasService extends BaseService {
         }
 
         /** GETTERS AND SETTERS **/
-        public DataPlaneEndpoint getEdr() {
+        public EndpointDataReference getEdr() {
             return edr;
         }
-        public void setEdr(DataPlaneEndpoint edr) {
+        public void setEdr(EndpointDataReference edr) {
             this.edr = edr;
         }
         public SubModel getSubModel() {
@@ -621,7 +630,7 @@ public class AasService extends BaseService {
          */
         @Override
         public void run() {
-            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getEndpoint(), this.getEdr()));
+            this.setDigitalTwin(searchDigitalTwin(this.getIdType(), this.getAssetId(), this.getDtIndex(),  this.getEdr().getPayload().getDataAddress().getProperties().getEndpoint(), this.getEdr()));
             if(this.semanticId == null || this.semanticId.isEmpty()){
                 this.setSubModel(searchSubModelBySemanticId(this.getDigitalTwin()));
             }else {

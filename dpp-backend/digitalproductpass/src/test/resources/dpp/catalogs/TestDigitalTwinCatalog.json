@@ -1,50 +1,77 @@
 {
-  "@id": "bb824702-08dc-4315-9ff1-6373330a0cd9",
+  "@id": "2c156143-eb4b-496a-9dad-b7fc776ed865",
   "@type": "dcat:Catalog",
+  "dspace:participantId": "BPNL00000000000",
   "dcat:dataset": {
-    "@id": "registry-asset",
+    "@id": "dpp-registry",
     "@type": "dcat:Dataset",
     "odrl:hasPolicy": {
-      "@id": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:MTIxMjYzMzgtYzhkMC00MGQ4LTkxYWMtZmY2ZTY0ZTQ5ZmM0",
-      "@type": "odrl:Set",
+      "@id": "cmVnaXN0cnktY29udHJhY3QtZGVmaW5pdGlvbg==:ZHBwLXJlZ2lzdHJ5:N2FjZDM0OGItNzk3Ny00MGRhLWIyZTktMGQyY2Y4NzBkNjhi",
+      "@type": "odrl:Offer",
       "odrl:permission": [],
       "odrl:prohibition": [],
-      "odrl:obligation": [],
-      "odrl:target": "registry-asset"
+      "odrl:obligation": []
     },
     "dcat:distribution": [
       {
         "@type": "dcat:Distribution",
         "dct:format": {
-          "@id": "HttpProxy"
+          "@id": "AzureStorage-PUSH"
         },
-        "dcat:accessService": "bc491229-1b41-49a9-9101-a430a4907e6e"
+        "dcat:accessService": {
+          "@id": "efecedfa-43bb-4b73-8728-aea6e246dda0",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.com/api/v1/dsp"
+        }
       },
       {
         "@type": "dcat:Distribution",
         "dct:format": {
-          "@id": "AmazonS3"
+          "@id": "HttpData-PULL"
         },
-        "dcat:accessService": "bc491229-1b41-49a9-9101-a430a4907e6e"
+        "dcat:accessService": {
+          "@id": "efecedfa-43bb-4b73-8728-aea6e246dda0",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "efecedfa-43bb-4b73-8728-aea6e246dda0",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.com/api/v1/dsp"
+        }
       }
     ],
-    "edc:type": "data.core.digitalTwinRegistry",
-    "edc:description": "Digital Twin Registry for DPP",
-    "edc:id": "registry-asset",
-    "edc:contenttype": "application/json"
+    "version": "3.0",
+    "type": {
+      "@id": "DigitalTwinRegistry"
+    },
+    "asset:prop:type": "data.core.digitalTwinRegistry",
+    "id": "dpp-registry"
   },
   "dcat:service": {
-    "@id": "bc491229-1b41-49a9-9101-a430a4907e6e",
+    "@id": "efecedfa-43bb-4b73-8728-aea6e246dda0",
     "@type": "dcat:DataService",
     "dct:terms": "connector",
-    "dct:endpointUrl": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp"
+    "dct:endpointUrl": "https://test.com/api/v1/dsp"
   },
-  "edc:participantId": "BPNL00000000000",
+  "participantId": "BPNL00000000000",
   "@context": {
-    "dct": "https://purl.org/dc/terms/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat": "https://www.w3.org/ns/dcat/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
     "odrl": "http://www.w3.org/ns/odrl/2/",
     "dspace": "https://w3id.org/dspace/v0.8/"
   }

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -87,6 +88,8 @@ public final class CatenaXUtil {
      *
      */
     public static String buildDataEndpoint(String endpoint) {
+        if(endpoint.contains(edcDataEndpoint))
+            return endpoint;
         return endpoint + edcDataEndpoint;
     }
 
@@ -148,7 +151,29 @@ public final class CatenaXUtil {
         }
         return matcher.group();
     }
-
+    /**
+     * Builds the Readiness Endpoint for a given path suffix for the endpoint.
+     * <p>
+     * @param   env
+     *          the {@code Environment} object of the application environment variables.
+     *
+     * @return  the built {@code String} endpoint by concatenating the EDC endpoint, management endpoint and the given path suffix.
+     *
+     * @throws  UtilException
+     *          if the EDC endpoint or management endpoint in the Environment variables are invalid.
+     */
+    public static String buildReadinessApi(Environment env) {
+        try {
+            String edcEndpoint = env.getProperty("configuration.edc.endpoint");
+            String readinessEndpoint = env.getProperty("configuration.edc.readiness");
+            if (edcEndpoint == null || readinessEndpoint == null) {
+                throw new UtilException(CatenaXUtil.class, "[ERROR] EDC endpoint is null or Readiness endpoint is null");
+            }
+            return edcEndpoint + readinessEndpoint;
+        } catch (Exception e) {
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] Invalid edc endpoint or management endpoint");
+        }
+    }
     /**
      * Builds the Management Endpoint for a given path suffix for the endpoint.
      * <p>

@@ -2,7 +2,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -58,20 +59,25 @@ export SUBMODEL_ID=''
 
 source ./functions.sh
 
-POLICY=''
+DATA_POLICY=''
+REGISTRY_POLICY=''
+
+REGISTRY_POLICY=$(jq '.policies[0]' "${datapath}")
+DATA_POLICY=$(jq '.policies[1]' "${datapath}")
+
 # create edc assets, policies and contracts for the registry (DTR)
 echo "Creating default edc assets for the registry asset"
 create_registry_asset
+create_registry_policy "${REGISTRY_POLICY}"
+create_registry_contractdefinition
 create_default_policy
 create_default_contractdefinition
 echo
 
-POLICY=$(jq '.policies' "${datapath}")
-
 # create assets for passes
 echo "Creating edc assets for the passport"
 create_edc_asset
-create_edc_policy "${POLICY}"
+create_edc_policy "${DATA_POLICY}"
 create_contractdefinition
 echo
 

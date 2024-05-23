@@ -1,0 +1,108 @@
+/**
+ * Tractus-X - Digital Product Passport Application
+ *
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the
+ * License for the specific language govern in permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.section {
+  display: flex;
+  .full-width {
+    width: 100% !important;
+  }
+
+  .info-bar {
+    padding: 10px;
+    font-weight: 600;
+    color: #fff;
+    margin: -16px 36px 18px 36px;
+  }
+
+  .element-chart-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 6px 8px;
+    min-height: 20px;
+  }
+
+  .sub-section-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: solid 1px #edefe5;
+  }
+
+  .two-third-width {
+    width: 66% !important;
+  }
+
+  .section-content {
+    width: 100%;
+    border: solid 1px #b3cb2d;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+    margin-bottom: 50px;
+  }
+
+  .list-container {
+    width: 33%;
+    padding: 0 0 22px 40px;
+  }
+
+  .list-label {
+    padding: 22px 0 10px 0;
+    font-size: 12px;
+    color: #777777;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  li {
+    margin-left: 20px;
+    font-weight: bold;
+  }
+
+  .sub-title {
+    font-weight: bold;
+    font-size: 20px;
+    color: #c6cca3;
+  }
+
+  .container-width-80 {
+    width: 80%;
+  }
+  .container-width-50 {
+    width: 50%;
+  }
+}
+@media (max-width: 960px) {
+  .section {
+    flex-direction: column;
+    .container-width-80 {
+      width: 100%;
+    }
+    .container-width-50 {
+      width: 100%;
+    }
+  }
+}

@@ -1,7 +1,8 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -48,7 +49,8 @@ env:
   IMAGE_NAMESPACE: 'tractusx'
     
 jobs:
-  build:
+  build-on-docker:
+    if: github.repository == 'eclipse-tractusx/digital-product-pass'
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -62,54 +64,9 @@ jobs:
       - name: Setup Java
         uses: ./.github/actions/setup-java
 
-      # Build actions for GHCR registry
-      - name: Docker meta for GHCR
-        id: meta-for-ghcr
-        if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}
-            type=semver,pattern={{major}}.{{minor}}
-
-      # Login against GHCR registry
-      # https://github.com/docker/login-action
-      - name: Log into GHCR registry
-        if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      # Build Java code with Maven
-      - name:  Build dpp backend with maven for GHCR registry
-        if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        run: |
-          cd dpp-backend/digitalproductpass
-          mvn -B clean install
-        
-      # Build and push Docker image with Buildx
-      # https://github.com/docker/build-push-action
-      - name: Build and push backend for GHCR registry
-        id: build-and-push-backend-ghcr
-        if: ${{ github.repository != 'eclipse-tractusx/digital-product-pass' }}
-        uses: docker/build-push-action@v5
-        with:
-          context: dpp-backend/digitalproductpass
-          push: true
-          tags: ${{ steps.meta-for-ghcr.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta-for-ghcr.outputs.labels }}
-
       # Build actions for docker hub registry
-      - name: Docker meta for Docker Hub
+      - name: Docker meta
         id: meta-for-dockerhub
-        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         uses: docker/metadata-action@v5
         with:
           images: |
@@ -124,24 +81,21 @@ jobs:
       # Login against docker registry
       # https://github.com/docker/login-action
       - name: Log into a Docker registry
-        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       
       # Build Java code with Maven
-      - name:  Build dpp backend with maven for Docker Hub
-        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
+      - name:  Build dpp backend with maven
         run: |
           cd dpp-backend/digitalproductpass
           mvn -B clean install
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
-      - name: Build and push backend for Docker Hub
+      - name: Build and push backend
         id: build-and-push-backend-dockerhub
-        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         uses: docker/build-push-action@v5
         with:
           context: dpp-backend/digitalproductpass
@@ -152,7 +106,6 @@ jobs:
       # https://github.com/peter-evans/dockerhub-description
       # Important step to push image description to DockerHub 
       - name: Update Docker Hub description
-        if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
         uses: peter-evans/dockerhub-description@v4
         with:
         # readme-filepath defaults to toplevel README.md, Only necessary if you have a dedicated file with your 'Notice for docker images'   
@@ -160,3 +113,58 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
+
+  build-on-ghcr:
+    if: github.repository != 'eclipse-tractusx/digital-product-pass'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Java
+        uses: ./.github/actions/setup-java
+
+      # Build actions for GHCR registry
+      - name: Docker meta
+        id: meta-for-ghcr
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      # Login against GHCR registry
+      # https://github.com/docker/login-action
+      - name: Log into GHCR registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Build Java code with Maven
+      - name:  Build dpp backend with maven
+        run: |
+          cd dpp-backend/digitalproductpass
+          mvn -B clean install
+        
+      # Build and push Docker image with Buildx
+      # https://github.com/docker/build-push-action
+      - name: Build and push backend
+        id: build-and-push-backend-ghcr
+        uses: docker/build-push-action@v5
+        with:
+          context: dpp-backend/digitalproductpass
+          push: true
+          tags: ${{ steps.meta-for-ghcr.outputs.tags }}, ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta-for-ghcr.outputs.labels }}

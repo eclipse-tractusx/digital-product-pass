@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -28,9 +29,10 @@ package org.eclipse.tractusx.digitalproductpass.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,11 +51,16 @@ import java.util.Map;
 @Service
 public class DataPlaneService extends BaseService {
 
+    /** CONSTANTS **/
+    public static final String AUTHORIZATION_KEY = "Authorization";
+
     /** ATTRIBUTES **/
     @Autowired
     HttpUtil httpUtil;
     @Autowired
     JsonUtil jsonUtil;
+
+    public Environment env;
 
     /** CONSTRUCTOR(S) **/
     public DataPlaneService() throws ServiceInitializationException {
@@ -73,12 +80,16 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the transfer data.
      */
-    public Object getTransferData(DataPlaneEndpoint endpointData) {
+    public Object getTransferData(EndpointDataReference endpointData) {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
-            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
-            ResponseEntity<?> response = httpUtil.doGet(endpointData.getEndpoint(), Object.class, headers, params, true, true);
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, endpointData.getPayload().getDataAddress().getProperties().getAuthorization());
+            ResponseEntity<?> response = httpUtil.doGet(endpointData.getPayload().getDataAddress().getProperties().getEndpoint(), Object.class, headers, params, true, true);
             return response.getBody();
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
@@ -97,17 +108,21 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to get the transfer data.
      */
-    public Object getTransferDataFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+    public JsonNode getTransferDataFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
             Map<String, Object> params = httpUtil.getParams();
             HttpHeaders headers =  new HttpHeaders();
-            headers.add(endpointData.getAuthKey(), endpointData.getAuthCode());
-            ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, Object.class, headers, params, true, true);
-            return response.getBody();
+            String authKey = AUTHORIZATION_KEY;
+            if(env != null){
+                authKey =  env.getProperty("configuration.edc.authorizationKey", AUTHORIZATION_KEY);
+            }
+            headers.add(authKey, endpointData.getPayload().getDataAddress().getProperties().getAuthorization());
+            ResponseEntity<?> response = httpUtil.doGet(dataPlaneEndpoint, String.class, headers, params, true, true);
+            return jsonUtil.toJsonNode((String) response.getBody());
         }catch (Exception e){
-            throw new ServiceException(this.getClass().getName()+"."+"getTransferData",
+            throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,
-                    "It was not possible to get transfer from transfer id ["+endpointData.getId()+"]");
+                    "It was not possible to get data with transfer id ["+endpointData.getId()+"]");
         }
     }
 
@@ -122,7 +137,7 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public JsonNode getPassport(DataPlaneEndpoint endpointData) {
+    public JsonNode getPassport(EndpointDataReference endpointData) {
         try {
             return jsonUtil.toJsonNode(this.getTransferData(endpointData));
         }catch (Exception e){
@@ -144,9 +159,9 @@ public class DataPlaneService extends BaseService {
      * @throws  ServiceException
      *           if unable to parse the data to the passport.
      */
-    public JsonNode getPassportFromEndpoint(DataPlaneEndpoint endpointData, String dataPlaneEndpoint) {
+    public JsonNode getPassportFromEndpoint(EndpointDataReference endpointData, String dataPlaneEndpoint) {
         try {
-            return jsonUtil.toJsonNode(this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint));
+            return this.getTransferDataFromEndpoint(endpointData, dataPlaneEndpoint);
         }catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getPassport",
                     e,

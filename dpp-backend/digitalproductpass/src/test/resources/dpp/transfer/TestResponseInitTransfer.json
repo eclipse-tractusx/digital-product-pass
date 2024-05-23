@@ -1,7 +1,7 @@
 {
-  "@type": "edc:IdResponseDto",
-  "@id": "9ab72e5b-f2d4-4f60-85e6-0985f9b6b579",
-  "edc:createdAt": 1699439575484,
+  "@type": "IdResponse",
+  "@id": "73af176d-bc46-4cc2-80e2-423c0c6fb244",
+  "createdAt": 1699439575484,
   "@context": {
     "dct": "https://purl.org/dc/terms/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",

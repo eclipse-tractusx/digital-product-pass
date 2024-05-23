@@ -1,7 +1,8 @@
 <!-- 
   Tractus-X - Digital Product Passport Application 
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -120,7 +121,7 @@ The *{commit comment}* should briefely describe the relevant content/reason of t
 
 The branching approach is based on the gitflow workflow: [https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-![Branching Strategy](./Branching_strategy.PNG)
+![Branching Strategy](./docs/media/branchingStrategy.png)
 
 Due to the restriction, that only "Eclipse Committer" can work directly on tractus-x, we extended gitflow with a "forked branch". This enables everybody to fork their own repository and contribute in a structured manner.  
 

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -34,7 +35,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
@@ -46,7 +46,7 @@ import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.EndPoint;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.SubModel;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.eclipse.tractusx.digitalproductpass.models.edc.Jwt;
 import org.eclipse.tractusx.digitalproductpass.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.models.http.requests.Search;
@@ -156,7 +156,7 @@ public class AppController {
     @Operation(summary = "Receives the EDR for the EDC Consumer and queries for the dDTR")
     public Response getDigitalTwin(@RequestBody Object body, @PathVariable String processId, @PathVariable String endpointId) {
         try {
-            DataPlaneEndpoint endpointData = null;
+            EndpointDataReference endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
             } catch (Exception e) {
@@ -228,11 +228,6 @@ public class AppController {
             if (connectorAddress.isEmpty() || assetId.isEmpty()) {
                 LogUtil.printError("Failed to parse endpoint [" + connectorAddress + "] or the assetId is not found!");
             }
-            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
-            processManager.setStatus(processId, "digital-twin-found", new History(
-                    assetId,
-                    "READY"
-            ));
             String bpn =  dtr.getBpn();
             Boolean childrenCondition = search.getChildren();
             processManager.saveDtr(processId, endpointId);
@@ -250,7 +245,11 @@ public class AppController {
                 // Get children from the node
                 this.irsService.getChildren(processId, actualPath, globalAssetId, bpn);
             }
-
+            LogUtil.printDebug("[PROCESS " + processId + "] Digital Twin [" + digitalTwin.getIdentification() + "] and Submodel [" + subModel.getIdentification() + "] with EDC endpoint [" + connectorAddress + "] retrieved from DTR");
+            processManager.setStatus(processId, "digital-twin-found", new History(
+                    assetId,
+                    "DT-READY"
+            ));
 
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
@@ -271,28 +270,21 @@ public class AppController {
      *           if the unable to get the data plane endpoint.
      *
      */
-    public DataPlaneEndpoint getEndpointData(Object body) throws ControllerException {
-        DataPlaneEndpoint endpointData = edcUtil.parseDataPlaneEndpoint(body);
+    public EndpointDataReference getEndpointData(Object body) throws ControllerException {
+        EndpointDataReference endpointData = edcUtil.parseDataPlaneEndpoint(body);
         if (endpointData == null) {
-            throw new ControllerException(this.getClass().getName(), "The endpoint data request is empty!");
+            throw new ControllerException(this.getClass().getName(), "[EDR] The endpoint data request is empty!");
         }
-        if (endpointData.getEndpoint().isEmpty()) {
-            throw new ControllerException(this.getClass().getName(), "The data plane endpoint address is empty!");
+        EndpointDataReference.Properties properties =  endpointData.getPayload().getDataAddress().getProperties();
+        if (properties.getEndpoint().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The data plane endpoint address is empty!");
         }
-        if (endpointData.getAuthCode().isEmpty()) {
-            throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
+        if (endpointData.getPayload().getDataAddress().getProperties().getEndpoint().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The authorization code is empty!");
         }
-        if (!endpointData.offerIdExists()) {
-            Jwt token = httpUtil.parseToken(endpointData.getAuthCode());
-            if (!token.getPayload().containsKey("cid") || token.getPayload().get("cid").equals("")) {
-                throw new ControllerException(this.getClass().getName(), "The Offer Id is empty!");
-            }
-        } else {
-            if (endpointData.getOfferId().isEmpty()) {
-                throw new ControllerException(this.getClass().getName(), "The authorization code is empty!");
-            }
+        if (endpointData.getPayload().getContractId().isEmpty()) {
+            throw new ControllerException(this.getClass().getName(), "[EDR] The contractId is empty!");
         }
-
         return endpointData;
     }
 
@@ -309,7 +301,7 @@ public class AppController {
     @Operation(summary = "Receives the EDR from the EDC Consumer and get the passport json")
     public Response endpoint(@RequestBody Object body, @PathVariable String processId) {
         try {
-            DataPlaneEndpoint endpointData = null;
+            EndpointDataReference endpointData = null;
             try {
                 endpointData = this.getEndpointData(body);
             } catch (Exception e) {
@@ -327,7 +319,6 @@ public class AppController {
             if(status == null){
                 return httpUtil.buildResponse(httpUtil.getNotFound("No status is created"), httpResponse);
             }
-
 
             JsonNode passport = dataPlaneService.getPassportFromEndpoint(endpointData, status.getDataPlaneUrl());
             if (passport == null) {

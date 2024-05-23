@@ -1,18 +1,20 @@
 {
-  "@type": "edc:ContractNegotiationDto",
+  "@type": "ContractNegotiation",
   "@id": "189f4957-0fbe-4d73-b215-977e3303a45e",
-  "edc:type": "CONSUMER",
-  "edc:protocol": "dataspace-protocol-http",
-  "edc:state": "FINALIZED",
-  "edc:counterPartyAddress": "https://materialpass.int.demo.catena-x.net/BPNL000000000000/api/v1/dsp",
-  "edc:callbackAddresses": [],
-  "edc:contractAgreementId": "ZGVmYXVsdC1jb250cmFjdC1kZWZpbml0aW9u:cmVnaXN0cnktYXNzZXQ=:NmRjMDFlOTQtMGE0MC00MTQzLThhOTYtY2IyMmYxN2JjZGJj",
+  "type": "CONSUMER",
+  "protocol": "dataspace-protocol-http",
+  "state": "FINALIZED",
+  "counterPartyId": "BPNL00000000000",
+  "counterPartyAddress": "https://test.com/api/v1/dsp",
+  "callbackAddresses": [],
+  "createdAt": 1715192601315,
+  "contractAgreementId": "1ce31703-bca2-4cd0-809c-b716fba61c03",
   "@context": {
-    "dct": "https://purl.org/dc/terms/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat": "https://www.w3.org/ns/dcat/",
-    "odrl": "http://www.w3.org/ns/odrl/2/",
-    "dspace": "https://w3id.org/dspace/v0.8/"
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }

@@ -1,0 +1,118 @@
+#################################################################################
+# Tractus-X - Digital Product Passport Application
+#
+# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+---
+# Default values for backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  # -- Which container image to use
+  repository: ghcr.io/catenax-ng/catenax-at-home/provider-backend-service
+  # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion
+  tag: "0.0.1"
+  command: ""
+  # -- Image pull secret to create to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
+imagePullSecrets: []
+
+# -- Overrides the charts name
+nameOverride: ""
+
+# -- Overrides the releases full name
+fullnameOverride: "data-service"
+
+service:
+  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
+  type: ClusterIP
+  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service) to expose the running application on a set of Pods as a network service.
+  port: 8080
+
+container:
+  port: 80
+
+livenessProbe: {}
+
+readinessProbe: {}
+
+# -- additional annotations for the pod
+podAnnotations: {}
+
+podSecurityContext:
+  seccompProfile:
+    # -- Restrict a Container's Syscalls with seccomp
+    type: RuntimeDefault
+  # -- Runs all processes within a pod with a special uid
+  runAsUser: 10001
+  # -- Processes within a pod will belong to this guid
+  runAsGroup: 10001
+  # -- The owner for volumes and any files created within volumes will belong to this guid
+  fsGroup: 10001
+# The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
+securityContext:
+  capabilities:
+    # -- Specifies which capabilities to drop to reduce syscall attack surface
+    drop:
+      - ALL
+    # -- Specifies which capabilities to add to issue specialized syscalls
+    add: []
+  # -- Whether the root filesystem is mounted in read-only mode
+  readOnlyRootFilesystem: true
+  # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
+  allowPrivilegeEscalation: false
+  # -- Requires the container to run without root privileges
+  runAsNonRoot: true
+  # -- The container's process will run with the specified uid
+  runAsUser: 10001
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    #kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  hosts:
+    - host: materialpass.int.demo.catena-x.net
+      paths:
+        - path: /provider_backend(/|$)(.*)
+          pathType: Prefix
+  tls:
+    - secretName: tls-secret
+      hosts:
+        - materialpass.int.demo.catena-x.net
+
+
+
+nodeSelector: {}
+# [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes
+tolerations: []
+# [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on
+affinity: {}

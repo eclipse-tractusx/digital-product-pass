@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -28,18 +29,13 @@ package org.eclipse.tractusx.digitalproductpass.managers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
-import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
-import org.eclipse.tractusx.digitalproductpass.models.catenax.EdcDiscoveryEndpoint;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
-import org.eclipse.tractusx.digitalproductpass.models.irs.Job;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.Relationship;
 import org.eclipse.tractusx.digitalproductpass.models.manager.Node;
 import org.eclipse.tractusx.digitalproductpass.models.manager.NodeComponent;
-import org.eclipse.tractusx.digitalproductpass.models.manager.Status;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Negotiation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.*;

@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -104,17 +105,23 @@ public class AppListener {
                         try {
                             LogUtil.printMessage(
                                     "[ EDC Connection Test ] Testing connection with the EDC Consumer, this may take some seconds...");
-                            String bpnNumber = dataTransferService.checkEdcConsumerConnection();
-                            if(bpnNumber == null){
+                            Boolean healthStatus = dataTransferService.checkEdcConsumerConnection();
+                            if(!healthStatus){
                                 throw new Exception("[" + this.getClass().getName()
-                                        + ".onStartUp] The EDC Consumer configured is not reachable!");
-                            }
-                            if (bpnCheck && !participantId.equals(bpnNumber)) {
-                                throw new Exception("[" + this.getClass().getName()
-                                        + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer connector!");
+                                        + ".onStartUp] The EDC consumer endpoint configured is not ready to receive requests!");
                             }
                             LogUtil.printMessage(
-                                    "[ EDC Connection Test ] The EDC consumer is available for receiving connections!");
+                                    "[ EDC Connection Test ] EDC consumer is ready and accessible!");
+                            if(bpnCheck) {
+                                if (!dataTransferService.isApplicationEdc(participantId)) {
+                                    throw new Exception("[" + this.getClass().getName()
+                                            + ".onStartUp] Incorrect BPN Number configuration, expected the same participant id as the EDC consumer!");
+                                }
+                                LogUtil.printMessage(
+                                        "[ EDC Connection Test ] The EDC Business Partner Number is the same as the Digital Product Pass Application one!");
+                            }
+                            LogUtil.printMessage(
+                                    "[ EDC Connection Test ] The EDC consumer checks concluded successfully!");
                         } catch (Exception e) {
                             throw new IncompatibleConfigurationException(e.getMessage());
                         }
@@ -208,7 +215,8 @@ public class AppListener {
         String serverStartUpMessage = "\n\n" +
                 "**********************************************************************\n\n" +
                 " " + buildProperties.getName() + "\n" +
-                " Copyright (c) 2022, 2024: BASF SE, BMW AG, Henkel AG & Co. KGaA\n" +
+                " Copyright (c) 2022, 2024: BMW AG, Henkel AG & Co. KGaA\n" +
+                " Copyright (c) 2023, 2024: CGI Deutschland B.V. & Co. KG\n" +
                 " Copyright (c) 2022, 2024: Contributors to the Eclipse Foundation.\n\n" +
                 "**********************************************************************\n\n";
         System.out.print(serverStartUpMessage);

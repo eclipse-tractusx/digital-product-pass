@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -27,7 +28,7 @@ package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -75,7 +76,7 @@ public class PassportUtil {
      *          if unable to save the Passport to a JSON file.
      */
     @SuppressWarnings("Unused")
-    public String savePassport(JsonNode passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted){
+    public String savePassport(JsonNode passport, EndpointDataReference endpointData, Boolean prettyPrint, Boolean encrypted){
         try {
             fileUtil.createDir(this.transferDir);
             String path = Path.of(this.transferDir, endpointData.getId() + ".json").toAbsolutePath().toString();
@@ -104,7 +105,7 @@ public class PassportUtil {
      * @throws  UtilException
      *          if unable to save the Passport to a JSON file.
      */
-    public String savePassport(JsonNode passport, DataPlaneEndpoint endpointData, Boolean prettyPrint, Boolean encrypted, String filePath){
+    public String savePassport(JsonNode passport, EndpointDataReference endpointData, Boolean prettyPrint, Boolean encrypted, String filePath){
         try {
             if(!encrypted) {
                 return jsonUtil.toJsonFile(filePath, passport, prettyPrint); // Store the plain JSON

@@ -1,7 +1,8 @@
 <!--
   Tractus-X - Digital Product Passport Application
  
-  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -21,7 +22,7 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 style="display:flex; align-items: center;"><img src="./docs/catena-x-logo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
+<h1 style="display:flex; align-items: center;"><img src="./docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Application</h1>
 
 # Application Installation
 
@@ -189,7 +190,7 @@ npm run serve
 
 #### Method 2: With Docker
 
-The following environment variables must be set in [build and deploy](./buildAndDeploy.sh) script:
+The following environment variables must be set in [build and deploy](./dpp-frontend/buildAndDeploy.sh) script:
 
 - PASS_VERSION
 - APP_VERSION

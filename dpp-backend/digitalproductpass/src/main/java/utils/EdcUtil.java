@@ -2,7 +2,8 @@
  *
  * Tractus-X - Digital Product Passport Application
  *
- * Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -25,16 +26,21 @@
 
 package utils;
 
-import org.eclipse.tractusx.digitalproductpass.models.edc.DataPlaneEndpoint;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.Set;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionConfig;
+import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
+import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
+import org.eclipse.tractusx.digitalproductpass.models.general.Selection;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
+import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,13 +52,18 @@ import java.util.stream.Collectors;
 @Component
 public class EdcUtil {
 
-    private final JsonUtil jsonUtil;
+    @Autowired
+    private JsonUtil jsonUtil;
 
     @Autowired
-    public EdcUtil(JsonUtil jsonUtil) {
-        this.jsonUtil = jsonUtil;
-    }
+    private PolicyUtil policyUtil;
 
+    public EdcUtil() {
+    }
+    public EdcUtil(JsonUtil jsonUtil,PolicyUtil policyUtil) {
+        this.jsonUtil = jsonUtil;
+        this.policyUtil = policyUtil;
+    }
     /**
      * Parses the data from HTTP request {@code Object} body to a {@code DataPLaneEndpoint} object data.
      * <p>
@@ -61,54 +72,13 @@ public class EdcUtil {
      * @return a {@code DataPlaneEndpoint} object with the parsed date retrieved from the body.
      * @throws UtilException if unable to parse to the data.
      */
-    public DataPlaneEndpoint parseDataPlaneEndpoint(Object body) {
+    public EndpointDataReference parseDataPlaneEndpoint(Object body) {
         try {
-            return (DataPlaneEndpoint) this.jsonUtil.bindObject(body, DataPlaneEndpoint.class);
+            return this.jsonUtil.bind(body, new TypeReference<>() {});
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to parse the data plain endpoint");
         }
     }
-
-    /**
-     * Gets a specific policy from a dataset by id
-     * <p>
-     *
-     * @param dataset the {@code Dataset} object of data set contained in the catalog
-     * @param policyId {@code String} the id of the policy to get
-     * @return Set of policy if found or null otherwise.
-     */
-    public Set getPolicyById(Dataset dataset, String policyId) {
-        Object rawPolicy = dataset.getPolicy();
-        // If the policy is not available
-        if (rawPolicy == null) {
-            return null;
-        }
-        Set policy = null;
-        // If the policy is an object
-        if (rawPolicy instanceof LinkedHashMap) {
-            policy = (Set) this.jsonUtil.bindObject(rawPolicy, Set.class);
-        } else {
-            List<LinkedHashMap> policyList = (List<LinkedHashMap>) this.jsonUtil.bindObject(rawPolicy, List.class);
-            if (policyList == null) {
-                return null;
-            }
-            policy = (Set) this.jsonUtil.bindObject(policyList.stream().filter(
-                    (p) -> p.get("@id").equals(policyId)
-            ).findFirst(), Set.class); // Get policy with the specific policy id
-        }
-        // If the policy does not exist
-        if (policy == null) {
-            return null;
-        }
-        // If the policy selected is not the one available!
-        if (!policy.getId().equals(policyId)) {
-            return null;
-        }
-
-        return policy;
-    }
-    // This method is responsible for finding if the EDC is version v0.5.0 basing itself in the contractId format.
-
 
     /**
      * Checks if the EDC is version v0.5.0 basing on the contractId format.
@@ -145,6 +115,129 @@ public class EdcUtil {
                     .collect(Collectors.toMap(Dataset::getId, Function.identity()));
         } catch (Exception e) {
             throw new UtilException(EdcUtil.class, e, "It was not possible to map the datasets");
+        }
+    }
+
+    /**
+     * Gets a valid contract from a map of contracts
+     * <p>
+     *
+     * @param contracts {@code Map<String, Dataset>} the map of contracts by id
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code Dataset} any valid contract from the map or null if no valid contract is valid
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public Dataset getValidContract(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
+        try {
+            // Check all the contract policies against the configuration
+            Map<String, Dataset> validContracts = this.filterValidContracts(contracts, policyConfig);
+            if(validContracts == null || validContracts.size() == 0){
+                return null; // No valid contract was found
+            }
+            String anyContractKey = validContracts.keySet().stream().findAny().orElse(null);
+            return validContracts.get(anyContractKey); // Get any contract from the map
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
+        }
+    }
+    /**
+     * Gets a valid contract from a map of contracts
+     * <p>
+     *
+     * @param contracts {@code Map<String, Dataset>} the map of contracts by id
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code Dataset} any valid contract from the map or null if no valid contract is valid
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public Selection<Dataset, Set> selectValidContractAndPolicy(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
+        try {
+            List<Selection<Dataset,Set>> validContractSelections  = new ArrayList<>(); // Array with possible selections
+            contracts.keySet().forEach(key -> {
+                Dataset contract = contracts.get(key); // Get the contract
+                List<Set> policies = policyUtil.getValidPoliciesByConstraints(contract.getPolicy(), policyConfig); // Get all its valid policies
+                // If policies are not null or are more than one
+                if(policies == null || policies.size() == 0){
+                    return;
+                }
+                policies.forEach(policy -> validContractSelections.add(new Selection<>(contract, policy))); // Create the possible selections
+            });
+            // Select any possible selection
+            return validContractSelections.stream().findAny().orElse(null);
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to get any valid contract and policy!");
+        }
+    }
+    /**
+     * Filters a map of contracts by policy configuration constraints
+     * <p>
+     *
+     * @param contracts {@code Map<String, Dataset>} the map of contracts by id
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to filter the valid contracts
+     * @return {@code Map<String, Dataset>} the map of contract ids with the valid contracts
+     * @throws UtilException if error when parsing the contracts or filtering
+     */
+    public Map<String, Dataset> filterValidContracts(Map<String, Dataset> contracts, PolicyCheckConfig policyConfig){
+        try {
+            // If no configuration was provided all contracts are valid
+            if(policyConfig == null){
+                return contracts;
+            }
+            // If policy config is disabled then all the contracts are valid
+            if(!policyConfig.getEnabled()){
+                return contracts;
+            }
+            // Filter contracts by policy config
+            return contracts.entrySet().stream()
+                    .filter(contract -> this.isContractValid(contract.getValue(), policyConfig))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to filter the valid contracts");
+        }
+    }
+
+    /**
+     * Checks if a contract is valid against the policy configuration
+     * <p>
+     *
+     * @param contract {@code Dataset} the contract to be checked if valid
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code Boolean} true if contract is valid
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public Boolean isContractValid(Dataset contract, PolicyCheckConfig policyConfig){
+        try {
+            return policyUtil.getValidPoliciesByConstraints(contract.getPolicy(), policyConfig).size() > 0; // If any policy is found the contract is valid
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
+        }
+    }
+    /**
+     * Get the contract valid policies as a list
+     * <p>
+     *
+     * @param contract {@code Dataset} the contract to be checked if valid
+     * @param policyConfig {@code PolicyCheckConfig} the policy configuration to be checked
+     * @return {@code List<Set>} list of valid policies or empty list if no is available
+     * @throws UtilException if error when checking if contract is valid
+     */
+    public List<Set> getContractValidPolicies(Dataset contract, PolicyCheckConfig policyConfig){
+        try {
+            // If no configuration was provided any contract is valid
+            if(policyConfig == null){
+                return new ArrayList<>();
+            }
+            // If policy config is disabled then the contract is valid
+            if(!policyConfig.getEnabled()){
+                return new ArrayList<>();
+            }
+            Object policies = contract.getPolicy();
+            if (policies == null){
+                throw new UtilException(EdcUtil.class,"The contract has no parsable policies");
+            }
+            // Check all the contract policies against the configuration
+            return policyUtil.getValidPoliciesByConstraints(policies, policyConfig);
+        } catch (Exception e) {
+            throw new UtilException(EdcUtil.class, e, "It was not possible to check if contract is valid");
         }
     }
 

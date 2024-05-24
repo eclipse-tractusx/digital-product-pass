@@ -227,7 +227,7 @@ item-relationship-service:
 
   digitalTwinRegistry:
     type: decentral
-    url: https://dpp.int.demo.catena-x.net/semantics/registry/api/v3.0
+    url: https://dpp-registry.int.demo.catena-x.net/semantics/registry/api/v3.0
 
     discovery:
       oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
@@ -263,12 +263,18 @@ item-relationship-service:
   edc:
     catalog:
       acceptedPolicies:
-        - leftOperand: "FrameworkAgreement.sustainability"	
-          operator: "eq"	
-          rightOperand: "active"
-        - leftOperand: "Membership"
+        - leftOperand: "cx-policy:FrameworkAgreement"
+          operator: "eq"
+          rightOperand: "CircularEconomy:1.0"
+        - leftOperand: "cx-policy:Membership"
           operator: "eq"
           rightOperand: "active"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.circular.dpp:1"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.core.digitalTwinRegistry:1"
     controlplane:
       endpoint:
         data: https://dpp.int.demo.catena-x.net/consumer/management

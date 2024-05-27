@@ -168,7 +168,7 @@ public class IrsService extends BaseService {
     public Map<String, String> startJob(String processId, String globalAssetId,  String searchId, String bpn) {
         try {
             this.checkEmptyVariables();
-            String url = this.irsEndpoint + "/" + this.irsJobPath;
+            String url = this.irsEndpoint + this.irsJobPath;
             // Build the Job request for the IRS
 
             String backendUrl = this.callbackUrl +  "/" + processId + "/" + searchId; // Add process id and search id

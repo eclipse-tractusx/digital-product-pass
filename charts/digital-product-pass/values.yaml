@@ -172,6 +172,7 @@ backend:
   irs:
     enabled: false
     hostname: ""
+    apiKey: "<Add API Key>"
 
   # -- digital twin registry configuration
   process:
@@ -349,7 +350,6 @@ frontend:
     requestDelay: 30000
     # -- maximum waiting time to get the irs job status
     maxWaitingTime: 30
-    apiKey: "<Add API Key>"
 
 # -- oauth configuration
 oauth:

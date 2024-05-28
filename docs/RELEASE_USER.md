@@ -26,7 +26,7 @@
 User friendly relase notes without especific technical details.
 
 
-**May 13 2024 (Version 3.0.0-rc1)**
+**May 13 2024 (Version 3.0.0)**
 *13.05.2024*
 
 ### Added

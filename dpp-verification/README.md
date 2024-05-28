@@ -27,21 +27,21 @@ SPDX-License-Identifier: Apache-2.0
   <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
   <br><br>
   <img alt="Version:  v1.0" src="https://img.shields.io/badge/Version-v1.0-blue?style=for-the-badge">
-  <img alt="STATUS: IN PROGRESS" src="https://img.shields.io/badge/Status-In%20Progress-8A2BE2?style=for-the-badge">
-  <h3> Catena-X Data Verification Framework </h3>
+  <img alt="STATUS: RELEASED" src="https://img.shields.io/badge/Status-Released-8A2BE2?style=for-the-badge">
+  <h3> A Catena-X Data Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
   
 </div>
 
-> [!CAUTION]
-> This documentation is still in progress... Not all the content is yet available. It is being migrated and published here whenever it is ready. It will be finished and added to main in the R24.05
+> [!IMPORTANT]
+> This is the first version of the Digital Product Pass Verification Framework, more details will be added in the next release R24.08 regarding the implementation. And a first PoC will be implemented in the application for consumer verification. More information can be found in the issue: [eclipse-tractusx/sig-release#655](https://github.com/eclipse-tractusx/sig-release/issues/655)
 
 # Metadata
 
 |                      | Date              | Authors & Reviewers                                   |
 | -------------------- | ----------------- | ----------------------------------------------------- |
 | **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
-| **Lastest Revision** | May 13, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | May 16, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
 
@@ -192,7 +192,7 @@ When talking about the certification and verification of data we can find severa
 # Previous Investigation
 <!-- TODO: Add previous investigation here -->
 > [!WARNING]
-> Previous investigation is still not available here!
+> Previous investigation is still not available in this version.
 
 
 # Processes Terminology
@@ -808,7 +808,7 @@ Here we have an example of the generated CSC from the [previous CDC Aspect](#cer
 # Technical Integration Design
 <!-- TODO: Add previous TID here -->
 > [!WARNING]
-> The complete technical integration design is still not available here!
+> The complete technical integration design is still not available here! More details comming soon...
 
 ## Interfaces
 

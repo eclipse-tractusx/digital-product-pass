@@ -1,0 +1,112 @@
+{
+  "description": [
+    {
+      "language": "en",
+      "text": "Car/part Digital Twin"
+    }
+  ],
+  "displayName": [],
+  "globalAssetId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e59",
+  "idShort": "<PART_NAME>",
+  "id": "<UUID>",
+  "specificAssetIds": [
+    {
+      "name": "partInstanceId",
+      "value": "<PART_INSTANCE_ID>",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL0073928UJ879"
+          }
+        ]
+      }
+    },
+    {
+      "name": "manufacturerPartId",
+      "value": "MPI0012",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL0073928UJ879"
+          },
+          {
+            "type": "GlobalReference",
+            "value": "PUBLIC_READABLE"
+          }
+        ]
+      }
+    },
+    {
+      "name": "manufacturerId",
+      "value": "BPNL0073928UJ879",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL0073928UJ879"
+          }
+        ]
+      }
+    },
+    {
+      "name": "digitalTwinType",
+      "value": "PartInstance",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL0073928UJ879"
+          }
+        ]
+      }
+    }
+  ],
+  "submodelDescriptors": [
+    {
+      "endpoints": [
+        {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/<UUID>",
+            "endpointProtocol": "HTTP",
+            "endpointProtocolVersion": ["1.1"],
+            "subprotocol": "DSP",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
+            "subprotocolBodyEncoding": "plain",
+            "securityAttributes": [
+              {
+                "type": "NONE",
+                "key": "NONE",
+                "value": "NONE"
+              }
+            ]
+          }
+        }
+      ],
+      "idShort": "digitalProductPass",
+      "id": "<UUID>",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+          }
+        ]
+      },
+      "description": [
+        {
+          "language": "en",
+          "text": "Digital Product Pass Submodel"
+        }
+      ],
+      "displayName": []
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+
+{
+  "urn:uuid:c28098f6-6996-4a77-be8d-497fd9f60fc6": {
+    "localIdentifiers" : [ {
+      "value" : "BFH-4459",
+      "key" : "partInstanceId"
+    } ],
+    "manufacturingInformation" : {
+      "date" : "2022-02-04T14:48:54",
+      "country" : "DE"
+    },
+    "catenaXId" : "urn:uuid:c28098f6-6996-4a77-be8d-497fd9f60fc6",
+    "partTypeInformation" : {
+      "manufacturerPartId" : "MPI0012",
+      "customerPartId" : "BFH-4459",
+      "classification" : "product",
+      "nameAtManufacturer" : "CHASSIS",
+      "nameAtCustomer" : "CHASSIS"
+    }
+  },
+  "urn:uuid:0d5d59ab-93b3-49f7-9a8c-48f9b96747ab": {
+    "localIdentifiers" : [ {
+      "value" : "JFU-9853",
+      "key" : "partInstanceId"
+    } ],
+    "manufacturingInformation" : {
+      "date" : "2022-02-04T14:48:54",
+      "country" : "DE"
+    },
+    "catenaXId" : "urn:uuid:0d5d59ab-93b3-49f7-9a8c-48f9b96747ab",
+    "partTypeInformation" : {
+      "manufacturerPartId" : "MPI0012",
+      "customerPartId" : "JFU-9853",
+      "classification" : "product",
+      "nameAtManufacturer" : "FIREWALL",
+      "nameAtCustomer" : "FIREWALL"
+    }
+  }
+}

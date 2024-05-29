@@ -107,7 +107,7 @@ spec:
             - name: "APP_IRS_DELAY"
               value: "{{ .Values.frontend.irs.requestDelay }}"
 
-            - name: "API_IRS_MAX_WAITING_TIME"
+            - name: "APP_IRS_WAITING_TIME"
               value: "{{ .Values.frontend.irs.maxWaitingTime }}"
 
             - name: "API_DELAY"

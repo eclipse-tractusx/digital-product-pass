@@ -104,10 +104,10 @@ spec:
             - name: "API_MAX_RETRIES"
               value: "{{ .Values.frontend.api.max_retries }}"
 
-            - name: "API_IRS_DELAY"
+            - name: "IRS_DELAY"
               value: "{{ .Values.frontend.irs.requestDelay }}"
 
-            - name: "API_IRS_MAX_WAITING_TIME"
+            - name: "IRS_MAX_WAITING_TIME"
               value: "{{ .Values.frontend.irs.maxWaitingTime }}"
 
             - name: "API_DELAY"

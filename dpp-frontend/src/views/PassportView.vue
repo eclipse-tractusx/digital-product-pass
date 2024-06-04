@@ -31,7 +31,7 @@
       <template
         v-else-if="
           data.semanticId ===
-          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'
         "
       >
         <span class="header-title">{{ $t("passportView.bpp") }}</span>
@@ -39,7 +39,7 @@
       <template
         v-else-if="
           data.semanticId ===
-          'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
+          'urn:bamm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'
         "
       >
         <span class="header-title">{{ $t("passportView.tpp") }}</span>
@@ -291,11 +291,11 @@
       <template
         v-if="
           data.semanticId ===
-          'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+          'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'
         "
       >
         <PassportHeader
-          :id="data.aspect.batteryIdentification.batteryIDDMCCode"
+          :id="data.aspect.identification.idDmc"
           type="Battery ID"
         />
       </template>
@@ -306,7 +306,7 @@
         <template
           v-if="
             data.semanticId ===
-            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
+            'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'
           "
         >
           <BatteryCards :data="data" />
@@ -314,7 +314,7 @@
         <template
           v-else-if="
             data.semanticId ==
-            'urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass'
+            'urn:bamm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'
           "
         >
           <TransmissionCards :data="data" />
@@ -324,25 +324,11 @@
         </template>
       </div>
       <div class="pass-container footer-spacer">
-        <template
-          v-if="
-            data.semanticId ===
-            'urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass'
-          "
-        >
-          <TabsComponent
-            :componentsNames="batteryComponentsNames"
-            :componentsData="data"
-            :semanticId="data.semanticId"
-          />
-        </template>
-        <template v-else>
-          <TabsComponent
-            :componentsNames="filteredComponentsNames"
-            :componentsData="data"
-            :semanticId="data.semanticId"
-          />
-        </template>
+        <TabsComponent
+          :componentsNames="filteredComponentsNames"
+          :componentsData="data"
+          :semanticId="data.semanticId"
+        />
       </div>
       <FooterComponent />
     </div>
@@ -363,7 +349,6 @@
 
 <script>
 // @ is an alias to /src
-
 import LoadingComponent from "../components/general/LoadingComponent.vue";
 import TabsComponent from "../components/general/TabsComponent.vue";
 import HeaderComponent from "@/components/general/Header.vue";
@@ -417,49 +402,6 @@ export default {
       policies: [],
       declineContractModal: false,
       showContractModal: true,
-      batteryComponentsNames: [
-        {
-          label: "passportView.batteryComponentsNames.generalInformation",
-          icon: "mdi-information-outline",
-          component: "GeneralInformation",
-        },
-        {
-          label: "passportView.batteryComponentsNames.stateOfBattery",
-          icon: "mdi-battery-charging",
-          component: "StateOfBattery",
-        },
-        {
-          label: "passportView.batteryComponentsNames.components",
-          icon: "mdi-battery-unknown",
-          component: "Components",
-        },
-        {
-          label: "passportView.batteryComponentsNames.batteryComposition",
-          icon: "mdi-battery-unknown",
-          component: "BatteryComposition",
-        },
-        {
-          label: "passportView.batteryComponentsNames.cellChemistry",
-          icon: "mdi-flask-empty-outline",
-          component: "CellChemistry",
-        },
-        {
-          label:
-            "passportView.batteryComponentsNames.electrochemicalProperties",
-          icon: "mdi-microscope",
-          component: "ElectrochemicalProperties",
-        },
-        {
-          label: "passportView.batteryComponentsNames.documents",
-          icon: "mdi-text-box-multiple-outline",
-          component: "Documents",
-        },
-        {
-          label: "passportView.batteryComponentsNames.exchange",
-          icon: "mdi-file-swap-outline",
-          component: "Exchange",
-        },
-      ],
       auth: inject("authentication"),
       data: null,
       loading: true,
@@ -484,9 +426,17 @@ export default {
   },
   computed: {
     filteredComponentsNames() {
+      // Start by gathering keys from the 'aspect' object
       let dataKeys = Object.keys(this.data.aspect);
+
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
+        // Remove the key for 'productUnspecificParameters' if it exists
+        const index = dataKeys.indexOf("productUnspecificParameters");
+        if (index !== -1) {
+          dataKeys.splice(index, 1);
+        }
+
         // Filter out keys with empty objects or arrays
         dataKeys = dataKeys.filter((key) => {
           const value = this.data.aspect[key];
@@ -498,12 +448,33 @@ export default {
           } else if (Array.isArray(value) && value !== null) {
             return value.length > 0;
           }
-          return true; // Include if it's not an object/array or if it's a non-empty primitive value
+          return true;
         });
 
         dataKeys.splice(3, 0, "components");
+
+        // If 'productUnspecificParameters' contains relevant data, process separately and integrate
+        if (
+          this.data.aspect.productUnspecificParameters &&
+          Object.keys(this.data.aspect.productUnspecificParameters).length > 0
+        ) {
+          const unspecificKeys = Object.keys(
+            this.data.aspect.productUnspecificParameters
+          ).filter((key) => {
+            const value = this.data.aspect.productUnspecificParameters[key];
+            return (
+              typeof value === "object" &&
+              value !== null &&
+              (Array.isArray(value)
+                ? value.length > 0
+                : Object.keys(value).length > 0)
+            );
+          });
+          // Merge unspecificKeys ensuring no duplicates
+          dataKeys = Array.from(new Set([...dataKeys, ...unspecificKeys]));
+        }
         dataKeys.push("exchange");
-        // Generate component names dynamically from the JSON keys
+
         return dataKeys.map((key) => ({
           label: key,
           icon: passportUtil.iconFinder(key),
@@ -531,6 +502,34 @@ export default {
     this.searchContracts();
   },
   methods: {
+    processAspectData(dataAspect) {
+      let dataKeys = Object.keys(dataAspect);
+
+      if (dataAspect && dataKeys.length > 0) {
+        dataKeys = dataKeys.filter((key) => {
+          const value = dataAspect[key];
+          if (typeof value === "object" && value !== null) {
+            return Array.isArray(value)
+              ? value.length > 0
+              : Object.keys(value).length > 0;
+          } else if (Array.isArray(value) && value !== null) {
+            return value.length > 0;
+          }
+          return true;
+        });
+
+        if (dataAspect.productUnspecificParameters) {
+          const unspecificKeys = this.processAspectData(
+            dataAspect.productUnspecificParameters
+          );
+          dataKeys = [...new Set([...dataKeys, ...unspecificKeys])];
+        }
+
+        return dataKeys;
+      } else {
+        return [];
+      }
+    },
     extractPolicies(contracts) {
       let contractPolicies = [];
 
@@ -940,7 +939,7 @@ export default {
           ? response["statusText"]
           : "Not Available";
         this.error = true;
-      } 
+      }
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -1098,4 +1097,3 @@ export default {
   },
 };
 </script>
-

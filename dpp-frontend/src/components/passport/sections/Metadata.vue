@@ -21,53 +21,131 @@
  
   SPDX-License-Identifier: Apache-2.0
 -->
-
 <template>
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <Field
-            :icon="callIconFinder('predecessor')"
-            :label="$t('sections.metadata.predecessor')"
-            :value="propsData.predecessor"
-          />
-          <Field
-            :icon="callIconFinder('issueDate')"
-            :label="$t('sections.metadata.issueDate')"
-            :value="propsData.issueDate"
-          />
-          <Field
-            :icon="callIconFinder('version')"
-            :label="$t('sections.metadata.version')"
-            :value="propsData.version"
-          />
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData?.predecessor ||
+                callCurrentData?.issueDate ||
+                callCurrentData.version ||
+                callCurrentData.lastModification
+            )
+          "
+        >
+          <template v-if="callCurrentData.predecessor">
+            <Field
+              :icon="callIconFinder('predecessor')"
+              :label="$t('sections.metadata.predecessor')"
+              :value="callCurrentData.predecessor"
+            />
+          </template>
+          <template v-if="callCurrentData.lastModification">
+            <Field
+              :icon="callIconFinder('lastModification')"
+              :label="$t('sections.metadata.lastModification')"
+              :value="callCurrentData.lastModification"
+            />
+          </template>
+          <template v-if="callCurrentData.issueDate">
+            <Field
+              :icon="callIconFinder('issueDate')"
+              :label="$t('sections.metadata.issueDate')"
+              :value="callCurrentData.issueDate"
+            />
+          </template>
+          <template v-if="callCurrentData.version">
+            <Field
+              :icon="callIconFinder('version')"
+              :label="$t('sections.metadata.version')"
+              :value="callCurrentData.version"
+            />
+          </template>
         </v-col>
-        <template v-if="propsData.economicOperator">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData.backupReference ||
+                callCurrentData.registrationIdentifier ||
+                callCurrentData.economicOperatorId ||
+                callCurrentData.passportIdentifier ||
+                callCurrentData.economicOperator
+            )
+          "
+        >
+          <template v-if="callCurrentData.backupReference">
+            <Field
+              :icon="callIconFinder('backupReference')"
+              :label="$t('sections.metadata.backupReference')"
+              :value="callCurrentData.backupReference"
+            />
+          </template>
+          <template v-if="callCurrentData.registrationIdentifier">
+            <Field
+              :icon="callIconFinder('registrationIdentifier')"
+              :label="$t('sections.metadata.registrationIdentifier')"
+              :value="callCurrentData.registrationIdentifier"
+            />
+          </template>
+          <template v-if="callCurrentData.economicOperatorId">
+            <Field
+              :icon="callIconFinder('economicOperatorId')"
+              :label="$t('sections.metadata.economicOperatorId')"
+              :value="callCurrentData.economicOperatorId"
+            />
+          </template>
+          <template v-if="callCurrentData.passportIdentifier">
+            <Field
+              :icon="callIconFinder('passportIdentifier')"
+              :label="$t('sections.metadata.passportIdentifier')"
+              :value="callCurrentData.passportIdentifier"
+            />
+          </template>
+          <template v-if="callCurrentData.economicOperator">
             <Field
               :icon="callIconFinder('legitimization')"
               :label="$t('sections.metadata.legitimization')"
-              :value="propsData.economicOperator.legitimization"
+              :value="callCurrentData.economicOperator.legitimization"
             />
             <Field
               :icon="callIconFinder('identification')"
               :label="$t('sections.metadata.identification')"
-              :value="propsData.economicOperator.identification"
+              :value="callCurrentData.economicOperator.identification"
             />
-          </v-col>
-        </template>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <Field
-            :icon="callIconFinder('status')"
-            :label="$t('sections.metadata.status')"
-            :value="propsData.status"
-          />
-          <Field
-            :icon="callIconFinder('expirationDate')"
-            :label="$t('sections.metadata.expirationDate')"
-            :value="propsData.expirationDate"
-          />
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData?.status || callCurrentData?.expirationDate
+            )
+          "
+        >
+          <template v-if="callCurrentData.status">
+            <Field
+              :icon="callIconFinder('status')"
+              :label="$t('sections.metadata.status')"
+              :value="callCurrentData.status"
+            />
+          </template>
+          <template v-if="callCurrentData.expirationDate">
+            <Field
+              :icon="callIconFinder('expirationDate')"
+              :label="$t('sections.metadata.expirationDate')"
+              :value="callCurrentData.expirationDate"
+            />
+          </template>
         </v-col>
       </v-row>
     </v-container>
@@ -91,12 +169,22 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.metadata,
+      propsData: this.$props.data.aspect?.metadata || {},
+      tppData:
+        this.$props.data.aspect?.productUnspecificParameters?.metadata || {},
     };
+  },
+  computed: {
+    callCurrentData() {
+      return passportUtil.currentData(this.tppData, this.propsData);
+    },
   },
   methods: {
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    callHasContent(data) {
+      return passportUtil.hasContent(data);
     },
   },
 };

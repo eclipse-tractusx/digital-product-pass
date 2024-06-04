@@ -63,13 +63,15 @@
                 <div class="co2-label" style="padding-top: 0">
                   {{ $t(card.secondLabel) }}
                 </div>
-                <div>
-                  <img
-                    :src="getImageByKey(separateCollectionImage)"
-                    alt="Separate collection"
-                    style="margin-top: 12px"
-                  />
-                </div>
+                <template v-if="this.$props.data.aspect.materials.hazardous">
+                  <div>
+                    <img
+                      :src="getImageByKey()"
+                      alt="Separate collection"
+                      style="margin-top: 12px"
+                    />
+                  </div>
+                </template>
               </div>
             </v-row>
           </v-container>
@@ -144,30 +146,32 @@ export default {
 
   setup() {
     return {
-      noCollection,
       Battery00,
       BatteryCd,
+      noCollection,
       BatteryHg,
       BatteryPb,
     };
   },
   data() {
     return {
-      separateCollectionImage: "BATTERY_CD",
       currentValue:
-        this.$props.data.aspect.batteryCycleLife.cycleLifeTestDepthOfDischarge,
-      maxValue: this.$props.data.aspect.batteryCycleLife.expectedLifetime,
+        this.$props.data.aspect.performance.rated.lifetime.cycleLifeTesting
+          .depthOfDischarge,
+      maxValue:
+        this.$props.data.aspect.performance.rated.lifetime.cycleLifeTesting
+          .cycles,
       cards: [
         {
           title: "batteryCards.titleGeneral",
           label: "batteryCards.labelGeneral",
           secondLabel: "batteryCards.secondLabelGeneral",
           icon: "general",
-          value: this.$props.data.aspect.batteryIdentification
-            ? this.$props.data.aspect.batteryIdentification.batteryType
+          value: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.chemistry
             : "-",
-          secondValue: this.$props.data.aspect.batteryIdentification
-            ? this.$props.data.aspect.batteryIdentification.batteryModel
+          secondValue: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.category
             : "-",
         },
         {
@@ -175,14 +179,11 @@ export default {
           label: "batteryCards.labelPerformance",
           secondLabel: "batteryCards.secondLabelPerformance",
           icon: "performance",
-          value:
-            this.$props.data.aspect.electrochemicalProperties.ratedCapacity,
+          value: this.$props.data.aspect.performance.rated.capacity.value,
           valueUnits: "kWh",
           secondValueUnits: "kW",
-          secondValue: this.$props.data.aspect.electrochemicalProperties
-            .batteryPower
-            ? this.$props.data.aspect.electrochemicalProperties.batteryPower
-                .originalPowerCapability
+          secondValue: this.$props.data.aspect.performance.rated.power
+            ? this.$props.data.aspect.performance.rated.power.value
             : "-",
           description: {
             title: "batteryCards.descriptionPerformanceTitle",
@@ -194,8 +195,9 @@ export default {
           label: "batteryCards.labelHealth",
           secondLabel: "batteryCards.secondLabelHealth",
           icon: "health",
-          value: this.$props.data.aspect.stateOfBattery
-            ? this.$props.data.aspect.stateOfBattery.stateOfHealth
+          value: this.$props.data.aspect.performance?.rated?.roundTripEfficiency
+            ? this.$props.data.aspect.performance.rated.roundTripEfficiency
+                .depthOfDischarge
             : "-",
           valueUnits: "%",
           secondValue: this.$props.data.aspect.batteryIdentification
@@ -210,37 +212,11 @@ export default {
           title: "batteryCards.titleSustainability",
           icon: "sustainability",
           secondLabel: "batteryCards.secondLabelSustainability",
-
-          value: [
-            {
-              materialPercentageMassFraction: 47,
-              materialName: "Ni",
-              materialWeight: 2.5,
-            },
-            {
-              materialPercentageMassFraction: 9,
-              materialName: "Co",
-              materialWeight: 2.5,
-            },
-            {
-              materialPercentageMassFraction: 19,
-              materialName: "Li",
-              materialWeight: 2.5,
-            },
-            {
-              materialPercentageMassFraction: 0,
-              materialName: "Pb",
-              materialWeight: 2.5,
-            },
-          ],
-          cathodeCompositionOther: [
-            {
-              materialPercentageMassFraction: 19,
-              materialName: "Pb",
-              materialWeight: 2.5,
-            },
-          ],
-          secondValue: this.$props.data.aspect.cO2FootprintTotal,
+          value: this.$props.data.aspect.materials.active,
+          secondValue:
+            this.$props.data.aspect.sustainability.carbonFootprint.length > 0
+              ? this.$props.data.aspect.sustainability.carbonFootprint[0].value
+              : "-",
           description: {
             title: "batteryCards.descriptionHSustainabilityTitle",
             value: "batteryCards.descriptionSustainabilityValue",
@@ -251,14 +227,20 @@ export default {
   },
 
   methods: {
-    getImageByKey(key) {
+    getImageByKey() {
+      const firstHazardousKey = Object.keys(
+        this.$props.data.aspect.materials.hazardous
+      )[0].toUpperCase();
+
       const imageMap = {
-        BATTERY_00: this.Battery00,
-        BATTERY_CD: this.BatteryCd,
-        BATTERY_HG: this.BatteryHg,
-        BATTERY_PB: this.BatteryPb,
+        CADMIUM: this.BatteryCd,
+        LEAD: this.BatteryPb,
+        MERCURY: this.BatteryHg,
+        OTHER: this.Battery00,
+        NO_COLLECTION: this.noCollection,
       };
-      return imageMap.hasOwnProperty(key) ? imageMap[key] : this.noCollection;
+
+      return imageMap[firstHazardousKey] || this.noCollection;
     },
     callIconFinder(icon) {
       return passportUtil.iconFinder(icon);

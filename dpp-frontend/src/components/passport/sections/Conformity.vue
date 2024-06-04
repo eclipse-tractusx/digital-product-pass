@@ -1,8 +1,7 @@
 <!--
   Tractus-X - Digital Product Passport Application
 
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+  Copyright (c) 2022, 2024 BASF SE, BMW AG, Henkel AG & Co. KGaA
   Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
@@ -26,19 +25,27 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="callCurrentData">
-          <v-col sm="12" md="3" class="pa-0 ma-0">
-            <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-            <template v-for="doc in callCurrentData" :key="doc">
+        <v-col sm="12" md="4" class="pa-0 ma-0">
+          <template v-for="(attr, key) in propsData" :key="key">
+            <template v-if="Array.isArray(attr)">
+              <template v-for="attrChild in attr" :key="attrChild">
+                <Field
+                  :icon="callIconFinder(key)"
+                  :label="callToSentenceCase(key)"
+                  :value="attrChild.content"
+                  :subText="attrChild.header"
+                />
+              </template>
+            </template>
+            <template v-else>
               <Field
-                :icon="callIconFinder('Sustainability')"
-                :label="doc.header"
-                :value="doc.content"
-                :link="doc.content"
+                :icon="callIconFinder(key)"
+                :label="callToSentenceCase(key)"
+                :value="attr"
               />
             </template>
-          </v-col>
-        </template>
+          </template>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -49,7 +56,7 @@ import Field from "../Field.vue";
 import passportUtil from "@/utils/passportUtil.js";
 
 export default {
-  name: "SourcesComponent",
+  name: "CharacteristicsComponent",
   components: {
     Field,
   },
@@ -61,19 +68,15 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.sources || {},
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.sources || {},
+      propsData: this.$props.data.aspect.conformity,
     };
-  },
-  computed: {
-    callCurrentData() {
-      return passportUtil.currentData(this.tppData, this.propsData);
-    },
   },
   methods: {
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    callToSentenceCase(text) {
+      return passportUtil.toSentenceCase(text);
     },
   },
 };

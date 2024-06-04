@@ -201,7 +201,7 @@ backend:
                   rightOperand: "active"
                 - leftOperand: "cx-policy:FrameworkAgreement"
                   operator: "odrl:eq"
-                  rightOperand: "circulareconomy:1.0"
+                  rightOperand: "CircularEconomy:1.0"
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.circular.dpp:1"

@@ -36,7 +36,7 @@ tractusx-connector:
   install:
     daps: false
     postgresql: false
-    vault: true
+    vault: false
   fullnameOverride: "dpp-edc-consumer"
   nameOverride: ""
   # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
@@ -546,14 +546,14 @@ tractusx-connector:
       # Must be the same certificate that is configured in section 'daps'
       postStart:    # must be set externally!
     hashicorp:
-      url: "http://{{ .Release.Name }}-vault:8200"
-      token: root
+      url: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
+      token: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
       timeout: 30
       healthCheck:
         enabled: true
         standbyOk: true
       paths:
-        secret: /v1/secret
+        secret:  <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
     secretNames:
       transferProxyTokenSignerPrivateKey: daps-key-dev

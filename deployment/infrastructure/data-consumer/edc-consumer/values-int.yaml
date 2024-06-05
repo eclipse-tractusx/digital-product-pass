@@ -182,10 +182,10 @@ tractusx-connector:
 
   vault:
     hashicorp:
-      url: "http://{{ .Release.Name }}-vault:8200"
+      url: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
       token: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
       paths:
-        secret: /v1/secret
+        secret:  <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
     secretNames:
       transferProxyTokenSignerPrivateKey: ids-daps_key

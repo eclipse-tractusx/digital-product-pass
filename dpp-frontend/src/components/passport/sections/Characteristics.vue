@@ -193,9 +193,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect?.characteristics || {},
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.characteristics ||
-        {},
+      tppData: this.$props.data.aspect?.generic?.characteristics || {},
     };
   },
   computed: {

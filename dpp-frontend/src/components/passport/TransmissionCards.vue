@@ -100,11 +100,11 @@ export default {
           secondLabel: "transmissionCards.partID",
           icon: "mdi-pound",
           value:
-            this.$props.data.aspect.productUnspecificParameters?.identification
-              ?.type?.nameAtManufacturer,
+            this.$props.data.aspect.generic?.identification?.type
+              ?.nameAtManufacturer,
           secondValue:
-            this.$props.data.aspect.productUnspecificParameters?.identification
-              ?.type?.manufacturerPartId,
+            this.$props.data.aspect.generic?.identification?.type
+              ?.manufacturerPartId,
         },
         {
           title: "generalCards.titleManufacturing",
@@ -112,11 +112,11 @@ export default {
           secondLabel: "generalCards.dateOfManufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
           value:
-            this.$props.data.aspect.productUnspecificParameters?.operation
-              ?.manufacturer?.manufacturer,
+            this.$props.data.aspect.generic?.operation?.manufacturer
+              ?.manufacturer,
           secondValue:
-            this.$props.data.aspect.productUnspecificParameters?.operation
-              ?.manufacturer?.manufacturingDate,
+            this.$props.data.aspect.generic?.operation?.manufacturer
+              ?.manufacturingDate,
           description: {
             title: "Manufacturing",
             value: "Description of the manufacturing",
@@ -127,11 +127,8 @@ export default {
           label: "transmissionCards.driveType",
           secondLabel: "transmissionCards.oilType",
           icon: "mdi-aspect",
-          value:
-            this.$props.data.aspect.productSpecificParameters?.driveType?.[0],
-          secondValue:
-            this.$props.data.aspect.productSpecificParameters?.oil
-              ?.oilType?.[0],
+          value: this.$props.data.aspect.specific?.driveType?.[0],
+          secondValue: this.$props.data.aspect.specific?.oil?.oilType?.[0],
           description: {
             title: "Specific parameters",
             value: "Description of the Specific parameters",
@@ -143,17 +140,16 @@ export default {
           secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
           value:
-            this.$props.data.aspect.productUnspecificParameters?.sustainability
-              ?.productFootprint?.carbon?.[0]?.value,
+            this.$props.data.aspect.generic?.sustainability?.productFootprint
+              ?.carbon?.[0]?.value,
 
           valueUnits:
-            this.$props.data.aspect.productUnspecificParameters?.sustainability
-              ?.productFootprint?.carbon?.[0]?.unit,
+            this.$props.data.aspect.generic?.sustainability?.productFootprint
+              ?.carbon?.[0]?.unit,
           secondValue:
-            this.$props.data.aspect.productUnspecificParameters?.characteristics
-              ?.warranty,
-          secondValueUnits: this.$props.data.aspect.productUnspecificParameters
-            ?.characteristics?.warranty
+            this.$props.data.aspect.generic?.characteristics?.warranty,
+          secondValueUnits: this.$props.data.aspect.generic?.characteristics
+            ?.warranty
             ? "months"
             : "",
           description: {

@@ -503,9 +503,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.sustainability || {},
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.sustainability ||
-        {},
+      tppData: this.$props.data.aspect?.generic?.sustainability || {},
     };
   },
   computed: {

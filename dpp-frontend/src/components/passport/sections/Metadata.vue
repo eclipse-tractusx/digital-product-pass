@@ -170,8 +170,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect?.metadata || {},
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.metadata || {},
+      tppData: this.$props.data.aspect?.generic?.metadata || {},
     };
   },
   computed: {

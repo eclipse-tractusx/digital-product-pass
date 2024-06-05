@@ -431,8 +431,8 @@ export default {
 
       // Check if data exists and is not empty
       if (this.data.aspect && dataKeys.length > 0) {
-        // Remove the key for 'productUnspecificParameters' if it exists
-        const index = dataKeys.indexOf("productUnspecificParameters");
+        // Remove the key for 'generic' if it exists
+        const index = dataKeys.indexOf("generic");
         if (index !== -1) {
           dataKeys.splice(index, 1);
         }
@@ -453,23 +453,23 @@ export default {
 
         dataKeys.splice(3, 0, "components");
 
-        // If 'productUnspecificParameters' contains relevant data, process separately and integrate
+        // If 'generic' contains relevant data, process separately and integrate
         if (
-          this.data.aspect.productUnspecificParameters &&
-          Object.keys(this.data.aspect.productUnspecificParameters).length > 0
+          this.data.aspect.generic &&
+          Object.keys(this.data.aspect.generic).length > 0
         ) {
-          const unspecificKeys = Object.keys(
-            this.data.aspect.productUnspecificParameters
-          ).filter((key) => {
-            const value = this.data.aspect.productUnspecificParameters[key];
-            return (
-              typeof value === "object" &&
-              value !== null &&
-              (Array.isArray(value)
-                ? value.length > 0
-                : Object.keys(value).length > 0)
-            );
-          });
+          const unspecificKeys = Object.keys(this.data.aspect.generic).filter(
+            (key) => {
+              const value = this.data.aspect.generic[key];
+              return (
+                typeof value === "object" &&
+                value !== null &&
+                (Array.isArray(value)
+                  ? value.length > 0
+                  : Object.keys(value).length > 0)
+              );
+            }
+          );
           // Merge unspecificKeys ensuring no duplicates
           dataKeys = Array.from(new Set([...dataKeys, ...unspecificKeys]));
         }
@@ -518,10 +518,8 @@ export default {
           return true;
         });
 
-        if (dataAspect.productUnspecificParameters) {
-          const unspecificKeys = this.processAspectData(
-            dataAspect.productUnspecificParameters
-          );
+        if (dataAspect.generic) {
+          const unspecificKeys = this.processAspectData(dataAspect.generic);
           dataKeys = [...new Set([...dataKeys, ...unspecificKeys])];
         }
 

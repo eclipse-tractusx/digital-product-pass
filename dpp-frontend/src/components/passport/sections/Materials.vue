@@ -365,8 +365,7 @@ export default {
       numberOfLocations: 0,
       formattedComposition: [],
       propsData: this.$props.data.aspect?.materials || [],
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.materials || [],
+      tppData: this.$props.data.aspect?.generic?.materials || [],
       chemistry: this.$props.data.aspect?.identification?.chemistry || "",
     };
   },

@@ -1,25 +1,23 @@
-<!-- 
-  Tractus-X - Digital Product Passport Application 
- 
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+<!--
+#######################################################################
 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
+Tractus-X - Digital Product Passport Application 
+
+Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This work is made available under the terms of the
+Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
+which is available at
+https://creativecommons.org/licenses/by/4.0/legalcode.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+#######################################################################
 -->
 
 <h1 style="display:flex; align-items: center;"><img src="../../docs/media/catenaxLogo.svg"/>&nbsp;&nbsp;Digital Product Pass Backend</h1>
@@ -412,4 +410,4 @@ Once you configured the application use the follow the [TL;DR](#tldr) below to `
 Find more documentation on how to install the backend in the [INSTALL.md](../../INSTALL.md) file.
  
 # License
-[Apache-2.0](https://raw.githubusercontent.com/catenax-ng/product-battery-passport-consumer-app/main/LICENSE)
+[CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode)

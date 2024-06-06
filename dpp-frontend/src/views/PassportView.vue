@@ -422,8 +422,8 @@ export default {
           return true;
         });
 
-        if (dataAspect.generic) {
-          const unspecificKeys = this.processAspectData(dataAspect.generic);
+        if (jsonUtil.exists("generic", dataAspect)) {
+          const unspecificKeys = this.processAspectData(dataAspect["generic"]);
           dataKeys = [...new Set([...dataKeys, ...unspecificKeys])];
         }
 
@@ -703,6 +703,11 @@ export default {
             if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
               sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
             }
+
+            console.log("Before data:")
+            console.log(this.data["data"])
+            console.log(JSON.stringify(this.data["data"]))
+
             this.data = configUtil.normalizePassport(
               jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
@@ -716,6 +721,10 @@ export default {
             if (jsonUtil.exists("sources", this.data["aspect"])) {
               this.data["aspect"]["sources"] = sources;
             }
+            console.log("Parsed data")
+            console.log(this.data)
+            console.log(JSON.stringify(this.data))
+
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store
             this.irsData = this.backendService.getIrsData(this.processId, this.auth); // Return the IRS data

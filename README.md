@@ -23,7 +23,7 @@ SPDX-License-Identifier: CC-BY-4.0
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Apache 2.0 License][license-shield]][license-url-code]
-[![CC-BY-4.0][license-shield]][license-url-non-code]
+[![CC-BY-4.0][license-shield-non-code]][license-url-non-code]
 [![Latest Release][release-shield]][release-url]
 
 <div align="center">
@@ -130,6 +130,7 @@ DockerHub:
 [stars-url]: https://github.com/eclipse-tractusx/digital-product-pass/stargazers
 [license-shield]: https://img.shields.io/github/license/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
 [license-url-code]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE
-[license-url-non-code]: https://spdx.org/licenses/CC-BY-4.0.html
+[license-shield-non-code]: https://img.shields.io/badge/NON--CODE%20LICENSE-CC--BY--4.0-8A2BE2?style=for-the-badge
+[license-url-non-code]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE_non-code
 [release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
 [release-url]: https://github.com/eclipse-tractusx/digital-product-pass/releases

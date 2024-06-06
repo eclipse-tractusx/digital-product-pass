@@ -167,8 +167,8 @@ export default {
           label: "batteryCards.labelGeneral",
           secondLabel: "batteryCards.secondLabelGeneral",
           icon: "general",
-          value: this.$props.data.aspect.identification
-            ? this.$props.data.aspect.identification.chemistry
+          value: this.$props.data.aspect.performance.rated.capacity
+            ? this.$props.data.aspect.performance.rated.capacity.value
             : "-",
           secondValue: this.$props.data.aspect.identification
             ? this.$props.data.aspect.identification.category

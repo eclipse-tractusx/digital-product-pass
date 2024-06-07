@@ -3,9 +3,10 @@
 
 Tractus-X - Digital Product Passport Application 
 
-Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+Copyright (c) 2022, 2024 BMW AG
+Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional
 information regarding copyright ownership.

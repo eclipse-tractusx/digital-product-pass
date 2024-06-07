@@ -84,6 +84,11 @@ spec:
                 secretKeyRef:
                   key: xApiKey
                   name: {{ .Release.Name }}-backend-auth
+            - name: "irs.apiKey"
+              valueFrom:
+                secretKeyRef:
+                  key: irsApiKey
+                  name: {{ .Release.Name }}-backend-auth
           volumeMounts:
             {{- toYaml .Values.backend.volumeMounts | nindent 12 }}
           ports:

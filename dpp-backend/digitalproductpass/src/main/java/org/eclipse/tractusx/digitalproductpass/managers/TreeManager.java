@@ -31,6 +31,7 @@ import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
 import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.models.irs.IrsShell;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobHistory;
 import org.eclipse.tractusx.digitalproductpass.models.irs.JobResponse;
 import org.eclipse.tractusx.digitalproductpass.models.irs.Relationship;
@@ -236,9 +237,9 @@ public class TreeManager {
      * @return  a {@code DigitalTwin} from the search result OR {@code null} if not found
      *
      */
-    public DigitalTwin searchDigitalTwin(List<DigitalTwin> digitalTwinList, String digitalTwinId){
+    public IrsShell searchDigitalTwin(List<IrsShell> digitalTwinList, String digitalTwinId){
         // Use a parallel search to make the search faster
-        return digitalTwinList.parallelStream().filter(digitalTwin -> digitalTwin.getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new DigitalTwin());
+        return digitalTwinList.parallelStream().filter(digitalTwin -> digitalTwin.getPayload().getGlobalAssetId().equals(digitalTwinId)).findFirst().orElse(new IrsShell());
     }
     /**
      * Populates a tree with the Job content and the relationships from an specific data model
@@ -264,9 +265,9 @@ public class TreeManager {
             String parentPath = jobHistory.getPath();
             Node parent = this.getNodeByPath(treeDataModel, parentPath);
             // All the relationships will be of depth one, so we just need to add them in the parent
-            List<DigitalTwin> digitalTwinList = null;
+            List<IrsShell> digitalTwinList = null;
             try {
-                digitalTwinList = (List<DigitalTwin>) jsonUtil.bindReferenceType(job.getShells(), new TypeReference<List<DigitalTwin>>() {});
+                digitalTwinList = (List<IrsShell>) jsonUtil.bindReferenceType(job.getShells(), new TypeReference<List<IrsShell>>() {});
             } catch (Exception e) {
                 throw new ManagerException(this.getClass().getName(), e, "Could not bind the reference type for the Digital Twin!");
             }
@@ -280,7 +281,9 @@ public class TreeManager {
             for(Relationship relationship : relationships){
                 String childId = relationship.getLinkedItem().getChildCatenaXId();
                 // Search for the Digital Twin from the child or a new instance
-                DigitalTwin childDigitalTwin = this.searchDigitalTwin(digitalTwinList, childId);
+                IrsShell shell = this.searchDigitalTwin(digitalTwinList, childId);
+                DigitalTwin childDigitalTwin = shell.getPayload();
+//                DigitalTwin childDigitalTwin = jsonUtil.bindReferenceType(this.searchDigitalTwin(digitalTwinList, childId).getPayload(),new DigitalTwin());
                 if(childDigitalTwin.getGlobalAssetId().isEmpty()){
                     childDigitalTwin.setGlobalAssetId(childId);
                 }
@@ -495,9 +498,4 @@ public class TreeManager {
             throw new ManagerException(this.getClass().getName()+".setChild()", e, "It was not possible to get the node from the tree");
         }
     }
-
-
-
-
-
 }

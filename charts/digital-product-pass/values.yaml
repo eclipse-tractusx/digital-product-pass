@@ -172,6 +172,7 @@ backend:
   irs:
     enabled: false
     hostname: ""
+    apiKey: "<Add API Key>"
 
   # -- digital twin registry configuration
   process:

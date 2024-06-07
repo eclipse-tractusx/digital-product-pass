@@ -3,7 +3,7 @@
 
 Tractus-X - Digital Product Passport Verification Add-on
 
-Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 BMW AG
 Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 
@@ -921,7 +921,7 @@ explanation of this Certification and Verification Concept.
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
 - SPDX-License-Identifier: CC-BY-4.0
-- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-FileCopyrightText: 2023, 2024 BMW AG
 - SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

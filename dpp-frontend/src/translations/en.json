@@ -486,6 +486,8 @@
       "manufacturingPlant": "Manufacturing plant",
       "declaration": "Declaration",
       "material": "Material",
+      "carbon": "Carbon",
+      "environmental": "Environmental",
       "carbonContentTotal": "Carbon content total",
       "crossSectoralStandard": "Cross sectoral standard used",
       "substancesOfConcern": "Substances of concern",

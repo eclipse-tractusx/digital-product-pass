@@ -485,6 +485,8 @@
       "manufacturingPlant": "Produktionsstätte",
       "declaration": "Erklärung",
       "material": "Material",
+      "carbon": "Kohlenstoff",
+      "environmental": "Umwelt",
       "carbonContentTotal": "Gesamtkohlenstoffgehalt",
       "crossSectoralStandard": "Sektorenübergreifender Standard",
       "substancesOfConcern": "Besorgniserregende Stoffe",

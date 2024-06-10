@@ -23,7 +23,9 @@
 #################################################################################
 
 import requests
-from flask import jsonify, Response, make_response
+from flask import make_response
+import logging
+logger = logging.getLogger('staging')
 class HttpUtils:
 
     # do post request without session
@@ -73,4 +75,61 @@ class HttpUtils:
     @staticmethod
     def get_body(request):
         return request.get_json()
-   
+    
+    @staticmethod
+    def get_not_authorized():
+        return HttpUtils.response({
+            "message": "Not Authorized",
+            "status": 401
+        }, 401)
+
+    @staticmethod
+    def is_authorized(request, bpn, config):
+        if not("authorization" in config):
+            logger.error("No authorization module configuration is available!")
+            return False
+        ## Checks for configuration integrity
+        authorization = config["authorization"]
+
+        if not("apiKeys" in authorization):
+            logger.error("No apiKeys configuration is available in authorization!")
+            return False
+
+        ## Get the dictionary with the api keys
+        apiKeys = authorization["apiKeys"]
+
+        if not(bpn in apiKeys):
+            logger.error("This BPN is not allowed for this wallet!")
+            return False
+        
+        ## Get the BPN Api key
+        configApiKey = apiKeys[bpn]
+
+        if(configApiKey is None) or (configApiKey == ""):
+            logger.error("The configuration api key is None or empty!")
+            return False
+
+        ## Get the headers from the request
+        headers = request.headers
+
+        if headers is None:
+            logger.error("No headers are available!")
+            return False
+        
+        if not ("X-Api-Key" in headers):
+            logger.error("No API Key Header was specified in the request header!")
+            return False
+        
+        ## Get the api key from the headers
+        apiKey = headers["X-Api-Key"]
+
+        if (apiKey is None) or (apiKey == ""):
+            logger.error("The api key is empty or None!")
+            return False
+        
+        ## Check if the api key and the config key are the same
+        if(apiKey != configApiKey):
+            logger.error("The api key is not the same as the authorization key configured!")
+            return False
+        
+        return True

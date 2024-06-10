@@ -114,60 +114,63 @@ class cryptool:
 
     @staticmethod
     def issueJwsVerifiableCredential(walletUrl, methodId, issuerId, expirationTimedelta, private_key, credential):
-        ## Generate the DID web for the wallet url
-        didWeb = cryptool.urlToDidWeb(url=walletUrl)
-
-        ## Expand verifiable credential to check if its a valid json-ld
         try:
-            expandedCredential = jsonld.expand(credential)
-        except:
-            raise Exception("It was not possible to expand the json-ld credential! Invalid JSON-LD!")
+            ## Generate the DID web for the wallet url
+            didWeb = cryptool.urlToDidWeb(url=walletUrl)
 
-        ## Issuance date and expiration date
-        issuance_date = datetime.now(UTC).replace(microsecond=0)
-        expiration_date = issuance_date + expirationTimedelta
+            ## Expand verifiable credential to check if its a valid json-ld
+            try:
+                jsonld.expand(credential, {'keepFreeFloatingNodes': False})
+            except Exception as e:
+                raise RuntimeError(f"It was not possible to expand the json-ld credential! Invalid JSON-LD! Reason: [{str(e)}]")
 
-        ## Prepare the issuer id and the id from the credential
-        issuerDid = f"{didWeb}:{issuerId}"
-        id = uuid.uuid4()
-        ## Add the information to the credential
-        credentialAttributes = {
-            "id": f"urn:uuid:{id}",
-            "issuer": issuerDid,
-            "validFrom": issuance_date.isoformat() + "Z",
-            "validUntil": expiration_date.isoformat() + "Z"
-        }
+            ## Issuance date and expiration date
+            issuance_date = datetime.now(UTC).replace(microsecond=0)
+            expiration_date = issuance_date + expirationTimedelta
 
-        credential.update(credentialAttributes)
+            ## Prepare the issuer id and the id from the credential
+            issuerDid = f"{didWeb}:{issuerId}"
+            id = uuid.uuid4()
+            ## Add the information to the credential
+            credentialAttributes = {
+                "id": f"urn:uuid:{id}",
+                "issuer": issuerDid,
+                "validFrom": issuance_date.isoformat() + "Z",
+                "validUntil": expiration_date.isoformat() + "Z"
+            }
 
-        ## Prepare the header with the specification
-        header = {
-            'typ': 'vc+ld',
-            'b64': False,
-            'crv': 'Ed25519'
-        }
+            credential.update(credentialAttributes)
+
+            ## Prepare the header with the specification
+            header = {
+                'typ': 'vc+ld',
+                'b64': False,
+                'crv': 'Ed25519'
+            }
+            
+            ## Prepare the content to sign
+            to_sign = cryptool.encodeBase64NoPadding(json.dumps(header).encode('utf-8')) + b'.' + cryptool.encodeBase64NoPadding(json.dumps(credential).encode('utf-8'))
+            decodedSignature = private_key.sign(data=to_sign)
+            signature = cryptool.encodeBase64NoPadding(decodedSignature)
+            
+
+            ## Build the payload of the signature
+            ## Build the jws signature
+            jws = (cryptool.encodeBase64NoPadding(json.dumps(header).encode('utf-8')) + b'..' + signature).decode()
+
+            ## Add the information to the proof
+            credential["proof"] = {
+                "type": "JsonWebSignature2020",
+                "proofPurpose": "assertionMethod",
+                "verificationMethod": f"{issuerDid}#{methodId}",
+                "created": issuance_date.isoformat() + "Z",
+                "jws": jws
+            }
+
+            return credential
         
-        ## Prepare the content to sign
-        to_sign = cryptool.encodeBase64NoPadding(json.dumps(header).encode('utf-8')) + b'.' + cryptool.encodeBase64NoPadding(json.dumps(credential).encode('utf-8'))
-        decodedSignature = private_key.sign(data=to_sign)
-        signature = cryptool.encodeBase64NoPadding(decodedSignature)
-        
-
-        ## Build the payload of the signature
-        ## Build the jws signature
-        jws = (cryptool.encodeBase64NoPadding(json.dumps(header).encode('utf-8')) + b'..' + signature).decode()
-
-        ## Add the information to the proof
-        credential["proof"] = {
-            "type": "JsonWebSignature2020",
-            "proofPurpose": "assertionMethod",
-            "verificationMethod": f"{issuerDid}#{methodId}",
-            "created": issuance_date.isoformat() + "Z",
-            "jws": jws
-        }
-
-
-        return credential
+        except Exception as e:
+            raise RuntimeError(f"It was not possible to sign the verifiable credential! Reason: {str(e)}")
 
     @staticmethod
     def verifyVerifiableCredential(credential):
@@ -321,7 +324,8 @@ class cryptool:
         if(not op.path_exists(dir)):
             op.make_dir(dir)
 
-        completeDir = f"{dir}/{issuerId}"
+        date = op.get_filedate()
+        completeDir = f"{dir}/{issuerId}/{date}"
         if(not op.path_exists(completeDir)):
             op.make_dir(completeDir)
 

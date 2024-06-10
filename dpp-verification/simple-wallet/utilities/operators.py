@@ -25,18 +25,10 @@
 # Set log levels
 from shutil import copyfile, move
 import shutil
-from os.path import isfile, join
-from os import listdir
 import os
 import sys
 import json
 import time
-
-LOGLEVELS = {"NONE": 0, "CRITICAL": 1, "EXCEPTION": 2,
-             "ERROR": 3, "WARNING": 4, "INFO": 5, "STATS": 6, "DEBUG": 7}
-LOGLEVEL = LOGLEVELS["STATS"]
-LOGFILE = None
-SERVER_LOGS_STARTED = False
 
 
 from datetime import datetime, timezone
@@ -106,6 +98,14 @@ class op:
 
         os.remove(filePath)
         return True
+    
+    @staticmethod
+    def get_filedatetime(zone=timezone.utc):
+        return datetime.now(zone).strftime("%Y%m%d_%H%M%S")
+    
+    @staticmethod
+    def get_filedate(zone=timezone.utc):
+        return datetime.now(zone).strftime("%Y%m%d")
 
     @ staticmethod
     def get_path_without_file(filePath):
@@ -116,16 +116,10 @@ class op:
         if(data == "" or data == None):
             return None
 
-        # data = data + end
-        # path = op.get_path_without_file(filePath)
-
-        # if path == None or not op.path_exists(path):
-        #     op.make_dir(path)
-
-        file = open(filePath, openMode, encoding=sys.stdout.encoding)
-        file.write(data)
-        file.write(end)
-        file.close()
+        with open(filePath, openMode, encoding=sys.stdout.encoding) as file:
+            file.write(data)
+            file.write(end)
+        
         return True
     
     @ staticmethod

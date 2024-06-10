@@ -61,17 +61,26 @@ from utilities.operators import op
 from utilities.cryptool import cryptool
 import yaml
 from passport import sammSchemaParser
+import copy
 
 op.make_dir("logs")
-op.make_dir("test")
-# Load the config file application/vc+ld+jwt
+# Load the logging config file
 with open('./config/logging.yml', 'rt') as f:
     # Read the yaml configuration
-    config = yaml.safe_load(f.read())
+    log_config = yaml.safe_load(f.read())
     # Set logging filename with datetime
-    config["handlers"]["file"]["filename"] = f'logs/{op.get_filedatetime()}-wallet.log'
-    logging.config.dictConfig(config)
+    date = op.get_filedate()
+    op.make_dir("logs/"+date)
+    log_config["handlers"]["file"]["filename"] = f'logs/{date}/{op.get_filedatetime()}-wallet.log'
+    logging.config.dictConfig(log_config)
 
+# Load the configuation for the application
+with open('./config/configuration.yml', 'rt') as f:
+    # Read the yaml configuration
+    app_configuration = yaml.safe_load(f.read())
+    
+
+    
 # Configure the logging module with the config file
 
 
@@ -198,6 +207,9 @@ def sign_credential(bpn):
         response: :vc: Signed verifiable credential
     """
     try:
+        if not HttpUtils.is_authorized(request=request, bpn=bpn, config=app_configuration):
+            return HttpUtils.get_not_authorized()            
+
         body = HttpUtils.get_body(request)
         
         if(not op.path_exists("./keys")):
@@ -211,7 +223,7 @@ def sign_credential(bpn):
         if(not op.path_exists(privateKeyPath)):
             private_key = cryptool.generateEd25519PrivateKey()
             public_key = private_key.public_key()
-            cryptool.storePublicKey(public_key=cryptool.publicKeyToString(public_key), keysDir=basePath)
+            cryptool.storePublicKey(public_key=cryptool.publicJwkKeyToPemString(public_key), keysDir=basePath)
             cryptool.storePrivateKey(private_key=cryptool.privateJwkKeyToPemString(private_key=private_key),keysDir=basePath)
             logger.info(f"Created Keys for [{bpn}]!")
         else:
@@ -237,20 +249,23 @@ def sign_credential(bpn):
                     private_key=private_key, 
                     credential=body
                 )
+            
         except Exception as e:
             return HttpUtils.get_error_response(status=500,message=str(e))
         
-        cryptool.storeCredential(id=vc["id"].replace("urn:uuid:", ""), credential=vc, issuerId=bpn)
+        originalId = copy.copy(vc["id"])
 
-        logger.info(msg=f"Verifiable Credential with ID: [{str(vc["id"])}] was issued by IssuerId: [{str(bpn)}]!")
+        vcId = originalId.replace("urn:uuid:", "")
+
+        cryptool.storeCredential(id=vcId, credential=vc, issuerId=bpn)
+
+        logger.info(f"Verifiable Credential with ID: [{str(vc["id"])}] was issued by IssuerId: [{str(bpn)}]!")
 
         return HttpUtils.response(op.to_json(vc))
 
     except Exception as e:
-        logger.exception(str(e))
-        traceback.print_exc()
+        return HttpUtils.get_error_response(message="An error occurred while signing the credential!")
 
-    return HttpUtils.get_error_response(message="Error when parsing schema!")
 
 
 @app.post("/context")
@@ -301,7 +316,8 @@ if __name__ == '__main__':
           +"Copyright (c) 2023, 2024: CGI Deutschland B.V. & Co. KG\n"
           +"Copyright (c) 2024: Contributors to the Eclipse Foundation\n")
     print("-------------------------------------------------------------------------------\n")
-    print("Starting Logging, listening to requests...\n")
+    print("Application starting, listening to requests...\n")
+
     # Initialize the server environment and get the comand line arguments
     args = get_arguments()
     # Configure the logging configuration depending on the configuration stated
@@ -310,4 +326,4 @@ if __name__ == '__main__':
         logger = logging.getLogger('development')
     # Start the flask application     
     app.run(host=args.host, port=args.port, debug=args.debug)
-    print("Closing the application... Thank you for using the DPP Simple Wallet!")
+    print("\nClosing the application... Thank you for using the Digital Product Pass Simple Wallet!")

@@ -22,41 +22,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-version: 1
-disable_existing_loggers: False
-
-formatters:
-  default:
-    format: '%(asctime)s [%(levelname)-8s] [%(name)-15s] %(message)s'
-    datefmt: '%Y-%m-%d %H:%M:%S'
-
-handlers:
-  console:
-    class : logging.StreamHandler
-    formatter: default
-    level   : DEBUG
-    stream  : ext://sys.stdout
-  file:
-    class : logging.handlers.RotatingFileHandler
-    formatter: default
-    mode: a
-
-loggers:
-    development:
-        level: DEBUG
-        handlers: [console, file]
-        propagate: no
-
-    staging:
-        level: INFO
-        handlers: [console, file]
-        propagate: no
-
-    production:
-        level: WARNING
-        handlers: [file]
-        propagate: no
-
-root:
-    level: INFO
-    handlers: [console, file]
+authorization:
+  enabled: true
+  apiKeys:
+    BPNL00000000W3BS: <apiKeyTest>
+    

@@ -165,6 +165,17 @@ def generate_public_key(bpn):
 @app.post("/verify")
 def verify_credential():
     try:
+        headers = request.headers
+        if not("BPN" in headers):
+            return HttpUtils.get_error_response(message="Missing the BPN header!", status=401) 
+        
+        bpn = headers["BPN"]
+
+        if (bpn is None) or (bpn == ""):
+            return HttpUtils.get_error_response(message="The BPN number is empty", status=401) 
+        
+        if not HttpUtils.is_authorized(request=request, bpn=bpn, config=app_configuration):
+            return HttpUtils.get_not_authorized()      
         body = HttpUtils.get_body(request)
         verified = False
         try:
@@ -196,8 +207,8 @@ def verify_credential():
                 "message": "Verification Failed! Verifiable Credential is not valid!"
             }, status=400)
 
-@app.post("/<bpn>/sign")
-def sign_credential(bpn):
+@app.post("/sign")
+def sign_credential():
     """
     Signs a credential using the private key provided in the configuration
 
@@ -207,6 +218,16 @@ def sign_credential(bpn):
         response: :vc: Signed verifiable credential
     """
     try:
+        headers = request.headers
+        
+        if not("BPN" in headers):
+            return HttpUtils.get_error_response(message="Missing the BPN header!", status=401) 
+        
+        bpn = headers["BPN"]
+
+        if (bpn is None) or (bpn == ""):
+            return HttpUtils.get_error_response(message="The BPN number is empty", status=401) 
+        
         if not HttpUtils.is_authorized(request=request, bpn=bpn, config=app_configuration):
             return HttpUtils.get_not_authorized()            
 
@@ -253,11 +274,11 @@ def sign_credential(bpn):
         except Exception as e:
             return HttpUtils.get_error_response(status=500,message=str(e))
         
-        originalId = copy.copy(vc["id"])
-
-        vcId = originalId.replace("urn:uuid:", "")
-
-        cryptool.storeCredential(id=vcId, credential=vc, issuerId=bpn)
+        ## If storage is enabled store the credential
+        storageEnabled = op.get_attribute(sourceObject=app_configuration, attrPath="credentials.storage.enabled", defaultValue=False)
+        if(storageEnabled):
+            vcId = vc["id"].replace("urn:uuid:", "")
+            cryptool.storeCredential(id=vcId, credential=vc, issuerId=bpn)
 
         logger.info(f"Verifiable Credential with ID: [{str(vc["id"])}] was issued by IssuerId: [{str(bpn)}]!")
 

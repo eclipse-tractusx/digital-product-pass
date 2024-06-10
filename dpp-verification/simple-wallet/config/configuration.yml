@@ -26,4 +26,7 @@ authorization:
   enabled: true
   apiKeys:
     BPNL00000000W3BS: <apiKeyTest>
-    
+  
+credentials:
+  storage: 
+    enabled: true

@@ -23,15 +23,11 @@
 #################################################################################
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
-from datetime import datetime, timezone, UTC
+from datetime import datetime, UTC
 from utilities.operators import op
 from utilities.httpUtils import HttpUtils
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from pyld import jsonld
 from urllib.parse import urljoin, urlparse
 from datetime import datetime
@@ -207,6 +203,8 @@ class cryptool:
             
         except Exception as e:
             raise RuntimeError(f"It was not possible to verify the signature!  REASON: [{e}]")
+    
+        return True 
 
 
     @staticmethod
@@ -298,6 +296,23 @@ class cryptool:
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
             )
+    
+    @staticmethod
+    def loadPublicKeyFromString(stringKey):
+        public_key = serialization.load_pem_public_key(
+                stringKey,
+                backend=default_backend()
+            )
+        return public_key
+    
+    @staticmethod
+    def loadPrivateKeyFromString(stringKey):
+        private_key = serialization.load_pem_private_key(
+                    stringKey,
+                    password=None,
+                    backend=default_backend()
+                )
+        return private_key
     
     @staticmethod  
     def sha512(input):

@@ -98,7 +98,15 @@ class op:
 
         os.remove(filePath)
         return True
-    
+    @staticmethod
+    def timestamp(zone=timezone.utc, string=False):
+        timestamp = datetime.timestamp(datetime.now(zone))
+        
+        if (string):
+            return str(timestamp)
+        
+
+        return timestamp
     @staticmethod
     def get_filedatetime(zone=timezone.utc):
         return datetime.now(zone).strftime("%Y%m%d_%H%M%S")

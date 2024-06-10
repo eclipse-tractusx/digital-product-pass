@@ -1,14 +1,13 @@
 {
-    "id": "https://tx-dpp.int.demo.catena-x.net/provider_backend/data/cx:mfg024:prt-30001",
     "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://w3c.github.io/vc-jws-2020/contexts/v1",
+        "https://www.w3.org/ns/credentials/v2",
+        "https://w3c.github.io/vc-jws-2020/contexts/v1/",
         {
             "@context": {
                 "@version": 1.1,
                 "CertifiedDataCredential": {
                     "@context": {
-                        "@definition": "Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain.\nIt can be \"self-testified\" by the data provider when creating/issuing the passport data.",
+                        "@definition": "Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain.\nIt can be \"self-testified\" by the data provider when creating/issuing the passport data. It contains the additional attributes added to the Verifiable Credential Data Model v2.",
                         "@version": 1.1,
                         "id": "@id",
                         "parent": {
@@ -32,6 +31,13 @@
                                 "type": "@type"
                             },
                             "@id": "cdc:parent"
+                        },
+                        "semanticId": {
+                            "@context": {
+                                "@definition": "The property which contains the semantic id string of the credential subject. It contains the complete identification of which aspect model version its contained. The key can be used to find the model information in the expanded JSON-LD."
+                            },
+                            "@id": "cdc:semanticId",
+                            "@type": "schema:string"
                         },
                         "type": "@type"
                     },
@@ -1743,12 +1749,14 @@
         "CertifiedDataCredential",
         "DigitalProductPassport"
     ],
-    "issuer": "did:web:wallet-url.test.com:BPNL00000007RVTB",
+    "issuer": "did:web:localhost%3A7777:BPNL00000000W3BS",
     "parent": {
         "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
         "checksum": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
     },
+    "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport",
     "credentialSubject": {
+        "id": "did:web:wallet-url.test.com:BPNL00000007RVTB",
         "DigitalProductPassport": {
             "metadata": {
                 "backupReference": "https://dummy.link",
@@ -2123,12 +2131,14 @@
             }
         }
     },
-    "issuanceDate": "2024-02-15T00:00:00.000Z",
+    "id": "urn:uuid:efa5681c-423f-4594-a11a-d59960ab3edc",
+    "validFrom": "2024-06-10T12:26:21+00:00Z",
+    "validUntil": "2024-11-25T12:26:21+00:00Z",
     "proof": {
         "type": "JsonWebSignature2020",
-        "created": "2024-02-15T12:35:39Z",
-        "verificationMethod": "did:web:wallet-url.test.com:BPNL00000007RVTB#8f858500-7008-4b97-a8bb-605d4c8eca75",
         "proofPurpose": "assertionMethod",
-        "jws": "eyJhbGciOiJFZERTQSJ9..4snTkqta4UwXIAtKJiIEDhiwmVtAC3kml0j7Wc25vmTbLbPlviXgL9he9X0A0xRTNlnsEwILf0NbPIyeztzJCw"
+        "verificationMethod": "did:web:localhost%3A7777:BPNL00000000W3BS#KRxYHiKWoOmwNWDN5cFwpACN6L7XPN7CyT-rqt57I-Y",
+        "created": "2024-06-10T12:26:21+00:00Z",
+        "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..re5OBXOqEjISL9jO-nPRmXmzeVx7SEpaetJPmpOVm3jgmb8wlH_58zFwYll5SI6lZR81cc_dEF69NKhKbj9ABA"
     }
 }

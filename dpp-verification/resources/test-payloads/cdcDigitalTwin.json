@@ -9,63 +9,65 @@
     "globalAssetId": "urn:uuid:a4c600e8-b11f-4e1d-a2f9-80ad518806b8",
     "idShort": "Battery_DPP-XYZ789",
     "id": "urn:uuid:a4c600e8-b11f-4e1d-a2f9-80ad518806b8",
-    "specificAssetIds": [
-        {
-            "name": "manufacturerId",
-            "value": "BPNL0073928UJ879",
-            "externalSubjectId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "GlobalReference",
-                        "value": "BPNL0073928UJ879"
-                    },
-                    {
-                        "type": "GlobalReference",
-                        "value": "PUBLIC_READABLE"
-                    }
-                ]
+    "specificAssetIds": 
+        [
+            {
+                "name": "digitalTwinType",
+                "value": "PartInstance",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "partInstanceId",
+                "value": "DPPV-0001",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "manufacturerPartId",
+                "value": "MPI7654",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        },
+                        {
+                            "type": "GlobalReference",
+                            "value": "PUBLIC_READABLE"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "manufacturerId",
+                "value": "BPNL0073928UJ879",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
             }
-        },
-        {
-            "name": "manufacturerPartId",
-            "value": "MPI7654",
-            "externalSubjectId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "GlobalReference",
-                        "value": "BPNL0073928UJ879"
-                    },
-                    {
-                        "type": "GlobalReference",
-                        "value": "PUBLIC_READABLE"
-                    }
-                ]
-            }
-        },
-        {
-            "name": "partInstanceId",
-            "value": "DPPV-00001",
-            "externalSubjectId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "GlobalReference",
-                        "value": "BPNL0073928UJ879"
-                    }
-                ]
-            }
-        },
-        {
-            "key": "assetLifecyclePhase",
-            "value": "AsBuilt"
-        },
-        {
-            "key": "digitalTwinType",
-            "value": "PartInstance"
-        }
-    ],
+        ],
     "submodelDescriptors": [
         {
             "endpoints": [
@@ -96,19 +98,19 @@
                 "type": "ExternalReference",
                 "keys": [
                     {
+                        "type": "Entity",
+                        "value": "https://www.w3.org/ns/credentials/v2"
+                    },
+                    {
+                        "type": "DataElement",
+                        "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+                    },
+                    {
                         "type": "Submodel",
                         "value": "urn:samm:io.catenax.generic.digital_product_passport:4.0.0#DigitalProductPassport"
                     },
                     {
-                        "type": "VerifiableCredentialType",
-                        "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
-                    },
-                    {
-                        "type": "VerifiableCredential",
-                        "value": "https://www.w3.org/ns/credentials/v2"
-                    },
-                    {
-                        "type": "VerifiableCredentialProof",
+                        "type": "Operation",
                         "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
                     }
                 ]

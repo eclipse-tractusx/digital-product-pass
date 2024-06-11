@@ -88,8 +88,12 @@ class HttpUtils:
         if not("authorization" in config):
             logger.error("No authorization module configuration is available!")
             return False
+            
         ## Checks for configuration integrity
         authorization = config["authorization"]
+
+        if "enabled" in authorization and authorization["enabled"] == False:
+            return True
 
         if not("apiKeys" in authorization):
             logger.error("No apiKeys configuration is available in authorization!")

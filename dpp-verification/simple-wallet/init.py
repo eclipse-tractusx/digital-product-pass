@@ -207,8 +207,8 @@ def verify_credential():
                 "message": "Verification Failed! Verifiable Credential is not valid!"
             }, status=400)
 
-@app.post("/sign")
-def sign_credential():
+@app.post("/issue")
+def issue_credential():
     """
     Signs a credential using the private key provided in the configuration
 

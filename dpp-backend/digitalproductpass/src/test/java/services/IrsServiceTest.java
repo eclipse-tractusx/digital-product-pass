@@ -112,7 +112,7 @@ class IrsServiceTest {
         when(vaultService.getLocalSecret("client.id")).thenReturn(mockClientId);
         when(vaultService.getLocalSecret("client.secret")).thenReturn(mockClientTestReturn);
 
-        when(vaultService.getLocalSecret("edc.apiKey")).thenReturn(mockApiKey);
+        when(vaultService.getLocalSecret("irs.apiKey")).thenReturn(mockApiKey);
         when(vaultService.getLocalSecret("edc.participantId")).thenReturn(mockBpn);
 
 

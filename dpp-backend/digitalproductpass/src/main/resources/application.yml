@@ -185,6 +185,7 @@ configuration:
       - "edc.apiKey"
       - "edc.participantId"
       - "oauth.apiKey"
+      - "irs.apiKey"
 
 server:
   error:

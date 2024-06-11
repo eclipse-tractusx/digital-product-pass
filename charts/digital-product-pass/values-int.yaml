@@ -57,6 +57,7 @@ backend:
   irs:
     enabled: true
     hostname: "materialpass-irs.int.demo.catena-x.net"
+    apiKey: "<path:material-pass/data/int/irs/apiKey#apiKeyRegular>"
 
   process:
     encryptionKey: "<path:material-pass/data/int/backend/#signKey>"

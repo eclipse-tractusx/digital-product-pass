@@ -137,11 +137,17 @@ This concept has been proved to be of high interest from the Certification and V
 
 # Introduction
 
-This Documentation contains the first concept of Data Verification in Catena-X. This verification aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. Allowing auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
+This Documentation contains the first concept of Data Verification in Catena-X. This verification frameworks aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. Allowing auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done. Using a simple wallet a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential. Which can then be verified in the Data Consumer side using the simple-wallet component.
 
 ## Context Diagram
 
 ![Context Diagram](./resources/implementation/context-diagram.svg)
+
+In this context diagram we can see how a provider generates a `@context` for its verifiable credential and then issues it using the `simple wallet` component, then he registers its data in the standardized Catena-X infrastructure (Digital Twin Registry + Data Service) so that it can be retrieved by data consumers or auditors.
+
+The auditor is responsible for retriving data from the data provider and "certifying" specific attributes from the data provider credential or json payload. In this way when the data is retrieved from the data provider the signature contained in the Verifiable Credential can be verified by the data consumer.
+
+The data consumer retrieves the data (Aspect Model Payload Verifiable Credential) from the data provider using the EDC proxy, then the data consumer will "verify" in his own wallet the "proof" contained in the credential, resolving the `DID Web` and checking the integrity of the content in the signature.
 
 ## Value Proposition Motivators
 

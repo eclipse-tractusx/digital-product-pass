@@ -86,6 +86,7 @@ This concept has been proved to be of high interest from the Certification and V
 - [Abstract](#abstract)
   - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
+  - [Context Diagram](#context-diagram)
   - [Value Proposition Motivators](#value-proposition-motivators)
   - [Objectives](#objectives)
   - [Use Cases](#use-cases)
@@ -137,6 +138,10 @@ This concept has been proved to be of high interest from the Certification and V
 # Introduction
 
 This Documentation contains the first concept of Data Verification in Catena-X. This verification aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. Allowing auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
+
+## Context Diagram
+
+![Context Diagram](./resources/implementation/context-diagram.svg)
 
 ## Value Proposition Motivators
 
@@ -267,7 +272,6 @@ For our technical implementation from the Certification/Verification of aspect m
 | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Complete Data Verification Statement | Self Signed Document containing the complete data from a aspect model payload.                                                                                        |
 | Partial Data Verification Statement  | Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
-
 
 ## Verification Statements Documents/Credentials
 

@@ -145,7 +145,8 @@
     "oilType": "Öltyp"
   },
   "passportHeader": {
-    "backBtn": "Zurück"
+    "backBtn": "Zurück",
+    "verification": "Verifikation"
   },
   "field": {
     "tempRange": "Temperaturbereich:",
@@ -188,7 +189,10 @@
     "retrieving": "Abruf... ",
     "createdProcess": "Erstellte Prozess-ID: ",
     "contractId": "Vertrags-ID: ",
-    "compositionOf": "Composition of"
+    "compositionOf": "Composition of",
+    "verification": "Passkontrolle",
+    "verifying": "Überprüfen...",
+    "verified": "Verifiziert"
   },
   "sections": {
     "materials": {
@@ -485,6 +489,7 @@
       "manufacturingPlant": "Produktionsstätte",
       "declaration": "Erklärung",
       "material": "Material",
+      "documents": "Dokumente",
       "carbon": "Kohlenstoff",
       "environmental": "Umwelt",
       "carbonContentTotal": "Gesamtkohlenstoffgehalt",

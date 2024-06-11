@@ -42,6 +42,16 @@
             )
           "
         >
+          <template v-if="callCurrentData.productFootprint?.material">
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.material") }}
+            </div>
+          </template>
+          <template v-if="callCurrentData.documents">
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.documents") }}
+            </div>
+          </template>
           <template v-for="(attr, key) in callCurrentData.documents" :key="key">
             <template v-for="attrChild in attr" :key="attrChild">
               <Field
@@ -182,6 +192,9 @@
           v-if="callHasContent(callCurrentData.productFootprint?.carbon)"
         >
           <template v-if="callCurrentData.productFootprint?.carbon">
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.carbon") }}
+            </div>
             <template
               v-for="(attr, key) in callCurrentData.productFootprint.carbon"
               :key="key"
@@ -239,20 +252,6 @@
           </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="callCurrentData.status">
-            <Field
-              :icon="callIconFinder('status')"
-              :label="$t('sections.sustainability.status')"
-              :value="callCurrentData.status"
-            />
-          </template>
-          <template v-if="callCurrentData.durabilityScore">
-            <Field
-              :icon="callIconFinder('durabilityScore')"
-              :label="$t('sections.sustainability.durabilityScore')"
-              :value="callCurrentData.durabilityScore"
-            />
-          </template>
           <template v-if="callCurrentData.recyclateContent">
             <template
               v-for="(attr, key) in callCurrentData.recyclateContent"
@@ -301,6 +300,9 @@
               ?.environmental"
             :key="key"
           >
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.environmental") }}
+            </div>
             <template v-if="attr.lifecycle">
               <Field
                 :icon="callIconFinder('lifecycle')"
@@ -351,9 +353,29 @@
               :value="attr.type"
             />
           </template>
+          <template v-if="callCurrentData.status">
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.status") }}
+            </div>
+            <Field
+              :icon="callIconFinder('status')"
+              :label="$t('sections.sustainability.status')"
+              :value="callCurrentData.status"
+            />
+          </template>
+          <template v-if="callCurrentData.durabilityScore">
+            <Field
+              :icon="callIconFinder('durabilityScore')"
+              :label="$t('sections.sustainability.durabilityScore')"
+              :value="callCurrentData.durabilityScore"
+            />
+          </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
           <template v-if="callCurrentData.carbonFootprint">
+            <div class="element-chart-label">
+              {{ $t("sections.sustainability.carbonFootprint") }}
+            </div>
             <template v-if="Array.isArray(callCurrentData.carbonFootprint)">
               <template
                 v-for="attr in callCurrentData.carbonFootprint"

@@ -23,36 +23,20 @@
 #################################################################################
 
 import sys
-import os
 # Add the previous folder structure to the system path to import the utilities
 sys.path.append("../")
 
 # Define flask imports and configuration
-from flask import Flask, request, jsonify
+from flask import Flask
 
 app = Flask(__name__)
-
-from rdflib import Graph
-import pprint
 # Set up imports configuration
-import argparse
-import requests
-import logging.config
-import logging
-from datetime import datetime
 import traceback
-from utilities.httpUtils import HttpUtils
+import logging
 from utilities.operators import op
-import yaml
-from pyld import jsonld
-import json
-from referencing import Registry, Resource
-from referencing.jsonschema import DRAFT202012
-from json_schema_for_humans.generate import generate_from_schema
-from json_schema_for_humans.generation_configuration import GenerationConfiguration
 import copy
 
-
+logger = logging.getLogger('staging')
 class sammSchemaParser:
     def __init__(self):
         self.baseSchema = dict()
@@ -128,7 +112,7 @@ class sammSchemaParser:
             return self.create_node(property=expandedNode, actualref=newRef, key=key)
         except:
             traceback.print_exc()
-            print("It was not possible to expand the node")
+            logger.error("It was not possible to expand the node")
             return None
 
     def create_node(self, property, actualref="", key=None):
@@ -153,7 +137,7 @@ class sammSchemaParser:
             return self.create_value_node(property=property, node=node)
         except:
             traceback.print_exc()
-            print("It was not possible to create the node")
+            logger.error("It was not possible to create the node")
             return None
 
     def create_value_node(self, property, node):
@@ -165,7 +149,7 @@ class sammSchemaParser:
             return node
         except:
             traceback.print_exc()
-            print("It was not possible to create value node")
+            logger.error("It was not possible to create value node")
             return None
     
     def create_object_node(self, property, node, actualref):
@@ -179,7 +163,7 @@ class sammSchemaParser:
             return node
         except:
             traceback.print_exc()
-            print("It was not possible to create object node")
+            logger.error("It was not possible to create object node")
             return None
 
     def create_array_node(self, property, node, actualref=None):
@@ -201,7 +185,7 @@ class sammSchemaParser:
             return node
         except:
             traceback.print_exc()
-            print("It was not possible to create the array node")
+            logger.error("It was not possible to create the array node")
             return None
 
     
@@ -245,7 +229,7 @@ class sammSchemaParser:
             return newContext
         except:
             traceback.print_exc()
-            print("It was not possible to create properties context")
+            logger.error("It was not possible to create properties context")
             return None
         
     def create_item_context(self, item, actualref):
@@ -274,7 +258,7 @@ class sammSchemaParser:
             return newContext
         except:
             traceback.print_exc()
-            print("It was not possible to create the item context")
+            logger.error("It was not possible to create the item context")
             return None
         
     def create_node_property(self, key, node, actualref):
@@ -304,7 +288,7 @@ class sammSchemaParser:
             return nodeProperty
         except:
             traceback.print_exc()
-            print("It was not possible to create node property")
+            logger.error("It was not possible to create node property")
             return None
 
 
@@ -342,7 +326,7 @@ class sammSchemaParser:
             return newNode
         except:
             traceback.print_exc()
-            print("It was not possible to create the simple node")
+            logger.error("It was not possible to create the simple node")
             return None
 
     def get_schema_ref(self, ref, actualref):
@@ -363,7 +347,7 @@ class sammSchemaParser:
                 return op.get_attribute(self.baseSchema, attrPath=path, pathSep=self.refPathSep, defaultValue=None)
             
             if(self.depht >= self.recursionDepth):
-                print(f"[WARNING] Infinite recursion detected in the following path: ref[{ref}] and acumulated ref[{actualref}]!")
+                logger.warning(f"[WARNING] Infinite recursion detected in the following path: ref[{ref}] and acumulated ref[{actualref}]!")
                 self.depht=0
                 return None
             
@@ -374,5 +358,5 @@ class sammSchemaParser:
             return op.get_attribute(self.baseSchema, attrPath=path, pathSep=self.refPathSep, defaultValue=None)
         except:
             traceback.print_exc()
-            print("It was not possible to get schema reference")
+            logger.error("It was not possible to get schema reference")
             return None

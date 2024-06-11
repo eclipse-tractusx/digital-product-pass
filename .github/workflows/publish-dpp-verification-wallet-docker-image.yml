@@ -31,7 +31,7 @@ name: "Publish Digital Product Pass Verification Simple Wallet Docker Image"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/simple-wallet" ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:

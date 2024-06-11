@@ -192,7 +192,7 @@ def verify_credential():
                 "message": "Verification Failed! Verifiable Credential is not valid!"
             }, status=400)
 
-        logger.info(msg=f"Verifiable Credential with ID: [{str(body["id"])}] was verified!")
+        logger.info(msg=f"Verifiable Credential with ID: [{str(body['id'])}] was verified!")
 
         return HttpUtils.response({
             "verified": True,
@@ -280,7 +280,7 @@ def issue_credential():
             vcId = vc["id"].replace("urn:uuid:", "")
             cryptool.storeCredential(id=vcId, credential=vc, issuerId=bpn)
 
-        logger.info(f"Verifiable Credential with ID: [{str(vc["id"])}] was issued by IssuerId: [{str(bpn)}]!")
+        logger.info(f"Verifiable Credential with ID: [{str(vc['id'])}] was issued by IssuerId: [{str(bpn)}]!")
 
         return HttpUtils.response(op.to_json(vc))
 

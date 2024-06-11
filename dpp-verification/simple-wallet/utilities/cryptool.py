@@ -24,13 +24,12 @@
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
-from datetime import datetime, UTC
+import datetime
 from utilities.operators import op
 from utilities.httpUtils import HttpUtils
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from pyld import jsonld
 from urllib.parse import urljoin, urlparse
-from datetime import datetime
 from cryptography.exceptions import InvalidSignature
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 import json
@@ -121,7 +120,7 @@ class cryptool:
                 raise RuntimeError(f"It was not possible to expand the json-ld credential! Invalid JSON-LD! Reason: [{str(e)}]")
 
             ## Issuance date and expiration date
-            issuance_date = datetime.now(UTC).replace(microsecond=0)
+            issuance_date = datetime.datetime.now(datetime.UTC).replace(microsecond=0)
             expiration_date = issuance_date + expirationTimedelta
 
             ## Prepare the issuer id and the id from the credential
@@ -176,8 +175,8 @@ class cryptool:
             raise RuntimeError("Proof is not available in the Verifiable Credential!")
 
         if("expirationDate" in credential):
-            currentDate = datetime.now(UTC)
-            expirationDate = datetime.fromisoformat(credential["expirationDate"])
+            currentDate = datetime.datetime.now(datetime.UTC)
+            expirationDate = datetime.datetime.fromisoformat(credential["expirationDate"])
             if(expirationDate is None):
                 raise RuntimeError("Invalid expiration date format!")
             

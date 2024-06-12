@@ -160,7 +160,7 @@ def generate_public_key(bpn):
             "https://w3c.github.io/vc-jws-2020/contexts/v1"
         ]
     }
-    return HttpUtils.response(op.to_json(didDocument))
+    return HttpUtils.response(didDocument, content_type='application/did+ld+json')
 
 @app.post("/verify")
 def verify_credential():
@@ -244,8 +244,12 @@ def issue_credential():
         if(not op.path_exists(privateKeyPath)):
             private_key = cryptool.generateEd25519PrivateKey()
             public_key = private_key.public_key()
-            cryptool.storePublicKey(public_key=cryptool.publicJwkKeyToPemString(public_key), keysDir=basePath)
-            cryptool.storePrivateKey(private_key=cryptool.privateJwkKeyToPemString(private_key=private_key),keysDir=basePath)
+            try:
+                cryptool.storePublicKey(public_key=cryptool.publicJwkKeyToPemString(public_key), keysDir=basePath)
+                cryptool.storePrivateKey(private_key=cryptool.privateJwkKeyToPemString(private_key=private_key),keysDir=basePath)
+            except:
+                logger.exception("It was not possible to generate keys!")
+                return HttpUtils.get_error_response(message="It was not possible to generate keys!", status=500)  
             logger.info(f"Created Keys for [{bpn}]!")
         else:
             private_key = cryptool.loadPrivateKey(keysDir=basePath)
@@ -285,7 +289,10 @@ def issue_credential():
         return HttpUtils.response(op.to_json(vc))
 
     except Exception as e:
-        return HttpUtils.get_error_response(message="An error occurred while signing the credential!")
+        logger.exception(str(e))
+        traceback.print_exc()
+    
+    return HttpUtils.get_error_response(message="An error occurred while signing the credential!")
 
 
 

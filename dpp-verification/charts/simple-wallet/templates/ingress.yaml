@@ -21,6 +21,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
+
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "simple-wallet.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
@@ -29,16 +30,12 @@
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
   {{- end }}
 {{- end }}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+
 apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
+  namespace: {{ .Values.namespace }}
   labels:
     {{- include "simple-wallet.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}

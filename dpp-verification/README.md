@@ -137,7 +137,10 @@ This concept has been proved to be of high interest from the Certification and V
 
 # Introduction
 
-This Documentation contains the first concept of Data Verification in Catena-X. This verification frameworks aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. Allowing auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done. Using a simple wallet a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential. Which can then be verified in the Data Consumer side using the simple-wallet component.
+The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers.
+It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
+Using a simple wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential,
+which can then be verified on the Data Consumer side.
 
 ## Context Diagram
 

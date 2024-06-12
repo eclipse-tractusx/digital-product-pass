@@ -35,5 +35,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "simple-wallet.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "simple-wallet.fullname" . }}:{{ .Values.service.port }}/health']
   restartPolicy: Never

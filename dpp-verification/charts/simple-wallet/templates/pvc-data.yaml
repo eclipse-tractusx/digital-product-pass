@@ -21,15 +21,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
-{{- if .Values.serviceAccount.create -}}
+
+kind: PersistentVolumeClaim
 apiVersion: v1
-kind: ServiceAccount
 metadata:
-  name: {{ include "simple-wallet.serviceAccountName" . }}
+  name: {{ .Release.Name }}-pvc-wallet-data
   labels:
     {{- include "simple-wallet.labels" . | nindent 4 }}
-  {{- with .Values.serviceAccount.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-{{- end }}
+  namespace: {{ .Values.namespace }}
+spec:
+  storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

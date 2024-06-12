@@ -64,3 +64,11 @@ docker run --rm -p 7777:7777 simple-wallet:v1
 One it is deployed you will see this starting message:
 
 ![Starting Message](./media/startingMessage.png)
+
+# Technical Integration
+
+## API Specification
+
+| API | Method | Description | Parameters |
+| :-: | ----- | ----------- | ---------- |
+| `/health | GET | This api will show if the application is running or not. | a

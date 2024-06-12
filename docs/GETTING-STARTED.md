@@ -199,7 +199,7 @@ Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net/pr
 
     - Reference docs: 
         - [INSTALL.md](../INSTALL.md)
-        - [Productpass backend](../dpp-backend/digitalproductpass/README.md)
+        - [DigitalProductPass backend](../dpp-backend/README.md)
 
 Link to the Integration (INT) environment: [https://dpp.int.demo.catena-x.net](https://dpp.int.demo.catena-x.net/)
 

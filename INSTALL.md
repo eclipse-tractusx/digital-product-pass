@@ -46,7 +46,7 @@ minikube addons enable ingress
 
 First configure the [`values.yaml`](./charts/digital-product-pass/values.yaml) file with the secrets and the necessary configuration for starting the application correctly.
 
-The documentation of the backend configuration is available here [README.md](./dpp-backend/digitalproductpass/README.md)
+The documentation of the backend configuration is available here [README.md](dpp-backend/README.md)
 
 > **TIP**: For a correct Catena-X integration, get the appropriate credentials from the Portal! You can also place secrets in a Vault so that the credentials are safe!
 
@@ -84,7 +84,7 @@ kubectl get pods -n <YOUR-NAMESPACE> --no-headers |  awk '{if ($1 ~ "dpp-backend
 ```
 **Example**:
 
-![img4.png](./dpp-backend/digitalproductpass/docs/media/podname.png)
+![img4.png](dpp-backend/backend/docs/media/podname.png)
 
 
 Copy the pod name with the prefix `dpp-backend`

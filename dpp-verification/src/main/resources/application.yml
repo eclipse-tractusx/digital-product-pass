@@ -44,6 +44,16 @@ configuration:
     paths:
       jsonSchema: "/:urn/json-schema"
       ttlFile: "/:urn/file"
+  vault:
+    type: 'local'
+    file: 'vault.token.yml'
+    pathSep: "."
+    prettyPrint: true
+    indent: 2
+    defaultValue: '<Add secret value here>'
+    attributes:
+      - "oauth.apiKey"
+
 
 server:
   error:

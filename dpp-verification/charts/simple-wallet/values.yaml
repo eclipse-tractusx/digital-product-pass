@@ -127,18 +127,22 @@ securityContext:
   runAsUser: 1000
   # -- The owner for volumes and any files created within volumes will belong to this guid
   runAsGroup: 3000
-  fsGroup: 3000
 
 # -- specifies the volume mounts for the backend deployment
 volumeMounts:
   # -- mounted path for the backend configuration added in the config maps
   - name: wallet-config
     mountPath: /wallet/config
+    readOnly: false
   # -- contains the location for the process data directory
   - name: pvc-wallet
     mountPath: /wallet/keys
+    readOnly: false
+
   - name: pvc-wallet
     mountPath: /wallet/credentials
+    readOnly: false
+    
   # -- contains the log directory uses by the backend
   - name: tmpfs
     mountPath: /wallet/logs

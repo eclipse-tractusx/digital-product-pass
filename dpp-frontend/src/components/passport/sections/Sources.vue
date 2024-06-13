@@ -62,8 +62,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.sources || {},
-      tppData:
-        this.$props.data.aspect?.productUnspecificParameters?.sources || {},
+      tppData: this.$props.data.aspect?.generic?.sources || {},
     };
   },
   computed: {

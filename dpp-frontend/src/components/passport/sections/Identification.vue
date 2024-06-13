@@ -310,9 +310,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.identification || {},
-      tppData:
-        this.$props.data.aspect.productUnspecificParameters?.identification ||
-        {},
+      tppData: this.$props.data.aspect.generic?.identification || {},
     };
   },
   computed: {

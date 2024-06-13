@@ -387,7 +387,7 @@ export default {
         if(!json){
             return originJson;
         }
-        if (!(json instanceof Object)) return originJson;
+        if ((parent instanceof Array) || !(json instanceof Object)) return originJson;
         // Deep Copy param into object
         let objects = JSON.parse(JSON.stringify(json));
         let retObject = JSON.parse(JSON.stringify(originJson)); // Return/Final Object
@@ -405,7 +405,7 @@ export default {
                     continue;
                 }
 
-                if (!(parent instanceof Object)) {
+                if ((parent instanceof Array) || !(parent instanceof Object)) {
                     // If current node is not a object
                     retObject = this.set(parentKey, parent, retObject);
                     continue;

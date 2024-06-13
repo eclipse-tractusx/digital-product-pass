@@ -156,8 +156,7 @@ export default {
   data() {
     return {
       propsData: this.$props.data.aspect.operation || {},
-      tppData:
-        this.$props.data.aspect.productUnspecificParameters?.operation || {},
+      tppData: this.$props.data.aspect.generic?.operation || {},
     };
   },
   computed: {

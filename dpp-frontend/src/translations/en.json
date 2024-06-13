@@ -60,7 +60,7 @@
       "materials": "Materials",
       "safety": "Safety",
       "conformity": "Conformity",
-      "productSpecificParameters": "Product Specific Parameters",
+      "specific": "Product Specific Parameters",
       "instructions": "Instructions",
       "sparePartSupplier": "Spare Part Supplier",
       "stateOfHealth": "State of Health",
@@ -147,7 +147,11 @@
     "oilType": "Oil type"
   },
   "passportHeader": {
-    "backBtn": "Back"
+    "backBtn": "Back",
+    "verification": "Verification",
+    "issuer": "Issuer",
+    "issuedAt": "Issued at",
+    "expirationDate": "Expiration date"
   },
   "field": {
     "tempRange": "Temp range:",
@@ -189,7 +193,10 @@
     "passportRetrieval": "Passport Retrieval",
     "retrieving": "Retrieving... ",
     "createdProcess": "Created Process ID: ",
-    "contractId": "Contract ID: "
+    "contractId": "Contract ID: ",
+    "verification": "Passport verification",
+    "verifying": "Verifying...",
+    "verified": "Verified"
   },
   "sections": {
     "materials": {
@@ -479,6 +486,7 @@
       "lifecycle": "Lifecycle",
       "state": "State",
       "status": "Status",
+      "documents": "Documents",
       "carbonFootprint": "Carbon Footprint",
       "performanceClass": "Performance Class",
       "type": "Type",
@@ -486,6 +494,8 @@
       "manufacturingPlant": "Manufacturing plant",
       "declaration": "Declaration",
       "material": "Material",
+      "carbon": "Carbon",
+      "environmental": "Environmental",
       "carbonContentTotal": "Carbon content total",
       "crossSectoralStandard": "Cross sectoral standard used",
       "substancesOfConcern": "Substances of concern",

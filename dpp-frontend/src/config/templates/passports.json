@@ -1,35 +1,28 @@
 {
-  "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport": {
-    "typology": {
-      "shortName": null,
-      "class": {
-        "definition": null,
-        "code": null
-      },
-      "longName": null
-    },
+  "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport": {
     "metadata": {
+      "backupReference": null,
+      "registrationIdentifier": null,
+      "economicOperatorId": null,
+      "lastModification": null,
       "predecessor": null,
       "issueDate": null,
       "version": null,
-      "economicOperator": {
-        "legitimization": null,
-        "identification": null
-      },
+      "passportIdentifier": null,
       "status": null,
       "expirationDate": null
     },
     "characteristics": {
+      "generalPerformanceClass": null,
+      "physicalState": null,
       "physicalDimension": {
-        "grossWeight": {
+        "volume": {
           "value": null,
           "unit": null
         },
-        "weightOrVolume": {
-          "left": {
-            "value": null,
-            "unit": null
-          }
+        "grossWeight": {
+          "value": null,
+          "unit": null
         },
         "diameter": {
           "value": null,
@@ -47,6 +40,10 @@
           "value": null,
           "unit": null
         },
+        "weight": {
+          "value": null,
+          "unit": null
+        },
         "height": {
           "value": null,
           "unit": null
@@ -58,18 +55,37 @@
           "unit": null,
           "key": null
         }
-      ],
-      "physicalState": null
+      ]
     },
     "commercial": {
-      "placedOnMarket": null
+      "placedOnMarket": null,
+      "purpose": [null]
     },
     "identification": {
-      "localIdentifier": {
-        "value": null,
-        "key": null
+      "batch": [
+        {
+          "value": null,
+          "key": null
+        }
+      ],
+      "codes": [
+        {
+          "value": null,
+          "key": null
+        }
+      ],
+      "type": {
+        "manufacturerPartId": null,
+        "nameAtManufacturer": null
       },
-      "additionalCode": [
+      "classification": [
+        {
+          "classificationStandard": null,
+          "classificationID": null,
+          "classificationDescription": null
+        }
+      ],
+      "serial": [
         {
           "value": null,
           "key": null
@@ -80,44 +96,71 @@
         "carrierLayout": null
       }
     },
-    "sources": [],
-    "handling": {
-      "spareParts": {
-        "left": {
-          "producer": [
-            {
-              "id": null
-            }
-          ],
-          "part": [
-            {
-              "name": null,
-              "gtin": null
-            }
-          ]
-        }
-      },
-      "substanceOfConcern": {
-        "left": [
+    "sources": [
+      {
+        "header": null,
+        "category": null,
+        "type": null,
+        "content": null
+      }
+    ],
+    "materials": {
+      "substancesOfConcern": {
+        "applicable": null,
+        "content": [
           {
-            "name": {
-              "name": null,
-              "type": null
-            },
-            "location": null,
             "unit": null,
-            "concentration": {
-              "left": [
-                {
-                  "max": null,
-                  "min": null
-                }
-              ]
+            "hazardClassification": {
+              "category": null,
+              "statement": null,
+              "class": null
             },
+            "documentation": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "concentrationRange": [
+              {
+                "max": null,
+                "min": null
+              }
+            ],
+            "location": null,
+            "concentration": null,
             "exemption": null,
             "id": [
               {
                 "type": null,
+                "name": null,
+                "id": null
+              }
+            ]
+          }
+        ]
+      },
+      "materialComposition": {
+        "applicable": null,
+        "content": [
+          {
+            "unit": null,
+            "recycled": null,
+            "critical": null,
+            "renewable": null,
+            "documentation": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "concentration": null,
+            "id": [
+              {
+                "type": null,
+                "name": null,
                 "id": null
               }
             ]
@@ -125,549 +168,1160 @@
         ]
       }
     },
-    "additionalData": [],
-    "sustainability": {
-      "PEF": {
-        "carbon": [
+    "handling": {
+      "applicable": null,
+      "content": {
+        "producer": [
           {
-            "lifecycle": null,
-            "rulebook": null,
-            "unit": null,
-            "type": null,
-            "value": null
+            "id": null
           }
         ],
-        "carbon2": {
-          "lifecycle": null,
-          "rulebook": null,
-          "unit": null,
-          "type": null,
-          "value": null
-        },
-        "environmental": [
+        "sparePart": [
           {
-            "lifecycle": null,
-            "rulebook": null,
-            "unit": null,
-            "type": null,
-            "value": null
+            "manufacturerPartId": null,
+            "nameAtManufacturer": null
           }
-        ]
-      },
-      "state": null,
-      "material": {
-        "left": [
-          {
-            "name": {
-              "name": null,
-              "type": null
-            },
-            "unit": null,
-            "recycled": null,
-            "id": [
-              {
-                "type": null,
-                "id": null
-              }
-            ],
-            "value": null,
-            "renewable": null
-          }
-        ]
-      },
-      "critical": {
-        "left": [
-          null
         ]
       }
     },
+    "additionalData": [
+      {
+        "description": null,
+        "label": null,
+        "type": {
+          "typeUnit": null,
+          "dataType": null
+        },
+        "data": null,
+        "children": [
+          {
+            "description": null,
+            "label": null,
+            "type": {
+              "typeUnit": null,
+              "dataType": null
+            },
+            "data": null
+          }
+        ]
+      }
+    ],
     "operation": {
-      "importer": {
-        "left": {
+      "import": {
+        "applicable": null,
+        "content": {
           "eori": null,
           "id": null
         }
       },
+      "other": {
+        "id": null,
+        "role": null
+      },
       "manufacturer": {
-        "facility": null,
+        "facility": [
+          {
+            "facility": null
+          }
+        ],
         "manufacturingDate": null,
         "manufacturer": null
       }
+    },
+    "sustainability": {
+      "reparabilityScore": null,
+      "productFootprint": {
+        "material": [
+          {
+            "lifecycle": null,
+            "rulebook": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "unit": null,
+            "performanceClass": null,
+            "manufacturingPlant": [
+              {
+                "facility": null
+              }
+            ],
+            "type": null,
+            "value": null,
+            "declaration": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ]
+          }
+        ],
+        "carbon": [
+          {
+            "lifecycle": null,
+            "rulebook": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "unit": null,
+            "performanceClass": null,
+            "manufacturingPlant": [
+              {
+                "facility": null
+              }
+            ],
+            "type": null,
+            "value": null,
+            "declaration": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ]
+          }
+        ],
+        "environmental": [
+          {
+            "lifecycle": null,
+            "rulebook": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "unit": null,
+            "performanceClass": null,
+            "manufacturingPlant": [
+              {
+                "facility": null
+              }
+            ],
+            "type": null,
+            "value": null,
+            "declaration": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ]
+          }
+        ]
+      },
+      "status": null,
+      "durabilityScore": null
     }
   },
-  "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass": {
-    "productSpecificParameters": {
-      "torqueConverter": null,
-      "driveType": null,
-      "oilType": null,
+  "urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass": {
+    "specific": {
+      "serviceHistory": [
+        {
+          "contentType": null,
+          "header": null,
+          "content": null
+        }
+      ],
+      "oil": {
+        "oilType": [null],
+        "oilCapacity": null
+      },
+      "torqueConverter": [null],
+      "driveType": [null],
       "spreading": null,
       "torque": null,
       "power": null,
-      "standardGearRatio": {
-        "gear": null,
-        "ratio": null
-      },
-      "oilCapacity": null,
-      "electricPerformance": null,
-      "speedResistance": {
-        "speed": null,
-        "gear": null
+      "standardGearRatio": [
+        {
+          "gearRatio": null,
+          "gear": null
+        }
+      ],
+      "speedResistance": [
+        {
+          "ratedSpeed": null,
+          "gear": null
+        }
+      ],
+      "electricalPerformance": {
+        "applicable": null,
+        "electricalMachine": {
+          "torque": {
+            "max": null,
+            "maximumAvailability": null,
+            "continuous": null
+          },
+          "power": {
+            "max": null,
+            "continuous": null,
+            "maximumAvailability": null
+          },
+          "speed": null,
+          "voltage": null
+        }
       }
     },
-    "instructions": {
-      "packagingInstructions": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ],
-      "transportationInstructions": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ],
-      "dismantlingProcedure": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ],
-      "safetyMeasures": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ],
-      "vehicleDismantlingProcedure": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ]
-    },
-    "identification": {
-      "manufacturerId": null,
-      "localIdentifiers": [
-        {
-          "value": null,
-          "key": null
-        }
-      ],
-      "dataMatrixCode": null
-    },
-    "sparePartSupplier": [
-      {
-        "supplierContact": {
-          "faxNumber": null,
-          "website": null,
-          "phoneNumber": null,
-          "email": null
-        },
-        "supplierId": null,
-        "sparePartName": null
-      }
-    ],
-    "stateOfHealth": {
-      "serviceHistory": null,
-      "expectedLifespan": null,
-      "remanufacturing": {
-        "remanufacturingDate": null,
-        "productStatusValue": null
-      }
-    },
-    "generalInformation": {
-      "additionalInformation": null,
-      "physicalDimensionsProperty": {
-        "width": null,
-        "length": null,
-        "weight": null,
-        "diameter": null,
-        "height": null
-      },
-      "warrantyPeriod": null,
-      "productDescription": null,
-      "productType": null
-    },
-    "sustainability": {
-      "substancesOfConcern": null,
-      "responsibleSourcingDocument": [
-        {
-          "documentTitle": null,
-          "documentLink": null
-        }
-      ],
-      "recyclateContent": {
-        "nickel": null,
-        "lithium": null,
-        "cobalt": null,
-        "otherSubstance": [
-          {
-            "substancePercentage": null,
-            "substanceName": null
+    "generic": {
+      "characteristics": {
+        "physicalDimension": {
+          "volume": {
+            "value": null,
+            "unit": null
+          },
+          "grossWeight": {
+            "value": null,
+            "unit": null
+          },
+          "diameter": {
+            "value": null,
+            "unit": null
+          },
+          "grossVolume": {
+            "value": null,
+            "unit": null
+          },
+          "width": {
+            "value": null,
+            "unit": null
+          },
+          "length": {
+            "value": null,
+            "unit": null
+          },
+          "weight": {
+            "value": null,
+            "unit": null
+          },
+          "height": {
+            "value": null,
+            "unit": null
           }
-        ]
+        },
+        "warranty": null,
+        "lifeTime": null
       },
-      "criticalRawMaterials": null,
-      "carbonFootprint": {
-        "crossSectoralStandardsUsed": [
+      "metadata": {
+        "backupReference": null,
+        "registrationIdentifier": null,
+        "economicOperatorId": null,
+        "lastModification": null,
+        "predecessor": null,
+        "issueDate": null,
+        "version": null,
+        "passportIdentifier": null,
+        "status": null,
+        "expirationDate": null
+      },
+      "commercial": {
+        "placedOnMarket": null,
+        "purpose": [null]
+      },
+      "identification": {
+        "batch": [
           {
-            "crossSectoralStandard": null
+            "value": null,
+            "key": null
           }
         ],
-        "co2FootprintTotal": null,
-        "productOrSectorSpecificRules": [
+        "codes": [
           {
-            "operator": null,
-            "ruleNames": null,
-            "otherOperatorName": null
+            "value": null,
+            "key": null
           }
-        ]
+        ],
+        "type": {
+          "manufacturerPartId": null,
+          "nameAtManufacturer": null
+        },
+        "classification": [
+          {
+            "classificationStandard": null,
+            "classificationID": null,
+            "classificationDescription": null
+          }
+        ],
+        "serial": [
+          {
+            "value": null,
+            "key": null
+          }
+        ],
+        "dataCarrier": {
+          "carrierType": null,
+          "carrierLayout": null
+        }
+      },
+      "sources": [
+        {
+          "header": null,
+          "category": null,
+          "type": null,
+          "content": null
+        }
+      ],
+      "materials": {
+        "substancesOfConcern": {
+          "applicable": null,
+          "content": [
+            {
+              "unit": null,
+              "hazardClassification": {
+                "category": null,
+                "statement": null,
+                "class": null
+              },
+              "documentation": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ],
+              "concentrationRange": [
+                {
+                  "max": null,
+                  "min": null
+                }
+              ],
+              "location": null,
+              "concentration": null,
+              "exemption": null,
+              "id": [
+                {
+                  "type": null,
+                  "name": null,
+                  "id": null
+                }
+              ]
+            }
+          ]
+        },
+        "materialComposition": {
+          "applicable": null,
+          "content": [
+            {
+              "unit": null,
+              "recycled": null,
+              "critical": null,
+              "renewable": null,
+              "documentation": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ],
+              "concentration": null,
+              "id": [
+                {
+                  "type": null,
+                  "name": null,
+                  "id": null
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "handling": {
+        "applicable": null,
+        "content": {
+          "producer": [
+            {
+              "id": null
+            }
+          ],
+          "sparePart": [
+            {
+              "manufacturerPartId": null,
+              "nameAtManufacturer": null
+            }
+          ]
+        }
+      },
+      "operation": {
+        "import": {
+          "applicable": null,
+          "content": {
+            "eori": null,
+            "id": null
+          }
+        },
+        "other": {
+          "id": null,
+          "role": null
+        },
+        "manufacturer": {
+          "facility": [
+            {
+              "facility": null
+            }
+          ],
+          "manufacturingDate": null,
+          "manufacturer": null
+        }
+      },
+      "sustainability": {
+        "reparabilityScore": null,
+        "productFootprint": {
+          "material": [
+            {
+              "lifecycle": null,
+              "rulebook": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ],
+              "unit": null,
+              "performanceClass": null,
+              "manufacturingPlant": [
+                {
+                  "facility": null
+                }
+              ],
+              "type": null,
+              "value": null,
+              "declaration": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ]
+            }
+          ],
+          "carbon": [
+            {
+              "lifecycle": null,
+              "rulebook": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ],
+              "unit": null,
+              "performanceClass": null,
+              "manufacturingPlant": [
+                {
+                  "facility": null
+                }
+              ],
+              "type": null,
+              "value": null,
+              "declaration": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ]
+            }
+          ],
+          "environmental": [
+            {
+              "lifecycle": null,
+              "rulebook": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ],
+              "unit": null,
+              "performanceClass": null,
+              "manufacturingPlant": [
+                {
+                  "facility": null
+                }
+              ],
+              "type": null,
+              "value": null,
+              "declaration": [
+                {
+                  "contentType": null,
+                  "header": null,
+                  "content": null
+                }
+              ]
+            }
+          ]
+        },
+        "status": null,
+        "durabilityScore": null
       }
     }
   },
-  "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass": {
-    "electrochemicalProperties": {
-      "ratedCapacity": null,
-      "batteryEnergy": {
-        "energyRoundtripEfficiencyChange": null,
-        "maximumAllowedBatteryEnergy": null,
-        "energyRoundtripEfficiency": null
+  "urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass": {
+    "characteristics": {
+      "physicalDimension": {
+        "length": {
+          "value": null,
+          "unit": null
+        },
+        "width": {
+          "value": null,
+          "unit": null
+        },
+        "weight": {
+          "value": null,
+          "unit": null
+        },
+        "height": {
+          "value": null,
+          "unit": null
+        }
       },
-      "ratioMaximumAllowedBatteryPowerAndMaximumAllowedBatteryEnergy": null,
-      "batteryVoltage": {
-        "nominalVoltage": null,
-        "maxVoltage": null,
-        "minVoltage": null
-      },
-      "internalResistance": {
-        "cellInternalResistance": null,
-        "packInternalResistanceIncrease": null,
-        "packInternalResistance": null
-      },
-      "capacityThresholdExhaustion": null,
-      "batteryPower": {
-        "powerFade": null,
-        "originalPowerCapability": null,
-        "originalPowerCapabilityLimits": null,
-        "maximumAllowedBatteryPower": null,
-        "powerCapabilityAt20Charge": null,
-        "powerCapabilityAt80Charge": null
-      },
-      "capacityFade": null
+      "warranty": {
+        "lifeValue": null,
+        "lifeUnit": null
+      }
     },
-    "document": {
-      "responsibleSourcing": [
+    "metadata": {
+      "backupReference": null,
+      "registrationIdentifier": null,
+      "economicOperatorId": null,
+      "lastModification": null,
+      "predecessor": null,
+      "issueDate": null,
+      "version": null,
+      "passportIdentifier": null,
+      "status": null,
+      "expirationDate": null
+    },
+    "commercial": {
+      "placedOnMarket": null,
+      "purpose": [null]
+    },
+    "identification": {
+      "chemistry": null,
+      "idDmc": null,
+      "identification": {
+        "batch": [
+          {
+            "value": null,
+            "key": null
+          }
+        ],
+        "codes": [
+          {
+            "value": null,
+            "key": null
+          }
+        ],
+        "type": {
+          "manufacturerPartId": null,
+          "nameAtManufacturer": null
+        },
+        "classification": [
+          {
+            "classificationStandard": null,
+            "classificationID": null,
+            "classificationDescription": null
+          }
+        ],
+        "serial": [
+          {
+            "value": null,
+            "key": null
+          }
+        ],
+        "dataCarrier": {
+          "carrierType": null,
+          "carrierLayout": null
+        }
+      },
+      "category": null
+    },
+    "performance": {
+      "rated": {
+        "roundTripEfficiency": {
+          "depthOfDischarge": null,
+          "temperature": null,
+          "50PercentLife": null,
+          "initial": null
+        },
+        "selfDischargingRate": null,
+        "performanceDocument": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "testReport": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "temperature": {
+          "lower": null,
+          "upper": null
+        },
+        "lifetime": {
+          "report": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "cycleLifeTesting": {
+            "temperature": null,
+            "depthOfDischarge": null,
+            "appliedDischargeRate": null,
+            "cycles": null,
+            "appliedChargeRate": null
+          },
+          "expectedYears": null
+        },
+        "power": {
+          "at20SoC": null,
+          "temperature": null,
+          "value": null,
+          "at80SoC": null
+        },
+        "resistance": {
+          "temperature": null,
+          "cell": null,
+          "pack": null,
+          "module": null
+        },
+        "voltage": {
+          "temperature": null,
+          "min": null,
+          "nominal": null,
+          "max": null
+        },
+        "energy": {
+          "temperature": null,
+          "value": null
+        },
+        "capacity": {
+          "temperature": null,
+          "value": null,
+          "thresholdExhaustion": null
+        }
+      },
+      "dynamic": {
+        "selfDischargingRate": null,
+        "roundTripEfficiency": {
+          "remaining": {
+            "value": null,
+            "time": null
+          },
+          "fade": {
+            "value": null,
+            "time": null
+          }
+        },
+        "operatingEnvironment": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "stateOfCharge": {
+          "value": null,
+          "time": null
+        },
+        "performanceDocument": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "fullCycles": {
+          "value": null,
+          "time": null
+        },
+        "power": {
+          "remaining": {
+            "value": null,
+            "time": null
+          },
+          "fade": {
+            "value": null,
+            "time": null
+          }
+        },
+        "negativeEvents": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "resistance": {
+          "increase": {
+            "cell": {
+              "value": null,
+              "time": null
+            },
+            "pack": {
+              "value": null,
+              "time": null
+            },
+            "module": {
+              "value": null,
+              "time": null
+            }
+          },
+          "remaining": {
+            "cell": {
+              "value": null,
+              "time": null
+            },
+            "pack": {
+              "value": null,
+              "time": null
+            },
+            "module": {
+              "value": null,
+              "time": null
+            }
+          }
+        },
+        "capacity": {
+          "fade": {
+            "value": null,
+            "time": null
+          },
+          "throughput": {
+            "value": null,
+            "time": null
+          },
+          "capacity": {
+            "value": null,
+            "time": null
+          }
+        },
+        "energy": {
+          "remaining": {
+            "value": null,
+            "time": null
+          },
+          "soce": {
+            "value": null,
+            "time": null
+          },
+          "throughput": {
+            "value": null,
+            "time": null
+          }
+        }
+      }
+    },
+    "sources": [
+      {
+        "header": null,
+        "category": null,
+        "type": null,
+        "content": null
+      }
+    ],
+    "materials": {
+      "hazardous": {
+        "cadmium": {
+          "concentration": null,
+          "location": null,
+          "critical": null,
+          "impactOfSubstances": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "materialUnit": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
+        },
+        "other": [
+          {
+            "critical": null,
+            "impactOfSubstances": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "documentation": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ],
+            "concentration": null,
+            "materialIdentification": [
+              {
+                "type": null,
+                "name": null,
+                "id": null
+              }
+            ],
+            "location": null,
+            "materialUnit": null
+          }
+        ],
+        "mercury": {
+          "concentration": null,
+          "location": null,
+          "critical": null,
+          "impactOfSubstances": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "materialUnit": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
+        },
+        "lead": {
+          "recycled": null,
+          "critical": null,
+          "impactOfSubstances": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "location": null,
+          "concentration": null,
+          "materialUnit": null
+        }
+      },
+      "active": {
+        "nickel": {
+          "location": null,
+          "recycled": null,
+          "critical": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
+        },
+        "lithium": {
+          "location": null,
+          "recycled": null,
+          "critical": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
+        },
+        "cobalt": {
+          "location": null,
+          "recycled": null,
+          "critical": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
+        },
+        "other": [
+          {
+            "location": null,
+            "materialIdentification": [
+              {
+                "type": null,
+                "name": null,
+                "id": null
+              }
+            ],
+            "recycled": null,
+            "critical": null,
+            "documentation": [
+              {
+                "contentType": null,
+                "header": null,
+                "content": null
+              }
+            ]
+          }
+        ],
+        "lead": {
+          "recycled": null,
+          "critical": null,
+          "impactOfSubstances": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "location": null,
+          "concentration": null,
+          "materialUnit": null
+        }
+      },
+      "composition": [
         {
-          "title": null,
-          "fileLocation": null
+          "unit": null,
+          "recycled": null,
+          "critical": null,
+          "renewable": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "concentration": null,
+          "location": null,
+          "id": [
+            {
+              "type": null,
+              "name": null,
+              "id": null
+            }
+          ]
         },
         {
-          "title": null,
-          "fileLocation": null
-        },
+          "unit": null,
+          "recycled": null,
+          "critical": null,
+          "renewable": null,
+          "documentation": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "concentration": null,
+          "location": null,
+          "id": [
+            {
+              "type": null,
+              "name": null,
+              "id": null
+            }
+          ]
+        }
+      ]
+    },
+    "safety": {
+      "usableExtinguishAgent": [
         {
-          "title": null,
-          "fileLocation": null
-        },
-        {
-          "title": null,
-          "fileLocation": null
-        },
-        {
-          "title": null,
-          "fileLocation": null
-        },
-        {
-          "title": null,
-          "fileLocation": null
-        },
-        {
-          "title": null,
-          "fileLocation": null
+          "fireClass": null,
+          "document": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "media": null
         }
       ],
-      "packagingInstructions": [
+      "safeDischarging": [
         {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ],
-      "transportationInstructions": [
+      "meaningOfLabels": [
         {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ],
-      "vehicleDismantlingProcedure": [
+      "dismantling": [
         {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ],
-      "testReportsResults": [
+      "removalFromAppliance": [
         {
-          "title": null,
-          "fileLocation": null
-        }
-      ],
-      "batteryDismantlingProcedure": [
-        {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ],
       "safetyMeasures": [
         {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
+        }
+      ]
+    },
+    "handling": {
+      "applicable": null,
+      "content": {
+        "producer": [
+          {
+            "id": null
+          }
+        ],
+        "sparePart": [
+          {
+            "manufacturerPartId": null,
+            "nameAtManufacturer": null
+          }
+        ]
+      }
+    },
+    "conformity": {
+      "declarationOfConformityId": null,
+      "thirdPartyAssurance": [
+        {
+          "contentType": null,
+          "header": null,
+          "content": null
+        }
+      ],
+      "resultOfTestReport": [
+        {
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ],
       "declarationOfConformity": [
         {
-          "title": null,
-          "fileLocation": null
+          "contentType": null,
+          "header": null,
+          "content": null
+        }
+      ],
+      "dueDiligencePolicy": [
+        {
+          "contentType": null,
+          "header": null,
+          "content": null
         }
       ]
     },
-    "datePlacedOnMarket": null,
-    "cellChemistry": {
-      "electrolyteComposition": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "anodeCompositionOther": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "recyclateContentActiveMaterials": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "anodeActiveMaterials": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "cathodeActiveMaterials": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "cathodeCompositionOther": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ]
-    },
-    "physicalDimensions": {
-      "length": null,
-      "width": null,
-      "weight": null,
-      "diameter": null,
-      "height": null
-    },
-    "temperatureRangeIdleState": {
-      "temperatureRangeIdleStateUpperLimit": null,
-      "temperatureRangeIdleStateLowerLimit": null
-    },
-    "batteryCycleLife": {
-      "cycleLifeTestCRate": null,
-      "cycleLifeTestDepthOfDischarge": null,
-      "expectedLifetime": null
-    },
-    "manufacturer": {
-      "name": null,
-      "contact": {
-        "faxNumber": null,
-        "website": null,
-        "phoneNumber": null,
-        "email": null
-      },
-      "address": {
-        "locality": {
-          "value": null,
-          "technicalKey": null
-        },
-        "country": {
-          "shortName": null
-        },
-        "postCode": {
-          "value": null,
-          "technicalKey": null
-        },
-        "thoroughfare": {
-          "value": null,
-          "number": null,
-          "technicalKey": null
-        },
-        "premise": {
-          "value": null,
-          "technicalKey": null
-        },
-        "postalDeliveryPoint": {
-          "value": null,
-          "technicalKey": null
-        }
+    "operation": {
+      "intoServiceDate": null,
+      "manufacturer": {
+        "facility": [
+          {
+            "facility": null
+          }
+        ],
+        "manufacturingDate": null,
+        "manufacturer": null
       }
     },
-    "warrantyPeriod": null,
-    "composition": {
-      "compositionOfBattery": [
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        },
-        {
-          "materialPercentageMassFraction": null,
-          "materialName": null,
-          "materialWeight": null
-        }
-      ],
-      "criticalRawMaterials": null,
-      "components": {
-        "componentsPartNumber": [
-          null
-        ],
-        "componentsSupplier": [
+    "sustainability": {
+      "documents": {
+        "separateCollection": [
           {
-            "componentsSupplierName": null,
-            "address": {
-              "locality": {
-                "value": null,
-                "technicalKey": null
-              },
-              "country": {
-                "shortName": null
-              },
-              "postCode": {
-                "value": null,
-                "technicalKey": null
-              },
-              "thoroughfare": {
-                "value": null,
-                "number": null,
-                "technicalKey": null
-              },
-              "premise": {
-                "value": null,
-                "technicalKey": null
-              },
-              "postalDeliveryPoint": {
-                "value": null,
-                "technicalKey": null
-              }
-            },
-            "contact": {
-              "faxNumber": null,
-              "website": null,
-              "phoneNumber": null,
-              "email": null
-            }
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "sustainabilityReport": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "euTaxonomyDisclosureStatement": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
+          }
+        ],
+        "wastePrevention": [
+          {
+            "contentType": null,
+            "header": null,
+            "content": null
           }
         ]
-      }
-    },
-    "manufacturing": {
-      "dateOfManufacturing": null,
-      "address": {
-        "locality": {
+      },
+      "carbonFootprint": [
+        {
+          "lifecycle": null,
+          "rulebook": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ],
+          "unit": null,
+          "performanceClass": null,
+          "manufacturingPlant": [
+            {
+              "facility": null
+            }
+          ],
+          "type": null,
           "value": null,
-          "technicalKey": null
-        },
-        "country": {
-          "shortName": null
-        },
-        "postCode": {
-          "value": null,
-          "technicalKey": null
-        },
-        "thoroughfare": {
-          "value": null,
-          "number": null,
-          "technicalKey": null
-        },
-        "premise": {
-          "value": null,
-          "technicalKey": null
-        },
-        "postalDeliveryPoint": {
-          "value": null,
-          "technicalKey": null
+          "declaration": [
+            {
+              "contentType": null,
+              "header": null,
+              "content": null
+            }
+          ]
         }
-      }
-    },
-    "batteryIdentification": {
-      "batteryType": null,
-      "batteryIDDMCCode": null,
-      "batteryModel": null
-    },
-    "stateOfBattery": {
-      "stateOfHealth": null,
-      "statusBattery": null,
-      "stateOfCharge": null
-    },
-    "cO2FootprintTotal": null
+      ],
+      "status": null
+    }
   }
 }

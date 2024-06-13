@@ -118,7 +118,7 @@ securityContext:
     # -- Specifies which capabilities to add to issue specialized syscalls
     add: []
   # -- Whether the root filesystem is mounted in read-only mode
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
   allowPrivilegeEscalation: false
   # -- Requires the container to run without root privileges
@@ -127,6 +127,7 @@ securityContext:
   runAsUser: 1000
   # -- The owner for volumes and any files created within volumes will belong to this guid
   runAsGroup: 3000
+  fsGroup: 3000
 
 # -- specifies the volume mounts for the backend deployment
 volumeMounts:

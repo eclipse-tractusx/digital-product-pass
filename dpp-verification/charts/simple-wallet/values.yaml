@@ -58,8 +58,16 @@ security:
 imagePullSecrets: []
 podAnnotations: {}
 
-podSecurityContext: 
-   fsGroup: 3000
+podSecurityContext:
+  seccompProfile:
+    # -- Restrict a Container's Syscalls with seccomp
+    type: RuntimeDefault
+  # -- Runs all processes within a pod with a special uid
+  runAsUser: 1000
+  # -- Processes within a pod will belong to this guid
+  runAsGroup: 3000
+  # -- The owner for volumes and any files created within volumes will belong to this guid
+  fsGroup: 3000
 
 service:
   type: ClusterIP
@@ -133,14 +141,13 @@ volumeMounts:
   # -- mounted path for the backend configuration added in the config maps
   - name: wallet-config
     mountPath: /wallet/config
-    
   # -- contains the location for the process data directory
   - name: pvc-wallet
     mountPath: /wallet/keys
-
+    subPath: keys
   - name: pvc-wallet
     mountPath: /wallet/credentials
-
+    subPath: credentials
   # -- contains the log directory uses by the backend
   - name: tmpfs
     mountPath: /wallet/logs

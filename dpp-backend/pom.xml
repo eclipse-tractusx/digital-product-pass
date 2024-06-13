@@ -36,7 +36,7 @@
 
     <groupId>org.eclipse.tractusx.digitalproductpass</groupId>
     <artifactId>backend</artifactId>
-    <version>${dpp.backend.version}</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
     <name>Catena-X Digital Product Passport Backend</name>
     <description>

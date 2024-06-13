@@ -36,7 +36,7 @@
 
     <groupId>org.eclipse.tractusx.digitalproductpass</groupId>
     <artifactId>verification</artifactId>
-    <version>${dpp.verification.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Catena-X Digital Product Passport Verification Add-on</name>
     <description>
         The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers.
@@ -44,6 +44,20 @@
         Using a simple wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential,
         which can then be verified on the Data Consumer side.
     </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>2.2.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.tractusx.digitalproductpass</groupId>
+            <artifactId>backend</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+    </dependencies>
 
     <properties>
         <java.version>19</java.version>

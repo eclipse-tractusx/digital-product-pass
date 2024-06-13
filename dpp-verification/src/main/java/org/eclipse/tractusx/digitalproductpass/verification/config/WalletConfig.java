@@ -30,73 +30,70 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * This class consists exclusively to define the attributes and methods needed for the IRS configuration.
+ * This class consists exclusively to define the attributes and methods needed for the Wallet configuration.
  **/
 @Configuration
-@ConfigurationProperties(prefix="configuration.semanticshub")
-public class SemanticsHubConfig {
+public class WalletConfig {
 
     /** ATTRIBUTES **/
-    String endpoint;
-    Paths paths;
+    String url;
+    Endpoints endpoints;
 
     /** CONSTRUCTOR(S) **/
-    public SemanticsHubConfig(String endpoint, Paths paths) {
-        this.endpoint = endpoint;
-        this.paths = paths;
+    public WalletConfig(String url, Endpoints endpoints) {
+        this.url = url;
+        this.endpoints = endpoints;
     }
-    public SemanticsHubConfig() {
+    public WalletConfig() {
     }
 
     /** GETTERS AND SETTERS **/
-
-    public String getEndpoint() {
-        return endpoint;
+    public String getUrl() {
+        return url;
     }
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Paths getPaths() {
-        return paths;
+    public Endpoints getEndpoints() {
+        return endpoints;
     }
 
-    public void setPaths(Paths paths) {
-        this.paths = paths;
+    public void setEndpoints(Endpoints endpoints) {
+        this.endpoints = endpoints;
     }
-
     /** INNER CLASSES **/
 
     /**
-     * This class consists exclusively to define the attributes and methods needed for the json schema and ttl file paths path configuration.
+     * This class consists exclusively to define the attributes and methods needed for the wallet endpoints configuration.
      **/
-    public static class Paths{
-        String jsonSchema;
-        String ttlFile;
+    public static class Endpoints {
+        String health;
+        String verify;
 
-        public Paths(String jsonSchema, String ttlFile) {
-            this.jsonSchema = jsonSchema;
-            this.ttlFile = ttlFile;
+        public Endpoints(String health, String verify) {
+            this.health = health;
+            this.verify = verify;
         }
 
-        public Paths() {
+        public Endpoints() {
         }
 
-        public String getJsonSchema() {
-            return jsonSchema;
+        public String getHealth() {
+            return health;
         }
 
-        public void setJsonSchema(String jsonSchema) {
-            this.jsonSchema = jsonSchema;
+        public void setHealth(String health) {
+            this.health = health;
         }
 
-        public String getTtlFile() {
-            return ttlFile;
+        public String getVerify() {
+            return verify;
         }
 
-        public void setTtlFile(String ttlFile) {
-            this.ttlFile = ttlFile;
+        public void setVerify(String verify) {
+            this.verify = verify;
         }
     }
 

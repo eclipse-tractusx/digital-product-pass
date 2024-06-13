@@ -39,11 +39,16 @@ logging:
     utils: INFO
 
 configuration:
-  semanticshub:
-    endpoint: "https://semantics.int.demo.catena-x.net/hub/api/v1/models"
-    paths:
-      jsonSchema: "/:urn/json-schema"
-      ttlFile: "/:urn/file"
+
+  verification:
+    enabled: true
+    autoVerify: true
+    wallet:
+      url: "https://dpp-wallet.int.demo.catena-x.net"
+      endpoints:
+        health: "/health"
+        verify: "/verify"
+
   vault:
     type: 'local'
     file: 'vault.token.yml'
@@ -52,7 +57,7 @@ configuration:
     indent: 2
     defaultValue: '<Add secret value here>'
     attributes:
-      - "oauth.apiKey"
+      - "wallet.apiKey"
 
 
 server:

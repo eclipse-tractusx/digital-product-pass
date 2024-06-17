@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X - Digital Product Pass Application
  *
  * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -29,8 +29,8 @@ package org.eclipse.tractusx.digitalproductpass.core.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.config.DiscoveryConfig;
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.DiscoveryConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.DtrConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.DtrSearchManager;

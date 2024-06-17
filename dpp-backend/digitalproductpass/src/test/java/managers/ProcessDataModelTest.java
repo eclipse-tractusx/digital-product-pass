@@ -26,9 +26,9 @@
 
 package managers;
 
-import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
-import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
-import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
+import org.eclipse.tractusx.digitalproductpass.core.exceptions.DataModelException;
+import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessDataModel;
+import org.eclipse.tractusx.digitalproductpass.core.models.manager.Process;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

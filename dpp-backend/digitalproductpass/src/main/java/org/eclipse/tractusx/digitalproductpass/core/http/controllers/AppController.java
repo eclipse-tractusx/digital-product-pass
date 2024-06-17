@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X - Digital Product Pass Application
  *
  * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -35,10 +35,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
-import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.IrsConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.core.managers.TreeManager;
 import org.eclipse.tractusx.digitalproductpass.core.models.catenax.Dtr;

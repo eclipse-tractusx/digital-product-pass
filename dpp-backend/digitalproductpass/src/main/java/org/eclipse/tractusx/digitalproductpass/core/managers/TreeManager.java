@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X - Digital Product Pass Application
  *
  * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -27,8 +27,8 @@
 package org.eclipse.tractusx.digitalproductpass.core.managers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.eclipse.tractusx.digitalproductpass.config.IrsConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.IrsConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.core.models.dtregistry.DigitalTwin;
 import org.eclipse.tractusx.digitalproductpass.core.models.irs.IrsShell;
 import org.eclipse.tractusx.digitalproductpass.core.models.manager.Node;

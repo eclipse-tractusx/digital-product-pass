@@ -1,9 +1,9 @@
 /*********************************************************************************
  *
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X - Digital Product Pass Application
  *
  * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
  * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  *
@@ -26,8 +26,8 @@
 
 package org.eclipse.tractusx.digitalproductpass.core.services;
 
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PassportConfig;
 import org.eclipse.tractusx.digitalproductpass.core.managers.DtrSearchManager;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.core.models.edc.EndpointDataReference;

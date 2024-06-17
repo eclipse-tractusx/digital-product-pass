@@ -24,14 +24,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.digitalproductpass.core.services;
+package org.eclipse.tractusx.digitalproductpass.verification.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.core.config.WalletConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.config.WalletConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
+import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;

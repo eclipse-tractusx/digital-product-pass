@@ -53,7 +53,6 @@ import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.C
 import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.*;

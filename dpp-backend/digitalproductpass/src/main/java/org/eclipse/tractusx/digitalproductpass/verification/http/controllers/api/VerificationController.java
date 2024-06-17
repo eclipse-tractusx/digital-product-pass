@@ -101,19 +101,28 @@ public class VerificationController {
                 response = httpUtil.getBadRequest();
                 return httpUtil.buildResponse(response, httpResponse);
             }
+            JsonNode verifiedResponse = null;
+            try {
+                verifiedResponse = walletService.startVerification(credential);
+            } catch (Exception e){
+                response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
+                response.data = false;
+                return httpUtil.buildResponse(response, httpResponse);
+            }
 
-            JsonNode verifiedResponse = walletService.startVerification(credential);
             if (verifiedResponse == null) {
                 response = httpUtil.getInternalError();
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
             if (! verifiedResponse.has("verified")) {
+                response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
+                response.data = false;
                 return httpUtil.buildResponse(response, httpResponse);
             }
             response = httpUtil.getResponse();
             if (verifiedResponse.has("message"))
-                response.setMessage(verifiedResponse.get("message").toString());
+                response.setMessage(verifiedResponse.get("message").asText());
 
             response.setData(verifiedResponse.get("verified"));
 

@@ -27,13 +27,14 @@
 package org.eclipse.tractusx.digitalproductpass.verification.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.verification.config.WalletConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
 import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
+import org.eclipse.tractusx.digitalproductpass.verification.config.WalletConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,23 +61,22 @@ public class WalletService extends BaseService {
     JsonUtil jsonUtil;
     String walletUrl;
     String verifyEndpoint;
-    String callbackUrl;
     String apiKey;
+    String bpn;
     AuthenticationService authService;
-    WalletConfig walletConfig;
+    VerificationConfig verificationConfig;
     ProcessManager processManager;
-    WalletService walletService;
     VaultService vaultService;
+    WalletConfig walletConfig;
 
     /** CONSTRUCTOR(S) **/
     @Autowired
-    public WalletService(Environment env, ProcessManager processManager, WalletConfig walletConfig, WalletService walletService, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
+    public WalletService(Environment env, ProcessManager processManager, VerificationConfig verificationConfig, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
         this.processManager = processManager;
         this.jsonUtil = jsonUtil;
         this.authService = authService;
-        this.walletConfig = walletConfig;
-        this.walletService = walletService;
+        this.verificationConfig = verificationConfig;
         this.vaultService = vaultService;
         this.init(env);
     }
@@ -89,9 +90,11 @@ public class WalletService extends BaseService {
      * Initiates the main needed variables for Data Transfer Service by loading from the environment variables and Vault.
      **/
     public void init(Environment env) {
+        this.walletConfig = verificationConfig.getWallet();
         this.walletUrl = this.walletConfig.getUrl();
         this.verifyEndpoint = this.walletConfig.getEndpoints().getVerify();
         this.apiKey = (String) this.vaultService.getLocalSecret("wallet.apiKey");
+        this.bpn = (String) this.vaultService.getLocalSecret("edc.participantId");
     }
     /**
      * Creates a List of missing variables needed to proceed with the request.
@@ -103,13 +106,19 @@ public class WalletService extends BaseService {
     @Override
     public List<String> getEmptyVariables() {
         List<String> missingVariables = new ArrayList<>();
-        if (this.walletUrl.isEmpty()) {
+        if (this.walletConfig == null) {
+            missingVariables.add("wallet");
+        }
+        if (this.walletUrl==null || this.walletUrl.isEmpty()) {
             missingVariables.add("wallet.url");
         }
-        if (this.verifyEndpoint.isEmpty()) {
+        if (this.verifyEndpoint==null || this.verifyEndpoint.isEmpty()) {
             missingVariables.add("wallet.endpoints.verify");
         }
-        if (this.apiKey.isEmpty()) {
+        if (this.bpn==null || this.bpn.isEmpty()) {
+            missingVariables.add("edc.participantId");
+        }
+        if (this.apiKey==null || this.apiKey.isEmpty()) {
             missingVariables.add("wallet.apiKey");
         }
         return missingVariables;
@@ -132,10 +141,9 @@ public class WalletService extends BaseService {
 
             this.checkEmptyVariables();
             String url = this.walletUrl + this.verifyEndpoint;
-
-
             HttpHeaders headers = httpUtil.getHeadersWithApiKey(this.apiKey);
             headers.add("Content-Type", "application/vc+ld+json");
+            headers.add("BPN", this.bpn); // Add BPN to the request
 
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), requestBody, false, false);
             return (JsonNode) response.getBody();

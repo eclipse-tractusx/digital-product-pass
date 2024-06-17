@@ -171,6 +171,15 @@ configuration:
           prohibition: [ ]
           obligation: [ ]
 
+  verification:
+    enabled: true
+    autoVerify: true
+    wallet:
+      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
+      endpoints:
+        health: "/health"
+        verify: "/verify"
+
   vault:
     type: 'local'
     file: 'vault.token.yml'

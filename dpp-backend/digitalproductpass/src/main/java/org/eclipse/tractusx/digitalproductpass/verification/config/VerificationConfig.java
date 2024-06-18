@@ -33,16 +33,20 @@ import org.springframework.context.annotation.Configuration;
  * This class consists exclusively to define the attributes and methods needed for the Wallet configuration.
  **/
 @Configuration
-@ConfigurationProperties(prefix="configuration.verification")
+@ConfigurationProperties(prefix = "configuration.verification")
 public class VerificationConfig {
 
-    /** ATTRIBUTES **/
+    /**
+     * ATTRIBUTES
+     **/
 
     Boolean enabled;
     Boolean autoVerify;
     WalletConfig wallet;
 
-    /** CONSTRUCTOR(S) **/
+    /**
+     * CONSTRUCTOR(S)
+     **/
 
     public VerificationConfig(Boolean enabled, Boolean autoVerify, WalletConfig wallet) {
         this.enabled = enabled;
@@ -53,7 +57,9 @@ public class VerificationConfig {
     public VerificationConfig() {
     }
 
-    /** GETTERS AND SETTERS **/
+    /**
+     * GETTERS AND SETTERS
+     **/
     public Boolean getEnabled() {
         return enabled;
     }

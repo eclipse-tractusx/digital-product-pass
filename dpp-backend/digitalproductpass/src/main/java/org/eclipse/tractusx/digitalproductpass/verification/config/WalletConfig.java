@@ -26,7 +26,6 @@
 
 package org.eclipse.tractusx.digitalproductpass.verification.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -35,19 +34,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WalletConfig {
 
-    /** ATTRIBUTES **/
+    /**
+     * ATTRIBUTES
+     **/
     String url;
     Endpoints endpoints;
 
-    /** CONSTRUCTOR(S) **/
+    /**
+     * CONSTRUCTOR(S)
+     **/
     public WalletConfig(String url, Endpoints endpoints) {
         this.url = url;
         this.endpoints = endpoints;
     }
+
     public WalletConfig() {
     }
 
-    /** GETTERS AND SETTERS **/
+    /**
+     * GETTERS AND SETTERS
+     **/
     public String getUrl() {
         return url;
     }

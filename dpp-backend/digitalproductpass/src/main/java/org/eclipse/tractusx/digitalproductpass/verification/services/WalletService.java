@@ -27,13 +27,13 @@
 package org.eclipse.tractusx.digitalproductpass.verification.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
 import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.config.WalletConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -43,7 +43,6 @@ import org.springframework.stereotype.Service;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,9 @@ import java.util.List;
 @Service
 public class WalletService extends BaseService {
 
-    /** ATTRIBUTES **/
+    /**
+     * ATTRIBUTES
+     **/
     HttpUtil httpUtil;
     JsonUtil jsonUtil;
     String walletUrl;
@@ -69,7 +70,9 @@ public class WalletService extends BaseService {
     VaultService vaultService;
     WalletConfig walletConfig;
 
-    /** CONSTRUCTOR(S) **/
+    /**
+     * CONSTRUCTOR(S)
+     **/
     @Autowired
     public WalletService(Environment env, ProcessManager processManager, VerificationConfig verificationConfig, HttpUtil httpUtil, VaultService vaultService, JsonUtil jsonUtil, AuthenticationService authService) throws ServiceInitializationException {
         this.httpUtil = httpUtil;
@@ -96,12 +99,12 @@ public class WalletService extends BaseService {
         this.apiKey = (String) this.vaultService.getLocalSecret("wallet.apiKey");
         this.bpn = (String) this.vaultService.getLocalSecret("edc.participantId");
     }
+
     /**
      * Creates a List of missing variables needed to proceed with the request.
      * <p>
      *
      * @return an {@code Arraylist} with the environment variables missing in the configuration for the request.
-     *
      */
     @Override
     public List<String> getEmptyVariables() {
@@ -109,16 +112,16 @@ public class WalletService extends BaseService {
         if (this.walletConfig == null) {
             missingVariables.add("wallet");
         }
-        if (this.walletUrl==null || this.walletUrl.isEmpty()) {
+        if (this.walletUrl == null || this.walletUrl.isEmpty()) {
             missingVariables.add("wallet.url");
         }
-        if (this.verifyEndpoint==null || this.verifyEndpoint.isEmpty()) {
+        if (this.verifyEndpoint == null || this.verifyEndpoint.isEmpty()) {
             missingVariables.add("wallet.endpoints.verify");
         }
-        if (this.bpn==null || this.bpn.isEmpty()) {
+        if (this.bpn == null || this.bpn.isEmpty()) {
             missingVariables.add("edc.participantId");
         }
-        if (this.apiKey==null || this.apiKey.isEmpty()) {
+        if (this.apiKey == null || this.apiKey.isEmpty()) {
             missingVariables.add("wallet.apiKey");
         }
         return missingVariables;
@@ -127,22 +130,17 @@ public class WalletService extends BaseService {
     /**
      * Starts a Job in the IRS for a specific globalAssetId with the param BPN
      * <p>
-     * @param   requestBody
-     *          the {@code String} request body containing verifiable content
      *
-     * @return  a {@code Map<String, String>} map object with the irs first response
-     *
-     * @throws ServiceException
-     *           if unable to start the verification process
+     * @param requestBody the {@code String} request body containing verifiable content
+     * @return a {@code Map<String, String>} map object with the irs first response
+     * @throws ServiceException if unable to start the verification process
      */
     public JsonNode startVerification(JsonNode requestBody) {
         try {
-
-
             this.checkEmptyVariables();
             String url = this.walletUrl + this.verifyEndpoint;
             HttpHeaders headers = httpUtil.getHeadersWithApiKey(this.apiKey);
-            headers.add("Content-Type", "application/vc+ld+json");
+            headers.add("Content-Type", "application/vc+ld+json"); // Verifiable credential type
             headers.add("BPN", this.bpn); // Add BPN to the request
 
             ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), requestBody, false, false);

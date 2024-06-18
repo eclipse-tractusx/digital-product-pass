@@ -27,33 +27,38 @@
 package org.eclipse.tractusx.digitalproductpass.verification.http.controllers.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperties;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.eclipse.tractusx.digitalproductpass.core.models.http.Response;
+import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
-import org.eclipse.tractusx.digitalproductpass.core.models.http.Response;
-import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
 
+import java.awt.print.Book;
+
 /**
- * This class consists exclusively to define the HTTP methods needed for the verification controller.
+ * This class consists exclusively to define the HTTP methods needed for the verification controller used in the verification add-on.
  **/
 @RestController
 @RequestMapping("/api/verification")
-@Tag(name = "Verification Controller")
+@Tag(name = "Verification Add-on Controller",
+        description = "This controller contains all the verification methods used by the frontend to verify the Digital Product Passports, " +
+                "using the guidelines from the Digital Product Pass Verification Add-on using a simple-wallet component.")
 @SecurityRequirement(name = "BearerAuthentication")
 public class VerificationController {
 
@@ -61,42 +66,40 @@ public class VerificationController {
     private @Autowired HttpServletResponse httpResponse;
     private @Autowired Environment env;
     private @Autowired AuthenticationService authService;
-
+    private @Autowired VerificationConfig verificationConfig;
     private @Autowired WalletService walletService;
     private @Autowired HttpUtil httpUtil;
-    /** METHODS **/
-    @RequestMapping(value = "/api/*", method = RequestMethod.GET)
-    @Hidden
-// hide this endpoint from api documentation - swagger-ui
-    Response index() throws Exception {
-        httpUtil.redirect(httpResponse, "/passport");
-        return httpUtil.getResponse("Redirect to UI");
-    }
 
     /**
      * HTTP POST method to retrieve verified passport from the dpp-wallet with an API Key authentication.
      * <p>
-     * @param   credential
-     *          the {@code credential} object with the needed and optional parameters to retrieve the data.
      *
+     * @param credential the {@code credential} object with the needed and optional parameters to retrieve the data.
      * @return this {@code Response} HTTP response with status.
-     *
      */
     @RequestMapping(value = "/verify", method = {RequestMethod.POST})
-    @Operation(summary = "Returns the verified data", responses = {
-            @ApiResponse(description = "Default Response Structure", content = @Content(mediaType = "application/json",
+    @Operation(summary = "Verifies a Catena-X Digital Product Pass Verifiable Credential against the `simple-wallet` component from the digital product verification add-on", responses = {
+            @ApiResponse(description = "The content of data will true if is verified or false if not", responseCode = "200", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
-            @ApiResponse(description = "Content of Data Field in Response", responseCode = "200", content = @Content(mediaType = "application/json",
+            @ApiResponse(description = "If the verification is not enabled or it was not possible to verify", responseCode = "403", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class))),
+            @ApiResponse(description = "If there was an error or an exception happened", responseCode = "500", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class))),
+            @ApiResponse(description = "If the user is not authorized", responseCode = "401", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Response.class)))
     })
-    public Response verify(@Valid @RequestBody JsonNode credential) {
+    public Response verify(@RequestBody(description="Verifiable Credential with JsonWebSignature2020 proof type",content=@Content(mediaType="application/vc+ld+json", schema=@Schema(ref = "#/components/schemas/CertifiedDataCredential")), required = true) JsonNode credential) {
         Response response = httpUtil.getInternalError();
         if (!authService.isAuthenticated(httpRequest)) {
             response = httpUtil.getNotAuthorizedResponse();
             return httpUtil.buildResponse(response, httpResponse);
         }
         try {
-
+            if (!this.verificationConfig.getEnabled()) {
+                response = httpUtil.getForbiddenResponse("The verification service is disabled or not available!");
+                response.data = false;
+                return httpUtil.buildResponse(response, httpResponse);
+            }
             if (credential == null) {
                 response = httpUtil.getBadRequest();
                 return httpUtil.buildResponse(response, httpResponse);
@@ -104,7 +107,7 @@ public class VerificationController {
             JsonNode verifiedResponse = null;
             try {
                 verifiedResponse = walletService.startVerification(credential);
-            } catch (Exception e){
+            } catch (Exception e) {
                 response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
                 response.data = false;
                 return httpUtil.buildResponse(response, httpResponse);
@@ -115,7 +118,7 @@ public class VerificationController {
                 return httpUtil.buildResponse(response, httpResponse);
             }
 
-            if (! verifiedResponse.has("verified")) {
+            if (!verifiedResponse.has("verified")) {
                 response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
                 response.data = false;
                 return httpUtil.buildResponse(response, httpResponse);

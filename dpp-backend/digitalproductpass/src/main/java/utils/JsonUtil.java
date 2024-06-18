@@ -41,6 +41,7 @@ import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -168,6 +169,24 @@ public final class JsonUtil {
      */
     public JsonNode newJsonNode(){
         return JsonNodeFactory.instance.objectNode();
+    }
+
+    /**
+     * Transforms Json File into json node
+     * <p>
+     * @param   jsonFile
+     *          the file representation to the target JSON file as a File.
+     *
+     * @return  null or Json Node if could load the content
+     *
+     */
+    public JsonNode fileToJsonNode(File jsonFile){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readTree(jsonFile);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
+        }
     }
 
     /**

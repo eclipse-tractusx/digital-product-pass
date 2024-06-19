@@ -47,6 +47,20 @@ tractusx-connector:
   participant:
     id: "<path:material-pass/data/dev/edc/participant#bpnNumber>"
 
+  iatp:
+    # Decentralized IDentifier
+    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
+      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
+    sts:
+      dim:
+        url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
+      oauth:
+        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        client:
+          id: "<path:material-pass/data/dev/edc/ssi#clientId>"
+          secret_alias: "dev-client-secret"
+
   controlplane:
     enabled: true
     image:
@@ -119,30 +133,17 @@ tractusx-connector:
         port: 9090
         # -- path for incoming api calls
         path: /consumer/metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
+
     businessPartnerValidation:
       log:
         agreementValidation: true
-          # SSI configuration
-    ssi:
-      miw:
-        url: "<path:material-pass/data/dev/edc/ssi#miwUrl>"
-        authorityId: "<path:material-pass/data/dev/edc/ssi#authorityId>"
-      oauth:
-        tokenurl: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-        client:
-          id: "<path:material-pass/data/dev/edc/ssi#clientId>"
-          secretAlias: "dev-client-secret"
-      endpoint:
-        audience: https://materialpass.dev.demo.catena-x.net/consumer
-        
+    bdrs:
+      # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
+      cache_validity_seconds: 600
+      server:
+        # URL of the BPN/DID Resolution Service - required:
+        url: "https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory"
+
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
       type: ClusterIP
@@ -179,8 +180,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env: {}
-    #  ENV_NAME: value
+    env:
+      #  ENV_NAME: value
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -305,7 +309,7 @@ tractusx-connector:
     affinity: {}
     url:
       # -- Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
-      ids: ""
+      protocol: ""
   dataplane:
     enabled: true
     image:
@@ -355,22 +359,33 @@ tractusx-connector:
       public:
         port: 8081
         path: /consumer/api/public
+      signaling:
+        port: 8083
+        path: /api/signaling
       control:
         port: 8083
         path: /consumer/api/dataplane/control
       proxy:
         port: 8186
         path: /consumer/proxy
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
+        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
       metrics:
         port: 9090
         path: /consumer/metrics
+
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias: daps-key-dev
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias: daps-crt-dev
+
     aws:
       endpointOverride: ""
       accessKeyId: ""
@@ -407,8 +422,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env: {}
-    #  ENV_NAME: value
+    env:
+      #  ENV_NAME: value
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -466,12 +484,12 @@ tractusx-connector:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -590,7 +608,7 @@ postgresql:
     username: <path:material-pass/data/dev/edc/database#user>
     password: <path:material-pass/data/dev/edc/database#password>
 
-irs-helm:
+item-relationship-service:
   enabled: true
   bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
 

@@ -28,11 +28,11 @@
       <template v-if="!data">
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
-      <template v-else-if="data.semanticId === 'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
+      <template v-else-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
         <span class="header-title">{{ $t("passportView.bpp") }}</span>
       </template>
       <template
-        v-else-if="data.semanticId === 'urn:bamm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
+        v-else-if="data.semanticId === 'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
       >
         <span class="header-title">{{ $t("passportView.tpp") }}</span>
       </template>
@@ -224,18 +224,18 @@
       </div>
     </v-container>
     <div v-else-if="data && !error">
-      <template v-if="data.semanticId === 'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
+      <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
         <PassportHeader :id="data.aspect.identification.idDmc" type="Battery ID" />
       </template>
       <template v-else>
         <PassportHeader :id="id ? id : '-'" type="ID" />
       </template>
       <div class="pass-container">
-        <template v-if="data.semanticId === 'urn:bamm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
+        <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
           <BatteryCards :data="data" />
         </template>
         <template
-          v-else-if="data.semanticId == 'urn:bamm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
+          v-else-if="data.semanticId == 'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
         >
           <TransmissionCards :data="data" />
         </template>
@@ -292,8 +292,6 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
-import MOCK from "../assets/batteryv6.json";
-import VC from "../assets/vc.json";
 
 export default {
   name: "PassportView",
@@ -320,8 +318,7 @@ export default {
       declineContractModal: false,
       showContractModal: true,
       auth: inject("authentication"),
-      data: MOCK,
-      VC: VC,
+      data: null,
       loading: false,
       searchResponse: null,
       declineLoading: false,
@@ -409,7 +406,6 @@ export default {
   async created() {
     // this.backendService = new BackendService();
     // this.searchContracts();
-    this.getAspectData();
   },
   methods: {
     processAspectData(dataAspect) {
@@ -644,6 +640,7 @@ export default {
       this.showOverlay = false;
       this.loading = true;
       let result = null;
+      let aspect = null;
       let contracts = jsonUtil.get("data.contracts", searchResponse);
       let token = jsonUtil.get("data.token", searchResponse);
       let processId = jsonUtil.get("data.id", searchResponse);
@@ -709,11 +706,27 @@ export default {
             }
 
             // process aspect data based on vc or not vc is available
-            // todo
-            let aspect = passportUtil.getAspectData(this.data);
+            // case 1: if verifiable credntials vc is not present in data (vc=false),
+            // then only passport is shown without verification details
+            if (!this.data["verification"]["vc"]) aspect = jsonUtil.get("data.aspect", this.data);
+
+            // case 2: if verifiable credntials vc is present in data (vc=true),
+            // then passport with verification details is shown
+            if (this.data["verification"]["vc"]) aspect = passportUtil.getAspectData(this.data);
+
+            // case 3: no data in aspect is found
+            if (aspect == null) {
+              this.error = true;
+              this.errorObj.title = "The aspect is not found";
+              this.errorObj.description =
+                "Unfortunatly, the aspect data is not found with semantic id  [" + passportSemanticId + "].";
+              this.errorObj.status = 422;
+              this.errorObj.statusText = "The aspect data does not exist!";
+              this.errorObj.reload = false;
+            }
 
             this.data = configUtil.normalizePassport(
-              aspect,
+              jsonUtil.get("data.aspect", aspect),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data)
             );

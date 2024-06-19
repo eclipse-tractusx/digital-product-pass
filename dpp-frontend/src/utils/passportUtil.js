@@ -97,26 +97,25 @@ export default {
             return {};
         }
     },
-    getAspectData(vc) {
+    getAspectData(data) {
         try {
             let property = null;
             let semanticId = null;
             let dataAspect = null;
-            if (this.VC == null) return "passportView -> No aspect data found in Verifiable Credentials";
-            if (!jsonUtil.isIn(this.VC, "semanticId")) return "passportView -> The semanticId property does not exist";
-            semanticId = jsonUtil.getValue(this.VC, "semanticId");
+            if (data == null) return dataAspect;
+            if (!jsonUtil.isIn(data, "semanticId")) return dataAspect;
+            semanticId = jsonUtil.getValue(data, "semanticId");
 
             // Split semanticId to retrieve the aspect
             property = semanticId.split("#")[1].toString();
-            if (property != null) {
-                let aspectId = "credentialSubject." + property;
-                dataAspect = jsonUtil.get(aspectId, this.VC);
-                if (dataAspect == null) return "passportView -> No aspect data found";
-                console.log(dataAspect);
-                return dataAspect;
-            }
+            if (property == null) return dataAspect;
+            let aspectId = "aspect.credentialSubject." + property;
+            dataAspect = jsonUtil.get(aspectId, data);
+            if (dataAspect == null) return dataAspect;
+            return dataAspect;
         } catch (e) {
-            console.log("passportView -> " + e);
+            console.error.log(e); // Print error message
+            return {};
         }
     },
 };

@@ -31,68 +31,21 @@
           class="pa-0 ma-0"
           v-if="
             callHasContent(
-              callCurrentData.active?.other ||
-                callCurrentData.hazardous ||
-                callCurrentData.substancesOfConcern
+              callCurrentData.hazardous || callCurrentData.substancesOfConcern
             )
           "
         >
-          <template v-if="callCurrentData.active?.other">
-            <template v-for="attr in callCurrentData.active.other" :key="attr">
-              <div class="element-chart-label">
-                {{ $t("sections.materials.otherMaterials") }}
-              </div>
-              <template
-                v-for="attrChild in attr.materialIdentification"
-                :key="attr"
-              >
-                <Field
-                  :icon="callIconFinder('materialIdentification')"
-                  :value="attrChild.name"
-                  :label="$t('sections.materials.name')"
-                />
-                <Field
-                  :icon="callIconFinder('materialIdentification')"
-                  :value="attrChild.type + ':' + ' ' + attrChild.id"
-                  :label="$t('sections.materials.materialIdentification')"
-                />
-              </template>
-              <Field
-                :icon="callIconFinder(attr.location)"
-                :value="attr.location"
-                :label="$t('sections.materials.location')"
-              />
-              <Field
-                :icon="callIconFinder('recycledContent')"
-                :value="attr.recycled"
-                :label="$t('sections.materials.recycledContent')"
-                unit="%"
-              />
-
-              <template v-for="attrChild in attr.documentation" :key="attr">
-                <Field
-                  :icon="callIconFinder('serial')"
-                  :value="attrChild.content"
-                  :label="attrChild.header"
-                />
-              </template>
-            </template>
-          </template>
           <template v-if="callCurrentData.hazardous">
             <div class="element-chart-label">
               {{ $t("sections.materials.hazardous") }}
             </div>
-            <template
-              v-for="(attr, key) in callCurrentData.hazardous"
-              :key="key"
-            >
-              <Field
-                :icon="callIconFinder(key)"
-                :value="attr.concentration"
-                unit="%"
-                :label="key"
+
+            <div class="chart">
+              <Doughnut
+                :data="processData(callCurrentData.hazardous)"
+                :options="options"
               />
-            </template>
+            </div>
           </template>
           <template v-if="callCurrentData.substancesOfConcern">
             <template
@@ -244,11 +197,18 @@
         </v-col>
         <template v-if="callCurrentData.composition">
           <v-col sm="12" md="4" class="pa-0 ma-0">
-            <div class="element-chart-label"></div>
+            <div class="element-chart-label" style="margin-bottom: 15px">
+              {{ $t("sections.materials.composition") }}
+            </div>
             <template
               v-if="this.numberOfLocations == 1 || this.numberOfLocations > 2"
             >
-              <Doughnut :data="chart" :options="options" />
+              <div class="chart">
+                <Doughnut
+                  :data="processData(callCurrentData.composition)"
+                  :options="options"
+                />
+              </div>
             </template>
             <template v-else>
               <div class="battery-graph">
@@ -275,7 +235,7 @@
                           : 'align-self: flex-end'
                       "
                     >
-                      {{ detail.title }}
+                      {{ detail.location }}
                     </div>
                     <div class="composition-bar-container">
                       <div
@@ -321,11 +281,12 @@
           <div class="element-chart-label" style="margin-bottom: 15px">
             {{ $t("sections.materials.recyclateContent") }}
           </div>
-
-          <ElementChart
-            :data="callCurrentData.active"
-            style="margin-left: 12px"
-          />
+          <div class="chart">
+            <Doughnut
+              :data="processData(callCurrentData.active)"
+              :options="options"
+            />
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -361,6 +322,7 @@ export default {
       chart: null,
       options: {
         responsive: true,
+        aspectRatio: 0.9,
       },
       numberOfLocations: 0,
       formattedComposition: [],
@@ -384,21 +346,99 @@ export default {
     callToSentenceCase(data) {
       return passportUtil.toSentenceCase(data);
     },
+    callUnitRemover(unit) {
+      return passportUtil.unitRemover(unit);
+    },
+
+    processData(data) {
+      const labels = [];
+      const datasetsData = [];
+      const backgroundColors = [];
+
+      const colorPalette = [
+        "#676BC6",
+        "#FFEBCC",
+        "#FFD700",
+        "#BDB76B",
+        "#FF4500",
+        "#2E8B57",
+        "#D2691E",
+        "#88982D",
+        "#428C5B",
+      ];
+
+      if (data) {
+        let colorIndex = 0;
+
+        for (const key in data) {
+          const substance = data[key];
+
+          if (Array.isArray(substance)) {
+            substance.forEach((sub) => {
+              const unit = sub.recycled ? "%" : sub.materialUnit;
+              const value = sub.recycled ? sub.recycled : sub.concentration;
+              const label = `${
+                sub.materialIdentification[0].name
+              }: ${value} ${this.callUnitRemover(unit)} (${sub.location})`;
+              labels.push(label);
+              datasetsData.push(value);
+              backgroundColors.push(
+                colorPalette[colorIndex % colorPalette.length]
+              );
+              colorIndex++;
+            });
+          } else {
+            const unit = substance.recycled ? "%" : substance.materialUnit;
+            const value = substance.recycled
+              ? substance.recycled
+              : substance.concentration;
+            const label = `${
+              Array.isArray(data) ? substance.id[0].name : key
+            }: ${value} ${this.callUnitRemover(unit)} (${substance.location})`;
+            labels.push(label);
+            datasetsData.push(value);
+            backgroundColors.push(
+              colorPalette[colorIndex % colorPalette.length]
+            );
+            colorIndex++;
+          }
+        }
+
+        const total = datasetsData.reduce((acc, curr) => acc + curr, 0);
+        if (total < 100) {
+          const missingValue = 100 - total;
+          labels.push("Other");
+          datasetsData.push(missingValue);
+          backgroundColors.push("#D3D3D3");
+        }
+      }
+
+      return {
+        labels,
+        datasets: [
+          {
+            backgroundColor: backgroundColors,
+            data: datasetsData,
+          },
+        ],
+      };
+    },
     parseData() {
       const compositionsByLocation = {};
 
       this.callCurrentData.composition.forEach((item) => {
-        const { location, id, concentration, unit } = item;
+        const { location, id, recycled } = item;
         if (!compositionsByLocation[location]) {
           compositionsByLocation[location] = {
-            title: `${this.$t("sections.materials.compositionOf")} ${location}`,
+            title: `${id[0].name}: ${recycled} % (${location})`,
+            location: location,
             composition: [],
           };
         }
         compositionsByLocation[location].composition.push({
           label: id[0].name,
-          value: concentration,
-          unit: unit || "%",
+          value: recycled,
+          unit: "%",
         });
       });
 
@@ -433,6 +473,7 @@ export default {
     prepareChartData() {
       this.chart = {
         labels: this.formattedComposition.map((comp) => comp.title),
+
         datasets: [
           {
             data: this.formattedComposition.map((comp) =>

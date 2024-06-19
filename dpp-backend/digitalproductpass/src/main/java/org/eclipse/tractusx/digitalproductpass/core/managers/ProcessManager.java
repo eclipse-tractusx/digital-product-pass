@@ -69,14 +69,14 @@ public class ProcessManager {
     private FileUtil fileUtil;
     private @Autowired ProcessConfig processConfig;
     private @Autowired Environment env;
-    private final String metaFileName = "meta";
-    private final String datasetFileName = "dataset";
-    private final String negotiationFileName = "negotiation";
-    private final String transferFileName = "transfer";
-    private final String processDataModelName = "processDataModel";
-    private final String digitalTwinFileName = "digitalTwin";
-    private final String passportFileName = "passport";
-    private final String searchFileName = "search";
+    public final String metaFileName = "meta";
+    public final String datasetFileName = "dataset";
+    public final String negotiationFileName = "negotiation";
+    public final String transferFileName = "transfer";
+    public final String processDataModelName = "processDataModel";
+    public final String digitalTwinFileName = "digitalTwin";
+    public final String passportFileName = "passport";
+    public final String searchFileName = "search";
 
     /** CONSTRUCTOR(S) **/
     @Autowired

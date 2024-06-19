@@ -179,6 +179,15 @@ configuration:
       endpoints:
         health: "/health"
         verify: "/verify"
+    certifiedDataCredential:
+      ## -- These keys are used in order to find if a subModel contains a verifiable credential
+      semanticIdKeys:
+        - key: "Entity"
+          value: "https://www.w3.org/ns/credentials/v2"
+        - key: "DataElement"
+          value: "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+        - key: "Operation"
+          value: "https://w3c.github.io/vc-jws-2020/contexts/v1/"
 
   vault:
     type: 'local'

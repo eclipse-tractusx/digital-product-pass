@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.tractusx.digitalproductpass.core.models.catenax.Dtr;
 import org.eclipse.tractusx.digitalproductpass.core.models.irs.JobHistory;
+import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import utils.DateTimeUtil;
 
 import java.util.HashMap;
@@ -55,6 +56,9 @@ public class Status {
 
     @JsonProperty("modified")
     public Long modified;
+
+    @JsonProperty("verification")
+    public VerificationInfo verification;
 
     @JsonProperty("job")
     public JobHistory job;

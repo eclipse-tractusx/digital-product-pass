@@ -44,6 +44,8 @@ public class VerificationConfig {
     Boolean autoVerify;
     WalletConfig wallet;
 
+    CDCConfig certifiedDataCredential;
+
     /**
      * CONSTRUCTOR(S)
      **/
@@ -55,6 +57,13 @@ public class VerificationConfig {
     }
 
     public VerificationConfig() {
+    }
+
+    public VerificationConfig(Boolean enabled, Boolean autoVerify, WalletConfig wallet, CDCConfig certifiedDataCredential) {
+        this.enabled = enabled;
+        this.autoVerify = autoVerify;
+        this.wallet = wallet;
+        this.certifiedDataCredential = certifiedDataCredential;
     }
 
     /**
@@ -84,4 +93,11 @@ public class VerificationConfig {
         this.wallet = wallet;
     }
 
+    public CDCConfig getCertifiedDataCredential() {
+        return certifiedDataCredential;
+    }
+
+    public void setCertifiedDataCredential(CDCConfig certifiedDataCredential) {
+        this.certifiedDataCredential = certifiedDataCredential;
+    }
 }

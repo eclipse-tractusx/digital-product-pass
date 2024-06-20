@@ -28,11 +28,19 @@
       <template v-if="!data">
         <span class="header-title">{{ $t("passportView.dpp") }}</span>
       </template>
-      <template v-else-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
+      <template
+        v-else-if="
+          data.semanticId ===
+          'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'
+        "
+      >
         <span class="header-title">{{ $t("passportView.bpp") }}</span>
       </template>
       <template
-        v-else-if="data.semanticId === 'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
+        v-else-if="
+          data.semanticId ===
+          'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'
+        "
       >
         <span class="header-title">{{ $t("passportView.tpp") }}</span>
       </template>
@@ -225,17 +233,27 @@
     </v-container>
     <div v-else-if="data && !error">
       <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
-        <PassportHeader :id="data.aspect.identification.idDmc" type="Battery ID" />
+        <PassportHeader :id="data.aspect.identification.idDmc" type="Battery ID" :verification="data.verification" />
       </template>
-      <template v-else>
-        <PassportHeader :id="id ? id : '-'" type="ID" />
-      </template>
+      <PassportHeader
+        :id="id ? id : '-'"
+        type="ID"
+        :verification="data.verification"
+      />
       <div class="pass-container">
-        <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
+        <template
+          v-if="
+            data.semanticId ===
+            'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'
+          "
+        >
           <BatteryCards :data="data" />
         </template>
         <template
-          v-else-if="data.semanticId == 'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'"
+          v-else-if="
+            data.semanticId ==
+            'urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass'
+          "
         >
           <TransmissionCards :data="data" />
         </template>
@@ -376,6 +394,22 @@ export default {
               (Array.isArray(value) ? value.length > 0 : Object.keys(value).length > 0)
             );
           });
+        if (
+          this.data.aspect.generic &&
+          Object.keys(this.data.aspect.generic).length > 0
+        ) {
+          const unspecificKeys = Object.keys(this.data.aspect.generic).filter(
+            (key) => {
+              const value = this.data.aspect.generic[key];
+              return (
+                typeof value === "object" &&
+                value !== null &&
+                (Array.isArray(value)
+                  ? value.length > 0
+                  : Object.keys(value).length > 0)
+              );
+            }
+          );
           // Merge unspecificKeys ensuring no duplicates
           dataKeys = Array.from(new Set([...dataKeys, ...unspecificKeys]));
         }
@@ -415,7 +449,9 @@ export default {
         dataKeys = dataKeys.filter((key) => {
           const value = dataAspect[key];
           if (typeof value === "object" && value !== null) {
-            return Array.isArray(value) ? value.length > 0 : Object.keys(value).length > 0;
+            return Array.isArray(value)
+              ? value.length > 0
+              : Object.keys(value).length > 0;
           } else if (Array.isArray(value) && value !== null) {
             return value.length > 0;
           }

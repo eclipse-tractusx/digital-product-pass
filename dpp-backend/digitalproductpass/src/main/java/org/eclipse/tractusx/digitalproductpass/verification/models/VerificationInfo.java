@@ -50,13 +50,20 @@ public class VerificationInfo {
     public Boolean vc;
     @JsonProperty("verified")
     public Boolean verified;
+    @JsonProperty("error")
+    public String error;
     @JsonProperty("owner")
     public String owner;
     @JsonProperty("issuer")
     public String issuer;
     @JsonProperty("wallet")
     public String wallet;
-
+    @JsonProperty("issuedAt")
+    public String issuedAt;
+    @JsonProperty("expiresAt")
+    public String expiresAt;
     @JsonProperty("proof")
     public Proof proof;
+
+
 }

@@ -56,6 +56,9 @@ import org.eclipse.tractusx.digitalproductpass.core.services.AasService;
 import org.eclipse.tractusx.digitalproductpass.core.services.DataPlaneService;
 import org.eclipse.tractusx.digitalproductpass.core.services.IrsService;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ControllerException;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.manager.VerificationManager;
+import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -104,6 +107,10 @@ public class AppController {
     IrsConfig irsConfig;
     @Autowired
     DtrConfig dtrConfig;
+    @Autowired
+    VerificationConfig verificationConfig;
+    @Autowired
+    VerificationManager verificationManager;
 
     @Autowired
     PassportConfig passportConfig;
@@ -233,7 +240,20 @@ public class AppController {
             processManager.saveTransferInfo(processId, connectorAddress, semanticId, dataPlaneUrl, bpn, childrenCondition);
             processManager.saveDigitalTwin(processId, digitalTwin, dtRequestTime);
 
-            // IRS FUNCTIONALITY START
+            /* ADD-ONs which use the Digital Twin and SubModel which must be available here! */
+
+            // Verification Add-on Functionality
+            if(this.verificationConfig.getEnabled()) {
+                String path = this.verificationManager.setVerificationStatus(processId, subModel, bpn);
+                if(path == null){
+                    processManager.setStatus(processId, "verification-check-failed", new History(
+                            subModel.getIdentification(),
+                            "VERIFICATION-CHECK-FAILED"
+                    ));
+                }
+            }
+
+            // IRS Add-on Functionality
             if(this.irsConfig.getEnabled() && search.getChildren()) {
                 // Update tree
                 String globalAssetId = digitalTwin.getGlobalAssetId();
@@ -323,15 +343,31 @@ public class AppController {
             if (passport == null) {
                 return httpUtil.buildResponse(httpUtil.getNotFound("Passport not found in data plane!"), httpResponse);
             }
-            String passportPath = processManager.savePassport(processId, endpointData, passport);
 
-            LogUtil.printMessage("[EDC] Passport Transfer Data [" + endpointData.getId() + "] Saved Successfully in [" + passportPath + "]!");
+            if(!verificationConfig.getEnabled() || !verificationConfig.getAutoVerify()){
+                return this.savePassport(processId, endpointData, passport);
+            }
+            verificationManager.setVerificationStarted(processId);
+
+            VerificationInfo verificationInfo = status.getVerification();
+
+            if(verificationInfo.vc){
+               verificationInfo = verificationManager.buildVerification(passport, verificationInfo);
+            }
+
+            verificationManager.setVerificationInfo(processId, verificationInfo);
+            return this.savePassport(processId, endpointData, passport);
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");
             return httpUtil.buildResponse(httpUtil.getForbiddenResponse(), httpResponse);
         }
-        return httpUtil.buildResponse(httpUtil.getResponse("ok"), httpResponse);
     }
 
-
+    public Response savePassport(String processId, EndpointDataReference endpointData, JsonNode passport){
+        String passportPath = processManager.savePassport(processId, endpointData, passport);
+        if(passportPath != null) {
+            LogUtil.printMessage("[EDC] Passport Transfer Data [" + endpointData.getId() + "] Saved Successfully in [" + passportPath + "]!");
+        }
+        return httpUtil.buildResponse(httpUtil.getResponse("ok"), httpResponse);
+    }
 }

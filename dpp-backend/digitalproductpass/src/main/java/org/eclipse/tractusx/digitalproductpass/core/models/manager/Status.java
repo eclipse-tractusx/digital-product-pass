@@ -252,6 +252,24 @@ public class Status {
         this.dtr = dtr;
     }
 
+    public Status(String id, String status, Long created, Long modified, VerificationInfo verification, JobHistory job, String endpoint, String dataPlaneUrl, String bpn, String providerBpn, Boolean children, String treeState, Map<String, History> history, String semanticId, Dtr dtr) {
+        this.id = id;
+        this.status = status;
+        this.created = created;
+        this.modified = modified;
+        this.verification = verification;
+        this.job = job;
+        this.endpoint = endpoint;
+        this.dataPlaneUrl = dataPlaneUrl;
+        this.bpn = bpn;
+        this.providerBpn = providerBpn;
+        this.children = children;
+        this.treeState = treeState;
+        this.history = history;
+        this.semanticId = semanticId;
+        this.dtr = dtr;
+    }
+
 
     public String getId() {
         return id;
@@ -386,6 +404,14 @@ public class Status {
 
     public void setProviderBpn(String providerBpn) {
         this.providerBpn = providerBpn;
+    }
+
+    public VerificationInfo getVerification() {
+        return verification;
+    }
+
+    public void setVerification(VerificationInfo verification) {
+        this.verification = verification;
     }
 }
 

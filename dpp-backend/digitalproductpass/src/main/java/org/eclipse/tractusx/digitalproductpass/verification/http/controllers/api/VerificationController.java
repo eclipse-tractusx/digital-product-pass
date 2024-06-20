@@ -106,7 +106,7 @@ public class VerificationController {
             }
             JsonNode verifiedResponse = null;
             try {
-                verifiedResponse = walletService.startVerification(credential);
+                verifiedResponse = walletService.verifyCredential(credential);
             } catch (Exception e) {
                 response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
                 response.data = false;

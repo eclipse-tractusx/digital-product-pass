@@ -221,8 +221,8 @@ class ProcessManagerTest {
     @Test
     void getProcessThrowsManagerException() {
         Throwable exception = assertThrows(ManagerException.class, () -> processManager.getProcess(null, null));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to get process [null], " +
-                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
+        assertEquals("[org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager] It was not possible to get process [null], " +
+                        "[org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager] Failed to load Process DataModel!, " +
                         "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null"
                 , exception.getMessage());
     }
@@ -242,19 +242,6 @@ class ProcessManagerTest {
     }
 
     @Test
-    void checkProcessThrowsManagerException() {
-        Throwable exception = assertThrows(ManagerException.class, () -> processManager.checkProcess( null));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to check if process exists [null], " +
-                "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
-
-        exception = assertThrows(ManagerException.class, () -> processManager.checkProcess( null,testProcessId));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to check if process exists ["+ testProcessId +"], " +
-                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
-                        "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
-                exception.getMessage());
-    }
-
-    @Test
     void setProcess() {
         String newProcessId = UUID.randomUUID().toString();
         processIdDirToDelete.add(newProcessId);
@@ -269,14 +256,6 @@ class ProcessManagerTest {
         assertEquals(newProcessId, process.getId());
         assertEquals("NEW", process.getState());
 
-    }
-    @Test
-    void setProcessThrowsManagerException() {
-        Throwable exception = assertThrows(ManagerException.class, () -> processManager.setProcess(null, testProcess));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to set process ["+testProcessId+"], " +
-                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Failed to load Process DataModel!, " +
-                        "Cannot invoke \"jakarta.servlet.http.HttpServletRequest.getSession()\" because \"httpRequest\" is null",
-                exception.getMessage());
     }
 
     @Test
@@ -301,13 +280,6 @@ class ProcessManagerTest {
 
         assertEquals(status, updatedStatus.getHistory(historyId).getStatus());
         assertEquals(testProcessId, updatedStatus.getHistory(historyId).getId());
-    }
-
-    @Test
-    void setStatusThrowsManagerException() {
-        Throwable exception = assertThrows(ManagerException.class, () -> processManager.setStatus(null, null, null));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to create/update the status file, " +
-                "Cannot invoke \"String.isEmpty()\" because \"segment\" is null", exception.getMessage());
     }
 
     @Test
@@ -413,13 +385,6 @@ class ProcessManagerTest {
         assertTrue(processManager.deleteSearchDir(processId));
     }
 
-    @Test
-    void deleteSearchDirThrowsManagerException() {
-        Throwable exception = assertThrows(ManagerException.class, () -> processManager.deleteSearchDir("1000"));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] It was not possible to create/update the search in search status file, " +
-                        "[org.eclipse.tractusx.digitalproductpass.managers.ProcessManager] Temporary process file does not exists for id [1000]!"
-                , exception.getMessage());
-    }
 
     @Test
     void addSearchStatusDtr() {

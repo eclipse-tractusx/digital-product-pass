@@ -131,11 +131,11 @@ public class WalletService extends BaseService {
      * Starts a Job in the IRS for a specific globalAssetId with the param BPN
      * <p>
      *
-     * @param requestBody the {@code String} request body containing verifiable content
+     * @param verifiableCredential the {@code String} request body containing verifiable credential content
      * @return a {@code Map<String, String>} map object with the irs first response
      * @throws ServiceException if unable to start the verification process
      */
-    public JsonNode startVerification(JsonNode requestBody) {
+    public JsonNode verifyCredential(JsonNode verifiableCredential) {
         try {
             this.checkEmptyVariables();
             String url = this.walletUrl + this.verifyEndpoint;
@@ -143,7 +143,7 @@ public class WalletService extends BaseService {
             headers.add("Content-Type", "application/vc+ld+json"); // Verifiable credential type
             headers.add("BPN", this.bpn); // Add BPN to the request
 
-            ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), requestBody, false, false);
+            ResponseEntity<?> response = httpUtil.doPost(url, JsonNode.class, headers, httpUtil.getParams(), verifiableCredential, false, false);
             return (JsonNode) response.getBody();
         } catch (Exception e) {
             throw new ServiceException(this.getClass().getName() + "." + "startVerification",

@@ -53,11 +53,14 @@ import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.C
 import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.Dataset;
 import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.manager.VerificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,6 +76,8 @@ public class ContractService extends BaseService {
     /** ATTRIBUTES **/
     private @Autowired DataTransferService dataService;
     private @Autowired AasService aasService;
+    private @Autowired VerificationManager verificationManager;
+    private @Autowired VerificationConfig verificationConfig;
     private @Autowired PassportConfig passportConfig;
     private @Autowired DiscoveryConfig discoveryConfig;
     private @Autowired DtrConfig dtrConfig;
@@ -854,15 +859,26 @@ public class ContractService extends BaseService {
             Map<String, Object> negotiation = processManager.loadNegotiation(processId);
             Map<String, Object> transfer = processManager.loadTransfer(processId);
             response = httpUtil.getResponse();
-            response.data = Map.of(
-                    "metadata", Map.of(
-                            "contract", dataset,
-                            "negotiation", negotiation,
-                            "transfer", transfer
-                    ),
-                    "aspect", passport,
-                    "semanticId", semanticId
+            Map<String, Object> metadata =  Map.of(
+                    "contract", dataset,
+                    "negotiation", negotiation,
+                    "transfer", transfer
             );
+            Map<String, Object> responseData = new HashMap<>() {
+                {
+                    put("metadata", metadata);
+                    put("aspect", passport);
+                    put("semanticId", semanticId);
+                }
+            };
+
+            if(verificationConfig.getEnabled()) {
+                responseData.put(
+                        "verification",
+                        verificationManager.setupVerification(status.getVerification(), passport)
+                );
+            }
+            response.data = responseData;
             return httpUtil.buildResponse(response, httpResponse);
         } catch (Exception e){
             throw new ServiceException(this.getClass().getName()+"."+"getDataCall",

@@ -23,6 +23,7 @@
  */
 
 import iconMappings from "@/config/templates/iconMappings.json";
+import jsonUtil from "./jsonUtil";
 
 export default {
     formattedDate(timestamp) {
@@ -49,9 +50,7 @@ export default {
         // Define a mapping of prefixes to icons
         const prefixToIcon = iconMappings;
         // Split the camel-cased key into separate words and lowercase them
-        const words = property
-            .split(/(?=[A-Z])/)
-            .map((word) => word.toLowerCase());
+        const words = property.split(/(?=[A-Z])/).map((word) => word.toLowerCase());
         // Check each word against the prefixToIcon mapping and take the first
         for (const word of words) {
             if (prefixToIcon[word]) {
@@ -64,7 +63,6 @@ export default {
     },
     groupSources(sources) {
         try {
-
             let mappedSources = {};
             for (let parentKey in sources) {
                 let parentSources = sources[parentKey];
@@ -98,6 +96,26 @@ export default {
             console.error.log(e); // Print error message
             return {};
         }
-    }
-};
+    },
+    getAspectData(data) {
+        try {
+            let property = null;
+            let semanticId = null;
+            let dataAspect = null;
+            if (data == null) return dataAspect;
+            if (!jsonUtil.isIn(data, "semanticId")) return dataAspect;
+            semanticId = jsonUtil.getValue(data, "semanticId");
 
+            // Split semanticId to retrieve the aspect
+            property = semanticId.split("#")[1].toString();
+            if (property == null) return dataAspect;
+            let aspectId = "aspect.credentialSubject." + property;
+            dataAspect = jsonUtil.get(aspectId, data);
+            if (dataAspect == null) return dataAspect;
+            return dataAspect;
+        } catch (e) {
+            console.error.log(e); // Print error message
+            return {};
+        }
+    },
+};

@@ -68,6 +68,14 @@ export default {
             return defaultReturn;
         }
     },
+    getValue(json, key, defaultReturn = null) {
+        try {
+            if (key == undefined || key == null) return defaultReturn;
+            return json[key];
+        } catch {
+            return defaultReturn;
+        }
+    },
     getUniqueId(originalKey, json) {
         let uniqueKey = (" " + originalKey).slice(1); // Deep Copy String
         let i = 0;
@@ -78,13 +86,13 @@ export default {
         }
         return uniqueKey; //Return unique id
     },
-    toJson(json){
+    toJson(json) {
         return JSON.parse(json);
     },
-    toJsonString(json){
+    toJsonString(json) {
         return JSON.stringify(json);
     },
-    flatternJsonAttributes(json, attributes=[], sep=".", allowNull = false, allowEmpty = false) {
+    flatternJsonAttributes(json, attributes = [], sep = ".", allowNull = false, allowEmpty = false) {
         if (json == null) return null;
         if (!(json instanceof Object)) return json;
         // Deep Copy param into objects
@@ -96,18 +104,17 @@ export default {
         while (keys.length > 0) {
             // While it still has keys
             for (let index in keys) {
-
                 // Interate over keys
                 let parentKey = keys[index]; // Get key value in array
                 let parent = this.get(parentKey, objects, sep, null); // Get current node value
-    
+
                 if (parent == null) {
                     // If nulls are not allowed
                     continue;
                 }
 
                 let tmpObjects = this.deleteDeepKey(parentKey, objects, sep, null); // Delete current node from interation object
-                if(tmpObjects == null){
+                if (tmpObjects == null) {
                     continue;
                 }
                 objects = this.deepCopy(tmpObjects);
@@ -318,44 +325,44 @@ export default {
         for (let i = 0; i < keys.length; i++) {
             let element = keys[i];
             if (!this.isIn(tempSourceObj, element)) {
-                continue
+                continue;
             }
             delete tempSourceObj[element];
         }
         return tempSourceObj;
     },
-    deleteDeepKey(ref,json,  sep = ".", defaultReturn = null ) {
+    deleteDeepKey(ref, json, sep = ".", defaultReturn = null) {
         try {
             let tmpJson = this.copy(json);
             let refs = ref.split(sep);
-            if(refs.length == 1){
-                if(!Object.prototype.hasOwnProperty.call(tmpJson, ref)){
+            if (refs.length == 1) {
+                if (!Object.prototype.hasOwnProperty.call(tmpJson, ref)) {
                     throw new Error("deleteDeepKey: Key [" + ref + "] is not defined in json");
                 }
-                delete tmpJson[ref]
+                delete tmpJson[ref];
                 return tmpJson;
             }
             let lastRef = refs.pop();
             let parentPath = refs.join(sep);
             let parent = this.get(parentPath, json, sep, null);
-            if(parent == null){
+            if (parent == null) {
                 throw new Error("deleteDeepKey: Parent [" + parentPath + "] does not exist!");
             }
-            if(!Object.prototype.hasOwnProperty.call(parent, lastRef)){
+            if (!Object.prototype.hasOwnProperty.call(parent, lastRef)) {
                 throw new Error("deleteDeepKey: Key [" + lastRef + "] does not exists in parent!");
             }
             delete parent[lastRef];
 
-            return this.set(parentPath, parent,tmpJson, sep, defaultReturn);
+            return this.set(parentPath, parent, tmpJson, sep, defaultReturn);
         } catch {
             return defaultReturn;
         }
     },
-    set(ref, data, json, sep = ".", defaultReturn = null){
-        try{
+    set(ref, data, json, sep = ".", defaultReturn = null) {
+        try {
             let tmpObject = {};
             let refs = ref.split(sep);
-            if(refs.length == 1){
+            if (refs.length == 1) {
                 tmpObject = this.copy(json);
                 tmpObject[ref] = data;
                 return tmpObject;
@@ -365,26 +372,26 @@ export default {
             let part;
             let parentPath;
             let tmpParent = null;
-            for(let i = refs.length - 1; i >= 0; i--){
-                tmpObject = {}
+            for (let i = refs.length - 1; i >= 0; i--) {
+                tmpObject = {};
                 part = refs[i];
-                currentPath = currentPath.filter(e => e !== part);
+                currentPath = currentPath.filter((e) => e !== part);
                 parentPath = currentPath.join(sep);
                 tmpParent = this.get(parentPath, json, sep, {});
                 tmpObject[part] = tmpValue;
                 tmpParent = this.extend(tmpParent, tmpObject);
                 tmpValue = tmpParent;
             }
-            if(tmpParent == null){
+            if (tmpParent == null) {
                 return defaultReturn;
             }
             return this.extend(json, tmpParent);
-        }catch {
+        } catch {
             return defaultReturn;
         }
     },
-    extendDeep(originJson, json){
-        if(!json){
+    extendDeep(originJson, json) {
+        if (!json) {
             return originJson;
         }
         if (!(json instanceof Object)) return originJson;
@@ -414,7 +421,7 @@ export default {
                 for (let childKey in parent) {
                     // Interate over children
                     let child = parent[childKey]; // Get children
-                    
+
                     if (child == null) {
                         // Skip null children
                         continue;
@@ -432,9 +439,8 @@ export default {
                         keys.push(childstoreKey);
                     }
                 }
-
             }
         }
         return retObject; // Return clean objects
-    }
+    },
 };

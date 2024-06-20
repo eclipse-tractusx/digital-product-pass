@@ -708,16 +708,27 @@ export default {
             // process aspect data based on vc or not vc is available
             // case 1: if verifiable credntials vc is not present in data (vc=false),
             // then only passport is shown without verification details
-            if (!this.data["verification"]["vc"]) aspect = jsonUtil.get("data.aspect", this.data);
+            if (!this.data["verification"]) {
+              this.error = true;
+              this.errorObj.title = "The verification not found";
+              this.errorObj.description =
+                "Unfortunatly, the verification data is not found with semantic id  [" + passportSemanticId + "].";
+              this.errorObj.status = 422;
+              this.errorObj.statusText = "The verification data does not exist!";
+              this.errorObj.reload = false;
+            }
+            if (this.data["verification"]) {
+              if (!this.data["verification"]["vc"]) aspect = jsonUtil.get("data.aspect", this.data);
 
-            // case 2: if verifiable credntials vc is present in data (vc=true),
-            // then passport with verification details is shown
-            if (this.data["verification"]["vc"]) aspect = passportUtil.getAspectData(this.data);
+              // case 2: if verifiable credntials vc is present in data (vc=true),
+              // then passport with verification details is shown
+              if (this.data["verification"]["vc"]) aspect = passportUtil.getAspectData(this.data);
+            }
 
             // case 3: no data in aspect is found
             if (aspect == null) {
               this.error = true;
-              this.errorObj.title = "The aspect is not found";
+              this.errorObj.title = "The aspect not found";
               this.errorObj.description =
                 "Unfortunatly, the aspect data is not found with semantic id  [" + passportSemanticId + "].";
               this.errorObj.status = 422;

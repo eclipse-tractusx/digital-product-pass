@@ -22,7 +22,27 @@ SPDX-License-Identifier: CC-BY-4.0
 -->
 
 # Release Notes Digital Product Pass Application
-User friendly relase notes without especific technical details.
+User friendly relase notes without specific technical details.
+
+
+
+**June 19 2024 (Version 3.1.0)**
+*19.06.2024*
+
+### Updated
+
+#### Support of new data models:
+
+The frontend component from the Digital Product Pass application  is now adapted to support the following new models:
+- Digital Product Pass `v2.0.0` to `v5.0.0`
+- Battery Pass `v3.0.1` to `6.0.0`
+- Transmission Pass `v1.0.0` to `3.0.0`
+
+This adaption deprecates and removed the retro-compatibility from the old models.
+
+#### Update licensing for the non-code licensed documentation
+
+There was a change from legal documentation. Instead of Apache-2.0 licensing in documentation, it now supports non-code licensing in license headers and NOTICE sections. This is a default license from the Creative Commons Attribution 4.0 International (CC-BY-4.0).
 
 
 **May 13 2024 (Version 3.0.0)**

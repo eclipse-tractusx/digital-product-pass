@@ -28,6 +28,49 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+## [released]
+## [v3.1.0] - 19-06-2024
+### Added
+
+- Added a new file `LICENSE_non-code` file in root level with the contents of the CC-BY-4.0 license
+- Added dpp-tutorial to step-by-step guide (readme files) of DPP worksession at the Tractus-X Community Days:
+    - deployment.md
+    - data-provision.md
+    - aspect-model.md
+    - data-consumption.md
+    - digital-twin-provision.md
+    - qr-code.md
+
+
+### Updated
+
+- Updated the contents of "Project Licenses" and "Terms of Use" sections to the `CONTRIBUTING.md` file
+- Updated "Declared Project License" section in `NOTICE.md`.
+- Updated the license header and notices to following readme files:
+  - main README.md
+  - /docs/*
+  - /dpp-backend/*
+  - /dpp-tutorial/*
+  - /deployment/*
+  - /dpp-verification/*
+  - AUTHORS.md
+  - SECURITY.md
+  - INSTALL.md
+  - NOTICE.md
+  - CONTRIBUTING.md
+  - CHANGELOG.md
+- Updated dpp-frontend to support the following new models:
+    - Digital Product Pass `v5.0.0`
+    - Battery Pass `6.0.0`
+    - Transmission Pass `3.0.0`
+- Updated EDC version `v0.7.0`
+- Updated IRS version `v7.1.3`
+
+ ### Issues Fixed
+ - Fixed token refresh for keycloak plugin in frontend
+ - Fixed IRS configuration keys in docker entrypoint script for frotnend
+ - Fixed CORS issue in frontend #274
+
 
 ## [released]
 ## [v3.0.0] - 13-05-2024

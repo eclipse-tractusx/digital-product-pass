@@ -116,6 +116,33 @@
             : ''
         "
       />
+      <!-- Passport Verification -->
+      <template v-if="statusData.data.history['verification-started']">
+        <template v-if="statusData.data.history['verification-failed']">
+          <StepperItemFail
+            :condition="statusData.data.history['verification-failed']"
+            :stepTitle="$t(this.stepsNames.verification.stepTitle)"
+            :successStepSubTitle="
+              $t(this.stepsNames.verification.failedStepSubtitle)
+            "
+            :initialStepSubTitle="
+              $t(this.stepsNames.verification.initialStepSubtitle)
+            "
+          />
+        </template>
+        <template v-else>
+          <StepperItem
+            :condition="statusData.data.history['verification-completed']"
+            :stepTitle="$t(this.stepsNames.verification.stepTitle)"
+            :successStepSubTitle="
+              $t(this.stepsNames.verification.successStepSubtitle)
+            "
+            :initialStepSubTitle="
+              $t(this.stepsNames.verification.initialStepSubtitle)
+            "
+          />
+        </template>
+      </template>
       <!-- Passport Retrieval step -->
       <StepperItem
         :condition="statusData.data.history['data-received']"
@@ -134,11 +161,13 @@
 <script>
 import { mapState } from "vuex";
 import StepperItem from "./StepperItem.vue";
+import StepperItemFail from "./StepperItemFail.vue";
 
 export default {
   name: "LoadingComponent",
   components: {
     StepperItem,
+    StepperItemFail,
   },
   data() {
     return {
@@ -166,6 +195,13 @@ export default {
           stepTitle: "loading.contractTransfer",
           initialStepSubtitle: "loading.transferring",
           successStepSubtitle: "loading.transferCompleted",
+          progressValue: 15,
+        },
+        verification: {
+          stepTitle: "loading.verification",
+          initialStepSubtitle: "loading.verifying",
+          successStepSubtitle: "loading.verified",
+          failedStepSubtitle: "loading.verificationFailed",
           progressValue: 15,
         },
         passportRetrieval: {

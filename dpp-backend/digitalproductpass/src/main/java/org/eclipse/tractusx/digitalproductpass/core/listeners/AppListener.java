@@ -34,6 +34,7 @@ import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
 import org.eclipse.tractusx.digitalproductpass.core.models.catenax.Discovery;
 import org.eclipse.tractusx.digitalproductpass.core.services.CatenaXService;
 import org.eclipse.tractusx.digitalproductpass.core.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -75,6 +76,9 @@ public class AppListener {
     AuthenticationService authService;
     @Autowired
     VaultService vaultService;
+
+    @Autowired
+    VerificationConfig verificationConfig;
     @Autowired
     HttpUtil httpUtil;
     @Autowired
@@ -187,6 +191,16 @@ public class AppListener {
                                 + appId + " ]");
             }
             LogUtil.printMessage("========= [ AUTHORIZATION PRE-CHECKS COMPLETED ] ================================");
+            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS STARTED ] ============================");
+            if(verificationConfig.getEnabled()){
+                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is enabled!");
+                if(verificationConfig.getAutoVerify()){
+                    LogUtil.printMessage("[ DPP VERIFICATION ] The auto verification is enabled, Certified Data Credentials will be verified automatically!");
+                }
+            }else{
+                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is disabled!");
+            }
+            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS COMPLETED ] ===========================");
         } catch (Exception e) {
             throw new IncompatibleConfigurationException(e.getMessage());
         }

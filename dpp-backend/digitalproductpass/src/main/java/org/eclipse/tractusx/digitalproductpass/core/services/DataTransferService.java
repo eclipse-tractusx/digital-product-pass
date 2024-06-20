@@ -477,7 +477,7 @@ public class DataTransferService extends BaseService {
             Object rawPolicy = dataset.getPolicy();
             org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set policy = null;
             if (rawPolicy instanceof LinkedHashMap) {
-                policy =  org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set.build(rawPolicy);
+                policy = org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set.build(rawPolicy);
             } else {
                 List<org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set> policyList = policyUtil.parsePolicies(rawPolicy);
                 policy = policyList.stream().filter(p -> p.getId().equals(policyId)).findAny().orElse(null);

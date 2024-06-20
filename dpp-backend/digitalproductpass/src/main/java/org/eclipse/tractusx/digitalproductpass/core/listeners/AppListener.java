@@ -35,6 +35,7 @@ import org.eclipse.tractusx.digitalproductpass.core.models.catenax.Discovery;
 import org.eclipse.tractusx.digitalproductpass.core.services.CatenaXService;
 import org.eclipse.tractusx.digitalproductpass.core.services.DataTransferService;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -76,6 +77,8 @@ public class AppListener {
     AuthenticationService authService;
     @Autowired
     VaultService vaultService;
+    @Autowired
+    WalletService walletService;
 
     @Autowired
     VerificationConfig verificationConfig;
@@ -162,6 +165,29 @@ public class AppListener {
                     throw new IncompatibleConfigurationException(e.getMessage());
                 }
             }
+            // Verification Add-on Checks
+            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS STARTED ] ============================");
+            if(verificationConfig.getEnabled()){
+                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is enabled!");
+                if(verificationConfig.getAutoVerify()){
+                    LogUtil.printMessage("[ DPP VERIFICATION ] The auto verification is enabled, Certified Data Credentials will be verified automatically!");
+                }
+                if(verificationConfig.getWallet().getUrl().isEmpty()){
+                    throw new IncompatibleConfigurationException("[ DPP VERIFICATION ] [ WALLET ] No wallet url is available!");
+                }
+                if(verificationConfig.getWallet().getEndpoints().getHealth().isEmpty()){
+                    throw new IncompatibleConfigurationException("[ DPP VERIFICATION ] [ WALLET ] No wallet health url is available!");
+                }
+
+                if(!walletService.checkHealth()){
+                    throw new IncompatibleConfigurationException("[ DPP VERIFICATION ] [ WALLET ] It was not possible to verify if the wallet is healthy!");
+                }
+                LogUtil.printMessage("[ DPP VERIFICATION ] [ WALLET ] The wallet health is stable, ready to start sending verification requests!");
+            }else{
+                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is disabled!");
+            }
+            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS COMPLETED ] ===========================");
+
             SecurityConfig.AuthorizationConfig authorizationConfig = securityConfig.getAuthorization();
             Boolean bpnAuth = authorizationConfig.getBpnAuth();
             Boolean roleAuth = authorizationConfig.getRoleAuth();
@@ -191,16 +217,6 @@ public class AppListener {
                                 + appId + " ]");
             }
             LogUtil.printMessage("========= [ AUTHORIZATION PRE-CHECKS COMPLETED ] ================================");
-            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS STARTED ] ============================");
-            if(verificationConfig.getEnabled()){
-                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is enabled!");
-                if(verificationConfig.getAutoVerify()){
-                    LogUtil.printMessage("[ DPP VERIFICATION ] The auto verification is enabled, Certified Data Credentials will be verified automatically!");
-                }
-            }else{
-                LogUtil.printMessage("[ DPP VERIFICATION ] The Digital Product Pass Verification Add-on is disabled!");
-            }
-            LogUtil.printMessage("========= [ DPP VERIFICATION ADD-ON CHECKS COMPLETED ] ===========================");
         } catch (Exception e) {
             throw new IncompatibleConfigurationException(e.getMessage());
         }

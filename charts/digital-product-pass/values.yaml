@@ -184,6 +184,7 @@ backend:
     autoVerify: true
     wallet:
       url: "https://<dpp-consumer-wallet.url>"
+      apiKey: "<Add API Key>"
       endpoints:
         health: "/health"
         verify: "/verify"

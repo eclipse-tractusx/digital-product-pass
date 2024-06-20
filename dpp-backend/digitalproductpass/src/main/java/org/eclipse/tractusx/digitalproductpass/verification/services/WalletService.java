@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceException;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.core.models.edc.CheckResult;
 import org.eclipse.tractusx.digitalproductpass.core.models.service.BaseService;
 import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
@@ -40,11 +41,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import utils.CatenaXUtil;
 import utils.HttpUtil;
 import utils.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is a service responsible for handling the communication with verification of data from the wallet component.
@@ -61,6 +64,8 @@ public class WalletService extends BaseService {
     HttpUtil httpUtil;
     JsonUtil jsonUtil;
     String walletUrl;
+    String healthEndpoint;
+
     String verifyEndpoint;
     String apiKey;
     String bpn;
@@ -95,6 +100,7 @@ public class WalletService extends BaseService {
     public void init(Environment env) {
         this.walletConfig = verificationConfig.getWallet();
         this.walletUrl = this.walletConfig.getUrl();
+        this.healthEndpoint = this.walletConfig.getEndpoints().getHealth();
         this.verifyEndpoint = this.walletConfig.getEndpoints().getVerify();
         this.apiKey = (String) this.vaultService.getLocalSecret("wallet.apiKey");
         this.bpn = (String) this.vaultService.getLocalSecret("edc.participantId");
@@ -115,6 +121,9 @@ public class WalletService extends BaseService {
         if (this.walletUrl == null || this.walletUrl.isEmpty()) {
             missingVariables.add("wallet.url");
         }
+        if (this.healthEndpoint == null || this.healthEndpoint.isEmpty()) {
+            missingVariables.add("wallet.endpoints.health");
+        }
         if (this.verifyEndpoint == null || this.verifyEndpoint.isEmpty()) {
             missingVariables.add("wallet.endpoints.verify");
         }
@@ -125,6 +134,35 @@ public class WalletService extends BaseService {
             missingVariables.add("wallet.apiKey");
         }
         return missingVariables;
+    }
+    /**
+     * Health check for the wallet endpoint
+     * <p>
+     *
+     * @return a {@code Map<String, String>} map object with the irs first response
+     * @throws ServiceException if unable to start the verification process
+     */
+    public Boolean checkHealth(){
+        try {
+            this.checkEmptyVariables();
+            String endpoint = this.walletUrl + this.healthEndpoint;
+            Map<String, Object> params = httpUtil.getParams();
+            HttpHeaders headers = httpUtil.getHeaders();
+            ResponseEntity<?> response = null;
+            try {
+                response = httpUtil.doGet(endpoint, JsonNode.class, headers, params, false, false);
+            } catch (Exception e) {
+                throw new ServiceException(this.getClass().getName() + ".checkHealth", "It was not possible to get health status from the wallet endpoint ["+endpoint+"]!");
+            }
+            JsonNode responseBody = (JsonNode) response.getBody();
+            return responseBody != null;
+        } catch (Exception e) {
+            throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
+                    e,
+                    "It was not possible to get readiness status from the edc consumer!");
+        }
+
+
     }
 
     /**

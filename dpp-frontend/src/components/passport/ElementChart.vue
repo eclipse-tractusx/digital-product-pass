@@ -27,13 +27,11 @@
     <v-row>
       <div
         class="material-container"
-        v-for="(material, index) in data"
-        :key="index"
+        v-for="(material, key) in activeComposition"
+        :key="key"
       >
-        <span class="material-label">{{ material.materialName }}</span>
-        <span class="material-value">
-          {{ material.materialPercentageMassFraction }}%
-        </span>
+        <span class="material-label">{{ key }}</span>
+        <span class="material-value"> {{ material.recycled }}% </span>
       </div>
     </v-row>
   </div>
@@ -46,8 +44,32 @@ export default {
   props: {
     data: {
       type: Object,
-      default: Object,
+      default: () => ({}),
     },
+  },
+  data() {
+    return {
+      propsData: this.$props.data,
+      activeComposition: {},
+    };
+  },
+
+  methods: {
+    parseActiveComposition(activeData) {
+      const data = JSON.parse(JSON.stringify(activeData)); // Clone to avoid direct mutation
+
+      // Filter out top-level array properties
+      Object.keys(data).forEach((key) => {
+        if (Array.isArray(data[key])) {
+          delete data[key]; // Remove array properties
+        }
+      });
+
+      this.activeComposition = data; // Assign the filtered data to activeComposition
+    },
+  },
+  mounted() {
+    this.parseActiveComposition(this.propsData);
   },
 };
 </script>

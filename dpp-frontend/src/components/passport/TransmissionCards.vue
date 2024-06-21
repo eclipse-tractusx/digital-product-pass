@@ -21,7 +21,6 @@
  
   SPDX-License-Identifier: Apache-2.0
 -->
-
 <template>
   <v-container class="cards-container">
     <v-row>
@@ -98,26 +97,26 @@ export default {
         {
           title: "generalCards.titleGeneral",
           label: "generalCards.productName",
-          secondLabel: "generalCards.productType",
+          secondLabel: "transmissionCards.partID",
           icon: "mdi-pound",
-          value: this.$props.data.aspect.generalInformation
-            ? this.$props.data.aspect.generalInformation.productDescription
-            : "-",
-          secondValue: this.$props.data.aspect.generalInformation
-            ? this.$props.data.aspect.generalInformation.productType
-            : "-",
+          value:
+            this.$props.data.aspect.generic?.identification?.type
+              ?.nameAtManufacturer,
+          secondValue:
+            this.$props.data.aspect.generic?.identification?.type
+              ?.manufacturerPartId,
         },
         {
           title: "generalCards.titleManufacturing",
           label: "generalCards.manufacturerId",
           secondLabel: "generalCards.dateOfManufacturing",
           icon: "mdi-chart-timeline-variant-shimmer",
-          value: this.$props.data.aspect.identification
-            ? this.$props.data.aspect.identification.manufacturerId
-            : "-",
-          secondValue: this.$props.data.aspect.identification
-            ? this.$props.data.aspect.identification.dataMatrixCode
-            : "-",
+          value:
+            this.$props.data.aspect.generic?.operation?.manufacturer
+              ?.manufacturer,
+          secondValue:
+            this.$props.data.aspect.generic?.operation?.manufacturer
+              ?.manufacturingDate,
           description: {
             title: "Manufacturing",
             value: "Description of the manufacturing",
@@ -128,9 +127,8 @@ export default {
           label: "transmissionCards.driveType",
           secondLabel: "transmissionCards.oilType",
           icon: "mdi-aspect",
-          value: this.$props.data.aspect.productSpecificParameters.driveType,
-          secondValue:
-            this.$props.data.aspect.productSpecificParameters.oilType,
+          value: this.$props.data.aspect.specific?.driveType?.[0],
+          secondValue: this.$props.data.aspect.specific?.oil?.oilType?.[0],
           description: {
             title: "Specific parameters",
             value: "Description of the Specific parameters",
@@ -138,20 +136,20 @@ export default {
         },
         {
           title: "generalCards.titleSustainability",
-          label: "generalCards.totalCo2Footprint",
+          label: "transmissionCards.carbonFootprint",
           secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
           value:
-            this.$props.data.aspect.sustainability &&
-            this.$props.data.aspect.sustainability.carbonFootprint
-              ? this.$props.data.aspect.sustainability.carbonFootprint
-                  .co2FootprintTotal
-              : "-",
-          valueUnits: "t CO₂ Total",
+            this.$props.data.aspect.generic?.sustainability?.productFootprint
+              ?.carbon?.[0]?.value,
+
+          valueUnits:
+            this.$props.data.aspect.generic?.sustainability?.productFootprint
+              ?.carbon?.[0]?.unit,
           secondValue:
-            this.$props.data.aspect.generalInformation.warrantyPeriod,
-          secondValueUnits: this.$props.data.aspect.generalInformation
-            .warrantyPeriodUnits
+            this.$props.data.aspect.generic?.characteristics?.warranty,
+          secondValueUnits: this.$props.data.aspect.generic?.characteristics
+            ?.warranty
             ? "months"
             : "",
           description: {

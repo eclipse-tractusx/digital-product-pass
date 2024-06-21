@@ -26,36 +26,110 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.importer">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData.importer || callCurrentData.intoServiceDate
+            )
+          "
+        >
+          <template v-if="callCurrentData.importer">
             <Field
               :icon="callIconFinder('importer')"
               :label="$t('sections.operation.importer')"
-              :value="propsData.importer.left.id"
+              :value="callCurrentData.importer.left.id"
             />
             <Field
               :icon="callIconFinder('importer')"
               :label="$t('sections.operation.importerEori')"
-              :value="propsData.importer.left.eori"
+              :value="callCurrentData.importer.left.eori"
             />
-          </v-col>
-        </template>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.manufacturer">
+          </template>
+          <template v-if="callCurrentData.intoServiceDate">
+            <Field
+              :icon="callIconFinder('intoServiceDate')"
+              :label="$t('sections.operation.intoServiceDate')"
+              :value="callCurrentData.intoServiceDate"
+            />
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData.import || callCurrentData.intoServiceDate
+            )
+          "
+        >
+          <template v-if="callCurrentData.import?.content">
+            <Field
+              :icon="callIconFinder('importer')"
+              :label="$t('sections.operation.importerID')"
+              :value="callCurrentData.import.content.id"
+            />
+            <Field
+              :icon="callIconFinder('importer')"
+              :label="$t('sections.operation.importerEori')"
+              :value="callCurrentData.import.content.eori"
+            />
+          </template>
+          <template v-if="callCurrentData.intoServiceDate">
+            <Field
+              :icon="callIconFinder('intoServiceDate')"
+              :label="$t('sections.operation.intoServiceDate')"
+              :value="callCurrentData.intoServiceDate"
+            />
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(callCurrentData.manufacturer)"
+        >
+          <template v-if="callCurrentData.manufacturer">
             <Field
               :icon="callIconFinder('manufacturer')"
               :label="$t('sections.operation.manufacturerId')"
-              :value="propsData.manufacturer.manufacturer"
+              :value="callCurrentData.manufacturer?.manufacturer"
             />
-            <Field
-              :icon="callIconFinder('facility')"
-              :label="$t('sections.operation.facilityId')"
-              :value="propsData.manufacturer.facility"
-            />
+            <template
+              v-if="
+                callCurrentData.manufacturer.facility &&
+                typeof callCurrentData.manufacturer.facility === 'object'
+              "
+            >
+              <template
+                v-for="attr in callCurrentData.manufacturer.facility"
+                :key="attr"
+              >
+                <Field
+                  :icon="callIconFinder('facility')"
+                  :label="$t('sections.operation.facilityId')"
+                  :value="attr.facility"
+                />
+              </template>
+            </template>
+            <template v-else>
+              <Field
+                :icon="callIconFinder('facility')"
+                :label="$t('sections.operation.facilityId')"
+                :value="callCurrentData.manufacturer.facility"
+              />
+            </template>
             <Field
               :icon="callIconFinder('manufacturingDate')"
               :label="$t('sections.operation.manufacturingDate')"
-              :value="processDateTime(propsData.manufacturer.manufacturingDate)"
+              :value="
+                callProcessDateTime(
+                  callCurrentData.manufacturer?.manufacturingDate
+                )
+              "
             />
           </template>
         </v-col>
@@ -81,21 +155,24 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.operation,
+      propsData: this.$props.data.aspect.operation || {},
+      tppData: this.$props.data.aspect.generic?.operation || {},
     };
   },
+  computed: {
+    callCurrentData() {
+      return passportUtil.currentData(this.tppData, this.propsData);
+    },
+  },
   methods: {
+    callHasContent(...args) {
+      return passportUtil.hasContent(...args);
+    },
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
     },
-    processDateTime(dateTimeString) {
-      // Check if the string contains 'T'
-      if (dateTimeString.includes("T")) {
-        // Replace 'T' with ', time: ' and return the new string
-        return dateTimeString.replace("T", ", time: ");
-      }
-      // Return the original string if 'T' is not found
-      return dateTimeString;
+    callProcessDateTime(dateTimeString) {
+      return passportUtil.processDateTime(dateTimeString);
     },
   },
 };

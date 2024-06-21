@@ -26,13 +26,13 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <template v-if="propsData.physicalDimension">
+        <template v-if="callCurrentData.physicalDimension">
           <v-col sm="12" md="4" class="pa-0 ma-0">
             <template
               v-if="
-                propsData.physicalDimension.width ||
-                propsData.physicalDimension.length ||
-                propsData.physicalDimension.height
+                callCurrentData.physicalDimension.width ||
+                callCurrentData.physicalDimension.length ||
+                callCurrentData.physicalDimension.height
               "
             >
               <Field
@@ -40,72 +40,133 @@
                 :label="
                   $t('sections.characteristics.physicalDimensionsProperty')
                 "
-                :width="propsData.physicalDimension.width.value"
-                :length="propsData.physicalDimension.length.value"
-                :height="propsData.physicalDimension.height.value"
-                :unit="propsData.physicalDimension.width.unit"
+                :width="callCurrentData.physicalDimension?.width?.value"
+                :length="callCurrentData.physicalDimension?.length?.value"
+                :height="callCurrentData.physicalDimension?.height?.value"
+                :unit="callCurrentData.physicalDimension?.width?.unit"
               />
             </template>
-            <template v-if="propsData.physicalDimension.grossWeight">
+            <template v-if="callCurrentData.physicalDimension.grossWeight">
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.grossWeight')"
-                :value="propsData.physicalDimension.grossWeight.value"
-                :unit="propsData.physicalDimension.grossWeight.unit"
+                :value="callCurrentData.physicalDimension.grossWeight.value"
+                :unit="callCurrentData.physicalDimension.grossWeight.unit"
               />
             </template>
-            <template v-if="propsData.physicalDimension.weight">
+            <template v-if="callCurrentData.physicalDimension.weight">
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.weight')"
-                :value="propsData.physicalDimension.weight"
-                :unit="propsData.physicalDimension.weight.unit"
+                :value="callCurrentData.physicalDimension.weight.value"
+                :unit="callCurrentData.physicalDimension.weight.unit"
               />
             </template>
-            <template v-if="propsData.physicalDimension.weightOrVolume">
+            <template v-if="callCurrentData.physicalDimension.weightOrVolume">
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.weightOrVolume')"
-                :value="propsData.physicalDimension.weightOrVolume.left.value"
-                :unit="propsData.physicalDimension.weightOrVolume.left.unit"
+                :value="
+                  callCurrentData.physicalDimension.weightOrVolume.left.value
+                "
+                :unit="
+                  callCurrentData.physicalDimension.weightOrVolume.left.unit
+                "
               />
             </template>
-            <template v-if="propsData.physicalDimension.grossVolume">
+            <template v-if="callCurrentData.physicalDimension.grossVolume">
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.grossVolume')"
-                :value="propsData.physicalDimension.grossVolume.value"
-                :unit="propsData.physicalDimension.grossVolume.unit"
+                :value="callCurrentData.physicalDimension.grossVolume.value"
+                :unit="callCurrentData.physicalDimension.grossVolume.unit"
               />
             </template>
-            <template v-if="propsData.physicalDimension.diameter">
+            <template v-if="callCurrentData.physicalDimension.diameter">
               <Field
                 icon="mdi-arrow-down-circle-outline"
                 :label="$t('sections.characteristics.diameter')"
-                :value="propsData.physicalDimension.diameter.value"
-                :unit="propsData.physicalDimension.diameter.unit"
+                :value="callCurrentData.physicalDimension.diameter.value"
+                :unit="callCurrentData.physicalDimension.diameter.unit"
+              />
+            </template>
+            <template v-if="callCurrentData.physicalDimension.volume">
+              <Field
+                icon="mdi-arrow-down-circle-outline"
+                :label="$t('sections.characteristics.volume')"
+                :value="callCurrentData.physicalDimension.volume.value"
+                :unit="callCurrentData.physicalDimension.volume.unit"
               />
             </template>
           </v-col>
         </template>
-        <template v-if="propsData.lifespan">
-          <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              callCurrentData?.lifespan ||
+                callCurrentData?.generalPerformanceClass ||
+                callCurrentData.warranty ||
+                callCurrentData.lifeTime
+            )
+          "
+        >
+          <template v-if="callCurrentData.lifespan">
             <Field
-              v-for="attr in propsData.lifespan"
+              v-for="attr in callCurrentData.lifespan"
               :key="attr"
               :icon="callIconFinder('lifespan')"
               :label="$t('sections.characteristics.lifespan')"
               :value="attr.value"
               :unit="attr.unit"
             />
-          </v-col>
-        </template>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <template v-if="propsData.physicalState">
+          </template>
+          <template v-if="callCurrentData.generalPerformanceClass">
+            <Field
+              :icon="callIconFinder('generalPerformanceClass')"
+              :label="$t('sections.characteristics.generalPerformanceClass')"
+              :value="callCurrentData.generalPerformanceClass"
+            />
+          </template>
+          <template v-if="callCurrentData.warranty">
+            <template v-if="callIsObject(callCurrentData.warranty)">
+              <Field
+                :icon="callIconFinder('warranty')"
+                :label="$t('sections.characteristics.warranty')"
+                :value="callCurrentData.warranty.lifeValue"
+                :unit="callCurrentData.warranty.lifeUnit"
+              />
+            </template>
+            <template v-else>
+              <Field
+                :icon="callIconFinder('warranty')"
+                :label="$t('sections.characteristics.warranty')"
+                :value="callCurrentData.warranty"
+                unit="days"
+              />
+            </template>
+          </template>
+          <template v-if="callCurrentData.lifeTime">
+            <Field
+              :icon="callIconFinder('lifeTime')"
+              :label="$t('sections.characteristics.lifeTime')"
+              :value="callCurrentData.lifeTime"
+            />
+          </template>
+        </v-col>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(callCurrentData?.physicalState)"
+        >
+          <template v-if="callCurrentData?.physicalState">
             <Field
               :icon="callIconFinder('physicalState')"
               :label="$t('sections.characteristics.physicalState')"
-              :value="propsData.physicalState"
+              :value="callCurrentData.physicalState"
             />
           </template>
         </v-col>
@@ -131,12 +192,27 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.characteristics,
+      propsData: this.$props.data.aspect?.characteristics || {},
+      tppData: this.$props.data.aspect?.generic?.characteristics || {},
     };
   },
+  computed: {
+    callCurrentData() {
+      return passportUtil.currentData(this.tppData, this.propsData);
+    },
+  },
   methods: {
+    callIsObject(value) {
+      return passportUtil.isObject(value);
+    },
     callIconFinder(unit) {
       return passportUtil.iconFinder(unit);
+    },
+    callHasContent(data) {
+      return passportUtil.hasContent(data);
+    },
+    callIsString(value) {
+      return passportUtil.isString(value);
     },
   },
 };

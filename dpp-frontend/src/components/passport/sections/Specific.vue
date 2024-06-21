@@ -290,7 +290,7 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.productSpecificParameters,
+      propsData: this.$props.data.aspect.specific,
     };
   },
   methods: {

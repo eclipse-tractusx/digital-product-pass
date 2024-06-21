@@ -158,7 +158,7 @@ class cryptool:
                 "type": "JsonWebSignature2020",
                 "proofPurpose": "assertionMethod",
                 "verificationMethod": f"{issuerDid}#{methodId}",
-                "created": issuance_date.isoformat() + "Z",
+                "created": issuance_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 "jws": jws
             }
 

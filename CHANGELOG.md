@@ -1,25 +1,24 @@
-<!-- 
-  Tractus-X - Digital Product Passport Application 
- 
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+<!--
+#######################################################################
 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
+Tractus-X - Digital Product Passport Application 
+
+Copyright (c) 2022 BMW AG
+Copyright (c) 2022 Henkel AG & Co. KGaA
+Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This work is made available under the terms of the
+Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
+which is available at
+https://creativecommons.org/licenses/by/4.0/legalcode.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+#######################################################################
 -->
 
 # Changelog
@@ -28,6 +27,49 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 
 ## [Unreleased]
+
+## [released]
+## [v3.1.0] - 19-06-2024
+### Added
+
+- Added a new file `LICENSE_non-code` file in root level with the contents of the CC-BY-4.0 license
+- Added dpp-tutorial to step-by-step guide (readme files) of DPP worksession at the Tractus-X Community Days:
+    - deployment.md
+    - data-provision.md
+    - aspect-model.md
+    - data-consumption.md
+    - digital-twin-provision.md
+    - qr-code.md
+
+
+### Updated
+
+- Updated the contents of "Project Licenses" and "Terms of Use" sections to the `CONTRIBUTING.md` file
+- Updated "Declared Project License" section in `NOTICE.md`.
+- Updated the license header and notices to following readme files:
+  - main README.md
+  - /docs/*
+  - /dpp-backend/*
+  - /dpp-tutorial/*
+  - /deployment/*
+  - /dpp-verification/*
+  - AUTHORS.md
+  - SECURITY.md
+  - INSTALL.md
+  - NOTICE.md
+  - CONTRIBUTING.md
+  - CHANGELOG.md
+- Updated dpp-frontend to support the following new models:
+    - Digital Product Pass `v5.0.0`
+    - Battery Pass `6.0.0`
+    - Transmission Pass `3.0.0`
+- Updated EDC version `v0.7.0`
+- Updated IRS version `v7.1.3`
+
+ ### Issues Fixed
+ - Fixed token refresh for keycloak plugin in frontend
+ - Fixed IRS configuration keys in docker entrypoint script for frotnend
+ - Fixed CORS issue in frontend #274
 
 
 ## [released]

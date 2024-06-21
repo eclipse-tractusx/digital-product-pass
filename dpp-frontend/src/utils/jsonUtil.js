@@ -78,13 +78,13 @@ export default {
         }
         return uniqueKey; //Return unique id
     },
-    toJson(json){
+    toJson(json) {
         return JSON.parse(json);
     },
-    toJsonString(json){
+    toJsonString(json) {
         return JSON.stringify(json);
     },
-    flatternJsonAttributes(json, attributes=[], sep=".", allowNull = false, allowEmpty = false) {
+    flatternJsonAttributes(json, attributes = [], sep = ".", allowNull = false, allowEmpty = false) {
         if (json == null) return null;
         if (!(json instanceof Object)) return json;
         // Deep Copy param into objects
@@ -100,14 +100,14 @@ export default {
                 // Interate over keys
                 let parentKey = keys[index]; // Get key value in array
                 let parent = this.get(parentKey, objects, sep, null); // Get current node value
-    
+
                 if (parent == null) {
                     // If nulls are not allowed
                     continue;
                 }
 
                 let tmpObjects = this.deleteDeepKey(parentKey, objects, sep, null); // Delete current node from interation object
-                if(tmpObjects == null){
+                if (tmpObjects == null) {
                     continue;
                 }
                 objects = this.deepCopy(tmpObjects);
@@ -324,12 +324,12 @@ export default {
         }
         return tempSourceObj;
     },
-    deleteDeepKey(ref,json,  sep = ".", defaultReturn = null ) {
+    deleteDeepKey(ref, json, sep = ".", defaultReturn = null) {
         try {
             let tmpJson = this.copy(json);
             let refs = ref.split(sep);
-            if(refs.length == 1){
-                if(!Object.prototype.hasOwnProperty.call(tmpJson, ref)){
+            if (refs.length == 1) {
+                if (!Object.prototype.hasOwnProperty.call(tmpJson, ref)) {
                     throw new Error("deleteDeepKey: Key [" + ref + "] is not defined in json");
                 }
                 delete tmpJson[ref]
@@ -338,24 +338,24 @@ export default {
             let lastRef = refs.pop();
             let parentPath = refs.join(sep);
             let parent = this.get(parentPath, json, sep, null);
-            if(parent == null){
+            if (parent == null) {
                 throw new Error("deleteDeepKey: Parent [" + parentPath + "] does not exist!");
             }
-            if(!Object.prototype.hasOwnProperty.call(parent, lastRef)){
+            if (!Object.prototype.hasOwnProperty.call(parent, lastRef)) {
                 throw new Error("deleteDeepKey: Key [" + lastRef + "] does not exists in parent!");
             }
             delete parent[lastRef];
 
-            return this.set(parentPath, parent,tmpJson, sep, defaultReturn);
+            return this.set(parentPath, parent, tmpJson, sep, defaultReturn);
         } catch {
             return defaultReturn;
         }
     },
-    set(ref, data, json, sep = ".", defaultReturn = null){
-        try{
+    set(ref, data, json, sep = ".", defaultReturn = null) {
+        try {
             let tmpObject = {};
             let refs = ref.split(sep);
-            if(refs.length == 1){
+            if (refs.length == 1) {
                 tmpObject = this.copy(json);
                 tmpObject[ref] = data;
                 return tmpObject;
@@ -365,29 +365,30 @@ export default {
             let part;
             let parentPath;
             let tmpParent = null;
-            for(let i = refs.length - 1; i >= 0; i--){
+            for (let i = refs.length - 1; i >= 0; i--) {
                 tmpObject = {}
-                part = refs[i];
-                currentPath = currentPath.filter(e => e !== part);
+                part = refs[i];        
+                currentPath.pop(-1)
                 parentPath = currentPath.join(sep);
                 tmpParent = this.get(parentPath, json, sep, {});
                 tmpObject[part] = tmpValue;
                 tmpParent = this.extend(tmpParent, tmpObject);
                 tmpValue = tmpParent;
             }
-            if(tmpParent == null){
+            if (tmpParent == null) {
                 return defaultReturn;
             }
             return this.extend(json, tmpParent);
-        }catch {
+        } catch {
             return defaultReturn;
         }
     },
-    extendDeep(originJson, json){
-        if(!json){
+    extendDeep(originJson, json) {
+
+        if (!json) {
             return originJson;
         }
-        if (!(json instanceof Object)) return originJson;
+        if (parent instanceof Array || !(parent instanceof Object) || parent instanceof String || parent instanceof Boolean || parent instanceof Number) return originJson;
         // Deep Copy param into object
         let objects = JSON.parse(JSON.stringify(json));
         let retObject = JSON.parse(JSON.stringify(originJson)); // Return/Final Object
@@ -405,22 +406,21 @@ export default {
                     continue;
                 }
 
-                if (!(parent instanceof Object)) {
+                if (parent instanceof Array || !(parent instanceof Object) || parent instanceof String || parent instanceof Boolean || parent instanceof Number) {
                     // If current node is not a object
                     retObject = this.set(parentKey, parent, retObject);
                     continue;
                 }
-
                 for (let childKey in parent) {
                     // Interate over children
                     let child = parent[childKey]; // Get children
-                    
+
                     if (child == null) {
                         // Skip null children
                         continue;
                     }
-                    let childstoreKey = this.buildPath(parentKey, childKey);
-                    if (!(child instanceof Object)) {
+                    let childstoreKey = this.buildPath(parentKey, childKey)
+                    if (child instanceof Array || !(child instanceof Object) || child instanceof String || child instanceof Boolean || child instanceof Number) {
                         // If children is not a object is a property from the father
                         // Check if key is not existing
                         retObject = this.set(childstoreKey, child, retObject);

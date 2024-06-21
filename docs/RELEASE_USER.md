@@ -1,29 +1,48 @@
-<!-- 
-  Tractus-X - Digital Product Passport Application 
- 
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+<!--
+#######################################################################
 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
+Tractus-X - Digital Product Passport Application 
+
+Copyright (c) 2022, 2024 BMW AG
+Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This work is made available under the terms of the
+Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
+which is available at
+https://creativecommons.org/licenses/by/4.0/legalcode.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+#######################################################################
 -->
 
 # Release Notes Digital Product Pass Application
-User friendly relase notes without especific technical details.
+User friendly relase notes without specific technical details.
+
+
+
+**June 19 2024 (Version 3.1.0)**
+*19.06.2024*
+
+### Updated
+
+#### Support of new data models:
+
+The frontend component from the Digital Product Pass application  is now adapted to support the following new models:
+- Digital Product Pass `v2.0.0` to `v5.0.0`
+- Battery Pass `v3.0.1` to `6.0.0`
+- Transmission Pass `v1.0.0` to `3.0.0`
+
+This adaption deprecates and removed the retro-compatibility from the old models.
+
+#### Update licensing for the non-code licensed documentation
+
+There was a change from legal documentation. Instead of Apache-2.0 licensing in documentation, it now supports non-code licensing in license headers and NOTICE sections. This is a default license from the Creative Commons Attribution 4.0 International (CC-BY-4.0).
 
 
 **May 13 2024 (Version 3.0.0)**
@@ -557,10 +576,11 @@ A deep dive on the application's operation and functionalities can be found in t
 
 ## NOTICE
 
-This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-- SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2022, 2024 BMW AG
+- SPDX-FileCopyrightText: 2022, 2024 Henkel AG & Co. KGaA
 - SPDX-FileCopyrightText: 2023, 2024 CGI Deutschland B.V. & Co. KG
-- SPDX-FileCopyrightText: 2023 Contributors to the Eclipse Foundation
+- SPDX-FileCopyrightText: 2023, 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

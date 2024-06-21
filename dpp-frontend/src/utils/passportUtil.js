@@ -25,6 +25,19 @@
 import iconMappings from "@/config/templates/iconMappings.json";
 
 export default {
+    currentData(tppData, propsData) {
+        if (tppData && Object.keys(tppData).length > 0) {
+            return tppData;
+        }
+        return propsData;
+    },
+    isObject(value) {
+        return value !== null && typeof value === "object";
+    },
+    hasContent(...args) {
+        // Check if any of the passed arguments is truthy
+        return args.some((arg) => !!arg);
+    },
     formattedDate(timestamp) {
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleDateString("en-GB", {
@@ -33,6 +46,17 @@ export default {
             year: "numeric",
         });
         return formattedDate;
+    },
+    processDateTime(dateTimeString) {
+        if (!dateTimeString)
+            return
+        // Check if the string contains 'T'
+        if (dateTimeString.includes("T")) {
+            // Replace 'T' with ', time: ' and return the new string
+            return dateTimeString.replace("T", ", time: ");
+        }
+        // Return the original string if 'T' is not found
+        return dateTimeString;
     },
     toSentenceCase(text) {
         // Convert the string to sentence case
@@ -100,4 +124,3 @@ export default {
         }
     }
 };
-

@@ -21,13 +21,22 @@ SPDX-License-Identifier: CC-BY-4.0
 #######################################################################
 -->
 
-# Authors
+# Security Policy
 
-The following people have contributed to this repository:
+## Reporting a Vulnerability
 
-* Jochen Braun, CGI, https://github.com/jocbra
-* Muhammad Saud Khan, CGI, https://github.com/saudkhan116
-* Mathias Brunkow Moser, CGI, https://github.com/matbmoser
-* Diogo Parracho, CGI, https://github.com/dsrparracho
+Please do **not** report security vulnerabilities through public GitHub issues.
 
-Please add yourself to this list, if you contribute to the content.
+Please report vulnerabilities to this repository via **GitHub security advisories** instead.
+
+How? Inside affected repository --> security tab
+
+for contributor:
+--> Report a vulnerability
+
+for committer:
+--> advisories --> New draft security advisory
+
+In severe cases, you can also report a found vulnerability via mail or eclipse issue here: https://www.eclipse.org/security/
+
+See [Eclipse Foundation Vulnerability Reporting Policy](https://www.eclipse.org/projects/handbook/#vulnerability)

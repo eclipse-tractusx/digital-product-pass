@@ -35,7 +35,6 @@ import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
@@ -44,27 +43,26 @@ import java.util.List;
 @Jacksonized
 @Data
 @Getter
-public class CertifiedDataCredential extends VerifiableCredential {
+public class VerifiableCredential {
 
-    @JsonProperty("parent")
-    public Parent parent;
+    @JsonProperty("id")
+    public String id;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Jacksonized
-    @Data
-    @Getter
-    public static class Parent{
-        @JsonProperty("@id")
-        public String id;
-        @JsonProperty("checksum")
-        public String checksum;
-    }
+    @JsonProperty("context")
+    public List<String> context;
 
-    @JsonProperty("semanticId")
-    public String semanticId;
+    @JsonProperty("type")
+    public List<String> type;
+    @JsonProperty("credentialSubject")
+    public JsonNode jsonNode;
+    @JsonProperty("issuer")
+    public String issuer;
+    @JsonProperty("validFrom")
+    public String validFrom;
+    @JsonProperty("validUntil")
+    public String validUntil;
+
+    @JsonProperty("proof")
+    public Proof proof;
 
 }

@@ -203,6 +203,7 @@ configuration:
       - "edc.participantId"
       - "oauth.apiKey"
       - "irs.apiKey"
+      - "wallet.apiKey"
 
 server:
   error:

@@ -39,6 +39,7 @@ import org.eclipse.tractusx.digitalproductpass.verification.config.CDCConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.Proof;
+import org.eclipse.tractusx.digitalproductpass.verification.models.VerifiableCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,8 +123,6 @@ public class VerificationManager {
      * <p>
      * @param   processId
      *          the {@code String} id of the application's process.
-     * @param   subModel
-     *          the {@code SubModel} digital twin with the information about the verification
      *
      * @return  a {@code String} file path of the process status file.
      *
@@ -251,7 +250,7 @@ public class VerificationManager {
         return bpn;
     }
 
-    public VerificationInfo buildVerification(JsonNode verifiableCredential, VerificationInfo verificationInfo){
+    public VerificationInfo buildVerification(CertifiedDataCredential verifiableCredential, VerificationInfo verificationInfo){
         JsonNode response =  walletService.verifyCredential(verifiableCredential);
         boolean verified = false;
         String message = "An unexpected error occurred while verifying!";

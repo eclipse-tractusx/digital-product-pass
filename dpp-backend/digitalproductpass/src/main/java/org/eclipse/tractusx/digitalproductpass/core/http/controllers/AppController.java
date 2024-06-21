@@ -26,6 +26,7 @@
 
 package org.eclipse.tractusx.digitalproductpass.core.http.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +59,7 @@ import org.eclipse.tractusx.digitalproductpass.core.services.IrsService;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ControllerException;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.manager.VerificationManager;
+import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -350,9 +352,17 @@ public class AppController {
             verificationManager.setVerificationStarted(processId);
 
             VerificationInfo verificationInfo = status.getVerification();
-
             if(verificationInfo.vc){
-               verificationInfo = verificationManager.buildVerification(passport, verificationInfo);
+                CertifiedDataCredential certifiedDataCredential = jsonUtil.bind(passport, new TypeReference<>(){});
+
+                if(certifiedDataCredential == null){
+                    verificationInfo.setVerified(false);
+                    verificationInfo.setError("It was not possible to parse the verifiable credential as a Certified Data Credential!");
+                    verificationManager.setVerificationInfo(processId, verificationInfo);
+                    return this.savePassport(processId, endpointData, passport);
+                }
+
+                verificationInfo = verificationManager.buildVerification(certifiedDataCredential, verificationInfo);
             }
 
             verificationManager.setVerificationInfo(processId, verificationInfo);

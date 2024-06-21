@@ -36,6 +36,7 @@ import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationServi
 import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.config.WalletConfig;
+import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -157,7 +158,7 @@ public class WalletService extends BaseService {
             JsonNode responseBody = (JsonNode) response.getBody();
             return responseBody != null;
         } catch (Exception e) {
-            throw new ServiceException(this.getClass().getName() + "." + "getReadinessStatus",
+            throw new ServiceException(this.getClass().getName() + "." + "checkHealth",
                     e,
                     "It was not possible to get readiness status from the edc consumer!");
         }
@@ -173,7 +174,7 @@ public class WalletService extends BaseService {
      * @return a {@code Map<String, String>} map object with the irs first response
      * @throws ServiceException if unable to start the verification process
      */
-    public JsonNode verifyCredential(JsonNode verifiableCredential) {
+    public JsonNode verifyCredential(CertifiedDataCredential verifiableCredential) {
         try {
             this.checkEmptyVariables();
             String url = this.walletUrl + this.verifyEndpoint;

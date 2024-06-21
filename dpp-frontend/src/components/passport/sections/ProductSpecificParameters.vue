@@ -26,8 +26,44 @@
   <div class="section">
     <v-container class="ma-0">
       <v-row class="section">
-        <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              propsData.serviceHistory ||
+                propsData.oil ||
+                propsData.torqueConverter ||
+                propsData.driveType ||
+                propsData.oilType ||
+                propsData.spreading ||
+                propsData.torque ||
+                propsData.power ||
+                propsData.spreading
+            )
+          "
+        >
           <div class="element-chart-label"></div>
+          <template v-if="propsData.serviceHistory">
+            <template v-for="attr in propsData.serviceHistory" :key="attr">
+              <Field
+                :icon="callIconFinder('serviceHistory')"
+                :label="$t('sections.productSpecificParameters.serviceHistory')"
+                :value="attr.content"
+                :subText="attr.header"
+              />
+            </template>
+          </template>
+          <template v-if="propsData.oil?.oilType">
+            <template v-for="attr in propsData.oil?.oilType" :key="attr">
+              <Field
+                :icon="callIconFinder('oilType')"
+                :label="$t('sections.productSpecificParameters.oil')"
+                :value="attr"
+              />
+            </template>
+          </template>
           <template v-if="propsData.torqueConverter">
             <div
               v-for="(attr, index) in propsData.torqueConverter"
@@ -35,17 +71,21 @@
             >
               <Field
                 :icon="callIconFinder('torqueConverter')"
-                :label="$t('sections.productSpecificParameters.torqueConverter')"
+                :label="
+                  $t('sections.productSpecificParameters.torqueConverter')
+                "
                 :value="attr"
               />
             </div>
           </template>
           <template v-if="propsData.driveType">
-            <Field
-              :icon="callIconFinder('driveType')"
-              :label="$t('sections.productSpecificParameters.driveType')"
-              :value="propsData.driveType"
-            />
+            <template v-for="attr in propsData.driveType" :key="attr">
+              <Field
+                :icon="callIconFinder('driveType')"
+                :label="$t('sections.productSpecificParameters.driveType')"
+                :value="attr"
+              />
+            </template>
           </template>
           <template v-if="propsData.oilType">
             <Field
@@ -76,34 +116,47 @@
             />
           </template>
         </v-col>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
-          <div class="element-chart-label">{{ $t('sections.productSpecificParameters.standardGearRatio') }}</div>
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="callHasContent(propsData.standardGearRatio)"
+        >
+          <div class="element-chart-label" v-if="propsData.standardGearRatio">
+            {{ $t("sections.productSpecificParameters.standardGearRatio") }}
+          </div>
           <template v-if="propsData.standardGearRatio">
-            <Field
-              :icon="callIconFinder('Gear')"
-              :label="$t('sections.productSpecificParameters.gear')"
-              :value="propsData.standardGearRatio.gear"
-            />
-            <Field
-              :icon="callIconFinder('Ratio')"
-              :label="$t('sections.productSpecificParameters.ratio')"
-              :value="propsData.standardGearRatio.ratio"
-            />
+            <template v-for="attr in propsData.standardGearRatio" :key="attr">
+              <Field
+                :icon="callIconFinder('Gear')"
+                :label="$t('sections.productSpecificParameters.gear')"
+                :value="attr.gearRatio"
+              />
+              <Field
+                :icon="callIconFinder('Ratio')"
+                :label="$t('sections.productSpecificParameters.ratio')"
+                :value="attr.gear"
+              />
+            </template>
           </template>
         </v-col>
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <div class="element-chart-label">{{ $t('sections.productSpecificParameters.speedResistance') }}</div>
+          <div class="element-chart-label" v-if="propsData.speedResistance">
+            {{ $t("sections.productSpecificParameters.speedResistance") }}
+          </div>
           <template v-if="propsData.speedResistance">
-            <Field
-              :icon="callIconFinder('Speed')"
-              :label="$t('sections.productSpecificParameters.speed')"
-              :value="propsData.speedResistance.speed"
-            />
-            <Field
-              :icon="callIconFinder('Gear')"
-              :label="$t('sections.productSpecificParameters.gear')"
-              :value="propsData.speedResistance.gear"
-            />
+            <template v-for="attr in propsData.speedResistance" :key="attr">
+              <Field
+                :icon="callIconFinder('Speed')"
+                :label="$t('sections.productSpecificParameters.speed')"
+                :value="attr.speed"
+              />
+              <Field
+                :icon="callIconFinder('Gear')"
+                :label="$t('sections.productSpecificParameters.gear')"
+                :value="attr.gear"
+              />
+            </template>
           </template>
           <template v-if="propsData.oilCapacity">
             <Field
@@ -113,16 +166,106 @@
             />
           </template>
           <template v-if="propsData.oilCapacity">
-            <div
+            <template
               v-for="(attr, index) in propsData.electricPerformance"
               :key="index"
             >
               <Field
                 :icon="callIconFinder('Electric performance')"
-                :label="$t('sections.productSpecificParameters.electricPerformance')"
+                :label="
+                  $t('sections.productSpecificParameters.electricPerformance')
+                "
                 :value="attr"
               />
-            </div>
+            </template>
+          </template>
+          <template v-if="propsData.electricalPerformance">
+            <template
+              v-if="propsData.electricalPerformance.electricalMachine?.torque"
+            >
+              <div class="element-chart-label">
+                {{ $t("sections.productSpecificParameters.torque") }}
+              </div>
+              <Field
+                :icon="callIconFinder('Torque')"
+                :label="$t('sections.productSpecificParameters.torquePeak')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.torque
+                    ?.torquePeak
+                "
+              />
+              <Field
+                :icon="callIconFinder('Torque')"
+                :label="
+                  $t('sections.productSpecificParameters.torqueContinuous')
+                "
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.torque
+                    ?.torqueContinuous
+                "
+              />
+              <Field
+                :icon="callIconFinder('time')"
+                :label="$t('sections.productSpecificParameters.time')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.torque
+                    ?.time
+                "
+              />
+            </template>
+            <template
+              v-if="propsData.electricalPerformance.electricalMachine?.power"
+            >
+              <div class="element-chart-label">
+                {{ $t("sections.productSpecificParameters.power") }}
+              </div>
+              <Field
+                :icon="callIconFinder('power')"
+                :label="$t('sections.productSpecificParameters.power')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.power
+                    ?.powerContinuous
+                "
+              />
+              <Field
+                :icon="callIconFinder('power')"
+                :label="$t('sections.productSpecificParameters.powerPeak')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.power
+                    ?.powerPeak
+                "
+              />
+              <Field
+                :icon="callIconFinder('time')"
+                :label="$t('sections.productSpecificParameters.time')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.power?.time
+                "
+              />
+            </template>
+            <template
+              v-if="propsData.electricalPerformance.electricalMachine?.speed"
+            >
+              <Field
+                :icon="callIconFinder('speed')"
+                :label="$t('sections.productSpecificParameters.speed')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.speed
+                "
+              />
+            </template>
+            <template
+              v-if="propsData.electricalPerformance.electricalMachine?.voltage"
+            >
+              <Field
+                :icon="callIconFinder('voltage')"
+                :label="$t('sections.productSpecificParameters.voltage')"
+                :value="
+                  propsData.electricalPerformance.electricalMachine?.voltage
+                "
+                unit="V"
+              />
+            </template>
           </template>
         </v-col>
       </v-row>
@@ -153,6 +296,9 @@ export default {
   methods: {
     callIconFinder(property) {
       return passportUtil.iconFinder(property);
+    },
+    callHasContent(data) {
+      return passportUtil.hasContent(data);
     },
   },
 };

@@ -27,11 +27,22 @@
     <v-container class="ma-0">
       <v-row class="section">
         <v-col sm="12" md="4" class="pa-0 ma-0">
-          <Field
-            :icon="callIconFinder('placedOnMarket')"
-            :label="$t('sections.commercial.placedOnMarket')"
-            :value="propsData.placedOnMarket"
-          />
+          <template v-if="callCurrentData.placedOnMarket">
+            <Field
+              :icon="callIconFinder('placedOnMarket')"
+              :label="$t('sections.commercial.placedOnMarket')"
+              :value="callCurrentData.placedOnMarket"
+            />
+          </template>
+          <template v-if="callCurrentData.purpose">
+            <template v-for="attr in callCurrentData.purpose" :key="attr">
+              <Field
+                :icon="callIconFinder('purpose')"
+                :label="$t('sections.commercial.purpose')"
+                :value="attr"
+              />
+            </template>
+          </template>
         </v-col>
       </v-row>
     </v-container>
@@ -55,8 +66,14 @@ export default {
   },
   data() {
     return {
-      propsData: this.$props.data.aspect.commercial,
+      propsData: this.$props.data.aspect.commercial || {},
+      tppData: this.$props.data.aspect.generic?.commercial || {},
     };
+  },
+  computed: {
+    callCurrentData() {
+      return passportUtil.currentData(this.tppData, this.propsData);
+    },
   },
   methods: {
     callIconFinder(unit) {

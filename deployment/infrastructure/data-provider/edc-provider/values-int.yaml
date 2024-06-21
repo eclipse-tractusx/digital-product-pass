@@ -32,6 +32,20 @@ tractusx-connector:
   participant:
     id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
 
+  iatp:
+    # Decentralized IDentifier
+    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
+      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
+    sts:
+      dim:
+        url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
+      oauth:
+        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        client:
+          id: "<path:material-pass/data/int/edc/ssi#clientId>"
+          secret_alias: "int-client-secret"
+
   controlplane:
     enabled: true
     endpoints:
@@ -67,26 +81,6 @@ tractusx-connector:
         port: 9090
         # -- path for incoming api calls
         path: /BPNL000000000000/metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /BPNL000000000000/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
-    
-    ssi:
-      miw:
-        url: "<path:material-pass/data/int/edc/ssi#miwUrl>"
-        authorityId: "<path:material-pass/data/int/edc/ssi#authorityId>"
-      oauth:
-        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-        client:
-          id: "<path:material-pass/data/int/edc/ssi#clientId>"
-          secretAlias: "int-client-secret"
-      endpoint:
-        audience: https://materialpass.int.demo.catena-x.net/BPNL000000000000
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -121,22 +115,33 @@ tractusx-connector:
       public:
         port: 8081
         path: /BPNL000000000000/api/public
+      signaling:
+        port: 8083
+        path: /api/signaling
       control:
         port: 8083
         path: /BPNL000000000000/api/dataplane/control
       proxy:
         port: 8186
         path: /BPNL000000000000/proxy
-      observability:
-        # -- port for incoming API calls
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /BPNL000000000000/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
+        authKey: <path:material-pass/data/int/edc/oauth#api.key>
       metrics:
         port: 9090
         path: /BPNL000000000000/metrics
+
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias: ids-daps_key
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias: ids-daps_crt
+
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress

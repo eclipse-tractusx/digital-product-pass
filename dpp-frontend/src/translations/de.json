@@ -299,6 +299,13 @@
       "oilCapacity": "Ölkapazität",
       "electricPerformance": "Elektrische Leistung"
     },
+    "instructions": {
+      "packagingInstructions": "Verpackungsanweisungen",
+      "transportationInstructions": "Transportanweisungen",
+      "dismantlingProcedure": "Demontageverfahren",
+      "safetyMeasures": "Sicherheitsmaßnahmen",
+      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
+    },
     "sparePartsSupplier": {
       "supplierContact": "Lieferantenkontakt",
       "supplierId": "Lieferanten-ID",

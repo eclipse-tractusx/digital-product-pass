@@ -21,7 +21,6 @@
  
   SPDX-License-Identifier: Apache-2.0
 -->
-
 <template>
   <v-container class="cards-container">
     <v-row>
@@ -100,11 +99,11 @@ export default {
           label: "generalCards.productName",
           secondLabel: "generalCards.productType",
           icon: "mdi-pound",
-          value: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.shortName
+          value: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.type.nameAtManufacturer
             : "-",
-          secondValue: this.$props.data.aspect.typology
-            ? this.$props.data.aspect.typology.class.code
+          secondValue: this.$props.data.aspect.identification
+            ? this.$props.data.aspect.identification.type.manufacturerPartId
             : "-",
         },
         {
@@ -140,15 +139,12 @@ export default {
           label: "generalCards.totalCo2Footprint",
           secondLabel: "generalCards.warrantyPeriod",
           icon: "mdi-leaf",
-          value:
-            this.$props.data.aspect.sustainability &&
-            this.$props.data.aspect.sustainability["PEF"] &&
-            this.$props.data.aspect.sustainability["PEF"].carbon
-              ? this.$props.data.aspect.sustainability["PEF"].carbon[0].value
-              : "-",
-          valueUnits: (this.$props.data.aspect.sustainability["PEF"].carbon[0].unit !== ""
-              ? this.$props.data.aspect.sustainability["PEF"].carbon[0].unit
-              : "t CO₂") + " Total",
+          value: this.$props.data.aspect.sustainability?.productFootprint
+            ?.carbon
+            ? this.$props.data.aspect.sustainability?.productFootprint
+                ?.carbon[0].value
+            : "-",
+          valueUnits: "kg CO2 / kWh",
           secondValue: this.$props.data.aspect.commercial
             ? this.$props.data.aspect.commercial.warranty
             : "-",

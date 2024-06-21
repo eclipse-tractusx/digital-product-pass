@@ -37,6 +37,20 @@ tractusx-connector:
   participant:
     id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
 
+  iatp:
+    # Decentralized IDentifier
+    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
+      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
+    sts:
+      dim:
+        url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
+      oauth:
+        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        client:
+          id: "<path:material-pass/data/int/edc/ssi#clientId>"
+          secret_alias: "int-client-secret"
+
   controlplane:
     enabled: true
     endpoints:
@@ -72,33 +86,13 @@ tractusx-connector:
         port: 9090
         # -- path for incoming api calls
         path: /consumer/metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        # -- port for incoming API calls
-        port: 8099
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
-
-    ssi:
-      miw:
-        url: "<path:material-pass/data/int/edc/ssi#miwUrl>"
-        authorityId: "<path:material-pass/data/int/edc/ssi#authorityId>"
-      oauth:
-        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-        client:
-          id: "<path:material-pass/data/int/edc/ssi#clientId>"
-          secretAlias: "int-client-secret"
-      endpoint:
-        audience: https://materialpass.int.demo.catena-x.net/consumer
 
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "dpp.int.demo.catena-x.net"
        # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -126,22 +120,35 @@ tractusx-connector:
       public:
         port: 8081
         path: /consumer/api/public
+      signaling:
+        port: 8083
+        path: /api/signaling
       control:
         port: 8083
         path: /consumer/api/dataplane/control
       proxy:
         port: 8186
         path: /consumer/proxy
+        authKey: <path:material-pass/data/int/edc/oauth#api.key>
       observability:
         # -- port for incoming API calls
         port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /consumer/observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
       metrics:
         port: 9090
         path: /consumer/metrics
+  
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias: ids-daps_key
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias: ids-daps_crt
   
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -193,11 +200,11 @@ postgresql:
     username: <path:material-pass/data/int/edc/database#user>
     password: <path:material-pass/data/int/edc/database#password>
 
-irs-helm:
+item-relationship-service:
   enabled: true
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
-  irsUrl: "https://materialpass-irs.int.demo.catena-x.net"
+  irsUrl: "https://dpp-irs.int.demo.catena-x.net"
   apiKeyAdmin: <path:material-pass/data/int/irs/apiKey#apiKeyAdmin>
   apiKeyRegular: <path:material-pass/data/int/irs/apiKey#apiKeyRegular>
 
@@ -209,18 +216,18 @@ irs-helm:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
     hosts:
-      - host: "materialpass-irs.int.demo.catena-x.net"
+      - host: "dpp-irs.int.demo.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - "materialpass-irs.int.demo.catena-x.net"
+          - "dpp-irs.int.demo.catena-x.net"
         secretName: tls-secret
 
   digitalTwinRegistry:
     type: decentral
-    url: https://materialpass.int.demo.catena-x.net/semantics/registry/api/v3.0
+    url: https://dpp-registry.int.demo.catena-x.net/semantics/registry/api/v3.0
 
     discovery:
       oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
@@ -256,15 +263,21 @@ irs-helm:
   edc:
     catalog:
       acceptedPolicies:
-        - leftOperand: "FrameworkAgreement.sustainability"	
-          operator: "eq"	
-          rightOperand: "active"
-        - leftOperand: "Membership"
+        - leftOperand: "cx-policy:FrameworkAgreement"
+          operator: "eq"
+          rightOperand: "CircularEconomy:1.0"
+        - leftOperand: "cx-policy:Membership"
           operator: "eq"
           rightOperand: "active"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.circular.dpp:1"
+        - leftOperand: "cx-policy:UsagePurpose"
+          operator: "eq"
+          rightOperand: "cx.core.digitalTwinRegistry:1"
     controlplane:
       endpoint:
-        data: https://materialpass.int.demo.catena-x.net/consumer/management
+        data: https://dpp.int.demo.catena-x.net/consumer/management
       apikey:
         header: "X-Api-Key"
         secret: <path:material-pass/data/int/edc/oauth#api.key>

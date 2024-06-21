@@ -25,7 +25,6 @@
 import jsonUtil from "@/utils/jsonUtil.js";
 import passports from "@/config/templates/passports.json";
 import metadata from "@/config/templates/metadata.json";
-import verification from "@/config/templates/verification.json";
 import passportUtil from "@/utils/passportUtil.js";
 
 export default {

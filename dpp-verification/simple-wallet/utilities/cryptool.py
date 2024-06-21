@@ -130,8 +130,8 @@ class cryptool:
             credentialAttributes = {
                 "id": f"urn:uuid:{id}",
                 "issuer": issuerDid,
-                "validFrom": issuance_date.isoformat() + "Z",
-                "validUntil": expiration_date.isoformat() + "Z"
+                "validFrom": issuance_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                "validUntil": expiration_date.strftime('%Y-%m-%dT%H:%M:%SZ')
             }
 
             credential.update(credentialAttributes)

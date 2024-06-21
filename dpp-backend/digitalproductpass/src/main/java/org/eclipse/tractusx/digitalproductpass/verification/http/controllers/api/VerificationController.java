@@ -40,7 +40,6 @@ import jakarta.validation.Valid;
 import org.eclipse.tractusx.digitalproductpass.core.models.http.Response;
 import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
-import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -49,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
+import utils.JsonUtil;
 
 import java.awt.print.Book;
 
@@ -89,7 +89,7 @@ public class VerificationController {
             @ApiResponse(description = "If the user is not authorized", responseCode = "401", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
-    public Response verify(@io.swagger.v3.oas.annotations.parameters.RequestBody(description="Verifiable Credential with JsonWebSignature2020 proof type",content=@Content(mediaType="application/vc+ld+json", schema=@Schema(ref = "#/components/schemas/CertifiedDataCredential")), required = true) @RequestBody CertifiedDataCredential credential) {
+    public Response verify(@io.swagger.v3.oas.annotations.parameters.RequestBody(description="Verifiable Credential with JsonWebSignature2020 proof type",content=@Content(mediaType="application/vc+ld+json", schema=@Schema(ref = "#/components/schemas/CertifiedDataCredential")), required = true) @RequestBody JsonNode credential) {
         Response response = httpUtil.getInternalError();
         if (!authService.isAuthenticated(httpRequest)) {
             response = httpUtil.getNotAuthorizedResponse();

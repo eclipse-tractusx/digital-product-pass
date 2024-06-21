@@ -32,22 +32,23 @@ import java.util.List;
 @Configuration
 public class CDCConfig {
 
-    List<SemanticKey> semanticIds;
-
-    public CDCConfig(List<SemanticKey> semanticIds) {
-        this.semanticIds = semanticIds;
-    }
+    List<SemanticKey> semanticIdKeys;
 
     public CDCConfig() {
     }
 
-    public List<SemanticKey> getSemanticIds() {
-        return semanticIds;
+    public CDCConfig(List<SemanticKey> semanticIdKeys) {
+        this.semanticIdKeys = semanticIdKeys;
     }
 
-    public void setSemanticIds(List<SemanticKey> semanticIds) {
-        this.semanticIds = semanticIds;
+    public List<SemanticKey> getSemanticIdKeys() {
+        return semanticIdKeys;
     }
+
+    public void setSemanticIdKeys(List<SemanticKey> semanticIdKeys) {
+        this.semanticIdKeys = semanticIdKeys;
+    }
+
 
     public static class SemanticKey {
         String key;

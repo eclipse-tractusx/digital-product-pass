@@ -59,7 +59,6 @@ import org.eclipse.tractusx.digitalproductpass.core.services.IrsService;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ControllerException;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.manager.VerificationManager;
-import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -246,7 +245,7 @@ public class AppController {
 
             // Verification Add-on Functionality
             if(this.verificationConfig.getEnabled()) {
-                String path = this.verificationManager.setVerificationStatus(processId, subModel, bpn);
+                String path = verificationManager.setVerificationStatus(processId, subModel, bpn);
                 if(path == null){
                     processManager.setStatus(processId, "verification-check-failed", new History(
                             subModel.getIdentification(),
@@ -353,16 +352,8 @@ public class AppController {
 
             VerificationInfo verificationInfo = status.getVerification();
             if(verificationInfo.vc){
-                CertifiedDataCredential certifiedDataCredential = jsonUtil.bind(passport, new TypeReference<>(){});
 
-                if(certifiedDataCredential == null){
-                    verificationInfo.setVerified(false);
-                    verificationInfo.setError("It was not possible to parse the verifiable credential as a Certified Data Credential!");
-                    verificationManager.setVerificationInfo(processId, verificationInfo);
-                    return this.savePassport(processId, endpointData, passport);
-                }
-
-                verificationInfo = verificationManager.buildVerification(certifiedDataCredential, verificationInfo);
+                verificationInfo = verificationManager.buildVerification(passport, verificationInfo);
             }
 
             verificationManager.setVerificationInfo(processId, verificationInfo);

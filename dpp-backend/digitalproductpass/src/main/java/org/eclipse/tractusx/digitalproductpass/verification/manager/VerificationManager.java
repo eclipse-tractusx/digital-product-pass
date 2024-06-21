@@ -37,9 +37,7 @@ import org.eclipse.tractusx.digitalproductpass.core.models.manager.History;
 import org.eclipse.tractusx.digitalproductpass.core.models.manager.Status;
 import org.eclipse.tractusx.digitalproductpass.verification.config.CDCConfig;
 import org.eclipse.tractusx.digitalproductpass.verification.config.VerificationConfig;
-import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedDataCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.Proof;
-import org.eclipse.tractusx.digitalproductpass.verification.models.VerifiableCredential;
 import org.eclipse.tractusx.digitalproductpass.verification.models.VerificationInfo;
 import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +64,6 @@ public class VerificationManager {
     private FileUtil fileUtil;
     @Autowired
     private ProcessManager processManager;
-
     @Autowired
     private WalletService walletService;
     @Autowired
@@ -194,9 +191,11 @@ public class VerificationManager {
         }
     }
     public Boolean isVerifiableCredential(SubModel subModel){
-
         CDCConfig cdcConfig = verificationConfig.getCertifiedDataCredential();
-        List<CDCConfig.SemanticKey> keys = cdcConfig.getSemanticIds();
+        if(cdcConfig == null){
+            throw new ManagerException(this.getClass().getName()+".isVerifiableCredential", "No Certified Data Credential configuration available!");
+        }
+        List<CDCConfig.SemanticKey> keys = cdcConfig.getSemanticIdKeys();
 
         if(keys == null){
             return null;
@@ -250,7 +249,7 @@ public class VerificationManager {
         return bpn;
     }
 
-    public VerificationInfo buildVerification(CertifiedDataCredential verifiableCredential, VerificationInfo verificationInfo){
+    public VerificationInfo buildVerification(JsonNode verifiableCredential, VerificationInfo verificationInfo){
         JsonNode response =  walletService.verifyCredential(verifiableCredential);
         boolean verified = false;
         String message = "An unexpected error occurred while verifying!";

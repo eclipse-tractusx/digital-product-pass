@@ -43,18 +43,11 @@ public class VerificationConfig {
     Boolean enabled;
     Boolean autoVerify;
     WalletConfig wallet;
-
     CDCConfig certifiedDataCredential;
 
     /**
      * CONSTRUCTOR(S)
      **/
-
-    public VerificationConfig(Boolean enabled, Boolean autoVerify, WalletConfig wallet) {
-        this.enabled = enabled;
-        this.autoVerify = autoVerify;
-        this.wallet = wallet;
-    }
 
     public VerificationConfig() {
     }

@@ -28,6 +28,7 @@ package org.eclipse.tractusx.digitalproductpass.verification.manager;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.logging.Log;
 import org.eclipse.tractusx.digitalproductpass.core.config.ProcessConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ManagerException;
 import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
@@ -92,6 +93,9 @@ public class VerificationManager {
             if(vc == null){
                 throw new ManagerException(this.getClass().getName(), "No configuration available for the verification process!");
             }
+            if(vc){
+                LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+processId+"] Verifiable Credential Aspect Found in subModel ["+ subModel.getIdentification()+"]!");
+            }
             String path = processManager.getProcessFilePath(processId, processManager.metaFileName);
             Status statusFile = null;
             if (!fileUtil.pathExists(path)) {
@@ -134,6 +138,8 @@ public class VerificationManager {
             if (!fileUtil.pathExists(path)) {
                 throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
             }
+
+            LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] Verification Started for Data Aspect Received from EDC!");
             History history = new History(
                     processId,
                     "VERIFYING",
@@ -172,6 +178,12 @@ public class VerificationManager {
             if (!fileUtil.pathExists(path)) {
                 throw new ManagerException(this.getClass().getName(), "Process file does not exists for id ["+processId+"]!");
             }
+
+            if(verificationInfo.verified){
+                LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] [VERIFIED] The Data Aspect was verified Successfully!");
+            }else{
+                LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] [VERIFICATION FAILED] The Data Aspect was not able to be verified!");
+            }
             History history = new History(
                     processId,
                     verificationInfo.verified?"VERIFIED":"UNVERIFIED",
@@ -205,11 +217,11 @@ public class VerificationManager {
 
         List<SubModel.SemanticId.Key> semanticIds = semanticId.getKeys();
 
-        return semanticIds.stream().parallel().allMatch(key -> this.isKeyInKeys(key, keys));
+        return keys.stream().parallel().allMatch(semanticKey -> this.isKeyInKeys(semanticKey, semanticIds));
     }
 
-    public Boolean isKeyInKeys(SubModel.SemanticId.Key key, List<CDCConfig.SemanticKey> keys){
-        return keys.stream().parallel().anyMatch(semanticKey -> key.getType().equals(semanticKey.getKey()) && key.getValue().equals(semanticKey.getValue()));
+    public Boolean isKeyInKeys(CDCConfig.SemanticKey key, List<SubModel.SemanticId.Key> keys){
+        return keys.stream().parallel().anyMatch(semanticKey -> key.getKey().equals(semanticKey.getType()) && key.getValue().equals(semanticKey.getValue()));
     }
 
     public VerificationInfo setupVerification(VerificationInfo verificationInfo, JsonNode passport){

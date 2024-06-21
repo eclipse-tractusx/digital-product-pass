@@ -875,7 +875,7 @@ public class ContractService extends BaseService {
             if(verificationConfig.getEnabled()) {
                 responseData.put(
                         "verification",
-                        verificationManager.setupVerification(status.getVerification(), passport)
+                        status.getVerification()
                 );
             }
             response.data = responseData;

@@ -348,15 +348,19 @@ public class AppController {
             if(!verificationConfig.getEnabled() || !verificationConfig.getAutoVerify()){
                 return this.savePassport(processId, endpointData, passport);
             }
-            verificationManager.setVerificationStarted(processId);
-
             VerificationInfo verificationInfo = status.getVerification();
-            if(verificationInfo.vc){
 
-                verificationInfo = verificationManager.buildVerification(passport, verificationInfo);
+            // If is not enabled to be verified
+            if(!verificationInfo.vc){
+                return this.savePassport(processId, endpointData, passport);
             }
 
+            // Verify aspect
+            verificationManager.setVerificationStarted(processId);
+            verificationInfo = verificationManager.buildVerification(passport, verificationInfo);
+            verificationInfo = verificationManager.setupVerification(verificationInfo, passport);
             verificationManager.setVerificationInfo(processId, verificationInfo);
+
             return this.savePassport(processId, endpointData, passport);
         } catch (Exception e) {
             LogUtil.printException(e, "This request is not allowed! It must contain the valid attributes from an EDC endpoint");

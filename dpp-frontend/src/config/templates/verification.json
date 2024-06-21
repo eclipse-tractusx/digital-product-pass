@@ -1,0 +1,19 @@
+{
+  "verification": {
+    "vc": null,
+    "verified": null,
+    "error": null,
+    "issuer": null,
+    "issuedAt": null,
+    "expirationDate": null,
+    "owner": null,
+    "wallet": null,
+    "proof": {
+      "type": null,
+      "proofPurpose": null,
+      "verificationMethod": null,
+      "created": null,
+      "jws": null
+    }
+  }
+}

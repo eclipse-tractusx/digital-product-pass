@@ -25,6 +25,8 @@
 import jsonUtil from "@/utils/jsonUtil.js";
 import passports from "@/config/templates/passports.json";
 import metadata from "@/config/templates/metadata.json";
+import verification from "@/config/templates/verification.json";
+import passportUtil from "@/utils/passportUtil.js";
 
 export default {
     /*getAttribute(attribute, sep = ".", defaultValue = null) {
@@ -49,23 +51,45 @@ export default {
         if (Object.keys(tmpPropsData).length < 0) return null;
         return tmpPropsData;
     }*/
-    normalizePassport(responsePassport=null, responseMetadata=null, semanticId="urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"){
-        if(!jsonUtil.exists(semanticId, passports)){
-            console.error("[ERROR] Semantic Id ["+semanticId+"] is not available in the passport templates and is not supported by the application");
+    normalizePassport(
+        responsePassport = null,
+        responseMetadata = null,
+        semanticId = "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport",
+        responseVerification = null
+    ) {
+        if (!jsonUtil.exists(semanticId, passports)) {
+            console.error(
+                "[ERROR] Semantic Id [" +
+                    semanticId +
+                    "] is not available in the passport templates and is not supported by the application"
+            );
             return null;
         }
+
         let passport = passports[semanticId]; //Get the passport by semanticId
         let response = {
-            "metadata": metadata,
-            "aspect": passport,
-            "semanticId": semanticId
+            metadata: metadata,
+            aspect: passport,
+            semanticId: semanticId,
+            verification: {
+                vc: false,
+            },
+        };
+        if (
+            responseVerification &&
+            jsonUtil.exists("vc", responseVerification) &&
+            responseVerification["vc"] &&
+            responsePassport
+        ) {
+            response["verification"] = responseVerification;
+            responsePassport = passportUtil.getAspectData(responsePassport);
         }
-        if(responsePassport){
+        if (responsePassport) {
             response["aspect"] = jsonUtil.extendDeep(passport, responsePassport);
         }
-        if(responseMetadata){
+        if (responseMetadata) {
             response["metadata"] = jsonUtil.extendDeep(metadata, responseMetadata);
         }
         return response;
-    }
+    },
 };

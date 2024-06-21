@@ -104,6 +104,7 @@ export default {
         while (keys.length > 0) {
             // While it still has keys
             for (let index in keys) {
+
                 // Interate over keys
                 let parentKey = keys[index]; // Get key value in array
                 let parent = this.get(parentKey, objects, sep, null); // Get current node value
@@ -375,7 +376,7 @@ export default {
             for (let i = refs.length - 1; i >= 0; i--) {
                 tmpObject = {};
                 part = refs[i];
-                currentPath = currentPath.filter((e) => e !== part);
+                currentPath.pop(-1);
                 parentPath = currentPath.join(sep);
                 tmpParent = this.get(parentPath, json, sep, {});
                 tmpObject[part] = tmpValue;
@@ -391,10 +392,11 @@ export default {
         }
     },
     extendDeep(originJson, json) {
+
         if (!json) {
             return originJson;
         }
-        if (!(json instanceof Object)) return originJson;
+        if (parent instanceof Array || !(parent instanceof Object) || parent instanceof String || parent instanceof Boolean || parent instanceof Number) return originJson;
         // Deep Copy param into object
         let objects = JSON.parse(JSON.stringify(json));
         let retObject = JSON.parse(JSON.stringify(originJson)); // Return/Final Object
@@ -412,12 +414,11 @@ export default {
                     continue;
                 }
 
-                if (!(parent instanceof Object)) {
+                if (parent instanceof Array || !(parent instanceof Object) || parent instanceof String || parent instanceof Boolean || parent instanceof Number) {
                     // If current node is not a object
                     retObject = this.set(parentKey, parent, retObject);
                     continue;
                 }
-
                 for (let childKey in parent) {
                     // Interate over children
                     let child = parent[childKey]; // Get children
@@ -426,8 +427,8 @@ export default {
                         // Skip null children
                         continue;
                     }
-                    let childstoreKey = this.buildPath(parentKey, childKey);
-                    if (!(child instanceof Object)) {
+                    let childstoreKey = this.buildPath(parentKey, childKey)
+                    if (child instanceof Array || !(child instanceof Object) || child instanceof String || child instanceof Boolean || child instanceof Number) {
                         // If children is not a object is a property from the father
                         // Check if key is not existing
                         retObject = this.set(childstoreKey, child, retObject);
@@ -439,8 +440,9 @@ export default {
                         keys.push(childstoreKey);
                     }
                 }
+
             }
         }
         return retObject; // Return clean objects
-    },
+    }
 };

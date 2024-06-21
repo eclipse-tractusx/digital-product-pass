@@ -36,61 +36,147 @@
       <v-icon class="icon" start md icon="mdi-arrow-left"></v-icon>
       {{ $t("passportHeader.backBtn") }}
     </v-btn>
-
     <div class="id-wrapper">
       <p class="id">
         {{ type }}:
         {{ id ? id : "—" }}
       </p>
     </div>
+    <template v-if="verificationData">
+      <DialogComponent :disabled="!verificationData.vc" icon="mdi-check-decagram" class="contract-modal">
+        <v-btn
+          rounded="pill"
+          :color="verificationData.vc ? 'green' : 'grey'"
+          :disabled="!verificationData.vc"
+          size="large"
+          class="verification-btn"
+          variant="outlined"
+          style="border: 2px solid; text-transform: initial"
+        >
+          <v-icon
+            class="icon"
+            start
+            md
+            :icon="verificationData.vc ? 'mdi-check-decagram' : 'mdi-check-decagram-outline'"
+          ></v-icon>
+          {{ $t("passportHeader.verification") }}
+        </v-btn>
+        <template v-slot:title v-if="verificationData.vc">
+          {{ $t("passportHeader.verification") }}
+        </template>
+        <template v-slot:text v-if="verificationData.vc">
+          <ul>
+            <li class="verification">
+              {{ $t("passportHeader.issuer") }}:
+              <span class="verification-value">
+                {{ verificationData.issuer }}
+              </span>
+            </li>
+            <li class="verification">
+              {{ $t("passportHeader.issuedAt") }}:
+              <span class="verification-value">
+                {{ callFormatTimestamp(verificationData.issuedAt) }}
+              </span>
+            </li>
+            <li class="verification">
+              {{ $t("passportHeader.expirationDate") }}:
+              <span class="verification-value">
+                {{ callFormatTimestamp(verificationData.expirationDate) }}
+              </span>
+            </li>
+          </ul>
+          <div class="btn-background">
+            <v-btn rounded="pill" color="#0F71CB" size="large" class="" href="/" style="color: white">
+              <v-icon class="icon" start md icon="mdi-refresh"></v-icon>
+              {{ $t("passportHeader.reloadVerification") }}
+            </v-btn>
+          </div>
+        </template>
+      </DialogComponent>
+    </template>
   </div>
 </template>
 
 <script>
+import DialogComponent from "../../components/general/Dialog.vue";
+import passportUtil from "@/utils/passportUtil.js";
+
 export default {
   name: "PassportHeader",
+  components: {
+    DialogComponent,
+  },
   props: {
     id: {
       type: String,
       default: null,
+    },
+    verification: {
+      type: Object,
+      default: Object,
     },
     type: {
       type: String,
       default: "Passport Id",
     },
   },
+  data() {
+    return {
+      verificationData: this.$props.verification,
+    };
+  },
+  methods: {
+    callFormatTimestamp(date) {
+      return passportUtil.formatTimestamp(date);
+    },
+  },
 };
 </script>
 
 <style>
-.id-wrapper {
+.id-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
   width: 100%;
-  padding-right: 115px;
+  margin-top: 6em;
+  padding: 14px 42px 14px 42px;
+}
+.id-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   line-break: anywhere;
 }
-
+.btn-background {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ul {
+  margin-bottom: 36px;
+}
 .id {
   font-size: 14px;
   line-height: 36px;
   font-weight: bold;
 }
-.id-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 6em 40px 0 40px;
-  padding: 15px 0 10px 0;
+.verification {
+  padding-bottom: 16px;
 }
-@media (max-width: 750px) {
+.verification-value {
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
   .id-container {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    padding: 14px 42px 88px 42px;
   }
   .id-wrapper {
-    margin-top: 15px;
+    margin-top: 42px;
   }
 }
 </style>

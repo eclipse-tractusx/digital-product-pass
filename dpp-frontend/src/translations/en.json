@@ -151,8 +151,16 @@
     "verification": "Verified",
     "issuer": "Issuer",
     "issuedAt": "Issued at",
-    "expirationDate": "Expiration date",
-    "reloadVerification": "Refresh verification"
+    "expirationDate": "Expires at",
+    "reloadVerification": "Refresh verification",
+    "proof": "Proof",
+    "type": "Type",
+    "wallet": "Wallet",
+    "owner": "Owner",
+    "proofPurpose": "Purpose proof",
+    "verificationMethod": "Verification method",
+    "created": "Created",
+    "jws": "JWS"
   },
   "field": {
     "tempRange": "Temp range:",

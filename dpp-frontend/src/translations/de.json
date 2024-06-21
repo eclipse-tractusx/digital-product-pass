@@ -151,8 +151,16 @@
     "verification": "Verifiziert",
     "issuer": "Aussteller",
     "issuedAt": "Ausgestellt am",
-    "expirationDate": "Ablaufdatum",
-    "reloadVerification": "Verifizierung aktualisieren"
+    "expirationDate": "Läuft ab am",
+    "reloadVerification": "Verifizierung aktualisieren",
+    "proof": "Nachweis",
+    "type": "Typ",
+    "wallet": "Brieftasche",
+    "owner": "Eigentümer",
+    "proofPurpose": "Zwecknachweis",
+    "verificationMethod": "Verifizierungsmethode",
+    "created": "Erstellt",
+    "jws": "JWS"
   },
   "field": {
     "tempRange": "Temperaturbereich:",
@@ -298,13 +306,6 @@
       "speedResistance": "Geschwindigkeitswiderstand",
       "oilCapacity": "Ölkapazität",
       "electricPerformance": "Elektrische Leistung"
-    },
-    "instructions": {
-      "packagingInstructions": "Verpackungsanweisungen",
-      "transportationInstructions": "Transportanweisungen",
-      "dismantlingProcedure": "Demontageverfahren",
-      "safetyMeasures": "Sicherheitsmaßnahmen",
-      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
     },
     "sparePartsSupplier": {
       "supplierContact": "Lieferantenkontakt",

@@ -290,7 +290,6 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
-import MOCK from "../assets/dppv5.json";
 
 export default {
   name: "PassportView",
@@ -317,7 +316,7 @@ export default {
       declineContractModal: false,
       showContractModal: true,
       auth: inject("authentication"),
-      data: MOCK,
+      data: null,
       loading: true,
       searchResponse: null,
       declineLoading: false,
@@ -403,19 +402,10 @@ export default {
   },
 
   async created() {
-    // this.backendService = new BackendService();
-    // this.searchContracts();
-    this.displayPassport();
+    this.backendService = new BackendService();
+    this.searchContracts();
   },
   methods: {
-    displayPassport() {
-      this.data = configUtil.normalizePassport(
-        this.data["aspect"],
-        this.data["metadata"],
-        this.data["semanticId"],
-        this.data["verification"]
-      );
-    },
     processAspectData(dataAspect) {
       let dataKeys = Object.keys(dataAspect);
 
@@ -701,30 +691,12 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
-            let additionalData = [];
-            let sources = [];
-            // In order to have the additional data available we need to copy it in deep
-            if (jsonUtil.exists("additionalData", this.data["data"]["aspect"])) {
-              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
-            }
-            // When extend deep is called this property will be replaced
-            if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
-              sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
-            }
-
             this.data = configUtil.normalizePassport(
               jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
-              jsonUtil.get("data.semanticId", this.data)
+              jsonUtil.get("data.semanticId", this.data),
+              jsonUtil.get("data.verification", this.data)
             );
-            // Re-add the additionalData
-            if (jsonUtil.exists("additionalData", this.data["aspect"])) {
-              this.data["aspect"]["additionalData"] = additionalData;
-            }
-            // Re-add the sources
-            if (jsonUtil.exists("sources", this.data["aspect"])) {
-              this.data["aspect"]["sources"] = sources;
-            }
 
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store

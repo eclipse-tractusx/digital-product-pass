@@ -86,7 +86,6 @@ export default {
     },
     groupSources(sources) {
         try {
-
             let mappedSources = {};
             for (let parentKey in sources) {
                 let parentSources = sources[parentKey];
@@ -163,4 +162,3 @@ export default {
         }
     },
 };
-

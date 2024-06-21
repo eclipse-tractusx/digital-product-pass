@@ -43,7 +43,11 @@
       </p>
     </div>
     <template v-if="verificationData">
-      <DialogComponent :disabled="!verificationData.vc" icon="mdi-check-decagram" class="contract-modal">
+      <DialogComponent
+        :disabled="!verificationData.vc"
+        icon="mdi-check-decagram"
+        class="contract-modal"
+      >
         <v-btn
           rounded="pill"
           :color="verificationData.vc ? 'green' : 'grey'"
@@ -57,7 +61,11 @@
             class="icon"
             start
             md
-            :icon="verificationData.vc ? 'mdi-check-decagram' : 'mdi-check-decagram-outline'"
+            :icon="
+              verificationData.vc
+                ? 'mdi-check-decagram'
+                : 'mdi-check-decagram-outline'
+            "
           ></v-icon>
           {{ $t("passportHeader.verification") }}
         </v-btn>
@@ -67,9 +75,21 @@
         <template v-slot:text v-if="verificationData.vc">
           <ul>
             <li class="verification">
+              {{ $t("passportHeader.owner") }}:
+              <span class="verification-value">
+                {{ verificationData.owner }}
+              </span>
+            </li>
+            <li class="verification">
               {{ $t("passportHeader.issuer") }}:
               <span class="verification-value">
                 {{ verificationData.issuer }}
+              </span>
+            </li>
+            <li class="verification">
+              {{ $t("passportHeader.wallet") }}:
+              <span class="verification-value">
+                {{ verificationData.wallet }}
               </span>
             </li>
             <li class="verification">
@@ -81,12 +101,57 @@
             <li class="verification">
               {{ $t("passportHeader.expirationDate") }}:
               <span class="verification-value">
-                {{ callFormatTimestamp(verificationData.expirationDate) }}
+                {{ callFormatTimestamp(verificationData.expiresAt) }}
               </span>
             </li>
+
+            <div class="element-chart-label">
+              {{ $t("passportHeader.proof") }}
+            </div>
+            <div style="padding: 0 24px 0 24px">
+              <ul>
+                <li class="verification">
+                  {{ $t("passportHeader.type") }}:
+                  <span class="verification-value">
+                    {{ verificationData.proof.type }}
+                  </span>
+                </li>
+                <li class="verification">
+                  {{ $t("passportHeader.proofPurpose") }}:
+                  <span class="verification-value">
+                    {{ verificationData.proof.proofPurpose }}
+                  </span>
+                </li>
+                <li class="verification">
+                  {{ $t("passportHeader.verificationMethod") }}:
+                  <span class="verification-value">
+                    {{ verificationData.proof.verificationMethod }}
+                  </span>
+                </li>
+                <li class="verification">
+                  {{ $t("passportHeader.created") }}:
+                  <span class="verification-value">
+                    {{ verificationData.proof.created }}
+                  </span>
+                </li>
+                <li class="verification">
+                  {{ $t("passportHeader.jws") }}:
+                  <span class="verification-value">
+                    {{ verificationData.proof.jws }}
+                  </span>
+                </li>
+              </ul>
+            </div>
           </ul>
           <div class="btn-background">
-            <v-btn rounded="pill" color="#0F71CB" size="large" class="" href="/" style="color: white">
+            <v-btn
+              rounded="pill"
+              color="#0F71CB"
+              size="large"
+              class=""
+              href="/"
+              style="color: white"
+            >
               <v-icon class="icon" start md icon="mdi-refresh"></v-icon>
               {{ $t("passportHeader.reloadVerification") }}
             </v-btn>
@@ -125,6 +190,7 @@ export default {
       verificationData: this.$props.verification,
     };
   },
+
   methods: {
     callFormatTimestamp(date) {
       return passportUtil.formatTimestamp(date);
@@ -142,6 +208,9 @@ export default {
   width: 100%;
   margin-top: 6em;
   padding: 14px 42px 14px 42px;
+}
+.proof_list {
+  padding-left: 12px;
 }
 .id-wrapper {
   position: absolute;

@@ -215,6 +215,7 @@
       "otherMaterials": "Andere Materialien",
       "type": "Typ",
       "location": "Standort",
+      "composition": "Komposition",
       "recycledContent": "Recycelter Inhalt",
       "materialIdentification": "Materialidentifikation",
       "hazardous": "Gefährlich",

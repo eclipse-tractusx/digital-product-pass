@@ -44,9 +44,9 @@ import org.eclipse.tractusx.digitalproductpass.verification.models.CertifiedData
 import org.eclipse.tractusx.digitalproductpass.verification.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import utils.HttpUtil;
 
@@ -89,7 +89,7 @@ public class VerificationController {
             @ApiResponse(description = "If the user is not authorized", responseCode = "401", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Response.class)))
     })
-    public Response verify(@RequestBody(description="Verifiable Credential with JsonWebSignature2020 proof type",content=@Content(mediaType="application/vc+ld+json", schema=@Schema(ref = "#/components/schemas/CertifiedDataCredential")), required = true) CertifiedDataCredential credential) {
+    public Response verify(@io.swagger.v3.oas.annotations.parameters.RequestBody(description="Verifiable Credential with JsonWebSignature2020 proof type",content=@Content(mediaType="application/vc+ld+json", schema=@Schema(ref = "#/components/schemas/CertifiedDataCredential")), required = true) @RequestBody CertifiedDataCredential credential) {
         Response response = httpUtil.getInternalError();
         if (!authService.isAuthenticated(httpRequest)) {
             response = httpUtil.getNotAuthorizedResponse();
@@ -109,7 +109,7 @@ public class VerificationController {
             try {
                 verifiedResponse = walletService.verifyCredential(credential);
             } catch (Exception e) {
-                response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
+                response = httpUtil.getForbiddenResponse("The Verifiable Credential was not able to be verified!");
                 response.data = false;
                 return httpUtil.buildResponse(response, httpResponse);
             }
@@ -120,7 +120,7 @@ public class VerificationController {
             }
 
             if (!verifiedResponse.has("verified")) {
-                response = httpUtil.getForbiddenResponse("Verifiable Credential was not able to be verified!");
+                response = httpUtil.getForbiddenResponse("The Verifiable Credential was not able to be verified!");
                 response.data = false;
                 return httpUtil.buildResponse(response, httpResponse);
             }

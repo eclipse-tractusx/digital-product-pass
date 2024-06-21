@@ -52,5 +52,4 @@ public class Proof {
     public String created;
     @JsonProperty("jws")
     public String jws;
-
 }

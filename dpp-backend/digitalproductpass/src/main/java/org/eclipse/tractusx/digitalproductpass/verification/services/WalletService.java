@@ -176,6 +176,9 @@ public class WalletService extends BaseService {
      */
     public JsonNode verifyCredential(CertifiedDataCredential verifiableCredential) {
         try {
+            System.out.println("Verifying credential:");
+            System.out.println(jsonUtil.toJson(verifiableCredential, true));
+
             this.checkEmptyVariables();
             String url = this.walletUrl + this.verifyEndpoint;
             HttpHeaders headers = httpUtil.getHeadersWithApiKey(this.apiKey);

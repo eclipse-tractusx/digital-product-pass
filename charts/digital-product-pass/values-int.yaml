@@ -71,6 +71,7 @@ backend:
 
 
 frontend:
+  enabled: true
   image:
     pullPolicy: Always
   ingress:

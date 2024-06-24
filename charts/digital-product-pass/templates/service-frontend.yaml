@@ -22,6 +22,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
+---
+
+{{- if .Values.frontend.enabled -}}
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,11 +36,11 @@ metadata:
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
-    - port: {{ .Values.frontend.service.port }}       # host port
-      targetPort: 8080                                # container port
+    - port: {{ .Values.frontend.service.port }}        # host port
+      targetPort: {{ .Values.frontend.service.port }}  # container port
       protocol: TCP
       name: http
   selector:
     {{- include "chart.selectorLabels" . | nindent 4 }}
     component: frontend
-
+{{- end }}

@@ -33,7 +33,7 @@ COPY package*.json ./
 RUN npm install -g npm
 
 #RUN npm install
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy rest of the files
 COPY . .

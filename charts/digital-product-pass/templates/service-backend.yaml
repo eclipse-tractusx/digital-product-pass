@@ -32,8 +32,8 @@ metadata:
 spec:
   type: {{ .Values.backend.service.type }}
   ports:
-    - port: {{ .Values.backend.service.port }}    # host port
-      targetPort: 8888                      # container port
+    - port: {{ .Values.backend.service.port }}        # host port
+      targetPort: {{ .Values.backend.service.port }}  # container port
       protocol: TCP
       name: http
   selector:

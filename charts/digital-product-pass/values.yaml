@@ -181,12 +181,8 @@ backend:
 
   passport:
     aspects:
-      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       - urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass
-      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
       - urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass
-      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
       - urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
     # -- configuration for policies to filter in the digital product pass asset negotiation
     policyCheck:
@@ -265,6 +261,7 @@ backend:
     delay: 1000
 
 frontend:
+  enabled: true
   name: "dpp-frontend"
   image:
     repository: docker.io/tractusx/digital-product-pass-frontend
@@ -298,7 +295,7 @@ frontend:
     runAsUser: 1000
     # -- Processes within a pod will belong to this guid
     runAsGroup: 3000
-    # -- The owner for volumes and any files created within volumes will belong to this guid
+    # -- The owner for volumes and any files created within volumes will belong to this guide
     fsGroup: 3000
 
   # The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
@@ -389,6 +386,20 @@ resources:
   requests:
     cpu: 250m
     memory: 512Mi
+
+livenessProbe:
+  enabled: false
+  path: /health
+  port: 8888
+  initialDelaySeconds: 60       # trigger initial readinessProbe after 60 seconds
+  periodSeconds: 300            # check readinessProbe after every 5 minutes
+
+readinessProbe:
+  enabled: false
+  path: /health
+  port: 8888
+  initialDelaySeconds: 60       # trigger initial readinessProbe after 60 seconds
+  periodSeconds: 300            # check readinessProbe after every 5 minutes
 
 # [node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain pods to nodes
 nodeSelector: {}

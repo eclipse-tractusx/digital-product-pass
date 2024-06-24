@@ -22,6 +22,11 @@
   # SPDX-License-Identifier: Apache-2.0
   #################################################################################
 
+---
+
+{{- if .Values.frontend.enabled -}}
+
+
 {{- if .Values.frontend.ingress.enabled -}}
 {{- $fullName := .Values.frontend.name -}}
 {{- $svcPort := .Values.frontend.service.port -}}
@@ -79,11 +84,12 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 8080
+                  number: {{ $svcPort }}
               {{- else }}
               serviceName: {{ $fullName }}
-              servicePort: 8080
+              servicePort:  {{ $svcPort }}
               {{- end }}
           {{- end }}
     {{- end }}
+{{- end }}
 {{- end }}

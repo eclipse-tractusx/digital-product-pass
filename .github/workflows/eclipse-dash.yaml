@@ -38,7 +38,7 @@ on:
       - '**/pom.xml'
 
 jobs:
-  check-licenses-java:
+  check-licenses-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -59,7 +59,7 @@ jobs:
           cd dpp-backend/digitalproductpass
           mvn --batch-mode --update-snapshots verify -Ddash.fail=true -DskipTests
 
-      - name: Ensure DEPENDENCIES file is reflecting the current state
+      - name: Ensure DEPENDENCIES_BACKEND file is reflecting the current state
         run: |
           cd dpp-backend/digitalproductpass
           mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES-generated
@@ -69,4 +69,22 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'target/dash/summary'
+          path: 'dpp-backend/digitalproductpass/target/dash/summary'
+
+  check-licences-frontend:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Run dash
+          id: run-dash
+          uses: ./.github/actions/run-dash
+          with:
+            dash_input: " dpp-frontend/package-lock.json"
+
+        - name: upload results
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            path: 'dpp-frontend'

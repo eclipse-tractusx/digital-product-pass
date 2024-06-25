@@ -1,0 +1,141 @@
+#################################################################################
+# Tractus-X - Digital Product Passport Application
+#
+# Copyright (c) 2022 BMW AG
+# Copyright (c) 2022 Henkel AG & Co. KGaA
+# Copyright (c) 2022 Contributors to the Eclipse Foundation
+# Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the
+# License for the specific language govern in permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+---
+
+name: "Check dependencies"
+description: "This action sets up `dash-licenses`. It then generates an up-to-date DEPENDENCIES file and compares it with in the repository"
+inputs:
+  dash_version:
+    description: "The version of `dash-licenses` to install"
+    required: true
+    default: "LATEST"
+  dash_input:
+    description: "The input dependency list file for `dash-licenses`."
+    required: true
+  dependencies_file:
+    description: "The name (and path) to the `DEPENDENCIES` file in the repository. Defaults to 'DEPENDENCIES'"
+    required: true
+    default: "DEPENDENCIES"
+  fail_on_out_of_date:
+    description: "Boolean indicating if the action should fail, if current DEPENDENCIES file is out of date. Default='true'"
+    required: true
+    default: "true"
+  fail_on_rejected:
+    description: "Boolean indicating if the action should fail, if 'restricted' dependencies found. Default='true'"
+    required: true
+    default: "true"
+  fail_on_restricted:
+    description: "Boolean indicating if the action should fail, if 'rejected' dependencies found. Default='false'"
+    required: true
+    default: "false"
+outputs:
+  dependencies_up_to_date:
+    description: "Boolean flag, that indicates if the DEPENDENCIES file is up-to-date. 'False', if dash output is not identical to repo version"
+    value: ${{ steps.dependency-diff.outputs.changed == 'false' }}
+  restricted_deps_found:
+    description: "Boolean flag, that indicates, if the updated DEPENDENCIES file does contain 'restricted' libs, that have to be IP/License checked"
+    value: ${{ steps.restricted-check.outputs.restricted-found == 'true' }}
+  rejected_deps_found:
+    description: "Boolean flag, that indicates, if the updated DEPENDENCIES file does contain 'rejected' libs, that have to be removed."
+    value: ${{ steps.rejected-check.outputs.rejected-found == 'true' }}
+runs:
+  using: composite
+  steps:
+    - name: Download Dash
+      run: |
+        echo "Downloading Dash version: ${{ inputs.dash_version }}"
+        curl -L -o dash.jar "https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=${{ inputs.dash_version }}"
+      shell: bash
+
+    # https://github.com/actions/setup-java
+    - name: Setup Java
+      uses: eclipse-tractusx/digital-product-pass/.github/actions/setup-java@main
+
+    - name: Generate 'DEPENDENCIES' file for current source as ${{ inputs.dependencies_file }}
+      run: |
+        echo "using ${{ inputs.dash_input }} to generate ${{ inputs.dependencies_file }} for current source"
+        java -jar dash.jar ${{ inputs.dash_input }} -summary ${{ inputs.dependencies_file }} || true
+      shell: bash
+
+    - name: Check for differences between existing ${{ inputs.dependencies_file }} and the generated one
+      id: dependency-diff
+      run: |
+        changed=$(git diff ${{ inputs.dependencies_file }})
+        if [[ -n "$changed" ]]; then
+          echo "${{ inputs.dependencies_file }} not up-to-date"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        else
+          echo "${{ inputs.dependencies_file }} is up-to-date"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Check for restricted dependencies
+      id: restricted-check
+      run: |
+        restricted=$(grep ' restricted,' ${{ inputs.dependencies_file }} || true)
+        if [[ -n "$restricted" ]]; then
+          echo "The following dependencies are restricted: $restricted"
+          echo "restricted-found=true" >> $GITHUB_OUTPUT
+        else
+          echo "restricted-found=false" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Check for restricted dependencies
+      id: rejected-check
+      run: |
+        rejected=$(grep ' rejected,' ${{ inputs.dependencies_file }} || true)
+        if [[ -n "$restricted" ]]; then
+          echo "The following dependencies are marked as rejected: $rejected"
+          echo "rejected-found=true" >> $GITHUB_OUTPUT
+        else
+          echo "rejected-found=false" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Verify job status
+      run: |
+        echo "Verify step outputs and action input to let the job pass/fail"
+        if [[  "${{ inputs.fail_on_out_of_date }}" == "true" ]]; then
+          if [[ "${{ steps.dependency-diff.outputs.changed }}" == "true" ]]; then
+            echo "Dependencies are out of date. Failing check!"
+            exit 1
+          fi
+        fi
+        if [[ "${{ inputs.fail_on_rejected }}" == "true" ]]; then
+          if [[ "${{ steps.rejected-check.outputs.rejected-found }}" == "true" ]]; then
+            echo "Rejected dependencies found. Failing check!"
+            exit 1
+          fi
+        fi
+        if [[ "${{ inputs.fail_on_restricted }}" == "true" ]]; then
+          if [[ "${{ steps.restricted-check.outputs.restricted-found }}" == "true" ]]; then
+            echo "Restricted libraries found. Failing check!"
+            exit 1
+          fi
+        fi
+      shell: bash

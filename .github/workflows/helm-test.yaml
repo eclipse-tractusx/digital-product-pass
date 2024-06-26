@@ -1,9 +1,10 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2022 BMW AG
+# Copyright (c) 2022 Henkel AG & Co. KGaA
+# Copyright (c) 2022 Contributors to the Eclipse Foundation
+# Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -47,7 +48,6 @@ on:
         type: string
 
 env:
-  JAVA_VERSION: 19
   REGISTRY: kind-registry:5000
   TAG: testing
   FRONTEND_IMAGE: digital-product-pass-frontend
@@ -78,11 +78,8 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE}}:${{ env.TAG }}
       
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'adopt'
+      - name: Setup Java 21
+        uses: ./.github/actions/setup-java
       
       # Build Java code with Maven
       - name:  Build dpp backend with maven

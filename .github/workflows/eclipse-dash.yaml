@@ -28,7 +28,7 @@ name: "Eclipse DASH IP Check"
 on:
   workflow_dispatch: # Trigger manually
   push:
-    branches: [ "main", "chore/trgs-check" ]
+    branches: main
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'

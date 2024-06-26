@@ -1,9 +1,10 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2022 BMW AG
+# Copyright (c) 2022 Henkel AG & Co. KGaA
+# Copyright (c) 2022 Contributors to the Eclipse Foundation
+# Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -39,7 +40,6 @@ on:
 jobs:
   upgrade:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

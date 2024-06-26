@@ -307,6 +307,17 @@ def context():
         response: :vc: schema
     """
     try:
+        headers = request.headers
+        if not("BPN" in headers):
+            return HttpUtils.get_error_response(message="Missing the BPN header!", status=401) 
+        
+        bpn = headers["BPN"]
+
+        if (bpn is None) or (bpn == ""):
+            return HttpUtils.get_error_response(message="The BPN number is empty", status=401) 
+        
+        if not HttpUtils.is_authorized(request=request, bpn=bpn, config=app_configuration):
+            return HttpUtils.get_not_authorized()    
         body = HttpUtils.get_body(request)
         
         semanticId = op.get_attribute(body, "semanticId")

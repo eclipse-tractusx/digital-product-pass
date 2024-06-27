@@ -464,4 +464,31 @@ export default class BackendService {
                 });
         });
     }
+
+    async reloadVerification(authentication, body) {
+        console.log(body);
+        console.log(this.getHeaders(authentication));
+        return new Promise((resolve) => {
+            axios
+                .post(`${BACKEND_URL}/api/verification/verify`, body, {
+                    headers: {
+                        Accept: "application/vc+ld+json",
+                        Authorization: "Bearer " + authentication.getAccessToken(),
+                    },
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    resolve(response.data);
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message);
+                    }
+                });
+        });
+    }
 }

@@ -43,11 +43,7 @@
       </p>
     </div>
     <template v-if="verificationData">
-      <DialogComponent
-        :disabled="!verificationData.vc"
-        icon="mdi-check-decagram"
-        class="contract-modal"
-      >
+      <DialogComponent :disabled="!verificationData.vc" icon="mdi-check-decagram" class="contract-modal">
         <v-btn
           rounded="pill"
           :color="verificationData.vc ? 'green' : 'grey'"
@@ -61,11 +57,7 @@
             class="icon"
             start
             md
-            :icon="
-              verificationData.vc
-                ? 'mdi-check-decagram'
-                : 'mdi-check-decagram-outline'
-            "
+            :icon="verificationData.vc ? 'mdi-check-decagram' : 'mdi-check-decagram-outline'"
           ></v-icon>
           {{ $t("passportHeader.verification") }}
         </v-btn>
@@ -149,7 +141,7 @@
               color="#0F71CB"
               size="large"
               class=""
-              href="/"
+              @click="reloadVerification()"
               style="color: white"
             >
               <v-icon class="icon" start md icon="mdi-refresh"></v-icon>
@@ -165,6 +157,8 @@
 <script>
 import DialogComponent from "../../components/general/Dialog.vue";
 import passportUtil from "@/utils/passportUtil.js";
+import { inject } from "vue";
+import BackendService from "@/services/BackendService";
 
 export default {
   name: "PassportHeader",
@@ -184,16 +178,26 @@ export default {
       type: String,
       default: "Passport Id",
     },
+    vcAspect: {
+      type: Object,
+      default: Object,
+    },
   },
   data() {
     return {
       verificationData: this.$props.verification,
+      aspect: this.$props.vcAspect,
+      auth: inject("authentication"),
     };
   },
 
   methods: {
     callFormatTimestamp(date) {
       return passportUtil.formatTimestamp(date);
+    },
+    reloadVerification() {
+      this.backendService = new BackendService();
+      this.backendService.reloadVerification(this.auth, this.aspect);
     },
   },
 };

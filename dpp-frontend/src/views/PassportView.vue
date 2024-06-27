@@ -225,9 +225,14 @@
     </v-container>
     <div v-else-if="data && !error">
       <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
-        <PassportHeader :id="data.aspect.identification.idDmc" type="Battery ID" :verification="data.verification" />
+        <PassportHeader
+          :id="data.aspect.identification.idDmc"
+          type="Battery ID"
+          :verification="data.verification"
+          :vcAspect="vcAspect"
+        />
       </template>
-      <PassportHeader :id="id ? id : '-'" type="ID" :verification="data.verification" />
+      <PassportHeader :id="id ? id : '-'" type="ID" :verification="data.verification" :vcAspect="vcAspect" />
       <div class="pass-container">
         <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
           <BatteryCards :data="data" />
@@ -691,8 +696,11 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
+            this.vcAspect = jsonUtil.get("data.aspect", this.data);
+            let aspect = JSON.parse(JSON.stringify(this.vcAspect));
+
             this.data = configUtil.normalizePassport(
-              jsonUtil.get("data.aspect", this.data),
+              aspect,
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data),
               jsonUtil.get("data.verification", this.data)

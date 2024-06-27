@@ -224,14 +224,6 @@
       </div>
     </v-container>
     <div v-else-if="data && !error">
-      <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
-        <PassportHeader
-          :id="data.aspect.identification.idDmc"
-          type="Battery ID"
-          :verification="data.verification"
-          :vcAspect="vcAspect"
-        />
-      </template>
       <PassportHeader :id="id ? id : '-'" type="ID" :verification="data.verification" :vcAspect="vcAspect" />
       <div class="pass-container">
         <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
@@ -322,6 +314,7 @@ export default {
       showContractModal: true,
       auth: inject("authentication"),
       data: null,
+      vcAspect: null,
       loading: true,
       searchResponse: null,
       declineLoading: false,

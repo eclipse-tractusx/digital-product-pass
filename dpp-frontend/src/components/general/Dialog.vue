@@ -49,6 +49,7 @@
               <p>{{ $t("dialog.noDescription") }}</p>
             </slot>
           </v-card-text>
+          <div class="btn-background"></div>
         </v-card>
       </v-dialog>
     </div>

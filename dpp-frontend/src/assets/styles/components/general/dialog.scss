@@ -49,14 +49,19 @@
     top: 4px;
     right: 4px;
   }
- 
+
   .v-btn--block {
     padding: 0 10px 0 20px;
   }
 }
- 
+
 @media (max-width: 550px) {
   .dialog-container {
     width: 350px;
+  }
+}
+@media (max-width: 390px) {
+  .dialog-container {
+    min-width: 100% !important;
   }
 }

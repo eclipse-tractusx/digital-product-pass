@@ -88,7 +88,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push frontend
         id: build-and-push-frontend-dockerhub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: dpp-frontend
           push: true
@@ -149,7 +149,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push frontend for GHCR registry
         id: build-and-push-frontend-ghcr
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: dpp-frontend
           push: true

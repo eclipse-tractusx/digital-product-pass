@@ -4742,7 +4742,6 @@ security:
 
 They keys in the API Keys can be configured dinamically matching the BPNs of the companies that are allowed to used the "Authenticated" APIs from the simple wallet. The api key value sent in the request headers **MUST** be with the same as the defined ones in the configuration for the specific BPNs.
 
-
 ## More information
 
 For more information about the context of the simple wallet consult the main Digital Product Pass Verification Add-on in the following documentation:

@@ -21,13 +21,51 @@ SPDX-License-Identifier: CC-BY-4.0
 -->
 
 <div align="center">
-  <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
+  <img alt="DPP Verificaion Logo" src="../resources/verification-logo.png" width="350" height="350">
   <br><br>
   <img alt="Version:  v1.0.0" src="https://img.shields.io/badge/Version-v1.0.0-blue?style=for-the-badge">
   <h3> Digital Product Pass Verification Add-on</h3>
   <h1> Simple Wallet </h1>
   
 </div>
+
+## Table of Contents
+- [What is the simple wallet?](#what-is-the-simple-wallet)
+- [Helm Charts](#helm-charts)
+  - [Credential Storage](#credential-storage)
+  - [Keys Creation](#keys-creation)
+- [Docker Local Deployment](#docker-local-deployment)
+  - [1º- Image creation](#1º--image-creation)
+  - [2º- Run container](#2º--run-container)
+  - [3º - Start sending requests](#3º---start-sending-requests)
+- [Local Start without Docker](#local-start-without-docker)
+  - [Execute init script with or without parameters](#execute-init-script-with-or-without-parameters)
+  - [Parameters](#parameters)
+- [Technical Integration](#technical-integration)
+  - [API Specification](#api-specification)
+  - [Health API](#health-api)
+    - [Health API response](#health-api-response)
+  - [Context API](#context-api)
+    - [Context API Header](#context-api-header)
+    - [Context API Request](#context-api-request)
+    - [Context API Response](#context-api-response)
+  - [Issue API](#issue-api)
+    - [Issue API Header](#issue-api-header)
+    - [Issue API Request](#issue-api-request)
+    - [Issue API Response](#issue-api-response)
+  - [Verify API](#verify-api)
+    - [Verify API Header](#verify-api-header)
+    - [Verify API Request](#verify-api-request)
+    - [Verify API Response](#verify-api-response)
+      - [Successfull Verification Response](#successfull-verification-response)
+      - [Unsuccessfull Verification Response](#unsuccessfull-verification-response)
+  - [DID API](#did-api)
+    - [DID API Path Params](#did-api-path-params)
+    - [DID API Response](#did-api-response)
+- [Authorization and Authentication Configuration](#authorization-and-authentication-configuration)
+  - [More information](#more-information)
+  - [NOTICE](#notice)
+  - [AUTHORS](#authors)
 
 
 # What is the simple wallet?
@@ -41,6 +79,62 @@ It provides a functional wallet able to:
 
 Additionally the simple wallet contains a extension for creating JSON-LD @contexts using Catena-X SAMM Models Schemas.
 This allows the verifiable credentials to be valid JSON-LDs documents and enables the context of the existing and future modeled documents.
+
+# Helm Charts
+
+The helm charts are available at the following path:
+
+[`../charts/simple-wallet`](../charts/simple-wallet)
+
+It can be used to deploy the application.
+
+The URL for hosting the wallet is configured here:
+
+```yaml
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    ingressClassName: nginx
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  hosts:
+    - host: &hostname "<url-from-wallet>"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: tls-secret
+      hosts:
+        - *hostname
+```
+
+## Credential Storage
+
+The wallet configuration for storing credentials are in the following location:
+
+```yaml
+credentials:
+  storage: 
+    # -- Enables the storage of credentials
+    enabled: true
+```
+
+If the storage is disabled the credentials will not be stored.
+And in case it is enabled credentials will be stored in the following dynamic path:
+
+`./credentials/<partner-bpn>/<issue-date>/<credentialUUID>.jsonld`
+
+## Keys Creation
+
+For every BPN configured in the wallet configuration a key will be created in the first request.
+
+Three keys will be created in the following path `./keys/<partner-bpn>`:
+
+- `key.jwt` -> The JWT key generated from the private key
+- `private_key.pem` -> The private key from the partner
+- `public_ket.pem` -> The public key in format pem
 
 # Docker Local Deployment
 
@@ -4626,6 +4720,34 @@ This API will be called by another simple wallet or another wallet to find the s
 }
 ```
 </details>
+
+# Authorization and Authentication Configuration
+
+In the helm charts:
+
+[`../charts/simple-wallet/values.yaml`](../charts/simple-wallet/values.yaml)
+
+You will find the following configuration:
+
+```yaml
+security:
+  # -- Enables the api key authorization
+  enabled: true
+  # -- BPN and their respecitve api key
+  apiKeys:
+      BPNL00000000W3BS: <apiKeyTest>
+      BPNL00000000WAWT: <apiKeyTest2>
+      BPNL00000000ASDH: <apiKeyTest3>
+```
+
+They keys in the API Keys can be configured dinamically matching the BPNs of the companies that are allowed to used the "Authenticated" APIs from the simple wallet. The api key value sent in the request headers **MUST** be with the same as the defined ones in the configuration for the specific BPNs.
+
+
+## More information
+
+For more information about the context of the simple wallet consult the main Digital Product Pass Verification Add-on in the following documentation:
+
+[Go to Digital Product Pass Verification Main Readme](../README.md)
 
 ## NOTICE
 

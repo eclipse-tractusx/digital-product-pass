@@ -262,9 +262,16 @@ public class VerificationManager {
     }
 
     public VerificationInfo buildVerification(JsonNode verifiableCredential, VerificationInfo verificationInfo){
-        JsonNode response =  walletService.verifyCredential(verifiableCredential);
+        JsonNode response = null;
         boolean verified = false;
         String message = "An unexpected error occurred while verifying!";
+        try{
+            response =  walletService.verifyCredential(verifiableCredential);
+        } catch (Exception e) {
+            verificationInfo.setVerified(false);
+            verificationInfo.setError("An error occurred while verifying, the credential signature was not able to be verified!");
+            return verificationInfo;
+        }
         if (response == null) {
             verificationInfo.setVerified(false);
             verificationInfo.setError("An error occurred while verifying, the wallet service returned null!");

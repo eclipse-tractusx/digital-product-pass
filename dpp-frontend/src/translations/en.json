@@ -149,10 +149,11 @@
   "passportHeader": {
     "backBtn": "Back",
     "verification": "Verified",
+    "unverifiable": "Unverifiable",
     "issuer": "Issuer",
     "issuedAt": "Issued at",
     "expirationDate": "Expires at",
-    "reloadVerification": "Refresh verification",
+    "reloadVerification": "Check Verification",
     "verified": "Verified",
     "status": "Status",
     "message": "Message",

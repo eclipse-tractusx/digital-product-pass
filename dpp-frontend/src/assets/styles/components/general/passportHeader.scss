@@ -89,6 +89,14 @@ ul {
   line-height: 36px;
   font-weight: bold;
 }
+.verification-list ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.verification.error{
+  color: red;
+}
 .verification {
   padding-bottom: 16px;
 }

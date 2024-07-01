@@ -117,7 +117,7 @@
         "
       />
       <!-- Passport Verification -->
-      <template v-if="statusData.data.history['verification-started']">
+      <template v-if="statusData.data.history['verifiable-aspect-found']">
         <template v-if="statusData.data.history['verification-failed']">
           <StepperItemFail
             :condition="statusData.data.history['verification-failed']"

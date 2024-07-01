@@ -43,7 +43,7 @@
       </p>
     </div>
     <template v-if="verificationData">
-      <DialogComponent :disabled="!verificationData.vc" icon="mdi-check-decagram" class="contract-modal">
+      <DialogComponent :disabled="!verificationData.vc" :icon="!verificationData.verified ? 'mdi-shield-alert' : !verificationData.vc ? 'mdi-alert-circle-outline' : 'mdi-shield-check'" class="contract-modal">
         <v-btn
           rounded="pill"
           :color="!verificationData.verified ? 'red' : !verificationData.vc ? 'grey' : 'green'"
@@ -57,60 +57,84 @@
             class="icon"
             start
             md
-            :icon="verificationData.vc ? 'mdi-check-decagram' : 'mdi-check-decagram-outline'"
+            :icon="!verificationData.verified ? 'mdi-shield-alert' : !verificationData.vc ? 'mdi-alert-circle-outline' : 'mdi-shield-check'"
           ></v-icon>
           {{
-            !verificationData.verified || !verificationData.vc
-              ? $t("passportHeader.unverified")
-              : $t("passportHeader.verification")
+            !verificationData.verified ? !verificationData.vc
+              ? $t("passportHeader.unverifiable")
+              : $t("passportHeader.unverified") : $t("passportHeader.verified")
           }}
         </v-btn>
         <template v-slot:title v-if="verificationData.vc">
-          {{ $t("passportHeader.verification") }}
+          {{
+            !verificationData.verified ? !verificationData.vc
+              ? $t("passportHeader.unverifiable")
+              : $t("passportHeader.unverified") : $t("passportHeader.verified")
+          }}
         </template>
         <template v-slot:text v-if="verificationData.vc">
-          <div v-if="!verificationData.error">
-            <ul>
-              <li class="verification" v-if="verificationData.owner">
-                <span class="verification-label"> {{ $t("passportHeader.owner") }}: </span>
-                <span class="verification-value">
-                  {{ verificationData.owner }}
-                </span>
-              </li>
-              <li class="verification" v-if="verificationData.issuer">
-                <span class="verification-label"> {{ $t("passportHeader.issuer") }}: </span>
-                <span class="verification-value">
-                  {{ verificationData.issuer }}
-                </span>
-              </li>
-              <li class="verification" v-if="verificationData.wallet">
+          <div class="verification-list">
+            <table style="width:100%">
+              <tr class="verification">
+                <td v-if="verificationData.owner" class="verification">
+                  <span class="verification-label"> {{ $t("passportHeader.owner") }}: </span>
+                  <span class="verification-value">
+                     {{ verificationData.owner }}
+                  </span>
+                </td>
+                 <td v-if="verificationData.issuer" class="verification">
+                  <span class="verification-label"> {{ $t("passportHeader.issuer") }}: </span>
+                  <span class="verification-value">
+                    {{ verificationData.issuer }}
+                  </span>
+                </td>
+              </tr>
+              <tr class="verification" > 
+                <td v-if="verificationData.wallet" colspan="2" class="verification">
                 <span class="verification-label"> {{ $t("passportHeader.wallet") }}: </span>
-                <span class="verification-value">
-                  {{ verificationData.wallet }}
-                </span>
-              </li>
-              <li class="verification" v-if="verificationData.issuedAt">
-                <span class="verification-label"> {{ $t("passportHeader.issuedAt") }}: </span>
+                <a style="color:blue" target="_blank" :href="'https://dev.uniresolver.io/#'+verificationData.wallet">
+                  <span class="verification-value">
+                    {{ verificationData.wallet }}
+                  </span>
+                </a>
+                </td>
+              </tr>
+              <tr class="verification">
+                <td v-if="verificationData.issuedAt" class="verification">
+                    <span class="verification-label"> {{ $t("passportHeader.issuedAt") }}: </span>
                 <span class="verification-value">
                   {{ callFormatTimestamp(verificationData.issuedAt) }}
                 </span>
-              </li>
-              <li class="verification" v-if="verificationData.expiresAt">
+                </td>
+                 <td v-if="verificationData.expiresAt" class="verification">
                 <span class="verification-label"> {{ $t("passportHeader.expirationDate") }}: </span>
                 <span class="verification-value">
                   {{ callFormatTimestamp(verificationData.expiresAt) }}
                 </span>
-              </li>
+                </td>
+              </tr>
+            </table>
+            <ul>
               <!-- proof -->
               <div class="proof-container" v-if="verificationData.proof">
-                <div class="proof-title">
+                <div class="proof-title" style="width: 100%">
+                  <span>
                   {{ $t("passportHeader.proof") }}
+                  </span>
                 </div>
+                
                 <div class="jws-container" v-if="verificationData.proof.jws">
                   <div class="verification jws-label">{{ $t("passportHeader.jws") }}:</div>
                   <div class="jws">
                     {{ verificationData.proof.jws }}
                   </div>
+                  <v-icon
+                    :style="!verificationData.verified ? 'color: red': 'color: blue'"
+                    class="icon"
+                    end
+                    sm
+                    :icon="!verificationData.verified ? 'mdi-lock-open-remove-outline': 'mdi-lock-check-outline'"
+                  ></v-icon>
                 </div>
                 <v-divider></v-divider>
                 <div class="field-container">
@@ -165,10 +189,8 @@
                 </li>
               </div>
             </ul>
-          </div>
-          <div v-else>
-            <ul>
-              <li class="verification">
+            <ul v-if="!verificationData.verified">
+              <li class="verification error">
                 <span class="verification-label"> {{ $t("passportHeader.error") }}: </span>
                 <span class="verification-value">
                   {{ verificationData.error }}
@@ -245,8 +267,8 @@ export default {
       this.backendService = new BackendService();
       let result = this.backendService.reloadVerification(this.auth, this.aspect);
       result.then((response) => {
-        this.reloadVerificationData.status = response.status;
-        this.reloadVerificationData.message = response.message;
+        this.verificationData.verified = response.verified;
+        this.verificationData.error = response.message;
         let lastUpdated = new Date().toLocaleString();
         this.reloadVerificationData.lastUpdated = lastUpdated;
       });

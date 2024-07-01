@@ -278,6 +278,7 @@ import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
 import edcUtil from "@/utils/edcUtil.js";
+import authUtil from "@/utils/authUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
@@ -400,6 +401,7 @@ export default {
   },
 
   async created() {
+    authUtil.cleanUrl(this)
     this.backendService = new BackendService();
     this.searchContracts();
   },

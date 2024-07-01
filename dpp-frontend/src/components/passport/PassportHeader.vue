@@ -46,7 +46,7 @@
       <DialogComponent :disabled="!verificationData.vc" icon="mdi-check-decagram" class="contract-modal">
         <v-btn
           rounded="pill"
-          :color="verificationData.vc ? 'green' : 'grey'"
+          :color="!verificationData.verified ? 'red' : !verificationData.vc ? 'grey' : 'green'"
           :disabled="!verificationData.vc"
           size="large"
           class="verification-btn"
@@ -59,7 +59,11 @@
             md
             :icon="verificationData.vc ? 'mdi-check-decagram' : 'mdi-check-decagram-outline'"
           ></v-icon>
-          {{ $t("passportHeader.verification") }}
+          {{
+            !verificationData.verified || !verificationData.vc
+              ? $t("passportHeader.unverified")
+              : $t("passportHeader.verification")
+          }}
         </v-btn>
         <template v-slot:title v-if="verificationData.vc">
           {{ $t("passportHeader.verification") }}
@@ -117,9 +121,7 @@
                     </span>
                   </div>
                   <div v-if="verificationData.proof.type">
-                    <span class="verification-label proof-value">
-                      {{ $t("passportHeader.proofPurpose proof-value") }}:
-                    </span>
+                    <span class="verification-label proof-value"> {{ $t("passportHeader.proofPurpose") }}: </span>
                     <span class="verification-value proof-value">
                       {{ verificationData.proof.proofPurpose }}
                     </span>
@@ -147,13 +149,18 @@
                         ? $t("passportHeader.verified")
                         : $t("passportHeader.unverified")
                     }}
-                    <!-- {{ reloadVerificationData.status }} -->
                   </span>
                 </li>
                 <li class="verification" v-if="reloadVerificationData.message">
                   <span class="verification-label"> {{ $t("passportHeader.message") }}: </span>
                   <span class="verification-value">
                     {{ reloadVerificationData.message }}
+                  </span>
+                </li>
+                <li class="verification" v-if="reloadVerificationData.lastUpdated">
+                  <span class="verification-label"> {{ $t("passportHeader.lastUpdated") }}: </span>
+                  <span class="verification-value">
+                    {{ reloadVerificationData.lastUpdated }}
                   </span>
                 </li>
               </div>
@@ -221,8 +228,9 @@ export default {
     return {
       verificationData: this.$props.verification,
       reloadVerificationData: {
-        message: "Passport verified",
-        status: 200,
+        message: null,
+        status: null,
+        lastUpdated: null,
       },
       aspect: this.$props.vcAspect,
       auth: inject("authentication"),
@@ -239,6 +247,8 @@ export default {
       result.then((response) => {
         this.reloadVerificationData.status = response.status;
         this.reloadVerificationData.message = response.message;
+        let lastUpdated = new Date().toLocaleString();
+        this.reloadVerificationData.lastUpdated = lastUpdated;
       });
     },
   },

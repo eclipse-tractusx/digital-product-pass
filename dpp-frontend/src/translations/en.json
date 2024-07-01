@@ -156,6 +156,7 @@
     "verified": "Verified",
     "status": "Status",
     "message": "Message",
+    "lastUpdated": "Last Updated",
     "error": "Error",
     "unverified": "Not Verified",
     "proof": "Proof",
@@ -165,7 +166,7 @@
     "proofPurpose": "Purpose proof",
     "verificationMethod": "Verification method",
     "created": "Created",
-    "jws": "JWS"
+    "jws": "Signature"
   },
   "field": {
     "tempRange": "Temp range:",

@@ -156,6 +156,7 @@
     "verified": "Verifiziert",
     "status": "Status",
     "message": "Nachricht",
+    "lastUpdated": "Zuletzt aktualisiert",
     "error": "Fehler",
     "unverified": "Nicht Verifiziert",
     "proof": "Nachweis",
@@ -165,7 +166,7 @@
     "proofPurpose": "Zwecknachweis",
     "verificationMethod": "Verifizierungsmethode",
     "created": "Erstellt",
-    "jws": "JWS"
+    "jws": "Signatur"
   },
   "field": {
     "tempRange": "Temperaturbereich:",

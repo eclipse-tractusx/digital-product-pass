@@ -466,18 +466,10 @@ export default class BackendService {
     }
 
     async reloadVerification(authentication, body) {
-        console.log(body);
-        console.log(this.getHeaders(authentication));
         return new Promise((resolve) => {
             axios
-                .post(`${BACKEND_URL}/api/verification/verify`, body, {
-                    headers: {
-                        Accept: "application/vc+ld+json",
-                        Authorization: "Bearer " + authentication.getAccessToken(),
-                    },
-                })
+                .post(`${BACKEND_URL}/api/verification/verify`, body, this.getHeaders(authentication))
                 .then((response) => {
-                    console.log(response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {

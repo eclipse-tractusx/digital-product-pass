@@ -137,6 +137,25 @@
                 </div>
               </div>
             </div>
+            <div class="reload-verification" v-if="reloadVerificationData">
+              <li class="verification" v-if="reloadVerificationData.status">
+                <span class="verification-label"> {{ $t("passportHeader.status") }}: </span>
+                <span class="verification-value">
+                  {{
+                    reloadVerificationData.status === 200
+                      ? $t("passportHeader.verified")
+                      : $t("passportHeader.unverified")
+                  }}
+                  <!-- {{ reloadVerificationData.status }} -->
+                </span>
+              </li>
+              <li class="verification" v-if="reloadVerificationData.message">
+                <span class="verification-label"> {{ $t("passportHeader.message") }}: </span>
+                <span class="verification-value">
+                  {{ reloadVerificationData.message }}
+                </span>
+              </li>
+            </div>
           </ul>
           <div class="btn-wrapper">
             <v-btn
@@ -189,6 +208,10 @@ export default {
   data() {
     return {
       verificationData: this.$props.verification,
+      reloadVerificationData: {
+        message: "Passport verified",
+        status: 200,
+      },
       aspect: this.$props.vcAspect,
       auth: inject("authentication"),
     };
@@ -200,59 +223,12 @@ export default {
     },
     reloadVerification() {
       this.backendService = new BackendService();
-      this.backendService.reloadVerification(this.auth, this.aspect);
+      let result = this.backendService.reloadVerification(this.auth, this.aspect);
+      result.then((response) => {
+        this.reloadVerificationData.status = response.status;
+        this.reloadVerificationData.message = response.message;
+      });
     },
   },
 };
 </script>
-
-<style>
-.id-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  width: 100%;
-  margin-top: 6em;
-  padding: 14px 42px 14px 42px;
-}
-.proof_list {
-  padding-left: 12px;
-}
-.id-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  line-break: anywhere;
-}
-.btn-background {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-ul {
-  margin-bottom: 36px;
-}
-.id {
-  font-size: 14px;
-  line-height: 36px;
-  font-weight: bold;
-}
-.verification {
-  padding-bottom: 16px;
-}
-.verification-value {
-  font-weight: 600;
-}
-
-@media (max-width: 820px) {
-  .id-container {
-    padding: 14px 42px 88px 42px;
-  }
-  .id-wrapper {
-    margin-top: 42px;
-  }
-}
-</style>

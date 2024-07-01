@@ -47,7 +47,7 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
-        
+
 
   hostname: *hostname
   securityCheck:
@@ -69,6 +69,9 @@ backend:
     maxRetries: 30
     delay: 1000
 
+  verification:
+    wallet:
+      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
 
 frontend:
   image:

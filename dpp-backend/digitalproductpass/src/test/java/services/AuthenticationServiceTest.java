@@ -27,12 +27,12 @@
 package services;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.eclipse.tractusx.digitalproductpass.config.SecurityConfig;
-import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.digitalproductpass.models.auth.JwtToken;
-import org.eclipse.tractusx.digitalproductpass.models.auth.UserInfo;
-import org.eclipse.tractusx.digitalproductpass.services.AuthenticationService;
-import org.eclipse.tractusx.digitalproductpass.services.VaultService;
+import org.eclipse.tractusx.digitalproductpass.core.config.SecurityConfig;
+import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.core.models.auth.JwtToken;
+import org.eclipse.tractusx.digitalproductpass.core.models.auth.UserInfo;
+import org.eclipse.tractusx.digitalproductpass.core.services.AuthenticationService;
+import org.eclipse.tractusx.digitalproductpass.core.services.VaultService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

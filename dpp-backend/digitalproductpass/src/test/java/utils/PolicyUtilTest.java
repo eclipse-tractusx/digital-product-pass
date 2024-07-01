@@ -26,30 +26,20 @@
 package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.bouncycastle.est.ESTAuth;
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PassportConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
+import org.eclipse.tractusx.digitalproductpass.core.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PassportConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import utils.exceptions.UtilException;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, org.eclipse.tractusx.digitalproductpass.config.DtrConfig.class, org.eclipse.tractusx.digitalproductpass.config.PassportConfig.class})
+@SpringBootTest(classes = {utils.JsonUtil.class, utils.PolicyUtil.class, utils.FileUtil.class, DtrConfig.class, PassportConfig.class})
 @EnableConfigurationProperties
 class PolicyUtilTest {
 

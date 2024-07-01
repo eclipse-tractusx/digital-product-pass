@@ -35,11 +35,12 @@
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
     <artifactId>digitalproductpass</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
-    <name>Catena-X Digital Product Passport Backend</name>
+    <name>Catena-X Digital Product Passport Core + Verification Add-on</name>
     <description>
-        Digital Product Passport Consumer Backend is a reference implementation system for retrieving aspect models of digital twins in the Catena-X Network.
+        Digital Product Passport Backend is a reference implementation system for retrieving aspect models of digital twins in the Catena-X Network.
+        It additionally includes the Digital Product Passport Verification Add-on.
     </description>
     <properties>
         <java.version>19</java.version>

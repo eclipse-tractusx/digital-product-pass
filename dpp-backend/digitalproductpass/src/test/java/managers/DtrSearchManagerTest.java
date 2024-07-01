@@ -26,12 +26,12 @@
 
 package managers;
 
-import org.eclipse.tractusx.digitalproductpass.config.DtrConfig;
-import org.eclipse.tractusx.digitalproductpass.config.ProcessConfig;
-import org.eclipse.tractusx.digitalproductpass.managers.DtrSearchManager;
-import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
-import org.eclipse.tractusx.digitalproductpass.models.catenax.Dtr;
-import org.eclipse.tractusx.digitalproductpass.services.DataTransferService;
+import org.eclipse.tractusx.digitalproductpass.core.config.DtrConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.ProcessConfig;
+import org.eclipse.tractusx.digitalproductpass.core.managers.DtrSearchManager;
+import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.core.models.catenax.Dtr;
+import org.eclipse.tractusx.digitalproductpass.core.services.DataTransferService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

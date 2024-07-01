@@ -182,7 +182,7 @@ public class VerificationManager {
             if(verificationInfo.verified){
                 LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] [VERIFIED] The Data Aspect was verified Successfully!");
             }else{
-                LogUtil.printMessage("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] [VERIFICATION FAILED] The Data Aspect was not able to be verified!");
+                LogUtil.printError("[DPP VERIFICATION ADD-ON] [PROCESS "+ processId+"] [VERIFICATION FAILED] The Data Aspect was not able to be verified!");
             }
             History history = new History(
                     processId,
@@ -279,6 +279,7 @@ public class VerificationManager {
             message = response.get("message").asText();
 
         if(!verified){
+            LogUtil.printError("[DPP VERIFICATION ADD-ON] [VERIFICATION FAILED] " + message);
             verificationInfo.setError(message);
         }
 

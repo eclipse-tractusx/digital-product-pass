@@ -65,98 +65,110 @@
           {{ $t("passportHeader.verification") }}
         </template>
         <template v-slot:text v-if="verificationData.vc">
-          <ul>
-            <li class="verification" v-if="verificationData.owner">
-              <span class="verification-label"> {{ $t("passportHeader.owner") }}: </span>
-              <span class="verification-value">
-                {{ verificationData.owner }}
-              </span>
-            </li>
-            <li class="verification" v-if="verificationData.issuer">
-              <span class="verification-label"> {{ $t("passportHeader.issuer") }}: </span>
-              <span class="verification-value">
-                {{ verificationData.issuer }}
-              </span>
-            </li>
-            <li class="verification" v-if="verificationData.wallet">
-              <span class="verification-label"> {{ $t("passportHeader.wallet") }}: </span>
-              <span class="verification-value">
-                {{ verificationData.wallet }}
-              </span>
-            </li>
-            <li class="verification" v-if="verificationData.issuedAt">
-              <span class="verification-label"> {{ $t("passportHeader.issuedAt") }}: </span>
-              <span class="verification-value">
-                {{ callFormatTimestamp(verificationData.issuedAt) }}
-              </span>
-            </li>
-            <li class="verification" v-if="verificationData.expiresAt">
-              <span class="verification-label"> {{ $t("passportHeader.expirationDate") }}: </span>
-              <span class="verification-value">
-                {{ callFormatTimestamp(verificationData.expiresAt) }}
-              </span>
-            </li>
-            <!-- proof -->
-            <div class="proof-container" v-if="verificationData.proof">
-              <div class="proof-title">
-                {{ $t("passportHeader.proof") }}
-              </div>
-              <div class="jws-container" v-if="verificationData.proof.jws">
-                <div class="verification jws-label">{{ $t("passportHeader.jws") }}:</div>
-                <div class="jws">
-                  {{ verificationData.proof.jws }}
-                </div>
-              </div>
-              <v-divider></v-divider>
-              <div class="field-container">
-                <div v-if="verificationData.proof.type">
-                  <span class="verification-label proof-value"> {{ $t("passportHeader.type") }}: </span>
-                  <span class="verification-value proof-value">
-                    {{ verificationData.proof.type }}
-                  </span>
-                </div>
-                <div v-if="verificationData.proof.type">
-                  <span class="verification-label proof-value">
-                    {{ $t("passportHeader.proofPurpose proof-value") }}:
-                  </span>
-                  <span class="verification-value proof-value">
-                    {{ verificationData.proof.proofPurpose }}
-                  </span>
-                </div>
-                <div v-if="verificationData.proof.type">
-                  <span class="verification-label proof-value"> {{ $t("passportHeader.verificationMethod") }}: </span>
-                  <span class="verification-value proof-value">
-                    {{ verificationData.proof.verificationMethod }}
-                  </span>
-                </div>
-                <div v-if="verificationData.proof.type">
-                  <span class="verification-label proof-value"> {{ $t("passportHeader.created") }}: </span>
-                  <span class="verification-value proof-value">
-                    {{ verificationData.proof.created }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="reload-verification" v-if="reloadVerificationData">
-              <li class="verification" v-if="reloadVerificationData.status">
-                <span class="verification-label"> {{ $t("passportHeader.status") }}: </span>
+          <div v-if="!verificationData.error">
+            <ul>
+              <li class="verification" v-if="verificationData.owner">
+                <span class="verification-label"> {{ $t("passportHeader.owner") }}: </span>
                 <span class="verification-value">
-                  {{
-                    reloadVerificationData.status === 200
-                      ? $t("passportHeader.verified")
-                      : $t("passportHeader.unverified")
-                  }}
-                  <!-- {{ reloadVerificationData.status }} -->
+                  {{ verificationData.owner }}
                 </span>
               </li>
-              <li class="verification" v-if="reloadVerificationData.message">
-                <span class="verification-label"> {{ $t("passportHeader.message") }}: </span>
+              <li class="verification" v-if="verificationData.issuer">
+                <span class="verification-label"> {{ $t("passportHeader.issuer") }}: </span>
                 <span class="verification-value">
-                  {{ reloadVerificationData.message }}
+                  {{ verificationData.issuer }}
                 </span>
               </li>
-            </div>
-          </ul>
+              <li class="verification" v-if="verificationData.wallet">
+                <span class="verification-label"> {{ $t("passportHeader.wallet") }}: </span>
+                <span class="verification-value">
+                  {{ verificationData.wallet }}
+                </span>
+              </li>
+              <li class="verification" v-if="verificationData.issuedAt">
+                <span class="verification-label"> {{ $t("passportHeader.issuedAt") }}: </span>
+                <span class="verification-value">
+                  {{ callFormatTimestamp(verificationData.issuedAt) }}
+                </span>
+              </li>
+              <li class="verification" v-if="verificationData.expiresAt">
+                <span class="verification-label"> {{ $t("passportHeader.expirationDate") }}: </span>
+                <span class="verification-value">
+                  {{ callFormatTimestamp(verificationData.expiresAt) }}
+                </span>
+              </li>
+              <!-- proof -->
+              <div class="proof-container" v-if="verificationData.proof">
+                <div class="proof-title">
+                  {{ $t("passportHeader.proof") }}
+                </div>
+                <div class="jws-container" v-if="verificationData.proof.jws">
+                  <div class="verification jws-label">{{ $t("passportHeader.jws") }}:</div>
+                  <div class="jws">
+                    {{ verificationData.proof.jws }}
+                  </div>
+                </div>
+                <v-divider></v-divider>
+                <div class="field-container">
+                  <div v-if="verificationData.proof.type">
+                    <span class="verification-label proof-value"> {{ $t("passportHeader.type") }}: </span>
+                    <span class="verification-value proof-value">
+                      {{ verificationData.proof.type }}
+                    </span>
+                  </div>
+                  <div v-if="verificationData.proof.type">
+                    <span class="verification-label proof-value">
+                      {{ $t("passportHeader.proofPurpose proof-value") }}:
+                    </span>
+                    <span class="verification-value proof-value">
+                      {{ verificationData.proof.proofPurpose }}
+                    </span>
+                  </div>
+                  <div v-if="verificationData.proof.type">
+                    <span class="verification-label proof-value"> {{ $t("passportHeader.verificationMethod") }}: </span>
+                    <span class="verification-value proof-value">
+                      {{ verificationData.proof.verificationMethod }}
+                    </span>
+                  </div>
+                  <div v-if="verificationData.proof.type">
+                    <span class="verification-label proof-value"> {{ $t("passportHeader.created") }}: </span>
+                    <span class="verification-value proof-value">
+                      {{ verificationData.proof.created }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="reload-verification" v-if="reloadVerificationData">
+                <li class="verification" v-if="reloadVerificationData.status">
+                  <span class="verification-label"> {{ $t("passportHeader.status") }}: </span>
+                  <span class="verification-value">
+                    {{
+                      reloadVerificationData.status === 200
+                        ? $t("passportHeader.verified")
+                        : $t("passportHeader.unverified")
+                    }}
+                    <!-- {{ reloadVerificationData.status }} -->
+                  </span>
+                </li>
+                <li class="verification" v-if="reloadVerificationData.message">
+                  <span class="verification-label"> {{ $t("passportHeader.message") }}: </span>
+                  <span class="verification-value">
+                    {{ reloadVerificationData.message }}
+                  </span>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div v-else>
+            <ul>
+              <li class="verification">
+                <span class="verification-label"> {{ $t("passportHeader.error") }}: </span>
+                <span class="verification-value">
+                  {{ verificationData.error }}
+                </span>
+              </li>
+            </ul>
+          </div>
           <div class="btn-wrapper">
             <v-btn
               rounded="pill"

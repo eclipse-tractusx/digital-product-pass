@@ -408,6 +408,7 @@ export default class BackendService {
             axios
                 .post(`${BACKEND_URL}/api/contract/agree`, body, this.getHeadersCredentials(authentication))
                 .then((response) => {
+                    store.commit("setStatusData", response.data);
                     resolve(response.data);
                 })
                 .catch((e) => {

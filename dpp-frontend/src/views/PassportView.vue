@@ -402,6 +402,7 @@ export default {
 
   async created() {
     authUtil.cleanUrl(this)
+    store.commit("cleanHistoryState")
     this.backendService = new BackendService();
     this.searchContracts();
   },

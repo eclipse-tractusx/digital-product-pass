@@ -136,6 +136,14 @@ export default createStore({
                 }
             };
             state.searchContractId = null;
+        },
+        cleanHistoryState(state){
+            state.statusData = {
+                "data": {
+                    "history": {
+                    }
+                }
+            }
         }
     },
     actions: {},

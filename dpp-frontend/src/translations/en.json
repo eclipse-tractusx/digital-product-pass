@@ -80,7 +80,7 @@
     "cookies": "Cookies",
     "thirdParty": "Third Party Licenses",
     "legal": "Legal notice",
-    "license": "License: Apache-2.0",
+    "license": "License: ",
     "licensePath": "Licence Path: ",
     "viewLicense": "View License File",
     "notice": "NOTICE: ",
@@ -148,10 +148,26 @@
   },
   "passportHeader": {
     "backBtn": "Back",
-    "verification": "Verification",
+    "verification": "Verified",
+    "unverifiable": "Unverifiable",
     "issuer": "Issuer",
     "issuedAt": "Issued at",
-    "expirationDate": "Expiration date"
+    "expirationDate": "Expires at",
+    "reloadVerification": "Check Verification",
+    "verified": "Verified",
+    "status": "Status",
+    "message": "Message",
+    "lastUpdated": "Last Updated",
+    "error": "Error",
+    "unverified": "Not Verified",
+    "proof": "Proof",
+    "type": "Type",
+    "wallet": "Wallet",
+    "owner": "Owner",
+    "proofPurpose": "Purpose proof",
+    "verificationMethod": "Verification method",
+    "created": "Created",
+    "jws": "Signature"
   },
   "field": {
     "tempRange": "Temp range:",
@@ -194,9 +210,11 @@
     "retrieving": "Retrieving... ",
     "createdProcess": "Created Process ID: ",
     "contractId": "Contract ID: ",
-    "verification": "Passport verification",
+    "compositionOf": "Composition of",
+    "verification": "Passport Verification",
     "verifying": "Verifying...",
-    "verified": "Verified"
+    "verified": "Verified",
+    "verificationFailed": "Verification Failed"
   },
   "sections": {
     "materials": {
@@ -209,6 +227,7 @@
       "documentation": "Documentation",
       "concentration": "Concentration",
       "name": "Name",
+      "composition": "Composition",
       "otherMaterials": "Other materials",
       "type": "Type",
       "location": "Location",

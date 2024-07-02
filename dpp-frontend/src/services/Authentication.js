@@ -57,6 +57,9 @@ export default class Authentication {
 
         return false;
     }
+    forceRefreshToken(){
+        this.keycloak.updateToken(-1);
+    }
     keycloakInit(app) {
         var authProperties = app.config.globalProperties.$authProperties;
         this.keycloak
@@ -76,7 +79,7 @@ export default class Authentication {
                 app.mount("#app");
                 //Token Refresh
                 setInterval(() => {
-                    this.updateToken(20, app);
+                    this.updateToken(240, app);
                 }, 20000);
             })
             .catch((e) => {
@@ -109,15 +112,8 @@ export default class Authentication {
                     app.config.globalProperties.$authProperties.isAuthorized = this.isAuthorized(
                         this.keycloak.parsedToken
                     );
-                    console.info("Token refreshed " + refreshed);
                 } else {
-                    console.warn(
-                        "Token not refreshed, valid for " +
-                            Math.round(
-                                this.keycloak.tokenParsed.exp + this.keycloak.timeSkew - new Date().getTime() / 1000
-                            ) +
-                            " seconds"
-                    );
+                    // Skip and wait to refresh the token
                 }
             })
             .catch(() => {

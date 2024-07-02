@@ -224,12 +224,7 @@
       </div>
     </v-container>
     <div v-else-if="data && !error">
-      <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
-        <PassportHeader :id="data.aspect.identification.idDmc" type="Battery ID" />
-      </template>
-      <template v-else>
-        <PassportHeader :id="id ? id : '-'" type="ID" />
-      </template>
+      <PassportHeader :id="id ? id : '-'" type="ID" :verification="data.verification" :vcAspect="vcAspect" />
       <div class="pass-container">
         <template v-if="data.semanticId === 'urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass'">
           <BatteryCards :data="data" />
@@ -283,6 +278,7 @@ import threadUtil from "@/utils/threadUtil.js";
 import jsonUtil from "@/utils/jsonUtil.js";
 import configUtil from "@/utils/configUtil.js";
 import edcUtil from "@/utils/edcUtil.js";
+import authUtil from "@/utils/authUtil.js";
 import passportUtil from "@/utils/passportUtil.js";
 import BackendService from "@/services/BackendService";
 import { inject } from "vue";
@@ -292,6 +288,7 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
+import { loadFonts } from '@/assets/plugins/webfontloader';
 
 export default {
   name: "PassportView",
@@ -319,6 +316,7 @@ export default {
       showContractModal: true,
       auth: inject("authentication"),
       data: null,
+      vcAspect: null,
       loading: true,
       searchResponse: null,
       declineLoading: false,
@@ -404,6 +402,9 @@ export default {
   },
 
   async created() {
+    loadFonts();
+    authUtil.cleanUrl(this);
+    store.commit("cleanHistoryState");
     this.backendService = new BackendService();
     this.searchContracts();
   },
@@ -693,31 +694,16 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
-            let additionalData = [];
-            let sources = [];
-            // In order to have the additional data available we need to copy it in deep
-            if (jsonUtil.exists("additionalData", this.data["data"]["aspect"])) {
-              additionalData = jsonUtil.copy(this.data["data"]["aspect"]["additionalData"]);
-            }
-            // When extend deep is called this property will be replaced
-            if (jsonUtil.exists("sources", this.data["data"]["aspect"])) {
-              sources = jsonUtil.copy(this.data["data"]["aspect"]["sources"]);
-            }
+            this.vcAspect = jsonUtil.get("data.aspect", this.data);
+            let aspect = JSON.parse(JSON.stringify(this.vcAspect));
 
             this.data = configUtil.normalizePassport(
-              jsonUtil.get("data.aspect", this.data),
+              aspect,
               jsonUtil.get("data.metadata", this.data),
-              jsonUtil.get("data.semanticId", this.data)
+              jsonUtil.get("data.semanticId", this.data),
+              jsonUtil.get("data.verification", this.data)
             );
-            // Re-add the additionalData
-            if (jsonUtil.exists("additionalData", this.data["aspect"])) {
-              this.data["aspect"]["additionalData"] = additionalData;
-            }
-            // Re-add the sources
-            if (jsonUtil.exists("sources", this.data["aspect"])) {
-              this.data["aspect"]["sources"] = sources;
-            }
-            
+
             this.error = false;
             this.processId = this.$store.getters.getProcessId; // Get process id from the store
             this.irsData = this.backendService.getIrsData(this.processId, this.auth); // Return the IRS data

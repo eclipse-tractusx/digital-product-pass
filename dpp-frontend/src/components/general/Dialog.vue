@@ -24,35 +24,51 @@
 
 <template>
   <div>
-    <div @click="dialog = true">
+    <div v-if="disabled">
       <slot></slot>
     </div>
-    <v-dialog v-model="dialog">
-      <v-card class="dialog-container">
-        <v-card-title class="title-container">
-          <v-icon start size="small" icon="mdi-information-outline"> </v-icon>
-          <slot name="title"> {{ $t("dialog.description") }} </slot>
-          <v-card-actions class="close-btn-container">
-            <v-btn class="close-btn-container" block @click="dialog = false">
-              <v-icon start md icon="mdi-close"></v-icon
-            ></v-btn>
-          </v-card-actions>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="dialog-text">
-          <slot name="text">
-            <h2>404</h2>
-            <p>{{ $t("dialog.noDescription") }}</p>
-          </slot>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <div v-else>
+      <div @click="dialog = true">
+        <slot></slot>
+      </div>
+      <v-dialog v-model="dialog">
+        <v-card class="dialog-container">
+          <v-card-title class="title-container">
+            <v-icon start size="small" :icon="icon"> </v-icon>
+            <slot name="title"> {{ $t("dialog.description") }} </slot>
+            <v-card-actions class="close-btn-container">
+              <v-btn class="close-btn-container" block @click="dialog = false">
+                <v-icon start md icon="mdi-close"></v-icon
+              ></v-btn>
+            </v-card-actions>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="dialog-text">
+            <slot name="text">
+              <h2>404</h2>
+              <p>{{ $t("dialog.noDescription") }}</p>
+            </slot>
+          </v-card-text>
+          <div class="btn-background"></div>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "DialogComponent",
+  props: {
+    icon: {
+      type: String,
+      default: "mdi-information-outline",
+    },
+    disabled: {
+      Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       dialog: false,

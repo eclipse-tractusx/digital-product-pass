@@ -51,7 +51,8 @@ export default createStore({
         processId: null,
         searchContractId: null,
         irsState: false,
-        qrError: ""
+        qrError: "",
+        token: null
     },
     getters: {
         getClientId(state) {
@@ -106,6 +107,9 @@ export default createStore({
         setSessionId(state, sessionId) {
             state.clientSecret = sessionId;
         },
+        setToken(state, token) {
+            state.token = token;
+        },
         setStatusData(state, data) {
             state.statusData = data;
         },
@@ -132,6 +136,14 @@ export default createStore({
                 }
             };
             state.searchContractId = null;
+        },
+        cleanHistoryState(state){
+            state.statusData = {
+                "data": {
+                    "history": {
+                    }
+                }
+            }
         }
     },
     actions: {},

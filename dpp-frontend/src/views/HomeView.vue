@@ -47,6 +47,7 @@ import SearchView from "./SearchView.vue";
 import FooterComponent from "../components/general/Footer.vue";
 import HeaderComponent from "../components/general/Header.vue";
 import { inject } from "vue";
+import authUtil from "../utils/authUtil"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomeView",
@@ -54,6 +55,9 @@ export default {
     return {
       auth: inject("authentication"),
     };
+  },
+  created(){
+    authUtil.cleanUrl(this)
   },
   computed: {
     welcomeUser() {

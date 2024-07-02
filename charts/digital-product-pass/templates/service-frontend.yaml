@@ -1,9 +1,10 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG
+# Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -22,6 +23,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
+---
+
+{{- if .Values.frontend.enabled -}}
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,11 +37,11 @@ metadata:
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
-    - port: {{ .Values.frontend.service.port }}       # host port
-      targetPort: 8080                                # container port
+    - port: {{ .Values.frontend.service.port }}        # host port
+      targetPort: {{ .Values.frontend.service.port }}  # container port
       protocol: TCP
       name: http
   selector:
     {{- include "chart.selectorLabels" . | nindent 4 }}
     component: frontend
-
+{{- end }}

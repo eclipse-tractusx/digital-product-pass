@@ -1,9 +1,10 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG
+# Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -25,8 +26,8 @@
 
 FROM eclipse-temurin:21-jre-alpine
 
-RUN addgroup -g 3000 appgroup \
-	&& adduser -u 1000 -g 3000 -h /home/nonroot -D nonroot
+RUN addgroup -g 10001 appgroup \
+	&& adduser -u 10001 -g 10001 -h /home/nonroot -D nonroot
     
 WORKDIR /app
 
@@ -41,9 +42,9 @@ COPY ./target/digitalproductpass*.jar digitalproductpass.jar
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R 1000:3000 /app && chmod -R 775 /app/
+RUN chown -R 10001:10001 /app && chmod -R 775 /app/
 
-USER 1000:3000
+USER 10001:10001
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "./digitalproductpass.jar"]

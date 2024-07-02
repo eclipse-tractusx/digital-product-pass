@@ -293,13 +293,53 @@ export default class BackendService {
         };
     }
     async getStatus(processId, authentication) {
+        let status =  await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/status/` + processId, 'get');
+        store.commit("setStatusData", status);
+        return status;
+    }
+
+    async callApiWithTokenSafe(authentication, url, method, body=null, raw=false){
+        // This function is responsible for retrying the api calls when the token is invalid
+        try{
+            let returnData =  await this.callApiWithToken(authentication, url, method, body, raw);
+            if(returnData.status === 401){
+                await authentication.forceRefreshToken();
+                return await this.callApiWithToken(authentication, url, method, body, raw)
+            }
+            return returnData;
+        }catch(e){
+            let exception = e;
+            if (exception.status === 401) {
+                authentication.forceRefreshToken();
+                try{
+                    return await this.callApiWithToken(authentication, url, method, body, raw)
+                } catch(exception2){
+                    exception = exception2;
+                }
+            }
+            throw exception;
+        }
+
+    }
+
+    async callApiWithToken(authentication, url, method, body=null, raw=false){
         return new Promise((resolve) => {
             axios
-                .get(`${BACKEND_URL}/api/contract/status/` + processId, this.getHeadersCredentials(authentication))
+                .request({
+                    baseURL: url, 
+                    method: method,
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: "Bearer " + authentication.getAccessToken(),
+                    },
+                    data: body
+                })
                 .then((response) => {
-                    // Setting the status to the Store state
-                    store.commit("setStatusData", response.data);
-                    resolve(response.data);
+                    if(raw){
+                        resolve(response);
+                    }else{
+                        resolve(response.data);
+                    }
                 })
                 .catch((e) => {
                     if (e.response.data) {
@@ -314,174 +354,40 @@ export default class BackendService {
     }
 
     async getIrsState(processId, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .get(`${BACKEND_URL}/api/irs/` + processId + `/state`, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    resolve(response);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/irs/` + processId + `/state`, 'get', null, true);
     }
     async getIrsData(processId, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .get(`${BACKEND_URL}/api/irs/` + processId + `/components`, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/irs/` + processId + `/components`, 'get');
     }
     async retrievePassport(body, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .post(`${BACKEND_URL}/api/data`, body, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/data`,'post', body);
     }
     async cancelContract(body, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .post(`${BACKEND_URL}/api/contract/cancel`, body, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/cancel`, 'post', body);
     }
     async declineContract(body, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .post(`${BACKEND_URL}/api/contract/decline`, body, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/decline`, 'post', body);
     }
     async agreeContract(body, authentication) {
-        return new Promise((resolve) => {
-            axios
-                .post(`${BACKEND_URL}/api/contract/agree`, body, this.getHeadersCredentials(authentication))
-                .then((response) => {
-                    store.commit("setStatusData", response.data);
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        let status =  await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/contract/agree`, 'post', body);
+        store.commit("setStatusData", status);
+        return status;
     }
     async searchContract(id, processId, authentication) {
-        return new Promise((resolve) => {
-            let body = this.getSearchBody(id, processId);
-            axios
-                .post(`${BACKEND_URL}/api/contract/search`, body, this.getHeaders(authentication))
-                .then((response) => {
-                    // Setting the status to the Store state
-                    store.commit("setSearchData", response.data);
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        let body = this.getSearchBody(id, processId);
+        let searchData = await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/search`, 'post', body);
+        store.commit("setSearchData", searchData);
+        return searchData;
     }
     async createProcess(discoveryId, authentication, type = "manufacturerPartId") {
-        return new Promise((resolve) => {
-            let body = {
-                id: discoveryId,
-                type: type,
-            };
-            axios
-                .post(`${BACKEND_URL}/api/contract/create`, body, this.getHeaders(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        let body = {
+            id: discoveryId,
+            type: type,
+        };
+        return await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/contract/create`, 'post', body);
     }
 
     async reloadVerification(authentication, body) {
-        return new Promise((resolve) => {
-            axios
-                .post(`${BACKEND_URL}/api/verification/verify`, body, this.getHeaders(authentication))
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((e) => {
-                    if (e.response.data) {
-                        resolve(e.response.data);
-                    } else if (e.request) {
-                        resolve(e.request);
-                    } else {
-                        resolve(e.message);
-                    }
-                });
-        });
+        return await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/verification/verify`, 'post', body);
     }
 }

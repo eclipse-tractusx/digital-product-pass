@@ -113,7 +113,7 @@
             </div>
             <div>Non-Code {{ $t("footer.license") }} CC-BY-4.0</div>
             <div>
-              <span>{{ $t("footer.licensePathNone") }}</span>
+              <span>{{ $t("footer.licensePath") }}</span>
               <a
                 id="lnkHelp"
                 target="_blank"

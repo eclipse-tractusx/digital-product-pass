@@ -43,10 +43,10 @@
       </p>
     </div>
     <template v-if="verificationData">
-      <DialogComponent :disabled="!verificationData.vc" :icon="!verificationData.verified ? 'mdi-shield-alert' : !verificationData.vc ? 'mdi-alert-circle-outline' : 'mdi-shield-check'" class="contract-modal">
+      <DialogComponent :disabled="!verificationData.vc" :icon="!verificationData.vc ? 'mdi-shield-off-outline' : (!verificationData.verified ? 'mdi-shield-alert-outline': 'mdi-shield-check')" class="contract-modal">
         <v-btn
           rounded="pill"
-          :color="!verificationData.verified ? 'red' : !verificationData.vc ? 'grey' : 'green'"
+          :color="!verificationData.vc ? 'grey' : (!verificationData.verified ? 'red' : 'green')"
           :disabled="!verificationData.vc"
           size="large"
           class="verification-btn"
@@ -57,19 +57,17 @@
             class="icon"
             start
             md
-            :icon="!verificationData.verified ? 'mdi-shield-alert' : !verificationData.vc ? 'mdi-alert-circle-outline' : 'mdi-shield-check'"
+            :icon="!verificationData.vc ? 'mdi-shield-off-outline' : (!verificationData.verified ? 'mdi-shield-alert-outline': 'mdi-shield-check')"
           ></v-icon>
           {{
-            !verificationData.verified ? !verificationData.vc
-              ? $t("passportHeader.unverifiable")
-              : $t("passportHeader.unverified") : $t("passportHeader.verified")
+            !verificationData.vc ? $t("passportHeader.unverifiable") : (!verificationData.verified
+              ? $t("passportHeader.unverified") : $t("passportHeader.verified"))
           }}
         </v-btn>
         <template v-slot:title v-if="verificationData.vc">
           {{
-            !verificationData.verified ? !verificationData.vc
-              ? $t("passportHeader.unverifiable")
-              : $t("passportHeader.unverified") : $t("passportHeader.verified")
+            !verificationData.vc ? $t("passportHeader.unverifiable") : (!verificationData.verified
+              ? $t("passportHeader.unverified") : $t("passportHeader.verified"))
           }}
         </template>
         <template v-slot:text v-if="verificationData.vc">
@@ -175,12 +173,6 @@
                     }}
                   </span>
                 </li>
-                <li class="verification" v-if="reloadVerificationData.message">
-                  <span class="verification-label"> {{ $t("passportHeader.message") }}: </span>
-                  <span class="verification-value">
-                    {{ reloadVerificationData.message }}
-                  </span>
-                </li>
                 <li class="verification" v-if="reloadVerificationData.lastUpdated">
                   <span class="verification-label"> {{ $t("passportHeader.lastUpdated") }}: </span>
                   <span class="verification-value">
@@ -188,6 +180,13 @@
                   </span>
                 </li>
               </div>
+            </ul>
+            <ul v-if="verificationData.verified && reloadVerificationData.message">
+              <li class="verification" style="color: green">
+                  <span class="verification-value">
+                    {{ reloadVerificationData.message }}
+                  </span>
+              </li>
             </ul>
             <ul v-if="!verificationData.verified">
               <li class="verification error">
@@ -207,7 +206,7 @@
               @click="reloadVerification()"
               style="color: white"
             >
-              <v-icon class="icon" start md icon="mdi-refresh"></v-icon>
+              <v-icon class="icon" start md icon="mdi-shield-sync-outline"></v-icon>
               {{ $t("passportHeader.reloadVerification") }}
             </v-btn>
           </div>
@@ -267,8 +266,14 @@ export default {
       this.backendService = new BackendService();
       let result = this.backendService.reloadVerification(this.auth, this.aspect);
       result.then((response) => {
-        this.verificationData.verified = response.verified;
-        this.verificationData.error = response.message;
+        this.verificationData.verified = response.data;
+        if(response.data){
+          this.verificationData.error = null;
+          this.reloadVerificationData.message = response.message;
+        }else{
+          this.reloadVerificationData.message=null;
+          this.verificationData.error = response.message;
+        }
         let lastUpdated = new Date().toLocaleString();
         this.reloadVerificationData.lastUpdated = lastUpdated;
       });

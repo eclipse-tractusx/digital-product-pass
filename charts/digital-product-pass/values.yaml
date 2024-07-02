@@ -134,6 +134,7 @@ backend:
   edc:
     # -- the secret for assesing the edc management API
     xApiKey: "<Add API key here>"
+    authorizationKey: "X-Api-Key"
     # -- BPN Number
     participantId: &bpn "<Add participant id here>"
     # -- edc consumer connection configuration

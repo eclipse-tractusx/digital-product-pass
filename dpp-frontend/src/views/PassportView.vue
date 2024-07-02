@@ -288,6 +288,7 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
+import { loadFonts } from '@/assets/plugins/webfontloader';
 
 export default {
   name: "PassportView",
@@ -401,8 +402,9 @@ export default {
   },
 
   async created() {
-    authUtil.cleanUrl(this)
-    store.commit("cleanHistoryState")
+    loadFonts();
+    authUtil.cleanUrl(this);
+    store.commit("cleanHistoryState");
     this.backendService = new BackendService();
     this.searchContracts();
   },

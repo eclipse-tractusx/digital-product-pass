@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import store from "@/store/index";
 export default {
   data() {
     return {
@@ -78,6 +79,7 @@ export default {
   },
   methods: {
     onClick() {
+      store.commit("cleanHistoryState");
       this.$router.push({
         path: `/${this.typedCode}`,
       });

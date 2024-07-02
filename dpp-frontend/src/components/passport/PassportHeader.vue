@@ -127,7 +127,7 @@
                     {{ verificationData.proof.jws }}
                   </div>
                   <v-icon
-                    :style="!verificationData.verified ? 'color: red': 'color: blue'"
+                    :style="!verificationData.verified ? 'color: red': (reloadVerificationData.message?'color: green':'color: blue')"
                     class="icon"
                     end
                     sm

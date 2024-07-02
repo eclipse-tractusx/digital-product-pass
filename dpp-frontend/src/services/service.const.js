@@ -59,7 +59,7 @@ serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://mater
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
 clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "") ? realm : "CX-Central"
-onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
+onLoad = (onLoad != null && onLoad !== "") ? onLoad : "check-sso"
 adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
 bpnCheck = (bpnCheck === "true")

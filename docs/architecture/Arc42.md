@@ -63,7 +63,7 @@ Latest Revision: *July 02, 2024*
         - [Cancel API Flow Diagram](#cancel-api-flow-diagram)
         - [Status API Flow Diagram](#status-api-flow-diagram)
         - [Data API Flow Diagram](#data-api-flow-diagram)
-    - [Add-ons](add-ons)
+    - [Add-ons](#add-ons)
         - [Item Relationship Service Integration (Drill Down Functionality)](#item-relationship-service-integration-drill-down-functionality)
             - [Input Parameters](#input-parameters)
             - [Callback Url](#callback-url)
@@ -436,7 +436,7 @@ Once the callback url is called when the job is in state "COMPLETED" the backend
 These are important notes related to the IRS search.
 
 - The drill down functionality is fixed to `1 depth` because of processing time issues and because most of the cases the "allowed" depth visualization will be 1 level down because of the `one level up - one level down` rule
-- The current version of the IRS ([`v7.1.3`](https://github.com/eclipse-tractusx/item-relationship-service/releases/tag/7.1.3)) takes approximately 7 minutes to load the children. Because of this:
+- The current version of the IRS ([`v5.1.3`](https://github.com/eclipse-tractusx/item-relationship-service/releases/tag/5.1.3) takes approximately 7 minutes to load the children. Because of this:
     - Some timeouts were set at the backend and frontend components to prevent that the loading time is infinite
 - The IRS is currently configured to call the "callback url" when the status "COMPLETED" is reached. In case the IRS is not responding for the timeout time it will be considered as an error.
 - The drill down functionality is build in the way that data sovereignty is respected. This means:
@@ -571,7 +571,7 @@ The DPP components are deployed in a managed Kubernetes environment through helm
 
 ## Technology & Architecture Detail
 
-Our technology and architecture are based on Catena-X Guidelines. However the specific technologies selected are:
+Our technology and architecture are based on Catena-X Guidelines. However, the specific technologies selected are:
 
 ### Frontend (User Interface - Client Side)
 

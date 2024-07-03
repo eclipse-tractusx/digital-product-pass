@@ -28,9 +28,9 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.exceptions.ServiceInitializationException;
-import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
-import org.eclipse.tractusx.digitalproductpass.services.DataPlaneService;
+import org.eclipse.tractusx.digitalproductpass.core.exceptions.ServiceInitializationException;
+import org.eclipse.tractusx.digitalproductpass.core.models.edc.EndpointDataReference;
+import org.eclipse.tractusx.digitalproductpass.core.services.DataPlaneService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

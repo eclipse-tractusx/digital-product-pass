@@ -148,10 +148,9 @@ configuration:
       indent: true
       dir: "data/transfer"
     aspects:
-      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
-      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
-      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+      - "urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass"
+      - "urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass"
+      - "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
     policyCheck:
       enabled: true
       strictMode: false
@@ -172,6 +171,24 @@ configuration:
           prohibition: [ ]
           obligation: [ ]
 
+  verification:
+    enabled: true
+    autoVerify: true
+    wallet:
+      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
+      endpoints:
+        health: "/health"
+        verify: "/verify"
+    certifiedDataCredential:
+      ## -- These keys are used in order to find if a subModel contains a verifiable credential
+      semanticIdKeys:
+        - key: "Entity"
+          value: "https://www.w3.org/ns/credentials/v2"
+        - key: "DataElement"
+          value: "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+        - key: "Operation"
+          value: "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+
   vault:
     type: 'local'
     file: 'vault.token.yml'
@@ -187,6 +204,7 @@ configuration:
       - "edc.participantId"
       - "oauth.apiKey"
       - "irs.apiKey"
+      - "wallet.apiKey"
 
 server:
   error:

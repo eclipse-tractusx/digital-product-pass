@@ -28,8 +28,8 @@
 package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.managers.ProcessManager;
-import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
+import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessManager;
+import org.eclipse.tractusx.digitalproductpass.core.models.edc.EndpointDataReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;

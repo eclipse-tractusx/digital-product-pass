@@ -42,6 +42,7 @@ import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +87,28 @@ public final class JsonUtil {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(jsonString, classType);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to load JSON in object -> [" + e.getMessage() + "]");
+        }
+    }
+
+    /**
+     * Loads the JSON file from the given file path and maps it to an object.
+     * <p>
+     * @param   jsonString
+     *          the path representation to the target JSON file as a String.
+     * @param   reference
+     *          the class type to map the json structure from the file to an object.
+     *
+     * @return  a {@code Object} object mapped with the json file structure.
+     *
+     * @throws  UtilException
+     *          if unable to load the JSON file.
+     */
+    public <T> T loadJson(String jsonString, TypeReference<T> reference){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(jsonString, reference);
         } catch (Exception e) {
             throw new UtilException(JsonUtil.class, "I was not possible to load JSON in object -> [" + e.getMessage() + "]");
         }
@@ -169,6 +192,24 @@ public final class JsonUtil {
      */
     public JsonNode newJsonNode(){
         return JsonNodeFactory.instance.objectNode();
+    }
+
+    /**
+     * Transforms Json File into json node
+     * <p>
+     * @param   jsonFile
+     *          the file representation to the target JSON file as a File.
+     *
+     * @return  null or Json Node if could load the content
+     *
+     */
+    public JsonNode fileToJsonNode(File jsonFile){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readTree(jsonFile);
+        } catch (Exception e) {
+            throw new UtilException(JsonUtil.class, "I was not possible to dump JSON! -> [" + e.getMessage() + "]");
+        }
     }
 
     /**

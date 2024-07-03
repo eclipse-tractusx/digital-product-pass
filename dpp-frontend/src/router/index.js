@@ -26,7 +26,6 @@
 import ErrorComponent from "@/components/general/ErrorComponent.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-
 const routes = [
     {
         path: "/",
@@ -40,14 +39,14 @@ const routes = [
     },
     {
         path: "/not-found",
-        name: "PageNotFound",
+        name: "PageNotFound2",
         component: ErrorComponent,
     },
     {
         path: "/:id",
         name: "PassportView",
         component: () => import("@/views/PassportView.vue"),
-    },
+    }
 ];
 
 const router = createRouter({
@@ -55,5 +54,7 @@ const router = createRouter({
     routes: routes,
     linkActiveClass: "active",
 });
+
+
 
 export default router;

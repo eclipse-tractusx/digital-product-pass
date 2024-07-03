@@ -39,6 +39,9 @@ export default {
         }
 
         return bpn === tokenBpn;
+    },
+    cleanUrl(element){
+        element.$router.push({ name: element.$router.name});
     }
     
 }

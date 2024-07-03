@@ -1,6 +1,6 @@
 #################################################################################
 # Tractus-X -  Digital Product Pass Application
-# 
+#
 # Copyright (c) 2022, 2024 BMW AG
 # Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
@@ -34,7 +34,7 @@ COPY package*.json ./
 RUN npm install -g npm
 
 #RUN npm install
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy rest of the files
 COPY . .
@@ -52,8 +52,8 @@ ENV REPO_ENDPOINT_URL=${REPO_ENDPOINT_URL}
 
 USER root
 
-RUN addgroup -g 3000 appgroup \
-	&& adduser -u 1000 -g 3000 -h /home/nonroot -D nonroot
+RUN addgroup -g 10001 appgroup \
+	&& adduser -u 10001 -g 10001 -h /home/nonroot -D nonroot
 
 COPY ./entrypoint.sh /entrypoint.sh
 
@@ -65,15 +65,15 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R 1000:3000 /app && chmod -R 775 /app/
-RUN chown 1000:3000 /entrypoint.sh && chmod -R 775 /entrypoint.sh
+RUN chown -R 10001:10001 /app && chmod -R 775 /app/
+RUN chown 10001:10001 /entrypoint.sh && chmod -R 775 /entrypoint.sh
 
 # Install bash for env variables inject script
 RUN apk update && apk add --no-cache bash
 # Make nginx owner of /usr/share/nginx/html/ and change to nginx user
-RUN chown -R 1000:3000 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
+RUN chown -R 10001:10001 /usr/share/nginx/html/ && chmod -R 775 /usr/share/nginx/html/
 
-USER 1000:3000
+USER 10001:10001
 
 EXPOSE 8080
 

@@ -28,15 +28,11 @@
 package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.ActionConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
-import org.eclipse.tractusx.digitalproductpass.exceptions.ManagerException;
-import org.eclipse.tractusx.digitalproductpass.models.edc.EndpointDataReference;
-import org.eclipse.tractusx.digitalproductpass.models.general.Selection;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Constraint;
+import org.eclipse.tractusx.digitalproductpass.core.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.core.models.edc.EndpointDataReference;
+import org.eclipse.tractusx.digitalproductpass.core.models.general.Selection;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;

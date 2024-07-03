@@ -27,15 +27,11 @@
 
 package utils;
 
-import org.eclipse.tractusx.digitalproductpass.models.dtregistry.DigitalTwin;
+import org.eclipse.tractusx.digitalproductpass.core.models.dtregistry.DigitalTwin;
 import org.springframework.core.env.Environment;
 import utils.exceptions.UtilException;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

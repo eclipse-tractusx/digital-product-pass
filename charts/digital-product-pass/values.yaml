@@ -68,11 +68,11 @@ backend:
       # -- Restrict a Container's Syscalls with seccomp
       type: RuntimeDefault
     # -- Runs all processes within a pod with a special uid
-    runAsUser: 1000
+    runAsUser: 10001
     # -- Processes within a pod will belong to this guid
-    runAsGroup: 3000
+    runAsGroup: 10001
     # -- The owner for volumes and any files created within volumes will belong to this guid
-    fsGroup: 3000
+    fsGroup: 10001
 
   # The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
   securityContext:
@@ -89,9 +89,9 @@ backend:
     # -- Requires the container to run without root privileges
     runAsNonRoot: true
     # -- The container's process will run with the specified uid
-    runAsUser: 1000
+    runAsUser: 10001
     # -- The owner for volumes and any files created within volumes will belong to this guid
-    runAsGroup: 3000
+    runAsGroup: 10001
 
   # -- specifies the volume mounts for the backend deployment
   volumeMounts:
@@ -135,6 +135,7 @@ backend:
   edc:
     # -- the secret for assesing the edc management API
     xApiKey: "<Add API key here>"
+    authorizationKey: "X-Api-Key"
     # -- BPN Number
     participantId: &bpn "<Add participant id here>"
     # -- edc consumer connection configuration
@@ -180,15 +181,22 @@ backend:
     # -- unique sha512 hash key used for the passport encryption
     encryptionKey: ""
 
+  verification:
+    enabled: true
+    autoVerify: true
+    wallet:
+      url: "https://<dpp-consumer-wallet.url>"
+      apiKey: "<Add API Key>"
+      endpoints:
+        health: "/health"
+        verify: "/verify"
+
   passport:
     aspects:
-      - "urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport"
-      - "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
       - urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass
-      - "urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass"
       - urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass
-      - "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
       - urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
+
     # -- configuration for policies to filter in the digital product pass asset negotiation
     policyCheck:
       # -- condition to enable and disable the policy check
@@ -266,6 +274,7 @@ backend:
     delay: 1000
 
 frontend:
+  enabled: true
   name: "dpp-frontend"
   image:
     repository: docker.io/tractusx/digital-product-pass-frontend
@@ -296,11 +305,11 @@ frontend:
       # -- Restrict a Container's Syscalls with seccomp
       type: RuntimeDefault
     # -- Runs all processes within a pod with a special uid
-    runAsUser: 1000
+    runAsUser: 10001
     # -- Processes within a pod will belong to this guid
-    runAsGroup: 3000
-    # -- The owner for volumes and any files created within volumes will belong to this guid
-    fsGroup: 3000
+    runAsGroup: 10001
+    # -- The owner for volumes and any files created within volumes will belong to this guide
+    fsGroup: 10001
 
   # The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
   securityContext:
@@ -317,9 +326,9 @@ frontend:
     # -- Requires the container to run without root privileges
     runAsNonRoot: true
     # -- The container's process will run with the specified uid
-    runAsUser: 1000
+    runAsUser: 10001
     # -- The owner for volumes and any files created within volumes will belong to this guid
-    runAsGroup: 3000
+    runAsGroup: 10001
 
   # -- product passport UI configuration
 
@@ -390,6 +399,20 @@ resources:
   requests:
     cpu: 250m
     memory: 512Mi
+
+livenessProbe:
+  enabled: false
+  path: /health
+  port: 8888
+  initialDelaySeconds: 60       # trigger initial readinessProbe after 60 seconds
+  periodSeconds: 300            # check readinessProbe after every 5 minutes
+
+readinessProbe:
+  enabled: false
+  path: /health
+  port: 8888
+  initialDelaySeconds: 60       # trigger initial readinessProbe after 60 seconds
+  periodSeconds: 300            # check readinessProbe after every 5 minutes
 
 # [node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain pods to nodes
 nodeSelector: {}

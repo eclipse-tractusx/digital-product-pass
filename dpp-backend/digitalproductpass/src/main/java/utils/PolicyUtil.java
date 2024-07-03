@@ -28,10 +28,10 @@
 package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig;
-import org.eclipse.tractusx.digitalproductpass.config.PolicyCheckConfig.PolicyConfig;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.catalog.Dataset;
-import org.eclipse.tractusx.digitalproductpass.models.negotiation.policy.Set;
+import org.eclipse.tractusx.digitalproductpass.core.config.PolicyCheckConfig;
+import org.eclipse.tractusx.digitalproductpass.core.config.PolicyCheckConfig.PolicyConfig;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.catalog.Dataset;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.policy.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.exceptions.UtilException;

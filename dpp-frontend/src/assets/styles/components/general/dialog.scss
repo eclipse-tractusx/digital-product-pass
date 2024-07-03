@@ -26,6 +26,7 @@
 .dialog-container {
   position: relative;
   min-width: 400px;
+  max-width: 800px;
   width: auto;
   margin: auto;
   .title-container {
@@ -37,6 +38,12 @@
   }
   .dialog-text {
     margin: 5px 15px 15px 15px;
+  }
+  .element-chart-label {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 6px 8px;
+    min-height: 20px;
   }
   .close-btn-container {
     position: absolute;
@@ -52,5 +59,10 @@
 @media (max-width: 550px) {
   .dialog-container {
     width: 350px;
+  }
+}
+@media (max-width: 390px) {
+  .dialog-container {
+    min-width: 100% !important;
   }
 }

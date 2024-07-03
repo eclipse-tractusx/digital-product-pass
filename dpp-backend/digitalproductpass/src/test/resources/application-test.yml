@@ -133,6 +133,24 @@ configuration:
     maxRetries: 30
     delay: 1000
 
+  verification:
+    enabled: true
+    autoVerify: true
+    wallet:
+      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
+      endpoints:
+        health: "/health"
+        verify: "/verify"
+
+    certifiedDataCredential:
+      semanticIdKeys:
+        - key: "Entity"
+          value: "https://www.w3.org/ns/credentials/v2"
+        - key: "DataElement"
+          value: "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+        - key: "Operation"
+          value: "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+
   process:
     store: true
     dir: 'process'

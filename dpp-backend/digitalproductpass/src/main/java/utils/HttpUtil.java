@@ -29,9 +29,8 @@ package utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
-import org.eclipse.tractusx.digitalproductpass.models.edc.Jwt;
-import org.eclipse.tractusx.digitalproductpass.models.http.Response;
+import org.eclipse.tractusx.digitalproductpass.core.models.edc.Jwt;
+import org.eclipse.tractusx.digitalproductpass.core.models.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -52,7 +51,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.*;
 
 /**
  * This class consists exclusively of methods to operate on the HTTP protocol.

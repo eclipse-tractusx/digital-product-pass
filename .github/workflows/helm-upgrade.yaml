@@ -40,7 +40,6 @@ on:
 jobs:
   upgrade:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'eclipse-tractusx/digital-product-pass' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

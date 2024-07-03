@@ -33,7 +33,7 @@
 
 <script>
 import Error from "../media/500error.png";
-
+import authUtil from "@/utils/authUtil.js";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "PageNotFound",
@@ -43,6 +43,9 @@ export default {
       Error,
     };
   },
+  async created() {
+    authUtil.cleanUrl(this)
+  }
 };
 </script>
 <style scoped>

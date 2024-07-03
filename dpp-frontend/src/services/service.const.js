@@ -63,6 +63,8 @@ realm = (realm != null && realm !== "") ? realm : "CX-Central"
 onLoad = (onLoad != null && onLoad !== "") ? onLoad : "login-required"
 adminEmail = (adminEmail != null && adminEmail !== "") ? adminEmail : "admin@example.com"
 portalUrl = (portalUrl != null && portalUrl !== "") ? portalUrl : "https://portal.int.demo.catena-x.net"
+repoEndpoint = (repoEndpoint != null && repoEndpoint !== "") ? repoEndpoint : "https://github.com/eclipse-tractusx/digital-product-pass"
+commitId = (commitId != null && commitId !== "") ? commitId : "main"
 bpnCheck = (bpnCheck === "true")
 roleCheck = (roleCheck === "true")
 autoSign = (autoSign === "true")

@@ -51,9 +51,11 @@ jobs:
       SWAGGERHUB_USER: ${{ secrets.SWAGGERHUB_USER }}
      
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-java
+      - name: Setup Java 21
+        uses: ./.github/actions/setup-java
 
       - name: Setup node
         uses: actions/setup-node@v4

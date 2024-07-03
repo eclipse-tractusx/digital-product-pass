@@ -102,13 +102,23 @@
                 $t("passportView.dpp")
               }}</a>
             </div>
-            <div>{{ $t("footer.license") }}</div>
+            <div>{{ $t("footer.license") }} Apache-2.0</div>
             <div>
               <span>{{ $t("footer.licensePath") }}</span>
               <a
                 id="lnkHelp"
                 target="_blank"
                 :href="baseCommitUrl + '/LICENSE'"
+                >{{ $t("footer.viewLicense") }}</a
+              >
+            </div>
+            <div>Non-Code {{ $t("footer.license") }} CC-BY-4.0</div>
+            <div>
+              <span>{{ $t("footer.licensePath") }}</span>
+              <a
+                id="lnkHelp"
+                target="_blank"
+                :href="baseCommitUrl + '/LICENSE_non-code'"
                 >{{ $t("footer.viewLicense") }}</a
               >
             </div>

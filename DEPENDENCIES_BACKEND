@@ -65,7 +65,7 @@ maven/mavencentral/org.apache.commons/commons-text/1.10.0, Apache-2.0, approved,
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.21.1, Apache-2.0 AND (Apache-2.0 AND LGPL-2.0-or-later), approved, #11079
 maven/mavencentral/org.apache.logging.log4j/log4j-core/2.21.1, Apache-2.0 AND (Apache-2.0 AND LGPL-2.0-or-later), approved, #12592
 maven/mavencentral/org.apache.logging.log4j/log4j-to-slf4j/2.21.1, Apache-2.0, approved, #15262
-maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.20, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND W3C AND CC0-1.0, approved, #5949
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.20, Apache-2.0 AND (EPL-2.0 OR (GPL-2.0 WITH Classpath-exception-2.0)) AND CDDL-1.0 AND (CDDL-1.1 OR (GPL-2.0-only WITH Classpath-exception-2.0)) AND EPL-2.0, approved, #15195
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/10.1.20, Apache-2.0, approved, #6997
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/10.1.20, Apache-2.0, approved, #7920
 maven/mavencentral/org.atteo/evo-inflector/1.3, Apache-2.0, approved, clearlydefined

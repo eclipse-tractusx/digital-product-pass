@@ -1,0 +1,127 @@
+{
+    "description": [
+        {
+            "language": "en",
+            "text": "Battery Digital Twin"
+        }
+    ],
+    "displayName": [],
+    "globalAssetId": "urn:uuid:a4c600e8-b11f-4e1d-a2f9-80ad518806b8",
+    "idShort": "Battery_DPP-XYZ789",
+    "id": "urn:uuid:a4c600e8-b11f-4e1d-a2f9-80ad518806b8",
+    "specificAssetIds": 
+        [
+            {
+                "name": "digitalTwinType",
+                "value": "PartInstance",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "partInstanceId",
+                "value": "DPPV-0001",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "manufacturerPartId",
+                "value": "MPI7654",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        },
+                        {
+                            "type": "GlobalReference",
+                            "value": "PUBLIC_READABLE"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "manufacturerId",
+                "value": "BPNL0073928UJ879",
+                "externalSubjectId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "BPNL0073928UJ879"
+                        }
+                    ]
+                }
+            }
+        ],
+    "submodelDescriptors": [
+        {
+            "endpoints": [
+                {
+                    "interface": "SUBMODEL-3.0",
+                    "protocolInformation": {
+                        "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:a377ff49-6bde-4215-8d38-b8f02c991a35",
+                        "endpointProtocol": "HTTP",
+                        "endpointProtocolVersion": [
+                            "1.1"
+                        ],
+                        "subprotocol": "DSP",
+                        "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
+                        "subprotocolBodyEncoding": "plain",
+                        "securityAttributes": [
+                            {
+                                "type": "NONE",
+                                "key": "NONE",
+                                "value": "NONE"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "idShort": "digitalProductPass",
+            "id": "urn:uuid:a377ff49-6bde-4215-8d38-b8f02c991a35",
+            "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                    {
+                        "type": "Entity",
+                        "value": "https://www.w3.org/ns/credentials/v2"
+                    },
+                    {
+                        "type": "DataElement",
+                        "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+                    },
+                    {
+                        "type": "Submodel",
+                        "value": "urn:samm:io.catenax.generic.digital_product_passport:4.0.0#DigitalProductPassport"
+                    },
+                    {
+                        "type": "Operation",
+                        "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+                    }
+                ]
+            },
+            "description": [
+                {
+                    "language": "en",
+                    "text": "Verifiable Digital Product Passport Submodel"
+                }
+            ],
+            "displayName": []
+        }
+    ]
+}

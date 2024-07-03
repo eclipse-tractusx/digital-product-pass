@@ -1,9 +1,9 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Verification Add-on
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 BMW AG
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -22,22 +22,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-{{- if .Values.backend.ingress.enabled -}}
-{{- $fullName := .Values.backend.name -}}
-{{- $svcPort := .Values.backend.service.port -}}
-{{- if and .Values.backend.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.backend.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.backend.ingress.annotations "kubernetes.io/ingress.class" .Values.backend.ingress.className}}
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "simple-wallet.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
   {{- end }}
 {{- end }}
-
-#{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
-#apiVersion: networking.k8s.io/v1
-#{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-#apiVersion: networking.k8s.io/v1beta1
-#{{- else -}}
-#apiVersion: extensions/v1beta1
-#{{- end }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -45,18 +37,18 @@ metadata:
   name: {{ $fullName }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "chart.labels" . | nindent 4 }}
-  {{- with .Values.backend.ingress.annotations }}
+    {{- include "simple-wallet.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.backend.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.backend.ingress.className }}
+  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
-  {{- if .Values.backend.ingress.tls }}
+  {{- if .Values.ingress.tls }}
   tls:
-    {{- range .Values.backend.ingress.tls }}
+    {{- range .Values.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -65,7 +57,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.backend.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -79,10 +71,10 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 8888
+                  number: {{ $svcPort }}
               {{- else }}
               serviceName: {{ $fullName }}
-              servicePort: 8888
+              servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
     {{- end }}

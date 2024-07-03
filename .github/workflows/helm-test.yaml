@@ -72,7 +72,7 @@ jobs:
 
       - name: Build image for frontend
         id: build-frontend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: dpp-frontend
           push: true
@@ -92,7 +92,7 @@ jobs:
 
       - name: Build image for backend
         id: build-backend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: dpp-backend/digitalproductpass
           push: true

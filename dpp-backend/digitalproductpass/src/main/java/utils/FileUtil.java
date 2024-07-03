@@ -33,6 +33,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -166,6 +167,20 @@ public final class FileUtil {
         return text.toString();
     }
 
+    /**
+     * Parses the content of the given InputStream to a String.
+     * <p>
+     * @param   fileContent
+     *          the {@code InputStream} representing the file content.
+     *
+     * @return  a {@code String} object with input stream content.
+     *
+     * @throws  UtilException
+     *          if unable to read the input stream.
+     */
+    public String getResourceFileAsString(InputStream fileContent) {
+        return new BufferedReader(new InputStreamReader(fileContent)).lines().collect(Collectors.joining(System.lineSeparator()));
+    }
     /**
      * Parses a given resource to an InputStream.
      * <p>

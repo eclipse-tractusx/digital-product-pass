@@ -59,10 +59,10 @@ helm install digital-product-pass tractusx/digital-product-pass
 | backend.passport.policyCheck.enabled | bool | `true` | condition to enable and disable the policy check |
 | backend.passport.policyCheck.policies | list | `[{"obligation":[],"permission":[{"action":"USE","constraints":[{"leftOperand":"cx-policy:Membership","operator":"odrl:eq","rightOperand":"active"},{"leftOperand":"cx-policy:FrameworkAgreement","operator":"odrl:eq","rightOperand":"CircularEconomy:1.0"},{"leftOperand":"cx-policy:UsagePurpose","operator":"odrl:eq","rightOperand":"cx.circular.dpp:1"}],"logicalConstraint":"odrl:and"}],"prohibition":[]}]` | list of allowed policies that can be selected from the edc catalog in negotiations |
 | backend.passport.policyCheck.strictMode | bool | `false` | the strict mode is quicker (uses hashes) and requires less computation complexity, the default mode is comparing against every single object value |
-| backend.podSecurityContext | object | `{"fsGroup":10001,"runAsGroup":10001,"runAsUser":10001,"seccompProfile":{"type":"RuntimeDefault"}}` | The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment |
+| backend.podSecurityContext | object | `{"fsGroup":10001,"runAsGroup":10001,"runAsUser":10000,"seccompProfile":{"type":"RuntimeDefault"}}` | The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment |
 | backend.podSecurityContext.fsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
 | backend.podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
-| backend.podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
+| backend.podSecurityContext.runAsUser | int | `10000` | Runs all processes within a pod with a special uid |
 | backend.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
 | backend.process | object | `{"encryptionKey":""}` | digital twin registry configuration |
 | backend.process.encryptionKey | string | `""` | unique sha512 hash key used for the passport encryption |
@@ -73,7 +73,7 @@ helm install digital-product-pass tractusx/digital-product-pass
 | backend.securityContext.readOnlyRootFilesystem | bool | `true` | Whether the root filesystem is mounted in read-only mode |
 | backend.securityContext.runAsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
 | backend.securityContext.runAsNonRoot | bool | `true` | Requires the container to run without root privileges |
-| backend.securityContext.runAsUser | int | `10001` | The container's process will run with the specified uid |
+| backend.securityContext.runAsUser | int | `10000` | The container's process will run with the specified uid |
 | backend.serverPort | int | `8888` | configuration of the spring boot server |
 | backend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
 | backend.singleApi | object | `{"delay":1000,"maxRetries":30}` | configuration to the single API endpoint |
@@ -104,10 +104,10 @@ helm install digital-product-pass tractusx/digital-product-pass
 | frontend.irs.requestDelay | int | `30000` | request timeout delay |
 | frontend.name | string | `"dpp-frontend"` |  |
 | frontend.negotiation.autoSign | bool | `true` |  |
-| frontend.podSecurityContext | object | `{"fsGroup":10001,"runAsGroup":10001,"runAsUser":10001,"seccompProfile":{"type":"RuntimeDefault"}}` | The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment |
-| frontend.podSecurityContext.fsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guide |
+| frontend.podSecurityContext | object | `{"fsGroup":10001,"runAsGroup":10001,"runAsUser":10000,"seccompProfile":{"type":"RuntimeDefault"}}` | The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment |
+| frontend.podSecurityContext.fsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
 | frontend.podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
-| frontend.podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
+| frontend.podSecurityContext.runAsUser | int | `10000` | Runs all processes within a pod with a special uid |
 | frontend.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
 | frontend.portal.hostname | string | `""` |  |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` | Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID |
@@ -116,7 +116,7 @@ helm install digital-product-pass tractusx/digital-product-pass
 | frontend.securityContext.readOnlyRootFilesystem | bool | `false` | Whether the root filesystem is mounted in read-only mode |
 | frontend.securityContext.runAsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
 | frontend.securityContext.runAsNonRoot | bool | `true` | Requires the container to run without root privileges |
-| frontend.securityContext.runAsUser | int | `10001` | The container's process will run with the specified uid |
+| frontend.securityContext.runAsUser | int | `10000` | The container's process will run with the specified uid |
 | frontend.service.port | int | `8080` |  |
 | frontend.service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service |
 | frontend.supportContact.adminEmail | string | `"admin@example.com"` |  |
@@ -137,11 +137,6 @@ helm install digital-product-pass tractusx/digital-product-pass
 | oauth.hostname | string | `""` | url of the identity provider service |
 | oauth.roleCheck | object | `{"enabled":false}` | the role check checks if the user has access roles for the appId |
 | oauth.techUser | object | `{"clientId":"<Add client id here>","clientSecret":"<Add client secret here>"}` | note: this credentials need to have access to the Discovery Finder, BPN Discovery and EDC Discovery |
-| readinessProbe.enabled | bool | `false` |  |
-| readinessProbe.initialDelaySeconds | int | `60` |  |
-| readinessProbe.path | string | `"/health"` |  |
-| readinessProbe.periodSeconds | int | `300` |  |
-| readinessProbe.port | int | `8888` |  |
 | replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"500m"` |  |
 | resources.limits.memory | string | `"512Mi"` |  |

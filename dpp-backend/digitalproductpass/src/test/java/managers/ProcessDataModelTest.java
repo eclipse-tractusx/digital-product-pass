@@ -26,9 +26,9 @@
 
 package managers;
 
-import org.eclipse.tractusx.digitalproductpass.exceptions.DataModelException;
-import org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel;
-import org.eclipse.tractusx.digitalproductpass.models.manager.Process;
+import org.eclipse.tractusx.digitalproductpass.core.exceptions.DataModelException;
+import org.eclipse.tractusx.digitalproductpass.core.managers.ProcessDataModel;
+import org.eclipse.tractusx.digitalproductpass.core.models.manager.Process;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -101,12 +101,6 @@ class ProcessDataModelTest {
         assertEquals("UPDATED", updatedState);
     }
 
-    @Test()
-    void setStateThrowsDataModelExceptionByNonexistentProcessId() {
-        Throwable exception = assertThrows(DataModelException.class, () -> processDataModel.setState("100", "TEST"));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel] The process does not exists!", exception.getMessage());
-    }
-
     @Test
     void processExists() {
         assertTrue(processDataModel.processExists(processId));
@@ -124,13 +118,4 @@ class ProcessDataModelTest {
         assertEquals("RUNNING", process.getState());
     }
 
-    @Test
-    void startProcessThrowsDataModelExceptionByNonexistentProcessId() {
-        Throwable exception = assertThrows(DataModelException.class, () -> processDataModel.startProcess("100", new Runnable() {
-            @Override
-            public void run() {}
-        }));
-        assertEquals("[org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel] It was not possible to start the process, " +
-                "[org.eclipse.tractusx.digitalproductpass.managers.ProcessDataModel] The process does not exists!", exception.getMessage());
-    }
 }

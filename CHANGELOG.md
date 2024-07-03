@@ -87,7 +87,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 * chore(deps): bump docker/build-push-action from 5 to 6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/334
 * chore(deps): bump requests from 2.31.0 to 2.32.2 in /dpp-backend/scripts by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/345
 * chore(deps): bump braces from 3.0.2 to 3.0.3 in /dpp-frontend by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/340
-* chore(deps): bump org.springframework.boot:spring-boot-starter-web from 3.0.2 to 3.3.1 in /dpp-backend/digitalproductpass by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/339
 
 
 

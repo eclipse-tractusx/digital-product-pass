@@ -155,6 +155,24 @@ data:
           enabled: {{ .Values.backend.passport.policyCheck.enabled }}
           strictMode: {{ .Values.backend.passport.policyCheck.strictMode }}
           policies: {{- toYaml .Values.backend.passport.policyCheck.policies | nindent 10 }}
+        # -- digital product pass verification add-on configuration
+        verification:
+          enabled: {{ .Values.backend.verification.enabled }}
+          autoVerify: {{ .Values.backend.verification.autoVerify }}
+          wallet:
+            url: {{ .Values.backend.verification.wallet.url }}
+            endpoints:
+              health: {{ .Values.backend.verification.wallet.endpoints.health }}
+              verify: {{ .Values.backend.verification.wallet.endpoints.verify }}
+          certifiedDataCredential:
+            ## -- These keys are used in order to find if a subModel contains a verifiable credential, defined in the verification documentation
+            semanticIdKeys:
+              - key: "Entity"
+                value: "https://www.w3.org/ns/credentials/v2"
+              - key: "DataElement"
+                value: "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+              - key: "Operation"
+                value: "https://w3c.github.io/vc-jws-2020/contexts/v1/"
     # -- configuration of the spring boot server
     server:
       # -- configuration of backend errors

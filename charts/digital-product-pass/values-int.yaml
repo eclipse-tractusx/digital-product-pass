@@ -1,9 +1,10 @@
 #################################################################################
 # Tractus-X - Digital Product Passport Application
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG
+# Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -47,7 +48,7 @@ backend:
     xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
     participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
     hostname: "materialpass.int.demo.catena-x.net/consumer"
-        
+
 
   hostname: *hostname
   securityCheck:
@@ -69,8 +70,12 @@ backend:
     maxRetries: 30
     delay: 1000
 
+  verification:
+    wallet:
+      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
 
 frontend:
+  enabled: true
   image:
     pullPolicy: Always
   ingress:

@@ -27,7 +27,7 @@
 FROM eclipse-temurin:21-jre-alpine
 
 RUN addgroup -g 10001 appgroup \
-	&& adduser -u 10001 -g 10001 -h /home/nonroot -D nonroot
+	&& adduser -u 10000 -g 10001 -h /home/nonroot -D nonroot
     
 WORKDIR /app
 
@@ -42,9 +42,9 @@ COPY ./target/digitalproductpass*.jar digitalproductpass.jar
 HEALTHCHECK NONE
 
 # add permissions for a user
-RUN chown -R 10001:10001 /app && chmod -R 775 /app/
+RUN chown -R 10000:10001 /app && chmod -R 775 /app/
 
-USER 10001:10001
+USER 10000:10001
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "./digitalproductpass.jar"]

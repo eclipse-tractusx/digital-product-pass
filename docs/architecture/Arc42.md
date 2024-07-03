@@ -1,7 +1,7 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
 Copyright (c) 2022, 2024 BMW AG
 Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
@@ -25,10 +25,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ![C-X Logo](./media/CXlogo.png) ![acr42 logo](./media/arc42logo.png)  
 
-| Version | v5.0 |
+| Version | v6.0 |
 | ------- | ---- | 
 
-Latest Revision: *Nov 20, 2023*
+Latest Revision: *July 02, 2024*
 
 
 ## Table of Contents
@@ -63,23 +63,25 @@ Latest Revision: *Nov 20, 2023*
         - [Cancel API Flow Diagram](#cancel-api-flow-diagram)
         - [Status API Flow Diagram](#status-api-flow-diagram)
         - [Data API Flow Diagram](#data-api-flow-diagram)
-    - [Item Relationship Service Integration (Drill Down Functionality)](#item-relationship-service-integration-drill-down-functionality)
-        - [Input Parameters](#input-parameters)
-        - [Callback Url](#callback-url)
-        - [Important Notes](#important-notes)
-      - [Search API with IRS](#search-api-with-irs)
-        - [Search API Sequence with IRS](#search-api-sequence-with-irs)
-        - [Search API Flow with IRS](#search-api-flow-with-irs)
-      - [Drill Down Status Check with IRS](#drill-down-status-check-with-irs)
-        - [State API Description](#state-api-description)
-        - [Tree API Description](#tree-api-description)
-        - [Components API Description](#components-api-description)
-        - [Async Data Retrieval Sequence with IRS](#async-data-retrieval-sequence-with-irs)
-        - [Async Data Retrieval Flow with IRS](#async-data-retrieval-flow-with-irs)
+    - [Add-ons](#add-ons)
+        - [Item Relationship Service Integration (Drill Down Functionality)](#item-relationship-service-integration-drill-down-functionality)
+            - [Input Parameters](#input-parameters)
+            - [Callback Url](#callback-url)
+            - [Important Notes](#important-notes)
+            - [Search API with IRS](#search-api-with-irs)
+                - [Search API Sequence with IRS](#search-api-sequence-with-irs)
+                - [Search API Flow with IRS](#search-api-flow-with-irs)
+                - [Drill Down Status Check with IRS](#drill-down-status-check-with-irs)
+                - [State API Description](#state-api-description)
+                - [Tree API Description](#tree-api-description)
+                - [Components API Description](#components-api-description)
+                - [Async Data Retrieval Sequence with IRS](#async-data-retrieval-sequence-with-irs)
+                - [Async Data Retrieval Flow with IRS](#async-data-retrieval-flow-with-irs)
+        - [Digital Product Pass Verification](#digital-product-pass-verification)
     - [Business Context](#business-context)
     - [Technical Context](#technical-context)
       - [Container Ecosystem](#container-ecosystem)
-        - [Kubernetes Container platform (gardener)](#kubernetes-container-platform-gardener)
+        - [Kubernetes Container platform](#kubernetes-container-platform)
         - [Containers](#containers)
       - [CI/CD](#cicd)
       - [Documentation links](#documentation-links)
@@ -130,7 +132,7 @@ This passports can be used for different products like **Batteries**, **Gearboxe
     - Battery Pass
     - Transmission Pass
 
-The digital product pass backend has the power to retrieve any aspect from the Catena-X Network. More information at the [Aspect Configuration]()
+The digital product pass backend has the power to retrieve any aspect from the Catena-X Network.
 
 This application is developed by the **Digital Product Pass Team**, one of the members from **Catena-X Circular Economy Use Case Team**, aiming to contribute to the environmental cause, allowing recyclers, OEMs and dismantlers to know properties, dimensions and other important data related with a current product or material.
 
@@ -328,9 +330,9 @@ The Aspect search order and priority is defined at the configuration: `backend.c
 
 Currently the default order of aspects is:
 
-    1. Digital Product Pass (urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport)
-    2. Battery Pass (urn:bamm:io.catenax.generic.digital_product_passport:1.0.0#DigitalProductPassport)
-    3. Transmission Pass (urn:bamm:io.catenax.transmission.transmission_pass:1.0.0#TransmissionPass)
+    1. Digital Product Pass (urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport)
+    2. Battery Pass (urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass)
+    3. Transmission Pass (urn:samm:io.catenax.transmission.transmission_pass:3.0.0#TransmissionPass)
 
 This means that first the backend will search in the digital twin if the digital product pass is available and then will search for the next ones.
 
@@ -387,13 +389,14 @@ This API is responsible for retrieving the Aspect Model Payloads and some metada
 ![Passport API Flow](./media/dataRetrieval/dataApiFlow.drawio.svg)
 
 
-Swagger Documentation: [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html)
+Swagger Documentation: [https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass)
 
 #### Single API
 The Single API permits to get data from a Catena-X Provider by abstracting of all the separated APIs needed to do so. Authenticating with an defined API Key and with the mandatory and given serialized and discovery identifications, this API will
 create the process and check for the viability of the data retrieval, searches for a passport with the given serialized id, automatically signs the contract retrieved from provider and start negotiation, waits for the negotiation
 to be done and returns the data negotiated and transferred. In short, it's the set of the various APIs in one with auto-sign functionality to agile the data retrieval in a simple way.
 
+## Add-ons
 
 ### Item Relationship Service Integration (Drill Down Functionality)
 
@@ -433,7 +436,7 @@ Once the callback url is called when the job is in state "COMPLETED" the backend
 These are important notes related to the IRS search.
 
 - The drill down functionality is fixed to `1 depth` because of processing time issues and because most of the cases the "allowed" depth visualization will be 1 level down because of the `one level up - one level down` rule
-- The current version of the IRS ([`v4.1.0`](https://github.com/eclipse-tractusx/item-relationship-service/releases/tag/4.1.0)) takes approximately 7 minutes to load the children. Because of this:
+- The current version of the IRS ([`v5.1.3`](https://github.com/eclipse-tractusx/item-relationship-service/releases/tag/5.1.3) takes approximately 7 minutes to load the children. Because of this:
     - Some timeouts were set at the backend and frontend components to prevent that the loading time is infinite
 - The IRS is currently configured to call the "callback url" when the status "COMPLETED" is reached. In case the IRS is not responding for the timeout time it will be considered as an error.
 - The drill down functionality is build in the way that data sovereignty is respected. This means:
@@ -497,6 +500,15 @@ However the search using this API response is not ideal, better is to use the `/
 ![IRS Data Apis Flow](media/irs/irsFlow.drawio.svg)
 
 
+### Digital Product Pass Verification
+
+The Digital Product Passport Verification add-on is basically a concept for Certifying data in Catena-X as a auditor, how to provider certify data enabeling the verification as a data provider and how consumers verify this same data when retriving them from their data providers.
+
+The focus is on proving a process, artifacts and technologies, based on the existing SSI concept, aiming to enable Certification/Verification processes in Catena-X using wallets.
+
+The documentation from the Digital Product Pass Verification Add-on is available [here](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification).
+
+
 ### Business Context
 
 **Contents.**  
@@ -515,11 +527,9 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 #### Container Ecosystem
 
-##### Kubernetes Container platform (gardener)
+##### Kubernetes Container platform
 
-* Argo CD infrastructure (Integration environment)
-* Namespace:
-  * product-material-pass
+The DPP components are deployed in a managed Kubernetes environment through helm charts.The [ArgoCD](https://argo-cd.readthedocs.io/) platform was used to host the DPP components.
 
 ##### Containers
 
@@ -532,7 +542,7 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 * Source code management - GitHub Repository:
   * [https://github.com/eclipse-tractusx/digital-product-pass](https://github.com/eclipse-tractusx/digital-product-pass)
 * DevSecOps:
-  * [Intro | Tractus-X - DevSecOps](https://catenax-ng.github.io/docs/getstarted/intro)
+  * [Intro | Tractus-X - DevSecOps](https://eclipse-tractusx.github.io/community/sigs/sig_infra)
 * Eclipse Tractus-X Release Guidelines:
   * [Intro | Eclipse Tractus-X - Release Guidelines](https://eclipse-tractusx.github.io/docs/release)
 
@@ -548,20 +558,20 @@ Alternatively (or additionally) you can use a table. The title of the table is t
 
 #### Catena-X Shared Services
 
-* IAM with Keycloak managed by Catena-X:
-  * [https://centralidp.int.demo.catena-x.net/auth/](https://centralidp.int.demo.catena-x.net/auth/)
-* HashiCorp Vault to Store Secrets (https-certificate to access the connectors, *DB-credentials for our postgres db and Keycloak instances*):
-  * [https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/](https://vault.demo.catena-x.net/ui/vault/secrets/material-pass/)
+* Portal/IAM with Keycloak and EDC Discovery service
+* Discovery services (Discovery finder and BPN discovery)
+* Decentral Managed Identity Wallet (DIM Wallet)
+* HashiCorp Vault to store Secrets such as https-certificate to access the connectors, *DB-credentials for our postgres db and Keycloak instances*
 
 ## Solution Strategy
 
 ### Architecture Diagram
 
-![Architecture Diagram](./media/intrastructure/GraphicArchitectureDiagram.drawio.svg)
+![Architecture Diagram](./media/infrastructure/GraphicArchitectureDiagram.drawio.svg)
 
 ## Technology & Architecture Detail
 
-Our technology and architecture are based in the Catena-X Guidelines. However the specific technologies selected are:
+Our technology and architecture are based on Catena-X Guidelines. However, the specific technologies selected are:
 
 ### Frontend (User Interface - Client Side)
 
@@ -585,7 +595,7 @@ Another advantage from Vuetify is its documentation. There you are allowed to un
 
 Here we can see the components from the frontend of the application:
 
-![Frontend Component](./media/intrastructure/GraphicFrontendComponent.drawio.svg)
+![Frontend Component](./media/infrastructure/GraphicFrontendComponent.drawio.svg)
 
 
 #### Component Description
@@ -619,7 +629,7 @@ We selected spring boot because it allows us to:
 
 To ease the understanding and get a general technical context of the backend the following diagram was created:
 
-![Backend Component](./media/intrastructure/GraphicBackendComponent.drawio.svg)
+![Backend Component](./media/infrastructure/GraphicBackendComponent.drawio.svg)
 
 #### Component Description
 
@@ -633,7 +643,6 @@ To ease the understanding and get a general technical context of the backend the
 | Middleware and Interceptors | These components are integrated with the HTTP Controllers, however they are responsible for the information and for adding logics between the requests. Thanks to this component that we are able to log all API calls coming from the Frontend or external systems |
 | Exceptions | This component contains the exception definitions, they can be in Runtime Exeception or Normal Exception Types. |
 | Utils | This component is the base for all the  components, we are able to manage such as, Catena-X Logics, Configuration Logics, Cryptography, Logging, etc...|
-
 
 ### Infrastructure
 
@@ -668,29 +677,29 @@ The primary battery passport application components are:
 
 There are different levels categorized concerning the application resources deployed for a specific tool:
 
-**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD through helm charts. The deployed components are: "materialpass-edc" which refers to the consumer connector and "battery passport consumer application" refers to the consumer frontend (UI) application.
+**Scope & Context:** A top-level defines the application runtime environment where application artifacts are deployed and running in a remote Kubernetes cluster in Argo CD through helm charts. The deployed components are: "dpp-edc-consumer" which refers to the consumer connector and "digital product passport application" refers to the consumer frontend (UI) application.
 
-**Level 1:** this level defines a deep dive into each deployment artifact: materialpass-edc, and digital-product-pass (consumer-ui and consumer-backend). In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the GitHub registries.
+**Level 1:** This level defines a deep dive into each deployment artifact: dpp-edc-consumer, and digital-product-pass (dpp-frontend and dpp-backend). In this layer, Kubernetes and helm resources are utilized using umbrella helm charts, consisting of some dependencies (container images) which are fetched from the Dockerhub registry.
 
-**Level 2:** A centralized source control repository where the source code and build artifacts are stored and version controlled. It also contains various git actions, for instance, the Build pipeline that publishes compiled applications onto the GitHub Container Packages Registry (GHCR) which is further accessed by the next level and other build actions that get triggered to verify the CatenaX quality gate requirements.
+**Level 2:** A centralized source control repository where the source code and build artifacts are stored and version controlled. It also contains various git actions, for instance, the Build pipeline that publishes compiled applications onto the Dockerhub registry which is further accessed by the next level and other build actions that get triggered to verify the quality requirements.
 
 **Level 3:** A development level where application source code is developed and built by developers.
 
-![Building Block View](./media/intrastructure/GraphicBulidingBlockView.drawio.svg)
+![Building Block View](./media/infrastructure/GraphicBulidingBlockView.drawio.svg)
 
 ### Blackbox Overall System
 
-![Blackbox Overall System](./media/intrastructure/GraphicBlackboxOverallSys.drawio.svg)
+![Blackbox Overall System](./media/infrastructure/GraphicBlackboxOverallSys.drawio.svg)
 
 ### Whitebox Overall System
 
 A developer who creates a new feature branch to work on a specific feature that would be later on introduced in the next application release. He pushes the branch into the remote git repository, opens a new pull request (PR), and involves others such as project developer(s) and maintainer(s) to review his work where they could also provide their comments. Once PR is approved, the changes will get merged into the develop/main repository.
 
-During the merge process, the build pipeline also known as Continuous integration (CI) gets triggered through a git action which builds the application artifacts, packages them into a docker image, and finally publishes the image onto the GitHub Container Registry with the tag holding latest commit SHA. In addition, other jobs are also executed which scan the code based on various criteria to fulfill the quality gate requirements.
+During the merge process, the build pipeline also known as Continuous integration (CI) gets triggered through a git action which builds the application artifacts, packages them into a docker image, and finally publishes the image onto the Dockerhub registry with the tag holding latest. In addition, other jobs are also executed which scan the code based on various criteria to fulfill the quality gate requirements.
 
 The application deployment is translated into Kubernetes resources through helm charts which can be deployed in some cloud environment. At the time of writing this guide, ArgoCD platform was used for deployment purposes. We take the advantage of ArgoCD to leverage the Continuous Deployment (CD) process through its built-in auto-sync feature. This is done by matching the current and desired state of the application once a code is pushed or a new container image is uploaded to a registry.
 
-![Whitebox Overall System](./media/intrastructure/GraphicWhiteboxOverallSys.drawio.svg)
+![Whitebox Overall System](./media/infrastructure/GraphicWhiteboxOverallSys.drawio.svg)
 
 | Name | Responsibility |
 | ---- | -------------- |
@@ -703,11 +712,11 @@ The application deployment is translated into Kubernetes resources through helm 
 
 ## Deployment View
 
-![DeploymentView](./media/intrastructure/DeployementView.drawio.svg)
+![DeploymentView](./media/infrastructure/DeployementView.drawio.svg)
 
 ## Cross-cutting Concepts
 
-![Cross Cutting Concepts](./media/intrastructure/GraphicCrossCuttingConcepts.drawio.svg)
+![Cross Cutting Concepts](./media/infrastructure/GraphicCrossCuttingConcepts.drawio.svg)
 
 ## Design Decisions
 

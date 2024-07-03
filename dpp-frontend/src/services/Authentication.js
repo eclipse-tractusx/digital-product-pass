@@ -79,7 +79,7 @@ export default class Authentication {
                 app.mount("#app");
                 //Token Refresh
                 setInterval(() => {
-                    this.updateToken(200, app);
+                    this.updateToken(150, app);
                 }, 20000);
             })
             .catch((e) => {

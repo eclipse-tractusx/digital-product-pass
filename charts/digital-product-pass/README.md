@@ -23,7 +23,7 @@ helm install digital-product-pass tractusx/digital-product-pass
 
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass>
+* <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
 
 ## Values
 

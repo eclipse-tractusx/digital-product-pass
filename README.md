@@ -43,9 +43,9 @@ In particular, the appliction is used to access the battery passport data provid
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-3.1.0">3.1.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-4.0.0-rc1">4.0.0-rc1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v3.1.0">v3.1.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v4.0.0-rc1">v4.0.0-rc1</a></pre>
 
 
 
@@ -96,31 +96,45 @@ For installing the Digital Product Pass Application please consult our [Intallat
 - [Apache-2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE) for code
 - [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html) for non-code
 
-## Notice for Docker image
+## Notice for Docker Images
 
 DockerHub:
+- https://hub.docker.com/r/tractusx/digital-product-pass-frontend
+- https://hub.docker.com/r/tractusx/digital-product-pass-backend
+- https://hub.docker.com/r/tractusx/digital-product-pass-verification-wallet
+  
+Eclipse Tractus-X product(s) installed within the image:
 
--   https://hub.docker.com/r/tractusx/digital-product-pass-frontend
--   https://hub.docker.com/r/tractusx/digital-product-pass-backend
+- GitHub: https://github.com/eclipse-tractusx/digital-product-pass
+- Project home: https://projects.eclipse.org/projects/automotive.tractusx
+- Dockerfiles: 
+    - Frontend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/Dockerfile
+    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/Dockerfile
+    - DPP Verification Simple Wallet: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-verification/simple-wallet/Dockerfile
+- Project License: [Apache License, Version 2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE)
 
-**Base images:**
 
--   DockerHub:
+**Used base image**
+- [alpine:3.19](https://github.com/alpinelinux/docker-alpine)
+- [node:lts-alpine](https://github.com/nodejs/docker-node)
+- [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
+- [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
+- Official DockerHub pages:
+    - Alpine: https://hub.docker.com/_/alpine
+    - Node: https://hub.docker.com/_/node
+    - Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
+    - Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin  
+- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin  
+- Additional information about images:
+    - alpinelinux/docker-alpine:3.19: https://github.com/alpinelinux/docker-alpine/blob/v3.19/x86_64/Dockerfile
+    - Node: https://github.com/docker-library/repo-info/tree/master/repos/node
+    - Nginxinc/nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
+    - Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
 
-    -   Node: https://hub.docker.com/_/node
-    -   Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
-    -   Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin
+As with all Docker images, these likely also contain other software which may be under other licenses
+(such as Bash, etc. from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
--   Dockerfiles:
-
-    -   [node:lts-alpine](https://github.com/nodejs/docker-node)
-    -   [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
-    -   [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
-
--   GitHub project:
-    -   Node: https://github.com/docker-library/repo-info/tree/master/repos/node
-    -   nginxinc/docker-nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
-    -   Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

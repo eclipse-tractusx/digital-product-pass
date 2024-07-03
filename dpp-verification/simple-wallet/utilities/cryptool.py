@@ -183,6 +183,15 @@ class cryptool:
             if(currentDate >= expirationDate):
                 raise RuntimeError("The verifiable credential is not valid! Expiration date has passed!")
 
+        if("validUntil" in credential):
+            currentDate = datetime.datetime.now(datetime.UTC)
+            validUntilDate = datetime.datetime.fromisoformat(credential["validUntil"])
+            if(validUntilDate is None):
+                raise RuntimeError("Invalid validUntil date format!")
+            
+            if(currentDate >= validUntilDate):
+                raise RuntimeError("The verifiable credential is not valid! Expiration date has passed!")
+
         proof = credential["proof"]
         if("type" not in proof):
             raise RuntimeError("Verification Signature Type not found in the Verifiable Credential!")
@@ -251,7 +260,7 @@ class cryptool:
         
         if(publicKeyMethod["type"] != "JsonWebKey2020"):
             raise RuntimeError(f"Public key method is not supported!")
-        
+ 
         if not("publicKeyJwt" in publicKeyMethod):
             raise RuntimeError(f"No public key object found in the public key method!")
         

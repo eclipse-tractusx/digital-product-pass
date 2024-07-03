@@ -59,13 +59,20 @@
             <template v-for="attr in propsData.oil?.oilType" :key="attr">
               <Field
                 :icon="callIconFinder('oilType')"
-                :label="$t('sections.productSpecificParameters.oil')"
+                :label="$t('sections.productSpecificParameters.oilType')"
                 :value="attr"
+              />
+            </template>
+            <template v-if="propsData.oil?.oilCapacity">
+              <Field
+                :icon="callIconFinder('oilType')"
+                :label="$t('sections.productSpecificParameters.oilCapacity')"
+                :value="propsData.oil?.oilCapacity"
               />
             </template>
           </template>
           <template v-if="propsData.torqueConverter">
-            <div
+            <template
               v-for="(attr, index) in propsData.torqueConverter"
               :key="index"
             >
@@ -76,7 +83,7 @@
                 "
                 :value="attr"
               />
-            </div>
+            </template>
           </template>
           <template v-if="propsData.driveType">
             <template v-for="attr in propsData.driveType" :key="attr">
@@ -140,7 +147,16 @@
             </template>
           </template>
         </v-col>
-        <v-col sm="12" md="4" class="pa-0 ma-0">
+        <v-col
+          sm="12"
+          md="4"
+          class="pa-0 ma-0"
+          v-if="
+            callHasContent(
+              propsData.speedResistance || propsData.electricalPerformance
+            )
+          "
+        >
           <div class="element-chart-label" v-if="propsData.speedResistance">
             {{ $t("sections.productSpecificParameters.speedResistance") }}
           </div>
@@ -149,7 +165,7 @@
               <Field
                 :icon="callIconFinder('Speed')"
                 :label="$t('sections.productSpecificParameters.speed')"
-                :value="attr.speed"
+                :value="attr.ratedSpeed"
               />
               <Field
                 :icon="callIconFinder('Gear')"
@@ -158,27 +174,7 @@
               />
             </template>
           </template>
-          <template v-if="propsData.oilCapacity">
-            <Field
-              :icon="callIconFinder('oilCapacity')"
-              :label="$t('sections.productSpecificParameters.oilCapacity')"
-              :value="propsData.oilCapacity"
-            />
-          </template>
-          <template v-if="propsData.oilCapacity">
-            <template
-              v-for="(attr, index) in propsData.electricPerformance"
-              :key="index"
-            >
-              <Field
-                :icon="callIconFinder('Electric performance')"
-                :label="
-                  $t('sections.productSpecificParameters.electricPerformance')
-                "
-                :value="attr"
-              />
-            </template>
-          </template>
+
           <template v-if="propsData.electricalPerformance">
             <template
               v-if="propsData.electricalPerformance.electricalMachine?.torque"
@@ -190,8 +186,7 @@
                 :icon="callIconFinder('Torque')"
                 :label="$t('sections.productSpecificParameters.torquePeak')"
                 :value="
-                  propsData.electricalPerformance.electricalMachine?.torque
-                    ?.torquePeak
+                  propsData.electricalPerformance.electricalMachine?.torque?.max
                 "
               />
               <Field
@@ -201,7 +196,7 @@
                 "
                 :value="
                   propsData.electricalPerformance.electricalMachine?.torque
-                    ?.torqueContinuous
+                    ?.continuous
                 "
               />
               <Field
@@ -209,7 +204,7 @@
                 :label="$t('sections.productSpecificParameters.time')"
                 :value="
                   propsData.electricalPerformance.electricalMachine?.torque
-                    ?.time
+                    ?.maximumAvailability
                 "
               />
             </template>
@@ -224,22 +219,22 @@
                 :label="$t('sections.productSpecificParameters.power')"
                 :value="
                   propsData.electricalPerformance.electricalMachine?.power
-                    ?.powerContinuous
+                    ?.continuous
                 "
               />
               <Field
                 :icon="callIconFinder('power')"
                 :label="$t('sections.productSpecificParameters.powerPeak')"
                 :value="
-                  propsData.electricalPerformance.electricalMachine?.power
-                    ?.powerPeak
+                  propsData.electricalPerformance.electricalMachine?.power?.max
                 "
               />
               <Field
                 :icon="callIconFinder('time')"
                 :label="$t('sections.productSpecificParameters.time')"
                 :value="
-                  propsData.electricalPerformance.electricalMachine?.power?.time
+                  propsData.electricalPerformance.electricalMachine?.power
+                    ?.maximumAvailability
                 "
               />
             </template>

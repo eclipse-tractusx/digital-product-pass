@@ -80,7 +80,7 @@
     "cookies": "Cookies",
     "thirdParty": "Lizenzen Dritter",
     "legal": "Rechtlicher Hinweis",
-    "license": "Lizenz: Apache-2.0",
+    "license": "Lizenz: ",
     "licensePath": "Lizenzpfad: ",
     "viewLicense": "Lizenzdatei ansehen",
     "notice": "HINWEIS: ",
@@ -139,14 +139,35 @@
     "descriptionSustainabilityValue": "Beschreibung der Nachhaltigkeit"
   },
   "transmissionCards": {
+    "partID": "Teilenummer",
+    "carbonFootprint": "CO2-Fußabdruck",
     "matrixCode": "Matrixcode",
-    "parameters": "Spezifische Parameter",
+    "parameters": "SPEZIFISCHE PARAMETER",
     "driveType": "Antriebstyp",
     "oilType": "Öltyp"
   },
   "passportHeader": {
     "backBtn": "Zurück",
-    "verification": "Verifikation"
+    "verification": "Verifiziert",
+    "issuer": "Aussteller",
+    "issuedAt": "Ausgestellt am",
+    "expirationDate": "Läuft ab am",
+    "unverifiable": "Nicht Verifizierbar",
+    "reloadVerification": "Verifizierung Prüfen",
+    "verified": "Verifiziert",
+    "status": "Status",
+    "message": "Nachricht",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "error": "Fehler",
+    "unverified": "Nicht Verifiziert",
+    "proof": "Nachweis",
+    "type": "Typ",
+    "wallet": "Brieftasche",
+    "owner": "Eigentümer",
+    "proofPurpose": "Zwecknachweis",
+    "verificationMethod": "Verifizierungsmethode",
+    "created": "Erstellt",
+    "jws": "Signatur"
   },
   "field": {
     "tempRange": "Temperaturbereich:",
@@ -189,10 +210,11 @@
     "retrieving": "Abruf... ",
     "createdProcess": "Erstellte Prozess-ID: ",
     "contractId": "Vertrags-ID: ",
-    "compositionOf": "Composition of",
+    "compositionOf": "Zusammensetzung von",
     "verification": "Passkontrolle",
     "verifying": "Überprüfen...",
-    "verified": "Verifiziert"
+    "verified": "Verifiziert",
+    "verificationFailed": "Verifizierung fehlgeschlagen"
   },
   "sections": {
     "materials": {
@@ -208,6 +230,7 @@
       "otherMaterials": "Andere Materialien",
       "type": "Typ",
       "location": "Standort",
+      "composition": "Komposition",
       "recycledContent": "Recycelter Inhalt",
       "materialIdentification": "Materialidentifikation",
       "hazardous": "Gefährlich",
@@ -262,6 +285,13 @@
       "remainingEnergy": "Verbleibende Energie",
       "soce": "Ladezustandsschätzung"
     },
+    "instructions": {
+      "packagingInstructions": "Verpackungsanweisungen",
+      "transportationInstructions": "Transportanweisungen",
+      "dismantlingProcedure": "Demontageverfahren",
+      "safetyMeasures": "Sicherheitsmaßnahmen",
+      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
+    },
     "productSpecificParameters": {
       "serviceHistory": "Servicehistorie",
       "oil": "Öl",
@@ -283,13 +313,6 @@
       "speedResistance": "Geschwindigkeitswiderstand",
       "oilCapacity": "Ölkapazität",
       "electricPerformance": "Elektrische Leistung"
-    },
-    "instructions": {
-      "packagingInstructions": "Verpackungsanweisungen",
-      "transportationInstructions": "Transportanweisungen",
-      "dismantlingProcedure": "Demontageverfahren",
-      "safetyMeasures": "Sicherheitsmaßnahmen",
-      "vehicleDismantlingProcedure": "Fahrzeugdemontageverfahren"
     },
     "sparePartsSupplier": {
       "supplierContact": "Lieferantenkontakt",
@@ -482,6 +505,7 @@
       "lifecycle": "Lebenszyklus",
       "state": "Zustand",
       "status": "Status",
+      "documents": "Dokumente",
       "carbonFootprint": "CO2-Fußabdruck",
       "performanceClass": "Leistungsklasse",
       "type": "Typ",
@@ -489,7 +513,6 @@
       "manufacturingPlant": "Produktionsstätte",
       "declaration": "Erklärung",
       "material": "Material",
-      "documents": "Dokumente",
       "carbon": "Kohlenstoff",
       "environmental": "Umwelt",
       "carbonContentTotal": "Gesamtkohlenstoffgehalt",

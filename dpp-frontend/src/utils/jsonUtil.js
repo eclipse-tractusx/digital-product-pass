@@ -68,6 +68,14 @@ export default {
             return defaultReturn;
         }
     },
+    getValue(json, key, defaultReturn = null) {
+        try {
+            if (key == undefined || key == null) return defaultReturn;
+            return json[key];
+        } catch {
+            return defaultReturn;
+        }
+    },
     getUniqueId(originalKey, json) {
         let uniqueKey = (" " + originalKey).slice(1); // Deep Copy String
         let i = 0;
@@ -318,7 +326,7 @@ export default {
         for (let i = 0; i < keys.length; i++) {
             let element = keys[i];
             if (!this.isIn(tempSourceObj, element)) {
-                continue
+                continue;
             }
             delete tempSourceObj[element];
         }
@@ -332,7 +340,7 @@ export default {
                 if (!Object.prototype.hasOwnProperty.call(tmpJson, ref)) {
                     throw new Error("deleteDeepKey: Key [" + ref + "] is not defined in json");
                 }
-                delete tmpJson[ref]
+                delete tmpJson[ref];
                 return tmpJson;
             }
             let lastRef = refs.pop();
@@ -366,9 +374,9 @@ export default {
             let parentPath;
             let tmpParent = null;
             for (let i = refs.length - 1; i >= 0; i--) {
-                tmpObject = {}
-                part = refs[i];        
-                currentPath.pop(-1)
+                tmpObject = {};
+                part = refs[i];
+                currentPath.pop(-1);
                 parentPath = currentPath.join(sep);
                 tmpParent = this.get(parentPath, json, sep, {});
                 tmpObject[part] = tmpValue;

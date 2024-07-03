@@ -59,7 +59,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key:  appId
-                  name: {{ .Release.Name }}-backend-auth          
+                  name: {{ .Release.Name }}-backend-auth
             - name: "client.id"
               valueFrom:
                 secretKeyRef:
@@ -89,6 +89,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: irsApiKey
+                  name: {{ .Release.Name }}-backend-auth
+            - name: "wallet.apiKey"
+              valueFrom:
+                secretKeyRef:
+                  key: walletApiKey
                   name: {{ .Release.Name }}-backend-auth
           volumeMounts:
             {{- toYaml .Values.backend.volumeMounts | nindent 12 }}

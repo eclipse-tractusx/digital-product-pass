@@ -26,8 +26,6 @@
 ---
 
 {{- if .Values.frontend.enabled -}}
-
-
 {{- if .Values.frontend.ingress.enabled -}}
 {{- $fullName := .Values.frontend.name -}}
 {{- $svcPort := .Values.frontend.service.port -}}

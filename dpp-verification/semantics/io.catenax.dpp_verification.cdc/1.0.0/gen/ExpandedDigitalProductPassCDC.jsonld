@@ -1,0 +1,1475 @@
+[
+  {
+    "https://www.w3.org/2018/credentials#credentialSubject": [
+      {
+        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport": [
+          {
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#additionalData": [
+              {
+                "@list": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#children": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "23"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Description of an attribute"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Maximum permitted battery power"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                              {
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "array"
+                                  }
+                                ],
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "unit:volume"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#children": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#children": [
+                                      {
+                                        "@list": [
+                                          {
+                                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#children": [
+                                              {
+                                                "@list": [
+                                                  {
+                                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                                                      {
+                                                        "@type": "https://schema.org/string",
+                                                        "@value": "asdasdasd"
+                                                      }
+                                                    ],
+                                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                                                      {
+                                                        "@type": "https://schema.org/string",
+                                                        "@value": "Description of an attribute"
+                                                      }
+                                                    ],
+                                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                                                      {
+                                                        "@type": "https://schema.org/string",
+                                                        "@value": "Maximum permitted battery power"
+                                                      }
+                                                    ],
+                                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                                      {
+                                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                                          {
+                                                            "@type": "https://schema.org/string",
+                                                            "@value": "string"
+                                                          }
+                                                        ],
+                                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                                          {
+                                                            "@type": "https://schema.org/string",
+                                                            "@value": "unit:volume"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ],
+                                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                                              {
+                                                "@type": "https://schema.org/string",
+                                                "@value": "asdasdasd"
+                                              }
+                                            ],
+                                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                                              {
+                                                "@type": "https://schema.org/string",
+                                                "@value": "Description of an attribute"
+                                              }
+                                            ],
+                                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                                              {
+                                                "@type": "https://schema.org/string",
+                                                "@value": "Maximum permitted battery power"
+                                              }
+                                            ],
+                                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                              {
+                                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                                  {
+                                                    "@type": "https://schema.org/string",
+                                                    "@value": "string"
+                                                  }
+                                                ],
+                                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                                  {
+                                                    "@type": "https://schema.org/string",
+                                                    "@value": "unit:volume"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Description of an attribute"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Maximum permitted battery power"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                      {
+                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                          {
+                                            "@type": "https://schema.org/string",
+                                            "@value": "object"
+                                          }
+                                        ],
+                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                          {
+                                            "@type": "https://schema.org/string",
+                                            "@value": "unit:volume"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "4323"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Description of an attribute"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Maximum permitted battery power"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                      {
+                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                          {
+                                            "@type": "https://schema.org/string",
+                                            "@value": "string"
+                                          }
+                                        ],
+                                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                          {
+                                            "@type": "https://schema.org/string",
+                                            "@value": "unit:volume"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "null"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Description of an attribute"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Maximum permitted battery power"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                              {
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "array"
+                                  }
+                                ],
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "unit:volume"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#data": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "23"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#description": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "Description of an attribute"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#label": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "Maximum permitted battery power"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataType": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "array"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#typeUnit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:volume"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#characteristics": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#generalPerformanceClass": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "A"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#lifespan": [
+                  {
+                    "@list": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#key": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "guaranteed lifetime"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:day"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 36
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#physicalDimension": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#diameter": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:millimetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#grossVolume": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:cubicMetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#grossWeight": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:gram"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#height": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:millimetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#length": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:millimetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#volume": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:cubicMetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#weight": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:gram"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#width": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "unit:millimetre"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/number",
+                            "@value": 20
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#physicalState": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "solid"
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#commercial": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#placedOnMarket": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "2000-01-01"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#purpose": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "automotive"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#handling": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#applicable": [
+                  {
+                    "@type": "https://schema.org/boolean",
+                    "@value": true
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#producer": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "BPNL0123456789ZZ"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#sparePart": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturerPartId": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "123-0.740-3434-A"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#nameAtManufacturer": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Mirror left"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#identification": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#batch": [
+                  {
+                    "@list": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#key": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "batchId"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "BID12345678"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#classification": [
+                  {
+                    "@list": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#classificationDescription": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "Generic standard for classification of parts in the automotive industry."
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#classificationID": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "1004712"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#classificationStandard": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "GIN 20510-21513"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#codes": [
+                  {
+                    "@list": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#key": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "TARIC"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "8703 24 10 00"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#dataCarrier": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#carrierLayout": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "upper-left side"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#carrierType": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "QR"
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#serial": [
+                  {
+                    "@list": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#key": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "partInstanceId"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "SN12345678"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturerPartId": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "123-0.740-3434-A"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#nameAtManufacturer": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "Mirror left"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#materials": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#materialComposition": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#applicable": [
+                      {
+                        "@type": "https://schema.org/boolean",
+                        "@value": true
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#concentration": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 5.3
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#critical": [
+                              {
+                                "@type": "https://schema.org/boolean",
+                                "@value": true
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#documentation": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "201-004-7"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#name": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "phenolphthalein"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "CAS"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#recycled": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 12.5
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#renewable": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 23.5
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "unit:partPerMillion"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#substancesOfConcern": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#applicable": [
+                      {
+                        "@type": "https://schema.org/boolean",
+                        "@value": true
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#concentration": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 5.3
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#concentrationRange": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#max": [
+                                      {
+                                        "@type": "https://schema.org/number",
+                                        "@value": 2.6
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#min": [
+                                      {
+                                        "@type": "https://schema.org/number",
+                                        "@value": 2.1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#documentation": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#exemption": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "shall not apply to product x containing not more than 1,5 ml of liquid"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#hazardClassification": [
+                              {
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#category": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "category 1A"
+                                  }
+                                ],
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#class": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "Skin corrosion"
+                                  }
+                                ],
+                                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#statement": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "Causes severe skin burns and eye damage."
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "201-004-7"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#name": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "phenolphthalein"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "CAS"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#location": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Housing"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "unit:partPerMillion"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#metadata": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#backupReference": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "https://dummy.link"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#economicOperatorId": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "BPNL0123456789ZZ"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#expirationDate": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "2030-01-01"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#issueDate": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "2000-01-01"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#lastModification": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "2000-01-01"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#passportIdentifier": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "urn:uuid:550e8400-e29b-41d4-a716-446655440000"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#predecessor": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "urn:uuid:00000000-0000-0000-0000-000000000000"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#registrationIdentifier": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "https://dummy.link/ID8283746239078"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#status": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "draft"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#version": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "1.0.0"
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#operation": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#import": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#applicable": [
+                      {
+                        "@type": "https://schema.org/boolean",
+                        "@value": true
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                      {
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#eori": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "GB123456789000"
+                          }
+                        ],
+                        "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                          {
+                            "@type": "https://schema.org/string",
+                            "@value": "BPNL0123456789ZZ"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturer": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#facility": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#facility": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "BPNA1234567890AA"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturer": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "BPNLbi7tAJ8UiMsF"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturingDate": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "2000-01-31"
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#other": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#id": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "BPNL0123456789XX"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#role": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "distributor"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#sources": [
+              {
+                "@list": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#category": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "Product Specifications"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "https://dummy.link"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "Example Document XYZ"
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                      {
+                        "@type": "https://schema.org/string",
+                        "@value": "URL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#sustainability": [
+              {
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#durabilityScore": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "A"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#productFootprint": [
+                  {
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#carbon": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#declaration": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#lifecycle": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "main product production"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturingPlant": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#facility": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "BPNA1234567890AA"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#performanceClass": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "A"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#rulebook": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Climate Change Total"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "kg CO2 / kWh"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 12.678
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#environmental": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#declaration": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#lifecycle": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "main product production"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturingPlant": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#facility": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "BPNA1234567890AA"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#performanceClass": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "A"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#rulebook": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Climate Change Total"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "kg CO2 / kWh"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 12.678
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#material": [
+                      {
+                        "@list": [
+                          {
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#declaration": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#lifecycle": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "main product production"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#manufacturingPlant": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#facility": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "BPNA1234567890AA"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#performanceClass": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "A"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#rulebook": [
+                              {
+                                "@list": [
+                                  {
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#content": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "https://dummy.link"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#contentType": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "URL"
+                                      }
+                                    ],
+                                    "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#header": [
+                                      {
+                                        "@type": "https://schema.org/string",
+                                        "@value": "Example Document XYZ"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#type": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "Climate Change Total"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#unit": [
+                              {
+                                "@type": "https://schema.org/string",
+                                "@value": "kg CO2 / kWh"
+                              }
+                            ],
+                            "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#value": [
+                              {
+                                "@type": "https://schema.org/number",
+                                "@value": 12.678
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#reparabilityScore": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "B"
+                  }
+                ],
+                "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#status": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "original"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "@id": "did:web:wallet-url.test.com:BPNL00000007RVTB"
+      }
+    ],
+    "@id": "urn:uuid:efa5681c-423f-4594-a11a-d59960ab3edc",
+    "https://www.w3.org/2018/credentials#issuer": [
+      {
+        "@id": "did:web:localhost%3A7777:BPNL00000000W3BS"
+      }
+    ],
+    "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#parent": [
+      {
+        "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
+        "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#checksum": [
+          {
+            "@type": "https://schema.org/string",
+            "@value": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
+          }
+        ]
+      }
+    ],
+    "https://w3id.org/security#proof": [
+      {
+        "@graph": [
+          {
+            "http://purl.org/dc/terms/created": [
+              {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2024-06-10T12:26:21+00:00Z"
+              }
+            ],
+            "https://w3id.org/security#jws": [
+              {
+                "@value": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..re5OBXOqEjISL9jO-nPRmXmzeVx7SEpaetJPmpOVm3jgmb8wlH_58zFwYll5SI6lZR81cc_dEF69NKhKbj9ABA"
+              }
+            ],
+            "https://w3id.org/security#proofPurpose": [
+              {
+                "@id": "https://w3id.org/security#assertionMethod"
+              }
+            ],
+            "@type": [
+              "https://w3id.org/security#JsonWebSignature2020"
+            ],
+            "https://w3id.org/security#verificationMethod": [
+              {
+                "@id": "did:web:localhost%3A7777:BPNL00000000W3BS#KRxYHiKWoOmwNWDN5cFwpACN6L7XPN7CyT-rqt57I-Y"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#semanticId": [
+      {
+        "@type": "https://schema.org/string",
+        "@value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+      }
+    ],
+    "@type": [
+      "https://www.w3.org/2018/credentials#VerifiableCredential",
+      "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential",
+      "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+    ],
+    "https://www.w3.org/2018/credentials#validFrom": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2024-06-10T12:26:21+00:00Z"
+      }
+    ],
+    "https://www.w3.org/2018/credentials#validUntil": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2024-11-25T12:26:21+00:00Z"
+      }
+    ]
+  }
+]

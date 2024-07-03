@@ -1,5 +1,5 @@
 #################################################################################
-# Tractus-X - Digital Product Pass Application 
+# Tractus-X - Digital Product Pass Application
 #
 # Copyright (c) 2022, 2024 BMW AG
 # Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
@@ -22,7 +22,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
-
 ---
 apiVersion: v2
 name: digital-product-pass

@@ -25,13 +25,19 @@
  ********************************************************************************/
 
 package org.eclipse.tractusx.digitalproductpass;
-
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.JsonSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,6 +47,10 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
+import utils.FileUtil;
+import utils.JsonUtil;
+
+import java.io.File;
 
 
 /**
@@ -62,6 +72,10 @@ public class Application {
     @Autowired
     BuildProperties buildProperties;
     @Autowired
+    FileUtil fileUtil;
+    @Autowired
+    JsonUtil jsonUtil;
+    @Autowired
     Environment env;
 	public static void main(String[] args) {
 
@@ -72,8 +86,18 @@ public class Application {
 	}
 
     @Bean
-    public OpenAPI openApiConfig(){
-        return new OpenAPI().info(getApiInfo());
+    public OpenAPI openApiConfig() throws Exception {
+        return new OpenAPI().info(getApiInfo()).components(this.loadSchemas());
+    }
+
+    public Components loadSchemas() throws Exception {
+        String content = fileUtil.getResourceFileAsString(fileUtil.getResourceContent(this.getClass(), "schemas/dpp-cdc.jsonld"));
+        if(content == null){
+            throw new Exception("It was not possible to load the dpp schema file");
+        }
+        return new Components().addSchemas(
+                "CertifiedDataCredential", new JsonSchema().example(jsonUtil.parseJson(content))
+        );
     }
 
     public Info getApiInfo(){

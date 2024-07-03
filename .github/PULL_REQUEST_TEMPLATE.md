@@ -18,8 +18,3 @@
 Include here the issues if available that will be closed with this PR.
 Use the notation `Closes #<issueId>`
 -->
-
-| Tickets |
-| :---:   |
-| [cmp-xxx](www.link.com) |
-| [cmp-xxx](www.link.com)  |

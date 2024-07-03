@@ -106,8 +106,12 @@
 
 <script>
 import { ADMIN_EMAIL } from "@/services/service.const";
+import authUtil from "@/utils/authUtil.js";
 export default {
   name: "ErrorComponent",
+  created(){
+     authUtil.cleanUrl(this)
+  },
   props: {
     title: {
       type: [String, Number],

@@ -1,7 +1,7 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
 Copyright (c) 2022, 2024 BMW AG
 Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
@@ -25,8 +25,8 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ![C-X Logo](./media/CXLogo.png)  
 
-Version: v2.1 </br>
-Latest Revision 04 Jan, 2024
+Version: v2.2 </br>
+Latest Revision 02 July, 2024
 
 ## Table of Contents
 
@@ -61,6 +61,7 @@ Latest Revision 04 Jan, 2024
       - [Variables:](#variables-4)
       - [Format and Fields:](#format-and-fields-4)
   - [Item Relationship Service Integration](#item-relationship-service-integration)
+  - [DPP Verification Add-On](#dpp-verification-add-on)
   - [NOTICE](#notice)
 
 ## Introduction
@@ -128,7 +129,7 @@ All the information about the backend services is described in this documentatio
 | Name | Location | Link |
 | ---- | -------- | ---- |
 | Consumer Backend Guide | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-backend/digitalproductpass/readme.md) |
-| Open API - Swagger | GitHub | [https://dpp.int.demo.catena-x.net/swagger-ui/index.html](https://dpp.int.demo.catena-x.net/swagger-ui/index.html) |
+| Open API - Swagger | GitHub | [https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass](https://app.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass) |
 
 ### Backend Application Configuration
 The configurations of log levels and other variables can be set in the following file:
@@ -185,7 +186,7 @@ When configuring your EDC Provider you need to take info consideration the follo
 
 **All variables are written in the following notation: ***{{ VARIABLE_NAME }}*****
 
-All the configurations are in JSON notation and follow the [EDC Configuration from Catena-X](https://github.com/eclipse-tractusx/tractusx-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
+All the configurations are in JSON notation and follow the [Tractus-X EDC Configuration](https://github.com/eclipse-tractusx/tractusx-edc) and the [Eclipse Foundation](https://github.com/eclipse-edc/Connector).
 
 ### Asset Configuration
 
@@ -200,7 +201,7 @@ When configurating you EDC provider you will be able to set some assets which re
 | AssetId                 | A unique identifier (UUID) of the asset                                                                                  |urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19                                                                                                                                                                                                                                                          |
 | AssetType               | The type of the Asset                                                                                                            | Asset                                                                                                                                                                                                                                                                                                                          |
 | Description             | Simple description of the asset                                                                                                  | Battery Passport Test asset                                                                                                                                                                                                                                                                                                                                                                                                 |
-| submodel.server.endpoint | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://materialpass.int.demo.catena-x.net/provider_backend](https://materialpass.int.demo.catena-x.net/provider_backend) |
+| submodel.server.endpoint | URL to the endpoint which stores and serves the data, basically a Database that retrieves plain text/json data for a certain API | [https://backend-servivce-url](#) |
 
 
 #### Format and Fields:
@@ -385,13 +386,13 @@ Once you finish the configuration, to make the endpoint public configure in the 
 | DigitalTwinSubmodelId | Sub Model Id registered in the Digital Twin Registry | urn:uuid:555c5513-5e52-2d7d-0904-fe90829252de|
 | PartInstanceId | Battery passport attribute - part instance Id | X123456789012X12345678901234566 |
 | ManufacturerPartId | Battery passport attribute - manufacturer part Id | XYZ78901 |
-| edc.data.plane | The edc data plane endpoint of the provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
-| edc.control.plane | The edc control plane endpoint of the provider | [https://materialpass.int.demo.catena-x.net/BPNL000000000000](https://materialpass.int.demo.catena-x.net/BPNL000000000000) |
+| edc.data.plane | The edc data plane endpoint of the provider | [https://edc-dataplane/provider](https://edc-dataplace/provider) |
+| edc.control.plane | The edc control plane endpoint of the provider | [https://edc-controlplane/provider](https://edc-controlplan/provider) |
 | Path | The edc data plane public endpoint of the provider  | [/api/public/data](/api/public/data) |
 | AssetId | The UUID of the edc data asset | urn:uuid:0ec8cf2b-f58e-3f13-b5ef-e7dd01d15b19 |
 | BPN | OPTIONAL: The endpoint address can include a BPN number, which shall lead to the EDC Provider, and return the contracts when called from an EDC Consumer | BPNL000000000000 |
 | SubmodelIdShort | EXACT STRING REQUIRED: The submodel id of the battery passports needs to be exactly the string: "batteryPass" | **batteryPass** |
-| BammModelVersionId | The semantic version from the submodel aspect, consult the CX-0096 for more options of the semantic version | urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass |
+| BammModelVersionId | The semantic version from the submodel aspect, consult the CX-0096 for more options of the semantic version | urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass |
 
 > **_INFO:_** *It is important that the "SubmodelIdShort" is set in the correct format and that the edc.data.plane points to the valid EDC Provider, that providers valid contracts configured in the structure defined here.*
 
@@ -474,7 +475,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
           "keys": [
             {
               "type": "Submodel",
-              "value": "urn:bamm:io.catenax.battery.battery_pass:3.0.1#BatteryPass"
+              "value": "urn:samm:io.catenax.battery.battery_pass:6.0.0#BatteryPass"
             }
           ]
         },
@@ -514,7 +515,7 @@ Once you finish the configuration, to make the endpoint public configure in the 
             "keys": [
               {
                 "type": "Submodel",
-                "value": "urn:samm:io.catenax.generic.digital_product_passport:3.0.0#DigitalProductPassport"
+                "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
               }
             ]
           },
@@ -541,7 +542,7 @@ When configuring the digital twin registry behind the EDC Provider you should fo
 
 | Name         | Description                                 | Example Value                                                 |
 |--------------|---------------------------------------------|---------------------------------------------------------------|
-| registryUrl  | The base url from the digital twin registry | [https://<registry-hostname>/semantics/registry/api/v3.0](https://<registry-hostname>/semantics/registry/api/v3.0) |
+| registryUrl  | The base url from the digital twin registry | [https://dpp-registry/semantics/registry/api/v3.0](https://dpp-registry/semantics/registry/api/v3.0) |
 | registryName | The name from the asset for the registry    | registry-asset                                         |
 
 > **IMPORTANT**: Is mandatory by the *Catena-X Standard CX-0002* from the Digital Twin Registry, the asset.properties.type should be `data.core.digitalTwinRegistry` in order to the digital product pass to find the asset in the EDC.
@@ -579,11 +580,17 @@ For deploying and integrating the IRS (Item Relationship Service)[https://github
 
 For creating relationships between the digital twins register "singleLevelBomAsBuilt" and "singleLevelBomAsUsage" aspects which can be found here: [SingleLevelBomAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built) and [SingleLevelUsageAsBuilt](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_usage_as_built)
 
-
-
 > **IMPORTANT**!: The proxy configuration needs to be enabled exactly like it is configured in the dataAdress property above.
 
 The rest of the assets can be configured in the same way as the normal assets.
+
+## DPP Verification Add-On
+
+In order to know how to verify the product passports, follow the below link:
+
+| Name | Location | Link |
+| ---- | -------- | ---- |
+| DPP-Verification Documentation | GitHub | [https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification) |
 
 ## NOTICE
 

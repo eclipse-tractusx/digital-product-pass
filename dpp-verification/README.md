@@ -1,10 +1,10 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Verification Add-on
+Tractus-X - Digital Product Pass Verification Add-on
 
-Copyright (c) 2023 BMW AG
-Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023, 2024 BMW AG
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 Copyright (c) 2024 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional

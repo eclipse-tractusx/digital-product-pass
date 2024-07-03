@@ -1,9 +1,9 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Application
+# Tractus-X - Digital Product Passport Verification Add-on
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2023, 2024 BMW AG
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -21,13 +21,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
----
+
 apiVersion: v2
-name: digital-product-pass
-description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
-home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
-sources:
-    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+name: simple-wallet
+description: This simple wallet application is an extention testing application for the Digital Product Pass Verification Add-On.
+
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -41,11 +39,10 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-
-version: 3.1.1
+version: 1.0.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "3.1.0"
+appVersion: "1.0.0"

@@ -1,0 +1,6 @@
+pypi/pypi/-/Flask/3.0.3, BSD-2-Clause AND BSD-3-Clause, approved, clearlydefined
+pypi/pypi/-/PyLD/2.0.4, BSD-3-Clause AND Apache-2.0, approved, #13949
+pypi/pypi/-/PyYAML/6.0.1, MIT, approved, clearlydefined
+pypi/pypi/-/Requests/2.32.3, Apache-2.0 AND MIT AND Apache-2.0, approved, #14884
+pypi/pypi/-/cryptography/42.0.5, Apache-2.0 AND BSD-3-Clause AND Apache-2.0 AND BSD-3-Clause, approved, #13076
+pypi/pypi/-/jwcrypto/1.5.6, LGPL-3.0-only AND LGPL-3.0-or-later, approved, #15152

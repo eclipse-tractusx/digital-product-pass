@@ -1,0 +1,702 @@
+apiVersion: v1
+entries:
+  consumer-backend:
+  - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2023-05-09T13:53:26.345427995Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: c16bc4ac4b96d71afcd71b0d5914ef71c4ef043dc906f50cac956f119d558143
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.3.0/consumer-backend-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2023-05-03T15:55:24.608865333Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: f5a29fdb0ba98bc3ea57a2bd2b61e0373e3c6f27cd02dcc3647046a3a69e53bf
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.9/consumer-backend-0.2.9.tgz
+    version: 0.2.9
+  - apiVersion: v2
+    appVersion: 0.5.2
+    created: "2023-04-13T12:46:24.858996858Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: c63e38e5437de1656e909d2294bec17846b45fbc9686cd79ba3850e69ef6d3ea
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.8/consumer-backend-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 0.5.1
+    created: "2023-04-11T09:42:37.033617454Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: ccdf90c6aa0e7a8a3072f608759f5fa007dad71bb22253c5a2373006cb7ab883
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.7/consumer-backend-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: 0.5.0
+    created: "2023-04-03T07:29:19.748234756Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 9ea1ace013bbab70d57a9b6da7ba584b9c411561a05c15696951b6b6a9c10c50
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.6/consumer-backend-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: 0.4.6
+    created: "2023-03-01T13:32:07.407617035Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 4c1de3c2d903d5efcf7f70f741a5817cc6133a5253a4716c318515ee93ad3eb8
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.5/consumer-backend-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 0.4.5
+    created: "2023-02-28T10:23:09.502231414Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 96e2e57054e8ac373f91b6f205f41b4013b53a0dcf0d3cd2da141c95409e0c14
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.4/consumer-backend-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 0.4.4
+    created: "2023-02-28T08:49:59.753816914Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 970e7e52a29c762b435224d1b0e1e393acb49ebe06855115b418292edbeaf058
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.3/consumer-backend-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: 0.4.3
+    created: "2023-02-24T07:25:08.748085766Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 8d4c8646c4e17a685a4b764f1b7a5afbc61cbda8e0eafbdaef49fe2e324da223
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.2/consumer-backend-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.4.2
+    created: "2023-02-17T13:52:33.161988581Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: cf2f6be8b7ba97723c9b5b2a58fbeea7a6103f3dff50679822f5ce802b69c898
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.1/consumer-backend-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 0.4.2
+    created: "2023-02-15T14:43:15.763320396Z"
+    description: Consumer Backend Helm Deployment for the Product Passport Application
+    digest: 3db3a16bd3709702d2626ae0f13326d5d1033d60ae1b27b2b136ef807554e4d2
+    name: consumer-backend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-backend-0.2.0/consumer-backend-0.2.0.tgz
+    version: 0.2.0
+  consumer-ui:
+  - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2023-05-09T13:53:26.541253988Z"
+    description: Consumer Application Helm Deployment for the Product Passport Application
+    digest: bea9f0ea05f6c3b8f5ab054bd36b5f0938810cebfef3cab936daf0a0248dfc4b
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.3.0/consumer-ui-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2023-05-03T15:55:24.848573763Z"
+    description: Consumer Application Helm Deployment for the Product Passport Application
+    digest: fa233a243b59b4bd1d20f40dbf25000d696a9829b84e33f5fb09ad728b49a0ab
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.9/consumer-ui-0.2.9.tgz
+    version: 0.2.9
+  - apiVersion: v2
+    appVersion: 0.5.2
+    created: "2023-04-13T12:46:25.010252722Z"
+    description: Consumer Application Helm Deployment for the Product Passport Application
+    digest: 00d5357c0f64ff02b1f5c09fce8d6c4b208a0bf480f0f564b3b8105a2bb0cb45
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.8/consumer-ui-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 0.5.1
+    created: "2023-04-11T09:42:37.236972402Z"
+    description: Consumer Application Helm Deployment for the Product Passport Application
+    digest: ce0e6a78740ea8cede8ac07c763a64acc08211ba4e0dc3fe3c0b2ca7ddfac80d
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.7/consumer-ui-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: 0.5.0
+    created: "2023-04-03T07:29:19.883116978Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: 34ca1672193236dc8eb1a3f0ed9c6aca36dad1829b617c1b0261b9037282eda0
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.6/consumer-ui-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: 0.4.6
+    created: "2023-03-01T13:32:07.673142827Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: a81a3f57b62e4f1cdb558a194195caa5e6b5578b25f7cc237be342919e123081
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.5/consumer-ui-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 0.4.5
+    created: "2023-02-28T10:23:09.951959057Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: a88eaa91f934247c38f5bc42bf83baed0051cc9c1a8e455ae3351b8a1eba32ec
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.4/consumer-ui-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 0.4.4
+    created: "2023-02-28T08:49:59.971006425Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: 0e8d6dfa6df7571e51f994a21d6fa927806f108fbf186149d8971a50d2dd42bc
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.3/consumer-ui-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: 0.4.3
+    created: "2023-02-24T07:25:08.908021246Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: 7f5fe444e70879241c8275a7674812f839acf62271aea5e15f8c941694c915fa
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.2/consumer-ui-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.4.2
+    created: "2023-02-17T13:52:33.308001756Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: f68e62186ad0ed9c8707901f26bd6fad30c5e9e07961cfe8341edbf175497491
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.1/consumer-ui-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 0.4.2
+    created: "2023-02-15T14:43:15.906147083Z"
+    description: Consumer Frontend Helm Deployment for the Product Passport Application
+    digest: c2fd30b0ffeece4c4094ac7e60860aae03c05907e2d8a5ef4b530d5df3c4ea1f
+    name: consumer-ui
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/consumer-ui-0.2.0/consumer-ui-0.2.0.tgz
+    version: 0.2.0
+  digital-product-pass:
+  - apiVersion: v2
+    appVersion: 3.1.0
+    created: "2024-07-03T14:33:21.359208509Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 9fbf191aec07adef434ce1abb8b286a4f87afdc28d3cb2661d8325e297bf5380
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-3.1.2/digital-product-pass-3.1.2.tgz
+    version: 3.1.2
+  - apiVersion: v2
+    appVersion: 3.1.0
+    created: "2024-07-03T08:32:02.468522297Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: eee4c8ebab92cb161212bdeea87356a637df03515b21e108e0a0047c6f2062e7
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-3.1.1/digital-product-pass-3.1.1.tgz
+    version: 3.1.1
+  - apiVersion: v2
+    appVersion: 3.1.0
+    created: "2024-06-20T14:09:32.625580446Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 65c767adde36aa96bd5204a3283e54dfbd0ada3462f53117407a5c41235722f2
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-3.1.0/digital-product-pass-3.1.0.tgz
+    version: 3.1.0
+  - apiVersion: v2
+    appVersion: 3.0.0
+    created: "2024-05-16T08:28:03.83670813Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 0b7f0e19f178441e67d992b01ff3aee1bd363266c982802c1369e4eaf23895bd
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-3.0.0/digital-product-pass-3.0.0.tgz
+    version: 3.0.0
+  - apiVersion: v2
+    appVersion: 3.0.0-rc1
+    created: "2024-05-13T19:20:40.474521768Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: fdb0c859f38bf540d38034d8f36b2ea070765da2149b4eb5dfe0cdaef7dabc78
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-3.0.0-rc1/digital-product-pass-3.0.0-rc1.tgz
+    version: 3.0.0-rc1
+  - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2024-05-13T19:14:59.052841945Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: a6523e4bc8d9accf8ab26459e53ff2f74de9ebf011b1b1aa084db4c9108e8f37
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.3.6/digital-product-pass-2.3.6.tgz
+    version: 2.3.6
+  - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2024-05-10T08:54:41.144960402Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: a322d1e876a06ca1aca5d95873e20f31b664563ca12b14a3fec25e9f35e46c02
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.3.3/digital-product-pass-2.3.3.tgz
+    version: 2.3.3
+  - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2024-05-10T08:51:32.086380046Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 0800cace0ee805c636ee091d3eaa3999d043d375e193b812d9b91effacb216f7
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.3.2/digital-product-pass-2.3.2.tgz
+    version: 2.3.2
+  - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2024-05-10T08:44:34.05691269Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 41568d725bd34a99b8c84f89a664f203e722716e082b1a7962ae5438553dd746
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.3.1/digital-product-pass-2.3.1.tgz
+    version: 2.3.1
+  - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2024-05-06T13:18:37.717305395Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 46810485b64b3d25bc5cc2427cd28df90c07e37b2ca3d069414c9a26bc06c665
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.3.0/digital-product-pass-2.3.0.tgz
+    version: 2.3.0
+  - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2024-03-26T15:48:26.98431552Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 3d9e66cdcca250814e3f4047bb3d1ab6161882d201343f669eed812819987038
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.2.0/digital-product-pass-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
+    appVersion: 2.1.3
+    created: "2024-02-20T17:31:28.779777961Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 2bd6104cc55ec0ef1f27dddb4432d8a7f403bd75912d55f4c20731b5000107cc
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.1.4/digital-product-pass-2.1.4.tgz
+    version: 2.1.4
+  - apiVersion: v2
+    appVersion: 2.1.3
+    created: "2024-02-19T17:26:59.621070587Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 9a1eb0e9a74995a8476ff1ba69dc5d23145f66dc00117eb3700e3652b49cc73e
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.1.3/digital-product-pass-2.1.3.tgz
+    version: 2.1.3
+  - apiVersion: v2
+    appVersion: 2.1.2
+    created: "2024-02-16T18:01:12.027540073Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 01021f4b1cefc273a67d7f796246120a5efc28377d7cadb6a6497c7ab2ecd8f9
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.1.2/digital-product-pass-2.1.2.tgz
+    version: 2.1.2
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-02-05T18:00:13.608944331Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 2723b19c0b13c5899ca7c4a064fc970978a339db49d392529121b044feac29b4
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.1.1/digital-product-pass-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2024-02-02T20:33:41.978495179Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 9a18311adb22c8a4e3495074759df35a7fe354cde879fdaf7060ea686df15072
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.1.0/digital-product-pass-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: 2.0.3
+    created: "2024-02-02T20:06:52.401539564Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 1e50eb6117e89d8bef9c5137936b0e46e910ea66dcb65dfc3f711bae186e3bbd
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.0.3/digital-product-pass-2.0.3.tgz
+    version: 2.0.3
+  - apiVersion: v2
+    appVersion: 2.0.2
+    created: "2024-02-02T19:19:16.64218Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 89fe3a3f60148d41222c0ed440f2b9d6ef2ef46f701cd4b794faf2e4071d28a6
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.0.2/digital-product-pass-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
+    appVersion: 2.0.1
+    created: "2024-01-03T17:18:02.877491821Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: ac41a8fb72971ae829b1e517715ce747f5228238981c2667650f89a4e251a0c2
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.0.1/digital-product-pass-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2023-12-22T17:58:40.980636287Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 4828e92d3630bbfd3d82ff969d5920e1813459bdd29989f8630ab6582289081c
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-2.0.0/digital-product-pass-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 1.5.0
+    created: "2023-12-22T17:54:47.224975499Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: b0df8c011ed33f9d5718c2d569eefdd2c96be898d827d04eca68e6c0da3021ed
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.5.0/digital-product-pass-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
+    appVersion: 1.4.0
+    created: "2023-12-14T14:59:23.973702252Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 20cb13fb80bbe29aef8d7cb12008a5758d456011a1e19d1783e7d0a85ae88780
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.4.0/digital-product-pass-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
+    appVersion: 1.3.1
+    created: "2023-11-08T17:07:55.286256287Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 1c9938d71a92b3eb8732534f272c026e8f3983144517890f9848ee81b659b98b
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.3.1/digital-product-pass-1.3.1.tgz
+    version: 1.3.1
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2023-11-03T15:37:40.883300767Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 77ea87d4879437598e48476d0787abebe451776562252253ab7c17b2243814a1
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.3.0/digital-product-pass-1.3.0.tgz
+    version: 1.3.0
+  - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2023-10-31T10:24:01.615237583Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: f1b24a2c528211d630a4c75ada1224ae670383a05f43ec33677fc53e07346e08
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.2.1/digital-product-pass-1.2.1.tgz
+    version: 1.2.1
+  - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2023-10-30T15:42:43.021802572Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 190b3cf79e1987315db5828ffc0476daaccb43656a5ed7ab481736f9e87054c8
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.2.0/digital-product-pass-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2023-10-19T09:01:42.366824734Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 54c17d30e4e250f0e0491e57135273169973b11055a8176b3fb1179b91fbb460
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.1.0/digital-product-pass-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2023-08-31T13:01:43.095511128Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: a511789b772030a393db95752d2f8a1de3f29a95912110698b29eac478de187c
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.1/digital-product-pass-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-07-03T15:31:41.346769218Z"
+    description: A Helm chart for Kubernetes
+    digest: 071ab73e65dbb8da47bc89734dcf268ec0d9a55bb3e138e18f2266ce5f86cef5
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.0/digital-product-pass-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: 1.0.0-rc4
+    created: "2023-08-16T13:26:52.354776303Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: b87c30941104b827636c3587641a38a721fd3becd2a84c043ce32c8786eff937
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.0-rc4/digital-product-pass-1.0.0-rc4.tgz
+    version: 1.0.0-rc4
+  - apiVersion: v2
+    appVersion: 1.0.0-rc3
+    created: "2023-08-15T14:09:59.418200932Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 79d473b4e9183a204358906c76fd1df61acc46fa9344145d6c4e4054fee5fcc8
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.0-rc3/digital-product-pass-1.0.0-rc3.tgz
+    version: 1.0.0-rc3
+  - apiVersion: v2
+    appVersion: 1.0.0-rc2
+    created: "2023-08-14T15:04:47.19062283Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 37609fec308181bca11ed02f3d4dfea2383c7a2098968835ce5581f8dd50a7d5
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.0-rc2/digital-product-pass-1.0.0-rc2.tgz
+    version: 1.0.0-rc2
+  - apiVersion: v2
+    appVersion: 1.0.0-rc1
+    created: "2023-08-11T17:50:52.198388086Z"
+    description: A Helm chart for Tractus-X Digital Product Pass Kubernetes
+    digest: 42cb30ca2053b5016a27d1319cef61e96ecb88deae5e297b8df252c8ebb34b78
+    home: https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    name: digital-product-pass
+    sources:
+    - https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-1.0.0-rc1/digital-product-pass-1.0.0-rc1.tgz
+    version: 1.0.0-rc1
+  - apiVersion: v2
+    appVersion: 0.9.0
+    created: "2023-07-03T15:18:25.174164075Z"
+    description: A Helm chart for Kubernetes
+    digest: cafbc167e9a12e9b8afbddedd3d0068d0a7c78e1770d86bc120973dbb02e6d76
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-0.3.6/digital-product-pass-0.3.6.tgz
+    version: 0.3.6
+  - apiVersion: v2
+    appVersion: 0.9.0
+    created: "2023-06-20T12:16:47.771171329Z"
+    description: A Helm chart for Kubernetes
+    digest: 9f41c3bd9e0b616eaa6222e497dae54eeba6129ccf2871536e24d08498881d42
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-0.3.5/digital-product-pass-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
+    appVersion: 0.8.1
+    created: "2023-06-09T10:37:05.750735101Z"
+    description: A Helm chart for Kubernetes
+    digest: 8f8c4ebd428562341a22a1b2b6656c0c62fe41aeeebac9efa5ce28c37c69fc3d
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-0.3.4/digital-product-pass-0.3.4.tgz
+    version: 0.3.4
+  - apiVersion: v2
+    appVersion: 0.8.0
+    created: "2023-05-19T12:43:19.841498054Z"
+    description: A Helm chart for Kubernetes
+    digest: 2d837b3aea8fe12b79a62f036b86124d65138aabeb9a50041ac964e246686b41
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-0.3.3/digital-product-pass-0.3.3.tgz
+    version: 0.3.3
+  - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2023-05-11T06:55:29.435591437Z"
+    description: A Helm chart for Kubernetes
+    digest: d8fcfa2836d404833a240457b7129e3d4c9b0ec8898df466c31f1475916c61e2
+    name: digital-product-pass
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/digital-product-pass/releases/download/digital-product-pass-0.3.2/digital-product-pass-0.3.2.tgz
+    version: 0.3.2
+generated: "2024-07-03T14:33:21.359583478Z"

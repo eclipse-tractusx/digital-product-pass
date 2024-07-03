@@ -33,7 +33,7 @@ COPY ./ /wallet
 WORKDIR /wallet
 
 ## Install Python
-RUN apk add python3 py3-pip
+RUN apk add python3 py3-pip --no-cache
 
 ## Install application requirements
 RUN pip3 install --break-system-packages --no-cache-dir --upgrade -r ./requirements.txt

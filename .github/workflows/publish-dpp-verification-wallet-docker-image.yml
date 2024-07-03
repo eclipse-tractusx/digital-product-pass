@@ -86,7 +86,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push frontend
         id: build-and-push-dpp-wallet-dockerhub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: dpp-verification/simple-wallet
           push: true

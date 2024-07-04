@@ -1,7 +1,7 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
 Copyright (c) 2022, 2024 BMW AG
 Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
@@ -22,9 +22,54 @@ SPDX-License-Identifier: CC-BY-4.0
 -->
 
 # Release Notes Digital Product Pass Application
+
 User friendly relase notes without specific technical details.
 
+**July 3 2024 (Version 4.0.0)**
+*03.07.2024*
 
+### Added
+
+#### Digital Product Pass Verification Add-on Baekend Implementation
+
+Digital Product Pass Verification Add-on Implementation is finally available at the digital product pass backend.
+The backend was refactored to be constructure in a modular way. All the core components of the backend were moved into the 'core' module.
+The 'verification' module includes all the functionality required to verify credentials using the simple wallet component.
+
+#### Digital Product Pass Simple Wallet from DPP Verification Add-on Available
+
+A functional wallet developed in Python is now available. It is a minimal viable wallet component that can be used to:
+
+- Generate Valid JSON-LD `@context` schemas from existing SAMM Models standarized in Catena-X.
+  - So that the data from the aspect models can be placed inside of the verifiable credentials.
+- Issue a verifiable credential with data model v2 with a DID Web resolvable proof and JsonWebSignature2020
+- Verify a verifiable credential with a DID Web resolvable proof from typy JsonWebKey2020
+- Provide a standard did.json endpoint for a specific Bussiness Partner Number
+- Manage the authorization by bpn and api keys
+- Store an log of your signed verifiable credentials
+
+#### Digital Product Pass Verification Add-on Schemas and Semantics Available
+
+Now the semantic models for the Certified Data Credential and some examples are available under dpp-verification semantics.
+Also its available the json-ld schemas for the digital product pass aspect model and the certified data credential under schemas.
+
+#### Digital Product Pass Verification Add-on Frontend Implementation
+
+Visualize if the credential you are retriving is verifiable or not. Be able to refresh the verification of the credential signature on the fly and be able to visualize the issuer, owner and wallet that handled the verification.
+
+### Updated
+
+#### Repository Refactored
+
+The repository was refactored and prepared for the release R24.08 of Catena-X. Cleaning all the Consortia releated information in the documentation.
+
+#### Issues Fixed in the Frontend
+
+Several minor bugs that were afecting the stability of the application were fixed and the frontend code was refactored
+
+#### Digital Product Pass Verification Documentation Updated
+
+The Digital Product Pass Verification Documentation was updated in order to match the latest updates done and specified during the implementation.
 
 **June 19 2024 (Version 3.1.0)**
 *19.06.2024*

@@ -1,12 +1,12 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
-Copyright (c) 2022 BMW AG
-Copyright (c) 2022 Henkel AG & Co. KGaA
-Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
-Copyright (c) 2023 Contributors to the Eclipse Foundation
+Copyright (c) 2022, 2024 BMW AG
+Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional
 information regarding copyright ownership.
@@ -27,6 +27,68 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 
 ## [Unreleased]
+
+## [released]
+## [v4.0.0-rc1] - 03-07-2024
+### Added
+
+- Added digital product pass verification schemas
+- Added Certified Data Credential SAMM Semantic Model
+- Added schemas and examples of the credentials
+- Added the simple wallet component built in python
+- Added functionality to issue certified data credentials or any verifiable credential with datamodel v2
+- Added functionality to verify credentials with JsonWebSignature2020
+- Added DID method to visualize the public key
+- Added api translator from SAMM json schema to JSON-LD Context
+- Added bpn authorization mechanism with api keys
+- Added storage of credentials
+- Added private and public key managers
+- Added the Verification Module with all the necessary changes to verify a digital product pass Certified Data Credential
+- Added wallet service and configuration so that the backend can communicate with the Simple Wallet
+- Added test data to the serial part items in dpp-tutorial
+- Added translations for verification addon
+- Added verification to dpp-frontend to visualize verification details of the aspect data
+- Added eclipse-dash-license action and workflow
+- Added enable/disable feature to the dpp-frontend helm chart 
+
+
+### Updated
+
+- Moved all the "core" backend components to the "core" folder so that the application would be modular.
+- Updated configurations and implemented verification configuration
+- Updated licenses from charts
+- Updated license headers in workflow files
+- Refactor and optimize workflows
+- Updated user(10001)/group(10001) ids to Dockerfiles and helm values
+- Moved hardcoded values from helm templates and make them configurable from helm values
+- Updated PULL_REQUEST_TEMPLATE.md
+- Updated Arc42.md
+- Updated AdminGuide.md
+- Updated copyright license headers in the entire source code and documentation
+
+
+### Deleted
+
+- Removed GHCR references from workflows
+- Removed standalone backend helm chart from the dpp-backend directory
+
+### Issues Fixed
+
+- Fixed issues from the latest models (DPP, BatteryPass and TransmissionPass)
+
+## Security Issues
+
+- Updated wallet Dockerfile to fix `no-cache` high vulnerability
+
+
+### Dependencies Fixed by Dependabot
+* chore(deps): bump vite from 4.5.2 to 4.5.3 in /dpp-frontend by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/348
+* chore(deps): bump github/codeql-action from 2 to 3 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/297
+* chore(deps): bump docker/build-push-action from 5 to 6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/334
+* chore(deps): bump requests from 2.31.0 to 2.32.2 in /dpp-backend/scripts by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/345
+* chore(deps): bump braces from 3.0.2 to 3.0.3 in /dpp-frontend by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/340
+
+
 
 ## [released]
 ## [v3.1.0] - 19-06-2024

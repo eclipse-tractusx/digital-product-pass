@@ -93,7 +93,7 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.
 maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.2.5, Apache-2.0, approved, #12590
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.0.2, Apache-2.0, approved, #7329
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.2.5, Apache-2.0, approved, #11923
-maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.3.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.3.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.2.5, Apache-2.0, approved, #12589
 maven/mavencentral/org.springframework.boot/spring-boot-starter/3.2.5, Apache-2.0, approved, #11935
 maven/mavencentral/org.springframework.boot/spring-boot/3.2.5, Apache-2.0, approved, #11752

@@ -407,7 +407,7 @@
       "transferState": "Transfer state",
       "edcTimestamp": "EDC timestamp",
       "edcDataRequestId": "EDC data request ID",
-      "edcReceiverHttpEndpoint": "EDC receiver http endpoint",
+      "edcEventEndpoint": "EDC event endpoint",
       "assetId": "Asset ID",
       "connectorAddress": "Connector address",
       "contractId": "Contract ID",

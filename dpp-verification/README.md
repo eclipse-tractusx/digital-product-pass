@@ -24,22 +24,19 @@ SPDX-License-Identifier: CC-BY-4.0
 <div align="center">
   <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
   <br><br>
-  <img alt="Version:  v1.5" src="https://img.shields.io/badge/Version-v1.0-blue?style=for-the-badge">
+  <img alt="Version:  v1.5" src="https://img.shields.io/badge/Version-v1.5-blue?style=for-the-badge">
   <img alt="STATUS: RELEASED" src="https://img.shields.io/badge/Status-Released-8A2BE2?style=for-the-badge">
   <h3> A Catena-X Data Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
   
 </div>
 
-> [!IMPORTANT]
-> This is the first version of the Digital Product Pass Verification Framework, more details will be added in the next release R24.08 regarding the implementation. And a first PoC will be implemented in the application for consumer verification. More information can be found in the issue: [eclipse-tractusx/sig-release#655](https://github.com/eclipse-tractusx/sig-release/issues/655)
-
 # Metadata
 
 |                      | Date              | Authors & Reviewers                                   |
 | -------------------- | ----------------- | ----------------------------------------------------- |
 | **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
-| **Lastest Revision** | May 16, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | July 09, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
 

@@ -1,130 +1,45 @@
 {
   "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://w3c.github.io/vc-jws-2020/contexts/v1/",
-    {
-      "@context": {
-        "@version": 1.1,
-        "CertifiedSnapshotCredential": {
-          "@context": {
-            "@definition": "Credential that contains the complete passport and is signed by the issuer of the data. It allows to track changes during the updates from the passport in the supply chain.\nIt can be \"self-testified\" by the data provider when creating/issuing the passport data. It contains the additional attributes added to the Verifiable Credential Data Model v2.",
-            "@version": 1.1,
-            "id": "@id",
-            "origin": {
-              "@context": {
-                "@definition": "The reference to the original credential/data use for creating the ",
-                "@version": 1.1,
-                "checksum": {
-                  "@context": {
-                    "@definition": "Constains the SHA512 Hash of the complete verifiable credential/data of the origin content"
-                  },
-                  "@id": "csc:checksum",
-                  "@type": "schema:string"
-                },
-                "id": "@id",
-                "semanticId": {
-                  "@context": {
-                    "@definition": "The property which contains the semantic id string of the credential subject. It contains the complete identification of which aspect model version its contained. The key can be used to find the model information in the expanded JSON-LD."
-                  },
-                  "@id": "csc:semanticId",
-                  "@type": "schema:string"
-                },
-                "type": "@type"
-              },
-              "@id": "csc:origin"
-            },
-            "type": "@type"
-          },
-          "@id": "csc:CertifiedSnapshotCredential"
-        },
-        "attributes": {
-          "@container": "@list",
-          "@context": {
-            "@context": {
-              "@version": 1.1,
-              "id": "@id",
-              "path": {
-                "@context": {
-                  "@definition": "The path or location from the attribute in the original payload referenced in \"origin\". In case the value is in array the position of the element will be referenced. Example sustainability.productCarbonFootprint.calculations[0].value, but in the case it is a object the notation sustainability.productCarbonFootprint.value, will be used."
-                },
-                "@id": "csc:path",
-                "@type": "schema:string"
-              },
-              "proof": {
-                "@context": {
-                  "@definition": "The hashed proof from the \"raw\" value. Its a sha3-512 hash that contains as content the hashed output produced when the value from the origin path was introduced."
-                },
-                "@id": "csc:proof",
-                "@type": "schema:string"
-              },
-              "type": "@type",
-              "validationMethod": {
-                "@container": "@list",
-                "@context": {
-                  "@context": {
-                    "@version": 1.1,
-                    "id": "@id",
-                    "label": {
-                      "@context": {
-                        "@definition": "The label of the document selected as validationMethod."
-                      },
-                      "@id": "csc:label",
-                      "@type": "schema:string"
-                    },
-                    "type": "@type",
-                    "uri": {
-                      "@context": {
-                        "@definition": "The url, link, direction or DID for the document, validation proof method used."
-                      },
-                      "@id": "csc:uri",
-                      "@type": "schema:string"
-                    }
-                  },
-                  "@definition": "List of calculation methods, rulebooks, standards and regulations used to validate the value.",
-                  "@version": 1.1,
-                  "id": "@id",
-                  "type": "@type"
-                },
-                "@id": "csc:validationMethod"
-              }
-            },
-            "@definition": "The list of attributes that are \"certified\" by the issuer of the credential.",
-            "@version": 1.1,
-            "id": "@id",
-            "type": "@type"
-          },
-          "@id": "csc:attributes"
-        },
-        "csc": "urn:samm:io.catenax.dpp_verification.csc:1.0.0#",
-        "schema": "https://schema.org/"
-      }
-    }
+      "https://www.w3.org/ns/credentials/v2",
+      "https://w3c.github.io/vc-jws-2020/contexts/v1/",
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/docs/v2/verification/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld"
   ],
   "type": [
-    "VerifiableCredential",
-    "CertifiedSnapshotCredential",
-    "DigitalProductPassport"
+      "VerifiableCredential",
+      "CertifiedSnapshotCredential",
+      "DigitalProductPassport"
   ],
   "credentialSubject": {
-    "attributes": [
-      {
-        "validationMethod": [
+      "attributes": [
           {
-            "methodType": "Standard",
-            "label": "Catena-X PCF Rulebook Standard",
-            "id": "CX-0029",
-            "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+              "validationMethod": [
+                  {
+                      "@type": "Standard",
+                      "label": "Catena-X PCF Rulebook Standard",
+                      "id": "CX-0029",
+                      "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+                  }
+              ],
+              "path": "sustainability.productFootprint.carbon[0].value",
+              "proof": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
           }
-        ],
-        "path": "sustainability.productCarbonFootprint.calculations[0].value",
-        "proof": "2c54d5edfeb095a18805b81df33b21422a18165563fd36c524cd61068044225fcb24cecb1fbd147bd899f16b080fd62671fc175dcdd712c7d05051085ab41160"
-      }
-    ]
+      ]
   },
   "origin": {
-    "checksum": "9ece086e9bac491fac5c1d1046ca11d737b92a2b2ebd93f005d7b710110c0a678288166e7fbe796883a4f2e9b3ca9f484f521d0ce464345cc1aec96779149c14",
-    "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass",
-    "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3Acd1c0904-27e2-4ae2-8751-5c8c8e4b6812",
-    "@type": "application/vc+ld+json"
+      "checksum": "c118df3b7bf603a86bd79f03c692153bdb4212ab80d49c12154c92415ae83d6d59187d9ba5af9c4e40208f7d7b1d4c727de78cfbe51e768aae743723ee197374",
+      "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass",
+      "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3Acd1c0904-27e2-4ae2-8751-5c8c8e4b6812",
+      "@type": "application/vc+ld+json"
+  },
+  "id": "urn:uuid:b995dff9-eefb-415c-92fd-9d265f8afc71",
+  "issuer": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
+  "validFrom": "2024-07-10T13:01:49Z",
+  "validUntil": "2024-12-25T13:01:49Z",
+  "proof": {
+      "type": "JsonWebSignature2020",
+      "proofPurpose": "assertionMethod",
+      "verificationMethod": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+      "created": "2024-07-10T13:01:49Z",
+      "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..ml3KnMt3yGoJ0FIbbSj3Lr3qyAcqZ__7qYkYSB2AWjWBDf3cJoZpcSslxTQQRt-v20XwFAZQIMnYE1_0vLp5DQ"
   }
 }

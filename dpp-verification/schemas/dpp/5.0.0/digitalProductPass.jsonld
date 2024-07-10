@@ -1,7 +1,7 @@
 {
     "@context": {
         "@version": 1.1,
-        "DigitalProductPass": {
+        "DigitalProductPassport": {
             "@context": {
                 "@definition": "The Digital Product Passport (DPP) allows to share process and product-related information amongst supply chain businesses, authorities and consumers. The DPP allows for efficient information flows following best practices; and the possibility of accompanying the measures under this Regulation with mitigating measures so that impacts are expected to remain proportionate for SMEs.This is expected to increase transparency, both for supply chain businesses and for the general public, and increase efficiencies in terms of information transfer to support the data exchange between economic actors in integrating circularity in product design and manufacturing.\nIn particular, it is likely to help facilitate and streamline the monitoring and enforcement of the regulation carried out by EU and Member State authorities. It is also likely to provide a market-intelligence tool that may be used for revising and refining obligations in the future.\nThe DPP includes data about components, materials and chemical substances, information on reparability, spare parts, environmental impact and professional disposal for a product.\nThe data model will be updated, as newer versions of the regulation will be published.\nThe main basis is provided by the document \"Proposal for a REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL establishing a framework for setting ecodesign requirements for sustainable products and repealing Directive 2009/125/EC\" from March 30th, 2022. The latest version of the document was the provisional agreement between the EU Council and the Parliament from January 9th, 2024. The text is informal, but the content of the final regulation was agreed between these two institutions.\nThe Title of Ecodesign Regulation has been changed to: Proposal for a REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL establishing a framework for setting ecodesign requirements for sustainable products, amending Regulation (EU) 2023/1542 and repealing Directive 2009/125/EC.",
                 "@version": 1.1,
@@ -1686,7 +1686,7 @@
                 },
                 "type": "@type"
             },
-            "@id": "dpp:DigitalProductPass"
+            "@id": "dpp:DigitalProductPassport"
         },
         "dpp": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#",
         "schema": "https://schema.org/"

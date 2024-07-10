@@ -1,0 +1,404 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://w3c.github.io/vc-jws-2020/contexts/v1/",
+        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld",
+        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
+    ],
+    "type": [
+        "VerifiableCredential",
+        "CertifiedDataCredential",
+        "DigitalProductPassport"
+    ],
+    "parent": {
+        "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
+        "checksum": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
+    },
+    "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport",
+    "credentialSubject": {
+        "DigitalProductPassport": {
+            "metadata": {
+                "backupReference": "https://dummy.link",
+                "registrationIdentifier": "https://dummy.link/ID8283746239078",
+                "economicOperatorId": "BPNL0123456789ZZ",
+                "lastModification": "2000-01-01",
+                "predecessor": "urn:uuid:00000000-0000-0000-0000-000000000000",
+                "issueDate": "2000-01-01",
+                "version": "1.0.1",
+                "passportIdentifier": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "status": "draft",
+                "expirationDate": "2030-01-01"
+            },
+            "characteristics": {
+                "generalPerformanceClass": "A",
+                "physicalState": "solid",
+                "physicalDimension": {
+                    "volume": {
+                        "value": 20,
+                        "unit": "unit:cubicMetre"
+                    },
+                    "grossWeight": {
+                        "value": 20,
+                        "unit": "unit:gram"
+                    },
+                    "diameter": {
+                        "value": 20,
+                        "unit": "unit:millimetre"
+                    },
+                    "grossVolume": {
+                        "value": 20,
+                        "unit": "unit:cubicMetre"
+                    },
+                    "width": {
+                        "value": 20,
+                        "unit": "unit:millimetre"
+                    },
+                    "length": {
+                        "value": 20,
+                        "unit": "unit:millimetre"
+                    },
+                    "weight": {
+                        "value": 20,
+                        "unit": "unit:gram"
+                    },
+                    "height": {
+                        "value": 20,
+                        "unit": "unit:millimetre"
+                    }
+                },
+                "lifespan": [
+                    {
+                        "value": 36,
+                        "unit": "unit:day",
+                        "key": "guaranteed lifetime"
+                    }
+                ]
+            },
+            "commercial": {
+                "placedOnMarket": "2000-01-01",
+                "purpose": [
+                    "automotive"
+                ]
+            },
+            "identification": {
+                "batch": [
+                    {
+                        "value": "BID12345678",
+                        "key": "batchId"
+                    }
+                ],
+                "codes": [
+                    {
+                        "value": "8703 24 10 00",
+                        "key": "TARIC"
+                    }
+                ],
+                "type": {
+                    "manufacturerPartId": "123-0.740-3434-A",
+                    "nameAtManufacturer": "Mirror left"
+                },
+                "classification": [
+                    {
+                        "classificationStandard": "GIN 20510-21513",
+                        "classificationID": "1004712",
+                        "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                    }
+                ],
+                "serial": [
+                    {
+                        "value": "SN12345678",
+                        "key": "partInstanceId"
+                    }
+                ],
+                "dataCarrier": {
+                    "carrierType": "QR",
+                    "carrierLayout": "upper-left side"
+                }
+            },
+            "sources": [
+                {
+                    "header": "Example Document XYZ",
+                    "category": "Product Specifications",
+                    "type": "URL",
+                    "content": "https://dummy.link"
+                }
+            ],
+            "materials": {
+                "substancesOfConcern": {
+                    "applicable": true,
+                    "content": [
+                        {
+                            "unit": "unit:partPerMillion",
+                            "hazardClassification": {
+                                "category": "category 1A",
+                                "statement": "Causes severe skin burns and eye damage.",
+                                "class": "Skin corrosion"
+                            },
+                            "documentation": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ],
+                            "concentrationRange": [
+                                {
+                                    "max": 2.6,
+                                    "min": 2.1
+                                }
+                            ],
+                            "location": "Housing",
+                            "concentration": 5.3,
+                            "exemption": "shall not apply to product x containing not more than 1,5 ml of liquid",
+                            "id": [
+                                {
+                                    "type": "CAS",
+                                    "name": "phenolphthalein",
+                                    "id": "201-004-7"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "materialComposition": {
+                    "applicable": true,
+                    "content": [
+                        {
+                            "unit": "unit:partPerMillion",
+                            "recycled": 12.5,
+                            "critical": true,
+                            "renewable": 23.5,
+                            "documentation": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ],
+                            "concentration": 5.3,
+                            "id": [
+                                {
+                                    "type": "CAS",
+                                    "name": "phenolphthalein",
+                                    "id": "201-004-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "handling": {
+                "applicable": true,
+                "content": {
+                    "producer": [
+                        {
+                            "id": "BPNL0123456789ZZ"
+                        }
+                    ],
+                    "sparePart": [
+                        {
+                            "manufacturerPartId": "123-0.740-3434-A",
+                            "nameAtManufacturer": "Mirror left"
+                        }
+                    ]
+                }
+            },
+            "additionalData": [
+                {
+                    "description": "Description of an attribute",
+                    "label": "Maximum permitted battery power",
+                    "type": {
+                        "typeUnit": "unit:volume",
+                        "dataType": "array"
+                    },
+                    "data": "23",
+                    "children": [
+                        {
+                            "description": "Description of an attribute",
+                            "label": "Maximum permitted battery power",
+                            "type": {
+                                "typeUnit": "unit:volume",
+                                "dataType": "array"
+                            },
+                            "data": "23"
+                        },
+                        {
+                            "description": "Description of an attribute",
+                            "label": "Maximum permitted battery power",
+                            "type": {
+                                "typeUnit": "unit:volume",
+                                "dataType": "array"
+                            },
+                            "data": "null",
+                            "children": [
+                                {
+                                    "description": "Description of an attribute",
+                                    "label": "Maximum permitted battery power",
+                                    "type": {
+                                        "typeUnit": "unit:volume",
+                                        "dataType": "object"
+                                    },
+                                    "children": [
+                                        {
+                                            "description": "Description of an attribute",
+                                            "label": "Maximum permitted battery power",
+                                            "type": {
+                                                "typeUnit": "unit:volume",
+                                                "dataType": "string"
+                                            },
+                                            "data": "asdasdasd",
+                                            "children": [
+                                                {
+                                                    "description": "Description of an attribute",
+                                                    "label": "Maximum permitted battery power",
+                                                    "type": {
+                                                        "typeUnit": "unit:volume",
+                                                        "dataType": "string"
+                                                    },
+                                                    "data": "asdasdasd"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "description": "Description of an attribute",
+                                    "label": "Maximum permitted battery power",
+                                    "type": {
+                                        "typeUnit": "unit:volume",
+                                        "dataType": "string"
+                                    },
+                                    "data": "4323"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "operation": {
+                "import": {
+                    "applicable": true,
+                    "content": {
+                        "eori": "GB123456789000",
+                        "id": "BPNL0123456789ZZ"
+                    }
+                },
+                "other": {
+                    "id": "BPNL0123456789XX",
+                    "role": "distributor"
+                },
+                "manufacturer": {
+                    "facility": [
+                        {
+                            "facility": "BPNA1234567890AA"
+                        }
+                    ],
+                    "manufacturingDate": "2000-01-31",
+                    "manufacturer": "BPNLbi7tAJ8UiMsF"
+                }
+            },
+            "sustainability": {
+                "reparabilityScore": "B",
+                "productFootprint": {
+                    "material": [
+                        {
+                            "lifecycle": "main product production",
+                            "rulebook": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ],
+                            "unit": "kg CO2 / kWh",
+                            "performanceClass": "A",
+                            "manufacturingPlant": [
+                                {
+                                    "facility": "BPNA1234567890AA"
+                                }
+                            ],
+                            "type": "Climate Change Total",
+                            "value": 12.678,
+                            "declaration": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ]
+                        }
+                    ],
+                    "carbon": [
+                        {
+                            "lifecycle": "main product production",
+                            "rulebook": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ],
+                            "unit": "kg CO2 / kWh",
+                            "performanceClass": "A",
+                            "manufacturingPlant": [
+                                {
+                                    "facility": "BPNA1234567890AA"
+                                }
+                            ],
+                            "type": "Climate Change Total",
+                            "value": 12.678,
+                            "declaration": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ]
+                        }
+                    ],
+                    "environmental": [
+                        {
+                            "lifecycle": "main product production",
+                            "rulebook": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ],
+                            "unit": "kg CO2 / kWh",
+                            "performanceClass": "A",
+                            "manufacturingPlant": [
+                                {
+                                    "facility": "BPNA1234567890AA"
+                                }
+                            ],
+                            "type": "Climate Change Total",
+                            "value": 12.678,
+                            "declaration": [
+                                {
+                                    "contentType": "URL",
+                                    "header": "Example Document XYZ",
+                                    "content": "https://dummy.link"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "status": "original",
+                "durabilityScore": "A"
+            }
+        }
+    },
+    "id": "urn:uuid:d3fe2ef3-52f3-49b3-be2c-06ea5c851014",
+    "issuer": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
+    "validFrom": "2024-07-10T11:52:38Z",
+    "validUntil": "2024-12-25T11:52:38Z",
+    "proof": {
+        "type": "JsonWebSignature2020",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+        "created": "2024-07-10T11:52:38Z",
+        "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..GGp894YeB1dHPi8mWZ6FQ_ydonAlt_MIm2LblrfR5YnbxWZyDRRBKNqBFV6oeIs3ZbnWqVZL9L3HH5MP9X5BDA"
+    }
+}

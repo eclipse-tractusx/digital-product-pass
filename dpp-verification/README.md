@@ -85,7 +85,7 @@ This concept has been proved to be of high interest from the Certification and V
   - [Use Cases](#use-cases)
 - [Previous Investigation](#previous-investigation)
 - [Processes Terminology](#processes-terminology)
-  - [**Roles/Actors**](#rolesactors)
+  - [Roles/Actors](#rolesactors)
     - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
     - [Document Exchange Details](#document-exchange-details)
 - [Assumptions](#assumptions)
@@ -215,7 +215,7 @@ The other terminology from **Data Provider** to **Data Auditor** is called **Dat
 | **Data Verification**   | Data Consumer, Data Provider, Data Auditor | The data verification process englobes the complete journey from retrieving data as a data consumer from a data provider. It includes the search for verification statements and attribute level verification in digital twins. At the end of the journey attribute specific verification may or not be found. Other types of verification like self attestations may be or not retrieved. Depends on the available verification information. In the data verification process is included the verification of the signatures included in the data created and certified in the Data Certification Process. |     **Verification Result** *with the status/flaws*     |
 | **Data Certification**  |        Data Provider, Data Auditor         | The data certification process includes all the processes related to triggering the verification until providing the data for certifying specific attributes. The data provider triggers the certification for an external or internal data auditor, which generates and optionally stores a verification statements                                                                                                                                                                                                                                                                                        | **Certified Data Aspects** *as Verification Statements* |
 
-## **Roles/Actors**
+## Roles/Actors
 
 Three main roles are defined and have certain responsibilities or can conduct actions in the processes. Each role can have more than one W3C role and generate different artifacts as specified in the following table:
 

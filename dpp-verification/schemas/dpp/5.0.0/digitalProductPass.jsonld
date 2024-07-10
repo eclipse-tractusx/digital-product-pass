@@ -1,12 +1,7 @@
 {
     "@context": {
         "@version": 1.1,
-        "id": "@id",
-        "type": "@type",
-        "aspect": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#",
-        "schema": "https://schema.org/",
-        "DigitalProductPassport": {
-            "@id": "aspect:DigitalProductPassport",
+        "DigitalProductPass": {
             "@context": {
                 "@definition": "The Digital Product Passport (DPP) allows to share process and product-related information amongst supply chain businesses, authorities and consumers. The DPP allows for efficient information flows following best practices; and the possibility of accompanying the measures under this Regulation with mitigating measures so that impacts are expected to remain proportionate for SMEs.This is expected to increase transparency, both for supply chain businesses and for the general public, and increase efficiencies in terms of information transfer to support the data exchange between economic actors in integrating circularity in product design and manufacturing.\nIn particular, it is likely to help facilitate and streamline the monitoring and enforcement of the regulation carried out by EU and Member State authorities. It is also likely to provide a market-intelligence tool that may be used for revising and refining obligations in the future.\nThe DPP includes data about components, materials and chemical substances, information on reparability, spare parts, environmental impact and professional disposal for a product.\nThe data model will be updated, as newer versions of the regulation will be published.\nThe main basis is provided by the document \"Proposal for a REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL establishing a framework for setting ecodesign requirements for sustainable products and repealing Directive 2009/125/EC\" from March 30th, 2022. The latest version of the document was the provisional agreement between the EU Council and the Parliament from January 9th, 2024. The text is informal, but the content of the final regulation was agreed between these two institutions.\nThe Title of Ecodesign Regulation has been changed to: Proposal for a REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL establishing a framework for setting ecodesign requirements for sustainable products, amending Regulation (EU) 2023/1542 and repealing Directive 2009/125/EC.",
                 "@version": 1.1,
@@ -24,14 +19,14 @@
                                             "@context": {
                                                 "@definition": "The content from the attribute which is a depended of the data type and typeUnit."
                                             },
-                                            "@id": "aspect:data",
+                                            "@id": "dpp:data",
                                             "@type": "schema:string"
                                         },
                                         "description": {
                                             "@context": {
                                                 "@definition": "The description of the attribute context."
                                             },
-                                            "@id": "aspect:description",
+                                            "@id": "dpp:description",
                                             "@type": "schema:string"
                                         },
                                         "id": "@id",
@@ -39,7 +34,7 @@
                                             "@context": {
                                                 "@definition": "The human readable name of the attribute."
                                             },
-                                            "@id": "aspect:label",
+                                            "@id": "dpp:label",
                                             "@type": "schema:string"
                                         },
                                         "type": {
@@ -50,7 +45,7 @@
                                                     "@context": {
                                                         "@definition": "Data type that describe the content of the attributes children and data. In case \"object\" is selected in the enumeration, the children field will be used in the AdditionalDataEntity instead of the \"data\" property. If it is an other type, the content will be specified in \"data\" as a string."
                                                     },
-                                                    "@id": "aspect:dataType",
+                                                    "@id": "dpp:dataType",
                                                     "@type": "schema:string"
                                                 },
                                                 "id": "@id",
@@ -59,11 +54,11 @@
                                                     "@context": {
                                                         "@definition": "Choose a unit type from the unit catalog, or if the property \"children\" is filled, leave empty."
                                                     },
-                                                    "@id": "aspect:typeUnit",
+                                                    "@id": "dpp:typeUnit",
                                                     "@type": "schema:string"
                                                 }
                                             },
-                                            "@id": "aspect:type"
+                                            "@id": "dpp:type"
                                         }
                                     },
                                     "@definition": "Children of the hierarchy.",
@@ -71,20 +66,20 @@
                                     "id": "@id",
                                     "type": "@type"
                                 },
-                                "@id": "aspect:children"
+                                "@id": "dpp:children"
                             },
                             "data": {
                                 "@context": {
                                     "@definition": "The content from the attribute which is a depended of the data type and typeUnit."
                                 },
-                                "@id": "aspect:data",
+                                "@id": "dpp:data",
                                 "@type": "schema:string"
                             },
                             "description": {
                                 "@context": {
                                     "@definition": "The description of the attribute context."
                                 },
-                                "@id": "aspect:description",
+                                "@id": "dpp:description",
                                 "@type": "schema:string"
                             },
                             "id": "@id",
@@ -92,7 +87,7 @@
                                 "@context": {
                                     "@definition": "The human readable name of the attribute."
                                 },
-                                "@id": "aspect:label",
+                                "@id": "dpp:label",
                                 "@type": "schema:string"
                             },
                             "type": {
@@ -103,7 +98,7 @@
                                         "@context": {
                                             "@definition": "Data type that describe the content of the attributes children and data. In case \"object\" is selected in the enumeration, the children field will be used in the AdditionalDataEntity instead of the \"data\" property. If it is an other type, the content will be specified in \"data\" as a string."
                                         },
-                                        "@id": "aspect:dataType",
+                                        "@id": "dpp:dataType",
                                         "@type": "schema:string"
                                     },
                                     "id": "@id",
@@ -112,11 +107,11 @@
                                         "@context": {
                                             "@definition": "Choose a unit type from the unit catalog, or if the property \"children\" is filled, leave empty."
                                         },
-                                        "@id": "aspect:typeUnit",
+                                        "@id": "dpp:typeUnit",
                                         "@type": "schema:string"
                                     }
                                 },
-                                "@id": "aspect:type"
+                                "@id": "dpp:type"
                             }
                         },
                         "@definition": "Data in form of open fields which need to be transferred in addition. The regulation is still under development and may change in the future. To accommodate this, additional data allows the option to include additional data required by future changes to the regulation. In addition, the DPP can be easily updated and adapted to the new requirements. \nThe ESPR provisional agreement from January 9th, 2024 Article 9 mentions:\n2. Where other Union legislation requires or allows the inclusion of specific information in the product passport, that information may be included in the product passport pursuant to the applicable delegated act adopted pursuant to Article 4.",
@@ -124,7 +119,7 @@
                         "id": "@id",
                         "type": "@type"
                     },
-                    "@id": "aspect:additionalData"
+                    "@id": "dpp:additionalData"
                 },
                 "characteristics": {
                     "@context": {
@@ -134,7 +129,7 @@
                             "@context": {
                                 "@definition": "The performance class of the product. This attribute is mentioned ESPR provisional agreement from January 9th, 2024 Article 7:\n4. When establishing the information requirements referred to in paragraph 2, point (b), point (i), the Commission shall, as appropriate in view of the specificity of the product group, determine classes of performance. Classes of performance may be based on single parameters, on aggregated scores, in absolute terms or in any other form that enables potential customers to choose the best performing products. Those classes of performance shall correspond to significant improvements in performance levels. Where classes of performance are based on parameters in relation to which performance requirements are established, they shall use as the minimum level the minimum performance required at the time when the classes of performance start to apply.\nDefinition:\n'class of performance': means a range of performance levels in relation to one or more product parameters referred to in Annex I, based on a common methodology for the product or product group, ordered into successive steps to allow for product differentiation."
                             },
-                            "@id": "aspect:generalPerformanceClass",
+                            "@id": "dpp:generalPerformanceClass",
                             "@type": "schema:string"
                         },
                         "id": "@id",
@@ -148,7 +143,7 @@
                                         "@context": {
                                             "@definition": "The type of lifespan represented with the values guaranteed lifetime, technical lifetime and mean time between failures. This attribute is mentioned in the ESPR proposal from March 30th, 2022 ANNEX I:\n(a) durability and reliability of the product or its components as expressed through the product's guaranteed lifetime, technical lifetime [or] mean time between failures [...]."
                                         },
-                                        "@id": "aspect:key",
+                                        "@id": "dpp:key",
                                         "@type": "schema:string"
                                     },
                                     "type": "@type",
@@ -156,14 +151,14 @@
                                         "@context": {
                                             "@definition": "The unit of the respective lifespan expressed through the possible units day, month, cycle, year and runningOrOperatingHour."
                                         },
-                                        "@id": "aspect:unit",
+                                        "@id": "dpp:unit",
                                         "@type": "schema:string"
                                     },
                                     "value": {
                                         "@context": {
                                             "@definition": "The value as an integer for the respective lifespan."
                                         },
-                                        "@id": "aspect:value",
+                                        "@id": "dpp:value",
                                         "@type": "schema:number"
                                     }
                                 },
@@ -172,7 +167,7 @@
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:lifespan"
+                            "@id": "dpp:lifespan"
                         },
                         "physicalDimension": {
                             "@context": {
@@ -188,18 +183,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a linear attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:diameter"
+                                    "@id": "dpp:diameter"
                                 },
                                 "grossVolume": {
                                     "@context": {
@@ -211,18 +206,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a volume related attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:grossVolume"
+                                    "@id": "dpp:grossVolume"
                                 },
                                 "grossWeight": {
                                     "@context": {
@@ -234,18 +229,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a mass related attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:grossWeight"
+                                    "@id": "dpp:grossWeight"
                                 },
                                 "height": {
                                     "@context": {
@@ -257,18 +252,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a linear attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:height"
+                                    "@id": "dpp:height"
                                 },
                                 "id": "@id",
                                 "length": {
@@ -281,18 +276,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a linear attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:length"
+                                    "@id": "dpp:length"
                                 },
                                 "type": "@type",
                                 "volume": {
@@ -305,18 +300,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a volume related attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:volume"
+                                    "@id": "dpp:volume"
                                 },
                                 "weight": {
                                     "@context": {
@@ -328,18 +323,18 @@
                                             "@context": {
                                                 "@definition": "The unit of a mass related attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:weight"
+                                    "@id": "dpp:weight"
                                 },
                                 "width": {
                                     "@context": {
@@ -351,32 +346,32 @@
                                             "@context": {
                                                 "@definition": "The unit of a linear attribute."
                                             },
-                                            "@id": "aspect:unit",
+                                            "@id": "dpp:unit",
                                             "@type": "schema:string"
                                         },
                                         "value": {
                                             "@context": {
                                                 "@definition": "The quantity value associated with the unit."
                                             },
-                                            "@id": "aspect:value",
+                                            "@id": "dpp:value",
                                             "@type": "schema:number"
                                         }
                                     },
-                                    "@id": "aspect:width"
+                                    "@id": "dpp:width"
                                 }
                             },
-                            "@id": "aspect:physicalDimension"
+                            "@id": "dpp:physicalDimension"
                         },
                         "physicalState": {
                             "@context": {
                                 "@definition": "The physical state of the item. There are four states of matter solid, liquid, gas and plasma which can be chosen from an enumeration."
                             },
-                            "@id": "aspect:physicalState",
+                            "@id": "dpp:physicalState",
                             "@type": "schema:string"
                         },
                         "type": "@type"
                     },
-                    "@id": "aspect:characteristics"
+                    "@id": "dpp:characteristics"
                 },
                 "commercial": {
                     "@context": {
@@ -387,7 +382,7 @@
                             "@context": {
                                 "@definition": "The timestamp in the format (yyyy-mm-dd) with or without time zone when the product was put in the market."
                             },
-                            "@id": "aspect:placedOnMarket",
+                            "@id": "dpp:placedOnMarket",
                             "@type": "schema:string"
                         },
                         "purpose": {
@@ -395,12 +390,12 @@
                             "@context": {
                                 "@definition": "One or more intended industry/industries of the product described by the digital product passport. If exchanged via Catena-X, 'automotive ' is a must choice included in the list."
                             },
-                            "@id": "aspect:purpose",
+                            "@id": "dpp:purpose",
                             "@type": "schema:string"
                         },
                         "type": "@type"
                     },
-                    "@id": "aspect:commercial"
+                    "@id": "dpp:commercial"
                 },
                 "handling": {
                     "@context": {
@@ -410,7 +405,7 @@
                             "@context": {
                                 "@definition": "Check whether the connected attributes are applicable to the product. If it is not applicable (false), dummy data can be delivered."
                             },
-                            "@id": "aspect:applicable",
+                            "@id": "dpp:applicable",
                             "@type": "schema:boolean"
                         },
                         "content": {
@@ -427,7 +422,7 @@
                                                 "@context": {
                                                     "@definition": "The identifier of a spare part producer of the product. In the Catena-X network, the BPNL is used for the identification of companies and the information stored for this like contact information and addresses."
                                                 },
-                                                "@id": "aspect:id",
+                                                "@id": "dpp:id",
                                                 "@type": "schema:string"
                                             },
                                             "type": "@type"
@@ -437,7 +432,7 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:producer"
+                                    "@id": "dpp:producer"
                                 },
                                 "sparePart": {
                                     "@container": "@list",
@@ -449,14 +444,14 @@
                                                 "@context": {
                                                     "@definition": "Part ID as assigned by the manufacturer of the part. The part ID identifies the part in the manufacturer`s dataspace. The part ID references a specific version of a part. The version number must be included in the part ID if it is available. The part ID does not reference a specific instance of a part and must not be confused with the serial number."
                                                 },
-                                                "@id": "aspect:manufacturerPartId",
+                                                "@id": "dpp:manufacturerPartId",
                                                 "@type": "schema:string"
                                             },
                                             "nameAtManufacturer": {
                                                 "@context": {
                                                     "@definition": "Name of the part as assigned by the manufacturer."
                                                 },
-                                                "@id": "aspect:nameAtManufacturer",
+                                                "@id": "dpp:nameAtManufacturer",
                                                 "@type": "schema:string"
                                             },
                                             "type": "@type"
@@ -466,16 +461,16 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:sparePart"
+                                    "@id": "dpp:sparePart"
                                 },
                                 "type": "@type"
                             },
-                            "@id": "aspect:content"
+                            "@id": "dpp:content"
                         },
                         "id": "@id",
                         "type": "@type"
                     },
-                    "@id": "aspect:handling"
+                    "@id": "dpp:handling"
                 },
                 "id": "@id",
                 "identification": {
@@ -492,7 +487,7 @@
                                         "@context": {
                                             "@definition": "The key of a local identifier."
                                         },
-                                        "@id": "aspect:key",
+                                        "@id": "dpp:key",
                                         "@type": "schema:string"
                                     },
                                     "type": "@type",
@@ -500,7 +495,7 @@
                                         "@context": {
                                             "@definition": "The value of an identifier."
                                         },
-                                        "@id": "aspect:value",
+                                        "@id": "dpp:value",
                                         "@type": "schema:string"
                                     }
                                 },
@@ -509,7 +504,7 @@
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:batch"
+                            "@id": "dpp:batch"
                         },
                         "classification": {
                             "@container": "@list",
@@ -520,21 +515,21 @@
                                         "@context": {
                                             "@definition": "Optional property describing the classification standard."
                                         },
-                                        "@id": "aspect:classificationDescription",
+                                        "@id": "dpp:classificationDescription",
                                         "@type": "schema:string"
                                     },
                                     "classificationID": {
                                         "@context": {
                                             "@definition": "The classification ID of the part type according to the corresponding standard definition mentioned in the key value pair."
                                         },
-                                        "@id": "aspect:classificationID",
+                                        "@id": "dpp:classificationID",
                                         "@type": "schema:string"
                                     },
                                     "classificationStandard": {
                                         "@context": {
                                             "@definition": "Identified classification standards that align to the Catena-X needs."
                                         },
-                                        "@id": "aspect:classificationStandard",
+                                        "@id": "dpp:classificationStandard",
                                         "@type": "schema:string"
                                     },
                                     "id": "@id",
@@ -545,7 +540,7 @@
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:classification"
+                            "@id": "dpp:classification"
                         },
                         "codes": {
                             "@container": "@list",
@@ -557,7 +552,7 @@
                                         "@context": {
                                             "@definition": "The code key for the identification of the product. Examples are GTIN, hash, DID, ISBN, TARIC. This attribute is mentioned in the ESPR proposal from March 30th, 2022 ANNEX III:\n(b) the unique product identifier at the level indicated in the applicable delegated act adopted pursuant to Article 4;\n(c) the Global Trade Identification Number as provided for in standard ISO/IEC 15459-6 or equivalent of products or their parts;\n(d) relevant commodity codes, such as a TARIC code as defined in Council Regulation (EEC) No 2658/87."
                                         },
-                                        "@id": "aspect:key",
+                                        "@id": "dpp:key",
                                         "@type": "schema:string"
                                     },
                                     "type": "@type",
@@ -565,7 +560,7 @@
                                         "@context": {
                                             "@definition": "The code value for the identification of the product in regard to the chosen code name."
                                         },
-                                        "@id": "aspect:value",
+                                        "@id": "dpp:value",
                                         "@type": "schema:string"
                                     }
                                 },
@@ -574,7 +569,7 @@
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:codes"
+                            "@id": "dpp:codes"
                         },
                         "dataCarrier": {
                             "@context": {
@@ -584,20 +579,20 @@
                                     "@context": {
                                         "@definition": "The positioning of data carrier on the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Article 8:\n(2) (c) the layout in which the data carrier shall be presented and its positioning."
                                     },
-                                    "@id": "aspect:carrierLayout",
+                                    "@id": "dpp:carrierLayout",
                                     "@type": "schema:string"
                                 },
                                 "carrierType": {
                                     "@context": {
                                         "@definition": "The type of data carrier such as a QR code on the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Article 8:\n(2) (b) the types of data carrier to be used."
                                     },
-                                    "@id": "aspect:carrierType",
+                                    "@id": "dpp:carrierType",
                                     "@type": "schema:string"
                                 },
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:dataCarrier"
+                            "@id": "dpp:dataCarrier"
                         },
                         "id": "@id",
                         "serial": {
@@ -610,7 +605,7 @@
                                         "@context": {
                                             "@definition": "The key of a local identifier. "
                                         },
-                                        "@id": "aspect:key",
+                                        "@id": "dpp:key",
                                         "@type": "schema:string"
                                     },
                                     "type": "@type",
@@ -618,7 +613,7 @@
                                         "@context": {
                                             "@definition": "The value of an identifier."
                                         },
-                                        "@id": "aspect:value",
+                                        "@id": "dpp:value",
                                         "@type": "schema:string"
                                     }
                                 },
@@ -627,7 +622,7 @@
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:serial"
+                            "@id": "dpp:serial"
                         },
                         "type": {
                             "@context": {
@@ -638,22 +633,22 @@
                                     "@context": {
                                         "@definition": "Part ID as assigned by the manufacturer of the part. The part ID identifies the part in the manufacturer`s dataspace. The part ID references a specific version of a part. The version number must be included in the part ID if it is available. The part ID does not reference a specific instance of a part and must not be confused with the serial number."
                                     },
-                                    "@id": "aspect:manufacturerPartId",
+                                    "@id": "dpp:manufacturerPartId",
                                     "@type": "schema:string"
                                 },
                                 "nameAtManufacturer": {
                                     "@context": {
                                         "@definition": "Name of the part as assigned by the manufacturer."
                                     },
-                                    "@id": "aspect:nameAtManufacturer",
+                                    "@id": "dpp:nameAtManufacturer",
                                     "@type": "schema:string"
                                 },
                                 "type": "@type"
                             },
-                            "@id": "aspect:type"
+                            "@id": "dpp:type"
                         }
                     },
-                    "@id": "aspect:identification"
+                    "@id": "dpp:identification"
                 },
                 "materials": {
                     "@context": {
@@ -668,7 +663,7 @@
                                     "@context": {
                                         "@definition": "Check whether the connected attributes are applicable to the product. If it is not applicable (false), dummy data can be delivered."
                                     },
-                                    "@id": "aspect:applicable",
+                                    "@id": "dpp:applicable",
                                     "@type": "schema:boolean"
                                 },
                                 "content": {
@@ -680,14 +675,14 @@
                                                 "@context": {
                                                     "@definition": "Concentration of the material at the level of the product. This attribute is specially mentioned for substances of concern mentioned in the ESPR proposal from March 30th, 2022 Article 7:\n(5) (c) the concentration, maximum concentration or concentration range of the substances of concern, at the level of the product [...].\nOther substances are mentioned for the purpose of recycling in the ESPR provisional agreement from January 9th, 2024 Annex I:\n(d) design for recycling, ease and quality of recycling as expressed through: use of easily recyclable materials, safe, easy and non-destructive access to recyclable components and materials or components and materials containing hazardous substances and material composition and homogeneity, possibility for high-purity sorting, number of materials and components used, use of standard components, use of component and material coding standards for the identification of components and materials, number and complexity of processes and tools needed, ease of nondestructive disassembly and re-assembly, conditions for access to product data, conditions for access to or use of hardware and software needed.\n"
                                                 },
-                                                "@id": "aspect:concentration",
+                                                "@id": "dpp:concentration",
                                                 "@type": "schema:number"
                                             },
                                             "critical": {
                                                 "@context": {
                                                     "@definition": "A flag, if the material is a critical raw material. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Annex I:\n(h) use or content of recycled materials and recovery of materials, including critical raw materials;\nIn Annex II of the connected proposal Act of Critical Raw Materials, a list of critical raw materials can be found."
                                                 },
-                                                "@id": "aspect:critical",
+                                                "@id": "dpp:critical",
                                                 "@type": "schema:boolean"
                                             },
                                             "documentation": {
@@ -699,21 +694,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -724,7 +719,7 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:documentation"
+                                                "@id": "dpp:documentation"
                                             },
                                             "id": {
                                                 "@container": "@list",
@@ -735,21 +730,21 @@
                                                             "@context": {
                                                                 "@definition": "The substance identification, in accordance with the specification in the attribute for the list type."
                                                             },
-                                                            "@id": "aspect:id",
+                                                            "@id": "dpp:id",
                                                             "@type": "schema:string"
                                                         },
                                                         "name": {
                                                             "@context": {
                                                                 "@definition": "The name of the material which is present in the product."
                                                             },
-                                                            "@id": "aspect:name",
+                                                            "@id": "dpp:name",
                                                             "@type": "schema:string"
                                                         },
                                                         "type": {
                                                             "@context": {
                                                                 "@definition": "The type of standard used for the identification of the substances. Selected can be for example CAS, IUPAC or EC."
                                                             },
-                                                            "@id": "aspect:type",
+                                                            "@id": "dpp:type",
                                                             "@type": "schema:string"
                                                         }
                                                     },
@@ -758,20 +753,20 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:id"
+                                                "@id": "dpp:id"
                                             },
                                             "recycled": {
                                                 "@context": {
                                                     "@definition": "The share of the material, which is recovered recycled content from the product. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Annex I:\n(h) use or content of recycled materials and recovery of materials, including critical raw materials;"
                                                 },
-                                                "@id": "aspect:recycled",
+                                                "@id": "dpp:recycled",
                                                 "@type": "schema:number"
                                             },
                                             "renewable": {
                                                 "@context": {
                                                     "@definition": "The share of the material, which is from a renewable resource that can be replenished. Renewable resources are those that can be reproduced by physical, chemical, or mechanical processes. These are the kind of resources that can be regenerated throughout time. Forest wood, for example, can be grown through reforestation. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Annex I:\n(ha) use or content of sustainable renewable materials;\n"
                                                 },
-                                                "@id": "aspect:renewable",
+                                                "@id": "dpp:renewable",
                                                 "@type": "schema:number"
                                             },
                                             "type": "@type",
@@ -779,7 +774,7 @@
                                                 "@context": {
                                                     "@definition": "The unit of concentration chosen from an enumeration: mass percent, volume percent, parts per thousand, parts per million, parts per billion and  parts per trillion."
                                                 },
-                                                "@id": "aspect:unit",
+                                                "@id": "dpp:unit",
                                                 "@type": "schema:string"
                                             }
                                         },
@@ -788,12 +783,12 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:content"
+                                    "@id": "dpp:content"
                                 },
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:materialComposition"
+                            "@id": "dpp:materialComposition"
                         },
                         "substancesOfConcern": {
                             "@context": {
@@ -803,7 +798,7 @@
                                     "@context": {
                                         "@definition": "Check whether the connected attributes are applicable to the product. If it is not applicable (false), dummy data can be delivered."
                                     },
-                                    "@id": "aspect:applicable",
+                                    "@id": "dpp:applicable",
                                     "@type": "schema:boolean"
                                 },
                                 "content": {
@@ -815,7 +810,7 @@
                                                 "@context": {
                                                     "@definition": "Concentration of the material at the level of the product. This attribute is specially mentioned for substances of concern mentioned in the ESPR proposal from March 30th, 2022 Article 7:\n(5) (c) the concentration, maximum concentration or concentration range of the substances of concern, at the level of the product [...].\nOther substances are mentioned for the purpose of recycling in the ESPR provisional agreement from January 9th, 2024 Annex I:\n(d) design for recycling, ease and quality of recycling as expressed through: use of easily recyclable materials, safe, easy and non-destructive access to recyclable components and materials or components and materials containing hazardous substances and material composition and homogeneity, possibility for high-purity sorting, number of materials and components used, use of standard components, use of component and material coding standards for the identification of components and materials, number and complexity of processes and tools needed, ease of nondestructive disassembly and re-assembly, conditions for access to product data, conditions for access to or use of hardware and software needed.\n"
                                                 },
-                                                "@id": "aspect:concentration",
+                                                "@id": "dpp:concentration",
                                                 "@type": "schema:number"
                                             },
                                             "concentrationRange": {
@@ -828,14 +823,14 @@
                                                             "@context": {
                                                                 "@definition": "The maximum concentration of the substance of concern at the level of the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Article 7:\n(5) (c) the concentration, maximum concentration or concentration range of the substances of concern, at the level of the product [...]."
                                                             },
-                                                            "@id": "aspect:max",
+                                                            "@id": "dpp:max",
                                                             "@type": "schema:number"
                                                         },
                                                         "min": {
                                                             "@context": {
                                                                 "@definition": "The minimum concentration of the substance of concern at the level of the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Article 7:\n(5) (c) [...] concentration range of the substances of concern, at the level of the product [...]."
                                                             },
-                                                            "@id": "aspect:min",
+                                                            "@id": "dpp:min",
                                                             "@type": "schema:number"
                                                         },
                                                         "type": "@type"
@@ -845,7 +840,7 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:concentrationRange"
+                                                "@id": "dpp:concentrationRange"
                                             },
                                             "documentation": {
                                                 "@container": "@list",
@@ -856,21 +851,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -881,13 +876,13 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:documentation"
+                                                "@id": "dpp:documentation"
                                             },
                                             "exemption": {
                                                 "@context": {
                                                     "@definition": "Exemptions to the substance of concern. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Article 7:\n(5) (c) provide duly justified exemptions for substances of concern or information elements from the information requirements referred to in the first subparagraph based on the technical feasibility or relevance of tracking substances of concern, the existence of analytical methods to detect and quantify them, the need to protect confidential business information or in other duly justified cases. Substances of concern within the meaning of Article 2(28), point a), shall not be exempted if they are present in products, their relevant components or spare parts in a concentration above 0,1 % weight by weight."
                                                 },
-                                                "@id": "aspect:exemption",
+                                                "@id": "dpp:exemption",
                                                 "@type": "schema:string"
                                             },
                                             "hazardClassification": {
@@ -898,14 +893,14 @@
                                                         "@context": {
                                                             "@definition": "The hazard category of the substance of concern. Defined in Article 2 of Regulation (EC) No 1272/2008 of the European Parliament and of the Council of 16 December 2008 on classification, labelling and packaging of substances and mixtures, amending and repealing Directives 67/548/EEC and 1999/45/EC, and amending Regulation (EC) No 1907/2006:\n2. 'hazard category' means the division of criteria within each hazard class, specifying hazard severity."
                                                         },
-                                                        "@id": "aspect:category",
+                                                        "@id": "dpp:category",
                                                         "@type": "schema:string"
                                                     },
                                                     "class": {
                                                         "@context": {
                                                             "@definition": "The hazard class of the substance of concern. Defined in Article 2 of Regulation (EC) No 1272/2008 of the European Parliament and of the Council of 16 December 2008 on classification, labelling and packaging of substances and mixtures, amending and repealing Directives 67/548/EEC and 1999/45/EC, and amending Regulation (EC) No 1907/2006:\n1. 'hazard class' means the nature of the physical, health or environmental hazard."
                                                         },
-                                                        "@id": "aspect:class",
+                                                        "@id": "dpp:class",
                                                         "@type": "schema:string"
                                                     },
                                                     "id": "@id",
@@ -913,12 +908,12 @@
                                                         "@context": {
                                                             "@definition": "The hazard statement of the substance of concern. Defined in Article 2 of Regulation (EC) No 1272/2008 of the European Parliament and of the Council of 16 December 2008 on classification, labelling and packaging of substances and mixtures, amending and repealing Directives 67/548/EEC and 1999/45/EC, and amending Regulation (EC) No 1907/2006:\n5. 'hazard statement' means a phrase assigned to a hazard class and category that describes the nature of the hazards of a hazardous substance or mixture, including, where appropriate, the degree of hazard."
                                                         },
-                                                        "@id": "aspect:statement",
+                                                        "@id": "dpp:statement",
                                                         "@type": "schema:string"
                                                     },
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:hazardClassification"
+                                                "@id": "dpp:hazardClassification"
                                             },
                                             "id": {
                                                 "@container": "@list",
@@ -929,21 +924,21 @@
                                                             "@context": {
                                                                 "@definition": "The substance identification, in accordance with the specification in the attribute for the list type."
                                                             },
-                                                            "@id": "aspect:id",
+                                                            "@id": "dpp:id",
                                                             "@type": "schema:string"
                                                         },
                                                         "name": {
                                                             "@context": {
                                                                 "@definition": "The name of the material which is present in the product."
                                                             },
-                                                            "@id": "aspect:name",
+                                                            "@id": "dpp:name",
                                                             "@type": "schema:string"
                                                         },
                                                         "type": {
                                                             "@context": {
                                                                 "@definition": "The type of standard used for the identification of the substances. Selected can be for example CAS, IUPAC or EC."
                                                             },
-                                                            "@id": "aspect:type",
+                                                            "@id": "dpp:type",
                                                             "@type": "schema:string"
                                                         }
                                                     },
@@ -952,13 +947,13 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:id"
+                                                "@id": "dpp:id"
                                             },
                                             "location": {
                                                 "@context": {
                                                     "@definition": "The location of the substances of concern within the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Article 7:\n(5) (b) the location of the substances of concern within the product."
                                                 },
-                                                "@id": "aspect:location",
+                                                "@id": "dpp:location",
                                                 "@type": "schema:string"
                                             },
                                             "type": "@type",
@@ -966,7 +961,7 @@
                                                 "@context": {
                                                     "@definition": "The unit of concentration chosen from an enumeration: mass percent, volume percent, parts per thousand, parts per million, parts per billion and  parts per trillion."
                                                 },
-                                                "@id": "aspect:unit",
+                                                "@id": "dpp:unit",
                                                 "@type": "schema:string"
                                             }
                                         },
@@ -975,16 +970,16 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:content"
+                                    "@id": "dpp:content"
                                 },
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:substancesOfConcern"
+                            "@id": "dpp:substancesOfConcern"
                         },
                         "type": "@type"
                     },
-                    "@id": "aspect:materials"
+                    "@id": "dpp:materials"
                 },
                 "metadata": {
                     "@context": {
@@ -994,21 +989,21 @@
                             "@context": {
                                 "@definition": "A reference to the data backup of the passport. This mandatory attribute will be further defined in the future. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Annex III:\n(kb) the reference of the certified independent third-party product passport service provider hosting the back-up copy of the product passport.\nArticle 10 also mentions:\n(c) the data included in the product passport shall be stored by the economic operator responsible for its creation or by certified independent third-party product passport service providers authorised to act on their behalf."
                             },
-                            "@id": "aspect:backupReference",
+                            "@id": "dpp:backupReference",
                             "@type": "schema:string"
                         },
                         "economicOperatorId": {
                             "@context": {
                                 "@definition": "The identification of the owner/economic operator of the passport. Proposed, according to ISO 15459, is the CIN (company identification code). Other identification numbers like the tax identification number, value added tax identification number, commercial register number and the like are also valid entries. In the Catena-X network, the BPNL is used for the identification of companies and the information stored like contact information and addresses. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex III:\n(k) the [...] unique operator identifier code of the economic operator established in the Union responsible for carrying out the tasks set out in Article 4 of Regulation (EU) 2019/1020, or Article 15 of Regulation (EU) on general product safety, or similar tasks pursuant to other EU legislation applicable to the product."
                             },
-                            "@id": "aspect:economicOperatorId",
+                            "@id": "dpp:economicOperatorId",
                             "@type": "schema:string"
                         },
                         "expirationDate": {
                             "@context": {
                                 "@definition": "The timestamp in the format (yyyy-mm-dd) for the product passport until when it is available or a comment describing this period. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Article 8:\n(2) (h) the period during which the product passport is to remain available, which shall correspond to at least the expected lifetime of a specific product."
                             },
-                            "@id": "aspect:expirationDate",
+                            "@id": "dpp:expirationDate",
                             "@type": "schema:string"
                         },
                         "id": "@id",
@@ -1016,42 +1011,42 @@
                             "@context": {
                                 "@definition": "The timestamp in the format (yyyy-mm-dd) since when the product passport is available."
                             },
-                            "@id": "aspect:issueDate",
+                            "@id": "dpp:issueDate",
                             "@type": "schema:string"
                         },
                         "lastModification": {
                             "@context": {
                                 "@definition": "Date of the latest modification."
                             },
-                            "@id": "aspect:lastModification",
+                            "@id": "dpp:lastModification",
                             "@type": "schema:string"
                         },
                         "passportIdentifier": {
                             "@context": {
                                 "@definition": "The identifier of the product passport, which is an uuidv4."
                             },
-                            "@id": "aspect:passportIdentifier",
+                            "@id": "dpp:passportIdentifier",
                             "@type": "schema:string"
                         },
                         "predecessor": {
                             "@context": {
                                 "@definition": "Identification of the preceding product passport. If there is no preceding passport, input a dummy value. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Article 8:\n(2)(g) [...] Any new product passport shall be linked to the product passport or passports of the original product whenever appropriate."
                             },
-                            "@id": "aspect:predecessor",
+                            "@id": "dpp:predecessor",
                             "@type": "schema:string"
                         },
                         "registrationIdentifier": {
                             "@context": {
                                 "@definition": "Identifier in the respective registry. This will be further defined in the future. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 in Article 12:\nBy [2 years from entering into force of this Regulation], the Commission shall set up and manage a digital registry (\"the registry\") storing in a secure manner at least the unique product identifier, the unique operator identifier, the unique facility identifiers. In case of products intended to be placed under the customs procedure 'release for free circulation', the registry shall also store the product commodity code. The registry shall also store the batteries' unique identifiers referred to in Article 77(3) of Regulation (EU) 2023/1542."
                             },
-                            "@id": "aspect:registrationIdentifier",
+                            "@id": "dpp:registrationIdentifier",
                             "@type": "schema:string"
                         },
                         "status": {
                             "@context": {
                                 "@definition": "The current status of the product passport declared through either: draft, approved, invalid or expired."
                             },
-                            "@id": "aspect:status",
+                            "@id": "dpp:status",
                             "@type": "schema:string"
                         },
                         "type": "@type",
@@ -1059,11 +1054,11 @@
                             "@context": {
                                 "@definition": "The current version of the product passport. The possibility of modification/ updating the product passport needs to include versioning of the dataset. This attribute is an internal versioning from the passport issuer. This attribute is mentioned in the ESPR provisional agreement from January 9th, 2024 Article 8:\n(1) [...] The information in the product passport shall be accurate, complete, and up to date."
                             },
-                            "@id": "aspect:version",
+                            "@id": "dpp:version",
                             "@type": "schema:string"
                         }
                     },
-                    "@id": "aspect:metadata"
+                    "@id": "dpp:metadata"
                 },
                 "operation": {
                     "@context": {
@@ -1078,7 +1073,7 @@
                                     "@context": {
                                         "@definition": "Check whether the connected attributes are applicable to the product. If it is not applicable (false), dummy data can be delivered."
                                     },
-                                    "@id": "aspect:applicable",
+                                    "@id": "dpp:applicable",
                                     "@type": "schema:boolean"
                                 },
                                 "content": {
@@ -1089,24 +1084,24 @@
                                             "@context": {
                                                 "@definition": "An economic operator established in the customs territory of the Union needs, for customs purposes, an EORI number. EORI stands for economic operators registration and identification number. In this case, the importer's EORI must be provided. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex III:\n(j) information related to the importer, including the information referred to in Article 23(3) and its EORI number."
                                             },
-                                            "@id": "aspect:eori",
+                                            "@id": "dpp:eori",
                                             "@type": "schema:string"
                                         },
                                         "id": {
                                             "@context": {
                                                 "@definition": "The importer of the product, if different from the owner of the passport. In the Catena-X network, the BPNL is used for the identification of companies and the information stored for this like contact information and addresses.\nThis attribute is mentioned in the ESPR provisional agreement from January 9th, 2024  Annex III:\n(j) information related to the importer, including the information referred to in Article 23(3) and its EORI number;\nArticle 23 states:\n(3) Importers shall, for products covered by a delegated act adopted pursuant to Article 4, indicate their name, registered trade name or registered trade mark and the postal address and electronic means of communication, where they can be contacted:  (a) on the public part of the product passport, when applicable, and\n(b) on the product or, where this is not possible, on the packaging, or in a document accompanying the product."
                                             },
-                                            "@id": "aspect:id",
+                                            "@id": "dpp:id",
                                             "@type": "schema:string"
                                         },
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:content"
+                                    "@id": "dpp:content"
                                 },
                                 "id": "@id",
                                 "type": "@type"
                             },
-                            "@id": "aspect:import"
+                            "@id": "dpp:import"
                         },
                         "manufacturer": {
                             "@context": {
@@ -1121,7 +1116,7 @@
                                                 "@context": {
                                                     "@definition": "The identifier used for a location. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Annex III:\n(i) unique facility identifiers;\nArticle 2 Definitions: (33) 'unique facility identifier' means a unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product."
                                                 },
-                                                "@id": "aspect:facility",
+                                                "@id": "dpp:facility",
                                                 "@type": "schema:string"
                                             },
                                             "id": "@id",
@@ -1132,26 +1127,26 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:facility"
+                                    "@id": "dpp:facility"
                                 },
                                 "id": "@id",
                                 "manufacturer": {
                                     "@context": {
                                         "@definition": "The main manufacturer, if different from the passport owner, represented by an identification number. In the Catena-X use case, the BPNL can be stated. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Annex III:\n(h) unique operator identifiers other than that of the manufacturer;\n(k) the name, contact details and unique operator identifier code of the economic operator established in the Union responsible for carrying out the tasks set out in Article 4 of Regulation (EU) 2019/1020, or Article 15 of Regulation (EU) [.../...] on general product safety, or similar tasks pursuant to other EU legislation applicable to the product."
                                     },
-                                    "@id": "aspect:manufacturer",
+                                    "@id": "dpp:manufacturer",
                                     "@type": "schema:string"
                                 },
                                 "manufacturingDate": {
                                     "@context": {
                                         "@definition": "The timestamp in the format (yyyy-mm-dd) of the manufacturing date as the final step in production process (e.g. final quality check, ready-for-shipment event)."
                                     },
-                                    "@id": "aspect:manufacturingDate",
+                                    "@id": "dpp:manufacturingDate",
                                     "@type": "schema:string"
                                 },
                                 "type": "@type"
                             },
-                            "@id": "aspect:manufacturer"
+                            "@id": "dpp:manufacturer"
                         },
                         "other": {
                             "@context": {
@@ -1161,23 +1156,23 @@
                                     "@context": {
                                         "@definition": "Identifier of the other operator. This can be a BPN."
                                     },
-                                    "@id": "aspect:id",
+                                    "@id": "dpp:id",
                                     "@type": "schema:string"
                                 },
                                 "role": {
                                     "@context": {
                                         "@definition": "Role of the other operator."
                                     },
-                                    "@id": "aspect:role",
+                                    "@id": "dpp:role",
                                     "@type": "schema:string"
                                 },
                                 "type": "@type"
                             },
-                            "@id": "aspect:other"
+                            "@id": "dpp:other"
                         },
                         "type": "@type"
                     },
-                    "@id": "aspect:operation"
+                    "@id": "dpp:operation"
                 },
                 "sources": {
                     "@container": "@list",
@@ -1188,21 +1183,21 @@
                                 "@context": {
                                     "@definition": "The category in which the document can be sorted. These are mentioned in the ESPR proposal from March 30th, 2022 ANNEX III:\n(e) compliance documentation and information required under this Regulation or other Union law applicable to the product, such as the declaration of conformity, technical documentation or conformity certificates;\nANNEX IV states additional information regarding the content of the technical documentation\nFurther information on documents are mentioned in the proposal from March 30th, 2022 ANNEX III:\n(f) user manuals, instructions, warnings or safety information, as required by other Union legislation applicable to the product.\nAdditionally requirements are mentioned in Article 21:\n(7) Manufacturers shall ensure that that a product covered by a delegated act adopted pursuant to Article 4 is accompanied by instructions that enable consumers and other end-users to safely assemble, install, operate, store, maintain, repair and dispose of the product in a language that can be easily understood by consumers and other end-users, as determined by the Member State concerned. Such instructions shall be clear, understandable and legible and include at least the information specified in the delegated acts adopted pursuant to Article 4 and pursuant to Article 7(2)(b), point (ii).\nArticle 7 states additionally:\n(2) (b) (ii) information for consumers and other end-users on how to install, use, maintain and repair the product in order to minimize its impact on the environment and to ensure optimum durability, as well as on how to return or dispose of the product at end-of-life;\n(2) (b) (iii) information for treatment facilities on disassembly, recycling, or disposal at end-of-life;\n(2) (b) (iv) other information that may influence the way the product is handled by parties other than the manufacturer in order to improve performance in relation to product parameters referred to in Annex I.\n(5) (d) relevant instructions for the safe use of the product."
                                 },
-                                "@id": "aspect:category",
+                                "@id": "dpp:category",
                                 "@type": "schema:string"
                             },
                             "content": {
                                 "@context": {
                                     "@definition": "The content of the document e.g a link."
                                 },
-                                "@id": "aspect:content",
+                                "@id": "dpp:content",
                                 "@type": "schema:string"
                             },
                             "header": {
                                 "@context": {
                                     "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                 },
-                                "@id": "aspect:header",
+                                "@id": "dpp:header",
                                 "@type": "schema:string"
                             },
                             "id": "@id",
@@ -1210,7 +1205,7 @@
                                 "@context": {
                                     "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                 },
-                                "@id": "aspect:type",
+                                "@id": "dpp:type",
                                 "@type": "schema:string"
                             }
                         },
@@ -1219,7 +1214,7 @@
                         "id": "@id",
                         "type": "@type"
                     },
-                    "@id": "aspect:sources"
+                    "@id": "dpp:sources"
                 },
                 "sustainability": {
                     "@context": {
@@ -1229,7 +1224,7 @@
                             "@context": {
                                 "@definition": "The durability score. This attribute is mentioned ESPR provisional agreement from January 9th, 2024 Article 7:\n(b) as appropriate, also require products to be accompanied by:\n(i) information on the performance of the product in relation to one or more of the product parameters referred to in Annex I, including a scoring of reparability or durability [...]."
                             },
-                            "@id": "aspect:durabilityScore",
+                            "@id": "dpp:durabilityScore",
                             "@type": "schema:string"
                         },
                         "id": "@id",
@@ -1251,21 +1246,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1276,14 +1271,14 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:declaration"
+                                                "@id": "dpp:declaration"
                                             },
                                             "id": "@id",
                                             "lifecycle": {
                                                 "@context": {
                                                     "@definition": "The lifecycle stage, to which the environmental footprint corresponds. These could be for example \"raw material acquisition and pre-processing\", \"main product production\", \"distribution\" or \"end of life and recycling\"."
                                                 },
-                                                "@id": "aspect:lifecycle",
+                                                "@id": "dpp:lifecycle",
                                                 "@type": "schema:string"
                                             },
                                             "manufacturingPlant": {
@@ -1295,7 +1290,7 @@
                                                             "@context": {
                                                                 "@definition": "The identifier used for a location. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Annex III:\n(i) unique facility identifiers;\nArticle 2 Definitions: (33) 'unique facility identifier' means a unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product."
                                                             },
-                                                            "@id": "aspect:facility",
+                                                            "@id": "dpp:facility",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1306,13 +1301,13 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:manufacturingPlant"
+                                                "@id": "dpp:manufacturingPlant"
                                             },
                                             "performanceClass": {
                                                 "@context": {
                                                     "@definition": "The performance classification of the footprint."
                                                 },
-                                                "@id": "aspect:performanceClass",
+                                                "@id": "dpp:performanceClass",
                                                 "@type": "schema:string"
                                             },
                                             "rulebook": {
@@ -1324,21 +1319,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1349,27 +1344,27 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:rulebook"
+                                                "@id": "dpp:rulebook"
                                             },
                                             "type": {
                                                 "@context": {
                                                     "@definition": "The type of the environmental footprint of the product. This could be one of the environmental impact categories. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Article 7:\n(2)(b)(i) information on the performance of the product in relation to one or more of the product parameters referred to in Annex I, including a scoring of reparability or durability, carbon footprint or environmental footprint;\nAnnex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories.\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product."
                                                 },
-                                                "@id": "aspect:type",
+                                                "@id": "dpp:type",
                                                 "@type": "schema:string"
                                             },
                                             "unit": {
                                                 "@context": {
                                                     "@definition": "The unit of measurement of the environmental impact category. For each impact category a specific unit is used. If an aggregation is used, utilize the normalization and weighting methods used in the referenced rulebook."
                                                 },
-                                                "@id": "aspect:unit",
+                                                "@id": "dpp:unit",
                                                 "@type": "schema:string"
                                             },
                                             "value": {
                                                 "@context": {
                                                     "@definition": "The value of the footprint of the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories;\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product.\n"
                                                 },
-                                                "@id": "aspect:value",
+                                                "@id": "dpp:value",
                                                 "@type": "schema:number"
                                             }
                                         },
@@ -1378,7 +1373,7 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:carbon"
+                                    "@id": "dpp:carbon"
                                 },
                                 "environmental": {
                                     "@container": "@list",
@@ -1394,21 +1389,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1419,14 +1414,14 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:declaration"
+                                                "@id": "dpp:declaration"
                                             },
                                             "id": "@id",
                                             "lifecycle": {
                                                 "@context": {
                                                     "@definition": "The lifecycle stage, to which the environmental footprint corresponds. These could be for example \"raw material acquisition and pre-processing\", \"main product production\", \"distribution\" or \"end of life and recycling\"."
                                                 },
-                                                "@id": "aspect:lifecycle",
+                                                "@id": "dpp:lifecycle",
                                                 "@type": "schema:string"
                                             },
                                             "manufacturingPlant": {
@@ -1438,7 +1433,7 @@
                                                             "@context": {
                                                                 "@definition": "The identifier used for a location. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Annex III:\n(i) unique facility identifiers;\nArticle 2 Definitions: (33) 'unique facility identifier' means a unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product."
                                                             },
-                                                            "@id": "aspect:facility",
+                                                            "@id": "dpp:facility",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1449,13 +1444,13 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:manufacturingPlant"
+                                                "@id": "dpp:manufacturingPlant"
                                             },
                                             "performanceClass": {
                                                 "@context": {
                                                     "@definition": "The performance classification of the footprint."
                                                 },
-                                                "@id": "aspect:performanceClass",
+                                                "@id": "dpp:performanceClass",
                                                 "@type": "schema:string"
                                             },
                                             "rulebook": {
@@ -1467,21 +1462,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1492,27 +1487,27 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:rulebook"
+                                                "@id": "dpp:rulebook"
                                             },
                                             "type": {
                                                 "@context": {
                                                     "@definition": "The type of the environmental footprint of the product. This could be one of the environmental impact categories. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Article 7:\n(2)(b)(i) information on the performance of the product in relation to one or more of the product parameters referred to in Annex I, including a scoring of reparability or durability, carbon footprint or environmental footprint;\nAnnex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories.\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product."
                                                 },
-                                                "@id": "aspect:type",
+                                                "@id": "dpp:type",
                                                 "@type": "schema:string"
                                             },
                                             "unit": {
                                                 "@context": {
                                                     "@definition": "The unit of measurement of the environmental impact category. For each impact category a specific unit is used. If an aggregation is used, utilize the normalization and weighting methods used in the referenced rulebook."
                                                 },
-                                                "@id": "aspect:unit",
+                                                "@id": "dpp:unit",
                                                 "@type": "schema:string"
                                             },
                                             "value": {
                                                 "@context": {
                                                     "@definition": "The value of the footprint of the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories;\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product.\n"
                                                 },
-                                                "@id": "aspect:value",
+                                                "@id": "dpp:value",
                                                 "@type": "schema:number"
                                             }
                                         },
@@ -1521,7 +1516,7 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:environmental"
+                                    "@id": "dpp:environmental"
                                 },
                                 "id": "@id",
                                 "material": {
@@ -1538,21 +1533,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1563,14 +1558,14 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:declaration"
+                                                "@id": "dpp:declaration"
                                             },
                                             "id": "@id",
                                             "lifecycle": {
                                                 "@context": {
                                                     "@definition": "The lifecycle stage, to which the environmental footprint corresponds. These could be for example \"raw material acquisition and pre-processing\", \"main product production\", \"distribution\" or \"end of life and recycling\"."
                                                 },
-                                                "@id": "aspect:lifecycle",
+                                                "@id": "dpp:lifecycle",
                                                 "@type": "schema:string"
                                             },
                                             "manufacturingPlant": {
@@ -1582,7 +1577,7 @@
                                                             "@context": {
                                                                 "@definition": "The identifier used for a location. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Annex III:\n(i) unique facility identifiers;\nArticle 2 Definitions: (33) 'unique facility identifier' means a unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product."
                                                             },
-                                                            "@id": "aspect:facility",
+                                                            "@id": "dpp:facility",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1593,13 +1588,13 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:manufacturingPlant"
+                                                "@id": "dpp:manufacturingPlant"
                                             },
                                             "performanceClass": {
                                                 "@context": {
                                                     "@definition": "The performance classification of the footprint."
                                                 },
-                                                "@id": "aspect:performanceClass",
+                                                "@id": "dpp:performanceClass",
                                                 "@type": "schema:string"
                                             },
                                             "rulebook": {
@@ -1611,21 +1606,21 @@
                                                             "@context": {
                                                                 "@definition": "The content of the document e.g a link."
                                                             },
-                                                            "@id": "aspect:content",
+                                                            "@id": "dpp:content",
                                                             "@type": "schema:string"
                                                         },
                                                         "contentType": {
                                                             "@context": {
                                                                 "@definition": "The type of content which can be expected in the \"content\" property. Examples are a link, restricted link, pdf, excel, etc."
                                                             },
-                                                            "@id": "aspect:contentType",
+                                                            "@id": "dpp:contentType",
                                                             "@type": "schema:string"
                                                         },
                                                         "header": {
                                                             "@context": {
                                                                 "@definition": "The header as a short description of the document with a maximum of 100 characters."
                                                             },
-                                                            "@id": "aspect:header",
+                                                            "@id": "dpp:header",
                                                             "@type": "schema:string"
                                                         },
                                                         "id": "@id",
@@ -1636,27 +1631,27 @@
                                                     "id": "@id",
                                                     "type": "@type"
                                                 },
-                                                "@id": "aspect:rulebook"
+                                                "@id": "dpp:rulebook"
                                             },
                                             "type": {
                                                 "@context": {
                                                     "@definition": "The type of the environmental footprint of the product. This could be one of the environmental impact categories. This attribute is mentioned in the ESPR provisional agreement from January 9th 2024 Article 7:\n(2)(b)(i) information on the performance of the product in relation to one or more of the product parameters referred to in Annex I, including a scoring of reparability or durability, carbon footprint or environmental footprint;\nAnnex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories.\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product."
                                                 },
-                                                "@id": "aspect:type",
+                                                "@id": "dpp:type",
                                                 "@type": "schema:string"
                                             },
                                             "unit": {
                                                 "@context": {
                                                     "@definition": "The unit of measurement of the environmental impact category. For each impact category a specific unit is used. If an aggregation is used, utilize the normalization and weighting methods used in the referenced rulebook."
                                                 },
-                                                "@id": "aspect:unit",
+                                                "@id": "dpp:unit",
                                                 "@type": "schema:string"
                                             },
                                             "value": {
                                                 "@context": {
                                                     "@definition": "The value of the footprint of the product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex I:\n(l) the environmental footprint of the product, expressed as a quantification, in accordance with the applicable delegated act, of a product's life cycle environmental impacts, whether in relation to one or more environmental impact categories or an aggregated set of impact categories;\n(m) the carbon footprint of the product;\n(ma) the material footprint of the product.\n"
                                                 },
-                                                "@id": "aspect:value",
+                                                "@id": "dpp:value",
                                                 "@type": "schema:number"
                                             }
                                         },
@@ -1665,32 +1660,35 @@
                                         "id": "@id",
                                         "type": "@type"
                                     },
-                                    "@id": "aspect:material"
+                                    "@id": "dpp:material"
                                 },
                                 "type": "@type"
                             },
-                            "@id": "aspect:productFootprint"
+                            "@id": "dpp:productFootprint"
                         },
                         "reparabilityScore": {
                             "@context": {
                                 "@definition": "The reparability score. This attribute is mentioned ESPR provisional agreement from January 9th, 2024 Article 7:\n(b) as appropriate, also require products to be accompanied by:\n(i) information on the performance of the product in relation to one or more of the product parameters referred to in Annex I, including a scoring of reparability or durability [...]."
                             },
-                            "@id": "aspect:reparabilityScore",
+                            "@id": "dpp:reparabilityScore",
                             "@type": "schema:string"
                         },
                         "status": {
                             "@context": {
                                 "@definition": "The status of the product (original, repurposed, re-used, remanufactured or waste) to indicated, whether it is a used product. This attribute is mentioned in the ESPR proposal from March 30th, 2022 Annex I:\n(j) incorporation of used components."
                             },
-                            "@id": "aspect:status",
+                            "@id": "dpp:status",
                             "@type": "schema:string"
                         },
                         "type": "@type"
                     },
-                    "@id": "aspect:sustainability"
+                    "@id": "dpp:sustainability"
                 },
                 "type": "@type"
-            }
-        }
+            },
+            "@id": "dpp:DigitalProductPass"
+        },
+        "dpp": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#",
+        "schema": "https://schema.org/"
     }
 }

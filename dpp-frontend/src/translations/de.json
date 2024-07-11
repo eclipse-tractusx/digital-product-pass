@@ -407,7 +407,7 @@
       "transferState": "Übertragungszustand",
       "edcTimestamp": "EDC-Zeitstempel",
       "edcDataRequestId": "EDC-Datenanfrage-ID",
-      "edcEventEndpoint": "EDC-Ereignis-Endpunkt",
+      "edcReceiverHttpEndpoint": "EDC-Empfänger HTTP-Endpunkt",
       "assetId": "Anlagen-ID",
       "connectorAddress": "Connector-Adresse",
       "contractId": "Vertrags-ID",

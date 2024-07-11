@@ -98,5 +98,4 @@ jobs:
             mvn -B clean install --batch-mode -DskipTests
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@9ace329d8c0504a5571820cf13ab64d3f59e84fb    # v2.25.2
-          
+        uses: github/codeql-action/analyze@9b7c22c3b39078582fa6d0d8f3841e944ec54582

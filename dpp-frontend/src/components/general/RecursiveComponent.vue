@@ -31,18 +31,9 @@
           {{ parseInt(key) + 1 }}:
         </template>
         <template v-else-if="!Array.isArray(jsonData)"> {{ key }}: </template>
-        <template
-          v-if="
-            typeof value === 'string' ||
-            typeof value === 'number' ||
-            typeof value === 'boolean'
-          "
-        >
-          <strong>
-            {{
-              typeof value === "boolean" ? value : callFormatTimestamp(value)
-            }}</strong
-          >
+        <template v-if="typeof value === 'string'">
+          <span v-if="typeof key === number"> {{ key }}: </span>
+          <strong> {{ value }}</strong>
         </template>
         <template v-else-if="Array.isArray(value)">
           <recursive-component :jsonData="value" style="padding-left: 10px" />
@@ -56,19 +47,12 @@
 </template>
 
 <script>
-import passportUtil from "@/utils/passportUtil.js";
-
 export default {
   name: "RecursiveComponent",
   props: {
     jsonData: {
       type: [Object, Array],
       required: true,
-    },
-  },
-  methods: {
-    callFormatTimestamp(date) {
-      return passportUtil.formatTimestamp(date);
     },
   },
 };

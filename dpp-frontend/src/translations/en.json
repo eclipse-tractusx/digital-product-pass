@@ -413,7 +413,13 @@
       "contractId": "Contract ID",
       "dataDestination": "Data destination",
       "reciverHttpEndpoint": "Reciver http endpoint",
-      "contentType": "Content type"
+      "contentType": "Content type",
+      "response": "Response",
+      "request": "Request",
+      "negotiationInit": "Negotiation initialization",
+      "transferGet": "Transfer recived",
+      "transferInit": "Transfer initialization",
+      "negotiationGet": "Negotiation recived"
     },
     "characteristics": {
       "lifeTime": "Life time",

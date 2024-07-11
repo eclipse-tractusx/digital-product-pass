@@ -1,6 +1,6 @@
 /**
  * Tractus-X -  Digital Product Pass Application
- * 
+ *
  * Copyright (c) 2022, 2024 BMW AG
  * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
  * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
@@ -122,14 +122,23 @@ export default {
         }
     },
     formatTimestamp(timestamp) {
-        const correctedTimestamp = timestamp.replace("+00:00Z", "+00:00");
-        const date = new Date(correctedTimestamp);
+        let date;
 
-        // Check if the date is valid
-        if (isNaN(date)) {
-            return "Invalid timestamp";
+        // Check if the timestamp is a number
+        if (typeof timestamp === "number") {
+            date = new Date(timestamp);
+        } else {
+            // Correct the timestamp if it's a string
+            const correctedTimestamp = timestamp.replace("+00:00Z", "+00:00");
+            date = new Date(correctedTimestamp);
         }
 
+        // Check if the date is valid
+        if (isNaN(date.getTime())) {
+            return timestamp; // Return the original timestamp if invalid
+        }
+
+        // Define the options for formatting the date
         const options = {
             year: "numeric",
             month: "long",
@@ -140,6 +149,7 @@ export default {
             timeZoneName: "short",
         };
 
+        // Return the formatted date string
         return date.toLocaleString("en-GB", options);
     },
     getAspectData(data) {

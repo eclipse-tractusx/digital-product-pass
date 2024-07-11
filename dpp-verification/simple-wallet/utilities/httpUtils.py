@@ -1,5 +1,5 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Verification Add-on
+# Tractus-X - Digital Product Pass Verification Add-on
 #
 # Copyright (c) 2023, 2024 BMW AG
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG

@@ -107,7 +107,7 @@
                     },
                     {
                         "type": "Submodel",
-                        "value": "urn:samm:io.catenax.generic.digital_product_passport:4.0.0#DigitalProductPassport"
+                        "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
                     },
                     {
                         "type": "Operation",

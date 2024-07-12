@@ -18,7 +18,7 @@
                   {
                       "@type": "Standard",
                       "label": "Catena-X PCF Rulebook Standard",
-                      "id": "CX-0029",
+                      "@id": "CX-0029",
                       "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
                   }
               ],

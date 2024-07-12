@@ -53,6 +53,19 @@ SPDX-License-Identifier: CC-BY-4.0
 > #Cybersecurity #DataVerification #DataCertification #Catena-X #DigitalProductPassVerification #DPP #SignedDocuments #DataCredentials # Framework
 > #DigitalProductPass #VerifiableCredentials #Wallets #DecentralIdentities #SSI #ProductDataExchangeTrust #Verification #Innovation #Ed25519 #JWS #Web3.0
 
+## Knowledge Prerequisites
+
+This concept contains detailed technical content and uses Catena-X vocabulary. More information about the technical abbreviations is available at the [Glossary](#glossary).
+For a better understanding of this documentation, it is recommended to read and inform yourself about the following topics:
+
+- [Learn the Catena-X Network & Basic Principles](https://catena-x.net/en/about-us)
+- [Learn the W3C Basic DID Principles](https://www.w3.org/TR/did-core/)
+- [Learn the W3C Verifiable Credential Basics](https://www.w3.org/TR/vc-data-model-2.0/)
+- [Learn the Tractus-X Context](https://github.com/eclipse-tractusx)
+- [Learn the EcoPass KIT or Digital Product Pass Context](https://eclipse-tractusx.github.io/docs-kits/kits/Eco_Pass_KIT/page-adoption-view)
+
+This documentation of interest can be useful during the reading and understanding of this Catena-X Data Verification/Certification Concept.
+
 # Abstract
 
 When talking about increasing trust in data ecosystems there are multiple possible ways to be followed. Contractual and Policy solutions can be taken into consideration to ensure data sovereignty based on analog framework agreement contracts. Blockchain solutions can be implemented to assure that transactions and ownership is mathematically proofed, creating an assertive level of trust in the complete chain. Artificial Intelligence can be used as a neutral party for doing moderation and certification of data of partners and member of the network. However, if you want to maintain your data and identify under your control assuring data sovereignty and keeping it decentralized the best option to choose are Decentralized Identities from the W3C.
@@ -76,6 +89,7 @@ This concept has been proved to be of high interest from the Certification and V
 - [Metadata](#metadata)
   - [Authors](#authors)
   - [Tags](#tags)
+  - [Knowledge Prerequisites](#knowledge-prerequisites)
 - [Abstract](#abstract)
   - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
@@ -85,13 +99,13 @@ This concept has been proved to be of high interest from the Certification and V
   - [Use Cases](#use-cases)
 - [Previous Investigation](#previous-investigation)
 - [Processes Terminology](#processes-terminology)
+  - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
   - [Roles/Actors](#rolesactors)
-    - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
-    - [Document Exchange Details](#document-exchange-details)
 - [Assumptions](#assumptions)
 - [Verification Statements](#verification-statements)
   - [Abstract Types](#abstract-types)
   - [Verification Statements Documents/Credentials](#verification-statements-documentscredentials)
+  - [Document Exchange Details](#document-exchange-details)
 - [Creating Trust and Risk Mitigation Assets](#creating-trust-and-risk-mitigation-assets)
   - [Verifiable Credential Documents](#verifiable-credential-documents)
     - [What is a Verifiable Credential?](#what-is-a-verifiable-credential)
@@ -101,10 +115,12 @@ This concept has been proved to be of high interest from the Certification and V
   - [Self-Testify Certification Process](#self-testify-certification-process)
   - [Total Certification Process](#total-certification-process)
 - [Certification and Verification Methods](#certification-and-verification-methods)
-  - [Certified Snapshot Credential](#certified-snapshot-credential)
-  - [Certified Data Credential](#certified-data-credential)
-  - [Complete Data Certification Verification](#complete-data-certification-verification)
+  - [Certified Snapshot Credential Certification](#certified-snapshot-credential-certification)
+  - [Certified Data Credential Certification](#certified-data-credential-certification)
+  - [Complete Data Certification](#complete-data-certification)
 - [Verification Processes](#verification-processes)
+  - [Certified Data Credential Verification](#certified-data-credential-verification)
+  - [Certified Snapshot Credential Verification](#certified-snapshot-credential-verification)
   - [Flow Diagrams](#flow-diagrams)
     - [CDC Technical Verification Flow](#cdc-technical-verification-flow)
     - [CSC Technical Verification Flow](#csc-technical-verification-flow)
@@ -112,7 +128,7 @@ This concept has been proved to be of high interest from the Certification and V
   - [Certification Aspects Schemas](#certification-aspects-schemas)
     - [Certified Data Credential Schema](#certified-data-credential-schema)
   - [Certified Snapshot Credential Schema](#certified-snapshot-credential-schema)
-  - [Attribute Certification Registry](#attribute-certification-registry)
+  - [Attribute Certification Record](#attribute-certification-record)
 - [Technical Integration Design](#technical-integration-design)
   - [Interfaces](#interfaces)
   - [Certification Sequence Diagrams](#certification-sequence-diagrams)
@@ -215,17 +231,7 @@ The other terminology from **Data Provider** to **Data Auditor** is called **Dat
 | **Data Verification**   | Data Consumer, Data Provider, Data Auditor | The data verification process englobes the complete journey from retrieving data as a data consumer from a data provider. It includes the search for verification statements and attribute level verification in digital twins. At the end of the journey attribute specific verification may or not be found. Other types of verification like self attestations may be or not retrieved. Depends on the available verification information. In the data verification process is included the verification of the signatures included in the data created and certified in the Data Certification Process. |     **Verification Result** *with the status/flaws*     |
 | **Data Certification**  |        Data Provider, Data Auditor         | The data certification process includes all the processes related to triggering the verification until providing the data for certifying specific attributes. The data provider triggers the certification for an external or internal data auditor, which generates and optionally stores a verification statements                                                                                                                                                                                                                                                                                        | **Certified Data Aspects** *as Verification Statements* |
 
-## Roles/Actors
-
-Three main roles are defined and have certain responsibilities or can conduct actions in the processes. Each role can have more than one W3C role and generate different artifacts as specified in the following table:
-
-| **Role/Actors** | **Company Types**                                            | **W3C Roles**                | **Responsibilities/Actions**                                                                                                                                                                                                                                                                                                                                                                                                                                             | **Use Cases**                                                                                                                                                                                                                                                                        | **Artifacts**                                                                                                                                                                                                                                |
-| :-------------- | ------------------------------------------------------------ | ---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Data Provider   | OEMs, Tier-1                                                 | Issuer, Holder               | - Creating and Issuing Data- Reference/Provision of data in a Digital Twin Registry <br>- Store and link complete data submodels in an infrastructure <br>- **[OPTIONAL]:** Self-sign data when issuing aspects <br>- **[OPTIONAL]:** Provide and Store certified credentials from external parties <br>- Store link to external parties certified credential aspects in Digital Twin Registry <br>- Requests and pays external parties (data auditors) to audit their data | As a data provider I want to be able to hand over my data to consumers and auditors. I want also to be able to manage my data and verified assets. In some cases I want to be able to self-testify my own issued data.                                                               | **Digital Twin + Submodels with EDC Endpoints for CDC and CSC** Certified Data Credential (CDC) or Plain **Digital Product Pass** <br> **[OPTIONAL]:** Storage of Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** |
-| Data Auditor    | Auditors, Certification Agencies, Consulting Companies, OEMs | Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rule books&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials      | As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was paid to audit by a Data Provider.                                                                               | Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC                                                                                     |
-| Data Consumer   | Recyclers, Dismantlers, OEMs, Tier-1                         | Verifier                     | - Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result                                             | As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider | **Verification Result Presentation**                                                                                                                                                                                                         |
-
-### Abstract Interaction (Business Interaction)
+## Abstract Interaction (Business Interaction)
 
 In the following diagram we can observe how the data provider, the data auditor and the data consumer interact:# Certification Processes
 
@@ -235,14 +241,15 @@ The **Data Provider** is always the one that has control from its own data, foll
 The **Data Consumer** `verifies` the data incoming from the **data provider** and certified by the **data auditor**.
 The **Data Auditor** retrieves data from the **data provider** and `certifies` the data against standards, then sends the `verification statement or certificate` to the **data provider**.
 
-### Document Exchange Details
+## Roles/Actors
 
-The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
+Three main roles are defined and have certain responsibilities or can conduct actions in the processes. Each role can have more than one W3C role and generate different artifacts as specified in the following table:
 
-![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
-
-**Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
-This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors
+| **Role/Actors** | **Company Types**                                            | **W3C Roles**                | **Responsibilities/Actions**                                                                                                                                                                                                                                                                                                                                                                                                                                             | **Use Cases**                                                                                                                                                                                                                                                                        | **Artifacts**                                                                                                                                                                                                                                |
+| :-------------- | ------------------------------------------------------------ | ---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Data Provider   | OEMs, Tier-1                                                 | Issuer, Holder               | - Creating and Issuing Data- Reference/Provision of data in a Digital Twin Registry <br>- Store and link complete data submodels in an infrastructure <br>- **[OPTIONAL]:** Self-sign data when issuing aspects <br>- **[OPTIONAL]:** Provide and Store certified credentials from external parties <br>- Store link to external parties certified credential aspects in Digital Twin Registry <br>- Requests and pays external parties (data auditors) to audit their data | As a data provider I want to be able to hand over my data to consumers and auditors. I want also to be able to manage my data and verified assets. In some cases I want to be able to self-testify my own issued data.                                                               | **Digital Twin + Submodels with EDC Endpoints for CDC and CSC** Certified Data Credential (CDC) or Plain **Digital Product Pass** <br> **[OPTIONAL]:** Storage of Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** |
+| Data Auditor    | Auditors, Certification Agencies, Consulting Companies, OEMs | Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rule books&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials      | As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was paid to audit by a Data Provider.                                                                               | Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC                                                                                     |
+| Data Consumer   | Recyclers, Dismantlers, OEMs, Tier-1                         | Verifier                     | - Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result                                             | As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider | **Verification Result Presentation**                                                                                                                                                                                                         |
 
 # Assumptions
 
@@ -286,6 +293,15 @@ The different verification statement types were mapped to certain technical veri
 | --------------------------------- | ---------- | ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Certified Data Credential**     | **CDC**    | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control                                                                                                                                                 | Credential that contains the complete passport and is signed by the issuer of the data. It allows tracking changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data.                                                                                                               |
 | **Certified Snapshot Credential** | **CSC**    | Data Auditor  | Partial Data Verification Statement  | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
+
+## Document Exchange Details
+
+The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
+
+![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
+
+**Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
+This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors will consume data from the **Data Provider** creating "Verification Statements" for the data consumed, signing the data and sending it back to the **Data Provider**. In this way the provider will be able to present the data to the consumers and the consumer will be able to verify the signature with the **Data Auditor**.
 
 # Creating Trust and Risk Mitigation Assets
 
@@ -373,7 +389,7 @@ Depending on each verification types different configuration will be provided in
 
 For easing the understanding from the certification process and the interaction between the Data Provider and the Data Auditor, some diagrams are provided where the different interactions and artifacts generated are mapped.
 
-> [!NOTE] 
+> [!NOTE]
 >
 > The Certification Processes of data are valid equally for `Type` level digital twins (Aspect Model in Type Level) or `Instance` digital twins (Aspect Model in Serialized Level). The difference relies on the configuration of the digital twin, and in which level the certification wants to be done.
 > Is important to know that the certification **MUST** be at the same level always. If we talk about a Digital Twin in Type Level, then the Digital Product Pass or any aspect model will contain Type level data, as well as the verified attributes.
@@ -389,7 +405,7 @@ Once that is done the data will be linked in a `digital twin`, so in this way by
 
 Once the EDC Push Notification is received by the `data auditor` the Digital Twin and the Digital Product Pass (JSON aspect model payload to be audited) will be retrieved using the `EDC Connector` and through the `EDC Data Plane proxy`. When the passport aspect is available the data auditor can certify the `specific attributes requested` from the product against the different Catena-X standards and regulations. The `data auditor` will create a new document (a certified snapshot credential) which contains the proof of compliance of the specific attributes audited in the passport using selective disclosure, there the data is not copied it is hashed, so it can be signed and stored in the wallet from the `data auditor` for tracking reasons.
 
-The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Registry (ACR)` which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
+The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` or an `Attribute Certification Registry (AMReg) Application` both which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
 
 ![csc workflow](./resources/processes/csc-workflow.svg)
 
@@ -407,26 +423,49 @@ The total certification process is the same as the attribute verification proces
 
 # Certification and Verification Methods
 
-## Certified Snapshot Credential
+## Certified Snapshot Credential Certification
 
 By using `hashes` and indicating which attributes were verified we are able to use `Selective Disclosure` to indicate which values were present in the original data audited. In this way the data gets not duplicated and the verification using the data retrieved from the data provider is still possible.
 
 ![CSC Simple Verification Method](./resources/technical/simple-verification-CSC.svg)
 
-## Certified Data Credential
+## Certified Data Credential Certification
 
 In this case just the data provider would sign its own digital product pass credential and generating the corresponding Certified Data Credential with the proof of the content issued in a specific date time.
 
 ![CDC Simple Verification Method](./resources/technical/simple-verification-CDC.svg)
 
-## Complete Data Certification Verification
+## Complete Data Certification
 
 The complete verification comparative would happen when both Certified Data Credential (CDC) and one or more the Certified Snapshot Credentials (CSC) are available. The different partial credential (CSCs) you be compared against the CDC credential hashes. This allows the application to know which attributes were certified by the data-auditor and with each value.
 
 ![CDC + CSC Complete Verification Method](./resources/technical/complete-verification-CSC-CDC.svg)
 
-
 # Verification Processes
+
+In Catena-X a **Data Consumer** you are able to retrieve data from a **Data Provider** by searching for the asset in a digital twin at the provider side and looking up for the desired "submodel" you want to retrieve.
+
+## Certified Data Credential Verification
+
+The Digital Product Pass Application acts like a **Data Consumer** which retrieves the data and verifies the signature. This functionality is implemented in the **R24.08** in the Digital Product Pass Application:
+
+![CDC Verification Process](./resources/processes/cdc-verification-workflow.svg)
+
+In this Diagram we can observe how a **Data Provider** enables its data to be consumer though an EDC. The data provider is responsible for building the Digital Product Pass Aspect or any other data structure, and then issuing the `Certified Data Credential` of the respective aspect in his own wallet. Once this is done it will be registered as a submodel in the `digital twin registry` so that the consumer can find it.
+
+Once the consumer retrieves the data, if it is a Verifiable Credential, he will be able to verify the signature using his own wallet, which will then use the `DID:WEB` method to find the public key of the provider and check the integrity of the data.
+
+## Certified Snapshot Credential Verification
+
+![CSC Verification Process](./resources/processes/csc-verification-workflow.svg)
+
+In this Diagram we can see the complete attribute certification process and how **Data Consumers** are able to find the data in Catena-X. The **Data Provider** will create the Digital Product Pass aspect and link it in the Digital Twin. In this way when an Attribute Certification is required to the Data Auditor he will be able to retrieve the data from the Digital Twin, using the EDC connector. Once that is done the Auditor will certify the specific attributes and document them in the `validationMethods` field at the Certified Snapshot Credential.
+
+Once the `CSC` is issued it will be transferred to the Data Provider Premises using the EDC Push Notification. This credential will be placed in a "Verifiable Presentation" aspect called `Attribute Verification Record` that contains the list of verifiable credentials, and it is issued by the Data Provider.
+
+The **Data Consumer** once both aspects are retrieved will be able to verify the specific attributes by hashing the original "Digital Product Pass" and comparing the certified attribute hashes. Additionally, the `CSC` signature will be verified against the wallet from the Data Auditor and the overall signature in the `AMR` will be verified against the wallet of the data provider.
+
+If all signature are verified then the data consumer will know that the data certification is still valid and the attributes certified can be trusted!
 
 ## Flow Diagrams
 
@@ -804,10 +843,25 @@ Here we have an example of the generated CSC from the [previous CDC Aspect](#cer
 
 </details>
 
-## Attribute Certification Registry
-<!-- TODO: Add previous ACR here -->
-> [!WARNING]
-> The attribute certification registry details is still not available. It will contain the complete list of CSC certificates and also reference to the CDC or plain JSON submodel in the same digital twin.
+## Attribute Certification Record
+
+The attribute certification record (AMR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
+
+The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the AMR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
+
+> [!NOTE]
+> The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Records dynamically.
+
+<details>
+<summary>🚀 Expand to see Attribute Certification Record (AMR) Example </summary>
+
+```json
+
+
+
+```
+
+</details>
 
 # Technical Integration Design
 <!-- TODO: Add previous TID here -->
@@ -824,7 +878,6 @@ The digital product pass application would act in the dpp-verification concept a
 
 > [!WARNING]
 > Some details may be missing or incorrect, since that is the first implementation concept for the certification and verification. The concept is still being elaborated and will be determined in the new release with the actual implementation!
-
 
 ### CSC Certification Sequence Diagram
 
@@ -881,8 +934,8 @@ No content with copyright was copied. All the information used as reference in t
 | A Beginners Guide to Decentralized Identifiers (DIDs)                                  | Amarachi Johnson-Ubah - Medium                                                                                                                                                                                          | 2022        | https://medium.com/veramo/a-beginners-guide-to-decentralized-identifiers-dids-5e842398e82c#:~:text=A%20decentralized%20identifier%20is%20an,the%20signatures%20of%20that%20subject |
 | Schema Organization for JSON-LD                                                        | W3C                                                                                                                                                                                                                     | 2021-2024   | https://schema.org/                                                                                                                                                                |
 
-
 # Special Thanks
+
 We would like to thank [Matthias Binzer](https://github.com/matgnt) for contributing in the refactoring of the initial concept by giving some insights on how he has done the Supply Chain data integrity concept using Verifiable Credentials (TRS) Data Integrity Demonstrator. He supported us on finding a way and giving the hints for maintaining selective disclosure when it comes to verify specific attributes from an aspect.
 We also thank for all the Platform Capability Architects for their disposition for reviewing and supporting the concept from an architecture perspective. We thank the Wallet Catena-X Experts for the time they took review the concept and for the feedback that was given.
 Furthermore, we thank the managed identify wallets product owner for the support and availability for answering questions which were relevant to the adaptation of the concept to the architecture.
@@ -920,6 +973,8 @@ explanation of this Certification and Verification Concept.
 | TTL                   | Terse RDF Triple Language                                  |
 | VC                    | Verifiable Credential                                      |
 | VP                    | Verifiable Presentation                                    |
+| AMReg                    | Attribute Certification Registry                                    |
+| AMR                    | Attribute Certification Record                                    |
 | W3C                   | World Wide Web Consortium                                  |
 
 ## NOTICE

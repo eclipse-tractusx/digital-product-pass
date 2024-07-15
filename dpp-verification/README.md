@@ -127,6 +127,13 @@ This concept has been proved to be of high interest from the Certification and V
 - [Technical Specification](#technical-specification)
   - [Certification Aspects Schemas](#certification-aspects-schemas)
     - [Certified Data Credential Schema](#certified-data-credential-schema)
+    - [CDC Semantic](#cdc-semantic)
+      - [CDC SemanticId](#cdc-semanticid)
+    - [CDC Reference to Parent](#cdc-reference-to-parent)
+    - [CDC JSON-LD Context Schema](#cdc-json-ld-context-schema)
+    - [Wrapped Aspect Model](#wrapped-aspect-model)
+    - [CDC Credential Types Definition](#cdc-credential-types-definition)
+    - [CDC Example](#cdc-example)
   - [Certified Snapshot Credential Schema](#certified-snapshot-credential-schema)
   - [Attribute Certification Record](#attribute-certification-record)
 - [Technical Integration Design](#technical-integration-design)
@@ -526,16 +533,123 @@ The CDC schema contains the complete passport and some additional information, a
 
 Here we have an example with the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
+### CDC Semantic
+
+The Certified Data Credential uses the [Verifiable Credential Data Model in V2](https://www.w3.org/TR/vc-data-model-2.0/) as an aspect model "parent" instance. Diverse attributes are already modeled and have their JSON-LD `@context` defined in the following URL: [https://www.w3.org/ns/credentials/v2](https://www.w3.org/ns/credentials/v2).
+
+In order to detail the special attributes used in the Certified Data Credential a SAMM Model was created specifying the fields.
+
+#### CDC SemanticId
+
+```
+urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential
+```
+
+The SAMM RDF file can be found in the following path: [dpp-verification/semantics/io.catenax.dpp_verification.cdc/1.0.0/CertifiedDataCredential.ttl](semantics/io.catenax.dpp_verification.cdc/1.0.0/CertifiedDataCredential.ttl)
+
+### CDC Reference to Parent
+
+A Certified Data Credential **MAY** have a reference to a parent credential with older version. The idea is to link the credentials and maintain a version control of the content. In this way traceability can be improved. The fields included are:
+
+|Field | Description | Example |
+| --- |-- | -- |
+| `@id` | Contains the DID Web or URL for the parent version of the credential. In this case because we are using Catena-X Standards, it will contain the HREF for the EDC data plane. |`did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d` |
+| `digestMultipart` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf), that is generated as a checksum from the complete parent credential | `64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115` |
+
+### CDC JSON-LD Context Schema
+
+Using the [simple-wallet](./simple-wallet/README.md) `/context` any SAMM Aspect Model JSON Schema can be converted into a fully functional JSON-LD Context Schema.
+
+In order to simply the usage of the context schema, it was uploaded to this github repository and can be accessed in its raw version at the credential context in the following way:
+
+|CDC @Context| [https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld) |
+| - | - |
+
+### Wrapped Aspect Model
+
+In the case of the CDC credential, an aspect model payload will be included in the `credentialSubject` field from the verifiable credential.
+
+For enabling the **semantic context** in the credential when it is expanded, using the [simple-wallet](./simple-wallet/README.md) `/context` any SAMM Aspect Model JSON Schema can be converted into a fully functional JSON-LD Context Schema.
+
+The JSON-LD context schema for the aspect model can be generated for **any Catena-X standardized aspect model**, based on the JSON schema provided in the SAMM aspect modeler and in the semanticId.
+
+For easing the PoC implementation the `@context` for the Digital Product Passport v5.0.0 model was generated:
+
+
+|Digital Product Passport @Context| [https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld) |
+| - | - |
+
+It is really important to **define the semantic model id key** in the `credentialSubject`, example:
+
+```json
+"credentialSubject": {
+    "DigitalProductPassport": {
+        "metadata": {
+          ...
+        }
+        ...
+    }
+}
+```
+
+The value can be found in the end of the semantic id, for example in the digital product pass is: `DigitalProductPassport` because the semanticId is the following:
+
+```
+urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
+```
+
+In this way the semantic structure, can be expanded in the JSON-LD context and each field from the aspect model can be found in context from the standardized aspect model.
+
+>[!IMPORTANT]
+>
+> When creating the verifiable credentials using the CDC aspect model, is recommended to use a JSON-LD Playground for expanding the credential and verifying that all the attributes from the aspect model are referenced in a context. Otherwise, the JSON-LD verifiable credential is not valid. JSON-LD Playground Example: [https://json-ld.org/playground/](https://json-ld.org/playground/)
+
+
+### CDC Credential Types Definition
+
+The following list of types **MUST** be provided in the following order for the Certified Data Credential:
+
+```json
+"type": [
+    "VerifiableCredential",
+    "CertifiedDataCredential",
+    "<<SemanticModelId>>"
+]
+```
+
+The last field `<<SemanticModelId>>` represents the aspect model semantic id name.
+
+Example for the Digital Product Passport:
+
+```
+urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
+```
+
+The value can be found in the end of the semantic id, and shall be referenced.
+
+```json
+"type": [
+    "VerifiableCredential",
+    "CertifiedDataCredential",
+    "DigitalProductPassport"
+]
+```
+
+
+### CDC Example
+
+Here is an example of how the Certified Data Credential looks like for a Digital Product Passport aspect model in version v5.0.0:
+
 <details>
-<summary>🚀 Expand Certified Data Credential (CDC) Aspect Schema </summary>
+<summary>🚀 Expand Certified Data Credential (CDC) Aspect Example </summary>
 
 ```json
 {
     "@context": [
         "https://www.w3.org/ns/credentials/v2",
         "https://w3c.github.io/vc-jws-2020/contexts/v1/",
-        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld",
-        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
+        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld",
+        "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
     ],
     "type": [
         "VerifiableCredential",
@@ -947,7 +1061,7 @@ The CSC schema contains the partial passport with different attributes, all them
 Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
 <details>
-<summary>🚀 Expand Certified Snapshot Credential (CSC) Aspect Schema </summary>
+<summary>🚀 Expand Certified Snapshot Credential (CSC) Aspect Example </summary>
 
 ```json
 {
@@ -955,8 +1069,8 @@ Here we have an example of the generated CSC from the [previous CDC Aspect](#cer
       "https://www.w3.org/ns/credentials/v2",
       "https://w3c.github.io/vc-jws-2020/contexts/v1/",
       "https://w3id.org/security/data-integrity/v2",
-      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/docs/v2/verification/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld",
-      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld",
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
   ],
   "type": [
       "VerifiableCredential",
@@ -1021,7 +1135,7 @@ The only requirement is that this attributes belong to a specific submodel refer
       "https://www.w3.org/ns/credentials/v2",
       "https://w3c.github.io/vc-jws-2020/contexts/v1/",
       "https://w3id.org/security/data-integrity/v2",
-      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/docs/v2/verification/dpp-verification/schemas/amr/1.0.0/attributeCertificationRecord.jsonld"
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/amr/1.0.0/attributeCertificationRecord.jsonld"
   ],
   "type": [
       "VerifiablePresentation",
@@ -1033,8 +1147,8 @@ The only requirement is that this attributes belong to a specific submodel refer
             "https://www.w3.org/ns/credentials/v2",
             "https://w3c.github.io/vc-jws-2020/contexts/v1/",
             "https://w3id.org/security/data-integrity/v2",
-            "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/docs/v2/verification/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld",
-            "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/feature/verification-schemas/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
+            "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld",
+            "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld"
         ],
         "type": [
             "VerifiableCredential",
@@ -1097,9 +1211,6 @@ The only requirement is that this attributes belong to a specific submodel refer
 </details>
 
 # Technical Integration Design
-<!-- TODO: Add previous TID here -->
-> [!WARNING]
-> The complete technical integration design is still not available here! More details coming soon...
 
 ## Interfaces
 
@@ -1465,6 +1576,8 @@ No content with copyright was copied. All the information used as reference in t
 | A Beginners Guide to Decentralized Identifiers (DIDs)                                  | Amarachi Johnson-Ubah - Medium                                                                                                                                                                                          | 2022        | https://medium.com/veramo/a-beginners-guide-to-decentralized-identifiers-dids-5e842398e82c#:~:text=A%20decentralized%20identifier%20is%20an,the%20signatures%20of%20that%20subject |
 | Schema Organization for JSON-LD                                                        | W3C                                                                                                                                                                                                                     | 2021-2024   | https://schema.org/                                                                                                                                                                |
 | IDTA AAS 3.0 Standard | IDTA | April 2023 | https://industrialdigitaltwin.org/wp-content/uploads/2023/04/IDTA-01002-3-0_SpecificationAssetAdministrationShell_Part2_API.pdf |
+| SHA-3 Standard | U.S. Federal Infromation Technology Laboratory | August 2015 | https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf |
+
 
 
 # Special Thanks

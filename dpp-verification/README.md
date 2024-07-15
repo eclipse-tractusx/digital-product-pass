@@ -137,6 +137,11 @@ This concept has been proved to be of high interest from the Certification and V
   - [Verification Sequence Diagrams](#verification-sequence-diagrams)
     - [CSC Verification Sequence Diagram](#csc-verification-sequence-diagram)
     - [CDC + CSC Verification Sequence Diagram](#cdc--csc-verification-sequence-diagram)
+- [Additional Information](#additional-information)
+  - [Linking Digital Twins in Type Level](#linking-digital-twins-in-type-level)
+    - [Cardinality](#cardinality)
+    - [Instance to Type Level and Vice Versa](#instance-to-type-level-and-vice-versa)
+    - [Type Level to Type Level](#type-level-to-type-level)
 - [References](#references)
 - [Special Thanks](#special-thanks)
 - [Glossary](#glossary)
@@ -212,9 +217,25 @@ When talking about the certification and verification of data we can find severa
 | **Secure Data Against Fraud**         | The data providers by verifying and signing digitally their data when issued, are **transparently being protected against fraud or false accusations**, because they can demonstrate the data was verified by an external auditor or their internal quality management. |
 
 # Previous Investigation
-<!-- TODO: Add previous investigation here -->
-> [!WARNING]
-> Previous investigation is still not available in this version.
+
+For gathering the requirements and scope of the Verification Concept several interviews were done with different Catena-X Stakeholders/Products at the Consortia Phase.
+Different options and architecture decisions were found during the concept review phases.
+
+The following Tractus-X products teams & Demonstrators were considered to be important stakeholders for the concept design and development phase during the previous investigation phase. Different alignment meetings were conducted in order to investigate needs and requirements from the Catena-X community.
+
+|Product | Description | Reference |
+|:- | ---- | --- |
+| CX Data Integrity Demonstrator | Important Catena-X example of usage of verifiable credentials to trace changes and modification in the supply chain with version control | https://github.com/boschresearch/cx-data-integrity-demonstrator |
+| Eclipse Dataspace Connector | Important alignment when it comes to PUSHING and PULLING data. It was found that both actions are possible and can be used to exchange data between parties | https://github.com/eclipse-edc/Connector - https://github.com/eclipse-tractusx/tractusx-edc |
+| Item Relationship Service | The Item Relationship Service product is excellent when it comes to search Digital Twins in the Catena-X network, the first discussions where started when talking about linking digital twins in type level, from type to instance and vice versa | https://github.com/eclipse-tractusx/item-relationship-service |
+| PCF Exchange KIT | The PCF Exchange KIT has many guidelines on how to validate and create trust on the specific PCF Values, giving guidelines on how to calculate the PCF from different assets using the PCF Rulebook. The concept here developed can be a lighthouse for the PCF Verification demonstrating how to create Verification Assets for Catena-X standardized aspect models. | https://eclipse-tractusx.github.io/docs-kits/kits/PCF%20Exchange%20Kit/Adoption%20View |
+| Portal | The portal is responsible for providing solutions like the policy hub and other central components that could be useful for a verification concept. No direct dependencies were found to the product. | https://github.com/eclipse-tractusx/portal |
+| Managed Identity Wallet | Several alignment sessions were conducted with the MIW product, since it is vital Catena-X component and utilizes already the SSI logic for giving trust for the Catena-X data exchanges using the EDC. Was found the wallets in the following releases will be decentralized, was found that the wallet is already able to sign credentials in the name of the Business Partners and it could be used in the future to issue the product credentials. | https://github.com/eclipse-tractusx/managed-identity-wallet |
+| Digital Twin Registry | The digital twin registry is responsible for providing the digital twins with the verification information included. Alignment meetings were done to find solutions on how to reference the Certification of specific aspect models in the Digital Twins complying to the IDTA. It was important the alignment for the correct definition of the submodels. | https://github.com/eclipse-tractusx/sldt-digital-twin-registry |
+| Semantic Hub | The semantic hub is an ideal product to provide semantic information of aspect models. It was identified as possible "repository" to include and provide JSON-LD schemas for the different aspect models in Catena-X. It was found that the functionality is not available yet, however JSON Schemas can be accessed. | https://github.com/eclipse-tractusx/sldt-semantic-hub |
+| Industry Core KIT | The industry core kit provides information on how to link digital twins, how to manage the digital twins and define them accordingly. Meetings were arranged to find and propose an architecture concept for [linking digital twins in type level](#linking-digital-twins-in-type-level). | https://eclipse-tractusx.github.io/docs-kits/kits/Industry%20Core%20Kit/Business%20View%20Industry%20Core%20Kit |
+| Traceability KIT | The traceability kit gives the overview on how to find and investigate the source of incidents that can occur in the supply chain. Therefore, the Verification/Certification of aspect is considered essential for creating a second layer of data trust in the complete supply chain | https://eclipse-tractusx.github.io/docs-kits/kits/Traceability%20Kit/Business%20View%20Traceability%20Kit | 
+| CX-ART Architecture | The concept was reviewed by the Platform Capability architects and considered as prominent for the network, since it enables a second layer of data trust over the existing data sovereignty exchange secured by the SSI and EDC data exchanges. Since the concept is not changing the main architecture from Catena-X it complies to the existing standards and provides guidelines for any aspect model to be certified and verified. Aiming to create the first Catena-X Verification/Certification Framework for Standardized Aspect Models. | https://github.com/eclipse-tractusx |
 
 # Processes Terminology
 
@@ -479,7 +500,7 @@ By simply accessing the digital twin the data will be available as a submodel, t
 
 ### CSC Technical Verification Flow
 
-For the partial credential the data will be available in a "Verification" aspect called `Attribute Certification Registry` (ACR) which contains the different attribute verification for a particular submodel in a digital twin.
+For the partial credential the data will be available in a "Verification" aspect called `Attribute Certification Record` (ACR) which contains the different attribute verification for a particular submodel in a digital twin.
 
 ![Verification Flow CSC](./resources/processes/verification-process-csc.svg)
 
@@ -487,15 +508,11 @@ For the partial credential the data will be available in a "Verification" aspect
 
 ## Certification Aspects Schemas
 
-<!-- TODO: Add previous TID here -->
-> [!CAUTION]
-> The information added here It's still not productive, what its proposed is simply a MOCK, and it's not ready to be implemented in a system yet, the actual schema and details **MUST** be defined in the future of this documentation
-
 ### Certified Data Credential Schema
 
 The CDC schema contains the complete passport and some additional information, as well as the signature of the data provider.
 
-Here we have an example with the [Digital Product Passport v2.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0) Aspect Model.
+Here we have an example with the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
 <details>
 <summary>🚀 Expand Certified Data Credential (CDC) Aspect Schema </summary>
@@ -913,7 +930,7 @@ Here we have an example with the [Digital Product Passport v2.0.0](https://raw.g
 
 The CDC schema contains the partial passport with different attributes, all them with the methods used for the certification, as well as the signature of the data provider.
 
-Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v2.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/2.0.0) Aspect Model.
+Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
 <details>
 <summary>🚀 Expand Certified Snapshot Credential (CSC) Aspect Schema </summary>
@@ -1105,6 +1122,109 @@ In this verification sequence diagram the complete verification is found. The CD
 
 ![CSC + CDC Verification](./resources/technical/technical-integration-flow-csc+cdc.svg)
 
+# Additional Information
+
+## Linking Digital Twins in Type Level
+
+During the [Previous Investigation](#previous-investigation) phase several meetings were held with the Industry Core KIT team for defining how to link digital twins in type level.
+
+The concept of linking digital twins in type level is important when it comes to certifying products. Use cases like the product carbon footprint require digital twins to be placed in instance level instances, but when it comes to the certification of several products from the same type, is more likable to perform the certification in digital twins at type level.
+
+A concept was proposed to the Industry Core KIT for linking the digital twins from Type to Type level, Instance to Type and Vice Versa.
+
+### Cardinality
+
+As specified the Instance Level must have at least one Type Level digital twin and will also belong to just one digital twin in type level, and a type level digital twin can or can not have many instance level digital twins.
+
+![Cardinality](./resources/previous-investigation/Cardinality.svg)
+
+In the same way type level digital twins can also have other type level digital twins which specify even more the type.
+
+Example:
+
+I produce a Car that was "Engineered" in Germany with the different components and required material etc....
+
+However my Car "Model" will be produced by three different companies in three different countries. Therefore creating the need to have another type for my product.
+
+This both Cars will generate the following digital twins:
+
+![Type Cardinality](./resources/previous-investigation/type-relationships.svg)
+
+### Instance to Type Level and Vice Versa
+
+When it comes to link digital twins from instance to type level, the digital twin can be searched by the following `specificAssetIds`:
+
+| Specific Asset ID | Description | Example |
+| --- | ---- | --- |
+| `manufacturerId` | Indicates the Business Partner Number (BPN) of the manufacturer | BPNL000000000012 | 
+| `manufacturerPartId`| Indicate the ID of the part being manufactured from type to instance level | MPI754-544 | 
+| `digitalTwinType` | Indicates the type of the digital twin. | "PartInstance" or "PartType" | 
+
+By searching for the three specific asset assets the type level digital twin from an instance digital twin can be found. By searching with `digitalTwinType`=`partType`.
+
+For finding the other digital twins a reverse search can be done from type to instance level by applying the key `digitalTwinType`=`partInstance` in combination with the other keys provided in the table above.
+
+> [!TIP]
+>
+> For finding the most updated information and definition of the Industry Core guidelines in Catena-X consult the latest version of the [Industry Core KIT](https://eclipse-tractusx.github.io/docs-kits/kits/Industry%20Core%20Kit/Business%20View%20Industry%20Core%20Kit) in the Eclipse Tractus-X webpage.
+
+### Type Level to Type Level
+
+For linking in type level there exists no concept yet available. Therefore, a concept for creating a `singleLevelTypeLinkingAspect` aspect was proposed.
+In this case we can reference the linking in between types, when there is the case that I want to know who is my type -1 or +1.
+
+![Link Type Digital Twins](./resources/previous-investigation/link-type-digital-twins.svg)
+
+The linking of digital twins from type level could be optimized if an aspect is created and registered as a submodel. In this way the search time can be reduced, and type level digital twins can be found without high complexity. The aspect would look similar to this one:
+
+```json
+{
+    "catenaXId": "urn:uuid:055c1128-0375-47c8-98de-7cf802c3241d",
+    "parentTypes": [
+        {
+            "catenaXId": "urn:uuid:00ab4fd3-baa5-4056-b1f8-a0469c0e550c",
+            "businessPartner": "BPNL500968945NXY",
+            "createdOn" : "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+            "identifiers": [
+                {
+                    "key": "manufacturerPartId",
+                    "value": "T12A5312X56"
+                },
+                {
+                    "key": "partTypeId",
+                    "value": "KJ-4521D34"
+                }
+            ]
+            
+        }
+    ],
+    "childTypes": [
+        {
+            "catenaXId": "urn:uuid:b61633e2-3e2d-4840-9f67-528e76f0b5ba",
+            "businessPartner": "BPNL500968945NXY",
+            "createdOn" : "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+            "identifiers": [
+                {
+                    "key": "manufacturerPartId",
+                    "value": "Y45A1Z265A4"
+                },
+                {
+                    "key": "partTypeId",
+                    "value": "GH-SA5212SHS"
+                }
+            ]
+            
+        }
+    ]
+}
+```
+
+By referencing the father and the child type digital twins the search for the different digital twins in the Digital Twin Registry is easier. It requires just one query for moving from type to type digital twin, and permits a **MANY to MANY** approach. In the following diagram we can visualize the exchange and movement from type to type level digital twins:
+
+![Type to Type Movement](./resources/previous-investigation/sequence-linking-types.svg)
+
 # References
 
 The following references were used as inspiration for understanding more how product credentials are done in the market. Is also included references to components in Tractus-X that were used to understand on how the different components behave in the network.
@@ -1133,6 +1253,8 @@ No content with copyright was copied. All the information used as reference in t
 | SuplyTree - The Inter-company Tamper-evidence Protocol for Supply Chain Traceability   | Matthias Guenther, Robert Bosch GmbH, Economy of Things Dominie Woerner, Robert Bosch Switzerland, Economy of Things                                                                                                    | 2023        |                                                                                                                                                                                    |
 | A Beginners Guide to Decentralized Identifiers (DIDs)                                  | Amarachi Johnson-Ubah - Medium                                                                                                                                                                                          | 2022        | https://medium.com/veramo/a-beginners-guide-to-decentralized-identifiers-dids-5e842398e82c#:~:text=A%20decentralized%20identifier%20is%20an,the%20signatures%20of%20that%20subject |
 | Schema Organization for JSON-LD                                                        | W3C                                                                                                                                                                                                                     | 2021-2024   | https://schema.org/                                                                                                                                                                |
+| IDTA AAS 3.0 Standard | IDTA | April 2023 | https://industrialdigitaltwin.org/wp-content/uploads/2023/04/IDTA-01002-3-0_SpecificationAssetAdministrationShell_Part2_API.pdf |
+
 
 # Special Thanks
 

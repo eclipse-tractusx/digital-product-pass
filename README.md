@@ -33,13 +33,11 @@ SPDX-License-Identifier: CC-BY-4.0
   <h1 style="align-items: center;">Digital Product Pass Application</h1>
 </div>
 
-
-
 ## Description
 
 The digital product passport  application provides a consumer user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
-In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
+In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
 
 ### Software Version
 #### Helm Chart Version
@@ -79,6 +77,15 @@ To get started you can have a look into our documentation:
 | [Postman Overview](./deployment/local/postman//README.md)                                                     | Technical guide depicts the battery pass end-to-end API calls through the postman REST client                                                               |
 | [Changelog](./CHANGELOG.md)                                                                                   | Changelog                                                                                                                                                   |
 | [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) | Project's Helm Charts                                                                                                                                       |
+
+## Digital Product Pass Verification Add-on
+
+The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done. Using a simple wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential, which can then be verified on the Data Consumer side.
+
+| Name                                                                                                          | Description                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [DPP Verification Docs](./dpp-verification/README.md)                                                                                | The main documentation of the Digital Product Pass Verification Add-on contains the complete architecture blueprint and details about implementation in the application.                                                                                    |
+ [DPP Simple Wallet Docs](./dpp-verification/simple-wallet/README.md)                                                                                | This documentation contains the description of the simple wallet functionality, API specification and how to configure it.                                                                                  |
 
 ## Base Images
 

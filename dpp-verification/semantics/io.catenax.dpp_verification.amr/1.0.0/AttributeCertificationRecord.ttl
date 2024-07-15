@@ -1,0 +1,66 @@
+@prefix samm: <urn:samm:org.eclipse.esmf.samm:meta-model:2.1.0#> .
+@prefix samm-c: <urn:samm:org.eclipse.esmf.samm:characteristic:2.1.0#> .
+@prefix samm-e: <urn:samm:org.eclipse.esmf.samm:entity:2.1.0#> .
+@prefix unit: <urn:samm:org.eclipse.esmf.samm:unit:2.1.0#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <urn:samm:io.catenax.dpp_verification.amr:1.0.0#> .
+
+:AttributeCertificationRecord a samm:Aspect ;
+   samm:preferredName "AttributeCertificationRecord"@en ;
+   samm:description "Verifiable Presentation which contains the list of Verifiable Credentials for the all attributes of a spec"@en ;
+   samm:see <https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification#attribute-certification-record> ;
+   samm:see <https://www.w3.org/TR/vc-data-model-2.0/#verifiable-presentations> ;
+   samm:properties ( :verifiableCredential :submodel :holder ) ;
+   samm:operations ( ) ;
+   samm:events ( ) .
+
+:verifiableCredential a samm:Property ;
+   samm:preferredName "verifiableCredential"@en ;
+   samm:description "The standardized component from a verifiable presentation, where a list of one or more verifiable credentials are included."@en ;
+   samm:see <https://www.w3.org/TR/vc-data-model-2.0/#enveloped-verifiable-credentials> ;
+   samm:characteristic :VerifiableCredentialCharacteristic .
+
+:submodel a samm:Property ;
+   samm:preferredName "submodel"@en ;
+   samm:description "Reference to the submodel which the verifiable presentation is linked to."@en ;
+   samm:characteristic :SubmodelCharacteristic .
+
+:holder a samm:Property ;
+   samm:preferredName "holder"@en ;
+   samm:description "The holder is defined in the Verifiable Presentation, to indicate the person that owns the verification aspect, and have requested to external auditor the generation of Certified Snapshot Credentials."@en ;
+   samm:see <https://www.w3.org/TR/vc-data-model-2.0/#verifiable-presentations> ;
+   samm:characteristic samm-c:Text ;
+   samm:exampleValue "did:web:dpp-wallet:BPNL00000000012" .
+
+:VerifiableCredentialCharacteristic a samm-c:List ;
+   samm:preferredName "verifiableCredential"@en ;
+   samm:dataType :VerifiableCredentialEntity .
+
+:SubmodelCharacteristic a samm:Characteristic ;
+   samm:preferredName "submodelCharacteristic"@en ;
+   samm:dataType :OriginEntity .
+
+:VerifiableCredentialEntity a samm:Entity ;
+   samm:preferredName "CertifiedSnapshotCredentialList"@en ;
+   samm:description "This is a list that contains the certified snapshot credentials (csc)."@en ;
+   samm:see <urn:samm:io.catenax.dpp_verification.csc:1.0.0#CertifiedSnapshotCredential> ;
+   samm:properties ( ) .
+
+:OriginEntity a samm:Entity ;
+   samm:preferredName "originEntity"@en ;
+   samm:properties ( :semanticId [ samm:property :originId; samm:payloadName "@id" ] ) .
+
+:semanticId a samm:Property ;
+   samm:preferredName "semanticId"@en ;
+   samm:description "The property which contains the semantic id string of the credential subject. It contains the complete identification of which aspect model version its contained. The key can be used to find the model information in the expanded JSON-LD."@en ;
+   samm:characteristic samm-c:Text ;
+   samm:exampleValue "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass" .
+
+:originId a samm:Property ;
+   samm:preferredName "@id"@en ;
+   samm:description "The DID Reference, link to the verifiable credential, or link to specific submodel in the dataModel"@en ;
+   samm:characteristic samm-c:Text ;
+   samm:exampleValue "urn:uuid:0109f7d2-8fb5-45f2-b357-fb16fc5a1ccb" .
+

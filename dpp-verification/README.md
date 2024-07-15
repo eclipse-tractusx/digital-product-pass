@@ -131,6 +131,15 @@ This concept has been proved to be of high interest from the Certification and V
   - [Attribute Certification Record](#attribute-certification-record)
 - [Technical Integration Design](#technical-integration-design)
   - [Interfaces](#interfaces)
+  - [Digital Twin Configuration](#digital-twin-configuration)
+    - [Certified Data Credential Submodel](#certified-data-credential-submodel)
+    - [CDC Semantic ID Keys](#cdc-semantic-id-keys)
+    - [CDC ID Short](#cdc-id-short)
+    - [CDC Submodel Example](#cdc-submodel-example)
+    - [Attribute Certification Record Submodel](#attribute-certification-record-submodel)
+    - [AMR Semantic ID Keys](#amr-semantic-id-keys)
+    - [AMR ID Short](#amr-id-short)
+    - [AMR Submodel Example](#amr-submodel-example)
   - [Certification Sequence Diagrams](#certification-sequence-diagrams)
     - [CSC Certification Sequence Diagram](#csc-certification-sequence-diagram)
     - [CDC + CSC Certification Sequence Diagram](#cdc--csc-certification-sequence-diagram)
@@ -394,7 +403,7 @@ In this concept **Verifiable Credentials** are not representing the identities f
 
 ### Credential Schema
 
-The signed document credential has the following resumed schema:
+The issued document credential has the following resumed schema:
 
 ![Configuration Sections](./resources/processes/document-credential-resume.svg)
 
@@ -405,6 +414,7 @@ Depending on each verification types different configuration will be provided in
 | **Metadata**                            | The metadata contains the context information and credential schema details. Also contains the identification of the credential and which documents it contained.                                                                                        |
 | **Aspect Model Data / Credential Data** | In this section is defined all the necessary data of each credential type. The specific attributes with methods and proof from data auditor or the original data issued and signed by the data provider.                                                |
 | **Proof and Verification Methods**      | This section contain the digital signature from the Data Provider or Data Auditor. It also contains all the methods for a Data Verifier/Data Consumer to access the verification requirements to check if the credential is still valid and not revoked. |
+
 
 # Certification Processes
 
@@ -509,6 +519,8 @@ For the partial credential the data will be available in a "Verification" aspect
 ## Certification Aspects Schemas
 
 ### Certified Data Credential Schema
+
+![CDC Schema](./resources/implementation/cdc-document-credential.svg)
 
 The CDC schema contains the complete passport and some additional information, as well as the signature of the data provider.
 
@@ -928,7 +940,9 @@ Here we have an example with the [Digital Product Passport v5.0.0](https://raw.g
 
 ## Certified Snapshot Credential Schema
 
-The CDC schema contains the partial passport with different attributes, all them with the methods used for the certification, as well as the signature of the data provider.
+![CSC Schema](./resources/implementation/csc-document-credential.svg)
+
+The CSC schema contains the partial passport with different attributes, all them with the methods used for the certification, as well as the signature of the data provider.
 
 Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
@@ -989,12 +1003,14 @@ Here we have an example of the generated CSC from the [previous CDC Aspect](#cer
 
 ## Attribute Certification Record
 
+![AMR Schema](./resources/implementation/amr-document-credential.svg)
+
 The attribute certification record (AMR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
 
 The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the AMR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
 
 > [!NOTE]
-> The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Records dynamically.
+> The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Verifiable Presentation Records dynamically.
 
 <details>
 <summary>🚀 Expand to see Attribute Certification Record (AMR) Example </summary>
@@ -1091,6 +1107,201 @@ The digital product pass application would act in the dpp-verification concept a
 
 ![Interfaces](./resources/technical/interfaces.svg)
 
+## Digital Twin Configuration
+
+The Digital Twins are a critical component of this Catena-X Data Verification Concept. They reference where the data and which EDC Assets should be negotiated in order to retrieve data from the EDC Dataplane Proxy. Therefore, the definition of a structure that can be used to differentiate between submodels in a Part Digital Twin is essential.
+
+Following the [IDTA standard of AAS 3.0](https://industrialdigitaltwin.org/wp-content/uploads/2023/04/IDTA-01002-3-0_SpecificationAssetAdministrationShell_Part2_API.pdf) the specification of the Digital Twin and Submodels below are supported in the current version [v0.5.0] of the [Digital Twin Registry Application](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/releases/tag/v0.5.0).
+
+> [!TIP]
+>
+> Revise if the latest version of the Digital Twin Registry is compliant with the following SemanticId annotations: `Entity`, `DataElement`, `Submodel`, `Operation`.
+
+According to the standards of the IDTA, the semanticId defines the 'content type' and context from which type of data will be retrieved when the endpoint of a submodel is called. It supports multiple keys that specify the data structure to be retrieved.
+
+For referencing if a submodel contains verifiable credentials or verifiable presentations wrapping the submodel aspect model payload the following fields in the `semanticId` field **MUST** be used:
+
+| Type | Description | Example |
+| --- | ----- | -- |
+| `Entity` | Indicates in the highest abstraction level possible in which format is the submodel contained in the twin. In this concept the entity makes reference to which W3C credential/presentation data model is used. | `https://www.w3.org/ns/credentials/v2` |
+| `DataElement` | Indicate which type of verifiable credential/verifiable presentation is used. In this concept it makes reference to the semanticId of types of credentials specified. |`urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential` |
+| `Submodel` | Required by the Catena-X Standards to reference the Aspect Model type and structure used. It identifies which aspect model are we retrieving, inside or outside a verifiable credential. | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` |
+| `Operation` | In order to support and identify different signature types the "operation" semantic type key is used. It includes the context for specific signature types. | `https://w3c.github.io/vc-jws-2020/contexts/v1/` |
+
+For the different submodels different structures and values are used to identify the different aspects and content-types. All the different fields much match to indicate that the submodel data we are retrieving is the corresponding one.
+
+### Certified Data Credential Submodel
+
+For the CDC submodel the following structure **MUST** be followed:
+
+### CDC Semantic ID Keys
+
+| Type | Value | Description |
+| --- | -- | -- |
+| `Entity` | `https://www.w3.org/ns/credentials/v2` | Verifiable Credential Version |
+| `DataElement` | `urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential` | Certified Data Credential Version |
+| `Submodel` | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` | Version of the Aspect Model which is contained in the `credentialSubject` field. |
+| `Operation` | `https://w3c.github.io/vc-jws-2020/contexts/v1/` | The version and context of the signature type used in the credential |
+
+### CDC ID Short
+
+In the case of the Certified Data Credential, the idShort remains the same as the one required by every aspect standarization.
+
+In case of the Digital Product Passport aspect, the standard [CX-0143](https://catenax-ev.github.io/docs/standards/overview) the idShort to be used is the following: `digitalProductPass`.
+
+Therefore, every aspect model used **MUST** follow the idShort defined in the corresponding standard.
+
+### CDC Submodel Example
+
+```json
+{
+  "endpoints": [
+      {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+              "href": "https://<dpp-app-url>/BPNL000000000000/api/public/data/urn:uuid:a377ff49-6bde-4215-8d38-b8f02c991a35",
+              "endpointProtocol": "HTTP",
+              "endpointProtocolVersion": [
+                  "1.1"
+              ],
+              "subprotocol": "DSP",
+              "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
+              "subprotocolBodyEncoding": "plain",
+              "securityAttributes": [
+                  {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                  }
+              ]
+          }
+      }
+  ],
+  "idShort": "digitalProductPass",
+  "id": "urn:uuid:a377ff49-6bde-4215-8d38-b8f02c991a35",
+  "semanticId": {
+      "type": "ExternalReference",
+      "keys": [
+          {
+              "type": "Entity",
+              "value": "https://www.w3.org/ns/credentials/v2"
+          },
+          {
+              "type": "DataElement",
+              "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+          },
+          {
+              "type": "Submodel",
+              "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+          },
+          {
+              "type": "Operation",
+              "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+          }
+      ]
+  },
+  "description": [
+      {
+          "language": "en",
+          "text": "Verifiable Digital Product Passport Submodel"
+      }
+  ],
+  "displayName": []
+}
+```
+
+### Attribute Certification Record Submodel
+
+The Attribute Certification Record submodel contains the reference to the verifiable presentation with the different attribute verification Certified Snapshot Credentials(CSC).
+
+For the AMR submodel the following structure **MUST** be followed.
+
+### AMR Semantic ID Keys
+
+| Type | Value | Description |
+| --- | -- | -- |
+| `Entity` | `https://www.w3.org/ns/credentials/v2` | Verifiable Credential Version |
+| `DataElement` | `urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord` | Attribute Certification Record Version |
+| `Submodel` | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` | The semanticId from the semantic model attributes certified in the CSC contained in the `verifiableCredential` field in the Verifiable Presentation. |
+| `Operation` | `https://w3c.github.io/vc-jws-2020/contexts/v1/` | The version and context of the signature type used in the credential |
+
+### AMR ID Short
+
+For easing the identification of the Attribute Verification the following structure of ID short was chosen to link the submodels inside a digital twin.
+
+Since every aspect model has a standardized idShort the following structure was chosen for referencing the submodel that had their attributes certified:
+
+```
+<StandardizedIdShortPrefix>Verification
+```
+
+**Examples**:
+
+- For Digital Product Passports use: `digitalProductPassVerification`
+- For Battery Passports use: `batteryPassVerification`
+
+By concatenating the "Verification" sufix the consumer applications are able to identify to each idShort in the digital twin submodel list. For every standardized aspect model, an idShort **MUST** be provided. This same idShort shall then be provided as a prefix.
+
+
+### AMR Submodel Example
+
+```json
+{
+  "endpoints": [
+      {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+              "href": "https://<dpp-app-url>/BPNL000000000000/api/public/data/urn:uuid:a377ff49-6bde-4215-8d38-b8f02c991a35",
+              "endpointProtocol": "HTTP",
+              "endpointProtocolVersion": [
+                  "1.1"
+              ],
+              "subprotocol": "DSP",
+              "subprotocolBody": "id=urn:uuid:3e4a5957-f226-478a-ab18-79ced49d6195;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
+              "subprotocolBodyEncoding": "plain",
+              "securityAttributes": [
+                  {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                  }
+              ]
+          }
+      }
+  ],
+  "idShort": "digitalProductPassVerification",
+  "id": "0f861bc8-2ef4-41dc-8fc6-b2a8ef365694",
+  "semanticId": {
+      "type": "ExternalReference",
+      "keys": [
+          {
+              "type": "Entity",
+              "value": "https://www.w3.org/ns/credentials/v2"
+          },
+          {
+              "type": "DataElement",
+              "value": "urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord"
+          },
+          {
+              "type": "Submodel",
+              "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+          },
+          {
+              "type": "Operation",
+              "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+          }
+      ]
+  },
+  "description": [
+      {
+          "language": "en",
+          "text": "Attributes from Digital Product Passport Submodel"
+      }
+  ],
+  "displayName": []
+}
+```
+
 ## Certification Sequence Diagrams
 
 > [!WARNING]
@@ -1144,7 +1355,7 @@ Example:
 
 I produce a Car that was "Engineered" in Germany with the different components and required material etc....
 
-However my Car "Model" will be produced by three different companies in three different countries. Therefore creating the need to have another type for my product.
+However, my Car "Model" will be produced by three different companies in three different countries. Therefore, creating the need to have another type for my product.
 
 This both Cars will generate the following digital twins:
 

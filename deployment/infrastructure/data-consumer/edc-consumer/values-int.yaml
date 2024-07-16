@@ -121,19 +121,13 @@ tractusx-connector:
       public:
         port: 8081
         path: /consumer/api/public
-      signaling:
-        port: 8083
-        path: /api/signaling
       control:
-        port: 8083
+        port: 8084
         path: /consumer/api/dataplane/control
       proxy:
         port: 8186
         path: /consumer/proxy
         authKey: <path:material-pass/data/int/edc/oauth#api.key>
-      observability:
-        # -- port for incoming API calls
-        port: 8085
       metrics:
         port: 9090
         path: /consumer/metrics
@@ -188,13 +182,13 @@ tractusx-connector:
       paths:
         secret:  <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
-    secretNames:
-      transferProxyTokenSignerPrivateKey: ids-daps_key
-      transferProxyTokenSignerPublicKey: ids-daps_crt
-      transferProxyTokenEncryptionAesKey: edc-encryption-key
+    # secretNames:
+    #   transferProxyTokenSignerPrivateKey: ids-daps_key
+    #   transferProxyTokenSignerPublicKey: ids-daps_crt
+    #   transferProxyTokenEncryptionAesKey: edc-encryption-key
 
-  backendService:
-     httpProxyTokenReceiverUrl: "https://dpp.int.demo.catena-x.net/endpoint"
+  # backendService:
+  #    httpProxyTokenReceiverUrl: "https://dpp.int.demo.catena-x.net/endpoint"
 
 postgresql:
   auth:
@@ -202,7 +196,7 @@ postgresql:
     password: <path:material-pass/data/int/edc/database#password>
 
 item-relationship-service:
-  enabled: true
+  enabled: false
   bpn: <path:material-pass/data/int/edc/participant#bpnNumber>
 
   irsUrl: "https://dpp-irs.int.demo.catena-x.net"

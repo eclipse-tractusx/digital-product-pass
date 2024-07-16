@@ -62,6 +62,9 @@ tractusx-connector:
           id: "<path:material-pass/data/dev/edc/ssi#clientId>"
           secret_alias: "dev-client-secret"
 
+  # -- Add custom ca certificates to the truststore
+  customCaCerts: {}
+
   controlplane:
     enabled: true
     image:
@@ -135,9 +138,6 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /consumer/metrics
 
-    businessPartnerValidation:
-      log:
-        agreementValidation: true
     bdrs:
       # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
       cache_validity_seconds: 600
@@ -181,10 +181,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env:
-      #  ENV_NAME: value
-      # workaround till 0.7.1 chart
-      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    env: {}
+    # env:
+    #   #  ENV_NAME: value
+    #   # workaround till 0.7.1 chart
+    #   EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
 
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
@@ -267,17 +268,17 @@ tractusx-connector:
     # -- [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories
     volumes: []
     # -- [resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the container
-    resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 1.5
-      memory: 512Mi
-    requests:
-      cpu: 500m
-      memory: 128Mi
+    resources:
+      limits:
+        # -- Maximum CPU limit
+        cpu: 1.5
+        # -- Maximum memory limit
+        memory: 1024Mi
+      requests:
+        # -- Initial CPU request
+        cpu: 500m
+        # -- Initial memory request
+        memory: 1024Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -360,11 +361,8 @@ tractusx-connector:
       public:
         port: 8081
         path: /consumer/api/public
-      signaling:
-        port: 8083
-        path: /api/signaling
       control:
-        port: 8083
+        port: 8084
         path: /consumer/api/dataplane/control
       proxy:
         port: 8186
@@ -423,10 +421,11 @@ tractusx-connector:
       # -- The container's process will run with the specified uid
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
-    env:
-      #  ENV_NAME: value
-      # workaround till 0.7.1 chart
-      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    env: {}
+    # env:
+    #   #  ENV_NAME: value
+    #   # workaround till 0.7.1 chart
+    #   EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
 
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
@@ -480,17 +479,17 @@ tractusx-connector:
     # -- [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories
     volumes: []
     # -- [resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the container
-    resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 1.5
-      memory: 1024Mi
-    requests:
-      cpu: 500m
-      memory: 128Mi
+    resources:
+      limits:
+        # -- Maximum CPU limit
+        cpu: 1.5
+        # -- Maximum memory limit
+        memory: 1024Mi
+      requests:
+        # -- Initial CPU request
+        cpu: 500m
+        # -- Initial memory request
+        memory: 1024Mi
     replicaCount: 1
     autoscaling:
       # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -527,10 +526,14 @@ tractusx-connector:
 
   postgresql:
     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+    primary:
+      persistence:
+        enabled: false
+    readReplicas:
+      persistence:
+        enabled: false
     fullnameOverride: ""
     nameOverride: ""
-    username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#password>
     auth:
       database: "edc"
       username: <path:material-pass/data/dev/edc/database#user>
@@ -556,13 +559,13 @@ tractusx-connector:
       paths:
         secret:  <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
-    secretNames:
-      transferProxyTokenSignerPrivateKey: daps-key-dev
-      transferProxyTokenSignerPublicKey: daps-crt-dev
-      transferProxyTokenEncryptionAesKey: edc-encryption-key
+    # secretNames:
+    #   transferProxyTokenSignerPrivateKey: daps-key-dev
+    #   transferProxyTokenSignerPublicKey: daps-crt-dev
+    #   transferProxyTokenEncryptionAesKey: edc-encryption-key
 
-  backendService:
-    httpProxyTokenReceiverUrl: "https://dpp.dev.demo.catena-x.net/endpoint"
+  # backendService:
+  #   httpProxyTokenReceiverUrl: "https://dpp.dev.demo.catena-x.net/endpoint"
 
   networkPolicy:
     # -- If `true` network policy will be created to restrict access to control- and dataplane
@@ -610,7 +613,7 @@ postgresql:
     password: <path:material-pass/data/dev/edc/database#password>
 
 item-relationship-service:
-  enabled: true
+  enabled: false
   bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
 
   irsUrl: "https://materialpass-irs.dev.demo.catena-x.net"

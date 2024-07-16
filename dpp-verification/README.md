@@ -102,14 +102,14 @@ This concept has been proved to be of high interest from the Certification and V
   - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
   - [Roles/Actors](#rolesactors)
 - [Assumptions](#assumptions)
-- [Verification Statements](#verification-statements)
-  - [Abstract Types](#abstract-types)
-  - [Verification Statements Documents/Credentials](#verification-statements-documentscredentials)
-  - [Document Exchange Details](#document-exchange-details)
 - [Creating Trust and Risk Mitigation Assets](#creating-trust-and-risk-mitigation-assets)
   - [Verifiable Credential Documents](#verifiable-credential-documents)
     - [What is a Verifiable Credential?](#what-is-a-verifiable-credential)
     - [Credential Schema](#credential-schema)
+- [Verification Statements](#verification-statements)
+  - [Abstract Types](#abstract-types)
+  - [Verification Statements Documents/Credentials](#verification-statements-documentscredentials)
+  - [Document Exchange Details](#document-exchange-details)
 - [Certification Processes](#certification-processes)
   - [Attribute Certification Process](#attribute-certification-process)
   - [Self-Testify Certification Process](#self-testify-certification-process)
@@ -135,9 +135,29 @@ This concept has been proved to be of high interest from the Certification and V
     - [CDC Credential Types Definition](#cdc-credential-types-definition)
     - [CDC Example](#cdc-example)
   - [Certified Snapshot Credential Schema](#certified-snapshot-credential-schema)
-  - [Attribute Certification Record](#attribute-certification-record)
+    - [CSC Semantic](#csc-semantic)
+      - [CSC SemanticId](#csc-semanticid)
+    - [CSC Reference to Origin](#csc-reference-to-origin)
+    - [CSC JSON-LD Context Schema](#csc-json-ld-context-schema)
+    - [Attribute List Description](#attribute-list-description)
+      - [Validation Method Description](#validation-method-description)
+      - [Validation Method Types](#validation-method-types)
+    - [CSC Credential Types Definition](#csc-credential-types-definition)
+    - [CSC Example](#csc-example)
+  - [Attribute Certification Record Schema](#attribute-certification-record-schema)
+    - [ACR Credential Fields Definition](#acr-credential-fields-definition)
+    - [ACR CSC Verifiable Credentials List](#acr-csc-verifiable-credentials-list)
+    - [ACR Submodel Reference](#acr-submodel-reference)
+    - [ACR Example](#acr-example)
 - [Technical Integration Design](#technical-integration-design)
   - [Interfaces](#interfaces)
+  - [Self-Testify Data Certification and Verification Implementation](#self-testify-data-certification-and-verification-implementation)
+    - [Simple Wallet](#simple-wallet)
+  - [Attribute Certification Blueprint](#attribute-certification-blueprint)
+    - [Attribute Certification Components](#attribute-certification-components)
+      - [Attribute Certification Registry](#attribute-certification-registry)
+      - [Attribute Certification System](#attribute-certification-system)
+    - [Attribute Certification Journey](#attribute-certification-journey)
   - [Digital Twin Configuration](#digital-twin-configuration)
     - [Certified Data Credential Submodel](#certified-data-credential-submodel)
     - [CDC Semantic ID Keys](#cdc-semantic-id-keys)
@@ -270,7 +290,7 @@ The other terminology from **Data Provider** to **Data Auditor** is called **Dat
 
 ## Abstract Interaction (Business Interaction)
 
-In the following diagram we can observe how the data provider, the data auditor and the data consumer interact:# Certification Processes
+In the following diagram we can observe how the data provider, the data auditor and the data consumer interact:
 
 ![Roles Business Interaction](./resources/processes/roles-business-interaction.svg)
 
@@ -306,46 +326,9 @@ Therefore, we have decided to list the initial assumptions that are required for
 | **The wallets used in the concept allow to sign any type of credential**            | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB).                                                                                                                                                                              |
 | **Each company MUST have a decentralized wallet**                                      | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X.                                                                                                                                                                                                                   |
 | **All data exchanges are done through the Eclipse DataSpace Connector**             | Every company **MUST** have an EDC in order to provide data to other parties and consume data from other partners. Data sovereignty is followed and shall use the guidelines provided by the Catena-X network.                                                                                                                                                                                  |
-
-# Verification Statements
-
-For our technical implementation from the Certification/Verification of aspect models and attributes we can abstract two type of verification statements:
-
-## Abstract Types
-
-| Type                                 | Description                                                                                                                                                           |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Complete Data Verification Statement | Self Signed Document containing the complete data from an aspect model payload.                                                                                        |
-| Partial Data Verification Statement  | Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
-
-## Verification Statements Documents/Credentials
-
-The different verification statement types were mapped to certain technical verification statement documents which encapsulate the certification and verification of attributes in the framework. Using the **Verifiable Credential** technology from the W3C we are able to identity to different documents to have signature from different issuers:
-
-> [!TIP]
->
-> For more information about what is a verifiable credential [go to this chapter](#what-is-a-verifiable-credential).
-
-| Document/Credential Name          | Short Name | Issuer        | Verification Statement Type          | Content                                                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------------------------- | ---------- | ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Certified Data Credential**     | **CDC**    | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control                                                                                                                                                 | Credential that contains the complete passport and is signed by the issuer of the data. It allows tracking changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data.                                                                                                               |
-| **Certified Snapshot Credential** | **CSC**    | Data Auditor  | Partial Data Verification Statement  | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
-
-## Document Exchange Details
-
-The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
-
-![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
-
-**Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
-This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors will consume data from the **Data Provider** creating "Verification Statements" for the data consumed, signing the data and sending it back to the **Data Provider**. In this way the provider will be able to present the data to the consumers and the consumer will be able to verify the signature with the **Data Auditor**.
-
 # Creating Trust and Risk Mitigation Assets
 
 > Why to place trust in companies which certify data?
-
-The companies auditing the data must be authorized and given the trust
-from another member party to issue data related credentials. Only
 
 We know we humans make mistakes. When third party companies already known
 in the business of providing trust and certifications for specific assets. These assets would be audited, or its original data would be audited, and then will be compared to the different **Regulations**, **Standards** and **Rule books** that define if the data content is:
@@ -355,6 +338,8 @@ in the business of providing trust and certifications for specific assets. These
 - Certify Structure and semantics that follow the standards
 - Certify that the actual physical asset has the content which is placed in the Digital Product Pass serialized or type payload.
 - Certify that issuance of data to prevent fraud
+
+Companies that audit data are trusted by regulators, by several members of the supply chain and also by governments that require this companies to do inspections, auditing processes and other companies in other to generate proofs that companies are following the rules. Therefore, when talking about Catena-X were a Business to Business data exchange is done, allowing the data exchange between parties, to be audited by a third neutral party which will "certify" and "validate" if the data exchanged is correct and plausible. In this way the consumer company can trust that the data received from the data provider party is correct and then more accurate decisions can be taken over this data, knowing that the "data" auditor company has liability, during the certified time, in case something goes wrong.
 
 ## Verifiable Credential Documents
 
@@ -421,6 +406,41 @@ Depending on each verification types different configuration will be provided in
 | **Metadata**                            | The metadata contains the context information and credential schema details. Also contains the identification of the credential and which documents it contained.                                                                                        |
 | **Aspect Model Data / Credential Data** | In this section is defined all the necessary data of each credential type. The specific attributes with methods and proof from data auditor or the original data issued and signed by the data provider.                                                |
 | **Proof and Verification Methods**      | This section contain the digital signature from the Data Provider or Data Auditor. It also contains all the methods for a Data Verifier/Data Consumer to access the verification requirements to check if the credential is still valid and not revoked. |
+
+
+
+# Verification Statements
+
+For our technical implementation from the Certification/Verification of aspect models and attributes we can abstract two type of verification statements:
+
+## Abstract Types
+
+| Type                                 | Description                                                                                                                                                           |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Complete Data Verification Statement | Self Signed Document containing the complete data from an aspect model payload.                                                                                        |
+| Partial Data Verification Statement  | Attribute level certified document containing one or more attributes from the **Complete Data Verification Statement** or from a **Plain JSON Aspect Model payload**. |
+
+## Verification Statements Documents/Credentials
+
+The different verification statement types were mapped to certain technical verification statement documents which encapsulate the certification and verification of attributes in the framework. Using the **Verifiable Credential** technology from the W3C we are able to identity to different documents to have signature from different issuers:
+
+> [!TIP]
+>
+> For more information about what is a verifiable credential [go to this chapter](#what-is-a-verifiable-credential).
+
+| Document/Credential Name          | Short Name | Issuer        | Verification Statement Type          | Content                                                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                              |
+| --------------------------------- | ---------- | ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Certified Data Credential**     | **CDC**    | Data Provider | Complete Data Verification Statement | 1. Complete Aspect Model Payload Data <br> 2. Signature from Data Issuer <br> 3. Version Control                                                                                                                                                 | Credential that contains the complete passport and is signed by the issuer of the data. It allows tracking changes during the updates from the passport in the supply chain. <br> It can be "self-testified" by the data provider when creating/issuing the passport data.                                                                                                               |
+| **Certified Snapshot Credential** | **CSC**    | Data Auditor  | Partial Data Verification Statement  | 1. Selected attributes from the Aspect Model Payload Data <br> 2. Hashed "proofs" per attribute and data auditor signature <br> 3. Methods used to "certify" each attribute <br> 4. Reference to Audited Complete Verification Statement Content | Credential that follows "selective disclosure" by hashing the verified fields allowing the verification in milliseconds by just comparing hashes. It contains the "partial" digital product pass. <br> It is signed by the Auditor of the data attributes at the end of the certification, indicating the attributes which are included there were certified against specific "methods". |
+
+## Document Exchange Details
+
+The different roles will exchange different document which will contain, information and proof of the data which is being exchanged.
+
+![Roles Document Exchange Interaction](./resources/processes/roles-document-exchange-interaction.svg)
+
+**Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
+This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors will consume data from the **Data Provider** creating "Verification Statements" for the data consumed, signing the data and sending it back to the **Data Provider**. In this way the provider will be able to present the data to the consumers and the consumer will be able to verify the signature with the **Data Auditor**.
 
 
 # Certification Processes
@@ -554,7 +574,7 @@ A Certified Data Credential **MAY** have a reference to a parent credential with
 |Field | Description | Example |
 | --- |-- | -- |
 | `@id` | Contains the DID Web or URL for the parent version of the credential. In this case because we are using Catena-X Standards, it will contain the HREF for the EDC data plane. |`did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d` |
-| `digestMultipart` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf), that is generated as a checksum from the complete parent credential | `64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115` |
+| `digestMultibase` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf), that is generated as a checksum from the complete parent credential. | `64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115` |
 
 ### CDC JSON-LD Context Schema
 
@@ -568,6 +588,8 @@ In order to simply the usage of the context schema, it was uploaded to this gith
 ### Wrapped Aspect Model
 
 In the case of the CDC credential, an aspect model payload will be included in the `credentialSubject` field from the verifiable credential.
+
+The aspect model `semanticId` **MUST** be referenced as a root attribute in the credential. In this way it is easy to know which aspect model is wrapped in the `credentialSubject`.
 
 For enabling the **semantic context** in the credential when it is expanded, using the [simple-wallet](./simple-wallet/README.md) `/context` any SAMM Aspect Model JSON Schema can be converted into a fully functional JSON-LD Context Schema.
 
@@ -1060,6 +1082,152 @@ The CSC schema contains the partial passport with different attributes, all them
 
 Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
+### CSC Semantic
+
+The Certified Snapshot Credential uses the [Verifiable Credential Data Model in V2](https://www.w3.org/TR/vc-data-model-2.0/) as an aspect model "parent" instance. Diverse attributes are already modeled and have their JSON-LD `@context` defined in the following URL: [https://www.w3.org/ns/credentials/v2](https://www.w3.org/ns/credentials/v2).
+
+In order to detail the special attributes used in the Certified Snapshot Credential a SAMM Model was created specifying the fields.
+
+#### CSC SemanticId
+
+```
+urn:samm:io.catenax.dpp_verification.csc:1.0.0#CertifiedSnapshotCredential
+```
+
+The SAMM RDF file can be found in the following path: [dpp-verification/semantics/io.catenax.dpp_verification.cdc/1.0.0/CertifiedSnapshotCredential.ttl](./semantics/io.catenax.dpp_verification.cdc/1.0.0/CertifiedSnapshotCredential.ttl)
+
+### CSC Reference to Origin
+
+A Certified Snapshot Credential **MUST** have a reference to an origin credential. When issued it **MUST** have used another credential as reference for the attribute certification. In this way if both origin credential and the Certified Snapshot Credential are available a comparative between the hashed values and the original values hashed will result in the Verification of the fields in an assertive manner.
+
+|Field | Description | Example |
+| --- |-- | :-- |
+| `@id` | Contains the DID Web or URL for the origin structure used for the attribute certification. In this case because we are using Catena-X Standards, it will contain the HREF for the EDC data plane. |`did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d` |
+| `@type` | Contains the mimetype of the data which was used for the certification. |`application/vc+ld+json` |
+| `semanticId` | Contains the semanticId of the origin data, allowing anyone to know the structure of the attribute path | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` |
+| `digestMultibase` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf), that is generated as a checksum from the complete origin file | `64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115` |
+
+### CSC JSON-LD Context Schema
+
+Using the [simple-wallet](./simple-wallet/README.md) `/context` any SAMM Aspect Model JSON Schema can be converted into a fully functional JSON-LD Context Schema.
+
+In order to simply the usage of the context schema, it was uploaded to this github repository and can be accessed in its raw version at the credential context in the following way:
+
+|CSC @Context| [https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/csc/1.0.0/certifiedSnapshotCredential.jsonld) |
+| - | - |
+
+### Attribute List Description
+
+In the case of the CSC credential, a list of certified attributes will be included in the `credentialSubject` field from the verifiable credential.
+
+As described in the [CSC SAMM Aspect Model](./semantics/io.catenax.dpp_verification.cdc/1.0.0/CertifiedSnapshotCredential.ttl)
+
+At the `attribute` key in the `credentialSubject` field each certified attribute **MUST** be included.
+
+Each certified attribute **MUST** follow this structure (example):
+
+```json
+{
+    "validationMethod": [
+        {
+            "@type": "Standard",
+            "label": "Catena-X PCF Rulebook Standard",
+            "@id": "CX-0029",
+            "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+        }
+    ],
+    "@id": "dpp:sustainability.productFootprint.carbon[0].value",
+    "digestMultibase": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
+}
+```
+
+These are the field descriptions and rules:
+
+| Field | Description | Syntax or Example |
+| -- | -- | :- |
+| `@id` | Contains the path, using "." as separator and "[<Index>]" for array access reference, it shall indicate the specific attribute in the aspect model JSON Payload | `<< modelShortName >> : << path.to.attribute >>`  <br>Example: `dpp:physicalProperties.height.value`|
+| `digestMultibase` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf) of the value of the attribute key certified | `d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32` |
+| `validationMethod` | This field key name is based on W3W that exist like `verificationMethod`. It is a list of documents, sources, applications, standards, manuals used for the **Validation** of the attribute value. | [-> Go to the Validation Method Schema Description](#validation-method-description) |
+
+#### Validation Method Description
+
+The `validationMethod` key contains the list of documents, sources, applications, standards used to validate the value of the attribute audited.
+
+The structure of each validation method is described in the following way (example):
+
+```json
+{
+    "@type": "Standard",
+    "label": "Catena-X PCF Rulebook Standard",
+    "@id": "CX-0029",
+    "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+}
+```
+
+| Field | Description | Syntax or Example |
+| -- | -- | :- |
+| `label`| It describes the "prefferedName" of the validation method, in order to be visualized in a more human-readable way | Catena-X PCF Rulebook Standard |
+| `@id` | Makes reference to the Identification of the specific documentation used. It can be used for quick identification of the verification methods selected. | `CX-0029` |
+| `uri` | Indicates the direct url or DID:Web to the "resource" or "document" used to validate the value. | `https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf` |
+| `@type` | It describes the validation method type. There is a fixed list of possible values to be selected. | [Go to Validation Method Types Enumeration](#validation-method-types) |
+
+#### Validation Method Types
+
+The validation method types **MUST** be one of the following:
+
+| Type | Description |
+| - | - |
+| `Standard` | Makes reference to a recognized standard by an official entity/organization. |
+| `Regulation` | Makes reference to an official regulation published or in draft state. |
+| `Rulebook` | Makes reference to a document where calculation methods and guidelines are mentioned. |
+| `Document` | Makes reference to a physical or electronic document with no specific type classification. |
+| `Book` | Makes reference to a physical or electronic book. |
+| `Application` | Makes reference to an application or API used to validate the field. |
+| `Process` | Makes reference to a specific process defined to validate the field. |
+| `Other` | Allows any other validation method type to be specified |
+
+> [!NOTE]
+>
+> The types mentioned here are an example of possible validation methods to be standardized in the future. In order to align in a common specification of validation methods types accross the industry.
+
+### CSC Credential Types Definition
+
+The following list of types **MUST** be provided in the following order for the Certified Snapshot Credential:
+
+```json
+"type": [
+    "VerifiableCredential",
+    "CertifiedSnapshotCredential",
+    "<<SemanticModelId>>"
+]
+```
+
+The last field `<<SemanticModelId>>` represents the aspect model semantic id name that was used for the attribute certification.
+
+Example for the Digital Product Passport:
+
+```
+urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
+```
+
+The value can be found in the end of the semantic id, and shall be referenced:
+
+```json
+"type": [
+    "VerifiableCredential",
+    "CertifiedSnapshotCredential",
+    "DigitalProductPassport"
+]
+```
+>[!IMPORTANT]
+>
+> When creating any verifiable credentials is recommended to use a JSON-LD Playground for expanding the credential and verifying that all the attributes from the aspect model are referenced in a context. Otherwise, the JSON-LD verifiable credential is not valid. JSON-LD Playground Example: [https://json-ld.org/playground/](https://json-ld.org/playground/)
+
+### CSC Example
+
+Here is an example of how the Certified Snapshot Credential looks like for a Digital Product Passport aspect model attributes from the model version v5.0.0:
+
+
 <details>
 <summary>🚀 Expand Certified Snapshot Credential (CSC) Aspect Example </summary>
 
@@ -1115,7 +1283,7 @@ Here we have an example of the generated CSC from the [previous CDC Aspect](#cer
 
 </details>
 
-## Attribute Certification Record
+## Attribute Certification Record Schema
 
 ![AMR Schema](./resources/implementation/amr-document-credential.svg)
 
@@ -1125,6 +1293,44 @@ The only requirement is that this attributes belong to a specific submodel refer
 
 > [!NOTE]
 > The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Verifiable Presentation Records dynamically.
+
+### ACR Credential Fields Definition
+
+The following list of types **MUST** be provided in the following order for the Attribute Certification Record:
+
+```json
+"type": [
+    "VerifiablePresentation",
+    "AttributeCertificationRecord"
+]
+```
+
+Because it is a `Verificable Presentation` it **MUST** the `holder` field in the root level of the credential.
+It is defined as a DID:Web for asserting the wallet validity, it **MUST** be defined as described in the W3C standards for Verifiable Credentials. It **MUST** be defined like the `issuer` field in the other credentials, example:
+
+```json
+"holder": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS"
+```
+
+### ACR CSC Verifiable Credentials List
+
+In the field `verifiableCredential` there **MUST** be a list of Certified Snapshot Credentials.
+The Certified Snapshot Credentials listed **MUST** be belonging and linked to the **SAME** aspect model. 
+
+### ACR Submodel Reference
+
+|Field | Description | Syntax or Example |
+| --- |-- | :-- |
+| `@id` | Contains the URN of the id of the digital twin and the submodel id of the "certified" submodel aspect used for the fields described in the list of Certified Snaphshot Credentials.| `<< digitalTwinId> >> - << submodelId >>` <br> Example: `urn:uuid:f32fd936-4330-42d9-b230-8cc291cc4140-urn:uuid:cd1c0904-27e2-4ae2-8751-5c8c8e4b6812` |
+| `semanticId` | Contains the semanticId of the aspect model "certified". It defines the syntax of the aspect model attribute certifications contained in the list of verifiable credentials. | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` |
+
+
+
+>[!IMPORTANT]
+>
+> When creating any verifiable credentials is recommended to use a JSON-LD Playground for expanding the credential and verifying that all the attributes from the aspect model are referenced in a context. Otherwise, the JSON-LD verifiable credential is not valid. JSON-LD Playground Example: [https://json-ld.org/playground/](https://json-ld.org/playground/)
+
+### ACR Example
 
 <details>
 <summary>🚀 Expand to see Attribute Certification Record (AMR) Example </summary>
@@ -1192,7 +1398,7 @@ The only requirement is that this attributes belong to a specific submodel refer
   ],
   "submodel": {
       "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass",
-      "@id": "urn:uuid:cd1c0904-27e2-4ae2-8751-5c8c8e4b6812"
+      "@id": "urn:uuid:f32fd936-4330-42d9-b230-8cc291cc4140-urn:uuid:cd1c0904-27e2-4ae2-8751-5c8c8e4b6812"
   },
   "id": "urn:uuid:974d35dd-3e5e-4782-ad61-6c49fe294650",
   "holder": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
@@ -1217,6 +1423,75 @@ The only requirement is that this attributes belong to a specific submodel refer
 The digital product pass application would act in the dpp-verification concept as the "Verification System" which is able to communicate with different systems, behind or not behind an EDC connector. Data would be exchange using the EDC however components like the Wallet could be accessed using the "DID Web" method, or the Semantic Hub using the central interface provided by the operator of the network.
 
 ![Interfaces](./resources/technical/interfaces.svg)
+
+## Self-Testify Data Certification and Verification Implementation
+
+In the release R24.08 the self-testification using Certified Data Credentials was successfully implemented. Demonstrating the maturity of the concept and its plausibility.
+
+Here is a diagram that describes how the self-testification implementation works:
+
+![Context Implementation](./resources/implementation/cdc-context-blueprint.svg)
+
+>[!IMPORTANT]
+>
+> No *Aspect Management System* was provided because the scope of the Digital Product Pass Application is to be a data consumer application.
+> Therefore, the registration and certification of assets was done manually.
+> For more information for doing a manual registration and certification of Aspect Models like the Digital Product Pass consult the postman collection provider: [DPP-VERIFICATION POSTMAN COLLECTION](./resources/postman/Digital%20Product%20Pass%20Verification%20Add-on.postman_collection.json)
+>
+
+The data provider **MUST** self-testify and create the Certified Data Credential as described in the [Certified Data Credential Schema](#certified-data-credential-schema).
+
+
+### Simple Wallet
+
+In order to ease the testing and to demonstrate the functionality of Verifiable Digital Product Passports using Catena-X as a data exchange motor and the DID:Web methods to find and retrieve the public keys, a minimum viable wallet was developed using `python`.
+
+The simple wallet documentation and details are all available in the `dpp-verification/simple-wallet` directory, here more information can be found:
+
+- [Simple Wallet + Docs](./simple-wallet/)
+- [Simple Wallet Chart](./charts/simple-wallet/)
+
+The simple wallet is able to:
+
+- Issue Verifiable Credentials with the following specifications:
+  - With Verifiable Credentials Data Model Version 2.0 Schema
+  - JsonWebSignature2020 signatures, which are used in Gaia-X standards
+- Verify Verifiable Credentials with the following functionality:
+  - Resolve DID:Web from credentials
+  - Get JsonWebKey2020 public keys from another wallet `did.json` interface.
+  - Check the expiration data and data integrity.
+- Authenticate & Authorize via Business Partner Numbers (BPN) and API Keys.
+
+Additionally, in order to allow the certification of any aspect model standardized in Catena-X, it would be necessary to create valid JSON-LDs.
+
+Therefore, the `@context` from the credentials **MUST** be defined in the correct way so that the *JSON-LD* Verifiable Credential can be expanded.
+
+The `simple-wallet` component provides a solution to this problem, it has an API called `/context` that allows the transformation from JSON Schemas produced by the SAMM Aspect Modeler into valid JSON-LD context schemas. In this way any Catena-X Standardized in SAMM will be able to be "Certified" and included in a credential, so that the attributes keys remain in context (using the `semanticId`) when the JSON-LD is expanded.
+
+## Attribute Certification Blueprint
+
+As defined in the [Data Certification Process Chapter](#certification-processes) the data auditor and data provider will engage in a communication process, so that the data provider can send the data with the attributes to be "Validated" or "Certified" by the data auditor.
+
+### Attribute Certification Components
+
+For enabling the process of certifying attributes, different systems need to be used in order to automate the process. This is a context diagram that explains the interaction in between the systems:
+
+![Certification Context](./resources/implementation/csc-context-blueprint.svg)
+
+#### Attribute Certification Registry
+
+The **Attribute Certification Registry** (ACReg), is an Aspect Management System which initiates the process and requests the certification of specific aspect models for data auditors using the `EDC Push Notification` functionality. The registry is also responsible for managing the storage, issuance and presentation of Attribute Certification Records (ACR) when called by an EDC component.
+
+#### Attribute Certification System
+
+The **Attribute Certification System** provides the auditor with the capability of receiving and processing aspect audit requests. As well as providing the auditor the possibility to select and perform the data validation of specific attributes an aspect model. It is responsible for 
+
+### Attribute Certification Journey
+
+For the certification journey of specific attributes of a Digital Product Pass or any other JSON Aspect Model payload the following process **MAY** be followed:
+
+![Certification Journey Flow](./resources/implementation/attribute-certification-journey.svg)
+
 
 ## Digital Twin Configuration
 

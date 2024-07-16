@@ -103,7 +103,6 @@ tractusx-connector:
           - control
           - protocol
           - metrics
-          - observability
         # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
         className: "nginx"
         # -- TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource

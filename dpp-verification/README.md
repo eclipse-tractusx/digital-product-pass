@@ -66,7 +66,7 @@ For a better understanding of this documentation, it is recommended to read and 
 
 This documentation of interest can be useful during the reading and understanding of this Catena-X Data Verification/Certification Concept.
 
-# Abstract
+# Introduction
 
 When talking about increasing trust in data ecosystems there are multiple possible ways to be followed. Contractual and Policy solutions can be taken into consideration to ensure data sovereignty based on analog framework agreement contracts. Blockchain solutions can be implemented to assure that transactions and ownership is mathematically proofed, creating an assertive level of trust in the complete chain. Artificial Intelligence can be used as a neutral party for doing moderation and certification of data of partners and member of the network. However, if you want to maintain your data and identify under your control assuring data sovereignty and keeping it decentralized the best option to choose are Decentralized Identities from the W3C.
 
@@ -90,18 +90,18 @@ This concept has been proved to be of high interest from the Certification and V
   - [Authors](#authors)
   - [Tags](#tags)
   - [Knowledge Prerequisites](#knowledge-prerequisites)
-- [Abstract](#abstract)
-  - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
+- [Scope](#scope)
   - [Context Diagram](#context-diagram)
   - [Value Proposition Motivators](#value-proposition-motivators)
   - [Objectives](#objectives)
   - [Use Cases](#use-cases)
 - [Previous Investigation](#previous-investigation)
+- [Assumptions](#assumptions)
 - [Processes Terminology](#processes-terminology)
   - [Abstract Interaction (Business Interaction)](#abstract-interaction-business-interaction)
   - [Roles/Actors](#rolesactors)
-- [Assumptions](#assumptions)
 - [Creating Trust and Risk Mitigation Assets](#creating-trust-and-risk-mitigation-assets)
   - [Verifiable Credential Documents](#verifiable-credential-documents)
     - [What is a Verifiable Credential?](#what-is-a-verifiable-credential)
@@ -125,7 +125,15 @@ This concept has been proved to be of high interest from the Certification and V
     - [CDC Technical Verification Flow](#cdc-technical-verification-flow)
     - [CSC Technical Verification Flow](#csc-technical-verification-flow)
 - [Technical Specification](#technical-specification)
-  - [Certification Aspects Schemas](#certification-aspects-schemas)
+  - [Certification Aspects Specification](#certification-aspects-specification)
+    - [Verifiable Credential Required Fields](#verifiable-credential-required-fields)
+      - [Issuer Structure](#issuer-structure)
+    - [Context Definition](#context-definition)
+    - [Cryptography Signatures \& Keys in Self-Descriptions](#cryptography-signatures--keys-in-self-descriptions)
+      - [Signature Header](#signature-header)
+      - [Signature Payload](#signature-payload)
+      - [Signature Generation](#signature-generation)
+      - [Signature Verification](#signature-verification)
     - [Certified Data Credential Schema](#certified-data-credential-schema)
     - [CDC Semantic](#cdc-semantic)
       - [CDC SemanticId](#cdc-semanticid)
@@ -146,6 +154,9 @@ This concept has been proved to be of high interest from the Certification and V
     - [CSC Example](#csc-example)
   - [Attribute Certification Record Schema](#attribute-certification-record-schema)
     - [ACR Credential Fields Definition](#acr-credential-fields-definition)
+    - [ACR JSON-LD Context Schema](#acr-json-ld-context-schema)
+    - [ACR Semantic](#acr-semantic)
+      - [ACR SemanticId](#acr-semanticid)
     - [ACR CSC Verifiable Credentials List](#acr-csc-verifiable-credentials-list)
     - [ACR Submodel Reference](#acr-submodel-reference)
     - [ACR Example](#acr-example)
@@ -184,7 +195,7 @@ This concept has been proved to be of high interest from the Certification and V
   - [NOTICE](#notice)
   - [AUTHORS](#authors-1)
 
-# Introduction
+# Scope
 
 The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers.
 It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
@@ -273,6 +284,25 @@ The following Tractus-X products teams & Demonstrators were considered to be imp
 | Traceability KIT | The traceability kit gives the overview on how to find and investigate the source of incidents that can occur in the supply chain. Therefore, the Verification/Certification of aspect is considered essential for creating a second layer of data trust in the complete supply chain | https://eclipse-tractusx.github.io/docs-kits/kits/Traceability%20Kit/Business%20View%20Traceability%20Kit | 
 | CX-ART Architecture | The concept was reviewed by the Platform Capability architects and considered as prominent for the network, since it enables a second layer of data trust over the existing data sovereignty exchange secured by the SSI and EDC data exchanges. Since the concept is not changing the main architecture from Catena-X it complies to the existing standards and provides guidelines for any aspect model to be certified and verified. Aiming to create the first Catena-X Verification/Certification Framework for Standardized Aspect Models. | https://github.com/eclipse-tractusx |
 
+# Assumptions
+
+When we talk about verification and certification processes, several questions and concerns can be raised in regard to making it productive and implementable.
+When a concept is developed not all the processes and problems can be addressed, therefore this concept has some conditions that should be considered.
+Therefore, we have decided to list the initial assumptions that are required for this verification process to be successful:
+
+| Assumption                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Digital Product Pass Process Creation is established**                            | The digital product pass process is a complex process that is implemented in each *Data Provider* and is tailored to the systems and application available in each company. This concept starts its journey from the assumption that the digital product pass data is already available in the **Data Provider** infrastructure as a **Serialized Aspect Model Payload**                      |
+| **Data Exchange is Standardized**                                                   | As we know in Catena-X the data exchange between partners in this case need to be standardized, therefore the digital product pass data and all the related statements will be standardized and available for all members of the network to be able to parse and handle the fields and certifications.                                                                                         |
+| **Data Certification Process is defined by Data Auditor**                           | The complexity of the certification process is high and can vary from auditor company to company. Therefore, in this concept there was decided to resume the certification of attributes to the most unitary and simple **Technical Solution**, allowing each company to adopt and implement the process according to its needs and requirements.                                                |
+| **Only minimum exchanged data is specified**                                        | Only the minimum exchanged data is specified when transferring data from one company to another. When a certification process is triggered there are many other attributes, data and elements to be specified. Only the necessary attributes to retrieve the data are specified in this concept to keep things simple and indicate the MVP attributes needed to make it possible.               |
+| **All legal requirements are fulfilled**                                           | In this company we assume that the company has all the necessary legal requirements and agreements to exchange data with its partners in the Catena-X network, policies and permissions are not going to be specified, all the EDC configurations are the ones specified by the Catena-X network. For more information [see this specification](https://github.com/catenax-eV/cx-odrl-profile). |
+| **The digital product pass standards are followed**                                 | The digital twin registry and data service must be implemented as indicated in the latest CX standard for digital product passports and other products.                                                                                                                                                                                                                                         |
+| **The certification and verification are not limited to digital product passports** | This concept sets the initial path to verify any aspect model payload in Catena-X that uses JSON as its serialized representation. The concept is tailored to digital product passports since the **EcoDesign** regulations are playing an important role in the future of Data Ecosystems like *Catena-X*.                                                                                      |
+| **The wallets used in the concept allow to sign any type of credential**            | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB).                                                                                                                                                                              |
+| **Each company MUST have a decentralized wallet**                                      | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X.                                                                                                                                                                                                                   |
+| **All data exchanges are done through the Eclipse DataSpace Connector**             | Every company **MUST** have an EDC in order to provide data to other parties and consume data from other partners. Data sovereignty is followed and shall use the guidelines provided by the Catena-X network.                                                                                                                                                                                  |
+
 # Processes Terminology
 
 The naming from the different processes is important when it comes to differentiating the role from each actor.
@@ -308,24 +338,7 @@ Three main roles are defined and have certain responsibilities or can conduct ac
 | Data Auditor    | Auditors, Certification Agencies, Consulting Companies, OEMs | Issuer, **Optional: Holder** | - Selects from the data provider data some attributes following selective disclosure.- Certifies Attributes against "methods". And indicate in the generated credential which methods were used for certifying  For example: &emsp;- Standards&emsp;- Rule books&emsp;- Regulations&emsp;- Manuals&emsp;- Technical Specifications&emsp;- etc...- Creates and issues a **Certified Verification Statement**- **[OPTIONAL]:** Provide and Store certified credentials      | As a data auditor I want to be able to retrieve and visualize the data I need to audit. I also want to be able to "select" then "certify" specific attributes I was paid to audit by a Data Provider.                                                                               | Certified Snapshot Credentials (CSC) in **Verification Statements Aspect** <br> **[OPTIONAL]:** Storage of Verification Aspect and provision through EDC                                                                                     |
 | Data Consumer   | Recyclers, Dismantlers, OEMs, Tier-1                         | Verifier                     | - Initializes the data retrieval process (Requesting the Data Provider).- Searches for the Verification Data after the data retrieval process. (Looking in the Data Provider Digital Twin)- Verifies signatures against a wallet if the data and attribute credentials received are correct.- Verifies data semantics and data plausibility against the data model semantics/restrictions.- Presents the verification result                                             | As a data consumer I want to be able to know if the data I received is verified and which attributes are certified by an external auditor. I also want to be able to verify that the data certified is authentic and has been issued and signed by a Data Auditor or a Data Provider | **Verification Result Presentation**                                                                                                                                                                                                         |
 
-# Assumptions
 
-When we talk about verification and certification processes, several questions and concerns can be raised in regard to making it productive and implementable.
-When a concept is developed not all the processes and problems can be addressed, therefore this concept has some conditions that should be considered.
-Therefore, we have decided to list the initial assumptions that are required for this verification process to be successful:
-
-| Assumption                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Digital Product Pass Process Creation is established**                            | The digital product pass process is a complex process that is implemented in each *Data Provider* and is tailored to the systems and application available in each company. This concept starts its journey from the assumption that the digital product pass data is already available in the **Data Provider** infrastructure as a **Serialized Aspect Model Payload**                      |
-| **Data Exchange is Standardized**                                                   | As we know in Catena-X the data exchange between partners in this case need to be standardized, therefore the digital product pass data and all the related statements will be standardized and available for all members of the network to be able to parse and handle the fields and certifications.                                                                                         |
-| **Data Certification Process is defined by Data Auditor**                           | The complexity of the certification process is high and can vary from auditor company to company. Therefore, in this concept there was decided to resume the certification of attributes to the most unitary and simple **Technical Solution**, allowing each company to adopt and implement the process according to its needs and requirements.                                                |
-| **Only minimum exchanged data is specified**                                        | Only the minimum exchanged data is specified when transferring data from one company to another. When a certification process is triggered there are many other attributes, data and elements to be specified. Only the necessary attributes to retrieve the data are specified in this concept to keep things simple and indicate the MVP attributes needed to make it possible.               |
-| **All legal requirements are fulfilled**                                           | In this company we assume that the company has all the necessary legal requirements and agreements to exchange data with its partners in the Catena-X network, policies and permissions are not going to be specified, all the EDC configurations are the ones specified by the Catena-X network. For more information [see this specification](https://github.com/catenax-eV/cx-odrl-profile). |
-| **The digital product pass standards are followed**                                 | The digital twin registry and data service must be implemented as indicated in the latest CX standard for digital product passports and other products.                                                                                                                                                                                                                                         |
-| **The certification and verification are not limited to digital product passports** | This concept sets the initial path to verify any aspect model payload in Catena-X that uses JSON as its serialized representation. The concept is tailored to digital product passports since the **EcoDesign** regulations are playing an important role in the future of Data Ecosystems like *Catena-X*.                                                                                      |
-| **The wallets used in the concept allow to sign any type of credential**            | In order for the concept to work the wallets need to be able to sign any credential document using the private key, and also enable the "DID" endpoint to retrieve the public keys through the internet (DID WEB).                                                                                                                                                                              |
-| **Each company MUST have a decentralized wallet**                                      | In order to sign the credentials by your own as company you need to have a valid that fits to the decentralized wallets concept that is going to be standardized in Catena-X.                                                                                                                                                                                                                   |
-| **All data exchanges are done through the Eclipse DataSpace Connector**             | Every company **MUST** have an EDC in order to provide data to other parties and consume data from other partners. Data sovereignty is followed and shall use the guidelines provided by the Catena-X network.                                                                                                                                                                                  |
 # Creating Trust and Risk Mitigation Assets
 
 > Why to place trust in companies which certify data?
@@ -543,7 +556,182 @@ For the partial credential the data will be available in a "Verification" aspect
 
 # Technical Specification
 
-## Certification Aspects Schemas
+## Certification Aspects Specification
+
+The following Verification Statements defined in this concept inherit attributes from the standardized [Verifiable Credential Data Model v2](https://www.w3.org/TR/vc-data-model-2.0/) by the W3C. This are the following types of Verifiable Credentials used for the different documents:
+
+| Credential | Type |
+| :--- | --- |
+| Certified Data Credential | Verifiable Credential v2 |
+| Certified Snapshot Credential | Verifiable Credential v2 |
+| Attribute Certification Record | Verifiable Presentation v2 |
+
+### Verifiable Credential Required Fields
+
+For the **Certified Data Credential** and the **Certified Snapshot Credential** the following fields **MUST** be specified in the root level of the credential, following the [Verifiable Credential Data Model v2](https://www.w3.org/TR/vc-data-model-2.0/):
+
+| Field | Description | Example |
+| :--- | --- | --- |
+| `id` | The uuid4 unique identification of the Verifiable Credential aspect. |  `urn:uuid:d2e47115-c430-4145-bbde-1c743804a379` |
+| `issuer` | The DID web of the Wallet Public Key DID Document with Business Partner Number | `did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS` |
+| `validFrom` | The ISO datetime format of the time when the credential was issued | `2024-06-21T16:52:40Z` |
+| `validUntil` | The ISO datetime format of the time when the credential will expire. The time period can vary from issuer to issuer |  `2024-12-06T16:52:40Z` |
+| `@context` | The context field contains the list of schemas and JSON-LD context definitions. It **MAY** contain URLs to the context definitions. It **MAY** also contain context definitions embedded. | [-> Go to @context definition](#context-definition) |
+| `type` | The type field, contains the list of types defined in the `@context` of the credential. In this way the content of the credential `claim` can be defined. It **MAY** vary from credential to credential. | `["VerifiableCredential","CertifiedDataCredential","DigitalProductPassport"]` |
+
+#### Issuer Structure
+
+In case of Catena-X every party in the network is identified with the Business Partner Number (BPN). Therefore, the issuer **MUST** contain the BPN in the DID:WEB path, in order to identify correctly who is the issuer of the verifiable credential:
+
+```
+did:web:<<WALLET-URI>>:<<BPN>>
+```
+
+Example: `did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS`
+
+### Context Definition
+
+The `@context` field definition **MAY** vary from credential to credential. However, the following context URLs **MUST** be defined when following this concept.
+
+- W3C Verifiable Credential Data Model v2: https://www.w3.org/ns/credentials/v2
+- W3C JSON Web Signature 2020 Context: https://w3c.github.io/vc-jws-2020/contexts/v1/
+
+Additionally, if more specific contexts want to be defined, the following context URL **MAY** be added:
+
+- W3C Data Integrity Context: https://w3id.org/security/data-integrity/v2  
+
+For every credential [`Certified Data Credential`](#cdc-json-ld-context-schema), [`Certified Snapshot Credential`](#csc-json-ld-context-schema), [`Attribute Certification Record`](#amr-json-ld-context-schema) the individual JSON-LD context schema specification **MUST** be also added to the `@context` list.
+
+### Cryptography Signatures & Keys in Self-Descriptions
+
+The technology used for signatures of [Verifiable Credentials in Gaia-X](https://gaia-x.eu/wp-content/uploads/2022/06/Gaia-x-Architecture-Document-22.04-Release.pdf) is the `JsonWebSignature2020` and the corresponding keys are the following: `JsonWebKey2020`.
+
+The [simple-wallet](./simple-wallet) component already takes care of complying with the DID:Web standard from the W3C. When resolving a DID it will display a `did.json` in this format:
+
+```json
+{
+    "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3c.github.io/vc-jws-2020/contexts/v1"
+    ],
+    "id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
+    "verificationMethod": [
+        {
+            "controller": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
+            "id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+            "publicKeyJwt": {
+                "crv": "Ed25519",
+                "kid": "N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+                "kty": "OKP",
+                "x": "j3NLrd7Qq_EqW4zx9nuispEt7l8CO-GYJp9dlrWFmvg"
+            },
+            "type": "JsonWebKey2020"
+        }
+    ]
+}
+```
+
+In this way when a `JsonWebSignature2020` proof is added to a Verifiable Credential, the `verificationMethod` DID can be resolved and the wallet will be providing the `JsonWebKey2020` with the same `kid` (key id) as the credential. In this way the public key can be used to verify the credential signature proof (example):
+
+```json
+"proof": {
+    "type": "JsonWebSignature2020",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+    "created": "2024-06-21T16:52:40+00:00Z",
+    "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..c_xfb7TCumZqWxeZHXCiu1xWgyzx2JgeAJjPteDbr3gxRtIZvobsxfWR5s5UTMKgp47vC6Mh0_Uq6cN7vB6ABA"
+}
+```
+
+The `jws` (JSON Web Signature) field is organized in the following structure:
+
+```
+<<HEADER>>..<<ED25519-SIGNATURE>>
+```
+
+#### Signature Header
+
+The `HEADER` content **MUST** be the following structure defined in the [W3C Standard for JSON Web Signatures 2020 Proof Representations](https://www.w3.org/TR/vc-jws-2020/#proof-representation), [JOSE Signature Structure](https://datatracker.ietf.org/doc/draft-ietf-jose-json-web-signature/32/) and the [JOSE Non-Encoded Payload Signature](https://datatracker.ietf.org/doc/html/rfc7797) :
+
+```json
+{
+  "typ": "vc+ld",
+  "b64": false,
+  "alg": "HS256",
+  "crv": "Ed25519",
+  "crit": ["b64"]
+}
+```
+
+#### Signature Payload
+
+The signature payload **MUST** not be mentioned. It will be consider when verifying the signature, as:
+
+**CREDENTIAL CONTENT** - **PROOF** = **PAYLOAD**
+
+In this way the payload does not need to be duplicated in the signature in BASE64.
+
+For more information about Non-Encoded JOSE JSON Signatures consult the [RFC7797 Standard](https://datatracker.ietf.org/doc/html/rfc7797).
+
+#### Signature Generation
+
+For generating the signature a `Ed25519` Ecliptic Curve Private Key **MUST** be created by the Wallet. In this way public keys in JWK can be generated and verified mathematically correctly.
+
+While generating the signature follow this logic (pseudocode):
+
+```c++ pseudocode
+// Generate signature content
+signature_digest = base64NoPadding(dumpJsonBytesInUtf8(HEADER))+toByte('.')+base64NoPadding(dumpJsonBytesInUtf8(PAYLOAD));
+
+// Sign with private key and encode to base64
+signature = base64NoPadding(private_key.sign(signature_digest));
+
+// Build the JSON Web Signature and add it to the Verifiable Credential
+VERIFIABLE_CREDENTIAL['proof']['jws'] = toString(base64NoPadding(dumpJsonBytesInUtf8(HEADER)) + toByte('..') + signature);
+```
+
+For details on how to implement the logic and code for the signature consult the [simple-wallet Cryptool Util](./simple-wallet/utilities/cryptool.py).
+
+#### Signature Verification
+
+When Verifying a Credential Signature, a wallet **MUST** be able to resolve the DID:Web and retrieve the private key contained in the `publicKeyJwt` field, [example above](#cryptography-signatures--keys-in-self-descriptions).
+
+Once the public key is available for verifying the following procedure **MUST** be done (pseudocode):
+
+```c++ pseudocode
+
+// Check if the expiration date has passed
+if(VERIFIABLE_CREDENTIAL['validUntil'] >= currentIsoDateTime()){
+    fail;
+}
+
+// Split JWS signature content with the '.' separator
+signature_array = splitBySeparator(VERIFIABLE_CREDENTIAL['proof']['jws'], ".");
+
+// Retrieve JWS elements
+HEADER = loadJson(signature_array[0]);
+SIGNATURE = signature_array[2];
+PAYLOAD = delete VERIFIABLE_CREDENTIAL['proof'];
+
+// Build the Verification Digest to match the Issue Logic
+verification_digest = base64NoPadding(dumpJsonBytesInUtf8(HEADER))+toByte('.')+base64NoPadding(dumpJsonBytesInUtf8(PAYLOAD));
+
+// Verify the signature against the verification digest
+if(not public_key.verify(signature, verification_digest)){
+    fail;
+}
+
+// Verifiable Credential is Verified!
+success;
+```
+
+>[!TIP]
+>
+> An idea for a future implementation or version of this documentation is to use `RevocationList` to block and invalidate the verification of the Credentials. In this implementation **JUST** the expiration data in `validUntil` was used as invalidation method.
+>
+> Another functionality could be to check if the `issuer` from the credential has a Verifiable Credential that allows the company to issue verifiable credentials in the Network, and fail the verification when not authorized.
+>
+> And finally other options like `TrustedIssuersList` could be used to identify & specify if the `issuer` is trustable in the network or not.
 
 ### Certified Data Credential Schema
 
@@ -1312,10 +1500,34 @@ It is defined as a DID:Web for asserting the wallet validity, it **MUST** be def
 "holder": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS"
 ```
 
+### ACR JSON-LD Context Schema
+
+Using the [simple-wallet](./simple-wallet/README.md) `/context` any SAMM Aspect Model JSON Schema can be converted into a fully functional JSON-LD Context Schema.
+
+In order to simply the usage of the context schema, it was uploaded to this github repository and can be accessed in its raw version at the credential context in the following way:
+
+|ACR @Context| [https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/acr/1.0.0/attributeCertificationRecord.jsonld](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/acr/1.0.0/attributeCertificationRecord.jsonld) |
+| - | - |
+
+### ACR Semantic
+
+The Attribute Certification Record uses the [Verifiable Presentation Data Model in Version 2.0](https://www.w3.org/TR/vc-data-model-2.0/) as an aspect model "parent" instance. It is in this case Diverse attributes are already modeled and have their JSON-LD `@context` defined in the following URL: [https://www.w3.org/ns/credentials/v2](https://www.w3.org/ns/credentials/v2).
+
+In order to detail the special attributes used in the Attribute Certification Record a SAMM Model was created specifying the fields.
+
+#### ACR SemanticId
+
+```
+urn:samm:io.catenax.dpp_verification.acr:1.0.0#AttributeCertificationRecord
+```
+
+The SAMM RDF file can be found in the following path: [dpp-verification/semantics/io.catenax.dpp_verification.acr/1.0.0/AttributeCertificationRecord.ttl](./semantics/io.catenax.dpp_verification.acr/1.0.0/AttributeCertificationRecord.ttl)
+
+
 ### ACR CSC Verifiable Credentials List
 
 In the field `verifiableCredential` there **MUST** be a list of Certified Snapshot Credentials.
-The Certified Snapshot Credentials listed **MUST** be belonging and linked to the **SAME** aspect model. 
+The Certified Snapshot Credentials listed **MUST** be belonging and linked to the **SAME** aspect model.
 
 ### ACR Submodel Reference
 

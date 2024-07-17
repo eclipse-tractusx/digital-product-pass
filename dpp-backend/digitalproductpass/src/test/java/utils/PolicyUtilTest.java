@@ -165,13 +165,13 @@ class PolicyUtilTest {
 
         correctLogicalConstraint.put("odrl:and", correctContraints);
 
-        action.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        action.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         action.put("odrl:constraint", logicalConstraint);
 
-        correctAction.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        correctAction.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         correctAction.put("odrl:constraint", correctLogicalConstraint);
 
-        actionDtr.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        actionDtr.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         actionDtr.put("odrl:constraint", logicalConstraintDtr);
 
         singlePermission = correctAction;

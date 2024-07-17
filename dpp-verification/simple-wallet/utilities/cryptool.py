@@ -138,9 +138,11 @@ class cryptool:
 
             ## Prepare the header with the specification
             header = {
+                'alg':"HS256",
                 'typ': 'vc+ld',
                 'b64': False,
-                'crv': 'Ed25519'
+                'crv': 'Ed25519',
+                'crit':['b64']
             }
             
             ## Prepare the content to sign

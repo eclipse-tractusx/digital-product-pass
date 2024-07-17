@@ -667,7 +667,9 @@ The `HEADER` content **MUST** be the following structure defined in the [W3C Sta
 
 The signature payload **MUST** not be mentioned. It will be consider when verifying the signature, as:
 
-**CREDENTIAL CONTENT** - **PROOF** = **PAYLOAD**
+```
+PAYLOAD = VERIFIABLE_CREDENTIAL - VERIFIABLE_CREDENTIAL["proof"]
+```
 
 In this way the payload does not need to be duplicated in the signature in BASE64.
 
@@ -679,7 +681,7 @@ For generating the signature a `Ed25519` Ecliptic Curve Private Key **MUST** be 
 
 While generating the signature follow this logic (pseudocode):
 
-```c++ pseudocode
+```java
 // Generate signature content
 signature_digest = base64NoPadding(dumpJsonBytesInUtf8(HEADER))+toByte('.')+base64NoPadding(dumpJsonBytesInUtf8(PAYLOAD));
 
@@ -698,7 +700,7 @@ When Verifying a Credential Signature, a wallet **MUST** be able to resolve the 
 
 Once the public key is available for verifying the following procedure **MUST** be done (pseudocode):
 
-```c++ pseudocode
+```java
 
 // Check if the expiration date has passed
 if(VERIFIABLE_CREDENTIAL['validUntil'] >= currentIsoDateTime()){

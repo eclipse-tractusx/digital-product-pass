@@ -22,7 +22,7 @@
                       "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
                   }
               ],
-              "@id": "dpp:sustainability.productFootprint.carbon[0].value",
+              "@id": "sustainability.productFootprint.carbon[0].value",
               "digestMultibase": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
           }
       ]

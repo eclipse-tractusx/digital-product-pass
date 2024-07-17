@@ -150,6 +150,7 @@ This concept has been proved to be of high interest from the Certification and V
     - [Attribute List Description](#attribute-list-description)
       - [Validation Method Description](#validation-method-description)
       - [Validation Method Types](#validation-method-types)
+    - [Attribute Verification Logic](#attribute-verification-logic)
     - [CSC Credential Types Definition](#csc-credential-types-definition)
     - [CSC Example](#csc-example)
   - [Attribute Certification Record Schema](#attribute-certification-record-schema)
@@ -734,6 +735,7 @@ success;
 > Another functionality could be to check if the `issuer` from the credential has a Verifiable Credential that allows the company to issue verifiable credentials in the Network, and fail the verification when not authorized.
 >
 > And finally other options like `TrustedIssuersList` could be used to identify & specify if the `issuer` is trustable in the network or not.
+
 
 ### Certified Data Credential Schema
 
@@ -1335,7 +1337,7 @@ These are the field descriptions and rules:
 
 | Field | Description | Syntax or Example |
 | -- | -- | :- |
-| `@id` | Contains the path, using "." as separator and "[<Index>]" for array access reference, it shall indicate the specific attribute in the aspect model JSON Payload | `<< modelShortName >> : << path.to.attribute >>`  <br>Example: `dpp:physicalProperties.height.value`|
+| `@id` | Contains the path, using "." as separator and "[<Index>]" for array access reference, it shall indicate the specific attribute in the aspect model JSON Payload | `<< path.to.attribute >>`  <br>Example: `physicalProperties.height.value`|
 | `digestMultibase` | This is a standard field from the W3C security data model specifications, it contains in this case a [HASH SHA3-512](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf) of the value of the attribute key certified | `d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32` |
 | `validationMethod` | This field key name is based on W3W that exist like `verificationMethod`. It is a list of documents, sources, applications, standards, manuals used for the **Validation** of the attribute value. | [-> Go to the Validation Method Schema Description](#validation-method-description) |
 
@@ -1378,7 +1380,60 @@ The validation method types **MUST** be one of the following:
 
 > [!NOTE]
 >
-> The types mentioned here are an example of possible validation methods to be standardized in the future. In order to align in a common specification of validation methods types accross the industry.
+> The types mentioned here are an example of possible validation methods to be standardized in the future. In order to align in a common specification of validation methods types across the industry.
+
+### Attribute Verification Logic
+
+As describe in the [CSC Certification Chapter](#certified-snapshot-credential-certification) for performing the verification of the attributes the `Origin JSON Payload` **MUST** be available as well as the `Attribute Certification Record`.
+
+When doing the attribute verification the following logic **MUST** be followed (pseudocode):
+
+```js
+
+// If the proof is not verifiable the verifiable presentation integrity has been affected
+if(not verifyProof(ATTRIBUTE_CERTIFICATION_RECORD)){
+    fail;
+}
+// Generate the checksum of the original json paylaod credential.
+CHECKSUM_JSON_PAYLOAD = SHA3512(ORIGIN_JSON_PAYLOAD)
+
+// Iterate in parallel over the different credentials contained in the list
+<<parallel>> for (CERTIFIED_SNAPSHOT_CREDENTIAL in ATTRIBUTE_CERTIFICATION_RECORD['verifiableCredential']) {
+    
+    // If verifiable Credential Proof is not Valid Fail
+    if(not verifyProof(CERTIFIED_SNAPSHOT_CREDENTIAL)){
+        fail;
+    }
+
+    // If the original payload checksum hash does not match the checksum in the credential
+    if(CERTIFIED_SNAPSHOT_CREDENTIAL['origin']['digestMultibase'] != CHECKSUM_JSON_PAYLOAD){
+        fail;
+    }
+
+    // Iterate in parallel over the attributes in the credential.
+    <<parallel>> for(ATTRIBUTE in CERTIFIED_SNAPSHOT_CREDENTIAL['credentialSubject']['attributes']){
+
+        // Get the value from the path in the original payload with recursive function
+        originPayloadValue = getAttributeByPath(ORIGIN_JSON_PAYLOAD, ATTRIBUTE["@id"], ".");
+
+        //Hash value of the origin payload file
+        hashedOriginValue = SHA3512(originPayloadValue);
+
+        //If the hashes does not match the credential integrity of this attribute is broken
+        if(hashedOriginValue != ATTRIBUTE['digestMultibase']){
+            fail;
+        }
+    }
+}
+
+// Attribute verification is completed successfull!
+success;
+```
+
+>[!TIP]
+>
+> If the specific attributes information and flaws want to be collected it can be done instead of failing the complete process. And the other credentials can be also verified. 
+
 
 ### CSC Credential Types Definition
 
@@ -1446,7 +1501,7 @@ Here is an example of how the Certified Snapshot Credential looks like for a Dig
                       "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
                   }
               ],
-              "@id": "dpp:sustainability.productFootprint.carbon[0].value",
+              "@id": "sustainability.productFootprint.carbon[0].value",
               "digestMultibase": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
           }
       ]
@@ -1586,7 +1641,7 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
                             "uri": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
                         }
                     ],
-                    "@id": "dpp:sustainability.productFootprint.carbon[0].value",
+                    "@id": "sustainability.productFootprint.carbon[0].value",
                     "digestMultibase": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
                 }
             ]

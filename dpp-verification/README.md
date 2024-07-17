@@ -681,7 +681,7 @@ For generating the signature a `Ed25519` Ecliptic Curve Private Key **MUST** be 
 
 While generating the signature follow this logic (pseudocode):
 
-```java
+```js
 // Generate signature content
 signature_digest = base64NoPadding(dumpJsonBytesInUtf8(HEADER))+toByte('.')+base64NoPadding(dumpJsonBytesInUtf8(PAYLOAD));
 
@@ -700,7 +700,7 @@ When Verifying a Credential Signature, a wallet **MUST** be able to resolve the 
 
 Once the public key is available for verifying the following procedure **MUST** be done (pseudocode):
 
-```java
+```js
 
 // Check if the expiration date has passed
 if(VERIFIABLE_CREDENTIAL['validUntil'] >= currentIsoDateTime()){

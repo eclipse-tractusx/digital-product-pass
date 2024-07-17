@@ -170,6 +170,7 @@ This concept has been proved to be of high interest from the Certification and V
       - [Attribute Certification Registry](#attribute-certification-registry)
       - [Attribute Certification System](#attribute-certification-system)
     - [Attribute Certification Journey](#attribute-certification-journey)
+  - [Complete Component Interaction Context](#complete-component-interaction-context)
   - [Digital Twin Configuration](#digital-twin-configuration)
     - [Certified Data Credential Submodel](#certified-data-credential-submodel)
     - [CDC Semantic ID Keys](#cdc-semantic-id-keys)
@@ -1432,7 +1433,7 @@ success;
 
 >[!TIP]
 >
-> If the specific attributes information and flaws want to be collected it can be done instead of failing the complete process. And the other credentials can be also verified. 
+> If the specific attributes information and flaws want to be collected it can be done instead of failing the complete process. And the other credentials can be also verified.
 
 
 ### CSC Credential Types Definition
@@ -1761,6 +1762,11 @@ For the certification journey of specific attributes of a Digital Product Pass o
 
 ![Certification Journey Flow](./resources/implementation/attribute-certification-journey.svg)
 
+## Complete Component Interaction Context
+
+This is the complete component interaction in detail. It shows how Data Consumer, Data Providers and Data Auditor interact:
+
+![Complete Context Interaction](./resources/implementation/complete-csc-context-blueprint.svg)
 
 ## Digital Twin Configuration
 

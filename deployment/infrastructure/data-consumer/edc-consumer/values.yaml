@@ -46,7 +46,7 @@ tractusx-connector:
 
     
   participant:
-    id: "<path:material-pass/data/dev/edc/participant#bpnNumber>"
+    id: ""
 
   iatp:
     # Decentralized IDentifier
@@ -59,8 +59,8 @@ tractusx-connector:
       oauth:
         token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
-          id: "<path:material-pass/data/dev/edc/ssi#clientId>"
-          secret_alias: "dev-client-secret"
+          id: ""
+          secret_alias: ""
 
   # -- Add custom ca certificates to the truststore
   customCaCerts: {}
@@ -118,7 +118,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /consumer/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
+        authKey: ""
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -214,7 +214,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: ""
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -366,7 +366,7 @@ tractusx-connector:
       proxy:
         port: 8186
         path: /consumer/proxy
-        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
+        authKey: ""
       metrics:
         port: 9090
         path: /consumer/metrics
@@ -379,10 +379,10 @@ tractusx-connector:
         refresh_endpoint:
       signer:
         # alias under which the private key is stored in the vault (JWK or PEM format)
-        privatekey_alias: daps-key-dev
+        privatekey_alias: ""
       verifier:
         # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
-        publickey_alias: daps-crt-dev
+        publickey_alias: ""
 
     aws:
       endpointOverride: ""
@@ -453,7 +453,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: ""
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -535,8 +535,8 @@ tractusx-connector:
     nameOverride: ""
     auth:
       database: "edc"
-      username: <path:material-pass/data/dev/edc/database#user>
-      password: <path:material-pass/data/dev/edc/database#password>
+      username: ""
+      password: ""
 
   vault:
     fullnameOverride: "vault"
@@ -549,14 +549,14 @@ tractusx-connector:
       # Must be the same certificate that is configured in section 'daps'
       postStart:    # must be set externally!
     hashicorp:
-      url: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
+      url: ""
+      token: ""
       timeout: 30
       healthCheck:
         enabled: true
         standbyOk: true
       paths:
-        secret:  <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
+        secret:  ""
         health: /v1/sys/health
     # secretNames:
     #   transferProxyTokenSignerPrivateKey: daps-key-dev
@@ -608,16 +608,16 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#password>
+    username: ""
+    password: ""
 
 item-relationship-service:
   enabled: false
-  bpn: <path:material-pass/data/dev/edc/participant#bpnNumber>
+  bpn: ""
 
-  irsUrl: "https://materialpass-irs.dev.demo.catena-x.net"
-  apiKeyAdmin: <path:material-pass/data/dev/irs/apiKey#apiKeyAdmin>
-  apiKeyRegular: <path:material-pass/data/dev/irs/apiKey#apiKeyRegular>
+  irsUrl: ""
+  apiKeyAdmin: ""
+  apiKeyRegular: ""
 
   ingress:
     enabled: true
@@ -627,49 +627,49 @@ item-relationship-service:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
     hosts:
-      - host: "materialpass-irs.dev.demo.catena-x.net"
+      - host: ""
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - "materialpass-irs.dev.demo.catena-x.net"
+          - ""
         secretName: tls-secret
 
   digitalTwinRegistry:
     type: decentral
-    url: https://materialpass.dev.demo.catena-x.net/semantics/registry/api/v3.0
+    url: ""
 
     discovery:
       oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
-      discoveryFinderUrl: https://semantics.dev.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+      discoveryFinderUrl: ""
     semanticshub:
-      url: https://semantics.dev.demo.catena-x.net/hub/api/v1/models
+      url: ""
       oAuthClientId: semantics
     bpdm:
-      url: https://partners-pool.dev.demo.catena-x.net
+      url: ""
       oAuthClientId: bpdm
       bpnEndpoint: >-
         {{- if .Values.bpdm.url }}
         {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
         {{- end }}
 
-  minioUser: <path:material-pass/data/dev/irs/minio#user>
-  minioPassword: <path:material-pass/data/dev/irs/minio#password>
+  minioUser: ""
+  minioPassword: ""
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
   oauth2:
-    clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    clientTokenUri: ""
+    jwkSetUri: ""
     discovery:
-      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
-      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+      clientId: ""
+      clientSecret: ""
     semantics:
-      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
-      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+      clientId: ""
+      clientSecret: ""
     bpdm:
-      clientId: <path:material-pass/data/dev/irs/oauth2#clientId>
-      clientSecret: <path:material-pass/data/dev/irs/oauth2#clientSecret>
+      clientId: ""
+      clientSecret: ""
   edc:
     catalog:
       acceptedPolicies:
@@ -681,13 +681,13 @@ item-relationship-service:
           rightOperand: "active"
     controlplane:
       endpoint:
-        data: https://materialpass.dev.demo.catena-x.net/consumer/management
+        data: ""
       apikey:
         header: "X-Api-Key"
-        secret: <path:material-pass/data/dev/edc/oauth#api.key>
+        secret: ""
 
   minio:
     serviceAccount:
       create: false
-    rootUser: <path:material-pass/data/dev/irs/minio#user>
-    rootPassword: <path:material-pass/data/dev/irs/minio#password>
+    rootUser: ""
+    rootPassword: ""

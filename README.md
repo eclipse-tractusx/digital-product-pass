@@ -79,7 +79,16 @@ To get started you can have a look into our documentation:
 
 ## Digital Product Pass Verification Add-on
 
-The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers. It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done. Using a simple wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential, which can then be verified on the Data Consumer side.
+The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers.
+It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
+Using a wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential,
+which can then be verified on the Data Consumer side.
+
+This concept is the **First Aspect Model Verification/Certification Concept in Catena-X**! Therefore, it aims to provide a **"lighthouse"** for any other aspect model verification/certification that **MUST** be done in Catena-X using SAMM Aspect Models.
+
+It provides a generic concept for **Attribute Verification/Certification** by external/internal auditors, and also provides a **Self-Testification** option for Data Providers to certify their data while still maintaining data sovereighty at all costs. By using the EDC connector for the data exchanges this concept uses the **current Catena-X Architecture**.
+
+Furthermore, it gives guidance and ready to use components for verifying the data received from their Data Providers. The Digital Product Pass Add-on offers the consumers components like the [simple-wallet](./simple-wallet/), an **MVP decentral wallet** able to issue and verify aspect model Verifiable Credential Documents. It also provides a proof of concept (PoC) in the `dpp-backend` and `dpp-frontend` components for complete data payloads to be verified.
 
 | Name                                                                                                          | Description                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |

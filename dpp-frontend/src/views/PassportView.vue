@@ -289,7 +289,11 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
-import { loadFonts } from '@/assets/plugins/webfontloader';
+import { loadFonts } from "@/assets/plugins/webfontloader";
+import MOCK from "../assets/dppv5.json";
+import axios from "axios";
+import { LosslessNumber, parse, stringify } from "lossless-json";
+import Decimal from "decimal.js";
 
 export default {
   name: "PassportView",
@@ -307,7 +311,7 @@ export default {
   },
   data() {
     return {
-      showOverlay: true,
+      showOverlay: false,
       contractItems: reactive([]),
       radios: "0.0",
       details: false,
@@ -316,9 +320,9 @@ export default {
       declineContractModal: false,
       showContractModal: true,
       auth: inject("authentication"),
-      data: null,
+      data: MOCK,
       vcAspect: null,
-      loading: true,
+      loading: false,
       searchResponse: null,
       declineLoading: false,
       errors: [],
@@ -403,13 +407,97 @@ export default {
   },
 
   async created() {
-    loadFonts();
-    authUtil.cleanUrl(this);
-    store.commit("cleanHistoryState");
+    // loadFonts();
+    // authUtil.cleanUrl(this);
+    // store.commit("cleanHistoryState");
     this.backendService = new BackendService();
-    this.searchContracts();
+    // this.searchContracts();
+    // test
+    let body1 = await this.getData();
+    // // console.log(body);
+    // // debugger;
+    // let json = parse(body);
+    // // this.vcAspect = this.parsePayload(json);
+    // console.log("JSON after parse: ");
+    // console.log(json);
+    // let response = stringify(json);
+    // console.log(response);
+    // let result1 = await this.backendService.reloadVerification(this.auth, response);
+    // console.log("reload verification : ");
+    // console.log(result1);
+    // // console.log("NEGO:");
+    // // let json1 = parse(this.data["aspect"]);
+    // // console.log(json1);
+    // // this.vcAspect = jsonUtil.get("data.aspect", this.data);
+    // // let aspect = JSON.parse(JSON.stringify(this.vcAspect));
+    // // this.data = configUtil.normalizePassport(aspect, json["metadata"], json["semanticId"], json["verification"]);
+    // // let aspect = JSON.parse(JSON.stringify(this.vcAspect));
+    // // let aspect = this.vcAspect;
+    // this.data = configUtil.normalizePassport(
+    //   this.data["aspect"],
+    //   this.data["metadata"],
+    //   MOCK["semanticId"],
+    //   MOCK["verification"]
+    // );
+
+    this.vcAspect = body1["aspect"];
+    console.log(this.vcAspect);
+    let json = parse(this.vcAspect);
+    console.log("DEBUG: Lossless-json(parse): " + json);
+    // this.vcAspect = this.parsePayload(json);
+
+    let body = stringify(json);
+    let result1 = await this.backendService.reloadVerification(this.auth, body);
+    console.log("DEBUG: Reload Verification called: " + result1);
+
+    let aspect = json;
+    this.data = configUtil.normalizePassport(aspect, this.data["metadata"], MOCK["semanticId"], MOCK["verification"]);
   },
   methods: {
+    getData() {
+      return new Promise((resolve) => {
+        axios
+          .request({
+            baseURL: "https://tx-dpp.int.demo.catena-x.net/provider_backend/data/test",
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+            responseType: "text",
+          })
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch((e) => {
+            if (e.response.data) {
+              resolve(e.response.data);
+            } else if (e.request) {
+              resolve(e.request);
+            } else {
+              resolve(e.message);
+            }
+          });
+      });
+    },
+    parsePayload(data) {
+      let result = data;
+
+      function traverse(obj) {
+        if (obj && typeof obj === "object") {
+          for (const key in obj) {
+            if (obj[key] instanceof LosslessNumber) {
+              obj[key] = obj[key].value; //value: value.value
+              result[key] = obj[key];
+              return obj[key];
+            }
+            traverse(obj[key]);
+          }
+        }
+      }
+
+      traverse(data);
+      return result;
+    },
     processAspectData(dataAspect) {
       let dataKeys = Object.keys(dataAspect);
 
@@ -695,8 +783,19 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
+            console.log("DEBUG: in Resume Negotiation (else)");
             this.vcAspect = jsonUtil.get("data.aspect", this.data);
             let aspect = JSON.parse(JSON.stringify(this.vcAspect));
+
+            let json = parse(this.vcAspect);
+            console.log("DEBUG: Lossless-json(parse): " + json);
+            // this.vcAspect = this.parsePayload(json);
+
+            let body = stringify(json);
+            let result1 = await this.backendService.reloadVerification(this.auth, body);
+            console.log("DEBUG: Reload Verification called: " + result1);
+
+            aspect = json;
 
             this.data = configUtil.normalizePassport(
               aspect,

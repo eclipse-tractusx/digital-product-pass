@@ -294,51 +294,54 @@ export default class BackendService {
         };
     }
     async getStatus(processId, authentication) {
-        let status =  await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/status/` + processId, 'get');
+        let status = await this.callApiWithTokenSafe(
+            authentication,
+            `${BACKEND_URL}/api/contract/status/` + processId,
+            "get"
+        );
         store.commit("setStatusData", status);
         return status;
     }
 
-    async callApiWithTokenSafe(authentication, url, method, body=null, raw=false){
+    async callApiWithTokenSafe(authentication, url, method, body = null, raw = false) {
         // This function is responsible for retrying the api calls when the token is invalid
-        try{
-            let returnData =  await this.callApiWithToken(authentication, url, method, body, raw);
-            if(returnData.status === 401){
+        try {
+            let returnData = await this.callApiWithToken(authentication, url, method, body, raw);
+            if (returnData.status === 401) {
                 await authentication.forceRefreshToken();
-                return await this.callApiWithToken(authentication, url, method, body, raw)
+                return await this.callApiWithToken(authentication, url, method, body, raw);
             }
             return returnData;
-        }catch(e){
+        } catch (e) {
             let exception = e;
             if (exception.status === 401) {
                 authentication.forceRefreshToken();
-                try{
-                    return await this.callApiWithToken(authentication, url, method, body, raw)
-                } catch(exception2){
+                try {
+                    return await this.callApiWithToken(authentication, url, method, body, raw);
+                } catch (exception2) {
                     exception = exception2;
                 }
             }
             throw exception;
         }
-
     }
 
-    async callApiWithToken(authentication, url, method, body=null, raw=false){
+    async callApiWithToken(authentication, url, method, body = null, raw = false) {
         return new Promise((resolve) => {
             axios
                 .request({
-                    baseURL: url, 
+                    baseURL: url,
                     method: method,
                     headers: {
                         Accept: "application/json",
                         Authorization: "Bearer " + authentication.getAccessToken(),
                     },
-                    data: body
+                    data: body,
                 })
                 .then((response) => {
-                    if(raw){
+                    if (raw) {
                         resolve(response);
-                    }else{
+                    } else {
                         resolve(response.data);
                     }
                 })
@@ -355,28 +358,64 @@ export default class BackendService {
     }
 
     async getIrsState(processId, authentication) {
-        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/irs/` + processId + `/state`, 'get', null, true);
+        return await this.callApiWithTokenSafe(
+            authentication,
+            `${BACKEND_URL}/api/irs/` + processId + `/state`,
+            "get",
+            null,
+            true
+        );
     }
     async getIrsData(processId, authentication) {
-        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/irs/` + processId + `/components`, 'get');
+        return await this.callApiWithTokenSafe(
+            authentication,
+            `${BACKEND_URL}/api/irs/` + processId + `/components`,
+            "get"
+        );
     }
     async retrievePassport(body, authentication) {
-        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/data`,'post', body);
+        let url = `${BACKEND_URL}/api/data`;
+        let method = "post";
+        // This function is responsible for retrying the api calls when the token is invalid
+        try {
+            let returnData = await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+            if (returnData.status === 401) {
+                await authentication.forceRefreshToken();
+                return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+            }
+            return returnData;
+        } catch (e) {
+            let exception = e;
+            if (exception.status === 401) {
+                authentication.forceRefreshToken();
+                try {
+                    return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+                } catch (exception2) {
+                    exception = exception2;
+                }
+            }
+            throw exception;
+        }
     }
     async cancelContract(body, authentication) {
-        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/cancel`, 'post', body);
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/cancel`, "post", body);
     }
     async declineContract(body, authentication) {
-        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/decline`, 'post', body);
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/decline`, "post", body);
     }
     async agreeContract(body, authentication) {
-        let status =  await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/contract/agree`, 'post', body);
+        let status = await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/agree`, "post", body);
         store.commit("setStatusData", status);
         return status;
     }
     async searchContract(id, processId, authentication) {
         let body = this.getSearchBody(id, processId);
-        let searchData = await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/search`, 'post', body);
+        let searchData = await this.callApiWithTokenSafe(
+            authentication,
+            `${BACKEND_URL}/api/contract/search`,
+            "post",
+            body
+        );
         store.commit("setSearchData", searchData);
         return searchData;
     }
@@ -385,10 +424,63 @@ export default class BackendService {
             id: discoveryId,
             type: type,
         };
-        return await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/contract/create`, 'post', body);
+        return await this.callApiWithTokenSafe(authentication, `${BACKEND_URL}/api/contract/create`, "post", body);
     }
 
+    async callApiWithTokenWithIntegrity(authentication, url, method, stringBody = null, raw = false) {
+        return new Promise((resolve) => {
+            axios
+                .request({
+                    baseURL: url,
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        Authorization: "Bearer " + authentication.getAccessToken(),
+                    },
+                    responseType: "text",
+                    data: stringBody,
+                })
+                .then((response) => {
+                    if (raw) {
+                        resolve(response);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((e) => {
+                    if (e.response.data) {
+                        resolve(e.response.data);
+                    } else if (e.request) {
+                        resolve(e.request);
+                    } else {
+                        resolve(e.message);
+                    }
+                });
+        });
+    }
     async reloadVerification(authentication, body) {
-        return await this.callApiWithTokenSafe(authentication,`${BACKEND_URL}/api/verification/verify`, 'post', body);
+        let url = `${BACKEND_URL}/api/verification/verify`;
+        let method = "post";
+        // This function is responsible for retrying the api calls when the token is invalid
+        try {
+            let returnData = await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+            if (returnData.status === 401) {
+                await authentication.forceRefreshToken();
+                return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+            }
+            return returnData;
+        } catch (e) {
+            let exception = e;
+            if (exception.status === 401) {
+                authentication.forceRefreshToken();
+                try {
+                    return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+                } catch (exception2) {
+                    exception = exception2;
+                }
+            }
+            throw exception;
+        }
     }
 }

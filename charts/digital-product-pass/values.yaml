@@ -142,7 +142,7 @@ backend:
     hostname: ""
     apis:
       readiness: "/api/check/readiness"
-      management: "/management/v2"
+      management: "/management/v3"
       catalog: "/catalog/request"
       negotiation: "/contractnegotiations"
       transfer: "/transferprocesses"

@@ -12,7 +12,7 @@
     ],
     "parent": {
         "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
-        "checksum": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
+        "digestMultibase": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
     },
     "semanticId": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport",
     "credentialSubject": {
@@ -24,7 +24,7 @@
                 "lastModification": "2000-01-01",
                 "predecessor": "urn:uuid:00000000-0000-0000-0000-000000000000",
                 "issueDate": "2000-01-01",
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "passportIdentifier": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
                 "status": "draft",
                 "expirationDate": "2030-01-01"
@@ -34,35 +34,35 @@
                 "physicalState": "solid",
                 "physicalDimension": {
                     "volume": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:cubicMetre"
                     },
                     "grossWeight": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:gram"
                     },
                     "diameter": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:millimetre"
                     },
                     "grossVolume": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:cubicMetre"
                     },
                     "width": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:millimetre"
                     },
                     "length": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:millimetre"
                     },
                     "weight": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:gram"
                     },
                     "height": {
-                        "value": 20.0,
+                        "value": 20,
                         "unit": "unit:millimetre"
                     }
                 },
@@ -390,15 +390,15 @@
             }
         }
     },
-    "id": "urn:uuid:d2e47115-c430-4145-bbde-1c743804a379",
+    "id": "urn:uuid:d3fe2ef3-52f3-49b3-be2c-06ea5c851014",
     "issuer": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
-    "validFrom": "2024-06-21T16:52:40Z",
-    "validUntil": "2024-12-06T16:52:40Z",
+    "validFrom": "2024-07-10T11:52:38Z",
+    "validUntil": "2024-12-25T11:52:38Z",
     "proof": {
         "type": "JsonWebSignature2020",
         "proofPurpose": "assertionMethod",
         "verificationMethod": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
-        "created": "2024-06-21T16:52:40+00:00Z",
-        "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..c_xfb7TCumZqWxeZHXCiu1xWgyzx2JgeAJjPteDbr3gxRtIZvobsxfWR5s5UTMKgp47vC6Mh0_Uq6cN7vB6ABA"
+        "created": "2024-07-10T11:52:38Z",
+        "jws": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..GGp894YeB1dHPi8mWZ6FQ_ydonAlt_MIm2LblrfR5YnbxWZyDRRBKNqBFV6oeIs3ZbnWqVZL9L3HH5MP9X5BDA"
     }
 }

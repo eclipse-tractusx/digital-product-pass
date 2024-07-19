@@ -61,7 +61,7 @@ public class LogicalConstraint extends Constraint {
 
 
     /** CONSTRUCTOR(S) **/
-    public LogicalConstraint(String leftOperand, DidDocument operator, String rightOperand, List<Constraint> andOperator, List<Constraint> orOperator) {
+    public LogicalConstraint(DidDocument leftOperand, DidDocument operator, String rightOperand, List<Constraint> andOperator, List<Constraint> orOperator) {
         super(leftOperand, operator, rightOperand);
         this.andOperator = andOperator;
         this.orOperator = orOperator;

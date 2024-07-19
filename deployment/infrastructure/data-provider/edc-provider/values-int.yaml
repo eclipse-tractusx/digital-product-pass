@@ -31,21 +31,21 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
+    id: "<path:digital-product-pass/data/int/edc/participant#bpnNumber>"
 
   iatp:
     # Decentralized IDentifier
-    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    id: "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL000000000FV1"
     trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
       - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
     sts:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
-          id: "<path:material-pass/data/int/edc/ssi#clientId>"
-          secret_alias: "int-client-secret"
+          id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
+          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
 
   controlplane:
     enabled: true
@@ -63,7 +63,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /BPNL000000000000/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:material-pass/data/int/edc/oauth#api.key>
+        authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -88,7 +88,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "dpp.int.catena-x.net"
        # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -98,7 +98,6 @@ tractusx-connector:
           - control
           - protocol
           - metrics
-          - observability
         # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
         className: "nginx"
         # -- TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource
@@ -106,7 +105,7 @@ tractusx-connector:
           # -- Enables TLS on the ingress resource
           enabled: true
           # -- If present overwrites the default secret name
-          secretName: "tls-secret"
+          secretName: "tls-secret-provider-controlplane"
   dataplane:
     enabled: true
     endpoints:
@@ -116,16 +115,13 @@ tractusx-connector:
       public:
         port: 8081
         path: /BPNL000000000000/api/public
-      signaling:
-        port: 8083
-        path: /api/signaling
       control:
-        port: 8083
+        port: 8084
         path: /BPNL000000000000/api/dataplane/control
       proxy:
         port: 8186
         path: /BPNL000000000000/proxy
-        authKey: <path:material-pass/data/int/edc/oauth#api.key>
+        authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
       metrics:
         port: 9090
         path: /BPNL000000000000/metrics
@@ -138,17 +134,17 @@ tractusx-connector:
         refresh_endpoint:
       signer:
         # alias under which the private key is stored in the vault (JWK or PEM format)
-        privatekey_alias: ids-daps_key
+        privatekey_alias: signer_privatekey
       verifier:
         # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
-        publickey_alias: ids-daps_crt
+        publickey_alias: verifier_publickey
 
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.demo.catena-x.net"
+        hostname: "dpp.int.catena-x.net"
         # -- Additional ingress annotations to add
                # -- Additional ingress annotations to add
         annotations: {}
@@ -162,7 +158,7 @@ tractusx-connector:
           # -- Enables TLS on the ingress resource
           enabled: true
           # -- If present overwrites the default secret name
-          secretName: "tls-secret"
+          secretName: "tls-secret-provider-dataplane"
         ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
         certManager:
           # -- If preset enables certificate generation via cert-manager namespace scoped issuer
@@ -171,8 +167,8 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#password>
+    username: <path:digital-product-pass/data/int/edc/database#user>
+    password: <path:digital-product-pass/data/int/edc/database#password>
 
   vault:
     fullnameOverride: "vault"
@@ -182,15 +178,8 @@ tractusx-connector:
       paths:
         secret: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
-    secretNames:
-      transferProxyTokenSignerPrivateKey: ids-daps_key
-      transferProxyTokenSignerPublicKey: ids-daps_crt
-      transferProxyTokenEncryptionAesKey: edc-encryption-key
-
-  backendService:
-    httpProxyTokenReceiverUrl: "https://materialpass.int.demo.catena-x.net/endpoint"
 
 postgresql:
   auth:
-    username: <path:material-pass/data/int/edc/database#user>
-    password: <path:material-pass/data/int/edc/database#password>
+    username: <path:digital-product-pass/data/int/edc/database#user>
+    password: <path:digital-product-pass/data/int/edc/database#password>

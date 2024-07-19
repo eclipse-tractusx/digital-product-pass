@@ -94,7 +94,7 @@ configuration:
       # List of allowed permissions policies
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"
@@ -156,7 +156,7 @@ configuration:
       strictMode: false
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"

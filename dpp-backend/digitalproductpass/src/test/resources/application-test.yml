@@ -93,7 +93,7 @@ configuration:
       # List of allowed permissions policies
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"
@@ -174,7 +174,7 @@ configuration:
       strictMode: false # The strict mode is quicker and requires less computation complexity, the default mode is comparing against every single object value
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"

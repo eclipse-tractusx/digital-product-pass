@@ -1,0 +1,193 @@
+[
+  {
+    "https://www.w3.org/2018/credentials#holder": [
+      {
+        "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS"
+      }
+    ],
+    "@id": "urn:uuid:974d35dd-3e5e-4782-ad61-6c49fe294650",
+    "https://w3id.org/security#proof": [
+      {
+        "@graph": [
+          {
+            "http://purl.org/dc/terms/created": [
+              {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2024-07-10T15:08:13Z"
+              }
+            ],
+            "https://w3id.org/security#jws": [
+              {
+                "@value": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..Rpq5BU3Y_-pwQofpWyEaG75muQ2ojRAxr7TZP4PMacO6cXZVeGHD_2qd3EzmEITcXEiV1u3Ct-SHyc7AI9cPCA"
+              }
+            ],
+            "https://w3id.org/security#proofPurpose": [
+              {
+                "@id": "https://w3id.org/security#assertionMethod"
+              }
+            ],
+            "@type": [
+              "https://w3id.org/security#JsonWebSignature2020"
+            ],
+            "https://w3id.org/security#verificationMethod": [
+              {
+                "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "urn:samm:io.catenax.dpp_verification.amr:1.0.0#submodel": [
+      {
+        "@id": "urn:uuid:cd1c0904-27e2-4ae2-8751-5c8c8e4b6812",
+        "urn:samm:io.catenax.dpp_verification.amr:1.0.0#semanticId": [
+          {
+            "@type": "https://schema.org/string",
+            "@value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass"
+          }
+        ]
+      }
+    ],
+    "@type": [
+      "https://www.w3.org/2018/credentials#VerifiablePresentation",
+      "urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord"
+    ],
+    "https://www.w3.org/ns/credentials/issuer-dependent#validFrom": [
+      {
+        "@value": "2024-07-10T15:08:13Z"
+      }
+    ],
+    "https://www.w3.org/ns/credentials/issuer-dependent#validUntil": [
+      {
+        "@value": "2024-12-25T15:08:13Z"
+      }
+    ],
+    "https://www.w3.org/2018/credentials#verifiableCredential": [
+      {
+        "@graph": [
+          {
+            "https://www.w3.org/2018/credentials#credentialSubject": [
+              {
+                "urn:samm:io.catenax.dpp_verification.csc:1.0.0#attributes": [
+                  {
+                    "@list": [
+                      {
+                        "@id": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#sustainability.productFootprint.carbon[0].value",
+                        "https://w3id.org/security#digestMultibase": [
+                          {
+                            "@type": "https://w3id.org/security#multibase",
+                            "@value": "d05da06852ad3b7f8ac51cf20b4ff07be758878643da52cc3418cf15eea3e2e91d93dbc69de977560d4561109021d5b39c9f26cbc6546b39298e8ae70694ec32"
+                          }
+                        ],
+                        "urn:samm:io.catenax.dpp_verification.csc:1.0.0#validationMethod": [
+                          {
+                            "@list": [
+                              {
+                                "@id": "CX-0029",
+                                "@type": [
+                                  "https://www.w3.org/ns/credentials/issuer-dependent#Standard"
+                                ],
+                                "urn:samm:io.catenax.dpp_verification.csc:1.0.0#label": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "Catena-X PCF Rulebook Standard"
+                                  }
+                                ],
+                                "urn:samm:io.catenax.dpp_verification.csc:1.0.0#uri": [
+                                  {
+                                    "@type": "https://schema.org/string",
+                                    "@value": "https://catena-x.net/fileadmin/user_upload/Standard-Bibliothek/Update_September23/CX-0029-ProductCarbonFootprintRulebook-v2.0.0.pdf"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "@id": "urn:uuid:281a8b98-933c-4d80-ad86-721f1adbe5b3",
+            "https://www.w3.org/2018/credentials#issuer": [
+              {
+                "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS"
+              }
+            ],
+            "urn:samm:io.catenax.dpp_verification.csc:1.0.0#origin": [
+              {
+                "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3Acd1c0904-27e2-4ae2-8751-5c8c8e4b6812",
+                "@type": [
+                  "https://www.w3.org/ns/credentials/issuer-dependent#application/vc+ld+json"
+                ],
+                "https://w3id.org/security#digestMultibase": [
+                  {
+                    "@type": "https://w3id.org/security#multibase",
+                    "@value": "c118df3b7bf603a86bd79f03c692153bdb4212ab80d49c12154c92415ae83d6d59187d9ba5af9c4e40208f7d7b1d4c727de78cfbe51e768aae743723ee197374"
+                  }
+                ],
+                "urn:samm:io.catenax.dpp_verification.csc:1.0.0#semanticId": [
+                  {
+                    "@type": "https://schema.org/string",
+                    "@value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPass"
+                  }
+                ]
+              }
+            ],
+            "https://w3id.org/security#proof": [
+              {
+                "@graph": [
+                  {
+                    "http://purl.org/dc/terms/created": [
+                      {
+                        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                        "@value": "2024-07-10T15:08:13Z"
+                      }
+                    ],
+                    "https://w3id.org/security#jws": [
+                      {
+                        "@value": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..Rpq5BU3Y_-pwQofpWyEaG75muQ2ojRAxr7TZP4PMacO6cXZVeGHD_2qd3EzmEITcXEiV1u3Ct-SHyc7AI9cPCA"
+                      }
+                    ],
+                    "https://w3id.org/security#proofPurpose": [
+                      {
+                        "@id": "https://w3id.org/security#assertionMethod"
+                      }
+                    ],
+                    "@type": [
+                      "https://w3id.org/security#JsonWebSignature2020"
+                    ],
+                    "https://w3id.org/security#verificationMethod": [
+                      {
+                        "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "@type": [
+              "https://www.w3.org/2018/credentials#VerifiableCredential",
+              "urn:samm:io.catenax.dpp_verification.csc:1.0.0#CertifiedSnapshotCredential",
+              "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+            ],
+            "https://www.w3.org/2018/credentials#validFrom": [
+              {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2024-07-10T15:08:13Z"
+              }
+            ],
+            "https://www.w3.org/2018/credentials#validUntil": [
+              {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2024-12-25T15:08:13Z"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

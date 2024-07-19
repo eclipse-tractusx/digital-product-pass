@@ -110,6 +110,8 @@ This concept has been proved to be of high interest from the Certification and V
   - [Abstract Types](#abstract-types)
   - [Verification Statements Documents/Credentials](#verification-statements-documentscredentials)
   - [Document Exchange Details](#document-exchange-details)
+  - [Trust and Value of having certified aspects](#trust-and-value-of-having-certified-aspects)
+    - [Maximum Trust Model](#maximum-trust-model)
 - [Certification Processes](#certification-processes)
   - [Attribute Certification Process](#attribute-certification-process)
   - [Self-Testify Certification Process](#self-testify-certification-process)
@@ -180,12 +182,16 @@ This concept has been proved to be of high interest from the Certification and V
     - [AMR Semantic ID Keys](#amr-semantic-id-keys)
     - [AMR ID Short](#amr-id-short)
     - [AMR Submodel Example](#amr-submodel-example)
-  - [Certification Sequence Diagrams](#certification-sequence-diagrams)
-    - [CSC Certification Sequence Diagram](#csc-certification-sequence-diagram)
-    - [CDC + CSC Certification Sequence Diagram](#cdc--csc-certification-sequence-diagram)
-  - [Verification Sequence Diagrams](#verification-sequence-diagrams)
-    - [CSC Verification Sequence Diagram](#csc-verification-sequence-diagram)
-    - [CDC + CSC Verification Sequence Diagram](#cdc--csc-verification-sequence-diagram)
+- [Verification Implementation in the Digital Product Pass](#verification-implementation-in-the-digital-product-pass)
+  - [Challenges](#challenges)
+  - [Sequence Diagram](#sequence-diagram)
+  - [API Verification Backend Specification](#api-verification-backend-specification)
+  - [Verification Status and Loading](#verification-status-and-loading)
+  - [Frontend Verification Add-on User Manual](#frontend-verification-add-on-user-manual)
+    - [\[Verified\] Verification Successful](#verified-verification-successful)
+    - [\[NOT VERIFIED\] Verification Failed](#not-verified-verification-failed)
+    - [\[UNVERIFIED\] Verification Not Supported](#unverified-verification-not-supported)
+  - [Add-on Charts Configurations](#add-on-charts-configurations)
 - [Additional Information](#additional-information)
   - [Linking Digital Twins in Type Level](#linking-digital-twins-in-type-level)
     - [Cardinality](#cardinality)
@@ -203,6 +209,12 @@ The Digital Product Pass Verification Add-on aims to create a second layer of tr
 It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
 Using a simple wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential,
 which can then be verified on the Data Consumer side.
+
+As found during the [previous investigation phase](#previous-investigation), this concept is the **First Aspect Model Verification/Certification Concept in Catena-X**. It aims to provide a **"lighthouse"** for any other aspect model verification/certification that **MUST** be done in Catena-X using SAMM Aspect Models.
+
+It provides a generic concept for **Attribute Verification/Certification** by external/internal auditors, and also provides a **Self-Testification** option for Data Providers to certify their data while still maintaining data sovereighty at all costs. By using the EDC connector for the data exchanges this concept uses the **current Catena-X Architecture**.
+
+Furthermore, it gives guidance and ready to use components for verifying the data received from their Data Providers. The Digital Product Pass Add-on offers the consumers components like the [simple-wallet](./simple-wallet/), an **MVP decentral wallet** able to issue and verify aspect model Verifiable Credential Documents. It also provides a proof of concept (PoC) in the `dpp-backend` and `dpp-frontend` components for complete data payloads to be verified.
 
 ## Context Diagram
 
@@ -457,6 +469,39 @@ The different roles will exchange different document which will contain, informa
 **Data Providers** will be providing data for the *Data Consumers* and the *Data Auditors*.
 This data may vary depending on the data exchanged and certified by the *Data Auditors*. The auditors will consume data from the **Data Provider** creating "Verification Statements" for the data consumed, signing the data and sending it back to the **Data Provider**. In this way the provider will be able to present the data to the consumers and the consumer will be able to verify the signature with the **Data Auditor**.
 
+## Trust and Value of having certified aspects
+
+When comparing with the current data exchange implementation approach using plain JSON payloads to do the data exchange used in Catena-X with this concept there is a question that comes up:
+
+> What is the added value from using Verification Credentials in comparative with Plain JSON Payloads?
+
+This is the added value from the concept:
+
+| Aspect | Integrity | Attribute Validation | Semantic Context | Digital Proof (Liability) | Non-CX-Interoperability | Traceability/Version Control | Improved Data Sovereignty | Verification Metadata in Aspect | Selective Disclosure |
+| --- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| Plain JSON Payload | - | - | - | - | - | - | - | - | - |
+| Certified Data Credential | + | - | + | + | + | + | + | + | - |
+| Certified Snapshot Credential | + | + NEW! | - | + | + NEW! | - | + | + | + |
+
+By using this concept the following added value metrics are added:
+
+| Metric | Description |
+| -- | -- |
+| Integrity | By using verifiable credentials the data integrity is assured, if one specific attribute or value change the integrity will be broken. |
+| Attribute Validation | By using the Certified Snapshot Credential the attribute validation can be done referencing the standards used for adding the data. |
+| Semantic Context | By using verifiable credentials the semantic context of the credential is travelling with the data. Therefore, if the JSON-LD would be expanded, all the different attributes will be represented in context, and a graph can be created, allowing better data analysis and ontology creations |
+| Digital Proof (Liability) | By signing electronically with a wallet the credentials, companies and parties in the Catena-X Network are assuming liability and demonstrating that they are the issuers of this data. Proofing their involvement in the data creation. |
+|Non-CX-Interoperability | By using Verifiable Credentials the interoperability with other initiatives that are using the same technology is ensured. Catena-X data will then be enabled to be exchanged in other networks, while still maintaining the data sovereignty by **Presenting** the Verifiable Credential Data in other networks using Verifiable Presentations. |
+|Traceability / Version Control | By using the `Certified Data Credential` the traceability and version control of the data can be enabled. Using hashes and DIDs to track the changes in the data and in the supply chain. |
+|Improved Data Sovereignty | Data Sovereignty is already covered by the EDC, however once the data is retrieved the track of the data is lost. In this way by using a two layered data sovereignty, we can trace the data once it is retrieved, assuring the ownership of the data. |
+|Verification Metadata in Aspect | The verification metadata does not need to be store in a "central" system, it travels decentrally with the data. Therefore, any consumer with access to the internet and a working identity wallet can verify that the data was "certified" and by who was "issued".|
+|Selective Disclosure | By using the `Certified Snapshot Credential` a picture of the attributes can be taken without revealing the original content of it. In this way the data auditor can store a copy of the data without bothering about Data Sovereignty issues |
+
+### Maximum Trust Model
+
+By using both `Certified Data Credentials` (for the complete aspect model self-certification) and `Certified Snapshot Credentials` (for the attribute certification) we can achieve the maximum number of trust, integrity and data sovereignty.
+
+The `Certified Data Credential` will allow the auditor to know that the data visualized and the integrity was proof by the `issuer` and that it is the data provider. And once the `Certified Snapshot Credential` is done the data provider can present it to the data consumer using the `Attribute Certification Record` a Verifiable Presentation with all the attributes certified of one specific `Certified Data Credential`.
 
 # Certification Processes
 
@@ -1531,6 +1576,7 @@ Here is an example of how the Certified Snapshot Credential looks like for a Dig
 
 ## Attribute Certification Record Schema
 
+
 ![AMR Schema](./resources/implementation/amr-document-credential.svg)
 
 The attribute certification record (AMR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
@@ -1690,9 +1736,12 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
 
 ## Interfaces
 
-The digital product pass application would act in the dpp-verification concept as the "Verification System" which is able to communicate with different systems, behind or not behind an EDC connector. Data would be exchange using the EDC however components like the Wallet could be accessed using the "DID Web" method, or the Semantic Hub using the central interface provided by the operator of the network.
+If implemented in its totality, the digital product pass application would act in the dpp-verification concept as the "Verification System" which is able to communicate with different systems, behind or not behind an EDC connector. Data would be exchange using the EDC however components like the Wallet could be accessed using the "DID Web" method, or the Semantic Hub using the central interface provided by the operator of the network.
 
 ![Interfaces](./resources/technical/interfaces.svg)
+
+The role of the Semantic Hub would be to store and provide an API to retrieve public JSON-LD contexts for every model in the network.
+For a first proof of concept implementation the schemas were provided in this GitHub repository, in the [schemas](./schemas/) section of the `dpp-verification` add-on.
 
 ## Self-Testify Data Certification and Verification Implementation
 
@@ -1710,7 +1759,6 @@ Here is a diagram that describes how the self-testification implementation works
 >
 
 The data provider **MUST** self-testify and create the Certified Data Credential as described in the [Certified Data Credential Schema](#certified-data-credential-schema).
-
 
 ### Simple Wallet
 
@@ -1790,6 +1838,9 @@ For referencing if a submodel contains verifiable credentials or verifiable pres
 | `Operation` | In order to support and identify different signature types the "operation" semantic type key is used. It includes the context for specific signature types. | `https://w3c.github.io/vc-jws-2020/contexts/v1/` |
 
 For the different submodels different structures and values are used to identify the different aspects and content-types. All the different fields much match to indicate that the submodel data we are retrieving is the corresponding one.
+
+> [!NOTE]
+> Here you can find a complete digital twin example for the Certified Data Credential for a battery: [CDC Digital Twin Example](./resources/test-payloads/cdcDigitalTwin.json)
 
 ### Certified Data Credential Submodel
 
@@ -1963,36 +2014,167 @@ By concatenating the "Verification" sufix the consumer applications are able to 
 }
 ```
 
-## Certification Sequence Diagrams
+# Verification Implementation in the Digital Product Pass
 
-> [!WARNING]
-> Some details may be missing or incorrect, since that is the first implementation concept for the certification and verification. The concept is still being elaborated and will be determined in the new release with the actual implementation!
+In the R24.08, the `dpp-backend` component received a [new add-on package](../dpp-backend/digitalproductpass/src/main/java/org/eclipse/tractusx/digitalproductpass/verification/):
 
-### CSC Certification Sequence Diagram
+```java
+package org.eclipse.tractusx.digitalproductpass.verification
+```
 
-In this sequence diagram we can see how a data auditor retrieved the data as a normal Digital Product Pass Application. It will select then the different attributes and then sign his certificate against its own `decentral wallet`. After he will send it to the data provider.
+As described at the beginning of this documentation, one of the [objectives](#objectives) was to implement and provide a working PoC using the Digital Product Pass Application as a "Verifier" application.
 
-![CSC Certification](./resources/technical/technical-integration-flow-csc-data-auditor.svg)
+For the first implementation was selected the [Certified Data Credential](#certified-data-credential-certification) use case. Where a Data Provider **SELF-TESTIFIES** its own data using a wallet.
 
-### CDC + CSC Certification Sequence Diagram
+## Challenges
 
-In this sequence diagram we have the same as the first one, however the data auditor can also indicate which data needs to be updated in the original data for being `compliant`. Therefore, the data provider can also update its data in the original data and verify it once again.
+When implementing the Digital Product Pass Verification PoC the following challanges were discovered and solved:
 
-![CSC + CDC Certification](./resources/technical/technical-integration-flow-csc+cdc-data-auditor.svg)
 
-## Verification Sequence Diagrams
+| Challenge | Description | Solution |
+| --- | --- | --- |
+| **First Implementation and Data Verification Concept in Catena-X** | 
+| **The Managed Identity Wallet Component is not Ready** | The MIW Wallet is not ready for signing Aspect Model Verifiable Credentials. And it is currently not decentraly available for each party to host. It is currently just hosted by the data space operator. It is designed to host the "member" credentials and enable the EDC communication with SSI. | Design and Implement a MVP Wallet. There was developed a [simple-wallet](./simple-wallet/) component for issuing and verifying the credentials, imitating the MIW functionality and methods. |
+| **There are no JSON-LD contexts for the standardized SAMM Models** | Currently there is no open-source component that transforms JSON Schemas into JSON-LD Contexts. This blocks the credentials to be included in the JSON-LD documents, because the attributes are not in context. | As a solution to this problem an **'adapter'** was developed in the wallet an [add-on that convert SAMM Models JSON Schemas into valid JSON-LD contexts](./simple-wallet/passport/sammSchemaParser.py). In this way any Aspect Model Payload can be referenced in a Verifiable Credential. By calling the `/context` API any JSON Schema can be converted. |
+|
 
-### CSC Verification Sequence Diagram
+By developing this `adapters` the Verification Concept could be proofed and demontrated using the Catena-X network.
 
-In this verification sequence diagram we can observe the digital product pass application will retrieve the data first and then will request for any verification data available.
+## Sequence Diagram
 
-![CSC Verification](./resources/technical/technical-integration-flow-csc.svg)
+For a better understanding of the implementation here is the sequence diagram of the implementation done for the Digital Product Pass Application.
 
-### CDC + CSC Verification Sequence Diagram
+![Sequence Diagram](./resources/implementation/implementation-sequence.svg)
 
-In this verification sequence diagram the complete verification is found. The CDC credential is retrieved in the first step and checked if it verified against a wallet. And then the data is displayed, after that the user requests more verification and gets it from the data provider if allowed.
+>[!IMPORTANT]
+> In this diagram was abstracted: several details and API calls that are made by the backend to seach and negotiate contracts, lookup for digital twin registries + EDCs and communications between the `dpp-frontend` and `dpp-backend` components.
+> It was resumed in order to provide a more simple view about the verification process.
+> For more information about the backend data retrieval process, consult the [Arc42](../docs/architecture/Arc42.md) documentation, or the [Data Retrieval Guide](../docs/data-retrieval/README.md) for a more generic approach.
+>
+It starts with a user searching in the `dpp-frontend` component for a specific passport.
 
-![CSC + CDC Verification](./resources/technical/technical-integration-flow-csc+cdc.svg)
+## API Verification Backend Specification
+
+In the backend there was enabled an API for refreshing the verification status from the frontend side.
+
+| API | Description | Request | Response |
+|-- | -- | -- | -- |
+| `/api/verification/verify` | This API refreshes the verification of a credential in the frontned. Allowing the user to check if the data visualized is verified. It requires the Frontend Authorization Token to be accessed. | [Certified Data Credential (CDC)](#cdc-example) | 200 & {data=true} -> Verified <br> 403 & {data=false} -> Not Verified  |
+
+## Verification Status and Loading
+
+When the contract and policy for the asset are agreed by the user, a verification step will be added dynamically to the loading screen when the process status `verifiable-aspect-found` is found, and if the auto verification is enabled it will be automatically trigger the verification process. If is not verified the backend status will be `verification-failed` and if the verification is successful the backend status will be `verification-completed`:
+
+![loading](./resources/screenshots/verification-loading-success.png)
+
+In case the verification fails, a red cross will be displayed in red indicating it failed. However, the data will be visualized in any case.
+
+For the `/api/status/<processId>` API at the `dpp-backend` was added a new section for verification metadata. When `vc` is enabled then a verifiable credential will be returned. This is done by checking the [digital twin submodel id information](#digital-twin-configuration). If the credential was verified, the `verified` flag will be present, and in case it failed, and `error` flag will be presented with the error message in string format.
+
+
+```json
+"verification" : {
+    "vc" : true,
+    "verified" : true,
+    "owner" : "BPNL0073928UJ879",
+    "issuer" : "BPNL00000000W3BS",
+    "wallet" : "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS",
+    "issuedAt" : "2024-07-19T07:44:04Z",
+    "expiresAt" : "2025-01-03T07:44:04Z",
+    "proof" : {
+        "type" : "JsonWebSignature2020",
+        "proofPurpose" : "assertionMethod",
+        "verificationMethod" : "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA",
+        "created" : "2024-07-19T07:44:04Z",
+        "jws" : "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..QyuPxWffIIzypt7Zoz_CB28XzZ3TA9SqghVaucLhYtzNSx4eW7C8D65BxugNIr2XyxVtfL-eNfD4tKsm0M7vAA"
+    }
+}
+```
+
+## Frontend Verification Add-on User Manual
+
+In the `dpp-frontend` component was implemented a status when the passports are being visualized in the UI:
+
+| Status | Description | Color |
+| --- | -- | -- |
+| Unverifiable | The Digital Product Pass aspect visualized is **NOT** a verifiable credential. So it is impossible to be verified | Gray |
+| Verified | The Digital Product Pass aspect visualized **IS** a verifiable credential, and it was able to be verified automatically or when the refresh verification was pressed | Green |
+| Not Verified | The Digital Product Pass aspect visualized **IS** a verifiable credential, however, it was not able to be verified automatically or when the refresh verification was pressed. An error will be displayed indicating the reason. | Red |
+
+### [Verified] Verification Successful
+
+![verication is correct]
+
+In case the verification was successful the Digital Product Pass aspect will be displayed in the following way:
+
+![success-dpp](./resources/screenshots/verified-dpp-ui.png)
+
+In the right corner the **Verified** status is displayed, and when the button is pressed the following dialog is displayed:
+
+![success dialog](./resources/screenshots/verification-proof.png)
+
+And if the user **CLICKS** in the **REFRESH VERIFICATION** button, a message will be displayed and the lock will turn green:
+
+![success dialog 2](./resources/screenshots/verification-button-clicked.png)
+
+The details displayed allow the user to visualize who is the `owner/holder` from this credential and who is the `issuer` from the credential. It displays the wallet DID with the `BPN` of the issuer party. It will also display the `issued date` and the `expiration date` allowing the user to know when it will expire.
+
+For additional metadata information the user can also see the `proof` with the JWS format, and also which type of signature and the `method` used for verifying it.
+
+If the user click in the wallet link, a link to the [universal did resolver](https://dev.uniresolver.io/) will be triggered, proofing that the wallet exists and the verification is correct.
+
+![Universal DID Resolver](./resources/screenshots/verification-wallet-details.png)
+
+### [NOT VERIFIED] Verification Failed
+
+During the loading, if an automatic verification is done the following error will be displayed in the steps:
+![verification-failed-step](./resources/screenshots/verification-failed-step.png)
+
+And once loaded in case the verification failed in the right corner will be displayed a red button:
+
+![verification-failed](./resources/screenshots/verification-failed.png)
+
+In this example the reason why it has failed is that a field has changed value. In this case the `version field` which if you compare, was `1.0.0` and now is `1.0.1`.
+
+When visualizing this error button the user can see that the verification has failed, and the data integrity has been affected.
+
+By clicking in the button the error message with the reason can be visualized:
+
+![verification-failed-error](./resources/screenshots/verification-failed-details.png)
+
+### [UNVERIFIED] Verification Not Supported
+
+In case the unverified status is displayed the aspect verification is not supported, since it is not a verifiable credential.
+
+![unverified](./resources/screenshots/unverified-data.png)
+
+
+## Add-on Charts Configurations
+
+When configuring the charts for the verification are the following:
+
+```yaml
+backend:
+    verification:
+        enabled: true
+        autoVerify: true
+        wallet:
+            url: "https://<dpp-consumer-wallet.url>"
+            apiKey: "<Add API Key>"
+            endpoints:
+                health: "/health"
+                verify: "/verify"
+```
+
+In case the verification is disabled, all the verification steps will be disabled, and the asset even if it is a verifiable credential will be or `unverifiable` or `not verified`.
+
+The `autoVerify` flag if enabled will trigger the verification automatically when the passport is retrieved. Otherwise, the only way for having the verification done is by clicking the button of refresh verification in the frontend.
+
+For configuring the add-on at the backend if the add-on is enabled, a wallet **MUST** be specified. In this case the backend is designed and tested to work with a [simple-wallet](./simple-wallet/) instance. The simple wallet **MUST** be configured just for the backend application as a consumer wallet.
+
+The path to the endpoints is defined by default for the `health` API, that will be called on startup to check if the wallet is accessible, and the `verify` that will be called to verify the credentials.
+
+Also, the wallet requires a 'API Key' it must match the API key configured for the `backend.edc.participantId` field, since the BPN **MUST** be the same as the one used in the EDC Consumer.
 
 # Additional Information
 

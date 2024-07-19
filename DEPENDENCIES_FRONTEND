@@ -191,6 +191,7 @@ npm/npmjs/-/tiny-emitter/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/type-check/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/type-fest/0.20.2, MIT OR (CC0-1.0 AND MIT), approved, clearlydefined
+npm/npmjs/-/typescript/5.5.3, Apache-2.0 AND (CC-BY-4.0 AND LicenseRef-Unicode AND MIT AND W3C-20150513) AND BSD-3-Clause AND ODbL-1.0 AND MIT, approved, #15502
 npm/npmjs/-/upath/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885

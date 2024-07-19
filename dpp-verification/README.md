@@ -482,7 +482,7 @@ When comparing with the current data exchange implementation approach using plai
 
 This is the added value from the concept:
 
-| Aspect | Integrity | Attribute Validation | Semantic Context | Digital Proof (Liability) | Non-CX-Interoperability | Traceability/Version Control | Improved Data Sovereignty | Verification Metadata in Aspect | Selective Disclosure |
+|  | Integrity | Attribute Validation | Semantic Context | Digital Proof (Liability) | Non-CX-Interoperability | Traceability/Version Control | Improved Data Sovereignty | Verification Metadata in Aspect | Selective Disclosure |
 | --- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
 | **Plain JSON Payload** | - | - | - | - | - | - | - | - | - |
 | **Certified Data Credential** | + | - | + | + | + | + | + | + | - |

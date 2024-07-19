@@ -464,10 +464,10 @@ export default class BackendService {
         let method = "post";
         // This function is responsible for retrying the api calls when the token is invalid
         try {
-            let returnData = await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+            let returnData = jsonUtil.toJson(await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false));
             if (returnData.status === 401) {
                 await authentication.forceRefreshToken();
-                return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+                return jsonUtil.toJson(await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false));
             }
             return returnData;
         } catch (e) {
@@ -475,7 +475,7 @@ export default class BackendService {
             if (exception.status === 401) {
                 authentication.forceRefreshToken();
                 try {
-                    return await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false);
+                    return jsonUtil.toJson(await this.callApiWithTokenWithIntegrity(authentication, url, method, body, false));
                 } catch (exception2) {
                     exception = exception2;
                 }

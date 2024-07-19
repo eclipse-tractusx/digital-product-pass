@@ -242,8 +242,8 @@ export default {
       default: "Passport Id",
     },
     vcAspect: {
-      type: Object,
-      default: Object,
+      type: String,
+      default: String,
     },
   },
   data() {

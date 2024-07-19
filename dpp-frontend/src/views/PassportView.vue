@@ -290,10 +290,7 @@ import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
 import { loadFonts } from "@/assets/plugins/webfontloader";
-import MOCK from "../assets/dppv5.json";
-import axios from "axios";
-import { LosslessNumber, parse, stringify } from "lossless-json";
-import Decimal from "decimal.js";
+import { parse, stringify } from "lossless-json";
 
 export default {
   name: "PassportView",
@@ -311,7 +308,7 @@ export default {
   },
   data() {
     return {
-      showOverlay: false,
+      showOverlay: true,
       contractItems: reactive([]),
       radios: "0.0",
       details: false,
@@ -320,9 +317,9 @@ export default {
       declineContractModal: false,
       showContractModal: true,
       auth: inject("authentication"),
-      data: MOCK,
+      data: null,
       vcAspect: null,
-      loading: false,
+      loading: true,
       searchResponse: null,
       declineLoading: false,
       errors: [],
@@ -407,97 +404,13 @@ export default {
   },
 
   async created() {
-    // loadFonts();
-    // authUtil.cleanUrl(this);
-    // store.commit("cleanHistoryState");
+    loadFonts();
+    authUtil.cleanUrl(this);
+    store.commit("cleanHistoryState");
     this.backendService = new BackendService();
-    // this.searchContracts();
-    // test
-    let body1 = await this.getData();
-    // // console.log(body);
-    // // debugger;
-    // let json = parse(body);
-    // // this.vcAspect = this.parsePayload(json);
-    // console.log("JSON after parse: ");
-    // console.log(json);
-    // let response = stringify(json);
-    // console.log(response);
-    // let result1 = await this.backendService.reloadVerification(this.auth, response);
-    // console.log("reload verification : ");
-    // console.log(result1);
-    // // console.log("NEGO:");
-    // // let json1 = parse(this.data["aspect"]);
-    // // console.log(json1);
-    // // this.vcAspect = jsonUtil.get("data.aspect", this.data);
-    // // let aspect = JSON.parse(JSON.stringify(this.vcAspect));
-    // // this.data = configUtil.normalizePassport(aspect, json["metadata"], json["semanticId"], json["verification"]);
-    // // let aspect = JSON.parse(JSON.stringify(this.vcAspect));
-    // // let aspect = this.vcAspect;
-    // this.data = configUtil.normalizePassport(
-    //   this.data["aspect"],
-    //   this.data["metadata"],
-    //   MOCK["semanticId"],
-    //   MOCK["verification"]
-    // );
-
-    this.vcAspect = body1["aspect"];
-    console.log(this.vcAspect);
-    let json = parse(this.vcAspect);
-    console.log("DEBUG: Lossless-json(parse): " + json);
-    // this.vcAspect = this.parsePayload(json);
-
-    let body = stringify(json);
-    let result1 = await this.backendService.reloadVerification(this.auth, body);
-    console.log("DEBUG: Reload Verification called: " + result1);
-
-    let aspect = json;
-    this.data = configUtil.normalizePassport(aspect, this.data["metadata"], MOCK["semanticId"], MOCK["verification"]);
+    this.searchContracts();
   },
   methods: {
-    getData() {
-      return new Promise((resolve) => {
-        axios
-          .request({
-            baseURL: "https://tx-dpp.int.demo.catena-x.net/provider_backend/data/test",
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-            responseType: "text",
-          })
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((e) => {
-            if (e.response.data) {
-              resolve(e.response.data);
-            } else if (e.request) {
-              resolve(e.request);
-            } else {
-              resolve(e.message);
-            }
-          });
-      });
-    },
-    parsePayload(data) {
-      let result = data;
-
-      function traverse(obj) {
-        if (obj && typeof obj === "object") {
-          for (const key in obj) {
-            if (obj[key] instanceof LosslessNumber) {
-              obj[key] = obj[key].value; //value: value.value
-              result[key] = obj[key];
-              return obj[key];
-            }
-            traverse(obj[key]);
-          }
-        }
-      }
-
-      traverse(data);
-      return result;
-    },
     processAspectData(dataAspect) {
       let dataKeys = Object.keys(dataAspect);
 
@@ -783,22 +696,9 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
-            console.log("DEBUG: in Resume Negotiation (else)");
-            this.vcAspect = jsonUtil.get("data.aspect", this.data);
-            let aspect = JSON.parse(JSON.stringify(this.vcAspect));
-
-            let json = parse(this.vcAspect);
-            console.log("DEBUG: Lossless-json(parse): " + json);
-            // this.vcAspect = this.parsePayload(json);
-
-            let body = stringify(json);
-            let result1 = await this.backendService.reloadVerification(this.auth, body);
-            console.log("DEBUG: Reload Verification called: " + result1);
-
-            aspect = json;
 
             this.data = configUtil.normalizePassport(
-              aspect,
+              jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data),
               jsonUtil.get("data.verification", this.data)
@@ -828,7 +728,7 @@ export default {
         response = await this.backendService.searchAsset(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -880,9 +780,10 @@ export default {
           contractId,
           policyId
         );
+
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -896,14 +797,14 @@ export default {
 
       // Check if the response is empty and give an error
       if (!response) {
-        this.errorObj.title = "Failed to return passport";
+        this.errorObj.title = "Failed to return the passport";
         this.errorObj.description = "It was not possible to complete the passport transfer.";
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 503;
         this.errorObj.statusText = "Bad Request";
         this.error = true;
         return null;
       }
-
+      
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -916,7 +817,32 @@ export default {
         this.error = true;
       }
 
-      return response;
+      // Get raw response from backend
+      let safeParsedResponse = parse(response);
+      if(!safeParsedResponse){
+        this.errorObj.title = "Failed to return the passport";
+        this.errorObj.description = "It is not possible to parse the raw response!";
+        this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 503;
+        this.errorObj.statusText = "Bad Request";
+        this.error = true;
+        return null;
+      }
+
+      // Only if the response status is 200
+      if(safeParsedResponse["status"] == 200 &&
+          jsonUtil.exists("data", safeParsedResponse) &&
+          jsonUtil.exists("aspect", safeParsedResponse["data"])){
+          // Stringify the vcAspect
+          this.vcAspect = stringify(safeParsedResponse["data"]["aspect"]);
+          return jsonUtil.toJson(response);
+      }
+      // Error in integrity
+      this.errorObj.title = "Failed to return the passport";
+      this.errorObj.description = "There was an integrity error, and the data is not available!";
+      this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 403;
+      this.errorObj.statusText = "Forbidden";
+      this.error = true;
+      return null;
     },
     async declineNegotiation(token, processId) {
       let response = null;
@@ -929,7 +855,7 @@ export default {
         response = await this.backendService.declineNegotiation(token, processId, this.auth);
       } catch (e) {
         console.log("passportView.declineNegotiation() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -943,7 +869,7 @@ export default {
 
       // Check if the response is empty and give an error
       if (!response || response.status != 200) {
-        this.errorObj.title = "Failed to return passport";
+        this.errorObj.title = "Failed to return the passport";
         this.errorObj.description = "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";

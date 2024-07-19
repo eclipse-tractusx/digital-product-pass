@@ -212,7 +212,7 @@ export default {
             }
 
             // Parse the left operand
-            let rawLeftOperand = jsonUtil.get("odrl:leftOperand", constraint, ".", null);
+            let rawLeftOperand = jsonUtil.get("odrl:leftOperand.@id", constraint, ".", null);
             leftOperand = rawLeftOperand;
             // If is not a string convert the object or array to string
             if (typeof rawLeftOperand !== "string") {

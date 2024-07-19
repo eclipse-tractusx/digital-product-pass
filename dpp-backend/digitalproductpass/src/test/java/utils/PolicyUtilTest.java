@@ -128,12 +128,13 @@ class PolicyUtilTest {
         policiesDtr = new LinkedList<>();
         multipleCredential = new LinkedHashMap<>();
         multipleCredentialDtr = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> leftOperand = new LinkedHashMap<>();
         operator.put("@id", "odrl:eq");
-        constraint1.put("odrl:leftOperand", "cx-policy:Membership");
+        constraint1.put("odrl:leftOperand", new LinkedHashMap<>(){{put("@id", "cx-policy:Membership");}});
         constraint1.put("odrl:operator", operator);
         constraint1.put("odrl:rightOperand", "active");
 
-        constraint2.put("odrl:leftOperand", "cx-policy:FrameworkAgreement");
+        constraint2.put("odrl:leftOperand",new LinkedHashMap<>(){{put("@id", "cx-policy:FrameworkAgreement");}});
         constraint2.put("odrl:operator", operator);
         constraint2.put("odrl:rightOperand", "circulareconomy:1.0");
 
@@ -141,7 +142,7 @@ class PolicyUtilTest {
         LinkedList<LinkedHashMap<String, Object>> correctContraints = new LinkedList<>();
         LinkedHashMap<String, Object> correctAction = new LinkedHashMap<>();
         LinkedHashMap<String, Object> correctLogicalConstraint = new LinkedHashMap<>();
-        constraint5.put("odrl:leftOperand", "cx-policy:UsagePurpose");
+        constraint5.put("odrl:leftOperand",new LinkedHashMap<>(){{put("@id", "cx-policy:UsagePurpose");}});
         constraint5.put("odrl:operator", operator);
         constraint5.put("odrl:rightOperand", "cx.circular.dpp:1");
         constraints.add(constraint1);
@@ -150,11 +151,11 @@ class PolicyUtilTest {
         correctContraints.add(constraint2);
         correctContraints.add(constraint5);
         operator.put("@id", "odrl:eq");
-        constraint3.put("odrl:leftOperand", "cx-policy:Membership");
+        constraint3.put("odrl:leftOperand", new LinkedHashMap<>(){{put("@id", "cx-policy:Membership");}});
         constraint3.put("odrl:operator", operator);
         constraint3.put("odrl:rightOperand", "active");
 
-        constraint4.put("odrl:leftOperand", "cx-policy:UsagePurpose");
+        constraint4.put("odrl:leftOperand", new LinkedHashMap<>(){{put("@id", "cx-policy:UsagePurpose");}});
         constraint4.put("odrl:operator", operator);
         constraint4.put("odrl:rightOperand", "cx.core.digitalTwinRegistry:1");
         configuredConstraints.add(constraint3);
@@ -164,13 +165,13 @@ class PolicyUtilTest {
 
         correctLogicalConstraint.put("odrl:and", correctContraints);
 
-        action.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        action.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         action.put("odrl:constraint", logicalConstraint);
 
-        correctAction.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        correctAction.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         correctAction.put("odrl:constraint", correctLogicalConstraint);
 
-        actionDtr.put("odrl:action", new LinkedHashMap<>(){{put("odrl:type","USE");}});
+        actionDtr.put("odrl:action", new LinkedHashMap<>(){{put("@id","odrl:use");}});
         actionDtr.put("odrl:constraint", logicalConstraintDtr);
 
         singlePermission = correctAction;

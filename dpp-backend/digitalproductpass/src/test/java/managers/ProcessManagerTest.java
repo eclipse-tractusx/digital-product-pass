@@ -572,7 +572,7 @@ class ProcessManagerTest {
         transferRequest.setProtocol("HTTP");
         transferRequest.setContractId(contractId);
         transferRequest.setAssetId(assetId);
-        transferRequest.setConnectorAddress("connectorAddress");
+        transferRequest.setCounterPartyAddress("connectorAddress");
 
         String transferId = UUID.randomUUID().toString();
         Transfer transfer = new Transfer();

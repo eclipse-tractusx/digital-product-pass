@@ -45,29 +45,30 @@ When auto-negotiation is enabled for the assets or done for the digital twin reg
 ## Table of contents
 
 <!-- TOC -->
-* [Policy Configuration Guide](#policy-configuration-guide)
-  * [Introduction](#introduction)
-  * [Table of contents](#table-of-contents)
-* [DPP Backend Configuration](#dpp-backend-configuration)
-  * [Helm Chart Details](#helm-chart-details)
-  * [Parameters](#parameters)
-    * [Main Parameters](#main-parameters)
-    * [Policy Set Configuration](#policy-set-configuration)
-      * [Action Configuration](#action-configuration)
-        * [Logical Constraint Configuration](#logical-constraint-configuration)
-        * [Constraint Configuration](#constraint-configuration)
-    * [Comparison Modes](#comparison-modes)
-* [DPP Frontend Configuration](#dpp-frontend-configuration)
-  * [Policy Selection Options](#policy-selection-options)
-    * [Auto-Negotiation](#auto-negotiation)
-    * [Manual Negotiation](#manual-negotiation)
-    * [Agree Contract](#agree-contract)
-      * [Policy Interpretation](#policy-interpretation)
-      * [Decline Contract](#decline-contract)
-* [Examples](#examples)
-  * [Logical Constraints](#logical-constraints)
-  * [Multiple Policies](#multiple-policies)
-  * [Single Constraint](#single-constraint)
+- [Policy Configuration Guide](#policy-configuration-guide)
+  - [Introduction](#introduction)
+  - [Table of contents](#table-of-contents)
+- [DPP Backend Configuration](#dpp-backend-configuration)
+  - [Helm Chart Details](#helm-chart-details)
+  - [Parameters](#parameters)
+    - [Main Parameters](#main-parameters)
+    - [Policy Set Configuration](#policy-set-configuration)
+      - [Action Configuration](#action-configuration)
+        - [Logical Constraint Configuration](#logical-constraint-configuration)
+        - [Constraint Configuration](#constraint-configuration)
+    - [Comparison Modes](#comparison-modes)
+- [DPP Frontend Configuration](#dpp-frontend-configuration)
+  - [Policy Selection Options](#policy-selection-options)
+    - [Auto-Negotiation](#auto-negotiation)
+    - [Manual Negotiation](#manual-negotiation)
+    - [Agree Contract](#agree-contract)
+      - [Policy Interpretation](#policy-interpretation)
+      - [Decline Contract](#decline-contract)
+- [Examples](#examples)
+  - [Logical Constraints](#logical-constraints)
+  - [Multiple Policies](#multiple-policies)
+  - [Single Constraint](#single-constraint)
+  - [NOTICE](#notice)
 <!-- TOC -->
 
 # DPP Backend Configuration
@@ -227,7 +228,9 @@ In case the and operator is used here is the way how it would be configured. For
                "odrl:and": [
                   {
                      "@type": "Constraint",
-                     "odrl:leftOperand": "cx-policy:Membership",
+                     "odrl:leftOperand": {
+                       "@id": "cx-policy:Membership"
+                     },
                      "odrl:operator": {
                         "@id": "odrl:eq"
                      },
@@ -235,7 +238,9 @@ In case the and operator is used here is the way how it would be configured. For
                   },
                   {
                      "@type": "Constraint",
-                     "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+                     "odrl:leftOperand": {
+                       "@id": "cx-policy:FrameworkAgreement"
+                     },
                      "odrl:operator": {
                         "@id": "odrl:eq"
                      },
@@ -243,7 +248,9 @@ In case the and operator is used here is the way how it would be configured. For
                   },
                   {
                      "@type": "Constraint",
-                     "odrl:leftOperand": "cx-policy:UsagePurpose",
+                     "odrl:leftOperand": {
+                       "@id": "cx-policy:UsagePurpose"
+                     },
                      "odrl:operator": {
                         "@id": "odrl:eq"
                      },
@@ -396,7 +403,9 @@ The reason behind this is that the policies without logical constraints look lik
          {
             "odrl:action": "USE",
             "odrl:constraint": {
-               "odrl:leftOperand": "cx-poliy:Membership",
+               "odrl:leftOperand": {
+                 "@id": "cx-poliy:Membership"
+               },
                "odrl:operator": {
                   "@id": "odrl:eq"
                },

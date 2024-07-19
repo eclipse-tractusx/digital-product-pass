@@ -47,7 +47,7 @@ public class Constraint {
     /** ATTRIBUTES **/
     @JsonProperty("odrl:leftOperand")
     @JsonAlias({"leftOperand","odrl:leftOperand"})
-    String leftOperand;
+    DidDocument leftOperand;
     @JsonProperty("odrl:operator")
     @JsonAlias({"operator","odrl:operator"})
     DidDocument operator;
@@ -56,7 +56,7 @@ public class Constraint {
     String rightOperand;
 
     /** CONSTRUCTOR(S) **/
-    public Constraint(String leftOperand, DidDocument operator, String rightOperand) {
+    public Constraint(DidDocument leftOperand, DidDocument operator, String rightOperand) {
         this.leftOperand = leftOperand;
         this.operator = operator;
         this.rightOperand = rightOperand;
@@ -64,7 +64,7 @@ public class Constraint {
 
     public Constraint() {
     }
-    public Constraint(String leftOperand, String operator, String rightOperand){
+    public Constraint(DidDocument leftOperand, String operator, String rightOperand){
         this.leftOperand = leftOperand;
         this.operator = new DidDocument();
         this.operator.setId(operator);
@@ -75,18 +75,19 @@ public class Constraint {
     }
 
     public void buildConstraint(PolicyCheckConfig.ConstraintConfig constraintConfig){
-        this.leftOperand = constraintConfig.getLeftOperand();
+        this.leftOperand = new DidDocument();
+        this.leftOperand.setId(constraintConfig.getLeftOperand());
         this.operator = new DidDocument();
         this.operator.setId(constraintConfig.getOperator());
         this.rightOperand = constraintConfig.getRightOperand();
     }
 
     /** GETTERS AND SETTERS **/
-    public String getLeftOperand() {
+    public DidDocument getLeftOperand() {
         return leftOperand;
     }
 
-    public void setLeftOperand(String leftOperand) {
+    public void setLeftOperand(DidDocument leftOperand) {
         this.leftOperand = leftOperand;
     }
 
@@ -122,7 +123,7 @@ public class Constraint {
      */
     public Boolean compareConstraint(Constraint constraint){
         try{
-            if(!this.leftOperand.equalsIgnoreCase(constraint.getLeftOperand())){return false;} //If left operand is not the same as the left operand
+            if(!this.leftOperand.getId().equalsIgnoreCase(constraint.getLeftOperand().getId())){return false;} //If left operand is not the same as the left operand
             if(!this.operator.getId().equalsIgnoreCase(constraint.getOperator().getId())){return false;}//If operator id is not the same as the operator id
             return this.rightOperand.equalsIgnoreCase(constraint.getRightOperand());//If right operand is not the same as the right operand
         }catch (Exception e){

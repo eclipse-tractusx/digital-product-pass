@@ -46,8 +46,8 @@ public class TransferRequest extends DidDocument {
     /** ATTRIBUTES **/
     @JsonProperty("assetId")
     String assetId;
-    @JsonProperty("connectorAddress")
-    String connectorAddress;
+    @JsonProperty("counterPartyAddress")
+    String counterPartyAddress;
     @JsonProperty("contractId")
     String contractId;
     @JsonProperty("dataDestination")
@@ -66,10 +66,10 @@ public class TransferRequest extends DidDocument {
     public TransferRequest() {
     }
 
-    public TransferRequest(String id, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String id, String type, String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(id, type);
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -78,9 +78,9 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -89,10 +89,10 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String id, String type, JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String id, String type, JsonNode context, String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(id, type, context);
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -101,10 +101,10 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(String type, String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(type);
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -113,10 +113,10 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(JsonNode context, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(JsonNode context, String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(context);
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -125,10 +125,10 @@ public class TransferRequest extends DidDocument {
         this.callbackAddresses = callbackAddresses;
     }
 
-    public TransferRequest(JsonNode context, String type, String assetId, String connectorAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
+    public TransferRequest(JsonNode context, String type, String assetId, String counterPartyAddress, String contractId, DataDestination dataDestination, Boolean managedResources, String protocol, String transferType, List<CallbackAddress> callbackAddresses) {
         super(context, type);
         this.assetId = assetId;
-        this.connectorAddress = connectorAddress;
+        this.counterPartyAddress = counterPartyAddress;
         this.contractId = contractId;
         this.dataDestination = dataDestination;
         this.managedResources = managedResources;
@@ -145,11 +145,11 @@ public class TransferRequest extends DidDocument {
     public void setAssetId(String assetId) {
         this.assetId = assetId;
     }
-    public String getConnectorAddress() {
-        return connectorAddress;
+    public String getCounterPartyAddress() {
+        return counterPartyAddress;
     }
-    public void setConnectorAddress(String connectorAddress) {
-        this.connectorAddress = connectorAddress;
+    public void setCounterPartyAddress(String counterPartyAddress) {
+        this.counterPartyAddress = counterPartyAddress;
     }
     public String getContractId() { return contractId; }
     public void setContractId(String contractId) { this.contractId = contractId; }

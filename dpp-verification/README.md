@@ -484,9 +484,9 @@ This is the added value from the concept:
 
 | Aspect | Integrity | Attribute Validation | Semantic Context | Digital Proof (Liability) | Non-CX-Interoperability | Traceability/Version Control | Improved Data Sovereignty | Verification Metadata in Aspect | Selective Disclosure |
 | --- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
-| Plain JSON Payload | - | - | - | - | - | - | - | - | - |
-| Certified Data Credential | + | - | + | + | + | + | + | + | - |
-| Certified Snapshot Credential | + | + NEW! | - | + | + NEW! | - | + | + | + |
+| **Plain JSON Payload** | - | - | - | - | - | - | - | - | - |
+| **Certified Data Credential** | + | - | + | + | + | + | + | + | - |
+| **Certified Snapshot Credential** | + | + NEW! | - | + | + NEW! | - | + | + | + |
 
 By using this concept the following added value metrics are added:
 

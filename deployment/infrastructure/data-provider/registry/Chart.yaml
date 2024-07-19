@@ -1,9 +1,10 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Application
+# Tractus-X - Digital Product Pass Application 
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG
+# Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -27,11 +28,11 @@ name: registry
 description: Tractus-X Digital Twin Registry Helm Chart
 
 type: application
-version: 0.3.31
+version: 0.5.2
 
 dependencies:
   - name: digital-twin-registry
     repository: https://eclipse-tractusx.github.io/sldt-digital-twin-registry
     alias: provider-dtr
-    version: 0.3.31
+    version: 0.5.2
     condition: enabled

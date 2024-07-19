@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "description": "Verifiable Presentation which contains the list of Verifiable Credentials for the all attributes of a spec",
+  "type": "object",
+  "components": {
+    "schemas": {
+      "urn_samm_io.catenax.dpp_verification.amr_1.0.0_VerifiableCredentialEntity": {
+        "description": "This is a list that contains the certified snapshot credentials (csc).",
+        "type": "object",
+        "properties": {}
+      },
+      "urn_samm_io.catenax.dpp_verification.amr_1.0.0_VerifiableCredentialCharacteristic": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/urn_samm_io.catenax.dpp_verification.amr_1.0.0_VerifiableCredentialEntity"
+        }
+      },
+      "urn_samm_org.eclipse.esmf.samm_characteristic_2.1.0_Text": {
+        "type": "string",
+        "description": "Describes a Property which contains plain text. This is intended exclusively for human readable strings, not for identifiers, measurement values, etc."
+      },
+      "urn_samm_io.catenax.dpp_verification.amr_1.0.0_SubmodelCharacteristic": {
+        "type": "object",
+        "properties": {
+          "semanticId": {
+            "description": "The property which contains the semantic id string of the credential subject. It contains the complete identification of which aspect model version its contained. The key can be used to find the model information in the expanded JSON-LD.",
+            "$ref": "#/components/schemas/urn_samm_org.eclipse.esmf.samm_characteristic_2.1.0_Text"
+          },
+          "@id": {
+            "description": "The DID Reference, link to the verifiable credential, or link to specific submodel in the dataModel",
+            "$ref": "#/components/schemas/urn_samm_org.eclipse.esmf.samm_characteristic_2.1.0_Text"
+          }
+        },
+        "required": [
+          "semanticId",
+          "@id"
+        ]
+      }
+    }
+  },
+  "properties": {
+    "verifiableCredential": {
+      "description": "The standardized component from a verifiable presentation, where a list of one or more verifiable credentials are included.",
+      "$ref": "#/components/schemas/urn_samm_io.catenax.dpp_verification.amr_1.0.0_VerifiableCredentialCharacteristic"
+    },
+    "submodel": {
+      "description": "Reference to the submodel which the verifiable presentation is linked to.",
+      "$ref": "#/components/schemas/urn_samm_io.catenax.dpp_verification.amr_1.0.0_SubmodelCharacteristic"
+    },
+    "holder": {
+      "description": "The holder is defined in the Verifiable Presentation, to indicate the person that owns the verification aspect, and have requested to external auditor the generation of Certified Snapshot Credentials.",
+      "$ref": "#/components/schemas/urn_samm_org.eclipse.esmf.samm_characteristic_2.1.0_Text"
+    }
+  },
+  "required": [
+    "verifiableCredential",
+    "submodel",
+    "holder"
+  ]
+}

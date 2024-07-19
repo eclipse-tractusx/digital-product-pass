@@ -1395,22 +1395,21 @@
               }
             ]
           }
-        ],
-        "@id": "did:web:wallet-url.test.com:BPNL00000007RVTB"
+        ]
       }
     ],
-    "@id": "urn:uuid:efa5681c-423f-4594-a11a-d59960ab3edc",
+    "@id": "urn:uuid:d2e47115-c430-4145-bbde-1c743804a379",
     "https://www.w3.org/2018/credentials#issuer": [
       {
-        "@id": "did:web:localhost%3A7777:BPNL00000000W3BS"
+        "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS"
       }
     ],
     "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#parent": [
       {
         "@id": "did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d",
-        "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#checksum": [
+        "https://w3id.org/security#digestMultibase": [
           {
-            "@type": "https://schema.org/string",
+            "@type": "https://w3id.org/security#multibase",
             "@value": "64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115"
           }
         ]
@@ -1423,12 +1422,12 @@
             "http://purl.org/dc/terms/created": [
               {
                 "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-                "@value": "2024-06-10T12:26:21+00:00Z"
+                "@value": "2024-06-21T16:52:40+00:00Z"
               }
             ],
             "https://w3id.org/security#jws": [
               {
-                "@value": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..re5OBXOqEjISL9jO-nPRmXmzeVx7SEpaetJPmpOVm3jgmb8wlH_58zFwYll5SI6lZR81cc_dEF69NKhKbj9ABA"
+                "@value": "eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..c_xfb7TCumZqWxeZHXCiu1xWgyzx2JgeAJjPteDbr3gxRtIZvobsxfWR5s5UTMKgp47vC6Mh0_Uq6cN7vB6ABA"
               }
             ],
             "https://w3id.org/security#proofPurpose": [
@@ -1441,7 +1440,7 @@
             ],
             "https://w3id.org/security#verificationMethod": [
               {
-                "@id": "did:web:localhost%3A7777:BPNL00000000W3BS#KRxYHiKWoOmwNWDN5cFwpACN6L7XPN7CyT-rqt57I-Y"
+                "@id": "did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA"
               }
             ]
           }
@@ -1462,13 +1461,13 @@
     "https://www.w3.org/2018/credentials#validFrom": [
       {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "2024-06-10T12:26:21+00:00Z"
+        "@value": "2024-06-21T16:52:40Z"
       }
     ],
     "https://www.w3.org/2018/credentials#validUntil": [
       {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "2024-11-25T12:26:21+00:00Z"
+        "@value": "2024-12-06T16:52:40Z"
       }
     ]
   }

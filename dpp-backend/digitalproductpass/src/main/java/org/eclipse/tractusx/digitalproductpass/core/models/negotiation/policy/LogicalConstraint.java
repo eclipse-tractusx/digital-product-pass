@@ -2,9 +2,10 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -60,7 +61,7 @@ public class LogicalConstraint extends Constraint {
 
 
     /** CONSTRUCTOR(S) **/
-    public LogicalConstraint(String leftOperand, DidDocument operator, String rightOperand, List<Constraint> andOperator, List<Constraint> orOperator) {
+    public LogicalConstraint(DidDocument leftOperand, DidDocument operator, String rightOperand, List<Constraint> andOperator, List<Constraint> orOperator) {
         super(leftOperand, operator, rightOperand);
         this.andOperator = andOperator;
         this.orOperator = orOperator;

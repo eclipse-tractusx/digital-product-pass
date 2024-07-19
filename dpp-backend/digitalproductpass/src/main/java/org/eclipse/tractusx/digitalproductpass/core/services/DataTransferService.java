@@ -2,9 +2,10 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -350,7 +351,7 @@ public class DataTransferService extends BaseService {
      */
     public NegotiationRequest buildRequestFirstPolicy(Dataset dataset, String endpoint, String providerBpn) {
         return new NegotiationRequest(
-                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/",  "@vocab", "https://w3id.org/edc/v0.0.1/ns/", "cx-policy", "https://w3id.org/catenax/policy/")),
                 endpoint,
                 "dataspace-protocol-http",
                 this.buildOffer(dataset, 0, providerBpn)
@@ -390,7 +391,7 @@ public class DataTransferService extends BaseService {
      */
     public NegotiationRequest buildRequest(String endpoint, Policy policyOffer) {
         return new NegotiationRequest(
-                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/")),
+                jsonUtil.toJsonNode(Map.of("odrl", "http://www.w3.org/ns/odrl/2/",  "@vocab", "https://w3id.org/edc/v0.0.1/ns/", "cx-policy", "https://w3id.org/catenax/policy/")),
                 "odrl:ContractRequest",
                 endpoint,
                 "dataspace-protocol-http",

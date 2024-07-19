@@ -1,9 +1,10 @@
 /**
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X -  Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
  * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -55,7 +56,7 @@ let autoSign = "APP_AUTO_SIGN";
 
 
 // Default values if the value is not specified
-serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://materialpass.int.demo.catena-x.net"
+serverUrl = (serverUrl != null && serverUrl !== "") ? serverUrl : "https://dpp.int.demo.catena-x.net"
 backendUrl = (backendUrl != null && backendUrl !== "")  ? backendUrl : serverUrl
 clientId = (clientId != null && clientId !== "") ? clientId : "Cl13-CX-Battery"
 realm = (realm != null && realm !== "") ? realm : "CX-Central"

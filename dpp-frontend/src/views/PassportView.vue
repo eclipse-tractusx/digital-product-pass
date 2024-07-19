@@ -1,9 +1,10 @@
 <!--
-  Tractus-X - Digital Product Passport Application
-
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  Tractus-X -  Digital Product Pass Application
+  
+  Copyright (c) 2022, 2024 BMW AG
+  Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
   Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+  Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 
   See the NOTICE file(s) distributed with this work for additional
   information regarding copyright ownership.
@@ -288,7 +289,8 @@ import { JsonViewer } from "vue3-json-viewer";
 import "vue3-json-viewer/dist/index.css";
 import { reactive } from "vue";
 import passports from "@/config/templates/passports.json";
-import { loadFonts } from '@/assets/plugins/webfontloader';
+import { loadFonts } from "@/assets/plugins/webfontloader";
+import { parse, stringify } from "lossless-json";
 
 export default {
   name: "PassportView",
@@ -694,11 +696,9 @@ export default {
             this.errorObj.reload = false;
             this.error = true;
           } else {
-            this.vcAspect = jsonUtil.get("data.aspect", this.data);
-            let aspect = JSON.parse(JSON.stringify(this.vcAspect));
 
             this.data = configUtil.normalizePassport(
-              aspect,
+              jsonUtil.get("data.aspect", this.data),
               jsonUtil.get("data.metadata", this.data),
               jsonUtil.get("data.semanticId", this.data),
               jsonUtil.get("data.verification", this.data)
@@ -728,7 +728,7 @@ export default {
         response = await this.backendService.searchAsset(id, this.auth);
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -780,9 +780,10 @@ export default {
           contractId,
           policyId
         );
+
       } catch (e) {
         console.log("passportView.getPassport() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -796,14 +797,14 @@ export default {
 
       // Check if the response is empty and give an error
       if (!response) {
-        this.errorObj.title = "Failed to return passport";
+        this.errorObj.title = "Failed to return the passport";
         this.errorObj.description = "It was not possible to complete the passport transfer.";
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 503;
         this.errorObj.statusText = "Bad Request";
         this.error = true;
         return null;
       }
-
+      
       // Check if reponse content was successfull and if not print error comming message from backend
       if (jsonUtil.exists("status", response) && response["status"] != 200) {
         this.errorObj.title = jsonUtil.exists("message", response)
@@ -816,7 +817,32 @@ export default {
         this.error = true;
       }
 
-      return response;
+      // Get raw response from backend
+      let safeParsedResponse = parse(response);
+      if(!safeParsedResponse){
+        this.errorObj.title = "Failed to return the passport";
+        this.errorObj.description = "It is not possible to parse the raw response!";
+        this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 503;
+        this.errorObj.statusText = "Bad Request";
+        this.error = true;
+        return null;
+      }
+
+      // Only if the response status is 200
+      if(safeParsedResponse["status"] == 200 &&
+          jsonUtil.exists("data", safeParsedResponse) &&
+          jsonUtil.exists("aspect", safeParsedResponse["data"])){
+          // Stringify the vcAspect
+          this.vcAspect = stringify(safeParsedResponse["data"]["aspect"]);
+          return jsonUtil.toJson(response);
+      }
+      // Error in integrity
+      this.errorObj.title = "Failed to return the passport";
+      this.errorObj.description = "There was an integrity error, and the data is not available!";
+      this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 403;
+      this.errorObj.statusText = "Forbidden";
+      this.error = true;
+      return null;
     },
     async declineNegotiation(token, processId) {
       let response = null;
@@ -829,7 +855,7 @@ export default {
         response = await this.backendService.declineNegotiation(token, processId, this.auth);
       } catch (e) {
         console.log("passportView.declineNegotiation() -> " + e);
-        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return passport";
+        this.errorObj.title = jsonUtil.exists("message", response) ? response["message"] : "Failed to return the passport";
         this.errorObj.description = "It was not possible to transfer the passport.";
 
         this.errorObj.status = jsonUtil.exists("status", response) ? response["status"] : 500;
@@ -843,7 +869,7 @@ export default {
 
       // Check if the response is empty and give an error
       if (!response || response.status != 200) {
-        this.errorObj.title = "Failed to return passport";
+        this.errorObj.title = "Failed to return the passport";
         this.errorObj.description = "It was not possible to complete the passport transfer.";
         this.errorObj.status = 400;
         this.errorObj.statusText = "Bad Request";

@@ -1,0 +1,38 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "AttributeCertificationRecord": {
+            "@context": {
+                "@definition": "Verifiable Presentation which contains the list of Verifiable Credentials for the all attributes of a spec",
+                "@version": 1.1,
+                "id": "@id",
+                "submodel": {
+                    "@context": {
+                        "@definition": "Reference to the submodel which the verifiable presentation is linked to.",
+                        "@version": 1.1,
+                        "id": {
+                            "@context": {
+                                "@definition": "The DID Reference, link to the verifiable credential, or link to specific submodel in the dataModel"
+                            },
+                            "@id": "amr:id",
+                            "@type": "schema:string"
+                        },
+                        "semanticId": {
+                            "@context": {
+                                "@definition": "The property which contains the semantic id string of the credential subject. It contains the complete identification of which aspect model version its contained. The key can be used to find the model information in the expanded JSON-LD."
+                            },
+                            "@id": "amr:semanticId",
+                            "@type": "schema:string"
+                        },
+                        "type": "@type"
+                    },
+                    "@id": "amr:submodel"
+                },
+                "type": "@type"
+            },
+            "@id": "amr:AttributeCertificationRecord"
+        },
+        "amr": "urn:samm:io.catenax.dpp_verification.amr:1.0.0#",
+        "schema": "https://schema.org/"
+    }
+}

@@ -1,5 +1,5 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Verification Add-on
+# Tractus-X - Digital Product Pass Verification Add-on
 #
 # Copyright (c) 2023, 2024 BMW AG
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
@@ -138,9 +138,11 @@ class cryptool:
 
             ## Prepare the header with the specification
             header = {
+                'alg':"HS256",
                 'typ': 'vc+ld',
                 'b64': False,
-                'crv': 'Ed25519'
+                'crv': 'Ed25519',
+                'crit':['b64']
             }
             
             ## Prepare the content to sign

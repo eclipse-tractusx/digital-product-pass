@@ -1,9 +1,10 @@
 /**
- * Tractus-X - Digital Product Passport Application
+ * Tractus-X -  Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
  * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -211,7 +212,9 @@ export default {
             }
 
             // Parse the left operand
-            let rawLeftOperand = jsonUtil.get("odrl:leftOperand", constraint, ".", null);
+            let rawLeftOperand = jsonUtil.get("odrl:leftOperand.@id", constraint, ".", null);
+            if (rawLeftOperand == null)
+                throw new Error("The left operand structure is not valid, because of missing id attribute");
             leftOperand = rawLeftOperand;
             // If is not a string convert the object or array to string
             if (typeof rawLeftOperand !== "string") {

@@ -1,5 +1,5 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Application
+# Tractus-X - Digital Product Pass Application
 #
 # Copyright (c) 2022, 2024 BMW AG
 # Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
@@ -87,7 +87,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push frontend
         id: build-and-push-frontend-dockerhub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@1a162644f9a7e87d8f4b053101d1d9a712edc18c
         with:
           context: dpp-frontend
           push: true

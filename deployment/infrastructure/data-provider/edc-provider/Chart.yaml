@@ -1,9 +1,10 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Application
+# Tractus-X - Digital Product Pass Application 
 #
-# Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+# Copyright (c) 2022, 2024 BMW AG
+# Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
 # Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -28,18 +29,18 @@ name: tractusx-connector
 description: |
   A Helm chart for Tractus-X Eclipse Data Space Connector. This chart is a test mock that can be used as edc provider for the DPP applicatiton.
 type: application
-version: 0.3.3
-appVersion: "0.7.0"
+version: 0.7.3
+appVersion: "0.7.3"
 home: https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 sources:
   - https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector
 dependencies:
   - name: tractusx-connector
-    version: "0.7.0"
+    version: "0.7.3"
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: enabled
   - name: postgresql
     alias: postgresql
-    version: 12.1.6
+    version: 15.2.1
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled

@@ -3,9 +3,10 @@
   ~
   ~ Tractus-X - Digital Product Pass Application
   ~
-  ~ Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+  ~ Copyright (c) 2022, 2024 BMW AG
+  ~ Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
   ~ Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  ~ Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+  ~ Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 
   ~ See the NOTICE file(s) distributed with this work for additional
   ~ information regarding copyright ownership.
@@ -30,7 +31,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
@@ -50,7 +51,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>32.0.0-jre</version>
+            <version>33.2.1-jre</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -97,7 +98,7 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
-            <version>3.0.2</version>
+            <version>3.3.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -136,7 +137,7 @@
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
-            <version>5.7.1</version>
+            <version>5.9</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -166,7 +167,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.10</version>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
@@ -182,7 +183,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.0.2</version>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
     <build>

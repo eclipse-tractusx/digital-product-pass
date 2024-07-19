@@ -1,8 +1,8 @@
 #################################################################################
-# Tractus-X - Digital Product Passport Verification Add-on
+# Tractus-X - Digital Product Pass Verification Add-on
 #
-# Copyright (c) 2024 BMW AG
-# Copyright (c) 2024 CGI Deutschland B.V. & Co. KG
+# Copyright (c) 2023, 2024 BMW AG
+# Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
 # Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -359,7 +359,7 @@ if __name__ == '__main__':
 
     # Initialize the server environment and get the comand line arguments
     args = get_arguments()
-    # Configure the logging configuration depending on the configuration stated
+    # Configure the logging confiuration depending on the configuration stated
     logger = logging.getLogger('staging')
     if(args.debug):
         logger = logging.getLogger('development')

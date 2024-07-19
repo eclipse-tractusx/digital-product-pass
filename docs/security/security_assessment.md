@@ -1,7 +1,7 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
 Copyright (c) 2022, 2024 BMW AG
 Copyright (c) 2022, 2024 Henkel AG & Co. KGaA

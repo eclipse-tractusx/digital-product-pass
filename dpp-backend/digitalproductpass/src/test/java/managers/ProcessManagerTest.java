@@ -2,9 +2,10 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
  * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -571,7 +572,7 @@ class ProcessManagerTest {
         transferRequest.setProtocol("HTTP");
         transferRequest.setContractId(contractId);
         transferRequest.setAssetId(assetId);
-        transferRequest.setConnectorAddress("connectorAddress");
+        transferRequest.setCounterPartyAddress("connectorAddress");
 
         String transferId = UUID.randomUUID().toString();
         Transfer transfer = new Transfer();

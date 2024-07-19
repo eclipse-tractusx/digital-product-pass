@@ -1,12 +1,12 @@
 <!--
 #######################################################################
 
-Tractus-X - Digital Product Passport Application 
+Tractus-X - Digital Product Pass Application 
 
-Copyright (c) 2022 BMW AG
-Copyright (c) 2022 Henkel AG & Co. KGaA
-Copyright (c) 2023 CGI Deutschland B.V. & Co. KG
-Copyright (c) 2023 Contributors to the Eclipse Foundation
+Copyright (c) 2022, 2024 BMW AG
+Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional
 information regarding copyright ownership.
@@ -33,20 +33,17 @@ SPDX-License-Identifier: CC-BY-4.0
   <h1 style="align-items: center;">Digital Product Pass Application</h1>
 </div>
 
-
-
 ## Description
 
 The digital product passport  application provides a consumer user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
-In particular, the appliction is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
+In particular, the application is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-3.1.0">3.1.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-4.0.0">4.0.0</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v3.1.0">v3.1.0</a></pre>
-
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v4.0.0">v4.0.0</a></pre>
 
 
 ## Application Preview
@@ -80,6 +77,24 @@ To get started you can have a look into our documentation:
 | [Changelog](./CHANGELOG.md)                                                                                   | Changelog                                                                                                                                                   |
 | [Helm Charts](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/charts/digital-product-pass) | Project's Helm Charts                                                                                                                                       |
 
+## Digital Product Pass Verification Add-on
+
+The Digital Product Pass Verification Add-on aims to create a second layer of trust over the EDC data exchanges between consumers and data providers.
+It enables auditors to verify specific attributes or complete aspect models for data providers and allowing consumers to retrieve and verify the "validity" of the verification done.
+Using a wallet, a Data Provider is able to certify its attributes or the complete semantic models from Catena-X and include it in a Verifiable Credential,
+which can then be verified on the Data Consumer side.
+
+This concept is the **First Aspect Model Verification/Certification Concept in Catena-X**! Therefore, it aims to provide a **"lighthouse"** for any other aspect model verification/certification that **MUST** be done in Catena-X using SAMM Aspect Models.
+
+It provides a generic concept for **Attribute Verification/Certification** by external/internal auditors, and also provides a **Self-Testification** option for Data Providers to certify their data while still maintaining data sovereighty at all costs. By using the EDC connector for the data exchanges this concept uses the **current Catena-X Architecture**.
+
+Furthermore, it gives guidance and ready to use components for verifying the data received from their Data Providers. The Digital Product Pass Add-on offers the consumers components like the [simple-wallet](./simple-wallet/), an **MVP decentral wallet** able to issue and verify aspect model Verifiable Credential Documents. It also provides a proof of concept (PoC) in the `dpp-backend` and `dpp-frontend` components for complete data payloads to be verified.
+
+| Name                                                                                                          | Description                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [DPP Verification Docs](./dpp-verification/README.md)                                                                                | The main documentation of the Digital Product Pass Verification Add-on contains the complete architecture blueprint and details about implementation in the application.                                                                                    |
+ [DPP Simple Wallet Docs](./dpp-verification/simple-wallet/README.md)                                                                                | This documentation contains the description of the simple wallet functionality, API specification and how to configure it.                                                                                  |
+
 ## Base Images
 
 | Language         | Container Base Image                                                                                         |
@@ -96,31 +111,45 @@ For installing the Digital Product Pass Application please consult our [Intallat
 - [Apache-2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE) for code
 - [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html) for non-code
 
-## Notice for Docker image
+## Notice for Docker Images
 
 DockerHub:
+- https://hub.docker.com/r/tractusx/digital-product-pass-frontend
+- https://hub.docker.com/r/tractusx/digital-product-pass-backend
+- https://hub.docker.com/r/tractusx/digital-product-pass-verification-wallet
+  
+Eclipse Tractus-X product(s) installed within the image:
 
--   https://hub.docker.com/r/tractusx/digital-product-pass-frontend
--   https://hub.docker.com/r/tractusx/digital-product-pass-backend
+- GitHub: https://github.com/eclipse-tractusx/digital-product-pass
+- Project home: https://projects.eclipse.org/projects/automotive.tractusx
+- Dockerfiles: 
+    - Frontend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/Dockerfile
+    - Backend: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-backend/digitalproductpass/Dockerfile
+    - DPP Verification Simple Wallet: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-verification/simple-wallet/Dockerfile
+- Project License: [Apache License, Version 2.0](https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/LICENSE)
 
-**Base images:**
 
--   DockerHub:
+**Used base image**
+- [alpine:3.19](https://github.com/alpinelinux/docker-alpine)
+- [node:lts-alpine](https://github.com/nodejs/docker-node)
+- [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
+- [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
+- Official DockerHub pages:
+    - Alpine: https://hub.docker.com/_/alpine
+    - Node: https://hub.docker.com/_/node
+    - Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
+    - Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin  
+- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin  
+- Additional information about images:
+    - alpinelinux/docker-alpine:3.19: https://github.com/alpinelinux/docker-alpine/blob/v3.19/x86_64/Dockerfile
+    - Node: https://github.com/docker-library/repo-info/tree/master/repos/node
+    - Nginxinc/nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
+    - Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
 
-    -   Node: https://hub.docker.com/_/node
-    -   Nginxinc/nginx-unprivileged: https://hub.docker.com/r/nginxinc/nginx-unprivileged
-    -   Eclipse Temurin: https://hub.docker.com/_/eclipse-temurin
+As with all Docker images, these likely also contain other software which may be under other licenses
+(such as Bash, etc. from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
--   Dockerfiles:
-
-    -   [node:lts-alpine](https://github.com/nodejs/docker-node)
-    -   [nginxinc/nginx-unprivileged:stable-alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
-    -   [eclipse-temurin:19-alpine](https://github.com/adoptium/containers)
-
--   GitHub project:
-    -   Node: https://github.com/docker-library/repo-info/tree/master/repos/node
-    -   nginxinc/docker-nginx-unprivileged: https://github.com/nginxinc/docker-nginx-unprivileged
-    -   Eclipse Temurin: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

@@ -2,9 +2,10 @@
  *
  * Tractus-X - Digital Product Pass Application
  *
- * Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
- * Copyright (c) 2022, 2024 CGI Deutschland B.V. & Co. KG
- * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2024 BMW AG
+ * Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+ * Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.digitalproductpass.core.config.PolicyCheckConfig;
 import org.eclipse.tractusx.digitalproductpass.core.exceptions.ModelException;
+import org.eclipse.tractusx.digitalproductpass.core.models.negotiation.DidDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class Action {
      **/
     @JsonProperty("odrl:action")
     @JsonAlias({"action", "odrl:action"})
-    ActionType action;
+    DidDocument action;
     @JsonProperty("odrl:constraint")
     @JsonAlias({"constraint", "odrl:constraint"})
     LogicalConstraint constraint;
@@ -64,7 +66,7 @@ public class Action {
     public Action() {
     }
 
-    public Action(ActionType action, LogicalConstraint constraint) {
+    public Action(DidDocument action, LogicalConstraint constraint) {
         this.action = action;
         this.constraint = constraint;
     }
@@ -91,18 +93,18 @@ public class Action {
         if(this.action == null){
             return null;
         }
-        return this.action.getType();
+        return this.action.getId();
     }
     public void addAction(String action) {
-        this.action = new ActionType();
-        this.action.setType(action);
+        this.action = new DidDocument();
+        this.action.setId(action);
     }
 
-    public ActionType getAction() {
+    public DidDocument getAction() {
         return action;
     }
 
-    public void setAction(ActionType action) {
+    public void setAction(DidDocument action) {
         this.action = action;
     }
 
@@ -146,26 +148,5 @@ public class Action {
         }
         // If node is array parse the action node as a list
         return mapper.convertValue(node, new TypeReference<>(){});
-    }
-
-    static class ActionType{
-        @JsonProperty("odrl:type")
-        @JsonAlias({"type", "odrl:type", "@type"})
-        String type;
-
-        public ActionType(String type) {
-            this.type = type;
-        }
-
-        public ActionType() {
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
     }
 }

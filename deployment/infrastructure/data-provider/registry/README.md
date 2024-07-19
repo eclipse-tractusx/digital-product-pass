@@ -1,31 +1,29 @@
-<!-- 
-  Tractus-X - Digital Product Passport Application 
- 
-  Copyright (c) 2022, 2024 BMW AG
-  Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+<!--
+#######################################################################
 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
+Tractus-X - Digital Product Pass Application 
+
+Copyright (c) 2022, 2024 BMW AG
+Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
+Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This work is made available under the terms of the
+Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
+which is available at
+https://creativecommons.org/licenses/by/4.0/legalcode.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+#######################################################################
 -->
 
 # registry
 
-![Version: 0.3.23](https://img.shields.io/badge/Version-0.3.23-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.5.2](https://img.shields.io/badge/Version-0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Tractus-X Digital Twin Registry Helm Chart
 
@@ -33,7 +31,7 @@ Tractus-X Digital Twin Registry Helm Chart
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://eclipse-tractusx.github.io/sldt-digital-twin-registry | provider-dtr(registry) | 0.3.23 |
+| https://eclipse-tractusx.github.io/sldt-digital-twin-registry | provider-dtr(digital-twin-registry) | 0.5.2 |
 
 ## Values
 

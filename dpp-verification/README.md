@@ -2038,10 +2038,9 @@ When implementing the Digital Product Pass Verification PoC the following challa
 
 | Challenge | Description | Solution |
 | --- | --- | --- |
-| **First Implementation and Data Verification Concept in Catena-X** | 
+| **First Implementation and Data Verification Concept in Catena-X** |
 | **The Managed Identity Wallet Component is not Ready** | The MIW Wallet is not ready for signing Aspect Model Verifiable Credentials. And it is currently not decentraly available for each party to host. It is currently just hosted by the data space operator. It is designed to host the "member" credentials and enable the EDC communication with SSI. | Design and Implement a MVP Wallet. There was developed a [simple-wallet](./simple-wallet/) component for issuing and verifying the credentials, imitating the MIW functionality and methods. |
 | **There are no JSON-LD contexts for the standardized SAMM Models** | Currently there is no open-source component that transforms JSON Schemas into JSON-LD Contexts. This blocks the credentials to be included in the JSON-LD documents, because the attributes are not in context. | As a solution to this problem an **'adapter'** was developed in the wallet an [add-on that convert SAMM Models JSON Schemas into valid JSON-LD contexts](./simple-wallet/passport/sammSchemaParser.py). In this way any Aspect Model Payload can be referenced in a Verifiable Credential. By calling the `/context` API any JSON Schema can be converted. |
-|
 
 By developing this `adapters` the Verification Concept could be proofed and demontrated using the Catena-X network.
 
@@ -2108,8 +2107,6 @@ In the `dpp-frontend` component was implemented a status when the passports are 
 
 ### [Verified] Verification Successful
 
-![verication is correct]
-
 In case the verification was successful the Digital Product Pass aspect will be displayed in the following way:
 
 ![success-dpp](./resources/screenshots/verified-dpp-ui.png)
@@ -2152,7 +2149,6 @@ By clicking in the button the error message with the reason can be visualized:
 In case the unverified status is displayed the aspect verification is not supported, since it is not a verifiable credential.
 
 ![unverified](./resources/screenshots/unverified-data.png)
-
 
 ## Add-on Charts Configurations
 

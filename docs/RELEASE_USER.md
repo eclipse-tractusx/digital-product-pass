@@ -65,11 +65,12 @@ The repository was refactored and prepared for the release R24.08 of Catena-X. C
 
 #### Issues Fixed in the Frontend
 
-Several minor bugs that were afecting the stability of the application were fixed and the frontend code was refactored
+Several minor bugs that were affecting the stability of the application were fixed and the frontend code was refactored.
 
 #### Digital Product Pass Verification Documentation Updated
 
 The Digital Product Pass Verification Documentation was updated in order to match the latest updates done and specified during the implementation.
+Now the documentation contains SAMM models, schemas, example payloads, details of the Implementation in the application, new structure, new diagrams, examples on how to link digital twins in type level, detailed explanations on why verification is necessary and the added value.
 
 **June 19 2024 (Version 3.1.0)**
 *19.06.2024*

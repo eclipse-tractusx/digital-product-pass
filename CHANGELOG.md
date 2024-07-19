@@ -29,6 +29,62 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## [Unreleased]
 
 ## [released]
+## [v4.0.0] - 19-07-2024
+
+### Added
+
+The following changes are added in the DPP Verification:
+- Added New diagrams explaining how the “application” interact in the Attribute Verifacation Process
+- Added New diagrams explaining more details on the implementation done in R24.08
+- Added description to explain the diagrams and processes
+- Added documentation about Certified Snapshot Credential (CSC) and Attribute Verification Record  (AMR)
+- Added SAMM Aspect Models to indicate the semantics of the Different Credentials
+- Added definition of Cretified Data Credential (CDC) structure
+- Added definition of CSC structure -> Issued the first CSC Credential
+- Added definitions of purpose and structure from the ARM (Attribute Certification Record)
+- Add a new section to show the Schemas of the verification aspects
+- Added detailed description about the previous investigation and information about type level verification
+- Added explaination how the Digital Twin can be referenced technically
+- Added explanation on how the wallet interacts with the digital product pass app, and how it issues the credentials
+- Added reference the components (wallet, dpp-backend addon) and where the implementation “code” is located
+
+
+### Updated
+
+- Updated copyright headers in dpp verification
+- Updated spring boot dependencies, reported by dependabot
+- Updated digital twin registry chart version to `v0.5.2`
+- Updated EDC version to `v0.7.3` in helm charts
+- Adapted backend to the EDC `v0.7.3`
+- The following changres are updated in the DPP Verification
+    - Updated the `v1.0` of the Verification Concept and identified improvements
+    - Fixed incoherences and the feedback provided by Nick Landgrover
+    - Refactored existing diagrams to give a clear view and explanation of the concept
+    - Updated our `first` sequence diagrams, they are really outdated
+    - Updated the aspect semantics and explain where to find documentation about the schemas
+
+
+### Issues Fixed
+
+- Fixed EDC compatibility issues in the backend [#380](https://github.com/eclipse-tractusx/digital-product-pass/issues/380)
+- Fixed frontend metadata issues in the Exchange tab [#373](https://github.com/eclipse-tractusx/digital-product-pass/issues/373)
+- Fixed frontend issues regarding the data integrity [#372](https://github.com/eclipse-tractusx/digital-product-pass/issues/372)
+- Fixed all the language typos in the Documentation (scanned with a tool)
+
+
+
+### Security Issues
+
+- Fixed Springboot version to resolve the [tomcat: Improper Handling of Exceptional Conditions](https://github.com/eclipse-tractusx/digital-product-pass/security/code-scanning/1634)
+
+
+### Dependencies Fixed by Dependabot
+* chore(deps): bump docker/build-push-action from 5 to 6 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/355
+* chore(deps): bump github/codeql-action from 2.25.2 to 3.25.11 by @dependabot in https://github.com/eclipse-tractusx/digital-product-pass/pull/356
+* chore(deps): updated spring-boot dependencies by @saudkhan116 in https://github.com/eclipse-tractusx/digital-product-pass/pull/357
+
+
+## [released]
 ## [v4.0.0-rc1] - 03-07-2024
 ### Added
 

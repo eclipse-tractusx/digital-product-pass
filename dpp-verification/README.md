@@ -184,9 +184,9 @@ This concept has been proved to be of high interest from the Certification and V
     - [CDC ID Short](#cdc-id-short)
     - [CDC Submodel Example](#cdc-submodel-example)
     - [Attribute Certification Record Submodel](#attribute-certification-record-submodel)
-    - [AMR Semantic ID Keys](#amr-semantic-id-keys)
-    - [AMR ID Short](#amr-id-short)
-    - [AMR Submodel Example](#amr-submodel-example)
+    - [ACR Semantic ID Keys](#amr-semantic-id-keys)
+    - [ACR ID Short](#amr-id-short)
+    - [ACR Submodel Example](#amr-submodel-example)
 - [Verification Implementation in the Digital Product Pass](#verification-implementation-in-the-digital-product-pass)
   - [Challenges](#challenges)
   - [Sequence Diagram](#sequence-diagram)
@@ -528,7 +528,7 @@ Once that is done the data will be linked in a `digital twin`, so in this way by
 
 Once the EDC Push Notification is received by the `data auditor` the Digital Twin and the Digital Product Pass (JSON aspect model payload to be audited) will be retrieved using the `EDC Connector` and through the `EDC Data Plane proxy`. When the passport aspect is available the data auditor can certify the `specific attributes requested` from the product against the different Catena-X standards and regulations. The `data auditor` will create a new document (a certified snapshot credential) which contains the proof of compliance of the specific attributes audited in the passport using selective disclosure, there the data is not copied it is hashed, so it can be signed and stored in the wallet from the `data auditor` for tracking reasons.
 
-The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` or an `Attribute Certification Registry (AMReg) Application` both which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
+The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` or an `Attribute Certification Registry (ACReg) Application` both which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
 
 ![csc workflow](./resources/processes/csc-workflow.svg)
 
@@ -586,7 +586,7 @@ In this Diagram we can see the complete attribute certification process and how 
 
 Once the `CSC` is issued it will be transferred to the Data Provider Premises using the EDC Push Notification. This credential will be placed in a "Verifiable Presentation" aspect called `Attribute Verification Record` that contains the list of verifiable credentials, and it is issued by the Data Provider.
 
-The **Data Consumer** once both aspects are retrieved will be able to verify the specific attributes by hashing the original "Digital Product Pass" and comparing the certified attribute hashes. Additionally, the `CSC` signature will be verified against the wallet from the Data Auditor and the overall signature in the `AMR` will be verified against the wallet of the data provider.
+The **Data Consumer** once both aspects are retrieved will be able to verify the specific attributes by hashing the original "Digital Product Pass" and comparing the certified attribute hashes. Additionally, the `CSC` signature will be verified against the wallet from the Data Auditor and the overall signature in the `ACR` will be verified against the wallet of the data provider.
 
 If all signature are verified then the data consumer will know that the data certification is still valid and the attributes certified can be trusted!
 
@@ -1582,14 +1582,14 @@ Here is an example of how the Certified Snapshot Credential looks like for a Dig
 ## Attribute Certification Record Schema
 
 
-![AMR Schema](./resources/implementation/amr-document-credential.svg)
+![ACR Schema](./resources/implementation/amr-document-credential.svg)
 
-The attribute certification record (AMR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
+The attribute certification record (ACR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
 
-The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the AMR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
+The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the ACR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
 
 > [!NOTE]
-> The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Verifiable Presentation Records dynamically.
+> The Attribute Certification Record (ACR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (ACReg) Application` which will then generate the Verifiable Presentation Records dynamically.
 
 ### ACR Credential Fields Definition
 
@@ -1654,7 +1654,7 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
 ### ACR Example
 
 <details>
-<summary>🚀 Expand to see Attribute Certification Record (AMR) Example </summary>
+<summary>🚀 Expand to see Attribute Certification Record (ACR) Example </summary>
 
 ```json
 {
@@ -1931,9 +1931,9 @@ Therefore, every aspect model used **MUST** follow the idShort defined in the co
 
 The Attribute Certification Record submodel contains the reference to the verifiable presentation with the different attribute verification Certified Snapshot Credentials(CSC).
 
-For the AMR submodel the following structure **MUST** be followed.
+For the ACR submodel the following structure **MUST** be followed.
 
-### AMR Semantic ID Keys
+### ACR Semantic ID Keys
 
 | Type | Value | Description |
 | --- | -- | -- |
@@ -1942,7 +1942,7 @@ For the AMR submodel the following structure **MUST** be followed.
 | `Submodel` | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` | The semanticId from the semantic model attributes certified in the CSC contained in the `verifiableCredential` field in the Verifiable Presentation. |
 | `Operation` | `https://w3c.github.io/vc-jws-2020/contexts/v1/` | The version and context of the signature type used in the credential |
 
-### AMR ID Short
+### ACR ID Short
 
 For easing the identification of the Attribute Verification the following structure of ID short was chosen to link the submodels inside a digital twin.
 
@@ -1960,7 +1960,7 @@ Since every aspect model has a standardized idShort the following structure was 
 By concatenating the "Verification" sufix the consumer applications are able to identify to each idShort in the digital twin submodel list. For every standardized aspect model, an idShort **MUST** be provided. This same idShort shall then be provided as a prefix.
 
 
-### AMR Submodel Example
+### ACR Submodel Example
 
 ```json
 {
@@ -2352,8 +2352,8 @@ explanation of this Certification and Verification Concept.
 | TTL                   | Terse RDF Triple Language                                  |
 | VC                    | Verifiable Credential                                      |
 | VP                    | Verifiable Presentation                                    |
-| AMReg                    | Attribute Certification Registry                                    |
-| AMR                    | Attribute Certification Record                                    |
+| ACReg                    | Attribute Certification Registry                                    |
+| ACR                    | Attribute Certification Record                                    |
 | W3C                   | World Wide Web Consortium                                  |
 
 ## NOTICE

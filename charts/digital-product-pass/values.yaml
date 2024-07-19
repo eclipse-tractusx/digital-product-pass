@@ -206,15 +206,12 @@ backend:
       # -- list of allowed policies that can be selected from the edc catalog in negotiations
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
-                - leftOperand: "cx-policy:FrameworkAgreement"
-                  operator: "odrl:eq"
-                  rightOperand: "CircularEconomy:1.0"
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.circular.dpp:1"
@@ -246,7 +243,7 @@ backend:
       # -- list of allowed policies that can be selected from the edc catalog in negotiations
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"

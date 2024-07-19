@@ -31,21 +31,21 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: "<path:digital-product-pass/data/int/edc/participant#bpnNumber>"
+    id: "<path:material-pass/data/int/edc/participant#bpnNumber>"
 
   iatp:
     # Decentralized IDentifier
-    id: "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL000000000FV1"
+    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
     trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
       - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
     sts:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        token_url: "https://bpnl0073928UJ879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
-          id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
-          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
+          id: "<path:material-pass/data/int/edc/ssi#clientId>"
+          secret_alias: "int-client-secret"
 
   controlplane:
     enabled: true
@@ -63,7 +63,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /BPNL000000000000/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
+        authKey: <path:material-pass/data/int/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -88,7 +88,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.catena-x.net"
+        hostname: "dpp.int.demo.catena-x.net"
        # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -105,7 +105,7 @@ tractusx-connector:
           # -- Enables TLS on the ingress resource
           enabled: true
           # -- If present overwrites the default secret name
-          secretName: "tls-secret-provider-controlplane"
+          secretName: "tls-secret"
   dataplane:
     enabled: true
     endpoints:
@@ -121,7 +121,7 @@ tractusx-connector:
       proxy:
         port: 8186
         path: /BPNL000000000000/proxy
-        authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
+        authKey: <path:material-pass/data/int/edc/oauth#api.key>
       metrics:
         port: 9090
         path: /BPNL000000000000/metrics
@@ -134,17 +134,17 @@ tractusx-connector:
         refresh_endpoint:
       signer:
         # alias under which the private key is stored in the vault (JWK or PEM format)
-        privatekey_alias: signer_privatekey
+        privatekey_alias: ids-daps_key
       verifier:
         # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
-        publickey_alias: verifier_publickey
+        publickey_alias: ids-daps_crt
 
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.int.catena-x.net"
+        hostname: "dpp.int.demo.catena-x.net"
         # -- Additional ingress annotations to add
                # -- Additional ingress annotations to add
         annotations: {}
@@ -158,7 +158,7 @@ tractusx-connector:
           # -- Enables TLS on the ingress resource
           enabled: true
           # -- If present overwrites the default secret name
-          secretName: "tls-secret-provider-dataplane"
+          secretName: "tls-secret"
         ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
         certManager:
           # -- If preset enables certificate generation via cert-manager namespace scoped issuer
@@ -167,8 +167,8 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    username: <path:material-pass/data/int/edc/database#user>
+    password: <path:material-pass/data/int/edc/database#password>
 
   vault:
     fullnameOverride: "vault"
@@ -181,5 +181,5 @@ tractusx-connector:
 
 postgresql:
   auth:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    username: <path:material-pass/data/int/edc/database#user>
+    password: <path:material-pass/data/int/edc/database#password>

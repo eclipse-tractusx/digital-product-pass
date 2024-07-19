@@ -181,13 +181,6 @@ tractusx-connector:
       paths:
         secret: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
-    # secretNames:
-    #   transferProxyTokenSignerPrivateKey: ids-daps_key
-    #   transferProxyTokenSignerPublicKey: ids-daps_crt
-    #   transferProxyTokenEncryptionAesKey: edc-encryption-key
-
-  # backendService:
-  #    httpProxyTokenReceiverUrl: "https://dpp.int.demo.catena-x.net/endpoint"
 
 postgresql:
   auth:

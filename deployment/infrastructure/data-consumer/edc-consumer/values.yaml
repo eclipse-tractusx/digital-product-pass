@@ -184,9 +184,6 @@ tractusx-connector:
     env: {}
     # env:
     #   #  ENV_NAME: value
-    #   # workaround till 0.7.1 chart
-    #   EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
-
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -423,9 +420,6 @@ tractusx-connector:
     env: {}
     # env:
     #   #  ENV_NAME: value
-    #   # workaround till 0.7.1 chart
-    #   EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
-
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -558,13 +552,6 @@ tractusx-connector:
       paths:
         secret:  ""
         health: /v1/sys/health
-    # secretNames:
-    #   transferProxyTokenSignerPrivateKey: daps-key-dev
-    #   transferProxyTokenSignerPublicKey: daps-crt-dev
-    #   transferProxyTokenEncryptionAesKey: edc-encryption-key
-
-  # backendService:
-  #   httpProxyTokenReceiverUrl: "https://dpp.dev.demo.catena-x.net/endpoint"
 
   networkPolicy:
     # -- If `true` network policy will be created to restrict access to control- and dataplane
@@ -608,8 +595,8 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: ""
-    password: ""
+    username: "<insert your database username>"
+    password: "<insert your database password>"
 
 item-relationship-service:
   enabled: false

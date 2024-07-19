@@ -42,21 +42,21 @@ tractusx-connector:
 
     
   participant:
-    id: "<path:material-pass/data/dev/edc/participant#bpnNumber>"
+    id: "<insert your participant id>"
 
   iatp:
     # Decentralized IDentifier
-    id: "did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL0073928UJ879"
+    id: "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL000000000FV1"
     trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
       - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
     sts:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: "https://bpnl0073928uj879-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        token_url: "<insert your token url>"
         client:
-          id: "<path:material-pass/data/dev/edc/ssi#clientId>"
-          secret_alias: "dev-client-secret"
+          id: "<insert your client id>"
+          secret_alias: "<insert your client secret>"
 
   # -- Add custom ca certificates to the truststore
   customCaCerts: {}
@@ -114,7 +114,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /BPNL000000000000/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
+        authKey: "<insert your auth key>"
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -139,7 +139,7 @@ tractusx-connector:
       cache_validity_seconds: 600
       server:
         # URL of the BPN/DID Resolution Service - required:
-        url: "https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory"      
+        url: "https://bpn-did-resolution-service.int.catena-x.net/api/directory"      
 
     service:
       # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
@@ -178,6 +178,8 @@ tractusx-connector:
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
     env: {}
+    # env:
+    #   #  ENV_NAME: value
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -205,7 +207,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: ""
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -357,7 +359,7 @@ tractusx-connector:
       proxy:
         port: 8186
         path: /BPNL000000000000/proxy
-        authKey: <path:material-pass/data/dev/edc/oauth#api.key>
+        authKey: "<insert your auth key>"
       metrics:
         port: 9090
         path: /BPNL000000000000/metrics
@@ -370,10 +372,10 @@ tractusx-connector:
         refresh_endpoint:
       signer:
         # alias under which the private key is stored in the vault (JWK or PEM format)
-        privatekey_alias: daps-key-dev
+        privatekey_alias: "<insert your privatekey alias>"
       verifier:
         # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
-        publickey_alias: daps-crt-dev
+        publickey_alias: "<insert your publickey alias>"
 
     aws:
       endpointOverride: ""
@@ -412,6 +414,8 @@ tractusx-connector:
       runAsUser: 10001
     # Extra environment variables that will be pass onto deployment pods
     env: {}
+    # env:
+    #   #  ENV_NAME: value
 
     # "valueFrom" environment variable references that will be added to deployment pods. Name is templated.
     # ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvarsource-v1-core
@@ -439,7 +443,7 @@ tractusx-connector:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "materialpass.dev.demo.catena-x.net"
+        hostname: ""
         # -- Additional ingress annotations to add
         annotations: {}
         # -- EDC endpoints exposed by this ingress resource
@@ -521,8 +525,8 @@ tractusx-connector:
     nameOverride: ""
     auth:
       database: "edc"
-      username: <path:material-pass/data/dev/edc/database#user>
-      password: <path:material-pass/data/dev/edc/database#password>
+      username: "<insert your database username>"
+      password: "<insert your database password>"
 
   vault:
     fullnameOverride: "vault"
@@ -535,14 +539,14 @@ tractusx-connector:
       # Must be the same certificate that is configured in section 'daps'
       postStart:    # must be set externally!
     hashicorp:
-      url: <path:material-pass/data/dev/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/dev/edc/vault#vault.hashicorp.token>
+      url: "<insert your vault url>"
+      token: "<insert your vault token>"
       timeout: 30
       healthCheck:
         enabled: true
         standbyOk: true
       paths:
-        secret: <path:material-pass/data/dev/edc/vault#vault.hashicorp.api.secret.path>
+        secret: ""
         health: /v1/sys/health
 
   networkPolicy:
@@ -584,6 +588,5 @@ postgresql:
       enabled: true
   auth:
     database: "edc"
-    username: <path:material-pass/data/dev/edc/database#user>
-    password: <path:material-pass/data/dev/edc/database#password>
-
+    username: "<insert your database username>"
+    password: "<insert your database password>"

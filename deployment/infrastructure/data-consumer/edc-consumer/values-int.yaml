@@ -171,8 +171,9 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    auth:
+      username: <path:digital-product-pass/data/int/edc/database#user>
+      password: <path:digital-product-pass/data/int/edc/database#password>
 
   vault:
     hashicorp:

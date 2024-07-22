@@ -50,7 +50,7 @@ tractusx-connector:
         token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
           id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
-          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
+          secret_alias: int-client-secret
 
   controlplane:
     enabled: true

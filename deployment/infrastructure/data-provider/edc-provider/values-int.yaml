@@ -173,10 +173,10 @@ tractusx-connector:
   vault:
     fullnameOverride: "vault"
     hashicorp:
-      url: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
+      url: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.url>
+      token: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.token>
       paths:
-        secret: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+        secret: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
 
 postgresql:

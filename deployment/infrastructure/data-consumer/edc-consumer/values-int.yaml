@@ -36,7 +36,7 @@
 tractusx-connector:
   enabled: true
   participant:
-    id: "<path:digital-product-pass/data/int/edc/participant#bpnNumber>"
+    id: "<path:/v1/digital-product-pass/data/int/edc/participant#bpnNumber>"
 
   iatp:
     # Decentralized IDentifier
@@ -49,8 +49,8 @@ tractusx-connector:
       oauth:
         token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
-          id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
-          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
+          id: "<path:/v1/digital-product-pass/data/int/edc/wallet#clientId>"
+          secret_alias: "<path:/v1/digital-product-pass/data/int/edc/wallet#clientSecret>"
 
   controlplane:
     enabled: true
@@ -68,7 +68,7 @@ tractusx-connector:
         # -- path for incoming api calls
         path: /consumer/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
+        authKey: <path:/v1/digital-product-pass/data/int/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         # -- port for incoming api calls
@@ -171,29 +171,29 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    username: <path:/v1/digital-product-pass/data/int/edc/database#user>
+    password: <path:/v1/digital-product-pass/data/int/edc/database#password>
 
   vault:
     hashicorp:
-      url: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.url>
-      token: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.token>
+      url: <path:/v1/digital-product-pass/data/int/edc/vault#vault.hashicorp.url>
+      token: <path:/v1/digital-product-pass/data/int/edc/vault#vault.hashicorp.token>
       paths:
-        secret: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+        secret: <path:/v1/digital-product-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
 
 postgresql:
   auth:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    username: <path:/v1/digital-product-pass/data/int/edc/database#user>
+    password: <path:/v1/digital-product-pass/data/int/edc/database#password>
 
 item-relationship-service:
   enabled: false
-  bpn: <path:digital-product-pass/data/int/edc/participant#bpnNumber>
+  bpn: <path:/v1/digital-product-pass/data/int/edc/participant#bpnNumber>
 
   irsUrl: "https://dpp-irs.int.catena-x.net"
-  apiKeyAdmin: <path:digital-product-pass/data/int/irs/apiKey#apiKeyAdmin>
-  apiKeyRegular: <path:digital-product-pass/data/int/irs/apiKey#apiKeyRegular>
+  apiKeyAdmin: <path:/v1/digital-product-pass/data/int/irs/apiKey#apiKeyAdmin>
+  apiKeyRegular: <path:/v1/digital-product-pass/data/int/irs/apiKey#apiKeyRegular>
 
   ingress:
     enabled: true
@@ -230,22 +230,22 @@ item-relationship-service:
       {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
       {{- end }}
 
-  minioUser: <path:digital-product-pass/data/int/irs/minio#user>
-  minioPassword: <path:digital-product-pass/data/int/irs/minio#password>
+  minioUser: <path:/v1/digital-product-pass/data/int/irs/minio#user>
+  minioPassword: <path:/v1/digital-product-pass/data/int/irs/minio#password>
   minioUrl: "http://{{ .Release.Name }}-minio:9000"
 
   oauth2:
     clientTokenUri: https://centralidp.int.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwkSetUri: https://centralidp.int.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     discovery:
-      clientId: <path:digital-product-pass/data/int/backend#clientId>
-      clientSecret: <path:digital-product-pass/data/int/backend#clientSecret>
+      clientId: <path:/v1/digital-product-pass/data/int/backend#clientId>
+      clientSecret: <path:/v1/digital-product-pass/data/int/backend#clientSecret>
     semantics:
-      clientId: <path:digital-product-pass/data/int/backend#clientId>
-      clientSecret: <path:digital-product-pass/data/int/backend#clientSecret>
+      clientId: <path:/v1/digital-product-pass/data/int/backend#clientId>
+      clientSecret: <path:/v1/digital-product-pass/data/int/backend#clientSecret>
     bpdm:
-      clientId: <path:digital-product-pass/data/int/backend#clientId>
-      clientSecret: <path:digital-product-pass/data/int/backend#clientSecret>
+      clientId: <path:/v1/digital-product-pass/data/int/backend#clientId>
+      clientSecret: <path:/v1/digital-product-pass/data/int/backend#clientSecret>
 
   edc:
     catalog:
@@ -267,10 +267,10 @@ item-relationship-service:
         data: https://dpp.int.catena-x.net/consumer/management
       apikey:
         header: "X-Api-Key"
-        secret: <path:digital-product-pass/data/int/edc/oauth#api.key>
+        secret: <path:/v1/digital-product-pass/data/int/edc/oauth#api.key>
 
   minio:
     serviceAccount:
       create: false
-    rootUser: <path:digital-product-pass/data/int/irs/minio#user>
-    rootPassword: <path:digital-product-pass/data/int/irs/minio#password>
+    rootUser: <path:/v1/digital-product-pass/data/int/irs/minio#user>
+    rootPassword: <path:/v1/digital-product-pass/data/int/irs/minio#password>

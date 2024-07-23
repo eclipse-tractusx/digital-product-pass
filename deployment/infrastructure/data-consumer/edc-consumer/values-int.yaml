@@ -189,7 +189,7 @@ postgresql:
     password: <path:digital-product-pass/data/int/edc/database#password>
 
 item-relationship-service:
-  enabled: false
+  enabled: true
   bpn: <path:digital-product-pass/data/int/edc/participant#bpnNumber>
 
   irsUrl: "https://dpp-irs.int.catena-x.net"
@@ -250,19 +250,49 @@ item-relationship-service:
 
   edc:
     catalog:
-      acceptedPolicies:
-        - leftOperand: "cx-policy:FrameworkAgreement"
-          operator: "eq"
-          rightOperand: "CircularEconomy:1.0"
-        - leftOperand: "cx-policy:Membership"
-          operator: "eq"
-          rightOperand: "active"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.circular.dpp:1"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.core.digitalTwinRegistry:1"
+      acceptedPolicies: >
+        [{
+            "policyId": "default-policy",
+            "createdOn": "2024-07-17T16:15:14.12345678Z",
+            "validUntil": "9999-01-01T00:00:00.00000000Z",
+            "permissions": [
+                {
+                    "action": "use",
+                    "constraint": {
+                        "and": [
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/FrameworkAgreement",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "CircularEconomy:1.0"
+                            },
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "cx.core.digitalTwinRegistry:1"
+                            },
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "cx.circular.dpp:1"
+                            },
+                            {
+                                "leftOperand": "cx-policy:Membership",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "active"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }]
     controlplane:
       endpoint:
         data: https://dpp.int.catena-x.net/consumer/management

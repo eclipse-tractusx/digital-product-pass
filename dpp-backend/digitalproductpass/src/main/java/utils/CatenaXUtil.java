@@ -196,9 +196,8 @@ public final class CatenaXUtil {
             throw new UtilException(CatenaXUtil.class, e, "[ERROR] Invalid edc endpoint or management endpoint");
         }
     }
-
     /**
-     * Builds the full Endpoint for a given partial endpoint.
+     * Builds a dsp endpoint, adding the /api/v1/dsp endpoint.
      * <p>
      * @param   endpoint
      *          the {@code String} partial endpoint.
@@ -208,6 +207,36 @@ public final class CatenaXUtil {
      * @throws  UtilException
      *          if the given endpoint is an invalid one.
      */
+    public static String buildDspEndpoint(String endpoint) {
+        try {
+            if (CatenaXUtil.containsEdcEndpoint(endpoint)) {
+                return endpoint;
+            }
+            String cleanUrl = HttpUtil.cleanUrlWithPath(endpoint);
+            // Remove the trailing slash
+            if (endpoint.endsWith("/")) {
+                cleanUrl =  endpoint.substring(0, endpoint.length() - 1);
+            }
+            //Contact the dsp endpoint
+            return cleanUrl + edcDataEndpoint;
+        } catch (Exception e) {
+            throw new UtilException(CatenaXUtil.class, e, "[ERROR] Invalid url [" + endpoint + "] given!");
+        }
+
+    }
+
+    /**
+     * @deprecated Use {@code CatenaXUtil.buildEndpointSafe()} instead. This method provided the old logic of parsing dsp endpoints with BPNs
+     * Builds the full Endpoint for a given partial endpoint.
+     * <p>
+     * @param   endpoint
+     *          the {@code String} partial endpoint.
+     *
+     * @return  the built {@code String} endpoint by cleaning the given endpoint and adding the EDC data endpoint and BPN number (if applied).
+     * @throws  UtilException
+     *          if the given endpoint is an invalid one.
+     */
+    @Deprecated
     public static String buildEndpoint(String endpoint) {
         try {
             if (CatenaXUtil.containsEdcEndpoint(endpoint)) {

@@ -23,7 +23,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Digital Product Pass Compatibility Matrix
 
-# v4.0.0 - R24.08
+# v4.0.1 - R24.08
 
 ## dpp-backend-v4.0.1
 

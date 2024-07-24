@@ -36,7 +36,7 @@ backend:
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: &hostname "dpp.int.demo.catena-x.net"
+      - host: &hostname "dpp.int.catena-x.net"
         paths:
           - path: /
             pathType: Prefix
@@ -45,9 +45,9 @@ backend:
         hosts:
           - *hostname
   edc:
-    xApiKey: <path:material-pass/data/int/edc/oauth#api.key>
-    participantId: &bpn <path:material-pass/data/int/edc/participant#bpnNumber>
-    hostname: "materialpass.int.demo.catena-x.net/consumer"
+    xApiKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
+    participantId: &bpn <path:digital-product-pass/data/int/edc/participant#bpnNumber>
+    hostname: "dpp.int.catena-x.net/consumer"
 
 
   hostname: *hostname
@@ -57,14 +57,14 @@ backend:
 
   irs:
     enabled: true
-    hostname: "materialpass-irs.int.demo.catena-x.net"
-    apiKey: "<path:material-pass/data/int/irs/apiKey#apiKeyRegular>"
+    hostname: "dpp-irs.int.catena-x.net"
+    apiKey: "<path:digital-product-pass/data/int/irs/apiKey#apiKeyRegular>"
 
   process:
-    encryptionKey: "<path:material-pass/data/int/backend/#signKey>"
+    encryptionKey: "<path:digital-product-pass/data/int/backend/#signKey>"
 
   discovery:
-    hostname: "semantics.int.demo.catena-x.net/discoveryfinder"
+    hostname: "semantics.int.catena-x.net/discoveryfinder"
 
   singleApi:
     maxRetries: 30
@@ -72,7 +72,7 @@ backend:
 
   verification:
     wallet:
-      url: "https://dpp-consumer-wallet.int.demo.catena-x.net"
+      url: "https://dpp-consumer-wallet.int.catena-x.net"
 
 frontend:
   enabled: true
@@ -86,7 +86,7 @@ frontend:
       # kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
@@ -106,16 +106,16 @@ frontend:
     adminEmail: "admin@example.com"
 
   portal:
-    hostname: "portal.int.demo.catena-x.net"
+    hostname: "portal.int.catena-x.net"
 
 
 oauth:
-  hostname: "centralidp.int.demo.catena-x.net"
+  hostname: "centralidp.int.catena-x.net"
   techUser:
-    clientId: <path:material-pass/data/int/backend#clientId>
-    clientSecret: <path:material-pass/data/int/backend#clientSecret>
-  realm: <path:material-pass/data/int/oauth#realm>
-  appId: <path:material-pass/data/int/oauth#appId>
+    clientId: <path:digital-product-pass/data/int/backend#clientId>
+    clientSecret: <path:digital-product-pass/data/int/backend#clientSecret>
+  realm: <path:digital-product-pass/data/int/oauth#realm>
+  appId: <path:digital-product-pass/data/int/oauth#appId>
   bpnCheck:
     enabled: true
     bpn: *bpn
@@ -123,5 +123,5 @@ oauth:
     enabled: false
   apiKey:
     header: "X-Api-Key"
-    secret: <path:material-pass/data/int/oauth#xApiKey>
+    secret: <path:digital-product-pass/data/int/oauth#xApiKey>
 

@@ -41,7 +41,7 @@ backend:
           - path: /
             pathType: Prefix
     tls:
-      - secretName: tls-secret
+      - secretName: tls-secret-digital-product-pass-backend
         hosts:
           - *hostname
   edc:
@@ -96,7 +96,7 @@ frontend:
           - path: /passport(/|$)(.*)
             pathType: Prefix
     tls:
-      - secretName: tls-secret
+      - secretName: tls-secret-digital-product-pass-frontend
         hosts:
           - dpp.int.demo.catena-x.net
 

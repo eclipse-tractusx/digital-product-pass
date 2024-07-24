@@ -36,7 +36,9 @@ SPDX-License-Identifier: CC-BY-4.0
 | [Simple Wallet](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification/simple-wallet) | 1.0.0 | [1.0.0](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-verification/charts/simple-wallet/Chart.yaml) | DPP Verification Add-on |
 | [Certified Data Credential](https://github.com/eclipse-tractusx/digital-product-pass/tree/main/dpp-verification/semantics/io.catenax.dpp_verification.cdc/) | 1.0.0 | - | DPP Verification Add-on |
 
-Can retrieve any model version thought the EDC proxy. Semantic Ids **MUST** be specified in priority order at the chart values.yaml.
+The `dpp-backend` component can retrieve any model version thought the EDC proxy, however semantic Ids **MUST** be specified in priority order at the chart values.yaml.
+
+The models can be embedded in a `CertifiedDataCredential` as described in the [`dpp-verification` add-on](./dpp-verification/), but the search process is still performed by the "aspect model" payload semanticId.
 
 ## dpp-frontend-v4.0.1
 

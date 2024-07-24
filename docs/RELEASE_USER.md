@@ -25,6 +25,33 @@ SPDX-License-Identifier: CC-BY-4.0
 
 User friendly relase notes without specific technical details.
 
+**July 25 2024 (Version 4.0.1)**
+*25.07.2024*
+
+### Added
+
+#### Added Compatibility Matrix
+
+I have added the compatibility matrix for the Digital Product Pass, in this way the different dependencies can be visualized properly.
+
+#### Added compatibility to IRS 7.4.0
+
+Now the backend is compatible with the latest IRS 7.4.0 helm version. Enabling even faster relationships retrievals.
+
+### Issues Fixed
+
+#### Fixed Integration Between EDC 0.7.3 and the backend
+
+There was a policy definition problem in the backend helm charts that do not allowed the backend to accept the EDC policies. Because of data sovereignty.
+
+#### Fixed DSP Endpoint Resolution Bug
+
+There was a bug related to the dsp endpoint resolution, when we received it from the Digital Twin, we were not able to build correctly the dsp endpoint with the provider endpoint.
+
+#### Fixed Digital Product Pass Verification Typos
+
+There were some typos in the digital product pass verification add-on. They were fixed in this released.
+
 **July 3 2024 (Version 4.0.0)**
 *03.07.2024*
 

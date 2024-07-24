@@ -48,9 +48,9 @@ In particular, the application is used to access the battery passport data provi
 
 ## Application Preview
 
-Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.
+Here is a preview from the DPP App UI, where we visualize a test Digital Product Pass in this case.
 
-![General Info View](./docs/architecture/media/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./docs/media/passport-view.png)
 
 > **Note**: For more information check the [documentation section](./docs/README.md)
 
@@ -89,6 +89,8 @@ This concept is the **First Aspect Model Verification/Certification Concept in C
 It provides a generic concept for **Attribute Verification/Certification** by external/internal auditors, and also provides a **Self-Testification** option for Data Providers to certify their data while still maintaining data sovereighty at all costs. By using the EDC connector for the data exchanges this concept uses the **current Catena-X Architecture**.
 
 Furthermore, it gives guidance and ready to use components for verifying the data received from their Data Providers. The Digital Product Pass Add-on offers the consumers components like the [simple-wallet](./simple-wallet/), an **MVP decentral wallet** able to issue and verify aspect model Verifiable Credential Documents. It also provides a proof of concept (PoC) in the `dpp-backend` and `dpp-frontend` components for complete data payloads to be verified.
+
+![Verification Add-on](./docs/media/verification-addon.png)
 
 | Name                                                                                                          | Description                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |

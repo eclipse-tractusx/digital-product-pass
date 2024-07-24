@@ -2311,15 +2311,12 @@ No content with copyright was copied. All the information used as reference in t
 | IDTA AAS 3.0 Standard | IDTA | April 2023 | https://industrialdigitaltwin.org/wp-content/uploads/2023/04/IDTA-01002-3-0_SpecificationAssetAdministrationShell_Part2_API.pdf |
 | SHA-3 Standard | U.S. Federal Infromation Technology Laboratory | August 2015 | https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf |
 
-
-
 # Special Thanks
 
 We would like to thank [Matthias Binzer](https://github.com/matgnt) for contributing in the refactoring of the initial concept by giving some insights on how he has done the Supply Chain data integrity concept using Verifiable Credentials (TRS) Data Integrity Demonstrator. He supported us on finding a way and giving the hints for maintaining selective disclosure when it comes to verify specific attributes from an aspect.
 We also thank for all the Platform Capability Architects for their disposition for reviewing and supporting the concept from an architecture perspective. We thank the Wallet Catena-X Experts for the time they took review the concept and for the feedback that was given.
 Furthermore, we thank the managed identify wallets product owner for the support and availability for answering questions which were relevant to the adaptation of the concept to the architecture.
 Last but not least a special thanks for all the Tractus-X and Catena-X Stakeholders that participated in the elaboration and review of this concept.
-
 
 # Glossary
 

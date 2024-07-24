@@ -73,6 +73,7 @@ backend:
   verification:
     wallet:
       url: "https://dpp-consumer-wallet.int.catena-x.net"
+      apiKey: "<path:digital-product-pass/data/int/verification/wallet#apiKey>"
 
 frontend:
   enabled: true

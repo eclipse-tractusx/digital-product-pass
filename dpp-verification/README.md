@@ -24,7 +24,7 @@ SPDX-License-Identifier: CC-BY-4.0
 <div align="center">
   <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
   <br><br>
-  <img alt="Version:  v2.0" src="https://img.shields.io/badge/Version-v2.0-blue?style=for-the-badge">
+  <img alt="Version:  v2.1" src="https://img.shields.io/badge/Version-v2.0-blue?style=for-the-badge">
   <img alt="STATUS: RELEASED" src="https://img.shields.io/badge/Status-Released-8A2BE2?style=for-the-badge">
   <h3> A Catena-X Data Certification/Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
@@ -36,7 +36,7 @@ SPDX-License-Identifier: CC-BY-4.0
 |                      | Date              | Authors & Reviewers                                   |
 | -------------------- | ----------------- | ----------------------------------------------------- |
 | **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
-| **Lastest Revision** | July 19, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | July 24, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
 

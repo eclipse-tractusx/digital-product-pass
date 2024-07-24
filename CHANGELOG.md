@@ -25,8 +25,35 @@ SPDX-License-Identifier: CC-BY-4.0
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [Unreleased]
+
+## [released]
+## [v4.0.1] - 24-07-2024
+
+### Added
+
+- Added unit tests for the dsp endpoint parsing functionality
+- Added digital product pass compatibility matrix file to the repo root path
+
+### Updated
+
+- Updated typos and missing explanations in the dpp-verification documentation.
+- Fixed typo in `AttributeCertificationRecord` which short name was `amr`, it was a typo and was corrected to `acr`.
+- Aligned charts for dpp-verification add-on configuration in the configmap -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
+- @Deprecated old function to parse dsp endpoint with bpns.
+- Updated default INT urls to the Association INT environement url path.
+
+### Deleted
+
+- AssetId field removed from `transfer-request` model. Deprecated by the EDC v0.7.3 V3 Management Api ->  [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
+
+### Issues Fixed
+
+- Fixed issue with dsp endpoint parsing/building from Digital Twin submodelBody field. -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
+- Fixed policy chart misconfiguration for the passport and digital twin registry -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
+
+
+
 
 ## [released]
 ## [v4.0.0] - 19-07-2024

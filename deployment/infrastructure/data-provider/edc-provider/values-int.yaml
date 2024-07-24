@@ -37,7 +37,7 @@ tractusx-connector:
     # Decentralized IDentifier
     id: "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL000000000FV1"
     trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
-      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
+      - "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL00000003CRHK"
     sts:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
@@ -45,7 +45,7 @@ tractusx-connector:
         token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
           id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
-          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
+          secret_alias: int-client-secret
 
   controlplane:
     enabled: true
@@ -55,13 +55,13 @@ tractusx-connector:
         # -- port for incoming api calls
         port: 8080
         # -- path for incoming api calls
-        path: /BPNL000000000000/api
+        path: /provider/api
       # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
       management:
         # -- port for incoming api calls
         port: 8081
         # -- path for incoming api calls
-        path: /BPNL000000000000/management
+        path: /provider/management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
         authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
@@ -69,19 +69,19 @@ tractusx-connector:
         # -- port for incoming api calls
         port: 8083
         # -- path for incoming api calls
-        path: /BPNL000000000000/control
+        path: /provider/control
       # -- ids api, used for inter connector communication and must be internet facing
       protocol:
         # -- port for incoming api calls
         port: 8084
         # -- path for incoming api calls
-        path: /BPNL000000000000/api/v1/dsp
+        path: /provider/api/v1/dsp
       # -- metrics api, used for application metrics, must not be internet facing
       metrics:
         # -- port for incoming api calls
         port: 9090
         # -- path for incoming api calls
-        path: /BPNL000000000000/metrics
+        path: /provider/metrics
 
     ## Ingress declaration to expose the network service.
     ingresses:
@@ -111,20 +111,20 @@ tractusx-connector:
     endpoints:
       default:
         port: 8080
-        path: /BPNL000000000000/api
+        path: /provider/api
       public:
         port: 8081
-        path: /BPNL000000000000/api/public
+        path: /provider/api/public
       control:
         port: 8084
-        path: /BPNL000000000000/api/dataplane/control
+        path: /provider/api/dataplane/control
       proxy:
         port: 8186
-        path: /BPNL000000000000/proxy
+        path: /provider/proxy
         authKey: <path:digital-product-pass/data/int/edc/oauth#api.key>
       metrics:
         port: 9090
-        path: /BPNL000000000000/metrics
+        path: /provider/metrics
 
     token:
       refresh:
@@ -167,16 +167,17 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    auth:
+      username: <path:digital-product-pass/data/int/edc/database#user>
+      password: <path:digital-product-pass/data/int/edc/database#password>
 
   vault:
     fullnameOverride: "vault"
     hashicorp:
-      url: <path:material-pass/data/int/edc/vault#vault.hashicorp.url>
-      token: <path:material-pass/data/int/edc/vault#vault.hashicorp.token>
+      url: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.url>
+      token: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.token>
       paths:
-        secret: <path:material-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
+        secret: <path:digital-product-pass/data/int/edc/vault#vault.hashicorp.api.secret.path>
         health: /v1/sys/health
 
 postgresql:

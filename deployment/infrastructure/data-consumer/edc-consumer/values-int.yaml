@@ -252,6 +252,34 @@ item-relationship-service:
     catalog:
       acceptedPolicies: >
         [{
+            "policyId": "dpp-policy-id",
+            "createdOn": "2024-07-17T16:15:14.12345678Z",
+            "validUntil": "9999-01-01T00:00:00.00000000Z",
+            "permissions": [
+                {
+                    "action": "use",
+                    "constraint": {
+                        "and": [
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/Membership",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "active"
+                            },
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "cx.circular.dpp:1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
             "policyId": "default-policy",
             "createdOn": "2024-07-17T16:15:14.12345678Z",
             "validUntil": "9999-01-01T00:00:00.00000000Z",
@@ -261,11 +289,11 @@ item-relationship-service:
                     "constraint": {
                         "and": [
                             {
-                                "leftOperand": "https://w3id.org/catenax/policy/FrameworkAgreement",
+                                "leftOperand": "https://w3id.org/catenax/policy/Membership",
                                 "operator": {
                                     "@id": "eq"
                                 },
-                                "rightOperand": "CircularEconomy:1.0"
+                                "rightOperand": "active"
                             },
                             {
                                 "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
@@ -273,20 +301,6 @@ item-relationship-service:
                                     "@id": "eq"
                                 },
                                 "rightOperand": "cx.core.digitalTwinRegistry:1"
-                            },
-                            {
-                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
-                                "operator": {
-                                    "@id": "eq"
-                                },
-                                "rightOperand": "cx.circular.dpp:1"
-                            },
-                            {
-                                "leftOperand": "cx-policy:Membership",
-                                "operator": {
-                                    "@id": "eq"
-                                },
-                                "rightOperand": "active"
                             }
                         ]
                     }

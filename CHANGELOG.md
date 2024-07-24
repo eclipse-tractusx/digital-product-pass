@@ -42,6 +42,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Aligned charts for dpp-verification add-on configuration in the configmap -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
 - @Deprecated old function to parse dsp endpoint with bpns.
 - Updated default INT urls to the Association INT environement url path.
+- Managed integration of latest IRS version chart: 7.4.0 and tested compatibility
 
 ### Deleted
 
@@ -51,8 +52,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 - Fixed issue with dsp endpoint parsing/building from Digital Twin submodelBody field. -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
 - Fixed policy chart misconfiguration for the passport and digital twin registry -> [#390](https://github.com/eclipse-tractusx/digital-product-pass/issues/390)
-
-
 
 
 ## [released]

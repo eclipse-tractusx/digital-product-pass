@@ -184,9 +184,9 @@ This concept has been proved to be of high interest from the Certification and V
     - [CDC ID Short](#cdc-id-short)
     - [CDC Submodel Example](#cdc-submodel-example)
     - [Attribute Certification Record Submodel](#attribute-certification-record-submodel)
-    - [ACR Semantic ID Keys](#amr-semantic-id-keys)
-    - [ACR ID Short](#amr-id-short)
-    - [ACR Submodel Example](#amr-submodel-example)
+    - [ACR Semantic ID Keys](#acr-semantic-id-keys)
+    - [ACR ID Short](#acr-id-short)
+    - [ACR Submodel Example](#acr-submodel-example)
 - [Verification Implementation in the Digital Product Pass](#verification-implementation-in-the-digital-product-pass)
   - [Challenges](#challenges)
   - [Sequence Diagram](#sequence-diagram)
@@ -652,7 +652,7 @@ Additionally, if more specific contexts want to be defined, the following contex
 
 - W3C Data Integrity Context: https://w3id.org/security/data-integrity/v2  
 
-For every credential [`Certified Data Credential`](#cdc-json-ld-context-schema), [`Certified Snapshot Credential`](#csc-json-ld-context-schema), [`Attribute Certification Record`](#amr-json-ld-context-schema) the individual JSON-LD context schema specification **MUST** be also added to the `@context` list.
+For every credential [`Certified Data Credential`](#cdc-json-ld-context-schema), [`Certified Snapshot Credential`](#csc-json-ld-context-schema), [`Attribute Certification Record`](#acr-json-ld-context-schema) the individual JSON-LD context schema specification **MUST** be also added to the `@context` list.
 
 ### Cryptography Signatures & Keys in Self-Descriptions
 
@@ -1582,7 +1582,7 @@ Here is an example of how the Certified Snapshot Credential looks like for a Dig
 ## Attribute Certification Record Schema
 
 
-![ACR Schema](./resources/implementation/amr-document-credential.svg)
+![ACR Schema](./resources/implementation/acr-document-credential.svg)
 
 The attribute certification record (ACR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
 
@@ -1662,7 +1662,7 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
       "https://www.w3.org/ns/credentials/v2",
       "https://w3c.github.io/vc-jws-2020/contexts/v1/",
       "https://w3id.org/security/data-integrity/v2",
-      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/amr/1.0.0/attributeCertificationRecord.jsonld"
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/acr/1.0.0/attributeCertificationRecord.jsonld"
   ],
   "type": [
       "VerifiablePresentation",
@@ -1938,7 +1938,7 @@ For the ACR submodel the following structure **MUST** be followed.
 | Type | Value | Description |
 | --- | -- | -- |
 | `Entity` | `https://www.w3.org/ns/credentials/v2` | Verifiable Credential Version |
-| `DataElement` | `urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord` | Attribute Certification Record Version |
+| `DataElement` | `urn:samm:io.catenax.dpp_verification.acr:1.0.0#AttributeCertificationRecord` | Attribute Certification Record Version |
 | `Submodel` | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` | The semanticId from the semantic model attributes certified in the CSC contained in the `verifiableCredential` field in the Verifiable Presentation. |
 | `Operation` | `https://w3c.github.io/vc-jws-2020/contexts/v1/` | The version and context of the signature type used in the credential |
 
@@ -1997,7 +1997,7 @@ By concatenating the "Verification" sufix the consumer applications are able to 
           },
           {
               "type": "DataElement",
-              "value": "urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord"
+              "value": "urn:samm:io.catenax.dpp_verification.acr:1.0.0#AttributeCertificationRecord"
           },
           {
               "type": "Submodel",

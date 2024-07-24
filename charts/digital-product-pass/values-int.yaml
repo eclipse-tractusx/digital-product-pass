@@ -91,14 +91,14 @@ frontend:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
-      - host: dpp.int.demo.catena-x.net
+      - host: dpp.int.catena-x.net
         paths:
           - path: /passport(/|$)(.*)
             pathType: Prefix
     tls:
       - secretName: tls-secret-digital-product-pass-frontend
         hosts:
-          - dpp.int.demo.catena-x.net
+          - dpp.int.catena-x.net
 
   backend:
     hostname: *hostname

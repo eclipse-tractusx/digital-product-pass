@@ -24,7 +24,7 @@ SPDX-License-Identifier: CC-BY-4.0
 <div align="center">
   <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
   <br><br>
-  <img alt="Version:  v2.0" src="https://img.shields.io/badge/Version-v2.0-blue?style=for-the-badge">
+  <img alt="Version:  v2.1" src="https://img.shields.io/badge/Version-v2.1-blue?style=for-the-badge">
   <img alt="STATUS: RELEASED" src="https://img.shields.io/badge/Status-Released-8A2BE2?style=for-the-badge">
   <h3> A Catena-X Data Certification/Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
@@ -36,7 +36,7 @@ SPDX-License-Identifier: CC-BY-4.0
 |                      | Date              | Authors & Reviewers                                   |
 | -------------------- | ----------------- | ----------------------------------------------------- |
 | **Created**          | December 29, 2023 | [Mathias Brunkow Moser](https://github.com/matbmoser) |
-| **Lastest Revision** | July 19, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
+| **Lastest Revision** | July 24, 2024      | [Mathias Brunkow Moser](https://github.com/matbmoser) |
 
 ## Authors
 
@@ -184,9 +184,9 @@ This concept has been proved to be of high interest from the Certification and V
     - [CDC ID Short](#cdc-id-short)
     - [CDC Submodel Example](#cdc-submodel-example)
     - [Attribute Certification Record Submodel](#attribute-certification-record-submodel)
-    - [AMR Semantic ID Keys](#amr-semantic-id-keys)
-    - [AMR ID Short](#amr-id-short)
-    - [AMR Submodel Example](#amr-submodel-example)
+    - [ACR Semantic ID Keys](#acr-semantic-id-keys)
+    - [ACR ID Short](#acr-id-short)
+    - [ACR Submodel Example](#acr-submodel-example)
 - [Verification Implementation in the Digital Product Pass](#verification-implementation-in-the-digital-product-pass)
   - [Challenges](#challenges)
   - [Sequence Diagram](#sequence-diagram)
@@ -528,7 +528,7 @@ Once that is done the data will be linked in a `digital twin`, so in this way by
 
 Once the EDC Push Notification is received by the `data auditor` the Digital Twin and the Digital Product Pass (JSON aspect model payload to be audited) will be retrieved using the `EDC Connector` and through the `EDC Data Plane proxy`. When the passport aspect is available the data auditor can certify the `specific attributes requested` from the product against the different Catena-X standards and regulations. The `data auditor` will create a new document (a certified snapshot credential) which contains the proof of compliance of the specific attributes audited in the passport using selective disclosure, there the data is not copied it is hashed, so it can be signed and stored in the wallet from the `data auditor` for tracking reasons.
 
-The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` or an `Attribute Certification Registry (AMReg) Application` both which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
+The `CSC Document` (the certificate) will then be sent to the `data provider` using the EDC Push Notification functionality. When the data arrives in the data provider it will be then added to the `Attribute Certification Record (ACR)` or an `Attribute Certification Registry (ACReg) Application` both which contains all the attribute certifications for a specific aspect model payload submodel. It contains a list of credentials provided by one or more auditors for this aspect. It will be linked in the digital twin where the aspect is and if additional certification is required it will be triggered and the process repeats.
 
 ![csc workflow](./resources/processes/csc-workflow.svg)
 
@@ -586,7 +586,7 @@ In this Diagram we can see the complete attribute certification process and how 
 
 Once the `CSC` is issued it will be transferred to the Data Provider Premises using the EDC Push Notification. This credential will be placed in a "Verifiable Presentation" aspect called `Attribute Verification Record` that contains the list of verifiable credentials, and it is issued by the Data Provider.
 
-The **Data Consumer** once both aspects are retrieved will be able to verify the specific attributes by hashing the original "Digital Product Pass" and comparing the certified attribute hashes. Additionally, the `CSC` signature will be verified against the wallet from the Data Auditor and the overall signature in the `AMR` will be verified against the wallet of the data provider.
+The **Data Consumer** once both aspects are retrieved will be able to verify the specific attributes by hashing the original "Digital Product Pass" and comparing the certified attribute hashes. Additionally, the `CSC` signature will be verified against the wallet from the Data Auditor and the overall signature in the `ACR` will be verified against the wallet of the data provider.
 
 If all signature are verified then the data consumer will know that the data certification is still valid and the attributes certified can be trusted!
 
@@ -652,7 +652,7 @@ Additionally, if more specific contexts want to be defined, the following contex
 
 - W3C Data Integrity Context: https://w3id.org/security/data-integrity/v2  
 
-For every credential [`Certified Data Credential`](#cdc-json-ld-context-schema), [`Certified Snapshot Credential`](#csc-json-ld-context-schema), [`Attribute Certification Record`](#amr-json-ld-context-schema) the individual JSON-LD context schema specification **MUST** be also added to the `@context` list.
+For every credential [`Certified Data Credential`](#cdc-json-ld-context-schema), [`Certified Snapshot Credential`](#csc-json-ld-context-schema), [`Attribute Certification Record`](#acr-json-ld-context-schema) the individual JSON-LD context schema specification **MUST** be also added to the `@context` list.
 
 ### Cryptography Signatures & Keys in Self-Descriptions
 
@@ -1582,14 +1582,14 @@ Here is an example of how the Certified Snapshot Credential looks like for a Dig
 ## Attribute Certification Record Schema
 
 
-![AMR Schema](./resources/implementation/amr-document-credential.svg)
+![ACR Schema](./resources/implementation/acr-document-credential.svg)
 
-The attribute certification record (AMR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
+The attribute certification record (ACR) is a Verifiable Presentation (VP) file that contains all the certificates (Verifiable Credentials) in the format of Certified Snapshot Credentials. These credentials can be issued from different auditors for different attributes in an Aspect Model Payload.
 
-The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the AMR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
+The only requirement is that this attributes belong to a specific submodel referenced in the digital twin. It **MUST** be referenced in the ACR file in the field `origin`, from which file and submodel are the Certified Snapshot Credentials from.
 
 > [!NOTE]
-> The Attribute Certification Record (AMR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (AMReg) Application` which will then generate the Verifiable Presentation Records dynamically.
+> The Attribute Certification Record (ACR) makes reference to a specific file that contains all the certificates. For enableling the storage, access and management of these credentials, and `Attribute Certification Record` can be generated dynamically using an `Attribute Certification Registry (ACReg) Application` which will then generate the Verifiable Presentation Records dynamically.
 
 ### ACR Credential Fields Definition
 
@@ -1654,7 +1654,7 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
 ### ACR Example
 
 <details>
-<summary>🚀 Expand to see Attribute Certification Record (AMR) Example </summary>
+<summary>🚀 Expand to see Attribute Certification Record (ACR) Example </summary>
 
 ```json
 {
@@ -1662,7 +1662,7 @@ The Certified Snapshot Credentials listed **MUST** be belonging and linked to th
       "https://www.w3.org/ns/credentials/v2",
       "https://w3c.github.io/vc-jws-2020/contexts/v1/",
       "https://w3id.org/security/data-integrity/v2",
-      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/amr/1.0.0/attributeCertificationRecord.jsonld"
+      "https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/acr/1.0.0/attributeCertificationRecord.jsonld"
   ],
   "type": [
       "VerifiablePresentation",
@@ -1931,18 +1931,18 @@ Therefore, every aspect model used **MUST** follow the idShort defined in the co
 
 The Attribute Certification Record submodel contains the reference to the verifiable presentation with the different attribute verification Certified Snapshot Credentials(CSC).
 
-For the AMR submodel the following structure **MUST** be followed.
+For the ACR submodel the following structure **MUST** be followed.
 
-### AMR Semantic ID Keys
+### ACR Semantic ID Keys
 
 | Type | Value | Description |
 | --- | -- | -- |
 | `Entity` | `https://www.w3.org/ns/credentials/v2` | Verifiable Credential Version |
-| `DataElement` | `urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord` | Attribute Certification Record Version |
+| `DataElement` | `urn:samm:io.catenax.dpp_verification.acr:1.0.0#AttributeCertificationRecord` | Attribute Certification Record Version |
 | `Submodel` | `urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport` | The semanticId from the semantic model attributes certified in the CSC contained in the `verifiableCredential` field in the Verifiable Presentation. |
 | `Operation` | `https://w3c.github.io/vc-jws-2020/contexts/v1/` | The version and context of the signature type used in the credential |
 
-### AMR ID Short
+### ACR ID Short
 
 For easing the identification of the Attribute Verification the following structure of ID short was chosen to link the submodels inside a digital twin.
 
@@ -1960,7 +1960,7 @@ Since every aspect model has a standardized idShort the following structure was 
 By concatenating the "Verification" sufix the consumer applications are able to identify to each idShort in the digital twin submodel list. For every standardized aspect model, an idShort **MUST** be provided. This same idShort shall then be provided as a prefix.
 
 
-### AMR Submodel Example
+### ACR Submodel Example
 
 ```json
 {
@@ -1997,7 +1997,7 @@ By concatenating the "Verification" sufix the consumer applications are able to 
           },
           {
               "type": "DataElement",
-              "value": "urn:samm:io.catenax.dpp_verification.amr:1.0.0#AttributeCertificationRecord"
+              "value": "urn:samm:io.catenax.dpp_verification.acr:1.0.0#AttributeCertificationRecord"
           },
           {
               "type": "Submodel",
@@ -2038,7 +2038,7 @@ When implementing the Digital Product Pass Verification PoC the following challa
 
 | Challenge | Description | Solution |
 | --- | --- | --- |
-| **First Implementation and Data Verification Concept in Catena-X** |
+| **First Implementation and Data Verification Concept in Catena-X** | Since this was the first implementation of a verification concept in Catena-X there were many unclear points to be clarified with the community. Open points like, if there was already a solution available in Catena-X, what was the opinion of the core architecture team and if it would work using Catena-X Architecture | Broadcasted the message that this concept was being built for the Digital Product Pass and could be used for other products/data models. Conducted several meetings with different products and iniciatives that were interested in the concept. In [Previous Investigation](#previous-investigation) all the resumed findings are documented. The concept was also anounced in the Second Tractus-X Community Days, giving more audience to the topic. As author of this concept and implementation we could only visualize positive feedbacks from the Catena-X Community. |
 | **The Managed Identity Wallet Component is not Ready** | The MIW Wallet is not ready for signing Aspect Model Verifiable Credentials. And it is currently not decentraly available for each party to host. It is currently just hosted by the data space operator. It is designed to host the "member" credentials and enable the EDC communication with SSI. | Design and Implement a MVP Wallet. There was developed a [simple-wallet](./simple-wallet/) component for issuing and verifying the credentials, imitating the MIW functionality and methods. |
 | **There are no JSON-LD contexts for the standardized SAMM Models** | Currently there is no open-source component that transforms JSON Schemas into JSON-LD Contexts. This blocks the credentials to be included in the JSON-LD documents, because the attributes are not in context. | As a solution to this problem an **'adapter'** was developed in the wallet an [add-on that convert SAMM Models JSON Schemas into valid JSON-LD contexts](./simple-wallet/passport/sammSchemaParser.py). In this way any Aspect Model Payload can be referenced in a Verifiable Credential. By calling the `/context` API any JSON Schema can be converted. |
 
@@ -2311,15 +2311,12 @@ No content with copyright was copied. All the information used as reference in t
 | IDTA AAS 3.0 Standard | IDTA | April 2023 | https://industrialdigitaltwin.org/wp-content/uploads/2023/04/IDTA-01002-3-0_SpecificationAssetAdministrationShell_Part2_API.pdf |
 | SHA-3 Standard | U.S. Federal Infromation Technology Laboratory | August 2015 | https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf |
 
-
-
 # Special Thanks
 
 We would like to thank [Matthias Binzer](https://github.com/matgnt) for contributing in the refactoring of the initial concept by giving some insights on how he has done the Supply Chain data integrity concept using Verifiable Credentials (TRS) Data Integrity Demonstrator. He supported us on finding a way and giving the hints for maintaining selective disclosure when it comes to verify specific attributes from an aspect.
 We also thank for all the Platform Capability Architects for their disposition for reviewing and supporting the concept from an architecture perspective. We thank the Wallet Catena-X Experts for the time they took review the concept and for the feedback that was given.
 Furthermore, we thank the managed identify wallets product owner for the support and availability for answering questions which were relevant to the adaptation of the concept to the architecture.
 Last but not least a special thanks for all the Tractus-X and Catena-X Stakeholders that participated in the elaboration and review of this concept.
-
 
 # Glossary
 
@@ -2352,8 +2349,8 @@ explanation of this Certification and Verification Concept.
 | TTL                   | Terse RDF Triple Language                                  |
 | VC                    | Verifiable Credential                                      |
 | VP                    | Verifiable Presentation                                    |
-| AMReg                    | Attribute Certification Registry                                    |
-| AMR                    | Attribute Certification Record                                    |
+| ACReg                    | Attribute Certification Registry                                    |
+| ACR                    | Attribute Certification Record                                    |
 | W3C                   | World Wide Web Consortium                                  |
 
 ## NOTICE

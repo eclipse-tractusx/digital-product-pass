@@ -1,6 +1,6 @@
 {
   "name": "digital-product-pass-frontend",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "scripts": {
     "serve": "vite --host localhost",

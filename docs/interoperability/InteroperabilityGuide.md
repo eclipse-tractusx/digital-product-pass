@@ -65,7 +65,7 @@ BMW, CGI and Henkel have jointly decided to initiate and drive the topic of data
 
 ![Architecture Functional Cut](./media/graphArchitectureFunctionalCut.svg)  
 
-## Business Semantic Alignment 
+## Business Semantic Alignment
 
 The business semantic alignment is limited to the business domain sustainability/circular economy. The main goal of this app is to visualize the digital product pass and in the first step the battery pass and transmission pass. The data models for the battery pass, digital product pass and transmission pass were made by the digital product pass team and are standardized in Catena-X.
 
@@ -75,22 +75,31 @@ Which standardization candidates are you intending to use in your scenario, whic
 
 The Digital Product Passport App is using the following standardization candidates:
 
-* Battery Passport (For Release 24.05 version 5.0.0 of the Battery Pass is used) → https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.battery.battery_pass/5.0.0
-* Digital Product Passport (For Release 24.05 version 4.0.0 of the DPP is used) → https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/4.0.0
-* Gearbox/Transmission Passport (For Release 24.05 version 1.0.0 of the Transmission Pass is used) ->https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.transmission.transmission_pass/1.0.0
+* Battery Passport (For Release 24.08 version 6.0.0 of the Battery Pass is used) → https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.battery.battery_pass/6.0.0
+* Digital Product Passport (For Release 24.08 version 5.0.0 of the DPP is used) → https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/5.0.0
+* Gearbox/Transmission Passport (For Release 24.08 version 3.0.0 of the Transmission Pass is used) ->https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.transmission.transmission_pass/3.0.0
 
 The following candidates are not yet implemented:
 
 * Sealant Passport, Tire Passport
 * E-Drive
 
-The digital product pass is using the [EDC v0.7.0](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.7.0) and enables the  [data sovereignty policy configurations](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md)
+The digital product pass is using the [EDC v0.7.0](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.7.0) and enables the [data sovereignty policy configurations](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/docs/data-sovereignty/PolicyConfigGuide.md)
 
+## Data Verification Add-on
+
+The Digital Product Pass App as a consumer shall be able to verify the data received from the EDC.
+For that the [`dpp-verification` add-on](../../dpp-verification/) was defined.
+
+The implementation technical integration design from the add-on in R24.08 is documented in [this chapter](../../dpp-verification/README.md#verification-implementation-in-the-digital-product-pass) from the dpp-verification add-on.
 
 ## Technical Integration Design
 
 The technical integration design can be found in the [arc42 documentation](../architecture/Arc42.md)
 
+## Compatibility Matrix
+
+More compatibility requirements can be found in the [compatibility-matrix](../../COMPATIBILITY_MATRIX.md).
 
 ## NOTICE
 

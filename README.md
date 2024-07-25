@@ -35,22 +35,22 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## Description
 
-The digital product passport  application provides a consumer user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
+The digital product passport application provides a consumer user interface to request a battery passport from a battery manufacturer using the standardized components and technologies in a Catena-X network. The passport will be displayed in a human-readable from any browser. The data exchange standards given by Catena-X are used to provide the battery passport to different personas (roles) in the network.
 
-In particular, the application is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport  through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user. 
+In particular, the application is used to access the battery passport data provided by battery manufacturer. By scanning QR-code or knowing the manufacturer and battery-ID, a user can request the passport through **Eclipse Dataspace Connectors (EDCs)** over the Catena-X network. The passport provider will provide data attributes that is only visible to a permitted signed-in user.
 
 ### Software Version
 #### Helm Chart Version
-<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-4.0.0">4.0.0</a></pre>
+<pre id="helm-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/digital-product-pass-4.0.1">4.0.1</a></pre>
 #### Application Version
-<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v4.0.0">v4.0.0</a></pre>
+<pre id="app-version"><a href="https://github.com/eclipse-tractusx/digital-product-pass/releases/tag/v4.0.1">v4.0.1</a></pre>
 
 
 ## Application Preview
 
-Here is a preview from the DPP App UI, where we visualize a test battery passport in this case.
+Here is a preview from the DPP App UI, where we visualize a test Digital Product Pass in this case.
 
-![General Info View](./docs/architecture/media/GraphicBatteryPassportViewGeneralInfo.png)
+![General Info View](./docs/media/passport-view.png)
 
 > **Note**: For more information check the [documentation section](./docs/README.md)
 
@@ -89,6 +89,8 @@ This concept is the **First Aspect Model Verification/Certification Concept in C
 It provides a generic concept for **Attribute Verification/Certification** by external/internal auditors, and also provides a **Self-Testification** option for Data Providers to certify their data while still maintaining data sovereighty at all costs. By using the EDC connector for the data exchanges this concept uses the **current Catena-X Architecture**.
 
 Furthermore, it gives guidance and ready to use components for verifying the data received from their Data Providers. The Digital Product Pass Add-on offers the consumers components like the [simple-wallet](./simple-wallet/), an **MVP decentral wallet** able to issue and verify aspect model Verifiable Credential Documents. It also provides a proof of concept (PoC) in the `dpp-backend` and `dpp-frontend` components for complete data payloads to be verified.
+
+![Verification Add-on](./docs/media/verification-addon.png)
 
 | Name                                                                                                          | Description                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |

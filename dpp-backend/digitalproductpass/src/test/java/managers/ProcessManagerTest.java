@@ -571,7 +571,6 @@ class ProcessManagerTest {
         String connectorId = UUID.randomUUID().toString();
         transferRequest.setProtocol("HTTP");
         transferRequest.setContractId(contractId);
-        transferRequest.setAssetId(assetId);
         transferRequest.setCounterPartyAddress("connectorAddress");
 
         String transferId = UUID.randomUUID().toString();

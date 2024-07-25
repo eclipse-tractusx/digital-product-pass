@@ -456,6 +456,22 @@ public class HttpUtil {
         String authority = url.getAuthority();
         return String.format("%s://%s", protocol, authority);
     }
+    /**
+     * Parses the given {@code String} URL into a String format with protocol and authority information with path
+     * <p>
+     * @param   strUrl
+     *          the {@code String} URL.
+     *
+     * @return  a {@code String} object with format result.
+     *
+     */
+    public static String cleanUrlWithPath(String strUrl) throws MalformedURLException{
+        URL url = new URL(strUrl);
+        String protocol = url.getProtocol();
+        String authority = url.getAuthority();
+        String path = url.getPath();
+        return String.format("%s://%s%s", protocol, authority, path);
+    }
 
 
     /**************************************************

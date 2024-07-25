@@ -42,15 +42,15 @@ tractusx-connector:
     # Decentralized IDentifier
     id: "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL000000000FV1"
     trustedIssuers: # array [] that needs to be expand but likely like (sorry unconfirmed on how this is done, as I also would need to check)
-      - "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp"
+      - "did:web:portal-backend.int.catena-x.net:api:administration:staticdata:did:BPNL00000003CRHK"
     sts:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: "https://bpnl000000000FV1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        token_url: "https://bpnl000000000fv1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
           id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
-          secret_alias: "<path:digital-product-pass/data/int/edc/wallet#clientSecret>"
+          secret_alias: int-client-secret
 
   controlplane:
     enabled: true
@@ -171,8 +171,9 @@ tractusx-connector:
           clusterIssuer: ""
 
   postgresql:
-    username: <path:digital-product-pass/data/int/edc/database#user>
-    password: <path:digital-product-pass/data/int/edc/database#password>
+    auth:
+      username: <path:digital-product-pass/data/int/edc/database#user>
+      password: <path:digital-product-pass/data/int/edc/database#password>
 
   vault:
     hashicorp:
@@ -188,7 +189,7 @@ postgresql:
     password: <path:digital-product-pass/data/int/edc/database#password>
 
 item-relationship-service:
-  enabled: false
+  enabled: true
   bpn: <path:digital-product-pass/data/int/edc/participant#bpnNumber>
 
   irsUrl: "https://dpp-irs.int.catena-x.net"
@@ -199,6 +200,7 @@ item-relationship-service:
     enabled: true
     annotations:
       ingressClassName: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
@@ -220,7 +222,7 @@ item-relationship-service:
       oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
       discoveryFinderUrl: https://semantics.int.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
     semanticshub:
-      url: https://semantics.int.catena-x.net/hub/api/v1/models
+      url: https://semantics.int.catena-x.net/hub/apimodels
       oAuthClientId: semantics
     bpdm:
       url: https://partners-pool.int.catena-x.net
@@ -249,19 +251,63 @@ item-relationship-service:
 
   edc:
     catalog:
-      acceptedPolicies:
-        - leftOperand: "cx-policy:FrameworkAgreement"
-          operator: "eq"
-          rightOperand: "CircularEconomy:1.0"
-        - leftOperand: "cx-policy:Membership"
-          operator: "eq"
-          rightOperand: "active"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.circular.dpp:1"
-        - leftOperand: "cx-policy:UsagePurpose"
-          operator: "eq"
-          rightOperand: "cx.core.digitalTwinRegistry:1"
+      acceptedPolicies: >
+        [{
+            "policyId": "dpp-policy-id",
+            "createdOn": "2024-07-17T16:15:14.12345678Z",
+            "validUntil": "9999-01-01T00:00:00.00000000Z",
+            "permissions": [
+                {
+                    "action": "use",
+                    "constraint": {
+                        "and": [
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/Membership",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "active"
+                            },
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "cx.circular.dpp:1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "policyId": "default-policy",
+            "createdOn": "2024-07-17T16:15:14.12345678Z",
+            "validUntil": "9999-01-01T00:00:00.00000000Z",
+            "permissions": [
+                {
+                    "action": "use",
+                    "constraint": {
+                        "and": [
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/Membership",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "active"
+                            },
+                            {
+                                "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                "operator": {
+                                    "@id": "eq"
+                                },
+                                "rightOperand": "cx.core.digitalTwinRegistry:1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }]
     controlplane:
       endpoint:
         data: https://dpp.int.catena-x.net/consumer/management

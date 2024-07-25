@@ -229,7 +229,7 @@ public class AppController {
             }
 
             try {
-                connectorAddress = CatenaXUtil.buildEndpoint(connectorAddress);
+                connectorAddress = CatenaXUtil.buildDspEndpoint(connectorAddress);
             } catch (Exception e) {
                 return null;
             }

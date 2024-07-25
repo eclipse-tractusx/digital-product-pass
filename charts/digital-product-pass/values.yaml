@@ -142,7 +142,7 @@ backend:
     hostname: ""
     apis:
       readiness: "/api/check/readiness"
-      management: "/management/v2"
+      management: "/management/v3"
       catalog: "/catalog/request"
       negotiation: "/contractnegotiations"
       transfer: "/transferprocesses"
@@ -206,15 +206,12 @@ backend:
       # -- list of allowed policies that can be selected from the edc catalog in negotiations
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"
                   operator: "odrl:eq"
                   rightOperand: "active"
-                - leftOperand: "cx-policy:FrameworkAgreement"
-                  operator: "odrl:eq"
-                  rightOperand: "CircularEconomy:1.0"
                 - leftOperand: "cx-policy:UsagePurpose"
                   operator: "odrl:eq"
                   rightOperand: "cx.circular.dpp:1"
@@ -246,7 +243,7 @@ backend:
       # -- list of allowed policies that can be selected from the edc catalog in negotiations
       policies:
         - permission:
-            - action: "USE"
+            - action: "odrl:use"
               logicalConstraint: "odrl:and"
               constraints:
                 - leftOperand: "cx-policy:Membership"
@@ -295,8 +292,9 @@ frontend:
       ingressClassName: nginx
       # kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts: []
 
   # -- The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment

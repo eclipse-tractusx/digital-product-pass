@@ -83,7 +83,7 @@ ingress:
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
-    - host: &hostname "dpp-wallet.int.demo.catena-x.net"
+    - host: &hostname "dpp-wallet.int.catena-x.net"
       paths:
         - path: /
           pathType: Prefix

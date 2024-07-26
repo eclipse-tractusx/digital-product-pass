@@ -1,2 +1,4 @@
 product: "Digital Product Pass"
 leadingRepository: "https://github.com/eclipse-tractusx/digital-product-pass"
+openApiSpecs:
+- "https://api.swaggerhub.com/apis/eclipse-tractusx-bot/digital-product-pass/v4.0.1/swagger.yaml"

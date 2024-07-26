@@ -1,0 +1,924 @@
+openapi: 3.0.1
+info:
+  title: Catena-X Digital Product Passport Core + Verification Add-on
+  description: Open API documentation for the Catena-X Digital Product Passport Core
+    + Verification Add-on
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  version: v4.0.1
+servers:
+- url: http://localhost:8888
+  description: Generated server url
+tags:
+- name: Verification Add-on Controller
+  description: "This controller contains all the verification methods used by the\
+    \ frontend to verify the Digital Product Passports, using the guidelines from\
+    \ the Digital Product Pass Verification Add-on using a simple-wallet component."
+paths:
+  /endpoint/{processId}:
+    post:
+      tags:
+      - Public Controller
+      summary: Receives the EDR from the EDC Consumer and get the passport json
+      operationId: endpoint
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /endpoint/{processId}/{endpointId}:
+    post:
+      tags:
+      - Public Controller
+      summary: Receives the EDR for the EDC Consumer and queries for the dDTR
+      operationId: getDigitalTwin
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: endpointId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /auth/userInfo:
+    post:
+      tags:
+      - Auth Controller
+      summary: Returns user info related to JWT Token
+      operationId: getUserInfo
+      responses:
+        default:
+          description: Default Response Structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+      security:
+      - Bearer Authorization: []
+      - BearerAuthentication: []
+  /api/verification/verify:
+    post:
+      tags:
+      - Verification Add-on Controller
+      summary: Verifies a Catena-X Digital Product Pass Verifiable Credential against
+        the `simple-wallet` component from the digital product verification add-on
+      operationId: verify
+      requestBody:
+        description: Verifiable Credential with JsonWebSignature2020 proof type
+        content:
+          application/vc+ld+json:
+            schema:
+              $ref: "#/components/schemas/CertifiedDataCredential"
+        required: true
+      responses:
+        "200":
+          description: The content of data will true if is verified or false if not
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "403":
+          description: If the verification is not enabled or it was not possible to
+            verify
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: If there was an error or an exception happened
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "401":
+          description: If the user is not authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/data:
+    post:
+      tags:
+      - API Controller
+      summary: Returns the data negotiated and transferred
+      operationId: getData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRequest"
+        required: true
+      responses:
+        default:
+          description: Default Response Structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PassportResponse"
+      security:
+      - BearerAuthentication: []
+  /api/data/request:
+    post:
+      tags:
+      - API Controller
+      summary: Returns the data by abstracting from all the different API's needed
+        to get it
+      operationId: singleApi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SingleApiRequest"
+        required: true
+      responses:
+        default:
+          description: Default Response Structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PassportResponse"
+      security:
+      - BearerAuthentication: []
+  /api/contract/search:
+    post:
+      tags:
+      - Contract Controller
+      summary: Searches for a passport with the following id
+      operationId: search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Search"
+        required: true
+      responses:
+        default:
+          description: Default Response Structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dataset"
+      security:
+      - BearerAuthentication: []
+  /api/contract/decline:
+    post:
+      tags:
+      - Contract Controller
+      summary: Decline passport negotiation
+      operationId: decline
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/contract/create:
+    post:
+      tags:
+      - Contract Controller
+      summary: Creates a process and checks for the viability of the data retrieval
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscoverySearch"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/contract/cancel:
+    post:
+      tags:
+      - Contract Controller
+      summary: Cancel the negotiation
+      operationId: cancel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/contract/agree:
+    post:
+      tags:
+      - Contract Controller
+      summary: "Start the negotiation for an specific asset, contract agreement and\
+        \ policy agreement"
+      operationId: negotiate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /health:
+    get:
+      tags:
+      - Public Controller
+      summary: Returns the backend health status
+      operationId: health
+      responses:
+        "200":
+          description: Gets the application health
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /auth/token:
+    get:
+      tags:
+      - Auth Controller
+      summary: Returns access token
+      operationId: getToken
+      responses:
+        default:
+          description: Default Response Structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtToken"
+      security:
+      - BearerAuthentication: []
+  /auth/check:
+    get:
+      tags:
+      - Auth Controller
+      summary: Checks the user logged in status
+      operationId: check
+      responses:
+        "200":
+          description: Content of Data Field in Response
+          content:
+            application/json:
+              schema:
+                type: boolean
+      security:
+      - BearerAuthentication: []
+  /api/irs/{processId}/{searchId}:
+    get:
+      tags:
+      - IRS Controller
+      summary: Endpoint called by the IRS to set status completed
+      operationId: endpoint_1
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/irs/{processId}/tree:
+    get:
+      tags:
+      - IRS Controller
+      summary: Api called by the frontend to obtain the tree of components
+      operationId: tree
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/irs/{processId}/state:
+    get:
+      tags:
+      - IRS Controller
+      summary: Api called by the frontend to check if the process is finished
+      operationId: state
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/irs/{processId}/components:
+    get:
+      tags:
+      - IRS Controller
+      summary: Api called by the frontend to obtain the tree of components
+      operationId: components
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+  /api/contract/status/{processId}:
+    get:
+      tags:
+      - Contract Controller
+      summary: Get status from process
+      operationId: status
+      parameters:
+      - name: processId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/Response"
+      security:
+      - BearerAuthentication: []
+components:
+  schemas:
+    CertifiedDataCredential:
+      example:
+        '@context':
+        - https://www.w3.org/ns/credentials/v2
+        - https://w3c.github.io/vc-jws-2020/contexts/v1/
+        - https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/cdc/1.0.0/certifiedDataCredential.jsonld
+        - https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/main/dpp-verification/schemas/dpp/5.0.0/digitalProductPass.jsonld
+        type:
+        - VerifiableCredential
+        - CertifiedDataCredential
+        - DigitalProductPassport
+        parent:
+          '@id': did:web:dpp-test-system.com:BPNL000000000000:api:public:urn%3Auuid%3A1c5b6a7c-90d4-3481-0538-f134ff53076d
+          checksum: 64b1a523da600e8fc0018cf57b8f7756b83bb6e9b11c81b1c7444272fab239902321b1b6ae6624d6846fd010616ae98c118f12491f922badd64e58b782c6a115
+        semanticId: urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport
+        credentialSubject:
+          DigitalProductPassport:
+            metadata:
+              backupReference: https://dummy.link
+              registrationIdentifier: https://dummy.link/ID8283746239078
+              economicOperatorId: BPNL0123456789ZZ
+              lastModification: 2000-01-01
+              predecessor: urn:uuid:00000000-0000-0000-0000-000000000000
+              issueDate: 2000-01-01
+              version: 1.0.0
+              passportIdentifier: urn:uuid:550e8400-e29b-41d4-a716-446655440000
+              status: draft
+              expirationDate: 2030-01-01
+            characteristics:
+              generalPerformanceClass: A
+              physicalState: solid
+              physicalDimension:
+                volume:
+                  value: 20.0
+                  unit: unit:cubicMetre
+                grossWeight:
+                  value: 20.0
+                  unit: unit:gram
+                diameter:
+                  value: 20.0
+                  unit: unit:millimetre
+                grossVolume:
+                  value: 20.0
+                  unit: unit:cubicMetre
+                width:
+                  value: 20.0
+                  unit: unit:millimetre
+                length:
+                  value: 20.0
+                  unit: unit:millimetre
+                weight:
+                  value: 20.0
+                  unit: unit:gram
+                height:
+                  value: 20.0
+                  unit: unit:millimetre
+              lifespan:
+              - value: 36
+                unit: unit:day
+                key: guaranteed lifetime
+            commercial:
+              placedOnMarket: 2000-01-01
+              purpose:
+              - automotive
+            identification:
+              batch:
+              - value: BID12345678
+                key: batchId
+              codes:
+              - value: 8703 24 10 00
+                key: TARIC
+              type:
+                manufacturerPartId: 123-0.740-3434-A
+                nameAtManufacturer: Mirror left
+              classification:
+              - classificationStandard: GIN 20510-21513
+                classificationID: "1004712"
+                classificationDescription: Generic standard for classification of
+                  parts in the automotive industry.
+              serial:
+              - value: SN12345678
+                key: partInstanceId
+              dataCarrier:
+                carrierType: QR
+                carrierLayout: upper-left side
+            sources:
+            - header: Example Document XYZ
+              category: Product Specifications
+              type: URL
+              content: https://dummy.link
+            materials:
+              substancesOfConcern:
+                applicable: true
+                content:
+                - unit: unit:partPerMillion
+                  hazardClassification:
+                    category: category 1A
+                    statement: Causes severe skin burns and eye damage.
+                    class: Skin corrosion
+                  documentation:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                  concentrationRange:
+                  - max: 2.6
+                    min: 2.1
+                  location: Housing
+                  concentration: 5.3
+                  exemption: "shall not apply to product x containing not more than\
+                    \ 1,5 ml of liquid"
+                  id:
+                  - type: CAS
+                    name: phenolphthalein
+                    id: 201-004-7
+              materialComposition:
+                applicable: true
+                content:
+                - unit: unit:partPerMillion
+                  recycled: 12.5
+                  critical: true
+                  renewable: 23.5
+                  documentation:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                  concentration: 5.3
+                  id:
+                  - type: CAS
+                    name: phenolphthalein
+                    id: 201-004-7
+            handling:
+              applicable: true
+              content:
+                producer:
+                - id: BPNL0123456789ZZ
+                sparePart:
+                - manufacturerPartId: 123-0.740-3434-A
+                  nameAtManufacturer: Mirror left
+            additionalData:
+            - description: Description of an attribute
+              label: Maximum permitted battery power
+              type:
+                typeUnit: unit:volume
+                dataType: array
+              data: "23"
+              children:
+              - description: Description of an attribute
+                label: Maximum permitted battery power
+                type:
+                  typeUnit: unit:volume
+                  dataType: array
+                data: "23"
+              - description: Description of an attribute
+                label: Maximum permitted battery power
+                type:
+                  typeUnit: unit:volume
+                  dataType: array
+                data: "null"
+                children:
+                - description: Description of an attribute
+                  label: Maximum permitted battery power
+                  type:
+                    typeUnit: unit:volume
+                    dataType: object
+                  children:
+                  - description: Description of an attribute
+                    label: Maximum permitted battery power
+                    type:
+                      typeUnit: unit:volume
+                      dataType: string
+                    data: asdasdasd
+                    children:
+                    - description: Description of an attribute
+                      label: Maximum permitted battery power
+                      type:
+                        typeUnit: unit:volume
+                        dataType: string
+                      data: asdasdasd
+                - description: Description of an attribute
+                  label: Maximum permitted battery power
+                  type:
+                    typeUnit: unit:volume
+                    dataType: string
+                  data: "4323"
+            operation:
+              import:
+                applicable: true
+                content:
+                  eori: GB123456789000
+                  id: BPNL0123456789ZZ
+              other:
+                id: BPNL0123456789XX
+                role: distributor
+              manufacturer:
+                facility:
+                - facility: BPNA1234567890AA
+                manufacturingDate: 2000-01-31
+                manufacturer: BPNLbi7tAJ8UiMsF
+            sustainability:
+              reparabilityScore: B
+              productFootprint:
+                material:
+                - lifecycle: main product production
+                  rulebook:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                  unit: kg CO2 / kWh
+                  performanceClass: A
+                  manufacturingPlant:
+                  - facility: BPNA1234567890AA
+                  type: Climate Change Total
+                  value: 12.678
+                  declaration:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                carbon:
+                - lifecycle: main product production
+                  rulebook:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                  unit: kg CO2 / kWh
+                  performanceClass: A
+                  manufacturingPlant:
+                  - facility: BPNA1234567890AA
+                  type: Climate Change Total
+                  value: 12.678
+                  declaration:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                environmental:
+                - lifecycle: main product production
+                  rulebook:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+                  unit: kg CO2 / kWh
+                  performanceClass: A
+                  manufacturingPlant:
+                  - facility: BPNA1234567890AA
+                  type: Climate Change Total
+                  value: 12.678
+                  declaration:
+                  - contentType: URL
+                    header: Example Document XYZ
+                    content: https://dummy.link
+              status: original
+              durabilityScore: A
+        id: urn:uuid:0e92c3ee-5002-45ad-9c58-74941f32fa35
+        issuer: did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS
+        validFrom: 2024-06-18T11:24:11+00:00Z
+        validUntil: 2024-12-03T11:24:11+00:00Z
+        proof:
+          type: JsonWebSignature2020
+          proofPurpose: assertionMethod
+          verificationMethod: did:web:dpp-provider-wallet.int.demo.catena-x.net:BPNL00000000W3BS#N4bTDb14GEnCvwZdFRqK5lwL4nje3bB5Y4nvb01VBKA
+          created: 2024-06-18T11:24:11+00:00Z
+          jws: eyJ0eXAiOiAidmMrbGQiLCAiYjY0IjogZmFsc2UsICJjcnYiOiAiRWQyNTUxOSJ9..TSh1t9CtNH1khwQf4i_doVdQ-0o85LbODz8XmdpfICpMiWJnzpDNNJqefPygOy7l_fjbjT1LgVYlyvl49ESeCw
+    Response:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        statusText:
+          type: string
+        data:
+          type: object
+    UserInfo:
+      type: object
+      properties:
+        sub:
+          type: string
+        email_verified:
+          type: string
+        bpn:
+          type: string
+        name:
+          type: string
+        preferred_username:
+          type: string
+        locale:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        email:
+          type: string
+    JsonNode:
+      type: object
+    PassportResponse:
+      type: object
+      properties:
+        metadata:
+          type: object
+          additionalProperties:
+            type: object
+        passport:
+          $ref: "#/components/schemas/JsonNode"
+    TokenRequest:
+      required:
+      - contractId
+      - processId
+      - token
+      type: object
+      properties:
+        processId:
+          type: string
+        contractId:
+          type: string
+        token:
+          type: string
+        policyId:
+          type: string
+    SingleApiRequest:
+      required:
+      - discoveryId
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+        idType:
+          type: string
+        discoveryId:
+          type: string
+        discoveryIdType:
+          type: string
+        children:
+          type: boolean
+        semanticId:
+          type: string
+    DataService:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+        '@context':
+          $ref: "#/components/schemas/JsonNode"
+        dct:terms:
+          type: string
+        dct:endpointUrl:
+          type: string
+    Dataset:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+        '@context':
+          $ref: "#/components/schemas/JsonNode"
+        odrl:hasPolicy:
+          type: object
+        dcat:distribution:
+          type: array
+          items:
+            $ref: "#/components/schemas/Distribution"
+        id:
+          type: string
+    DidDocument:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+        '@context':
+          $ref: "#/components/schemas/JsonNode"
+    Distribution:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+        '@context':
+          $ref: "#/components/schemas/JsonNode"
+        dct:format:
+          $ref: "#/components/schemas/DidDocument"
+        dcat:accessService:
+          $ref: "#/components/schemas/DataService"
+    Search:
+      required:
+      - id
+      - processId
+      type: object
+      properties:
+        processId:
+          type: string
+        id:
+          type: string
+        idType:
+          type: string
+        dtIndex:
+          type: integer
+          format: int32
+        children:
+          type: boolean
+        idShort:
+          type: string
+        semanticId:
+          type: string
+    DiscoverySearch:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+    JwtToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_expires_in:
+          type: integer
+          format: int32
+        token_type:
+          type: string
+        id_token:
+          type: string
+        not-before-policy:
+          type: string
+        scope:
+          type: string
+  securitySchemes:
+    BearerAuthentication:
+      type: http
+      description: "Access token generated in the Product Passport Consumer Frontend,\
+        \ against the Catena-X IAM Service"
+      in: header
+      scheme: bearer
+      bearerFormat: JWT

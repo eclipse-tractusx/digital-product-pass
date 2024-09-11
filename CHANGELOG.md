@@ -27,6 +27,13 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+## Added
+- Substituted the old data-service that was pointing to the Catena-X NG at Home repo to the new tx umbrella simple data service
+
+## Deleted
+- Removed all the catena-x ng references from the documentation
+
+
 ## [released]
 ## [v4.0.1] - 24-07-2024
 

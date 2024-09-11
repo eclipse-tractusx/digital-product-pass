@@ -57,7 +57,6 @@ Some examples below:
 
 **Note:** ***/data/*** path is always be placed after ***material-pass***, though it is not defined in a vault directory structure. AVP uses this data path itself internally.
 
-To use a vault and create new secret, please look here: [how to-use vault create a secret](https://catenax-ng.github.io/docs/guides/how-to-use-vault#create-a-secret)
 
 ## Local Run
 
@@ -95,8 +94,6 @@ If dpp frontend is run using docker, the following environment variables must be
 ### Using Helm
 
 The required variables must be set in values-*.yaml file manually.
-
-Further info about vault plugin for helm charts: [argocd-vault-plugin-helm](https://catenax-ng.github.io/docs/guides/ArgoCD/howto-use-vault-secrets-with-argocd#argocd-vault-plugin-helm)
 
 
 ## Secrets Scanning

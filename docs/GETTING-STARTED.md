@@ -263,7 +263,6 @@ __Note:__ Adjust the URLs according to the _local_ (`http://localhost:port/`) or
 _integration_ (`https://dpp.int.demo.catena-x.net/`) environments.
 
 - [Documentation of EDC Data Transfer](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/usage/management-api-walkthrough/06_transferprocesses.md)
-- [End-to-End Use Case](https://catenax-ng.github.io/docs/guides/catenax-at-home#end-to-end-use-case)
 
 
 ## NOTICE

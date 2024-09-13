@@ -26,13 +26,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "data-service.fullname" . }}
+  name: {{ include "simple-data-backend.fullname" . }}
   labels:
-    {{- include "data-service.labels" . | nindent 4 }}
+    {{- include "simple-data-backend.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "data-service.selectorLabels" . | nindent 6 }}
+      {{- include "simple-data-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -40,12 +43,14 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "data-service.selectorLabels" . | nindent 8 }}
+        {{- include "simple-data-backend.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      # @url: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server
+      automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -54,28 +59,15 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{ if .Values.image.command -}}
-          command:
-            {{ toYaml .Values.image.command | nindent 12 }}
-          {{ end -}}
-          {{ if .Values.livenessProbe -}}
-          livenessProbe:
-            {{ toYaml .Values.livenessProbe | nindent 12 }}
-          {{ end -}}
-          {{ if .Values.readinessProbe -}}
-          readinessProbe:
-            {{ toYaml .Values.readinessProbe | nindent 12 }}
-          {{ end -}}
           ports:
-            - containerPort: {{ .Values.container.port }}
+            - name: default
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
-              name: http
-          volumeMounts:
-          - mountPath: /tmp
-            name: tmp
-      volumes:
-        - emptyDir: {}
-          name: tmp
+          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+          livenessProbe: {}
+          readinessProbe: {}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

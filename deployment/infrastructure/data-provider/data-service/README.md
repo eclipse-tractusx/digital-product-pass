@@ -1,74 +1,58 @@
-<!--
-#######################################################################
+# simple-data-backend
 
-Tractus-X - Digital Product Pass Application 
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
-Copyright (c) 2022, 2024 BMW AG
-Copyright (c) 2022, 2024 Henkel AG & Co. KGaA
-Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+A Helm chart for Kubernetes
 
-See the NOTICE file(s) distributed with this work for additional
-information regarding copyright ownership.
+## Requirements
 
-This work is made available under the terms of the
-Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
-which is available at
-https://creativecommons.org/licenses/by/4.0/legalcode.
-
-SPDX-License-Identifier: CC-BY-4.0
-
-#######################################################################
--->
-
-# data-service
-
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
-
-The Eclipse Dataspace Connector requires the Backend Application to transfer data using the HTTP-TransferMethod.
+| Repository | Name | Version |
+|------------|------|---------|
+| https://eclipse-tractusx.github.io/charts/dev | simple-data-backend(simple-data-backend) | 0.1.0 |
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| container.port | int | `80` |  |
-| fullnameOverride | string | `"data-service"` | Overrides the releases full name |
-| image.command | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` | [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use |
-| image.repository | string | `"ghcr.io/catenax-ng/catenax-at-home/provider-backend-service"` | Which container image to use |
-| image.tag | string | `"0.0.1"` | Overrides the image tag whose default is the chart appVersion |
-| imagePullSecrets | list | `[]` |  |
-| ingress.annotations."nginx.ingress.kubernetes.io/backend-protocol" | string | `"HTTP"` |  |
-| ingress.annotations."nginx.ingress.kubernetes.io/force-ssl-redirect" | string | `"true"` |  |
-| ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$2"` |  |
-| ingress.annotations."nginx.ingress.kubernetes.io/ssl-passthrough" | string | `"false"` |  |
-| ingress.className | string | `"nginx"` |  |
-| ingress.enabled | bool | `true` |  |
-| ingress.hosts[0].host | string | `"materialpass.int.demo.catena-x.net"` |  |
-| ingress.hosts[0].paths[0].path | string | `"/provider_backend(/|$)(.*)"` |  |
-| ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
-| ingress.tls[0].hosts[0] | string | `"materialpass.int.demo.catena-x.net"` |  |
-| ingress.tls[0].secretName | string | `"tls-secret"` |  |
-| livenessProbe | object | `{}` |  |
-| nameOverride | string | `""` | Overrides the charts name |
-| nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` | additional annotations for the pod |
-| podSecurityContext.fsGroup | int | `10001` | The owner for volumes and any files created within volumes will belong to this guid |
-| podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
-| podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
-| podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
-| readinessProbe | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| securityContext.allowPrivilegeEscalation | bool | `false` | Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID |
-| securityContext.capabilities.add | list | `[]` | Specifies which capabilities to add to issue specialized syscalls |
-| securityContext.capabilities.drop | list | `["ALL"]` | Specifies which capabilities to drop to reduce syscall attack surface |
-| securityContext.readOnlyRootFilesystem | bool | `true` | Whether the root filesystem is mounted in read-only mode |
-| securityContext.runAsNonRoot | bool | `true` | Requires the container to run without root privileges |
-| securityContext.runAsUser | int | `10001` | The container's process will run with the specified uid |
-| service.port | int | `8080` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service) to expose the running application on a set of Pods as a network service. |
-| service.type | string | `"ClusterIP"` | [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service. |
-| tolerations | list | `[]` |  |
+| simple-data-backend.affinity | object | `{}` |  |
+| simple-data-backend.autoscaling.enabled | bool | `false` |  |
+| simple-data-backend.autoscaling.maxReplicas | int | `100` |  |
+| simple-data-backend.autoscaling.minReplicas | int | `1` |  |
+| simple-data-backend.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| simple-data-backend.fullnameOverride | string | `"simple-data-backend"` |  |
+| simple-data-backend.image.pullPolicy | string | `"IfNotPresent"` |  |
+| simple-data-backend.image.repository | string | `"tractusx/simple-data-backend"` |  |
+| simple-data-backend.image.tag | string | `"latest"` |  |
+| simple-data-backend.imagePullSecrets | list | `[]` |  |
+| simple-data-backend.ingress.annotations."nginx.ingress.kubernetes.io/backend-protocol" | string | `"HTTP"` |  |
+| simple-data-backend.ingress.annotations."nginx.ingress.kubernetes.io/force-ssl-redirect" | string | `"true"` |  |
+| simple-data-backend.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$2"` |  |
+| simple-data-backend.ingress.annotations."nginx.ingress.kubernetes.io/ssl-passthrough" | string | `"false"` |  |
+| simple-data-backend.ingress.className | string | `"nginx"` |  |
+| simple-data-backend.ingress.enabled | bool | `true` |  |
+| simple-data-backend.ingress.hosts[0].host | string | `"tx-dpp.int.catena-x.net"` |  |
+| simple-data-backend.ingress.hosts[0].paths[0].path | string | `"/data-service(/|$)(.*)"` |  |
+| simple-data-backend.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| simple-data-backend.ingress.tls[0].hosts[0] | string | `"tx-dpp.int.catena-x.net"` |  |
+| simple-data-backend.ingress.tls[0].secretName | string | `"tls-secret"` |  |
+| simple-data-backend.livenessProbe | object | `{}` |  |
+| simple-data-backend.nameOverride | string | `"simple-data-backend"` |  |
+| simple-data-backend.nodeSelector | object | `{}` |  |
+| simple-data-backend.podAnnotations | object | `{}` |  |
+| simple-data-backend.podSecurityContext | object | `{}` |  |
+| simple-data-backend.readinessProbe | object | `{}` |  |
+| simple-data-backend.replicaCount | int | `1` |  |
+| simple-data-backend.resources.limits.cpu | string | `"250m"` |  |
+| simple-data-backend.resources.limits.memory | string | `"512Mi"` |  |
+| simple-data-backend.resources.requests.cpu | string | `"50m"` |  |
+| simple-data-backend.resources.requests.memory | string | `"512Mi"` |  |
+| simple-data-backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| simple-data-backend.securityContext.runAsGroup | int | `3000` |  |
+| simple-data-backend.securityContext.runAsNonRoot | bool | `true` |  |
+| simple-data-backend.securityContext.runAsUser | int | `1000` |  |
+| simple-data-backend.service.port | int | `8080` |  |
+| simple-data-backend.service.type | string | `"ClusterIP"` |  |
+| simple-data-backend.tolerations | list | `[]` |  |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)

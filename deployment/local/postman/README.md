@@ -69,4 +69,3 @@ This technical guide depicts the digital product pass end-to-end API calls throu
     - ***bpn***
 
 
-For more technical documentation, please refer to the [catenax-at-home-getting-started-guide](https://catenax-ng.github.io/docs/guides/catenax-at-home)

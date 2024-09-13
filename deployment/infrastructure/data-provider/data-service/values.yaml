@@ -23,97 +23,83 @@
 # SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
----
-# Default values for backend.
+
+# Default values for simple-data-backend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+simple-data-backend: 
+  replicaCount: 1
 
-image:
-  # -- Which container image to use
-  repository: ghcr.io/catenax-ng/catenax-at-home/provider-backend-service
-  # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
-  pullPolicy: IfNotPresent
-  # -- Overrides the image tag whose default is the chart appVersion
-  tag: "0.0.1"
-  command: ""
-  # -- Image pull secret to create to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
-imagePullSecrets: []
+  nameOverride: "simple-data-backend"
+  fullnameOverride: "simple-data-backend"
 
-# -- Overrides the charts name
-nameOverride: ""
+  image:
+    repository: tractusx/simple-data-backend
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
 
-# -- Overrides the releases full name
-fullnameOverride: "data-service"
+  imagePullSecrets: []
 
-service:
-  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
-  type: ClusterIP
-  # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service) to expose the running application on a set of Pods as a network service.
-  port: 8080
+  podAnnotations: {}
 
-container:
-  port: 80
+  podSecurityContext: {}
+  # fsGroup: 2000
 
-livenessProbe: {}
+  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 3000
 
-readinessProbe: {}
+  service:
+    type: ClusterIP
+    port: 8080
 
-# -- additional annotations for the pod
-podAnnotations: {}
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      #kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - host: tx-dpp.int.catena-x.net
+        paths:
+          - path: /data-service(/|$)(.*)
+            pathType: Prefix
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - tx-dpp.int.catena-x.net
 
-podSecurityContext:
-  seccompProfile:
-    # -- Restrict a Container's Syscalls with seccomp
-    type: RuntimeDefault
-  # -- Runs all processes within a pod with a special uid
-  runAsUser: 10001
-  # -- Processes within a pod will belong to this guid
-  runAsGroup: 10001
-  # -- The owner for volumes and any files created within volumes will belong to this guid
-  fsGroup: 10001
-# The [container security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) defines privilege and access control settings for a Container within a pod
-securityContext:
-  capabilities:
-    # -- Specifies which capabilities to drop to reduce syscall attack surface
-    drop:
-      - ALL
-    # -- Specifies which capabilities to add to issue specialized syscalls
-    add: []
-  # -- Whether the root filesystem is mounted in read-only mode
-  readOnlyRootFilesystem: true
-  # -- Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID
-  allowPrivilegeEscalation: false
-  # -- Requires the container to run without root privileges
-  runAsNonRoot: true
-  # -- The container's process will run with the specified uid
-  runAsUser: 10001
+  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+  resources:
+    limits:
+      cpu: 250m
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 512Mi
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    #kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-  hosts:
-    - host: materialpass.int.demo.catena-x.net
-      paths:
-        - path: /provider_backend(/|$)(.*)
-          pathType: Prefix
-  tls:
-    - secretName: tls-secret
-      hosts:
-        - materialpass.int.demo.catena-x.net
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 
+  nodeSelector: {}
 
+  tolerations: []
 
-nodeSelector: {}
-# [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes
-tolerations: []
-# [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on
-affinity: {}
+  # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+  affinity: {}
+
+  livenessProbe: {}
+  readinessProbe: {}

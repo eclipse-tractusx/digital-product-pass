@@ -210,7 +210,7 @@ The following environment variables must be set in [build and deploy](./dpp-fron
 ../buildAndDeploy.sh consumer-frontend
 ```
 
-You can run the application in docker container with existing image `ghcr.io/catenax-ng/tx-digital-product-pass/digital-product-pass-frontend:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
+You can run the application in docker container with existing image `docker.io/tractusx/digital-product-pass-frontend:latest` from GitHub packages. You need to update the [build and deploy](./buildAndDeploy.sh) script.
 
 The consumer frontend is available in browser at [http://localhost:8080](http://localhost:8080)
 

@@ -28,14 +28,14 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: "TruffleHog"
+name: "TruffleHog - Secret Scanning"
 
 on:
   push:
-    branches: ["main", "chore/feature/trg-8-03-trufflehog"]
+    branches: ["main"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: ["main", "chore/feature/trg-8-03-trufflehog"]
+    branches: ["main"]
   schedule:
     - cron: "0 0 * * *" # Once a day
   workflow_dispatch:

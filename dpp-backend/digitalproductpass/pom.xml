@@ -186,6 +186,15 @@
             <version>2.5.0</version>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>6.1.13</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <resources>
             <resource>

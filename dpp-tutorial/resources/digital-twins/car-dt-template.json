@@ -8,8 +8,21 @@
   "displayName": [],
   "globalAssetId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e59",
   "idShort": "Car",
-  "id": "UUID",
+  "id": "<UUID-1>",
   "specificAssetIds": [
+    {
+      "name": "manufacturerId",
+      "value": "BPNL000000000FV1",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL000000000FV1"
+          }
+        ]
+      }
+    },
     {
       "name": "partInstanceId",
       "value": "<YOUR PART INSTANCE ID>",
@@ -18,37 +31,24 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL0073928UJ879"
+            "value": "BPNL000000000FV1"
           }
         ]
       }
     },
     {
       "name": "manufacturerPartId",
-      "value": "MPI0012",
+      "value": "MPI7654",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [
-          {
-            "type": "GlobalReference",
-            "value": "BPNL0073928UJ879"
-          },
           {
             "type": "GlobalReference",
             "value": "PUBLIC_READABLE"
-          }
-        ]
-      }
-    },
-    {
-      "name": "manufacturerId",
-      "value": "BPNL0073928UJ879",
-      "externalSubjectId": {
-        "type": "ExternalReference",
-        "keys": [
+          },
           {
             "type": "GlobalReference",
-            "value": "BPNL0073928UJ879"
+            "value": "BPNL000000000FV1"
           }
         ]
       }
@@ -61,7 +61,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL0073928UJ879"
+            "value": "BPNL000000000FV1"
           }
         ]
       }
@@ -73,11 +73,11 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/<UUID>",
+            "href": "https://dpp.int.catena-x.net/provider/api/public/<UUID-2>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.catena-x.net/provider",
             "subprotocolBodyEncoding": "plain",
             "securityAttributes": [
               {
@@ -90,13 +90,25 @@
         }
       ],
       "idShort": "digitalProductPass",
-      "id": "<UUID>",
+      "id": "<UUID-2>",
       "semanticId": {
         "type": "ExternalReference",
         "keys": [
           {
+            "type": "Operation",
+            "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+          },
+          {
             "type": "Submodel",
-            "value": "urn:samm:io.catenax.generic.digital_product_passport:2.0.0#DigitalProductPassport"
+            "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+          },
+          {
+            "type": "Entity",
+            "value": "https://www.w3.org/ns/credentials/v2"
+          },
+          {
+            "type": "DataElement",
+            "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
           }
         ]
       },
@@ -104,86 +116,6 @@
         {
           "language": "en",
           "text": "Digital Product Pass Submodel"
-        }
-      ],
-      "displayName": []
-    },
-    {
-      "endpoints": [
-        {
-          "interface": "SUBMODEL-3.0",
-          "protocolInformation": {
-            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:dea9dfe8-77a2-e7f9-ba78-e96ecc54528b",
-            "endpointProtocol": "HTTP",
-            "endpointProtocolVersion": ["1.1"],
-            "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
-            "subprotocolBodyEncoding": "plain",
-            "securityAttributes": [
-              {
-                "type": "NONE",
-                "key": "NONE",
-                "value": "NONE"
-              }
-            ]
-          }
-        }
-      ],
-      "idShort": "singleLevelBomAsBuilt",
-      "id": "urn:uuid:dea9dfe8-77a2-e7f9-ba78-e96ecc54528b",
-      "semanticId": {
-        "type": "ExternalReference",
-        "keys": [
-          {
-            "type": "Submodel",
-            "value": "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
-          }
-        ]
-      },
-      "description": [
-        {
-          "language": "en",
-          "text": "Single level Bom As Built Submodel"
-        }
-      ],
-      "displayName": []
-    },
-    {
-      "endpoints": [
-        {
-          "interface": "SUBMODEL-3.0",
-          "protocolInformation": {
-            "href": "https://dpp.int.demo.catena-x.net/BPNL000000000000/api/public/data/urn:uuid:58f2acd1-4c64-6fb1-7390-a340ef712334",
-            "endpointProtocol": "HTTP",
-            "endpointProtocolVersion": ["1.1"],
-            "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.demo.catena-x.net/BPNL000000000000",
-            "subprotocolBodyEncoding": "plain",
-            "securityAttributes": [
-              {
-                "type": "NONE",
-                "key": "NONE",
-                "value": "NONE"
-              }
-            ]
-          }
-        }
-      ],
-      "idShort": "SerialPart",
-      "id": "urn:uuid:58f2acd1-4c64-6fb1-7390-a340ef712334",
-      "semanticId": {
-        "type": "ExternalReference",
-        "keys": [
-          {
-            "type": "Submodel",
-            "value": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
-          }
-        ]
-      },
-      "description": [
-        {
-          "language": "en",
-          "text": "DPP SerialPart Submodel"
         }
       ],
       "displayName": []

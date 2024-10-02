@@ -46,7 +46,7 @@ Follow the steps below to generate and download a QR code in .svg format:
 - Enter the desired text in the empty field/box. In this case we need the following information: **CX:\<manufacturerPartId>:\<partInstanceId>**
     - This is the \<manufacturerPartId>: 
      ```
-     MPI0012
+     MPI7654
     ```
     - You can find the \<partInstanceId> value on the car part information sheet
 - Click **"Download"** on the right side below the QR code

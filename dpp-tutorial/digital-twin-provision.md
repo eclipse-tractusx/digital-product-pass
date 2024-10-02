@@ -91,8 +91,10 @@ Replace the following placeholders:
 ```bash
 <PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
-<UUID>                              ->   the UUID written on datasheet
+<UUID-1>                              ->   the UUID written on datasheet
 ```
+
+> Note: Generate UUID and substitute it into <<{UUID-2}>>
 
 ## 3º Add Digital Twin into Digital Twin Registry (DTR)
 

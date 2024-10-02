@@ -28,7 +28,7 @@ This guide provides a simple explanation on how to create a digital product pass
 
 You must fullfill the following pre-requisites:
 
-- A Catena-X Standarized Aspect Model (in this case we use the [Digital Product Pass v2.0.0 Model](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/2.0.0))
+- A Catena-X Standarized Aspect Model (in this case we use the [Digital Product Pass v5.0.0 Model](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/5.0.0))
 - JSON Editor like [VS Code](https://code.visualstudio.com/) or [Notepad++](https://notepad-plus-plus.org/downloads/)
 - Car Parts JSON Test Data [found here](./resources/test-data/carParts.json)
 
@@ -83,7 +83,7 @@ Example:
 
 ### 2º - Copy the digital product pass aspect model template into a new file or window
 
-Paste this [Digital Product Passport v2.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
+Paste this [Digital Product Passport v5.0.0 Payload](./resources/payloads/example.json) in the VS Code/Notepad++:
 
 ![DPP Example](./resources/screenshots/dpp-example.png)
 
@@ -94,7 +94,7 @@ It is a test data template that can be personalized to your part with the test d
 For example for adding the PCF value follow the following path:
 
 ```text
-sustainability.PEF.carbon.value
+sustainability.productFootprint.carbon[0].value
 ```
 
 Example:
@@ -107,19 +107,17 @@ Follow this paths to find where the information is located.
 
 | Property | Path |
 | -------- | ----- |
-| Name (Really short) | typology.shortName |
-| Complete Name (More fancy name) | typology.longName |
-| Class/Type of Part | typology.class.definition |
-| PCF | sustainability.PEF.carbon.value |
+| Name (Really short) | identification.type.nameAtManufacturer |
+| Class/Type of Part | identification.classification.classificationDescription |
+| PCF | sustainability.productFootprint.carbon[0].value |
 |Height| characteristics.physicalDimension.height.value |
 |Width| characteristics.physicalDimension.width.value|
 |Length| characteristics.physicalDimension.length.value|
 |Weight| characteristics.physicalDimension.grossWeight.value|
-|Part Instance Id | identification.localIdentifier.value |
+|Part Instance Id | identification.serial[0].value |
 |Manufacturing Date |operation.manufacturer.manufacturingDate |
-|List of Materials | sustainability.material.left.name.name (Add In Array)|
-|Hazard Materials | critical.left (add elements to list) |
-| Guarantee | lifespan (Add value and unit for garantee) |
+| Guarantee | lifespan[0].value (Add value) |
+| Guarantee | lifespan[0].unit (Add unit:months) |
 
 Congratulations! You have successfully created your own digital product pass!
 

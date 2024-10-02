@@ -218,19 +218,21 @@ item-relationship-service:
     type: decentral
     url: https://dpp-registry.int.catena-x.net/semantics/registry/api/v3
 
-    discovery:
-      oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
-      discoveryFinderUrl: https://semantics.int.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
-    semanticshub:
-      url: https://semantics.int.catena-x.net/hub/apimodels
-      oAuthClientId: semantics
-    bpdm:
-      url: https://partners-pool.int.catena-x.net
-      oAuthClientId: bpdm
-    bpnEndpoint: >-
-      {{- if .Values.bpdm.url }}
-      {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
-      {{- end }}
+  discovery:
+    oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+    discoveryFinderUrl: https://semantics.int.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+
+  semanticshub:
+    url: https://semantics.int.catena-x.net/hub/apimodels
+    oAuthClientId: semantics
+    
+  bpdm:
+    url: https://partners-pool.int.catena-x.net
+    oAuthClientId: bpdm
+  bpnEndpoint: >-
+    {{- if .Values.bpdm.url }}
+    {{- tpl (.Values.bpdm.url | default "") . }}/api/catena/legal-entities/{partnerId}?idType={idType}
+    {{- end }}
 
   minioUser: <path:digital-product-pass/data/int/irs/minio#user>
   minioPassword: <path:digital-product-pass/data/int/irs/minio#password>
@@ -314,6 +316,10 @@ item-relationship-service:
       apikey:
         header: "X-Api-Key"
         secret: <path:digital-product-pass/data/int/edc/oauth#api.key>
+    submodel:
+      request-ttl: "PT10M"
+      urn-prefix: "/urn"
+      submodel-suffix: ""
 
   minio:
     serviceAccount:

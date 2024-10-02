@@ -627,12 +627,12 @@ item-relationship-service:
     type: decentral
     url: ""
 
-    discovery:
-      oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
-      discoveryFinderUrl: ""
-    semanticshub:
-      url: ""
-      oAuthClientId: semantics
+  discovery:
+    oAuthClientId: discovery  # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+    discoveryFinderUrl: ""
+  semanticshub:
+    url: ""
+    oAuthClientId: semantics
     bpdm:
       url: ""
       oAuthClientId: bpdm
@@ -708,6 +708,10 @@ item-relationship-service:
       apikey:
         header: "X-Api-Key"
         secret: ""
+    submodel:
+        request-ttl: "PT10M"
+        urn-prefix: "/urn"
+        submodel-suffix: "/$value"
 
   minio:
     serviceAccount:

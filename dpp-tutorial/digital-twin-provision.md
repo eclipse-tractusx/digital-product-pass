@@ -68,16 +68,46 @@ Open a new terminal and run the following command to add your data into the data
 
 Substitute the UUID for the actual one in the paper
 
+## Windows
+<details>
+  <summary>Click to see the Windows command</summary>
+
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
+curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
+    -H "Content-Type: application/json" `
+    --data-binary "@<PATH_TO_YOUR_JSON>.json" 
+```
+
+</details>
+
+## MAC
+<details>
+  <summary>Click here to see the MAC command</summary>
+
+```bash
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
+</details>
+
+## Linux
+<details>
+  <summary>Click to see the Linux command</summary>
+
+```bash
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
+--header 'Content-Type: application/json' \
+--data "@<YOUR_JSON_FILE>.json"
+```
+
+</details>
+
 Verify your data is registerd in the service
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
 --header 'Content-Type: application/json' \
 ```
 

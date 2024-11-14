@@ -129,9 +129,10 @@ Replace the following placeholders:
 <UUID-1>                              ->   the UUID written on datasheet
 ```
 
-> [!Note]: 
+> [!Note]
 > Generate an additional UUID [here](https://www.uuidgenerator.net/version4) and substitute it into <<{UUID-2}>>
-> [!Important]: 
+
+> [!Important]
 > There are **two instances** of `UUID-2` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
@@ -165,7 +166,7 @@ curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' \
 
 </details>
 
-> [!Note]: 
+> [!Note] 
 > Instead of using the relative path for `"@resources/<YOUR_DT_JSON>.json"`, you can use the full path if preferred.
 
 > [!Note]  

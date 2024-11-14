@@ -43,7 +43,7 @@ Follow this steps to create a new Digital Product Passport serialized model:
 
 ### 1º - Find test data before generating the model
 
-In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a tes JSON file.
+In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
 
 To find your part and be able to copy and paste the information:
 

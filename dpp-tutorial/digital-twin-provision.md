@@ -68,18 +68,53 @@ Open a new terminal and run the following command to add your data into the data
 
 Substitute the UUID for the actual one in the paper
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
+curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
+    -H "Content-Type: application/json" `
+    --data-binary "@<PATH_TO_YOUR_JSON>.json" 
+```
+
+</details>
+
+*MAC & Linux*
+<details>
+  <summary>Click here to see the MAC command</summary>
+
+```bash
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
+</details>
+
 Verify your data is registerd in the service
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
 ```bash
-curl --location '<DATA_SERVICE_URL>/data/<UUID>' \
---header 'Content-Type: application/json' \
+curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
+    -H "Content-Type: application/json" 
 ```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
+```bash
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
+--header 'Content-Type: application/json' 
+```
+
+</details>
 
 ## 2º Create Digital Twin
 
@@ -94,12 +129,34 @@ Replace the following placeholders:
 <UUID-1>                              ->   the UUID written on datasheet
 ```
 
-> Note: Generate UUID and substitute it into <<{UUID-2}>>
+> [!Note]
+> Generate an additional UUID [here](https://www.uuidgenerator.net/version4) and substitute it into <<{UUID-2}>>
+
+> [!Important]
+> There are **two instances** of `UUID-2` in the example. Please replace **both** of them:
+> - One is used as `"id"`
+> - The other is used as `"href"`
 
 ## 3º Add Digital Twin into Digital Twin Registry (DTR)
 
 After creation of the digital twin in previous step, add the twin into Digital Twin Registry (DTR).
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" `
+    -H "Content-Type: application/json" `
+    --data-binary "@resources/<YOUR_DT_JSON>.json" 
+```
+
+</details>
+
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
 curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' \
@@ -107,35 +164,75 @@ curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' \
 --data '@resources/<YOUR_DT_JSON>.json'
 ```
 
+</details>
+
+> [!Note] 
+> Instead of using the relative path for `"@resources/<YOUR_DT_JSON>.json"`, you can use the full path if preferred.
+
 > [!Note]  
 > Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
 
-The digital twin registered can be checked/verified from the following command:
+The registered digital twin can be checked/verified from the following command:
 
 > [!Important]
 >  The <DIGITAL_TWIN_ID_BASE64_ENCODED> should be encoded into base64. Use the following url for conversion: https://www.base64encode.org/
 
 ```bash
 Example:
-Digital Twin Id: 3f89d0d4-e11c-f83b-16fd-733c63d4e121
+Digital Twin Id (UUID): 3f89d0d4-e11c-f83b-16fd-733c63d4e121
 Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 ```
 
-> GET /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+> GET <DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+-H "Content-Type: application/json"
+```
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
 curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
 --header 'Content-Type: application/json'
 ```
 
+</details>
+
 In case of error, you can always modify your digital twin using the following commands:
 
 > PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -Method Put -Uri "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+    -ContentType "application/json" `
+    -InFile "resources\<YOUR_DT_JSON>.json"
+```
+</details>
+
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
---header 'Content-Type: application/json' --data '@resources/<YOUR_DT_JSON>.json'
+--header 'Content-Type: application/json' \
+--data '@resources/<YOUR_DT_JSON>.json'
 ```
+
+</details>
 
 If everything works fine, then you have reached the end of data provisioning guide.
 

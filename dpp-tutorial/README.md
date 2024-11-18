@@ -81,7 +81,7 @@ This path is designed for technically inclined participants who want to dive dee
 
 ## Phase 1: Data Provision
 
-In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
+In this Phase, you as a provider will create a Digital Product Passport of a specific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
 ##### Duration: 45 mins
 

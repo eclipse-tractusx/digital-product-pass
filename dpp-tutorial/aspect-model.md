@@ -34,7 +34,7 @@ You must fullfill the following pre-requisites:
 
 >[!WARNING]
 >
-> The model v2.0.0 of the Digital Product Pass is **DEPRECATED** and its used here only as demo purposes, please check the latests models in: [Digital Product Pass Models](https://github.com/eclipse-tractusx/sldt-semantic-modelstree/main/io.catenax.generic.digital_product_passport)
+> The model v2.0.0 of the Digital Product Pass is **DEPRECATED** and its used here only as demo purposes, please check the latests models in: [Digital Product Pass Models](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport)
 
 
 ## Aspect Model Creation

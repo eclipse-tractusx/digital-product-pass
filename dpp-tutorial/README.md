@@ -55,13 +55,37 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
 
 Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).
 
-
 > [!Caution]
 > Please dont change the given templates for digital twin, only change the provided placeholders 
 
+For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
+
+![explorers path](./resources/screenshots/explorers.png)
+
+### 1. Explorer Path:
+
+This path is ideal for individuals who aim to gain a high-level understanding of the overall logic and processes. It’s particularly suitable for business partners, decision-makers, or anyone interested in a functional overview.
+
+- In this path, you will download pre-prepared requests, modify them, and execute them using HTTPie.
+- This approach focuses on simplicity and provides an accessible introduction to the workflow.
+
+&rarr; The Explorer Path can be accessed [here](./explorer-path.md)
+
+![builders path](./resources/screenshots/builders.png)
+
+### 2. Builders Path
+
+This path is designed for technically inclined participants who want to dive deeper into the details.
+
+- Clone the repository, follow the instructions in the ReadMe.md file, and navigate through various steps.
+- Execute the HTTP requests directly via the terminal (Windows/Mac/Linux).
+- This approach offers an in-depth exploration of the technical communication.
+
+&rarr; For the Builders Path, simply continue following this document.
+
 ## Phase 1: Data Provision
 
-In this Phase, you as a provider will create a Digital Product Passport of a spectific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
+In this Phase, you as a provider will create a Digital Product Passport of a specific Part of the Arena-X Car. For this phase, you can use your own computer through Visual Studio Code / Notepad ++ or a given Virtual Machine.
 
 ##### Duration: 45 mins
 

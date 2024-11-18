@@ -53,6 +53,11 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
 
 ## Preparation
 
+Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).
+
+> [!Caution]
+> Please dont change the given templates for digital twin, only change the provided placeholders 
+
 For the tutorial, two distinct paths are available: the Explorer Path and the Developer Path, each tailored to different groups:
 
 ### 1. Explorer Path:
@@ -73,12 +78,6 @@ This path is designed for technically inclined participants who want to dive dee
 - This approach offers an in-depth exploration of the technical communication.
 
 &rarr; For the Developer Path, simply continue following this document.
-
-> [!NOTE]
-> Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).
-
-> [!Caution]
-> Please dont change the given templates for digital twin, only change the provided placeholders 
 
 ## Phase 1: Data Provision
 

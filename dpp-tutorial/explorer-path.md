@@ -143,7 +143,7 @@ In this step, you will create a Digital Twin of your provided Car part. The data
 ### Step 2.1: Register the Aspect Model
 
 
-1. In the HTTPie browser, locate the request labeled **"Step 2.1: Create Aspect Model / Create Aspect Model"**.
+1. In the HTTPie browser, locate the request labeled **"Step 2.1.1 Create Aspect Model"**.
 2. Replace `<UUID-1>` with the UUID provided on your datasheet, as shown in the example
 
 ![HTTPie Post 1](./resources/screenshots/httpie_post_1.png)
@@ -159,7 +159,7 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 - If successful, a 200 OK response will appear at the bottom of HTTPie, confirming the Aspect Model has been registered in the service
 
 4. To verify the registration:
-- Use the HTTPie request labeled "Step 2.1: Create Aspect Model / Verify the Creation".
+- Use the HTTPie request labeled "Step 2.1.2 Verify the Creation".
 - Replace <UUID-1> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
 
@@ -169,7 +169,7 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 
 Now we actually will create the digitil Twin.
 
-1. Open the HTTPie request labeled "Step 2.2: Create Digital Twin / Create Digital Twin".
+1. Open the HTTPie request labeled "Step 2.2.1 Create Digital Twin".
 2. This request uses the template provided in [resources/digital-twins/example-dt.json](./resources/digital-twins/example-dt.json).
 3. Switch to the Body tab and replace the following placeholders:
 
@@ -197,9 +197,9 @@ Now we actually will create the digitil Twin.
 
 ---
 
-### Step 2.3: Verify the Digital Twin Registration
+### Step 2.2.2: Verify the Digital Twin Registration
 
-1. Use the HTTPie request labeled "Step 2.3: Create Digital Twin / Verify the Creation".
+1. Use the HTTPie request labeled "Step 2.2.2 Verify the Creation".
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
 - You can encode your Digital Twin ID using this [Base64 Encoder](https://www.base64encode.org/).
 
@@ -218,9 +218,9 @@ https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptor
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
 
-### Step 2.4
+### Step 2.3
 
-If you encounter an error or need to update the Digital Twin, you can use the HTTPie request labeled "Step 2.4: Create Digital Twin / Modify Digital Twin" to make changes.
+If you encounter an error or need to update the Digital Twin, you can use the HTTPie request labeled "Step 2.3 Modify Digital Twin" to make changes.
 
 If everything works fine, then you have reached the end Explorer Path.
 

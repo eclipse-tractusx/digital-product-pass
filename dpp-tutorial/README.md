@@ -60,7 +60,10 @@ Split into groups of five individuals, ensuring each group receives a sheet of p
 
 For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
 
-![explorers path](./resources/screenshots/explorers.png)
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="./resources/screenshots/explorers.png" alt="explorers path" style="width: 30%; float: left;">
+  <img src="./resources/screenshots/builders.png" alt="builders path" style="width: 30%; float: right;">
+</div>
 
 ### 1. Explorer Path:
 
@@ -70,8 +73,6 @@ This path is ideal for individuals who aim to gain a high-level understanding of
 - This approach focuses on simplicity and provides an accessible introduction to the workflow.
 
 &rarr; The Explorer Path can be accessed [here](./explorer-path.md)
-
-![builders path](./resources/screenshots/builders.png)
 
 ### 2. Builders Path
 
@@ -197,6 +198,7 @@ Congratulations! You have completed the E2E Journey for Digital Product Pass
 | How to create a Digital Twin | [digital-twin-provision](.digital-twin-provision.md) |
 | How to generate a QR code | [qr-code.md](./qr-code.md) |
 | DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
+| Explorer Path | [explorer-path](./explorer-path.md) |
 
 ## NOTICE
 

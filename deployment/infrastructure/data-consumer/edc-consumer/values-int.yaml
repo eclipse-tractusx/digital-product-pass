@@ -47,7 +47,7 @@ tractusx-connector:
       dim:
         url: "https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal"
       oauth:
-        token_url: "https://bpnl000000000fv1-dpp.authentication.eu10.hana.ondemand.com/oauth/token"
+        token_url: "https://fd8892cd-77ae-464e-996a-67f01de04219-phk2xz0k.authentication.eu10.hana.ondemand.com/oauth/token"
         client:
           id: "<path:digital-product-pass/data/int/edc/wallet#clientId>"
           secret_alias: int-client-secret

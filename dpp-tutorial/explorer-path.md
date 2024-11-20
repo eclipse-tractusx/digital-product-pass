@@ -22,13 +22,11 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Explorer Path
 
-## Phase 1: Data Provision
-
 In this Phase, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [HTTPie](https://httpie.io/app), a user-friendly tool for sending and receiving HTTP requests.
 
 ##### Duration: 45 mins
 
-### Pre-Step - Setting Up the Environment
+## Pre-Step - Setting Up the Environment
 
 To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **HTTPie** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
@@ -45,19 +43,19 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 ---
 
-### Step 1 - Create a Digital Product Passport (DPP) 
+## Step 1 - Create a Digital Product Passport (DPP) 
 
 In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
    
   * For a more technical explanation, refer to: [How to create Aspect Model](./aspect-model.md) 
 
-#### Aspect Model Creation
+### Aspect Model Creation
 
 Follow this steps to create a new Digital Product Passport serialized model:
 
 ---
 
-##### Step 1.1: Find test data before generating the model
+### Step 1.1: Find test data before generating the model
 
 In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
 
@@ -92,7 +90,7 @@ Example:
 
 ```
 ---
-##### Step 1.2: Substitute data in the template
+### Step 1.2: Substitute data in the template
 
 In HTTPie, locate the request labeled **"Step 2.1: Create Aspect Model / Create Aspect Model"** and switch to the **Body** tab.
 
@@ -108,7 +106,7 @@ Example:
 
 ---
 
-##### Data Mapping Table
+### Data Mapping Table
 
 Use the following table to identify where to place your part's information in the template:
 
@@ -133,7 +131,7 @@ Congratulations! You have successfully created your own digital product pass!
 
 ---
 
-### Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
+## Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
 
 In this step, you will create a Digital Twin of your provided Car part. The data generated in previous step can be stored into the submodel data service. 
 
@@ -142,7 +140,7 @@ In this step, you will create a Digital Twin of your provided Car part. The data
 
 ---
 
-#### Step 2.1: Register the Aspect Model
+### Step 2.1: Register the Aspect Model
 
 
 1. In the HTTPie browser, locate the request labeled **"Step 2.1: Create Aspect Model / Create Aspect Model"**.
@@ -167,7 +165,7 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 
 ---
 
-#### Step 2.2 
+### Step 2.2 
 
 Now we actually will create the digitil Twin.
 
@@ -199,7 +197,7 @@ Now we actually will create the digitil Twin.
 
 ---
 
-#### Step 2.3: Verify the Digital Twin Registration
+### Step 2.3: Verify the Digital Twin Registration
 
 1. Use the HTTPie request labeled "Step 2.3: Create Digital Twin / Verify the Creation".
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
@@ -220,7 +218,7 @@ https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptor
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
 
-#### Step 2.4
+### Step 2.4
 
 If you encounter an error or need to update the Digital Twin, you can use the HTTPie request labeled "Step 2.4: Create Digital Twin / Modify Digital Twin" to make changes.
 

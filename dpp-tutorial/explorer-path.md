@@ -22,7 +22,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Explorer Path
 
-In this Phase, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [HTTPie](https://httpie.io/app), a user-friendly tool for sending and receiving HTTP requests.
+In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [HTTPie](https://httpie.io/app), a user-friendly tool for sending and receiving HTTP requests.
 
 ##### Duration: 45 mins
 

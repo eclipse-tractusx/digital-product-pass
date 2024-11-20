@@ -60,18 +60,23 @@ Split into groups of five individuals, ensuring each group receives a sheet of p
 
 For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
 
-![explorers path](./resources/screenshots/explorers.png)
+<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+  <a href="./explorer-path-insomnia.md">
+    <img src="./resources/screenshots/explorers.png" alt="explorers path" style="width: 30%;">
+  </a>
+  <a href="./dpp-tutorial/README.md#phase-1-data-provision">
+    <img src="./resources/screenshots/builders.png" alt="builders path" style="width: 30%;">
+  </a>
+</div>
 
 ### 1. Explorer Path:
 
 This path is ideal for individuals who aim to gain a high-level understanding of the overall logic and processes. It’s particularly suitable for business partners, decision-makers, or anyone interested in a functional overview.
 
-- In this path, you will download pre-prepared requests, modify them, and execute them using HTTPie.
+- In this path, you will download pre-prepared requests, modify them, and execute them using Insomnia.
 - This approach focuses on simplicity and provides an accessible introduction to the workflow.
 
 &rarr; The Explorer Path can be accessed [here](./explorer-path.md)
-
-![builders path](./resources/screenshots/builders.png)
 
 ### 2. Builders Path
 
@@ -197,6 +202,7 @@ Congratulations! You have completed the E2E Journey for Digital Product Pass
 | How to create a Digital Twin | [digital-twin-provision](.digital-twin-provision.md) |
 | How to generate a QR code | [qr-code.md](./qr-code.md) |
 | DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
+| Explorer Path | [explorer-path](./explorer-path.md) |
 
 ## NOTICE
 

@@ -58,7 +58,9 @@ Split into groups of five individuals, ensuring each group receives a sheet of p
 > [!Caution]
 > Please dont change the given templates for digital twin, only change the provided placeholders 
 
-For the tutorial, two distinct paths are available: the Explorer Path and the Developer Path, each tailored to different groups:
+For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
+
+![explorers path](./resources/screenshots/explorers.png)
 
 ### 1. Explorer Path:
 
@@ -69,7 +71,9 @@ This path is ideal for individuals who aim to gain a high-level understanding of
 
 &rarr; The Explorer Path can be accessed [here](./explorer-path.md)
 
-### 2. Developer Path
+![builders path](./resources/screenshots/builders.png)
+
+### 2. Builders Path
 
 This path is designed for technically inclined participants who want to dive deeper into the details.
 
@@ -77,7 +81,7 @@ This path is designed for technically inclined participants who want to dive dee
 - Execute the HTTP requests directly via the terminal (Windows/Mac/Linux).
 - This approach offers an in-depth exploration of the technical communication.
 
-&rarr; For the Developer Path, simply continue following this document.
+&rarr; For the Builders Path, simply continue following this document.
 
 ## Phase 1: Data Provision
 

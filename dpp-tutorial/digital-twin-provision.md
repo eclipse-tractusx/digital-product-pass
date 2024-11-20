@@ -59,7 +59,7 @@ In order to prepare aspect models, please follow the [aspect model guide](./aspe
 
 ## Add Aspect Model to the Submodel Server
 
-The data generated in previous step can be stored into the submode data service.
+The data generated in previous step can be stored into the submodel data service.
 
 > [!Caution]
 >  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a

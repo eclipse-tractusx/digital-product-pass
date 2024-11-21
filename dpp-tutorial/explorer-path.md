@@ -106,7 +106,7 @@ Example:
 
 ---
 
-### Data Mapping Table
+### Additional: Data Mapping Table
 
 Use the following table to identify where to place your part's information in the template:
 
@@ -217,6 +217,8 @@ https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptor
 ```
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
+
+---
 
 ### Step 2.3
 

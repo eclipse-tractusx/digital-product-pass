@@ -22,30 +22,22 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Explorer Path
 
-In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, a user-friendly tool for sending and receiving HTTP requests.
+In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [HTTPie](https://httpie.io/app), a user-friendly tool for sending and receiving HTTP requests.
 
-> [!Tip]
-> If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank">Get Started Guide</a> from Insomnia.
+##### Duration: 45 mins
 
 ## Pre-Step - Setting Up the Environment
 
-To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **Insomnia** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
+To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **HTTPie** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
-To set up the environment follow this steps:
-
-- Open Insomnia
-- If necessary: create a new project
-- click on **"Import"**
-- choose **"URL"**
-- copy the following url
-```bash
-https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
-```
-- paste it into the URL-placeholder box
-- click on **"Scan"**
-- if done correctly there has to be "Postman Resources to be imported: 5 Requests"
-- click on import
-
+1. Visit the official [HTTPie website](https://httpie.io/app) and download the application.
+2. Download the required json of HTTP requests for this tutorial from the following link: [Download .JSON file](https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json).
+3. Save the file in your desired location (Right-click &rarr; Save As).
+4. Open [HTTPie](https://httpie.io/app) and follow these steps:
+   - Click the **"+" button** at the top left of the HTTPie interface.
+   ![import](./resources/screenshots/import_step_1.png)
+   - Select **"Import File"**.
+   - Import the file you just downloaded.
 
 Congratulations! You have now imported all the necessary API calls for this tutorial.
 
@@ -55,19 +47,21 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
    
-  * For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
+  * For a more technical explanation, refer to: [How to create Aspect Model](./aspect-model.md) 
 
 ### Aspect Model Creation
 
 Follow this steps to create a new Digital Product Passport serialized model:
 
+---
+
 ### Step 1.1: Find test data before generating the model
 
-In the worksession you will receive a paper with the test data, you can find the same information <a href="./resources/test-data/carParts.json" target="_blank">here</a> in a test JSON file.
+In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
 
 To find your part and be able to copy and paste the information:
 
-- Search by UUID with `CTRL + F` (or `CMD + F` on Mac):
+1 - Search by uuid with CTRL + F (or `CMD + F` on Mac):
 
 ![search id](./resources/screenshots/idsearch_gitrepo.png)
 
@@ -98,7 +92,7 @@ Example:
 ---
 ### Step 1.2: Substitute data in the template
 
-In Insomnia, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
+In HTTPie, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
 
 Replace the placeholders in the provided template with the data from your part. For example, to add the Product Carbon Footprint (PCF) value, use the following path:
 
@@ -108,7 +102,7 @@ sustainability.productFootprint.carbon[0].value
 
 Example:
 
-![PCF](./resources/screenshots/pcf_search_insomnia.png)
+![PCF](./resources/screenshots/pcf_search.png)
 
 ---
 
@@ -148,8 +142,11 @@ In this step, you will create a Digital Twin of your provided Car part. The data
 
 ### Step 2.1: Register the Aspect Model
 
-1. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
+
+1. In the HTTPie browser, locate the request labeled `Step 2.1.1 Create Aspect Model`.
 2. Replace `<UUID-1>` with the UUID provided on your datasheet, as shown in the example
+
+![HTTPie Post 1](./resources/screenshots/httpie_post_1.png)
 
 Example:
 
@@ -159,10 +156,10 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 
 3. Send the **POST** request
 
-- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered in the service.
+- If successful, a 200 OK response will appear at the bottom of HTTPie, confirming the Aspect Model has been registered in the service
 
 4. To verify the registration:
-- Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
+- Use the HTTPie request labeled `Step 2.1.2 Verify the Creation`.
 - Replace <UUID-1> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
 
@@ -172,22 +169,19 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 
 Now we actually will create the digitil Twin.
 
-1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
-
-> [!Note]
-> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank">resources/digital-twins/example-dt.json</a>.
-
-2. Switch to the Body tab and replace the following placeholders:
+1. Open the HTTPie request labeled `Step 2.2.1 Create Digital Twin"`.
+2. This request uses the template provided in [resources/digital-twins/example-dt.json](./resources/digital-twins/example-dt.json).
+3. Switch to the Body tab and replace the following placeholders:
 
 ```bash
 <PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
-<UUID-1>                               ->   the UUID written on datasheet
+<UUID-1>                              ->   the UUID written on datasheet
 ```
 
-3. Generate a new UUID:
+4. Generate a new UUID:
 
-- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank">this UUID Generator</a> to generate an additional UIID
+- Visit [this UUID Generator](https://www.uuidgenerator.net/version4) to generate an additional UIID
 - Replace `<UUID-2>` with this new UUID
 
 > [!Important]
@@ -195,7 +189,7 @@ Now we actually will create the digitil Twin.
 > - One is used as `"id"`
 > - The other is used as `"href"`
 
-4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
+5. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
 - A successful request will return a `200 OK` response.
 
 > [!Note]  
@@ -205,9 +199,9 @@ Now we actually will create the digitil Twin.
 
 ### Step 2.2.2: Verify the Digital Twin Registration
 
-1. Use the Insomnia request labeled `"Step 2.2.2 Verify the Creation"`.
+1. Use the HTTPie request labeled `"Step 2.2.2 Verify the Creation"`.
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
-- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank"> Encoder</a>
+- You can encode your Digital Twin ID using this [Base64 Encoder](https://www.base64encode.org/).
 
 Example:
 
@@ -228,7 +222,7 @@ https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptor
 
 ### Step 2.3
 
-If you encounter an error or need to update the Digital Twin, you can use the Insomnia request labeled `Step 2.3 Modify Digital Twin` to make changes.
+If you encounter an error or need to update the Digital Twin, you can use the HTTPie request labeled `Step 2.3 Modify Digital Twin` to make changes.
 
 > [!Note]  
 > Copy the **Body** from `Step 2.2.1 Create Digitale Twin` into the new **Body** in `Step 2.3 Modify Digital Twin` and afterwards modify data/attributes.
@@ -237,7 +231,7 @@ If everything works fine, then you have reached the end Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank">here</a> to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click [here](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-tutorial/README.md#step-3---generate-the-qr-code) to aaccess the next steps.
 
 
 ## NOTICE

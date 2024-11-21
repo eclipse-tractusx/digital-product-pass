@@ -76,7 +76,7 @@ This path is ideal for individuals who aim to gain a high-level understanding of
 - In this path, you will download pre-prepared requests, modify them, and execute them using Insomnia.
 - This approach focuses on simplicity and provides an accessible introduction to the workflow.
 
-&rarr; The Explorer Path can be accessed [here](./explorer-path.md)
+&rarr; The Explorer Path can be accessed [here](./explorer-path-insomnia.md)
 
 ### 2. Builders Path
 

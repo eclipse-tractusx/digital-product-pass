@@ -31,7 +31,7 @@ In this Path, you, as a provider, will create a Digital Product Passport (DPP) f
 To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **HTTPie** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
 1. Visit the official [HTTPie website](https://httpie.io/app) and download the application.
-2. Download the required package of HTTP requests for this tutorial from the following link: [Download Package](https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json).
+2. Download the required json of HTTP requests for this tutorial from the following link: [Download .JSON file](https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json).
 3. Save the file in your desired location (Right-click &rarr; Save As).
 4. Open [HTTPie](https://httpie.io/app) and follow these steps:
    - Click the **"+" button** at the top left of the HTTPie interface.
@@ -92,7 +92,7 @@ Example:
 ---
 ### Step 1.2: Substitute data in the template
 
-In HTTPie, locate the request labeled `Step 2.1: Create Aspect Model / Create Aspect Model` and switch to the **Body** tab.
+In HTTPie, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
 
 Replace the placeholders in the provided template with the data from your part. For example, to add the Product Carbon Footprint (PCF) value, use the following path:
 

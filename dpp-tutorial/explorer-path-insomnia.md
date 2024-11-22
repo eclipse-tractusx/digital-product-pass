@@ -31,18 +31,20 @@ In this Path, you, as a provider, will create a Digital Product Passport (DPP) f
 
 To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **Insomnia** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
-Open Insomnia, create - if necessary - a new Project and click on **"Import"** the
-    - If necessary: create a new project
-    - click on **"Import"**
-    - choose **"URL"**
-    - copy the following url
-    ```bash
-        https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
-    ```
-    - paste it into the URL-placeholder box
-    - click on **"Scan"**
-    - if done correctly there has to be "Postman Resources to be imported: 5 Requests"
-    - click on import
+To set up the environment follow this steps:
+
+- Open Insomnia
+- If necessary: create a new project
+- click on **"Import"**
+- choose **"URL"**
+- copy the following url
+```bash
+https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
+```
+- paste it into the URL-placeholder box
+- click on **"Scan"**
+- if done correctly there has to be "Postman Resources to be imported: 5 Requests"
+- click on import
 
 
 Congratulations! You have now imported all the necessary API calls for this tutorial.
@@ -108,7 +110,7 @@ sustainability.productFootprint.carbon[0].value
 
 Example:
 
-![PCF](./resources/screenshots/pcf_search_insomnia)
+![PCF](./resources/screenshots/pcf_search_insomnia.png)
 
 ---
 

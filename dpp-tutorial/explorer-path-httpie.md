@@ -24,13 +24,11 @@ SPDX-License-Identifier: CC-BY-4.0
 
 In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [HTTPie](https://httpie.io/app), a user-friendly tool for sending and receiving HTTP requests.
 
-##### Duration: 45 mins
-
 ## Pre-Step - Setting Up the Environment
 
 To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **HTTPie** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
-1. Visit the official [HTTPie website](https://httpie.io/app) and download the application.
+1. Visit the official [HTTPie website](https://httpie.io/app).
 2. Download the required json of HTTP requests for this tutorial from the following link: [Download .JSON file](https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json).
 3. Save the file in your desired location (Right-click &rarr; Save As).
 4. Open [HTTPie](https://httpie.io/app) and follow these steps:

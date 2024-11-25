@@ -61,8 +61,12 @@ Split into groups of five individuals, ensuring each group receives a sheet of p
 For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-  <img src="./resources/screenshots/explorers.png" alt="explorers path" style="width: 30%;">
-  <img src="./resources/screenshots/builders.png" alt="builders path" style="width: 30%;">
+  <a href="./explorer-path-insomnia.md">
+    <img src="./resources/screenshots/explorers.png" alt="explorers path" style="width: 30%;">
+  </a>
+  <a href="./dpp-tutorial/README.md#phase-1-data-provision">
+    <img src="./resources/screenshots/builders.png" alt="builders path" style="width: 30%;">
+  </a>
 </div>
 
 ### 1. Explorer Path:

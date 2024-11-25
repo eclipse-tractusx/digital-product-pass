@@ -16,7 +16,7 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content",
+						"key": "Content-Type",
 						"value": "application/json",
 						"type": "text"
 					}

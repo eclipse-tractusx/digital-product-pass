@@ -165,7 +165,7 @@ https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 - If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered in the service.
 
 4. To verify the registration:
-- Use the HTTPie request labeled `Step 2.1.2 Verify the Creation`.
+- Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
 - Replace <UUID-1> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
 

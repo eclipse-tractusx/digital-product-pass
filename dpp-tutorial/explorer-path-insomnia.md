@@ -22,10 +22,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Explorer Path
 
-In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [Insomnia](https://insomnia.rest/), a user-friendly tool for sending and receiving HTTP requests.
+In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, a user-friendly tool for sending and receiving HTTP requests.
 
 > [!Tip]
-> if the installation still has to be done, follow this [Get Started Guide](https://docs.insomnia.rest/insomnia/get-started) from Insomnia.
+> If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank">Get Started Guide</a> from Insomnia.
 
 ## Pre-Step - Setting Up the Environment
 
@@ -55,21 +55,19 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
    
-  * For a more technical explanation, refer to: [How to create Aspect Model](./aspect-model.md) 
+  * For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
 
 ### Aspect Model Creation
 
 Follow this steps to create a new Digital Product Passport serialized model:
 
----
-
 ### Step 1.1: Find test data before generating the model
 
-In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
+In the worksession you will receive a paper with the test data, you can find the same information <a href="./resources/test-data/carParts.json" target="_blank">here</a> in a test JSON file.
 
 To find your part and be able to copy and paste the information:
 
-1 - Search by UUID with `CTRL + F` (or `CMD + F` on Mac):
+- Search by UUID with `CTRL + F` (or `CMD + F` on Mac):
 
 ![search id](./resources/screenshots/idsearch_gitrepo.png)
 
@@ -150,7 +148,6 @@ In this step, you will create a Digital Twin of your provided Car part. The data
 
 ### Step 2.1: Register the Aspect Model
 
-
 1. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
 2. Replace `<UUID-1>` with the UUID provided on your datasheet, as shown in the example
 
@@ -178,7 +175,7 @@ Now we actually will create the digitil Twin.
 1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
 
 > [!Note]
-> This request uses the template provided in [resources/digital-twins/example-dt.json](./resources/digital-twins/example-dt.json).
+> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank">resources/digital-twins/example-dt.json</a>.
 
 2. Switch to the Body tab and replace the following placeholders:
 
@@ -190,7 +187,7 @@ Now we actually will create the digitil Twin.
 
 3. Generate a new UUID:
 
-- Visit [this UUID Generator](https://www.uuidgenerator.net/version4) to generate an additional UIID
+- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank">this UUID Generator</a> to generate an additional UIID
 - Replace `<UUID-2>` with this new UUID
 
 > [!Important]
@@ -210,7 +207,7 @@ Now we actually will create the digitil Twin.
 
 1. Use the Insomnia request labeled `"Step 2.2.2 Verify the Creation"`.
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
-- You can encode your Digital Twin ID using this [Base64 Encoder](https://www.base64encode.org/).
+- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank"> Encoder</a>
 
 Example:
 
@@ -240,7 +237,7 @@ If everything works fine, then you have reached the end Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click [here](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-tutorial/README.md#step-3---generate-the-qr-code) to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank">here</a> to aaccess the next steps.
 
 
 ## NOTICE

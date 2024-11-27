@@ -39,7 +39,7 @@ To set up the environment follow this steps:
 - choose **"URL"**
 - copy the following url
 ```bash
-https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/httpie_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
+https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/explorer_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
 ```
 - paste it into the URL-placeholder box
 - click on **"Scan"**
@@ -51,25 +51,13 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 ---
 
-## Step 1 - Create a Digital Product Passport (DPP) 
+## Step 1 - Create a Digital Product Passport (DPP) Instance Aspect Model 
 
-In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
+In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explenation on how to create a digital product pass serialized asepct model payload, by using the digital prodcut pass aspect model template.
    
   * For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
 
 ### Aspect Model Creation
-
-Follow this steps to create a new Digital Product Passport serialized model:
-
-### Step 1.1: Find test data before generating the model
-
-In the worksession you will receive a paper with the test data, you can find the same information <a href="./resources/test-data/carParts.json" target="_blank">here</a> in a test JSON file.
-
-To find your part and be able to copy and paste the information:
-
-- Search by UUID with `CTRL + F` (or `CMD + F` on Mac):
-
-![search id](./resources/screenshots/idsearch_gitrepo.png)
 
 You will get your information in a paper:
 
@@ -95,8 +83,13 @@ Example:
 }
 
 ```
----
-### Step 1.2: Substitute data in the template
+
+Now, you replace the data from your sheet into the Aspect Model template. This step is crucial because it ensures that your specific car part is properly registered and exists as an Aspect Model in the system.
+
+In a real production environment, this process would typically be automated by your systems. However, for this tutorial, you are manually mapping the data to understand how the correct information about your part will later be linked to the Digital Product Passport (DPP).
+
+By completing this step, you ensure that the part data is accurate and ready to be associated with the DPP, which is vital for traceability and the integrity of the overall process..
+
 
 In Insomnia, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
 
@@ -112,34 +105,59 @@ Example:
 
 ---
 
-### Additional: Data Mapping Table
+### Data Mapping Table
 
 Use the following table to identify where to place your part's information in the template:
 
-| Property | Path |
-| -------- | ----- |
-| Name (Really short) | identification.type.nameAtManufacturer |
-| Class/Type of Part | identification.classification.classificationDescription |
-| PCF | sustainability.productFootprint.carbon[0].value |
-|Height| characteristics.physicalDimension.height.value |
-|Width| characteristics.physicalDimension.width.value|
-|Length| characteristics.physicalDimension.length.value|
-|Weight| characteristics.physicalDimension.grossWeight.value|
-|Part Instance Id | identification.serial[0].value |
-|Manufacturing Date |operation.manufacturer.manufacturingDate |
-| Guarantee | lifespan[0].value (Add value) |
-| Guarantee | lifespan[0].unit (Add unit:months) |
-
-Congratulations! You have successfully created your own digital product pass!
-
 > [!TIP]
-> You can add more relavant data and personalized information at the digital product pass, follow the template and modify the data as you wish!
+> You can search for the placeholder `CTRL + F` on Windows or `CMD + F` on MacOS/Linux
+
+> [!Note]
+> Delete `""` from `width_placeholder`, `length_placeholder`, `weight_placeholder`, `height_placeholder`, `guarantee_value` and `<product_carbon_footprint>`
+
+| Property              | Path                                                | Placeholder                |
+|-----------------------|-----------------------------------------------------|----------------------------|
+| Width                 | characteristics.physicalDimension.width.value       | <width_placeholder>        |
+| Length                | characteristics.physicalDimension.length.value      | <length_placeholder>       |
+| Weight                | characteristics.physicalDimension.grossWeight.value | <weight_placeholder>       |
+| Height                | characteristics.physicalDimension.height.value      | <height_placeholder>       |
+| Guarantee (Value)     | characteristics.lifespan[0].value                   | <guarantee_value>          |
+| Guarantee (Unit)      | characteristics.lifespan[0].unit                    | <guarantee_unit>           |
+| Name (Really short)   | identification.type.nameAtManufacturer              | <name_placeholder>         |
+| Part Instance Id      | identification.serial[0].value                      | <part_instance_id>         |
+| Manufacturing Date    | operation.manufacturer.manufacturingDate            | <manufacturing_date>       |
+| PCF                   | sustainability.productFootprint.carbon[0].value     | <product_carbon_footprint> |
+
+
+Congratulations! You have successfully created your own digital product pass aspect model!
 
 ---
 
-## Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
+## Step 2 - Create a Digital Twin integrating the generated DPP model as a submodel
 
-In this step, you will create a Digital Twin of your provided Car part. The data generated in previous step can be stored into the submodel data service. 
+In this step, you will create a Digital Twin of your provided Car part and setup Digital Twin provisioning services as a data provider. Additionally, it here you create and register aspect models into the data service. 
+
+The following components are already operational and properly configured.
+
+             ________EDC-Connector________         ________Registry________         ________Data Service________  
+            |                             |       |                        |       |                            |
+            | Controlplane <-> Dataplane  | <---> |         AAS DTR        | <---> |     A plain JSON Server    |           
+            |_____________________________|       |________________________|       |____________________________|
+
+Short Introduction of the components:
+
+- EDC Connector (Data Provider):
+
+A preconfigured EDC Connector, acting as the Data Provider, is necessary to facilitate secure data exchange within the ecosystem. The connector enables interoperability between different participants, ensuring that the data flow is compliant with industry standards. The EDC Connector is set up and ready to handle requests.
+
+- Digital Twin Registry (DTR):
+
+The Digital Twin Registry is required to manage and store Digital Twins (DT) in the form of Asset Administration Shells (AAS). This component ensures that the Digital Twins are properly registered and accessible for interaction within the ecosystem. The DTR is fully operational and preconfigured to handle incoming Digital Twin data.
+
+- Data Service (DS):
+
+The Data Service is a crucial component for storing the payloads of Digital Product Passports in plain JSON format. This service should already be running and ready to accept data submissions. It acts as the backend repository where all passport-related information is securely stored and easily retrievable.
+
 
 > [!Caution]
 >  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
@@ -148,8 +166,11 @@ In this step, you will create a Digital Twin of your provided Car part. The data
 
 ### Step 2.1: Register the Aspect Model
 
-1. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
-2. Replace `<UUID-1>` with the UUID provided on your datasheet, as shown in the example
+1. First of all generate a new UUID:
+- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank">this UUID Generator</a> to generate an additional UIID
+- This newly generated UUID will serve as the `digitalTwinSubmodelId`, which plays a crucial role in linking the Aspect Model to the Digital Product Passport (DPP) and will be important in later steps.
+2. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
+3. Replace `<digitalTwinSubmodelId>` with the new generated UUID, as shown in the example
 
 Example:
 
@@ -157,14 +178,15 @@ Example:
 https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
-3. Send the **POST** request
+4. Send the **POST** request
 
-- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered in the service.
+- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered into the submodel data service with the correct reference to the DPP.
 
-4. To verify the registration:
+5. To verify the registration:
 - Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
-- Replace <UUID-1> with your actual UUID from the datasheet.
+- Replace <digitalTwinSubmodelId> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
+- Optionally: Cross-check that the modified data in the response body matches the data you manipulated earlier.
 
 ---
 
@@ -180,23 +202,23 @@ Now we actually will create the digitil Twin.
 2. Switch to the Body tab and replace the following placeholders:
 
 ```bash
-<PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
+<PART_INSTANCE_ID>                     ->   the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
-<UUID-1>                               ->   the UUID written on datasheet
+<digitalTwinId>                        ->   the UUID written on datasheet
+<digitalTwinSubmodelId>                ->   the UUID generated the step ago
 ```
 
-3. Generate a new UUID:
-
-- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank">this UUID Generator</a> to generate an additional UIID
-- Replace `<UUID-2>` with this new UUID
 
 > [!Important]
-> There are **two instances** of `UUID-2` in the example. Please replace **both** of them:
+> There are **two instances** of `digitalTwinSubmodelId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
+> There are **two instances** of `digitalTwinId` in the example. Please replace **both** of them:
+> - One is used as `"id"`
+> - The other is used as `"globalAssetId"`
 
 4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
-- A successful request will return a `200 OK` response.
+- A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
 
 > [!Note]  
 > Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
@@ -219,7 +241,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 3. Replace <UUID-1_BASE64_ENCODED> in the following URL:
 
 ```bash
-https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<UUID-1_BASE64_ENCODED>
+https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 ```
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
@@ -233,7 +255,7 @@ If you encounter an error or need to update the Digital Twin, you can use the In
 > [!Note]  
 > Copy the **Body** from `Step 2.2.1 Create Digitale Twin` into the new **Body** in `Step 2.3 Modify Digital Twin` and afterwards modify data/attributes.
 
-If everything works fine, then you have reached the end Explorer Path.
+If everything works fine, then you have reached the end of the Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 

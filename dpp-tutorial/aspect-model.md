@@ -105,19 +105,18 @@ Example:
 
 Follow this paths to find where the information is located.
 
-| Property | Path |
-| -------- | ----- |
-| Name (Really short) | identification.type.nameAtManufacturer |
-| Class/Type of Part | identification.classification.classificationDescription |
-| PCF | sustainability.productFootprint.carbon[0].value |
-|Height| characteristics.physicalDimension.height.value |
-|Width| characteristics.physicalDimension.width.value|
-|Length| characteristics.physicalDimension.length.value|
-|Weight| characteristics.physicalDimension.grossWeight.value|
-|Part Instance Id | identification.serial[0].value |
-|Manufacturing Date |operation.manufacturer.manufacturingDate |
-| Guarantee | lifespan[0].value (Add value) |
-| Guarantee | lifespan[0].unit (Add unit:months) |
+| Property              | Path                                          |
+|-----------------------|-----------------------------------------------|
+| Width                 | characteristics.physicalDimension.width.value |
+| Length                | characteristics.physicalDimension.length.value |
+| Weight                | characteristics.physicalDimension.grossWeight.value |
+| Height                | characteristics.physicalDimension.height.value |
+| Guarantee (Value)     | lifespan[0].value                            |
+| Guarantee (Unit)      | lifespan[0].unit                             |
+| Name (Really short)   | identification.type.nameAtManufacturer       |
+| Part Instance Id      | identification.serial[0].value               |
+| Manufacturing Date    | operation.manufacturer.manufacturingDate     |
+| PCF                   | sustainability.productFootprint.carbon[0].value |
 
 Congratulations! You have successfully created your own digital product pass!
 

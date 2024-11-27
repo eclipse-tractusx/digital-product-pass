@@ -111,8 +111,8 @@ Follow this paths to find where the information is located.
 | Length                | characteristics.physicalDimension.length.value |
 | Weight                | characteristics.physicalDimension.grossWeight.value |
 | Height                | characteristics.physicalDimension.height.value |
-| Guarantee (Value)     | lifespan[0].value                            |
-| Guarantee (Unit)      | lifespan[0].unit                             |
+| Guarantee (Value)     | characteristics.lifespan[0].value                   | 
+| Guarantee (Unit)      | characteristics.lifespan[0].unit                    |
 | Name (Really short)   | identification.type.nameAtManufacturer       |
 | Part Instance Id      | identification.serial[0].value               |
 | Manufacturing Date    | operation.manufacturer.manufacturingDate     |

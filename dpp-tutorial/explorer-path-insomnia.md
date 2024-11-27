@@ -39,7 +39,7 @@ To set up the environment follow this steps:
 - choose **"URL"**
 - copy the following url
 ```bash
-https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/explorer_payloads/01%20Tractus-X%20Community%20Days.postman_collection.json
+https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/explorer_payload/01%20Tractus-X%20Community%20Days.postman_collection.json
 ```
 - paste it into the URL-placeholder box
 - click on **"Scan"**

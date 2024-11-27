@@ -62,18 +62,21 @@ In order to prepare aspect models, please follow the [aspect model guide](./aspe
 The data generated in previous step can be stored into the submode data service.
 
 > [!Caution]
->  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
+> The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
+
+> [!Note]
+> Generate an additional UUID [here](https://www.uuidgenerator.net/version4). It will be used as the `digitalTwinSubmodelId` which will be the linking between the Aspect Model and the DPP.
 
 Open a new terminal and run the following command to add your data into the data service: 
 
-Substitute the UUID for the actual one in the paper
+Substitute the `digitalTwinSubmodelId` for the generated UUID.
 
 *Windows*
 <details>
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
+curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
     -H "Content-Type: application/json" `
     --data-binary "@<PATH_TO_YOUR_JSON>.json" 
 ```
@@ -85,7 +88,7 @@ curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
   <summary>Click here to see the MAC command</summary>
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
@@ -99,7 +102,7 @@ Verify your data is registerd in the service
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
+curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
     -H "Content-Type: application/json" 
 ```
 
@@ -110,7 +113,7 @@ curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<UUID>" `
   <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/urn:uuid:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>' \
 --header 'Content-Type: application/json' 
 ```
 
@@ -124,18 +127,20 @@ Create a new json and use the template in [resources/digital-twins/example-dt.js
 Replace the following placeholders:
 
 ```bash
-<PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
+<PART_INSTANCE_ID>                     ->   the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
-<UUID-1>                              ->   the UUID written on datasheet
+<digitalTwinId>                        ->   the UUID written on datasheet
+<digitalTwinSubmodelId>                ->   the UUID generated the step ago
 ```
 
-> [!Note]
-> Generate an additional UUID [here](https://www.uuidgenerator.net/version4) and substitute it into <<{UUID-2}>>
 
 > [!Important]
-> There are **two instances** of `UUID-2` in the example. Please replace **both** of them:
+> There are **two instances** of `digitalTwinSubmodelId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
+> There are **two instances** of `digitalTwinId` in the example. Please replace **both** of them:
+> - One is used as `"id"`
+> - The other is used as `"globalAssetId"`
 
 ## 3º Add Digital Twin into Digital Twin Registry (DTR)
 
@@ -179,7 +184,7 @@ The registered digital twin can be checked/verified from the following command:
 
 ```bash
 Example:
-Digital Twin Id (UUID): 3f89d0d4-e11c-f83b-16fd-733c63d4e121
+Digital Twin Id : 3f89d0d4-e11c-f83b-16fd-733c63d4e121
 Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 ```
 

@@ -29,12 +29,13 @@ In this Path, you, as a provider, will create a Digital Product Passport (DPP) f
 
 ## Pre-Step - Setting Up the Environment
 
-To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **Insomnia** as our web-based HTTP communication tool to send and receive data in a visual and user-friendly way. 
+To begin the work in the Explorer Path, you first need to set up the environment. For this tutorial, we will use **Insomnia** as our HTTP communication tool to send and receive data in a visual and user-friendly way. 
 
 To set up the environment follow this steps:
 
 - Open Insomnia
-- If necessary: create a new project
+- If necessary: create a new project, click on the **"plus"-button** as shown in the example:
+![New Project](./resources/screenshots/Insomnia_add_new_project.png)
 - click on **"Import"**
 - choose **"URL"**
 - copy the following url
@@ -53,9 +54,10 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 ## Step 1 - Create a Digital Product Passport (DPP) Instance Aspect Model 
 
-In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explenation on how to create a digital product pass serialized asepct model payload, by using the digital prodcut pass aspect model template.
-   
-  * For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
+In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explanation on how to create a digital product pass serialized asepct model payload, by using the digital prodcut pass aspect model template.
+
+> [!Note]  
+> For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
 
 ### Aspect Model Creation
 
@@ -107,26 +109,27 @@ Example:
 
 ### Data Mapping Table
 
+Replace now every placehlders given in the data mapping template with the data from your part. 
 Use the following table to identify where to place your part's information in the template:
 
 > [!TIP]
 > You can search for the placeholder `CTRL + F` on Windows or `CMD + F` on MacOS/Linux
 
 > [!Note]
-> Delete `""` from `width_placeholder`, `length_placeholder`, `weight_placeholder`, `height_placeholder`, `guarantee_value` and `<product_carbon_footprint>`
+> Delete `""` along with `<width_placeholder>`, `<length_placeholder>`, `<weight_placeholder>`, `<height_placeholder>`, `<guarantee_value>` and `<product_carbon_footprint>`
 
-| Property              | Path                                                | Placeholder                |
-|-----------------------|-----------------------------------------------------|----------------------------|
-| Width                 | characteristics.physicalDimension.width.value       | <width_placeholder>        |
-| Length                | characteristics.physicalDimension.length.value      | <length_placeholder>       |
-| Weight                | characteristics.physicalDimension.grossWeight.value | <weight_placeholder>       |
-| Height                | characteristics.physicalDimension.height.value      | <height_placeholder>       |
-| Guarantee (Value)     | characteristics.lifespan[0].value                   | <guarantee_value>          |
-| Guarantee (Unit)      | characteristics.lifespan[0].unit                    | <guarantee_unit>           |
-| Name (Really short)   | identification.type.nameAtManufacturer              | <name_placeholder>         |
-| Part Instance Id      | identification.serial[0].value                      | <part_instance_id>         |
-| Manufacturing Date    | operation.manufacturer.manufacturingDate            | <manufacturing_date>       |
-| PCF                   | sustainability.productFootprint.carbon[0].value     | <product_carbon_footprint> |
+| Property              | Path                                                | Placeholder                   |
+|-----------------------|-----------------------------------------------------|-------------------------------|
+| Width                 | characteristics.physicalDimension.width.value       | "<width_placeholder>"         |
+| Length                | characteristics.physicalDimension.length.value      | "<length_placeholder>"        |
+| Weight                | characteristics.physicalDimension.grossWeight.value | "<weight_placeholder>"        |
+| Height                | characteristics.physicalDimension.height.value      | "<height_placeholder>"        |
+| Guarantee (Value)     | characteristics.lifespan[0].value                   | "<guarantee_value>"           |
+| Guarantee (Unit)      | characteristics.lifespan[0].unit                    | <guarantee_unit>              |
+| Name (Really short)   | identification.type.nameAtManufacturer              | <name_placeholder>            |
+| Part Instance Id      | identification.serial[0].value                      | <part_instance_id>            |
+| Manufacturing Date    | operation.manufacturer.manufacturingDate            | <manufacturing_date>          |
+| PCF                   | sustainability.productFootprint.carbon[0].value     | "<product_carbon_footprint>"  |
 
 
 Congratulations! You have successfully created your own digital product pass aspect model!
@@ -148,13 +151,13 @@ Short Introduction of the components:
 
 - EDC Connector (Data Provider):
 
-A preconfigured EDC Connector, acting as the Data Provider, is necessary to facilitate secure data exchange within the ecosystem. The connector enables interoperability between different participants, ensuring that the data flow is compliant with industry standards. The EDC Connector is set up and ready to handle requests.
+A preconfigured EDC Connector, acting as Gateway/Transmitter, is necessary to facilitate secure data exchange within the ecosystem. The connector enables interoperability between different participants, ensuring that the data flow is compliant with industry standards. The EDC Connector is set up and ready to handle requests.
 
 - Digital Twin Registry (DTR):
 
 The Digital Twin Registry is required to manage and store Digital Twins (DT) in the form of Asset Administration Shells (AAS). This component ensures that the Digital Twins are properly registered and accessible for interaction within the ecosystem. The DTR is fully operational and preconfigured to handle incoming Digital Twin data.
 
-- Data Service (DS):
+- Data Service (DS) (Data Provider):
 
 The Data Service is a crucial component for storing the payloads of Digital Product Passports in plain JSON format. This service should already be running and ready to accept data submissions. It acts as the backend repository where all passport-related information is securely stored and easily retrievable.
 
@@ -175,7 +178,7 @@ The Data Service is a crucial component for storing the payloads of Digital Prod
 Example:
 
 ```text
-https://tx-dpp.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
+https://data-service.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
 4. Send the **POST** request
@@ -254,6 +257,11 @@ If you encounter an error or need to update the Digital Twin, you can use the In
 
 > [!Note]  
 > Copy the **Body** from `Step 2.2.1 Create Digitale Twin` into the new **Body** in `Step 2.3 Modify Digital Twin` and afterwards modify data/attributes.
+> Copy also the `<DIGITAL_TWIN_ID_BASE64_ENCODED>` and paste it into the URL:
+
+```bash
+https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+```
 
 If everything works fine, then you have reached the end of the Explorer Path.
 

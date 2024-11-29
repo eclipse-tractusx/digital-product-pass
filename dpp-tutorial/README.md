@@ -20,7 +20,7 @@ SPDX-License-Identifier: CC-BY-4.0
 #######################################################################
 -->
 
-<div align=right><img height=200 src="../docs/media/dpp-tx-logo.png"/>&nbsp;&nbsp;<h1>Tractus-X​ Digital Product Passport​ Workstream​</h1><h4>Second Tractus-X Community Days - 16, 17 May 2024 - Stuttgart</h4></div>
+<div align=right><img height=200 src="../docs/media/dpp-tx-logo.png"/>&nbsp;&nbsp;<h1>Tractus-X​ Digital Product Passport​ Workstream​</h1><h4>Third Tractus-X Community Days - 5,6 December 2024 - Stuttgart</h4></div>
 
 
 ## Description

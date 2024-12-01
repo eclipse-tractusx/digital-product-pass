@@ -22,10 +22,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Explorer Path
 
-In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use [Insomnia](https://insomnia.rest/), a user-friendly tool for sending and receiving HTTP requests.
+In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, a user-friendly tool for sending and receiving HTTP requests.
 
 > [!Tip]
-> if the installation still has to be done, follow this [Get Started Guide](https://docs.insomnia.rest/insomnia/get-started) from Insomnia.
+> If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank" rel="noopener noreferrer">Get Started Guide</a> from Insomnia.
 
 ## Pre-Step - Setting Up the Environment
 
@@ -52,28 +52,11 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 ---
 
-## Step 1 - Create a Digital Product Passport (DPP) 
+## Step 1 - Create a Digital Product Passport (DPP) Instance Aspect Model 
 
-In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explanation on how to create a digital product pass serialized asepct model payload, by using the digital prodcut pass aspect model template.
-
-> [!Note]  
-> For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
+In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explanation on how to create a digital product pass serialized aspect model payload, by using the digital product pass aspect model template.
 
 ### Aspect Model Creation
-
-Follow this steps to create a new Digital Product Passport serialized model:
-
----
-
-### Step 1.1: Find test data before generating the model
-
-In the worksession you will receive a paper with the test data, you can find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
-
-To find your part and be able to copy and paste the information:
-
-1 - Search by UUID with `CTRL + F` (or `CMD + F` on Mac):
-
-![search id](./resources/screenshots/idsearch_gitrepo.png)
 
 You will get your information in a paper:
 
@@ -99,8 +82,18 @@ Example:
 }
 
 ```
----
-### Step 1.2: Substitute data in the template
+
+> [!Note]
+> To easily find your data digitally, refer to <a href="./resources/payloads/example_explorer.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
+> You can search for your car part (identified by `ID (uuid)` on the sheet) using
+> - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
+
+Now, you replace the data from your sheet into the Aspect Model template. This step is crucial because it ensures that your specific car part is properly registered and exists as an Aspect Model in the system.
+
+In a real production environment, this process would typically be automated by your systems. However, for this tutorial, you are manually mapping the data to understand how the correct information about your part will later be linked to the Digital Product Passport (DPP).
+
+By completing this step, you ensure that the part data is accurate and ready to be associated with the DPP, which is vital for traceability and the integrity of the overall process..
+
 
 In Insomnia, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
 
@@ -116,26 +109,10 @@ Example:
 
 ---
 
-### Additional: Data Mapping Table
+### Data Mapping Table
 
 Replace now every placehlders given in the data mapping template with the data from your part. 
 Use the following table to identify where to place your part's information in the template:
-
-| Property | Path |
-| -------- | ----- |
-| Name (Really short) | identification.type.nameAtManufacturer |
-| Class/Type of Part | identification.classification.classificationDescription |
-| PCF | sustainability.productFootprint.carbon[0].value |
-|Height| characteristics.physicalDimension.height.value |
-|Width| characteristics.physicalDimension.width.value|
-|Length| characteristics.physicalDimension.length.value|
-|Weight| characteristics.physicalDimension.grossWeight.value|
-|Part Instance Id | identification.serial[0].value |
-|Manufacturing Date |operation.manufacturer.manufacturingDate |
-| Guarantee | lifespan[0].value (Add value) |
-| Guarantee | lifespan[0].unit (Add unit:months) |
-
-Congratulations! You have successfully created your own digital product pass!
 
 > [!TIP]
 > You can search for the placeholder `CTRL + F` on Windows or `CMD + F` on MacOS/Linux
@@ -161,7 +138,7 @@ Congratulations! You have successfully created your own digital product pass asp
 
 ---
 
-## Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
+## Step 2 - Create a Digital Twin integrating the generated DPP model as a submodel
 
 In this step, you will create a Digital Twin of your provided Car part and setup Digital Twin provisioning services as a data provider. Additionally, it here you create and register aspect models into the data service. 
 
@@ -194,9 +171,11 @@ The Data Service is a crucial component for storing the payloads of Digital Prod
 
 ### Step 2.1: Register the Aspect Model
 
-
-1. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
-2. Replace `<UUID-1>` with the UUID provided on your datasheet, as shown in the example
+1. First of all generate a new UUID:
+- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank" rel="noopener noreferrer">this UUID Generator</a> to generate an additional UIID
+- This newly generated UUID will serve as the `digitalTwinSubmodelId`, which plays a crucial role in linking the Aspect Model to the Digital Product Passport (DPP) and will be important in later steps.
+2. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
+3. Replace `<digitalTwinSubmodelId>` with the new generated UUID, as shown in the example
 
 Example:
 
@@ -204,14 +183,15 @@ Example:
 https://data-service.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
-3. Send the **POST** request
+4. Send the **POST** request
 
-- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered in the service.
+- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered into the submodel data service with the correct reference to the DPP.
 
-4. To verify the registration:
+5. To verify the registration:
 - Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
-- Replace <UUID-1> with your actual UUID from the datasheet.
+- Replace <digitalTwinSubmodelId> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
+- Optionally: Cross-check that the modified data in the response body matches the data you manipulated earlier.
 
 ---
 
@@ -222,28 +202,30 @@ Now we actually will create the digitil Twin.
 1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
 
 > [!Note]
-> This request uses the template provided in [resources/digital-twins/example-dt.json](./resources/digital-twins/example-dt.json).
+> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank" rel="noopener noreferrer">resources/digital-twins/example-dt.json</a>.
 
 2. Switch to the Body tab and replace the following placeholders:
 
 ```bash
-<PART_INSTANCE_ID>                     ->  the value of part instance written on datasheet
+<PART_INSTANCE_ID>                     ->   the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
-<UUID-1>                               ->   the UUID written on datasheet
+<digitalTwinId>                        ->   the UUID written on datasheet
+<digitalTwinSubmodelId>                ->   the UUID generated the step ago
 ```
 
-3. Generate a new UUID:
-
-- Visit [this UUID Generator](https://www.uuidgenerator.net/version4) to generate an additional UIID
-- Replace `<UUID-2>` with this new UUID
 
 > [!Important]
-> There are **two instances** of `UUID-2` in the example. Please replace **both** of them:
+> There are **two instances** of `digitalTwinSubmodelId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
 
+> [!Important]
+> There are **two instances** of `digitalTwinId` in the example. Please replace **both** of them:
+> - One is used as `"id"`
+> - The other is used as `"globalAssetId"`
+
 4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
-- A successful request will return a `200 OK` response.
+- A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
 
 > [!Note]  
 > Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
@@ -254,7 +236,7 @@ Now we actually will create the digitil Twin.
 
 1. Use the Insomnia request labeled `"Step 2.2.2 Verify the Creation"`.
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
-- You can encode your Digital Twin ID using this [Base64 Encoder](https://www.base64encode.org/).
+- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank" rel="noopener noreferrer"> Encoder</a>
 
 Example:
 
@@ -266,7 +248,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 3. Replace <UUID-1_BASE64_ENCODED> in the following URL:
 
 ```bash
-https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<UUID-1_BASE64_ENCODED>
+https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 ```
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
@@ -285,11 +267,11 @@ If you encounter an error or need to update the Digital Twin, you can use the In
 https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 ```
 
-If everything works fine, then you have reached the end Explorer Path.
+If everything works fine, then you have reached the end of the Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click [here](https://github.com/eclipse-tractusx/digital-product-pass/blob/main/dpp-tutorial/README.md#step-3---generate-the-qr-code) to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank" rel="noopener noreferrer">here</a> to aaccess the next steps.
 
 
 ## NOTICE

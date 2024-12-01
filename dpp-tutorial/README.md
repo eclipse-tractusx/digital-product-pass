@@ -61,10 +61,10 @@ Split into groups of five individuals, ensuring each group receives a sheet of p
 For the tutorial, two distinct paths are available: the Explorer Path and the Builders Path, each tailored to different groups:
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-  <a href="./explorer-path-insomnia.md">
+  <a href="./explorer-path.md">
     <img src="./resources/screenshots/explorers.png" alt="explorers path" style="width: 30%;">
   </a>
-  <a href="./dpp-tutorial/README.md#phase-1-data-provision">
+  <a href="./builder-path.md">
     <img src="./resources/screenshots/builders.png" alt="builders path" style="width: 30%;">
   </a>
 </div>
@@ -76,7 +76,7 @@ This path is ideal for individuals who aim to gain a high-level understanding of
 - In this path, you will download pre-prepared requests, modify them, and execute them using Insomnia.
 - This approach focuses on simplicity and provides an accessible introduction to the workflow.
 
-&rarr; The Explorer Path can be accessed [here](./explorer-path-insomnia.md)
+&rarr; The Explorer Path can be accessed [here](./explorer-path.md)
 
 ### 2. Builders Path
 
@@ -86,7 +86,9 @@ This path is designed for technically inclined participants who want to dive dee
 - Execute the HTTP requests directly via the terminal (Windows/Mac/Linux).
 - This approach offers an in-depth exploration of the technical communication.
 
-&rarr; For the Builders Path, simply continue following this document.
+&rarr; The Builders Path can be accessed [here](./builder-path.md)
+
+## Overview 
 
 ## Phase 1: Data Provision
 
@@ -94,19 +96,19 @@ In this Phase, you as a provider will create a Digital Product Passport of a spe
 
 ##### Duration: 45 mins
 
+The following steps provide a concise overview of the entire tutorial process, which you will primarily complete using the explorers or the developer path
+
 #### Step 1 - Create a Digital Product Passport (DPP) 
 
 In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. 
-   
-  * Follow the tutorial on [How to create Aspect Model](./aspect-model.md) 
 
 #### Step 2 - Create a Digital Twin integrating the generated DPP as a submodel
 
 In this step, you will create a Digital Twin of your provided Car part. 
 
-  * Follow the tutorial on [How to create a Digital Twin](./digital-twin-provision.md)
-
 #### Step 3 - Generate the QR Code
+
+From this point onward, follow the steps regardless of the path you chose earlier.
 
   * Follow the tutorial on [How to generate a QR code](./qr-code.md)
    
@@ -198,11 +200,10 @@ Congratulations! You have completed the E2E Journey for Digital Product Pass
 | How to Guides | Link |
 | -------- | ----- |
 | How to deploy DPP Application | [deployment.md](./deployment.md) |
-| How to create Aspect Model | [aspect-model.md](./aspect-model.md) |
-| How to create a Digital Twin | [digital-twin-provision](.digital-twin-provision.md) |
 | How to generate a QR code | [qr-code.md](./qr-code.md) |
 | DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
 | Explorer Path | [explorer-path](./explorer-path.md) |
+| Builder Path | [builder-path](./builder-path.md) |
 
 ## NOTICE
 
@@ -213,4 +214,3 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass
-

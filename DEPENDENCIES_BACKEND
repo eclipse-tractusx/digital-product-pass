@@ -1,14 +1,14 @@
 maven/mavencentral/ch.qos.logback/logback-classic/1.5.7, EPL-1.0 AND LGPL-2.1-only, approved, #15279
 maven/mavencentral/ch.qos.logback/logback-core/1.5.7, EPL-1.0 AND LGPL-2.1-only, approved, #15210
 maven/mavencentral/com.fasterxml.jackson.core/jackson-annotations/2.17.2, Apache-2.0, approved, #13672
-maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.17.2, , approved, #13665
+maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.17.2, Apache-2.0 AND MIT, approved, #13665
 maven/mavencentral/com.fasterxml.jackson.core/jackson-databind/2.17.2, Apache-2.0, approved, #13671
 maven/mavencentral/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.17.2, Apache-2.0, approved, #13669
 maven/mavencentral/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.17.2, Apache-2.0, approved, #15117
 maven/mavencentral/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.17.2, Apache-2.0, approved, #14160
 maven/mavencentral/com.fasterxml.jackson.module/jackson-module-parameter-names/2.17.2, Apache-2.0, approved, #15122
 maven/mavencentral/com.github.stephenc.jcip/jcip-annotations/1.0-1, Apache-2.0, approved, CQ21949
-maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, CC-BY-2.5, approved, #15220
+maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0 and CC-BY-2.5, approved, #15220
 maven/mavencentral/com.google.code.gson/gson/2.11.0, Apache-2.0, approved, #14820
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.26.1, Apache-2.0, approved, #13657
 maven/mavencentral/com.google.guava/failureaccess/1.0.2, Apache-2.0, approved, CQ22654
@@ -88,15 +88,15 @@ maven/mavencentral/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.5.0, Apac
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-data-rest/3.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.3.3, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.3.3, Apache-2.0, approved, #16886
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.0.2, Apache-2.0, approved, #7329
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.3.3, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.3.3, Apache-2.0, approved, #16893
 maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter/3.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot/3.3.3, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter/3.3.3, Apache-2.0, approved, #16895
+maven/mavencentral/org.springframework.boot/spring-boot/3.3.3, Apache-2.0, approved, #16883
 maven/mavencentral/org.springframework.cloud/spring-cloud-commons/3.1.5, Apache-2.0, approved, #4726
 maven/mavencentral/org.springframework.cloud/spring-cloud-context/3.1.5, Apache-2.0, approved, #4722
 maven/mavencentral/org.springframework.cloud/spring-cloud-starter-bootstrap/3.1.5, Apache-2.0, approved, clearlydefined
@@ -109,9 +109,9 @@ maven/mavencentral/org.springframework.plugin/spring-plugin-core/3.0.0, Apache-2
 maven/mavencentral/org.springframework.security/spring-security-config/6.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-core/6.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-crypto/6.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.3.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.3.3, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.3.3, Apache-2.0, approved, #16891
+maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.3.3, Apache-2.0, approved, #16892
+maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.3.3, Apache-2.0, approved, #16884
 maven/mavencentral/org.springframework.security/spring-security-rsa/1.0.11.RELEASE, Apache-2.0, approved, CQ20647
 maven/mavencentral/org.springframework.security/spring-security-web/6.3.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.session/spring-session-core/3.3.2, Apache-2.0, approved, #15119

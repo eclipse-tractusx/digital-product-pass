@@ -47,8 +47,9 @@ credentials:
 security:
   # -- Enables the api key authorization
   enabled: true
-  # # -- BPN and their respecitve api key
-  # apiKeys: {}
+  # -- BPN and their respecitve api key
+  apiKeys:
+    BPNL00000003CSGV: DPPCONSUMERKEY
 
 
 # -- Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
@@ -72,20 +73,17 @@ service:
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: ""
   annotations:
-    ingressClassName: nginx
-    # kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    kubernetes.io/ingress.class: addon-http-application-routing
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
-    - host: &hostname "dpp-wallet.int.catena-x.net"
+    - host: &hostname "dpp-consumer-wallet.a3fb75c369e540489a65.germanywestcentral.aksapp.io"
       paths:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: tls-secret
+    - secretName: tls-secret-consumer-simple-wallet
       hosts:
         - *hostname
 

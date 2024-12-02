@@ -54,10 +54,7 @@ Congratulations! You have now imported all the necessary API calls for this tuto
 
 ## Step 1 - Create a Digital Product Passport (DPP) Instance Aspect Model 
 
-In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explanation on how to create a digital product pass serialized asepct model payload, by using the digital prodcut pass aspect model template.
-
-> [!Note]  
-> For a more technical explanation, refer to: <a href="./aspect-model.md" target="_blank">How to create Aspect Model</a>.
+In this step, you'll create the Digital Product Passport (DPP) by utilizing data from the Product Carbon Footprint and specifications of a specific car part from the Arena. This guide provides a simple explanation on how to create a digital product pass serialized aspect model payload, by using the digital product pass aspect model template.
 
 ### Aspect Model Creation
 
@@ -85,6 +82,11 @@ Example:
 }
 
 ```
+
+> [!Note]
+> To easily find your data digital, refer to <a href="./resources/payloads/example_explorer.json" target="_blank">this JSON file</a>, which contains all elements.
+> You can search for your car part (identified by `ID (uuid)` on the sheet) using
+> - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
 
 Now, you replace the data from your sheet into the Aspect Model template. This step is crucial because it ensures that your specific car part is properly registered and exists as an Aspect Model in the system.
 
@@ -216,6 +218,8 @@ Now we actually will create the digitil Twin.
 > There are **two instances** of `digitalTwinSubmodelId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
+
+> [!Important]
 > There are **two instances** of `digitalTwinId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"globalAssetId"`

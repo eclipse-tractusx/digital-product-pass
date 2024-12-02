@@ -15,22 +15,6 @@
     "generalPerformanceClass" : "A",
     "physicalState" : "solid",
     "physicalDimension" : {
-      "volume" : {
-        "value" : 20.0,
-        "unit" : "unit:cubicMetre"
-      },
-      "grossWeight" : {
-        "value" : 20.0,
-        "unit" : "unit:gram"
-      },
-      "diameter" : {
-        "value" : 20.0,
-        "unit" : "unit:millimetre"
-      },
-      "grossVolume" : {
-        "value" : 20.0,
-        "unit" : "unit:cubicMetre"
-      },
       "width" : {
         "value" : "<width_placeholder>",
         "unit" : "unit:millimetre"

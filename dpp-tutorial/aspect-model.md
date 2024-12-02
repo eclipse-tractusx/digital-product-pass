@@ -134,3 +134,4 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass
+

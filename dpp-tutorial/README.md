@@ -86,7 +86,7 @@ This path is designed for technically inclined participants who want to dive dee
 - Execute the HTTP requests directly via the terminal (Windows/Mac/Linux).
 - This approach offers an in-depth exploration of the technical communication.
 
-&rarr; The Builders Path can be accessed [here] (./builder-path.md)
+&rarr; The Builders Path can be accessed [here](./builder-path.md)
 
 ## Overview 
 
@@ -200,11 +200,10 @@ Congratulations! You have completed the E2E Journey for Digital Product Pass
 | How to Guides | Link |
 | -------- | ----- |
 | How to deploy DPP Application | [deployment.md](./deployment.md) |
-| How to create Aspect Model | [aspect-model.md](./aspect-model.md) |
-| How to create a Digital Twin | [digital-twin-provision](.digital-twin-provision.md) |
 | How to generate a QR code | [qr-code.md](./qr-code.md) |
 | DPP Data Consumption | [data-consumption.md](./data-consumption.md) |
 | Explorer Path | [explorer-path](./explorer-path.md) |
+| Builder Path | [builder-path](./builder-path.md) |
 
 ## NOTICE
 

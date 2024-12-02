@@ -25,7 +25,7 @@ SPDX-License-Identifier: CC-BY-4.0
 In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, a user-friendly tool for sending and receiving HTTP requests.
 
 > [!Tip]
-> If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank">Get Started Guide</a> from Insomnia.
+> If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank" rel="noopener noreferrer">Get Started Guide</a> from Insomnia.
 
 ## Pre-Step - Setting Up the Environment
 
@@ -84,7 +84,7 @@ Example:
 ```
 
 > [!Note]
-> To easily find your data digital, refer to <a href="./resources/payloads/example_explorer.json" target="_blank">this JSON file</a>, which contains all elements.
+> To easily find your data digitally, refer to <a href="./resources/payloads/example_explorer.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
 > You can search for your car part (identified by `ID (uuid)` on the sheet) using
 > - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
 
@@ -172,7 +172,7 @@ The Data Service is a crucial component for storing the payloads of Digital Prod
 ### Step 2.1: Register the Aspect Model
 
 1. First of all generate a new UUID:
-- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank">this UUID Generator</a> to generate an additional UIID
+- Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank" rel="noopener noreferrer">this UUID Generator</a> to generate an additional UIID
 - This newly generated UUID will serve as the `digitalTwinSubmodelId`, which plays a crucial role in linking the Aspect Model to the Digital Product Passport (DPP) and will be important in later steps.
 2. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
 3. Replace `<digitalTwinSubmodelId>` with the new generated UUID, as shown in the example
@@ -202,7 +202,7 @@ Now we actually will create the digitil Twin.
 1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
 
 > [!Note]
-> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank">resources/digital-twins/example-dt.json</a>.
+> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank" rel="noopener noreferrer">resources/digital-twins/example-dt.json</a>.
 
 2. Switch to the Body tab and replace the following placeholders:
 
@@ -236,7 +236,7 @@ Now we actually will create the digitil Twin.
 
 1. Use the Insomnia request labeled `"Step 2.2.2 Verify the Creation"`.
 2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
-- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank"> Encoder</a>
+- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank" rel="noopener noreferrer"> Encoder</a>
 
 Example:
 
@@ -271,7 +271,7 @@ If everything works fine, then you have reached the end of the Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank">here</a> to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank" rel="noopener noreferrer">here</a> to aaccess the next steps.
 
 
 ## NOTICE

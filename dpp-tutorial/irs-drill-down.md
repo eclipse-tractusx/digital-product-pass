@@ -304,9 +304,9 @@ Attach the following **SingleLevelBOMAsBuilt** and **SerialPart** aspects to the
 
 Example to find the placeholders:
 
-1 - Go to the file [example-dt-irs](./resources/digital-twins/example-dt-irs.json)
+1 - Get access to the file [example-dt-irs](./resources/digital-twins/example-dt-irs.json)
 
-2 - Search the placeholders from the below table with CTRL + F:
+2 - Get the placeholders from the below table and search with CTRL + F in [example-dt-irs](./resources/digital-twins/example-dt-irs.json):
 
 3 - Substitute the following placeholders with their values. The values you will get them from the existing digital twin object that was retrieved.
 
@@ -329,6 +329,10 @@ Example to find the placeholders:
 |                                | submodelDescriptors[1].id                                       |
 | <serialPartID<serialPartID>>   | submodelDescriptors[2].endpoints[0].protocolInformation.href    |         
 |                                | submodelDescriptors[2].id                                       |       
+
+> [!TIP]
+> The table shows number of occurences of a specific property, for example <digitalTwinId<y>> has two occurences: `globalAssetId` and `id`
+
 
 > [!CAUTION]
 > Please make sure that you substitute all the placeholders with their values from the above table

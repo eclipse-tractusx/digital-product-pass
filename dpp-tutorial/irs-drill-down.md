@@ -306,14 +306,7 @@ Example to find the placeholders:
 
 1 - Go to the file [example-dt-irs](./resources/digital-twins/example-dt-irs.json)
 
-2 - Search by uuid with CTRL + F:
-
-> [!TIP]
-> You will get the UUID in the paper or [here](./resources/test-data/carParts.json)
-
-> [!CAUTION]
-> Please only use your assigned UUID from [here](./resources/test-data/carParts.json) that matches the UUID on the given paper
-
+2 - Search the placeholders from the below table with CTRL + F:
 
 3 - Substitute the following placeholders with their values. The values you will get them from the existing digital twin object that was retrieved.
 
@@ -338,7 +331,9 @@ Example to find the placeholders:
 |                                | submodelDescriptors[2].id                                       |       
 
 > [!CAUTION]
-> Please make sure that you substitute all the placeholders with their values from the above table 
+> Please make sure that you substitute all the placeholders with their values from the above table
+
+> Please only use your assigned UUID from [here](./resources/test-data/carParts.json) that matches the UUID on the given paper
 
 4 - Save your modified digital twin in json format.
 

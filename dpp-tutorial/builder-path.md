@@ -346,7 +346,7 @@ If everything works fine, then you have reached the end of data provisioning gui
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank">here</a> to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank">here</a> to access the next steps.
 
 ## NOTICE
 

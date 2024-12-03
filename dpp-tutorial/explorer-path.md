@@ -40,7 +40,7 @@ To set up the environment follow this steps:
 - choose **"URL"**
 - copy the following url
 ```bash
-https://raw.githubusercontent.com/ELebedkin/digital-product-pass/refs/heads/main/dpp-tutorial/resources/explorer_payload/01%20Tractus-X%20Community%20Days.postman_collection.json
+https://raw.githubusercontent.com/eclipse-tractusx/digital-product-pass/refs/heads/main/dpp-tutorial/resources/explorer_payload/01%20Tractus-X%20Community%20Days.postman_collection.json
 ```
 - paste it into the URL-placeholder box
 - click on **"Scan"**
@@ -248,7 +248,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 3. Replace <UUID-1_BASE64_ENCODED> in the following URL:
 
 ```bash
-https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 ```
 
 4. Send the request. A `200 OK` response confirms that the Digital Twin has been successfully registered.
@@ -264,14 +264,14 @@ If you encounter an error or need to update the Digital Twin, you can use the In
 > Copy also the `<DIGITAL_TWIN_ID_BASE64_ENCODED>` and paste it into the URL:
 
 ```bash
-https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 ```
 
 If everything works fine, then you have reached the end of the Explorer Path.
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 
-You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank" rel="noopener noreferrer">here</a> to aaccess the next steps.
+You can now process further with the original DPP-Tutorial at Step 3 - Generate the QR-Code. Click <a href= "/dpp-tutorial/README.md#step-3---generate-the-qr-code" target="_blank" rel="noopener noreferrer">here</a> to access the next steps.
 
 
 ## NOTICE

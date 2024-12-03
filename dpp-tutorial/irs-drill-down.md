@@ -132,9 +132,9 @@ Example:
 
 
 
-## 3° Add BOMAsBuilt Relationships to the Submodel Server
+## 3° Add BOMAsBuilt Payload to the Submodel Server
 
-The BOMAsBuilt relationships, you stored temporarily in your notepad editor from [step 2](#1-lookup-bomasbuilt-relationships-of-the-component) must be added into the submodel data service.
+The BOMAsBuilt relationships, you stored temporarily in your notepad editor from [step 2](#2-lookup-bomasbuilt-relationships-of-the-component) must be added into the submodel data service.
 
 
 > [!IMPORTANT]  
@@ -154,7 +154,7 @@ curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
-> [!HINT]  
+> [!TIP]  
 > The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 2](#2-lookup-bomasbuilt-relationships-of-the-component)
 
 
@@ -228,7 +228,7 @@ curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
-> [!HINT]  
+> [!TIP]  
 > The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 4](#4-lookup-serialpart-item-of-the-component)
 
 
@@ -295,7 +295,7 @@ Example JSON response:
 }
 ```
 
-Copy the actual json response and paste it into the notepad editor for modification.
+Copy the actual json response and paste it into the notepad editor. You will need the values later.
 
 ### Update Digital Twin
 
@@ -315,7 +315,7 @@ Example to find the placeholders:
 > Please only use your assigned UUID from [here](./resources/test-data/carParts.json) that matches the UUID on the given paper
 
 
-3 - Substitute the following placeholders with their values from a given piece of paper:
+3 - Substitute the following placeholders with their values. The values you will get them from the existing digital twin object that was retrieved.
 
 
 | Placeholder                    | Path                                                            |
@@ -336,9 +336,6 @@ Example to find the placeholders:
 |                                | submodelDescriptors[1].id                                       |
 | <serialPartID<serialPartID>>   | submodelDescriptors[2].endpoints[0].protocolInformation.href    |         
 |                                | submodelDescriptors[2].id                                       |       
-
-> [!HINT]
-> Use the values of <digitalTwinId<digitalTwinId>> and <digitalTwinSubmodelId<y>> from the digital twin that you created before during the creation of DPP. 
 
 > [!CAUTION]
 > Please make sure that you substitute all the placeholders with their values from the above table 

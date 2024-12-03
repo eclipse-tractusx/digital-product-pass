@@ -12,13 +12,13 @@
   "specificAssetIds": [
     {
       "name": "manufacturerId",
-      "value": "BPNL000000000FV1",
+      "value": "BPNL00000003CSGV",
       "externalSubjectId": {
         "type": "ExternalReference",
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL000000000FV1"
+            "value": "BPNL00000003CSGV"
           }
         ]
       }
@@ -31,7 +31,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL000000000FV1"
+            "value": "BPNL00000003CSGV"
           }
         ]
       }
@@ -48,7 +48,7 @@
           },
           {
             "type": "GlobalReference",
-            "value": "BPNL000000000FV1"
+            "value": "BPNL00000003CSGV"
           }
         ]
       }
@@ -61,7 +61,7 @@
         "keys": [
           {
             "type": "GlobalReference",
-            "value": "BPNL000000000FV1"
+            "value": "BPNL00000003CSGV"
           }
         ]
       }
@@ -73,11 +73,11 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "https://dpp.int.catena-x.net/provider/api/public/<UUID-2>",
+            "href": "<EDC_DATAPLANE_URL>/api/public/<UUID-2>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.catena-x.net/provider",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
             "subprotocolBodyEncoding": "plain",
             "securityAttributes": [
               {

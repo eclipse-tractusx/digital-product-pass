@@ -68,11 +68,15 @@ You must have the following components up and running:
 Please generate two UUIDs from the UUID generator https://www.uuidgenerator.net/
 
 ### BOMAsBuiltID
+Generate BOMAsBuiltID using the following format 
+
 ```bash
 uuid:urn:<UUID-1>
 ```
 
 ### SerialPartID
+
+Generate SerialPartID using the following format 
 ```bash
 uuid:urn:<UUID-2>
 ```
@@ -121,7 +125,7 @@ Example:
   }
 ```
 
-3 - Copy the json content and paste it into the notepad editor for later use.
+3 - Copy the json content and store it into the notepad editor in json format for later use.
 
 > [!TIP]
 > Copy and paste the data for creating your digital product pass faster!
@@ -130,41 +134,42 @@ Example:
 
 ## 3° Add BOMAsBuilt Relationships to the Submodel Server
 
-The BOMAsBuilt data retrieved in [previous step](#1-lookup-bomasbuilt-relationships-of-the-component) can be stored into the submodel data service.
+The BOMAsBuilt relationships, you stored temporarily in your notepad editor from [step 2](#1-lookup-bomasbuilt-relationships-of-the-component) must be added into the submodel data service.
 
-* Generate a new UUID from here: https://www.uuidgenerator.net/
-
-```bash
-Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
-```
 
 > [!IMPORTANT]  
-> Please substitute the <<UUID>UUID> with the one generated above.
+> Please substitute the [BOMAsBuiltID](#bomasbuiltid) that was generated in [step 1](#1-generate-the-ids)
+
 
 > [!CAUTION]  
-> Please dont re-use UUIDs.
+> Please dont re-use uuids.
 
 
 Open a new terminal and run the following command to add your data into the data service: 
-> POST /uuid:urn:<<UUID>UUID>
+> POST /<<BOMAsBuiltID>BOMAsBuiltID>
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
+> [!HINT]  
+> The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 2](#2-lookup-bomasbuilt-relationships-of-the-component)
+
+
 Verify your data is registerd in the service
 
-> GET /data/uuid:urn:<<UUID>UUID>
+> GET /<<BOMAsBuiltID>BOMAsBuiltID>
 ```bash
-curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 --header 'Content-Type: application/json' \
 ```
 
 ## 4° Lookup SerialPart Item of the Component
 
-Once the BOMAsBuilt relationship is added the submodel server, similarly, search for the Id of serial part component with the same UUID as used to search for BOMAsBuilt relationship.
+
+To find serial part and be able to copy and paste the information:
 
 1 - Go to the file [serialPartItems](./resources/test-data/serialPartItems.json)
 
@@ -200,36 +205,38 @@ Example:
 }
 ```
 
-3 - Copy the json content and paste it into the notepad editor for later use.
+3 - Copy the json content and store it into the notepad editor in json format for later use.
 
 
 ## 5° Add SerialPart Item to the Submodel Server
 
-The serial part data retrieved in [previous step](#4-lookup-serialpart-item-of-the-component) can be stored into the submodel data service.
+The serial part data, you stored temporarily in your notepad editor from [step 4](#4-lookup-serialpart-item-of-the-component) must be added into the submodel data service.
 
-
-```bash
-Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
-```
 
 > [!IMPORTANT]  
-> Please substitute the <<UUID>UUID> with the one generated above.
+> Please substitute the [SerialPartID](#serialpartid) that was generated in [step 1](#1-generate-the-ids)
 
+> [!CAUTION]  
+> Please dont re-use uuids.
 
 Open a new terminal and run the following command to add your data into the data service: 
-> POST /uuid:urn:<<UUID>UUID>
+> POST /<SerialPartID<SerialPartID>>
 
 ```bash
-curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
 
+> [!HINT]  
+> The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 4](#4-lookup-serialpart-item-of-the-component)
+
+
 Verify your data is registerd in the service
 
-> GET /data/uuid:urn:<<UUID>UUID>
+> GET /<SerialPartID<SerialPartID>>
 ```bash
-curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
+curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 --header 'Content-Type: application/json' \
 ```
 
@@ -288,142 +295,55 @@ Example JSON response:
 }
 ```
 
-Copy the json response and paste it into the notepad editor for modification.
+Copy the actual json response and paste it into the notepad editor for modification.
 
 ### Update Digital Twin
 
 
-Attach the following **SingleLevelBOMAsBuilt** and **SerialPart** aspects to the existing Digital Twin object and substitute the corresponding placeholders **<BOMAsBuiltID<BOMAsBuiltID>>**  and **<SerialPart<SerialPart>>**.
-
-* **<BOMAsBuiltID<BOMAsBuiltID>>**   -->  BOMAsBuilt UUID generated [here](#2-add-bomasbuilt-relationships-to-the-submodel-server)
-* **<SerialPart<SerialPart>>**       -->  SerialPart UUID generated [here](#4-add-serialpart-item-to-the-submodel-server)
+Attach the following **SingleLevelBOMAsBuilt** and **SerialPart** aspects to the existing Digital Twin object that you retrieved and substitute the corresponding placeholders **<BOMAsBuiltID<BOMAsBuiltID>>**  and **<SerialPart<SerialPart>>** with their Ids generated in [step 1](#1-generate-the-ids).
 
 Example to find the placeholders:
 
-```json
-{
-    "href": "https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io/api/public/<BOMAsBuiltID>",
-}
-```
-```json
-{
-       "idShort": "singleLevelBomAsBuilt",
-        "id": "<BOMAsBuiltID>",
-}
-```
-```json
-{
-       "href": "https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io/api/public/<serialPartID>",
-}
-```
-```json
-{
-       "idShort": "serialPart",
-        "id": "<serialPartID>",
-}
-```
+1 - Go to the file [example-dt-irs](./resources/digital-twins/example-dt-irs.json)
 
-Find the above placeholders in the following json and substitute the values accordingly.
+2 - Search by uuid with CTRL + F:
 
-```json
-{
-    ...
-    "submodelDescriptors": [
-        {
-            "endpoints": [
-                { ...}
-            ]
-        },
-        {
-            "endpoints": [
-                {
-                    "interface": "SUBMODEL-3.0",
-                    "protocolInformation": {
-                        "href": "https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io/api/public/<BOMAsBuiltID>",
-                        "endpointProtocol": "HTTP",
-                        "endpointProtocolVersion": [
-                            "1.1"
-                        ],
-                        "subprotocol": "DSP",
-                        "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io",
-                        "subprotocolBodyEncoding": "plain",
-                        "securityAttributes": [
-                            {
-                                "type": "NONE",
-                                "key": "NONE",
-                                "value": "NONE"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "idShort": "singleLevelBomAsBuilt",
-            "id": "<BOMAsBuiltID>",
-            "semanticId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "Submodel",
-                        "value": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
-                    }
-                ]
-            },
-            "supplementalSemanticId": [],
-            "description": [
-                {
-                    "language": "en",
-                    "text": "DPP singleLevelBOMAsBuilt Submodel"
-                }
-            ],
-            "displayName": []
-        },
-        {
-            "endpoints": [
-                {
-                    "interface": "SUBMODEL-3.0",
-                    "protocolInformation": {
-                        "href": "https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io/api/public/<serialPartID>",
-                        "endpointProtocol": "HTTP",
-                        "endpointProtocolVersion": [
-                            "1.1"
-                        ],
-                        "subprotocol": "DSP",
-                        "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp-provider-dataplane.a3fb75c369e540489a65.germanywestcentral.aksapp.io",
-                        "subprotocolBodyEncoding": "plain",
-                        "securityAttributes": [
-                            {
-                                "type": "NONE",
-                                "key": "NONE",
-                                "value": "NONE"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "idShort": "serialPart",
-            "id": "<serialPartID>",
-            "semanticId": {
-                "type": "ExternalReference",
-                "keys": [
-                    {
-                        "type": "Submodel",
-                        "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"
-                    }
-                ]
-            },
-            "supplementalSemanticId": [],
-            "description": [
-                {
-                    "language": "en",
-                    "text": "DPP serial part Submodel"
-                }
-            ],
-            "displayName": []
-        }
-    ]
-}
-```
+> [!TIP]
+> You will get the UUID in the paper or [here](./resources/test-data/carParts.json)
 
+> [!CAUTION]
+> Please only use your assigned UUID from [here](./resources/test-data/carParts.json) that matches the UUID on the given paper
+
+
+3 - Substitute the following placeholders with their values from a given piece of paper:
+
+
+| Placeholder                    | Path                                                            |
+|-------------------------       |-----------------------------------------------------------------|
+| <digitalTwinId<digitalTwinId>> | globalAssetId                                                   |
+|                                | id                                                              |               
+| <PART_NAME>                    | idShort                                                         |
+| <YOUR PART INSTANCE ID<y>>     | specificAssetIds[1].value                                       |
+| <EDC_DATAPLANE_URL>            | submodelDescriptors[0].endpoints[0].protocolInformation.href    |          
+|                                | submodelDescriptors[1].endpoints[0].protocolInformation.href    |            
+|                                | submodelDescriptors[2].endpoints[0].protocolInformation.href    |
+| <digitalTwinSubmodelId<y>>     | submodelDescriptors[0].endpoints[0].protocolInformation.href    |
+|                                | submodelDescriptors[0].id                                       | 
+| <EDC_CONTROLPLANE_URL>         | submodelDescriptors[0].endpoints[0].subprotocolBody             |         
+|                                | submodelDescriptors[1].endpoints[0].subprotocolBody             | 
+|                                | submodelDescriptors[2].endpoints[0].subprotocolBody             | 
+| <BOMAsBuiltID<BOMAsBuiltID>>   | submodelDescriptors[1].endpoints[0].protocolInformation.href    |         
+|                                | submodelDescriptors[1].id                                       |
+| <serialPartID<serialPartID>>   | submodelDescriptors[2].endpoints[0].protocolInformation.href    |         
+|                                | submodelDescriptors[2].id                                       |       
+
+> [!HINT]
+> Use the values of <digitalTwinId<digitalTwinId>> and <digitalTwinSubmodelId<y>> from the digital twin that you created before during the creation of DPP. 
+
+> [!CAUTION]
+> Please make sure that you substitute all the placeholders with their values from the above table 
+
+4 - Save your modified digital twin in json format.
 
 Now, you can update the modified digital twin object using the following command:
 

@@ -4,7 +4,7 @@
 		"name": "01 Tractus-X Community Days",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39599174",
-		"_collection_link": "https://catena-x-product-material-pass.postman.co/workspace/b66fa959-bfa7-4129-8a45-8e9e03ef0cbb/collection/39599174-36c640ca-315f-4fc7-948c-f02731ebf253?action=share&source=collection_link&creator=39599174"
+		"_collection_link": "https://catena-x-product-material-pass.postman.co/workspace/Team-Workspace~b66fa959-bfa7-4129-8a45-8e9e03ef0cbb/collection/39599174-36c640ca-315f-4fc7-948c-f02731ebf253?action=share&source=collection_link&creator=39599174"
 	},
 	"item": [
 		{
@@ -31,13 +31,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://tx-dpp.int.catena-x.net/urn:uuid:<digitalTwinSubmodelId>",
-					"protocol": "https",
+					"raw": "<DATA_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>",
 					"host": [
-						"tx-dpp",
-						"int",
-						"catena-x",
-						"net"
+						"<DATA_SERVICE_URL>"
 					],
 					"path": [
 						"urn:uuid:<digitalTwinSubmodelId>"
@@ -61,13 +57,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://tx-dpp.int.catena-x.net/urn:uuid:<digitalTwinSubmodelId>",
-					"protocol": "https",
+					"raw": "<DATA_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>",
 					"host": [
-						"tx-dpp",
-						"int",
-						"catena-x",
-						"net"
+						"<DATA_SERVICE_URL>"
 					],
 					"path": [
 						"urn:uuid:<digitalTwinSubmodelId>"
@@ -116,7 +108,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"description\": [\r\n    {\r\n      \"language\": \"en\",\r\n      \"text\": \"Car/part Digital Twin\"\r\n    }\r\n  ],\r\n  \"displayName\": [],\r\n  \"globalAssetId\": \"urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e60\",\r\n  \"idShort\": \"<PART_NAME>\",\r\n  \"id\": \"<UUID-1>\",\r\n  \"specificAssetIds\": [\r\n    {\r\n      \"name\": \"manufacturerId\",\r\n      \"value\": \"BPNL000000000FV1\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"partInstanceId\",\r\n      \"value\": \"<YOUR_PART_INSTANCE_ID>\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"manufacturerPartId\",\r\n      \"value\": \"MPI7654\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"PUBLIC_READABLE\"\r\n          },\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"digitalTwinType\",\r\n      \"value\": \"PartInstance\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ],\r\n  \"submodelDescriptors\": [\r\n    {\r\n      \"endpoints\": [\r\n        {\r\n          \"interface\": \"SUBMODEL-3.0\",\r\n          \"protocolInformation\": {\r\n            \"href\": \"https://dpp.int.catena-x.net/provider/api/public/<UUID-2>\",\r\n            \"endpointProtocol\": \"HTTP\",\r\n            \"endpointProtocolVersion\": [\"1.1\"],\r\n            \"subprotocol\": \"DSP\",\r\n            \"subprotocolBody\": \"id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.catena-x.net/provider\",\r\n            \"subprotocolBodyEncoding\": \"plain\",\r\n            \"securityAttributes\": [\r\n              {\r\n                \"type\": \"NONE\",\r\n                \"key\": \"NONE\",\r\n                \"value\": \"NONE\"\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ],\r\n      \"idShort\": \"digitalProductPass\",\r\n      \"id\": \"<UUID-2>\",\r\n      \"semanticId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"Operation\",\r\n            \"value\": \"https://w3c.github.io/vc-jws-2020/contexts/v1/\"\r\n          },\r\n          {\r\n            \"type\": \"Submodel\",\r\n            \"value\": \"urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport\"\r\n          },\r\n          {\r\n            \"type\": \"Entity\",\r\n            \"value\": \"https://www.w3.org/ns/credentials/v2\"\r\n          },\r\n          {\r\n            \"type\": \"DataElement\",\r\n            \"value\": \"urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential\"\r\n          }\r\n        ]\r\n      },\r\n      \"description\": [\r\n        {\r\n          \"language\": \"en\",\r\n          \"text\": \"Digital Product Pass Submodel\"\r\n        }\r\n      ],\r\n      \"displayName\": []\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"description\": [\r\n    {\r\n      \"language\": \"en\",\r\n      \"text\": \"Car/part Digital Twin\"\r\n    }\r\n  ],\r\n  \"displayName\": [],\r\n  \"globalAssetId\": \"urn:uuid:<digitalTwinId>\",\r\n  \"idShort\": \"Car\",\r\n  \"id\": \"<digitalTwinId>\",\r\n  \"specificAssetIds\": [\r\n    {\r\n      \"name\": \"manufacturerId\",\r\n      \"value\": \"BPNL000000000FV1\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"partInstanceId\",\r\n      \"value\": \"<YOUR PART INSTANCE ID>\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"manufacturerPartId\",\r\n      \"value\": \"MPI7654\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"PUBLIC_READABLE\"\r\n          },\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"digitalTwinType\",\r\n      \"value\": \"PartInstance\",\r\n      \"externalSubjectId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"GlobalReference\",\r\n            \"value\": \"BPNL000000000FV1\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ],\r\n  \"submodelDescriptors\": [\r\n    {\r\n      \"endpoints\": [\r\n        {\r\n          \"interface\": \"SUBMODEL-3.0\",\r\n          \"protocolInformation\": {\r\n            \"href\": \"https://dpp.int.catena-x.net/provider/api/public/<digitalTwinSubmodelId>\",\r\n            \"endpointProtocol\": \"HTTP\",\r\n            \"endpointProtocolVersion\": [\"1.1\"],\r\n            \"subprotocol\": \"DSP\",\r\n            \"subprotocolBody\": \"id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=https://dpp.int.catena-x.net/provider\",\r\n            \"subprotocolBodyEncoding\": \"plain\",\r\n            \"securityAttributes\": [\r\n              {\r\n                \"type\": \"NONE\",\r\n                \"key\": \"NONE\",\r\n                \"value\": \"NONE\"\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ],\r\n      \"idShort\": \"digitalProductPass\",\r\n      \"id\": \"<digitalTwinSubmodelId>\",\r\n      \"semanticId\": {\r\n        \"type\": \"ExternalReference\",\r\n        \"keys\": [\r\n          {\r\n            \"type\": \"Operation\",\r\n            \"value\": \"https://w3c.github.io/vc-jws-2020/contexts/v1/\"\r\n          },\r\n          {\r\n            \"type\": \"Submodel\",\r\n            \"value\": \"urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport\"\r\n          },\r\n          {\r\n            \"type\": \"Entity\",\r\n            \"value\": \"https://www.w3.org/ns/credentials/v2\"\r\n          },\r\n          {\r\n            \"type\": \"DataElement\",\r\n            \"value\": \"urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential\"\r\n          }\r\n        ]\r\n      },\r\n      \"description\": [\r\n        {\r\n          \"language\": \"en\",\r\n          \"text\": \"Digital Product Pass Submodel\"\r\n        }\r\n      ],\r\n      \"displayName\": []\r\n    }\r\n  ]\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -124,19 +116,11 @@
 					}
 				},
 				"url": {
-					"raw": "https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors",
-					"protocol": "https",
+					"raw": "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors",
 					"host": [
-						"dpp-registry",
-						"int",
-						"catena-x",
-						"net"
+						"<DIGITAL_TWIN_REGISTRY_URL>"
 					],
 					"path": [
-						"semantics",
-						"registry",
-						"api",
-						"v3",
 						"shell-descriptors"
 					]
 				}
@@ -158,19 +142,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>",
-					"protocol": "https",
+					"raw": "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>",
 					"host": [
-						"dpp-registry",
-						"int",
-						"catena-x",
-						"net"
+						"<DIGITAL_TWIN_REGISTRY_URL>"
 					],
 					"path": [
-						"semantics",
-						"registry",
-						"api",
-						"v3",
 						"shell-descriptors",
 						"<DIGITAL_TWIN_ID_BASE64_ENCODED>"
 					]
@@ -215,19 +191,11 @@
 					}
 				},
 				"url": {
-					"raw": "https://dpp-registry.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>",
-					"protocol": "https",
+					"raw": "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>",
 					"host": [
-						"dpp-registry",
-						"int",
-						"catena-x",
-						"net"
+						"<DIGITAL_TWIN_REGISTRY_URL>"
 					],
 					"path": [
-						"semantics",
-						"registry",
-						"api",
-						"v3",
 						"shell-descriptors",
 						"<DIGITAL_TWIN_ID_BASE64_ENCODED>"
 					]

@@ -84,7 +84,7 @@ Example:
 ```
 
 > [!Note]
-> To easily find your data digitally, refer to <a href="./resources/payloads/example_explorer.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
+> To easily find your data digitally, refer to <a href="./resources/test-data/carParts.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
 > You can search for your car part (identified by `ID (uuid)` on the sheet) using
 > - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
 
@@ -100,8 +100,10 @@ In Insomnia, locate the request labeled `Step 2.1.1 Create Aspect Model` and swi
 Replace the placeholders in the provided template with the data from your part. For example, to add the Product Carbon Footprint (PCF) value, use the following path:
 
 ```text
-sustainability.productFootprint.carbon[0].value
+characteristics.physicalDimension.width.value  
 ```
+
+or you can search (`CTRL + F` or `CMD + F`) for the placeholder `<width_placeholder>`
 
 Example:
 
@@ -180,14 +182,15 @@ The Data Service is a crucial component for storing the payloads of Digital Prod
 Example:
 
 ```text
-https://data-service.int.catena-x.net/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
+<DATA_SERVICE_URL>/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
-4. Send the **POST** request
+4. Replace `<DATA_SERVICE_URL>` witht he data service url provided
+5. Send the **POST** request
 
-- If successful, a 200 OK response will appear next to the `Send`-Button, confirming the Aspect Model has been registered into the submodel data service with the correct reference to the DPP.
+- If successful, a 200 OK response will appear next to the `Send`-button, confirming the Aspect Model has been registered into the submodel data service with the correct reference to the DPP.
 
-5. To verify the registration:
+6. To verify the registration:
 - Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
 - Replace <digitalTwinSubmodelId> with your actual UUID from the datasheet.
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
@@ -224,7 +227,7 @@ Now we actually will create the digitil Twin.
 > - One is used as `"id"`
 > - The other is used as `"globalAssetId"`
 
-4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
+3. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
 - A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
 
 > [!Note]  

@@ -63,50 +63,72 @@ You must have the following components up and running:
 - A preconfigured data consumer conenctor with IRS plugin enabled 
 - Accessibility of components over the network
 
+## 1° Generate the Ids
 
-## 1° Lookup BOMAsBuilt Relationships of the Component
+Please generate two UUIDs from the UUID generator https://www.uuidgenerator.net/
 
+### BOMAsBuiltID
+```bash
+uuid:urn:<UUID-1>
+```
 
-* Search for the <<UUID>UUID> of the component which was used to from the given sheet of paper. You can also find the same information [here](./resources/test-data/carParts.json) in a test JSON file.
+### SerialPartID
+```bash
+uuid:urn:<UUID-2>
+```
+Store these IDs in some notepad editor for later use.
+
+## 2° Lookup BOMAsBuilt Relationships of the Component
 
 To find your part and be able to copy and paste the information:
 
-1 - Search by uuid with CTRL + F:
+1 - Go to the file [bomAsBuiltRelationships](./resources/test-data/bomAsBuiltRelationships.json)
 
-![search id](./resources/screenshots/idsearch.png)
+2 - Search by uuid with CTRL + F:
 
-You will get your information in a paper:
+> [!TIP]
+> You will get the UUID in the paper or [here](./resources/test-data/carParts.json)
 
 Example:
 
 ```json
 {
- "f10c0181-ce80-4139-81f0-a59226c88bfe": {
-      "Name":"TRUNK LID HINGE (LEFT)",
-      "PCF (Product Carbon Footprint)": "189 kgCO2e",
-      "Height": "24 cm",
-      "Width": "2 cm",
-      "Length": "38 cm",
-      "Weight": "1.4 kg",
-      "id": "f10c0181-ce80-4139-81f0-a59226c88bfe",
-      "Part Instance ID": "DLH-5159",
-      "Manufacturing Date": "01.12.2023",
-      "Placed on Market Date": "15.01.2024",
-      "List of Materials": "Aluminum",
-      "Hazard Materials": "Lead, Butyl, Cyanoacrylates, Polyurethane",
-      "Guarantee": "24 months"
+    "catenaXId": "urn:uuid:48acc23b-7cb8-4288-b620-9eb3d9dce6bf",
+    "childItems": [
+      {
+        "catenaXId": "urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL00000003B2OM",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      },
+      {
+        "catenaXId": "urn:uuid:12e656bb-948e-44eb-9b5e-88d7deedf388",
+        "quantity": {
+          "value": 1.0,
+          "unit": "unit:piece"
+        },
+        "hasAlternatives": false,
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "businessPartner": "BPNL00000003B2OM",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ]
   }
-}
 ```
 
-2 - Copy the json content and paste it into the notepad editor for latter use.
+3 - Copy the json content and paste it into the notepad editor for later use.
 
 > [!TIP]
 > Copy and paste the data for creating your digital product pass faster!
 
 
 
-## 2° Add BOMAsBuilt Relationships to the Submodel Server
+## 3° Add BOMAsBuilt Relationships to the Submodel Server
 
 The BOMAsBuilt data retrieved in [previous step](#1-lookup-bomasbuilt-relationships-of-the-component) can be stored into the submodel data service.
 
@@ -118,6 +140,9 @@ Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
 
 > [!IMPORTANT]  
 > Please substitute the <<UUID>UUID> with the one generated above.
+
+> [!CAUTION]  
+> Please dont re-use UUIDs.
 
 
 Open a new terminal and run the following command to add your data into the data service: 
@@ -137,11 +162,16 @@ curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
 --header 'Content-Type: application/json' \
 ```
 
-## 3° Lookup SerialPart Item of the Component
+## 4° Lookup SerialPart Item of the Component
 
 Once the BOMAsBuilt relationship is added the submodel server, similarly, search for the Id of serial part component with the same UUID as used to search for BOMAsBuilt relationship.
 
-1 - Search by uuid with CTRL + F:
+1 - Go to the file [serialPartItems](./resources/test-data/serialPartItems.json)
+
+2 - Search by uuid with CTRL + F:
+
+> [!TIP]
+> You will get the UUID in the paper or [here](./resources/test-data/carParts.json)
 
 Example:
 
@@ -170,14 +200,13 @@ Example:
 }
 ```
 
-2 - Copy the json content and paste it into the notepad editor for latter use.
+3 - Copy the json content and paste it into the notepad editor for later use.
 
 
-## 4° Add SerialPart Item to the Submodel Server
+## 5° Add SerialPart Item to the Submodel Server
 
-The serial part data retrieved in [previous step](#3-lookup-serialpart-item-of-the-component) can be stored into the submodel data service.
+The serial part data retrieved in [previous step](#4-lookup-serialpart-item-of-the-component) can be stored into the submodel data service.
 
-* Generate a new UUID from here: https://www.uuidgenerator.net/
 
 ```bash
 Example: uuid:urn:6fb9a71b-aee6-4063-a82e-957022aeaa7a
@@ -204,7 +233,7 @@ curl --location '<DATA_SERVICE_URL>/uuid:urn:<UUID>' \
 --header 'Content-Type: application/json' \
 ```
 
-## 5° Attach BOMAsBuilt to Existing Digital Twin
+## 6° Attach BOMAsBuilt to Existing Digital Twin
 
 * Get existing digital Twin by Base64 encoded digital twin Id
 

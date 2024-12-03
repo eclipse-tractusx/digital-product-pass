@@ -29,5 +29,6 @@ The following people have contributed to this repository:
 * Muhammad Saud Khan, CGI, https://github.com/saudkhan116
 * Mathias Brunkow Moser, CGI, https://github.com/matbmoser
 * Diogo Parracho, CGI, https://github.com/dsrparracho
+* Erik Lebedkin, CGI, https://github.com/ELebedkin
 
 Please add yourself to this list, if you contribute to the content.

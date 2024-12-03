@@ -185,7 +185,8 @@ Example:
 <DATA_SERVICE_URL>/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
-4. Replace `<DATA_SERVICE_URL>` witht he data service url provided
+4. Replace `<DIGITAL_TWIN_REGISTRY_URL>` with he data service url provided
+
 5. Send the **POST** request
 
 - If successful, a 200 OK response will appear next to the `Send`-button, confirming the Aspect Model has been registered into the submodel data service with the correct reference to the DPP.
@@ -207,7 +208,9 @@ Now we actually will create the digitil Twin.
 > [!Note]
 > This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank" rel="noopener noreferrer">resources/digital-twins/example-dt.json</a>.
 
-2. Switch to the Body tab and replace the following placeholders:
+2. Replace `<DATA_SERVICE_URL>` with he data service url provided
+
+3. Switch to the Body tab and replace the following placeholders:
 
 ```bash
 <PART_INSTANCE_ID>                     ->   the value of part instance written on datasheet
@@ -227,7 +230,7 @@ Now we actually will create the digitil Twin.
 > - One is used as `"id"`
 > - The other is used as `"globalAssetId"`
 
-3. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
+4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
 - A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
 
 > [!Note]  

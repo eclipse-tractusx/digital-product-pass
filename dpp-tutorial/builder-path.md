@@ -53,7 +53,7 @@ Use the following command in your terminal to clone the digital product pass git
 git clone https://github.com/eclipse-tractusx/digital-product-pass.git
 ```
 
-> [!Note]  
+> [!NOTE]  
 > If you already cloned this repository, you can ignore this step
 
 ## Aspect Model Creation
@@ -163,10 +163,10 @@ In order to prepare aspect models, please follow the [aspect model guide](./aspe
 
 The data generated in previous step can be stored into the submode data service.
 
-> [!Caution]
+> [!CAUTION]
 > The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
 
-> [!Note]
+> [!NOTE]
 > Generate an additional UUID [here](https://www.uuidgenerator.net/version4). It will be used as the `digitalTwinSubmodelId` which will be the linking between the Aspect Model and the DPP.
 
 Open a new terminal and run the following command to add your data into the data service: 

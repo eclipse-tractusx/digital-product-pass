@@ -24,7 +24,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 In this Path, you, as a provider, will create a Digital Product Passport (DPP) for a specific Part of the Arena-X Car. For this purpose, you will use <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, a user-friendly tool for sending and receiving HTTP requests.
 
-> [!Tip]
+> [!TIP]
 > If the installation still has to be done, follow this <a href="https://docs.insomnia.rest/insomnia/get-started" target="_blank" rel="noopener noreferrer">Get Started Guide</a> from Insomnia.
 
 ## Pre-Step - Setting Up the Environment
@@ -83,7 +83,7 @@ Example:
 
 ```
 
-> [!Note]
+> [!NOTE]
 > To easily find your data digitally, refer to <a href="./resources/test-data/carParts.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
 > You can search for your car part (identified by `ID (uuid)` on the sheet) using
 > - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
@@ -119,7 +119,7 @@ Use the following table to identify where to place your part's information in th
 > [!TIP]
 > You can search for the placeholder `CTRL + F` on Windows or `CMD + F` on MacOS/Linux
 
-> [!Note]
+> [!NOTE]
 > Delete `""` along with `<width_placeholder>`, `<length_placeholder>`, `<weight_placeholder>`, `<height_placeholder>`, `<guarantee_value>` and `<product_carbon_footprint>`
 
 | Property              | Path                                                | Placeholder                   |
@@ -166,7 +166,7 @@ The Digital Twin Registry is required to manage and store Digital Twins (DT) in 
 The Data Service is a crucial component for storing the payloads of Digital Product Passports in plain JSON format. This service should already be running and ready to accept data submissions. It acts as the backend repository where all passport-related information is securely stored and easily retrievable.
 
 
-> [!Caution]
+> [!CAUTION]
 >  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
 
 ---
@@ -205,7 +205,7 @@ Now we actually will create the digitil Twin.
 
 1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
 
-> [!Note]
+> [!NOTE]
 > This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank" rel="noopener noreferrer">resources/digital-twins/example-dt.json</a>.
 
 2. Replace `<DATA_SERVICE_URL>` with he data service url provided
@@ -220,12 +220,12 @@ Now we actually will create the digitil Twin.
 ```
 
 
-> [!Important]
+> [!IMPORTANT]
 > There are **two instances** of `digitalTwinSubmodelId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"href"`
 
-> [!Important]
+> [!IMPORTANT]
 > There are **two instances** of `digitalTwinId` in the example. Please replace **both** of them:
 > - One is used as `"id"`
 > - The other is used as `"globalAssetId"`
@@ -233,7 +233,7 @@ Now we actually will create the digitil Twin.
 4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
 - A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
 
-> [!Note]  
+> [!NOTE]  
 > Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
 
 ---
@@ -265,7 +265,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 
 If you encounter an error or need to update the Digital Twin, you can use the Insomnia request labeled `Step 2.3 Modify Digital Twin` to make changes.
 
-> [!Note]  
+> [!NOTE]  
 > Copy the **Body** from `Step 2.2.1 Create Digitale Twin` into the new **Body** in `Step 2.3 Modify Digital Twin` and afterwards modify data/attributes.
 > Copy also the `<DIGITAL_TWIN_ID_BASE64_ENCODED>` and paste it into the URL:
 

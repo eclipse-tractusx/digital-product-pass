@@ -6,9 +6,9 @@
     }
   ],
   "displayName": [],
-  "globalAssetId": "urn:uuid:e5ab3398-bde1-4ef2-bb70-fd6dd1138e60",
-  "idShort": "<PART_NAME>",
-  "id": "<UUID-1>",
+  "globalAssetId": "urn:uuid:<digitalTwinId>",
+  "idShort": "Car",
+  "id": "<digitalTwinId>",
   "specificAssetIds": [
     {
       "name": "manufacturerId",
@@ -24,7 +24,7 @@
       }
     },
     {
-      "name": "partInstanceId",
+      "name": "<PART_INSTANCE_ID>",
       "value": "<YOUR PART INSTANCE ID>",
       "externalSubjectId": {
         "type": "ExternalReference",
@@ -73,7 +73,7 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "<EDC_DATAPLANE_URL>/api/public/<UUID-2>",
+            "href": "<EDC_DATAPLANE_URL>/api/public/<digitalTwinSubmodelId>>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
@@ -90,7 +90,7 @@
         }
       ],
       "idShort": "digitalProductPass",
-      "id": "<UUID-2>",
+      "id": "<digitalTwinSubmodelId>",
       "semanticId": {
         "type": "ExternalReference",
         "keys": [

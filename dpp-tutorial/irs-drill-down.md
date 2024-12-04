@@ -148,11 +148,30 @@ The BOMAsBuilt relationships, you stored temporarily in your notepad editor from
 Open a new terminal and run the following command to add your data into the data service: 
 > POST /<<BOMAsBuiltID>BOMAsBuiltID>
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X POST "<DATA_SERVICE_URL>/<BOMAsBuiltID>" `
+    -H "Content-Type: application/json" `
+    --data-binary "@<YOUR_JSON_FILE>.json"
+```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
+
+</details>
+
 
 > [!TIP]  
 > The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 2](#2-lookup-bomasbuilt-relationships-of-the-component)
@@ -161,10 +180,29 @@ curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 Verify your data is registerd in the service
 
 > GET /<<BOMAsBuiltID>BOMAsBuiltID>
+
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X GET "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
+    -H "Content-Type: application/json" 
+```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location '<DATA_SERVICE_URL>/<BOMAsBuiltID>' \
 --header 'Content-Type: application/json' \
 ```
+
+</details>
+
 
 ## 4° Lookup SerialPart Item of the Component
 
@@ -222,11 +260,29 @@ The serial part data, you stored temporarily in your notepad editor from [step 4
 Open a new terminal and run the following command to add your data into the data service: 
 > POST /<SerialPartID<SerialPartID>>
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X POST "<Data_SERVICE_URL>/<SerialPartID>" `
+    -H "Content-Type: application/json" `
+    --data-binary "@<YOUR_JSON_FILE>.json"
+```
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 --header 'Content-Type: application/json' \
 --data "@<YOUR_JSON_FILE>.json"
 ```
+
+</details>
+
 
 > [!TIP]  
 > The placeholder <YOUR_JSON_FILE> is the json file which was stored in [step 4](#4-lookup-serialpart-item-of-the-component)
@@ -235,10 +291,27 @@ curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 Verify your data is registerd in the service
 
 > GET /<SerialPartID<SerialPartID>>
+
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X POST "<Data_SERVICE_URL>/<SerialPartID>" `
+    -H "Content-Type: application/json" `
+```
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 --header 'Content-Type: application/json' \
 ```
+</details>
+
 
 ## 6° Attach BOMAsBuilt to Existing Digital Twin
 
@@ -257,11 +330,29 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 
 > GET /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
+
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+    -H "Content-Type: application/json" `
+    -H "Edc-Bpn: BPNL00000003CSGV"
+```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
 --header 'Content-Type: application/json' \
 --header 'Edc-Bpn: BPNL00000003CSGV'
 ```
+</details>
 
 Example JSON response:
 ```json
@@ -345,9 +436,27 @@ Now, you can update the modified digital twin object using the following command
 
 > PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
 
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X PUT "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+    -H "Content-Type: application/json" `
+    --data-binary '@resources/<YOUR_DT_JSON>.json'
+```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
+
 ```bash
 curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
---header 'Content-Type: application/json' --data '@resources/<YOUR_DT_JSON>.json'
+--header 'Content-Type: application/json' \
+--data '@resources/<YOUR_DT_JSON>.json'
 ```
+</details>
 
 Congratulations, you have successfully attached BOMAsBuilt relationships and serial part to the existing Digital Twin object.

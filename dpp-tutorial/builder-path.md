@@ -315,6 +315,35 @@ curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DI
 
 </details>
 
+
+## 4º Add Relationships to Digital Twin (Drill Down Feature)
+
+This step enables you to view the component relationships.
+
+Example:
+
+                         ___________________
+                        |                   |
+                        |      Battery      |
+                        |___________________|
+                                |     
+                                |     ___________________
+                                |--->|                   |
+                                     |   Battery Module  |
+                                     |___________________|
+                                               |
+                                               |     ___________________
+                                               |--->|                   |
+                                                    |   Battery Cell    |
+                                                    |___________________|
+
+
+
+
+Refer to the [irs-drill-down](./irs-drill-down.md) guide for more information
+
+
+
 In case of error, you can always modify your digital twin using the following commands:
 
 > PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
@@ -343,6 +372,9 @@ curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DI
 </details>
 
 If everything works fine, then you have reached the end of data provisioning guide.
+
+
+
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.
 

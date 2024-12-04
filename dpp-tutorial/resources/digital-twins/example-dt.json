@@ -7,7 +7,7 @@
   ],
   "displayName": [],
   "globalAssetId": "urn:uuid:<digitalTwinId>",
-  "idShort": "Car",
+  "idShort": "<PART_NAME>",
   "id": "<digitalTwinId>",
   "specificAssetIds": [
     {
@@ -24,7 +24,7 @@
       }
     },
     {
-      "name": "<PART_INSTANCE_ID>",
+      "name": "partInstanceId",
       "value": "<YOUR PART INSTANCE ID>",
       "externalSubjectId": {
         "type": "ExternalReference",
@@ -73,7 +73,7 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "<EDC_DATAPLANE_URL>/api/public/<digitalTwinSubmodelId>>",
+            "href": "<EDC_DATAPLANE_URL>/api/public/<digitalTwinSubmodelId>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
@@ -95,20 +95,8 @@
         "type": "ExternalReference",
         "keys": [
           {
-            "type": "Operation",
-            "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
-          },
-          {
             "type": "Submodel",
             "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
-          },
-          {
-            "type": "Entity",
-            "value": "https://www.w3.org/ns/credentials/v2"
-          },
-          {
-            "type": "DataElement",
-            "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
           }
         ]
       },

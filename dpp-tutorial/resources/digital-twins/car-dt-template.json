@@ -95,20 +95,8 @@
         "type": "ExternalReference",
         "keys": [
           {
-            "type": "Operation",
-            "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
-          },
-          {
             "type": "Submodel",
             "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
-          },
-          {
-            "type": "Entity",
-            "value": "https://www.w3.org/ns/credentials/v2"
-          },
-          {
-            "type": "DataElement",
-            "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
           }
         ]
       },

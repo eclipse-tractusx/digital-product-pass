@@ -794,7 +794,7 @@ success;
 
 The CDC schema contains the complete passport and some additional information, as well as the signature of the data provider.
 
-Here we have an example with the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
+Here we have an example with the [Digital Product Passport v5.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
 ### CDC Semantic
 
@@ -1323,7 +1323,7 @@ Here is an example of how the Certified Data Credential looks like for a Digital
 
 The CSC schema contains the partial passport with different attributes, all them with the methods used for the certification, as well as the signature of the data provider.
 
-Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://raw.githubusercontent.com/eclipse-tractusx/sldt-semantic-models/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
+Here we have an example of the generated CSC from the [previous CDC Aspect](#certified-data-credential-schema) the [Digital Product Passport v5.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.generic.digital_product_passport/5.0.0) Aspect Model.
 
 ### CSC Semantic
 
